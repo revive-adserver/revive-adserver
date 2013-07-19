@@ -1,27 +1,12 @@
 {*<!--
 
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id: market-campaigns-settings-list.html 36749 2009-05-20 08:07:45Z stanislaw.osinski $
 
 -->*}
 
@@ -66,7 +51,7 @@ $Id: market-campaigns-settings-list.html 36749 2009-05-20 08:07:45Z stanislaw.os
         <div class='corner left'></div>
         <div class='corner right'></div>
     </div>
-    
+
     <div class="scroll">
     <table cellspacing='0' summary=''>
         <thead>
@@ -93,7 +78,7 @@ $Id: market-campaigns-settings-list.html 36749 2009-05-20 08:07:45Z stanislaw.os
             {cycle name=bgcolor assign=bgColor}
             <tr class='{$bgColor}'>
                 <td class='toggleSelection'>
-                    <input type='checkbox' name="toOptIn[]" value='{$campaignId}' 
+                    <input type='checkbox' name="toOptIn[]" value='{$campaignId}'
                            id="c{$campaignId}"{if !isset($toOptIn[$campaignId]) || $toOptIn[$campaignId]} checked="checked"{/if} />
                 </td>
                 <td>
@@ -103,7 +88,7 @@ $Id: market-campaigns-settings-list.html 36749 2009-05-20 08:07:45Z stanislaw.os
                     {ox_campaign_type type=$campaign.type}
                 </td>
                 <td>
-                    $ <input type="text" class="cpm{if $minCpmsInvalid[$campaignId]} error{/if}" 
+                    $ <input type="text" class="cpm{if $minCpmsInvalid[$campaignId]} error{/if}"
                              name="cpm{$campaignId}" value="{$campaign.minCpm}" /> USD
                     {if $campaign.minCpmCalculated}
                     <small>This is the campaign's calculated eCPM</small>
@@ -126,9 +111,9 @@ $Id: market-campaigns-settings-list.html 36749 2009-05-20 08:07:45Z stanislaw.os
                                   remnant
                               {elseif $campaignType == 'contract'}
                                   contract
-                              {/if} 
+                              {/if}
                             {/capture}
-                            
+
                             {if $campaignsOptedIn > 0}
                                 All of your {$typeString} campaigns have been opted in to OpenX Market.
                             {else}

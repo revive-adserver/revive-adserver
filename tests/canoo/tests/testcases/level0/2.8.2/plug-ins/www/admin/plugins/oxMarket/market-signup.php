@@ -2,27 +2,12 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id: market-signup.php 41632 2009-08-18 13:38:11Z stanislaw.osinski $
 */
 
 require_once 'market-common.php';
@@ -219,7 +204,7 @@ function processForm($oForm, $oMarketComponent)
             //call client signup function here
             $linkingResult = $oApiClient->createAccount($aFields['m_new_email'],$aFields['m_new_username'],
                                 $aFields['m_new_password'], $aFields['m_captcha'], $aFields['captchaRandom']);
-            $mode = 'n';                                
+            $mode = 'n';
         }
 
         if ($linkingResult == true) {
@@ -263,7 +248,7 @@ function displayPage($oForm, $oMarketComponent, $aProcessingError = null)
     $oTpl->assign('captchaBaseUrl', buildCaptchaUrl($oMarketComponent));
     $oTpl->assign('trackerFrame', $aStrings['tracker_iframe']);
     $oTpl->assign('pluginVersion', $oMarketComponent->getPluginVersion());
-    
+
     foreach ($aStrings as $stringKey => $stringValue) {
         $oTpl->assign($stringKey, $stringValue);
     }
@@ -558,10 +543,10 @@ function updateCaptcha($oForm, $captchaRandom)
  * @param Plugins_admin_oxMarket_oxMarket $oMarketComponent
  */
 function oxMarketAutoRegisterIfHosted($oMarketComponent)
-{ 
+{
     $oUser = OA_Permission::getCurrentUser();
     $linkingResult = $oMarketComponent->linkHostedAccounts(
-                                            $oUser->aUser['user_id'], 
+                                            $oUser->aUser['user_id'],
                                             $oUser->aAccount['account_id']);
     if ($linkingResult === true) {
         // perform activation actions

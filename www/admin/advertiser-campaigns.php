@@ -2,27 +2,12 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id$
 */
 
 // Require the initialisation file
@@ -131,37 +116,37 @@ foreach ($aCampaigns as $campaignId => $aCampaign) {
     $aCampaign['impressions']  = phpAds_formatNumber($aCampaign['views']);
     $aCampaign['clicks']       = phpAds_formatNumber($aCampaign['clicks']);
     $aCampaign['conversions']  = phpAds_formatNumber($aCampaign['conversions']);
-  
+
     if (!empty($aCampaign['activate_time'])) {
         $oActivateDate = new Date($aCampaign['activate_time']);
         $oTz = $oActivateDate->tz;
         $oActivateDate->setTZbyID('UTC');
         $oActivateDate->convertTZ($oTz);
         $aCampaign['activate']  = $oActivateDate->format($date_format);
-    } 
+    }
     else {
         $aCampaign['activate']  = '-';
     }
-    
+
     if (!empty($aCampaign['expire_time'])) {
         $oExpireDate = new Date($aCampaign['expire_time']);
         $oTz = $oExpireDate->tz;
         $oExpireDate->setTZbyID('UTC');
         $oExpireDate->convertTZ($oTz);
         $aCampaign['expire']    = $oExpireDate->format($date_format);
-    } 
+    }
     else {
         $aCampaign['expire']    = '-';
     }
-    
+
     if ($aCampaign['type'] == DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CONTRACT) {
         $aCampaign['system'] = true;
         $oComponent = OX_Component::factory('admin', 'oxMarket', 'oxMarket');
-        if ($oComponent) {           
+        if ($oComponent) {
             $aCampaign['type'] = $oComponent->getEntityHelper()->getCampaignTypeName($aCampaign);
         }
         else {
-            $aCampaign['type'] = OX_Util_Utils::getCampaignType($aCampaign['priority']);            
+            $aCampaign['type'] = OX_Util_Utils::getCampaignType($aCampaign['priority']);
         }
     }
     else {
@@ -170,18 +155,18 @@ foreach ($aCampaigns as $campaignId => $aCampaign) {
 
     if ($aCampaign['priority'] == -1) {
         $aCampaign['priority'] = $strExclusive;
-    } 
+    }
     elseif ($aCampaign['priority'] == -2) {
         $aCampaign['priority'] = $strCampaignECPM;
-    } 
+    }
     elseif ($aCampaign['priority'] == 0) {
         $aCampaign['priority'] = $strLow;
-    } 
+    }
     else {
         $aCampaign['priority'] = $strHigh . ' (' . $aCampaign['priority'] . ')';
     }
-    
-    $aCampaigns[$campaignId] = $aCampaign; 
+
+    $aCampaigns[$campaignId] = $aCampaign;
 }
 
 $aCount = array(
@@ -230,7 +215,7 @@ phpAds_SessionDataStore();
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 /** add view hooks **/
-OX_Admin_UI_ViewHooks::registerPageView($oTpl, 'advertiser-campaigns', 
+OX_Admin_UI_ViewHooks::registerPageView($oTpl, 'advertiser-campaigns',
     array('advertiserId' => $clientid));
 
 $oTpl->display();
@@ -242,7 +227,7 @@ function buildHeaderModel($advertiserId, $aAllAdvertisers)
 {
     if ($advertiserId) {
         $advertiser = phpAds_getClientDetails ($advertiserId);
-        
+
         $advertiserName = $advertiser ['clientname'];
         if ($advertiser['type'] != DataObjects_Clients::ADVERTISER_TYPE_MARKET) {
             $advertiserEditUrl = "advertiser-edit.php?clientid=$advertiserId";
@@ -274,7 +259,7 @@ function getAdvertiserMap()
         if (isset($oComponent) && $oComponent->enabled) {
             $aInludeSystemTypes = array(DataObjects_Clients::ADVERTISER_TYPE_MARKET);
         }
-        $aAdvertisers = $dalClients->getAllAdvertisersForAgency($agency_id, 
+        $aAdvertisers = $dalClients->getAllAdvertisersForAgency($agency_id,
             null, null, $aInludeSystemTypes);
     }
     else if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
@@ -282,7 +267,7 @@ function getAdvertiserMap()
         $aAdvertiser = $dalClients->getAdvertiserDetails($advertiserId);
         $aAdvertisers[$advertiserId] = $aAdvertiser;
     }
-        
+
     $aAdvertiserMap = array();
     foreach ($aAdvertisers as $clientid => $aClient) {
         $aAdvertiserMap[$clientid] = array('name' => $aClient['clientname'],

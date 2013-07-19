@@ -2,27 +2,12 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                             |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id: oxPublisherConsoleMarketPluginClient.php 29196 2008-11-20 14:16:53Z apetlyovanyy $
 */
 
 require_once MAX_PATH . '/lib/OA/Dal.php';
@@ -50,19 +35,19 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
      * ext_market_assoc_data statuses - same values as Publisher Console account statuses
      */
     const LINK_IS_VALID_STATUS = 0;
-    
+
     const ACCOUNT_DISABLED_STATUS = 1;
-    
+
     /**
      * Error codes that change link status
      */
     const XML_ERR_ACCOUNT_BLOCKED = 909;
-    
+
     /**
      * @var Plugins_admin_oxMarket_PublisherConsoleClient
      */
     private $pc_api_client;
-    
+
     /**
      * @param array $array
      * return empty array if argument is null
@@ -76,7 +61,7 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
             return array();
         }
     }
-    
+
     private function ensureStatusAndUpdatePcAccountId()
     {
         $publisher_account_id = null;
@@ -90,9 +75,9 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
         else {
             if (self::LINK_IS_VALID_STATUS != $account_status) {
                 //TODO: Add more specific errors when such list would be created
-                throw 
+                throw
                     new Plugins_admin_oxMarket_PublisherConsoleClientException(
-                        'Association of PC account with OXP account is invalid', 
+                        'Association of PC account with OXP account is invalid',
                         $account_status);
             }
             else {
@@ -101,12 +86,12 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
             }
         }
     }
-    
+
     /**
      * @param integer $publisher_account_id
      * @param integer $association_status
      */
-    private function getAssociatedPcAccountIdAndStatus(&$publisher_account_id, 
+    private function getAssociatedPcAccountIdAndStatus(&$publisher_account_id,
         &$association_status)
     {
         $oAccountAssocData = OA_Dal::factoryDO('ext_market_assoc_data');
@@ -114,25 +99,25 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
         if (isset($adminAccountId)) {
             $oAccountAssocData->get('account_id', $adminAccountId);
             $publisher_account_id = $oAccountAssocData->publisher_account_id;
-            $association_status   = $oAccountAssocData->status; 
+            $association_status   = $oAccountAssocData->status;
         }
     }
-    
+
     public function __construct()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        
+
         $apiUrl = $aConf['oxMarket']['marketPcApiUrl'];
         $oServiceExecutor = new OX_M2M_ZendXmlRpcExecutor($apiUrl);
         $oM2MXmlRpc = new OA_Central_M2MProtectedRpc($oServiceExecutor);
-        $this->pc_api_client = 
-            new Plugins_admin_oxMarket_PublisherConsoleClient($oM2MXmlRpc);    
+        $this->pc_api_client =
+            new Plugins_admin_oxMarket_PublisherConsoleClient($oM2MXmlRpc);
     }
-    
+
     /**
-     * Check if there is already association between 
+     * Check if there is already association between
      * OXP and PC accounts
-     * 
+     *
      * @return boolean
      */
     public function hasAssociationWithPc()
@@ -141,13 +126,13 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
         $account_status = null;
         $this->getAssociatedPcAccountIdAndStatus($publisher_account_id,
             $account_status);
-        return isset($publisher_account_id); 
+        return isset($publisher_account_id);
     }
-    
+
     /**
      * Return publisher account id for OXP admin account
      *
-     * @return integer or null 
+     * @return integer or null
      */
     public function getPcAccountId()
     {
@@ -155,13 +140,13 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
         $account_status = null;
         $this->getAssociatedPcAccountIdAndStatus($publisher_account_id,
             $account_status);
-        return $publisher_account_id; 
+        return $publisher_account_id;
     }
-    
+
     /**
      * Check status of association between OXP and PC accounts
      *
-     * @return integer or null status code or null in case of no association 
+     * @return integer or null status code or null in case of no association
      */
     public function getAssociationWithPcStatus()
     {
@@ -169,30 +154,30 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
         $account_status = null;
         $this->getAssociatedPcAccountIdAndStatus($publisher_account_id,
             $account_status);
-        return $account_status; 
+        return $account_status;
     }
-    
+
     /**
      * @param string $username
      * @param string $password
-     * @return boolean 
+     * @return boolean
      */
     public function linkOxp($username, $password)
     {
         $publisher_account_id = $this->pc_api_client->linkOxp(
             $username, $password);
-            
+
         $doExtMarket = OA_DAL::factoryDO('ext_market_assoc_data');
         $aExtMarketRecords = $doExtMarket->getAll();
-        
+
         if (count($aExtMarketRecords) > 0) {
             throw new Plugins_admin_oxMarket_PublisherConsoleClientException(
                 'There is already publisher_account_id on the OXP');
-        } 
+        }
         else {
             $account_id = DataObjects_Accounts::getAdminAccountId();
             if (!isset($account_id)) {
-                throw 
+                throw
                     new Plugins_admin_oxMarket_PublisherConsoleClientException(
                         'There is no admin account id in database');
             }
@@ -201,15 +186,15 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
             $doExtMarket->status = self::LINK_IS_VALID_STATUS;
             $doExtMarket->insert();
         }
-        
+
         $this->pc_api_client->setPublisherAccountId($publisher_account_id);
-        
+
         return true;
     }
-    
+
     /**
      * @param integer $lastUpdate
-     * @return string statistics file content 
+     * @return string statistics file content
      */
     public function oxmStatistics($lastUpdate)
     {
@@ -220,10 +205,10 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
             $this->setStatusByException($e);
         }
     }
-    
+
     /**
      * @param integer $lastUpdate
-     * @return string statistics file content 
+     * @return string statistics file content
      */
     public function oxmStatisticsLimited($lastUpdate)
     {
@@ -234,7 +219,7 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
             $this->setStatusByException($e);
         }
     }
-    
+
     /**
      * @param string $websiteUrl
      * @return integer website id
@@ -248,7 +233,7 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
             $this->setStatusByException($e);
         }
     }
-    
+
     /**
      * @param integer $websiteId
      * @param string $websiteUrl
@@ -256,38 +241,38 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
      * @param array $cat_ex
      * @param array $typ_ex
      */
-    public function updateWebsite($websiteId, $websiteUrl, $att_ex, 
-        $cat_ex, $typ_ex)    
+    public function updateWebsite($websiteId, $websiteUrl, $att_ex,
+        $cat_ex, $typ_ex)
     {
         try {
             $this->ensureStatusAndUpdatePcAccountId();
             return $this->pc_api_client->updateWebsite($websiteId, $websiteUrl,
-                $this->putEmptyArrayIfNull($att_ex), 
-                $this->putEmptyArrayIfNull($cat_ex), 
+                $this->putEmptyArrayIfNull($att_ex),
+                $this->putEmptyArrayIfNull($cat_ex),
                 $this->putEmptyArrayIfNull($typ_ex));
         } catch (Exception $e) {
             $this->setStatusByException($e);
         }
     }
-    
+
     /**
      * Synchronize status with market and return new status
      *
      * @return int
      */
-    public function updateAccountStatus()    
+    public function updateAccountStatus()
     {
         $publisher_account_id = null;
         $currentStatus = null;
-        
+
         $doExtMarket = OA_Dal::factoryDO('ext_market_assoc_data');
         $adminAccountId = DataObjects_Accounts::getAdminAccountId();
         if (isset($adminAccountId)) {
             $doExtMarket->get('account_id', $adminAccountId);
             $publisher_account_id = $doExtMarket->publisher_account_id;
-            $currentStatus        = $doExtMarket->status; 
+            $currentStatus        = $doExtMarket->status;
         }
-        
+
         $this->pc_api_client->setPublisherAccountId($publisher_account_id);
         $newStatus = $this->pc_api_client->getAccountStatus();
         if ($newStatus != $currentStatus) {
@@ -296,14 +281,14 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
         }
         return $newStatus;
     }
-    
+
     /**
      * Set status to account disabled if exception code is one of account disabling codes
      *
      * @param Exception $exception
      * @throws Exception rethrows given exception
      */
-    protected function setStatusByException(Exception $exception) 
+    protected function setStatusByException(Exception $exception)
     {
         if ($exception->getCode() == self::XML_ERR_ACCOUNT_BLOCKED) {
             $adminAccountId = DataObjects_Accounts::getAdminAccountId();
@@ -316,10 +301,10 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
         }
         throw $exception;
     }
-    
+
     /**
      * Returns default restrictions.
-     * 
+     *
      * XXX hardcoded for now
      * @return array default settings
      */
@@ -331,7 +316,7 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
             'type'      => array()
         );
     }
-    
+
     /**
      * Returns array of Ad Categories used in marketplace
      *
@@ -372,7 +357,7 @@ class Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient
                '29' => 'Weather'
             );
     }
-    
+
     /**
      * Returns array of Creative Types used in marketplace
      *

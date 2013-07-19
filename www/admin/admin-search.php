@@ -2,27 +2,12 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id$
 */
 
 // Require the initialisation file
@@ -78,7 +63,7 @@ $isMarketPluginActive = isset($oComponent) && $oComponent->enabled && $oComponen
 if ($isMarketPluginActive) {
     $aIncludeClientsSystemTypes = array(DataObjects_Clients::ADVERTISER_TYPE_MARKET);
     $aIncludeCampaignsSystemTypes = array(DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CONTRACT);
-} 
+}
 else {
     $aIncludeClientsSystemTypes = array();
     $aIncludeCampaignsSystemTypes = array();
@@ -96,17 +81,17 @@ if ($client != false) {
     $dalClients = OA_Dal::factoryDAL('clients');
     $rsClients = $dalClients->getClientByKeyword($keyword, $agencyId, $aIncludeClientsSystemTypes);
     $rsClients->find();
-        
+
     while ($rsClients->fetch()) {
         $aClient = $rsClients->toArray();
         $aClient['clientname'] = phpAds_breakString ($aClient['clientname'], '30');
         $aClient['campaigns'] = array();
-    
+
         if (!$compact) {
             $dalCampaigns = OA_Dal::factoryDAL('campaigns');
             $aClientCampaigns = $dalCampaigns->getClientCampaigns(
                                 $aClient['clientid'], '', '', $aIncludeCampaignsSystemTypes);
-                                
+
             foreach ($aClientCampaigns as $campaignId => $aCampaign) {
                 $aCampaign['campaignname'] = phpAds_breakString ($aCampaign['campaignname'], '30');
                 $aCampaign['campaignid'] = $campaignId;
@@ -118,7 +103,7 @@ if ($client != false) {
                     $aBanner['name'] = $GLOBALS['strUntitled'];
                     if (!empty($aBanner['alt'])) $aBanner['name'] = $aBanner['alt'];
                     if (!empty($aBanner['description'])) $aBanner['name'] = $aBanner['description'];
-                    
+
                     $aBanner['name'] = phpAds_breakString ($aBanner['name'], '30');
                     $aCampaign['banners'][] = $aBanner;
                 }
@@ -137,21 +122,21 @@ if ($campaign != false) {
         $aCampaign = $rsCampaigns->toArray();
         $aCampaign['campaignname'] = phpAds_breakString ($aCampaign['campaignname'], '30');
         $aCampaign['banners'] = array();
-    
+
         if (!$compact) {
             $dalBanners = OA_Dal::factoryDAL('banners');
             $aCampaignBanners = $dalBanners->getAllBannersUnderCampaign($aCampaign['campaignid'], '', '');
-            foreach ($aCampaignBanners as $aBanner) {    
+            foreach ($aCampaignBanners as $aBanner) {
                 $aBanner['name'] = $GLOBALS['strUntitled'];
                 if (!empty($aBanner['alt'])) $aBanner['name'] = $aBanner['alt'];
                 if (!empty($aBanner['description'])) $aBanner['name'] = $aBanner['description'];
                 $aBanner['name'] = phpAds_breakString ($aBanner['name'], '30');
-    
+
                 $aCampaign['banners'][] = $aBanner;
             }
         }
         $aCampaigns[] = $aCampaign;
-    }    
+    }
 }
 
 
@@ -161,12 +146,12 @@ if ($banner != false) {
     $rsBanners->reset();
     while ($rsBanners->fetch()) {
         $aBanner = $rsBanners->toArray();
-    
+
         $aBanner['name'] = $GLOBALS['strUntitled'];
         if (isset($aBanner['alt']) && $aBanner['alt']) $aBanner['name'] = $aBanner['alt'];
         if (isset($aBanner['description']) && $aBanner['description']) $aBanner['name'] = $aBanner['description'];
         $aBanner['name'] = phpAds_breakString ($aBanner['name'], '30');
-    
+
         $aBanners[] = $aBanner;
     }
 }
@@ -175,24 +160,24 @@ if ($affiliate != false) {
     $dalAffiliates = OA_Dal::factoryDAL('affiliates');
     $rsAffiliates = $dalAffiliates->getAffiliateByKeyword($keyword, $agencyId);
     $rsAffiliates->reset();
-    
+
     while ($rsAffiliates->fetch()) {
         $aAffiliate = $rsAffiliates->toArray();
         $aAffiliate['name'] = phpAds_breakString ($aAffiliate['name'], '30');
-    
+
         if (!$compact) {
             $doZones = OA_Dal::factoryDO('zones');
             $doZones->affiliateid = $aAffiliate['affiliateid'];
             $doZones->find();
-    
+
             while ($doZones->fetch()) {
                 $aZone = $doZones->toArray();
                 $aZone['zonename'] = phpAds_breakString ($aZone['zonename'], '30');
-    
+
                 $aAffiliate['zones'][] = $aZone;
             }
         }
-    
+
         $aAffiliates[] = $aAffiliate;
     }
 }
@@ -204,7 +189,7 @@ if ($zone != false) {
     while ($rsZones->fetch()) {
         $aZone = $rsZones->toArray();
         $aZone['zonename'] = phpAds_breakString ($aZone['zonename'], '30');
-    
+
         $aZones[] = $aZone;
     }
 }

@@ -2,27 +2,12 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id$
 */
 
 /**
@@ -109,11 +94,11 @@ function max_formatNumberIgnoreDecimals(number)
 {
     // Convert the (potentially formatted) number into a float
     var numberFloat = max_formattedNumberStringToFloat(number);
-    
+
     if (numberFloat == null) {
       return '';
-    } 
-    
+    }
+
     // Delimiter to use
     var ddelimiter = '<?php
                         global $phpAds_DecimalPoint;
@@ -128,7 +113,7 @@ function max_formatNumberIgnoreDecimals(number)
                         echo $separator;
                       ?>';
     // Ensure the number is represented as a string
-    var numberString = numberFloat.toString(); 
+    var numberString = numberFloat.toString();
     // Remove decimals delimiters
     if (numberString.indexOf(ddelimiter) != -1) {
         var array = numberString.split(ddelimiter);

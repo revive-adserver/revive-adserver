@@ -2,27 +2,12 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id: spc.class.php 33995 2009-03-18 23:04:15Z chris.nutting $
 */
 
 /**
@@ -78,16 +63,16 @@ class Plugins_InvocationTags_OxInvocationTags_Spc extends Plugins_InvocationTags
      * Constructor
      *
      */
-    function Plugins_InvocationTags_OxInvocationTags_Spc() 
+    function Plugins_InvocationTags_OxInvocationTags_Spc()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $this->publisherPlugin = true;
         $this->varprefix = $conf['var']['prefix'];
-        $this->appname = (!empty($GLOBALS['_MAX']['PREF']['name'])) 
-            ? $GLOBALS['_MAX']['PREF']['name']." ".OA_VERSION 
+        $this->appname = (!empty($GLOBALS['_MAX']['PREF']['name']))
+            ? $GLOBALS['_MAX']['PREF']['name']." ".OA_VERSION
             : MAX_PRODUCT_NAME." ".OA_VERSION;
-        $this->uri = (!empty($mi->ssl)) 
-            ? MAX_commonConstructSecureDeliveryUrl('') 
+        $this->uri = (!empty($mi->ssl))
+            ? MAX_commonConstructSecureDeliveryUrl('')
             : MAX_commonConstructDeliveryUrl('');
     }
 
@@ -478,40 +463,40 @@ class Plugins_InvocationTags_OxInvocationTags_Spc extends Plugins_InvocationTags
             $codeblock .= "    var {$this->varprefix}source = '{$source}';\n";
             $codeblock .= "// ]]> --></script>";
         }
-        
+
         $aliasesBlock = '';
         if (!empty($aZoneAliases)) {
             $aliasesBlock = $this->generateAliasesCode($aZoneAliases);
             $codeblock .= !empty($aliasesBlock) ? $aliasesBlock : '';
         }
-        
+
         $codeblock .= "<script type='text/javascript' src='{$this->uri}{$conf['file']['spcjs']}?id={$mi->affiliateid}{$additionalParams}'></script>";
 
         return $codeblock;
     }
-    
-    
+
+
     private function generateAliasesCode($aZoneAliases)
     {
         $oJson = new Services_JSON();
-        
+
         $aStruct = array();
         foreach ($aZoneAliases as $zoneId => $aAliases) {
             foreach($aAliases as $alias) {
-                $aStruct[$alias] = $zoneId;        
+                $aStruct[$alias] = $zoneId;
             }
         }
         $aliasesCode.= $oJson->encode($aStruct);
-        
+
         $codeblock .= "<script type='text/javascript'><!--// <![CDATA[\n";
         $codeblock .= "    var {$this->varprefix}zones = ";
         $codeblock .= $aliasesCode;
         $codeblock .= "    \n";
         $codeblock .= "// ]]> --></script>\n";
-        
+
         return $codeblock;
     }
-    
+
 
     function getZoneCode($zone, $affiliate, $zoneAlias = null)
     {

@@ -1,48 +1,33 @@
 {*<!--
 
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id: market-campaigns-settings-list.html 43661 2009-09-23 12:04:04Z stanislaw.osinski $
 
 -->*}
 
 {* AJAX response marker, do not remove *}
 <!-- market-quickstart-campaigns -->
 
-<input type="hidden" name="p" value="{$page|escape}" /> 
+<input type="hidden" name="p" value="{$page|escape}" />
 <input type="hidden" name="campaignType" value="{$campaignType|escape}" />
 <input type="hidden" name="order" value="{$order|escape}" />
 <input type="hidden" name="desc" value="{$desc|escape}" />
 {if !empty($pager->links)}
     <input type="hidden" name="allSelected" value="{if $allSelected}true{/if}" id="allSelectedHidden" />
 {/if}
- 
+
 {if !empty($topPager->links)}
   <div class="pager pager-top">
     <span class="controls">{$topPager->links}</span>
   </div>
 {/if}
-          
-  
+
+
 <div class="hide info-box" id="market-cpm-callout" style="height: auto; width: auto">
   {if $floorPriceColumnContextHelp}
     {$floorPriceColumnContextHelp}
@@ -51,17 +36,17 @@ $Id: market-campaigns-settings-list.html 43661 2009-09-23 12:04:04Z stanislaw.os
     <img src="{$adminPluginWebPath}/oxMarket/images/campaign-cpm-info.gif" alt="OpenX Market competes with your campaigns to provide you with higher paying ads" />
     <h3>Opting in your campaigns to OpenX Market</h3>
     <p>
-      OpenX Market is a service that makes more money for you by holding real-time 
-      auctions for the impressions in your campaigns. When you 
-      opt in a campaign, OpenX Market will serve an ad only if it can pay higher than the 
-      floor price you assign, otherwise the campaign's original ad is served. By default, 
-      the floor price is set to the campaign's specified CPM or eCPM. If these are 
-      unavailable, a default floor price of ${$defaultMinCpm|escape} USD is used.    
+      OpenX Market is a service that makes more money for you by holding real-time
+      auctions for the impressions in your campaigns. When you
+      opt in a campaign, OpenX Market will serve an ad only if it can pay higher than the
+      floor price you assign, otherwise the campaign's original ad is served. By default,
+      the floor price is set to the campaign's specified CPM or eCPM. If these are
+      unavailable, a default floor price of ${$defaultMinCpm|escape} USD is used.
     </p>
-    <p><em>Tip:</em> To maximize revenue uplift, set a campaign's floor price close to the 
+    <p><em>Tip:</em> To maximize revenue uplift, set a campaign's floor price close to the
     CPM it is already earning.
     </p>
-    <p class="faq-link"><a href="http://www.openx.org/faq/market" target="_blank">Learn more about OpenX Market</a></p>    
+    <p class="faq-link"><a href="http://www.openx.org/faq/market" target="_blank">Learn more about OpenX Market</a></p>
   </div>
   {/if}
 </div>
@@ -76,7 +61,7 @@ $Id: market-campaigns-settings-list.html 43661 2009-09-23 12:04:04Z stanislaw.os
       <th class="name{if $order == 'name'}{if $desc} sortDown{else} sortUp{/if}{/if}">
         <a href="market-campaigns-settings-list.php?order=name&amp;desc={if $order == 'name' && !$desc}1{else}0{/if}">Campaign</a>
       </th>
-      
+
       <th class="mkt-status{if $order == 'optinstatus'}{if $desc} sortDown{else} sortUp{/if}{/if}">
         <a href="market-campaigns-settings-list.php?order=optinstatus&amp;desc={if $order == 'optinstatus' && !$desc}1{else}0{/if}">OpenX Market Settings</a>
       </th>
@@ -86,7 +71,7 @@ $Id: market-campaigns-settings-list.html 43661 2009-09-23 12:04:04Z stanislaw.os
     </tr>
   </thead>
   {/if}
-    
+
   {if !empty($pager->links)}
   <tbody id="selectAllContainer"{if !$allSelected} class="hide"{/if}>
     <tr class="header">
@@ -102,7 +87,7 @@ $Id: market-campaigns-settings-list.html 43661 2009-09-23 12:04:04Z stanislaw.os
     </tr>
   </tbody>
   {/if}
-  
+
   {if $campaigns|@count}
     <tbody>
       {cycle name=bgcolor values="even,odd" assign=bgColor reset=1}
@@ -110,7 +95,7 @@ $Id: market-campaigns-settings-list.html 43661 2009-09-23 12:04:04Z stanislaw.os
         {cycle name=bgcolor assign=bgColor}
         <tr class='{$bgColor}{if $selection[$campaignId]} selected{/if}'>
           <td class='toggleSelection'>
-            <input type='checkbox' name="toOptIn[{$campaignId}]" value='1' 
+            <input type='checkbox' name="toOptIn[{$campaignId}]" value='1'
                    id="c{$campaignId}"{if $selection[$campaignId]} checked="checked"{/if} />
           </td>
           <td>
@@ -118,23 +103,23 @@ $Id: market-campaigns-settings-list.html 43661 2009-09-23 12:04:04Z stanislaw.os
             {* Output escaped by boldSearchPhrase *}
             <label for="c{$campaignId}">{boldSearchPhrase text=$campaign.campaignname search=$search}</label>
           </td>
-          
+
           <td>
              {if $campaign.optin_status}
              <span class="market-opted-in">Opted in</span>
              {else}
              <span class="market-not-opted">Not opted in</span>
-             {/if} 
-          </td>                
+             {/if}
+          </td>
           <td>
-            $ <input type="text" class="cpm{if $minCpmsInvalid[$campaignId]} error{/if}" maxlength="{$maxValueLength}" 
+            $ <input type="text" class="cpm{if $minCpmsInvalid[$campaignId]} error{/if}" maxlength="{$maxValueLength}"
                      name="cpm{$campaignId}" id="cpm{$campaignId}" value="{$campaign.minCpm|escape}"  /> USD
             {if $minCpmsInvalid[$campaignId]}
               <label class="error" for="cpm{$campaignId}">
               {$minCpmsInvalid[$campaignId][1]}
               </label>
             {/if}
-            <input type="hidden" disabled="disabled" 
+            <input type="hidden" disabled="disabled"
                    value="{$campaign.minRecommendedFloorPrice|escape}" />
           </td>
         </tr>
@@ -154,14 +139,14 @@ $Id: market-campaigns-settings-list.html 43661 2009-09-23 12:04:04Z stanislaw.os
                     remnant
                 {elseif $campaignType == 'contract'}
                     contract
-                {/if} 
+                {/if}
               {/capture}
               {capture assign=searchString}
                 {if $search}
                     with "{$search|escape}" in name
-                {/if} 
+                {/if}
               {/capture}
-              
+
               There are no {$typeString} campaigns {$searchString} in your inventory
 
               <div class='corner top-left'></div>
@@ -186,14 +171,14 @@ $Id: market-campaigns-settings-list.html 43661 2009-09-23 12:04:04Z stanislaw.os
           <li>
             <button class="left green-dot" type="submit" name="optInSubmit">
               <span>&nbsp;</span>
-              {if $optInSubmitLabel}{$optInSubmitLabel}{else}Opt in to OpenX Market{/if} 
+              {if $optInSubmitLabel}{$optInSubmitLabel}{else}Opt in to OpenX Market{/if}
             </button>
             <button class="left red-dot" type="submit" name="optOutSubmit">
               <span>&nbsp;</span>
-              {if $optOutSubmitLabel}{$optOutSubmitLabel}{else}Opt out of OpenX Market{/if} 
+              {if $optOutSubmitLabel}{$optOutSubmitLabel}{else}Opt out of OpenX Market{/if}
             </button>
           </li>
-        </ul>                  
+        </ul>
         {if !empty($pager->links)}
         <div class="pager">
           <span class="summary">{$pager->summary}</span>

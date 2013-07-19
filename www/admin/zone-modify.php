@@ -2,27 +2,12 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id$
 */
 
 // Require the initialisation file
@@ -59,24 +44,24 @@ if (isset($zoneid) && $zoneid != '') {
         $doZones->get($zoneid);
         $doZones->affiliateid = $newaffiliateid;
         $doZones->update();
-        
+
         // Queue confirmation message
         $zoneName = $doZones->zonename;
         $doAffiliates = OA_Dal::factoryDO('affiliates');
         if ($doAffiliates->get($newaffiliateid)) {
             $websiteName = $doAffiliates->name;
-        }    
+        }
         $translation = new OX_Translation();
         $translated_message = $translation->translate($GLOBALS['strZoneHasBeenMoved'],
             array(htmlspecialchars($zoneName), htmlspecialchars($websiteName))
         );
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
-        
-        
+
+
         Header("Location: ".$returnurl."?affiliateid=".$newaffiliateid."&zoneid=".$zoneid);
         exit;
 
-    } 
+    }
     elseif (isset($duplicate) && $duplicate == 'true') {
         // Can the user add new zones?
         if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
@@ -93,13 +78,13 @@ if (isset($zoneid) && $zoneid != '') {
         // Queue confirmation message
         $translation = new OX_Translation();
         $translated_message = $translation->translate ( $GLOBALS['strZoneHasBeenDuplicated'],
-            array(MAX::constructURL(MAX_URL_ADMIN, "zone-edit.php?affiliateid=$affiliateid&zoneid=$zoneid"), 
+            array(MAX::constructURL(MAX_URL_ADMIN, "zone-edit.php?affiliateid=$affiliateid&zoneid=$zoneid"),
                 htmlspecialchars($oldName),
-                MAX::constructURL(MAX_URL_ADMIN, "zone-edit.php?affiliateid=$affiliateid&zoneid=$new_zoneid"), 
+                MAX::constructURL(MAX_URL_ADMIN, "zone-edit.php?affiliateid=$affiliateid&zoneid=$new_zoneid"),
                 htmlspecialchars($newName))
         );
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
-        
+
         Header("Location: ".$returnurl."?affiliateid=".$affiliateid."&zoneid=".$new_zoneid);
         exit;
 
