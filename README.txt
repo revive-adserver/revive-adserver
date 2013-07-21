@@ -1,8 +1,8 @@
 
-    OpenX - The ad server for publishers who are serious about making money
-    ------------------------------------------------------------------------
+    Revive Aderver - The open source ad server formerly known as OpenX Source
+    =========================================================================
 
-    OpenX is an open source ad serving tool that enables publishers to:
+    Revive Aderver is an open source ad serving tool that enables publishers to:
 
       * Serve ads on their websites;
 
@@ -15,12 +15,12 @@
       * Set rules to target the delivery of campaigns, or even ads, to
           specific users, to help maximise the effectiveness of campaigns.
 
-    OpenX was formerly known as Openads and phpAdsNew.
+    Revive Aderver was was formerly known as OpenX Source, Openads and
+    phpAdsNew.
 
 
 
-    Version ${RELEASE_VERSION}
-    Copyright (c) 2003-2009 OpenX Limited
+    Copyright (c) 2013 Andrew Hill
     ------------------------------------------------------------------------
 
     This program is free software; you can redistribute it and/or modify
@@ -50,41 +50,6 @@
 
 
 
-    Support:
-    ------------------------------------------------------------------------
-    Questions about OpenX should be asked on the forum at
-    http://forum.openx.org/.
-
-    More information about can be found on the OpenX homepage at
-    http://www.openx.org/.
-
-    Bug reports and questions related to the development of OpenX are
-    also welcome. Plese visit http://developer.openx.org.
-
-
-
     Download:
     ------------------------------------------------------------------------
-    You can get the latest version from http://www.openx.org/.
-
-
-
-    Credits:
-    ------------------------------------------------------------------------
-    Thanks to Marcus Baker for allowing OpenX Limited to distribute Simple
-      Test for PHP along with OpenX. Simple Test is distributed under the
-      Open Group Test Suite License. Please see the Simple Test LICENSE file
-      in the lib/simpletest/ directory for details.
-
-    This product includes the phpSniff library, which is distributed under
-      the GNU Lesser General Public License. Please see the the phpSniff
-      LICENSE file in the lib/phpSniff/ directory for details.
-
-    This product includes GeoIP data created by MaxMind, available from
-      http://maxmind.com/.
-
-    FTP library: TOMO <groove@spencernetwork.org>
-
-
-
-    http://www.openx.org/
+    You can get the latest version from http://www.revive-adserver.com/.

@@ -9,20 +9,20 @@
 Upgrading
 =========
 
-Complete details of how to upgrade your existing OpenX installation can be
-found at http://www.openx.org/docs/. You should check this site for the
-latest available details on how to upgrade. However, for convenience, the
-upgrade process is essentially:
+Complete details of how to upgrade your existing Revive Adserver installation
+can be found at https://github.com/openx/openx-source/wiki. You should check
+this site for the latest available details on how to upgrade. However, for
+convenience, the upgrade process is essentially:
 
 1) Copy your existing installation directory to a backup location.
 
 2) Remove your existing installation directory.
 
-3) Unpack the new version of OpenX into the same directory name as
+3) Unpack the new version of Revive Adserver into the same directory name as
    your previous installation.
 
 4) Copy your config file from the backup location to the var/ directory
    of the newly unpacked installation.
 
-5) Use a web browser to visit your OpenX site, and follow the instructions
-   in the upgrade wizard to complete the upgrade.
+5) Use a web browser to visit your Revive Adserver site, and follow the
+   instructions in the upgrade wizard to complete the upgrade.
