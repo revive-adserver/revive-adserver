@@ -10,18 +10,17 @@
 +---------------------------------------------------------------------------+
 */
 
-*/
-/**	
+/**
  * Utils to find market plugin, check if registration to PC is required,
  * methods to store in OXP database account association data (used later by market plugin)
- * 
+ *
  * @package    OpenXUpgrade
  * @author     Lukasz Wikierski <lukasz.wikierski@openx.org>
  */
 class OX_Dal_Market_MarketPluginTools
 {
 
-    
+
     /**
      * Returns oxMarket component or false if can't detect Market Plugin
      *
@@ -31,15 +30,15 @@ class OX_Dal_Market_MarketPluginTools
     {
         // check if market plugin is installed
         if (isset($GLOBALS['_MAX']['CONF']['plugins']['openXMarket']))
-        { 
+        {
             // check if can get marketplugin
-            $oComponent = &OX_Component::factory('admin', 'oxMarket');        
+            $oComponent = &OX_Component::factory('admin', 'oxMarket');
             return $oComponent;
         }
         return false;
     }
-    
-    
+
+
     /**
      * Check if registration to the market is required
      *
@@ -57,7 +56,7 @@ class OX_Dal_Market_MarketPluginTools
         }
         return $registrationRequired;
     }
-    
+
     public static function isMarketPluginEnabledOrRegistrationRequired()
 	{
 		// check if can get marketplugin
@@ -97,7 +96,7 @@ class OX_Dal_Market_MarketPluginTools
         return false;
     }
 
-    
+
     /**
      * Get account assoc data from application variables
      *
@@ -111,10 +110,10 @@ class OX_Dal_Market_MarketPluginTools
             $accountUuid = OA_Dal_ApplicationVariables::get('oxMarket_publisher_account_id');
             $apiKey = OA_Dal_ApplicationVariables::get('oxMarket_api_key');
             if (isset($accountUuid) && isset($apiKey)) {
-                return array('apiKey' => $apiKey, 'accountUuid' => $accountUuid);            
+                return array('apiKey' => $apiKey, 'accountUuid' => $accountUuid);
             }
         }
         return null;
     }
-    
+
 }
