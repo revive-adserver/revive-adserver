@@ -6,66 +6,60 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
-Release Notes: OpenX ${RELEASE_VERSION}
-=======================${RELEASE_VERSION_DOUBLE_UNDERLINE}
-
-OpenX ${RELEASE_MAJOR_MINOR} is the next generation release of the hugely popular OpenX
-adserver.
+Release Notes: Revive Adserver 3.0.0
+====================================
 
 These release notes cover what's new, system requirements, download and
 installation instructions, known issues and frequently asked questions for
-OpenX ${RELEASE_VERSION}. Please read these notes before reporting any bugs.
-
-Please tell us what you think on the OpenX forum [http://forum.openx.org/].
+Revive Adserver. Please read these notes before reporting any bugs.
 
 
-What's New in OpenX ${RELEASE_VERSION}
-----------------------${RELEASE_VERSION_SINGLE_UNDERLINE}
+What's New in Revive Adserver 3.0.0
+-----------------------------------
 
- * Release date: ${RELEASE_DATE}
+ * Release date: TBA
 
-${RELEASE_NOTES} * For complete details, see [https://developer.openx.org/].
+ * Application name has changed from OpenX Source to Revive Adserver.
 
 
 System Requirements
 -------------------
 
 Before installing, please make sure your server meets the system
-requirements [http://www.openx.org/help/${RELEASE_MAJOR_MINOR}/requirements].
+requirements, which can be found at https://github.com/openx/openx-source/wiki.
 
 
 Downloading and Installing
 --------------------------
 
- * Downloading OpenX
+ * Downloading Revive Adserver
 
-   You can always find the latest version of OpenX here
-   [http://www.openx.org/download].
+   You can always find the latest version of Revive Adserver at
+   http://www.revive-adserver.com.
 
    Older and maintenance releases can be found here
-   [http://www.openx.org/support/release-archive].
+   https://github.com/openx/openx-source/releases.
 
- * Installing OpenX ${RELEASE_VERSION}
+ * Installing Revive Adserver
 
-   Installing OpenX ${RELEASE_VERSION} is a straightforward process. Follow these steps
-   [http://www.openx.org/help/${RELEASE_MAJOR_MINOR}/install] and use the links to refer to
-   detailed information on each step where necessary.
+   Installing Revive Adserver is a straightforward process. Follow the steps at
+   https://github.com/openx/openx-source/wiki.
 
- * Upgrading OpenX ${RELEASE_VERSION}
+ * Upgrading Revive Adserver
 
-   Upgrading to OpenX ${RELEASE_VERSION} is a straightforward process. Follow these steps
-   [http://www.openx.org/help/${RELEASE_MAJOR_MINOR}/install] and use the links to refer to
-   detailed information on each step where necessary.
+   Upgrading Revive Adserver is a straightforward process. Follow the steps at
+   https://github.com/openx/openx-source/wiki.
 
-   Please note: The upgrade process will upgrade your OpenX database,
-   and the database may no longer be compatible with your old code base.
-   Therefore, you should create a backup of your database, just in case.
+   Please note: The upgrade process will update your Revive Adserver database,
+   and the database may no longer be compatible with your old installation.
+   You *must* create a backup of your database before you upgrade, just in case.
 
-   The upgrade wizard supports upgrading from the following previous
-   releases of OpenX:
+   The upgrade wizard supports upgrading from:
 
    ---------------------------------------------------------------
    | Product                             | Version(s)            |
+   ---------------------------------------------------------------
+   | OpenX 2.8                           | All versions          |
    ---------------------------------------------------------------
    | OpenX 2.7 beta                      | All previous versions |
    ---------------------------------------------------------------
@@ -91,96 +85,64 @@ Downloading and Installing
 
    If you are not running one of these versions, you will need to upgrade
    your existing installation before you will be able to upgrade to
-   OpenX ${RELEASE_VERSION}.
+   Revive Adserver.
 
- * Uninstalling OpenX ${RELEASE_VERSION}
+ * Uninstalling Revive Adserver
 
-   To remove OpenX from your server delete the installed files and
-   database tables.
+   To uninstall Revive Adserver, delete the installed files and database tables.
 
 
 Known Issues
 ------------
 
-This list covers some of the known problems with OpenX ${RELEASE_VERSION}. Please
-read this before reporting any new bugs.
+This list covers some of the known problems with Revive Adserver. Please read
+this before reporting any new bugs.
 
- * The upgrade process may time out with very large databases. See the FAQ
-   [http://www.openx.org/help/${RELEASE_MAJOR_MINOR}/faq/large-db] for more information if you
+ * The upgrade process may time out with very large databases. See
+   https://github.com/openx/openx-source/wiki for more information if you
    have a large database.
 
- * OpenX ${RELEASE_MAJOR_MINOR} requires PHP 5. If you are using PHP 4, you will need to
+ * Revive Adserver requires PHP 5. If you are using PHP 4, you will need to
    update your web server to use PHP 5 before upgrading.
 
- * If you want to run OpenX with MySQL, please note that OpenX ${RELEASE_MAJOR_MINOR} requires
-   MySQL 4.1 or higher. If you are using an older version of MySQL, you will
+ * If you want to run Revive Adserver with MySQL, please note that MySQL 4.1 or
+   higher is required. If you are using an older version of MySQL, you will
    need to update you database software before upgrading.
 
- * If you want to run OpenX with PostgreSQL, please note that OpenX ${RELEASE_MAJOR_MINOR}
-   requires PostgreSQL 8.1 or higher. If you are using an older version of
+ * If you want to run Revive Adserver with PostgreSQL, please note that
+   PostgreSQL 8.1 or higher is required. If you are using an older version of
    PostgreSQL, you will need to update your database software before
    upgrading.
 
  * Some of the PEAR libraries used are not compatible with database prefix
    names with double "_" characters (e.g. "ox__"). You should NOT install
-   OpenX with a prefix of this format.
+   Revive Adserver with a prefix of this format.
 
  * Some users have reported issues of being logged out when viewing
    statistics. This can be worked around by ensuring that the timezone is
-   correctly set in PHP
-   [http://www.openx.org/help/${RELEASE_MAJOR_MINOR}/timezone-settings].
+   correctly set in PHP.
 
- * Viewing, editing and updating Payment Details and Payment History when using
-   OpenX Market Plugin currently doesn't work on the Safari browsers with
-   default cookie settings. Please see more details here:
-   https://developer.openx.org/jira/browse/OXPL-126
-
- * See [https://developer.openx.org/jira/] for the latest bug reports.
+ * See https://github.com/openx/openx-source/issues?state=open for the latest
+   bug reports.
 
 
 FAQ
 ---
 
- 1. What can I do to help?
+ 1. What happened to OpenX Source?
+
+    OpenX Source has re-branded as Revive Adserver. It is still a completely
+    free, open source ad serving solution, and remains licenses under the
+    GPL v2 or greater license. Apart from the code moving home and a change of
+    name, Revive Adserver is just the same as the old OpenX Source application.
+
+ 2. Can I upgrade from OpenX Source?
+
+    Yes. OpenX Source has rebranded as Revive Adserver. You will be able to
+    upgrade from any version of OpenX Source.
+
+ 3. What can I do to help?
 
     We need help from both developers and users to provide as much feedback
-    as possible to make OpenX even better. Please read these notes on how to
-    report a bug [http://www.openx.org/help/${RELEASE_MAJOR_MINOR}/reporting-bugs] before
-    reporting any bugs. You can also give us your feedback through the
-    OpenX forum [http://forum.openx.org/].
-
- 2. Can I upgrade from phpAdsNew?
-
-    Yes. phpAdsNew was rebranded as Openads 2.0. You will need to ensure you
-    first upgrade to the latest version of Openads 2.0 before using the OpenX
-    ${RELEASE_MAJOR_MINOR} upgrade wizard.
-
-    However, please note that OpenX ${RELEASE_MAJOR_MINOR} requires PHP 5, and also a more modern
-    version of MySQL or PostgreSQL than phpAdsNew did. Please see the Known
-    Issues section above for more details.
-
- 3. Can I upgrade from Openads?
-
-    Yes. Openads was rebranded as OpenX. You will be able to upgrade from any
-    version of Openads.
-
-    However, please note that OpenX ${RELEASE_MAJOR_MINOR} requires PHP 5, and also a more modern
-    version of MySQL or PostgreSQL than previous versions of Openads did.
-    Please see the Known Issues section above for more details.
-
- 4. Does OpenX ${RELEASE_VERSION} support PostgreSQL?
-
-    Yes, OpenX ${RELEASE_MAJOR_MINOR} reintroduces support for PostgreSQL, although it is still
-    experimental support. Please help us improve it by reporting bugs
-    [http://www.openx.org/help/${RELEASE_MAJOR_MINOR}/reporting-bugs].
-
- 5. Where do I go for support?
-
-    Support is provided through the OpenX forum [http://forum.openx.org/].
-    In this way, we hope that the whole community benefits from the answers
-    given.
-
- 6. Where's the source code?
-
-    You can access the OpenX source code using subversion. See our developer
-    website [https://developer.openx.org/].
+    as possible to make Revive Adserver even better. You can contribute by
+    visiting https://github.com/openx/openx-source.
