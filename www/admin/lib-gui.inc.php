@@ -2,27 +2,12 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX  v${RELEASE_MAJOR_MINOR}                                            |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id$
 */
 
 // Required files
@@ -75,8 +60,8 @@ function registerStylesheetFile($filePath)
 
 
 /**
- * Adds new action to the page. 
- * 
+ * Adds new action to the page.
+ *
  * Please note that you need to add tools before invoking showHeader function.
  *
  * @param string $title action title - translated
@@ -92,8 +77,8 @@ function addPageLinkTool($title, $url, $iconClass = null, $accesskey = null, $ex
 }
 
 /**
- * Adds new action to the page. 
- * 
+ * Adds new action to the page.
+ *
  * Please note that you need to add tools before invoking showHeader function.
  *
  * @param string $title action title - translated
@@ -115,7 +100,7 @@ function addPageFormTool($title, $url, $iconClass = null, $accesskey = null, $ex
 function addLeftMenuSubItem($id, $title, $url)
 {
     global $ox_left_menu_sub;
-    
+
     $ox_left_menu_sub['items'][$id]['title'] = $title;
     $ox_left_menu_sub['items'][$id]['link'] = $url;
 }
@@ -124,15 +109,15 @@ function addLeftMenuSubItem($id, $title, $url)
 function setCurrentLeftMenuSubItem($itemId)
 {
     global $ox_left_menu_sub;
-    
+
     $ox_left_menu_sub['current'] = $itemId;
 }
 
 
 /**
  * Adds new shortcut to the page.
- * 
- * Please note that you need to add shortcuts before invoking showHeader function. 
+ *
+ * Please note that you need to add shortcuts before invoking showHeader function.
  *
  * @param string $title action title - translated
  * @param string $url link url for the action
@@ -143,7 +128,7 @@ function addPageShortcut($title, $url, $iconClass, $accesskey = null)
 {
     $oUI = OA_Admin_UI::getInstance();
     $oUI->addPageShortcut($title, $url, $iconClass);
-    
+
 }
 
 
