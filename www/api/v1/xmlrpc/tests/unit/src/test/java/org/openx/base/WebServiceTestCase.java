@@ -1,26 +1,11 @@
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id$
 */
 
 package org.openx.base;
@@ -47,10 +32,10 @@ public class WebServiceTestCase extends TestCase {
 
 	protected static final String LOGON_METHOD = "logon";
 	protected static final String LOGOFF_METHOD = "logoff";
-	
+
 	protected XmlRpcClient client;
 	protected String sessionId;
-	
+
 
 	protected void setUp() throws Exception {
 		super.setUp();
@@ -93,11 +78,11 @@ public class WebServiceTestCase extends TestCase {
 
 		if (correctValue instanceof Integer) {
 			Integer value = (Integer) correctValue;
-			assertEquals(parameter + " fields should be equal", value, 
+			assertEquals(parameter + " fields should be equal", value,
 					(Integer) referencedObject.get(parameter));
 		} else if (correctValue instanceof String) {
 			String value = (String) correctValue;
-			assertEquals(parameter + " fields should be equal", value, 
+			assertEquals(parameter + " fields should be equal", value,
 					(String) referencedObject.get(parameter));
 		} else if (correctValue instanceof Date) {
 			String value = ((Date) correctValue).toString();
@@ -105,16 +90,16 @@ public class WebServiceTestCase extends TestCase {
 					((Date) referencedObject.get(parameter)).toString());
 		} else if (correctValue instanceof Double) {
 			Double value = (Double) correctValue;
-			assertEquals(parameter + " fields should be equal", value, 
-					(Double) referencedObject.get(parameter));			
+			assertEquals(parameter + " fields should be equal", value,
+					(Double) referencedObject.get(parameter));
 		} else {
 			fail(parameter + " fields should be equal");
 		}
 	}
-	
-	public void checkParameter(Map<String, Object> referencedObject, 
+
+	public void checkParameter(Map<String, Object> referencedObject,
 			Map<String, Object> testObject, String parameter) {
-		
+
 		checkParameter(referencedObject, parameter, testObject.get(parameter));
 	}
 }

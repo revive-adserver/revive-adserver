@@ -1,26 +1,11 @@
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id: TestDeleteUser.java 16124 2008-02-11 18:16:06Z andrew.hill@openads.org $
 */
 
 package org.openx.user;
@@ -37,7 +22,7 @@ import org.openx.utils.TextUtils;
  * @author     Pawel Dachterski <pawel.dachterski@openx.org>
  */
 public class TestDeleteUser extends UserTestCase {
-	
+
 	/**
 	 * Execute test method with error
 	 *
@@ -49,12 +34,12 @@ public class TestDeleteUser extends UserTestCase {
 	 */
 	private void executeDeleteUserWithError(Object[] params, String errorMsg)
 		throws MalformedURLException {
-		
+
 		try {
 			execute(DELETE_USER_METHOD, params);
 			fail(DELETE_USER_METHOD
 					+ " should faild, but isn't.");
-	
+
 		} catch (XmlRpcException e) {
 			assertEquals(ErrorMessage.WRONG_ERROR_MESSAGE, errorMsg, e
 					.getMessage());
@@ -74,7 +59,7 @@ public class TestDeleteUser extends UserTestCase {
 		assertNotNull("Can't add User.", userId);
 		final Boolean result = (Boolean) execute(DELETE_USER_METHOD,
 				new Object[] { sessionId, userId });
-		
+
 		assertTrue("Can't delete user.", result);
 	}
 
@@ -85,7 +70,7 @@ public class TestDeleteUser extends UserTestCase {
 	 */
 	public void testDeleteUserWithoutSomeRequiredFields()
 			throws MalformedURLException {
-		
+
 		Object[] XMLMethodParameters = new Object[] { sessionId };
 
 		executeDeleteUserWithError(XMLMethodParameters, ErrorMessage.getMessage(
@@ -100,7 +85,7 @@ public class TestDeleteUser extends UserTestCase {
 	 */
 	public void testDeleteBannerUnknownIdError() throws XmlRpcException,
 			MalformedURLException {
-	
+
 		final Integer userId = createUser(getUserParams("deltest_"));
 		deleteUser(userId);
 		Object[] XMLMethodParameters = new Object[] { sessionId, userId };

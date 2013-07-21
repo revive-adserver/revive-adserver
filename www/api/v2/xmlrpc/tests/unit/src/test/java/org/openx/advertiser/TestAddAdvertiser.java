@@ -1,26 +1,11 @@
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id$
 */
 
 package org.openx.advertiser;
@@ -50,7 +35,7 @@ public class TestAddAdvertiser extends AdvertiserTestCase {
 	 */
 	private void executeAddAdvertiserWithError(Object[] params, String errorMsg)
 			throws MalformedURLException {
-		
+
 		try {
 			Integer result = (Integer) execute(ADD_ADVERTISER_METHOD, params);
 			deleteAdvertiser(result);
@@ -60,7 +45,7 @@ public class TestAddAdvertiser extends AdvertiserTestCase {
 					.getMessage());
 		}
 	}
-	
+
 	/**
 	 * Test method with all required fields and some optional.
 	 *
@@ -70,14 +55,14 @@ public class TestAddAdvertiser extends AdvertiserTestCase {
 	@SuppressWarnings("unchecked")
 	public void testAddAdvertiserAllReqAndSomeOptionalFields()
 			throws XmlRpcException, MalformedURLException {
-		
+
 		assertNotNull(agencyId);
 		Map<String, Object> addAdvertiserParameters = new HashMap<String, Object>();
 		addAdvertiserParameters.put(AGENCY_ID, agencyId);
 		addAdvertiserParameters.put(ADVERTISER_NAME, "testAdvertiserName");
 		addAdvertiserParameters.put(CONTACT_NAME, "testContactName");
 		addAdvertiserParameters.put(COMMENTS, "some comments");
-		
+
 		Object[] XMLRPCMethodParameters = new Object[] { sessionId, addAdvertiserParameters };
 		final Integer result = (Integer) execute(ADD_ADVERTISER_METHOD,
 				XMLRPCMethodParameters);
@@ -104,7 +89,7 @@ public class TestAddAdvertiser extends AdvertiserTestCase {
 	 */
 	public void testAddAdvertiserWithoutSomeRequiredFields()
 			throws MalformedURLException {
-		
+
 		Map<String, Object> addAdvertiserParameters = new HashMap<String, Object>();
 		addAdvertiserParameters.put(EMAIL_ADDRESS, "test@mail.com");
 		Object[] XMLMethodParameters = new Object[] { sessionId, addAdvertiserParameters };
@@ -129,7 +114,7 @@ public class TestAddAdvertiser extends AdvertiserTestCase {
 		executeAddAdvertiserWithError(XMLMethodParameters, ErrorMessage.getMessage(
 				ErrorMessage.EXCEED_MAXIMUM_LENGTH_OF_FIELD, ADVERTISER_NAME));
 	}
-	
+
 	/**
 	 * Test method with fields that has value greater than max.
 	 *
@@ -168,7 +153,7 @@ public class TestAddAdvertiser extends AdvertiserTestCase {
 		executeAddAdvertiserWithError(XMLMethodParameters, ErrorMessage.getMessage(
 				ErrorMessage.EXCEED_MAXIMUM_LENGTH_OF_FIELD, EMAIL_ADDRESS));
 	}
-	
+
 	/**
 	 * Test method with fields that has min. allowed values.
 	 *
@@ -177,7 +162,7 @@ public class TestAddAdvertiser extends AdvertiserTestCase {
 	 */
 	public void testAddAdvertiserMinValues() throws XmlRpcException,
 			MalformedURLException {
-		
+
 		Map<String, Object> addAdvertiserParameters = new HashMap<String, Object>();
 		addAdvertiserParameters.put(ADVERTISER_NAME, "testAdvertiser");
 		addAdvertiserParameters.put(CONTACT_NAME, "");
@@ -185,7 +170,7 @@ public class TestAddAdvertiser extends AdvertiserTestCase {
 		Object[] XMLMethodParameters = new Object[] { sessionId, addAdvertiserParameters };
 		final Integer result = (Integer) execute(ADD_ADVERTISER_METHOD,
 				XMLMethodParameters);
-		
+
 		assertNotNull(result);
 		deleteAdvertiser(result);
 	}
@@ -205,7 +190,7 @@ public class TestAddAdvertiser extends AdvertiserTestCase {
 		Object[] XMLMethodParameters = new Object[] { sessionId, addAdvertiserParameters };
 		final Integer result = (Integer) execute(ADD_ADVERTISER_METHOD,
 				XMLMethodParameters);
-		
+
 		assertNotNull(result);
 		deleteAdvertiser(result);
 	}
@@ -218,7 +203,7 @@ public class TestAddAdvertiser extends AdvertiserTestCase {
 	 */
 	public void testAddAdvertiserUnknownIdError() throws MalformedURLException,
 			XmlRpcException {
-		
+
 		int testAgencyId = createAgency();
 		deleteAgency(testAgencyId);
 		Map<String, Object> addAdvertiserParameters = new HashMap<String, Object>();
@@ -246,7 +231,7 @@ public class TestAddAdvertiser extends AdvertiserTestCase {
 		executeAddAdvertiserWithError(XMLMethodParameters, ErrorMessage.getMessage(
 				ErrorMessage.FIELD_IS_NOT_STRING, ADVERTISER_NAME));
 	}
-	
+
 	/**
 	 * Test method with fields that has value of wrong type (error).
 	 *

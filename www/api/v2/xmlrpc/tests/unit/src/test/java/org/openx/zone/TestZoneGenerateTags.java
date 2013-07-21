@@ -1,26 +1,11 @@
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id$
 */
 
 package org.openx.zone;
@@ -41,10 +26,10 @@ import org.openx.utils.TextUtils;
 public class TestZoneGenerateTags extends ZoneTestCase {
 
 	//TODO: Make not allowed type error verification more flexible
-	//TODO: Manage the available ad types 
-	
+	//TODO: Manage the available ad types
+
 	protected Integer zoneId = null;
-	
+
 	protected void setUp() throws Exception {
 		super.setUp();
 
@@ -56,7 +41,7 @@ public class TestZoneGenerateTags extends ZoneTestCase {
 
 		super.tearDown();
 	}
-	
+
 	/**
 	 * Execute test method with error
 	 *
@@ -68,7 +53,7 @@ public class TestZoneGenerateTags extends ZoneTestCase {
 	 */
 	private void executeGenerateTagsWithError(Object[] params, String errorMsg)
 		throws MalformedURLException {
-		
+
 		try {
 			execute(ZONE_GENERATE_TAGS_METHOD, params);
 			fail(ErrorMessage.METHOD_EXECUTED_SUCCESSFULLY_BUT_SHOULD_NOT_HAVE);
@@ -86,16 +71,16 @@ public class TestZoneGenerateTags extends ZoneTestCase {
 	 */
 	public void testGenerateTagsAllReqFieldsAdFrame()
 			throws XmlRpcException, MalformedURLException {
-		
+
 		Map<String, Object> generateTagsParameters = new HashMap<String, Object>();
-		
+
 		Object[] XMLRPCMethodParameters = new Object[] { sessionId, zoneId, CODE_TYPES[0], generateTagsParameters };
 		final String result = (String) client
 				.execute(ZONE_GENERATE_TAGS_METHOD, XMLRPCMethodParameters);
-		
+
 		assertNotNull(result);
 	}
-	
+
 	/**
 	 * Test method with all required fields for adjs.
 	 *
@@ -104,16 +89,16 @@ public class TestZoneGenerateTags extends ZoneTestCase {
 	 */
 	public void testGenerateTagsAllReqFieldsAdJS()
 			throws XmlRpcException, MalformedURLException {
-		
+
 		Map<String, Object> generateTagsParameters = new HashMap<String, Object>();
-		
+
 		Object[] XMLRPCMethodParameters = new Object[] { sessionId, zoneId, CODE_TYPES[1], generateTagsParameters };
 		final String result = (String) client
 				.execute(ZONE_GENERATE_TAGS_METHOD, XMLRPCMethodParameters);
-		
+
 		assertNotNull(result);
 	}
-	
+
 	/**
 	 * Test method with all required fields for adlayer.
 	 *
@@ -122,16 +107,16 @@ public class TestZoneGenerateTags extends ZoneTestCase {
 	 */
 	public void testGenerateTagsAllReqFieldsAdLayer()
 			throws XmlRpcException, MalformedURLException {
-		
+
 		Map<String, Object> generateTagsParameters = new HashMap<String, Object>();
-		
+
 		Object[] XMLRPCMethodParameters = new Object[] { sessionId, zoneId, CODE_TYPES[2], generateTagsParameters };
 		final String result = (String) client
 				.execute(ZONE_GENERATE_TAGS_METHOD, XMLRPCMethodParameters);
-		
+
 		assertNotNull(result);
 	}
-	
+
 	/**
 	 * Test method with all required fields for adview.
 	 *
@@ -140,14 +125,14 @@ public class TestZoneGenerateTags extends ZoneTestCase {
 	 */
 	public void testGenerateTagsAllReqFieldsAdView()
 			throws XmlRpcException, MalformedURLException {
-		
+
 		Map<String, Object> generateTagsParameters = new HashMap<String, Object>();
 		//generateTagsParameters.put("", "");
-		
+
 		Object[] XMLRPCMethodParameters = new Object[] { sessionId, zoneId, CODE_TYPES[3], generateTagsParameters };
 		final String result = (String) client
 				.execute(ZONE_GENERATE_TAGS_METHOD, XMLRPCMethodParameters);
-		
+
 		assertNotNull(result);
 	}
 
@@ -159,16 +144,16 @@ public class TestZoneGenerateTags extends ZoneTestCase {
 	 */
 	public void testGenerateTagsAllReqFieldsAdViewNoCookies()
 			throws XmlRpcException, MalformedURLException {
-		
+
 		Map<String, Object> generateTagsParameters = new HashMap<String, Object>();
-		
+
 		Object[] XMLRPCMethodParameters = new Object[] { sessionId, zoneId, CODE_TYPES[4], generateTagsParameters };
 		final String result = (String) client
 				.execute(ZONE_GENERATE_TAGS_METHOD, XMLRPCMethodParameters);
-		
+
 		assertNotNull(result);
 	}
-	
+
 	/**
 	 * Test method with all required fields for local.
 	 *
@@ -177,13 +162,13 @@ public class TestZoneGenerateTags extends ZoneTestCase {
 	 */
 	public void testGenerateTagsAllReqFieldsLocal()
 			throws XmlRpcException, MalformedURLException {
-		
+
 		Map<String, Object> generateTagsParameters = new HashMap<String, Object>();
-		
+
 		Object[] XMLRPCMethodParameters = new Object[] { sessionId, zoneId, CODE_TYPES[5], generateTagsParameters };
 		final String result = (String) client
 				.execute(ZONE_GENERATE_TAGS_METHOD, XMLRPCMethodParameters);
-		
+
 		assertNotNull(result);
 	}
 
@@ -195,17 +180,17 @@ public class TestZoneGenerateTags extends ZoneTestCase {
 	 */
 	public void testGenerateTagsAllReqFieldsPopUp()
 			throws XmlRpcException, MalformedURLException {
-		
+
 		Map<String, Object> generateTagsParameters = new HashMap<String, Object>();
 		//generateTagsParameters.put("", "");
-		
+
 		Object[] XMLRPCMethodParameters = new Object[] { sessionId, zoneId, CODE_TYPES[6], generateTagsParameters };
 		final String result = (String) client
 				.execute(ZONE_GENERATE_TAGS_METHOD, XMLRPCMethodParameters);
-		
+
 		assertNotNull(result);
 	}
-	
+
 	/**
 	 * Test method with SPC type which shouldn't be allowed in Zone Service(error).
 	 *
@@ -222,8 +207,8 @@ public class TestZoneGenerateTags extends ZoneTestCase {
 
 		executeGenerateTagsWithError(XMLRPCMethodParameters, ErrorMessage.getMessage(
 				ErrorMessage.FIELD_MUST_BE_ONE_OF_ENUM, CODE_TYPE, "invocationTags:oxInvocationTags:adframe, invocationTags:oxInvocationTags:adjs, invocationTags:oxInvocationTags:adlayer, invocationTags:oxInvocationTags:adview, invocationTags:oxInvocationTags:adviewnocookies, invocationTags:oxInvocationTags:local, invocationTags:oxInvocationTags:popup, invocationTags:oxInvocationTags:xmlrpc"));
-	}  
-	
+	}
+
 	/**
 	 * Test method with all required fields for xmlrpc.
 	 *
@@ -232,17 +217,17 @@ public class TestZoneGenerateTags extends ZoneTestCase {
 	 */
 	public void testGenerateTagsAllReqFieldsXMLRPC()
 			throws XmlRpcException, MalformedURLException {
-		
+
 		Map<String, Object> generateTagsParameters = new HashMap<String, Object>();
 		//generateTagsParameters.put("", "");
-		
+
 		Object[] XMLRPCMethodParameters = new Object[] { sessionId, zoneId, CODE_TYPES[8], generateTagsParameters };
 		final String result = (String) client
 				.execute(ZONE_GENERATE_TAGS_METHOD, XMLRPCMethodParameters);
-		
+
 		assertNotNull(result);
 	}
-	
+
 	/**
 	 * Test methods for Unknown codeType
 	 *
@@ -251,7 +236,7 @@ public class TestZoneGenerateTags extends ZoneTestCase {
 	 */
 	public void testGenerateTagsUnknownCodeTypeError() throws MalformedURLException,
 			XmlRpcException {
-		
+
 		Map<String, Object> generateTagsParameters = new HashMap<String, Object>();
 
 		Object[] XMLRPCMethodParameters = new Object[] { sessionId, zoneId, "clickonly", generateTagsParameters };
@@ -259,7 +244,7 @@ public class TestZoneGenerateTags extends ZoneTestCase {
 		executeGenerateTagsWithError(XMLRPCMethodParameters, ErrorMessage.getMessage(
 				ErrorMessage.FIELD_MUST_BE_ONE_OF_ENUM, CODE_TYPE, "invocationTags:oxInvocationTags:adframe, invocationTags:oxInvocationTags:adjs, invocationTags:oxInvocationTags:adlayer, invocationTags:oxInvocationTags:adview, invocationTags:oxInvocationTags:adviewnocookies, invocationTags:oxInvocationTags:local, invocationTags:oxInvocationTags:popup, invocationTags:oxInvocationTags:xmlrpc"));
 	}
-	
+
 	/**
 	 * Test methods for Empty codeType
 	 *
@@ -268,7 +253,7 @@ public class TestZoneGenerateTags extends ZoneTestCase {
 	 */
 	public void testGenerateTagsEmptyCodeTypeError() throws MalformedURLException,
 			XmlRpcException {
-		
+
 		Map<String, Object> generateTagsParameters = new HashMap<String, Object>();
 		//generateTagsParameters.put("", "");
 
@@ -278,7 +263,7 @@ public class TestZoneGenerateTags extends ZoneTestCase {
 				ErrorMessage.FIELD_MUST_BE_ONE_OF_ENUM, CODE_TYPE, "invocationTags:oxInvocationTags:adframe, invocationTags:oxInvocationTags:adjs, invocationTags:oxInvocationTags:adlayer, invocationTags:oxInvocationTags:adview, invocationTags:oxInvocationTags:adviewnocookies, invocationTags:oxInvocationTags:local, invocationTags:oxInvocationTags:popup, invocationTags:oxInvocationTags:xmlrpc"));
 	}
 
-	
+
 	/**
 	 * Test methods for Unknown ID Error, described in API
 	 *
@@ -287,7 +272,7 @@ public class TestZoneGenerateTags extends ZoneTestCase {
 	 */
 	public void testGenerateTagsUnknownZoneIdError() throws MalformedURLException,
 			XmlRpcException {
-		
+
 		Integer zoneId = createZone();
 		assertNotNull(zoneId);
 		deleteZone(zoneId);

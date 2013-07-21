@@ -1,26 +1,11 @@
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id: TestAddZone.java 20704 2008-05-28 13:28:08Z pawel.dachterski@openx.org $
 */
 
 package org.openx.zone;
@@ -39,7 +24,7 @@ public class TestZoneUnlinkBanner extends ZoneTestCase {
 
 	protected Integer zoneId = null;
 	protected Integer bannerId = null;
-	
+
 	protected void setUp() throws Exception {
 		super.setUp();
 
@@ -54,7 +39,7 @@ public class TestZoneUnlinkBanner extends ZoneTestCase {
 
 		super.tearDown();
 	}
-	
+
 	/**
 	 * Execute test method with error
 	 *
@@ -66,7 +51,7 @@ public class TestZoneUnlinkBanner extends ZoneTestCase {
 	 */
 	private void executeUnlinkBannerWithError(Object[] params, String errorMsg)
 		throws MalformedURLException {
-		
+
 		try {
 			execute(ZONE_UNLINK_BANNER_METHOD, params);
 			fail(ErrorMessage.METHOD_EXECUTED_SUCCESSFULLY_BUT_SHOULD_NOT_HAVE);
@@ -84,17 +69,17 @@ public class TestZoneUnlinkBanner extends ZoneTestCase {
 	 */
 	public void testUnlinkBannerAllReqAndSomeOptionalFields()
 			throws XmlRpcException, MalformedURLException {
-		
+
 		Object[] XMLRPCMethodParameters = new Object[] { sessionId, zoneId, bannerId };
 		final Boolean linkResult = (Boolean) client
 				.execute(ZONE_LINK_BANNER_METHOD, XMLRPCMethodParameters);
-	
+
 		assertTrue(linkResult);
 		final Boolean unlinkResult = (Boolean) client
 				.execute(ZONE_UNLINK_BANNER_METHOD, XMLRPCMethodParameters);
 
 		assertTrue(unlinkResult);
-		
+
 	}
 
 	/**
@@ -105,7 +90,7 @@ public class TestZoneUnlinkBanner extends ZoneTestCase {
 	 */
 	public void testUnlinkBannerUnknownZoneIdError() throws MalformedURLException,
 			XmlRpcException {
-		
+
 		Integer zoneId = createZone();
 		assertNotNull(zoneId);
 		deleteZone(zoneId);
@@ -124,7 +109,7 @@ public class TestZoneUnlinkBanner extends ZoneTestCase {
 	 */
 	public void testUnlinkBannerUnknownBannerIdError() throws MalformedURLException,
 			XmlRpcException {
-		
+
 		Integer bannerId = createBanner();
 		assertNotNull(bannerId);
 		deleteBanner(bannerId);
@@ -134,7 +119,7 @@ public class TestZoneUnlinkBanner extends ZoneTestCase {
 		executeUnlinkBannerWithError(XMLRPCMethodParameters, ErrorMessage.getMessage(
 				ErrorMessage.UNKNOWN_ID_ERROR, BANNER_ID));
 	}
-	
+
 	/**
 	 * Test method with fields that has value of wrong type (error).
 	 *
@@ -143,13 +128,13 @@ public class TestZoneUnlinkBanner extends ZoneTestCase {
 	 */
 	public void testUnlinkBannerBannerIdWrongTypeError() throws MalformedURLException,
 			XmlRpcException {
-		
+
 		Object[] XMLRPCMethodParameters = new Object[] { sessionId, zoneId, TextUtils.NOT_INTEGER };
 
 		executeUnlinkBannerWithError(XMLRPCMethodParameters, ErrorMessage.getMessage(
 				ErrorMessage.INCORRECT_PARAMETERS_WANTED_INT_GOT_STRING, "3"));
 	}
-	
+
 	/**
 	 * Test method with fields that has value of wrong type (error).
 	 *
@@ -164,7 +149,7 @@ public class TestZoneUnlinkBanner extends ZoneTestCase {
 		executeUnlinkBannerWithError(XMLRPCMethodParameters, ErrorMessage.getMessage(
 				ErrorMessage.INCORRECT_PARAMETERS_WANTED_INT_GOT_STRING, "2"));
 	}
-	
+
 	/**
 	 * Test method with not existing link.
 	 *
@@ -176,7 +161,7 @@ public class TestZoneUnlinkBanner extends ZoneTestCase {
 
 		Integer zoneId = createZone();
 		Integer bannerId = createBanner();
-		
+
 		Object[] XMLRPCMethodParameters = new Object[] { sessionId, zoneId, bannerId };
 
 		executeUnlinkBannerWithError(XMLRPCMethodParameters, ErrorMessage.getMessage(
