@@ -2,27 +2,12 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id$
 */
 
 // Require the initialisation file
@@ -62,29 +47,29 @@ if (!empty($campaignid)) {
     	// Duplicate the campaign
     	$doCampaigns = OA_Dal::factoryDO('campaigns');
     	$doCampaigns->get($campaignid);
-        $oldName = $doCampaigns->campaignname; 
+        $oldName = $doCampaigns->campaignname;
     	$newCampaignId = $doCampaigns->duplicate();
-    	
+
         if ($newCampaignId) {
             // Queue confirmation message
             $newName = $doCampaigns->campaignname;
             $translation = new OX_Translation();
             $translated_message = $translation->translate ( $GLOBALS['strCampaignHasBeenDuplicated'],
-                array(MAX::constructURL(MAX_URL_ADMIN, "campaign-edit.php?clientid=$clientid&campaignid=$campaignid"), 
+                array(MAX::constructURL(MAX_URL_ADMIN, "campaign-edit.php?clientid=$clientid&campaignid=$campaignid"),
                     htmlspecialchars($oldName),
-                    MAX::constructURL(MAX_URL_ADMIN, "campaign-edit.php?clientid=$clientid&campaignid=$newCampaignId"), 
+                    MAX::constructURL(MAX_URL_ADMIN, "campaign-edit.php?clientid=$clientid&campaignid=$newCampaignId"),
                     htmlspecialchars($newName))
             );
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
-                        
+
             Header ("Location: {$returnurl}?clientid={$clientid}&campaignid={$newCampaignId}");
             exit;
-        } 
+        }
         else {
             phpAds_sqlDie();
         }
 
-    } 
+    }
     else if (!empty($newclientid)) {
 
         /*-------------------------------------------------------*/
@@ -134,19 +119,19 @@ if (!empty($campaignid)) {
         }
 
         /*-------------------------------------------------------*/
-        
+
         // Queue confirmation message
         $campaignName = $doCampaigns->campaignname;
         $doClients = OA_Dal::factoryDO('clients');
         if ($doClients->get($newclientid)) {
             $advertiserName = $doClients->clientname;
-        }    
+        }
         $translation = new OX_Translation();
         $translated_message = $translation->translate ( $GLOBALS['strCampaignHasBeenMoved'],
             array(htmlspecialchars($campaignName), htmlspecialchars($advertiserName))
         );
         OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
-        
+
 
     }
 }

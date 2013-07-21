@@ -2,27 +2,12 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2008 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id: adlayer.class.php 26146 2008-09-22 11:02:58Z chris.nutting $
 */
 
 /**
@@ -124,7 +109,7 @@ class Plugins_InvocationTags_OxInvocationTags_adlayer extends Plugins_Invocation
   * Don't forget to replace the '{clickurl}' text with
   * the click tracking URL if this ad is to be delivered through a 3rd
   * party (non-Max) adserver.
-  *"), 
+  *"),
             'SSL Delivery Comment' => $this->translate("
   * This tag has been generated for use on a non-SSL page. If this tag
   * is to be placed on an SSL page, change the
@@ -132,7 +117,7 @@ class Plugins_InvocationTags_OxInvocationTags_adlayer extends Plugins_Invocation
   * to
   *   'https://%s/...'
   *", array ($conf['webpath']['delivery'],$conf['webpath']['deliverySSL'])),
-            'SSL Backup Comment'   => '', 
+            'SSL Backup Comment'   => '',
             );
         if (isset($GLOBALS['layerstyle']) &&
             ($GLOBALS['layerstyle'] == 'geocities' || $GLOBALS['layerstyle'] == 'simple')) {
@@ -145,8 +130,8 @@ class Plugins_InvocationTags_OxInvocationTags_adlayer extends Plugins_Invocation
             array($GLOBALS['layerstyle'], $conf['webpath']['images'], $GLOBALS['layerstyle']));
         } else {
             $aComments['Comment'] = '';
-        }   
-          
+        }
+
         parent::prepareCommonInvocationData($aComments);
 
         $mi = &$this->maxInvocation;

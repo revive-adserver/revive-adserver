@@ -2,28 +2,14 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id: ImportMarketStatistics.php 30820 2009-01-13 19:02:17Z andrew.hill $
 */
+
 require_once LIB_PATH . '/Maintenance/Statistics/Task.php';
 
 /**
@@ -37,7 +23,7 @@ require_once LIB_PATH . '/Maintenance/Statistics/Task.php';
 class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistics extends OX_Maintenance_Statistics_Task
 {
     const LAST_STATISTICS_VERSION_VARIABLE = 'last_statistics_version';
-        
+
     /**
      * The constructor method.
      */
@@ -47,7 +33,7 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
     }
 
     /**
-     * The implementation of the OA_Task::run() method that 
+     * The implementation of the OA_Task::run() method that
      * downloads statistics from publisher console
      */
     function run()
@@ -57,7 +43,7 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
             $oDB = OA_DB::singleton();
             $supports_transactions = $oDB->supports('transactions');
             $oMarketComponent = OX_Component::factory('admin', 'oxMarket');
-            $oPublisherConsoleApiClient = 
+            $oPublisherConsoleApiClient =
                 $oMarketComponent->getPublisherConsoleApiClient();
             $oPluginSettings = OA_Dal::factoryDO('ext_market_general_pref');
             $oPluginSettings->get('name', self::LAST_STATISTICS_VERSION_VARIABLE);
@@ -83,16 +69,16 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
                     $aRow = explode("\t", $aLines[$i]);
                     if (count($aRow) > 5) {
                         $oWebsiteStat = OA_Dal::factoryDO('ext_market_web_stats');
-                        $oWebsiteStat->p_website_id = $aRow[0]; 
-                        $oWebsiteStat->height = $aRow[1]; 
-                        $oWebsiteStat->width = $aRow[2]; 
-                        $oWebsiteStat->date_time = $aRow[3]; 
-                        $oWebsiteStat->impressions = $aRow[4]; 
+                        $oWebsiteStat->p_website_id = $aRow[0];
+                        $oWebsiteStat->height = $aRow[1];
+                        $oWebsiteStat->width = $aRow[2];
+                        $oWebsiteStat->date_time = $aRow[3];
+                        $oWebsiteStat->impressions = $aRow[4];
                         $oWebsiteStat->revenue = $aRow[5];
-                        $oWebsiteStat->insert();  
+                        $oWebsiteStat->insert();
                     }
                     else {
-                        OA::debug('Invalid amount of statistics items returned: ' . 
+                        OA::debug('Invalid amount of statistics items returned: ' .
                              $aLines[$i]);
                     }
                 }
@@ -106,7 +92,7 @@ class Plugins_MaintenaceStatisticsTask_oxMarketMaintenance_ImportMarketStatistic
                 if ($supports_transactions) {
                     $oDB->commit();
                 }
-            } 
+            }
             catch (Exception $e) {
                 if ($supports_transactions) {
                     $oDB->rollback();

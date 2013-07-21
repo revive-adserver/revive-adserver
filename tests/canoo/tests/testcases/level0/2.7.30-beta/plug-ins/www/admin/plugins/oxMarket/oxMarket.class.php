@@ -2,27 +2,12 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id: oxMarket.class.php 32560 2009-02-18 13:56:17Z bernard.lange $
 */
 
 require_once LIB_PATH.'/Plugin/Component.php';
@@ -352,13 +337,13 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     function afterLogin()
     {
         //show only to unregistered users and those who are linked to admin
-        if ($this->isRegistered() || !OA_Permission::isUserLinkedToAdmin()) { 
+        if ($this->isRegistered() || !OA_Permission::isUserLinkedToAdmin()) {
             return;
         }
-        
+
         $this->scheduleRegisterNotification();
-                
-        // Only splash if not shown already 
+
+        // Only splash if not shown already
         if (empty($GLOBALS['installing']) && !$this->isSplashAlreadyShown()) {
             OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-info.php');
             exit;
@@ -676,45 +661,45 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         if (!$this->isRegistered()) {
             $this->scheduleRegisterNotification();
         }
-        
+
         try {
             $this->updateAllWebsites();
         } catch (Exception $e) {
             OA::debug('oxMarket on Enable - exception occured: [' . $e->getCode() .'] '. $e->getMessage());
         }
-        
+
         return true; // we allow to enable plugin
     }
-    
-    
+
+
     function onDisable()
     {
         $this->removeRegisterNotification();
-        
+
         return true;
     }
-    
+
 
     function scheduleRegisterNotification()
     {
         $oNotificationManager = OA_Admin_UI::getInstance()->getNotificationManager();
         $oNotificationManager->removeNotifications('oxMarketRegister'); //avoid duplicates
-        
+
         $url = MAX::constructURL(MAX_URL_ADMIN, 'plugins/' . $this->group . '/market-index.php');
         $oNotificationManager->queueNotification(
             'Earn more revenue by activating OpenX Market for your ad server.<br>
             <a href="'.$url.'">Get started now &raquo;</a>', 'info', 'oxMarketRegister');
     }
-        
-    
+
+
     function removeRegisterNotification()
     {
         //clean up the bugging info message
         OA_Admin_UI::getInstance()->getNotificationManager()
             ->removeNotifications('oxMarketRegister');
     }
-    
-    
+
+
     function retrieveCustomContent($pageName)
     {
         require_once MAX_PATH.'/lib/Zend/Http/Client.php';
@@ -723,36 +708,36 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         $pubconsoleLink = $this->getConfigValue('marketHost');
         $customContentUrl = $pubconsoleLink.'/market/content/custom';
         //echo $customContentUrl.'<br>';
-        
+
         $client = new Zend_Http_Client($customContentUrl, array(
             'maxredirects' => 5,
             'timeout'      => 30));
-        
+
         $client = new Zend_Http_Client();
         $client->setUri($customContentUrl);
         $client->setParameterGet(array(
             'pageName'  => urlencode($pageName),
             'adminWebUrl' => urlencode(MAX::constructURL(MAX_URL_ADMIN, ''))
-        ));        
+        ));
         $client->setConfig(array(
             'maxredirects' => 0,
-            'timeout'      => 30));        
+            'timeout'      => 30));
 
         $result = false;
         try {
             $response = $client->request();
             if ($response->isSuccessful()) {
                 $responseText = $response->getBody();
-                $result = $this->parseCustomContent($responseText);   
+                $result = $this->parseCustomContent($responseText);
             }
         }
         catch(Exception $exc) {
             OA::debug('Error during retrieving custom content: ('.$exc->getCode().')'.$exc->getMessage());
         }
-        
+
         return $result;
     }
-    
+
     /**
      * Returns an array with key to value for custom content
      *
@@ -762,25 +747,25 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     function parseCustomContent($responseText)
     {
         require_once dirname(__FILE__) . '/XMLToArray.php';
-        
+
         $xml2a = new XMLToArray();
         $aRoot = $xml2a->parse($responseText);
-        $aContentStrings = array_shift($aRoot["_ELEMENTS"]); 
+        $aContentStrings = array_shift($aRoot["_ELEMENTS"]);
 
         if ($aContentStrings['_NAME'] != 'contentStrings') {
             return false;
         }
-        
+
         $aKeys = array();
         foreach ($aContentStrings["_ELEMENTS"] as $aContentString) {
-             $aKeys[$aContentString['_NAME']] = $aContentString['_DATA']; 
+             $aKeys[$aContentString['_NAME']] = $aContentString['_DATA'];
         }
-        
+
         return $aKeys;
     }
-    
-    
-    
+
+
+
     /**
      * Synchronize status with market and return new status
      *

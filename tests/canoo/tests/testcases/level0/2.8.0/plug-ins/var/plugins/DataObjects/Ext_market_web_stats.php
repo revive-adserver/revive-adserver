@@ -2,27 +2,12 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id: demoUI-page.php 30820 2009-01-13 19:02:17Z andrew.hill $
 */
 
 /**
@@ -68,7 +53,7 @@ class DataObjects_Ext_market_web_stats extends DB_DataObjectCommon
      */
     function getWebsiteStatsByAgencyId($aOption)
     {
-        if (!$this->checkDate($aOption['period_start']) || 
+        if (!$this->checkDate($aOption['period_start']) ||
             !$this->checkDate($aOption['period_end'])) {
             return array();
         }
@@ -145,7 +130,7 @@ class DataObjects_Ext_market_web_stats extends DB_DataObjectCommon
                 return array();
             }
         }
-        if (!$this->checkDate($aOption['period_start']) || 
+        if (!$this->checkDate($aOption['period_start']) ||
             !$this->checkDate($aOption['period_end'])) {
             return array();
         }
@@ -153,7 +138,7 @@ class DataObjects_Ext_market_web_stats extends DB_DataObjectCommon
         $tableName = $this->tableName();
         $orderDir = ($aOption['orderdirection'] == 'down') ? 'DESC' : 'ASC';
         $aOrderOptions = array ('name', 'impressions', 'revenue', 'ecpm' );
-        if (empty($aOption['listorder']) || 
+        if (empty($aOption['listorder']) ||
             !in_array($aOption['listorder'],$aOrderOptions)) {
             $orderClause = 'width, height';
         } else {
@@ -209,7 +194,7 @@ class DataObjects_Ext_market_web_stats extends DB_DataObjectCommon
      */
     function getSizeStatsForAffiliates($aOption)
     {
-        if (!$this->checkDate($aOption['period_start']) || 
+        if (!$this->checkDate($aOption['period_start']) ||
             !$this->checkDate($aOption['period_end'])) {
             return array();
         }
@@ -278,7 +263,7 @@ class DataObjects_Ext_market_web_stats extends DB_DataObjectCommon
 
         return $aResult;
     }
-    
+
     /**
      * Check date if is valid
      * Empty/ null $date is valid!
@@ -289,7 +274,7 @@ class DataObjects_Ext_market_web_stats extends DB_DataObjectCommon
     protected function checkDate($date) {
         if (!empty($date)) {
             $aDate = split('-',$date);
-            if ((count($aDate) != 3) ||  
+            if ((count($aDate) != 3) ||
                 !@checkdate($aDate[1],$aDate[2],$aDate[0])) {
                 return false;
             }

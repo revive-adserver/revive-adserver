@@ -2,27 +2,12 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id: xmlrpc.class.php 30820 2009-01-13 19:02:17Z andrew.hill $
 */
 
 /**
@@ -112,9 +97,9 @@ class Plugins_InvocationTags_OxInvocationTags_xmlrpc extends Plugins_InvocationT
     {
         $aComments = array(
             'Cache Buster Comment' => '',
-            'Third Party Comment'  => '', 
+            'Third Party Comment'  => '',
             'SSL Delivery Comment' => '',
-            'SSL Backup Comment'   => '', 
+            'SSL Backup Comment'   => '',
             'Comment'              => '',
             );
         parent::prepareCommonInvocationData($aComments);
@@ -156,7 +141,7 @@ class Plugins_InvocationTags_OxInvocationTags_xmlrpc extends Plugins_InvocationT
 
                 $buffer .= "<"."?php\n /* " . str_replace(array("\n", '/*', '*/'), array('', '', ''), $mi->buffer);
                 if (!isset($mi->comments) || ($mi->comments == "1")) {
-                    $buffer .= "\n  *"; 
+                    $buffer .= "\n  *";
                     $buffer .= $this->translate("
   * As the PHP script below tries to set cookies, it must be called
   * before any output is sent to the user's browser. Once the script

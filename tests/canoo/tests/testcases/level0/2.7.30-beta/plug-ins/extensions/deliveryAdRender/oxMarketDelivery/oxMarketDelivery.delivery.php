@@ -2,27 +2,12 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id$
 */
 
 /**
@@ -66,25 +51,25 @@ function _marketNeeded($scriptFile, $code, $aAd) {
     if ($scriptFile != 'js' && $scriptFile != 'frame' && $scriptFile != 'singlepagecall') {
         return false;
     }
-    
+
     // Check that this OXP platform is connected to the publisher console
     $aPlatformMarketInfo = OX_cacheGetPlatformMarketInfo();
     if (empty($aPlatformMarketInfo)) {
         return false;
     }
-    
+
     // Check if this campaign has the market enabled
     $aCampaignMarketInfo = OX_cacheGetCampaignMarketInfo($aAd['campaignid']);
     if (empty($aCampaignMarketInfo['is_enabled'])) {
         return false;
     }
-    
+
     // Check if this website is market enabled
     $aWebsiteMarketInfo = OX_cacheGetWebsiteMarketInfo($aAd['affiliate_id']);
     if (empty($aWebsiteMarketInfo['website_id'])) {
         return false;
     }
-    
+
     // If we got this far, then this campaign should be processed for the market
     return array('campaign' => $aCampaignMarketInfo, 'website' => $aWebsiteMarketInfo);
 }
@@ -107,7 +92,7 @@ function OX_marketNeedsAudience()
 function OX_marketProcess($adHtml, $aAd, $aCampaignMarketInfo, $aWebsiteMarketInfo)
 {
     $output = '';
-        
+
     $aConf = $GLOBALS['_MAX']['CONF'];
     if (!empty($adHtml) && !empty($aAd['width']) && !empty($aAd['height'])
         && !empty($aWebsiteMarketInfo['website_id']))
@@ -117,7 +102,7 @@ function OX_marketProcess($adHtml, $aAd, $aCampaignMarketInfo, $aWebsiteMarketIn
 
         $floorPrice = (float) $aCampaignMarketInfo['floor_price'];
 
-        $baseUrl = (!empty($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] != 'off')) ? 'https://' : 'http://'; 
+        $baseUrl = (!empty($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] != 'off')) ? 'https://' : 'http://';
         $baseUrl .= $aConf['oxMarketDelivery']['brokerHost'];
         $urlParams = array(
             'pid=' . $aWebsiteMarketInfo['website_id'],
@@ -294,23 +279,23 @@ function OX_Dal_Delivery_getPlatformMarketInfo($account_id = null)
             return false;
         }
     }
-    
+
     $query = "
         SELECT
             status
         FROM
             {$aConf['table']['prefix']}ext_market_assoc_data
         WHERE
-            account_id = {$account_id}    
+            account_id = {$account_id}
     ";
-    
+
     $res = OA_Dal_Delivery_query($query);
-    
+
     if (is_resource($res)) {
         $aRes = OA_Dal_Delivery_fetchAssoc($res);
         if ($aRes && isset($aRes['status'])) {
             // Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient::LINK_IS_VALID_STATUS === 0
-            return ((int)$aRes['status'] === 0); 
+            return ((int)$aRes['status'] === 0);
         } else {
             return false;
         }

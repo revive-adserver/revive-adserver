@@ -2,27 +2,12 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                             |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id: CampaignsSettings.php 43661 2009-09-23 12:04:04Z stanislaw.osinski $
 */
 
 require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
@@ -33,7 +18,7 @@ require_once MAX_PATH .'/lib/OA/Admin/UI/component/rule/Max.php';
 require_once OX_MARKET_LIB_PATH . '/OX/oxMarket/Dal/CampaignsOptIn.php';
 
 /**
- * 
+ *
  */
 class OX_oxMarket_UI_CampaignsSettings
 {
@@ -46,7 +31,7 @@ class OX_oxMarket_UI_CampaignsSettings
      * @var OX_oxMarket_Dal_CampaignsOptIn
      */
     private $campaignsOptInDal;
-    
+
     private $campaigns;
 
     private $campaignType;
@@ -57,34 +42,34 @@ class OX_oxMarket_UI_CampaignsSettings
     private $defaultMinCpm;
     private $itemsPerPage = 50;
     private $currentPage;
-    
+
     /**
      * Ids of campaigns to opt in.
      */
-    private $toOptIn; 
+    private $toOptIn;
     private $allSelected;
     private $optedCount;
     private $maxCpm;
-    
+
     private $contentKeys;
-    
-    /** 
+
+    /**
      * Numbers of opted in campaigns for tracking reasons. The numbers are calculated
      * when handling the opt in/out POST requests and displayed on the subsequent campaigns
      * list view.
      */
     private $remnantOptedIn;
     private $contractOptedIn;
-    
+
     public function __construct()
     {
         $this->marketComponent = OX_Component::factory('admin', 'oxMarket');
         $this->campaignsOptInDal = new OX_oxMarket_Dal_CampaignsOptIn();
-        
+
         // Get configuration defaults
         $this->defaultMinCpm = $this->marketComponent->getConfigValue('defaultFloorPrice');
         $this->maxCpm = $this->marketComponent->getMaxFloorPrice(); //used for validation purpose only
-        
+
         $this->contentKeys = $this->marketComponent->retrieveCustomContent('market-quickstart');
         if (!$this->contentKeys) {
             $this->contentKeys = array();
@@ -97,12 +82,12 @@ class OX_oxMarket_UI_CampaignsSettings
         phpAds_SessionDataStore();
         return $result;
     }
-    
+
     /**
      * A dispatcher method for handling all requests for the market settings screen.
-     * 
-     * @return a template to display or null if a HTTP redirect has been performed 
-     *      after a successful form submission. 
+     *
+     * @return a template to display or null if a HTTP redirect has been performed
+     *      after a successful form submission.
      */
     public function handleInternal()
     {
@@ -111,20 +96,20 @@ class OX_oxMarket_UI_CampaignsSettings
         if (!$this->marketComponent->isMarketSettingsAlreadyShown()) {
             $this->marketComponent->setMarketSettingsAlreadyShown();
         }
-        
+
         $this->parseRequestParameters();
 
         if ('POST' != $_SERVER['REQUEST_METHOD']) {
-            $this->clearStored();            
+            $this->clearStored();
         }
-        
+
         // Prepare a list of campaigns involved
-        $this->campaigns = $this->campaignsOptInDal->getCampaigns($this->defaultMinCpm, 
-            $this->campaignType, $this->getStoredMinCpms(), $this->search, 
+        $this->campaigns = $this->campaignsOptInDal->getCampaigns($this->defaultMinCpm,
+            $this->campaignType, $this->getStoredMinCpms(), $this->search,
             ($this->descending ? '-' : '') . $this->order);
-            
+
         // For POSTs, perform opt in/out and redirect
-        if ('POST' == $_SERVER['REQUEST_METHOD']) { 
+        if ('POST' == $_SERVER['REQUEST_METHOD']) {
             if (!empty($_REQUEST['action']) && 'refresh' == $_REQUEST['action']) {
                 return $this->displayAjaxList();
             }
@@ -133,58 +118,58 @@ class OX_oxMarket_UI_CampaignsSettings
                     $invalidCpmMessages = $this->validateCpms($this->campaigns);
                     if (empty($invalidCpmMessages)) {
                         $this->performOptIn();
-                        $this->clearStored();            
+                        $this->clearStored();
                         return null;
                     }
                 } elseif(isset($_REQUEST['optOutSubmit'])) {
                     $this->performOptOut();
-                    $this->clearStored();            
+                    $this->clearStored();
                     return null;
                 }
-            } 
+            }
         }
-        
+
         return $this->displayFullList($invalidCpmMessages);
     }
 
-    
+
     private function displayFullList($invalidCpmMessages)
     {
         $template = new OA_Plugin_Template('market-campaigns-settings.html','openXMarket');
         $this->assignCampaignsListModel($template);
         $this->assignContentStrings($template);
-        
+
         if (!empty($invalidCpmMessages)) {
             $hasCpmRateError = false;
             $hasEcpmRateError = false;
             foreach ($invalidCpmMessages as $message) {
-                $hasCpmRateError = $hasCpmRateError || $message[0] == 'compare-rate'; 
-                $hasEcpmRateError = $hasEcpmRateError || $message[0] == 'compare-ecpm'; 
+                $hasCpmRateError = $hasCpmRateError || $message[0] == 'compare-rate';
+                $hasEcpmRateError = $hasEcpmRateError || $message[0] == 'compare-ecpm';
             }
-            
+
             $prefix = '';
             if ($hasCpmRateError || $hasEcpmRateError) {
-                $model = ($hasCpmRateError ? 'CPM' : '') . 
+                $model = ($hasCpmRateError ? 'CPM' : '') .
                          ($hasCpmRateError && $hasEcpmRateError ? ' / ' : '') .
                          ($hasEcpmRateError ? 'eCPM' : '');
-                $prefix = 'For your benefit, we require a campaign\'s floor price to be greater ' . 
+                $prefix = 'For your benefit, we require a campaign\'s floor price to be greater ' .
                           'than or equal to that campaign\'s ' . $model . '.<br />';
             } else {
                 $prefix = 'The specified floor prices contain errors. ';
             }
-            
-            OA_Admin_UI::queueMessage($prefix . 
+
+            OA_Admin_UI::queueMessage($prefix .
                 'To opt in campaigns to OpenX Market, please correct the errors below.', 'local', 'error', 0);
             $template->assign('minCpmsInvalid', $invalidCpmMessages);
         } else {
             // Don't show trackers on validation
             $this->assignTrackers($template);
         }
-        
+
         return $template;
     }
 
-    
+
     private function displayAjaxList()
     {
         $template = new OA_Plugin_Template('market-campaigns-settings-list.html','openXMarket');
@@ -192,11 +177,11 @@ class OX_oxMarket_UI_CampaignsSettings
         $this->assignContentStrings($template);
         return $template;
     }
-    
-    
+
+
 	public function assignCampaignsListModel($template)
     {
-        $template->register_function('ox_campaign_type_tag', 
+        $template->register_function('ox_campaign_type_tag',
             array($this, 'ox_campaign_type_tag_helper'));
 
         // Filtering criteria
@@ -206,11 +191,11 @@ class OX_oxMarket_UI_CampaignsSettings
         // Sorting
         $template->assign('order', $this->order);
         $template->assign('desc', $this->descending);
-        
+
         // Pager
-        $bottomPager = OX_buildPager($this->campaigns, $this->itemsPerPage, true, '', 4, $this->currentPage, 
+        $bottomPager = OX_buildPager($this->campaigns, $this->itemsPerPage, true, '', 4, $this->currentPage,
             'market-campaigns-settings-list.php');
-        $topPager = OX_buildPager($this->campaigns, $this->itemsPerPage, false, '', 4, $this->currentPage, 
+        $topPager = OX_buildPager($this->campaigns, $this->itemsPerPage, false, '', 4, $this->currentPage,
             'market-campaigns-settings-list.php');
         list($itemsFrom, $itemsTo) = $bottomPager->getOffsetByPageId();
         $template->assign('pager', $bottomPager);
@@ -220,10 +205,10 @@ class OX_oxMarket_UI_CampaignsSettings
         // Counts
         $template->assign('allSelected', $this->allSelected);
         $template->assign('allMatchingCount', count($this->campaigns));
-        $this->campaigns =  array_slice($this->campaigns, $itemsFrom - 1, 
+        $this->campaigns =  array_slice($this->campaigns, $itemsFrom - 1,
             $this->itemsPerPage, true);
         $template->assign('showingCount', count($this->campaigns));
-        
+
         // Campaigns
         $template->assign('campaigns', $this->campaigns);
         $toOptInMap = self::arrayValuesToKeys($this->toOptIn);
@@ -234,13 +219,13 @@ class OX_oxMarket_UI_CampaignsSettings
         }
         $template->assign('toOptIn', $toOptInMap);
         $template->assign('selection', $this->getStoredSelection());
-        
+
         // For validation
         $template->assign('maxValueLength', 3 + strlen($this->maxCpm)); //two decimal places, point, plus strlen of maxCPM
-        
+
         // For context help
         $template->assign('defaultMinCpm', $this->defaultMinCpm);
-        
+
         // Plugin version for CSS/JS versioning
         $template->assign('pluginVersion', $this->getPluginVersion());
         $template->assign('cookiePath', $this->marketComponent->getCookiePath());
@@ -249,7 +234,7 @@ class OX_oxMarket_UI_CampaignsSettings
     private function performOptIn()
     {
         $beforeCount = $this->campaignsOptInDal->numberOfOptedCampaigns();
-        
+
         if ($this->allSelected) {
             $updated = $this->campaignsOptInDal->performOptInAll(
                 $this->defaultMinCpm, $this->campaignType, $this->minCpms, $this->search);
@@ -258,11 +243,11 @@ class OX_oxMarket_UI_CampaignsSettings
                 $this->toOptIn, $this->minCpms);
         }
         $this->prepareAfterStatusChangeCounts();
-        
+
         $afterCount = $this->contractOptedIn + $this->remnantOptedIn;
         $actualOptedCount = $afterCount - $beforeCount;
         $updatedCount = $updated - $actualOptedCount;
-    
+
         $message = '';
         if ($actualOptedCount > 0) {
             $message .= 'You have successfully opted <b>' . $actualOptedCount . ' campaign' .
@@ -274,14 +259,14 @@ class OX_oxMarket_UI_CampaignsSettings
         if ($updatedCount > 0)
         {
             $suffix = ($updatedCount != 1 ? 's' : '');
-            $message .= 'Floor price' . $suffix . ' of ' . $updatedCount . ' campaign' . $suffix . 
+            $message .= 'Floor price' . $suffix . ' of ' . $updatedCount . ' campaign' . $suffix .
                 ' ' . ($updatedCount != 1 ? 'have' : 'has') . ' been updated.';
         }
-        OA_Admin_UI::queueMessage($message, 'local', 'confirm', 0);         
+        OA_Admin_UI::queueMessage($message, 'local', 'confirm', 0);
 
         $this->redirect();
     }
-    
+
     private function performOptOut()
     {
         if ($this->allSelected) {
@@ -291,39 +276,39 @@ class OX_oxMarket_UI_CampaignsSettings
             $campaignsOptedOut = $this->campaignsOptInDal->performOptOut($this->toOptIn);
         }
         $this->prepareAfterStatusChangeCounts();
-        
+
         OA_Admin_UI::queueMessage('You have successfully opted out <b>' . $campaignsOptedOut . ' campaign' .
             ($campaignsOptedOut != 1 ? 's' : '') . '</b> of OpenX Market', 'local', 'confirm', 0);
-    
+
         $this->redirect();
     }
-    
-    
+
+
     private function prepareAfterStatusChangeCounts()
     {
         $this->remnantOptedIn = $this->campaignsOptInDal->numberOfOptedCampaigns('remnant');
         $this->contractOptedIn = $this->campaignsOptInDal->numberOfOptedCampaigns('contract');
     }
-    
-    
+
+
 	private function redirect()
     {
         $params = array(
-            'campaignType' => $this->campaignType, 
-            'search' => $this->search, 
-            'order' => $this->order, 
-            'desc' => $this->descending, 
+            'campaignType' => $this->campaignType,
+            'search' => $this->search,
+            'order' => $this->order,
+            'desc' => $this->descending,
             'p' => $this->currentPage,
             'remnantOptedIn' => $this->remnantOptedIn,
             'contractOptedIn' => $this->contractOptedIn
         );
-        
+
         global $session;
         $session['oxMarket-quickstart-params'] = $params;
-        
+
         OX_Admin_Redirect::redirect('plugins/oxMarket/market-campaigns-settings.php');
     }
-    
+
 
     private function parseRequestParameters()
     {
@@ -333,13 +318,13 @@ class OX_oxMarket_UI_CampaignsSettings
         if (!empty($fromRedirecingRequest)) {
             unset($session['oxMarket-quickstart-params']);
         }
-        
+
         // Merge with params from the current request. We explicitly overwrite current
         // request parameters with the ones from session and on the other way round
         // to make sure that the values we pass through the session are not tampered with.
-        $request = array_merge(phpAds_registerGlobalUnslashed('campaignType', 'toOptIn', 
+        $request = array_merge(phpAds_registerGlobalUnslashed('campaignType', 'toOptIn',
                 'search', 'p', 'order', 'desc', 'allSelected'), $fromRedirecingRequest);
-        
+
         $this->campaignType = !empty($request['campaignType']) ? $request['campaignType'] : 'remnant';
         $toOptInMap = isset($request['toOptIn']) ? $request['toOptIn'] : array();
         $this->toOptIn = array();
@@ -351,7 +336,7 @@ class OX_oxMarket_UI_CampaignsSettings
         $this->optedCount = $request['optedCount'];
         $this->search = $request['search'];
         $this->currentPage = $request['p'];
-        
+
         if (!empty($request['order'])) {
             $order = $request['order'];
             if ('optinstatus' == $order || 'name' == $order) {
@@ -363,8 +348,8 @@ class OX_oxMarket_UI_CampaignsSettings
         }
         $this->allSelected = !empty($request['allSelected']) && $request['allSelected'] == 'true';
 
-        $this->remnantOptedIn = $request['remnantOptedIn']; 
-        $this->contractOptedIn = $request['contractOptedIn']; 
+        $this->remnantOptedIn = $request['remnantOptedIn'];
+        $this->contractOptedIn = $request['contractOptedIn'];
 
         $this->minCpms = array();
         foreach ($_REQUEST as $param => $value) {
@@ -389,14 +374,14 @@ class OX_oxMarket_UI_CampaignsSettings
         }
         $this->setStoredSelection($selection);
     }
-    
+
     private function getStoredSelection()
     {
         global $session;
-        return isset($session['oxMarket-quickstart-selection']) ? 
+        return isset($session['oxMarket-quickstart-selection']) ?
             $session['oxMarket-quickstart-selection'] : array();
     }
-    
+
     private function setStoredSelection($selection)
     {
         global $session;
@@ -406,14 +391,14 @@ class OX_oxMarket_UI_CampaignsSettings
             $session['oxMarket-quickstart-selection'] = $selection;
         }
     }
-    
+
     private function getStoredMinCpms()
     {
         global $session;
-        return isset($session['oxMarket-quickstart-mincpms']) ? 
+        return isset($session['oxMarket-quickstart-mincpms']) ?
             $session['oxMarket-quickstart-mincpms'] : array();
     }
-    
+
     private function setStoredMinCpms($minCpms)
     {
         global $session;
@@ -423,33 +408,33 @@ class OX_oxMarket_UI_CampaignsSettings
             $session['oxMarket-quickstart-mincpms'] = $minCpms;
         }
     }
-    
+
     private function clearStored()
     {
         $this->setStoredSelection(null);
         $this->setStoredMinCpms(null);
     }
-    
+
     private function validateCpms($campaigns)
     {
         $zero = false;
         $decimalValidator = new OA_Admin_UI_Rule_DecimalPlaces();
         $maxValidator = new OA_Admin_UI_Rule_Max();
-        
+
         $invalidCpms = array();
         foreach ($this->toOptIn as $campaignId) {
             $value = $_REQUEST['cpm' . $campaignId];
             //is number
             $valueValid = is_numeric($value);
-            
+
             $message = $valueValid ?  null : $this->getValidationMessage('format');
-            
+
             //is greater than zero
             if ($valueValid) {
                 $valueValid = ($value > 0);
                 $message = $valueValid ?  null : $this->getValidationMessage('too-small');
             }
-            //less than arbitrary maxcpm 
+            //less than arbitrary maxcpm
             if ($valueValid) {
                 $valueValid = $maxValidator->validate($value, $this->maxCpm);
                 $message = $valueValid ?  null : $this->getValidationMessage('too-big');
@@ -457,7 +442,7 @@ class OX_oxMarket_UI_CampaignsSettings
             //max 2decimal places?
             if ($valueValid) {
                 $valueValid = $decimalValidator->validate($value, 2);
-                $message = $valueValid ?  null : $this->getValidationMessage('format');                
+                $message = $valueValid ?  null : $this->getValidationMessage('format');
             }
             //not smaller than eCPM or campaigns CPM ('revenue')
             $validateCpms = false;
@@ -493,33 +478,33 @@ class OX_oxMarket_UI_CampaignsSettings
                 break;
             }
             case 'too-big' : {
-                $message = 'Please provide a floor price smaller than ' . self::formatCpm($this->maxCpm); 
+                $message = 'Please provide a floor price smaller than ' . self::formatCpm($this->maxCpm);
                 break;
             }
             case 'compare-ecpm' : {
-                $message = "Please provide a floor price greater than or equal to " . self::formatCpm($value) . " (your campaign's eCPM)."; 
+                $message = "Please provide a floor price greater than or equal to " . self::formatCpm($value) . " (your campaign's eCPM).";
                 break;
             }
             case 'compare-rate' : {
-                $message = "Please provide a floor price greater than or equal to " . self::formatCpm($value) . " (your campaign's specified CPM)."; 
+                $message = "Please provide a floor price greater than or equal to " . self::formatCpm($value) . " (your campaign's specified CPM).";
                 break;
             }
-            
-            case 'format' : 
+
+            case 'format' :
             default : {
-                $message = 'Please provide a floor price as a decimal number with two digit precision'; 
+                $message = 'Please provide a floor price as a decimal number with two digit precision';
             }
         }
-        
+
         return array($cause, $message);
     }
-    
-    
+
+
     public static function formatCpm($cpm)
     {
         return number_format($cpm, 2, '.', '');
     }
-    
+
 
     private function assignContentStrings($template)
     {
@@ -529,8 +514,8 @@ class OX_oxMarket_UI_CampaignsSettings
         $template->assign('floorPriceColumnContextHelp', $this->getContentKeyValue('floor-price-column-context-help'));
         $template->assign('selectAllExplanation', $this->getContentKeyValue('select-all-explanation'));
     }
-    
-    
+
+
     private function assignTrackers($template)
     {
         if (isset($this->remnantOptedIn) && isset($this->contractOptedIn)) {
@@ -545,8 +530,8 @@ class OX_oxMarket_UI_CampaignsSettings
             ));
         }
     }
-    
-    
+
+
     private function assignTracker($template, $key, $replacements)
     {
         $trackerFrame = $this->getContentKeyValue($key);
@@ -556,32 +541,32 @@ class OX_oxMarket_UI_CampaignsSettings
         }
         $template->assign('trackerFrame', $trackerFrame);
     }
-    
-    
+
+
     private function getContentKeyValue($key, $default = '')
     {
-        return isset($this->contentKeys[$key]) ? $this->contentKeys[$key] : $default; 
+        return isset($this->contentKeys[$key]) ? $this->contentKeys[$key] : $default;
     }
-    
-    
+
+
     public function ox_campaign_type_tag_helper($aParams, &$smarty)
     {
         if (isset($aParams['type'])) {
             $type = $aParams['type'];
             $translation = new OX_Translation ();
-            
+
             if ($type == OX_CAMPAIGN_TYPE_CONTRACT_NORMAL) {
                 $class = 'tag-contract';
                 $text = $translation->translate('Contract');
-            } 
+            }
             else {
                 $class = 'tag-remnant';
                 $text = $translation->translate('Remnant');
             }
             $text = strtolower($text);
-            
+
             return '<span class="'.$class.' tag"><span class="t-b"><span class="l-r"><span class="val">'.$text.'</span></span></span></span>';
-        } 
+        }
         else {
             $smarty->trigger_error("t: missing 'type' parameter");
         }
@@ -604,14 +589,14 @@ class OX_oxMarket_UI_CampaignsSettings
         return $result;
     }
 
-    
+
     public function getPluginVersion()
     {
         return $this->marketComponent->getPluginVersion();
     }
-    
-    
-    
+
+
+
     public static function removeSessionCookies($cookiePath)
     {
         // Enable showing the minimum floor price dialog

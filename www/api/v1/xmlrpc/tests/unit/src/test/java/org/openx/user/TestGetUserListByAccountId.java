@@ -1,26 +1,11 @@
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id: TestGetUserListByAccountId.java 16124 2008-02-11 18:16:06Z andrew.hill@openads.org $
 */
 
 package org.openx.user;
@@ -71,7 +56,7 @@ public class TestGetUserListByAccountId extends UserTestCase {
 			MalformedURLException {
 
 		final int usersCount = 3;
-		
+
 		Map<Integer, Map<String, Object>> patternUsersAttributes = new HashMap<Integer, Map<String, Object>>();
 		for (int i = 0; i < usersCount; i++) {
 			Map<String, Object> patternUserAttributes = getUserParams(TEST_DATA_PREFIX + i);
@@ -96,7 +81,7 @@ public class TestGetUserListByAccountId extends UserTestCase {
 					checkParameter((Map) user, LOGIN, patternUserAttributes.get(LOGIN));
 					checkParameter((Map) user, PASSWORD, "");
 					checkParameter((Map) user, DEFAULT_ACCOUNT_ID, patternUserAttributes.get(DEFAULT_ACCOUNT_ID));
-					checkParameter((Map) user, ACTIVE, patternUserAttributes.get(ACTIVE));					
+					checkParameter((Map) user, ACTIVE, patternUserAttributes.get(ACTIVE));
 					deleteUser(userId);
 				}
 			}
@@ -127,14 +112,14 @@ public class TestGetUserListByAccountId extends UserTestCase {
 	 */
 	public void testGetUserListByAccountIdUnknownIdError() throws XmlRpcException,
 			MalformedURLException {
-		
+
 		final Integer accountId = new Integer(111111111);
 		//TODO: Refactor to use unique not existing accountId
 		Object[] XMLMethodParameters = new Object[] { sessionId, accountId };
 		executeGetUserListByAccountIdWithError(XMLMethodParameters, ErrorMessage.getMessage(
 				ErrorMessage.UNKNOWN_ID_ERROR, ACCOUNT_ID));
 	}
-	
+
 	/**
 	 * Test method with fields that has value of wrong type (error).
 	 *

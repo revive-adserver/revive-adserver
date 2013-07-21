@@ -1,26 +1,11 @@
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id$
 */
 
 package org.openx.agency;
@@ -38,7 +23,7 @@ import org.openx.utils.TextUtils;
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>, Pawel Dachterski <pawel.dachterski@openx.org>
  */
 public class TestAddAgency extends AgencyTestCase {
-	
+
 	/**
 	 * Test method with all required fields and some optional.
 	 *
@@ -66,7 +51,7 @@ public class TestAddAgency extends AgencyTestCase {
 	 */
 	public void testAddAgencyAllFields() throws XmlRpcException,
 			MalformedURLException {
-		
+
 		Map<String, Object> struct = new HashMap<String, Object>();
 		struct.put(AGENCY_NAME, "testAgancy");
 		struct.put(CONTACT_NAME, "test");
@@ -86,17 +71,17 @@ public class TestAddAgency extends AgencyTestCase {
 	 */
 	public void testAddAgencyUserFieldWithoutPassword() throws XmlRpcException,
 			MalformedURLException {
-		
+
 		Map<String, Object> addAgencyParameters = new HashMap<String, Object>();
 		addAgencyParameters.put(AGENCY_NAME, "testAgancy");
 		addAgencyParameters.put(CONTACT_NAME, "test");
 		addAgencyParameters.put(EMAIL_ADDRESS, "test@mail.com");
 		addAgencyParameters.put(USER_NAME, "testUserName");
 		Object[] XMLMethodParameters = new Object[] { sessionId, addAgencyParameters };
-		
+
 		executeAddAgencyWithError(XMLMethodParameters, ErrorMessage.getMessage(
 				ErrorMessage.FIELD_IN_STRUCTURE_DOES_NOT_EXISTS, PASSWORD));
-		
+
 	}
 
 	/**
@@ -108,7 +93,7 @@ public class TestAddAgency extends AgencyTestCase {
 	@SuppressWarnings("unchecked")
 	public void testAddAgencyWithManagerUser() throws XmlRpcException,
 			MalformedURLException {
-		
+
 		Map<String, Object> addAgencyParameters = new HashMap<String, Object>();
 		addAgencyParameters.put(AGENCY_NAME, "testAgancy7");
 		addAgencyParameters.put(CONTACT_NAME, "test");
@@ -117,16 +102,16 @@ public class TestAddAgency extends AgencyTestCase {
 		addAgencyParameters.put(PASSWORD, "testPassword");
 		addAgencyParameters.put(USER_EMAIL, "user123@mailinator.com");
 		addAgencyParameters.put(LANGUAGE, "de");
-		
+
 		Object[] XMLMethodParameters = new Object[] { sessionId, addAgencyParameters };
 		final Integer id = (Integer) client.execute(ADD_AGENCY_METHOD,
 				XMLMethodParameters);
-		
+
 		assertNotNull(id);
 
 		Map<String, Object> agency = (Map<String, Object>) execute(
 				GET_AGENCY_METHOD, new Object[] {sessionId, id});
-		
+
 		checkParameter(agency, AGENCY_ID, id);
 		checkParameter(agency, AGENCY_NAME, addAgencyParameters.get(AGENCY_NAME));
 		checkParameter(agency, CONTACT_NAME, addAgencyParameters.get(CONTACT_NAME));
@@ -134,7 +119,7 @@ public class TestAddAgency extends AgencyTestCase {
 
 		deleteAgency(id);
 	}
-	
+
 	/**
 	 * Test method without optional fields (only required).
 	 *

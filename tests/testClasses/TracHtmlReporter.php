@@ -2,27 +2,12 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id: TestRunner.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
 */
 
 /**
@@ -37,7 +22,7 @@ class TracHtmlReporter extends HtmlReporter
     {
         $this->HtmlReporter($character_set);
     }
-    
+
     /**
      *    Paints the top of the web page setting the
      *    title to the name of the starting test.
@@ -72,7 +57,7 @@ class TracHtmlReporter extends HtmlReporter
         print "<h2>$secondary_name</h2>\n";
         flush();
     }
-    
+
     /**
      *    Paints a PHP error or exception.
      *    @param string $message        Message is ignored.
@@ -81,13 +66,13 @@ class TracHtmlReporter extends HtmlReporter
      */
     function paintException($message) {
         $this->_exceptions++;
-        
+
         print "<span class=\"fail\">Exception</span>: ";
         $breadcrumb = $this->getTestList();
         array_shift($breadcrumb);
         print implode(" -&gt; ", $breadcrumb);
         print " -&gt; <strong>" . $this->_htmlEntities($message) . "</strong>";
-        
+
         if (!empty($GLOBALS['_MAX']['CONF']['test']['urlToTracSvnBrowser'])) {
             $pattern = "/in \[(.*)\] line \[(.*)\]/";
             preg_match($pattern, $message, $matches = array());
@@ -103,7 +88,7 @@ class TracHtmlReporter extends HtmlReporter
         }
         print "<br />\n";
     }
-    
+
     /**
      *    Paints the test failure with a breadcrumbs
      *    trail of the nesting test suites below the
@@ -119,7 +104,7 @@ class TracHtmlReporter extends HtmlReporter
         array_shift($breadcrumb);
         print implode(" -&gt; ", $breadcrumb);
         print " -&gt; " . $this->_htmlEntities($message);
-        
+
         if (!empty($GLOBALS['_MAX']['CONF']['test']['urlToTracSvnBrowser'])) {
             $pattern = "/\[(.*)\] with error/";
             preg_match($pattern, $message, $matches = array());
@@ -133,9 +118,9 @@ class TracHtmlReporter extends HtmlReporter
                 print "<img src='images/tutorial.png' border='0'/></a>";
             }
         }
-        
+
         print "<br />\n";
-    }    
+    }
 }
 
 ?>

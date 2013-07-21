@@ -1,26 +1,11 @@
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id$
 */
 
 package org.openx.campaign;
@@ -84,9 +69,9 @@ public class TestModifyCampaign extends CampaignTestCase {
 	@SuppressWarnings("unchecked")
 	public void testModifyCampaignAllReqFields()
 			throws XmlRpcException, MalformedURLException {
-		
+
 		assertNotNull(advertiserId);
-		
+
 		Map<String, Object> myCampaign = new HashMap<String, Object>();
 
 		myCampaign.put(CAMPAIGN_ID, campaignId);
@@ -95,11 +80,11 @@ public class TestModifyCampaign extends CampaignTestCase {
 		myCampaign.put(END_DATE, DateUtils.MAX_DATE_VALUE);
 		myCampaign.put(PRIORITY, 7);
 		myCampaign.put(WEIGHT, -1);
-		
+
 		Object[] XMLRPCMethodParameters = new Object[] { sessionId, myCampaign };
 		final boolean result = (Boolean) execute(MODIFY_CAMPAIGN_METHOD, XMLRPCMethodParameters);
 		assertTrue(result);
-		
+
 		XMLRPCMethodParameters = new Object[] { sessionId, campaignId };
 		final Map<String, Object> campaign = (Map<String, Object>) execute(
 				GET_CAMPAIGN_METHOD, XMLRPCMethodParameters);
@@ -121,9 +106,9 @@ public class TestModifyCampaign extends CampaignTestCase {
 	@SuppressWarnings("unchecked")
 	public void testModifyCampaignWithCappingFields()
 			throws XmlRpcException, MalformedURLException {
-		
+
 		assertNotNull(advertiserId);
-		
+
 		Map<String, Object> myCampaign = new HashMap<String, Object>();
 
 		myCampaign.put(CAMPAIGN_ID, campaignId);
@@ -134,11 +119,11 @@ public class TestModifyCampaign extends CampaignTestCase {
 		myCampaign.put(PRIORITY, 7);
 		myCampaign.put(WEIGHT, -1);
 		myCampaign.put(COMMENTS, "some comments - modify campaign");
-		
+
 		Object[] XMLRPCMethodParameters = new Object[] { sessionId, myCampaign };
 		final boolean result = (Boolean) execute(MODIFY_CAMPAIGN_METHOD, XMLRPCMethodParameters);
 		assertTrue(result);
-		
+
 		XMLRPCMethodParameters = new Object[] { sessionId, campaignId };
 		final Map<String, Object> campaign = (Map<String, Object>) execute(
 				GET_CAMPAIGN_METHOD, XMLRPCMethodParameters);
@@ -153,7 +138,7 @@ public class TestModifyCampaign extends CampaignTestCase {
 		checkParameter(campaign, WEIGHT, myCampaign.get(WEIGHT));
 		checkParameter(campaign, COMMENTS, myCampaign.get(COMMENTS));
 	}
-	
+
 	/**
 	 * Test method with all required fields.
 	 *
@@ -164,9 +149,9 @@ public class TestModifyCampaign extends CampaignTestCase {
 	@SuppressWarnings("unchecked")
 	public void testModifyCampaignWithoutBeginAndEnd()
 			throws XmlRpcException, MalformedURLException {
-		
+
 		assertNotNull(advertiserId);
-		
+
 		Map<String, Object> myCampaign = new HashMap<String, Object>();
 
 		myCampaign.put(CAMPAIGN_ID, campaignId);
@@ -175,11 +160,11 @@ public class TestModifyCampaign extends CampaignTestCase {
 		myCampaign.put(END_DATE, DateUtils.ZERO_DATE);
 		myCampaign.put(PRIORITY, 7);
 		myCampaign.put(WEIGHT, -1);
-		
+
 		Object[] XMLRPCMethodParameters = new Object[] { sessionId, myCampaign };
 		final boolean result = (Boolean) client.execute(MODIFY_CAMPAIGN_METHOD, XMLRPCMethodParameters);
 		assertTrue(result);
-		
+
 		XMLRPCMethodParameters = new Object[] { sessionId, campaignId };
 		final Map<String, Object> campaign = (Map<String, Object>) execute(
 				GET_CAMPAIGN_METHOD, XMLRPCMethodParameters);
@@ -191,7 +176,7 @@ public class TestModifyCampaign extends CampaignTestCase {
 		checkParameter(campaign, PRIORITY, myCampaign.get(PRIORITY));
 		checkParameter(campaign, WEIGHT, myCampaign.get(WEIGHT));
 	}*/
-	
+
 	/**
 	 * Test method with all required fields and some optional.
 	 *
@@ -201,9 +186,9 @@ public class TestModifyCampaign extends CampaignTestCase {
 	@SuppressWarnings("unchecked")
 	public void testModifyCampaignAllReqFieldsAndSomeOptional()
 			throws XmlRpcException, MalformedURLException {
-		
+
 		assertNotNull(advertiserId);
-		
+
 		Map<String, Object> myCampaign = new HashMap<String, Object>();
 
 		myCampaign.put(CAMPAIGN_ID, campaignId);
@@ -217,11 +202,11 @@ public class TestModifyCampaign extends CampaignTestCase {
 		myCampaign.put(TARGET_CONVERSIONS, 10);
 		myCampaign.put(REVENUE, 2.33);
 		myCampaign.put(REVENUE_TYPE, 1);
-		
+
 		Object[] XMLRPCMethodParameters = new Object[] { sessionId, myCampaign };
 		final boolean result = (Boolean) execute(MODIFY_CAMPAIGN_METHOD, XMLRPCMethodParameters);
 		assertTrue(result);
-		
+
 		XMLRPCMethodParameters = new Object[] { sessionId, campaignId };
 		final Map<String, Object> campaign = (Map<String, Object>) execute(
 				GET_CAMPAIGN_METHOD, XMLRPCMethodParameters);
@@ -238,7 +223,7 @@ public class TestModifyCampaign extends CampaignTestCase {
 		checkParameter(campaign, REVENUE, myCampaign.get(REVENUE));
 		checkParameter(campaign, REVENUE_TYPE, myCampaign.get(REVENUE_TYPE));
 	}
-	
+
 	/**
 	 * Test method without some required fields.
 	 *

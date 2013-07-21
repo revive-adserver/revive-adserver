@@ -2,27 +2,12 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id: market-preferences-website.php 41709 2009-08-19 10:21:41Z bernard.lange $
 */
 
 require_once 'market-common.php';
@@ -59,8 +44,8 @@ function processMarketplacePreferences($affiliateId, $aType, $aAttribute, $aCate
     else {
             OA_Admin_UI::queueMessage('Unable to update website settings', 'local', 'error', 0);
     }
-    
-    OX_Admin_Redirect::redirect('plugins/' . $oComponent->group . '/market-preferences-website.php?affiliateid='.$affiliateId);    
+
+    OX_Admin_Redirect::redirect('plugins/' . $oComponent->group . '/market-preferences-website.php?affiliateid='.$affiliateId);
 }
 
 function displayPage($affiliateid, &$oComponent)
@@ -68,7 +53,7 @@ function displayPage($affiliateid, &$oComponent)
     $oUI = OA_Admin_UI::getInstance();
     $oUI->registerStylesheetFile(MAX::constructURL(
         MAX_URL_ADMIN, 'plugins/oxMarket/css/ox.market.css?v=' . htmlspecialchars($oComponent->getPluginVersion())));
-    
+
     phpAds_PageHeader("market-preferences-website",'','../../');
     $oTpl    = new OA_Plugin_Template('market-preferences-website.html','openXMarket');
 
@@ -104,7 +89,7 @@ function displayPage($affiliateid, &$oComponent)
     $oTpl->assign('aAdCategories', $aAdCatCols);
     $oTpl->assign('affiliateId', $affiliateid);
     $oTpl->assign('pluginVersion', $oComponent->getPluginVersion());
-    
+
 
     $oTpl->display();
 

@@ -2,27 +2,12 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id$
 */
 
 // Require the initialisation file
@@ -114,21 +99,21 @@ if (isset($oComponent) && $oComponent->enabled) {
 }
 
 if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
-    $clients = $dalClients->getAllAdvertisers($listorder, $orderdirection, 
+    $clients = $dalClients->getAllAdvertisers($listorder, $orderdirection,
         null, $aInludeSystemTypes);
     if ($hideinactive) {
         $campaigns = $dalCampaigns->getAllCampaigns($listorder, $orderdirection);
         $banners = $dalBanners->getAllBanners($listorder, $orderdirection);
     }
-} 
+}
 elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     $agency_id = OA_Permission::getEntityId();
-    $clients = $dalClients->getAllAdvertisersForAgency($agency_id, $listorder, 
+    $clients = $dalClients->getAllAdvertisersForAgency($agency_id, $listorder,
         $orderdirection, $aInludeSystemTypes);
     if ($hideinactive) {
-        $campaigns = $dalCampaigns->getAllCampaignsUnderAgency($agency_id, $listorder, 
+        $campaigns = $dalCampaigns->getAllCampaignsUnderAgency($agency_id, $listorder,
             $orderdirection);
-        $banners = $dalBanners->getAllBannersUnderAgency($agency_id, $listorder, 
+        $banners = $dalBanners->getAllBannersUnderAgency($agency_id, $listorder,
             $orderdirection);
         foreach ($banners as &$banner) {
             $banner['status'] = $banner['active'];
@@ -142,36 +127,36 @@ $aCount = array(
 );
 
 
-if ($hideinactive && !empty($clients) && !empty($campaigns) && 
+if ($hideinactive && !empty($clients) && !empty($campaigns) &&
     !empty($banners)) {
 
     // Build Tree
     foreach ($banners as $bkey => $banner) {
-        if (_isBannerAssignedToCampaign($banner) && 
+        if (_isBannerAssignedToCampaign($banner) &&
             (OA_ENTITY_STATUS_RUNNING == $banner['status'])) {
 
-            $campaigns[$banner['campaignid']]['has_active_banners'] = true; 
+            $campaigns[$banner['campaignid']]['has_active_banners'] = true;
         }
     }
-            
+
     foreach ($campaigns as $ckey => $campaign) {
-        if ((OA_ENTITY_STATUS_RUNNING == $campaign['status']) && 
+        if ((OA_ENTITY_STATUS_RUNNING == $campaign['status']) &&
             array_key_exists('has_active_banners', $campaign)) {
-                
-            $clients[$campaign['clientid']]['has_active_campaigns'] = 
+
+            $clients[$campaign['clientid']]['has_active_campaigns'] =
                 true;
         }
     }
-    
+
     foreach (array_keys($clients) as $clientid) {
         $client = &$clients[$clientid];
-        
+
         if (!array_key_exists('has_active_campaigns', $client)
             // we do not hide the Market advertiser
             && $client['type'] != DataObjects_Clients::ADVERTISER_TYPE_MARKET) {
             unset($clients[$clientid]);
             $aCount['advertisers_hidden']++;
-        } 
+        }
     }
 }
 

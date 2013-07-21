@@ -1,26 +1,11 @@
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| ======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                 |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id$
 */
 
 package org.openx.zone;
@@ -44,7 +29,7 @@ public class TestZoneLinkBanner extends ZoneTestCase {
 
 	protected Integer zoneId = null;
 	protected Integer bannerId = null;
-	
+
 	protected void setUp() throws Exception {
 		super.setUp();
 
@@ -59,7 +44,7 @@ public class TestZoneLinkBanner extends ZoneTestCase {
 
 		super.tearDown();
 	}
-	
+
 	/**
 	 * Execute test method with error
 	 *
@@ -71,7 +56,7 @@ public class TestZoneLinkBanner extends ZoneTestCase {
 	 */
 	private void executeLinkBannerWithError(Object[] params, String errorMsg)
 		throws MalformedURLException {
-		
+
 		try {
 			execute(ZONE_LINK_BANNER_METHOD, params);
 			fail(ErrorMessage.METHOD_EXECUTED_SUCCESSFULLY_BUT_SHOULD_NOT_HAVE);
@@ -89,14 +74,14 @@ public class TestZoneLinkBanner extends ZoneTestCase {
 	 */
 	public void testLinkBannerAllReqAndSomeOptionalFields()
 			throws XmlRpcException, MalformedURLException {
-		
+
 		Object[] XMLRPCMethodParameters = new Object[] { sessionId, zoneId, bannerId };
 		final Boolean result = (Boolean) client
 				.execute(ZONE_LINK_BANNER_METHOD, XMLRPCMethodParameters);
-		
+
 		assertTrue(result);
 	}
-	
+
 	/**
 	 * Test method with all required fields and some optional.
 	 *
@@ -105,7 +90,7 @@ public class TestZoneLinkBanner extends ZoneTestCase {
 	 */
 	public void testLinkBannerTxtWithZoneTxt()
 			throws XmlRpcException, MalformedURLException {
-		
+
 		Map<String, Object> zoneParams = getZoneParams("txt");
 		zoneParams.put(TYPE, 3);
 		zoneParams.put(PUBLISHER_ID, publisherId);
@@ -114,14 +99,14 @@ public class TestZoneLinkBanner extends ZoneTestCase {
 		bannerParams.put(STORAGE_TYPE, STORAGE_TYPES[4]);
 		bannerParams.put(CAMPAIGN_ID, campaignId);
 		int bannerId = createBanner(bannerParams);
-		
+
 		((XmlRpcClientConfigImpl) client.getClientConfig())
 				.setServerURL(new URL(GlobalSettings.getServiceUrl()));
-		
+
 		Object[] XMLRPCMethodParameters = new Object[] { sessionId, zoneId, bannerId };
 		final Boolean result = (Boolean) client
 				.execute(ZONE_LINK_BANNER_METHOD, XMLRPCMethodParameters);
-		
+
 		assertTrue(result);
 	}
 
@@ -133,16 +118,16 @@ public class TestZoneLinkBanner extends ZoneTestCase {
 	 */
 	public void testLinkBannerOnceAgain()
 			throws XmlRpcException, MalformedURLException {
-		
+
 		Object[] XMLRPCMethodParameters = new Object[] { sessionId, zoneId, bannerId };
 		client.execute(ZONE_LINK_BANNER_METHOD, XMLRPCMethodParameters);
 		//TODO: Add expected behavior from https://developer.openx.org/jira/browse/OX-3296
 		final Boolean result = (Boolean) client
 				.execute(ZONE_LINK_BANNER_METHOD, XMLRPCMethodParameters);
-		
+
 		assertTrue(result);
 	}
-	
+
 	/**
 	 * Test methods for Unknown ID Error, described in API
 	 *
@@ -151,7 +136,7 @@ public class TestZoneLinkBanner extends ZoneTestCase {
 	 */
 	public void testLinkBannerUnknownZoneIdError() throws MalformedURLException,
 			XmlRpcException {
-		
+
 		Integer zoneId = createZone();
 		assertNotNull(zoneId);
 		deleteZone(zoneId);
@@ -170,7 +155,7 @@ public class TestZoneLinkBanner extends ZoneTestCase {
 	 */
 	public void testLinkBannerUnknownBannerIdError() throws MalformedURLException,
 			XmlRpcException {
-		
+
 		Integer bannerId = createBanner();
 		assertNotNull(bannerId);
 		deleteBanner(bannerId);
@@ -180,7 +165,7 @@ public class TestZoneLinkBanner extends ZoneTestCase {
 		executeLinkBannerWithError(XMLRPCMethodParameters, ErrorMessage.getMessage(
 				ErrorMessage.UNKNOWN_ID_ERROR, BANNER_ID));
 	}
-	
+
 	/**
 	 * Test method with fields that has value of wrong type (error).
 	 *
@@ -189,13 +174,13 @@ public class TestZoneLinkBanner extends ZoneTestCase {
 	 */
 	public void testLinkBannerBannerIdWrongTypeError() throws MalformedURLException,
 			XmlRpcException {
-		
+
 		Object[] XMLRPCMethodParameters = new Object[] { sessionId, zoneId, TextUtils.NOT_INTEGER };
 
 		executeLinkBannerWithError(XMLRPCMethodParameters, ErrorMessage.getMessage(
 				ErrorMessage.INCORRECT_PARAMETERS_WANTED_INT_GOT_STRING, "3"));
 	}
-	
+
 	/**
 	 * Test method with fields that has value of wrong type (error).
 	 *
@@ -210,7 +195,7 @@ public class TestZoneLinkBanner extends ZoneTestCase {
 		executeLinkBannerWithError(XMLRPCMethodParameters, ErrorMessage.getMessage(
 				ErrorMessage.INCORRECT_PARAMETERS_WANTED_INT_GOT_STRING, "2"));
 	}
-	
+
 	/**
 	 * Test method with fields that has value of wrong type (error).
 	 *
@@ -226,7 +211,7 @@ public class TestZoneLinkBanner extends ZoneTestCase {
 		executeLinkBannerWithError(XMLRPCMethodParameters, ErrorMessage.getMessage(
 				ErrorMessage.WORNG_BANNER_SIZE));
 	}
-	
+
 	/**
 	 * Test method with wrong sessionId.
 	 *

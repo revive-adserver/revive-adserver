@@ -2,27 +2,12 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id: market-info.php 31111 2009-01-20 13:41:50Z bernard.lange $
 */
 
 require_once 'market-common.php';
@@ -43,7 +28,7 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 
     $pageUrl = 'http'.((isset($_SERVER["HTTPS"]) && ($_SERVER["HTTPS"] == "on")) ? 's' : '').'://';
     $pageUrl .= getHostNameWithPort().$_SERVER['REQUEST_URI'];
-    
+
     //header
     phpAds_PageHeader("openx-market",'','../../');
 
@@ -53,7 +38,7 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
     $oTpl->assign('pubconsoleHost', $oMarketComponent->getConfigValue('marketHost'));
     $oTpl->assign('isRegistered', $oMarketComponent->isRegistered());
     $oTpl->assign('pageUrl', urlencode($pageUrl));
-        
+
     $oTpl->display();
 
     //footer

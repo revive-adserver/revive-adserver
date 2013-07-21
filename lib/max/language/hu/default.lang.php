@@ -2,29 +2,13 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id$
 */
-
 
 // Set text direction and characterset
 $GLOBALS['phpAds_TextDirection']  		= "ltr";
@@ -61,7 +45,7 @@ $GLOBALS['strInvocationcode']			= "Beillesztő programkód";
 $GLOBALS['strBasicInformation'] 		= "Alapinformáció";
 $GLOBALS['strContractInformation'] 		= "Megállapodás adatai";
 $GLOBALS['strLoginInformation'] 		= "Belépési információk";
-$GLOBALS['strOverview']				= "�?ttekintés";
+$GLOBALS['strOverview']				= "�?ttekintés";
 $GLOBALS['strSearch']				= "Kere<u>s</u>és";
 $GLOBALS['strHistory']				= "Előzmények";
 $GLOBALS['strPreferences'] 			= "Preferenciák";
@@ -97,8 +81,8 @@ $GLOBALS['strUnknown']				= "Ismeretlen";
 $GLOBALS['strUnlimited'] 			= "Korlátlan";
 $GLOBALS['strUntitled']				= "Címtelen";
 $GLOBALS['strAll'] 				= "Összes";
-$GLOBALS['strAvg'] 				= "�?tlag";
-$GLOBALS['strAverage']				= "�?tlag";
+$GLOBALS['strAvg'] 				= "�?tlag";
+$GLOBALS['strAverage']				= "�?tlag";
 $GLOBALS['strOverall'] 				= "Teljes";
 $GLOBALS['strTotal'] 				= "Összesen";
 $GLOBALS['strActive'] 				= "aktív";
@@ -162,8 +146,8 @@ $GLOBALS['strNewPassword']			= "Új jelszó";
 // General advertising
 $GLOBALS['strViews'] 				= "Letöltés";
 $GLOBALS['strClicks']				= "Kattintás";
-$GLOBALS['strCTRShort'] 			= "�?tkattintás";
-$GLOBALS['strCTR'] 				= "�?tkattintás";
+$GLOBALS['strCTRShort'] 			= "�?tkattintás";
+$GLOBALS['strCTR'] 				= "�?tkattintás";
 $GLOBALS['strTotalViews'] 			= "Összes letöltés";
 $GLOBALS['strTotalClicks'] 			= "Összes kattintás";
 $GLOBALS['strViewCredits'] 			= "Megjelenési keret";
@@ -183,7 +167,7 @@ $GLOBALS['strThisMonth'] 			= "E hónap";
 $GLOBALS['strMonth'][0] = "Január";
 $GLOBALS['strMonth'][1] = "Február";
 $GLOBALS['strMonth'][2] = "Március";
-$GLOBALS['strMonth'][3] = "�?prilis";
+$GLOBALS['strMonth'][3] = "�?prilis";
 $GLOBALS['strMonth'][4] = "Május";
 $GLOBALS['strMonth'][5] = "Június";
 $GLOBALS['strMonth'][6] = "Július";
@@ -246,7 +230,7 @@ $GLOBALS['strAddCampaign'] 			= "Új kampány";
 $GLOBALS['strAddCampaign_Key'] 		= "Ú<u>j</u> kampány";
 $GLOBALS['strCreateNewCampaign']		= "Új kampány létrehozása";
 $GLOBALS['strModifyCampaign']			= "Kampány módosítása";
-$GLOBALS['strMoveToNewCampaign']		= "�?thelyezés új kampányba";
+$GLOBALS['strMoveToNewCampaign']		= "�?thelyezés új kampányba";
 $GLOBALS['strBannersWithoutCampaign']		= "Kampány nélküli reklámok";
 $GLOBALS['strDeleteAllCampaigns']		= "Minden kampány törlése";
 $GLOBALS['strCampaignStats']			= "Kampány statisztika";
@@ -399,7 +383,7 @@ $GLOBALS['strAffiliateProperties']		= "Kiadó tulajdonságai";
 $GLOBALS['strAffiliateOverview']		= "Kiadó áttekintése";
 $GLOBALS['strAffiliateHistory']			= "Kiadó előzményei";
 $GLOBALS['strZonesWithoutAffiliate']		= "Kiadó nélküli zónák";
-$GLOBALS['strMoveToNewAffiliate']		= "�?thelyezés új kiadóhoz";
+$GLOBALS['strMoveToNewAffiliate']		= "�?thelyezés új kiadóhoz";
 $GLOBALS['strNoAffiliates']			= "Jelenleg nincsenek kiadók";
 $GLOBALS['strConfirmDeleteAffiliate']		= "Valóban törli ezt a kiadót?";
 $GLOBALS['strMakePublisherPublic']		= "A kiadóhoz tartozó zónák nyilvánossá tétele";
@@ -509,7 +493,7 @@ $GLOBALS['strNoTargetStats']		= "Jelenleg nincs statisztika a célkijelölésrő
 
 
 // Hosts
-$GLOBALS['strHosts']				= "�?llomások";
+$GLOBALS['strHosts']				= "�?llomások";
 $GLOBALS['strTopHosts'] 			= "Népszerű kérő állomások";
 $GLOBALS['strTopCountries'] 		= "Népszerű kérő országok";
 $GLOBALS['strRecentHosts'] 			= "Legutóbbi kérő állomások";
@@ -551,9 +535,9 @@ $GLOBALS['strLogErrorClients'] 			= "[phpAds] Hiba történt a hirdetők adatbá
 $GLOBALS['strLogErrorBanners'] 			= "[phpAds] Hiba történt a reklámok adatbázisból történő kiolvasásakor.";
 $GLOBALS['strLogErrorViews'] 			= "[phpAds] Hiba történt a reklámletöltések adatbázisból történő kiolvasásakor.";
 $GLOBALS['strLogErrorClicks'] 			= "[phpAds] Hiba történt a kattintások adatbázisból történő kiolvasásakor.";
-$GLOBALS['strErrorViews'] 			= "�?rja be a letöltések számát, vagy jelölje be a korlátlan jelölőnégyzetet !";
+$GLOBALS['strErrorViews'] 			= "�?rja be a letöltések számát, vagy jelölje be a korlátlan jelölőnégyzetet !";
 $GLOBALS['strErrorNegViews'] 			= "A negatív letöltések nem engedélyezettek";
-$GLOBALS['strErrorClicks'] 			= "�?rja be a kattintások számát, vagy jelölje be a korlátlan jelölőnégyzetet !";
+$GLOBALS['strErrorClicks'] 			= "�?rja be a kattintások számát, vagy jelölje be a korlátlan jelölőnégyzetet !";
 $GLOBALS['strErrorNegClicks'] 			= "A negatív kattintások nem engedélyezettek";
 $GLOBALS['strNoMatchesFound']			= "Nincs találat";
 $GLOBALS['strErrorOccurred']			= "Hiba történt";
@@ -601,7 +585,7 @@ $GLOBALS['strPriority']				= "Prioritás";
 
 // Settings
 $GLOBALS['strSettings'] 			= "Beállítások";
-$GLOBALS['strGeneralSettings']			= "�?ltalános beállítások";
+$GLOBALS['strGeneralSettings']			= "�?ltalános beállítások";
 $GLOBALS['strMainSettings']			= "Alapbeállítások";
 $GLOBALS['strAdminSettings']			= "Adminisztrációs beállítások";
 
@@ -702,15 +686,15 @@ $GLOBALS['strTrackerCodeSubject'] = "Követő kód hozzáadása";
 $GLOBALS['strCampaignStop'] = "Kampány név";
 $GLOBALS['strCheckForUpdates'] = "Elérhető frissítések keresése";
 $GLOBALS['strImpressionSR'] = "Megjelenés";
-$GLOBALS['strGlobalSettings'] = "�?ltalános beállítások";
-$GLOBALS['strFinanceCTR'] = "�?tkattintás";
+$GLOBALS['strGlobalSettings'] = "�?ltalános beállítások";
+$GLOBALS['strFinanceCTR'] = "�?tkattintás";
 $GLOBALS['strAdvertiserCampaigns'] = "Hirdetők és kampányok";
 $GLOBALS['strCampaignStatusInactive'] = "aktív";
 $GLOBALS['strCampaignType'] = "Kampány név";
 $GLOBALS['strActualImpressions'] = "Megjelenés";
 $GLOBALS['strID_short'] = "Azonosító";
 $GLOBALS['strClicks_short'] = "Kattintás";
-$GLOBALS['strCTR_short'] = "�?tkattintás";
+$GLOBALS['strCTR_short'] = "�?tkattintás";
 $GLOBALS['strSite'] = "Méret";
 $GLOBALS['strYouHaveNoCampaigns'] = "Hirdetők és kampányok";
 $GLOBALS['strSyncSettings'] = "Szinkronizációs beállítások";
@@ -719,12 +703,12 @@ $GLOBALS['strTimezoneInformation'] = "Időzona információk (Az időzona válto
 $GLOBALS['strDebugSettings'] = "Hibakereső naplózás";
 $GLOBALS['strDeliveryBanner'] = "Globális banner kézbesítési beállítások";
 $GLOBALS['strIncovationDefaults'] = "Követelések alapértelmezett beállításai";
-$GLOBALS['strStatisticsLogging'] = "�?ltalános Statisztikai Naplózás beállítások";
-$GLOBALS['strMaintenaceSettings'] = "�?ltalános karbantartási beállítások";
+$GLOBALS['strStatisticsLogging'] = "�?ltalános Statisztikai Naplózás beállítások";
+$GLOBALS['strMaintenaceSettings'] = "�?ltalános karbantartási beállítások";
 $GLOBALS['strMaintenanceCompactStats'] = "Töröljük a nyers statisztikai adatokat a feldolgozás után";
 $GLOBALS['strMaintenanceCompactStatsGrace'] = "A törlés kegyelmi ideje az adatok feldolgozása után (másodpercben)";
 $GLOBALS['strWarnCompactStatsGrace'] = "A statisztika tömörítés kegyelmi ideje csak pozitív egész lehet";
-$GLOBALS['strClick-ThroughRatio'] = "�?tkattintási arány";
+$GLOBALS['strClick-ThroughRatio'] = "�?tkattintási arány";
 $GLOBALS['strImpressionSRShort'] = "Megjelenés";
 $GLOBALS['strClicksShort'] = "Kattintás";
 $GLOBALS['strImpressionsShort'] = "Megjelenés";
@@ -734,5 +718,5 @@ $GLOBALS['str_ID'] = "Azonosító";
 $GLOBALS['str_Requests'] = "Kérések";
 $GLOBALS['str_Impressions'] = "Megjelenés";
 $GLOBALS['str_Clicks'] = "Kattintás";
-$GLOBALS['str_CTR'] = "�?tkattintás";
+$GLOBALS['str_CTR'] = "�?tkattintás";
 ?>

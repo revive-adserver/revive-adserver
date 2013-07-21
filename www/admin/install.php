@@ -1,28 +1,15 @@
 <?php
+
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                             |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                            |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id$
 */
+
 global $installing;
 $installing = true;
 define('phpAds_installing', true);
@@ -47,33 +34,33 @@ class Installer
     public function startMVC()
     {
         $oRequest = new OX_Admin_UI_Controller_Request();
-        
+
         //setup controller
         $oController = $this->createController();
         ob_start();
-        $oController->process($oRequest); 
+        $oController->process($oRequest);
         $actionContent = ob_get_contents();
         ob_end_clean();
-        
+
         //create view
         if ($oController->hasViewScript()) {
             $view = $this->createView($oController->getAction());
             //pass model variables to view
             $oController->assignModelToView($view);
         }
-        
-        
-        
+
+
+
         //LAYOUT
         // setup dummy installer section display
         $oMenu = OA_Admin_Menu::singleton();
         $oMenu->add(new OA_Admin_Menu_Section('install',  '', ''));
-        
+
         if ($oController->hasLayout()) {
             //layout
             $oPageHeader = $oController->getModelProperty('pageHeader');
             phpAds_PageHeader('install', $oPageHeader, $imgPath, false, true, false);
-        }                                
+        }
         if ($view) {
             $view->display();
         }
@@ -85,8 +72,8 @@ class Installer
             echo "<!-- install -->";
         }
     }
-    
-    
+
+
     protected function createView($actionName)
     {
         $view = new OA_Admin_Template($actionName.'-step.html');
@@ -94,11 +81,11 @@ class Installer
         $view->template_dir = $installTemplatesPath;
         $view->assign("oxInstallerTemplateDir", $installTemplatesPath);
         $view->register_function('ox_wizard_steps', array(new OX_UI_WizardSteps(),  'wizardSteps'));
-        
+
         return $view;
     }
-    
-    
+
+
     /**
      * Creates a controller to handle that request
      *

@@ -2,40 +2,24 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id$
 */
 
-
 // Settings help translation strings
-$GLOBALS['phpAds_hlp_dbhost'] = "\n        �?rja be annak a ".$phpAds_dbmsname." adatbázis kiszolgálónak az állomásnevét, melyhez kapcsolódni kíván.\n		";
+$GLOBALS['phpAds_hlp_dbhost'] = "\n        �?rja be annak a ".$phpAds_dbmsname." adatbázis kiszolgálónak az állomásnevét, melyhez kapcsolódni kíván.\n		";
 
-$GLOBALS['phpAds_hlp_dbport'] = "\n        �?rja be a ".$phpAds_dbmsname." adatbázis kiszolgáló portját, melyhez kapcsolódni\n		kíván. A ".$phpAds_dbmsname." adatbázis alapértelmezett port száma <i>" . ($phpAds_dbmsname == 'MySQL' ? '3306' : '5432')."</i>.\n		";
+$GLOBALS['phpAds_hlp_dbport'] = "\n        �?rja be a ".$phpAds_dbmsname." adatbázis kiszolgáló portját, melyhez kapcsolódni\n		kíván. A ".$phpAds_dbmsname." adatbázis alapértelmezett port száma <i>" . ($phpAds_dbmsname == 'MySQL' ? '3306' : '5432')."</i>.\n		";
 
-$GLOBALS['phpAds_hlp_dbuser'] = "\n        �?rja be azt a felhasználónevet, mellyel a ".MAX_PRODUCT_NAME." hozzá tud férni a ".$phpAds_dbmsname." adatbázis kiszolgálóhoz.\n		";
+$GLOBALS['phpAds_hlp_dbuser'] = "\n        �?rja be azt a felhasználónevet, mellyel a ".MAX_PRODUCT_NAME." hozzá tud férni a ".$phpAds_dbmsname." adatbázis kiszolgálóhoz.\n		";
 
-$GLOBALS['phpAds_hlp_dbpassword'] = "\n        �?rja be azt a jelszót, amivel a ".MAX_PRODUCT_NAME." hozzá tud férni a ".$phpAds_dbmsname." adatbázis kiszolgálóhoz.\n		";
+$GLOBALS['phpAds_hlp_dbpassword'] = "\n        �?rja be azt a jelszót, amivel a ".MAX_PRODUCT_NAME." hozzá tud férni a ".$phpAds_dbmsname." adatbázis kiszolgálóhoz.\n		";
 
-$GLOBALS['phpAds_hlp_dbname'] = "\n        �?rja be az adatbázis kiszolgálón lévő annak az adatbáisnak a nevét, ahol a ".MAX_PRODUCT_NAME." tárolni fogja az adatokat.\n		Fontos, hogy előtte hozza létre az adatbázist az adatbázis kiszolgálón. A ".MAX_PRODUCT_NAME." <b>nem</b> hozza létre\n		ezt az adatbázist, ha még nem létezik.\n		";
+$GLOBALS['phpAds_hlp_dbname'] = "\n        �?rja be az adatbázis kiszolgálón lévő annak az adatbáisnak a nevét, ahol a ".MAX_PRODUCT_NAME." tárolni fogja az adatokat.\n		Fontos, hogy előtte hozza létre az adatbázist az adatbázis kiszolgálón. A ".MAX_PRODUCT_NAME." <b>nem</b> hozza létre\n		ezt az adatbázist, ha még nem létezik.\n		";
 
 $GLOBALS['phpAds_hlp_persistent_connections'] = "\n        Az állandó kapcsolat használata jelentősen felgyorsíthatja a ".MAX_PRODUCT_NAME."\n		futását, sőt, a kiszolgáló terhelését is csökkentheti. Van azonban egy hátránya, olyan\n		helyen, melynek sok a látogatója, a kiszolgáló terhelése növekedhet, és nagyobb lesz,\n		mint normál kapcsolatok használatakor. A hagyományos vagy az állandó kapcsolat használata\n		függ a látogatók számától és a használt hardvertől. Ha a ".MAX_PRODUCT_NAME." túl sok\n		erőforrást köt le, akkor előbb vessen egy pillantást erre a beállításra.\n		";
 
@@ -56,7 +40,7 @@ $GLOBALS['phpAds_hlp_content_gzip_compression'] = "\n		A GZIP tartalomtönörít
 
 $GLOBALS['phpAds_hlp_language'] = "\n        Itt választhatja ki a ".MAX_PRODUCT_NAME." által használt alapértelmezett\n				nyelvet. Ez a nyelv alapértelmezettként kerül felhasználásra az adminisztrátor\n				és a hirdető kezelőfelület számára. Ne feledje: az egyes hirdetőknek eltérő\n				nyelvet állíthat be az adminisztrátor kezelőfelületből, és engedélyezhetzi a\n				hirdetőknek, hogy saját maguk váltsák át a nyelvet..\n		";
 
-$GLOBALS['phpAds_hlp_name'] = "\n        �?rja be az ehhez az alkalmazáshoz használni kívánt nevet. Ez a szöveg lesz\n				látható az adminisztrátor és a hirdetű kezelőfelület valamennyi oldalán.\n				Ha üresen (alapértelmezés) hagyja ezt a beállítást, akkor a	".MAX_PRODUCT_NAME."\n				jelenik meg helyette.\n		";
+$GLOBALS['phpAds_hlp_name'] = "\n        �?rja be az ehhez az alkalmazáshoz használni kívánt nevet. Ez a szöveg lesz\n				látható az adminisztrátor és a hirdetű kezelőfelület valamennyi oldalán.\n				Ha üresen (alapértelmezés) hagyja ezt a beállítást, akkor a	".MAX_PRODUCT_NAME."\n				jelenik meg helyette.\n		";
 
 $GLOBALS['phpAds_hlp_company_name'] = "\n        Ez a név kerül felhasználásra a ".MAX_PRODUCT_NAME." által küldött e-mailben.\n		";
 
@@ -88,7 +72,7 @@ $GLOBALS['phpAds_hlp_log_hostname'] = "\n		Ha a statisztikában tárolni kíván
 
 $GLOBALS['phpAds_hlp_log_iponly'] = "\n		A látogató állomásnevének tárolása sok helyet foglal el az adatbázisban. Ha\n		engedélyezi ezt a funkciót, a ".MAX_PRODUCT_NAME." még mindig fogja tárolni\n		az állomást információját, de csak a kevesebb helyet foglaló IP-címet fogja\n		tárolni. Ez a tulajdonság nem működik, ha a kiszolgáló vagy a ".MAX_PRODUCT_NAME."\n		nem adja meg ezt az információt, mert abban az esetben mindig az IP-cím kerül\n		tárolásra.\n		";
 
-$GLOBALS['phpAds_hlp_reverse_lookup'] = "\n		�?ltalában a webkiszolgáló állapítja meg az állomás nevét, de lehet, hogy bizonyos\n		esetekben ki kell kapcsolni. Ha használni kívánja a felhasználók állomásnevét a továbbítási\n		korlátozásokban, és/vagy statisztikát kíván erről vezetni, a kiszolgáló viszont nem\n		szolgáltat ilyen információt, akkor kapcsolja be ezt a tulajdonságot. A látogató\n		állomásnevének megállapítása némi időt vesz igénybe: lassítja a reklámok továbbítását.\n		";
+$GLOBALS['phpAds_hlp_reverse_lookup'] = "\n		�?ltalában a webkiszolgáló állapítja meg az állomás nevét, de lehet, hogy bizonyos\n		esetekben ki kell kapcsolni. Ha használni kívánja a felhasználók állomásnevét a továbbítási\n		korlátozásokban, és/vagy statisztikát kíván erről vezetni, a kiszolgáló viszont nem\n		szolgáltat ilyen információt, akkor kapcsolja be ezt a tulajdonságot. A látogató\n		állomásnevének megállapítása némi időt vesz igénybe: lassítja a reklámok továbbítását.\n		";
 
 $GLOBALS['phpAds_hlp_proxy_lookup'] = "\n		Vannak olyan látogatók, akik proxy kiszolgálón keresztül kapcsolódnak az Internethez.\n		Ebben az esetben a ".MAX_PRODUCT_NAME." megkísérli naplózni a proxy kiszolgáló IP-címét\n		vagy állomásnevét, a felhasználóé helyett. Ha engedélyezi ezt a funkciót, akkor a\n		".MAX_PRODUCT_NAME." megpróbálja a proxy kiszolgáló mögött tartózkodó felhasználó\n		számítógépének IP-címét vagy állomásnevét. Ha nem lehet a látogató pontos címét\n		megkeresni, akkor a proxy kiszolgáló címét használja. Ez a funkció alapértelmezésként\n		nem engedélyezett, mert jelentősen lelassítja a reklámok továbbítását.\n		";
 
@@ -161,10 +145,10 @@ $GLOBALS['phpAds_hlp_type_html_auto'] = "\n        Ha engedélyezi ezt a tulajdo
 
 $GLOBALS['phpAds_hlp_type_html_php'] = "\n        Lehetőség van arra, hogy a ".MAX_PRODUCT_NAME." a HTML-reklámokba ágyazott\n				PHP-kódot hajtson végre. A funkció alapértelmezésként tiltva.\n		";
 
-$GLOBALS['phpAds_hlp_admin'] = "\n        �?rja be az adminisztrátor felhasználónevét. Ezzel a felhasználónévvel\n				jelentkezhet be ön az adminisztrátor kezelőfelületre.\n		";
+$GLOBALS['phpAds_hlp_admin'] = "\n        �?rja be az adminisztrátor felhasználónevét. Ezzel a felhasználónévvel\n				jelentkezhet be ön az adminisztrátor kezelőfelületre.\n		";
 
 $GLOBALS['phpAds_hlp_admin_pw'] =
-$GLOBALS['phpAds_hlp_admin_pw2'] = "\n        �?rja be az adminisztrátor kezelőfelületre történő bejelentkezéshez szükséges\n				jelszót. A gépelési hibák megelőzése céljából kétszer kell beírnia.\n		";
+$GLOBALS['phpAds_hlp_admin_pw2'] = "\n        �?rja be az adminisztrátor kezelőfelületre történő bejelentkezéshez szükséges\n				jelszót. A gépelési hibák megelőzése céljából kétszer kell beírnia.\n		";
 
 $GLOBALS['phpAds_hlp_pwold'] =
 $GLOBALS['phpAds_hlp_pw'] =
@@ -208,7 +192,7 @@ $GLOBALS['phpAds_hlp_gui_hide_inactive'] = "\n		Ha engedélyezi ezt a tulajdons�
 
 $GLOBALS['phpAds_hlp_gui_show_matching'] = "\n		Ha engedélyezi a tulajdonságot, akkor a megfelelő reklám fog megjelenni a\n		<i>Kapcsolt reklámok</i> oldalon, a <i>Kampány kiválasztása</i> módszer kiválasztása\n		esetén. Ez teszi lehetővé, hogy ön megtekinthesse, pontosan mely reklámokat is vegye\n		figyelembe továbbítás céljából kapcsolt kampány esetén. Lehetőség van az egyező\n		reklámok megtekintésére is.\n		";
 
-$GLOBALS['phpAds_hlp_gui_show_parents'] = "\n		Ha engedélyezi ezt a tulajdonságot, akkor a reklámok szülő kampányai láthatók lesznek\n		a <i>Kapcsolt reklámok</i> oldalon a <i>Reklám kiválasztása</i> mód választása esetén.\n		�?gy válik lehetővé az ön számára, hogy a reklám kapcsolása előtt megtekinthesse, melyik\n		reklám melyik kampányhoz is tartozik. Ez azt is jelenti, hogy a reklámok csoportosítása\n		a szülő kampányok alapján történik, és tovább már nem betűrendbe soroltak.\n		";
+$GLOBALS['phpAds_hlp_gui_show_parents'] = "\n		Ha engedélyezi ezt a tulajdonságot, akkor a reklámok szülő kampányai láthatók lesznek\n		a <i>Kapcsolt reklámok</i> oldalon a <i>Reklám kiválasztása</i> mód választása esetén.\n		�?gy válik lehetővé az ön számára, hogy a reklám kapcsolása előtt megtekinthesse, melyik\n		reklám melyik kampányhoz is tartozik. Ez azt is jelenti, hogy a reklámok csoportosítása\n		a szülő kampányok alapján történik, és tovább már nem betűrendbe soroltak.\n		";
 
 $GLOBALS['phpAds_hlp_gui_link_compact_limit'] = "\n		Alapértelmezésként valamennyi létező reklám vagy kampány látható a <i>Kapcsolt reklámok</i>\n		oldalon. Emiatt ez az oldal nagyon hosszú lehet, sokféle reklám található a Nyilvántartóban.\n		Ez a tulajdonság teszi lehetővé oldalon megjelenő objektumok maximális számát. Ha több\n		objektum van, és a reklám kapcsolása különbözőképpen történik, akkor az jelenik meg,\n		amelyik sokkal kevesebb helyet foglal el.\n		";
 

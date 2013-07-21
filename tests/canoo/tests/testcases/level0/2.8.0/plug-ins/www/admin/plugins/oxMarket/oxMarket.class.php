@@ -2,27 +2,12 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id: oxMarket.class.php 34642 2009-04-01 09:21:34Z bernard.lange $
 */
 
 require_once LIB_PATH.'/Plugin/Component.php';
@@ -94,7 +79,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         $aMktEnableGroup[] = $form->createElement('advcheckbox', 'mkt_is_enabled', null, $this->translate("Allow OpenX Market to show ads for this campaign if it beats the CPM below (RECOMMENDED)"), array('id' => 'enable_mktplace'), array("f", "t"));
         $aMktEnableGroup[] = $form->createElement('plugin-custom', 'market-callout', 'oxMarket');
         $form->addGroup($aMktEnableGroup, 'mkt_enabled_group', null);
-        
+
         $aFloorPrice[] = $form->createElement('html', 'floor_price_label', $this->translate("Serve an ad from OpenX Market if it pays higher than this CPM "));
         $aFloorPrice[] = $form->createElement('text', 'floor_price', null, array('class' => 'x-small', 'id' => 'floor_price'));
         $aFloorPrice[] = $form->createElement('static', 'floor_price_usd', $this->translate("USD"));
@@ -352,13 +337,13 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     function afterLogin()
     {
         //show only to unregistered users and those who are linked to admin
-        if ($this->isRegistered() || !OA_Permission::isUserLinkedToAdmin()) { 
+        if ($this->isRegistered() || !OA_Permission::isUserLinkedToAdmin()) {
             return;
         }
-        
+
         $this->scheduleRegisterNotification();
-                
-        // Only splash if not shown already 
+
+        // Only splash if not shown already
         if (empty($GLOBALS['installing']) && !$this->isSplashAlreadyShown()) {
             OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-info.php');
             exit;
@@ -484,9 +469,9 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
 
     function isSsoUserNameAvailable($userName)
     {
-        return $this->oMarketPublisherClient->isSsoUserNameAvailable($userName);    
+        return $this->oMarketPublisherClient->isSsoUserNameAvailable($userName);
     }
-    
+
 
     function getInactiveStatus()
     {
@@ -535,7 +520,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             $menuUrl = $this->buildPubconsoleUrl($this->getConfigValue('marketMenuUrl'));
             $oClient = $this->getHttpClient();
             $oClient->setUri($menuUrl);
-            
+
             $pubAccountId = $this->getAccountId();
             $aRequestParams =  array(
                 $this->getConfigValue('marketAccountIdParamName') => $pubAccountId);
@@ -543,17 +528,17 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
                 $id = urlencode($sectionId); //encode id for special characters eg. spaces
                 $aRequestParams["id"] = $sectionId;
             }
-            $oClient->setParameterGet($aRequestParams);        
-    
+            $oClient->setParameterGet($aRequestParams);
+
             $response = $oClient->request();
             if ($response->isSuccessful()) {
                 $responseText = $response->getBody();
                 $oJson = new Services_JSON();
-                $aPubconsoleNav = $oJson->decode($responseText);                
+                $aPubconsoleNav = $oJson->decode($responseText);
             }
         }
         catch(Exception $exc) {
-            OA::debug('Error during retrieving menu items from pubconsole: ('. 
+            OA::debug('Error during retrieving menu items from pubconsole: ('.
                 $exc->getCode().')'.$exc->getMessage());
         }
 
@@ -689,78 +674,78 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         if (!$this->isRegistered()) {
             $this->scheduleRegisterNotification();
         }
-        
+
         try {
             $this->updateAllWebsites();
         } catch (Exception $e) {
             OA::debug('oxMarket on Enable - exception occured: [' . $e->getCode() .'] '. $e->getMessage());
         }
-        
+
         return true; // we allow to enable plugin
     }
-    
-    
+
+
     function onDisable()
     {
         $this->removeRegisterNotification();
-        
+
         return true;
     }
-    
+
 
     function scheduleRegisterNotification()
     {
         $oNotificationManager = OA_Admin_UI::getInstance()->getNotificationManager();
         $oNotificationManager->removeNotifications('oxMarketRegister'); //avoid duplicates
-        
+
         $url = MAX::constructURL(MAX_URL_ADMIN, 'plugins/' . $this->group . '/market-index.php');
-        
+
         $aContentKeys = $this->retrieveCustomContent('market-messages');
-                
-        $registerMessage = isset($aContentKeys['register-messsage']) 
+
+        $registerMessage = isset($aContentKeys['register-messsage'])
             ? vsprintf($aContentKeys['register-messsage'], array($url))
             : 'Earn more revenue by activating OpenX Market for your ad server.<br>
                 <a href="'.$url.'">Get started now &raquo;</a>';
-        
+
         $oNotificationManager->queueNotification($registerMessage, 'info', 'oxMarketRegister');
     }
-    
-    
+
+
     function updateSSLMessage()
     {
         if (!OX_oxMarket_Common_ConnectionUtils::isSSLAvailable()) {
             $this->scheduleNoSSLWarning();
         }
     }
-    
-    
+
+
     function scheduleNoSSLWarning()
     {
         $aContentKeys = $this->retrieveCustomContent('market-messages');
 
-        $noSSLMessage = isset($aContentKeys['no-ssl-messsage']) 
+        $noSSLMessage = isset($aContentKeys['no-ssl-messsage'])
             ? $aContentKeys['no-ssl-messsage']
-            : 'In order to secure your data, we recommend installing a PHP 
+            : 'In order to secure your data, we recommend installing a PHP
                 extension which supports secure connections (eg. cURL or OpenSSL).
-                See <a href="http://www.openx.org/faq/market">OpenX Market FAQ</a> 
+                See <a href="http://www.openx.org/faq/market">OpenX Market FAQ</a>
                 for more details.';
-            
+
         OA_Admin_UI::queueMessage($noSSLMessage, 'local', 'warning', 0);
     }
-        
-    
+
+
     function removeRegisterNotification()
     {
         //clean up the bugging info message
         OA_Admin_UI::getInstance()->getNotificationManager()
             ->removeNotifications('oxMarketRegister');
     }
-    
-    
+
+
     function retrieveCustomContent($pageName)
     {
         require_once MAX_PATH.'/lib/Zend/Http/Client.php';
-        
+
         $result = false;
         try {
             //connect to pubconsole API and get the custom content for that page
@@ -770,22 +755,22 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             $oClient->setParameterGet(array(
                 'pageName'  => urlencode($pageName),
                 'adminWebUrl' => urlencode(MAX::constructURL(MAX_URL_ADMIN, ''))
-            ));        
-    
+            ));
+
             $response = $oClient->request();
             if ($response->isSuccessful()) {
                 $responseText = $response->getBody();
-                $result = $this->parseCustomContent($responseText);   
+                $result = $this->parseCustomContent($responseText);
             }
         }
         catch(Exception $exc) {
             OA::debug('Error during retrieving custom content: ('.$exc->getCode().')'.$exc->getMessage());
         }
-        
+
         return $result;
     }
-    
-    
+
+
     /**
      * Returns an array with key to value for custom content
      *
@@ -795,24 +780,24 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     function parseCustomContent($responseText)
     {
         require_once dirname(__FILE__) . '/XMLToArray.php';
-        
+
         $xml2a = new XMLToArray();
         $aRoot = $xml2a->parse($responseText);
-        $aContentStrings = array_shift($aRoot["_ELEMENTS"]); 
+        $aContentStrings = array_shift($aRoot["_ELEMENTS"]);
 
         if ($aContentStrings['_NAME'] != 'contentStrings') {
             return false;
         }
-        
+
         $aKeys = array();
         foreach ($aContentStrings["_ELEMENTS"] as $aContentString) {
-             $aKeys[$aContentString['_NAME']] = $aContentString['_DATA']; 
+             $aKeys[$aContentString['_NAME']] = $aContentString['_DATA'];
         }
-        
+
         return $aKeys;
     }
-    
-    
+
+
     /**
      * Builds an url to pubconsole either SSL or HTTP fallback, apends suffix if given
      *
@@ -822,7 +807,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     function buildPubconsoleUrl($suffix = null)
     {
         if (OX_oxMarket_Common_ConnectionUtils::isSSLAvailable()) {
-            $pubconsoleLink = $this->getConfigValue('marketPcApiHost');        
+            $pubconsoleLink = $this->getConfigValue('marketPcApiHost');
         }
         else {
             $pubconsoleLink = $this->getConfigValue('fallbackPcApiHost');
@@ -830,11 +815,11 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         if (!empty($suffix)) {
             $pubconsoleLink = $pubconsoleLink .'/'. $suffix;
         }
-        
-        return $pubconsoleLink; 
+
+        return $pubconsoleLink;
     }
-    
-    
+
+
     /**
      * Creates a client with proper attributes and settinngs (like cUrl handling etc)
      * already configured.
@@ -852,12 +837,12 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         $oClient->setConfig(array(
             'maxredirects' => 5,
             'timeout'      => 30));
-        
-        
+
+
         return $oClient;
     }
-    
-    
+
+
     /**
      * Synchronize status with market and return new status
      *

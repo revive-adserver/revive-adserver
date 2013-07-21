@@ -2,27 +2,12 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id$
 */
 
 /**
@@ -162,7 +147,7 @@ class BannerXmlRpcService extends BaseBannerService
             return XmlRpcUtils::generateError($this->_oBannerServiceImp->getLastError());
         }
     }
-    
+
     /**
      * This method return targeting limitations for banner.
      *
@@ -182,7 +167,7 @@ class BannerXmlRpcService extends BaseBannerService
         }
 
         $aTargeting = null;
-        if ($this->_oBannerServiceImp->getBannerTargeting($sessionId, 
+        if ($this->_oBannerServiceImp->getBannerTargeting($sessionId,
             $bannerId, $aTargeting)) {
 
             return XmlRpcUtils::getArrayOfEntityResponse($aTargeting);
@@ -192,7 +177,7 @@ class BannerXmlRpcService extends BaseBannerService
             return XmlRpcUtils::generateError($this->_oBannerServiceImp->getLastError());
         }
     }
-    
+
     /**
      * This method sets targeting limitations for banner.
      * It overrides existing limitations.
@@ -208,15 +193,15 @@ class BannerXmlRpcService extends BaseBannerService
         $oResponseWithError = null;
         $aTargeting = array();
         if (!XmlRpcUtils::getScalarValues(array(&$sessionId, &$bannerId),
-            array(true, true), $oParams, $oResponseWithError) || 
-            !XmlRpcUtils::getArrayOfStructuresScalarFields($aTargeting, 
-                'OA_Dll_TargetingInfo', $oParams, 2, array('logical', 'type', 
+            array(true, true), $oParams, $oResponseWithError) ||
+            !XmlRpcUtils::getArrayOfStructuresScalarFields($aTargeting,
+                'OA_Dll_TargetingInfo', $oParams, 2, array('logical', 'type',
                     'comparison', 'data'), $oResponseWithError)) {
 
             return $oResponseWithError;
         }
 
-        if ($this->_oBannerServiceImp->setBannerTargeting($sessionId, 
+        if ($this->_oBannerServiceImp->setBannerTargeting($sessionId,
             $bannerId, $aTargeting)) {
 
             return XmlRpcUtils::booleanTypeResponse(true);
@@ -431,7 +416,7 @@ $server = new XML_RPC_Server(
             ),
             'docstring' => 'Delete banner'
         ),
-        
+
         'getBannerTargeting' => array(
             'function'  => array($oBannerInfoXmlRpcService, 'getBannerTargeting'),
             'signature' => array(
@@ -439,7 +424,7 @@ $server = new XML_RPC_Server(
             ),
             'docstring' => 'Get banner targeting limitations array'
         ),
-        
+
         'setBannerTargeting' => array(
             'function'  => array($oBannerInfoXmlRpcService, 'setBannerTargeting'),
             'signature' => array(
@@ -447,7 +432,7 @@ $server = new XML_RPC_Server(
             ),
             'docstring' => 'Set banner targeting limitations array'
         ),
-        
+
         'bannerDailyStatistics' => array(
             'function'  => array($oBannerInfoXmlRpcService, 'bannerDailyStatistics'),
             'signature' => array(

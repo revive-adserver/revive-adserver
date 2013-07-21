@@ -2,27 +2,12 @@
 
 /*
 +---------------------------------------------------------------------------+
-| OpenX v${RELEASE_MAJOR_MINOR}                                                                |
-| =======${RELEASE_MAJOR_MINOR_DOUBLE_UNDERLINE}                                                                |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2009 OpenX Limited                                     |
-| For contact details, see: http://www.openx.org/                           |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id: oxMarket.class.php 43092 2009-09-14 10:20:45Z stanislaw.osinski $
 */
 
 require_once LIB_PATH.'/Plugin/Component.php';
@@ -57,7 +42,7 @@ define('SETTING_TYPE_CREATIVE_CATEGORY', 2);
 class Plugins_admin_oxMarket_oxMarket extends OX_Component
 {
     protected $aDefaultRestrictions;
-    
+
     /** Cached plugin version string */
     private $pluginVersion;
 
@@ -72,7 +57,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             new Plugins_admin_oxMarket_PublisherConsoleMarketPluginClient(
                     $this->isMultipleAccountsMode());
     }
-    
+
 
     function afterPricingFormSection(&$form, $campaign, $newCampaign)
     {
@@ -88,7 +73,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             : NULL;
         $defaultFloorPrice = $this->formatCpm($defaultFloorPrice);
         $maxFloorPriceValue = $this->getMaxFloorPrice();
-        
+
         $aFields = array(
             'mkt_is_enabled' => 'f',
             'floor_price' => $defaultFloorPrice
@@ -113,14 +98,14 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         $aFloorPrice[] = $form->createElement('static', 'floor_price_usd', '<label for="floor_price">'.$this->translate("USD").'</label>');
         $aFloorPrice[] = $form->createElement('plugin-custom', 'market-cpm-callout', 'oxMarket');
         $form->addGroup($aFloorPrice, 'floor_price_group', '');
-        $form->addElement('plugin-script', 'campaign-script', 'oxMarket', 
+        $form->addElement('plugin-script', 'campaign-script', 'oxMarket',
             array('defaultFloorPrice' => $defaultFloorPrice));
-        $form->addElement('plugin-script', 'market-floor-price-dialog', 'oxMarket', 
+        $form->addElement('plugin-script', 'market-floor-price-dialog', 'oxMarket',
             array('cookiePath' => $this->getCookiePath()));
-                    
-        //in order to get conditional validation, check if it is POST 
+
+        //in order to get conditional validation, check if it is POST
         //and if market was enabled and add group rules
-        if (isset($_POST['mkt_is_enabled']) && $_POST['mkt_is_enabled'] == 't') { 
+        if (isset($_POST['mkt_is_enabled']) && $_POST['mkt_is_enabled'] == 't') {
             //Form validation rules
             $form->addGroupRule('floor_price_group', array(
                 'floor_price' => array(
@@ -130,11 +115,11 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
                     array($this->translate("%s must be less than %s", array('Campaign floor price', $maxFloorPriceValue)), 'max', $maxFloorPriceValue)
                 )
             ));
-        }        
+        }
 
         $form->setDefaults($aFields);
     }
-    
+
 
     function afterPricingFormSectionForInactive(&$form, $campaign, $newCampaign)
     {
@@ -425,20 +410,20 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
 
     function getMaxFloorPrice()
     {
-        return 1000000; //hardcoded value for validation purposes, such high 
-                   //CPM does not make sense anyway, but we'd like to avoid 
+        return 1000000; //hardcoded value for validation purposes, such high
+                   //CPM does not make sense anyway, but we'd like to avoid
                    //number overflows here
-    }    
+    }
 
 
     function afterLogin()
     {
         // Just unsets a cookie, so need to do it before any content is possibly output
         OX_oxMarket_UI_CampaignsSettings::removeSessionCookies($this->getCookiePath());
-                
+
         // Try to link hosted accounts for current user
         $this->linkHostedAccounts();
-        
+
         // If the user is manager or admin try to show him the OpenX Market Settings
         if ((OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) &&
             $this->isRegistered() && !$this->isMarketSettingsAlreadyShown()) {
@@ -448,17 +433,17 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             exit;
         }
 
-        // Show only to unregistered users and... 
+        // Show only to unregistered users and...
         if ($this->isRegistered()) {
             return;
         }
-         
-        if ($this->isMultipleAccountsMode()) { 
+
+        if ($this->isMultipleAccountsMode()) {
             // ... and those who are logged as manager (multiple accounts mode)
             if (OA_Permission::isUserLinkedToAdmin() || !OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
                 return;
             }
-        } 
+        }
         elseif (!OA_Permission::isUserLinkedToAdmin()) {
             // ... and those who are linked to admin (normal mode)
             return;
@@ -512,7 +497,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         $oMarketSetting->owner_id = $affiliateId;
         $oMarketSetting->delete();
     }
-    
+
 
     /**
      * update website restrictions in OpenX Market
@@ -579,8 +564,8 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
      * Check if plugin is active (downloaded mode)
      * or manager account is active (multiple accounts mode)
      *
-     * Account is active if is registered, has valid status and API key is set 
-     * 
+     * Account is active if is registered, has valid status and API key is set
+     *
      * @return bool
      */
     function isActive()
@@ -625,9 +610,9 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     {
         $oMarketPluginVariable = OA_Dal::factoryDO('ext_market_plugin_variable');
         $marketSettingsShown = $oMarketPluginVariable->findAndGetValue(
-                                                intval(OA_Permission::getUserId()), 
+                                                intval(OA_Permission::getUserId()),
                                                 'campaign_settings_shown_to_user');
-        return isset($marketSettingsShown) ? $marketSettingsShown : false; 
+        return isset($marketSettingsShown) ? $marketSettingsShown : false;
     }
 
 
@@ -684,8 +669,8 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-index.php');
         }
     }
-    
-    
+
+
     /**
      * Uses permission class to enforce ADMIN or MANAGER account depending on plugin
      * mode. For multiple accounts mode it assumes manager, for standalone admin
@@ -699,7 +684,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
         }
     }
-    
+
 
 
     function createMenuForPubconsolePage($sectionId)
@@ -720,7 +705,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
                 'h' => $this->isMultipleAccountsMode()? "1" : "0"
             );
             if (!empty($sectionId)) {
-                $aRequestParams["id"] = $sectionId; //no need to encode params here, client does that 
+                $aRequestParams["id"] = $sectionId; //no need to encode params here, client does that
             }
             $oClient->setParameterGet($aRequestParams);
 
@@ -780,7 +765,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             OX_Admin_Redirect::redirect('plugins/' . $this->group . '/market-info.php');
         }
     }
-    
+
 
     /**
      * Returns Publisher Console API Client
@@ -791,7 +776,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     {
         return $this->oMarketPublisherClient;
     }
-    
+
 
     /**
      * Update or register all websites
@@ -811,7 +796,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         if (!isset($accountId)) {
             return;
         }
-        
+
         $updatedWebsites = 0;
         // get all websites if account id is admin account
         // get manager websites if account is menager account
@@ -819,7 +804,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         if ($accountId !== DataObjects_Accounts::getAdminAccountId())
         {
             $oManager = OA_Dal::factoryDO('agency');
-            $oManager->account_id = $accountId;            
+            $oManager->account_id = $accountId;
             $oWebsite->joinAdd($oManager);
         }
         $oWebsite->find();
@@ -848,7 +833,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             }
         }
     }
-    
+
 
     /**
      * Updates website url on PubConsole
@@ -903,7 +888,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
 
     function onEnable()
     {
-        if (!$this->isRegistered() && !$this->isMultipleAccountsMode() && OA_Permission::isUserLinkedToAdmin()) { 
+        if (!$this->isRegistered() && !$this->isMultipleAccountsMode() && OA_Permission::isUserLinkedToAdmin()) {
             $this->scheduleRegisterNotification();
         }
 
@@ -916,9 +901,9 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             $fp = @fopen($url, 'rb', false, $ctx);
             if ($fp) {
                 stream_set_timeout($fp, 1); // 1s timeout
-                stream_get_contents($fp); 
+                stream_get_contents($fp);
             } else {
-                // register 10 websites if can't run background script 
+                // register 10 websites if can't run background script
                 $this->initialUpdateWebsites();
             }
         } catch (Exception $e) {
@@ -1000,7 +985,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
                 'adminWebUrl' => urlencode(MAX::constructURL(MAX_URL_ADMIN, '')),
                 'pcWebUrl' => urlencode($this->getConfigValue('marketHost')),
                 'v' => $this->getPluginVersion(),
-                'h' => $this->isMultipleAccountsMode()? "1" : "0"            
+                'h' => $this->isMultipleAccountsMode()? "1" : "0"
             ));
 
             $response = $oClient->request();
@@ -1043,18 +1028,18 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         return $aKeys;
     }
 
-    
+
     public function getPluginVersion()
     {
         if (!isset($this->pluginVersion)) {
             $oPluginManager = new OX_PluginManager();
-            $aInfo =  $oPluginManager->getPackageInfo('openXMarket', false);    
+            $aInfo =  $oPluginManager->getPackageInfo('openXMarket', false);
             $this->pluginVersion = strtolower($aInfo['version']);
         }
-        return $this->pluginVersion;        
-    }    
-    
-    
+        return $this->pluginVersion;
+    }
+
+
     /**
      * Builds an url to pubconsole either SSL or HTTP fallback, apends suffix if given
      *
@@ -1113,19 +1098,19 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
             return false;
         }
     }
-    
-    
+
+
     function formatCpm($cpm)
     {
         return number_format($cpm, 2, '.', '');
-    }    
-    
+    }
+
     function isMultipleAccountsMode()
     {
         return (bool) $this->getConfigValue('multipleAccountsMode');
     }
-    
-    
+
+
     /**
      * Set working Account Id in multiple accounts mode,
      * if it's not given or is null, client will be using
@@ -1137,8 +1122,8 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
     {
         $this->oMarketPublisherClient->setWorkAsAccountId($accountId);
     }
-    
-    
+
+
     /**
      * Automatically link manager accounts to Publisher Console for user
      * Link only that accounts where user is first linked manager.
@@ -1153,7 +1138,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         if (!$this->isMultipleAccountsMode()) {
             return false;
         }
-        
+
         // get current user if not set
         if (!isset($user_id)) {
             $user_id = OA_Permission::getUserId();
@@ -1163,14 +1148,14 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         if (!isset($user_id) || OA_Permission::isUserLinkedToAdmin($user_id)) {
             return false;
         }
-        
+
         // stop if sso_id is not set
         $doUsers = OA_Dal::staticGetDO('users', $user_id);
         if (!$doUsers || empty($doUsers->sso_user_id)) {
             return false;
         }
         $ssoId = $doUsers->sso_user_id;
-        
+
         // Select such manager accounts where user is first linked manager
         $doAUA2 = OA_Dal::factoryDO('account_user_assoc');
         $doAUA2->user_id = $user_id;
@@ -1188,17 +1173,17 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         $doAUA1->selectAdd();
         $doAUA1->selectAdd($doAUA1->tableName().'.account_id');
         $doAUA1->find();
-        
+
         $aAccountsIds = array();
         while($doAUA1->fetch()) {
             $aAccountsIds[$doAUA1->account_id] = $doAUA1->account_id;
         }
-        
+
         // nothing to change
         if (empty($aAccountsIds)) {
             return false;
         }
-        
+
         // select already associated accounts
         $doMarketAssoc = OA_DAL::factoryDO('ext_market_assoc_data');
         $doMarketAssoc->whereAdd('account_id IN ('.implode(",", $aAccountsIds).')');
@@ -1211,7 +1196,7 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
         if (empty($aAccountsIds)) {
             return false;
         }
-        
+
         $result = true;
         foreach ($aAccountsIds as $accountId) {
             try {
@@ -1221,11 +1206,11 @@ class Plugins_admin_oxMarket_oxMarket extends OX_Component
                 $result = false;
             }
         }
-        
+
         return $result;
     }
 
-    
+
     public function getCookiePath()
     {
         require_once MAX_PATH .'/lib/Max.php';
