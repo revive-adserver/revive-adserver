@@ -20,7 +20,7 @@
 
 
 
-    Revive Adserver is Copyright; please see the COPYRIGHT file.
+    Copyright (c) 2013 Andrew Hill
     ------------------------------------------------------------------------
 
     This program is free software; you can redistribute it and/or modify
