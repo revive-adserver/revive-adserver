@@ -47,7 +47,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
      */
     var $pageId;
 
-    
+
     /**
      * An arry of page ID "numbers" (eg. "2.1.1, 2.1.2, 2.1.3"), including
      * the page itself {@see $this->pageId} that should be on the navigation
@@ -246,7 +246,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
     var $aStatsData;
 
     /**
-     * A variable naming the output type. 
+     * A variable naming the output type.
      * One of "deliveryHistory", or "deliveryEntity"
      *
      * @var string
@@ -322,10 +322,10 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
             }
         }
         $this->coreParams = self::getCoreParams();
-        
+
         $this->strMarketCampaignOptin = $GLOBALS['strMarketCampaignOptin'];
         $this->strMarketZoneOptin = $GLOBALS['strMarketZoneOptin'];
-        
+
         // Ensure that the entity/breakdown values are set
         if (empty($this->entity)) {
             $this->entity = 'entity';
@@ -395,17 +395,6 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
     static function getCoreParams()
     {
         $coreParams = array();
-        $marketPluginEnabled = ($GLOBALS['_MAX']['CONF']['plugins']['openXMarket'] ? true : false);
-        if($marketPluginEnabled) {
-            $do = OA_Dal::factoryDO('Clients');
-            $do = OA_Dal::factoryDO('Campaigns');
-            $coreParams['campaign_type'] = DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT.','.
-                                        DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN.','.
-                                        DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CONTRACT.','.
-                                        DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_ZONE_OPTIN;
-            $coreParams['advertiser_type'] =    DataObjects_Clients::ADVERTISER_TYPE_DEFAULT.','.
-                                            DataObjects_Clients::ADVERTISER_TYPE_MARKET;
-        }
         return $coreParams;
     }
     /**
@@ -427,7 +416,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
     {
         $aParams = $this->coreParams + $aParams;
     }
-    
+
     /********** METHODS THAT CHILDREN CLASS MUST OVERRRIDE **********/
 
     /**
@@ -523,7 +512,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
             if ($this->outputType == 'deliveryHistory') {
                 $weekTemplate = 'breakdown_by_week.html';
                 $dateTemplate = 'breakdown_by_date.html';
-            } 
+            }
 
             // Add the day as a breadcrumb trail if looking at a day breakdown
             if (preg_match('/daily$/', $this->breakdown)) {
