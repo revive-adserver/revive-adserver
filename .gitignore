@@ -9,4 +9,5 @@
 /var/plugins/DataObjects/*.ini
 /var/plugins/DataObjects/*.php
 /var/templates_compiled/*.php
+/var/templates_compiled/*.serial
 /www/admin/plugins/*
