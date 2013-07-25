@@ -94,12 +94,6 @@ else {
 $zone['affiliateid']     = $affiliateid;
 
 
-if (isset ( $GLOBALS ['_MAX'] ['CONF'] ['plugins'] ['openXMarket'] )
-    && $GLOBALS ['_MAX'] ['CONF'] ['plugins'] ['openXMarket']) {
-    $oComponent = &OX_Component::factory ( 'admin', 'oxMarket', 'oxMarket' );
-}
-
-
 /*-------------------------------------------------------*/
 /* MAIN REQUEST PROCESSING                               */
 /*-------------------------------------------------------*/
