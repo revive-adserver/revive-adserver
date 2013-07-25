@@ -11,11 +11,10 @@
 */
 
 /** status messages **/
-$GLOBALS['strInstallStatusRecovery']           = 'Recovering Revive Adserver %s';
-$GLOBALS['strInstallStatusInstall']            = 'Installing Revive Adserver %s';
-$GLOBALS['strInstallStatusUpgrade']            = 'Upgrading to Revive Adserver %s';
-$GLOBALS['strInstallStatusUpToDate']           = 'Detected Revive Adserver %s';
-
+$GLOBALS['strInstallStatusRecovery']            = 'Recovering Revive Adserver %s';
+$GLOBALS['strInstallStatusInstall']             = 'Installing Revive Adserver %s';
+$GLOBALS['strInstallStatusUpgrade']             = 'Upgrading to Revive Adserver %s';
+$GLOBALS['strInstallStatusUpToDate']            = 'Detected Revive Adserver %s';
 
 /** welcome step **/
 $GLOBALS['strWelcomeTitle']                     = "Welcome to " . PRODUCT_NAME;
@@ -26,81 +25,38 @@ $GLOBALS['strInstallerHelpIntro']               = "To help you with the installa
 $GLOBALS['strTermsIntro']                       = PRODUCT_NAME . " is distributed freely under an Open Source license, the GNU General Public License. Please review and agree to the following documents to continue the installation.";
 
 /** check step **/
-$GLOBALS['strSystemCheck']                     = "System check";
-$GLOBALS['strSystemCheckIntro']                = "The install wizard perfomed a check of your web server settings to ensure that the installation process can complete successfully.
-                                                 <br>Please check any highlighted issues to complete the installation process.";
-$GLOBALS['strFixErrorsBeforeContinuing']       = "Configuration of your webserver does not meet the requirements of the " . PRODUCT_NAME . ".
-                                                  <br>In order to proceed with installation, please fix all errors.
-                                                  For help, please see our <a href='".OX_PRODUCT_DOCSURL."'>documentation</a>, <a href='http://"
-                                                  .OX_PRODUCT_DOCSURL."/faq'>FAQs</a> and <a href='http://".OX_PRODUCT_FORUMURL."'>forum</a>";
+$GLOBALS['strSystemCheck']                      = "System check";
+$GLOBALS['strSystemCheckIntro']                 = "The install wizard perfomed a check of your web server settings to ensure that the installation process can complete successfully.
+                                                  <br>Please check any highlighted issues to complete the installation process.";
+$GLOBALS['strFixErrorsBeforeContinuing']        = "Configuration of your webserver does not meet the requirements of the " . PRODUCT_NAME . ".
+                                                   <br>In order to proceed with installation, please fix all errors.
+                                                   For help, please see our <a href='".OX_PRODUCT_DOCSURL."'>documentation</a>, <a href='http://"
+                                                   .OX_PRODUCT_DOCSURL."/faq'>FAQs</a> and <a href='http://".OX_PRODUCT_FORUMURL."'>forum</a>";
 
-$GLOBALS['strAppCheckErrors']                  = "Errors were found when detecing previous installations of " . PRODUCT_NAME;
-$GLOBALS['strAppCheckDbIntegrityError']        = "We have detected integrity issues with your database. This means that the layout of your database
-                                                  differs from what we expect it to be. This could be due to customization of your database.";
+$GLOBALS['strAppCheckErrors']                   = "Errors were found when detecing previous installations of " . PRODUCT_NAME;
+$GLOBALS['strAppCheckDbIntegrityError']         = "We have detected integrity issues with your database. This means that the layout of your database
+                                                   differs from what we expect it to be. This could be due to customization of your database.";
 
-$GLOBALS['strSyscheckProgressMessage']         = "Checking system parameters...";
-$GLOBALS['strError']                           = "Error";
-$GLOBALS['strWarning']                         = "Warning";
-$GLOBALS['strOK']                              = "OK";
-$GLOBALS['strSyscheckName']                    = "Check name";
-$GLOBALS['strSyscheckValue']                   = "Current value";
-$GLOBALS['strSyscheckStatus']                  = "Status";
-$GLOBALS['strSyscheckSeeFullReport']           = "Show detailed system check";
-$GLOBALS['strSyscheckSeeShortReport']          = "Show only errors and warnings";
-$GLOBALS['strBrowserCookies']                  = 'Browser Cookies';
-$GLOBALS['strPHPConfiguration']                = 'PHP Configuration';
-$GLOBALS['strCheckError']                      = 'error';
-$GLOBALS['strCheckErrors']                     = 'errors';
-$GLOBALS['strCheckWarning']                    = 'warning';
-$GLOBALS['strCheckWarnings']                   = 'warnings';
-
+$GLOBALS['strSyscheckProgressMessage']          = "Checking system parameters...";
+$GLOBALS['strError']                            = "Error";
+$GLOBALS['strWarning']                          = "Warning";
+$GLOBALS['strOK']                               = "OK";
+$GLOBALS['strSyscheckName']                     = "Check name";
+$GLOBALS['strSyscheckValue']                    = "Current value";
+$GLOBALS['strSyscheckStatus']                   = "Status";
+$GLOBALS['strSyscheckSeeFullReport']            = "Show detailed system check";
+$GLOBALS['strSyscheckSeeShortReport']           = "Show only errors and warnings";
+$GLOBALS['strBrowserCookies']                   = 'Browser Cookies';
+$GLOBALS['strPHPConfiguration']                 = 'PHP Configuration';
+$GLOBALS['strCheckError']                       = 'error';
+$GLOBALS['strCheckErrors']                      = 'errors';
+$GLOBALS['strCheckWarning']                     = 'warning';
+$GLOBALS['strCheckWarnings']                    = 'warnings';
 
 /** admin login step **/
-$GLOBALS['strAdminLoginTitle']                 = "Please login as your " . PRODUCT_NAME . " administrator";
-$GLOBALS['strAdminLoginIntro']                 = "To continue, please enter your " . PRODUCT_NAME . " administrator account login information.";
-$GLOBALS['strLoginProgressMessage']            = 'Logging in...';
-
-/** sso register step **/
-$GLOBALS['strRegisterTitle']                    = "Register with OpenX";
-$GLOBALS['strRegisterIntro']                    = "Please register with OpenX to continue. By registering, you'll get an OpenX.org account which will enable you to:";
-$GLOBALS['strMarketBenefitMonetizeTitle']       = "Monetize your sites through OpenX Market";
-$GLOBALS['strMarketBenefitMonetizeDesc']        = "OpenX Market is a free service that helps place higher paying ads on your websites";
-$GLOBALS['strMarketBenefitSupportTitle']        = "Find answers to your questions on OpenX Forums";
-$GLOBALS['strMarketBenefitSupportDesc']         = "OpenX Forums lets you communicate with OpenX staff and users to get support for your questions";
-$GLOBALS['strMarketBenefitPluginsTitle']        = "Extend your ad server with plugins from OpenX";
-$GLOBALS['strMarketBenefitPluginsDesc']         = "More plugins providing services from OpenX and 3rd parties are coming soon to provide even more powerful features";
-$GLOBALS['strMarketBenefitSecurityTitle']       = "Get notified of the latest security updates";
-$GLOBALS['strMarketBenefitSecurityDesc']        = "You'll be immediately notified of the latest product versions and security updates";
-$GLOBALS['strMarketIntroTitle']                 = "OpenX Market — A new addition to OpenX to help you make more money";
-$GLOBALS['strMarketIntro']                      = "OpenX Market places higher paying ads on your site by allowing you to sell
-                                                    your ad space to advertisers bidding in a competitive auction.";
-$GLOBALS['strStatusAvailable']                  = "Available";
-$GLOBALS['strStatusNotAvailable']               = "Not available";
-$GLOBALS['strStatusChecking']                   = "Checking...";
-
-$GLOBALS['strProvideOpenXAccount']              = "Provide an OpenX.org account";
-$GLOBALS['strCreateOpenXAccount']               = "Create an OpenX.org account";
-$GLOBALS['strWhatIsOpenXAccount']               = "An OpenX.org account is an account which you may use to login to a variety of OpenX products like OpenX Hosted, the OpenX Community Forums, and more.";
-$GLOBALS['strGetStartedWithAccount']            = "To get started, provide your OpenX.org account. If you don't have an OpenX.org account, you may create a new one below.";
-$GLOBALS['strHaveOpenXAccountQuestion']         = "Do you already have an OpenX.org account?";
-$GLOBALS['strHaveOpenXAccount']                 = "I <em>have</em> an OpenX.org account";
-$GLOBALS['strDoNotHaveOpenXAccount']            = "I <em>do not have</em> an OpenX.org account";
-$GLOBALS['strOpenXUsername']                    = "OpenX.org Username";
-
-$GLOBALS['strCaptcha']                          = 'Type the text shown in the image';
-$GLOBALS['strCaptchaReload']                    = 'Try a different image';
-$GLOBALS['strCaptchaLettersCaseInsensitive']    = 'Letters are not case sensitive';
-$GLOBALS['strBtnCreateAccountAndContinue']      = 'Create my account and continue »';
-$GLOBALS['strBtnContinueWithoutRegistering']      = 'Continue without registering »';
-
-$GLOBALS['strPasswordMismatch']                 = 'The given passwords do not match';
-$GLOBALS['strCaptchaRequired']                  = 'Please type the code shown';
-$GLOBALS['strSSOUsernameNotAvailable']          = 'This OpenX.org username is not available';
-
-$GLOBALS['strRegisterConfirmTitle']             = "Registration successful";
-$GLOBALS['strRegisterConfirmIntro']             = "Your OpenX.org account has successfully been created.";
-$GLOBALS['strRegisterProgressMessage']         = 'Registering OpenX.org account...';
-$GLOBALS['strLoadingDatabaseConfiguration']         = 'Loading Database configuration...';
+$GLOBALS['strAdminLoginTitle']                  = "Please login as your " . PRODUCT_NAME . " administrator";
+$GLOBALS['strAdminLoginIntro']                  = "To continue, please enter your " . PRODUCT_NAME . " administrator account login information.";
+$GLOBALS['strLoginProgressMessage']             = 'Logging in...';
 
 /** database step **/
 $GLOBALS['strDbSetupTitle']                     = "Provide your database";
@@ -117,11 +73,9 @@ $GLOBALS['strDbTimeZoneWarning']                = "<p>As of this version " . PRO
                                                    </p>";
 $GLOBALS['strDbTimeZoneNoWarnings']             = "Do not display timezone warnings in the future";
 $GLOBALS['strDBInstallSuccess']                 = 'Database created successfully';
-$GLOBALS['strDBUpgradeSuccess']                = 'Database upgraded successfully';
-
+$GLOBALS['strDBUpgradeSuccess']                 = 'Database upgraded successfully';
 
 $GLOBALS['strDetectedVersion']                  = 'Detected ' . PRODUCT_NAME . ' version';
-
 
 /** config step **/
 $GLOBALS['strConfigureInstallTitle']            = 'Configure your local ' . PRODUCT_NAME . ' administrator account';
@@ -134,7 +88,6 @@ $GLOBALS['strPathToPrevious']                   = "Path to previous " . PRODUCT_
 $GLOBALS['strPathToPreviousHint']               = "Plugin files must be copied from the path based on your previous install";
 $GLOBALS['strPathToPreviousError']              = "One or more plugin files couln't be located, check the install.log file for more information";
 $GLOBALS['strConfigureProgressMessage']         = 'Configuring ' . PRODUCT_NAME . '...';
-
 
 /** jobs step **/
 $GLOBALS['strJobsInstallTitle']                 = 'Performing installation tasks';
@@ -159,9 +112,7 @@ $GLOBALS['strDetailedTaskErrorList']            = 'Detailed list of errors found
 $GLOBALS['strPluginInstallFailed']              = "Installation of plugin '%s' failed:";
 $GLOBALS['strTaskInstallFailed']                = "Error occured when running installation task '%s':";
 $GLOBALS['strUpgradeContinueToLogin']           = 'For more information, visit our FAQ on <a href="http://www.openx.org/en/faq/how-to-make-money-from-openx-market" target="_blank">how to make money with OpenX Market</a>. Click "Continue" to login to your OpenX instance.';
-$GLOBALS['strContinueToLogin']                  = 'Click "Continue" to login to your OpenX instance.';
-
-$GLOBALS['strMarketIntroTitle']                 =
+$GLOBALS['strContinueToLogin']                  = 'Click "Continue" to login to your ' . PRODUCT_NAME . ' instance.';
 
 $GLOBALS['strContinue']                         = "Continue";
 $GLOBALS['strDBCreatedSuccessful']              = "Your database has successfully been created for ". PRODUCT_NAME;
@@ -177,11 +128,5 @@ $GLOBALS['strTimezoneLocal']                    = PRODUCT_NAME . " has detected 
                                                   "timezone of your server. This is because of a patch to PHP applied by some Linux distributions. " .
                                                   "Unfortunately, this is not a valid PHP timezone. Please edit your php.ini file and set the 'date.timezone' " .
                                                   "property to the correct value for your server.";
-$GLOBALS['strMarketIntroLongTitle']             = "To optimize your revenue, OpenX Market will serve ads in newly created zones if no other ads are to be served";
-$GLOBALS['strMarketIntroLong']                  = "OpenX Market is a service that helps place ads on your sites to make you more money. It uses a real-time auction of hundreds of ad buyers
-                                                   to get the highest paying ad for each of your ad impressions.";
-
-
-
 
 ?>
