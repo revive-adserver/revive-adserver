@@ -100,7 +100,7 @@ $GLOBALS['strAll']                      = "all";
 $GLOBALS['strAvg']                      = "Avg.";
 $GLOBALS['strAverage']                  = "Average";
 $GLOBALS['strAveraged']                 = "Averaged";
-$GLOBALS['strAveragedColumnLegend']		= "This icon indicates that the values in this row are averaged.<br> There are situations where more than a single set of targeting data may have been generated for an hour. <br/> <ul><li> For example, if you run OpenX with an Operation Interval of less than 60 minutes (see \"Maintenance Settings\"), the targeting information for Contract Campaigns is calculated at every Operation Interval, and is then averaged to get the hour data.  </li><li>This can also happen in the case where you have enabled the option to update ads priorities when changes are made in the UI (see Priority Settings in the \"Maintenance Settings\" menu) and you have made changes to the Contract Campaigns while they are running.</li></ul>";
+$GLOBALS['strAveragedColumnLegend']		= "This icon indicates that the values in this row are averaged.<br> There are situations where more than a single set of targeting data may have been generated for an hour. <br/> <ul><li> For example, if you run " . PRODUCT_NAME . " with an Operation Interval of less than 60 minutes (see \"Maintenance Settings\"), the targeting information for Contract Campaigns is calculated at every Operation Interval, and is then averaged to get the hour data.  </li><li>This can also happen in the case where you have enabled the option to update ads priorities when changes are made in the UI (see Priority Settings in the \"Maintenance Settings\" menu) and you have made changes to the Contract Campaigns while they are running.</li></ul>";
 $GLOBALS['strOverall']                  = "Overall";
 $GLOBALS['strTotal']                    = "Total";
 $GLOBALS['strUnfilteredTotal']          = "Total (unfiltered)";
@@ -145,8 +145,8 @@ $GLOBALS['strCloseWindow']              = "Close window";
 // Dashboard
 $GLOBALS['strDashboardCommunity']       = "Community";
 $GLOBALS['strDashboardDashboard']       = "Dashboard";
-$GLOBALS['strDashboardForum']           = "OpenX Forum";
-$GLOBALS['strDashboardDocs']            = "OpenX Docs";
+$GLOBALS['strDashboardForum']           = PRODUCT_NAME . " Forum";
+$GLOBALS['strDashboardDocs']            = PRODUCT_NAME . " Docs";
 $GLOBALS['strDashboardCantBeDisplayed'] = "The dashboard can not be displayed";
 $GLOBALS['strNoCheckForUpdates']        = "The dashboard cannot be displayed unless the<br />check for updates setting is enabled.";
 $GLOBALS['strEnableCheckForUpdates']    = "Please enable the <a href='account-settings-update.php' target='_top'>check for updates</a> setting on the<br/><a href='account-settings-update.php' target='_top'>update settings</a> page.";
@@ -157,7 +157,7 @@ $GLOBALS['strEditSyncSettings']         = "and edit your synchronization setting
 $GLOBALS['strDashboardErrorCode']       = "code";
 $GLOBALS['strDashboardGenericError']    = "Generic error";
 $GLOBALS['strDashboardSystemMessage']   = "System message";
-$GLOBALS['strDashboardErrorHelp']       = "If this error repeats please describe your problem in detail and post it on the <a href='http://forum.openx.org/'>OpenX forum</a>.";
+$GLOBALS['strDashboardErrorHelp']       = "If this error repeats please describe your problem in detail and post it on the <a href='http://www.revive-adserver.com/'>www.revive-adserver.com</a>.";
 $GLOBALS['strDashboardErrorMsg800']     = "XML-RPC connection error";
 $GLOBALS['strDashboardErrorMsg801']     = "Not authenticated";
 $GLOBALS['strDashboardErrorMsg802']     = "CAPTCHA failed";
@@ -179,7 +179,7 @@ $GLOBALS['strDashboardErrorDsc800']     = "The dashboard pulls information from 
                                            Your server may not have the the Curl extension enabled. You may need to install or enable the Curl extension, see <a href='http://php.net/curl'>here</a> for more details.<br />
                                            You should also check that your firewall isn't blocking outbound connections.";
 $GLOBALS['strDashboardErrorDsc803']     = "Error in request to server - wrong parameters, please try to resend your data";
-$GLOBALS['strDashboardErrorDsc805']     = "XML-RPC connection wasn't allowed during OpenX installation and OpenX central server does not recognize your OpenX installation as valid.<br />
+$GLOBALS['strDashboardErrorDsc805']     = "XML-RPC connection wasn't allowed during " . PRODUCT_NAME . " installation and " . PRODUCT_NAME . " central server does not recognize your installation as valid.<br />
                                            Please go to Administrator's account My account -> Product Updates to connect to and register in central server.";
 
 // Priority
@@ -697,7 +697,7 @@ $GLOBALS['strBannerWeight']            = "Banner weight";
 $GLOBALS['strBannerType']           = "Ad Type";
 $GLOBALS['strAdserverTypeGeneric']  = "Generic HTML Banner";
 $GLOBALS['strDoNotAlterHtml']  = "Do not alter HTML";
-$GLOBALS['strAdserverTypeMax']      = "Rich Media - OpenX";
+$GLOBALS['strAdserverTypeMax']      = "Rich Media - " . PRODUCT_NAME;
 $GLOBALS['strAdserverTypeAtlas']    = "Rich Media - Atlas";
 $GLOBALS['strAdserverTypeBluestreak']   = "Rich Media - Bluestreak";
 $GLOBALS['strAdserverTypeDoubleclick']  = "Rich Media - DoubleClick";
@@ -1177,7 +1177,7 @@ $GLOBALS['strErrorEditingCampaignECPM']         = "incorrect number format in EC
 $GLOBALS['strErrorEditingZone']                 = "Error updating zone:";
 $GLOBALS['strUnableToChangeZone']               = "Cannot apply this change because:";
 $GLOBALS['strDatesConflict']                    = "Dates of the campaign you are trying to link overlap with the dates of the campaign already linked ";
-$GLOBALS['strEmailNoDates']                     = "Campaigns linked to Email Zones must have a start and end date set. OpenX ensures that on a given date, only one active banner is linked to an Email Zone. Please ensure that the campaigns already linked to the zone do not have overlapping dates with the campaign you are trying to link.";
+$GLOBALS['strEmailNoDates']                     = "Campaigns linked to Email Zones must have a start and end date set. " . PRODUCT_NAME . " ensures that on a given date, only one active banner is linked to an Email Zone. Please ensure that the campaigns already linked to the zone do not have overlapping dates with the campaign you are trying to link.";
 $GLOBALS['strWarningInaccurateStats']           = "Some of these statistics were logged in a non-UTC timezone, and may not be displayed in the correct timezone.";
 $GLOBALS['strWarningInaccurateReadMore']        = "Read more about this";
 $GLOBALS['strWarningInaccurateReport']          = "Some of the statistics in this report were logged in a non-UTC timezone, and may not be displayed in the correct timezone";

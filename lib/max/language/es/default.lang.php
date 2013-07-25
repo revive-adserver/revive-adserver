@@ -1083,7 +1083,6 @@ $GLOBALS['strEmailNoDates'] = "Las zonas de campañas de e-mails deben tener fec
 $GLOBALS['strCappingBanner']['limit'] = "Limitar vistas de banners a:";
 $GLOBALS['strCappingCampaign']['limit'] = "Limitar vistas de campa&ntilde;a a:";
 $GLOBALS['strCappingZone']['limit'] = "Limitar vistas de zonas a:";
-$GLOBALS['strOpenadsEmail'] = "". MAX_PRODUCT_NAME ." E-mail";
 $GLOBALS['strEmailSettings'] = "Configuración e-mail";
 $GLOBALS['strEnableQmailPatch'] = "Activar parche qmail";
 $GLOBALS['strEmailHeader'] = "Cabeceras e-mail";

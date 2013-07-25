@@ -23,8 +23,6 @@ $GLOBALS['strAdvancedSettings']			= "Penyetelan Lanjut";
 $GLOBALS['strOtherSettings']			= "Penyetelan Lainnya";
 $GLOBALS['strSpecifySyncSettings']          	= "Penyetelan Sinkronisasi";
 $GLOBALS['strLicenseInformation']           	= "Informasi Lisensi";
-$GLOBALS['strOpenadsIdYour']                	= "ID OpenX Anda";
-$GLOBALS['strOpenadsIdSettings']            	= "Penyetelan ID OpenX";
 $GLOBALS['strWarning']				= "Peringatan";
 $GLOBALS['strFatalError']			= "Telah terjadi Error yang fatal";
 $GLOBALS['strUpdateError']			= "Telah terjadi kesalahan pada saat meng-update";
@@ -168,11 +166,6 @@ $GLOBALS['strAdminSettingsIntro']                    = "Akun Administrator digun
 $GLOBALS['strConfigSettingsIntro']                   = "Silakan periksa kembali penyetelan konfigurasi yang berikut ini dengan teliti, sehubungan penyetelan ini sangat penting untuk penggunaan dan performa aplikasi " . MAX_PRODUCT_NAME;
 
 $GLOBALS['strEnableAutoMaintenance']	             = "Bila jadwal untuk pemeliharaan tidak di-set pada Cron, jalankan pemeliharaan dengan cara otomatis pada saat penyampaian iklan";
-
-// Openads ID Settings
-$GLOBALS['strOpenadsUsername']                       = "" . MAX_PRODUCT_NAME . " Nama Pengguna";
-$GLOBALS['strOpenadsPassword']                       = "" . MAX_PRODUCT_NAME . " Kata Sandi";
-$GLOBALS['strOpenadsEmail']                          = "" . MAX_PRODUCT_NAME . " Alamat E-Mail";
 
 // Banner Settings
 $GLOBALS['strBannerSettings']                        = 'Penyetelan Banner';

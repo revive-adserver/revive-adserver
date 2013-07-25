@@ -285,8 +285,6 @@ $GLOBALS['strTimeZone']					= "Time Zone";
 // Note: new translatiosn not found in original lang files but found in CSV
 $GLOBALS['strAdminAccount'] = "Cuenta de Administrador";
 $GLOBALS['strSpecifySyncSettings'] = "Opciones de sincronización";
-$GLOBALS['strOpenadsIdYour'] = "Su OpenX ID";
-$GLOBALS['strOpenadsIdSettings'] = "Opciones de OpenX ID";
 $GLOBALS['strBtnContinue'] = "Continuar »";
 $GLOBALS['strBtnRecover'] = "Recuperar »";
 $GLOBALS['strBtnStartAgain'] = "Empezar actualización de nuevo »";
@@ -336,8 +334,6 @@ $GLOBALS['strConfigSettingsIntro'] = "Por favor revise la configuración que hay
 $GLOBALS['strSystemCheck'] = "Inspección del sistema";
 $GLOBALS['strErrorWritePermissions'] = "Se han detectado errores de permisos de archivos y deben ser solucionados para poder continuar.<br />Para solucionar los errores en un sistema Linux intente teclear el/los siguiente(s) comando(s).";
 $GLOBALS['strImageDirLockedDetected'] = "El servidor no puede escribir en el <b>Directorio de Imágenes</b> suministrado. <br>No puede continuar hasta que haya cambiado los permisos del directorio o haya creado otro directorio.";
-$GLOBALS['strOpenadsUsername'] = "". MAX_PRODUCT_NAME ." Nombre de usuario";
-$GLOBALS['strOpenadsPassword'] = "". MAX_PRODUCT_NAME ." Contraseña";
 $GLOBALS['uiEnabled'] = "Habilitar Interface de Usuario ";
 $GLOBALS['strAuditTrailSettings'] = "Log Audit";
 $GLOBALS['strDbLocal'] = "Usar como conexión socket local";

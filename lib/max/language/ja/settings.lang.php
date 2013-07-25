@@ -22,8 +22,6 @@ $GLOBALS['strAdvancedSettings']             		= "高度な設定";
 $GLOBALS['strOtherSettings']                		= "その他の設定";
 $GLOBALS['strSpecifySyncSettings']          		= "同期設定";
 $GLOBALS['strLicenseInformation']           		= "ライセンス情報";
-$GLOBALS['strOpenadsIdYour']                		= "OpenX ID";
-$GLOBALS['strOpenadsIdSettings']            		= "OpenX IDの設定";
 $GLOBALS['strWarning']                      		= "警告";
 $GLOBALS['strFatalError']                   		= "致命的なエラーが発生しました。";
 $GLOBALS['strUpdateError']                  		= "更新中にエラーが発生しました。";
@@ -166,11 +164,6 @@ $GLOBALS['strAdminSettingsIntro']                    = "管理者アカウント
 $GLOBALS['strConfigSettingsIntro']                   = "下記設定内容を確認してください。もし明確でない場合は、デフォルトのままにしておいて下さい。";
 
 $GLOBALS['strEnableAutoMaintenance']	             = "定期メンテナンスが設定されていない場合、配信中に定期的なメンテナンスを自動実行する。";
-
-// OpenX ID Settings
-$GLOBALS['strOpenadsUsername']                       = "". MAX_PRODUCT_NAME ." ユーザ名";
-$GLOBALS['strOpenadsPassword']                       = "". MAX_PRODUCT_NAME ." パスワード";
-$GLOBALS['strOpenadsEmail']                          = "". MAX_PRODUCT_NAME ." Eメール";
 
 // Database Settings
 $GLOBALS['strDatabaseSettings']                      = 'データベース設定';

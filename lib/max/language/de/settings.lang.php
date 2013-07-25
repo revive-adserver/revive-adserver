@@ -23,8 +23,6 @@ $GLOBALS['strAdvancedSettings']		= "Ergänzende Einstellungen";
 $GLOBALS['strOtherSettings']			= "Andere Einstellungen";
 $GLOBALS['strSpecifySyncSettings']          = "Synchronisations-Einstellungen";
 $GLOBALS['strLicenseInformation']           = "Lizenz Information";
-$GLOBALS['strOpenadsIdYour']                = "Ihre OpenX ID";
-$GLOBALS['strOpenadsIdSettings']            = "OpenX ID Einstellungen";
 $GLOBALS['strWarning']				= "Warnung";
 $GLOBALS['strFatalError']			= "Ein schwerer Fehler ist aufgetreten";
 $GLOBALS['strUpdateError']			= "Während des Updates ist ein Fehler aufgetreten";
@@ -165,11 +163,6 @@ $GLOBALS['strAdminSettingsTitle']                    = "Anlegen des Administrati
 $GLOBALS['strAdminSettingsIntro']                    = "Bitte füllen Sie die Eingabefelder aus um den Administrator-Zugang für diesen AdServer anzulegen.";
 $GLOBALS['strConfigSettingsIntro']                    = "Bitte überprüfen Sie die unten stehenden Einstellungen und nehmen Sie ggf. die nötigen Änderungen vor. Wenn Sie sich nicht sicher sind, verwenden Sie die vorgegebenen Werte.";
 $GLOBALS['strEnableAutoMaintenance']	             = "Durchführen von automatischen Maintenance-Wartungsläufen während der Bannerauslieferung, wenn regelmäßigen Wartungsläufe nicht eingerichtet sind.";
-
-// OpenX ID Settings
-$GLOBALS['strOpenadsUsername']                       = "".MAX_PRODUCT_NAME." Benutzername";
-$GLOBALS['strOpenadsPassword']                       = "".MAX_PRODUCT_NAME." Passwort";
-$GLOBALS['strOpenadsEmail']                          = "".MAX_PRODUCT_NAME." e-Mail";
 
 // Banner Settings
 $GLOBALS['strBannerSettings']                        = 'Bannereinstellungen';

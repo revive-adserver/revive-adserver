@@ -22,8 +22,6 @@ $GLOBALS['strAdvancedSettings']             = "Advanced Settings";
 $GLOBALS['strOtherSettings']                = "Other settings";
 $GLOBALS['strSpecifySyncSettings']          = "Synchronisation settings";
 $GLOBALS['strLicenseInformation']           = "License information";
-$GLOBALS['strOpenadsIdYour']                = "Your OpenX ID";
-$GLOBALS['strOpenadsIdSettings']            = "OpenX ID Settings";
 $GLOBALS['strWarning']                      = "Warning";
 $GLOBALS['strFatalError']                   = "A fatal error occurred";
 $GLOBALS['strUpdateError']                  = "An error occured while updating";
@@ -35,22 +33,22 @@ $GLOBALS['strBtnAgree']                     = "I Agree »";
 $GLOBALS['strBtnDontAgree']                 = "« I Disagree";
 $GLOBALS['strBtnRetry']                     = "Retry";
 $GLOBALS['strUpdateDatabaseError']          = "Due to unknown reasons the update of the database structure wasn't succesful. The recommended way to proceed is to click <b>Retry updating</b> to try to correct these potential problems. If you are sure these errors won't affect the functionality of ".MAX_PRODUCT_NAME." you can click <b>Ignore errors</b> to continue. Ignoring these errors may cause serious problems and is not recommended!";
-$GLOBALS['strAlreadyInstalled']             = "" . MAX_PRODUCT_NAME." is already installed on this system. If you want to configure it go to the <a href='account-index.php'>settings interface</a>";
+$GLOBALS['strAlreadyInstalled']             = "" . PRODUCT_NAME." is already installed on this system. If you want to configure it go to the <a href='account-index.php'>settings interface</a>";
 $GLOBALS['strCouldNotConnectToDB']          = "Could not connect to database, please recheck the settings you specified";
 $GLOBALS['strCreateTableTestFailed']        = "The user you specified doesn't have permission to create or update the database structure, please contact the database administrator.";
 $GLOBALS['strUpdateTableTestFailed']        = "The user you specified doesn't have permission to update the database structure, please contact the database administrator.";
 $GLOBALS['strTablePrefixInvalid']           = "Table prefix contains invalid characters";
-$GLOBALS['strTableInUse']                   = "The database which you specified is already used for ".MAX_PRODUCT_NAME.", please use a different table prefix, or read the UPGRADE.txt file for upgrading instructions.";
+$GLOBALS['strTableInUse']                   = "The database which you specified is already used for ".PRODUCT_NAME.", please use a different table prefix, or read the UPGRADE.txt file for upgrading instructions.";
 $GLOBALS['strNoVersionInfo']                = "Unable to select the database version";
 $GLOBALS['strInvalidVersionInfo']           = "Unable to determine the database version";
-$GLOBALS['strInvalidMySqlVersion']          = "" . MAX_PRODUCT_NAME." requires MySQL 4.0 or higher to function correctly. Please select a different database server.";
+$GLOBALS['strInvalidMySqlVersion']          = "" . PRODUCT_NAME." requires MySQL 4.0 or higher to function correctly. Please select a different database server.";
 $GLOBALS['strTableWrongType']               = "The table type you selected isn't supported by your installation of ".phpAds_dbmsname;
 $GLOBALS['strMayNotFunction']               = "Before you continue, please correct these potential problems:";
 $GLOBALS['strFixProblemsBefore']            = "The following item(s) need to be corrected before you can install ".MAX_PRODUCT_NAME.". If you have any questions about this error message, please read the <i>Administrator Guide</i>, which is part of the package you downloaded.";
 $GLOBALS['strFixProblemsAfter']             = "If you are not able to correct the problems listed above, please contact the administrator of the server you are trying to install ".MAX_PRODUCT_NAME." on. The administrator of the server may be able to help you.";
 $GLOBALS['strIgnoreWarnings']               = "Ignore warnings";
 $GLOBALS['strWarningDBavailable']           = "The version of PHP you are using doesn't have support for connecting to a ".phpAds_dbmsname." database server. You need to enable the PHP ".phpAds_dbmsname." extension before you can proceed.";
-$GLOBALS['strWarningPHPversion']            = "" . MAX_PRODUCT_NAME." requires PHP 5.1.4 or higher to function correctly. You are currently using {php_version}.";
+$GLOBALS['strWarningPHPversion']            = "" . PRODUCT_NAME." requires PHP 5.1.4 or higher to function correctly. You are currently using {php_version}.";
 $GLOBALS['strWarningRegisterGlobals']       = "The PHP configuration variable register_globals needs to be turned on.";
 $GLOBALS['strWarningRegisterArgcArv']       = "The PHP configuration variable register_argc_argv needs to be turned on to run maintenance from the command line.";
 $GLOBALS['strWarningMagicQuotesGPC']        = "The PHP configuration variable magic_quotes_gpc needs to be turned on.";
@@ -58,7 +56,7 @@ $GLOBALS['strWarningMagicQuotesRuntime']    = "The PHP configuration variable ma
 $GLOBALS['strWarningFileUploads']           = "The PHP configuration variable file_uploads needs to be turned on.";
 $GLOBALS['strWarningTrackVars']             = "The PHP configuration variable track_vars needs to be turned on.";
 $GLOBALS['strWarningPREG']                  = "The version of PHP you are using doesn't have support for PERL compatible regular expressions. You need to enable the PREG extension before you can proceed.";
-$GLOBALS['strConfigLockedDetected']         = "" . MAX_PRODUCT_NAME." has detected that the <b>max.conf.php</b> file cannot be written by the web server. You can't proceed until you make the 'var' directory writable by the web server. Read the supplied documentation if you don't know how to do that.";
+$GLOBALS['strConfigLockedDetected']         = "" . PRODUCT_NAME." has detected that the <b>max.conf.php</b> file cannot be written by the web server. You can't proceed until you make the 'var' directory writable by the web server. Read the supplied documentation if you don't know how to do that.";
 $GLOBALS['strCantUpdateDB']                 = "It is currently not possible to update the database. If you decide to proceed, all existing banners, statistics and advertisers will be deleted.";
 $GLOBALS['strIgnoreErrors']                 = "Ignore errors";
 $GLOBALS['strRetryUpdate']                  = "Retry updating";
@@ -68,10 +66,10 @@ $GLOBALS['strTablesType']                   = "Table type";
 
 
 $GLOBALS['strRecoveryRequiredTitle']    = "Your previous upgrade attempt encountered an error";
-$GLOBALS['strRecoveryRequired']         = "There was an error while processing your previous upgrade and " . MAX_PRODUCT_NAME . " must attempt to recover the upgrade process. Please click the Recover button below.";
+$GLOBALS['strRecoveryRequired']         = "There was an error while processing your previous upgrade and " . PRODUCT_NAME . " must attempt to recover the upgrade process. Please click the Recover button below.";
 
-$GLOBALS['strProductUpToDateTitle']     =  MAX_PRODUCT_NAME . " is up to date";
-$GLOBALS['strOaUpToDate']               = "Your " . MAX_PRODUCT_NAME . " database and file structure are both using the most recent version and therefore no upgrade is required at this time. Please click Continue to proceed to the OpenX administration panel.";
+$GLOBALS['strProductUpToDateTitle']     =  PRODUCT_NAME . " is up to date";
+$GLOBALS['strOaUpToDate']               = "Your " . PRODUCT_NAME . " database and file structure are both using the most recent version and therefore no upgrade is required at this time. Please click Continue to proceed to the administration panel.";
 $GLOBALS['strOaUpToDateCantRemove']     = "The UPGRADE file is still present inside of your 'var' folder. We are unable to remove this file because of insufficient permissions. Please delete this file yourself.";
 $GLOBALS['strRemoveUpgradeFile']               = "You must remove the UPGRADE file from the 'var' folder.";
 $GLOBALS['strInstallSuccess']               = "Clicking 'Continue' will log you in to your ad server.
@@ -163,7 +161,7 @@ $GLOBALS['strAdminEmail']                            = "Admin's email Address";
 $GLOBALS['strAdministratorEmail']                    = "Administrator email Address";
 $GLOBALS['strCompanyName']                           = "Company Name";
 $GLOBALS['strAdminCheckUpdates']                     = "Automatically check for product updates and security alerts (Recommended).";
-$GLOBALS['strAdminShareStack']                       = "Share technical information with the OpenX Team to help with development and testing.";
+$GLOBALS['strAdminShareStack']                       = "Share technical information with the " . PRODUCT_NAME . " Team to help with development and testing.";
 $GLOBALS['strAdminShareData']                        = "Share ad volume information anonymously to participate in the community data sharing program.";
 $GLOBALS['strAdminCheckEveryLogin']                  = "Every Login";
 $GLOBALS['strAdminCheckDaily']                       = "Daily";
@@ -184,11 +182,6 @@ $GLOBALS['strAdminSettingsIntro']                    = "Please complete this for
 $GLOBALS['strConfigSettingsIntro']                   = "Please check the configuration settings below and make any required changes before proceeding. If unsure, leave the default values.";
 
 $GLOBALS['strEnableAutoMaintenance']	             = "Automatically perform maintenance during delivery if scheduled maintenance is not set up";
-
-// OpenX ID Settings
-$GLOBALS['strOpenadsUsername']                       = "" . MAX_PRODUCT_NAME . " Username";
-$GLOBALS['strOpenadsPassword']                       = "" . MAX_PRODUCT_NAME . " Password";
-$GLOBALS['strOpenadsEmail']                          = "" . MAX_PRODUCT_NAME . " email";
 
 // Database Settings
 $GLOBALS['strDatabaseSettings']                      = "Database Settings";
