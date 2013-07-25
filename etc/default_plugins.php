@@ -8,6 +8,7 @@ $aDefaultPlugins[] = array('path'=>MAX_PATH.'/etc/plugins/','name'=>'openXDelive
 $aDefaultPlugins[] = array('path'=>MAX_PATH.'/etc/plugins/','name'=>'openXMaxMindGeoIP','ext'=>'zip');
 $aDefaultPlugins[] = array('path'=>MAX_PATH.'/etc/plugins/','name'=>'openXInvocationTags','ext'=>'zip');
 $aDefaultPlugins[] = array('path'=>MAX_PATH.'/etc/plugins/','name'=>'openXDeliveryLog','ext'=>'zip');
-$aDefaultPlugins[] = array('path'=>MAX_PATH.'/etc/plugins/','name'=>'openXMarket','ext'=>'zip');
 $aDefaultPlugins[] = array('path'=>MAX_PATH.'/etc/plugins/','name'=>'openXWorkflow','ext'=>'zip');
 $aDefaultPlugins[] = array('path'=>MAX_PATH.'/etc/plugins/','name'=>'openXVideoAds','ext'=>'zip');
+
+?>
