@@ -327,7 +327,6 @@ $GLOBALS['strTimeZone']				= "ʱ��";
 // Note: new translatiosn not found in original lang files but found in CSV
 $GLOBALS['strAdminAccount'] = "管�?�员�?�?�";
 $GLOBALS['strSpecifySyncSettings'] = "�?�步设置";
-$GLOBALS['strOpenadsIdYour'] = "您的OpenX ID";
 $GLOBALS['strBtnContinue'] = "继续》";
 $GLOBALS['strBtnRecover'] = "�?��?》";
 $GLOBALS['strBtnStartAgain'] = "开始�?�级》";
@@ -522,8 +521,6 @@ $GLOBALS['strTermsIntro'] = "". MAX_PRODUCT_NAME ." 在�?�守Open Source lic
 $GLOBALS['strDbSetupIntro'] = "请输入详细信�?�连接到数�?�库。如果你�?确定这些信�?�，请�?�系您的系统管�?�员。<p>下一步将为您创建数�?�库，请点击[继续]进入下一步</p>";
 $GLOBALS['strSystemCheckIntro'] = "安装�?�导正在检查您的Web�?务器设置以便�?�?安装过程已�?�?功完�?。	<p>请检查被高亮的问题�?�结�?�安装过程.</p>";
 $GLOBALS['strConfigSettingsIntro'] = "请检查以下设定，进行必需的修改，如果您�?确定，请使用默认选项";
-$GLOBALS['strOpenadsUsername'] = "". MAX_PRODUCT_NAME ." 用户�??";
-$GLOBALS['strOpenadsPassword'] = "". MAX_PRODUCT_NAME ." 密�?";
 $GLOBALS['uiEnabled'] = "�?�用用户界�?�";
 $GLOBALS['strGeotargetingGeoipCountryLocation'] = "MaxMind GeoIP 国家数�?�库<br />(如果�?填则使用�?费数�?�库)";
 $GLOBALS['strPublisherDefaults'] = "网站默认设置";
