@@ -1,4 +1,4 @@
-Revive Adserver is Copyright (c) 2013 Andrew Hill
+Revive Adserver is Copyright (c) 2013 Matteo Beccati & Andrew Hill
 
 --------------------------------------------------------------------------------
 
