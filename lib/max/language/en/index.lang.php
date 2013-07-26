@@ -12,7 +12,7 @@
 
 // Meta information
 $translation_readable   = "English";
-$translation_maintainer	= "OpenX Limited";
-$translation_contact	= "http://www.openx.org/community/localisation";
+$translation_maintainer	= "Andrew Hill";
+$translation_contact	= "http://www.revive-adserver.com";
 
 ?>

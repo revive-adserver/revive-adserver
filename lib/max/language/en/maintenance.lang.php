@@ -241,7 +241,7 @@ $GLOBALS['strAppendCodesValid']         = "All tracker compiled appendcodes are 
 $GLOBALS['strRepairAppenedCodes']       = "Some inconsistancies were found above, you can repair these using the button below, this will recompile the append codes for every tracker in the system";
 
 $GLOBALS['strPlugins']                  = "Plugins";
-$GLOBALS['strPluginsPrecis']            = "Diagnose and repair problems with OpenX plugins";
+$GLOBALS['strPluginsPrecis']            = "Diagnose and repair problems with " . PRODUCT_NAME . " plugins";
 $GLOBALS['strPluginsOk']                = "No problems found";
 
 $GLOBALS['strMenus']                    = "Menus";

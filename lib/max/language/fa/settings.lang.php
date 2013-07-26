@@ -31,8 +31,6 @@ $GLOBALS['strAdvancedSettings']             = "تنظیمات پیشر�?ته";
 $GLOBALS['strOtherSettings']                = "سایر تنظیمات";
 $GLOBALS['strSpecifySyncSettings']          = "تنظیمات همگانی";
 $GLOBALS['strLicenseInformation']           = "اطلاعات لایسنس";
-$GLOBALS['strOpenadsIdYour']                = "آی دی اپن ادس شما";
-$GLOBALS['strOpenadsIdSettings']            = "تنظیمات آی دی اپن ادز";
 $GLOBALS['strWarning']                      = "اخطار";
 $GLOBALS['strFatalError']			= "  یک خطای مهم رخ داده است";
 $GLOBALS['strUpdateError']			= "یک خطا در طی بروزرسانی برنامه رخ داده است";
@@ -176,11 +174,6 @@ $GLOBALS['strAdminSettingsIntro']                    = "The administrator accoun
 $GLOBALS['strConfigSettingsIntro']                    = "Please review the following configuration settings. It is very important that you carefully review these settings as they are vital to the performance and usage of " . MAX_PRODUCT_NAME;
 
 $GLOBALS['strEnableAutoMaintenance']	             = "نگهداری به صورت اتوماتیک تا زمان تحویل ";
-
-// Openads ID Settings
-$GLOBALS['strOpenadsUsername']                       = "" . MAX_PRODUCT_NAME . " نام کاربری";
-$GLOBALS['strOpenadsPassword']                       = "" . MAX_PRODUCT_NAME . " پسورد";
-$GLOBALS['strOpenadsEmail']                          = "" . MAX_PRODUCT_NAME . "ایمیل";
 
 // Banner Settings
 $GLOBALS['strBannerSettings']                        = 'تنظیمات بنر';

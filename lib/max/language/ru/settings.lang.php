@@ -250,7 +250,6 @@ $GLOBALS['strTimeZone']					= "Временная зона";
 // Note: new translatiosn not found in original lang files but found in CSV
 $GLOBALS['strAdminAccount'] = "Учетная запись администратора";
 $GLOBALS['strSpecifySyncSettings'] = "Настройки синхронизации";
-$GLOBALS['strOpenadsIdYour'] = "Ваш OpenX ID";
 $GLOBALS['strBtnContinue'] = "Продолжить »";
 $GLOBALS['strBtnRecover'] = "Исправить »";
 $GLOBALS['strBtnStartAgain'] = "Запустить обновление снова »";
@@ -471,8 +470,6 @@ $GLOBALS['strTermsIntro'] = "". MAX_PRODUCT_NAME ." распространяет
 $GLOBALS['strDbSetupIntro'] = "Введите данные для соединения с вашей БД. Если вы не знаете что вводить - свяжитесь с вашим системным администратором.<p> нажмите 'продолжить' для продолжения инсталляции.";
 $GLOBALS['strSystemCheckIntro'] = "Мастер проверяет настройки веб-сервера, чтобы убедиться, что инсталляция будет проведена успешно. 	<p>Пожалуйста, проверьте подсвеченные замечания, чтобы инсталляция прошла успешно.</p>";
 $GLOBALS['strConfigSettingsIntro'] = "Проверьте настройки конфигурации и внесите все необходимые изменения. Если вы не уверены, оставляйте значения по умолчанию.";
-$GLOBALS['strOpenadsUsername'] = "". MAX_PRODUCT_NAME ." логин";
-$GLOBALS['strOpenadsPassword'] = "". MAX_PRODUCT_NAME ." пароль";
 $GLOBALS['strTypeDirError'] = "У веб-сервера нет прав на запись в локальную папку.";
 $GLOBALS['uiEnabled'] = "Интерфейс пользователя включен";
 $GLOBALS['strGeotargetingGeoipCountryLocation'] = "Путь к БД MaxMind GeoIP Country. Оставьте пустым для использования бесплатной версии.";

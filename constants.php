@@ -11,22 +11,24 @@
 */
 
 /**
- * @package    OpenX
- * @author     Andrew Hill <andrew.hill@openx.org>
+ * @package    Revive Adserver
  *
- * A file to set up the environment constants for Openads.
+ * A file to set up the environment constants for Revive Adserver.
  */
 
 /**
- * The environmental constants initialisation function for Openads.
+ * The environmental constants initialisation function for Revive Adserver.
  */
 function setupConstants()
 {
-    // Define this version of Openads's constants
-    define('OA_VERSION', '2.8.11-rc1');
-    define('MAX_PRODUCT_NAME',      'OpenX');
-    define('MAX_PRODUCT_URL',       'www.openx.org');
-    if (preg_match('/^(\d+\.\d+)/', OA_VERSION, $aMatches)) {
+    // Define this version of Revive Adserver's constants
+    define('VERSION', '3.0.0-rc1');
+    define('OA_VERSION', '3.0.0-rc1'); // Deprecated, use above version in code
+    define('PRODUCT_NAME', 'Revive Adserver');
+    define('MAX_PRODUCT_NAME', 'Revive Adserver'); // Deprecated, use above version in code
+    define('PRODUCT_URL', 'www.revive-adserver.com');
+    define('MAX_PRODUCT_URL', 'www.revive-adserver.com'); // Deprecated, use above version in code
+    if (preg_match('/^(\d+\.\d+)/', VERSION, $aMatches)) {
         define('OX_PRODUCT_DOCSURL',   "http://www.openx.org/help/{$aMatches[1]}");
     } else {
         define('OX_PRODUCT_DOCSURL',   "http://www.openx.org/help");
