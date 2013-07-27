@@ -26,7 +26,6 @@ require_once LIB_PATH . '/Admin/Redirect.php';
 
 require_once MAX_PATH . '/www/admin/config.php';
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
-//OA_Permission::enforceTrue(isset($GLOBALS['OA_Navigation'][OA_ACCOUNT_MANAGER]['1']));
 
 // If the user is a manager and the dashboard can't be showed to him
 // clear the menu cache and redirect this user to advertiser-index.php

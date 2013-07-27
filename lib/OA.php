@@ -133,21 +133,23 @@ class OA
         if ($ident == $aConf['log']['ident'] . '-delivery') {
             $logFile = $aConf['deliveryLog']['name'];
             list($micro_seconds, $seconds) = explode(" ", microtime());
-            $message = (round(1000 *((float)$micro_seconds + (float)$seconds))) - $GLOBALS['_MAX']['NOW_ms'] . 'ms ' . $message; 
+            $message = (round(1000 *((float)$micro_seconds + (float)$seconds))) - $GLOBALS['_MAX']['NOW_ms'] . 'ms ' . $message;
         } else {
             $logFile = $aConf['log']['name'];
         }
 
         $ident .= (!empty($GLOBALS['_MAX']['thread_id'])) ? '-' . $GLOBALS['_MAX']['thread_id'] : '';
 
-        $oLogger = &Log::singleton(
+        $oLog = new Log();
+        $oLogger = $oLog->singleton(
             $aConf['log']['type'],
             MAX_PATH . '/var/' . $logFile,
             $ident,
             $aLoggerConf
         );
         // If log message is an error object, extract info
-        if (PEAR::isError($message)) {
+        $oPEAR = new PEAR();
+        if ($oPEAR->isError($message)) {
             $userinfo = $message->getUserInfo();
             $message = $message->getMessage();
             if (!empty($userinfo)) {
@@ -180,7 +182,8 @@ class OA
         // Log messages in the local server timezone, if possible
         global $serverTimezone;
         if (!empty($serverTimezone)) {
-            $currentTimezone = OX_Admin_Timezones::getTimezone();
+            $oAdminTimezones = new OX_Admin_Timezones();
+            $currentTimezone = $oAdminTimezones->getTimezone();
             OA_setTimeZone($serverTimezone);
         }
         // Log the message

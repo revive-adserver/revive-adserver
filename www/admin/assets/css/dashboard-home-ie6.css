@@ -1,0 +1,28 @@
+body { background: none }
+#main { margin-left: 2px }
+div.widgetBody iframe,
+div.widget2Body iframe {
+    height: 140px;
+    padding: 0px;
+    margin: 0px;
+}
+div.widgetCenter,
+div.widgetLeft,
+div.widgetRight { height: 170px }
+div.widgetAdContainer { padding-top: 0px }
+div.widget { background: transparent url(../assets/images/m/bl-26.gif)no-repeat scroll left bottom }
+div.widgetFrame { background: transparent url(../assets/images/m/br-17.gif)no-repeat scroll right bottom }
+div.widgetLeft { background: transparent url(../assets/images/m/tl-26.gif)no-repeat scroll left top }
+.hover div.widgetLeft { background: transparent url(../assets/images/m/tl-a-26.gif)no-repeat scroll left top }
+div.widgetRight { background: transparent url(../assets/images/m/tr-30.gif)no-repeat scroll right top }
+.hover div.widgetRight { background: transparent url(../assets/images/m/tr-a-30.gif)no-repeat scroll right top }
+div.widgetAdHeader { background: url('../assets/images/widgetAdHeader.gif') no-repeat bottom left }
+div.widgetAdFooter { background: url('../assets/images/widgetAdFooter.gif') no-repeat top left }
+div.widgetAdLeft { background: url('../assets/images/widgetAdLeftBg.gif') repeat-y top right }
+div.widgetAdRight { background: url('../assets/images/widgetAdRightBg.gif') repeat-y top left }
+div.widgetOverlayHeader { background: url('../assets/images/widgetOverlayHeader.gif') no-repeat bottom left }
+div.widgetOverlayFooter { background: url('../assets/images/widgetOverlayFooter.gif') no-repeat top left }
+div.widgetOverlayLeft { background: url('../assets/images/widgetOverlayLeft.gif') no-repeat top right }
+div.widgetOverlayRight { background: url('../assets/images/widgetOverlayRight.gif') no-repeat top left }
+div.widgetToolbarButtonClose,
+div.widgetToolbarButtonOpen { background: url('../assets/images/widgetToolbarButton.gif')no-repeat top left }

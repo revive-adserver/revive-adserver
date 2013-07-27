@@ -1,0 +1,11 @@
+div.widgetCenter,
+div.widgetLeft,
+div.widgetRight { height: 170px }
+div.widgetAdContainer { padding-top: 5px }
+div.widgetAdImg { padding: 5px 0 }
+.communityProfile div.widgetCompanyName {
+    height: 38px;
+    margin: 12px 3px 0 3px;
+}
+.outstandingRev { padding: 0 0 3px 0 }
+div.communityProfileLogoFile input { margin: 0 }
