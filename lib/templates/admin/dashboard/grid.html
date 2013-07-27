@@ -39,19 +39,11 @@
 	                           <div class="widgetToolbarWidgets widgetToolbarCarousel">
 	                             <ul>
 
-	                                 <li id="cw1tw"><div class="toolbarWidget groupItem hide" id="w1tw"><img src="{$imageURL}/dashboard/grid/thumbs/Profile.png" /><div>Community Profile</div></div></li>
+	                                 <li id="cw1tw"><div class="toolbarWidget groupItem hide" id="w3tw"><img src="{$imageURL}/dashboard/grid/thumbs/Statistics.gif" /><div>Your Statistics</div></div></li>
 
-	                                 <li id="cw2tw"><div class="toolbarWidget groupItem hide" id="w2tw"><img src="{$imageURL}/dashboard/grid/thumbs/Statistics.gif" /><div>Community Statistics</div></div></li>
+	                                 <li id="cw2tw"><div class="toolbarWidget groupItem hide" id="w6tw"><img src="{$imageURL}/dashboard/grid/thumbs/Audit.png" /><div>Audit Trail</div></div></li>
 
-	                                 <li id="cw3tw"><div class="toolbarWidget groupItem hide" id="w3tw"><img src="{$imageURL}/dashboard/grid/thumbs/Statistics.gif" /><div>Your Statistics</div></div></li>
-
-	                                 <li id="cw4tw"><div class="toolbarWidget groupItem hide" id="w4tw"><img src="{$imageURL}/dashboard/grid/thumbs/ForumOrNews.png" /><div>OpenX News</div></div></li>
-
-	                                 <li id="cw5tw"><div class="toolbarWidget groupItem hide" id="w5tw"><img src="{$imageURL}/dashboard/grid/thumbs/ForumOrNews.png" /><div>OpenX Forums</div></div></li>
-
-	                                 <li id="cw6tw"><div class="toolbarWidget groupItem hide" id="w6tw"><img src="{$imageURL}/dashboard/grid/thumbs/Audit.png" /><div>Audit Trail</div></div></li>
-
-	                                 <li id="cw7tw"><div class="toolbarWidget groupItem hide" id="w7tw"><img src="{$imageURL}/dashboard/grid/thumbs/Campaign.png" /><div>Campaign Overview</div></div></li>
+	                                 <li id="cw3tw"><div class="toolbarWidget groupItem hide" id="w7tw"><img src="{$imageURL}/dashboard/grid/thumbs/Campaign.png" /><div>Campaign Overview</div></div></li>
 
 	                             </ul>
                            </div>
@@ -85,7 +77,7 @@
                                 <div class="widgetBody">
                                   <div class="widgetHandle">
                                     <div class="widgetTitle">
-                                        OpenX Community Profile
+                                        Your Statistics
                                     </div>
                                     <div class="widgetButtons">
                                       <div class="widgetButtonContainer widgetButtonClose">
@@ -95,7 +87,7 @@
                                     </div>
                                   </div>
                                   <div class="widgetContent">
-                                   <iframe src="communityProfile?oapPath=http%3A%2F%2Fopenx-dev.fornax.net%2Fwww%2Fadmin" name="f_w1" id="f_w1" frameborder="0" allowTransparency="true"></iframe>
+                                   <iframe src="{$dashboardURL}?widget=GraphOAP" name="f_w3" id="f_w3" frameborder="0" allowTransparency="true"></iframe>
                                   </div>
                                 </div>
                               </div>
@@ -104,34 +96,12 @@
                         </div>
                       </div>
 
-                      <div id="w4" class="widget groupItem  ">
-                        <div class="widgetFrame">
-                          <div class="widgetLeft">
-                            <div class="widgetRight">
-                              <div class="widgetCenter">
-                                <div class="widgetBody">
-                                  <div class="widgetHandle">
-                                    <div class="widgetTitle">
-                                        OpenX News
-                                    </div>
-                                    <div class="widgetButtons">
-                                      <div class="widgetButtonContainer widgetButtonClose">
-                                        <div class="close widgetIcon"></div>
-                                        <div class="lock widgetIcon"></div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="widgetContent">
-                                   <iframe src="http://openx-dev.fornax.net/www/admin/dashboard.php?widget=BlogFeed" name="f_w4" id="f_w4" frameborder="0" allowTransparency="true"></iframe>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                   </div>
 
-                      <div id="w7" class="widget groupItem  ">
+                   <!-- middleCol -->
+                   <div id="middleCol" class="groupWrapper toolbarWrapper">
+
+                      <div id="w2" class="widget groupItem  ">
                         <div class="widgetFrame">
                           <div class="widgetLeft">
                             <div class="widgetRight">
@@ -149,7 +119,7 @@
                                     </div>
                                   </div>
                                   <div class="widgetContent">
-                                   <iframe src="http://openx-dev.fornax.net/www/admin/dashboard.php?widget=CampaignOverview" name="f_w7" id="f_w7" frameborder="0" allowTransparency="true"></iframe>
+                                   <iframe src="{$dashboardURL}?widget=CampaignOverview" name="f_w7" id="f_w7" frameborder="0" allowTransparency="true"></iframe>
                                   </div>
                                 </div>
                               </div>
@@ -158,98 +128,12 @@
                         </div>
                       </div>
 
-                     </div>
-
-                   <!-- middleCol -->
-                   <div id="middleCol" class="groupWrapper toolbarWrapper">
-
-                      <div id="w2" class="widget groupItem  ">
-                        <div class="widgetFrame">
-                          <div class="widgetLeft">
-                            <div class="widgetRight">
-                              <div class="widgetCenter">
-                                <div class="widgetBody">
-                                  <div class="widgetHandle">
-                                    <div class="widgetTitle">
-                                        Community Statistics
-                                    </div>
-                                    <div class="widgetButtons">
-                                      <div class="widgetButtonContainer widgetButtonClose">
-                                        <div class="close widgetIcon"></div>
-                                        <div class="lock widgetIcon"></div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="widgetContent">
-                                   <iframe src="http://openx-dev.fornax.net/www/admin/dashboard.php?widget=GraphOAC" name="f_w2" id="f_w2" frameborder="0" allowTransparency="true"></iframe>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div id="w5" class="widget groupItem  ">
-                        <div class="widgetFrame">
-                          <div class="widgetLeft">
-                            <div class="widgetRight">
-                              <div class="widgetCenter">
-                                <div class="widgetBody">
-                                  <div class="widgetHandle">
-                                    <div class="widgetTitle">
-                                        OpenX Support Forums
-                                    </div>
-                                    <div class="widgetButtons">
-                                      <div class="widgetButtonContainer widgetButtonClose">
-                                        <div class="close widgetIcon"></div>
-                                        <div class="lock widgetIcon"></div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="widgetContent">
-                                   <iframe src="http://openx-dev.fornax.net/www/admin/dashboard.php?widget=ForumFeed" name="f_w5" id="f_w5" frameborder="0" allowTransparency="true"></iframe>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                     </div>
+                   </div>
 
                    <!-- rightCol -->
                    <div id="rightCol" class="groupWrapper toolbarWrapper">
 
                       <div id="w3" class="widget groupItem  ">
-                        <div class="widgetFrame">
-                          <div class="widgetLeft">
-                            <div class="widgetRight">
-                              <div class="widgetCenter">
-                                <div class="widgetBody">
-                                  <div class="widgetHandle">
-                                    <div class="widgetTitle">
-                                        Your Statistics
-                                    </div>
-                                    <div class="widgetButtons">
-                                      <div class="widgetButtonContainer widgetButtonClose">
-                                        <div class="close widgetIcon"></div>
-                                        <div class="lock widgetIcon"></div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="widgetContent">
-                                   <iframe src="http://openx-dev.fornax.net/www/admin/dashboard.php?widget=GraphOAP" name="f_w3" id="f_w3" frameborder="0" allowTransparency="true"></iframe>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div id="w6" class="widget groupItem  ">
                         <div class="widgetFrame">
                           <div class="widgetLeft">
                             <div class="widgetRight">
@@ -267,7 +151,7 @@
                                     </div>
                                   </div>
                                   <div class="widgetContent">
-                                   <iframe src="http://openx-dev.fornax.net/www/admin/dashboard.php?widget=Audit" name="f_w6" id="f_w6" frameborder="0" allowTransparency="true"></iframe>
+                                   <iframe src="{$dashboardURL}?widget=Audit" name="f_w6" id="f_w6" frameborder="0" allowTransparency="true"></iframe>
                                   </div>
                                 </div>
                               </div>
@@ -276,8 +160,7 @@
                         </div>
                       </div>
 
-                     </div>
-
+                   </div>
 
                <!-- 3-col end -->
                </div>
