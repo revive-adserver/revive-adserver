@@ -65,7 +65,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
         // Load the Market component
         $this->oMarketComponent = OX_Component::factory('admin', 'oxMarket', 'oxMarket');
         $this->aBranding = $this->oMarketComponent->aBranding;
-        
+
         // Set the output type "entity" style delivery statistcs
         $this->outputType = 'deliveryEntity';
 
@@ -78,7 +78,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
         // Store the preferences
         $this->aPagePrefs['listorder']      = $this->listOrderField;
         $this->aPagePrefs['orderdirection'] = $this->listOrderDirection;
-        
+
         // load the Banners DO class (to be used in entityLink)
         $do = DB_DataObject::factory('Banners');
     }
@@ -187,10 +187,10 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
      */
     function entityLink($key, $type = null)
     {
-        return empty($this->entityLinks[$key]) 
-            || $type == DataObjects_Banners::BANNER_TYPE_MARKET 
+        return empty($this->entityLinks[$key])
+            || $type == DataObjects_Banners::BANNER_TYPE_MARKET
             || $type == MAX_ZoneMarketMigrated
-                ?  false 
+                ?  false
                 : $this->entityLinks[$key];
     }
 
@@ -274,7 +274,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
                 $this->childrendata['ad_id'] = Admin_DA::fromCache('getAds', $aParams);
                 // Plugins can set their own ads in the array
                 foreach ($this->aPlugins as $oPlugin) {
-                    $oPlugin->mergeAds(&$this->childrendata['ad_id']);
+                    $oPlugin->mergeAds($this->childrendata['ad_id']);
                 }
             }
             if (array_search('placement_id', $aggregates) !== false) {
@@ -300,7 +300,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
                 $this->childrendata['zone_id'] = Admin_DA::fromCache('getZones', $aParams);
                 // Plugins can set their own zones in the array
                 foreach ($this->aPlugins as $oPlugin) {
-                    $oPlugin->mergeZones(&$this->childrendata['zone_id']);
+                    $oPlugin->mergeZones($this->childrendata['zone_id']);
                 }
             }
             if (array_search('publisher_id', $aggregates) !== false) {
@@ -315,7 +315,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
 
             foreach ($aRows as $row) {
                 foreach ($aggregates as $agg) {
-                    $this->_prepareDataAdd($this->data[$agg], $row, $agg); 
+                    $this->_prepareDataAdd($this->data[$agg], $row, $agg);
                 }
             }
         }
@@ -444,7 +444,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
             ($this->listOrderField == 'id' ? 'placement_id' : $this->listOrderField),
             $this->listOrderDirection == 'up'
         );
-         
+
         $aEntitiesData = array();
         foreach ($aPlacements as $campaignId => $campaign) {
             $campaign['active'] = $this->_hasActiveStats($campaign);
@@ -482,16 +482,16 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
                                           . "&period_end=" . MAX_getStoredValue('period_end', date('Y-m-d'));
                 $campaign['expanded'] = MAX_isExpanded($campaignId, $expand, $this->aNodes, $campaign['prefix']);
                 $campaign['icon'] = MAX_getEntityIcon('placement', $campaign['active'], $campaign['type']);
-                
+
                 $htmlToAppend = '';
                 if($campaign['mtype'] == DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN) {
                     $htmlToAppend = $this->getHtmlHelpLink('help-market-optin-campaign');
                 } else if($campaign['mtype'] == DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_ZONE_OPTIN) {
                     $htmlToAppend = $this->getHtmlHelpLink('help-market-optin-zone');
-                } 
+                }
                 $campaign['html-append'] = $htmlToAppend;
-                
-            
+
+
                 // mask anonymous campaigns
                 // a) mask campaign name
                 $campaign['name'] = MAX_getPlacementName($campaign);
@@ -499,7 +499,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
                     $campaign['name'] = $GLOBALS['strMarketCampaignOptin'];
                 } else if($campaign['mtype'] == DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_ZONE_OPTIN) {
                     $campaign['name'] = $GLOBALS['strMarketZoneOptin'];
-                } 
+                }
 
                 // b) mask ad names
                 if(isset($campaign['children'])) {
@@ -530,7 +530,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
     {
         return '<span class="link" help="'. $id .'"><span class="icon icon-info"></span></span>';
     }
-    
+
     /**
      * Get banner stats
      *
@@ -543,7 +543,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
     {
         global $phpAds_IAB;
         require_once MAX_PATH . '/www/admin/lib-size.inc.php';
-        
+
         $aParams['include'] = array('placement_id'); // Needed to fetch the advertiser_id
         $aParams['exclude'] = array('zone_id');
         $this->prepareData($aParams);
@@ -566,15 +566,15 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
                 // mask banner name if anonymous campaign
                 $campaign = Admin_DA::getPlacement($banner['placement_id']);
                 $campaignAnonymous = $campaign['anonymous'] == 't' ? true : false;
-                
+
                 if($banner['type'] == DataObjects_Banners::BANNER_TYPE_MARKET) {
-                    $marketBannerNameAndAdvertiserId = $this->getMarketBannerName($banner['name']); 
+                    $marketBannerNameAndAdvertiserId = $this->getMarketBannerName($banner['name']);
                     $banner['name'] = $marketBannerNameAndAdvertiserId['name'];
                     $banner['marketAdvertiserId'] = $marketBannerNameAndAdvertiserId['marketAdvertiserId'];
-                    
+
                 }
                 $banner['name'] = MAX_getAdName($banner['name'], null, null, $campaignAnonymous, $bannerId);
-                
+
                 $banner['prefix'] = 'b';
                 $banner['id'] = $bannerId;
                 $banner['linkparams'] = "clientid={$banner['advertiser_id']}&campaignid={$banner['placement_id']}&bannerid={$bannerId}&";
@@ -613,20 +613,20 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
             // - "$ADVERTISERID_$ADWIDTH x $ADHEIGHT"
             // - or "$AD_WIDTH x $AD_HEIGHT"
             $startBannerDimension = strpos($bannerName, '_');
-            
+
             $marketAdvertiserName = false;
             if($startBannerDimension === false) {
                 $bannerDimensions = $bannerName;
             } else {
                 $bannerDimensions = substr($bannerName, $startBannerDimension + 1);
                 $marketAdvertiserId = substr($bannerName, 0, $startBannerDimension);
-    
+
                 if(!empty($marketAdvertiserId)) {
                     $marketAdvertiserName = $this->getMarketAdvertiserNameFromId($marketAdvertiserId);
                 }
                 if($marketAdvertiserName) {
                     $bannerName = $marketAdvertiserName . ' - ' .$bannerDimensions;
-                } 
+                }
             }
             if($marketAdvertiserName === false)
             {
@@ -643,7 +643,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
         );
     }
     /**
-     * Loads the list of market advertisers once, and returns the name for the given market advertiser ID 
+     * Loads the list of market advertisers once, and returns the name for the given market advertiser ID
      * @param $marketAdvertiserId
      * @return string or false
      */
@@ -653,7 +653,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
         if(is_null($advertiserList)) {
             $oDbh = OA_DB::singleton();
             $query = 'SELECT market_advertiser_id, name
-            			FROM '.$GLOBALS['_MAX']['CONF']['table']['prefix'].'ext_market_advertiser 
+            			FROM '.$GLOBALS['_MAX']['CONF']['table']['prefix'].'ext_market_advertiser
             			';
             $rows = $oDbh->queryAll($query);
             foreach($rows as $row) {
@@ -665,7 +665,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
         }
         return false;
     }
-    
+
     /**
      * Get publisher stats
      *
@@ -772,12 +772,12 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
                                           . "&period_end=" . MAX_getStoredValue('period_end', date('Y-m-d'));
                 $zone['expanded'] = MAX_isExpanded($zoneId, $expand, $this->aNodes, $zone['prefix']);;
                 $zone['icon'] = MAX_getEntityIcon('zone', $zone['active'], $zone['type']);
-                
+
                 if($zone['type'] == MAX_ZoneMarketMigrated) {
                     $zone['html-append'] = $this->getHtmlHelpLink('help-market-zone-migrated-from-pre-283');
                     $zone['name'] = $GLOBALS['strMarketZoneBeforeOpenX2.8.4'];
-                } 
-                
+                }
+
                 $aEntitiesData[] = $zone;
             } elseif ($this->startLevel == $level) {
                 $this->hiddenEntities++;

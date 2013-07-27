@@ -360,12 +360,12 @@ class OA_StatisticsFieldsDelivery
     function mergeData(&$aRows, $method, $aParams)
     {
     }
-    
-    function mergeAds($ads)
+
+    function mergeAds(&$ads)
     {
     }
-    
-    function mergeZones($zones)
+
+    function mergeZones(&$zones)
     {
     }
 

@@ -37,6 +37,10 @@ OX_increaseMemoryLimit(OX_getMinimumRequiredMemory());
 if (!defined('E_DEPRECATED')) {
     define('E_DEPRECATED', 0);
 }
+// PHP 5.4 compatibility
+if (!defined('E_STRICT')) {
+    define('E_STRICT', 0);
+}
 
 setupServerVariables();
 setupDeliveryConfigVariables();
@@ -48,10 +52,10 @@ $GLOBALS['_OA']['invocationType'] = array_search(basename($_SERVER['SCRIPT_FILEN
 // Disable all notices and warnings,
 // as some PAN code still generates PHP warnings in places
 if (!empty($conf['debug']['production'])) {
-    error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED);
+    error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_STRICT);
 } else {
     // show all errors when developing
-    error_reporting(E_ALL ^ E_DEPRECATED);
+    error_reporting(E_ALL ^ E_DEPRECATED ^ E_STRICT);
 }
 
 require_once MAX_PATH . '/lib/max/Delivery/common.php';
