@@ -204,7 +204,8 @@ function pearErrorHandler($oError)
 }
 
 // Set PEAR error handler
-PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, 'pearErrorHandler');
+$oPEAR = new PEAR();
+$oPEAR->setErrorHandling(PEAR_ERROR_CALLBACK, 'pearErrorHandler');
 
 /*-------------------------------------------------------*/
 /* Old lib-statistics code, general html transform fns   */
