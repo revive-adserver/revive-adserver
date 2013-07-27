@@ -61,8 +61,8 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             require_once MAX_PATH . '/lib/OA/Admin/Statistics/Fields/Delivery/Affiliates.php';
             require_once MAX_PATH . '/lib/OA/Admin/Statistics/Fields/Delivery/Default.php';
 
-            $aStatisticsFieldsDelivery['affiliates'] = & new OA_StatisticsFieldsDelivery_Affiliates();
-            $aStatisticsFieldsDelivery['default'] = & new OA_StatisticsFieldsDelivery_Default();
+            $aStatisticsFieldsDelivery['affiliates'] = new OA_StatisticsFieldsDelivery_Affiliates();
+            $aStatisticsFieldsDelivery['default'] = new OA_StatisticsFieldsDelivery_Default();
 
             foreach ($aStatisticsFieldsDelivery as $obj) {
                 // Get the column preference name for "Sum Conversions"
@@ -99,8 +99,8 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             require_once MAX_PATH . '/lib/OA/Admin/Statistics/Fields/Delivery/Affiliates.php';
             require_once MAX_PATH . '/lib/OA/Admin/Statistics/Fields/Delivery/Default.php';
 
-            $aStatisticsFieldsDelivery['affiliates'] = & new OA_StatisticsFieldsDelivery_Affiliates();
-            $aStatisticsFieldsDelivery['default'] = & new OA_StatisticsFieldsDelivery_Default();
+            $aStatisticsFieldsDelivery['affiliates'] = new OA_StatisticsFieldsDelivery_Affiliates();
+            $aStatisticsFieldsDelivery['default'] = new OA_StatisticsFieldsDelivery_Default();
 
             foreach ($aStatisticsFieldsDelivery as $obj) {
                 // Get all of the column preference names that relate to
