@@ -1,8 +1,8 @@
 
-    Revive Aderver - The open source ad server formerly known as OpenX Source
+    Revive Adserver - The open source ad server formerly known as OpenX Source
     =========================================================================
 
-    Revive Aderver is an open source ad serving tool that enables publishers to:
+    Revive Adserver is an open source ad serving tool that enables publishers to:
 
       * Serve ads on their websites;
 
@@ -15,7 +15,7 @@
       * Set rules to target the delivery of campaigns, or even ads, to
           specific users, to help maximise the effectiveness of campaigns.
 
-    Revive Aderver was was formerly known as OpenX Source, Openads and
+    Revive Adserver was was formerly known as OpenX Source, Openads and
     phpAdsNew.
 
 
