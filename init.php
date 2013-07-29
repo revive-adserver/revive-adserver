@@ -63,7 +63,7 @@ function init()
 
     // Disable all notices and warnings, as some PAN code still
     // generates PHP warnings in places
-    error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_STRICT);
+    error_reporting(E_ALL & ~(E_NOTICE | E_WARNING | E_DEPRECATED | E_STRICT));
 
     // If not being called from the installation script...
     if ( (!isset($GLOBALS['_MAX']['CONF']['openads']['installed'])) || (!$GLOBALS['_MAX']['CONF']['openads']['installed']) )

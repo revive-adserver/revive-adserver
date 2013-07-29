@@ -39,10 +39,6 @@ function setupConstants()
     if (!defined('E_DEPRECATED')) {
         define('E_DEPRECATED', 0);
     }
-    // PHP 5.4 compatibility
-    if (!defined('E_STRICT')) {
-        define('E_STRICT', 0);
-    }
 
     define('OA_INSTALLATION_STATUS_NOTINSTALLED' ,   -1);
     define('OA_INSTALLATION_STATUS_UPGRADING'    ,    0);
