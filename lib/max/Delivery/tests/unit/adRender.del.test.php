@@ -175,10 +175,6 @@ class Test_DeliveryAdRender extends UnitTestCase
 	function test_adRenderHtml()
 	{
 		$this->sendMessage('test_adRenderHtml');
-        MAX_Dal_Delivery_Include();
-        OA_Dal_Delivery_connect();
-        $aBanner    = (array)OA_Dal_Delivery_getAd(4);
-        $prn        = print_r($aBanner, TRUE);
 
         $GLOBALS['_MAX']['CONF']['logging']['adImpressions'] = '';
 		$GLOBALS['_MAX']['CONF']['delivery']['execPhp']		= TRUE;

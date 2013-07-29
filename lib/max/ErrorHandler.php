@@ -53,7 +53,9 @@ class MAX_ErrorHandler
                256 =>  array('User Error', 3),
                512 =>  array('User Warning', 4),
                1024=>  array('User Notice', 5),
-               2047=>  array('All', 7)
+               2048=>  array('Strict', 5),
+               4096=>  array('Recoverable', 5),
+               8192=>  array('Deprecated', 5),
                 );
         $this->sourceContextOptions = array('lines' => 5);
     }
@@ -66,20 +68,7 @@ class MAX_ErrorHandler
      */
     function startHandler()
     {
-        $GLOBALS['_MAX']['ERROR_HANDLER_OBJECT'] =  & $this;
-        $GLOBALS['_MAX']['ERROR_HANDLER_METHOD'] =  'errHandler';
-
-        //  inner function to handle redirection to a class method
-        function eh($errNo, $errStr, $file, $line, $context)
-        {
-            call_user_func(array(
-               &$GLOBALS['_MAX']['ERROR_HANDLER_OBJECT'],
-                $GLOBALS['_MAX']['ERROR_HANDLER_METHOD']),
-                $errNo, $errStr, $file, $line, $context
-            );
-        }
-        //  start handling errors
-        set_error_handler('eh');
+        set_error_handler(array($this, 'errHandler'));
     }
 
     /**
@@ -108,7 +97,7 @@ class MAX_ErrorHandler
         $conf = $GLOBALS['_MAX']['CONF'];
         // do not show notices
         if ($conf['debug']['errorOverride'] == true) {
-            if ($errNo == E_NOTICE) {
+            if ($errNo == E_NOTICE || $errNo >= E_STRICT) {
                 return null;
             }
         }

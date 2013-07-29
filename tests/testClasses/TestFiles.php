@@ -33,7 +33,7 @@ class TestFiles
      * @return array An array containing all of the files found that
      *               match the layer test code supplied.
      */
-    function getTestFiles($type, $code, $dir, $recursive = true)
+    static function getTestFiles($type, $code, $dir, $recursive = true)
     {
         $aFiles = array();
         // Search recursively?
@@ -49,7 +49,7 @@ class TestFiles
                     // Is the file another directory?
                     if (is_dir($dir . '/' . $file)) {
                         // In recursive mode, so add in all tests found in this sub-directory
-                        $aFiles = array_merge($aFiles, TestFiles::getTestFiles($type, $code, $dir . '/' . $file));
+                        $aFiles = array_merge($aFiles, self::getTestFiles($type, $code, $dir . '/' . $file));
                     }
                 }
                 closedir($dh);
@@ -81,7 +81,7 @@ class TestFiles
      * @return array An array containing the details of all the test files
      *               in the OpenX project.
      */
-    function getAllTestFiles($type)
+    static function getAllTestFiles($type)
     {
         global $conf;
         $aDirectories = explode('|', $conf['test']['directories']);
@@ -91,7 +91,7 @@ class TestFiles
                 if (empty($aTests[$layer])) {
                     $aTests[$layer] = array();
                 }
-                $aTests[$layer] = array_merge($aTests[$layer], TestFiles::getTestFiles($type, $layer, MAX_PROJECT_PATH.'/'.$path));
+                $aTests[$layer] = array_merge($aTests[$layer], self::getTestFiles($type, $layer, MAX_PROJECT_PATH.'/'.$path));
             }
         }
         return $aTests;
@@ -105,7 +105,7 @@ class TestFiles
      * @return mixed An array containing the details of all the test files
      *               in the OpenX project for the specified layer.
      */
-    function getLayerTestFiles($type, $layer)
+    static function getLayerTestFiles($type, $layer)
     {
         global $conf;
         $aDirectories = explode('|', $conf['test']['directories']);
@@ -114,7 +114,7 @@ class TestFiles
             if (empty($aTests[$layer])) {
                 $aTests[$layer] = array();
             }
-            $aTests[$layer] = array_merge($aTests[$layer], TestFiles::getTestFiles($type, $layer, MAX_PROJECT_PATH.'/'.$path));
+            $aTests[$layer] = array_merge($aTests[$layer], self::getTestFiles($type, $layer, MAX_PROJECT_PATH.'/'.$path));
         }
         return $aTests;
     }

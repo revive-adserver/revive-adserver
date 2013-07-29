@@ -15,17 +15,17 @@ class SimpletestErrorCatcher
     var $oRunner;
     var $active = true;
 
-    function SimpletestErrorCatcher(&$oRunner)
+    function __construct($oRunner)
     {
-        $this->oRunner = &$oRunner;
+        $this->oRunner = $oRunner;
         ob_start();
-        register_shutdown_function(array(&$this, 'shutdown'));
+        register_shutdown_function(array($this, 'shutdown'));
     }
 
     function deactivate()
     {
         $this->active = false;
-		ob_end_flush();
+        ob_end_flush();
     }
 
     function shutdown()

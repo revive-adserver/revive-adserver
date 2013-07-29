@@ -28,6 +28,9 @@ require_once 'init.php';
 require_once MAX_PATH . '/tests/testClasses/TestRunner.php';
 require_once MAX_PATH . '/tests/testClasses/ErrorCatcher.php';
 
+// Mask strict errors. Simpletest is too old for that
+error_reporting(error_reporting() & ~E_STRICT);
+
 $runner = new TestRunner();
 $runner->findDefaults();
 

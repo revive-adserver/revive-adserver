@@ -69,7 +69,8 @@ function OA_Dal_Delivery_connect($database = 'database') {
         @pg_client_encoding($dbLink, $conf['databaseCharset']['clientCharset']);
     }
     if (!$dbLink) {
-        OX_Delivery_logMessage('DB connection error: ' . pg_last_error(), 4);
+        $err = error_get_last();
+        OX_Delivery_logMessage('DB connection error: ' . $err['message'], 4);
     }
     return $dbLink;
 }
@@ -163,7 +164,7 @@ function OX_bucket_updateTable($tableName, $aQuery, $increment = true, $counter 
 {
     $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
     $query = OX_bucket_prepareUpdateQuery($prefix . $tableName, $aQuery, $increment, $counter);
-    
+
     $result = OA_Dal_Delivery_query(
         $query,
         'rawDatabase'

@@ -36,7 +36,7 @@ class TestEnv
      *
      * @param bool $ignore_errors True if setup errors should be ignored.
      */
-    function setupDB($ignore_errors = false)
+    static function setupDB($ignore_errors = false)
     {
         $oDbh = &OA_DB::singleton();
         if (PEAR::isError($oDbh)) {
@@ -60,7 +60,7 @@ class TestEnv
     /**
      * A method for setting up the core OpenX tables in the test database.
      */
-    function setupCoreTables()
+    static function setupCoreTables()
     {
         OA_DB_Table_Core::destroy();
         $oTable = &OA_DB_Table_Core::singleton();
@@ -70,12 +70,12 @@ class TestEnv
     /**
      * A method for setting up the default data set for testing.
      */
-    function setupDefaultData()
+    static function setupDefaultData()
     {
         DefaultData::insertDefaultData();
     }
 
-    function getPluginPackageManager($mock)
+    static function getPluginPackageManager($mock)
     {
         if ($mock)
         {
@@ -129,7 +129,7 @@ class TestEnv
         return $oPkgMgr;
     }
 
-    function installPluginPackage($pkgName, $noDb = true)
+    static function installPluginPackage($pkgName, $noDb = true)
     {
         $result = false;
         $aFile['name']      = $pkgName.'.zip';
@@ -171,7 +171,7 @@ class TestEnv
         return $result;
     }
 
-    function uninstallPluginPackage($pkgName, $noDb= true)
+    static function uninstallPluginPackage($pkgName, $noDb= true)
     {
         $oPkgMgr = & TestEnv::getPluginPackageManager($noDb);
 
@@ -193,7 +193,7 @@ class TestEnv
      * they will be rebuilt on next log in
      *
      */
-    function clearMenuCache()
+    static function clearMenuCache()
     {
         @unlink(MAX_PATH.'/var/cache/cache_ADMIN_Menu');
         @unlink(MAX_PATH.'/var/cache/cache_MANAGER_Menu');
@@ -209,7 +209,7 @@ class TestEnv
      * @param string $type : type identifier : 'dataobjects' or 'mdb2schema'
      * @return array $aIds : array of inserted entity ids
      */
-    function loadData($source, $type='dataobjects')
+    static function loadData($source, $type='dataobjects')
     {
         $file = MAX_PATH . '/tests/datasets/'.$type.'/test_'.$source.'.php';
         if (file_exists($file))
@@ -234,7 +234,7 @@ class TestEnv
     /**
      * A method for tearing down (dropping) the test database.
      */
-    function teardownDB()
+    static function teardownDB()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $result = OA_DB::dropDatabase($aConf['database']['name']);
@@ -249,7 +249,7 @@ class TestEnv
      *
      * @todo Remove the audit hack
      */
-    function restoreConfig()
+    static function restoreConfig()
     {
         // Destroy cached table classes
         OA_DB_Table_Core::destroy();
@@ -278,7 +278,7 @@ class TestEnv
      *
      * @return array Return parsed config ini file
      */
-    function parseConfigFile()
+    static function parseConfigFile()
     {
         $configFile = TestEnv::getConfigFilename();
         if (file_exists($configFile)) {
@@ -286,7 +286,7 @@ class TestEnv
         }
     }
 
-    function getConfigFilename()
+    static function getConfigFilename()
     {
         if (isset($_SERVER['SERVER_NAME'])) {
             // If test runs from web-client first check if host test config exists
@@ -313,7 +313,7 @@ class TestEnv
      * causing any transaction to be committed. In this case, this
      * method is needed to re-set the testing database.
      */
-    function restoreEnv($dropTmpTables='false')
+    static function restoreEnv($dropTmpTables='false')
     {
         $oDbh = &OA_DB::singleton();
         // Rollback any transactions that have not been closed
@@ -337,7 +337,7 @@ class TestEnv
         TestRunner::setupEnv($GLOBALS['_MAX']['TEST']['layerEnv'], true);
     }
 
-    function dropTempTables()
+    static function dropTempTables()
     {
         $oDbh = &OA_DB::singleton();
         // Truncate & drop all existing temporary tables
@@ -364,7 +364,7 @@ class TestEnv
      *
      * DEPRECATED! DO NOT USE.
      */
-    function startTransaction()
+    static function startTransaction()
     {
     }
 
@@ -373,7 +373,7 @@ class TestEnv
      *
      * DEPRECATED! DO NOT USE.
      */
-    function rollbackTransaction()
+    static function rollbackTransaction()
     {
     }
 
@@ -383,7 +383,7 @@ class TestEnv
      * insert data into the tables after they have been truncated but before the sequence is reset.
      *
      */
-    function truncateAllTables()
+    static function truncateAllTables()
     {
         $oTable = &OA_DB_Table_Core::singleton();
         $oTable->truncateAllTables();
@@ -391,7 +391,7 @@ class TestEnv
 
     }
 
-    function backupPluginSchemaFiles()
+    static function backupPluginSchemaFiles()
     {
         $schemaFilename = MAX_PATH . '/var/plugins/DataObjects/db_schema.ini';
         $linksFilename  = MAX_PATH . '/var/plugins/DataObjects/db_schema.links.ini';
@@ -428,7 +428,7 @@ class TestEnv
         return true;
     }
 
-    function restorePluginSchemaFiles()
+    static function restorePluginSchemaFiles()
     {
         $schemaFilename = MAX_PATH . '/var/plugins/DataObjects/db_schema.ini';
         $linksFilename  = MAX_PATH . '/var/plugins/DataObjects/db_schema.links.ini';
@@ -451,7 +451,7 @@ class TestEnv
      * to the config file are able to roll-back their changes by calling restoreConfig
      *
      */
-    function backupConfig()
+    static function backupConfig()
     {
         $backupConfigFilename =& $GLOBALS['_MAX']['TEST']['backupConfigFilename'];
         if (empty($backupConfigFilename)) {
@@ -466,7 +466,7 @@ class TestEnv
         return false;
     }
 
-    function removeBackupConfig()
+    static function removeBackupConfig()
     {
         $backupConfigFilename = $GLOBALS['_MAX']['TEST']['backupConfigFilename'];
         if (!empty($backupConfigFilename) && file_exists($backupConfigFilename)) {
@@ -491,7 +491,7 @@ class TestEnv
      * @todo Document $mode option, or remove it
      * @todo Consider raising an error instead of returning false.
      */
-    function getDataSQL($source, $mode)
+    static function getDataSQL($source, $mode)
     {
 	// XML files are loaded from a cache, if available
 	if (@include(MAX_PATH . "/tests/data/testData_{$source}.php")) {
@@ -522,7 +522,7 @@ class TestEnv
      * @param string $mode 'insert / update / delete'
      * @return void
      */
-    function convertDataSQLtoDBO($source, $mode)
+    static function convertDataSQLtoDBO($source, $mode)
     {
         $aDataset   = TestEnv::getDataSQL($source, $mode);
         $pattern    = "INSERT INTO (?P<table>[\w\W]+) \((?P<columns>[\w\W\s]+)\) VALUES \((?P<values>[\W\w\S]+)\);";
@@ -583,7 +583,7 @@ class TestEnv
      * @param string $mode Either 'insert' or 'text'
      * @return void
      */
-    function loadDataSQL($source, $mode)
+    static function loadDataSQL($source, $mode)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $aDataset = TestEnv::getDataSQL($source, $mode);

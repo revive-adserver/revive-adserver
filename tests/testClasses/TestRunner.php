@@ -82,7 +82,7 @@ class TestRunner
     /**
      * Constructor.
      */
-    function TestRunner()
+    function __construct()
     {
         $this->findDefaults();
         TestEnv::backupConfig();

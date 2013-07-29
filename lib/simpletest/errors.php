@@ -196,7 +196,7 @@
          *    @access public
          *    @static
          */
-        function getSeverityAsString($severity) {
+        static function getSeverityAsString($severity) {
             static $map = array(
                     E_STRICT => 'E_STRICT',
                     E_ERROR => 'E_ERROR',
@@ -209,7 +209,10 @@
                     E_COMPILE_WARNING => 'E_COMPILE_WARNING',
                     E_USER_ERROR => 'E_USER_ERROR',
                     E_USER_WARNING => 'E_USER_WARNING',
-                    E_USER_NOTICE => 'E_USER_NOTICE');
+                    E_USER_NOTICE => 'E_USER_NOTICE',
+                    E_STRICT => 'E_STRICT',
+                    E_DEPRECATED => 'E_DEPRECATED',
+            );
             return $map[$severity];
         }
     }

@@ -103,7 +103,7 @@ function MAX_limitationsIsZoneForbidden($zoneId, $aCapping)
     $capZone = isset($aCapping['cap_zone']) ? $aCapping['cap_zone'] : null;
     $sessionCapZone = isset($aCapping['session_cap_zone']) ? $aCapping['session_cap_zone'] : null;
     $blockZone = isset($aCapping['block_zone']) ? $aCapping['block_zone'] : null;
-    $showCappedNoCookie = (bool)$aCapping['show_capped_no_cookie_zone'];
+    $showCappedNoCookie = !empty($aCapping['show_capped_no_cookie_zone']);
     return (_limitationsIsZoneCapped($zoneId, $capZone, $sessionCapZone, $blockZone, $showCappedNoCookie));
 }
 

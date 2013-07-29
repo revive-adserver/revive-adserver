@@ -32,7 +32,7 @@ class OA_DB
      * A method to return a singleton database connection resource.
      *
      * Example usage:
-     * $oDbh =& OA_DB::singleton();
+     * $oDbh = OA_DB::singleton();
      *
      * Warning: In order to work correctly, the singleton method must
      * be instantiated statically and by reference, as in the above
@@ -54,7 +54,7 @@ class OA_DB
      * @return MDB2_Driver_Common An MDB2 connection resource, or PEAR_Error
      *                            on failure to connect.
      */
-    function &singleton($dsn = null, $aDriverOptions = array())
+    static function singleton($dsn = null, $aDriverOptions = array())
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
 
@@ -155,7 +155,7 @@ class OA_DB
 
             // Create the new database connection
             OA::disableErrorHandling();
-            $oDbh =& MDB2::singleton($dsn, $aOptions);
+            $oDbh = MDB2::singleton($dsn, $aOptions);
             OA::enableErrorHandling();
             if (PEAR::isError($oDbh)) {
                 return $oDbh;
@@ -201,7 +201,7 @@ class OA_DB
             $oDbh->loadModule('Datatype');
             $oDbh->loadModule('Manager');
             // Store the database connection
-            $GLOBALS['_OA']['CONNECTIONS'][$dsnMd5] =& $oDbh;
+            $GLOBALS['_OA']['CONNECTIONS'][$dsnMd5] = $oDbh;
             // Set MySQL 4 compatibility if needed
             if (strcasecmp($databaseType, 'mysql') === 0 && !empty($aConf['database']['mysql4_compatibility'])) {
                 $oDbh->exec("SET SESSION sql_mode='MYSQL40'");
@@ -216,7 +216,7 @@ class OA_DB
      * @return array
      * @static
      */
-    function getDatatypeMapOptions()
+    static function getDatatypeMapOptions()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
 
@@ -278,7 +278,7 @@ class OA_DB
      *                      name     - Optional database name
      * @return string An string containing the DSN.
      */
-    function getDsn($aConf = null)
+    static function getDsn($aConf = null)
     {
         if (is_null($aConf)) {
             $aConf = $GLOBALS['_MAX']['CONF'];
@@ -333,7 +333,7 @@ class OA_DB
      * @return array An array of driver specific options suitable for passing into
      *               the OA_DB::singleton method call.
      */
-    function getDsnOptions($aConf = null)
+    static function getDsnOptions($aConf = null)
     {
         $aDriverOptions = array();
         if (is_null($aConf)) {
@@ -365,7 +365,7 @@ class OA_DB
      * @return MDB2_Driver_Common An MDB2 connection resource, or PEAR_Error
      *                            on failure to connect.
      */
-    function &changeDatabase($name)
+    static function changeDatabase($name)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         // Overwrite the database name
@@ -385,10 +385,10 @@ class OA_DB
      * @param string $name The name of the database to create.
      * @return mixed True if the database was created correctly, PEAR_Error otherwise.
      */
-    function createDatabase($name)
+    static function createDatabase($name)
     {
         $dsn = OA_DB::_getDefaultDsn();
-        $oDbh =& OA_DB::singleton($dsn);
+        $oDbh = OA_DB::singleton($dsn);
         if (PEAR::isError($oDbh)) {
             return $oDbh;
         }
@@ -427,9 +427,9 @@ class OA_DB
      * @param  boolean Install only backup related functions
      * @return mixed True on success, PEAR_Error otherwise.
      */
-    function createFunctions($onlyBackup = false)
+    static function createFunctions($onlyBackup = false)
     {
-        $oDbh =& OA_DB::singleton();
+        $oDbh = OA_DB::singleton();
         if (PEAR::isError($oDbh)) {
             return $oDbh;
         }
@@ -443,7 +443,7 @@ class OA_DB
             }
             include $functionsFile;
             OA_DB::disconnectAll();
-            $oDbh =& OA_DB::singleton();
+            $oDbh = OA_DB::singleton();
             $aFunctions = $onlyBackup ? $aBackupFunctions : $aCustomFunctions;
             foreach ($aFunctions as $customFunction) {
                 $rows = $oDbh->exec($customFunction);
@@ -464,9 +464,9 @@ class OA_DB
      * @param string $lang the name of the language to load.
      * @return mixed true if the language is successfully loaded, otherwise PEAR_Error.
      */
-    function _createLanguage($lang = 'plpgsql')
+    static function _createLanguage($lang = 'plpgsql')
     {
-        $oDbh =& OA_DB::singleton();
+        $oDbh = OA_DB::singleton();
 
         // Check if the language has been loaded.
         $query = "SELECT COUNT(*) FROM pg_catalog.pg_language WHERE lanname = '$lang'";
@@ -505,10 +505,10 @@ class OA_DB
      * @param string $name The name of the database to drop.
      * @return boolean True if the database was dropped correctly, false otherwise.
      */
-    function dropDatabase($name)
+    static function dropDatabase($name)
     {
         $dsn = OA_DB::_getDefaultDsn();
-        $oDbh =& OA_DB::singleton($dsn);
+        $oDbh = OA_DB::singleton($dsn);
         OA::disableErrorHandling();
         $result = $oDbh->manager->dropDatabase($name);
         OA::enableErrorHandling();
@@ -530,7 +530,7 @@ class OA_DB
      * @access private
      * @return string The default database DSN.
      */
-    function _getDefaultDsn()
+    static function _getDefaultDsn()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         // Prepare a new DSN array, without a database name, so that
@@ -550,10 +550,10 @@ class OA_DB
      * @static
      * @return void
      */
-    function setCaseSensitive()
+    static function setCaseSensitive()
     {
         $newOptionsValue = OA_DB_MDB2_DEFAULT_OPTIONS ^ MDB2_PORTABILITY_FIX_CASE;
-        $oDbh =& OA_DB::singleton();
+        $oDbh = OA_DB::singleton();
         $oDbh->setOption('portability',  $newOptionsValue);
         $oDbh->setOption('quote_identifier',  true);
     }
@@ -566,9 +566,9 @@ class OA_DB
      * @static
      * @return void
      */
-    function disableCaseSensitive()
+    static function disableCaseSensitive()
     {
-        $oDbh =& OA_DB::singleton();
+        $oDbh = OA_DB::singleton();
         $oDbh->setOption('portability',  OA_DB_MDB2_DEFAULT_OPTIONS);
         OA_DB::setQuoteIdentifier();
     }
@@ -579,7 +579,7 @@ class OA_DB
      * @param MDB2_Driver_common $oDbh
      * @return mixed True on succes, PEAR_Error otherwise
      */
-    function setSchema($oDbh)
+    static function setSchema($oDbh)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
 
@@ -628,7 +628,7 @@ class OA_DB
      * @param MDB2_Driver_common $oDbh
      * @return mixed True on succes, PEAR_Error otherwise
      */
-    function setCharset($oDbh)
+    static function setCharset($oDbh)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
 
@@ -654,7 +654,7 @@ class OA_DB
      * @param bool $appendSuffix PgSQL only
      * @return string Sequence name
      */
-    function getSequenceName($oDbh, $table, $field, $appendSuffix = true)
+    static function getSequenceName($oDbh, $table, $field, $appendSuffix = true)
     {
         if ($oDbh->dbsyntax == 'pgsql') {
             $tableName = $GLOBALS['_MAX']['CONF']['table']['prefix'] . $table;
@@ -685,9 +685,9 @@ class OA_DB
      * @static
      * @return void
      */
-    function setQuoteIdentifier()
+    static function setQuoteIdentifier()
     {
-        $oDbh =& OA_DB::singleton();
+        $oDbh = OA_DB::singleton();
         $quote = false;
         if ($oDbh->dsn['phptype'] == 'pgsql') {
             $quote = '"';
@@ -710,9 +710,9 @@ class OA_DB
      * @static
      * @return void
      */
-    function disabledQuoteIdentifier()
+    static function disabledQuoteIdentifier()
     {
-        $oDbh =& OA_DB::singleton();
+        $oDbh = OA_DB::singleton();
         $oDbh->setOption('quote_identifier', false);
     }
 
@@ -725,7 +725,7 @@ class OA_DB
      *                    See {@link OA_DB::getDsn()} for format.
      * @return void
      */
-    function disconnect($dsn)
+    static function disconnect($dsn)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         // Get the DSN, if not set
@@ -746,7 +746,7 @@ class OA_DB
      * @static
      * @return void
      */
-    function disconnectAll()
+    static function disconnectAll()
     {
         if (is_array($GLOBALS['_OA']['CONNECTIONS'])) {
             foreach ($GLOBALS['_OA']['CONNECTIONS'] as $key => $oDbh) {
@@ -763,7 +763,7 @@ class OA_DB
      * @param string $name
      * @return true if valid PEAR error otherwise
      */
-    function validateTableName($name)
+    static function validateTableName($name)
     {
         /*if ( !preg_match( '/^([a-zA-z_])([a-zA-z0-9_])*$/', $name) )
         {
@@ -787,7 +787,7 @@ class OA_DB
             $msg = 'Table names may not contain any of ! " # % & \' ( ) * + , - . \/ : ; < = > ? @ [ \\ ] ^ ` { | } ~ £ nor any non-printing characters';
             return $result;
         }
-        $oDbh =& OA_DB::singleton();
+        $oDbh = OA_DB::singleton();
         if (PEAR::isError($oDbh))
         {
             OA::enableErrorHandling();
