@@ -157,7 +157,7 @@ function OX_escapeIdentifier($string)
 
 function OX_Dal_Delivery_regex($column, $regexp)
 {
-    return $column." ~* '".$regexp."'";
+    return $column." ~* E'".$regexp."'";
 }
 
 function OX_bucket_updateTable($tableName, $aQuery, $increment = true, $counter = 'count')
