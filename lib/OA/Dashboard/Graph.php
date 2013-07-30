@@ -24,7 +24,7 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
      * @var OA_Admin_Template
      */
     var $oTpl;
-    
+
     var $oTrans;
 
     /**
@@ -36,7 +36,7 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
     function OA_Dashboard_Widget_Graph($aParams)
     {
         parent::OA_Dashboard_Widget($aParams);
-        
+
         $this->oTrans = new OX_Translation();
 
         $gdAvailable = extension_loaded('gd');
@@ -128,7 +128,7 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
         if ($this->draw) {
             $useAntialias = is_callable('imageantialias');
 
-    		$Canvas =& Image_Canvas::factory('png',
+    		$Canvas = Image_Canvas::factory('png',
     			array(
     				'width'		=> 239,
     				'height'	=> 132,
@@ -136,10 +136,10 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
     			)
     		);
 
-     		$Graph =& Image_Graph::factory('graph', $Canvas);
+     		$Graph = Image_Graph::factory('graph', $Canvas);
 
      		if (is_callable('imagettftext')) {
-        		$Font =& $Graph->addNew('ttf_font', MAX_PATH.'/lib/fonts/Bitstream/Vera.ttf');
+        		$Font = $Graph->addNew('ttf_font', MAX_PATH.'/lib/fonts/Bitstream/Vera.ttf');
         		$Font->setSize(7);
 
         		$Graph->setFont($Font);
@@ -163,70 +163,54 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
             $scaleY2 = 1.75;
             $maxImpr = max($this->aData[0]);
             $maxClick = max($this->aData[1]);
-            $relation = $maxImpr / ($maxClick > 0 ? $maxClick : 1); // impressions/clicks 
+            $relation = $maxImpr / ($maxClick > 0 ? $maxClick : 1); // impressions/clicks
             $factor = $relation / $scaleY2; //scale down to make click ~ 57% of impressions bar height
-            
+
             foreach ($this->aData[1] as $k => $v) {
                 $Datasets[1]->addPoint($k, $v * $factor);
             }
 
-    /*
-    		$FontT =& $Graph->addNew('ttf_font', MAX_PATH.'/lib/fonts/Bitstream/VeraBd.ttf');
-    		$FontT->setSize(11);
-
-            $Graph->add(
-    			Image_Graph::vertical(
-    				Image_Graph::factory('title', array($this->title, $FontT)),
-    				Image_Graph::vertical(
-    					$Plotarea = Image_Graph::factory('plotarea'),
-    					$Legend = Image_Graph::factory('legend'),
-    					85
-    				),
-    				5
-    			)
-    		);
-
-    		$Legend->setPlotarea($Plotarea);
-    */
-
             $Graph->add($Plotarea = Image_Graph::factory('plotarea'));
 
-            /*$FillBG =& Image_Graph::factory('Image_Graph_Fill_Image', MAX_PATH . '/www/admin/images/dashboard-graph-bg.gif');
-            $Graph->setBackground($FillBG);*/
+            $PlotBg = Image_Graph::factory('Fill_Array');
+            $PlotBg->addColor('white');
 
-    		$Grid =& $Plotarea->addNew('line_grid', IMAGE_GRAPH_AXIS_Y);
-    		$Grid->setLineColor('#cccccc');
+            $PlotFg = Image_Graph::factory('Line_Array');
+            $PlotFg->addColor('white');
 
-    		$Plot =& $Plotarea->addNew('bar', array($Datasets));
-    		$Plot->setLineColor('black@0.2');
+            $Plotarea->setBackground($PlotBg);
+            $Plotarea->setBorderColor('white');
 
-    		$FillArray =& Image_Graph::factory('Fill_Array');
+            $Grid = $Plotarea->addNew('line_grid', IMAGE_GRAPH_AXIS_Y);
+            $Grid->setLineColor('#cccccc');
 
-//    		$FillArray->addColor('#0066ff@0.5');
-//    		$FillArray->addColor('#66ccff@0.5');
+            $Plot = $Plotarea->addNew('bar', array($Datasets));
+            $Plot->setLineColor('black@0.2');
+
+            $FillArray = Image_Graph::factory('Fill_Array');
 
             $FillArray->add(Image_Graph::factory('Fill_Gradient', array(IMAGE_GRAPH_GRAD_VERTICAL, '#b5da3c', '#6a9a2a')));
             $FillArray->add(Image_Graph::factory('Fill_Gradient', array(IMAGE_GRAPH_GRAD_VERTICAL, '#bb5c9e', '#8b4a9e')));
 
-    		$Plot->setFillStyle($FillArray);
+            $Plot->setFillStyle($FillArray);
 
-    		$AxisY2 =& $Plotarea->addNew('axis', array(IMAGE_GRAPH_AXIS_Y_SECONDARY));
-    		$AxisY2->forceMaximum(max($this->aData[1]) * $scaleY2 + 1);
+            $AxisY2 = $Plotarea->addNew('axis', array(IMAGE_GRAPH_AXIS_Y_SECONDARY));
+            $AxisY2->forceMaximum(max($this->aData[1]) * $scaleY2 + 1);
 
-    		$AxisY =& $Plotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
+            $AxisY = $Plotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
 
-    		if (!max($this->aData[0])) {
-    		    $AxisY->forceMaximum(1);
-    		}
+            if (!max($this->aData[0])) {
+                $AxisY->forceMaximum(1);
+            }
 
-    		$func = create_function('$value', 'return OA_Dashboard_Widget_Graph::_formatY($value);');
+            $func = create_function('$value', 'return OA_Dashboard_Widget_Graph::_formatY($value);');
 
             $AxisY->setDataPreprocessor(Image_Graph::factory('Image_Graph_DataPreprocessor_Function', $func));
             $AxisY2->setDataPreprocessor(Image_Graph::factory('Image_Graph_DataPreprocessor_Function', $func));
 
             ob_start();
-    		$Graph->done();
-    		$content = ob_get_clean();
+            $Graph->done();
+            $content = ob_get_clean();
 
             $this->oTpl->assign('content', $content);
         } else {
