@@ -28,7 +28,7 @@ class OA_DB_Distributed extends OA_DB
      * A method to return a singleton database connection resource.
      *
      * Example usage:
-     * $oDbh =& OA_DB_Distributed::singleton();
+     * $oDbh = OA_DB_Distributed::singleton();
      *
      * Warning: In order to work correctly, the singleton method must
      * be instantiated statically and by reference, as in the above
@@ -41,7 +41,7 @@ class OA_DB_Distributed extends OA_DB
      * @return MDB2_Driver_Common An MDB2 connection resource, or PEAR_Error
      *                            on failure to connect.
      */
-    function &singleton($dsn = null)
+    static function singleton($dsn = null)
     {
         // Get the DSN, if not set
         $dsn = is_null($dsn) ? OA_DB_Distributed::getDsn() : $dsn;
@@ -69,7 +69,7 @@ class OA_DB_Distributed extends OA_DB
      *                      name     - Optional database name
      * @return string An string containing the DSN.
      */
-    function getDsn($aConf = null)
+    static function getDsn($aConf = null)
     {
         if (is_null($aConf)) {
             $aConf = $GLOBALS['_MAX']['CONF'];
@@ -104,7 +104,7 @@ class OA_DB_Distributed extends OA_DB
      * @return array An array of driver specific options suitable for passing into
      *               the OA_DB::singleton method call.
      */
-    function getDsnOptions($aConf = null)
+    static function getDsnOptions($aConf = null)
     {
         $aDriverOptions = array();
         if (is_null($aConf)) {
