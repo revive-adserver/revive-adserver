@@ -167,6 +167,7 @@ class OA_DB_Table
         $oDbh =& OA_DB::singleton();
         $aDBTables = $oDbh->manager->listTables(null, $GLOBALS['_MAX']['CONF']['table']['prefix'].$like);
         OA_DB::disableCaseSensitive();
+        sort($aDBTables);
         return $aDBTables;
     }
 

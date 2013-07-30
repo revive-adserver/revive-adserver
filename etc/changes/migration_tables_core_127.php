@@ -211,6 +211,10 @@ class Migration_127 extends Migration
 
 	function migrateData()
 	{
+            if ($this->oDBH->dbsyntax == 'pgsql') {
+                $this->oDBH->exec("SET bytea_output = 'escape'");
+            }
+
 	    $prefix = $this->getPrefix();
 	    $table = $this->oDBH->quoteIdentifier($prefix.'zones',true);
 	    $query = "SELECT * FROM {$table}";

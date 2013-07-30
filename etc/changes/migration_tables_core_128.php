@@ -76,6 +76,10 @@ class Migration_128 extends Migration
 
 	function migrateData()
 	{
+            if ($this->oDBH->dbsyntax == 'pgsql') {
+                $this->oDBH->exec("SET bytea_output = 'escape'");
+            }
+
 	    return $this->migrateSwfProperties() && $this->migrateAcls() && $this->migrateGoogleAdSense();
 	}
 
