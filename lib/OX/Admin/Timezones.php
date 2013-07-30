@@ -29,7 +29,7 @@
      *                          to the beginning of the array.
      * @return array An array containing all the available timezones.
      */
-    function availableTimezones($addBlank = false)
+    static function availableTimezones($addBlank = false)
     {
         global $_DATE_TIMEZONE_DATA;
 
@@ -62,11 +62,11 @@
         $aTimezoneKey = Date_TimeZone::getAvailableIDs();
 
         if (!defined('MAX_PATH')) {
-            $tz = OX_Admin_Timezones::getTimezone();
+            $tz = self::getTimezone();
         } else {
             $tz = $GLOBALS['_MAX']['PREF']['timezone'];
             if (is_null($tz)) {
-                $tz = OX_Admin_Timezones::getTimezone();
+                $tz = self::getTimezone();
             }
         }
 
@@ -75,7 +75,7 @@
             if (!@date_default_timezone_set($key)) continue;
             if ((in_array($tz, $_aTimezoneBcData) && $key == $tz) || !in_array($key, $_aTimezoneBcData)) {
                 // Calculate the timezone offset
-                $offset = OX_Admin_Timezones::_convertOffset($_DATE_TIMEZONE_DATA[$key]['offset']);
+                $offset = self::_convertOffset($_DATE_TIMEZONE_DATA[$key]['offset']);
                 // Build the arrays used for sorting time zones
                 $origOffset = $_DATE_TIMEZONE_DATA[$key]['offset'];
                 $key = (!empty($GLOBALS['strTimezoneList'][$key])) ? $GLOBALS['strTimezoneList'][$key] : $key;
@@ -87,7 +87,7 @@
             }
         }
         date_default_timezone_set($tzSave);
-        
+
         // Sort timezones with positive offsets descending, and negative
         // offests ascending.
 
@@ -138,7 +138,7 @@
      *                      value needed to be calculated
      *                      when PHP < 5.1.0.
      */
-    function getTimezone()
+    static function getTimezone()
     {
         return date_default_timezone_get();
     }
@@ -156,7 +156,7 @@
      * @return string The timezone value to write to the
      *                configuration file.
      */
-    function getConfigTimezoneValue($tz, $timezone)
+    static function getConfigTimezoneValue($tz, $timezone)
     {
         if ($tz != $timezone) {
             // The user selected timezone is not equal to the
@@ -180,7 +180,7 @@
      * @param float $offset A float in hours of the time zone offset (i.e. 9.5, 10.75)
      * @return string Human read able timezone offset
      */
-    function _convertOffset($offset)
+    static function _convertOffset($offset)
     {
         $offset = ((($offset / 1000 ) / 60 ) / 60);
 

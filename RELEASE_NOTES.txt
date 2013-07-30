@@ -23,6 +23,8 @@ What's New in Revive Adserver 3.0.0
  * Signup for an OpenX account is no longer required during installation.
  * Removed plugins (OpenX Market and OpenX Workflow) related to the deprecated
    OpenX Market service.
+ * Updated the dashboard to be served from the local Revive Adserver
+   installation, instead of from OpenX.
  * Resolved several PHP warnings relating to code strictness.
 
 

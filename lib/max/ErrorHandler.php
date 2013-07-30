@@ -105,7 +105,8 @@ class MAX_ErrorHandler
             //  final param is 2nd dimension element from errorType array,
             //  representing PEAR error codes mapped to PHP's
 
-            OA::debug($errStr, $this->errorType[$errNo][1]);
+            $oOA = new OA();
+            $oOA->debug($errStr, $this->errorType[$errNo][1]);
 
             //  if a debug sesssion has been started, or the site in in
             //  development mode, send error info to screen
