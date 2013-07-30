@@ -85,7 +85,7 @@ class OA
      *
      * @TODO Logging to anything other than a file is probably broken - test!
      */
-    function debug($message = null, $priority = PEAR_LOG_INFO)
+    static function debug($message = null, $priority = PEAR_LOG_INFO)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         global $tempDebugPrefix;
@@ -140,16 +140,14 @@ class OA
 
         $ident .= (!empty($GLOBALS['_MAX']['thread_id'])) ? '-' . $GLOBALS['_MAX']['thread_id'] : '';
 
-        $oLog = new Log();
-        $oLogger = $oLog->singleton(
+        $oLogger = Log::singleton(
             $aConf['log']['type'],
             MAX_PATH . '/var/' . $logFile,
             $ident,
             $aLoggerConf
         );
         // If log message is an error object, extract info
-        $oPEAR = new PEAR();
-        if ($oPEAR->isError($message)) {
+        if (PEAR::isError($message)) {
             $userinfo = $message->getUserInfo();
             $message = $message->getMessage();
             if (!empty($userinfo)) {
@@ -182,8 +180,7 @@ class OA
         // Log messages in the local server timezone, if possible
         global $serverTimezone;
         if (!empty($serverTimezone)) {
-            $oAdminTimezones = new OX_Admin_Timezones();
-            $currentTimezone = $oAdminTimezones->getTimezone();
+            $currentTimezone = OX_Admin_Timezones::getTimezone();
             OA_setTimeZone($serverTimezone);
         }
         // Log the message
@@ -201,7 +198,7 @@ class OA
         return $result;
     }
 
-    function switchLogIdent($name = 'debug')
+    static function switchLogIdent($name = 'debug')
     {
         if ($name == 'debug') {
             $GLOBALS['_MAX']['LOG_IDENT'] = $GLOBALS['_MAX']['CONF']['log']['ident'];
@@ -218,14 +215,14 @@ class OA
      *                       debug() method is next called, in the event that
      *                       the logging is to a file.
      */
-    function setTempDebugPrefix($prefix)
+    static function setTempDebugPrefix($prefix)
     {
         global $tempDebugPrefix;
         $tempDebugPrefix = $prefix;
     }
 
 
-    function logMem($msg='', $peak=false)
+    static function logMem($msg='', $peak=false)
     {
         /*if (isset($aConf['debug']['logmem']) && $aConf['debug']['logmem'])
         {*/
@@ -259,7 +256,7 @@ class OA
         //}
     }
 
-    function logMemPeak($msg='')
+    static function logMemPeak($msg='')
     {
         OA::logMem($msg, true);
     }
@@ -274,7 +271,7 @@ class OA
      * @return string An appropriately formatted date/time string, representing
      *                the "current" date/time, offset if required.
      */
-    function getNow($format = null)
+    static function getNow($format = null)
     {
         if (is_null($format)) {
             $format = 'Y-m-d H:i:s';
@@ -291,7 +288,7 @@ class OA
      * @return string An appropriately formatted date/time string, representing
      *                the "current" date/time, offset if required.
      */
-    function getNowUTC($format = null)
+    static function getNowUTC($format = null)
     {
         if (is_null($format)) {
             $format = 'Y-m-d H:i:s';
@@ -304,7 +301,7 @@ class OA
      *
      * @return mixed An array of the available extensions, or false if none is present
      */
-    function getAvailableSSLExtensions()
+    static function getAvailableSSLExtensions()
     {
         $aResult = array();
 
@@ -329,7 +326,7 @@ class OA
      * @param array  $aAllow  An array of allowed tags
      * @return string The stripped version string.
      */
-    function stripVersion($version, $aAllow = null)
+    static function stripVersion($version, $aAllow = null)
     {
         $allow = is_null($aAllow) ? '' : '|'.join('|', $aAllow);
         return preg_replace('/^v?(\d+.\d+.\d+(?:-(?:beta(?:-rc\d+)?|rc\d+'.$allow.'))?).*$/i', '$1', $version);
@@ -341,7 +338,7 @@ class OA
      *
      * @static
      */
-    function disableErrorHandling()
+    static function disableErrorHandling()
     {
         PEAR::pushErrorHandling(null);
     }
@@ -352,7 +349,7 @@ class OA
      *
      * @static
      */
-    function enableErrorHandling()
+    static function enableErrorHandling()
     {
         // Ensure this method only acts when a null error handler exists
         $stack = &$GLOBALS['_PEAR_error_handler_stack'];
@@ -372,7 +369,7 @@ class OA
      *                         are looking for do not exist.
      * @return string
      */
-    function getConfigOption($section, $name, $default = null)
+    static function getConfigOption($section, $name, $default = null)
     {
         if (isset($GLOBALS['_MAX']['CONF'][$section][$name])) {
             return $GLOBALS['_MAX']['CONF'][$section][$name];
