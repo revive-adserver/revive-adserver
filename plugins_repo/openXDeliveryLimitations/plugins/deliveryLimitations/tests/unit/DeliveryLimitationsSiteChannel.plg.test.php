@@ -70,7 +70,13 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Site_Channel extends UnitTestCas
         $channelid  = $this->aIds['channel'][10];
         $GLOBALS['loc'] = 'localhost2';
         $this->assertTrue(MAX_checkSite_Channel($channelid, '=='));
+
+        // The previous result is cached in memory
         $GLOBALS['loc'] = 'blah.com';
+        $this->assertTrue(MAX_checkSite_Channel($channelid, '=='));
+
+        // Clear cache
+        $GLOBALS['_MAX']['channel_results'] = array();
         $this->assertFalse(MAX_checkSite_Channel($channelid, '=='));
 
         set_magic_quotes_runtime($current_quotes_runtime);

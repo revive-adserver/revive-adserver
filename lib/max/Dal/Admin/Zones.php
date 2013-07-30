@@ -242,32 +242,6 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
             }
         }
 
-        // for Market campaigns, we need to remove all zones that are not IAB sized        
-		// or zones that are not Banner type
-        $doCampaign = OA_Dal::factoryDO('campaigns');
-        $doCampaign->campaignid = $campaignId;
-        $doCampaign->find();
-        $doCampaign->fetch();
-        if($doCampaign->type == DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CONTRACT) {
-            
-            $invalidIds = array();
-            $oComponent = &OX_Component::factory ( 'admin', 'oxMarket', 'oxMarket');
-
-            $allowedIabSizes = $oComponent->getPublisherConsoleApiClient()->getCreativeSizes();
-            foreach($aZones as $id => $zone) {
-                $zoneSizeKey = $zone['width'] . 'x' . $zone['height'];
-                if( (!isset($allowedIabSizes[$zoneSizeKey])
-                    && $zoneSizeKey != '-1x-1')
-                       || $zone['type'] != phpAds_ZoneBanner
-                       ) {
-                    $invalidIds[] = $id;
-                }
-            }
-            foreach($invalidIds as $invalidId) {
-                unset($aZones[$invalidId]);
-            }
-        }
-        
         return $aZones;
     }
 
@@ -326,9 +300,6 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
                 z.zonename,
                 z.oac_category_id as zone_oac_category_id,
                 a.affiliateid,
-                z.width as width,
-                z.height as height,
-                z.delivery as type,
                 a.oac_category_id as affiliate_oac_category_id,
                 a.name as affiliatename";
         $aQuery['from'] = "
@@ -620,7 +591,7 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
      */
     function _linkZonesToCampaignsBannersOrSingleBanner($aZonesIds, $campaignId, $bannerId = null) {
         $prefix = $this->getTablePrefix();
-        
+
         $rsEmailZones = DBC::NewRecordSet("SELECT zoneid FROM {$prefix}zones WHERE delivery = " . MAX_ZoneEmail . " AND zoneid IN (" . implode(',', array_map('intval', $aZonesIds)) . ")");
         $aEmailZoneIds = $rsEmailZones->getAll();
 
@@ -636,29 +607,29 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
             $fromWhereClause .= "
                 b.campaignid = " . DBC::makeLiteral($campaignId) . "
                 AND";
-            
+
             foreach ($aEmailZoneIds as $zoneId) {
                 $okToLink = Admin_DA::_checkEmailZoneAdAssoc($zoneId, $campaignId);
                 if (PEAR::isError($okToLink)) {
                     $aZonesIds = array_diff($aZonesIds, array($zoneId));
-                } 
+                }
             }
         }
         if (!empty($bannerId)) {
             $fromWhereClause .= "
                 b.bannerid = " . DBC::makeLiteral($bannerId) . "
                 AND";
-            
+
             // Remove any zoneids which this banner cannot be linked to due to email zone restrictions
             foreach ($aEmailZoneIds as $zoneId) {
                 $aAd = Admin_DA::getAd($bannerId);
                 $okToLink = Admin_DA::_checkEmailZoneAdAssoc($zoneId, $aAd['placement_id']);
                 if (PEAR::isError($okToLink)) {
                     $aZonesIds = array_diff($aZonesIds, array($zoneId));
-                } 
+                }
             }
         }
-        
+
         $fromWhereClause .= "
                 z.zoneid IN (" . implode(",",array_map('intval', $aZonesIds)) . ")
                 AND
@@ -696,9 +667,9 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
                 AND
                 aza.ad_zone_assoc_id IS NULL
         ";
-        
+
         // if only one zone is selected and this zone is an email zone
-        // we only link it if it was not previously linked to any banner (email zones can be linked to one banner only)        
+        // we only link it if it was not previously linked to any banner (email zones can be linked to one banner only)
 
         if ($fastLinking) {
             $query = "INSERT INTO {$prefix}ad_zone_assoc (zone_id, ad_id, priority_factor)

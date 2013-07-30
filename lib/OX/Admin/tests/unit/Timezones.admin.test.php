@@ -29,10 +29,10 @@ class Test_OX_Admin_Timezones extends UnitTestCase
         // Get time zones
         $aTimezone = OX_Admin_Timezones::availableTimezones(true);
 
-        // Test that it is an array, not empty and contains 449 items (448 + a blank)
+        // Test that it is an array, not empty and contains some items + a blank
         $this->assertTrue(is_array($aTimezone));
-        $this->assertFalse(empty($aTimezone));
-        $this->assertEqual(count($aTimezone), 449);
+        $this->assertTrue(count($aTimezone) > 2);
+        $this->assertEqual($aTimezone[0], '');
 
         // Remove blank element
         array_shift($aTimezone);

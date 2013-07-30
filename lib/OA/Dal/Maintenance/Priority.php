@@ -1297,7 +1297,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         	        }
         	    }
         	}
-        	return $aFinalResult; 
+        	return $aFinalResult;
     }
 
     /**
@@ -1791,8 +1791,8 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                             ($aAdZonePriority['to_be_delivered'] ? 1 : 0),
                             $aAdZonePriority['priority'],
                             $aAdZonePriority['priority_factor'],
-                            isset($aAdZonePriority['priority_factor_limited']) ? 1 : 0,
-                            @$aAdZonePriority['past_zone_traffic_fraction'],
+                            !empty($aAdZonePriority['priority_factor_limited']) ? 1 : 0,
+                            isset($aAdZonePriority['past_zone_traffic_fraction']) ? $aAdZonePriority['past_zone_traffic_fraction'] : null,
                             $oDate->format('%Y-%m-%d %H:%M:%S'),
                             0
                             );
@@ -2136,7 +2136,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         $tableName = $this->_getTablename('data_intermediate_ad');
         $oneHourInterval = OA_Dal::quoteInterval(1, 'hour');
         $query = "
-            SELECT 
+            SELECT
                 SUM(impressions) AS forecast_impressions,
                 operation_interval_id AS operation_interval_id,
                 interval_start AS interval_start,
@@ -2544,12 +2544,6 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      */
     public function getZonesAllocationsForEcpmRemnantByAgency($agencyId)
     {
-        if (!count (OA_DB_Table::listOATablesCaseSensitive('tmp_ad_zone_impression')))
-        {
-            OA::debug('  - tmp_ad_zone_impression does not exist.  Aborting getZonesAllocationsForEcpmRemnantByAgency', PEAR_LOG_INFO);
-            return array();
-        }
-
         OA::debug('  - Selecting Zones allocations for remnant campaigns (impressions required in each zone) ', PEAR_LOG_INFO);
         $query = "SELECT
                       t.zone_id AS zone_id,

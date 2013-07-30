@@ -652,7 +652,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aAudit['viewwindow']['is'],$doCampaigns->viewwindow,'expected viewwindow='.$doCampaigns->clickwindow.' got '.$aAudit['viewwindow']['is']);
         $this->assertEqual($aAudit['clickwindow']['is'],$doCampaigns->clickwindow,'expected clickwindow='.$doCampaigns->clickwindow.' got '.$aAudit['clickwindow']['is']);
 
-        
+
         $doCampaigns->delete();
         $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_DELETE);
         $aAudit = unserialize($oAudit->details);
@@ -989,7 +989,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         DataGenerator::cleanUp(array('accounts', 'campaigns', 'banners', 'audit'));
 
     }
-    
+
     function getMatchingAudit($aResult, $context, $contextId, $action = null)
     {
         foreach($aResult as $aAudit) {
@@ -1003,7 +1003,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         MAX::raiseError('No matchind audit record, context: '.$context.', contextid: '.$contextId);
         return false;
     }
-    
+
     /**
      * auditing a more complex scenario
      * create a banner - this should create a default assoc between banner and zone 0
@@ -1089,7 +1089,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aAudit['array']['zone_id'],0);
         $this->assertEqual($aAudit['array']['link_type'],0);
         $this->assertEqual($aAudit['array']['priority'],0);
-        $this->assertEqual($aAudit['array']['priority_factor'],0);
+        $this->assertEqual($aAudit['array']['priority_factor'],1);
         $this->assertEqual($aAudit['array']['to_be_delivered'],0);
 
         // Test 3 :test the insert zone audit
@@ -1152,12 +1152,12 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aAudit['array']['zone_id'], 0);
         $this->assertEqual($aAudit['array']['link_type'],0);
         $this->assertEqual($aAudit['array']['priority'], 0);
-        $this->assertEqual($aAudit['array']['priority_factor'], 0);
+        $this->assertEqual($aAudit['array']['priority_factor'], 1);
         $this->assertEqual($aAudit['array']['to_be_delivered'], 0);
 
         DataGenerator::cleanUp(array('accounts', 'banners', 'zones', 'ad_zone_assoc', 'audit'));
     }
-    
+
     function generateAccountId()
     {
         $doAccounts = OA_Dal::factoryDO('accounts');

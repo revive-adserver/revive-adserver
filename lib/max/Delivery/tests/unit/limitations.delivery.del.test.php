@@ -35,11 +35,12 @@ class Test_DeliveryLimitations_Delivery extends UnitTestCase
     {
         $this->assertTrue(MAX_limitationsMatchArray('browser', 'IE', '==', array('browser' => 'IE')));
         $this->assertFalse(MAX_limitationsMatchArray('browser', 'IE,NS,FF', '==', array('browser' => 'IE')));
-        $this->assertTrue(MAX_limitationsMatchArray('browser', '', '=~', array('browser' => 'IE')));
+        $this->assertFalse(MAX_limitationsMatchArray('browser', '', '=~', array('browser' => 'IE')));
         $this->assertTrue(MAX_limitationsMatchArray('browser', 'IE,NS,FF', '=~', array('browser' => 'IE')));
         $this->assertTrue(MAX_limitationsMatchArray('browser', 'IE', '=~', array('browser' => 'IE')));
         $this->assertFalse(MAX_limitationsMatchArray('browser', 'IE,NS,FF', '!~', array('browser' => 'IE')));
         $this->assertTrue(MAX_limitationsMatchArray('browser', 'NS,FF', '!~', array('browser' => 'IE')));
+        $this->assertTrue(MAX_limitationsMatchArray('browser', '', '!~', array('browser' => 'IE')));
         $this->assertTrue(MAX_limitationsMatchArray('browser', 'NS,FF', '!~', array()));
         $GLOBALS['_MAX']['CLIENT']['browser'] = 'FF';
         $this->assertFalse(MAX_limitationsMatchArray('browser', 'NS,FF', '!~', array()));

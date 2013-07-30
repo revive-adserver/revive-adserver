@@ -185,10 +185,10 @@ function MAX_limitationsMatchArrayClientGeo($paramName, $limitation, $op, &$aPar
  * @param string $namespace
  * @return boolean True if the value matches the limitations, false otherwise.
  */
-function MAX_limitationsMatchArray($paramName, $limitation, $op, &$aParams = array(), $namespace='CLIENT')
+function MAX_limitationsMatchArray($paramName, $limitation, $op, $aParams = array(), $namespace='CLIENT')
 {
     if (empty($aParams)) {
-        $aParams =& $GLOBALS['_MAX'][$namespace];
+        $aParams = $GLOBALS['_MAX'][$namespace];
     }
     if ($limitation == '' || empty($aParams[$paramName])) {
         return !MAX_limitationsIsOperatorPositive($op);
@@ -220,7 +220,7 @@ function MAX_limitationsMatchArray($paramName, $limitation, $op, &$aParams = arr
  * @return boolean True if the $value matches the limitation,
  * false otherwise.
  */
-function MAX_limitationsMatchArrayValue(&$value, &$limitation, $op)
+function MAX_limitationsMatchArrayValue($value, $limitation, $op)
 {
     if ($op == '==') {
         return strcasecmp($limitation, $value) == 0;
