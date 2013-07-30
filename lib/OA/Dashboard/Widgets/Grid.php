@@ -14,35 +14,28 @@ require_once MAX_PATH . '/lib/OA/Dashboard/Widget.php';
 require_once MAX_PATH . '/lib/OA/Central/Dashboard.php';
 
 /**
- * A class to display the dashboard iframe container
+ * A class to display the dashboard iframe content
  *
  */
-class OA_Dashboard_Widget_Index extends OA_Dashboard_Widget
+class OA_Dashboard_Widget_Grid extends OA_Dashboard_Widget
 {
+
     /**
      * A method to launch and display the widget
      *
      */
     function display()
     {
-        $aConf = $GLOBALS['_MAX']['CONF'];
+        $oTpl = new OA_Admin_Template('dashboard/grid.html');
 
-        phpAds_PageHeader(null, new OA_Admin_UI_Model_PageHeaderModel(), '', false, false);
-
-        $oTpl = new OA_Admin_Template('dashboard/main.html');
-
-        if (!$aConf['ui']['dashboardEnabled'] || !$aConf['sync']['checkForUpdates']) {
-            $dashboardUrl = MAX::constructURL(MAX_URL_ADMIN, 'dashboard.php?widget=Disabled');
-        } else {
-            $dashboardUrl = MAX::constructURL(MAX_URL_ADMIN, 'dashboard.php?widget=Grid');
-        }
-
-        $oTpl->assign('dashboardURL', $dashboardUrl);
+        $oTpl->assign('dashboardURL', MAX::constructURL(MAX_URL_ADMIN, 'dashboard.php'));
+        $oTpl->assign('cssURL', OX::assetPath() . "/css");
+        $oTpl->assign('imageURL', OX::assetPath() . "/images");
+        $oTpl->assign('jsURL', OX::assetPath() . "/js");
 
         $oTpl->display();
-
-        phpAds_PageFooter('', true);
     }
+
 }
 
 ?>

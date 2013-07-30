@@ -1,0 +1,607 @@
+body,
+table,
+td,
+select,
+textarea,
+input { font-family: Arial, Helvetica, sans-serif }
+body,
+form,
+img,
+input,
+select {
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+iframe { background: none }
+#wrapper {
+    position: relative;
+    width: 990px;
+}
+#main {
+    float: left;
+    width: 817px;
+    margin-left: 5px;
+}
+#header {
+    overflow: hidden;
+    width: 100%;
+}
+#ad {
+    float: right;
+    margin-left: 10px;
+    margin-top: 25px;
+}
+.openads { color: #669933 }
+.hide { display: none }
+.error,
+div.widgetOverlayContent p.error { color: #ff0000 }
+.alignRight { text-align: right }
+.form dl {
+    width: 325px;
+    margin-top: 10px;
+}
+dl.form dt {
+    float: left;
+    width: 70px;
+}
+dl.form dt label {
+    color: #77797C;
+    font-size: 7pt;
+    text-align: left;
+    margin-top: 3px;
+}
+div.loginForm {
+    width: 347px;
+    height: 50px;
+    clear: both;
+    margin-top: 20px;
+}
+div.loginForm div.line { padding-right: 5px }
+div.loginForm div.line-nolabel {
+    padding-right: 5px;
+    padding-left: 170px;
+}
+div.loginForm label {
+    color: #77797C;
+    font-size: 8pt;
+    text-align: left;
+    margin-top: 3px;
+    width: 170px;
+    float: left;
+}
+.loginForm input {
+    margin-top: 3px;
+    border: 1px solid #77797C;
+    width: 130px;
+}
+input.loginFormSubmit {
+    color: #ffffff;
+    width: 67px;
+    border: 0;
+    font-size: 9pt;
+    background: url('../images/dashboard/grid/widgetLoginButton.gif');
+}
+div.loginCreateAccount {
+    margin-top: 25px;
+    padding-left: 20px;
+}
+div.loginCreateAccount a {
+    font-size: 9pt;
+    text-decoration: none;
+}
+div.loginCreateAccount a:hover { text-decoration: underline }
+div.widget {
+    width: 270px;
+    height: 200px;
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    background-image: url('../images/dashboard/grid/dbv.png');
+    background-position: left -0px;
+    margin-bottom: 7px;
+}
+div.widgetFrame {
+    width: 270px;
+    height: 200px;
+    background-repeat: no-repeat;
+    background-position: right bottom;
+    background-image: url('../images/dashboard/grid/dbv.png');
+    background-position: right -200px;
+}
+div.widgetLeft {
+    background-repeat: no-repeat;
+    background-position: left top;
+    background-image: url('../images/dashboard/grid/dbv.png');
+    background-position: left -400px;
+}
+.hover div.widgetLeft {
+    background-repeat: no-repeat;
+    background-position: left top;
+    background-image: url('../images/dashboard/grid/dbv.png');
+    background-position: left -600px;
+}
+div.widgetRight {
+    background-repeat: no-repeat;
+    background-position: right top;
+    background-image: url('../images/dashboard/grid/dbv.png');
+    background-position: right -800px;
+}
+.hover div.widgetRight {
+    background-repeat: no-repeat;
+    background-position: right top;
+    background-image: url('../images/dashboard/grid/dbv.png');
+    background-position: right -1000px;
+}
+div.widgetCenter {
+    padding: 10px 10px 0px 10px;
+    text-align: left;
+    background: transparent none repeat scroll 0%;
+    border: medium none;
+}
+div.widgetBody {
+    width: 250px;
+    height: 169px;
+    text-align: center;
+}
+div.widgetTitle {
+    margin-top: 4px;
+    padding-left: 5px;
+    color: #444444;
+    font-size: 8pt;
+    font-weight: medium;
+    float: left;
+    font-weight: bold;
+}
+div.widgetContent {
+    clear: both;
+    width: 240px;
+    margin: 5px;
+}
+.widgetButtons div.widgetIcon {
+    width: 19px;
+    height: 19px;
+}
+.widgetButtons .widgetButtonMove { cursor: move }
+.widgetButtons .widgetButtonClose { cursor: pointer }
+.widgetButtons .locked .widgetButtonClose { cursor: help }
+.widgetButtons .lock { display: none }
+.locked .widgetButtons .lock { display: block }
+.locked .widgetButtons .close { display: none }
+.widgetButtons div.widgetIcon {
+    width: 19px;
+    height: 19px;
+}
+.widgetButtons div.close {
+    background-repeat: no-repeat;
+    background-image: url('../images/dashboard/grid/dbh.png');
+    background-position: -0px top;
+}
+.hover .widgetButtons div.close {
+    background-repeat: no-repeat;
+    background-image: url('../images/dashboard/grid/dbh.png');
+    background-position: -19px top;
+}
+.widgetButtons div.lock {
+    background-repeat: no-repeat;
+    background-image: url('../images/dashboard/grid/dbh.png');
+    background-position: -38px top;
+}
+.hover .widgetButtons div.lock {
+    background-repeat: no-repeat;
+    background-image: url('../images/dashboard/grid/dbh.png');
+    background-position: -57px top;
+}
+div.widgetBody iframe,
+div.widget2Body iframe {
+    font-size: 8pt;
+    width: 240px;
+    height: 147px;
+}
+div.widget2Header,
+div.widget2Footer { width: 270px }
+div.widget2Header {
+    height: 15px;
+    background: url('../images/dashboard/grid/widget2Header.png') no-repeat bottom center;
+}
+div.widget2Footer {
+    height: 32px;
+    background: url('../images/dashboard/grid/widget2Footer.png') no-repeat top center;
+}
+div.widget2Center {
+    width: 270px;
+    height: 151px;
+    text-align: left;
+}
+div.widget2Left,
+div.widget2Right { height: 151px }
+div.widget2Left {
+    width: 10px;
+    float: left;
+    background: url('../images/dashboard/grid/widget2Left.png') no-repeat top right;
+}
+div.widget2Right {
+    width: 10px;
+    float: right;
+    background: url('../images/dashboard/grid/widget2Right.png') no-repeat top left;
+}
+div.widget2Body {
+    width: 250px;
+    height: 151px;
+    background: url('../images/dashboard/grid/widget2Center.gif') repeat-x top center;
+    float: right;
+}
+div.widget2Footer input {
+    float: right;
+    margin-top: 7px;
+}
+input.widgetButtonLeft,
+input.widgetButtonRight,
+input.widgetButton,
+input.widgetButtonLeftDisabled,
+input.widgetButtonRightDisabled {
+    width: 61px;
+    height: 16px;
+    font-size: 8pt;
+    padding-bottom: 3px;
+}
+input.widgetButtonLeft,
+input.widgetButtonRight,
+input.widgetButton { color: #77797C }
+input.widgetButtonLeft {
+    background: url('../images/dashboard/grid/widgetButtonLeft.gif') no-repeat top center;
+    padding-left: 7px;
+    margin-right: 3px;
+}
+input.widgetButtonRight {
+    background: url('../images/dashboard/grid/widgetButtonRight.gif') no-repeat top center;
+    padding-right: 5px;
+    margin-right: 10px;
+}
+input.widgetButtonLeftDisabled,
+input.widgetButtonRightDisabled { color: gray }
+input.widgetButtonLeftDisabled {
+    background: url('../images/dashboard/grid/widgetButtonLeftDisabled.gif') no-repeat top center;
+    padding-left: 7px;
+    margin-right: 3px;
+}
+input.widgetButtonRightDisabled {
+    background: url('../images/dashboard/grid/widgetButtonRightDisabled.gif') no-repeat top center;
+    padding-left: 5px;
+    margin-right: 10px;
+}
+input.widgetButton {
+    background: url('../images/dashboard/grid/widgetButton.gif') no-repeat;
+    margin-right: 8px;
+}
+input.widgetButtonWide {
+    height: 15px;
+    width: 97px;
+    font-size: 8pt;
+    color: #77797C;
+    background: url('../images/dashboard/grid/widgetButtonWide.gif') no-repeat;
+    margin-right: 8px;
+}
+div.widgetAd { width: 158px }
+div.widgetAdHeader,
+div.widgetAdFooter {
+    width: 158px;
+    height: 20px;
+    margin: 0;
+    padding: 0;
+}
+div.widgetAdHeader {
+    background-repeat: no-repeat;
+    background-position: bottom left;
+    background-image: url('../images/dashboard/grid/dbv.png');
+    background-position: left -1200px;
+}
+div.widgetAdFooter {
+    background-repeat: no-repeat;
+    background-position: bottom left;
+    background-image: url('../images/dashboard/grid/dbv.png');
+    background-position: left -1220px;
+}
+div.widgetAdCenter {
+    width: 158px;
+    min-height: 100px;
+    -height: 100px;
+    text-align: left;
+}
+div.widgetAdLeft,
+div.widgetAdRight {
+    min-height: 100px;
+    -height: 100px;
+    width: 10px;
+}
+div.widgetAdLeft {
+    float: left;
+    background-repeat: repeat-y;
+    background-position: top right;
+    background-image: url('../images/dashboard/grid/dbh.png');
+    background-position: -76px top;
+}
+div.widgetAdRight {
+    float: right;
+    background-repeat: repeat-y;
+    background-position: top right;
+    background-image: url('../images/dashboard/grid/dbh.png');
+    background-position: -86px top;
+}
+div.widgetAdBody {
+    width: 138px;
+    background-color: white;
+    float: right;
+    text-align: center;
+}
+div.widgetAdContainer { padding-top: 5px }
+div.widgetAdContainer iframe {
+    width: 120px;
+    overflow: hidden;
+}
+div.widgetAdImg { padding: 7px 0 }
+div.widgetToolbar { width: 817px }
+div.widgetToolbarTitle { margin-top: 5px }
+div.widgetToolbarBody {
+    overflow: hidden;
+    width: 100%;
+}
+div.widgetToolbarBodyContent {
+    width: 793px;
+    float: left;
+    height: 117px;
+    background-repeat: repeat-x;
+    background-position: top left;
+    background-image: url('../images/dashboard/grid/dbv.png');
+    background-position: left -1240px;
+}
+div.widgetToolbarBodyContent .widgetToolbarTitle {
+    font-size: 8pt;
+    text-align: center;
+}
+div.widgetToolbarBodyLeft,
+div.widgetToolbarBodyRight {
+    float: left;
+    width: 12px;
+    height: 117px;
+}
+div.widgetToolbarBodyLeft {
+    background-repeat: no-repeat;
+    background-position: top left;
+    background-image: url('../images/dashboard/grid/dbv.png');
+    background-position: left -1357px;
+}
+div.widgetToolbarBodyRight {
+    background-repeat: no-repeat;
+    background-position: top left;
+    background-image: url('../images/dashboard/grid/dbv.png');
+    background-position: left -1474px;
+}
+.widgetToolbarCarousel {
+    position: relative;
+    visibility: hidden;
+    left: -5000px;
+}
+div.widgetToolbarCarousel li {
+    width: 113px;
+    height: 90px;
+}
+div.widgetToolbarArrowDisabled { visibility: hidden }
+div.widgetToolbarLeftArrow {
+    float: left;
+    margin-top: 35px;
+    width: 25px;
+    height: 19px;
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-image: url('../images/dashboard/grid/dbh.png');
+    background-position: -96px top;
+}
+div.widgetToolbarRightArrow {
+    float: right;
+    margin-top: 35px;
+    width: 25px;
+    height: 19px;
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-image: url('../images/dashboard/grid/dbh.png');
+    background-position: -121px top;
+}
+div.widgetToolbarButton {
+    float: right;
+    width: 132px;
+    height: 25px;
+    margin-right: 25px;
+    font-size: 8pt;
+}
+div.widgetToolbarButtonOpen,
+div.widgetToolbarButtonClose {
+    background-repeat: no-repeat;
+    background-position: top left;
+    background-image: url('../images/dashboard/grid/dbh.png');
+    background-position: -146px top;
+}
+div.widgetToolbarButtonOpen .close { display: none }
+div.widgetToolbarButtonClose .open { display: none }
+div.widgetToolbarButtonContainer span.close a {
+    padding-right: 16px;
+    background-repeat: no-repeat;
+    background-position: right 3px;
+    background-image: url('../images/dashboard/grid/dbv.png');
+    background-position: right -1591px;
+}
+div.widgetToolbarButtonContainer span.open a {
+    padding-right: 16px;
+    background-repeat: no-repeat;
+    background-position: right 6px;
+    background-image: url('../images/dashboard/grid/dbv.png');
+    background-position: right -1603px;
+}
+div.widgetToolbarButton div {
+    text-align: center;
+    padding: 6px 0 0 0px;
+}
+div.widgetToolbarButton div a {
+    color: #ffffff;
+    text-decoration: none;
+}
+div.widgetToolbarButton div a:hover { text-decoration: underline }
+div.widgetToolbarButton div a img { padding-left: 2px }
+div.widgetToolbarWidgets {
+    float: left;
+    width: 733px;
+    text-align: center;
+    line-height: 8pt;
+    font-size: 8pt;
+    color: #444444;
+}
+div.widgetToolbarWidgets div {
+    float: left;
+    width: 113px;
+    margin-left: 30px;
+    dadding-top: 5px;
+}
+div.widgetToolbarWidgets div { margin: 0 }
+div.widgetToolbarSelector {
+    font-size: 8pt;
+    float: left;
+    padding: 5px 20px 0 50px;
+}
+div.widgetToolbarSelector select {
+    font-size: 8pt;
+    margin: 0 50px 0 15px;
+}
+div.toolbarWidget div {
+    font-size: 90%;
+    margin-top: 1px;
+    padding-top: 1px;
+}
+div.toolbarWidget img { margin-top: 2px }
+div.widgetOverlay {
+    position: absolute;
+    top: 25%;
+    left: 20%;
+    width: 50%;
+    height: 60%;
+    padding: 16px;
+    z-index: 1002;
+    overflow: auto;
+}
+div.widgetOverlayHeader,
+div.widgetOverlayFooter {
+    width: 377px;
+    height: 15px;
+}
+div.widgetOverlayHeader { background: url('../images/dashboard/grid/widgetOverlayHeader.png') no-repeat bottom left }
+div.widgetOverlayFooter { background: url('../images/dashboard/grid/widgetOverlayFooter.png') no-repeat top left }
+div.widgetOverlayCenter {
+    width: 377px;
+    height: 272px;
+    text-align: left;
+}
+div.widgetOverlayLeft,
+div.widgetOverlayRight {
+    height: 272px;
+    width: 10px;
+}
+div.widgetOverlayLeft {
+    float: left;
+    background: url('../images/dashboard/grid/widgetOverlayLeft.png') no-repeat top right;
+}
+div.widgetOverlayRight {
+    float: right;
+    background: url('../images/dashboard/grid/widgetOverlayRight.png') no-repeat top left;
+}
+div.widgetOverlayBody {
+    width: 347px;
+    height: 272px;
+    background: url('../images/dashboard/grid/widgetOverlayCenter.gif') repeat-x top center;
+    float: right;
+    text-align: center;
+    padding: 0 5px;
+}
+div.widgetOverlayContent {
+    clear: both;
+    text-align: left;
+    width: 347px;
+}
+div.widgetOverlayContent h1 {
+    font-size: 15pt;
+    color: 77797C;
+}
+div.widgetOverlayContent p {
+    color: 77797C;
+    font-size: 8pt;
+    margin: 10px 0;
+}
+div.widgetOverlayContent a {
+    font-size: 8pt;
+    color: #00B0D8;
+    text-decoration: none;
+}
+div.widgetOverlayContent a:hover { text-decoration: underline }
+div.dashboardOverlay {
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 817px;
+    min-height: 750px;
+    height: 100%;
+    background-color: #ffffff;
+    z-index: 1001;
+    -moz-opacity: 0.8;
+    opacity: .60;
+    filter: alpha(opacity=60);
+}
+div.widgetToolbarNav {
+    padding: 0;
+    margin: 0;
+    width: 663px;
+    margin-left: 25px;
+}
+#nav ul { width: 663px }
+#nav li {
+    display: inline;
+    list-style-type: none;
+}
+#nav li span {
+    font-size: 10pt;
+    display: -moz-inline-box;
+    display: inline-block;
+    width: 113px;
+}
+div.widgetButtons div.widgetButtonContainer {
+    float: right;
+    padding: 2px;
+}
+#dashboardPreview {
+    background-image: url('../images/dashboard/grid/dashboard-preview.jpg');
+    width: 817px;
+    height: 818px;
+}
+body {
+    background-repeat: repeat-x;
+    background-image: url('../images/dashboard/grid/dbv.png');
+    background-position: left -1617px;
+}
+.groupItem { }
+.groupWrapper {
+    width: 270px;
+    float: left;
+    margin-right: 2px;
+    min-height: 400px;
+}
+.sortHelper {
+    border: 2px dashed #FA977A;
+    width: auto !important;
+}
+.focused { background: red }
+.widgetHandle {
+    overflow: hidden;
+    width: 100%;
+    cursor: move;
+}
+.toolbarWidget { cursor: move }
