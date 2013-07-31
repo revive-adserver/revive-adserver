@@ -1,14 +1,14 @@
 <?php
 
 /*
-+---------------------------------------------------------------------------+
-| Revive Adserver                                                           |
-| http://www.revive-adserver.com                                            |
-|                                                                           |
-| Copyright: See the COPYRIGHT.txt file.                                    |
-| License: GPLv2 or later, see the LICENSE.txt file.                        |
-+---------------------------------------------------------------------------+
-*/
+  +---------------------------------------------------------------------------+
+  | Revive Adserver                                                           |
+  | http://www.revive-adserver.com                                            |
+  |                                                                           |
+  | Copyright: See the COPYRIGHT.txt file.                                    |
+  | License: GPLv2 or later, see the LICENSE.txt file.                        |
+  +---------------------------------------------------------------------------+
+ */
 
 require_once MAX_PATH . '/lib/xmlrpc/php/tests/integration/Common.api.php';
 
@@ -21,6 +21,7 @@ require_once MAX_PATH . '/lib/xmlrpc/php/tests/integration/Common.api.php';
  */
 class Test_OA_Api_XmlRpc_Zone extends Test_OA_Api_XmlRpc
 {
+
     /**
      * @var int
      */
@@ -28,47 +29,47 @@ class Test_OA_Api_XmlRpc_Zone extends Test_OA_Api_XmlRpc
 
     function setUp()
     {
-		if (!$this->oApi) {
-			return;
-		}
+        if (!$this->oApi) {
+            return;
+        }
 
-		$oPublisher = new OA_Dll_PublisherInfo();
-		$oPublisher->publisherName = 'test publisher';
-		$publisherId = $this->oApi->addPublisher($oPublisher);
+        $oPublisher = new OA_Dll_PublisherInfo();
+        $oPublisher->publisherName = 'test publisher';
+        $publisherId = $this->oApi->addPublisher($oPublisher);
 
-		$oZone = new OA_Dll_ZoneInfo();
-		$oZone->zoneName = 'test zone';
-		$oZone->publisherId = $publisherId;
-		$oZone->width  = 468;
-		$oZone->height = 60;
-		$this->zoneId = $this->oApi->addZone($oZone);
+        $oZone = new OA_Dll_ZoneInfo();
+        $oZone->zoneName = 'test zone';
+        $oZone->publisherId = $publisherId;
+        $oZone->width = 468;
+        $oZone->height = 60;
+        $this->zoneId = $this->oApi->addZone($oZone);
 
-		$this->assertTrue($this->zoneId);
+        $this->assertTrue($this->zoneId);
     }
 
-	function tearDown()
-	{
-		if (!$this->zoneId) {
-			return;
-		}
+    function tearDown()
+    {
+        if (!$this->zoneId) {
+            return;
+        }
 
-		$this->assertTrue($this->oApi->deleteZone($this->zoneId));
-	}
+        $this->assertTrue($this->oApi->deleteZone($this->zoneId));
+    }
 
-	function testLinkUnlinkBanner()
-	{
-		if (!$this->zoneId) {
-			return;
-		}
+    function testLinkUnlinkBanner()
+    {
+        if (!$this->zoneId) {
+            return;
+        }
 
-		$this->expectError();
+        $this->expectError();
         $this->assertFalse($this->oApi->linkBanner(-1, -1));
 
-		$this->expectError();
+        $this->expectError();
         $this->assertFalse($this->oApi->linkBanner($this->zoneId, -1));
 
         $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->width  = 468;
+        $doBanners->width = 468;
         $doBanners->height = 60;
         $bannerId = DataGenerator::generateOne($doBanners, true);
         $this->assertTrue($bannerId);
@@ -80,29 +81,29 @@ class Test_OA_Api_XmlRpc_Zone extends Test_OA_Api_XmlRpc
         $this->assertFalse($this->oApi->unlinkBanner($this->zoneId, $bannerId));
 
         $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->width  = 234;
+        $doBanners->width = 234;
         $doBanners->height = 60;
         $bannerId = DataGenerator::generateOne($doBanners, true);
         $this->assertTrue($bannerId);
 
         $this->expectError();
         $this->assertFalse($this->oApi->linkBanner($this->zoneId, $bannerId));
-	}
+    }
 
-	function testLinkUnlinkCampaign()
-	{
-		if (!$this->zoneId) {
-			return;
-		}
+    function testLinkUnlinkCampaign()
+    {
+        if (!$this->zoneId) {
+            return;
+        }
 
-		$this->expectError();
+        $this->expectError();
         $this->assertFalse($this->oApi->linkCampaign(-1, -1));
 
-		$this->expectError();
+        $this->expectError();
         $this->assertFalse($this->oApi->linkCampaign($this->zoneId, -1));
 
         $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->width  = 468;
+        $doBanners->width = 468;
         $doBanners->height = 60;
         $bannerId = DataGenerator::generateOne($doBanners, true);
         $this->assertTrue($bannerId);
@@ -115,20 +116,20 @@ class Test_OA_Api_XmlRpc_Zone extends Test_OA_Api_XmlRpc
 
         $this->expectError();
         $this->assertFalse($this->oApi->unlinkCampaign($this->zoneId, $campaignId));
-	}
+    }
 
-	function testGenerateTags()
-	{
-		if (!$this->zoneId) {
-			return;
-		}
+    function testGenerateTags()
+    {
+        if (!$this->zoneId) {
+            return;
+        }
 
-		TestEnv::uninstallPluginPackage('openXInvocationTags');
-		TestEnv::installPluginPackage('openXInvocationTags');
-		$this->expectError();
+        TestEnv::uninstallPluginPackage('openXInvocationTags');
+        TestEnv::installPluginPackage('openXInvocationTags');
+        $this->expectError();
         $this->assertFalse($this->oApi->generateTags(-1, 'foo'));
 
-		$this->expectError();
+        $this->expectError();
         $this->assertFalse($this->oApi->generateTags($this->zoneId, 'foo'));
 
         $tag1 = $this->oApi->generateTags($this->zoneId, 'adjs');
@@ -137,8 +138,9 @@ class Test_OA_Api_XmlRpc_Zone extends Test_OA_Api_XmlRpc
         $this->assertTrue($tag1);
         $this->assertTrue($tag2);
         $this->assertNotEqual($tag1, $tag2);
-		TestEnv::uninstallPluginPackage('openXInvocationTags');
-	}
+        TestEnv::uninstallPluginPackage('openXInvocationTags');
+    }
+
 }
 
 ?>

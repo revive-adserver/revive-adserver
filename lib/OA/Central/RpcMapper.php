@@ -130,8 +130,8 @@ class OA_Central_RpcMapper
 
         return $result;
     }
-	
-    
+
+
     /**
      * A method to retrieve currency FX feed from central.
      *
@@ -140,11 +140,11 @@ class OA_Central_RpcMapper
     {
         OA::debug("EXECUTING!");
     	$result = $this->oRpc->callM2M('getFXFeed');
-        OA::debug($result);
+        OA::debug(print_r($result, true));
         return PEAR::isError($result) ? false : $result;
     }
-    
-    
+
+
     /**
      * A method to retrieve the localised list of countries
      *

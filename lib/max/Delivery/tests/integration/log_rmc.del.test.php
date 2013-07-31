@@ -92,6 +92,21 @@ class Test_Max_Delivery_Log_RMC extends UnitTestCase
             $doData_bkt = OA_Dal::factoryDO($table);
             $doData_bkt->find();
             $rows = $doData_bkt->getRowCount();
+
+            if ($table == 'data_bkt_r') {
+                // Request logging is disabled by default. Nothing should have been logged by now
+                $this->assertEqual($rows, 0);
+
+                // Enable it
+                $GLOBALS['_MAX']['CONF']['logging']['adRequests'] = true;
+                unset($GLOBALS['_MAX']['deliveryData']['Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataCommon']);
+                call_user_func_array($function, array(1, 1));
+
+                // Now ensure that the data was logged correctly
+                $doData_bkt->find();
+                $rows = $doData_bkt->getRowCount();
+            }
+
             $this->assertEqual($rows, 1);
 
             $doData_bkt = OA_Dal::factoryDO($table);

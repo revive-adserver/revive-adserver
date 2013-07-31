@@ -131,6 +131,8 @@ class TestEnv
 
     static function installPluginPackage($pkgName, $noDb = true)
     {
+        $_POST['token'] = phpAds_SessionGetToken();
+
         $result = false;
         $aFile['name']      = $pkgName.'.zip';
         $aFile['tmp_name']  = MAX_PATH.'/var/'.$aFile['name'];
@@ -173,6 +175,8 @@ class TestEnv
 
     static function uninstallPluginPackage($pkgName, $noDb= true)
     {
+        $_POST['token'] = phpAds_SessionGetToken();
+
         $oPkgMgr = & TestEnv::getPluginPackageManager($noDb);
 
         $result = $oPkgMgr->uninstallPackage($pkgName);
