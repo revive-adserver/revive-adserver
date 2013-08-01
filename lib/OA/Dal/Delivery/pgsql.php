@@ -94,7 +94,7 @@ function OA_Dal_Delivery_query($query, $database = 'database') {
     if (is_resource($GLOBALS['_MAX'][$dbName])) {
         $result = @pg_query($GLOBALS['_MAX'][$dbName], $query);
         if (!$result) {
-            OX_Delivery_logMessage('DB query error: ' . pg_last_error(), 4);
+            OX_Delivery_logMessage('DB query error: ' . pg_last_error($GLOBALS['_MAX'][$dbName]), 4);
             OX_Delivery_logMessage(' - failing query: ' . $query, 5);
         }
         return $result;
