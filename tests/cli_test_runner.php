@@ -26,7 +26,7 @@
 
 require_once 'init.php';
 require_once MAX_PATH . '/lib/OA/DB.php';
-require_once MAX_PATH . '/lib/simpletest/xml.php';
+require_once MAX_PATH . '/tests/xmlreporter.php';
 require_once MAX_PATH . '/tests/testClasses/TestFiles.php';
 
 if ($_SERVER['argc'] < 2) {
@@ -43,7 +43,7 @@ $aLayer = array(
     'integration'
 );
 
-$oReporter = new XmlReporter();
+$oReporter = new ReviveXmlReporter();
 $oReporter->paintGroupStart("Tests", count($aLayer));
 foreach ($aLayer as $layer) {
     $aTestFiles = TestFiles::getAllTestFiles($layer);
@@ -68,16 +68,17 @@ foreach ($aLayer as $layer) {
                 $returncode = -1;
                 $output_lines = '';
                 $exec = "run.php --type=$layer --level=file --layer=$subLayer --folder=$dirName"
-                    . " --file=$fileName --format=text --host=test";
+                    . " --file=$fileName --format=text --host=test 2>&1";
                 exec("$php $exec", $output_lines, $returncode);
                 $message = "{$fileName}\n" . join($output_lines, "\n");
                 switch ($returncode) {
                     case 0: $oReporter->paintPass($message); break;
+                    default:
+                        $message = "Unexpected return code {$returncode}\n".$message;
                     case 1:
-                        $command = "Failed command (in /tests): php $exec\n";
-                        $oReporter->paintFail($command . $message);
+                        $message = "Directory: ".dirname(__FILE__)."\nFailed command: $php $exec\n".$message;
+                        $oReporter->paintFail($message);
                         break;
-                    default: $oReporter->paintFail('Unexpected Error:'.$returncode.' => '.$message);
                 }
                 $oReporter->paintMethodEnd($fileName);
                 $oReporter->paintCaseEnd("File $fileName");

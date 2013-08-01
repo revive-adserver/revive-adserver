@@ -18,7 +18,6 @@
   <taskdef name="checkdistribution" classname="org.openads.ant.CheckDistributionTask"/>
   <!-- OpenX Delivery Generation Plugin -->
   <taskdef name="generatedelivery" classname="org.openads.ant.GenerateDeliveryTask"/>
-  <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
 
   <macrodef name="oa-version" description="Sets a value of the OA_VERSION constant in the constants.php file.">
     <attribute name="versionstring" description="A version to be set."/>
@@ -162,11 +161,11 @@
     <replace file="${basedir}/scripts/rpm/core.spec" token="{BUILD}" value="${build}"/>
     <replace file="${basedir}/scripts/rpm/core.spec" token="{DOCROOT}" value="/${rpm.basepath}"/>
     <replace file="${basedir}/scripts/rpm/core.spec" token="{FOLDER}" value="${release}"/>
-    
+
     <!-- Relocate the files into the desired output path -->
     <mkdir dir="${dir.test.results}/rpm/buildroot/${rpm.basepath}"/>
     <move file="${dir.test.results}/${release}" toDir="${dir.test.results}/rpm/buildroot/${rpm.basepath}" />
-    
+
     <mkdir dir="${dir.test.results}/rpm/builddir/RPMS/noarch"/>
     <exec dir="${basedir}/scripts/rpm" executable="rpmbuild" failonerror="true">
       <arg value="-bb" />
