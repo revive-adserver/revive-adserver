@@ -17,25 +17,30 @@ require_once MAX_PATH.'/lib/OX/Admin/UI/Install/InstallUtils.php';
 
 /**
  * Controller to get install plugin tasks urls
- * 
+ *
  * @package    OpenXUpgrade
  * @author     Lukasz Wikierski <lukasz.wikierski@openx.org>
  */
 class OX_Upgrade_InstallPlugin_Controller
 {
-    
+
+    private static $DEPRECATED_PLUGINS = array(
+        'openXMarket',
+        'openXWorkflow'
+    );
+
     /**
      * Prepare urls to run install plugin tasks
      *
-     * @param string $baseInstalUrl base install url (prepared by OX_Admin_UI_Controller_Request::getBaseUrl)
-     * @param OA_Upgrade $oUpgrade optional
-     * @return array array of arrays of 'name' and 'url' strings 
+     * @param string $baseInstalUrl Base install URL (prepared by
+     *                              OX_Admin_UI_Controller_Request::getBaseUrl)
+     * @return array Array of arrays of 'id', name' and 'url' strings
      */
     static function getTasksUrls($baseInstallUrl)
-    {      
-        $aUrls = array();  
+    {
+        $aUrls = array();
         $aPluginZips = array();
-        
+
         // Collect all plugin files present in the etc/plugins folder...
         $PLUGINS_DIR = opendir(MAX_PATH . '/etc/plugins');
         while ($file = readdir($PLUGINS_DIR)) {
@@ -43,26 +48,32 @@ class OX_Upgrade_InstallPlugin_Controller
             $name = substr($file, 0, strrpos($file, '.'));
             $aPluginZips[$name] = array(
                 'id'    => 'plugin:' . $name,
-                'name'  => $GLOBALS['strPluginTaskChecking'].': ' . $name, 
+                'name'  => $GLOBALS['strPluginTaskChecking'].': ' . $name,
                 'url'   => $baseInstallUrl . 'install-plugin.php?status=0&plugin=' . $name . '&disabled=1'
             );
         }
         closedir($PLUGINS_DIR);
-        
+
         // Get installed plugins if upgrade
         $oStorage = OX_Admin_UI_Install_InstallUtils::getSessionStorage();
         $oStatus = $oStorage->get('installStatus');
         if (isset($oStatus) && $oStatus->isUpgrade()) {
             foreach ($GLOBALS['_MAX']['CONF']['plugins'] as $name => $enabled) {
+                if (in_array($name, self::$DEPRECATED_PLUGINS)) {
+                    $status = '2'; // Remove plugin; deprecated
+                } else {
+                    $status = '1'; // Install or migrate
+                }
+
                 $aUrls[] = array(
                     'id' => 'plugin:'.$name,
                     'name' => $GLOBALS['strPluginTaskChecking'].': '.$name,
-                    'url' => $baseInstallUrl.'install-plugin.php?status=1&plugin='.$name);
+                    'url' => $baseInstallUrl.'install-plugin.php?status='.$status.'&plugin='.$name);
                 unset($aPluginZips[$name]);
             }
         }
 
-        // get the list of bundled plugins, retain order
+        // Get the list of bundled plugins, retain order
         include MAX_PATH.'/etc/default_plugins.php';
         if ($aDefaultPlugins) {
             foreach ($aDefaultPlugins AS $idx => $aPlugin) {
@@ -73,19 +84,19 @@ class OX_Upgrade_InstallPlugin_Controller
                     }
                     $aUrls[] = array(
                         'id' => 'plugin:'.$aPlugin['name'],
-                        'name' => $GLOBALS['strPluginTaskInstalling'].': '.$aPlugin['name'], 
+                        'name' => $GLOBALS['strPluginTaskInstalling'].': '.$aPlugin['name'],
                         'url' => $url
                     );
-                    unset($aPluginZips[$aPlugin['name']]); 
+                    unset($aPluginZips[$aPlugin['name']]);
                 }
             }
         }
-        
-        // Anything left in the $aPluginsZip array are unknown plugins, should be installed but disabled 
-        foreach ($aPluginZips as $pluginName => $pluginArray) { 
-            $aUrls[] = $pluginArray; 
+
+        // Anything left in the $aPluginsZip array are unknown plugins, should be installed but disabled
+        foreach ($aPluginZips as $pluginName => $pluginArray) {
+            $aUrls[] = $pluginArray;
         }
-        
+
         return $aUrls;
     }
 

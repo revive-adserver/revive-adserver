@@ -42,10 +42,10 @@ if (OA_Upgrade_Login::checkLogin(false))
         if ($_REQUEST['status']==='0')
         {
             $result = installPlugin($_REQUEST['plugin']);
-        }
-        else if ($_REQUEST['status']==='1')
-        {
+        } else if ($_REQUEST['status']==='1') {
             $result = checkPlugin($_REQUEST['plugin']);
+        } else if ($_REQUEST['status']==='2') {
+            $result = removePlugin($_REQUEST['plugin']);
         }
     }
 
@@ -222,10 +222,50 @@ function checkPlugin($pluginName)
     }
     return $aResult;
 }
+
 /**
- * the upgrader will have disabled all plugins when it started upgrading
- * it should have dropped a file with a record of the orginal settings
- * read this file and then reconstruct settings array
+ * A function to remove the configiration setup for any plugins that were found
+ * in the previous installation before upgrade, but which have been marked as
+ * deprecated plugins.
+ *
+ * @param string $pluginName The name of the plugin to remove.
+ * @return array An array of the 'name', 'status' and any 'errors' as an array.
+ */
+function removePlugin($pluginName)
+{
+    $aErrors = array();
+    $aResult = array('name'=>$pluginName,'status'=>'','errors'=>&$aErrors);
+    if (array_key_exists($pluginName, $GLOBALS['_MAX']['CONF']['plugins'])) {
+        require_once MAX_PATH.'/lib/OA.php';
+        require_once LIB_PATH.'/Plugin/PluginManager.php';
+        $oPluginManager = new OX_PluginManager();
+        $result = $oPluginManager->uninstallPackage($pluginName);
+        if ($result) {
+            $aResult['status'] = 'OK';
+        } else {
+            $aResult['status'] = 'Error';
+            $aErrors[] = 'Problems found with plugin '.$pluginName.
+                     '. The plugin was found in the previous installation'.
+                     ' and has been marked as deprecated, but was unable to'.
+                     ' be removed. Please go to the Configuration Plugins page'.
+                     ' and remove it.';
+        }
+    } else {
+        $aResult['status'] = 'OK';
+        $aErrors[] = 'Problems found with plugin '.$pluginName.
+                     '. The plugin was found in the previous installation'.
+                     ' and has been marked as deprecated, but was then not'.
+                     ' found as being installed when attempting to remove it.'.
+                     ' Please go to the Configuration Plugins page to ensure'.
+                     ' it is not installed.';
+    }
+    return $aResult;
+}
+
+/**
+ * The upgrader will have disabled all plugins when it started upgrading
+ * it should have dropped a file with a record of the orginal settings,
+ * read this file and then reconstruct settings array.
  *
  * @param string $pluginName
  * @return boolean
