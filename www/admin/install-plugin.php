@@ -80,6 +80,12 @@ function getPlugin($pluginName)
     return array('path'=>MAX_PATH.'/etc/plugins/', 'name'=>$pluginName, 'ext'=>'zip', 'disabled' => true);
 }
 
+/**
+ * A function to install any plugins found that are NEW for the upgrade.
+ *
+ * @param string $pluginName The name of the plugin to install.
+ * @return array An array of the 'name', 'status' and any 'errors' as an array.
+ */
 function installPlugin($pluginName)
 {
     $aErrors = array();
@@ -116,6 +122,14 @@ function installPlugin($pluginName)
     return $aResult;
 }
 
+/**
+ * A function to install any plugins found that were found in the previous
+ * installation before upgrade, either by installing from the original plugin
+ * package, or by migrating the code over from the previous installation.
+ *
+ * @param string $pluginName The name of the plugin to install.
+ * @return array An array of the 'name', 'status' and any 'errors' as an array.
+ */
 function checkPlugin($pluginName)
 {
     $aErrors = array();
