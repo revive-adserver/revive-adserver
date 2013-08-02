@@ -10,6 +10,11 @@
 +---------------------------------------------------------------------------+
 */
 
+/**
+ * A stand-alone fine to handle running of tasks during upgrades.
+ *
+ */
+
 global $installing;
 $installing = true;
 

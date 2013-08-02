@@ -10,6 +10,11 @@
 +---------------------------------------------------------------------------+
 */
 
+/**
+ * A stand-alone fine to handle migrating plugins during upgrades.
+ *
+ */
+
 global $installing;
 $installing = true;
 
