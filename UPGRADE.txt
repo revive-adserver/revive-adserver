@@ -16,13 +16,16 @@ convenience, the upgrade process is essentially:
 
 1) Copy your existing installation directory to a backup location.
 
-2) Remove your existing installation directory.
+2) Take a backup of your existing installation's database, and check that it
+   is a valid backup that you can restore.
 
-3) Unpack the new version of Revive Adserver into the same directory name as
+3) Remove your existing installation directory.
+
+4) Unpack the new version of Revive Adserver into the same directory name as
    your previous installation.
 
-4) Copy your config file from the backup location to the var/ directory
-   of the newly unpacked installation.
+5) Copy your config files (i.e. all *.conf.php files) from the backup location
+   to the var/ directory of the newly unpacked installation.
 
-5) Use a web browser to visit your Revive Adserver site, and follow the
+6) Use a web browser to visit your Revive Adserver site, and follow the
    instructions in the upgrade wizard to complete the upgrade.
