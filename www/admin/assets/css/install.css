@@ -12,14 +12,14 @@ body {
 
 #thirdLevelTools {
   display: none;
-} 
+}
 
 #oaHeaderBranding {
   top: 10px;
 }
 
 div.breadcrumb h3 {
-  font-weight: normal; 
+  font-weight: normal;
   font-size: 27px;
 }
 
@@ -85,7 +85,7 @@ ul.syscheck li {
 
 ul.syscheck li h4 {
   margin: 0px;
-  font-size: 11px; 
+  font-size: 11px;
   font-weight: bold;
   border-bottom: 1px solid #AAAAAA;
   line-height: 25px;
@@ -99,14 +99,14 @@ div.messageContainer div.body {
     overflow: hidden;
     padding: 5px 8px;
     font-weight:bold;
-    line-height:17px; 
+    line-height:17px;
     text-align: left;
     -zoom: 1; /*IE6*/
 }
 
 div.messageContainer div.error {
     background-color: #FF9798;
-    color:#760605;  
+    color:#760605;
 }
 
 div.messageContainer div.warning {
@@ -129,7 +129,7 @@ div.messageContainer .message {
 
 
 ul.syscheck ol {
-  list-style-position: outside; 
+  list-style-position: outside;
 }
 
 ul.syscheck ol li, ul.check-list ol li {
@@ -157,7 +157,7 @@ ul.check-list li {
     margin-bottom: 3px;
     color:#333333;
     padding:5px 10px;
-    overflow: hidden;    
+    overflow: hidden;
 }
 
 ul.check-list .check {
@@ -168,7 +168,7 @@ ul.check-list .check .name {
     float: left;
     width: 80%;
     font-weight:bold;
-    text-align:left;  
+    text-align:left;
 }
 
 ul.check-list .check .res {
@@ -178,7 +178,7 @@ ul.check-list .check .res {
 }
 
 ul.check-list li.check-error, ul.check-list li.check-warning {
-  padding: 0px; /*reset padding, will be added in children */ 
+  padding: 0px; /*reset padding, will be added in children */
 }
 
 ul.check-list li.check-error .check, ul.check-list li.check-warning .check {
@@ -195,17 +195,17 @@ ul.check-list li.check-warning .check {
 
 ul.check-list li.check-error {
   border-color: #9c0f0e;
-  color: #760605; 
+  color: #760605;
 }
 
 ul.check-list li.check-warning {
   border-color: #f58615;
-  color: #7D4605; 
+  color: #7D4605;
 }
 
 
 ul.check-list li.check-error div.messageContainer .body, ul.check-list li.check-warning div.messageContainer .body{
-  padding-left: 10px; 
+  padding-left: 10px;
 }
 
 ul.check-list li.check-error div.messageContainer div.error {
@@ -213,7 +213,7 @@ ul.check-list li.check-error div.messageContainer div.error {
 }
 
 ul.check-list li.check-warning div.messageContainer div.warning {
-    background-color: #fee5c6; 
+    background-color: #fee5c6;
 }
 
 ul.check-list li.check-error div.messageContainer .message, ul.check-list li.check-warning div.messageContainer .message {
@@ -228,13 +228,13 @@ ul.check-list li.section-error, ul.check-list li.section-warning {
 }
 
 ul.check-list li.section-error {
-  background-color:#FF9798; 
-  color: #760605; 
+  background-color:#FF9798;
+  color: #760605;
 }
 
 ul.check-list li.section-warning {
  background-color:#FED39E;
- color: #7D4605; 
+ color: #7D4605;
 }
 
 li.section-error div.messageContainer div.error {
@@ -266,7 +266,7 @@ li.section-warning div.messageContainer div.warning {
 .install-wizard h2 {
   font-size: 17px;
   font-weight: bold;
-  margin-bottom: 12px;  
+  margin-bottom: 12px;
 }
 
 .install-wizard h3 {
@@ -274,7 +274,7 @@ li.section-warning div.messageContainer div.warning {
   /*font-weight: bold;*/
   font-weight: bold;
   margin-bottom: 6px;
-  margin-top:12px;  
+  margin-top:12px;
 }
 
 
@@ -283,21 +283,21 @@ li.section-warning div.messageContainer div.warning {
 }
 
 .install-wizard .welcomeStep .terms {
-  height: 200px; 
+  height: 200px;
   border: 1px solid #808080;
   /*margin-top: 1.5em;*/
 }
 
 .install-wizard .welcomeStep .terms frame {
-  height: 100%; 
+  height: 100%;
   width: 100%;
   border: none;
 }
 
 .install-wizard .welcomeStep .terms-note {
-    font-size: 0.9em; 
+    font-size: 0.9em;
 }
-  
+
 }
 
 /*IE6 playing dirty tricks with form control*/
@@ -326,7 +326,7 @@ li.section-warning div.messageContainer div.warning {
 }
 
 .install-wizard .checkStep .tableContainer {
-  margin:20px 0 20px 15px;  
+  margin:20px 0 20px 15px;
 }
 
 
@@ -419,103 +419,20 @@ li.section-warning div.messageContainer div.warning {
 }
 
 
-.install-wizard .registerStep ul.account-benefits {
-  margin-bottom: 24px;
-}
-
-.install-wizard .registerStep ul.account-benefits li {
-  padding-left: 65px;
-  line-height: 130%;
-  margin-bottom: 1em;
-  min-height: 39px;
-}
-
-.install-wizard .registerStep ul.account-benefits li.revenue {
-    background: url("../images/install/benefit_cash.png") top left no-repeat; 
-}
-
-
-.install-wizard .registerStep ul.account-benefits li.support {
-    background: url("../images/install/benefit_forum.png") top left no-repeat; 
-}
-
-.install-wizard .registerStep ul.account-benefits li.plugins {
-    background: url("../images/install/benefit_plugins.png") top left no-repeat; 
-}
-
-.install-wizard .registerStep ul.account-benefits li.security {
-    background: url("../images/install/benefit_security.png") top left no-repeat; 
-}
-
-
-.install-wizard .registerStep ul.account-benefits em {
-  font-weight: bold;
-  font-style: normal;
-  display: block;
-  margin-bottom: 2px;
-}
-
-.install-wizard .registerStep h3 {
-  margin-bottom: 12px;
-}
-
-
 /** hack the form --table layout-- so that empty header takes less space **/
 .install-wizard form.flat {
     margin-top: 18px;
 }
-  
+
 
 .install-wizard form.flat table tbody>tr:first-child td {
   height: 16px;
 }
 
-.install-wizard .registerStep form.flat table tbody>tr td {
-  height: 8px;
-}
-
-.install-wizard .registerStep form.question label {
-  margin-right:6px;
-}
-
-.install-wizard .registerStep .captchaContainer .error {
-  display: block;
-}
-
-.captchaContainer {
-  width: auto;
-  float: left;
-  padding: 12px;
-  text-align-left;
-}
-
-
-.captchaContainer .captchaImage {
-  margin-bottom: 8px;
-}
-
-.captchaContainer .captchaText {
-  width: 140px;
-}
-
-
-.captchaContainer .captchaReload {
-  /*margin-left: 5px;*/
-  position: absolute;
-  right: 10px;
-}
-
-.captchaContainer .note {
-  /*color: #808080;*/
-  font-size: 9px;
-  margin-top: 3px;
-  display: block;
-}
-
 .install-wizard div.messagePlaceholderStatic .body {
   margin:0;
   padding:5px 5px 4px 28px;
-  line-height: 150%;  
+  line-height: 150%;
 }
 
 .install-wizard .registerStep div.messagePlaceholderForm, .install-wizard .registerStep div.messagePlaceholderStatic
@@ -551,10 +468,3 @@ li.section-warning div.messageContainer div.warning {
 .install-wizard .finishStep .market-info img {
   margin-bottom: 8px;
 }
-
-
-
-
-
-
-
