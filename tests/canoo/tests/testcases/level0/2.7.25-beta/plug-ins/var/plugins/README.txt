@@ -6,5 +6,5 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
-Make this directory writable by OpenX to be able to use it to
-store plugins cache and config files.
+Make this directory writable so it can be used to store plugin cache and
+config files.
