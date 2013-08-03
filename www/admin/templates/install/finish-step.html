@@ -1,7 +1,7 @@
 <div class="install-wizard">
   <div class="finishStep">
     {ox_wizard_steps steps=$oWizard->getSteps() current=$oWizard->getCurrentStep()}
-  
+
     <div class="content">
       <h2>
       {if $isUpgrade}
@@ -18,9 +18,9 @@
         {/if}
       {/if}
       </h2>
-      
-      {include file='messages.html' aMessages=$aMessages}      
-      
+
+      {include file='messages.html' aMessages=$aMessages}
+
       {if $aStatuses}
         <div class="messagePlaceholder messagePlaceholderStatic">
           <div class="message localMessage">
@@ -36,13 +36,13 @@
             </div>
           </div>
         </div>
-        
+
         <div id="error-details" class="hide">
           <ul class="syscheck">
             <li class="checkSection hasError">
               <h4 class="header error"><span class="inlineIcon iconCheckErr">{t str=DetailedTaskErrorList}</span></h4>
               <ul class="check-list">
-              {* display particular installation errors *}       
+              {* display particular installation errors *}
               {foreach from=$aStatuses item=aStatus}
                 <li class="section-error hasError">
                   <div class="messageContainer">
@@ -68,25 +68,14 @@
           </ul>
         </div>
       {/if}
-      
-      {if $isUpgrade}
-        <div class="market-info">
-          <h3>{t str=MarketIntroLongTitle}</h3>
-          <p>{t str=MarketIntroLong}</p>
-          <img class="welcome" src="{$assetPath}/images/market-auction.gif" alt="Market Auction Example">
-        </div>
-      
-        <p>{t str=UpgradeContinueToLogin}</p>
-      {else}
-        <p>{t str=ContinueToLogin}</p>
-      {/if}
-      
-  
+
+      <p>{t str=ContinueToLogin}</p>
+
       <form action="" method="post">
           <input type="hidden" name="action" value="finish" >
           <div class="controls">
             <input type="submit" id="continue" value="{t str=BtnContinue}" name="continue"/>
-          </div>    
+          </div>
       </form>
     </div>
   </div>
@@ -99,9 +88,9 @@
   $(document).ready(function() {
     $(".finishStep").finishStep({
         {/literal}
-        {literal} 
+        {literal}
     });
-  });  
+  });
 {/literal}
 -->
 </script>
