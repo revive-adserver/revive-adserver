@@ -171,7 +171,7 @@ class OA_Admin_Settings
             }
             return true;
         }
-        
+
         // What were the old host names used for the installation?
         $aConf = $GLOBALS['_MAX']['CONF'];
         $url = @parse_url('http://' . $aConf['webpath']['admin']);
@@ -208,7 +208,7 @@ class OA_Admin_Settings
                 $adminConfig = array_merge(array('realConfig' => $newDeliveryHost), $adminConfig);
             }
         }
-        
+
         if (file_exists($configPath . '/' . $oldDeliveryHost . $configFile . '.conf.php')) {
             $mainConfig = @parse_ini_file($configPath . '/' . $oldDeliveryHost . $configFile . '.conf.php', true);
         } else {
@@ -217,8 +217,8 @@ class OA_Admin_Settings
         }
         // Clear any persisting realConfig value in the primary config file (in case we are changing URL paths?)
         unset($mainConfig['realConfig']);
-        
-        // Iterate over the changes to be written out, check if a value is being overridden in the UI wrapper config file, ensure that it gets 
+
+        // Iterate over the changes to be written out, check if a value is being overridden in the UI wrapper config file, ensure that it gets
         // changed /there/, additionally, write only changes/new items to the delivery config file, not the in-memory merged array
         foreach ($this->aConf as $section => $sectionArray) {
             // Compare the value to be written against that in memory (merged admin/delivery configs)
@@ -226,7 +226,7 @@ class OA_Admin_Settings
                 $sectionDiff = array_diff_assoc($this->aConf[$section], $aConf[$section]);
                 foreach ($sectionDiff as $configKey => $configValue) {
                     if (isset($adminConfig[$section][$configKey])) {
-                        // This setting exists in the wrapper config file, change it's value there
+                        // This setting exists in the wrapper config file, change its value there
                         $adminConfig[$section][$configKey] = $configValue;
                         $adminConfigChanged = true;
                     } else {
@@ -239,7 +239,7 @@ class OA_Admin_Settings
                 $mainConfig[$section] = $this->aConf[$section];
             }
             // Check if any of the in-memory items have been removed from the $this->aConf array, and remove them from the appropriate file if necessary
-            if (!$GLOBALS['installing'] && is_array($aConf[$section]) && is_array($this->aConf[$section])) {
+            if (is_array($aConf[$section]) && is_array($this->aConf[$section])) {
                 $reverseDiff = array_diff(array_keys($aConf[$section]), array_keys($this->aConf[$section]));
                 foreach ($reverseDiff as $deletedSectionKey) {
                     if (isset($adminConfig[$section][$deletedSectionKey])) {
@@ -253,7 +253,7 @@ class OA_Admin_Settings
                 }
             }
         }
-        
+
         // Write out the new main configuration file
         $mainConfigFile = $configPath . '/' . $newDeliveryHost . $configFile . '.conf.php';
         if (!$this->writeConfigArrayToFile($mainConfigFile, $mainConfig)) {
@@ -349,9 +349,9 @@ class OA_Admin_Settings
         $oConfigContainer =& $oConfig->parseConfig($aConfig, 'phpArray');
         $oConfigContainer->createComment('*** DO NOT REMOVE THE LINE ABOVE ***', 'top');
         $oConfigContainer->createComment('<'.'?php exit; ?>', 'top');
-        return $oConfig->writeConfig($configFile, 'IniCommented');      
+        return $oConfig->writeConfig($configFile, 'IniCommented');
     }
-    
+
     function writeDefaultConfigFile($configPath, $configFile, $newHost)
     {
         $file = $configPath . '/default' . $configFile . '.conf.php';
@@ -560,7 +560,7 @@ class OA_Admin_Settings
     {
         phpAds_registerGlobalUnslashed('token');
         if (!phpAds_SessionValidateToken($GLOBALS['token'])) { return false; }
-        
+
         foreach ($aElementNames as $htmlElement => $aConfigInfo) {
             // Register the HTML element value
             MAX_commonRegisterGlobalsArray(array($htmlElement));

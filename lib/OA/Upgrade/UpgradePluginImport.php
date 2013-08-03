@@ -74,7 +74,7 @@ class OX_UpgradePluginImport extends OX_PluginExport
 
     /**
      * This method takes the file-list from the (potential) old path
-     * and
+     * and copies the files over to the new installation
      *
      * @param unknown_type $name
      * @return unknown
