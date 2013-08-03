@@ -1,5 +1,0 @@
-				&universal;
-				<verifyText description="Check text on page" 
-					text="Terms and Conditions of Use" />
-				<clickButton description="Click 'I Agree »' button" 
-					name="btn_syscheck" />

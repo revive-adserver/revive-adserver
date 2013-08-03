@@ -1,7 +1,0 @@
-				&universal;
-				<verifyText description="Check text on page" text="Configure your local OpenX administrator account" />
-				<setInputField htmlId="adminName" value="${admin.login}"/>
-				<setInputField description="Set password field adminPassword: openx" htmlId="adminPassword" value="${admin.pass}" />
-				<setInputField description="Set password field adminPassword2: openx" htmlId="adminPassword2" value="${admin.pass}" />
-				<setInputField htmlId="adminEmail" value="test@openx.test"/>
-				<clickButton label="Continue »"/>
