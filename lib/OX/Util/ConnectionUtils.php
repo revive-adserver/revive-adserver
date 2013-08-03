@@ -12,15 +12,6 @@
 
 require_once MAX_PATH . '/lib/OA.php';
 
-/**
- * Hack
- * Unfortunately old market plugin have bundled Curl class, and if Curl class from core
- * gets loaded first, before marker plugin's copy, we get class redefinition error...
- */
-$curlLibPath = MAX_PATH . '/www/admin/plugins/oxMarket/library/Zend/Http/Client/Adapter/Curl.php';
-if (!class_exists('Zend_Http_Client_Adapter_Curl') && file_exists($curlLibPath)) {
-    @include_once $curlLibPath;
-}
 if (!class_exists('Zend_Http_Client_Adapter_Curl')) {
     require_once MAX_PATH . '/lib/Zend/Http/Client/Adapter/Curl.php';
 }
@@ -28,14 +19,14 @@ require_once MAX_PATH . '/lib/Zend/Http/Client.php';
 
 /**
  * A simple methods to get Zend Http Client (curl or openssl depending on php extensions),
- * check if php extensions allows to use ssl connection, 
+ * check if php extensions allows to use ssl connection,
  * and return lists of available SSL extensions
  *
  * @package    OpenX
  * @subpackage Util
  * @author     Lukasz Wikierski (lukasz.wikierski@openx.org)
  */
-class OX_Util_ConnectionUtils 
+class OX_Util_ConnectionUtils
 {
     /**
      * Cached available SSL extensions array
@@ -43,11 +34,11 @@ class OX_Util_ConnectionUtils
      * @var array
      */
     protected static $sslExtensions;
-    
+
     /**
-     * Get Zend_Http_Client with curl based adapter if 
+     * Get Zend_Http_Client with curl based adapter if
      * there is no openssl extension and curl extension is loaded
-     * Returns Zend_Http_Client with default adapter otherwise 
+     * Returns Zend_Http_Client with default adapter otherwise
      * (so if there is a openssl extension, or non of ssl extension is loaded)
      *
      * @param bool $curlAllowAnyCertificate Should curl allow to connect using ssl without checking peer's certificate and host
@@ -56,39 +47,39 @@ class OX_Util_ConnectionUtils
 	static public function factoryGetZendHttpClient($curlAllowAnyCertificate = false)
 	{
 		$oZendHttpClient = new Zend_Http_Client();
-		
+
 		$aSslExtensions = self::getAvailableSSLExtensions();
 		// get empty array if false
-		$aSslExtensions = ($aSslExtensions) ? $aSslExtensions : array(); 
+		$aSslExtensions = ($aSslExtensions) ? $aSslExtensions : array();
 		$hasCurl    = in_array('curl', $aSslExtensions);
         $hasOpenssl = in_array('openssl', $aSslExtensions);
 		if ($hasCurl && !$hasOpenssl) {
 		    $oAdapter = new Zend_Http_Client_Adapter_Curl();
-		    
+
 		    $oAdapter->setCurlOption(CURLOPT_SSL_VERIFYPEER, false);
 		    // This CA file is also used in OA_XML_RPC_Client
 		    $oAdapter->setCurlOption(CURLOPT_CAINFO, MAX_PATH . '/etc/curl-ca-bundle.crt');
 		    if ($curlAllowAnyCertificate) {
-                // Change curl option to turn off checking peer's host 
+                // Change curl option to turn off checking peer's host
                 $oAdapter->setCurlOption(CURLOPT_SSL_VERIFYHOST, false);
 	        }
-            
+
 		    $oZendHttpClient->setAdapter($oAdapter);
 		}
-		
+
 		return $oZendHttpClient;
 	}
-	
+
     /**
      * Check if SSL extensions (curl, openss) are available
      *
      * @return boolean
      */
-    static public function isSSLAvailable() 
+    static public function isSSLAvailable()
     {
         return (bool)self::getAvailableSSLExtensions();
     }
-	
+
     /**
      * A method to detect the available SSL enabling extensions
      *
@@ -99,7 +90,7 @@ class OX_Util_ConnectionUtils
         if ($forceReload || !isset(self::$sslExtensions)) {
             self::$sslExtensions = OA::getAvailableSSLExtensions();
         }
-        return self::$sslExtensions;   
+        return self::$sslExtensions;
     }
 }
 

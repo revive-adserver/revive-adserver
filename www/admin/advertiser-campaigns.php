@@ -141,13 +141,7 @@ foreach ($aCampaigns as $campaignId => $aCampaign) {
 
     if ($aCampaign['type'] == DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CONTRACT) {
         $aCampaign['system'] = true;
-        $oComponent = OX_Component::factory('admin', 'oxMarket', 'oxMarket');
-        if ($oComponent) {
-            $aCampaign['type'] = $oComponent->getEntityHelper()->getCampaignTypeName($aCampaign);
-        }
-        else {
-            $aCampaign['type'] = OX_Util_Utils::getCampaignType($aCampaign['priority']);
-        }
+        $aCampaign['type'] = OX_Util_Utils::getCampaignType($aCampaign['priority']);
     }
     else {
         $aCampaign['type'] = OX_Util_Utils::getCampaignType($aCampaign['priority']);
@@ -252,15 +246,7 @@ function getAdvertiserMap()
     $dalClients = OA_Dal::factoryDAL('clients');
     if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
         $agency_id = OA_Permission::getEntityId();
-        $oComponent = &OX_Component::factory ( 'admin', 'oxMarket', 'oxMarket');
-        $aInludeSystemTypes = array();
-        //TODO well, hardcoded reference to market plugin again, it would be better
-        //to ask plugins for additional types to include via hook.
-        if (isset($oComponent) && $oComponent->enabled) {
-            $aInludeSystemTypes = array(DataObjects_Clients::ADVERTISER_TYPE_MARKET);
-        }
-        $aAdvertisers = $dalClients->getAllAdvertisersForAgency($agency_id,
-            null, null, $aInludeSystemTypes);
+        $aAdvertisers = $dalClients->getAllAdvertisersForAgency($agency_id);
     }
     else if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
         $advertiserId = OA_Permission::getEntityId();
