@@ -207,7 +207,6 @@ class OX_Admin_UI_Install_InstallController
         $this->setModelProperty('pageHeader', new OA_Admin_UI_Model_PageHeaderModel($pageTitle));
 
         $aConfig = OX_Upgrade_InstallConfig::getConfig();
-        $this->setModelProperty('marketPcHost', $aConfig['marketPcHost']);
     }
 
 

@@ -444,15 +444,3 @@ enabled=1
 enabledForZoneLinking=false
 
 ;------------------------------------------------------------------------------------------;
-; Installer Settings                                                                       ;
-;------------------------------------------------------------------------------------------;
-
-[install]
-marketPcHost        = https://pc.openx.com
-marketPcApiHost     = https://api.pc.openx.com
-fallbackPcApiHost   = http://api.pc.openx.com
-marketPublicApiUrl  = api/public/v2
-marketCaptchaUrl    = https://pc.openx.com/api/captcha
-publisherSupportEmail = publisher-support@openx.org
-
-;------------------------------------------------------------------------------------------;

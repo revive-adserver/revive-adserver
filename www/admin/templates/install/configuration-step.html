@@ -1,7 +1,7 @@
 <div class="install-wizard">
   <div class="configStep">
     {ox_wizard_steps steps=$oWizard->getSteps() current=$oWizard->getCurrentStep()}
-  
+
     <div class="content">
     {if $isUpgrade}
       <h2>{t str=ConfigureUpgradeTitle}</h2>
@@ -11,7 +11,7 @@
       <p>{t str=ConfigureInstallIntro}</p>
      {/if}
      {include file='messages.html' upgraderMessages=$aMessages}
-    
+
      {include file=$oaTemplateDir|cat:'form/form.html' form=$form}
     </div>
   </div>
@@ -25,11 +25,9 @@
     $(".configStep").configStep({
     {/literal}
       'message' : '{$loaderMessage}'
-    {literal}        
+    {literal}
     });
-  });  
+  });
 {/literal}
 -->
 </script>
-
-{include file='tracker.html' step=configuration}
