@@ -37,13 +37,13 @@ function MAX_getEntityIcon($entity, $active=true, $type='', $marketAdvertiserid 
 
     $icon = '';
     switch ($entity) {
-        case 'advertiser' : 
+        case 'advertiser' :
             $do = OA_Dal::factoryDO('Clients');
             switch($type) {
                 case DataObjects_Clients::ADVERTISER_TYPE_MARKET:
                     $icon = 'images/icon-advertiser-openx.png';
                 break;
-                default: 
+                default:
                     if($active) {
                         $icon = 'images/icon-advertiser.gif';
                     } else {
@@ -52,7 +52,7 @@ function MAX_getEntityIcon($entity, $active=true, $type='', $marketAdvertiserid 
                 break;
             }
             break;
-                
+
         case 'placement'  :
             $do = OA_Dal::factoryDO('Campaigns');
             switch($type) {
@@ -61,12 +61,12 @@ function MAX_getEntityIcon($entity, $active=true, $type='', $marketAdvertiserid 
                 case DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_ZONE_OPTIN:
                     $icon = 'images/icon-campaigns-openx.png';
                 break;
-                
+
                 default:
                     if($active) {
                         $icon = 'images/icon-campaign.gif';
                     } else {
-                        $icon = 'images/icon-campaign-d.gif'; 
+                        $icon = 'images/icon-campaign-d.gif';
                     }
                 break;
                 }
@@ -78,14 +78,6 @@ function MAX_getEntityIcon($entity, $active=true, $type='', $marketAdvertiserid 
                 case 'txt'  : $icon = $active ? 'images/icon-banner-text.gif' : 'images/icon-banner-text-d.gif'; break;
                 case 'url'  : $icon = $active ? 'images/icon-banner-url.gif' : 'images/icon-banner-url-d.gif'; break;
                 case 'web'  : $icon = $active ? 'images/icon-banner-stored.gif' : 'images/icon-banner-stored-d.gif'; break;
-                case 'market-optin-banner': 
-                    if(!isset($GLOBALS['_MAX']['CONF']['oxMarket']['marketHost'])
-                        || empty($marketAdvertiserid)) {
-                        $icon = 'images/icon-banner-stored.gif';
-                    } else {
-                        $icon = $GLOBALS['_MAX']['CONF']['oxMarket']['marketHost'] . '/api/advertiser/icon/id/'.$marketAdvertiserid;
-                    }
-                    break;
                 default     : $icon = $active ? 'images/icon-banner-stored.gif' : 'images/icon-banner-stored-d.gif'; break;
             }
             break;
@@ -866,7 +858,7 @@ function _displayZoneEntitySelectionCell($entity, $entityId, $aOtherEntities, $e
             $doCampaign->campaignid = $otherEntityId;
             $doCampaign->find();
             $doCampaign->fetch();
-          
+
             if($doCampaign->type == DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT) {
                 $translation = new OX_Translation();
                 $aStringParams["bannerCount"] = count(Admin_DA::getAds($aParams));
@@ -1149,7 +1141,7 @@ function MAX_displayPlacementAdSelectionViewForm($publisherId, $zoneId, $view, $
 <br />";
 }
 
-function MAX_displayAcls($acls, $aParams) 
+function MAX_displayAcls($acls, $aParams)
 {
     $tabindex =& $GLOBALS['tabindex'];
     $page = basename($_SERVER['SCRIPT_NAME']);
@@ -1437,14 +1429,14 @@ function MAX_displayNavigationTracker($advertiserId, $trackerId, $aOtherAdvertis
 function MAX_displayNavigationCampaign($campaignId, $aOtherAdvertisers, $aOtherCampaigns, $aEntities)
 {
     $advertiserId = $aEntities['clientid'];
-    
+
 
     $doCampaign = OA_Dal::factoryDO('campaigns');
     $doCampaign->campaignid = $campaignId;
     $doCampaign->find();
     $doCampaign->fetch();
     $campaignName = $doCampaign->campaignname;
-    
+
     $advertiserName = MAX_buildName($advertiserId, $aOtherAdvertisers[$advertiserId]['name']);
     $advertiserEditUrl = '';
     if (OA_Permission::hasAccessToObject('clients', $advertiserId, OA_Permission::OPERATION_EDIT)) {
@@ -1716,7 +1708,7 @@ function addCampaignPageTools($clientid, $campaignid, $aOtherAdvertisers, $aEnti
 
     if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
         addPageLinkTool($GLOBALS["strDuplicate"], MAX::constructUrl(MAX_URL_ADMIN, "campaign-modify.php?duplicate=1&clientid=$clientid&campaignid=$campaignid&returnurl=".urlencode(basename($_SERVER['SCRIPT_NAME']))), "iconCampaignDuplicate");
-        
+
         if (OA_Permission::hasAccessToObject('campaigns', $campaignid, OA_Permission::OPERATION_MOVE)) {
             $form = "<form action='" . MAX::constructUrl(MAX_URL_ADMIN, 'campaign-modify.php') . "'>
             <input type='hidden' name='clientid' value='$clientid'>
@@ -1727,13 +1719,13 @@ function addCampaignPageTools($clientid, $campaignid, $aOtherAdvertisers, $aEnti
                 foreach ($aOtherAdvertisers as $aOtherAdvertiser) {
                     $otherAdvertiserId = $aOtherAdvertiser['advertiser_id'];
                     $otherAdvertiserName = MAX_buildName($otherAdvertiserId, $aOtherAdvertiser['name']);
-    
+
                     if ($otherAdvertiserId != $advertiserId) {
                         $form .= "<option value='$otherAdvertiserId'>" . htmlspecialchars($otherAdvertiserName) . "</option>";
                     }
                 }
             $form .= "</select><input type='image' class='submit' src='" . OX::assetPath() . "/images/$phpAds_TextDirection/go_blue.gif'></form>";
-    
+
             addPageFormTool($GLOBALS['strMoveTo'], 'iconCampaignMove', $form);
         }
 

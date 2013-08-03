@@ -55,21 +55,6 @@ if (!isset($keyword)) {
 OA_Dal::factoryDO('Campaigns');
 OA_Dal::factoryDO('Clients');
 
-// Prepare for market entities filtering
-$oComponent = &OX_Component::factory ( 'admin', 'oxMarket', 'oxMarket');
-$isMarketPluginActive = isset($oComponent) && $oComponent->enabled && $oComponent->isActive();
-//TODO well, hardcoded reference to market plugin again, it would be better
-//to ask plugins for additional types to include via hook.
-if ($isMarketPluginActive) {
-    $aIncludeClientsSystemTypes = array(DataObjects_Clients::ADVERTISER_TYPE_MARKET);
-    $aIncludeCampaignsSystemTypes = array(DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CONTRACT);
-}
-else {
-    $aIncludeClientsSystemTypes = array();
-    $aIncludeCampaignsSystemTypes = array();
-}
-
-
 // Send header with charset info
 header ("Content-Type: text/html".(isset($phpAds_CharSet) && $phpAds_CharSet != "" ? "; charset=".$phpAds_CharSet : ""));
 
@@ -79,7 +64,7 @@ $aZones = $aAffiliates = $aClients = $aBanners = $aCampaigns = array();
 
 if ($client != false) {
     $dalClients = OA_Dal::factoryDAL('clients');
-    $rsClients = $dalClients->getClientByKeyword($keyword, $agencyId, $aIncludeClientsSystemTypes);
+    $rsClients = $dalClients->getClientByKeyword($keyword, $agencyId);
     $rsClients->find();
 
     while ($rsClients->fetch()) {
@@ -89,8 +74,7 @@ if ($client != false) {
 
         if (!$compact) {
             $dalCampaigns = OA_Dal::factoryDAL('campaigns');
-            $aClientCampaigns = $dalCampaigns->getClientCampaigns(
-                                $aClient['clientid'], '', '', $aIncludeCampaignsSystemTypes);
+            $aClientCampaigns = $dalCampaigns->getClientCampaigns($aClient['clientid']);
 
             foreach ($aClientCampaigns as $campaignId => $aCampaign) {
                 $aCampaign['campaignname'] = phpAds_breakString ($aCampaign['campaignname'], '30');
@@ -116,7 +100,7 @@ if ($client != false) {
 
 if ($campaign != false) {
     $dalCampaigns = OA_Dal::factoryDAL('campaigns');
-    $rsCampaigns = $dalCampaigns->getCampaignAndClientByKeyword($keyword, $agencyId, $aIncludeCampaignsSystemTypes);
+    $rsCampaigns = $dalCampaigns->getCampaignAndClientByKeyword($keyword, $agencyId);
     $rsCampaigns->find();
     while ($rsCampaigns->fetch()) {
         $aCampaign = $rsCampaigns->toArray();
