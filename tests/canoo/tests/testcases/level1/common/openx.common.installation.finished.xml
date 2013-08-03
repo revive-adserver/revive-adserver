@@ -1,6 +1,0 @@
-<retry description="retry nested steps until plugins installed" maxcount="20">
-	<sleep seconds="5" />
-	<verifyText description="Check text on page" text="Your OpenX installation|upgrade is complete" regex="true" />
-</retry>
-&universal;
-<clickButton label="Continue »"/>

@@ -1,5 +1,0 @@
-<verifyText 
-    description="Check for the presence of login beacon"
-    regex="true"
-    text="img src=.*/lg.php" 
-/>
