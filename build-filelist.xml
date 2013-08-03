@@ -2,7 +2,7 @@
 
   <!--
     This file contains include and exclude patterns to be used during building
-    of the distribution package of OpenX AdServer.
+    of a distribution package of Revive Adserver.
   -->
 
   <patternset id="dist.included">
@@ -127,4 +127,3 @@
   </patternset>
 
 </project>
-
