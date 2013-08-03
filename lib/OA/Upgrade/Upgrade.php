@@ -569,6 +569,7 @@ class OA_Upgrade
         $strTableError     = 'Error accessing Database Tables';
 
         $this->oLogger->logClear();
+        $this->oLogger->logOnly('=========================================================================');
         $this->oLogger->logOnly('Attempting to detect an existing Openads (aka. phpAdsNew) installation...');
         $this->detectPAN();
         $strProductName = $this->getProductApplicationVersion();
