@@ -230,10 +230,8 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
     function _getDeliveryPerformanceDataRange($oScope, $oDaySpan, $spanIsForPlacementDates = false, $statsTable = false, $appendSqlWhere = false)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        
-        // when the parameter is empty, this means we are querying the 'standard' campaigns (not the market campaigns)
-        // see at the end of the function where we query the market campaigns and then merge the results
-        if(empty($appendSqlWhere)) { 
+
+        if(empty($appendSqlWhere)) {
             $appendSqlWhere = "AND c.type = ".DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT . " ";
         }
         if($statsTable === false) {
@@ -318,7 +316,7 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
                 campaign_name,
                 campaign_priority,
                 campaign_is_active,
-                campaign_start, 
+                campaign_start,
                 campaign_end,
                 campaign_booked_impressions
             ORDER BY
@@ -326,22 +324,7 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
         $rsDeliveryPerformanceData = DBC::NewRecordSet($query);
         $rsDeliveryPerformanceData->find();
         $aDeliveryPerformanceData = $rsDeliveryPerformanceData->getAll();
-    
-        $marketPluginEnabled = ($GLOBALS['_MAX']['CONF']['plugins']['openXMarket'] ? true : false);
-        if($marketPluginEnabled) {
-            require_once MAX_PATH . '/www/admin/market/stats.php';
-            $marketStatsHelper = new OX_oxMarket_Stats();
-            $marketStatsTable = $marketStatsHelper->getTableName();
-            
-            // if we are not already fetching Market stats, we now fetch them and merge standard and market stats
-            if($statsTable != $marketStatsTable) {
-                $appendSqlWhere = "AND c.type <> ".DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT . " ";
-                $marketStats = $this->_getDeliveryPerformanceDataRange($oScope, $oDaySpan, $spanIsForPlacementDates, $marketStatsTable, $appendSqlWhere);
-                if(!empty($marketStats)) {
-                    $aDeliveryPerformanceData = array_merge($aDeliveryPerformanceData, $marketStats);
-                }
-            }
-        }
+
         return $aDeliveryPerformanceData;
     }
 
