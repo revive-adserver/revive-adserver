@@ -9,10 +9,6 @@
 
   <!-- Import the include/exclude filelist -->
   <import file="build-filelist.xml"/>
-  <!-- Import the svn commands -->
-  <import file="build-svn.xml"/>
-  <!-- Import the canoo scripts -->
-  <!-- <import file="build-canoo.xml"/> -->
 
   <!-- OpenX Package Integrity Plugin -->
   <taskdef name="checkdistribution" classname="org.openads.ant.CheckDistributionTask"/>
