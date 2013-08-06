@@ -29,17 +29,10 @@ class Plugins_DeliveryLimitations_ArrayData_Test extends UnitTestCase
 
     function test_preCompile()
     {
-        $current_quotes_runtime = get_magic_quotes_runtime();
-
         $oPlugin = new Plugins_DeliveryLimitations_CommaSeparatedData();
         $this->assertEqual('ab,cd,ef,gh', $oPlugin->_preCompile('ab,cd,ef,gh'));
         $this->assertEqual('ab,cd,ef,gh', $oPlugin->_preCompile('aB,cD, ef,gh '));
-        set_magic_quotes_runtime(1);
-        $this->assertEqual('a\\b,cd,ef,gh', $oPlugin->_preCompile('a\\b,cd,ef,gh'));
-        set_magic_quotes_runtime(0);
         $this->assertEqual('a\\\\b,cd,ef,gh', $oPlugin->_preCompile('a\\b,cd,ef,gh'));
-
-        set_magic_quotes_runtime($current_quotes_runtime);
     }
 }
 ?>

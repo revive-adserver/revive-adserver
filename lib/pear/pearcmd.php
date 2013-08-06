@@ -43,7 +43,6 @@ if (!ini_get('safe_mode')) {
 ob_implicit_flush(true);
 @ini_set('track_errors', true);
 @ini_set('html_errors', false);
-@ini_set('magic_quotes_runtime', false);
 $_PEAR_PHPDIR = '#$%^&*';
 set_error_handler('error_handler');
 
@@ -133,7 +132,7 @@ if (PEAR::isError($config)) {
     $config->getMessage();
     $ui->outputData("ERROR: $_file is not a valid config file or is corrupted.");
     // We stop, we have no idea where we are :)
-    exit(1);    
+    exit(1);
 }
 
 // this is used in the error handler to retrieve a relative path

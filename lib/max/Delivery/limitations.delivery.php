@@ -390,10 +390,7 @@ function MAX_limitationsGetPreprocessedString($sString)
  */
 function MAX_limitationsGetQuotedString($sString)
 {
-    if (!get_magic_quotes_runtime()) {
-        return addslashes($sString);
-    }
-    return $sString;
+    return addslashes($sString);
 }
 
 /**

@@ -109,7 +109,7 @@ function OA_aclGetSLimitationFromAAcls($acls)
 {
     $sLimitation = MAX_AclGetCompiled($acls);
     // TODO: it should be done inside plugins instead, there is no need to slash the data
-    $sLimitation = (!get_magic_quotes_runtime()) ? stripslashes($sLimitation) : $sLimitation;
+    $sLimitation = stripslashes($sLimitation);
     return $sLimitation;
 }
 
@@ -128,10 +128,10 @@ function MAX_AclSave($acls, $aEntities, $page = false)
             $table      = 'banners';
             $aclsTable  = 'acls';
             $fieldId    = 'bannerid';
-            
+
             break;
         }
-        
+
         case 'channel-acl.php': {
             $table      = 'channel';
             $aclsTable  = 'acls_channel';
@@ -139,12 +139,12 @@ function MAX_AclSave($acls, $aEntities, $page = false)
 
             break;
         }
-        
+
         default: {
             return false;
         }
     }
-    
+
 
     $aclsObjectId = $aEntities[$fieldId];
     $sLimitation = OA_aclGetSLimitationFromAAcls($acls);
@@ -282,7 +282,7 @@ function MAX_AclValidate($page, $aParams) {
 
     switch($page) {
         case 'banner-acl.php':
-        case 'market-campaign-acl.php':            
+        case 'market-campaign-acl.php':
             $doEntityTable = OA_Dal::factoryDO('banners');
             $doEntityTable->bannerid = $aParams['bannerid'];
             $doAclTable = OA_Dal::factoryDO('acls');
@@ -529,10 +529,6 @@ function MAX_AclReCompileAll($upgrade = false)
 
 function MAX_aclAStripslashed($aArray)
 {
-    if (get_magic_quotes_runtime() == 1) {
-        return $aArray;
-    }
-
     foreach ($aArray AS $key => $item) {
         if (is_array($item)) {
             $aArray[$key] = MAX_aclAStripslashed($item);
