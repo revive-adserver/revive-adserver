@@ -11,7 +11,6 @@
 */
 
 require_once MAX_PATH . '/lib/OA/Dll.php';
-require_once MAX_PATH . '/lib/OA/Central/M2M.php';
 require_once MAX_PATH . '/lib/OA/Dal/Central/AdNetworks.php';
 
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
@@ -33,13 +32,13 @@ class SimpleFunctionCache
 	private $permamentCache;
 	public $cacheId;
     public $groupId;
-    public $fullId; 
+    public $fullId;
     public $object;
     public $method;
-    
+
     public function SimpleFunctionCache(&$oCache, &$oPermamentCache, &$object, $method, $groupId, $cacheId)
     {
-		$this->groupId = $groupId; 
+		$this->groupId = $groupId;
 		$this->cacheId = $cacheId;
 		$this->fullId = $groupId . "::" . $cacheId;
 		$this->oCache = &$oCache;
@@ -47,21 +46,21 @@ class SimpleFunctionCache
 		$this->object = &$object;
 		$this->method = $method;
     }
-	
-    
+
+
     function getFromCache($checkValidity)
     {
     	return unserialize($this->oCache->get($this->cacheId, $this->groupId, !$checkValidity));
     }
-    
-    
+
+
     function getFromPermamentCache()
     {
     	$result = $this->getFromCache(false);
     	return $result ? $result : $this->permamentCache->get($this->fullId);
     }
-    
-    
+
+
     function getFromUserFunction()
     {
     	$result = $this->object->{$this->method}();
@@ -71,14 +70,14 @@ class SimpleFunctionCache
 		}
     	return $this->getFromPermamentCache();
     }
-    
-    
+
+
     function get()
     {
     	return ($result = $this->getFromCache(true)) ? $result : $this->getFromUserFunction();
     }
-	
-    
+
+
     function removeCache()
     {
     	$this->oCache->remove($this->cacheId, $this->groupId);
