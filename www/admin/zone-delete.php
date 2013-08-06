@@ -48,10 +48,6 @@ if (!empty($zoneid)) {
             $aZone = $doZones->toArray();
         }
 
-        // Ad  Networks
-        $oAdNetworks = new OA_Central_AdNetworks();
-        $oAdNetworks->deleteZone($doZones->as_zone_id);
-
         $doZones->delete();
     }
 

@@ -333,16 +333,6 @@ function processForm($form, $oComponent = null)
             $doZones->zoneid = $aFields['zoneid'];
             $doZones->update();
 
-            // Ad  Networks
-            $doPublisher = OA_Dal::factoryDO('affiliates');
-            $doPublisher->get($aFields['affiliateid']);
-            $anWebsiteId = $doPublisher->as_website_id;
-            if ($anWebsiteId) {
-            	$oAdNetworks = new OA_Central_AdNetworks();
-                $doZones->get($aFields['zoneid']);
-    			$oAdNetworks->updateZone($doZones, $anWebsiteId);
-            }
-
             // Reset append codes which called this zone
             $doZones = OA_Dal::factoryDO('zones');
             $doZones->appendtype = phpAds_ZoneAppendZone;
@@ -454,15 +444,6 @@ function processForm($form, $oComponent = null)
             $doZones->show_capped_no_cookie = 0;
 
             $aFields['zoneid'] = $doZones->insert();
-
-            // Ad  Networks
-            $doPublisher = OA_Dal::factoryDO('affiliates');
-            $doPublisher->get($aFields['affiliateid']);
-            $anWebsiteId = $doPublisher->as_website_id;
-            if ($anWebsiteId) {
-            	$oAdNetworks = new OA_Central_AdNetworks();
-    			$oAdNetworks->updateZone($doZones, $anWebsiteId);
-            }
 
             if ($oComponent && method_exists($oComponent, 'processZoneForm')) {
                 $oComponent->processZoneForm($aFields);

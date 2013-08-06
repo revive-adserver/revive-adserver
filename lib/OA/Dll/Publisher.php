@@ -217,93 +217,9 @@ class OA_Dll_Publisher extends OA_Dll
                 $doPublisher->setFrom($publisherData);
                 $doPublisher->update();
             }
-            $oAdNetworks = new OA_Central_AdNetworks();
-            // Initiate a call to OpenX Central if adnetworks are enabled or if OAC values are changed.
-            if ($oPublisher->advSignup) {
-                // If adNetworks was not previously selected...
-                if (empty($publisherPrevData['as_website_id'])) {
-                    $aRpcPublisher = array(
-	                    array(
-	                            'id'         => $oPublisher->publisherId,
-	                            'url'        => $oPublisher->website,
-	                            'country'    => $oPublisher->oacCountryCode,
-	                            'language'   => $oPublisher->oacLanguageId,
-	                            'category'   => $oPublisher->oacCategoryId,
-	                            'advsignup' => $oPublisher->advSignup,
-//	                            'adnetworks' => $oPublisher->adNetworks,
-	                    )
-                    );
-                    $result = $oAdNetworks->subscribeWebsites($aRpcPublisher);
-
-                    if (PEAR::isError($result)) {
-                        $this->_errorMessage = $result->getMessage();
-                        return false;
-                    }
-
-                    $this->_noticeMessage = (is_array($result) && $result['isAlexaDataFailed']) ?
-                                            'Retrieving Alexa data for one or more websites failed and is scheduled for tomorrow' : false;
-
-//                    echo('<pre>');
-//                    var_dump($result);
-                } else {
-                    // This publisher was already signed up for adnetworks, only action if OAC related values have changed
-                    if (($publisherPrevData['oac_category_id']  != $publisherData['oac_category_id']) ||
-                        ($publisherPrevData['oac_language_id']  != $publisherData['oac_language_id']) ||
-                        ($publisherPrevData['oac_country_code'] != $publisherData['oac_country_code']) ||
-                        ($publisherPrevData['as_website_id'] != $publisherData['as_website_id'])
-//                        || ($publisherPrevData['an_website_id'] != $publisherData['an_website_id'])
-                    ) {
-                        // OAC related fields have changed, so unsubscribe and resubscribe this publisher
-                        $aError = $this->unsubscribePublisher($oAdNetworks, $oPublisher, $adnetworks_website_id);
-	                    $aRpcPublisher = array(
-		                    array(
-		                            'id'         => $oPublisher->publisherId,
-		                            'url'        => $oPublisher->website,
-		                            'country'    => $oPublisher->oacCountryCode,
-		                            'language'   => $oPublisher->oacLanguageId,
-		                            'category'   => $oPublisher->oacCategoryId,
-		                            'advsignup'  => $oPublisher->advSignup,
-//		                            'adnetworks' => $oPublisher->adNetworks,
-		                    )
-	                    );
-//                        $result = $oAdNetworks->subscribeWebsites($aPublisher);
-                        $result = $oAdNetworks->subscribeWebsites($aRpcPublisher);
-                    }
-                }
-            } else if ($adnetworks_website_id) {
-                // User unsubscribed from adnetworks
-                $aError = $this->unsubscribePublisher($oAdNetworks, $oPublisher, $adnetworks_website_id);
-            }
             return true;
         }
         return false;
-    }
-
-    /**
-     * Sunsubscribe publisher from adnetworks. Returns error array in case any error occured
-     *
-     * @param AdNetworks $oAdNetworks
-     * @param PublisherInfo $oPublisher
-     * @param int $oacWebsiteId
-     * @return array
-     */
-    function unsubscribePublisher($oAdNetworks, $oPublisher, $oacWebsiteId)
-    {
-        $aPublisher = array(
-            array(
-                    'id'             => $oPublisher->publisherId,
-                    'an_website_id' => $oacWebsiteId,
-                )
-            );
-        $result = $oAdNetworks->unsubscribeWebsites($aPublisher);
-        if (PEAR::isError($result)) {
-            $aError = array(
-               'id' => isset($oPublisher->publisherId) ? $oPublisher->publisherId : 0,
-               'message' => $result->getMessage()
-            );
-            return $aError;
-        }
-        return array();
     }
 
     /**

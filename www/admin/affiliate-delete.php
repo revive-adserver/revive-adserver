@@ -22,9 +22,6 @@ require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
 // Register input variables
 phpAds_registerGlobal ('returnurl');
 
-// Initialise Ad  Networks
-$oAdNetworks = new OA_Central_AdNetworks();
-
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
 
@@ -44,16 +41,6 @@ if (!empty($affiliateid)) {
         if ($doAffiliates->get($affiliateid)) {
             $aAffiliate = $doAffiliates->toArray();
         }
-
-        // User unsubscribed from adnetworks
-        $oacWebsiteId = $doAffiliates->as_website_id;
-        $aPublisher = array(
-            array(
-                    'id'            => $affiliateid,
-                    'an_website_id' => $oacWebsiteId,
-                )
-            );
-        $oAdNetworks->unsubscribeWebsites($aPublisher);
 
         $doAffiliates->delete();
     }

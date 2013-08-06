@@ -38,7 +38,7 @@ class OA_Central_Common
     /**
      * Class constructor
      *
-     * @return OA_Central_AdNetworks
+     * @return OA_Central_Common
      */
     function OA_Central_Common()
     {

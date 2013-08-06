@@ -207,7 +207,6 @@ class OX_Maintenance
     {
         OA::debug('Running Midnight Maintenance Tasks', PEAR_LOG_INFO);
         $this->_runReports();
-        $this->_runOpenadsCentral();
         $this->_runGeneralPruning();
         $this->_runPriorityPruning();
         $this->_runDeleteUnverifiedAccounts();
@@ -284,26 +283,6 @@ class OX_Maintenance
     }
 
 
-
-    /**
-     * A private method to run OpenX Central related tasks.
-     *
-     * @access private
-     */
-    function _runOpenadsCentral()
-    {
-        OA::debug('  Starting OpenX Central process.', PEAR_LOG_DEBUG);
-        if ($this->aConf['sync']['checkForUpdates'] && OA_Dal_ApplicationVariables::get('sso_admin'))
-        {
-            require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
-            $oAdNetworks = new OA_Central_AdNetworks();
-            $result = $oAdNetworks->getRevenue();
-            if (PEAR::isError($result)) {
-                OA::debug("  - OpenX Central error (".$result->getCode()."): ".$result->getMessage(), PEAR_LOG_INFO);
-            }
-        }
-        OA::debug('  Finished OpenX Central process.', PEAR_LOG_DEBUG);
-    }
 
     function _runPriorityPruning()
     {
