@@ -145,7 +145,7 @@ class OA_Upgrade
         $this->aDsn['database']['passowrd'] = '';
         $this->aDsn['database']['name']     = '';
         $this->aDsn['table']['type']        = 'InnoDB';
-        $this->aDsn['table']['prefix']      = 'ox_';
+        $this->aDsn['table']['prefix']      = 'rv_';
     }
 
     function OA_Upgrade()
