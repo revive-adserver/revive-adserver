@@ -159,7 +159,7 @@ $GLOBALS['_MAX']['MAX_COOKIELESS_PREFIX'] = '__';
 $GLOBALS['_MAX']['thread_id'] = uniqid();
 $GLOBALS['_MAX']['SSL_REQUEST'] = false;
 if (
-(!empty($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] == $GLOBALS['_MAX']['CONF']['openads']['sslPort'])) ||
+(!empty($_SERVER['SERVER_PORT']) && !empty($GLOBALS['_MAX']['CONF']['openads']['sslPort']) && ($_SERVER['SERVER_PORT'] == $GLOBALS['_MAX']['CONF']['openads']['sslPort'])) ||
 (!empty($_SERVER['HTTPS']) && ((strtolower($_SERVER['HTTPS']) == 'on') || ($_SERVER['HTTPS'] == 1))) ||
 (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && (strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) == 'https')) ||
 (!empty($_SERVER['HTTP_X_FORWARDED_SSL']) && (strtolower($_SERVER['HTTP_X_FORWARDED_SSL']) == 'on')) ||
@@ -257,9 +257,9 @@ setupDeliveryConfigVariables();
 $conf = $GLOBALS['_MAX']['CONF'];
 $GLOBALS['_OA']['invocationType'] = array_search(basename($_SERVER['SCRIPT_FILENAME']), $conf['file']);
 if (!empty($conf['debug']['production'])) {
-error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED);
+error_reporting(E_ALL & ~(E_NOTICE | E_WARNING | E_DEPRECATED | E_STRICT));
 } else {
-error_reporting(E_ALL ^ E_DEPRECATED);
+error_reporting(E_ALL & ~(E_DEPRECATED | E_STRICT));
 }
 
 $file = '/lib/max/Delivery/common.php';
