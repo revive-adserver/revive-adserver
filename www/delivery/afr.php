@@ -4092,8 +4092,7 @@ if (MAX_limitationsIsAdForbidden($aAd)) {
 OX_Delivery_logMessage('MAX_limitationsIsAdForbidden = true for bannerid '.$aAd['ad_id'], 7);
 return false;
 }
-if ($GLOBALS['_MAX']['SSL_REQUEST'] && $aAd['type'] == 'html' &&
-(($aAd['adserver'] != 'max' && $aAd['adserver'] != '3rdPartyServers:ox3rdPartyServers:max') || $aAd['html_ssl_unsafe'])) {
+if ($GLOBALS['_MAX']['SSL_REQUEST'] && $aAd['type'] == 'html' && $aAd['html_ssl_unsafe']) {
 OX_Delivery_logMessage('"http:" on SSL found for html bannerid '.$aAd['ad_id'], 7);
 return false;
 }
