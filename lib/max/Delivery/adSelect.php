@@ -984,8 +984,7 @@ function _adSelectCheckCriteria($aAd, $aContext, $source, $richMedia)
         return false;
     }
 
-    if ($GLOBALS['_MAX']['SSL_REQUEST'] && $aAd['type'] == 'html' &&
-        (($aAd['adserver'] != 'max' && $aAd['adserver'] != '3rdPartyServers:ox3rdPartyServers:max') || $aAd['html_ssl_unsafe'])) {
+    if ($GLOBALS['_MAX']['SSL_REQUEST'] && $aAd['type'] == 'html' && $aAd['html_ssl_unsafe']) {
         // HTML Banners that contain 'http:' on SSL
         OX_Delivery_logMessage('"http:" on SSL found for html bannerid '.$aAd['ad_id'], 7);
         return false;
