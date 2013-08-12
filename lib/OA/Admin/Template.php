@@ -61,7 +61,7 @@ class OA_Admin_Template extends Smarty
 
         $this->register_function('oa_icon', array('OA_Admin_Template',  '_function_oa_icon'));
         $this->register_function('oa_title_sort', array('OA_Admin_Template',  '_function_oa_title_sort'));
-        
+
         $this->register_function('ox_column_title', array('OA_Admin_Template',  '_function_ox_column_title'));
         $this->register_function('ox_column_class', array('OA_Admin_Template',  '_function_ox_column_class'));
         $this->register_function('ox_campaign_type', array('OA_Admin_Template',  '_function_ox_campaign_type'));
@@ -80,8 +80,6 @@ class OA_Admin_Template extends Smarty
         $this->register_function('oa_is_manager', array('OA_Admin_Template',  '_function_oa_is_manager'));
         $this->register_function('oa_is_advertiser', array('OA_Admin_Template',  '_function_oa_is_advertiser'));
         $this->register_function('oa_is_trafficker', array('OA_Admin_Template',  '_function_oa_is_trafficker'));
-
-        $this->register_function('oac_captcha', array('OA_Admin_Template',  '_function_oac_captcha'));
 
         $this->register_function('phpAds_ShowBreak', array('OA_Admin_Template',  '_function_phpAds_ShowBreak'));
         $this->register_function('phpAds_DelConfirm', array('OA_Admin_Template',  '_function_phpAds_DelConfirm'));
@@ -102,17 +100,17 @@ class OA_Admin_Template extends Smarty
         $this->assign('assetPath', OX::assetPath());
         $this->assign("adminWebPath", MAX::constructURL(MAX_URL_ADMIN, ''));
         $this->assign("oaTemplateDir", MAX_PATH.'/lib/templates/admin/');
-        
+
         //for pluggable page elements
-        //- plugins may need to refrence their JS in OXP page templates 
+        //- plugins may need to refrence their JS in OXP page templates
         $this->assign("adminPluginWebPath", MAX::constructURL(MAX_URL_ADMIN, 'plugins'));
-        
-        //- plugins may need to inject their own 
+
+        //- plugins may need to inject their own
         //template based elements into normal templates
         $this->assign("pluginBaseDir", MAX_PATH.'/www/admin/plugins/');
         $this->assign("pluginTemplateDir", '/templates/');
-        
-        
+
+
     }
 
     /**
@@ -163,19 +161,19 @@ class OA_Admin_Template extends Smarty
     {
         return parent::is_cached($this->templateName, $this->cacheId);
     }
-    
+
 
     function display()
     {
         parent::display($this->templateName, $this->cacheId);
     }
-    
-    
+
+
     function toString()
     {
         return parent::fetch($this->templateName, $this->cacheId, null, false);
-    }    
-    
+    }
+
 
     function _function_t($aParams, &$smarty)
     {
@@ -219,20 +217,8 @@ class OA_Admin_Template extends Smarty
         if (isset($aParams['status'])) {
               switch ($aParams['status']) {
                     case OA_ENTITY_STATUS_PENDING:
-                        if (isset($aParams['an_status'])) {
-                            if ($aParams['an_status'] == OA_ENTITY_ADNETWORKS_STATUS_APPROVAL) {
-                                $class = 'awaiting';
-                                $text  = $strCampaignStatusApproval;
-                            }
-    
-                            if ($aParams['an_status'] == OA_ENTITY_ADNETWORKS_STATUS_REJECTED) {
-                                $class = 'rejected';
-                                $text  = $strCampaignStatusRejected;
-                            }
-                        } else {
-                            $class = 'pending';
-                            $text  = $strCampaignStatusPending;
-                        }
+                        $class = 'pending';
+                        $text  = $strCampaignStatusPending;
                         break;
                     case OA_ENTITY_STATUS_RUNNING:
                         $class = 'started';
@@ -367,7 +353,7 @@ class OA_Admin_Template extends Smarty
                 $url  = !empty($aParams['url']) ? $aParams['url'] : '#';
                 $url .= strpos($url, '?') !== false ? '&' : '?';
                 $url .= 'listorder=' . $item;
-                
+
                 $listorder = $smarty->get_template_vars('listorder');
                 if (empty($listorder) && !empty($aParams['default']) && $aParams['default']) {
                     $listorder = $item;
@@ -378,7 +364,7 @@ class OA_Admin_Template extends Smarty
                     if (empty($orderdirection)) {
                         $orderdirection = !empty($aParams['order']) ? $aParams['order'] : 'down';
                     }
-                    
+
                     $url .= '&orderdirection=' . ($orderdirection == 'down' ? 'up' : 'down');
                 }
 
@@ -402,27 +388,27 @@ class OA_Admin_Template extends Smarty
             if (empty($listorder) && !empty($aParams['default']) && $aParams['default']) {
                 $listorder = $item;
             }
-            
-            
+
+
             if ($listorder == $item) {
                 $orderdirection = $smarty->get_template_vars('orderdirection');
                 if (empty($orderdirection)) {
                     $orderdirection = !empty($aParams['order']) ? $aParams['order'] : 'down';
                 }
-                
+
                 if ($orderdirection == 'down') {
                     return ' sortDown';
-                }               
+                }
 
                 return ' sortUp';
             }
-            
+
             return '';
         } else {
             $smarty->trigger_error("t: missing 'item' parameter");
         }
     }
-    
+
     function _function_ox_banner_size($aParams, &$smarty)
     {
         global $phpAds_IAB;
@@ -431,7 +417,7 @@ class OA_Admin_Template extends Smarty
         if (isset($aParams['width']) && isset($aParams['height'])) {
             $width = $aParams['width'];
             $height = $aParams['height'];
-            
+
             if ($width == -1) $width = '*';
             if ($height == -1) $height = '*';
 
@@ -440,15 +426,15 @@ class OA_Admin_Template extends Smarty
             $smarty->trigger_error("t: missing 'width' or 'height' parameter");
         }
     }
-    
+
     function _function_ox_banner_icon($aParams, &$smarty)
     {
         if (isset($aParams['type'])) {
             if (isset($aParams['active'])) {
                 $active = $aParams['active'];
                 $type = $aParams['type'];
-                
-                if ($active) {              
+
+                if ($active) {
                     switch($type) {
                         case 'html':    return 'iconBannerHtml';
                         case 'txt':     return 'iconBannerText';
@@ -456,7 +442,7 @@ class OA_Admin_Template extends Smarty
                         default:        return 'iconBanner';
                     }
                 }
-                
+
                 switch($type) {
                     case 'html':    return 'iconBannerHtmlDisabled';
                     case 'txt':     return 'iconBannerTextDisabled';
@@ -470,7 +456,7 @@ class OA_Admin_Template extends Smarty
             $smarty->trigger_error("t: missing 'type' parameter");
         }
     }
-    
+
     function _function_ox_zone_size($aParams, &$smarty)
     {
         global $phpAds_IAB;
@@ -482,7 +468,7 @@ class OA_Admin_Template extends Smarty
                 $height = $aParams['height'];
                 $delivery = $aParams['delivery'];
                 $translation = new OX_Translation ();
-                    
+
                 if ($delivery == phpAds_ZoneText) {
                     return $translation->translate('Custom') . " (" . $translation->translate('TextAdZone') . ")";
                 } else if ($delivery == OX_ZoneVideoInstream) {
@@ -492,7 +478,7 @@ class OA_Admin_Template extends Smarty
                 } else {
                     if ($width == -1) $width = '*';
                     if ($height == -1) $height = '*';
-                
+
                     return phpAds_getBannerSize($width, $height);
                 }
             } else {
@@ -502,18 +488,18 @@ class OA_Admin_Template extends Smarty
             $smarty->trigger_error("t: missing 'width' or 'height' parameter");
         }
     }
-    
+
     function _function_ox_zone_icon($aParams, &$smarty)
     {
         if (isset($aParams['delivery'])) {
             if (isset($aParams['active'])) {
                 $active = $aParams['active'];
                 $delivery = $aParams['delivery'];
-                
+
                 if (isset($aParams['warning']) && $aParams['warning']) {
                     return 'iconZoneWarning';
                 }
-                
+
                 if ($active) {
                     switch($delivery) {
                         case phpAds_ZoneInterstitial:   return 'iconZoneFloating';
@@ -524,7 +510,7 @@ class OA_Admin_Template extends Smarty
                         default:                        return 'iconZone';
                     }
                 }
-                                
+
                 switch($delivery) {
                     case phpAds_ZoneInterstitial:   return 'iconZoneFloatingDisabled';
                     case phpAds_ZoneText:           return 'iconZoneTextDisabled';
@@ -540,13 +526,13 @@ class OA_Admin_Template extends Smarty
             $smarty->trigger_error("t: missing 'delivery' parameter");
         }
     }
-    
+
 		function _function_ox_campaign_type($aParams, &$smarty)
 		{
 			if (isset($aParams['type'])) {
 				$type = $aParams['type'];
 				$translation = new OX_Translation ();
-				
+
 				if ($type == OX_CAMPAIGN_TYPE_CONTRACT_NORMAL || $type == OX_CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE) {
 					return "<span class='campaign-type campaign-contract'>" . $translation->translate('Contract') . "</span>";
 				} elseif ($type == OX_CAMPAIGN_TYPE_REMNANT || $type == OX_CAMPAIGN_TYPE_ECPM){
@@ -563,7 +549,7 @@ class OA_Admin_Template extends Smarty
         if (isset($aParams['status'])) {
             $status = $aParams['status'];
             $translation = new OX_Translation ();
-            
+
             switch ($status) {
                 case OA_ENTITY_STATUS_PENDING:
                     $class = 'sts-pending';
@@ -616,8 +602,8 @@ class OA_Admin_Template extends Smarty
         if (isset($aParams['status'])) {
             if ($aParams['status'] == OA_ENTITY_STATUS_RUNNING) {
                 return 'iconCampaign';
-            } 
-            
+            }
+
             return 'iconCampaignDisabled';
         } else {
             $smarty->trigger_error("t: missing 'status' parameter");
@@ -629,10 +615,10 @@ class OA_Admin_Template extends Smarty
         if (isset($aParams['type'])) {
             $type = $aParams['type'];
 			$type = $GLOBALS['_MAX']['CONN_TYPES'][$type];
-			
+
 			// Warning: $type contains the id of translation string... remove 'str' to be able to pass it on to OX_Translation
 			$type = substr($type, 3);
-			
+
             $translation = new OX_Translation ();
 			return $translation->translate($type);
         } else {
@@ -664,13 +650,6 @@ class OA_Admin_Template extends Smarty
             }
             return htmlspecialchars($aParams['text']);
         }
-    }
-
-    function _function_oac_captcha()
-    {
-        require_once MAX_PATH . '/lib/OA/Central/Common.php';
-
-        return OA_Central_Common::getCaptchaUrl();
     }
 
     function _block_edit($aParams, $content, &$smarty, &$repeat)
@@ -821,24 +800,24 @@ class OA_Admin_Template extends Smarty
         }
         //this is simplified - we should check for spaces and line start/end
         //but is it worth the performance penalty?
-        $result = preg_match('/x-large|large|medium|small|x-small/', $className) == 0 
+        $result = preg_match('/x-large|large|medium|small|x-small/', $className) == 0
             ? false : true;
-        
+
         return $result;
     }
-    
-    
+
+
     function _function_ox_entity_id($aParams, &$smarty) {
         if ($GLOBALS['_MAX']['PREF']['ui_show_entity_id'] == true) {
             $id = $aParams['id'];
-            return '<small title="' . 
+            return '<small title="' .
                 $this->_function_t(array('str' => $aParams['type']), $smarty) . ' ' .
                 $this->_function_t(array('str' => 'ID'), $smarty) . ': ' . $id . '">[' . $id . ']</small>';
         } else {
             return '';
         }
     }
-    
+
     function _function_oa_is_admin($aParams, $smarty) {
         return OA_Permission::isAccount(OA_ACCOUNT_ADMIN);
     }

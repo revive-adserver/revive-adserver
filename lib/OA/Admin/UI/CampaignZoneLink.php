@@ -23,17 +23,14 @@ class OA_Admin_UI_CampaignZoneLink
         $agencyId   = OA_Permission::getAgencyId();
         $oDalZones  = OA_Dal::factoryDAL('zones');
         $infix = ($single ? '' : '-' . $panel);
-        phpAds_registerGlobalUnslashed('action', 'campaignid', 'clientid', "category$infix",
-            "category$infix-text", "text$infix", "page$infix");
+        phpAds_registerGlobalUnslashed('action', 'campaignid', 'clientid', "text$infix", "page$infix");
 
         $campaignId   = $GLOBALS['campaignid'];
-        $category     = $GLOBALS["category$infix"];
-        $categoryText = $GLOBALS["category$infix-text"];
         $text         = $GLOBALS["text$infix"];
         $linked       = ($panel == 'linked');
         $showStats    = (empty($GLOBALS['_MAX']['CONF']['ui']['zoneLinkingStatistics'])) ? false : true;
 
-        $websites = $oDalZones->getWebsitesAndZonesListByCategory($agencyId, $category, $campaignId, $linked, $text);
+        $websites = $oDalZones->getWebsitesAndZonesList($agencyId, $campaignId, $linked, $text);
 
         $matchingZones = 0;
         foreach ($websites as $aWebsite) {
@@ -50,8 +47,6 @@ class OA_Admin_UI_CampaignZoneLink
             'clientid' => $GLOBALS['clientid'],
             'campaignid' => $GLOBALS['campaignid'],
             'status' => $panel,
-            'category' => $category,
-            'category-text' => $categoryText,
             'text' => $text
         );
 
@@ -86,7 +81,6 @@ class OA_Admin_UI_CampaignZoneLink
 
         $oTpl->assign('websites', $websites);
         $oTpl->assign('zonescounts', $aZonesCounts);
-        $oTpl->assign('category', $categoryText);
         $oTpl->assign('text', $text);
         $oTpl->assign('status', $panel);
         $oTpl->assign('page', $oTopPager->getCurrentPageID());

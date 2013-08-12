@@ -34,18 +34,13 @@
         formStateStore($("#affiliateform").get(0));
         $("#affiliateform").submit(function() {
             if (max_formValidate(this)) {
-              if(formStateChanged(this)) {
-                $("#captcha-dialog-" + this.id).jqmShow();
-              }
-              else {
-                return true;
-              }
+              return true;
             }
             return false;
           });
         });
     {/literal}
-    {literal}    
+    {literal}
 		$websiteURL = $("#website");
 		$websiteName = $("#name");
 		$websiteName.focus(function () {

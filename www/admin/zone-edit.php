@@ -22,7 +22,6 @@ require_once MAX_PATH . '/www/admin/lib-size.inc.php';
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
 require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
-require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
 require_once MAX_PATH . '/lib/OA/Admin/NumberFormat.php';
 
 
@@ -118,8 +117,6 @@ function buildZoneForm($zone, $oComponent = null)
 {
     global $conf;
     $newZone = empty($zone['zoneid']);
-    // Initialise Ad  Networks
-    $oAdNetworks = new OA_Central_AdNetworks();
 
     $form = new OA_Admin_UI_Component_Form("zoneform", "POST", $_SERVER['SCRIPT_NAME']);
     $form->forceClientValidation(true);
@@ -129,7 +126,6 @@ function buildZoneForm($zone, $oComponent = null)
     $form->addElement('header', 'zone_basic_info', $GLOBALS['strBasicInformation']);
     $form->addElement('text', 'zonename', $GLOBALS['strName']);
     $form->addElement('text', 'description', $GLOBALS['strDescription']);
-    $form->addElement('select', 'oac_category_id', $GLOBALS['strCategory'], $oAdNetworks->getCategoriesSelect());
 
     //zone type group
     $zoneTypes[] = $form->createElement('radio', 'delivery', '',

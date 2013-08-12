@@ -17,11 +17,7 @@ require_once '../../init.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
-require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
 require_once MAX_PATH . '/lib/OX/Admin/UI/ViewHooks.php';
-
-// Initialise Ad  Networks
-$oAdNetworks = new OA_Central_AdNetworks();
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
@@ -58,14 +54,8 @@ require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 $oTpl = new OA_Admin_Template('campaign-zone.html');
 
 $oDalZones      = OA_Dal::factoryDAL('zones');
-$linkedWebsites    = $oDalZones->getWebsitesAndZonesListByCategory($agencyId, $categoryId, $campaignId, true);
-$aCategoriesIds    = $oDalZones->getCategoriesIdsFromWebsitesAndZones($linkedWebsites);
-$availableWebsites = $oDalZones->getWebsitesAndZonesListByCategory($agencyId, $categoryId, $campaignId, false);
-$aCategoriesIds2   = $oDalZones->getCategoriesIdsFromWebsitesAndZones($availableWebsites);
-
-$aCategoriesIds = array_merge($aCategoriesIds, $aCategoriesIds2);
-$aCategories    = array('' => "- {$GLOBALS['strAllCategories']} -", -1 => $GLOBALS['strUncategorized']);
-$aCategories    = $aCategories + $oAdNetworks->getCategoriesSelect($aCategoriesIds, false);
+$linkedWebsites    = $oDalZones->getWebsitesAndZonesList($agencyId, $campaignId, true);
+$availableWebsites = $oDalZones->getWebsitesAndZonesList($agencyId, $campaignId, false);
 
 /** add view hooks **/
 OX_Admin_UI_ViewHooks::registerPageView($oTpl, 'campaign-zone',
@@ -74,7 +64,6 @@ OX_Admin_UI_ViewHooks::registerPageView($oTpl, 'campaign-zone',
 
 $oTpl->assign('advertiserId', $advertiserId);
 $oTpl->assign('campaignId', $campaignId);
-$oTpl->assign('aCategories', $aCategories);
 
 $oTpl->assign('runMPE', $GLOBALS['_MAX']['CONF']['priority']['instantUpdate']);
 

@@ -55,12 +55,6 @@
     </exec>
   </target>
 
-  <target name="generate-adnetworks-cache" description="Generate Adnetworks Cache (countries, categories and languages)">
-    <exec dir="${basedir}/scripts/upgrade" executable="php" failonerror="true">
-      <arg value="buildAdNetworksCache.php" />
-    </exec>
-  </target>
-
   <!-- ******************************************************************** -->
   <!-- INITIALIZATION TARGETS                                               -->
   <!-- ******************************************************************** -->

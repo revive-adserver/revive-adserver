@@ -19,7 +19,7 @@ require_once MAX_PATH . '/www/admin/config.php';
 
 // Register input variables
 phpAds_registerGlobalUnslashed('hideinactive', 'listorder', 'orderdirection',
-                               'pubid', 'url', 'country', 'language', 'category', 'adnetworks', 'advsignup', 'formId');
+                               'pubid', 'url', 'formId');
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);

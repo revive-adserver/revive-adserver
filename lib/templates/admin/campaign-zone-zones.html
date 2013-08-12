@@ -30,7 +30,6 @@
     <tr class="header hide">
       <th class="name"><label><input type="checkbox" id="{$status}-select-all" class="checkbox select-all" /> {t str=SelectUnselectAll}</label></th>
       <th class="link"></th>
-      <th class="category">{t str=Category}</th>
       {if !empty($showStats)}
           <th class="ctr">{t str=FinanceCTR}</th>
           <th class="cr">{t str=FinanceCR}</th>
@@ -66,7 +65,6 @@
       <td class="link">
           <a title="{t str=EditWebsite} {$website.name}" class="website-icon" href="affiliate-edit.php?affiliateid={$websiteid}">&nbsp;</a>
       </td>
-      <td class="category" title="{$website.category}">{$website.category}</td>
       {if !empty($showStats)}
           <td></td>
           <td></td>
@@ -86,7 +84,6 @@
         <td class="link">
             <a title="{t str=EditZone} {$website.name}" class="zone-icon" href="zone-edit.php?affiliateid={$websiteid}&zoneid={$zoneid}">&nbsp;</a>
         </td>
-        <td class="category" title="{$zone.category}">{$zone.category}</td>
         {if !empty($showStats)}
             {assign var="ctr" value="`$zone.ctr*100`"}
             {assign var="cr" value="`$zone.cr*100`"}
@@ -101,9 +98,6 @@
     <tr class="empty">
       <td colspan="{$colspan}">
         {t str=NoWebsitesAndZones}
-        {if $category}
-          {t str=NoWebsitesAndZonesCategory} {$category}
-        {/if}
         {if $text}
           {t str=NoWebsitesAndZonesText values=$text|escape}
         {/if}

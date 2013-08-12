@@ -14,104 +14,14 @@ function validatePublisher(form, suffix, fieldSuffix, errorSuffix, customAction)
     $("#url" + fieldSuffix).removeClass("inerror");
   }
 
-  if ($("#advsignup" + fieldSuffix).get(0).checked)
-  {
-    if ($("#category" + fieldSuffix).get(0).selectedIndex == 0)
-    {
-      $("#category" + fieldSuffix).addClass("inerror");
-      $("#required-missing" + suffix + errorSuffix).show();
-    }
-    else
-    {
-      $("#category" + fieldSuffix).removeClass("inerror");
-    }
-
-    if ($("#language" + fieldSuffix).get(0).selectedIndex == 0)
-    {
-      $("#language" + fieldSuffix).addClass("inerror");
-      $("#required-missing" + suffix + errorSuffix).show();
-    }
-    else
-    {
-      $("#language" + fieldSuffix).removeClass("inerror");
-    }
-
-    if ($("#country" + fieldSuffix).get(0).selectedIndex == 0)
-    {
-      $("#country" + fieldSuffix).addClass("inerror");
-      $("#required-missing" + suffix + errorSuffix).show();
-    }
-    else
-    {
-      $("#country" + fieldSuffix).removeClass("inerror");
-    }
-  }
-  else
-  {
-    $("#country" + fieldSuffix).removeClass("inerror");
-    $("#language" + fieldSuffix).removeClass("inerror");
-    $("#category" + fieldSuffix).removeClass("inerror");
-    $("#required-missing" + suffix + errorSuffix).hide();
-  }
-
   if (customAction)
   {
     customAction(form, suffix, fieldSuffix);
   }
 
-  var result = ($("#url" + fieldSuffix).get(0).value.length > 0) &&
-         ( !($("#advsignup" + fieldSuffix).get(0).checked) || (
-         $("#category" + fieldSuffix).get(0).selectedIndex > 0 &&
-         $("#language" + fieldSuffix).get(0).selectedIndex > 0 &&
-         $("#country" + fieldSuffix).get(0).selectedIndex > 0));
+  var result = $("#url" + fieldSuffix).get(0).value.length > 0;
 
   return result;
-}
-
-
-function initCaptchaDialog(dialogId, formId, captchaURL)
-{
-  var form = $(formId);
-  var signupDialog = $("#" + dialogId);
-
-  var onShow = function(hash)
-  {
-    var captcha = $("#captcha", hash.w);
-    var time = new Date().getTime();
-    $("#captcha-random").attr("value", time);
-    captcha.attr("src", captchaURL + '&t=' +  time);
-    hash.w.fadeIn("fast");
-    $("input[@name='captcha-value']", signupDialog).get(0).focus();
-  };
-
-  signupDialog.jqm(
-   { modal: true,
-      overlay: 40,
-      onShow: onShow}).jqmAddClose($("#dg-cancel", signupDialog));
-
-  if (badCaptcha(formId)) {
-    $("#wrong-captcha", signupDialog).show();
-    signupDialog.jqmShow();
-  }
-  else {
-    $("#wrong-captcha", signupDialog).hide();
-    signupDialog.hide();
-  }
-
-  $("#dg-submit", signupDialog).click(function() {
-    this.form.submit();
-  });
-}
-
-//This function search for an JS variable "captchaInError" indicating
-//that the provided captcha was wrong.
-//For the sake of the prototype it also checks the URL, which should be removed in
-//the production code
-function badCaptcha(myFormId)
-{
-  return (window.captchaFormId && window.captchaFormId == myFormId
-    && window.captchaInError == true)
-    || (document.URL.indexOf("captcha=0") != -1);
 }
 
 
@@ -217,22 +127,6 @@ function installerValidateSites()
 }
 
 
-function isCaptchaRequired()
-{
-  var form = $("#frmOpenads").get(0);
-  var signupRequested = false;
-
-  $(":checkbox[id^=advsignup]", form).each(function() {
-    if (this.id != 'advsignup' && this.checked) {
-      signupRequested = true;
-      return false;
-    }
-  });
-
-  return signupRequested;
-}
-
-
 function initInstallerTags()
 {
   $("#tag-type").change(tagTypeChanged);
@@ -333,53 +227,6 @@ function selectElement()
     r.moveToElementText($(this)[0]);
     r.select();
   }
-}
-
-function formStateStore(form)
-{
-  if (document.formState == undefined) {
-    document.formState = new Array();
-  }
-  var formState = document.formState;
-  var formSettings = new Array();
-  if (form.advsignup) {
-    formSettings["advsignup"] =  form.advsignup.checked;
-  }
-  if (form.country) {
-   formSettings["country"] =  form.country.value;
-  }
-  if (form.language) {
-   formSettings["language"] =  form.language.value;
-  }
-  if (form.category) {
-   formSettings["category"] =  form.category.value;
-  }
-
-  formState[form.id] = formSettings;
-  document.formState = formState;
-}
-
-function formStateChanged(form)
-{
-  if (document.formState == undefined || document.formState[form.id] == undefined ) {
-    return false;
-  }
-
-  var formSettings = document.formState[form.id];
-  var result = false;
-  // show captcha if
-  // 1) enabling advertiser singup
-  result = form.advsignup && !formSettings["advsignup"] && form.advsignup.checked;
-
-  // 2) already signed up and changed cat/lang/cntry
-  result = result || (form.advsignup && formSettings["advsignup"] == true &&
-    form.advsignup.checked) &&
-    ((form.country && formSettings["country"] !=  form.country.value)
-      || (form.language  && formSettings["language"] !=  form.language.value)
-      || (form.category && formSettings["category"] !=  form.category.value));
-
-  //when unsigning or signed up and no changes do nothing
-  return result;
 }
 
 
@@ -1187,9 +1034,9 @@ function formUnFormat(field)
   $.fn.selectFile = function() {
     return this.each(function() {
         $form = $(this);
-        
-        
-    
+
+
+
     });
   };
 })(jQuery);

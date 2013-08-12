@@ -20,7 +20,6 @@
 require_once MAX_PATH . '/lib/OA/Dll.php';
 require_once MAX_PATH . '/lib/OA/Dll/PublisherInfo.php';
 require_once MAX_PATH . '/lib/OA/Dal/Statistics/Publisher.php';
-require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
 
 
 /**
@@ -176,8 +175,6 @@ class OA_Dll_Publisher extends OA_Dll
             $publisherPrevData = $doPrevPublisher->toArray();
         }
 
-        $adnetworks_website_id = $publisherPrevData['as_website_id'];
-
         $publisherData =  (array) $oPublisher;
 
         // Trim input variables
@@ -194,11 +191,6 @@ class OA_Dll_Publisher extends OA_Dll
         $publisherData['name']      = $oPublisher->publisherName;
         $publisherData['contact']   = $oPublisher->contactName;
         $publisherData['email']     = $oPublisher->emailAddress;
-        $publisherData['oac_category_id'] = $oPublisher->oacCategoryId;
-        $publisherData['oac_language_id'] = $oPublisher->oacLanguageId;
-        $publisherData['oac_country_code'] = $oPublisher->oacCountryCode;
-//        $publisherData['an_website_id'] = (!$oPublisher->adNetworks) ? '' : null;
-        $publisherData['as_website_id'] = (!$oPublisher->advSignup)  ? '' : null;
 
         if ($this->_validate($oPublisher)) {
             $doPublisher = OA_Dal::factoryDO('affiliates');
