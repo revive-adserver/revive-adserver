@@ -294,8 +294,7 @@ class Plugins_DeliveryLimitations extends OX_Component
      */
     function compileData($data)
     {
-        $result = 'MAX_check' . ucfirst($this->group) . '_' . $this->component . "('{$data}', '{$this->comparison}')";
-        return MAX_limitationsGetQuotedString($result);
+        return 'MAX_check' . ucfirst($this->group) . '_' . $this->component . "('{$data}', '{$this->comparison}')";
     }
 
     /**

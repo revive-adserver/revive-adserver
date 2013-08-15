@@ -369,44 +369,14 @@ function MAX_limitationsGetSFromA($aArray)
 
 /**
  * Returns a string preprocessed to be used properly in the
- * database comparisons: trimmed, lowercased and quoted if
- * the magic_quotes_environment is not turned on.
+ * database comparisons: trimmed and lowercased.
  *
  * @param string $sString
  * @return string Preprocessed string value.
  */
 function MAX_limitationsGetPreprocessedString($sString)
 {
-    return MAX_limitationsGetQuotedString(strtolower(trim($sString)));
-}
-
-/**
- * Returns a quoted string to be used in database queries
- * if the magic quotes runtime is not enabled. Otherwise
- * returns string as it is.
- *
- * @param string $sString
- * @return string
- */
-function MAX_limitationsGetQuotedString($sString)
-{
-    return addslashes($sString);
-}
-
-/**
- * Returns a copy of the $aArray with a quote at the beginning and end of
- * every item in the array.
- *
- * @param array $aArray Array which contains strings
- * @return array The copy of the array with all the items quoted.
- */
-function MAX_limitationsGetAQuotedStrings($aArray)
-{
-    $aResult = array();
-    foreach ($aArray AS $key => $value) {
-        $aResult[$key] = "'$value'";
-    }
-    return $aResult;
+    return strtolower(trim($sString));
 }
 
 /**

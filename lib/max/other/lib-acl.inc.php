@@ -107,10 +107,7 @@ function MAX_AclAdjust($acl, $action)
  */
 function OA_aclGetSLimitationFromAAcls($acls)
 {
-    $sLimitation = MAX_AclGetCompiled($acls);
-    // TODO: it should be done inside plugins instead, there is no need to slash the data
-    $sLimitation = stripslashes($sLimitation);
-    return $sLimitation;
+    return MAX_AclGetCompiled($acls);
 }
 
 function MAX_AclSave($acls, $aEntities, $page = false)
@@ -316,7 +313,7 @@ function MAX_AclValidate($page, $aParams) {
         }
     }
 
-    $newCompiledLimitation = stripslashes(MAX_AclGetCompiled($aAcls));
+    $newCompiledLimitation = MAX_AclGetCompiled($aAcls);
     $newAclPlugins         = MAX_AclGetPlugins($aAcls);
 
     if (($newCompiledLimitation == $compiledLimitation) && ($newAclPlugins == $acl_plugins)) {

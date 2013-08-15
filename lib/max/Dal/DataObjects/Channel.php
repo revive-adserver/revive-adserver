@@ -95,16 +95,13 @@ class DataObjects_Channel extends DB_DataObjectCommon
                     }
                 }
             }
-            $sLimitation = MAX_AclGetCompiled($aAcls, $page);
-            // TODO: it should be done inside plugins instead, there is no need to slash the data
-            $sLimitation = stripslashes($sLimitation);
             $doBanners = OA_Dal::factoryDO('banners');
             $doBanners->bannerid = $bannerId;
             $doBanners->find();
             $doBanners->fetch();
             $doBanners->acl_plugins = MAX_AclGetPlugins($aAcls);
             $doBanners->acls_updated = OA::getNow();
-            $doBanners->compiledlimitation = $sLimitation;
+            $doBanners->compiledlimitation = MAX_AclGetCompiled($aAcls, $page);
             $doBanners->update();
     	}
 
