@@ -75,7 +75,7 @@ class Test_DeliveryLimitations_Delivery extends UnitTestCase
         $this->assertEqual('abcdefg', MAX_limitationsGetPreprocessedString('abcdefg'));
         $this->assertEqual('abcdefg', MAX_limitationsGetPreprocessedString('AbCdefg'));
         $this->assertEqual('abcdefg', MAX_limitationsGetPreprocessedString(' AbCdefg '));
-        $this->assertEqual('abc\\\\d\\\'efg', MAX_limitationsGetPreprocessedString(' AbC\\d\'efg '));
+        $this->assertEqual('abc\\d\'efg', MAX_limitationsGetPreprocessedString(' AbC\\d\'efg '));
     }
 
     function testMax_limitationsGetAFromS()
