@@ -159,7 +159,7 @@ $GLOBALS['_MAX']['MAX_COOKIELESS_PREFIX'] = '__';
 $GLOBALS['_MAX']['thread_id'] = uniqid();
 $GLOBALS['_MAX']['SSL_REQUEST'] = false;
 if (
-(!empty($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] == $GLOBALS['_MAX']['CONF']['openads']['sslPort'])) ||
+(!empty($_SERVER['SERVER_PORT']) && !empty($GLOBALS['_MAX']['CONF']['openads']['sslPort']) && ($_SERVER['SERVER_PORT'] == $GLOBALS['_MAX']['CONF']['openads']['sslPort'])) ||
 (!empty($_SERVER['HTTPS']) && ((strtolower($_SERVER['HTTPS']) == 'on') || ($_SERVER['HTTPS'] == 1))) ||
 (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && (strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) == 'https')) ||
 (!empty($_SERVER['HTTP_X_FORWARDED_SSL']) && (strtolower($_SERVER['HTTP_X_FORWARDED_SSL']) == 'on')) ||
@@ -257,9 +257,9 @@ setupDeliveryConfigVariables();
 $conf = $GLOBALS['_MAX']['CONF'];
 $GLOBALS['_OA']['invocationType'] = array_search(basename($_SERVER['SCRIPT_FILENAME']), $conf['file']);
 if (!empty($conf['debug']['production'])) {
-error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED);
+error_reporting(E_ALL & ~(E_NOTICE | E_WARNING | E_DEPRECATED | E_STRICT));
 } else {
-error_reporting(E_ALL ^ E_DEPRECATED);
+error_reporting(E_ALL & ~(E_DEPRECATED | E_STRICT));
 }
 
 $file = '/lib/max/Delivery/common.php';
@@ -3179,7 +3179,8 @@ exit;
 echo MAX::errorObjToString($oError, $msg);
 }
 }
-PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, 'pearErrorHandler');
+$oPEAR = new PEAR();
+$oPEAR->setErrorHandling(PEAR_ERROR_CALLBACK, 'pearErrorHandler');
 $clientCache = array();
 $campaignCache = array();
 $bannerCache = array();
@@ -3229,7 +3230,7 @@ function MAX_limitationsIsZoneForbidden($zoneId, $aCapping)
 $capZone = isset($aCapping['cap_zone']) ? $aCapping['cap_zone'] : null;
 $sessionCapZone = isset($aCapping['session_cap_zone']) ? $aCapping['session_cap_zone'] : null;
 $blockZone = isset($aCapping['block_zone']) ? $aCapping['block_zone'] : null;
-$showCappedNoCookie = (bool)$aCapping['show_capped_no_cookie_zone'];
+$showCappedNoCookie = !empty($aCapping['show_capped_no_cookie_zone']);
 return (_limitationsIsZoneCapped($zoneId, $capZone, $sessionCapZone, $blockZone, $showCappedNoCookie));
 }
 function _limitationsIsAdCapped($adId, $cap, $sessionCap = 0, $block, $showCappedNoCookie)
@@ -3299,7 +3300,7 @@ $random = MAX_getRandomNumber();
 global $cookie_random;  $cookie_random = $random;
 $clickUrl = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick, true);
 $urlPrefix = substr(MAX_commonGetDeliveryUrl(), 0, -1);
-$code = str_replace('{clickurl}', $clickUrl, $code);
+$code = str_replace('{clickurl}', $clickUrl, $code); 
 if (strpos($code, '{logurl}') !== false) {
 $logUrl = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&');
 $code = str_replace('{logurl}', $logUrl, $code);  }
@@ -4225,8 +4226,7 @@ if (MAX_limitationsIsAdForbidden($aAd)) {
 OX_Delivery_logMessage('MAX_limitationsIsAdForbidden = true for bannerid '.$aAd['ad_id'], 7);
 return false;
 }
-if ($GLOBALS['_MAX']['SSL_REQUEST'] && $aAd['type'] == 'html' &&
-(($aAd['adserver'] != 'max' && $aAd['adserver'] != '3rdPartyServers:ox3rdPartyServers:max') || $aAd['html_ssl_unsafe'])) {
+if ($GLOBALS['_MAX']['SSL_REQUEST'] && $aAd['type'] == 'html' && $aAd['html_ssl_unsafe']) {
 OX_Delivery_logMessage('"http:" on SSL found for html bannerid '.$aAd['ad_id'], 7);
 return false;
 }
