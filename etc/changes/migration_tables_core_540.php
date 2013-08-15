@@ -238,9 +238,9 @@ class Migration_540 extends Migration
             return $this->_logErrorAndReturnFalse("Cannot retrieve banners");
         }
 
-        foreach ($aBanners as $bannerId => $row)
+        foreach ($aBanners as $bannerId => $active)
         {
-            if ($row['active'] == 't') {
+            if ($active == 't') {
                 $status = OA_ENTITY_STATUS_RUNNING;
             } else {
                 $status = OA_ENTITY_STATUS_PAUSED;

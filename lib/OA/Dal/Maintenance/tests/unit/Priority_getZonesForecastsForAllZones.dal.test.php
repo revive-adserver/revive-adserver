@@ -34,7 +34,7 @@ class Test_OA_Dal_Maintenance_Priority_getZonesForecastsForAllZones extends Unit
         $this->UnitTestCase();
     }
 
-    
+
     /**
      * A method to generate data for testing.
      *
@@ -47,7 +47,7 @@ class Test_OA_Dal_Maintenance_Priority_getZonesForecastsForAllZones extends Unit
             $this->dia = OA_Dal::factoryDO('data_intermediate_ad');
         }
         $conf = $GLOBALS['_MAX']['CONF'];
-        
+
         if(!empty($actual)) {
             // actual
             $this->dia->operation_interval = $conf['maintenance']['operationInterval'];
@@ -60,7 +60,7 @@ class Test_OA_Dal_Maintenance_Priority_getZonesForecastsForAllZones extends Unit
             $this->dia->impressions = $actual;
             $dia = DataGenerator::generateOne($this->dia);
         }
-        
+
         if(!empty($forecast)) {
             $MINIMUM_FORECAST_FOR_TEST = 3;
             if($forecast <= $MINIMUM_FORECAST_FOR_TEST) {
@@ -77,7 +77,7 @@ class Test_OA_Dal_Maintenance_Priority_getZonesForecastsForAllZones extends Unit
             $this->dia->ad_id = 1;
             $this->dia->impressions = $forecast - $MINIMUM_FORECAST_FOR_TEST;
             $dia = DataGenerator::generateOne($this->dia);
-            
+
             // we split the forecast in two rows, one for each Ad
             $this->dia->operation_interval = $conf['maintenance']['operationInterval'];
             $this->dia->operation_interval_id = OX_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
@@ -103,7 +103,6 @@ class Test_OA_Dal_Maintenance_Priority_getZonesForecastsForAllZones extends Unit
         {
             $this->doZones = OA_Dal::factoryDO('zones');
         }
-        $doZones->updated = $oNow->format('%Y-%m-%d %H:%M:%S');
         return DataGenerator::generate($this->doZones,$numZones);
     }
 
@@ -155,12 +154,12 @@ class Test_OA_Dal_Maintenance_Priority_getZonesForecastsForAllZones extends Unit
             0 => $zoneForecastDefaultZoneImpressions,
             1 => $zoneForecastDefaultZoneImpressions,
         );
-        $this->assertEqual($result, $expected); 
+        $this->assertEqual($result, $expected);
 
         // Test 3.5
         // generate the second zone
         $aZones = $this->_generateTestZones(1);
-        //     only generate previous OI forecasted impressions, should return zone 0 only   
+        //     only generate previous OI forecasted impressions, should return zone 0 only
         $oNewDate = new Date();
         $oNewDate->copy($aDates['start']);
         $oNewDate->subtractSeconds(1);
@@ -173,7 +172,7 @@ class Test_OA_Dal_Maintenance_Priority_getZonesForecastsForAllZones extends Unit
             1 => $zoneForecastDefaultZoneImpressions,
             2 => $zoneForecastDefaultZoneImpressions,
         );
-        $this->assertEqual($result, $expected); 
+        $this->assertEqual($result, $expected);
 
         $oDate =& $oServiceLocator->get('now');
         DataGenerator::cleanUp();
@@ -183,13 +182,13 @@ class Test_OA_Dal_Maintenance_Priority_getZonesForecastsForAllZones extends Unit
         $oDate =& $oServiceLocator->get('now');
         // generate three zone
         $this->_generateTestZones(3);
-        
-        // set forecast and impressions for OI - 1 
+
+        // set forecast and impressions for OI - 1
         $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $this->_generateTestHistory(1, $aDates, 42, 100);
         $this->_generateTestHistory(2, $aDates, 5, 2);
         $this->_generateTestHistory(3, $aDates, 9999, 9999);
-        
+
         $result =& $oMaxDalMaintenance->getZonesForecastsForAllZones();
         $expected = array(
             0 => $zoneForecastDefaultZoneImpressions,
@@ -198,9 +197,9 @@ class Test_OA_Dal_Maintenance_Priority_getZonesForecastsForAllZones extends Unit
             3 => 9999,
         );
         $this->assertEqual($result, $expected);
-        
+
         // Test 5
-        
+
         // New zone must appear in the array with default forecast
         $aZones = $this->_generateTestZones(1);
         $result =& $oMaxDalMaintenance->getZonesForecastsForAllZones();
@@ -213,7 +212,7 @@ class Test_OA_Dal_Maintenance_Priority_getZonesForecastsForAllZones extends Unit
         );
         $result =& $oMaxDalMaintenance->getZonesForecastsForAllZones();
         $this->assertEqual($result, $expected);
-        
+
         // register forecast for the OI before, this should not affect current OI forecast
         $oDate =& $oServiceLocator->get('now');
         $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
