@@ -10,30 +10,31 @@
 +---------------------------------------------------------------------------+
 */
 
-class Test_OX_Admin_UI_Event_ModifyingTestEventListener 
+class Test_OX_Admin_UI_Event_ModifyingTestEventListener
 {
     public $aCallCount;
-    
+
     function __construct()
     {
         $this->aCallCount = array();
     }
-    
-    
+
+
     function onUpdate(OX_Admin_UI_Event_EventContext $context)
     {
         $eventName = $context->eventName;
         unset($context->eventName);
-        
+
         //modify it
-        $context->$eventName['count'] += 1;        
+        $tmp = &$context->$eventName;
+        $tmp['count'] += 1;
         $dummyObject = $context->data['dummy'];
-        $dummyObject->id = $eventName; 
-        
+        $dummyObject->id = $eventName;
+
         //store it for test comparisons
         $this->aCallCount[$eventName]['count'] += 1;
         $this->aCallCount[$eventName]['lastContext'] = $context;
-        
+
     }
 }
 

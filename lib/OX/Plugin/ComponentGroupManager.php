@@ -1561,7 +1561,7 @@ class OX_Plugin_ComponentGroupManager
     function _runScript($name, $file='')
     {
         static $aClassNames;
-        
+
         if (!$file)
         {
             //OA::debug('No file to run');
@@ -1580,9 +1580,9 @@ class OX_Plugin_ComponentGroupManager
             return false;
         }
         if (!empty($className)) {
-            $aClassNames[$path.$file] = $className; 
+            $aClassNames[$path.$file] = $className;
         } else {
-            $className = $aClassNames[$path.$file]; 
+            $className = $aClassNames[$path.$file];
         }
         // $classname is declared in script
         $oScript = $this->_instantiateClass($className);
@@ -1677,7 +1677,7 @@ class OX_Plugin_ComponentGroupManager
         return $aResult;
     }
 
-    function &_getOA_Cache($group, $id)
+    function _getOA_Cache($group, $id)
     {
         return new OA_Cache($group, $id);
     }
