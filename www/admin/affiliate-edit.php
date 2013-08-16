@@ -16,7 +16,6 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Admin/Languages.php';
-require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
@@ -28,8 +27,8 @@ require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
 
 // Register input variables
-phpAds_registerGlobalUnslashed ('move', 'name', 'website', 'contact', 'email', 'language', 'advsignup',
-                               'errormessage', 'submit', 'publiczones_old', 'formId', 'category', 'country', 'language');
+phpAds_registerGlobalUnslashed ('move', 'name', 'website', 'contact', 'email',
+                               'errormessage', 'submit', 'publiczones_old', 'formId');
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
@@ -90,9 +89,6 @@ else { //either validation failed or form was not submitted, display the form
 /*-------------------------------------------------------*/
 function buildWebsiteForm($affiliate)
 {
-    // Initialise Ad  Networks
-    $oAdNetworks = new OA_Central_AdNetworks();
-
     $form = new OA_Admin_UI_Component_Form("affiliateform", "POST", $_SERVER['SCRIPT_NAME']);
     $form->forceClientValidation(true);
     $form->addElement('hidden', 'affiliateid', $affiliate['affiliateid']);
@@ -100,22 +96,8 @@ function buildWebsiteForm($affiliate)
     $form->addElement('header', 'basic_info', $GLOBALS['strBasicInformation']);
     $form->addElement('text', 'website', $GLOBALS['strWebsiteURL']);
     $form->addElement('text', 'name', $GLOBALS['strName']);
-    if (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) {
-        $form->addElement('checkbox', 'advsignup', $GLOBALS['strAdvertiserSignup'], $GLOBALS['strAdvertiserSignupDesc'],
-            array('disabled' => !$GLOBALS['_MAX']['CONF']['sync']['checkForUpdates']));
-        $form->addElement('custom', 'advertiser-signup-dialog', null,
-                         array('formId'  => $form->getId()), false);
-    }
     $form->addElement('text', 'contact', $GLOBALS['strContact']);
     $form->addElement('text', 'email', $GLOBALS['strEMail']);
-
-    $form->addElement('select', 'category', $GLOBALS['strCategory'], $oAdNetworks->getCategoriesSelect(), array('style'=>'width: 16em;'));
-    $catLangGroup['country'] = $form->createElement('select', 'country', null, $oAdNetworks->getCountriesSelect());
-    $catLangGroup['country']->setAttribute('style', 'width: 16em;');
-    $catLangGroup['lang'] = $form->createElement('select', 'language', null, $oAdNetworks->getLanguagesSelect());
-    $catLangGroup['lang']->setAttribute('style', 'width: 16em;');
-    $form->addGroup($catLangGroup, 'catlang_group', $GLOBALS['strCountry'].' / '.$GLOBALS['strLanguage'], array(" "), false);
-
 
     $form->addElement('controls', 'form-controls');
     $form->addElement('submit', 'save', 'Save changes');
@@ -135,12 +117,6 @@ function buildWebsiteForm($affiliate)
 
     //set form  values
     $form->setDefaults($affiliate);
-    $form->setDefaults(
-        array("category" => $affiliate['oac_category_id'],
-              "country"  => $affiliate['oac_country_code'],
-              "language" => $affiliate['oac_language_id'],
-              'advsignup' => !empty($affiliate['as_website_id'])
-        ));
     return $form;
 }
 
@@ -152,10 +128,6 @@ function buildWebsiteForm($affiliate)
     $aFields = $form->exportValues();
     $newWebsite = empty($aFields['affiliateid']);
 
-    if (!(is_numeric($aFields['oac_category_id'])) || ($aFields['oac_category_id'] <= 0)) {
-            $aFields['oac_category_id'] = OX_DATAOBJECT_NULL;
-    }
-
     // Setup a new publisher object and set the fields passed in from the form:
     $oPublisher = new OA_Dll_PublisherInfo();
     $oPublisher->agencyId       = $aFields['agencyid'];
@@ -163,14 +135,7 @@ function buildWebsiteForm($affiliate)
     $oPublisher->emailAddress   = $aFields['email'];
     $oPublisher->publisherId    = $aFields['affiliateid'];
     $oPublisher->publisherName  = $aFields['name'];
-    $oPublisher->oacCategoryId  = $aFields['category'];
-    $oPublisher->oacCountryCode = $aFields['country'];
-    $oPublisher->oacLanguageId  = $aFields['language'];
     $oPublisher->website        = $aFields['website'];
-
-    // Do I need to handle this?
-    // $oPublisher->adNetworks =   ($adnetworks == 't') ? true : false;
-    $oPublisher->advSignup  =   ($aFields['advsignup'] == '1') ? true : false;
 
     // process form data for oxThorium if this is edit existing website
     if (!$newWebsite && $oComponent)

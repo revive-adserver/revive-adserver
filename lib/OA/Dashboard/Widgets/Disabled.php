@@ -11,7 +11,6 @@
 */
 
 require_once MAX_PATH . '/lib/OA/Dashboard/Widget.php';
-require_once MAX_PATH . '/lib/OA/Central/Dashboard.php';
 
 require_once LIB_PATH . '/Admin/Redirect.php';
 

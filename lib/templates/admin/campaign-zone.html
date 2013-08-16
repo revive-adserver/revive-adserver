@@ -59,7 +59,6 @@
               <tr class="header hide">
                 <th class="name"><label><input type="checkbox" id="available-select-all" class="checkbox select-all" /> {t str=SelectUnselectAll}</label></th>
                 <th class="link"></th>
-                <th class="category">{t str=Category}</th>
                 <th class="ctr">{t str=FinanceCTR}</th>
                 <th class="cr">{t str=FinanceCR}</th>
                 <th class="ecpm last">{t str=FinanceCPM}</th>
@@ -83,7 +82,6 @@
               <tr class="header hide">
                 <th class="name"><label><input type="checkbox" id="linked-select-all" class="checkbox select-all" /> {t str=SelectUnselectAll}</label></th>
                 <th class="link"></th>
-                <th class="category">{t str=Category}</th>
                 <th class="ctr">{t str=FinanceCTR}</th>
                 <th class="cr">{t str=FinanceCR}</th>
                 <th class="ecpm last">{t str=FinanceCPM}</th>
@@ -130,17 +128,10 @@
     $("#zones-linked-container, #zones-available-container").bind("filter", function() {
       var panel = this.id.substring("zones-".length).replace(/-container/, '');
       var $quickSearch = $("#quick-search-" + panel);
-      var category = $("#category-" + panel).val();
-      var categoryText = "";
-      if (category != "") {
-        categoryText = $("#category-" + panel).selectedText();
-      }
       var postData = {
         "clientid": $("#advertiser-id").val(),
         "campaignid": $("#campaign-id").val(),
         "status": panel,
-        "category": $("#category-" + panel).val(),
-        "category-text": categoryText,
         "text": $quickSearch.is(".example-search") ? "" : $quickSearch.val()
       };
 
@@ -150,14 +141,6 @@
     // Link/Unlink buttons
     $("#link-button").bind("click", [ "link" ], sendLinkingRequest);
     $("#unlink-button").bind("click", [ "unlink" ], sendLinkingRequest);
-
-    // Category filters
-    $("#category-linked").bind("change", function() {
-      $("#zones-linked-container").trigger("filter");
-    });
-    $("#category-available").bind("change", function() {
-      $("#zones-available-container").trigger("filter");
-    });
 
     // Quick search fields
     $("#quick-search-available, #quick-search-linked")
@@ -216,46 +199,22 @@
     // Data from all filters
     var quickSearchLinked = $("#quick-search-linked").is(".example-search") ? "" : $("#quick-search-linked").val();
     var quickSearchAvailable = $("#quick-search-available").is(".example-search") ? "" : $("#quick-search-available").val();
-    var categoryLinked = $("#category-linked").val();
-    var categoryLinkedText = "";
-    var categoryAvailable = $("#category-available").val();
-    var categoryAvailableText = "";
-
     if (action == "link") {
-      if (categoryLinked != "" && categoryLinked != categoryAvailable) {
-         categoryLinked = "";
-         $("#category-linked").val("");
-	    }
-	    if (quickSearchLinked  != "" && quickSearchLinked != quickSearchAvailable) {
-	       quickSearchLinked = "";
-	       $("#quick-search-linked").val("");
-	    }
+        if (quickSearchLinked  != "" && quickSearchLinked != quickSearchAvailable) {
+           quickSearchLinked = "";
+           $("#quick-search-linked").val("");
+        }
     }
     else {
-      if (categoryAvailable != "" && categoryLinked != categoryAvailable) {
-        categoryAvailable = "";
-        $("#category-available").val("");
-      }
       if (quickSearchAvailable  != "" && quickSearchLinked != quickSearchAvailable) {
          quickSearchAvailable = "";
          $("#quick-search-available").val("");
       }
     }
 
-    if (categoryLinked != "") {
-      categoryLinkedText = $("#category-linked").selectedText();
-    }
-    if (categoryAvailable != "") {
-      categoryAvailableText = $("#category-available").selectedText();
-    }
-
     var postData = {
       "clientid": $("#advertiser-id").val(),
       "campaignid": $("#campaign-id").val(),
-      "category-linked": categoryLinked,
-      "category-linked-text": categoryLinkedText,
-      "category-available": categoryAvailable,
-      "category-available-text": categoryAvailableText,
       "text-linked": quickSearchLinked,
       "text-available": quickSearchAvailable,
       "action": action,

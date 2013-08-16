@@ -22,7 +22,6 @@ require_once MAX_PATH . '/www/admin/lib-size.inc.php';
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
 require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
-require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
 require_once MAX_PATH . '/lib/OA/Admin/NumberFormat.php';
 
 
@@ -118,8 +117,6 @@ function buildZoneForm($zone, $oComponent = null)
 {
     global $conf;
     $newZone = empty($zone['zoneid']);
-    // Initialise Ad  Networks
-    $oAdNetworks = new OA_Central_AdNetworks();
 
     $form = new OA_Admin_UI_Component_Form("zoneform", "POST", $_SERVER['SCRIPT_NAME']);
     $form->forceClientValidation(true);
@@ -129,7 +126,6 @@ function buildZoneForm($zone, $oComponent = null)
     $form->addElement('header', 'zone_basic_info', $GLOBALS['strBasicInformation']);
     $form->addElement('text', 'zonename', $GLOBALS['strName']);
     $form->addElement('text', 'description', $GLOBALS['strDescription']);
-    $form->addElement('select', 'oac_category_id', $GLOBALS['strCategory'], $oAdNetworks->getCategoriesSelect());
 
     //zone type group
     $zoneTypes[] = $form->createElement('radio', 'delivery', '',
@@ -333,16 +329,6 @@ function processForm($form, $oComponent = null)
             $doZones->zoneid = $aFields['zoneid'];
             $doZones->update();
 
-            // Ad  Networks
-            $doPublisher = OA_Dal::factoryDO('affiliates');
-            $doPublisher->get($aFields['affiliateid']);
-            $anWebsiteId = $doPublisher->as_website_id;
-            if ($anWebsiteId) {
-            	$oAdNetworks = new OA_Central_AdNetworks();
-                $doZones->get($aFields['zoneid']);
-    			$oAdNetworks->updateZone($doZones, $anWebsiteId);
-            }
-
             // Reset append codes which called this zone
             $doZones = OA_Dal::factoryDO('zones');
             $doZones->appendtype = phpAds_ZoneAppendZone;
@@ -454,15 +440,6 @@ function processForm($form, $oComponent = null)
             $doZones->show_capped_no_cookie = 0;
 
             $aFields['zoneid'] = $doZones->insert();
-
-            // Ad  Networks
-            $doPublisher = OA_Dal::factoryDO('affiliates');
-            $doPublisher->get($aFields['affiliateid']);
-            $anWebsiteId = $doPublisher->as_website_id;
-            if ($anWebsiteId) {
-            	$oAdNetworks = new OA_Central_AdNetworks();
-    			$oAdNetworks->updateZone($doZones, $anWebsiteId);
-            }
 
             if ($oComponent && method_exists($oComponent, 'processZoneForm')) {
                 $oComponent->processZoneForm($aFields);

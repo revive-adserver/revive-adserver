@@ -39,17 +39,6 @@ define('OA_ENTITY_STATUS_PENDING',               10);
 define('OA_ENTITY_STATUS_APPROVAL',              21);
 define('OA_ENTITY_STATUS_REJECTED',              22);
 
-// Adnetworks statuses, used for the an_status field
-define('OA_ENTITY_ADNETWORKS_STATUS_RUNNING',     0);
-define('OA_ENTITY_ADNETWORKS_STATUS_APPROVAL',    1);
-define('OA_ENTITY_ADNETWORKS_STATUS_REJECTED',    2);
-
-// Reject reasons
-define('OA_ENTITY_ADVSIGNUP_REJECT_NOTLIVE', 1);
-define('OA_ENTITY_ADVSIGNUP_REJECT_BADCREATIVE', 2);
-define('OA_ENTITY_ADVSIGNUP_REJECT_BADURL', 3);
-define('OA_ENTITY_ADVSIGNUP_REJECT_BREAKTERMS', 4);
-
 
 /**
  *
@@ -404,7 +393,7 @@ class OA_Dll extends OA_BaseObjectWithErrors
 	 * @param string $table  Table name
 	 * @param integer $id  Id (or empty if new is created)
 	 * @param unknown $allowed  check allowed
-	 * @param OA_Permission Does the current call require only a subset of the permissions? 
+	 * @param OA_Permission Does the current call require only a subset of the permissions?
 	 * 						If set to null, equivalent to asking permission to do everything on the object
 	 *
 	 * @return boolean  True if has access

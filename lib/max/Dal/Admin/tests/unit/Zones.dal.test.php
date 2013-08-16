@@ -13,7 +13,6 @@
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 require_once MAX_PATH . '/lib/OA/Dll/Zone.php';
-require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
 
 /**
  * A class for testing DAL Zones methods
@@ -104,13 +103,6 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
             'OA_Dll_Zone',
             'PartialMockOA_Dll_Zone',
             array('checkPermissions')
-        );
-
-        // PartialMock of OA_Central_AdNetworks
-        Mock::generatePartial(
-            'OA_Central_AdNetworks',
-            'PartialMockOA_Central_AdNetworks',
-            array('retrievePermanentCache')
         );
     }
 
@@ -248,18 +240,15 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
     }
 
     /**
-     * Tests getWebsitesAndZonesListByCategory method
+     * Tests getWebsitesAndZonesList method
      *
      */
-    function testGetWebsitesAndZonesListByCategory()
+    function testGetWebsitesAndZonesList()
     {
         $dalZones = OA_Dal::factoryDAL('zones');
-        // Set categories mockup
-        $dalZones->_oOaCentralAdNetworks = $this->_setCategoriesMockup($this->_aCategories);
-        $aFlatCategories = $dalZones->_oOaCentralAdNetworks->getCategoriesFlat();
 
         // Test get all zones on empty database
-        $aResult   = $dalZones->getWebsitesAndZonesListByCategory($agencyId);
+        $aResult   = $dalZones->getWebsitesAndZonesList($agencyId);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 0);
 
@@ -283,39 +272,12 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
         $this->_createWebsitesAndZones($this->_aWebsitesAndZones, $agencyId2, $aAffiliatesIds2, $aZonesIds2);
 
         // Test get all zones (no categories)
-        $aResult   = $dalZones->getWebsitesAndZonesListByCategory($agencyId);
+        $aResult   = $dalZones->getWebsitesAndZonesList($agencyId);
         $aExpected = $this->_buildExpectedArrayOfWebsitesAndZones($this->_aWebsitesAndZones, $aAffiliatesIds, $aZonesIds, null, $aFlatCategories );
 
         $this->assertEqual($aResult, $aExpected);
         $this->assertEqual(count($aResult),2);                              // We should get 2 websites
         $this->assertEqual(count($aResult[$aAffiliatesIds[1]]['zones']),3); // First website has 3 zones
-
-        // Test get zones with category 6502
-        $aResult   = $dalZones->getWebsitesAndZonesListByCategory($agencyId, 6502);
-        $aExpected = $this->_buildExpectedArrayOfWebsitesAndZones($this->_aWebsitesAndZones, $aAffiliatesIds, $aZonesIds, array(6502), $aFlatCategories );
-        $this->assertEqual($aResult, $aExpected);
-        $this->assertEqual(count($aResult),2);                              // We should get 2 websites
-        $this->assertEqual(count($aResult[$aAffiliatesIds[1]]['zones']),1); // First website has 1 zone
-
-        // Test get zones with category 6581
-        $aResult   = $dalZones->getWebsitesAndZonesListByCategory($agencyId, 6581);
-        $aExpected = $this->_buildExpectedArrayOfWebsitesAndZones($this->_aWebsitesAndZones, $aAffiliatesIds, $aZonesIds, array(6581), $aFlatCategories );
-        $this->assertEqual($aResult, $aExpected);
-        $this->assertEqual(count($aResult),1);                              // We should get 1 website
-        $this->assertEqual(count($aResult[$aAffiliatesIds[2]]['zones']),1); // only one zone matches
-
-        // Test get zones when category not assigned to zones
-        $aResult = $dalZones->getWebsitesAndZonesListByCategory($agencyId, 1234567);
-        $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 0);
-
-        // Test get zones when category has subcategories
-        $aResult = $dalZones->getWebsitesAndZonesListByCategory($agencyId, 65);
-        $aExpected = $this->_buildExpectedArrayOfWebsitesAndZones($this->_aWebsitesAndZones, $aAffiliatesIds, $aZonesIds, array(65, 6502, 6510, 6581), $aFlatCategories );
-        $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult),2);                              // We should get 2 websites
-        $this->assertEqual(count($aResult[$aAffiliatesIds[1]]['zones']),3); // 1st website has 3 zones
-        $this->assertEqual(count($aResult[$aAffiliatesIds[2]]['zones']),2); // 2nd website has 2 zones
 
         // Generate advertisers and campaigns
         $aClientsIds = array();
@@ -333,8 +295,8 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
         $dllZonePartialMock->linkCampaign($aZonesIds[1][3],$aCampaignsIds[1][1]);
         $dllZonePartialMock->linkCampaign($aZonesIds[2][1],$aCampaignsIds[2][1]);
 
-        // Test no category, and linked
-        $aResult   = $dalZones->getWebsitesAndZonesListByCategory($agencyId, null,$aCampaignsIds[1][1]);
+        // Test linked
+        $aResult   = $dalZones->getWebsitesAndZonesList($agencyId,$aCampaignsIds[1][1]);
         $aExpected = $this->_buildExpectedArrayOfWebsitesAndZones($this->_aWebsitesAndZones, $aAffiliatesIds, $aZonesIds, null, $aFlatCategories );
         // Manually set isLinked
         foreach ($aExpected as $affiliateId => $aWebsite) {
@@ -352,40 +314,18 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
         }
         $this->assertEqual($aResult, $aExpected);
 
-        // Test get category 6510 and linked
-        $aResult   = $dalZones->getWebsitesAndZonesListByCategory($agencyId, 6510, $aCampaignsIds[1][2]);
-        $aExpected = $this->_buildExpectedArrayOfWebsitesAndZones($this->_aWebsitesAndZones, $aAffiliatesIds, $aZonesIds, array(6510), $aFlatCategories);
-        // Manually set isLinked
-        foreach ($aExpected as $affiliateId => $aWebsite) {
-            foreach ($aWebsite['zones'] as $zoneId => $aZone) {
-                    $aExpected[$affiliateId]['zones'][$zoneId]['linked'] = false;
-            }
-        }
-        $aExpected[$affiliateId]['zones'][$aZonesIds[1][1]]['linked'] = true; // In selected category only one is linked
-        $this->assertEqual($aResult, $aExpected);
-
-        // Test get category 6502 and linked
-        $aResult   = $dalZones->getWebsitesAndZonesListByCategory($agencyId, 6502, $aCampaignsIds[2][1]);
-        $aExpected = $this->_buildExpectedArrayOfWebsitesAndZones($this->_aWebsitesAndZones, $aAffiliatesIds, $aZonesIds, array(6502), $aFlatCategories);
-        // Manually set isLinked to false ( no linked campaigns in selected category)
-        foreach ($aExpected as $affiliateId => $aWebsite) {
-            foreach ($aWebsite['zones'] as $zoneId => $aZone) {
-                    $aExpected[$affiliateId]['zones'][$zoneId]['linked'] = false;
-            }
-        }
-        $this->assertEqual($aResult, $aExpected);
     }
 
     /**
-     * Tests getZonesListByCategory method
+     * Tests getZonesList method
      *
      */
-    function testGetZonesListByCategory()
+    function CCC_testGetZonesList()
     {
         $dalZones = OA_Dal::factoryDAL('zones');
 
         // Test get all zones on empty database
-        $aResult   = $dalZones->getZonesListByCategory($agencyId);
+        $aResult   = $dalZones->getZonesList($agencyId);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 0);
 
@@ -399,43 +339,11 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
         $aZonesIds = array();
         $this->_createWebsitesAndZones($this->_aWebsitesAndZones, $agencyId, $aAffiliatesIds, $aZonesIds);
 
-        // Set categories mockup
-        $dalZones->_oOaCentralAdNetworks = $this->_setCategoriesMockup($this->_aCategories);
-
-        // Test get all zones (no categories)
-        $aResult   = $dalZones->getZonesListByCategory($agencyId);
+        // Test get all zones
+        $aResult   = $dalZones->getZonesList($agencyId);
         $aExpected = $this->_buildExpectedArrayOfZones($this->_aWebsitesAndZones, $aAffiliatesIds, $aZonesIds);
         $this->assertEqual($aResult, $aExpected);
         $this->assertEqual(count($aResult),5);      // found 5 zones
-
-        // Test get zones with category 6502
-        $aResult   = $dalZones->getZonesListByCategory($agencyId, 6502);
-        $aExpected = $this->_buildExpectedArrayOfZones($this->_aWebsitesAndZones, $aAffiliatesIds, $aZonesIds, array(6502));
-        $this->assertEqual($aResult, $aExpected);
-        $this->assertEqual(count($aResult),2);     // found 2 zones
-
-        // Test get zones with category 6581
-        $aResult   = $dalZones->getZonesListByCategory($agencyId, 6581);
-        $aExpected = $this->_buildExpectedArrayOfZones($this->_aWebsitesAndZones, $aAffiliatesIds, $aZonesIds, array(6581));
-        $this->assertEqual($aResult, $aExpected);
-        $this->assertEqual(count($aResult),1);     // found 1 zone
-
-        // Test get zones when category not assigned to zones
-        $aResult = $dalZones->getZonesListByCategory($agencyId, 1234567);
-        $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 0);
-
-        // Test get zones when category ID is a parent
-        $aResult = $dalZones->getZonesListByCategory($agencyId, 65);
-        $aExpected = $this->_buildExpectedArrayOfZones($this->_aWebsitesAndZones, $aAffiliatesIds, $aZonesIds, array(65, 6502, 6510, 6581));
-        $this->assertEqual($aResult, $aExpected);
-        $this->assertEqual(count($aResult), 5);
-
-        // Test get zones with no category
-        $aResult = $dalZones->getZonesListByCategory($agencyId, -1);
-        $aExpected = $this->_buildExpectedArrayOfZones($this->_aWebsitesAndZones, $aAffiliatesIds, $aZonesIds, -1);
-        $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 1);
 
         // Generate advertisers and campaigns
         $aClientsIds = array();
@@ -453,8 +361,8 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
         $dllZonePartialMock->linkCampaign($aZonesIds[1][3],$aCampaignsIds[1][1]);
         $dllZonePartialMock->linkCampaign($aZonesIds[2][1],$aCampaignsIds[2][1]);
 
-        // Test no category, and linked
-        $aResult   = $dalZones->getZonesListByCategory($agencyId, null,$aCampaignsIds[1][1]);
+        // Test linked
+        $aResult   = $dalZones->getZonesList($agencyId,$aCampaignsIds[1][1]);
         $aExpected = $this->_buildExpectedArrayOfZones($this->_aWebsitesAndZones, $aAffiliatesIds, $aZonesIds);
         // Manually set isLinked
         foreach ($aExpected as $key => $aZone) {
@@ -470,52 +378,8 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
         }
         $this->assertEqual($aResult, $aExpected);
 
-        // Test get category 6510 and linked
-        $aResult   = $dalZones->getZonesListByCategory($agencyId, 6510, $aCampaignsIds[1][2]);
-        $aExpected = $this->_buildExpectedArrayOfZones($this->_aWebsitesAndZones, $aAffiliatesIds, $aZonesIds, array(6510));
-        $aExpectedLinked    = array();
-        $aExpectedAvailable = array();
-        // Manually set isLinked and fill linked and available
-        foreach ($aExpected as $key => $aZone) {
-            if ($aZone['zoneid'] == $aZonesIds[1][1]) {
-                $aExpected[$key]['islinked'] = true; // In selected category only one is linked
-                $aExpectedLinked[] = $aExpected[$key];
-            } else {
-                $aExpected[$key]['islinked'] = false;
-                $aExpectedAvailable[] = $aExpected[$key];
-            }
-        }
-        $this->assertEqual($aResult, $aExpected);
-
-        // Repeat prevoious test but select only linked zones
-        $aResult = $dalZones->getZonesListByCategory($agencyId, 6510, $aCampaignsIds[1][2], true);
-        $this->assertEqual($aResult, $aExpectedLinked);
-
-        // Repeat prevoious test but select only available zones
-        $aResult = $dalZones->getZonesListByCategory($agencyId, 6510, $aCampaignsIds[1][2], false);
-        $this->assertEqual($aResult, $aExpectedAvailable);
-
-
-        // Test get category 6502 and linked
-        $aResult   = $dalZones->getZonesListByCategory($agencyId, 6502, $aCampaignsIds[2][1]);
-        $aExpected = $this->_buildExpectedArrayOfZones($this->_aWebsitesAndZones, $aAffiliatesIds, $aZonesIds, array(6502));
-
-        // Manually set isLinked to false ( no linked campaigns in selected category)
-        foreach ($aExpected as $key => $aZone) {
-            $aExpected[$key]['islinked'] = false;
-        }
-        $this->assertEqual($aResult, $aExpected);
-
-        // Repeat prevoious test but select only linked zones
-        $aResult   = $dalZones->getZonesListByCategory($agencyId, 6502, $aCampaignsIds[2][1], true);
-        $this->assertEqual(count($aResult), 0);
-
-        // Repeat prevoious test but select only available zones
-        $aResult   = $dalZones->getZonesListByCategory($agencyId, 6502, $aCampaignsIds[2][1], false);
-        $this->assertEqual($aResult, $aExpected);
-
         // Test get 3 zones from first website by search string
-        $aResult   = $dalZones->getZonesListByCategory($agencyId, null, null, null, 'web 1');
+        $aResult   = $dalZones->getZonesList($agencyId, null, null, 'web 1');
         $aExpected = $this->_buildExpectedArrayOfZones($this->_aWebsitesAndZones, $aAffiliatesIds, $aZonesIds, null, 'web 1');
         $this->assertEqual($aResult, $aExpected);
     }
@@ -534,14 +398,12 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
         $doZones = OA_Dal::factoryDO('zones');
         foreach ($aWebsitesAndZones as $websiteKey => $aWebsite) {
             $doAffiliate->name            = $aWebsite['name'];
-            $doAffiliate->oac_category_id = $aWebsite['oac_category_id'];
             $doAffiliate->agencyid        = $agencyId;
             $aAffiliatesIds[$websiteKey] = DataGenerator::generateOne($doAffiliate);
             if (is_array($aWebsite['zones'])) {
                 foreach ($aWebsite['zones'] as $zoneKey => $aZone) {
                     $doZones->zonename        = $aZone['zonename'];
                     $doZones->affiliateid     = $aAffiliatesIds[$websiteKey];
-                    $doZones->oac_category_id = $aZone['oac_category_id'];
                     if (array_key_exists('width',$aZone) && array_key_exists('height',$aZone)) {
                         $doZones->width       = $aZone['width'];
                         $doZones->height      = $aZone['height'];
@@ -582,48 +444,31 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
     }
 
     /**
-     * Function returns expected array of websites and zones for given array of websites and zones and selected category
-     * Sets category names if flat list of categories is given
+     * Function returns expected array of websites and zones for given array of websites and zones
      * Sets all statistics to null
      *
-     * supplementary function to test getWebsitesAndZonesListByCategory
+     * supplementary function to test getWebsitesAndZonesList
      *
      * @param array $aWebsitesAndZones formated as var _aWebsitesAndZones
      * @param array $aAffiliatesIds array of affiliates Id
      * @param array $aZonesIds array of zones Id
-     * @param array $aCategoriesIds checked category/categories
-     * @param array $aCategoriesList Flat list of categories
      * @return array
      */
-    function _buildExpectedArrayOfWebsitesAndZones($aWebsitesAndZones, $aAffiliatesIds, $aZonesIds, $aCategoriesIds = null, $aCategoriesList)
+    function _buildExpectedArrayOfWebsitesAndZones($aWebsitesAndZones, $aAffiliatesIds, $aZonesIds)
     {
-        $aZones = $this->_buildExpectedArrayOfZones($aWebsitesAndZones, $aAffiliatesIds, $aZonesIds, $aCategoriesIds);
+        $aZones = $this->_buildExpectedArrayOfZones($aWebsitesAndZones, $aAffiliatesIds, $aZonesIds);
         $aExpected = array();
         foreach($aZones as $aZone) {
             if (!array_key_exists($aZone['affiliateid'], $aExpected)) {
-                if (array_key_exists($aZone['affiliate_oac_category_id'], $aCategoriesList)) {
-                    $category = $aCategoriesList[$aZone['affiliate_oac_category_id']];
-                } else {
-                    $category = null;
-                }
                 $aExpected[$aZone['affiliateid']] =
                     array (
                         'name'            => $aZone['affiliatename'],
-                        'oac_category_id' => $aZone['affiliate_oac_category_id'],
-                        'category'        => $category,
                         'linked'        => null,
                     );
-            }
-            if (array_key_exists($aZone['zone_oac_category_id'], $aCategoriesList)) {
-                $category = $aCategoriesList[$aZone['zone_oac_category_id']];
-            } else {
-                $category = null;
             }
             $aExpected[$aZone['affiliateid']]['zones'][$aZone['zoneid']] =
                 array (
                     'name'            => $aZone['zonename'],
-                    'oac_category_id' => $aZone['zone_oac_category_id'],
-                    'category'        => $aCategoriesList[$aZone['zone_oac_category_id']],
                     'campaign_stats'  => false,
                     'ecpm'            => null,
                     'cr'              => null,
@@ -635,63 +480,34 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
     }
 
     /**
-     * Function returns expected array of zones for given array of websites and zones and selected category
+     * Function returns expected array of zones for given array of websites and zones
      *
-     * supplementary function to test getZonesListByCategory
+     * supplementary function to test getZonesList
      *
      * @param array $aWebsitesAndZones formated as var _aWebsitesAndZones
      * @param array $aAffiliatesIds array of affiliates Id
      * @param array $aZonesIds array of zones Id
-     * @param array $aCategoriesIds checked category/categories
      * @param boolean $linked true - return only linked zones, false - return only unlinked zones
-     * @param string $serachString string matched to zones/websites names
+     * @param string $searchString string matched to zones/websites names
      * @return array
      */
-    function _buildExpectedArrayOfZones($aWebsitesAndZones, $aAffiliatesIds, $aZonesIds, $aCategoriesIds = null, $serachString = null)
+    function _buildExpectedArrayOfZones($aWebsitesAndZones, $aAffiliatesIds, $aZonesIds, $searchString = null)
     {
         $aExpected = array();
-        $zone_oac_category_id = null;
-        $website_oac_category_id = null;
         foreach ($aWebsitesAndZones as $websiteKey => $aWebsite) {
             if (is_array($aWebsite['zones'])) {
-                if ($aWebsitesAndZones[$websiteKey]['oac_category_id'] == 'null') {
-                    $website_oac_category_id = null;
-                } else {
-                    $website_oac_category_id = $aWebsitesAndZones[$websiteKey]['oac_category_id'];
-                }
                 foreach ($aWebsite['zones'] as $zoneKey => $aZone) {
-                    // Add zone to list if:
-                    //   - category of zone or parent website matches to given categories
-                    //   AND
-                    //   - zone name or parent website name includes search string
-                    if ((
-                            (!is_array($aCategoriesIds) ||
-                                (in_array($aWebsitesAndZones[$websiteKey]['zones'][$zoneKey]['oac_category_id'], $aCategoriesIds) ||
-                                in_array($aWebsitesAndZones[$websiteKey]['oac_category_id'], $aCategoriesIds)
-                                )
-                            ) ||
-                            ($aCategoriesIds == -1 &&
-                                $aWebsitesAndZones[$websiteKey]['zones'][$zoneKey]['oac_category_id'] == 'null'
-                            )
-                         ) &&
-                         (is_null($serachString) ||
-                             ((stripos($aWebsitesAndZones[$websiteKey]['name'], $serachString) !== false) ||
-                              (stripos($aWebsitesAndZones[$websiteKey]['zones'][$zoneKey]['zonename'], $serachString) !== false)
+                    // Add zone to list if zone name or parent website name includes search string
+                    if (!isset($searchString) ||
+                             ((stripos($aWebsitesAndZones[$websiteKey]['name'], $searchString) !== false) ||
+                              (stripos($aWebsitesAndZones[$websiteKey]['zones'][$zoneKey]['zonename'], $searchString) !== false)
                              )
                          )
-                       )
                     {
-                        if ( $aWebsitesAndZones[$websiteKey]['zones'][$zoneKey]['oac_category_id'] == 'null') {
-                            $zone_oac_category_id = null;
-                        } else {
-                            $zone_oac_category_id = $aWebsitesAndZones[$websiteKey]['zones'][$zoneKey]['oac_category_id'];
-                        }
                         $aExpected[] = array (
                                         'zoneid'                    => $aZonesIds[$websiteKey][$zoneKey],
                                         'zonename'                  => $aWebsitesAndZones[$websiteKey]['zones'][$zoneKey]['zonename'],
-                                        'zone_oac_category_id'      => $zone_oac_category_id,
                                         'affiliateid'               => $aAffiliatesIds[$websiteKey],
-                                        'affiliate_oac_category_id' => $website_oac_category_id,
                                         'affiliatename'             => $aWebsitesAndZones[$websiteKey]['name'],
                                         'islinked'                  => null
                                       );
@@ -743,14 +559,14 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
         $aCampaignsIds2 = array();
         $this->_createAdvertisersAndCampaigns($this->_aAdvertisersAndCampaigns, $agencyId2, $aClientsIds2, $aCampaignsIds2);
 
-        $result = $dalZones->countZones($agencyId, null, null, true);
+        $result = $dalZones->countZones($agencyId, null, true);
         $this->assertEqual($result, 0);
-        $result = $dalZones->countZones($agencyId, null, null, false);
+        $result = $dalZones->countZones($agencyId, null, false);
         $this->assertEqual($result, 5);
 
-        $result = $dalZones->countZones($agencyId, null, $aCampaignsIds[1][1], true);
+        $result = $dalZones->countZones($agencyId, $aCampaignsIds[1][1], true);
         $this->assertEqual($result, 0);
-        $result = $dalZones->countZones($agencyId, null, $aCampaignsIds[1][1], false);
+        $result = $dalZones->countZones($agencyId, $aCampaignsIds[1][1], false);
         $this->assertEqual($result, 5);
 
         // Link zones to campaigns
@@ -759,50 +575,15 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
         $aFlatZonesIds2 = array($aZonesIds[1][1], $aZonesIds[2][1]);
         $result = $dalZones->linkZonesToCampaign($aFlatZonesIds2, $aCampaignsIds[1][2]);
 
-        $result = $dalZones->countZones($agencyId, null, $aCampaignsIds[1][1], true);
+        $result = $dalZones->countZones($agencyId, $aCampaignsIds[1][1], true);
         $this->assertEqual($result, 4);
-        $result = $dalZones->countZones($agencyId, null, $aCampaignsIds[1][1], false);
+        $result = $dalZones->countZones($agencyId, $aCampaignsIds[1][1], false);
         $this->assertEqual($result, 1);
 
-        $result = $dalZones->countZones($agencyId, null, null, true);
+        $result = $dalZones->countZones($agencyId, null, true);
         $this->assertEqual($result, 0);
-        $result = $dalZones->countZones($agencyId, null, null, false);
+        $result = $dalZones->countZones($agencyId, null, false);
         $this->assertEqual($result, 5);
-    }
-
-    /**
-     * Create OA_Central_AdNetworks mockup to returns given categories
-     *
-     * @param array $aCategories
-     * @return PartialMockOA_Central_AdNetworks
-     */
-    function _setCategoriesMockup($aCategories)
-    {
-        $oAdNetworksPartialMock = new PartialMockOA_Central_AdNetworks($this);
-        $oAdNetworksPartialMock->setReturnValue('retrievePermanentCache', $aCategories);
-        return $oAdNetworksPartialMock;
-    }
-
-    /**
-     * Method to test _getParentAndSubCategoriesIds method
-     *
-     */
-    function test_getParentAndSubCategoriesIds()
-    {
-        $dalZones = OA_Dal::factoryDAL('zones');
-        // Set categories mockup
-        $dalZones->_oOaCentralAdNetworks = $this->_setCategoriesMockup($this->_aCategories);
-
-        // Test get all subcategories
-        $aResult = $dalZones->_getParentAndSubCategoriesIds(65);
-        $aExpected = array(65, 6502, 6510, 6581);
-        sort($aResult);
-        sort($aExpected);
-        $this->assertEqual($aResult,$aExpected);
-
-        // Test when subcategory ID is passed
-        $aResult = $dalZones->_getParentAndSubCategoriesIds(6502);
-        $this->assertEqual($aResult,array(6502));
     }
 
     /**
@@ -1217,75 +998,6 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
         $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
         $doAdZoneAssoc->whereAdd('zone_id <> 0');
         $this->assertEqual($doAdZoneAssoc->count(),0);
-    }
-
-    /**
-     * Tests getCategoriesIdsFromZones method
-     *
-     */
-    function testGetCategoriesIdsFromZones() {
-        $dalZones = OA_Dal::factoryDAL('zones');
-
-        // Create agency
-        $doAgency = OA_Dal::factoryDO('agency');
-        $doAgency->name = 'Ad Network Manager';
-        $agencyId = DataGenerator::generateOne($doAgency);
-
-        // Generate websites and zones
-        $aAffiliatesIds = array();
-        $aZonesIds = array();
-        $this->_createWebsitesAndZones($this->_aWebsitesAndZones, $agencyId, $aAffiliatesIds, $aZonesIds);
-
-
-        // Test invocation with no parameters
-        $result = $dalZones->getCategoriesIdsFromZones();
-        $this->assertFalse($result);
-
-        // Test empty array
-        $aResult = $dalZones->getCategoriesIdsFromZones(array());
-        $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 0);
-
-        // Test if this doesn't duplicate categories ids, and deal with null values
-        $aResult = $dalZones->getCategoriesIdsFromZones(array($aZonesIds[1][2], $aZonesIds[2][2], $aZonesIds[1][3]), false);
-        $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 1);
-        $this->assertEqual($aResult[0], 6502);
-
-        // Test the same but include parent websites categories
-        $aResult = $dalZones->getCategoriesIdsFromZones(array($aZonesIds[1][2], $aZonesIds[2][2], $aZonesIds[1][3]), true);
-        $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 2);
-        sort($aResult);
-        $this->assertEqual($aResult[0], 6502);
-        $this->assertEqual($aResult[1], 6510);
-
-        // Test dealing with duplicate categories - to previous test add zone [1][1] witch have the same category as website
-        $aResult = $dalZones->getCategoriesIdsFromZones(array($aZonesIds[1][1], $aZonesIds[1][2], $aZonesIds[2][2], $aZonesIds[1][3]), true);
-        $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 2);
-        sort($aResult);
-        $this->assertEqual($aResult[0], 6502);
-        $this->assertEqual($aResult[1], 6510);
-    }
-
-    /**
-     * Method to test getCategoriesIdsFromWebsitesAndZones method
-     *
-     */
-    function testGetCategoriesIdsFromWebsitesAndZones() {
-        $dalZones = OA_Dal::factoryDAL('zones');
-        // Set categories mockup
-        $dalZones->_oOaCentralAdNetworks = $this->_setCategoriesMockup($this->_aCategories);
-        $aFlatCategories = $dalZones->_oOaCentralAdNetworks->getCategoriesFlat();
-
-        $aAffiliatesIds = array(1=>1, 2=>2, 3=>3);
-        $aZonesIds = array( 1 => array(1=>1, 2=>2, 3=>3),
-                            2 => array(1=>4, 2=>5));
-        $aWebsites = $this->_buildExpectedArrayOfWebsitesAndZones($this->_aWebsitesAndZones, $aAffiliatesIds, $aZonesIds, null, $aFlatCategories );
-        $aResult = $dalZones->getCategoriesIdsFromWebsitesAndZones($aWebsites);
-        sort($aResult);
-        $this->assertEqual($aResult, array (6502, 6510, 6581));
     }
 
    function testCheckZoneLinkedToActiveCampaign()
