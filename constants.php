@@ -152,9 +152,6 @@ function setupConstants()
     define('MAX_FINANCE_ANYVAR', 8); // % of any variable   (zone-only)
     define('MAX_FINANCE_VARSUM', 9); // % of a variable sum (zone-only)
 
-    // OAC communication
-    define('OAC_RPC_TIMEOUT',   10); // RPC timeout to OAC in seconds
-
     $GLOBALS['_MAX']['STATUSES'] = array(
         MAX_CONNECTION_STATUS_IGNORE      => 'strStatusIgnore',       // start value
         MAX_CONNECTION_STATUS_PENDING     => 'strStatusPending',      // start value

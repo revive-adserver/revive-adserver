@@ -17,7 +17,6 @@ require_once '../../init.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
-require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
 
 // Register input variables
 phpAds_registerGlobal ('returnurl');
@@ -47,10 +46,6 @@ if (!empty($zoneid)) {
         if ($doZones->get($zoneid)) {
             $aZone = $doZones->toArray();
         }
-
-        // Ad  Networks
-        $oAdNetworks = new OA_Central_AdNetworks();
-        $oAdNetworks->deleteZone($doZones->as_zone_id);
 
         $doZones->delete();
     }

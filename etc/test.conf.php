@@ -399,23 +399,6 @@ path        = /xmlrpc.php
 httpPort    = 80
 httpsPort   = 443
 
-[oacXmlRpc]
-protocol    = https
-host        = oxc.openx.org
-httpPort    = 80
-httpsPort   = 443
-path        = /oxc/xmlrpc
-captcha     = /oxc/captcha
-signUpUrl   = /oxc/advertiser/signup
-publihserUrl= /oxc/advertiser/defzone
-
-[oacDashboard]
-protocol    = https
-host        = oxc.openx.org
-port        = 443
-path        = /oxc/dashboard/home
-ssoCheck    = /oxc/ssoCheck
-
 ;------------------------------------------------------------------------------------------;
 ; Plugins Settings                                                                         ;
 ;------------------------------------------------------------------------------------------;

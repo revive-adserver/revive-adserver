@@ -11,7 +11,6 @@
 */
 
 require_once MAX_PATH . '/lib/max/Dal/Common.php';
-require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
 require_once MAX_PATH . '/lib/OA/Dal/Statistics/Zone.php';
 
 class MAX_Dal_Admin_Zones extends MAX_Dal_Common
@@ -24,14 +23,7 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
         'size' => array('width', 'height')
     );
 
-    /**
-     * Setting up only when some methods need to get categories
-     *
-     * @var OA_Central_AdNetworks
-     */
-    var $_oOaCentralAdNetworks;
-
-	function getZoneByKeyword($keyword, $agencyId = null, $affiliateId = null)
+    function getZoneByKeyword($keyword, $agencyId = null, $affiliateId = null)
     {
         $whereZone = is_numeric($keyword) ? " OR z.zoneid=$keyword" : '';
         $prefix = $this->getTablePrefix();
@@ -101,7 +93,7 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
     }
 
     /**
-     * Function returns an array of websites, and each website has (not empty!) array of zones of given category
+     * Function returns an array of websites, and each website has (not empty!) array of zones
      * All returned zones are linked to given agency.
      * Addational returned array contains iformation if zone is linked to given campaign.
      * Output can be limited to linked or avaliable (not linked) zones
@@ -111,15 +103,11 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
      *   (int) affiliateId =>
      *   array (
      *     'name'            => 'website name',
-     *     'oac_category_id' => 'website category ID',
-     *     'category'        => 'category name',
      *     'linked'          => (boolean or null),
      *     'zones' =>
      *        array (
      *          (int) zoneId =>
      *             array ( 'name'            => 'zone name',
-     *                     'oac_category_id' => 'zone category ID',
-     *                     'category'        => 'category name',
      *                     'campaign_stats'  => (boolean), // true if ecp, cr, ctr are statistics calculated for given campaign
      *                     'ecpm'            => 'zone eCPM',
      *                     'cr'              => 'zone CR',
@@ -133,26 +121,21 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
      *   ...
      * }
      *
-     * If category is null all zones are returned
      * If campaign is null isLinked is set to null as well
      *
      * @param int $agencyId   agency Id.
-     * @param int $categoryId category Id.
      * @param int $campaignId campaign Id.
      * @param boolean $returnLinked true - returns linked zones to campaign, false - returns avaliable zones, null - return all zones
      * @param string $searchPhrase A part of website name or zone name
      * @param boolean $includeEmailZones false (default) - don't include Email/Newsletter zone, true - include Email/Newsletter in result
      * @return array  of websites including array of zones
      */
-    function getWebsitesAndZonesListByCategory($agencyId, $categoryId = null, $campaignId = null, $returnLinked = null, $searchPhrase = null, $includeEmailZones = false)
+    function getWebsitesAndZonesList($agencyId, $campaignId = null, $returnLinked = null, $searchPhrase = null, $includeEmailZones = false)
     {
-        $aZones = $this->getZonesListByCategory($agencyId, $categoryId, $campaignId, $returnLinked, $searchPhrase, $includeEmailZones);
+        $aZones = $this->getZonesList($agencyId, $campaignId, $returnLinked, $searchPhrase, $includeEmailZones);
         if (PEAR::isError($aZones)) {
             return $aZones;
         }
-
-        // Get names for Categories and remember all zones IDs in separate array
-        $this->_getNamesForCategories($aZones);
 
         // Convert 'flat' array of zones to 'tree like' array of websites and zones and add statistics
         $aWebsitesAndZones = array();
@@ -161,16 +144,12 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
                 $aWebsitesAndZones[$aZone['affiliateid']] =
                     array (
                       'name'            => $aZone['affiliatename'],
-                      'oac_category_id' => $aZone['affiliate_oac_category_id'],
-                      'category'        => $aZone['affiliate_category'],
                       'linked'          => null
                     );
             }
             $aWebsitesAndZones[$aZone['affiliateid']]['zones'][$aZone['zoneid']] =
                    array (
                      'name'            => $aZone['zonename'],
-                     'oac_category_id' => $aZone['zone_oac_category_id'],
-                     'category'        => $aZone['zone_category'],
                      'campaign_stats'  => $aZone['campaign_stats'],
                      'ecpm'            => $aZone['ecpm'],
                      'cr'              => $aZone['cr'],
@@ -183,45 +162,39 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
     }
 
     /**
-     * Function returns an array of zones of given category linked to given agency.
-     * Additionally returned array contains information  if zone is linked to given campaign.
+     * Function returns an array of zones linked to given agency.
+     * Additionally returned array contains information if zone is linked to given campaign.
      * Output can be limited to linked or avaliable (not linked) zones
-     *
-     * If given category matches to website category all zones from this website are returned
      *
      * Returned array structure:
      * array (
      *   0 => array (
      *          'zoneid'                    => (int) zoneId
      *          'zonename'                  => 'zone name'
-     *          'zone_oac_category_id'      => (int) zone's oac category Id
      *          'affiliateid'               => (int) affiliateId (website Id)
-     *          'affiliate_oac_category_id' => (int) website's oac category Id
      *          'affiliatename'             => 'website name'
      *          'islinked'                  => (boolean or null) iformation if zone is linked to given campaign
      *        )
      *   ...
      * )
      *
-     * If category is null all zones are returned
      * If campaign is null isLinked is set to null
      *
      * @param int $agencyId   agency Id.
-     * @param int $categoryId category Id. if categoryId is -1 then returns zones without category
      * @param int $campaignId campaign Id.
      * @param boolean $returnLinked true - returns linked zones to campaign, false - returns avaliable zones, null - return all zones
      * @param string $searchPhrase A part of website name or zone name
      * @param boolean $includeEmailZones false (default)- don't include Email/Newsletter zone, true - include Email/Newsletter in result
      * @return array of zones
      */
-    function getZonesListByCategory($agencyId, $categoryId = null, $campaignId = null, $returnLinked = null, $searchPhrase = null, $includeEmailZones = false)
+    function getZonesList($agencyId, $campaignId = null, $returnLinked = null, $searchPhrase = null, $includeEmailZones = false)
     {
         if (empty($agencyId) ||
             (is_null($campaignId) && $returnLinked === true) ) {
             return array();
         }
 
-        $aQuery= $this->_prepareGetZonesByCategoryQuery($agencyId, $categoryId, $campaignId, $returnLinked, $searchPhrase, $includeEmailZones);
+        $aQuery= $this->_prepareGetZonesQuery($agencyId, $campaignId, $returnLinked, $searchPhrase, $includeEmailZones);
         $query = $aQuery['select'].$aQuery['from'].$aQuery['where'].$aQuery['order by'];
 
         $rsZones = DBC::NewRecordSet($query);
@@ -246,24 +219,22 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
     }
 
     /**
-     * Function returns number of zones of given category linked to given agency.
+     * Function returns number of zones for a given agency.
      * Output can be limited to linked or avaliable (not linked) zones
-     * If category is null counts all zones
      *
      * @param int $agencyId   agency Id.
-     * @param int $categoryId category Id. if categoryId is -1 then counts zones without category
      * @param int $campaignId campaign Id.
      * @param boolean $returnLinked true - counts linked zones, false - counts avaliable zones, null - counts all zones
      * @param string $searchPhrase A part of website name or zone name
      * @param boolean $includeEmailZones false (default)- don't include Email/Newsletter zone, true - include Email/Newsletter in result
      * @return int number of zones thats match to given conditions
      */
-    function countZones($agencyId, $categoryId = null, $campaignId = null, $returnLinked = null, $searchPhrase = null, $includeEmailZones = false) {
+    function countZones($agencyId, $campaignId = null, $returnLinked = null, $searchPhrase = null, $includeEmailZones = false) {
         if (empty($agencyId) ||
             (is_null($campaignId) && $returnLinked === true) ) {
             return 0;
         }
-        $aQuery= $this->_prepareGetZonesByCategoryQuery($agencyId, $categoryId, $campaignId, $returnLinked, $searchPhrase, $includeEmailZones);
+        $aQuery= $this->_prepareGetZonesQuery($agencyId, $campaignId, $returnLinked, $searchPhrase, $includeEmailZones);
         $aQuery['select'] = "
             Select
                 count(z.zoneid) as zones";
@@ -276,31 +247,25 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
         return $aZones[0];
     }
     /**
-     * Bulid query for getZonesListByCategory
+     * Bulid query for getZonesList
      * this function is also used by countZones
      *
      * @param int $agencyId   agency Id.
-     * @param int $categoryId category Id. if categoryId is -1 then query will return zones without category
      * @param int $campaignId campaign Id.
      * @param boolean $returnLinked true - query will return linked zones to campaign, false - query will return avaliable zones, null - return all zones
      * @param string $searchPhrase A part of website name or zone name
      * @param boolean $includeEmailZones false (default)- don't include Email/Newsletter zone, true - include Email/Newsletter in result
      * @return array of strings - Returned query is divided to part (keys in array) 'select', 'from', 'where', 'order by'
-     * @see getZonesListByCategory
+     * @see getZonesList
      */
-    function _prepareGetZonesByCategoryQuery($agencyId, $categoryId = null, $campaignId = null, $returnLinked = null, $searchPhrase = null, $includeEmailZones = false)
+    function _prepareGetZonesQuery($agencyId, $campaignId = null, $returnLinked = null, $searchPhrase = null, $includeEmailZones = false)
     {
-        if (!empty($categoryId)) {
-            $aCategories = $this->_getParentAndSubCategoriesIds($categoryId);
-        }
         $prefix = $this->getTablePrefix();
         $aQuery['select']= "
             SELECT
                 z.zoneid,
                 z.zonename,
-                z.oac_category_id as zone_oac_category_id,
                 a.affiliateid,
-                a.oac_category_id as affiliate_oac_category_id,
                 a.name as affiliatename";
         $aQuery['from'] = "
             FROM
@@ -315,20 +280,6 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
             $aQuery['where'] .= "
                 AND
                 z.delivery <> " . MAX_ZoneEmail;
-        }
-        if (!empty($categoryId)) {
-            if ($categoryId == -1) {
-                $aQuery['where'] .= "
-                    AND z.oac_category_id IS NULL
-                    ";
-            } else {
-                $aQuery['where'] .= "
-                    AND
-                    ( z.oac_category_id IN (" . implode(",",$aCategories) . ")
-                      OR
-                      a.oac_category_id IN (" . implode(",",$aCategories) . ")
-                    )";
-            }
         }
         if (!empty($searchPhrase)) {
             $aQuery['where'] .= "
@@ -369,27 +320,10 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
     }
 
 
-    /**
-      * Adds category names to array of zones ($aZones)
-      *
-      * @param array &$aZones array of zones - result of getZonesListByCategory
-      */
-    function _getNamesForCategories(&$aZones)
-    {
-        if (is_null($this->_oOaCentralAdNetworks)) {
-            $this->_oOaCentralAdNetworks = new OA_Central_AdNetworks();
-        }
-        $aCategories = $this->_oOaCentralAdNetworks->getCategoriesFlat();
-        foreach ($aZones as $k => $aZone) {
-            $aZones[$k]['zone_category']      = $aCategories[$aZone['zone_oac_category_id']];
-            $aZones[$k]['affiliate_category'] = $aCategories[$aZone['affiliate_oac_category_id']];
-        }
-    }
-
      /**
       * Adds statistics data to array of websites and zones ($aWebsitesAndZones)
       *
-      * @param array &$aZones array of websites and zones - result of getWebsitesAndZonesListByCategory
+      * @param array &$aZones array of websites and zones - result of getWebsitesAndZonesList
       * @param int $campaignId campaign Id.
       */
      function mergeStatistics(&$aWebsitesAndZones, $campaignId)
@@ -440,23 +374,6 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
         }
      }
 
-    /**
-     * Method gets sub categories IDs and add ID of parent category
-     *
-     * @return array Array of categories IDs
-     */
-    function _getParentAndSubCategoriesIds($categoryId)
-    {
-        if (is_null($this->_oOaCentralAdNetworks)) {
-            $this->_oOaCentralAdNetworks = new OA_Central_AdNetworks();
-        }
-        $aCategories = $this->_oOaCentralAdNetworks->getSubCategoriesIds($categoryId);
-        if ($aCategories == false) {
-            $aCategories = array();
-        }
-        $aCategories[] = $categoryId;
-        return $aCategories;
-    }
 
     /**
      * Batch linking list of zones to campaign
@@ -886,84 +803,6 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
             return count($aZonesIds);
         }
 
-    }
-
-    /**
-     * Method returns unique categories IDs used in zones
-     *
-     * @param array $aZonesIds array of zones ID
-     * @param boolean $includeWebsitesCategories true if method should return website categories for selected zones
-     * @return array The categories Ids array or false on error or PEAR::Error on DB Error
-     */
-    function getCategoriesIdsFromZones($aZonesIds = null, $includeWebsitesCategories = true)
-    {
-        if (!is_array($aZonesIds)) {
-            return false;
-        }
-        if (count($aZonesIds) == 0) {
-            return array();
-        }
-
-        // Query database for oac_categories
-        $prefix = $this->getTablePrefix();
-        $query = "
-            SELECT
-                DISTINCT z.oac_category_id AS category
-            FROM
-                {$prefix}zones AS z
-            WHERE
-                z.zoneid IN (" . implode(",", array_map('intval', $aZonesIds)) . ")
-                AND
-                z.oac_category_id IS NOT NULL
-            ";
-        if ($includeWebsitesCategories == true) {
-            $query .= "
-              UNION
-                SELECT
-                    DISTINCT af.oac_category_id
-                FROM
-                    {$prefix}zones AS z,
-                    {$prefix}affiliates AS af
-                WHERE
-                    z.zoneid IN (" . implode(",", array_map('intval', $aZonesIds)) . ")
-                    AND
-                    af.affiliateid = z.affiliateid
-                    AND
-                    af.oac_category_id IS NOT NULL
-                ";
-        }
-
-        $rsZonesCategories = DBC::NewRecordSet($query);
-        if (PEAR::isError($rsZonesCategories)) {
-            return $rsZonesCategories;
-        }
-        return $rsZonesCategories->getAll();
-    }
-
-    /**
-     * Method returns unique categories IDs used in zones
-     *
-     * @param array $aWebsiteAndZones array returned by getWebsitesAndZonesListByCategory
-     * @param boolean $includeWebsitesCategories true if method should return website categories for selected zones
-     * @return array The categories Ids array or false on error or PEAR::Error on DB Error
-     */
-    function getCategoriesIdsFromWebsitesAndZones($aWebsiteAndZones = null, $includeWebsitesCategories = true) {
-        $aCategoriesIds = array();
-        if(is_array($aWebsiteAndZones)){
-            foreach ($aWebsiteAndZones as $aWebsite) {
-                if ($includeWebsitesCategories === true && !is_null($aWebsite['oac_category_id'])) {
-                    $aCategoriesIds[$aWebsite['oac_category_id']] = $aWebsite['oac_category_id'];
-                }
-                if(array_key_exists('zones', $aWebsite)) {
-                    foreach ($aWebsite['zones'] as $aZone) {
-                        if (!is_null($aZone['oac_category_id'])) {
-                            $aCategoriesIds[$aZone['oac_category_id']] = $aZone['oac_category_id'];
-                        }
-                    }
-                }
-            }
-        }
-        return $aCategoriesIds;
     }
 
     /**

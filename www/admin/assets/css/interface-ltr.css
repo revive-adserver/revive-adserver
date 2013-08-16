@@ -241,7 +241,7 @@ form div.checkboxDesc {
 /* Custom */
 
 /* login screen */
-form.login img, form.login td { 
+form.login img, form.login td {
   vertical-align: bottom;
 }
 
@@ -834,22 +834,6 @@ a.adv-list-entry {
   float: left;
 }
 
-/** captcha window **/
-.captcha {
-  margin-top: 20px;
-  vertical-align: top;
-}
-
-.captcha img {
-  float: left;
-  margin-top: 10px;
-}
-
-.captcha input {
-  margin: 10px;
-  margin-top: 15px;
-}
-
 .deleted-affiliate {
   font-weight: bold;
 }
@@ -1082,7 +1066,7 @@ input.checkbox {
 }
 
 #campaign-zone {
-  
+
 }
 
 #select-zones {
