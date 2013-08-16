@@ -349,7 +349,7 @@ class Test_OX_PluginManager extends UnitTestCase
         $oManager = new $oMockManager($this);
         $oManager->setReturnValue('_parseComponentGroups', true);
         $oManager->aParse['package']['name']     = 'test';
-        $oManager->aParse['package']['install']['contents'] = array(0=>'test1',1=>'test2');
+        $oManager->aParse['package']['install']['contents'] = array(array('name' => 'test1') , array('name' => 'test2'));
 
         // Test 1 - plugin file parse error
         $oManager->setReturnValueAt(0,'_parsePackage', false);
@@ -405,7 +405,7 @@ class Test_OX_PluginManager extends UnitTestCase
         $oManager = new $oMockManager($this);
         $oManager->setReturnValue('_parseComponentGroups', true);
         $oManager->aParse['package']['name']     = 'test';
-        $oManager->aParse['package']['install']['contents'] = array(0=>'test1',1=>'test2');
+        $oManager->aParse['package']['install']['contents'] = array(array('name' => 'test1') , array('name' => 'test2'));
 
         // Test 1 - plugin file parse error
         $oManager->setReturnValueAt(0,'_parsePackage', false);

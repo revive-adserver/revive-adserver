@@ -541,6 +541,7 @@ class Test_OA_Upgrade extends UnitTestCase
                                         'setValue',
                                         'writeConfig',
                                         'getConfigBackupName',
+                                        'clearConfigBackupName',
                                         'setBulkValue',
                                     )
                              );

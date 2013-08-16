@@ -70,7 +70,6 @@ class PEAR_RunTest
         'error_append_string=',
         'auto_prepend_file=',
         'auto_append_file=',
-        'magic_quotes_runtime=0',
     );
 
 
@@ -114,23 +113,23 @@ class PEAR_RunTest
                 2 => array('pipe', 'w')
                 ), $pipes, null, $env, array("suppress_errors" => true));
         }
-    
+
         if (!$proc) {
             return false;
         }
-    
+
         if (is_string($stdin)) {
             fwrite($pipes[0], $stdin);
         }
         fclose($pipes[0]);
-    
+
         while (true) {
             /* hide errors from interrupted syscalls */
             $r = $pipes;
             $w = null;
             $e = null;
             $n = @stream_select($r, $w, $e, 60);
-    
+
             if ($n === 0) {
                 /* timed out */
                 $data .= "\n ** ERROR: process timed out **\n";
@@ -170,7 +169,7 @@ class PEAR_RunTest
         }
         return $ini_settings;
     }
-    
+
     function settings2params($ini_settings)
     {
         $settings = '';
@@ -195,7 +194,7 @@ class PEAR_RunTest
             if (isset($this->_logger)) {
                 $this->_logger->log(2, 'Running command "' . $cmd . '"');
             }
-    
+
             $savedir = getcwd(); // in case the test moves us around
             chdir(dirname($file));
             echo `$cmd`;
@@ -295,7 +294,7 @@ class PEAR_RunTest
     	$test_clean        = $test_dir . DIRECTORY_SEPARATOR . $main_file_name.'clean.php';
     	$tmp_post          = $temp_dir . DIRECTORY_SEPARATOR . uniqid('phpt.');
 
-    	// unlink old test results	
+    	// unlink old test results
     	@unlink($diff_filename);
     	@unlink($log_filename);
     	@unlink($exp_filename);
@@ -434,7 +433,7 @@ class PEAR_RunTest
         if (array_key_exists('POST_RAW', $section_text) && !empty($section_text['POST_RAW'])) {
             $post = trim($section_text['POST_RAW']);
             $raw_lines = explode("\n", $post);
-    
+
             $request = '';
             $started = false;
             foreach ($raw_lines as $i => $line) {
@@ -449,30 +448,30 @@ class PEAR_RunTest
                 $started = true;
                 $request .= $line;
             }
-    
+
             $env['CONTENT_LENGTH'] = strlen($request);
             $env['REQUEST_METHOD'] = 'POST';
 
             $this->save_text($tmp_post, $request);
             $cmd = "$php$pass_options$ini_settings -f \"$test_file\" 2>&1 < $tmp_post";
         } elseif (array_key_exists('POST', $section_text) && !empty($section_text['POST'])) {
-    
+
             $post = trim($section_text['POST']);
             $this->save_text($tmp_post, $post);
             $content_length = strlen($post);
-    
+
             $env['REQUEST_METHOD'] = 'POST';
             $env['CONTENT_TYPE']   = 'application/x-www-form-urlencoded';
             $env['CONTENT_LENGTH'] = $content_length;
-    
+
             $cmd = "$php$pass_options$ini_settings -f \"$test_file\" 2>&1 < $tmp_post";
-    
+
         } else {
-    
+
             $env['REQUEST_METHOD'] = 'GET';
             $env['CONTENT_TYPE']   = '';
             $env['CONTENT_LENGTH'] = '';
-    
+
             $cmd = "$php$pass_options$ini_settings -f \"$test_file\" $args 2>&1";
         }
         if (OS_WINDOWS && isset($section_text['RETURNS'])) {
@@ -509,7 +508,7 @@ class PEAR_RunTest
         /* when using CGI, strip the headers from the output */
         $headers = "";
         if (!empty($this->_options['cgi']) &&
-              $php == $this->_options['cgi'] && 
+              $php == $this->_options['cgi'] &&
               preg_match("/^(.*?)\r?\n\r?\n(.*)/s", $out, $match)) {
             $output = trim($match[2]);
             $rh = preg_split("/[\n\r]+/",$match[1]);

@@ -441,7 +441,7 @@ class PEAR_Registry extends PEAR
         } elseif (!is_dir($this->channelsdir)) {
             return $this->raiseError("could not create directory '{$this->channelsdir}" .
                 "', it already exists and is not a directory");
-            
+
         }
         if (!file_exists($this->channelsdir . DIRECTORY_SEPARATOR . '.alias')) {
             if (!$this->hasWriteAccess()) {
@@ -454,7 +454,7 @@ class PEAR_Registry extends PEAR
         } elseif (!is_dir($this->channelsdir . DIRECTORY_SEPARATOR . '.alias')) {
             return $this->raiseError("could not create directory '{$this->channelsdir}" .
                 "/.alias', it already exists and is not a directory");
-            
+
         }
         return true;
     }
@@ -540,7 +540,7 @@ class PEAR_Registry extends PEAR
         } else {
             return $channel;
         }
-    }    
+    }
     // }}}
     // {{{ _getChannelFromAlias()
 
@@ -563,7 +563,7 @@ class PEAR_Registry extends PEAR
             return $channel;
         }
         return $channel->getAlias();
-    }    
+    }
     // }}}
     // {{{ _channelDirectoryName()
 
@@ -734,12 +734,9 @@ class PEAR_Registry extends PEAR
             return $this->raiseError('PEAR_Registry: could not open filemap "' . $this->filemap . '"', PEAR_REGISTRY_ERROR_FILE, null, null, $php_errormsg);
         }
         clearstatcache();
-        $rt = get_magic_quotes_runtime();
-        set_magic_quotes_runtime(0);
         $fsize = filesize($this->filemap);
         fclose($fp);
         $data = file_get_contents($this->filemap);
-        set_magic_quotes_runtime($rt);
         $tmp = unserialize($data);
         if (!$tmp && $fsize > 7) {
             return $this->raiseError('PEAR_Registry: invalid filemap data', PEAR_REGISTRY_ERROR_FORMAT, null, null, $data);
@@ -1036,12 +1033,9 @@ class PEAR_Registry extends PEAR
         if ($fp === null) {
             return null;
         }
-        $rt = get_magic_quotes_runtime();
-        set_magic_quotes_runtime(0);
         clearstatcache();
         $this->_closePackageFile($fp);
         $data = file_get_contents($this->_packageFileName($package, $channel));
-        set_magic_quotes_runtime($rt);
         $data = unserialize($data);
         if ($key === null) {
             return $data;
@@ -1073,12 +1067,9 @@ class PEAR_Registry extends PEAR
         if ($fp === null) {
             return null;
         }
-        $rt = get_magic_quotes_runtime();
-        set_magic_quotes_runtime(0);
         clearstatcache();
         $this->_closeChannelFile($fp);
         $data = file_get_contents($this->_channelFileName($channel));
-        set_magic_quotes_runtime($rt);
         $data = unserialize($data);
         return $data;
     }
@@ -1167,7 +1158,7 @@ class PEAR_Registry extends PEAR
     }
 
     // }}}
-    
+
     function _listAllPackages()
     {
         $ret = array();
@@ -2149,7 +2140,7 @@ class PEAR_Registry extends PEAR
                     return PEAR::raiseError('parsePackageName(): "' . $param['version'] .
                         '" is neither a valid version nor a valid state in "' .
                         $saveparam . '"', 'version/state', null, null, $param);
-                }                    
+                }
             }
         }
         return $param;

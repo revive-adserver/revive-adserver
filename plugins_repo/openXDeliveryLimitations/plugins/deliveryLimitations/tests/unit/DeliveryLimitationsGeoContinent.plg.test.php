@@ -56,9 +56,6 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Geo_Continent extends UnitTestCa
 
     function test_compile()
     {
-        $current_quotes_runtime = get_magic_quotes_runtime();
-        set_magic_quotes_runtime(1);
-
         $oPlugin = &OX_Component::factory('deliveryLimitations', 'Geo', 'Continent');
         $oPlugin->init(array('data' => 'EU', 'comparison' => '!~'));
 
@@ -67,8 +64,6 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Geo_Continent extends UnitTestCa
         $result = $oPlugin->compile();
 
         $this->assertEqual("MAX_checkGeo_Continent('eu,yu,gb,uk,ua,ch,se,sj,es,si,sk,sm,ru,ro,pt,pl,no,nl,mc,md,mt,mk,lu,lt,li,lv,it,ie,is,hu,va,gr,gi,de,ge,fx,fr,fi,fo,ee,dk,cz,cy,hr,bg,ba,be,by,at,am,ad,al', '!~')", $result);
-
-        set_magic_quotes_runtime($current_quotes_runtime);
     }
 
     function _assertResourceData()

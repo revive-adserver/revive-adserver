@@ -839,7 +839,7 @@ class MDB2_Driver_Manager_mysql extends MDB2_Driver_Manager_Common
         $seqcol_name = $db->quoteIdentifier($db->options['seqcol_name'], true);
 
         $query = "CREATE TABLE $sequence_name ($seqcol_name INT NOT NULL AUTO_INCREMENT, PRIMARY KEY ($seqcol_name))";
-        $query.= strlen($db->options['default_table_type']) ? ' TYPE='.$db->options['default_table_type'] : '';
+        $query.= strlen($db->options['default_table_type']) ? ' ENGINE='.$db->options['default_table_type'] : '';
         $res = $db->exec($query);
 
         if (PEAR::isError($res)) {
