@@ -37,9 +37,6 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Geo_City extends UnitTestCase
 
     function testCompile()
     {
-        $current_quotes_runtime = get_magic_quotes_runtime();
-        set_magic_quotes_runtime(1);
-
         $oPlugin = &OX_Component::factory('deliveryLimitations', 'Geo', 'City');
         $rawData = 'GB|London, Manchester';
         $oPlugin->init(array('data' => $rawData, 'comparison' => '=='));
@@ -47,8 +44,6 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Geo_City extends UnitTestCase
         $this->assertEqual($rawData, $oPlugin->getData());
         $oPlugin->init(array('data' => array('GB', 'London, Manchester'), 'comparison' => '=='));
         $this->assertEqual('MAX_checkGeo_City(\'gb|london,manchester\', \'==\')', $oPlugin->compile());
-
-        set_magic_quotes_runtime($current_quotes_runtime);
     }
 
     function testMAX_checkGeo_City()

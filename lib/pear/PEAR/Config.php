@@ -254,7 +254,7 @@ class PEAR_Config extends PEAR
         );
 
     var $layers = array();
-    
+
     /**
      * Configuration data, two-dimensional array where the first
      * dimension is the config layer ('user', 'system' and 'default'),
@@ -272,7 +272,7 @@ class PEAR_Config extends PEAR
         'system' => array(),
         'default' => array(),
         );
-    
+
     /**
      * Configuration values that can be set for a channel
      *
@@ -789,7 +789,7 @@ class PEAR_Config extends PEAR
     }
 
     // {{{ _setupChannels()
-    
+
     /**
      * Reads the existing configurations and creates the _channels array from it
      */
@@ -979,15 +979,11 @@ class PEAR_Config extends PEAR
             return $this->raiseError("PEAR_Config::readConfigFile fopen('$file','r') failed");
         }
         $size = filesize($file);
-        $rt = get_magic_quotes_runtime();
-        set_magic_quotes_runtime(0);
         fclose($fp);
         $contents = file_get_contents($file);
         if (empty($contents)) {
             return $this->raiseError('Configuration file "' . $file . '" is empty');
         }
-        
-        set_magic_quotes_runtime($rt);
 
         $version = false;
         if (preg_match('/^#PEAR_Config\s+(\S+)\s+/si', $contents, $matches)) {
@@ -1026,7 +1022,7 @@ class PEAR_Config extends PEAR
         // add parsing of newer formats here...
         } else {
             $err = $this->raiseError("$file: unknown version `$version'");
-            return $err; 
+            return $err;
         }
         return $data;
     }
@@ -1274,7 +1270,7 @@ class PEAR_Config extends PEAR
             $this->_lazyChannelSetup();
         }
         $channel = strtolower($channel);
-        
+
         $test = (in_array($key, $this->_channelConfigInfo)) ?
             $this->_getChannelValue($key, $layer, $channel) :
             null;
@@ -1543,7 +1539,7 @@ class PEAR_Config extends PEAR
         }
     }
     // {{{ setChannels()
-    
+
     /**
      * Set the list of channels.
      *

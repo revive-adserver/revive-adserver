@@ -65,21 +65,21 @@ class StatMigration extends Migration
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
 
-	    $tableAdViews        = $this->_modifyTableName('adviews');
-	    $tableAdClicks       = $this->_modifyTableName('adclicks');
-	    $tableDataIntermediateAd = $this->_modifyTableName('data_intermediate_ad');
+        $tableAdViews        = $this->_modifyTableName('adviews');
+        $tableAdClicks       = $this->_modifyTableName('adclicks');
+        $tableDataIntermediateAd = $this->_modifyTableName('data_intermediate_ad');
 
-	    $timestamp = date('Y-m-d H:i:s', time());
+        $timestamp = date('Y-m-d H:i:s', time());
 
-	    $this->_getOperationIntervalInfo($operationIntervalId, $operationInterval, $dateStart, $dateEnd);
+        $this->_getOperationIntervalInfo($operationIntervalId, $operationInterval, $dateStart, $dateEnd);
 
-	    $tableTmpStatistics = 'tmp_statistics';
+        $tableTmpStatistics = 'tmp_statistics';
 
-	    // The temporary table doesn't get deleted on purpose -- it would obscure the code as
-	    // it does exists now.
+        // The temporary table doesn't get deleted on purpose -- it would obscure the code as
+        // it does exists now.
 
-	    if ($this->oDBH->dbsyntax == 'mysql') {
-            $tmpTableInformation = "TYPE={$aConf['table']['type']}";
+        if ($this->oDBH->dbsyntax == 'mysql') {
+            $tmpTableInformation = "ENGINE={$aConf['table']['type']}";
             $tmpCastDate = '';
             $tmpCastInt = '';
         } else {
@@ -89,49 +89,36 @@ class StatMigration extends Migration
             $tmpCastInt = '::integer';
         }
 
-	    $sql = "
-	       CREATE TEMPORARY TABLE $tableTmpStatistics
-	       $tmpTableInformation
-           SELECT bannerid AS ad_id, zoneid AS zone_id, date_format(t_stamp, '%Y-%m-%d')$tmpCastDate AS day, date_format(t_stamp, '%H')$tmpCastInt AS hour, count(*) AS impressions, 0 AS clicks
-               FROM $tableAdViews
-               GROUP BY bannerid, zoneid, date_format(t_stamp, '%Y-%m-%d'), date_format(t_stamp, '%H')
-           UNION ALL
-           SELECT bannerid AS ad_id, zoneid AS zone_id, date_format(t_stamp, '%Y-%m-%d')$tmpCastDate AS day, date_format(t_stamp, '%H')$tmpCastInt AS hour, 0 AS impressions, count(*) AS clicks
-               FROM $tableAdClicks
-               GROUP BY bannerid, zoneid, date_format(t_stamp, '%Y-%m-%d'), date_format(t_stamp, '%H')";
+        $sql = "
+            CREATE TEMPORARY TABLE $tableTmpStatistics
+                $tmpTableInformation
+            SELECT bannerid AS ad_id, zoneid AS zone_id, date_format(t_stamp, '%Y-%m-%d')$tmpCastDate AS day, date_format(t_stamp, '%H')$tmpCastInt AS hour, count(*) AS impressions, 0 AS clicks
+                FROM $tableAdViews
+                GROUP BY bannerid, zoneid, date_format(t_stamp, '%Y-%m-%d'), date_format(t_stamp, '%H')
+            UNION ALL
+            SELECT bannerid AS ad_id, zoneid AS zone_id, date_format(t_stamp, '%Y-%m-%d')$tmpCastDate AS day, date_format(t_stamp, '%H')$tmpCastInt AS hour, 0 AS impressions, count(*) AS clicks
+                FROM $tableAdClicks
+                GROUP BY bannerid, zoneid, date_format(t_stamp, '%Y-%m-%d'), date_format(t_stamp, '%H')
+        ";
 
         $this->_log('Starting creating temporary table for adclicks data migration');
 
-	    $result = $this->oDBH->exec($sql);
+        $result = $this->oDBH->exec($sql);
 
-	    if (PEAR::isError($result)) {
-	        return $this->_logErrorAndReturnFalse('Error migrating raw stats: '.$result->getUserInfo());
-	    }
-	    $this->_log('Completed creating temporary table for adclicks data migration');
+        if (PEAR::isError($result)) {
+            return $this->_logErrorAndReturnFalse('Error migrating raw stats: '.$result->getUserInfo());
+        }
+        $this->_log('Completed creating temporary table for adclicks data migration');
 
-	    $sql = "
-           INSERT INTO $tableDataIntermediateAd
-           (ad_id, zone_id, creative_id, day, hour, impressions, clicks, operation_interval, operation_interval_id, interval_start, interval_end, updated)
-           SELECT ad_id, zone_id, 0, day, hour, sum(impressions), sum(clicks), $operationInterval, $operationIntervalId, $dateStart, $dateEnd, '$timestamp'
-           FROM $tableTmpStatistics
-	       GROUP BY ad_id, zone_id, day, hour";
+        $sql = "
+            INSERT INTO $tableDataIntermediateAd
+            (ad_id, zone_id, creative_id, day, hour, impressions, clicks, operation_interval, operation_interval_id, interval_start, interval_end, updated)
+            SELECT ad_id, zone_id, 0, day, hour, sum(impressions), sum(clicks), $operationInterval, $operationIntervalId, $dateStart, $dateEnd, '$timestamp'
+            FROM $tableTmpStatistics
+                GROUP BY ad_id, zone_id, day, hour
+        ";
 
-//	    $sql = "
-//	       INSERT INTO $tableDataIntermediateAd
-//	           (ad_id, zone_id, creative_id, day, hour, impressions, clicks, operation_interval, operation_interval_id, interval_start, interval_end, updated)
-//	           SELECT ad_id, zone_id, 0 creative_id, day, hour, sum(impressions) impressions, sum(clicks) clicks, $operationInterval, $operationIntervalId, $dateStart, $dateEnd, '$timestamp'
-//	           FROM
-//	               (SELECT bannerid ad_id, zoneid zone_id, date_format(t_stamp, '%Y-%m-%d') day, date_format(t_stamp, '%H') hour, count(*) impressions, 0 clicks
-//	               FROM $tableAdViews
-//	               GROUP BY bannerid, zoneid, date_format(t_stamp, '%Y-%m-%d'), date_format(t_stamp, '%H')
-//	               UNION ALL
-//	               SELECT bannerid ad_id, zoneid zone_id, date_format(t_stamp, '%Y-%m-%d') day, date_format(t_stamp, '%H') hour, 0 impressions, count(*) clicks
-//	               FROM $tableAdClicks
-//	               GROUP BY bannerid, zoneid, date_format(t_stamp, '%Y-%m-%d'), date_format(t_stamp, '%H'))
-//	                   united
-//	               GROUP BY ad_id, zone_id, day, hour";
-
-	    return $this->migrateStats($sql);
+        return $this->migrateStats($sql);
     }
 
 

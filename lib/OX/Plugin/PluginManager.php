@@ -124,7 +124,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             }
         }
     }
-    
+
     function upgradePackage($aFile, $name, $allowEqualVersion = false)
     {
         $this->_switchToPluginLog();
@@ -152,7 +152,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
 
             // Parse the plugin file in the var/tmp folder
             $this->unpackPlugin($aFile, true, true);
-            
+
             $aPackageNew = $this->_getParsedPackage();
             if ($name != $aPackageNew['name'])
             {
@@ -172,13 +172,13 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
                 $this->previousVersionInstalled = OX_PLUGIN_SAME_VERSION_INSTALLED;
                 throw new Exception('Upgrade package '.$aPackageNew['name'].'" has the same version stamp as that of the package you have installed');
             }
-            
-            $enabled = (!empty($GLOBALS['_MAX']['CONF']['plugins'][$name])) ? true : false;             
+
+            $enabled = (!empty($GLOBALS['_MAX']['CONF']['plugins'][$name])) ? true : false;
             $this->disablePackage($name);
             if (!$this->unpackPlugin($aFile))
             {
                 throw new Exception();
-            }            
+            }
             if ($enabled) {
                 $this->enablePackage($name);
             }
@@ -350,7 +350,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         if ($result && !empty($GLOBALS['_MAX']['CONF']['pluginSettings']['enableOnInstall']) && empty($_REQUEST['disabled'])) {
             $this->enablePackage($aPackage['name']);
         }
-        
+
         //OA::logMem('exit installPackage');
         $this->_switchToDefaultLog();
         return $result;
@@ -421,15 +421,15 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             {
                 @unlink($pkgDefinition);
             }
-            
+
             $this->_auditUpdate(array('description'=>'PACKAGE UNINSTALL COMPLETE',
                                       'action'=>UPGRADE_ACTION_UNINSTALL_SUCCEEDED,
                                       'id' => $auditId,
                                      )
                                );
             $this->_runExtensionTasks('AfterPluginUninstall');
-            
-            
+
+
             $result = true;
         } catch (Exception $e) {
             $this->_logError($e->getMessage());
@@ -446,7 +446,9 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         $aDepends = $this->_loadDependencyArray();
         foreach ($aGroups AS $i => &$aGroup)
         {
-            $aGroups[$i] = $aGroup['name'];
+            if (is_array($aGroup)) {
+                $aGroups[$i] = $aGroup['name'];
+            }
         }
         foreach ($aGroups AS $i => &$group)
         {
@@ -498,11 +500,13 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         $this->_runExtensionTasks('BeforePluginEnable');
         foreach ($aPackage['install']['contents'] AS $k => &$plugin)
         {
-            if (!$this->enableComponentGroup($plugin['name'], $aPlugins[$k]['extends']))
-            {
-                $this->_logError('Failed to enable plugin '.$plugin['name'].' for package '.$name);
-                $this->disablePackage($name);
-                return false;
+            if (is_array($plugin)) {
+                if (!$this->enableComponentGroup($plugin['name'], $aPlugins[$k]['extends']))
+                {
+                    $this->_logError('Failed to enable plugin '.$plugin['name'].' for package '.$name);
+                    $this->disablePackage($name);
+                    return false;
+                }
             }
         }
         if (!$this->_setPackage($name, 1))
@@ -511,10 +515,10 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             $this->disablePackage($name);
             return false;
         }
-        
+
         $this->_deleteCacheMenu();
         $this->_deleteCompiledTemplates();
-        
+
         $this->_runExtensionTasks('AfterPluginEnable');
         return true;
     }
@@ -556,10 +560,12 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         $this->_runExtensionTasks('BeforePluginDisable');
         foreach ($aPackage['install']['contents'] AS $k => &$plugin)
         {
-            if (!$this->disableComponentGroup($plugin['name'], $aPlugins[$k]['extends']))
-            {
-                $this->_logError('Failed to disable plugin '.$plugin['name'].' for package '.$name);
-                return false;
+            if (is_array($plugin)) {
+                if (!$this->disableComponentGroup($plugin['name'], $aPlugins[$k]['extends']))
+                {
+                    $this->_logError('Failed to disable plugin '.$plugin['name'].' for package '.$name);
+                    return false;
+                }
             }
         }
         if (!$this->_setPackage($name, 0))
@@ -568,7 +574,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             return false;
         }
         $this->_runExtensionTasks('AfterPluginDisable');
-        
+
         $this->_deleteCacheMenu();
         $this->_deleteCompiledTemplates();
         return true;
@@ -579,7 +585,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         $template = new OA_Admin_Template('');
         $template->clear_compiled_tpl();
     }
-    
+
     function _deleteCacheMenu()
     {
         $accountTypes = array (
@@ -592,7 +598,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
 		    OA_Admin_Menu::singleton()->_clearCache($accountType);
 		}
     }
-    
+
     function _matchPackageFilename($name, $file)
     {
         if (substr($file,0,strlen($name))!=$name)
@@ -659,10 +665,10 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
 				if (count($this->aErrors) )
 				{
 					$lastError = array_pop($this->aErrors);
-					
+
 					// Save the generic error
 					$this->_logError('Failed to parse plugin definition in '.$file);
-					
+
 					// Show the detailed error on the line after the generic error
 					$this->_logError($lastError);
 				}
@@ -670,7 +676,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
 				{
 					$this->_logError('Failed to parse plugin definition in '.$file);
 				}
-				
+
 				$this->_logError($errorMsg);
 
                 $this->aParse['plugins'][$idx]['error'] = true;

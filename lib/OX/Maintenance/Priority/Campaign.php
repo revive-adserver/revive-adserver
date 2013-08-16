@@ -199,7 +199,7 @@ class OX_Maintenance_Priority_Campaign
     {
         // Convert "old" input value names to "new", if required
         foreach ($this->aNewOldTypes as $newName => $oldName) {
-            if (empty($aParams[$newName])) {
+            if (!isset($aParams[$newName]) && isset($aParams[$oldName])) {
                 $aParams[$newName] = $aParams[$oldName];
             }
         }
@@ -207,15 +207,17 @@ class OX_Maintenance_Priority_Campaign
         $valid = true;
         if (!is_array($aParams)) {
             $valid = false;
-        }
-        if (count($aParams) < 0) {
-            $valid = false;
-        }
-        if (!is_numeric($aParams['placement_id'])) {
-            $valid = false;
+        } else {
+            if (count($aParams) < 0) {
+                $valid = false;
+            }
+            if (!is_numeric($aParams['placement_id'])) {
+                $valid = false;
+            }
         }
         if (!$valid) {
             $this->_abort();
+            return;
         }
 
         // Store the required supplied values

@@ -25,17 +25,17 @@ class DataObjects_Channel extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'channel';                         // table name
-    public $channelid;                       // MEDIUMINT(9) => openads_mediumint => 129 
-    public $agencyid;                        // MEDIUMINT(9) => openads_mediumint => 129 
-    public $affiliateid;                     // MEDIUMINT(9) => openads_mediumint => 129 
-    public $name;                            // VARCHAR(255) => openads_varchar => 2 
-    public $description;                     // VARCHAR(255) => openads_varchar => 2 
-    public $compiledlimitation;              // TEXT() => openads_text => 162 
-    public $acl_plugins;                     // TEXT() => openads_text => 34 
-    public $active;                          // SMALLINT(1) => openads_smallint => 17 
-    public $comments;                        // TEXT() => openads_text => 34 
-    public $updated;                         // DATETIME() => openads_datetime => 142 
-    public $acls_updated;                    // DATETIME() => openads_datetime => 142 
+    public $channelid;                       // MEDIUMINT(9) => openads_mediumint => 129
+    public $agencyid;                        // MEDIUMINT(9) => openads_mediumint => 129
+    public $affiliateid;                     // MEDIUMINT(9) => openads_mediumint => 129
+    public $name;                            // VARCHAR(255) => openads_varchar => 2
+    public $description;                     // VARCHAR(255) => openads_varchar => 2
+    public $compiledlimitation;              // TEXT() => openads_text => 162
+    public $acl_plugins;                     // TEXT() => openads_text => 34
+    public $active;                          // SMALLINT(1) => openads_smallint => 17
+    public $comments;                        // TEXT() => openads_text => 34
+    public $updated;                         // DATETIME() => openads_datetime => 142
+    public $acls_updated;                    // DATETIME() => openads_datetime => 142
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Channel',$k,$v); }
@@ -95,16 +95,13 @@ class DataObjects_Channel extends DB_DataObjectCommon
                     }
                 }
             }
-            $sLimitation = MAX_AclGetCompiled($aAcls, $page);
-            // TODO: it should be done inside plugins instead, there is no need to slash the data
-            $sLimitation = (!get_magic_quotes_runtime()) ? stripslashes($sLimitation) : $sLimitation;
             $doBanners = OA_Dal::factoryDO('banners');
             $doBanners->bannerid = $bannerId;
             $doBanners->find();
             $doBanners->fetch();
             $doBanners->acl_plugins = MAX_AclGetPlugins($aAcls);
             $doBanners->acls_updated = OA::getNow();
-            $doBanners->compiledlimitation = $sLimitation;
+            $doBanners->compiledlimitation = MAX_AclGetCompiled($aAcls, $page);
             $doBanners->update();
     	}
 

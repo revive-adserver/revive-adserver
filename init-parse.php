@@ -42,11 +42,15 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true, 
     }
     // Is this a web, or a cli call?
     if (is_null($configFile) && !isset($_SERVER['SERVER_NAME'])) {
-        if (!isset($GLOBALS['argv'][1]) && !file_exists($configPath . '/default' . $configFile . '.conf' . $type)) {
-            echo MAX_PRODUCT_NAME . " was called via the command line, but had no host as a parameter.\n";
-            exit(1);
+        if (defined('TEST_ENVIRONMENT_RUNNING')) {
+            $_SERVER['HTTP_HOST'] = 'test';
+        } else {
+            if (!isset($GLOBALS['argv'][1]) && !file_exists($configPath . '/default' . $configFile . '.conf' . $type)) {
+                echo MAX_PRODUCT_NAME . " was called via the command line, but had no host as a parameter.\n";
+                exit(1);
+            }
+            $_SERVER['HTTP_HOST'] = trim($GLOBALS['argv'][1]);
         }
-        $_SERVER['HTTP_HOST'] = trim($GLOBALS['argv'][1]);
     }
     $host = OX_getHostName();
 
