@@ -91,34 +91,36 @@ class OA_Maintenance_Priority_Ad
         $valid = true;
         if (!is_array($aParams)) {
             $valid = false;
-        }
-        if (!(count($aParams) == 1 || count($aParams) == 4)) {
-            $valid = false;
-        }
-        if (is_numeric($aParams['ad_id'])) {
-            $aParams['ad_id'] = (int)$aParams['ad_id'];
         } else {
-            $valid = false;
-        }
-        if (count($aParams) == 4) {
-            if (!is_bool($aParams['status'])) {
-                if ($aParams['status'] == OA_ENTITY_STATUS_RUNNING) {
-                    $aParams['active'] = true;
-                } else {
-                    $aParams['active'] = false;
-                }
+            if (!(count($aParams) == 1 || count($aParams) == 4)) {
+                $valid = false;
             }
-            if (is_numeric($aParams['weight'])) {
-                $aParams['weight'] = (int)$aParams['weight'];
+            if (is_numeric($aParams['ad_id'])) {
+                $aParams['ad_id'] = (int)$aParams['ad_id'];
             } else {
                 $valid = false;
             }
-            if (is_null($aParams['type'])) {
-                $valid = false;
+            if (count($aParams) == 4) {
+                if (!is_bool($aParams['status'])) {
+                    if ($aParams['status'] == OA_ENTITY_STATUS_RUNNING) {
+                        $aParams['active'] = true;
+                    } else {
+                        $aParams['active'] = false;
+                    }
+                }
+                if (is_numeric($aParams['weight'])) {
+                    $aParams['weight'] = (int)$aParams['weight'];
+                } else {
+                    $valid = false;
+                }
+                if (is_null($aParams['type'])) {
+                    $valid = false;
+                }
             }
         }
         if (!$valid) {
             $this->_abort();
+            return;
         }
         // Store the required supplied values
         $this->id     = $aParams['ad_id'];
@@ -165,7 +167,7 @@ class OA_Maintenance_Priority_Ad
 	{
 		return $this->oMaxDalMaintenancePriority->getAllDeliveryLimitationsByTypeId($this->id, 'ad');
 	}
-	
+
 	/**
      * A private method to abort script execution when an attempt is made
      * to instantiate the entity with incorrect parameters.

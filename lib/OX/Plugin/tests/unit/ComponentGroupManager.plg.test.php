@@ -187,7 +187,8 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
                                 'OA_Cache',
                                 $oMockCache = 'OA_Cache'.rand(),
                                 array(
-                                      'save'
+                                      'save',
+                                      'setFileNameProtection'
                                      )
                              );
         $oCache = new $oMockCache($this);
@@ -220,7 +221,8 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
                                 'OA_Cache',
                                 $oMockCache = 'OA_Cache'.rand(),
                                 array(
-                                      'load'
+                                      'load',
+                                      'setFileNameProtection'
                                       )
                              );
         $oCache = new $oMockCache($this);
@@ -293,7 +295,7 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
         $result = $oManager->getFilePathToXMLInstall('testplugin');
         $this->assertEqual($result, $file);
         unlink($file); rmdir(dirname($file));
-        
+
         // Check that if the file doesn't exist, but it can be found in the old /extensions path, that this is returned.
         // NOTE: This requires the test env to have write permissions to /path/to/openx/
         $file = str_replace('/plugins/', '/extensions/', $file);
@@ -335,34 +337,34 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
             }
         }
     }
-    
+
     function test_checkNavigationCheckers()
     {
         $aFiles[] = array('path'=>OX_PLUGIN_ADMINPATH.'/navigation/','name'=>'testPluginChecker.php');
-                
+
         $aCheckers = array();
         $name = 'testPlugin';
-        
+
         $oManager = new OX_Plugin_ComponentGroupManager();
         $oManager->aErrors            = array();
         $oManager->pathPackages       = $this->testpathPackages;
         $oManager->pathPluginsAdmin   = $this->testpathPluginsAdmin;
-        
+
         // No checkers return true
         $this->assertTrue($oManager->_checkNavigationCheckers($name, $aCheckers, $aFiles));
-        
+
         // File not found
         $oManager->aErrors = array();
         $aCheckers         = array();
         $aCheckers[]       = array('class' => 'Plugins_Admin_TestPlugin_TestPluginChecker2', 'include' => 'testPluginChecker2.php');
         $this->assertFalse($oManager->_checkNavigationCheckers($name, $aCheckers, $aFiles));
-        
+
         // Class not found
         $oManager->aErrors = array();
         $aCheckers         = array();
         $aCheckers[] = array('class' => 'Plugins_Admin_TestPlugin_TestPluginChecker2', 'include' => 'testPluginChecker.php');
         $this->assertFalse($oManager->_checkNavigationCheckers($name, $aCheckers, $aFiles));
-                
+
         // Checker found
         $oManager->aErrors = array();
         $aCheckers         = array();

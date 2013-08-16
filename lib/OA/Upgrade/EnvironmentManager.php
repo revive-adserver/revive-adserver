@@ -130,7 +130,7 @@ class OA_Environment_Manager
         $aResult['enabled'] = false;
         $this->aInfo['COOKIES']['error']['enabled'] = $GLOBALS['strEnableCookies'];
 
-        if (isset($_COOKIE['sessionID']) 
+        if (isset($_COOKIE['sessionID'])
             || isset($_COOKIE[OX_Admin_UI_Install_InstallUtils::$INSTALLER_SESSION_ID]))
         {
             $aResult['enabled'] = true;
@@ -153,9 +153,7 @@ class OA_Environment_Manager
             $aResult['original_memory_limit'] = OA_MEMORY_UNLIMITED;
         }
 
-        // Magic_quotes_runtime can be overridden in pre-check.php, get orginal value  
-        $aResult['magic_quotes_runtime'] = isset($GLOBALS['original_get_magic_quotes_runtime']) 
-            ? $GLOBALS['original_get_magic_quotes_runtime'] : get_magic_quotes_runtime();
+        $aResult['magic_quotes_runtime'] = get_magic_quotes_runtime();
         $aResult['safe_mode']            = ini_get('safe_mode');
         $aResult['date.timezone']        = (ini_get('date.timezone') ? ini_get('date.timezone') : getenv('TZ'));
         $aResult['register_argc_argv']   = ini_get('register_argc_argv');
@@ -464,11 +462,11 @@ class OA_Environment_Manager
                 .'max_execution_time is set to '.$this->aInfo['PHP']['actual']['timeout']
                 .' which may cause problems with functionality such as maintenance';
         }
-        
+
         if (!empty($this->aInfo['PHP']['error'])) {
             $this->aInfo['PHP']['error']['badPhpConfiguration'] = $GLOBALS['strSystemCheckBadPHPConfig'];
         }
-        
+
 
         return $result;
     }
