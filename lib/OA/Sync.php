@@ -144,10 +144,10 @@ class OA_Sync
 
         if (!$this->aConf['sync']['checkForUpdates']) {
             // Checking for updates has been disabled by the admin user,
-            // so do not communicate with the OpenX server that provides
-            // the details of what upgrades are available - just return
-            // an 800 "error"
-            $aReturn = array(-2, 'Check for updates has been disabled by the OpenX administrator.');
+            // so do not communicate with the server that provides the
+            // details of what upgrades are available - just return an
+            // 800 "error"
+            $aReturn = array(-2, 'Check for updates has been disabled by the administrator.');
             return $aReturn;
         }
 
