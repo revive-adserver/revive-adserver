@@ -151,12 +151,6 @@ class OA_Sync
             return $aReturn;
         }
 
-        // Should this server's technology stack be shared with OpenX?
-        $shareTechStack = false;
-        if ($this->aConf['sync']['shareStack']) {
-            $shareTechStack = true;
-        }
-
         // Should this server's aggregate impression and click statistcs
         // be shared with OpenX?
         $shareStats = false;
@@ -168,25 +162,23 @@ class OA_Sync
         $client = OA_Central::getXmlRpcClient($this->_conf);
 
         // Prepare the parameters required for the XML-RPC call to
-        // obtain if an update is available for this OpenX installation
+        // obtain if an update is available for this installation
         $params = array(
-            new XML_RPC_Value(MAX_PRODUCT_NAME, 'string'),
+            new XML_RPC_Value(PRODUCT_NAME, 'string'),
             new XML_RPC_Value($this->getConfigVersion(OA_Dal_ApplicationVariables::get('oa_version')), 'string'),
             new XML_RPC_Value($already_seen, 'string'),
             new XML_RPC_Value('', 'string'),
             new XML_RPC_Value(OA_Dal_ApplicationVariables::get('platform_hash'), 'string')
         );
 
-        // Has the OpenX admin user kindly agreed to share the technology
-        // stack that OpenX is running on, so that OpenX can monitor what
-        // technology stacks the community users, to help with supporting
-        // OpenX?
+        // Has the Revive Adserver admin user kindly agreed to share the
+        // technology stack that it is running on, to help the community?
         $aTechStack = array(
             'data' => false
         );
-        if ($shareTechStack) {
-            // Thanks, OpenX admin user! You're a star! Prepare the
-            // technology stack data and add it to the XML-RPC call
+        if ($this->aConf['sync']['shareStack']) {
+            // Thanks, admin user! You're a star! Prepare the technology stack
+            // data and add it to the XML-RPC call
             if ($this->oDbh->dbsyntax == 'mysql') {
                 $dbms = 'MySQL';
             } else if ($this->oDbh->dbsyntax == 'pgsql') {
@@ -263,7 +255,7 @@ class OA_Sync
                 // Prepare cache
                 $cache = $aReturn[1];
                 // Also write to the debug log
-                OA::debug("OpenX Sync: updates found!", PEAR_LOG_INFO);
+                OA::debug("Sync: updates found!", PEAR_LOG_INFO);
                 // Update last run
                 OA_Dal_ApplicationVariables::set('sync_last_run', date('Y-m-d H:i:s'));
             } else {
@@ -275,10 +267,10 @@ class OA_Sync
                 if ($response->faultCode() == 800) {
                     OA_Dal_ApplicationVariables::set('sync_last_run', date('Y-m-d H:i:s'));
                     // Also write to the debug log
-                    OA::debug("OpenX Sync: {$aReturn[1]}", PEAR_LOG_INFO);
+                    OA::debug("Sync: {$aReturn[1]}", PEAR_LOG_INFO);
                 } else {
                     // Write to the debug log
-                    OA::debug("OpenX Sync: {$aReturn[1]} (code: {$aReturn[0]}", PEAR_LOG_ERR);
+                    OA::debug("Sync: {$aReturn[1]} (code: {$aReturn[0]}", PEAR_LOG_ERR);
                     // Return immediately without writing to cache
                     return $aReturn;
                 }
@@ -291,7 +283,7 @@ class OA_Sync
         $aReturn = array(-1, 'No response from the remote XML-RPC server.');
 
         // Also write to the debug log
-        OA::debug("OpenX Sync: {$aReturn[1]}", PEAR_LOG_ERR);
+        OA::debug("Sync: {$aReturn[1]}", PEAR_LOG_ERR);
 
         return $aReturn;
     }
