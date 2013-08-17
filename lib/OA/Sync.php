@@ -151,13 +151,6 @@ class OA_Sync
             return $aReturn;
         }
 
-        // Should this server's aggregate impression and click statistcs
-        // be shared with OpenX?
-        $shareStats = false;
-        if ($this->aConf['sync']['shareData']) {
-            $shareStats = true;
-        }
-
         // Create the XML-RPC client object
         $client = OA_Central::getXmlRpcClient($this->_conf);
 
@@ -167,7 +160,6 @@ class OA_Sync
             new XML_RPC_Value(PRODUCT_NAME, 'string'),
             new XML_RPC_Value($this->getConfigVersion(OA_Dal_ApplicationVariables::get('oa_version')), 'string'),
             new XML_RPC_Value($already_seen, 'string'),
-            new XML_RPC_Value('', 'string'),
             new XML_RPC_Value(OA_Dal_ApplicationVariables::get('platform_hash'), 'string')
         );
 
@@ -208,43 +200,11 @@ class OA_Sync
         }
         $params[] = XML_RPC_Encode($aTechStack);
 
-        // Has the OpenX admin user kindly agreed to share their
-        // aggregate impression and click statistics to help
-        // OpenX monitor what sizes of OpenX installations exist
-        // (to ensure OpenX scales to appropriate sizes), and also
-        // so that the total community size can be shown in the
-        // Dashboard?
-        $aStats = array();
-        if ($shareStats) {
-            // Thanks, OpenX admin user! You're a star! Prepare the
-            // aggregate impression and click statistics data and
-            // add it to the XML-RPC call
-            foreach ($this->buildStats() as $k => $v) {
-                $aStats[$k] = XML_RPC_encode($v);
-            }
-        }
-        $params[] = new XML_RPC_Value($aStats, 'struct');
-
-        // Add the OpenX package Origin ID, if appropriate
-        $originID = '';
-        $originFile = MAX_PATH . '/etc/origin.txt';
-        if (file_exists($originFile) && is_readable($originFile)) {
-            $rOriginFile = @fopen($originFile, 'r');
-            if ($rOriginFile !== false) {
-                $originID = fread($rOriginFile, 32);
-                fclose($rOriginFile);
-            }
-            if ($originID === false) {
-                $originID = '';
-            }
-        }
-        $params[] = new XML_RPC_Value($originID, 'string');
-
         // Add the registered email address
         $params[] = new XML_RPC_Value(OA_Dal_ApplicationVariables::get('sync_registered_email'), 'string');
 
         // Create the XML-RPC request message
-        $msg = new XML_RPC_Message("OpenX.Sync", $params);
+        $msg = new XML_RPC_Message("Revive.Sync", $params);
 
         // Send the XML-RPC request message
         if ($response = $client->send($msg, 10)) {
@@ -288,51 +248,6 @@ class OA_Sync
         return $aReturn;
     }
 
-    /**
-     * Build global statistics array to be sent through Sync
-     *
-     * @return array
-     */
-    function buildStats()
-    {
-        $lastRun = OA_Dal_ApplicationVariables::get('sync_last_run');
-
-        if ($lastRun) {
-            $oStart = new Date($lastRun);
-        } else {
-            $oStart = new Date();
-            $oStart->subtractSpan(new Date_Span('1-0-0-0'));
-        }
-        $oStart->setMinute(0);
-        $oStart->setSecond(0);
-
-        $oEnd = new Date();
-        $oEnd->setMinute(0);
-        $oEnd->setSecond(0);
-
-        $doDsah = OA_Dal::factoryDO('data_summary_ad_hourly');
-        $doDsah->selectAdd();
-        $doDsah->selectAdd('date_time');
-        $doDsah->selectAdd('SUM(impressions) AS total_impressions');
-        $doDsah->selectAdd('SUM(clicks) AS total_clicks');
-        $doDsah->whereAdd("date_time >= ".$this->oDbh->quote($oStart->format('%Y-%m-%d %H:%M:%S')));
-        $doDsah->whereAdd("date_time < ".$this->oDbh->quote($oEnd->format('%Y-%m-%d %H:%M:%S')));
-        $doDsah->groupBy('date_time');
-        $doDsah->orderBy('date_time');
-        $doDsah->find();
-
-        $aStats = array();
-
-        while ($doDsah->fetch()) {
-            $row = $doDsah->toArray();
-            $aStats[$row['date_time']] = array(
-                'impressions' => $row['total_impressions'],
-                'clicks'      => $row['total_clicks']
-            );
-        }
-
-        return $aStats;
-    }
 }
 
 ?>
