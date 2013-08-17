@@ -556,7 +556,6 @@ $GLOBALS['strErrorInCacheStorePlugin'] = "Des erreurs ont été signalées par l
 $GLOBALS['strDeliveryCacheStorage'] = "Type de cache du stockage de distribution";
 $GLOBALS['strGlobalDefaultBannerUrl'] = "URL de l'image de la bannière par défaut générale";
 $GLOBALS['strAdminShareStack'] = "Partager vos informations techniques avec l'équipe OpenX pour aider au test et au développement";
-$GLOBALS['strAdminShareData'] = "Partager, de façon anonyme, vos informations sur les volumes de publicités pour participer au programme communautaire de partage d'information";
 $GLOBALS['strCantConnectToDbDelivery'] = "Connexion impossible à la base de données pour la distribution";
 $GLOBALS['generalSettings'] = "Système de paramétrage global";
 $GLOBALS['defaultLanguage'] = "Langage par défaut<br />(Chaque utilisateur choisi sa propre langue)";

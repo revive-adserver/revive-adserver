@@ -353,7 +353,6 @@ $GLOBALS['strDashboardSettings'] = "Configuración del Tablero";
 $GLOBALS['strErrorFixPermissionsRCommand'] = "<i>chmod -R a+w %s</i>";
 $GLOBALS['strGlobalDefaultBannerUrl'] = "URL de la imagen del banner global por defecto";
 $GLOBALS['strAdminShareStack'] = "Comparta información técnica con el equipo de OpenX a fin de colaborar con el desarrollo y testeo.";
-$GLOBALS['strAdminShareData'] = "Comparta anónimamente la información sobre el volumen de  anuncios para participar en el programa de datos compartidos por la comunidad.";
 $GLOBALS['strCantConnectToDbDelivery'] = "No se puede conectar con la base de datos para la entrega de avisos";
 $GLOBALS['strDefaultConversionStatus'] = "Reglas de conversión por defecto";
 $GLOBALS['strDefaultConversionType'] = "Reglas de conversión por defecto";
