@@ -1563,14 +1563,17 @@ class OA_Upgrade
         $aConfig             = $this->initDatabaseParameters($aConfig);
         $this->saveConfigDB($aConfig);
 
-
-        // Backs up the existing config file and merges any changes from dist.conf.php.
-        if (!$this->oConfiguration->mergeConfig())
-        {
+        // Backs up the existing config file and merges any changes from
+        // dist.conf.php.
+        if (!$this->oConfiguration->mergeConfig()) {
             return false;
         }
-        if (!$this->oConfiguration->writeConfig())
-        {
+        // Backs up the existing config file and removes any deprecated values
+        // from deprecated.conf.php.
+        if (!$this->oConfiguration->deprecateConfig()) {
+            return false;
+        }
+        if (!$this->oConfiguration->writeConfig()) {
             return false;
         }
         return true;

@@ -163,9 +163,11 @@ class OA_Upgrade_Config
     }
 
     /**
-     * Backs up the existing config file and merges any changes from dist.conf.php.
+     * Backs up the existing config file and merges any changes from
+     * dist.conf.php.
      *
-     * @return boolean true if config is successfully backed up and merged. Otherwise, false.
+     * @return boolean True if config is successfully backed up and merged.
+     *                 Otherwise, false.
      */
     function mergeConfig()
     {
@@ -174,6 +176,22 @@ class OA_Upgrade_Config
             return false;
         }
         return $this->oSettings->mergeConfigChanges();
+    }
+
+    /**
+     * Backs up the existing config file and removes any deprecated options in
+     * deprecated.conf.php.
+     *
+     * @return boolean True if config is successfully backed up and deprecated
+     *                 values removed. Otherwise, false.
+     */
+    function deprecateConfig()
+    {
+        $this->getConfigFileName();
+        if (!$this->oSettings->backupConfig($this->configPath . $this->configFile)) {
+            return false;
+        }
+        return $this->oSettings->deprecateConfigChanges();
     }
 
     function getConfigBackupName()
