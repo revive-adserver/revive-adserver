@@ -658,7 +658,7 @@ class OX_Plugin_ComponentGroupManager
      * @param bool $force
      * @return boolean
      */
-    public function disableComponentGroup($name, $extends, $force)
+    public function disableComponentGroup($name, $extends, $force = false)
     {
         if (!$force) {
             $aComponents = OX_Component::getComponents($extends, $name, true, false);
