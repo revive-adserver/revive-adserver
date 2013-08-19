@@ -1683,7 +1683,8 @@ class OX_Plugin_ComponentGroupManager
 
     function _getOA_Cache($group, $id)
     {
-        return new OA_Cache($group, $id);
+        $oCache = new OA_Cache($group, $id);
+        return $oCache;
     }
 
     /**
