@@ -239,7 +239,7 @@ function removePlugin($pluginName)
         require_once MAX_PATH.'/lib/OA.php';
         require_once LIB_PATH.'/Plugin/PluginManager.php';
         $oPluginManager = new OX_PluginManager();
-        $result = $oPluginManager->uninstallPackage($pluginName);
+        $result = $oPluginManager->uninstallPackage($pluginName, true);
         if ($result) {
             $aResult['status'] = 'OK';
         } else {

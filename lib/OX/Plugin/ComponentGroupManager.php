@@ -654,16 +654,20 @@ class OX_Plugin_ComponentGroupManager
      * set a given plugin setting to false
      *
      * @param string $name
+     * @param string $extends
+     * @param bool $force
      * @return boolean
      */
-    public function disableComponentGroup($name, $extends)
+    public function disableComponentGroup($name, $extends, $force)
     {
-        $aComponents = OX_Component::getComponents($extends, $name, true, false);
-        $aResult = OX_Component::callOnComponents($aComponents, 'onDisable');
-        foreach ($aResult as $componentIdentifier => $value) {
-            if (!$value) {
-                // Should I call onEnable for those components that were sucessfully disabled?
-                return false;
+        if (!$force) {
+            $aComponents = OX_Component::getComponents($extends, $name, true, false);
+            $aResult = OX_Component::callOnComponents($aComponents, 'onDisable');
+            foreach ($aResult as $componentIdentifier => $value) {
+                if (!$value) {
+                    // Should I call onEnable for those components that were sucessfully disabled?
+                    return false;
+                }
             }
         }
         return $this->_setPlugin($name, 0);
