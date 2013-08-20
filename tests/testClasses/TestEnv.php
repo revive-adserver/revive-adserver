@@ -179,7 +179,7 @@ class TestEnv
 
         $oPkgMgr = & TestEnv::getPluginPackageManager($noDb);
 
-        $result = $oPkgMgr->uninstallPackage($pkgName);
+        $result = $oPkgMgr->uninstallPackage($pkgName, true);
         /*if (!$result)
         {
             $errormsg = 'TestEnv unable to uninstall plugins in '.$pkgName;
