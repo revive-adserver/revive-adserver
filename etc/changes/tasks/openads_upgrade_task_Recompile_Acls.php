@@ -28,3 +28,5 @@ if (PEAR::isError($upgradeTaskResult)) {
     $oMessages->logError($upgradeTaskResult->getCode().': '.$upgradeTaskResult->getMessage());
 }
 $oMessages->logInfo('Acls Recompilation: '.($upgradeTaskResult ? 'Complete' : 'Failed'));
+
+?>

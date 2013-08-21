@@ -22,3 +22,5 @@ if (PEAR::isError($upgradeTaskResult)) {
     $oMessages->logError($upgradeTaskResult->getCode().': '.$upgradeTaskResult->getMessage());
 }
 $oMessages->logInfo('Maintenance Prioritisation: '.($upgradeTaskResult ? 'Complete' : 'Failed'));
+
+?>
