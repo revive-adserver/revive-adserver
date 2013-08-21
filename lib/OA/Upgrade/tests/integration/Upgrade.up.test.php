@@ -535,7 +535,9 @@ class Test_OA_Upgrade extends UnitTestCase
                                 'OA_Upgrade_Config',
                                 $mockConfig = 'OA_Upgrade_Config'.rand(),
                                 array(
+                                        'backupConfig',
                                         'mergeConfig',
+                                        'deprecateConfig',
                                         'setupConfigDatabase',
                                         'setupConfigTable',
                                         'setValue',
@@ -552,8 +554,14 @@ class Test_OA_Upgrade extends UnitTestCase
         $oUpgrade->oConfiguration->setReturnValue('setValue', true);
         $oUpgrade->oConfiguration->setReturnValue('writeConfig', true);
 
+        $oUpgrade->oConfiguration->expectCallCount('backupConfig', 1);
+        $oUpgrade->oConfiguration->setReturnValue('backupConfig', true);
+
         $oUpgrade->oConfiguration->expectCallCount('mergeConfig', 1);
         $oUpgrade->oConfiguration->setReturnValue('mergeConfig', true);
+
+        $oUpgrade->oConfiguration->expectCallCount('deprecateConfig', 1);
+        $oUpgrade->oConfiguration->setReturnValue('deprecateConfig', true);
 
         $oUpgrade->oConfiguration->expectCallCount('getConfigBackupName', 13);
         for ($i = 0; $i < 13; $i++)
