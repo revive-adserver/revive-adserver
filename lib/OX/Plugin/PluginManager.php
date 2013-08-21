@@ -362,10 +362,14 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
      * uninstall each of the plugins contained therein
      * remove the conf setting for the package
      *
+     * In case the plugin is not compatible anymore, the force argument will
+     * avoid executing the plugin files
+     *
      * @param array string
+     * @param bool $force
      * @return boolean
      */
-    function uninstallPackage($name)
+    function uninstallPackage($name, $force = false)
     {
         $this->_switchToPluginLog();
         try {
@@ -403,7 +407,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
                                                )
                                          );
             // just in case anything goes wrong, e.g. half uninstall - don't want app trying to use half a package
-            $this->disablePackage($name);
+            $this->disablePackage($name, $force);
             if (!$this->_uninstallComponentGroups($aGroups))
             {
                 throw new Exception('Failed to uninstall package '.$name);
@@ -530,9 +534,10 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
      * parsing the package will retrieve extensions to be handled before and after disable
      *
      * @param string $name
+     * @param bool $force
      * @return boolean
      */
-    public function disablePackage($name)
+    public function disablePackage($name, $force = false)
     {
         if ($this->configLocked) {
             $this->_logError('Configuration file is locked unable to disable '.$name);
@@ -557,11 +562,13 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             return false;
         }
         $aPlugins = &$this->aParse['plugins'];
-        $this->_runExtensionTasks('BeforePluginDisable');
+        if (!$force) {
+            $this->_runExtensionTasks('BeforePluginDisable');
+        }
         foreach ($aPackage['install']['contents'] AS $k => &$plugin)
         {
             if (is_array($plugin)) {
-                if (!$this->disableComponentGroup($plugin['name'], $aPlugins[$k]['extends']))
+                if (!$this->disableComponentGroup($plugin['name'], $aPlugins[$k]['extends'], $force))
                 {
                     $this->_logError('Failed to disable plugin '.$plugin['name'].' for package '.$name);
                     return false;
