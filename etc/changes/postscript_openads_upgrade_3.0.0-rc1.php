@@ -83,7 +83,14 @@ class OA_UpgradePostscript_3_0_0_rc1
     {
         $this->logOnly("Attempting to remove the 'oacXmlRpc' settings from the configuration file");
         $oConfiguration = new OA_Admin_Settings();
-        unset($oConfiguration->aConf['oacXmlRpc']);
+        unset($oConfiguration->aConf['oacXmlRpc']['protocol']);
+        unset($oConfiguration->aConf['oacXmlRpc']['host']);
+        unset($oConfiguration->aConf['oacXmlRpc']['httpPort']);
+        unset($oConfiguration->aConf['oacXmlRpc']['httpsPort']);
+        unset($oConfiguration->aConf['oacXmlRpc']['path']);
+        unset($oConfiguration->aConf['oacXmlRpc']['captcha']);
+        unset($oConfiguration->aConf['oacXmlRpc']['signUpUrl']);
+        unset($oConfiguration->aConf['oacXmlRpc']['publihserUrl']);
         if ($oConfiguration->writeConfigChange()) {
             $this->logOnly("Removed the 'oacXmlRpc' settings from the configuration file");
         } else {
@@ -99,7 +106,11 @@ class OA_UpgradePostscript_3_0_0_rc1
     {
         $this->logOnly("Attempting to remove the 'oacDashboard' settings from the configuration file");
         $oConfiguration = new OA_Admin_Settings();
-        unset($oConfiguration->aConf['oacDashboard']);
+        unset($oConfiguration->aConf['oacDashboard']['protocol']);
+        unset($oConfiguration->aConf['oacDashboard']['host']);
+        unset($oConfiguration->aConf['oacDashboard']['port']);
+        unset($oConfiguration->aConf['oacDashboard']['path']);
+        unset($oConfiguration->aConf['oacDashboard']['ssoCheck']);
         if ($oConfiguration->writeConfigChange()) {
             $this->logOnly("Removed the 'oacDashboard' settings from the configuration file");
         } else {
