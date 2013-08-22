@@ -3,10 +3,12 @@
 /var/INSTALLED
 /var/*.conf.php
 /var/*.log
+/var/*.xml
 /var/cache/*.html
 /var/cache/*.php
 /var/cache/cache_*
 /var/cache/minify_*
+/var/plugins/DataObjects/*.bak
 /var/plugins/DataObjects/*.ini
 /var/plugins/DataObjects/*.php
 /var/plugins/log/*

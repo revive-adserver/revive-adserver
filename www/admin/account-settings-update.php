@@ -46,10 +46,6 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         'sync_shareStack' => array(
             'sync' => 'shareStack',
             'bool' => true
-        ),
-        'sync_shareData' => array(
-            'sync' => 'shareData',
-            'bool' => true
         )
     );
     // Create a new settings object, and save the settings!
@@ -101,12 +97,6 @@ $aSettings = array (
                 'type'    => 'checkbox',
                 'name'    => 'sync_shareStack',
                 'text'    => $strAdminShareStack,
-                'depends' => 'sync_checkForUpdates==1'
-            ),
-            array (
-                'type'    => 'checkbox',
-                'name'    => 'sync_shareData',
-                'text'    => $strAdminShareData,
                 'depends' => 'sync_checkForUpdates==1'
             )
         )

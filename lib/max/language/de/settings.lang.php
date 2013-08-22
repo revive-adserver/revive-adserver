@@ -510,6 +510,5 @@ $GLOBALS['strErrorInCacheStorePlugin'] = "Das Plugin \"%s\" für den Auslieferun
 $GLOBALS['strDeliveryCacheStorage'] = "Auslieferungscache Speichertyp";
 $GLOBALS['strGlobalDefaultBannerUrl'] = "Globale Default-Image-Banner URL";
 $GLOBALS['strAdminShareStack'] = "Technische Informationen an das OpenX-Team übermitteln um die Weiterentwicklung und das Testen zu unterstützen.";
-$GLOBALS['strAdminShareData'] = "Anonymisierte Informationen über das ausgelieferten Werbemittelvolumen an die Community mitteilen.";
 $GLOBALS['strCantConnectToDbDelivery'] = "Keine Datenbankverbindung für die Auslieferung";
 ?>

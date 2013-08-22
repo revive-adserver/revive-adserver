@@ -162,7 +162,6 @@ $GLOBALS['strAdministratorEmail']                    = "Administrator email Addr
 $GLOBALS['strCompanyName']                           = "Company Name";
 $GLOBALS['strAdminCheckUpdates']                     = "Automatically check for product updates and security alerts (Recommended).";
 $GLOBALS['strAdminShareStack']                       = "Share technical information with the " . PRODUCT_NAME . " Team to help with development and testing.";
-$GLOBALS['strAdminShareData']                        = "Share ad volume information anonymously to participate in the community data sharing program.";
 $GLOBALS['strAdminCheckEveryLogin']                  = "Every Login";
 $GLOBALS['strAdminCheckDaily']                       = "Daily";
 $GLOBALS['strAdminCheckWeekly']                      = "Weekly";

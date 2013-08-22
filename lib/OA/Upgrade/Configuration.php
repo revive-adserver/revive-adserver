@@ -152,6 +152,20 @@ class OA_Upgrade_Config
     }
 
     /**
+     * Backs up the existing config file.
+     *
+     * @return boolean True if config is successfully backed up. Otherwise,
+     *                 false.
+     */
+    function backupConfig()
+    {
+        $this->getConfigFileName();
+        if (!$this->oSettings->backupConfig($this->configPath . $this->configFile)) {
+            return false;
+        }
+        return true;
+    }
+    /**
      * Writes out the config file
      *
      * @param boolean $reparse should we reparse the config file after writing?
@@ -163,16 +177,13 @@ class OA_Upgrade_Config
     }
 
     /**
-     * Backs up the existing config file and merges any changes from dist.conf.php.
+     * Merges any changes from dist.conf.php into the configuration.
      *
-     * @return boolean true if config is successfully backed up and merged. Otherwise, false.
+     * @return boolean True if config is successfully merged. Otherwise, false.
      */
     function mergeConfig()
     {
         $this->getConfigFileName();
-        if (!$this->oSettings->backupConfig($this->configPath . $this->configFile)) {
-            return false;
-        }
         return $this->oSettings->mergeConfigChanges();
     }
 

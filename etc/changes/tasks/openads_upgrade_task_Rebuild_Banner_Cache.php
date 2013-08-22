@@ -20,6 +20,4 @@ if (PEAR::isError($upgradeTaskResult)) {
 }
 $upgradeTaskError[] = ' Banner Cache Recompilation: '.($upgradeTaskResult ? 'Complete' : 'Failed');
 
-
-
 ?>
