@@ -384,17 +384,16 @@ name                =
 persistent          = false
 
 ;------------------------------------------------------------------------------------------;
-; OpenX Central Settings                                                                   ;
+; Revive Aderver Sync Settings                                                             ;
 ;------------------------------------------------------------------------------------------;
 
 [sync]
 checkForUpdates = true
 shareStack      = true
-shareData       = true
 
 [oacSync]
 protocol    = https
-host        = sync.openx.org
+host        = sync.revive-adserver.com
 path        = /xmlrpc.php
 httpPort    = 80
 httpsPort   = 443

@@ -535,6 +535,7 @@ class Test_OA_Upgrade extends UnitTestCase
                                 'OA_Upgrade_Config',
                                 $mockConfig = 'OA_Upgrade_Config'.rand(),
                                 array(
+                                        'backupConfig',
                                         'mergeConfig',
                                         'setupConfigDatabase',
                                         'setupConfigTable',
@@ -551,6 +552,9 @@ class Test_OA_Upgrade extends UnitTestCase
         $oUpgrade->oConfiguration->setReturnValue('setupConfigTable', true);
         $oUpgrade->oConfiguration->setReturnValue('setValue', true);
         $oUpgrade->oConfiguration->setReturnValue('writeConfig', true);
+
+        $oUpgrade->oConfiguration->expectCallCount('backupConfig', 1);
+        $oUpgrade->oConfiguration->setReturnValue('backupConfig', true);
 
         $oUpgrade->oConfiguration->expectCallCount('mergeConfig', 1);
         $oUpgrade->oConfiguration->setReturnValue('mergeConfig', true);

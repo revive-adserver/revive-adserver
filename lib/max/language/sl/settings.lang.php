@@ -323,7 +323,6 @@ $GLOBALS['strErrorInCacheStorePlugin'] = "Pri \"%s\" vtičniku je prišlo do nap
 $GLOBALS['strDeliveryCacheStorage'] = "Tip hrambe dostavnega pomnilnika";
 $GLOBALS['strGlobalDefaultBannerUrl'] = "Privzet URL slikovne pasice ";
 $GLOBALS['strAdminShareStack'] = "Delite tehnične informacije z OpenX ekipo pri nadaljnem razvoju in testiranju.";
-$GLOBALS['strAdminShareData'] = "Delite anonimne informacije o oglasni vsebini v sodelovanju v programu spletne skupnosti deljenja podatkov.";
 $GLOBALS['strCantConnectToDbDelivery'] = "Ne morem se povezati z podatkovno bazo";
 $GLOBALS['strAdminCheckUpdates'] = "Samodejni preveri za posodobitve izdelka in varnostna opozorila (Priporočeno)";
 $GLOBALS['strAdminCheckEveryLogin'] = "Vsako prijavo";

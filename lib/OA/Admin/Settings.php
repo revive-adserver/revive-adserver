@@ -215,40 +215,58 @@ class OA_Admin_Settings
             // No config file exists, use the aConf array
             $mainConfig = $this->aConf;
         }
-        // Clear any persisting realConfig value in the primary config file (in case we are changing URL paths?)
+        // Clear any persisting realConfig value in the primary config file
+        // (in case we are changing URL paths?)
         unset($mainConfig['realConfig']);
 
-        // Iterate over the changes to be written out, check if a value is being overridden in the UI wrapper config file, ensure that it gets
-        // changed /there/, additionally, write only changes/new items to the delivery config file, not the in-memory merged array
+        // Iterate over the changes to be written out, check if a value is being
+        // overridden in the UI wrapper config file, ensure that it gets changed
+        // _there_, additionally, write only changes/new items to the delivery
+        // config file, not the in-memory merged array
         foreach ($this->aConf as $section => $sectionArray) {
-            // Compare the value to be written against that in memory (merged admin/delivery configs)
+            // Compare the value to be written against that in memory
+            // (merged admin/delivery configs)
             if (is_array($aConf[$section])) {
                 $sectionDiff = array_diff_assoc($this->aConf[$section], $aConf[$section]);
                 foreach ($sectionDiff as $configKey => $configValue) {
                     if (isset($adminConfig[$section][$configKey])) {
-                        // This setting exists in the wrapper config file, change its value there
+                        // This setting exists in the wrapper config file,
+                        // change its value there
                         $adminConfig[$section][$configKey] = $configValue;
                         $adminConfigChanged = true;
                     } else {
-                        // This setting doesn't exist in the wrapper config file, change it in the delivery config file only
+                        // This setting doesn't exist in the wrapper config
+                        // file, change it in the delivery config file only
                         $mainConfig[$section][$configKey] = $configValue;
                     }
                 }
             } else {
-                // This section didn't/doesnt exist in the in-memory array, assume it is a new section and write to the delivery conf file
+                // This section didn't/doesnt exist in the in-memory array,
+                // assume it is a new section and write to the delivery conf
+                // file
                 $mainConfig[$section] = $this->aConf[$section];
             }
-            // Check if any of the in-memory items have been removed from the $this->aConf array, and remove them from the appropriate file if necessary
+            // Check if any of the in-memory items have been removed from the
+            // $this->aConf array, and remove them from the appropriate file if
+            // necessary
             if (is_array($aConf[$section]) && is_array($this->aConf[$section])) {
                 $reverseDiff = array_diff(array_keys($aConf[$section]), array_keys($this->aConf[$section]));
                 foreach ($reverseDiff as $deletedSectionKey) {
                     if (isset($adminConfig[$section][$deletedSectionKey])) {
-                        // This setting exists in the wrapper config file, remove it from there
+                        // This setting exists in the wrapper config file,
+                        // remove it from there
                         unset($adminConfig[$section][$deletedSectionKey]);
+                        if (count($adminConfig[$section]) == 0) {
+                            unset($adminConfig[$section]);
+                        }
                         $adminConfigChanged = true;
                     } else {
-                        // This setting doesn't exist in the wrapper config file, remove it from the delivery config file only
+                        // This setting doesn't exist in the wrapper config
+                        // file, remove it from the delivery config file only
                         unset($mainConfig[$section][$deletedSectionKey]);
+                        if (count($mainConfig[$section]) == 0) {
+                            unset($mainConfig[$section]);
+                        }
                     }
                 }
             }
@@ -431,22 +449,6 @@ class OA_Admin_Settings
             return false;
         }
         $aDistConf = @parse_ini_file($distConfig, true);
-
-        // Check for deprecated keys to remove from existing user conf
-        /**
-         * WARNING: THIS ALSO REMOVES USER-DEFINED KEYS
-         */
-        /*foreach ($this->aConf as $key => $value) {
-        	if (array_key_exists($key, $aDistConf)) {
-        	    foreach ($this->aConf[$key] as $subKey => $subValue) {
-        	        if (!array_key_exists($subKey, $aDistConf[$key])) {
-                        unset($this->aConf[$key][$subKey]);
-        	        }
-        	    }
-        	} else {
-                unset($this->aConf[$key]);
-        	}
-        }*/
 
         // Check for new keys in dist to add to existing user conf
         foreach ($aDistConf as $key => $value) {
