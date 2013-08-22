@@ -43,6 +43,10 @@ $aLayer = array(
     'integration'
 );
 
+// Take a copy in memory of the conf file
+$testConfFile =dirname(__FILE__).'/../var/test.conf.php';
+$testConf = file_get_contents($testConfFile);
+
 $oReporter = new ReviveXmlReporter();
 $oReporter->paintGroupStart("Tests", count($aLayer));
 foreach ($aLayer as $layer) {
@@ -64,6 +68,9 @@ foreach ($aLayer as $layer) {
                 preg_match('/^([^\.]+)/', $fileName, $aMatches);
                 $testDisplayName = ucfirst(strtolower($layer)) . '.' . $layerDisplayName . '.' . $aMatches[1];
                 $oReporter->paintMethodStart($testDisplayName);
+
+                // Restore conf file to make sure each test runs with a clean one
+                file_put_contents($testConfFile, $testConf);
 
                 $returncode = -1;
                 $output_lines = '';
