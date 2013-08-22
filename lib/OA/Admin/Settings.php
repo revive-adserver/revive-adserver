@@ -466,33 +466,6 @@ class OA_Admin_Settings
     }
 
     /**
-     * Removes configuration settings in deprecated.conf.php from $this->aConf.
-     *
-     * @param string $deprecatedConfig the full path to the deprecated conf file.
-     * @return boolean True if changes successfully removed, false otherwise.
-     */
-    function deprecateConfigChanges($deprecatedConfig = null)
-    {
-        if (is_null($deprecatedConfig)) {
-            $deprecatedConfig = MAX_PATH . '/etc/deprecated.conf.php';
-        }
-        if (!is_readable($deprecatedConfig)) {
-            return false;
-        }
-        $aDeprecatedConf = @parse_ini_file($deprecatedConfig, true);
-
-        // Check for deprecated keys to remove from existing user conf
-        foreach ($aDeprecatedConf as $key => $value) {
-            if (is_array($value) && count($value) > 0) {
-                foreach ($value as $subKey => $subValue) {
-                    unset($this->aConf[$key][$subKey]);
-                }
-            }
-        }
-        return true;
-    }
-
-    /**
      * Makes a backup copy of the given file if it exists.
      *
      * @param string $configFile full path to the file to be backed up.

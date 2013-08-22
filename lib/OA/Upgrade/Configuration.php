@@ -187,19 +187,6 @@ class OA_Upgrade_Config
         return $this->oSettings->mergeConfigChanges();
     }
 
-    /**
-     * Removes any deprecated options in deprecated.conf.php from the
-     * configuration.
-     *
-     * @return boolean True if config has deprecated values removed. Otherwise,
-     *                 false.
-     */
-    function deprecateConfig()
-    {
-        $this->getConfigFileName();
-        return $this->oSettings->deprecateConfigChanges();
-    }
-
     function getConfigBackupName()
     {
         return $this->oSettings->backupFilename;

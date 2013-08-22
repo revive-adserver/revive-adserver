@@ -31,10 +31,21 @@ class OA_UpgradePostscript_3_0_0_rc1
     {
         $this->oUpgrade = & $aParams[0];
 
-        $this->logOnly("Attempting to update the configuration file sync server settings");
+        $this->_updateSyncServerSettings();
+        $this->_removeShareDataSetting();
+        $this->_removeOacXmlRpcSettings();
+        $this->_removeOacDashboardSettings();
 
-        // Update the sync server configuration settings, as these change with
-        // Revive Adserver 3.0.0
+        return true;
+    }
+
+    /**
+     * Update the sync server configuration settings, as the server changed
+     * with the release of Revive Adserver 3.0.0
+     */
+    function _updateSyncServerSettings()
+    {
+        $this->logOnly("Attempting to update the configuration file sync server settings");
         $oConfiguration = new OA_Admin_Settings();
         $oConfiguration->aConf['oacSync']['protocol']  = 'https';
         $oConfiguration->aConf['oacSync']['host']      = 'sync.revive-adserver.com';
@@ -46,8 +57,54 @@ class OA_UpgradePostscript_3_0_0_rc1
         } else {
             $this->logError("Failed to update the configuration file sync server settings");
         }
+    }
 
-        return true;
+    /**
+     * Remove the sync server "share data" setting, as this was deprecated in
+     * Revive Adserver 3.0.0
+     */
+    function _removeShareDataSetting()
+    {
+        $this->logOnly("Attempting to remove the 'share data' sync setting from the configuration file");
+        $oConfiguration = new OA_Admin_Settings();
+        unset($oConfiguration->aConf['sync']['shareData']);
+        if ($oConfiguration->writeConfigChange()) {
+            $this->logOnly("Removed the 'share data' sync setting from the configuration file");
+        } else {
+            $this->logError("Failed to remove the 'share data' sync setting from the configuration file");
+        }
+    }
+
+    /**
+     * Remove the entire "oacXmlRpc" setting section, as this was deprecated in
+     * Revive Adserver 3.0.0
+     */
+    function _removeOacXmlRpcSettings()
+    {
+        $this->logOnly("Attempting to remove the 'oacXmlRpc' settings from the configuration file");
+        $oConfiguration = new OA_Admin_Settings();
+        unset($oConfiguration->aConf['oacXmlRpc']);
+        if ($oConfiguration->writeConfigChange()) {
+            $this->logOnly("Removed the 'oacXmlRpc' settings from the configuration file");
+        } else {
+            $this->logError("Failed to remove the 'oacXmlRpc' settings from the configuration file");
+        }
+    }
+
+    /**
+     * Remove the entire "oacDashboard" setting section, as this was deprecated in
+     * Revive Adserver 3.0.0
+     */
+    function _removeOacDashboardSettings()
+    {
+        $this->logOnly("Attempting to remove the 'oacDashboard' settings from the configuration file");
+        $oConfiguration = new OA_Admin_Settings();
+        unset($oConfiguration->aConf['oacDashboard']);
+        if ($oConfiguration->writeConfigChange()) {
+            $this->logOnly("Removed the 'oacDashboard' settings from the configuration file");
+        } else {
+            $this->logError("Failed to remove the 'oacDashboard' settings from the configuration file");
+        }
     }
 
     function logOnly($msg)
