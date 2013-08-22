@@ -33,7 +33,6 @@ function setupConstants()
     } else {
         define('OX_PRODUCT_DOCSURL',   "http://www.openx.org/help");
     }
-    define('OX_PRODUCT_FORUMURL',  'forum.openx.org');
 
     // PHP 5.3 compatibility
     if (!defined('E_DEPRECATED')) {
