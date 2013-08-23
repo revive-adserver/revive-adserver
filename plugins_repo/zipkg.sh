@@ -20,7 +20,7 @@
 
   cd "$arg"
 
-  zip -D -r ../"$arg".zip . -x \*.svn/* \*tests/* \*extensions/* \*/packages/* \*.bak \*.template.xml \*default.properties
+  zip -D -r ../"$arg".zip . -x \*.git\* \*.svn/* \*tests/* \*extensions/* \*/packages/* \*.bak \*.template.xml \*default.properties
 
   cd ..
 
