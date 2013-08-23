@@ -12,6 +12,7 @@
 
 require_once MAX_PATH . '/lib/max/Dal/Delivery.php';
 require_once MAX_PATH . '/lib/max/Delivery/cache.php';
+require_once MAX_PATH . '/lib/pear/DB/DataObject/Cast.php';
 require_once 'Log.php';
 
 // pgsql execution time before refactor: 132.33s
@@ -244,16 +245,23 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
     }
 
     /**
-     * low-priority test
-     * problem loading binary data from xml file
+     * get SQL-stored creative
      **/
     function test_OA_Dal_Delivery_getCreative()
     {
-//        $filename   = 'adOneTwoOneID.gif';
-//        $aReturn    = OA_Dal_Delivery_getCreative($filename);
-//        $prn        = var_export($aReturn, TRUE);
-//        $this->assertIsA($aReturn, 'array');
-//        $this->assertEqual($aReturn['filename'], 'adOneTwoOneID.gif');
+        // The images table is empty as there are problems with
+        $filename   = 'adOneTwoOneID.gif';
+        $contents = "foobar\001\xFF";
+
+        $doImage = OA_Dal::factoryDO('images');
+        $doImage->filename = $filename;
+        $doImage->contents = DB_DataObject_Cast::blob($contents);
+        $doImage->insert();
+
+        $aReturn = OA_Dal_Delivery_getCreative($filename);
+
+        $this->assertIsA($aReturn, 'array');
+        $this->assertEqual($aReturn['contents'], $contents);
     }
 
     /**
