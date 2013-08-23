@@ -145,7 +145,6 @@ $GLOBALS['strCloseWindow']              = "Close window";
 // Dashboard
 $GLOBALS['strDashboardCommunity']       = "Community";
 $GLOBALS['strDashboardDashboard']       = "Dashboard";
-$GLOBALS['strDashboardForum']           = PRODUCT_NAME . " Forum";
 $GLOBALS['strDashboardDocs']            = PRODUCT_NAME . " Docs";
 $GLOBALS['strDashboardCantBeDisplayed'] = "The dashboard can not be displayed";
 $GLOBALS['strNoCheckForUpdates']        = "The dashboard cannot be displayed unless the<br />check for updates setting is enabled.";
