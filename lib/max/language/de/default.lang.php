@@ -134,7 +134,6 @@ $GLOBALS['strAdmin']                    = 'Admin';
 // Dashboard
 $GLOBALS['strDashboardCommunity']       = 'Community';
 $GLOBALS['strDashboardDashboard']       = 'Dashboard';
-$GLOBALS['strDashboardForum']           = 'OpenX Forum';
 $GLOBALS['strDashboardDocs']            = 'OpenX Dokumentation';
 
 // Priority

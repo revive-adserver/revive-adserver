@@ -128,7 +128,6 @@ $GLOBALS['strNotice']                   			= 'Untuk diperhatikan';
 // Dashboard
 $GLOBALS['strDashboardCommunity']       			= 'Komunitas';
 $GLOBALS['strDashboardDashboard']       			= 'Dashboard';
-$GLOBALS['strDashboardForum']           			= 'Forum Openads';
 $GLOBALS['strDashboardDocs']            			= 'Dokumentasi Openads';
 
 // Priority

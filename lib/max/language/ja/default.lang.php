@@ -131,7 +131,6 @@ $GLOBALS['strNotice']                   		= 'お知らせ';
 // Dashboard
 $GLOBALS['strDashboardCommunity']       		= 'コミュニティ';
 $GLOBALS['strDashboardDashboard']       		= 'ダッシュボード';
-$GLOBALS['strDashboardForum']           		= 'OpenXフォーラム';
 $GLOBALS['strDashboardDocs']            		= 'OpenX Docs';
 
 // Priority

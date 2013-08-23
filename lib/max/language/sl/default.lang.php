@@ -770,7 +770,6 @@ $GLOBALS['strSwitchAccount'] = "Preklopi na ta račun";
 $GLOBALS['strAdditionalItems'] = "in dodatnih postavk";
 $GLOBALS['strFor'] = "za";
 $GLOBALS['strFieldStartDateBeforeEnd'] = "\'Od' datum mora biti zgodnješi kot 'Do' datum";
-$GLOBALS['strDashboardForum'] = "OpenX Forum";
 $GLOBALS['strDashboardDocs'] = "OpenX Dokumenti";
 $GLOBALS['strLinkUserHelpUser'] = "uporabniško ime";
 $GLOBALS['strLinkUserHelpEmail'] = "e-poštni naslov";

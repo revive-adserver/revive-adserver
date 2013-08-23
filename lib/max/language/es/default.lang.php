@@ -1175,7 +1175,6 @@ $GLOBALS['strCampaignWarningExclusiveNoWeight'] = "La tipo de esta campaña se h
 $GLOBALS['strConversionType'] = "Tipo de Conversión";
 $GLOBALS['strTrackerImageTag'] = "Tag de Imagen";
 $GLOBALS['strTrackerJsTag'] = "Tag de Javascript";
-$GLOBALS['strDashboardForum'] = "Foro OpenX";
 $GLOBALS['strDashboardDocs'] = "Documentación de OpenX";
 $GLOBALS['strLinkUserHelpUser'] = "Nombre de usuario";
 $GLOBALS['strLinkUserHelpEmail'] = "Dirección e-mail";

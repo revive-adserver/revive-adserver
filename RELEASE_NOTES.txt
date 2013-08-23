@@ -35,7 +35,7 @@ System Requirements
 -------------------
 
 Before installing, please make sure your server meets the system
-requirements, which can be found at https://github.com/openx/openx-source/wiki.
+requirements, which can be found at http://www.revive-adserver.com/.
 
 
 Downloading and Installing
@@ -47,17 +47,17 @@ Downloading and Installing
    http://www.revive-adserver.com.
 
    Older and maintenance releases can be found here
-   https://github.com/openx/openx-source/releases.
+   http://download.revive-adserver.com/.
 
  * Installing Revive Adserver
 
    Installing Revive Adserver is a straightforward process. Follow the steps at
-   https://github.com/openx/openx-source/wiki.
+   http://www.revive-adserver.com/docs/install.
 
  * Upgrading Revive Adserver
 
    Upgrading Revive Adserver is a straightforward process. Follow the steps at
-   https://github.com/openx/openx-source/wiki.
+   http://www.revive-adserver.com/docs/upgrade.
 
    Please note: The upgrade process will update your Revive Adserver database,
    and the database may no longer be compatible with your old installation.
@@ -108,7 +108,7 @@ This list covers some of the known problems with Revive Adserver. Please read
 this before reporting any new bugs.
 
  * The upgrade process may time out with very large databases. See
-   https://github.com/openx/openx-source/wiki for more information if you
+   http://www.revive-adserver.com/docs/faq for more information if you
    have a large database.
 
  * Revive Adserver requires PHP 5. If you are using PHP 4, you will need to
@@ -131,8 +131,8 @@ this before reporting any new bugs.
    statistics. This can be worked around by ensuring that the timezone is
    correctly set in PHP.
 
- * See https://github.com/openx/openx-source/issues?state=open for the latest
-   bug reports.
+ * See https://github.com/revive-adserver/revive-adserver/issues?state=open
+   for the latest bug reports.
 
 
 FAQ
@@ -154,4 +154,4 @@ FAQ
 
     We need help from both developers and users to provide as much feedback
     as possible to make Revive Adserver even better. You can contribute by
-    visiting https://github.com/openx/openx-source.
+    visiting http://www.revive-adserver.com/.

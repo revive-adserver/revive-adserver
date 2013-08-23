@@ -28,12 +28,8 @@ function setupConstants()
     define('MAX_PRODUCT_NAME', 'Revive Adserver'); // Deprecated, use above version in code
     define('PRODUCT_URL', 'www.revive-adserver.com');
     define('MAX_PRODUCT_URL', 'www.revive-adserver.com'); // Deprecated, use above version in code
-    if (preg_match('/^(\d+\.\d+)/', VERSION, $aMatches)) {
-        define('OX_PRODUCT_DOCSURL',   "http://www.openx.org/help/{$aMatches[1]}");
-    } else {
-        define('OX_PRODUCT_DOCSURL',   "http://www.openx.org/help");
-    }
-    define('OX_PRODUCT_FORUMURL',  'forum.openx.org');
+    define('PRODUCT_DOCSURL',   "http://www.revive-adserver.com/docs");
+    define('OX_PRODUCT_DOCSURL',   "http://www.revive-adserver.com/docs"); // Deprecated, use above version in code
 
     // PHP 5.3 compatibility
     if (!defined('E_DEPRECATED')) {

@@ -392,15 +392,15 @@ class OA_Environment_Manager
         {
             $this->aInfo['PHP']['warning']['version'] =
                 "Version {$this->aInfo['PHP']['actual']['version']} is below the minimum supported version of {$this->aInfo['PHP']['expected']['version']}." .
-                "<br />Although you can install OpenX, this is not a supported version, and it is not possible to guarantee that everything will work correctly. " .
-                "Please see the <a href='" . OX_PRODUCT_DOCSURL . "/faq/php-unsupported'>FAQ</a> for more information.";
+                "<br />Although you can install " . PRODUCT_NAME . ", this is not a supported version, and it is not possible to guarantee that everything will work correctly. " .
+                "Please see the <a href='" . PRODUCT_DOCSURL . "/faq'>FAQ</a> for more information.";
         }
         elseif ($result == OA_ENV_ERROR_PHP_VERSION_NEWER)
         {
             $this->aInfo['PHP']['warning']['version'] =
                 "Version {$this->aInfo['PHP']['actual']['version']} is not supported yet." .
-                "<br />Although you can install OpenX, this is not a supported version, and it is not possible to guarantee that everything will work correctly. " .
-                "Please see the <a href='" . OX_PRODUCT_DOCSURL . "/faq/php-unsupported'>FAQ</a> for more information.";
+                "<br />Although you can install " . PRODUCT_NAME . ", this is not a supported version, and it is not possible to guarantee that everything will work correctly. " .
+                "Please see the <a href='" . PRODUCT_DOCSURL . "/faq'>FAQ</a> for more information.";
         }
         else
         {

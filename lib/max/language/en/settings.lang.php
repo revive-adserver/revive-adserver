@@ -77,16 +77,16 @@ $GLOBALS['strInstallSuccess']               = "Clicking 'Continue' will log you 
 <div class='psub'>";
 $GLOBALS['strInstallSuccess2'] ="
   <p><b>Serving your first ad campaign</b><br>
-    Use our <a href='".OX_PRODUCT_DOCSURL."/wizard/qsg-firstcampaign' target='_blank'>quick start guide to start serving your first ad campaign</a>.
+    Use our <a href='".PRODUCT_DOCSURL."/user/quickStartGuide' target='_blank'>quick start guide to start serving your first ad campaign</a>.
   </p>
 </div>
 <p><strong>Optional installation steps</strong></p>
 <div class='psub'>
   <p><b>Lock your configuration files</b><br>
-    This is a good extra security step to protect your ad server configuration settings from being altered.  <a href='".OX_PRODUCT_DOCSURL."/wizard/lock-config' target='_blank'>Find out more</a>.
+    This is a good extra security step to protect your ad server configuration settings from being altered.  <a href='".PRODUCT_DOCSURL."/admin/lockConfig' target='_blank'>Find out more</a>.
   </p>
   <p><b>Set up a regular maintenance task</b><br>
-    A maintenance script is recommended to ensure timely reporting and the best possible ad delivery performance.  <a href='".OX_PRODUCT_DOCSURL."/wizard/setup-cron' target='_blank'>Find out more</a>
+    A maintenance script is recommended to ensure timely reporting and the best possible ad delivery performance.  <a href='".PRODUCT_DOCSURL."/admin/maintenance' target='_blank'>Find out more</a>
   </p>
   <p><b>Review your system configuration settings</b><br>
     Before you start using ".MAX_PRODUCT_NAME." we suggest you review your settings within the 'Settings' tab.
@@ -112,7 +112,7 @@ $GLOBALS['strNotWriteable']                 = "NOT writeable";
 $GLOBALS['strDirNotWriteableError']         = "Directory must be writeable";
 
 $GLOBALS['strErrorWritePermissionsWin']     = "File permission errors have been detected, and must be fixed before you can continue.";
-$GLOBALS['strCheckDocumentation']           = "For more help, please see the <a href=\"".OX_PRODUCT_DOCSURL."\">" . MAX_PRODUCT_NAME . " documentation</a>.";
+$GLOBALS['strCheckDocumentation']           = "For more help, please see the <a href=\"".PRODUCT_DOCSURL."\">" . PRODUCT_NAME . " documentation</a>.";
 $GLOBALS['strSystemCheckBadPHPConfig']      = "Your current PHP configuration does not meet requirements of " . MAX_PRODUCT_NAME . ". To resolve the problems, please modify settings in your 'php.ini' file.";
 
 $GLOBALS['strAdminUrlPrefix']               = "Admin Interface URL";
