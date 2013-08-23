@@ -142,7 +142,7 @@ class Plugins_InvocationTags_OxInvocationTags_adjs extends Plugins_InvocationTag
         if (!empty($mi->thirdpartytrack)) {
             // Don't pass this in as a parameter... it is dealt with seperatly
             unset($mi->parameters['ct0']);
-            $buffer .= "   document.MAX_ct0 ='{$mi->macros['clickurl']}';\n\n";
+            $buffer .= "   document.MAX_ct0 = unescape('{$mi->macros['clickurl']}');\n\n";
         }
         $buffer .= "   var m3_u = (location.protocol=='https:'?'https:".MAX_commonConstructPartialDeliveryUrl($conf['file']['js'], true)."':'http:".MAX_commonConstructPartialDeliveryUrl($conf['file']['js'])."');\n";
         $buffer .= "   var m3_r = Math.floor(Math.random()*99999999999);\n";
