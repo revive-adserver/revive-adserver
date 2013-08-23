@@ -681,7 +681,6 @@ $GLOBALS['strWorksheets'] = "Darbalaukiai";
 $GLOBALS['strSwitchAccount'] = "Perjungti į šią sąskaitą";
 $GLOBALS['strAdditionalItems'] = "Pridėti papildomų punktų";
 $GLOBALS['strFor'] = "skirta";
-$GLOBALS['strDashboardForum'] = "OpenX forumas";
 $GLOBALS['strDashboardDocs'] = "OpenX dokumentai";
 $GLOBALS['strLinkUserHelpUser'] = "Vartotojo vardas";
 $GLOBALS['strLinkUserHelpEmail'] = "El. pašto adresas";

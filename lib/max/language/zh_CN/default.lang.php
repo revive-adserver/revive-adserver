@@ -1052,7 +1052,6 @@ $GLOBALS['strTrackerJsTag'] = "Javascript标签";
 $GLOBALS['strAdditionalItems'] = "其他�?�目";
 $GLOBALS['strFor'] = "为";
 $GLOBALS['strFieldStartDateBeforeEnd'] = "\'起始'日期必需早于'结�?�'日期";
-$GLOBALS['strDashboardForum'] = "OpenX论�?�";
 $GLOBALS['strDashboardDocs'] = "OpenX文档";
 $GLOBALS['strLinkUserHelpUser'] = "用户�??";
 $GLOBALS['strLinkUserHelpEmail'] = "电�?邮件地�?�";

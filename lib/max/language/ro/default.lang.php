@@ -758,7 +758,6 @@ $GLOBALS['strSwitchAccount'] = "Schimbă pe acest cont";
 $GLOBALS['strAdditionalItems'] = "şi facilităţi suplimentare";
 $GLOBALS['strFor'] = "pentru";
 $GLOBALS['strFieldStartDateBeforeEnd'] = "Data 'De La' trebuie să fie mai mică decât data 'La'";
-$GLOBALS['strDashboardForum'] = "Forum OpenX";
 $GLOBALS['strDashboardDocs'] = "Documentaţii OpenX";
 $GLOBALS['strLinkUserHelpUser'] = "utilizator";
 $GLOBALS['strLinkUserHelpEmail'] = "adresa de email";

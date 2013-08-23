@@ -751,7 +751,6 @@ $GLOBALS['strSwitchAccount'] = "Trocar para esta conta";
 $GLOBALS['strAdditionalItems'] = "e itens adicionais";
 $GLOBALS['strFor'] = "para";
 $GLOBALS['strFieldStartDateBeforeEnd'] = "A data 'De' deve ser anterior à data 'Até'";
-$GLOBALS['strDashboardForum'] = "Fórum do OpenX";
 $GLOBALS['strDashboardDocs'] = "Documentação do OpenX";
 $GLOBALS['strLinkUserHelpUser'] = "Nome de usuário";
 $GLOBALS['strLinkUserHelpEmail'] = "Endereço de e-mail";
