@@ -996,9 +996,11 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
      *
      * @access private
      * @param array $aAdIds An array of ad IDs for which the finance information is needed.
-     * @return mixed An array of arrays, each containing the ad_id, revenue and revenue_type
-     *               of those ads required, where the financial information exists; or
-     *               false if there none of the ads requested have finance information set.
+     * @return mixed An array of arrays, each containing the ad_id, campaign_id, advertiser_id,
+     *               revenue and revenue_type of those ads required, where the financial
+     *               information exists. Advertiser and campaign ID are needed for monthly
+     *               tenancy only, otherwise it would be impossible to split the revenue correctly.
+     *               False is returned if none of the ads requested have finance information set.
      */
     function _saveSummaryGetAdFinanceInfo($aAdIds)
     {
@@ -1010,6 +1012,8 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
         $query = "
             SELECT
                 a.bannerid AS ad_id,
+                a.campaignid AS campaign_id,
+                c.clientid AS advertiser_id,
                 c.revenue AS revenue,
                 c.revenue_type AS revenue_type
             FROM
@@ -1141,19 +1145,133 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                                 AND date_time >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
                                 AND date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
                         break;
+                    case MAX_FINANCE_MT:
+                        $query = "
+                            UPDATE
+                                ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)."
+                            SET
+                                total_revenue = ".$this->getMtRevenue($aInfo, $oStartDate, $oEndDate, $table).",
+                                updated = '". OA::getNow() ."'
+                            WHERE
+                                ad_id = {$aInfo['ad_id']}
+                                AND date_time >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                                AND date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
+                        break;
                 }
             }
             if (!empty($query)) {
                 $rows = $this->oDbh->exec($query);
-                $countQueries++;
                 if (PEAR::isError($rows)) {
                     return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
                 }
+                $countQueries++;
             }
         }
         OA::debug('- Updated finance information for '. $countQueries .' ads', PEAR_LOG_DEBUG);
     }
 
+    /**
+     * A method to get the hourly revenuo of a monthly tenancy campaign
+     * 
+     * Monthly tenancy calculation sponsored by www.admost.nl
+     *
+     * @param array $aInfo The finance information, as returned by _saveSummaryGetAdFinanceInfo
+     * @param Date $oStartDate
+     * @param Date $oEndDate
+     * @param string $table
+     * @return double
+     */
+    function getMtRevenue($aInfo, $oStartDate, $oEndDate, $table)
+    {
+        OA::debug(sprintf("  - Calculating MT revenue for banner [id%d] between %s and %s:",
+            $aInfo['ad_id'],
+            $oStartDate->format('%Y-%m-%d %H:%M:%S %Z'),
+            $oEndDate->format('%Y-%m-%d %H:%M:%S %Z')
+        ), PEAR_LOG_DEBUG);
+        $aConf = $GLOBALS['_MAX']['CONF'];
+
+        $oMonthStart = new Date($oStartDate);
+
+        // Set timezone
+        if (!empty($aInfo['advertiser_id'])) {
+            $doClient = OA_Dal::staticGetDO('clients', $aInfo['advertiser_id']);
+            $aAdvertiserPrefs = OA_Preferences::loadAccountPreferences($doClient->account_id, true);
+            if (!empty($aAdvertiserPrefs['timezone'])) {
+                $oMonthStart->convertTZbyID($aAdvertiserPrefs['timezone']);
+            }
+        }
+
+        // Get ad/zone combinations for the campaign
+        if (!isset($this->aMtRevenueCache[$aInfo['campaign_id']])) {
+            $query = "
+                SELECT
+                    COUNT(*) as cnt
+                FROM
+                    ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)." d JOIN
+                    ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['banners'],true)." a ON (a.bannerid = d.ad_id)
+                WHERE
+                    a.campaignid = {$aInfo['campaign_id']}
+                    AND d.date_time >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                    AND d.date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
+
+            $this->aMtRevenueCache[$aInfo['campaign_id']] = $this->oDbh->query($query)->fetchOne();
+        }
+
+        $oMonthStart->setDay(1);
+        $oMonthStart->setHour(0);
+        $oMonthStart->setMinute(0);
+        $oMonthStart->setSecond(0);
+
+        OA::debug(sprintf("    - Month start: %s",
+            $oMonthStart->format('%Y-%m-%d %H:%M:%S %Z')
+        ), PEAR_LOG_DEBUG);
+
+        $daysInMonth = $oMonthStart->getDaysInMonth();
+        
+        OA::debug(sprintf("    - Days in month: %d",
+            $daysInMonth
+        ), PEAR_LOG_DEBUG);
+
+        $oMonthEnd = new Date($oMonthStart);
+        $oMonthEnd->setDay($daysInMonth);
+        $oMonthEnd = $oMonthEnd->getNextDay();
+        $oMonthEnd->setTZ($oMonthStart->tz);
+        
+        OA::debug(sprintf("    - Month end: %s",
+            $oMonthEnd->format('%Y-%m-%d %H:%M:%S %Z')
+        ), PEAR_LOG_DEBUG);
+
+        $oDiff = new Date_Span();
+        $oDiff->setFromDateDiff($oMonthEnd, $oMonthStart);
+        $hoursPerMonth = ceil($oDiff->toHours());
+
+        OA::debug(sprintf("    - Hours per month: %d",
+            $hoursPerMonth
+        ), PEAR_LOG_DEBUG);
+
+        $oDiff = new Date_Span();
+        $oDiff->setFromDateDiff($oEndDate, $oStartDate);
+        $hoursPerInterval = ceil($oDiff->toHours());
+
+        OA::debug(sprintf("    - Hours per interval: %d",
+            $hoursPerInterval
+        ), PEAR_LOG_DEBUG);
+
+        $adZoneCombinations = $this->aMtRevenueCache[$aInfo['campaign_id']];
+
+        OA::debug(sprintf("    - Ad/zone/OI combinations for campaign [id%d]: %d",
+            $aInfo['campaign_id'],
+            $this->aMtRevenueCache[$aInfo['campaign_id']]
+        ), PEAR_LOG_DEBUG);
+
+        $result = $aInfo['revenue'] / $hoursPerMonth * $hoursPerInterval / $adZoneCombinations;
+
+        OA::debug(sprintf("    - Result: %0.4f",
+            $result
+        ), PEAR_LOG_DEBUG);
+
+        return $result;
+    }
 
     /**
      * A method to activate/deactivate campaigns, based on the date and/or the inventory
