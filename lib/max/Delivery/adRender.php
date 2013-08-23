@@ -615,7 +615,8 @@ function _adRenderBuildParams($aBanner, $zoneId=0, $source='', $ct0='', $logClic
         $dest = !empty($aBanner['url']) ? $aBanner['url'] : '';
         // If the passed in a ct0= value that is not a valid URL (simple checking), then ignore it
         if (!empty($ct0) && strtolower(substr($ct0, 0, 4)) == 'http') {
-            $dest = $ct0.urlencode($dest);
+            // Append and urlencode, but allow magic macros
+            $dest = $ct0.preg_replace('/%7B(.*?)%7D/', '{$1}', urlencode($dest));
         }
         // Urlencode, but allow magic macros
         $dest = preg_replace('/%7B(.*?)%7D/', '{$1}', urlencode($dest));
