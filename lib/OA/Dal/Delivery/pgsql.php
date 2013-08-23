@@ -132,7 +132,7 @@ function OA_Dal_Delivery_insertId($database = 'database', $table, $column)
     $seqName = substr($column, 0, 29).'_seq';
     $seqName = substr($table, 0, 62 - strlen($seqName)).'_'.$seqName;
     $query = "SELECT currval('\"".$seqName."\"')";
-    return pg_fetch_result(pg_query($query), 0, 0);
+    return pg_fetch_result(pg_query($GLOBALS['_MAX'][$dbName], $query), 0, 0);
 }
 
 function OA_Dal_Delivery_numRows($result)
