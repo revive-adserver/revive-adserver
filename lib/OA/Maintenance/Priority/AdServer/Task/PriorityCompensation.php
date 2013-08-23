@@ -149,7 +149,12 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
                 // Create and store the Zone object
                 $aZones[$zoneId] = new OX_Maintenance_Priority_Zone(array('zoneid' => $zoneId));
                 // Record the zone's forecast impression inventory
-                $aZones[$zoneId]->availableImpressions = $forecastImpressions;
+                if ($forecastImpressions > 0) {
+                    $aZones[$zoneId]->availableImpressions = $forecastImpressions;
+                } else {
+                    $aZones[$zoneId]->availableImpressions = $this->oDal->getZoneForecastDefaultZoneImpressionsLimit();
+                    $aZones[$zoneId]->active = false;
+                }
             }
         }
         // Obtain the creative/zone combinations where creatives have impressions
@@ -384,7 +389,8 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
             list($factor, $limited, $fraction, $to_be_delivered) =
                 $this->_getPriorityAdjustment($oAdvert,
                                               $pastActualImpressions,
-                                              $oZone->id);
+                                              $oZone->id,
+                                              $oZone->active);
             // Store if the creative is meant to be delivered, or not
             $result['ads'][$oAdvert->id]['to_be_delivered'] = $to_be_delivered;
             // Store the creative's priority adjustment factor
@@ -409,6 +415,7 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
      *                                 zone (for which the creative's priority is being
      *                                 adjusted) in the previous operation interval.
      * @param integer $zoneId The zone's ID.
+     * @param bool $zoneActive True if the zone is active
      * @return array An array containing:
      *                  - A double, being the creative's priority adjustment factor
      *                  - A boolean, true if the factor was limited in any way,
@@ -417,7 +424,7 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
      *                    to the creative in the previous operation interval.
      *                  - A boolean, true if the creative is supposed to be delivered
      */
-    function _getPriorityAdjustment($oAdvert, $zoneImpressions, $zoneId)
+    function _getPriorityAdjustment($oAdvert, $zoneImpressions, $zoneId, $zoneActive = true)
     {
         if (!empty($oAdvert->deliveryLimitationChanged) && $oAdvert->deliveryLimitationChanged == true) {
             // This creative has had it delivery limitations changed, so ignore history
@@ -493,6 +500,10 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
             OA::debug($message, PEAR_LOG_DEBUG);
             if ($oAdvert->pastToBeDelivered == 0) {
                 $message = '      - CORRECT! Creative was not meant to be delivered!';
+                $this->globalMessage .= $message . "\n";
+                OA::debug($message, PEAR_LOG_DEBUG);
+            } elseif (!$zoneActive) {
+                $message = '      - CORRECT! The zone is not active!';
                 $this->globalMessage .= $message . "\n";
                 OA::debug($message, PEAR_LOG_DEBUG);
             } elseif (is_null($oAdvert->pastAdZonePriorityFactor)) {
