@@ -20,8 +20,7 @@ $GLOBALS['strInstallStatusUpToDate']            = 'Detected Revive Adserver %s';
 $GLOBALS['strWelcomeTitle']                     = "Welcome to " . PRODUCT_NAME;
 $GLOBALS['strInstallIntro']                     = "Thank you for choosing " . PRODUCT_NAME . ". This wizard will guide you through the process of installing " . PRODUCT_NAME . " .";
 $GLOBALS['strUpgradeIntro']                     = "Thank you for choosing " . PRODUCT_NAME . ". This wizard will guide you through the process of upgrading " . PRODUCT_NAME . ".";
-$GLOBALS['strInstallerHelpIntro']               = "To help you with the installation process we have created an <a href='".OX_PRODUCT_DOCSURL."/wizard/qsg-install' target='_blank'>Installation Quick Start Guide</a> to take you through the process of getting up and running.
-                                                   For a more detailed guide to installing and configuring " . PRODUCT_NAME . " visit the <a href='".OX_PRODUCT_DOCSURL."/wizard/admin-guide' target='_blank'>Administrator Guide</a>.";
+$GLOBALS['strInstallerHelpIntro']               = "To help you with the " . PRODUCT_NAME . " installation process, please see the <a href='".PRODUCT_DOCSURL."' target='_blank'>Documentation</a>.";
 $GLOBALS['strTermsIntro']                       = PRODUCT_NAME . " is distributed freely under an Open Source license, the GNU General Public License. Please review and agree to the following documents to continue the installation.";
 
 /** check step **/
@@ -30,8 +29,8 @@ $GLOBALS['strSystemCheckIntro']                 = "The install wizard perfomed a
                                                   <br>Please check any highlighted issues to complete the installation process.";
 $GLOBALS['strFixErrorsBeforeContinuing']        = "Configuration of your webserver does not meet the requirements of the " . PRODUCT_NAME . ".
                                                    <br>In order to proceed with installation, please fix all errors.
-                                                   For help, please see our <a href='".OX_PRODUCT_DOCSURL."'>documentation</a> and <a href='http://"
-                                                   .OX_PRODUCT_DOCSURL."/faq'>FAQs</a>";
+                                                   For help, please see our <a href='".PRODUCT_DOCSURL."'>documentation</a> and <a href='http://"
+                                                   .PRODUCT_DOCSURL."/faq'>FAQs</a>";
 
 $GLOBALS['strAppCheckErrors']                   = "Errors were found when detecing previous installations of " . PRODUCT_NAME;
 $GLOBALS['strAppCheckDbIntegrityError']         = "We have detected integrity issues with your database. This means that the layout of your database
