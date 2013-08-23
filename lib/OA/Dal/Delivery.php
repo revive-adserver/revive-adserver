@@ -917,6 +917,7 @@ function OA_Dal_Delivery_getCreative($filename)
         return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : null;
     } else {
         $aResult = OA_Dal_Delivery_fetchAssoc($rCreative);
+        $aResult['contents'] = OX_unescapeBlob($aResult['contents']);
         $aResult['t_stamp'] = strtotime($aResult['t_stamp'] . ' GMT');
         return ($aResult);
     }
