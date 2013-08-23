@@ -35,6 +35,7 @@ class OA_UpgradePostscript_3_0_0_rc1
         $this->_removeShareDataSetting();
         $this->_removeOacXmlRpcSettings();
         $this->_removeOacDashboardSettings();
+        $this->_removeShowContactUsLinkSetting();
 
         return true;
     }
@@ -116,6 +117,23 @@ class OA_UpgradePostscript_3_0_0_rc1
         } else {
             $this->logError("Failed to remove the 'oacDashboard' settings from the configuration file");
         }
+    }
+
+    /**
+     * Remove the UI "show contact us link" setting, as this was deprecated in
+     * Revive Adserver 3.0.0
+     */
+    function _removeShowContactUsLinkSetting()
+    {
+        $this->logOnly("Attempting to remove the 'share data' sync setting from the configuration file");
+        $oConfiguration = new OA_Admin_Settings();
+        unset($oConfiguration->aConf['ui']['showContactUsLink']);
+        if ($oConfiguration->writeConfigChange()) {
+            $this->logOnly("Removed the 'share data' sync setting from the configuration file");
+        } else {
+            $this->logError("Failed to remove the 'share data' sync setting from the configuration file");
+        }
+
     }
 
     function logOnly($msg)

@@ -42,7 +42,7 @@ class OA_Admin_UI
      * @var OA_Admin_Template
      */
     var $oTpl;
-    
+
     /**
      * left side notifications manager
      *
@@ -62,14 +62,14 @@ class OA_Admin_UI
      */
     var $otherCSSFiles;
 
-    
+
     /**
      * An array containing a list of JS files to be included in HEAD section
      * when page header is rendered.
      * @var array
      */
     var $otherJSFiles;
-    
+
 
     /**
      * Class constructor, private to force getInstance usage
@@ -121,13 +121,13 @@ class OA_Admin_UI
                                     );
     }
 
-    
+
     function getLinkParams()
     {
         return $this->aLinkParams;
     }
-    
-    
+
+
     function setCurrentId($ID)
     {
         $this->currentSectionId = $ID;
@@ -138,7 +138,7 @@ class OA_Admin_UI
     {
         return $this->currentSectionId;
     }
-    
+
 
     /**
      * Return manager for accessing notifications shown in UI
@@ -150,17 +150,17 @@ class OA_Admin_UI
         if (empty($this->notificationManager) ) {
             $this->notificationManager = new OA_Admin_UI_NotificationManager();
         }
-        
+
         return $this->notificationManager;
     }
-    
+
 
     /**
      * Show page header
      *
      * @param int $ID
      * @param OA_Admin_UI_Model_PageHeaderModel $headerModel
-     * @param int $imgPath deprecated 
+     * @param int $imgPath deprecated
      * @param bool $showSidebar Set to false if you do not wish to show the sidebar navigation
      * @param bool $showContentFrame Set to false if you do not wish to show the content frame
      * @param bool $showMainNavigation Set to false if you do not wish to show the main navigation
@@ -172,10 +172,10 @@ class OA_Admin_UI
 
         $ID = $this->getId($ID);
         $this->setCurrentId($ID);
-        
+
         if (!defined('phpAds_installing')) {
             OX_Admin_UI_Hooks::beforePageHeader($ID, $this->getLinkParams(), $oHeaderModel);
-        }        
+        }
 
         $pageTitle = !empty($conf['ui']['applicationName']) ? $conf['ui']['applicationName'] : MAX_PRODUCT_NAME;
         $aMainNav        = array();
@@ -188,7 +188,7 @@ class OA_Admin_UI
             $oMenu = OA_Admin_Menu::singleton();
             //update page title
             $oCurrentSection = $oMenu->get($ID);
-            
+
             $this->redirectSectionToCorrectUrlIfOldUrlDetected($oCurrentSection);
 
             if ($oCurrentSection == null) {
@@ -234,8 +234,8 @@ class OA_Admin_UI
                     'selected' => true
                 );
             }
-			
-			$showContentFrame=false; 
+
+			$showContentFrame=false;
         }
 
         //html header
@@ -279,9 +279,6 @@ class OA_Admin_UI
 
         //html header
         $this->_assignJavascriptandCSS();
-        $this->oTpl->assign('showContactUsLink', isset($conf['ui']['showContactUsLink']) ? 
-            $conf['ui']['showContactUsLink'] : false);
-
 
         /* DISPLAY */
         // Use gzip content compression
@@ -301,10 +298,10 @@ class OA_Admin_UI
         header ("Content-Type: text/html".(isset($phpAds_CharSet) && $phpAds_CharSet != "" ? "; charset=".$phpAds_CharSet : ""));
         $this->oTpl->display();
         if (!defined('phpAds_installing')) {
-            OX_Admin_UI_Hooks::afterPageHeader($id);        
-        }        
+            OX_Admin_UI_Hooks::afterPageHeader($id);
+        }
     }
-    
+
     // if the current menu section has been replaced (ie. some attributes of the menu were replaced in a plugin menu file definition)
     // we want to check that the current URL is the one that has been defined for this section (in the "link" attribute).
     // if the section "link" is different from the current URL, it means that you are accessing a page for which the Section's "link" has been overwritten.
@@ -323,7 +320,7 @@ class OA_Admin_UI
         $currentPath = @$_SERVER['SCRIPT_NAME'];
 	    $expectedPathForThisSection = $oCurrentSection->getLink(array());
 	    $startQueryString = strpos($expectedPathForThisSection, '?');
-	    
+
 	    if($startQueryString !== false) {
 	        $expectedPathForThisSection = substr($expectedPathForThisSection, 0, $startQueryString);
 	    }
@@ -335,7 +332,7 @@ class OA_Admin_UI
 			    exit;
 	    }
     }
-    
+
     function getID($ID)
     {
         $id = $ID;
@@ -400,13 +397,13 @@ class OA_Admin_UI
     function _assignBranding($aConf)
     {
         $this->oTpl->assign('applicationName', $aConf['applicationName']);
-        
+
         if (count(parse_url($aConf['logoFilePath'])) > 1) {
             $this->oTpl->assign('logoFileUrl', $aConf['logoFilePath']);
         } else {
             $this->oTpl->assign('logoFileUrl', OX::assetPath('images/' . $aConf['logoFilePath']));
         }
-        
+
         if (!empty($aConf['headerForegroundColor'])) {
             $this->oTpl->assign('headerForegroundColor', $aConf['headerForegroundColor']);
         }
@@ -569,22 +566,22 @@ class OA_Admin_UI
 		    $this->oTpl->assign('warningBeforeDelete', $GLOBALS['_MAX']['PREF']['ui_novice_user'] ? 'true' : 'false');
     }
 
-    
+
     function _assignJavascriptandCSS()
     {
         global $installing, $conf, $phpAds_TextDirection; //if installing no admin base URL is known yet
 
         $jsGroup = $installing ? 'oxp-js-install' : 'oxp-js';
-        $cssGroup = $phpAds_TextDirection == 'ltr' 
-            ? ($installing ? 'oxp-css-install-ltr' : 'oxp-css-ltr') 
+        $cssGroup = $phpAds_TextDirection == 'ltr'
+            ? ($installing ? 'oxp-css-install-ltr' : 'oxp-css-ltr')
             : ($installing ? 'oxp-css-install-rtl' : 'oxp-css-rtl');
-        
+
         //URL to combine script
         $this->oTpl->assign('adminBaseURL', $installing ? '' : MAX::constructURL(MAX_URL_ADMIN, ''));
         // Javascript and stylesheets to include
         $this->oTpl->assign('cssGroup', $cssGroup);
         $this->oTpl->assign('jsGroup', $jsGroup);
-        
+
         $this->oTpl->assign('aCssFiles', $this->getCssFiles($cssGroup));
         $this->oTpl->assign('aOtherCssFiles', $this->otherCSSFiles);
         $this->oTpl->assign('aJsFiles', $this->getJavascriptFiles($jsGroup));
@@ -592,7 +589,7 @@ class OA_Admin_UI
 
         $this->oTpl->assign('combineAssets', $conf['ui']['combineAssets']);
     }
-    
+
 
     function _assignSearch($ID)
     {
@@ -600,7 +597,7 @@ class OA_Admin_UI
         $this->oTpl->assign('displaySearch', $displaySearch);
         $this->oTpl->assign('searchUrl', MAX::constructURL(MAX_URL_ADMIN, 'admin-search.php'));
     }
-    
+
 
     function _assignUserAccountInfo($oCurrentSection)
     {
@@ -630,13 +627,13 @@ class OA_Admin_UI
                     $this->oTpl->assign('maintenanceAlert', OA_Dal_Maintenance_UI::alertNeeded());
                 }
 
-            } 
+            }
             else {
                 $this->oTpl->assign('buttonStartOver', true);
             }
         }
     }
-    
+
 
     function _assignMessagesAndNotifications()
     {
@@ -649,13 +646,13 @@ class OA_Admin_UI
             // Force session storage
             phpAds_SessionDataStore();
         }
-        
+
         $aNotifications = $this->getNotificationManager()->getNotifications();
         if (count($aNotifications)) {
             $this->oTpl->assign('aNotificationQueue', $aNotifications);
         }
     }
-    
+
 
     function showFooter()
     {
@@ -803,37 +800,37 @@ class OA_Admin_UI
     }
 
 
-    function getJavascriptFiles($groupName) 
+    function getJavascriptFiles($groupName)
     {
         global $MINIFY_JS_GROUPS;
-        
+
         return $MINIFY_JS_GROUPS[$groupName];
     }
 
-    
+
     function getCssFiles($groupName)
     {
         global $MINIFY_CSS_GROUPS;
-        
+
         return $MINIFY_CSS_GROUPS[$groupName];
     }
-    
-    
+
+
     function registerStylesheetFile($filePath)
     {
         if (!in_array($filePath, $this->otherCSSFiles)) {
             $this->otherCSSFiles[] = $filePath;
         }
     }
-    
-    
+
+
     function registerJSFile($filePath)
     {
         if (!in_array($filePath, $this->otherJSFiles)) {
             $this->otherJSFiles[] = $filePath;
         }
     }
-    
+
 
 
     function addPageLinkTool($title, $url, $iconClass, $accesskey = null, $extraAttributes = null)
