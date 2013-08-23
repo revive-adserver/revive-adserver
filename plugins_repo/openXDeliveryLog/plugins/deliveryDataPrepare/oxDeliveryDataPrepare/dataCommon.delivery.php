@@ -27,14 +27,15 @@ MAX_Dal_Delivery_Include();
  */
 function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataCommon($adId, $zoneId)
 {
+    // Always update creative and zone IDs using the ones from the parameters
+    $GLOBALS['_MAX']['deliveryData']['creative_id'] = $adId;
+    $GLOBALS['_MAX']['deliveryData']['zone_id']     = $zoneId;
+
     // Prevent the function from running twice
     if (!empty($GLOBALS['_MAX']['deliveryData']['Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataCommon'])) {
         return;
     }
     $GLOBALS['_MAX']['deliveryData']['Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataCommon'] = true;
-
-    $GLOBALS['_MAX']['deliveryData']['creative_id'] = $adId;
-    $GLOBALS['_MAX']['deliveryData']['zone_id']     = $zoneId;
 
     // Calculate start date of current Operation Interval
     if (empty($GLOBALS['_MAX']['NOW'])) {
