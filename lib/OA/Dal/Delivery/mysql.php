@@ -147,6 +147,11 @@ function OX_escapeString($string)
     return mysql_real_escape_string($string);
 }
 
+function OX_unescapeBlob($blob)
+{
+    return $blob;
+}
+
 function OX_escapeIdentifier($string)
 {
     return '`'.$string.'`';

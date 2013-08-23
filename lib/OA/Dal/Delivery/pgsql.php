@@ -155,6 +155,11 @@ function OX_escapeIdentifier($string)
     return '"'.$string.'"';
 }
 
+function OX_unescapeBlob($blob)
+{
+    return pg_unescape_bytea($blob);
+}
+
 function OX_Dal_Delivery_regex($column, $regexp)
 {
     return $column." ~* E'".$regexp."'";
