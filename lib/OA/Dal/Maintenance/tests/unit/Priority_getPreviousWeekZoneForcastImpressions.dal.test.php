@@ -68,7 +68,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousWeekZoneForcastImpressions ext
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), OX_OperationInterval::operationIntervalsPerWeek());
         for ($operationIntervalID = 0; $operationIntervalID < OX_OperationInterval::operationIntervalsPerWeek(); $operationIntervalID++) {
-            $expected =  array( 
+            $expected =  array(
                         'zone_id' => 1,
                         'forecast_impressions' => $oDal->getZoneForecastDefaultZoneImpressions(),
                         'operation_interval_id' => $operationIntervalID
@@ -85,11 +85,11 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousWeekZoneForcastImpressions ext
 
         $startDate = $aDates['start']->format('%Y-%m-%d %H:%M:%S');
         $endDate = $aDates['start']->format('%Y-%m-%d %H:%M:%S');
-        
+
         $doDIA      = OA_Dal::factoryDO('data_intermediate_ad');
         $aDIAs = DataGenerator::generate($doDIA, 4);
         $doDIA = OA_Dal::staticGetDO('data_intermediate_ad', $aDIAs[0]);
-        
+
         $startDate = $aDates['start']->format('%Y-%m-%d %H:%M:%S');
         $endDate = $aDates['start']->format('%Y-%m-%d %H:%M:%S');
         $doDIA->date_time = $startDate;
@@ -101,7 +101,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousWeekZoneForcastImpressions ext
         $doDIA->ad_id = 1;
         $doDIA->impressions = 4000;
         $doDIA->update();
-        
+
         // Insert forcast for the (N - 2) OI
         // for two different ads in this OI
         $aDates = OX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
@@ -130,7 +130,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousWeekZoneForcastImpressions ext
         $doDIA->ad_id = 2;
         $doDIA->impressions = 10;
         $doDIA->update();
-        
+
         // Insert forcast for the second previous operation interval, but
         // one week ago (so it should not be in the result set)
         $oNewDate = new Date();
@@ -151,7 +151,10 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousWeekZoneForcastImpressions ext
         $doDIA->ad_id = 1;
         $doDIA->impressions = 1000;
         $doDIA->update();
-        
+
+        // What's the current OI?
+        $currentIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oServiceLocator->get('now'));
+
         $aResult = $oDal->getPreviousWeekZoneForcastImpressions(1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), OX_OperationInterval::operationIntervalsPerWeek());
@@ -159,7 +162,8 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousWeekZoneForcastImpressions ext
             $this->assertTrue(is_array($aResult[$operationIntervalID]));
             $this->assertEqual(count($aResult[$operationIntervalID]), 3);
             $this->assertEqual($aResult[$operationIntervalID]['zone_id'], 1);
-            if ($operationIntervalID == $firstIntervalID) {
+            if ($operationIntervalID == $firstIntervalID || $operationIntervalID == $currentIntervalID) {
+                // Current and previous OI forecasts should be the same
                 $this->assertEqual($aResult[$operationIntervalID]['forecast_impressions'], 4000);
             } elseif ($operationIntervalID == $secondIntervalID) {
                 $this->assertEqual($aResult[$operationIntervalID]['forecast_impressions'], 5000);

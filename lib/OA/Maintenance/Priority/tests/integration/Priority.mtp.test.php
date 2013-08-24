@@ -78,7 +78,7 @@ class Test_Priority extends UnitTestCase
 
         // Discover the number of operation intervals per week
         $this->intervalsPerWeek = OX_OperationInterval::operationIntervalsPerWeek();
-        
+
         // This test was written with a ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS value of 10 in mind.
         OA_Dal_Maintenance_Priority::$ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS = 10;
     }
@@ -91,7 +91,7 @@ class Test_Priority extends UnitTestCase
         // Clean up the testing environment
         TestEnv::restoreEnv();
     }
-    
+
     /**
      * A method to perform basic end-to-end integration testing of the Maintenance
      * Priority Engine classes for the Ad Server.
@@ -143,7 +143,7 @@ class Test_Priority extends UnitTestCase
         $aTestOneZero = array();
         $aTestOneZero['ad_id']           = 1;
         $aTestOneZero['zone_id']         = 0;
-        $aTestOneZero['priority']        = 11 / 29;
+        $aTestOneZero['priority']        = 11 / 200;   // 200 is 10 (default forecast) / 0.05 (factor)
         $aTestOneZero['priority_factor'] = 1;          // Initial priority run, factor starts at 1
         $aTestOneZero['history'][0]      = array(
             'operation_interval'         => 60,
@@ -152,15 +152,15 @@ class Test_Priority extends UnitTestCase
             'interval_end'               => '2005-06-15 13:59:59',
             'required_impressions'       => 11,
             'requested_impressions'      => 11,
-            'priority'                   => 11 / 29,
-            'priority_factor'            => 1,         // Initial priority run, factor starts at 1
+            'priority'                   => $aTestOneZero['priority'],
+            'priority_factor'            => $aTestOneZero['priority_factor'],
             'past_zone_traffic_fraction' => null
         );
         $this->_assertPriority($aTestOneZero);
         $aTestTwoZero = array();
         $aTestTwoZero['ad_id']           = 2;
         $aTestTwoZero['zone_id']         = 0;
-        $aTestTwoZero['priority']        = 12 / 29;
+        $aTestTwoZero['priority']        = 12 / 200;
         $aTestTwoZero['priority_factor'] = 1;          // Initial priority run, factor starts at 1
         $aTestTwoZero['history'][0]      = array(
             'operation_interval'         => 60,
@@ -169,15 +169,15 @@ class Test_Priority extends UnitTestCase
             'interval_end'               => '2005-06-15 13:59:59',
             'required_impressions'       => 12,
             'requested_impressions'      => 12,
-            'priority'                   => 12 / 29,
-            'priority_factor'            => 1,         // Initial priority run, factor starts at 1
+            'priority'                   => $aTestTwoZero['priority'],
+            'priority_factor'            => $aTestTwoZero['priority_factor'],
             'past_zone_traffic_fraction' => null
         );
         $this->_assertPriority($aTestTwoZero);
         $aTestThreeZero = array();
         $aTestThreeZero['ad_id']           = 3;
         $aTestThreeZero['zone_id']         = 0;
-        $aTestThreeZero['priority']        = 6 / 29;
+        $aTestThreeZero['priority']        = 6 / 200;
         $aTestThreeZero['priority_factor'] = 1;        // Initial priority run, factor starts at 1
         $aTestThreeZero['history'][0]      = array(
             'operation_interval'         => 60,
@@ -186,15 +186,15 @@ class Test_Priority extends UnitTestCase
             'interval_end'               => '2005-06-15 13:59:59',
             'required_impressions'       => 6,
             'requested_impressions'      => 6,
-            'priority'                   => 6 / 29,
-            'priority_factor'            => 1,         // Initial priority run, factor starts at 1
+            'priority'                   => $aTestThreeZero['priority'],
+            'priority_factor'            => $aTestThreeZero['priority_factor'],
             'past_zone_traffic_fraction' => null
         );
         $this->_assertPriority($aTestThreeZero);
         $aTestOneOne = array();
         $aTestOneOne['ad_id']           = 1;
         $aTestOneOne['zone_id']         = 1;
-        $aTestOneOne['priority']        = 0.9;         // Constant, only priority_factor increases
+        $aTestOneOne['priority']        = 10 / 200;    // Constant, only priority_factor increases
         $aTestOneOne['priority_factor'] = 1;           // Initial priority run, factor starts at 1
         $aTestOneOne['history'][0]      = array(
             'operation_interval'         => 60,
@@ -202,16 +202,16 @@ class Test_Priority extends UnitTestCase
             'interval_start'             => '2005-06-15 13:00:00',
             'interval_end'               => '2005-06-15 13:59:59',
             'required_impressions'       => 11,
-            'requested_impressions'      => 9,
-            'priority'                   => 0.9,       // Constant, only priority_factor increases
-            'priority_factor'            => 1,         // Initial priority run, factor starts at 1
+            'requested_impressions'      => 10,
+            'priority'                   => $aTestOneOne['priority'],
+            'priority_factor'            => $aTestOneOne['priority_factor'],
             'past_zone_traffic_fraction' => null
         );
         $this->_assertPriority($aTestOneOne);
         $aTestTwoThree = array();
         $aTestTwoThree['ad_id']           = 2;
         $aTestTwoThree['zone_id']         = 3;
-        $aTestTwoThree['priority']        = 0.7;       // Constant, only priority_factor increases
+        $aTestTwoThree['priority']        = 8 / 200;   // Constant, only priority_factor increases
         $aTestTwoThree['priority_factor'] = 1;         // Initial priority run, factor starts at 1
         $aTestTwoThree['history'][0]      = array(
             'operation_interval'         => 60,
@@ -219,16 +219,16 @@ class Test_Priority extends UnitTestCase
             'interval_start'             => '2005-06-15 13:00:00',
             'interval_end'               => '2005-06-15 13:59:59',
             'required_impressions'       => 12,
-            'requested_impressions'      => 7,
-            'priority'                   => 0.7,       // Constant, only priority_factor increases
-            'priority_factor'            => 1,         // Initial priority run, factor starts at 1
+            'requested_impressions'      => 8,
+            'priority'                   => $aTestTwoThree['priority'],
+            'priority_factor'            => $aTestTwoThree['priority_factor'],
             'past_zone_traffic_fraction' => null
         );
         $this->_assertPriority($aTestTwoThree);
         $aTestThreeThree = array();
         $aTestThreeThree['ad_id']           = 3;
         $aTestThreeThree['zone_id']         = 3;
-        $aTestThreeThree['priority']        = 0.2;     // Constant, only priority_factor increases
+        $aTestThreeThree['priority']        = 2 / 200; // Constant, only priority_factor increases
         $aTestThreeThree['priority_factor'] = 1;       // Initial priority run, factor starts at 1
         $aTestThreeThree['history'][0]      = array(
             'operation_interval'         => 60,
@@ -237,15 +237,15 @@ class Test_Priority extends UnitTestCase
             'interval_end'               => '2005-06-15 13:59:59',
             'required_impressions'       => 3,
             'requested_impressions'      => 2,
-            'priority'                   => 0.2,       // Constant, only priority_factor increases
-            'priority_factor'            => 1,         // Initial priority run, factor starts at 1
+            'priority'                   => $aTestThreeThree['priority'],
+            'priority_factor'            => $aTestThreeThree['priority_factor'],
             'past_zone_traffic_fraction' => null
         );
         $this->_assertPriority($aTestThreeThree);
         $aTestThreeFour = array();
         $aTestThreeFour['ad_id']           = 3;
         $aTestThreeFour['zone_id']         = 4;
-        $aTestThreeFour['priority']        = 0.3;      // Constant, only priority_factor increases
+        $aTestThreeFour['priority']        = 3 / 200;  // Constant, only priority_factor increases
         $aTestThreeFour['priority_factor'] = 1;        // Initial priority run, factor starts at 1
         $aTestThreeFour['history'][0]      = array(
             'operation_interval'         => 60,
@@ -254,8 +254,8 @@ class Test_Priority extends UnitTestCase
             'interval_end'               => '2005-06-15 13:59:59',
             'required_impressions'       => 3,
             'requested_impressions'      => 3,
-            'priority'                   => 0.3,       // Constant, only priority_factor increases
-            'priority_factor'            => 1,         // Initial priority run, factor starts at 1
+            'priority'                   => $aTestThreeFour['priority'],
+            'priority_factor'            => $aTestThreeFour['priority_factor'],
             'past_zone_traffic_fraction' => null
         );
         $this->_assertPriority($aTestThreeFour);
@@ -308,7 +308,7 @@ class Test_Priority extends UnitTestCase
         $this->assertEqual($this->_dsazaRows(true), 14);
         // Test 2: Ensure that the priorities in the ad_zone_assoc and data_summary_ad_zone_assoc
         // tables are set correctly
-        $aTestOneZero['priority']        = 12 / 30;
+        $aTestOneZero['priority']        = 12 / 200;
         $aTestOneZero['priority_factor'] = 1;          // Remains at 1, no priority compensation in Zone ID 0
         $aTestOneZero['history'][1]      = array(
             'operation_interval'         => 60,
@@ -317,12 +317,12 @@ class Test_Priority extends UnitTestCase
             'interval_end'               => '2005-06-15 14:59:59',
             'required_impressions'       => 12,
             'requested_impressions'      => 12,
-            'priority'                   => 12 / 30,
-            'priority_factor'            => 1,         // Remains at 1, no priority compensation in Zone ID 0
+            'priority'                   => $aTestOneZero['priority'],
+            'priority_factor'            => $aTestOneZero['priority_factor'],
             'past_zone_traffic_fraction' => 0
         );
         $this->_assertPriority($aTestOneZero);
-        $aTestTwoZero['priority']        = 12 / 30;
+        $aTestTwoZero['priority']        = 12 / 200;
         $aTestTwoZero['priority_factor'] = 1;          // Remains at 1, no priority compensation in Zone ID 0
         $aTestTwoZero['history'][1]      = array(
             'operation_interval'         => 60,
@@ -331,12 +331,12 @@ class Test_Priority extends UnitTestCase
             'interval_end'               => '2005-06-15 14:59:59',
             'required_impressions'       => 12,
             'requested_impressions'      => 12,
-            'priority'                   => 12 / 30,
-            'priority_factor'            => 1,         // Remains at 1, no priority compensation in Zone ID 0
+            'priority'                   => $aTestTwoZero['priority'],
+            'priority_factor'            => $aTestTwoZero['priority_factor'],
             'past_zone_traffic_fraction' => 0
         );
         $this->_assertPriority($aTestTwoZero);
-        $aTestThreeZero['priority']        = 6 / 30;
+        $aTestThreeZero['priority']        = 6 / 200;
         $aTestThreeZero['priority_factor'] = 1;        // Remains at 1, no priority compensation in Zone ID 0
         $aTestThreeZero['history'][1]      = array(
             'operation_interval'         => 60,
@@ -345,38 +345,38 @@ class Test_Priority extends UnitTestCase
             'interval_end'               => '2005-06-15 14:59:59',
             'required_impressions'       => 6,
             'requested_impressions'      => 6,
-            'priority'                   => 6 / 30,
-            'priority_factor'            => 1,         // Remains at 1, no priority compensation in Zone ID 0
+            'priority'                   => $aTestThreeZero['priority'],
+            'priority_factor'            => $aTestThreeZero['priority_factor'],
             'past_zone_traffic_fraction' => 0
         );
         $this->_assertPriority($aTestThreeZero);
-        $aTestOneOne['priority_factor'] = 10;          // Increased from 1 to 10, as no impressions
+        $aTestOneOne['priority_factor'] = 1;           // Remains at 1, zone was not active
         $aTestOneOne['history'][1]      = array(
             'operation_interval'         => 60,
             'operation_interval_id'      => 86,
             'interval_start'             => '2005-06-15 14:00:00',
             'interval_end'               => '2005-06-15 14:59:59',
             'required_impressions'       => 12,
-            'requested_impressions'      => 9,
-            'priority'                   => 0.9,       // Constant, only priority_factor increases
-            'priority_factor'            => 10,        // Increased from 1 to 10, as no impressions
+            'requested_impressions'      => 10,
+            'priority'                   => $aTestOneOne['priority'],
+            'priority_factor'            => $aTestOneOne['priority_factor'],
             'past_zone_traffic_fraction' => 0
         );
         $this->_assertPriority($aTestOneOne);
-        $aTestTwoThree['priority_factor'] = 10;        // Increased from 1 to 10, as no impressions
+        $aTestTwoThree['priority_factor'] = 1;         // Remains at 1, zone was not active
         $aTestTwoThree['history'][1]      = array(
             'operation_interval'         => 60,
             'operation_interval_id'      => 86,
             'interval_start'             => '2005-06-15 14:00:00',
             'interval_end'               => '2005-06-15 14:59:59',
             'required_impressions'       => 12,
-            'requested_impressions'      => 7,
-            'priority'                   => 0.7,       // Constant, only priority_factor increases
-            'priority_factor'            => 10,        // Increased from 1 to 10, as no impressions
+            'requested_impressions'      => 8,
+            'priority'                   => $aTestTwoThree['priority'],
+            'priority_factor'            => $aTestTwoThree['priority_factor'],
             'past_zone_traffic_fraction' => 0
         );
         $this->_assertPriority($aTestTwoThree);
-        $aTestThreeThree['priority_factor'] = 10;      // Increased from 1 to 10, as no impressions
+        $aTestThreeThree['priority_factor'] = 1;       // Remains at 1, zone was not active
         $aTestThreeThree['history'][1]      = array(
             'operation_interval'         => 60,
             'operation_interval_id'      => 86,
@@ -384,12 +384,12 @@ class Test_Priority extends UnitTestCase
             'interval_end'               => '2005-06-15 14:59:59',
             'required_impressions'       => 3,
             'requested_impressions'      => 2,
-            'priority'                   => 0.2,       // Constant, only priority_factor increases
-            'priority_factor'            => 10,        // Increased from 1 to 10, as no impressions
+            'priority'                   => $aTestThreeThree['priority'],
+            'priority_factor'            => $aTestThreeThree['priority_factor'],
             'past_zone_traffic_fraction' => 0
         );
         $this->_assertPriority($aTestThreeThree);
-        $aTestThreeFour['priority_factor'] = 10;       // Increased from 1 to 10, as no impressions
+        $aTestThreeFour['priority_factor'] = 1;        // Remains at 1, zone was not active
         $aTestThreeFour['history'][1]      = array(
             'operation_interval'         => 60,
             'operation_interval_id'      => 86,
@@ -397,8 +397,8 @@ class Test_Priority extends UnitTestCase
             'interval_end'               => '2005-06-15 14:59:59',
             'required_impressions'       => 3,
             'requested_impressions'      => 3,
-            'priority'                   => 0.3,       // Constant, only priority_factor increases
-            'priority_factor'            => 10,        // Increased from 1 to 10, as no impressions
+            'priority'                   => $aTestThreeFour['priority'],
+            'priority_factor'            => $aTestThreeFour['priority_factor'],
             'past_zone_traffic_fraction' => 0
         );
         $this->_assertPriority($aTestThreeFour);
@@ -420,8 +420,7 @@ class Test_Priority extends UnitTestCase
         );
 
         // Insert data that indicates that the Maintenance Statistics Engine
-        // has recently updated the available stats, but don't insert any
-        // stats into the tables
+        // has recently updated the available stats
         $this->oServiceLocator =& OA_ServiceLocator::instance();
         $startDate = new Date('2005-06-19 00:00:01');
         $this->oServiceLocator->register('now', $startDate);
@@ -434,6 +433,18 @@ class Test_Priority extends UnitTestCase
         $this->oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         $oLogCompletion = new OX_Maintenance_Statistics_Task_LogCompletion();
         $oLogCompletion->run();
+
+        // Insert some stats for an ad zone combination
+        $doDIA = OA_DAL::factoryDO('data_intermediate_ad');
+        $doDIA->ad_id = 3;
+        $doDIA->zone_id = 3;
+        $doDIA->impressions = 20;
+        $doDIA->date_time = $aOiDates['start']->getDate();
+        $doDIA->interval_start = $aOiDates['start']->getDate();
+        $doDIA->interval_end   = $aOiDates['end']->getDate();
+        $doDIA->operation_interval = 60;
+        $doDIA->operation_interval_id = OX_OperationInterval::convertDateToOperationIntervalID($aOiDates['start']);
+        $doDIA->insert();
 
         // Test 3: Set "current" date for the MPE run
         $oDate = new Date('2005-06-19 00:01:01');
@@ -474,7 +485,7 @@ class Test_Priority extends UnitTestCase
         $this->assertEqual($this->_dsazaRows(true), 21);
         // Test 3: Ensure that the priorities in the ad_zone_assoc and data_summary_ad_zone_assoc
         // tables are set correctly
-        $aTestOneZero['priority']        = 5 / 23;
+        $aTestOneZero['priority']        = 5 / 200;
         $aTestOneZero['priority_factor'] = 1;          // Remains at 1, no priority compensation in Zone ID 0
         $aTestOneZero['history'][1]      = array(
             'operation_interval'         => 60,
@@ -483,12 +494,12 @@ class Test_Priority extends UnitTestCase
             'interval_end'               => '2005-06-19 00:59:59',
             'required_impressions'       => 5,
             'requested_impressions'      => 5,
-            'priority'                   => 5 / 23,
-            'priority_factor'            => 1,         // Remains at 1, no priority compensation in Zone ID 0
+            'priority'                   => $aTestOneZero['priority'],
+            'priority_factor'            => $aTestOneZero['priority_factor'],
             'past_zone_traffic_fraction' => 0
         );
         $this->_assertPriority($aTestOneZero);
-        $aTestTwoZero['priority']        = 12 / 23;
+        $aTestTwoZero['priority']        = 12 / 200;
         $aTestTwoZero['priority_factor'] = 1;          // Remains at 1, no priority compensation in Zone ID 0
         $aTestTwoZero['history'][1]      = array(
             'operation_interval'         => 60,
@@ -497,12 +508,12 @@ class Test_Priority extends UnitTestCase
             'interval_end'               => '2005-06-19 00:59:59',
             'required_impressions'       => 12,
             'requested_impressions'      => 12,
-            'priority'                   => 12 / 23,
-            'priority_factor'            => 1,         // Remains at 1, no priority compensation in Zone ID 0
+            'priority'                   => $aTestTwoZero['priority'],
+            'priority_factor'            => $aTestTwoZero['priority_factor'],
             'past_zone_traffic_fraction' => 0
         );
         $this->_assertPriority($aTestTwoZero);
-        $aTestThreeZero['priority']        = 6 / 23;
+        $aTestThreeZero['priority']        = 6 / 200;
         $aTestThreeZero['priority_factor'] = 1;        // Remains at 1, no priority compensation in Zone ID 0
         $aTestThreeZero['history'][1]      = array(
             'operation_interval'         => 60,
@@ -511,13 +522,13 @@ class Test_Priority extends UnitTestCase
             'interval_end'               => '2005-06-19 00:59:59',
             'required_impressions'       => 6,
             'requested_impressions'      => 6,
-            'priority'                   => 6 / 23,
-            'priority_factor'            => 1,         // Remains at 1, no priority compensation in Zone ID 0
+            'priority'                   => $aTestThreeZero['priority'],
+            'priority_factor'            => $aTestThreeZero['priority_factor'],
             'past_zone_traffic_fraction' => 0
         );
         $this->_assertPriority($aTestThreeZero);
-        $aTestOneOne['priority']        = 0.5;         // Changed, skipped OIs
-        $aTestOneOne['priority_factor'] = 100;         // Increased from 10 to 100, as no impressions
+        $aTestOneOne['priority']        = 5 / 200;     // Changed, skipped OIs
+        $aTestOneOne['priority_factor'] = 1;           // Remains at 1, zone was not active
         $aTestOneOne['history'][1]      = array(
             'operation_interval'         => 60,
             'operation_interval_id'      => 0,
@@ -525,47 +536,50 @@ class Test_Priority extends UnitTestCase
             'interval_end'               => '2005-06-19 00:59:59',
             'required_impressions'       => 5,
             'requested_impressions'      => 5,
-            'priority'                   => 0.5,       // Changed, skipped OIs
-            'priority_factor'            => 100,       // Increased from 10 to 100, as no impressions
+            'priority'                   => $aTestOneOne['priority'],
+            'priority_factor'            => $aTestOneOne['priority_factor'],
             'past_zone_traffic_fraction' => 0
         );
         $this->_assertPriority($aTestOneOne);
-        $aTestTwoThree['priority_factor'] = 100;       // Increased from 10 to 100, as no impressions
+        $aTestTwoThree['priority']        = 12 / 20;   // Zone has had some impressions, we have a forecast now
+        $aTestTwoThree['priority_factor'] = 10;        // But this ad didn't deliver. Factor increased
         $aTestTwoThree['history'][1]      = array(
             'operation_interval'         => 60,
             'operation_interval_id'      => 0,
             'interval_start'             => '2005-06-19 00:00:00',
             'interval_end'               => '2005-06-19 00:59:59',
             'required_impressions'       => 12,
-            'requested_impressions'      => 7,
-            'priority'                   => 0.7,       // Constant, only priority_factor increases
-            'priority_factor'            => 100,       // Increased from 10 to 100, as no impressions
+            'requested_impressions'      => 12,
+            'priority'                   => $aTestTwoThree['priority'],
+            'priority_factor'            => $aTestTwoThree['priority_factor'],
             'past_zone_traffic_fraction' => 0
         );
         $this->_assertPriority($aTestTwoThree);
-        $aTestThreeThree['priority_factor'] = 100;     // Increased from 10 to 100, as no impressions
+        $aTestThreeThree['priority']        = 4 / 20; // Ad/Zone has delivered!
+        $aTestThreeThree['priority_factor'] = 2 / 20; // Overdelivered quite a bit!
         $aTestThreeThree['history'][1]      = array(
             'operation_interval'         => 60,
             'operation_interval_id'      => 0,
             'interval_start'             => '2005-06-19 00:00:00',
             'interval_end'               => '2005-06-19 00:59:59',
-            'required_impressions'       => 3,
-            'requested_impressions'      => 2,
-            'priority'                   => 0.2,       // Constant, only priority_factor increases
-            'priority_factor'            => 100,       // Increased from 10 to 100, as no impressions
-            'past_zone_traffic_fraction' => 0
+            'required_impressions'       => 4,
+            'requested_impressions'      => 4,
+            'priority'                   => $aTestThreeThree['priority'],
+            'priority_factor'            => $aTestThreeThree['priority_factor'],
+            'past_zone_traffic_fraction' => 1
         );
         $this->_assertPriority($aTestThreeThree);
-        $aTestThreeFour['priority_factor'] = 100;      // Increased from 10 to 100, as no impressions
+        $aTestThreeFour['priority']        = 2 / 200;  // Ad has delivered, but not in this zone
+        $aTestThreeFour['priority_factor'] = 1;        // Remains at 1, zone was not active
         $aTestThreeFour['history'][1]      = array(
             'operation_interval'         => 60,
             'operation_interval_id'      => 0,
             'interval_start'             => '2005-06-19 00:00:00',
             'interval_end'               => '2005-06-19 00:59:59',
-            'required_impressions'       => 3,
-            'requested_impressions'      => 3,
-            'priority'                   => 0.3,       // Constant, only priority_factor increases
-            'priority_factor'            => 100,       // Increased from 10 to 100, as no impressions
+            'required_impressions'       => 2,
+            'requested_impressions'      => 2,
+            'priority'                   => $aTestThreeFour['priority'],
+            'priority_factor'            => $aTestThreeFour['priority_factor'],
             'past_zone_traffic_fraction' => 0
         );
         $this->_assertPriority($aTestThreeFour);
