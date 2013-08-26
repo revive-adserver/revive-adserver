@@ -284,7 +284,9 @@ function wasPluginEnabled($pluginName)
                 }
             }
         }
-        return array_key_exists($pluginName,$aResult);
+        if (array_key_exists($pluginName, $aResult)) {
+            return $aResult[$pluginName];
+        }
     }
     return false;
 }
