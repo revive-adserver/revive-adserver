@@ -223,7 +223,13 @@ if ('info' == $action)
         $aGroupInfo = $oComponentGroupManager->getComponentGroupInfo($group);
         $aGroupInfo['pluginGroupComponents'] = $oComponentGroupManager->getComponentGroupObjectsInfo($aGroupInfo['extends'], $group);
         $oTpl->assign('aPlugin',$aGroupInfo);
-        $oTpl->assign('parent', $parent);
+        if ($parent) {
+            $oTpl->assign('parent', $parent);
+            $aPackageInfo = $oPluginManager->getPackageInfo($parent);
+            if ($aPackageInfo['displayname']) {
+                $oTpl->assign('parentDisplay', $aPackageInfo['displayname']);
+            }
+        }
         $oTpl->assign('backURL', MAX::constructURL(MAX_URL_ADMIN, "plugin-index.php?action=info&package=$parent"));
     }
 }
