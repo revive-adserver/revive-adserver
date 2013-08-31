@@ -25,7 +25,7 @@ class OA_Admin_Menu
     var $rootSection;
     var $aAllSections;
     var $aLinkParams;
-    
+
     /**
      * Array of included checker path
      *
@@ -51,13 +51,13 @@ class OA_Admin_Menu
         }
         else
         {
-            $oMenu = &new OA_Admin_Menu();
+            $oMenu = new OA_Admin_Menu();
             if (empty($oMenu->aAllSections)) {
                 include_once MAX_PATH. '/lib/OA/Admin/Menu/config.php';
                 $oMenu = _buildNavigation(OA_Permission::getAccountType());
             }
             require_once LIB_PATH . '/Plugin/ComponentGroupManager.php';
-            $oPluginManager = & new OX_Plugin_ComponentGroupManager();
+            $oPluginManager = new OX_Plugin_ComponentGroupManager();
             $oPluginManager->mergeMenu($oMenu, $accountType);
             $GLOBALS['_MAX']['MENU_OBJECT'][$accountType] = &$oMenu;
             $oMenu->_saveToCache($accountType);
@@ -69,7 +69,7 @@ class OA_Admin_Menu
     function OA_Admin_Menu()
     {
         $this->ROOT_SECTION_ID = 'root';
-        $this->rootSection = &new OA_Admin_Menu_Section($this->ROOT_SECTION_ID, 'root', '', '');
+        $this->rootSection = new OA_Admin_Menu_Section($this->ROOT_SECTION_ID, 'root', '', '');
         $this->aAllSections = array();
     }
 
@@ -486,7 +486,7 @@ class OA_Admin_Menu
             );
         }
     }
-    
+
     /**
      * Store checker include path
      *

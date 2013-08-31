@@ -3,13 +3,14 @@
 
 <plugin>
     <name>oxCacheFile</name>
+    <displayName>Banner Delivery File Cache Store Plugin</displayName>
     <creationDate>2008-07-21</creationDate>
-    <author>Lukasz Wikierski</author>
-    <authorEmail>lukasz.wikierski@openx.org</authorEmail>
-    <authorUrl>http://www.openx.org</authorUrl>
-    <license>license.txt</license>
-    <description>File based Cache Store plugins for OpenX</description>
-    <version>1.0.4</version>
+    <author>Revive Adserver</author>
+    <authorEmail>revive@revive-adserver.com</authorEmail>
+    <authorUrl>http://www.revive-adserver.com</authorUrl>
+    <license>GNU Gneral Public License v2</license>
+    <description>Plugin that provides file-based banner delivery caching.</description>
+    <version>1.1.0</version>
     <oxversion>2.7.30-beta-rc11</oxversion>
     <extends>deliveryCacheStore</extends>
 

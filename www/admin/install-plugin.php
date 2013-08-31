@@ -30,7 +30,11 @@ if (!file_exists(MAX_PATH.'/var/UPGRADE')) {
 }
 
 $aErrors = array();
-$result = array('name'=>@$_REQUEST['plugin'],'status'=>'Invalid Request','errors'=>&$aErrors);
+$result = array(
+    'name'   => @$_REQUEST['plugin'],
+    'status' => '<br />Invalid Request',
+    'errors' => &$aErrors
+);
 if (OA_Upgrade_Login::checkLogin(false))
 {
     // Hack! - Plugins pre 2.7.31 may require [pluginpaths][extensions] to be set
@@ -55,7 +59,7 @@ if (OA_Upgrade_Login::checkLogin(false))
     $oSettings->writeConfigChange();
 } else {
     OX_Upgrade_Util_Job::logError($result, 'Permissions error');
-    $result['status'] = 'Permissions error';
+    $result['status'] = '<br />Permissions error';
 }
 $result['type'] = 'plugin';
 // Save job results in session
@@ -89,7 +93,11 @@ function getPlugin($pluginName)
 function installPlugin($pluginName)
 {
     $aErrors = array();
-    $aResult = array('name'=>$pluginName,'status'=>'','errors'=>&$aErrors);
+    $aResult = array(
+        'name'   => $pluginName,
+        'status' => '',
+        'errors' => &$aErrors
+    );
     // make sure this is a legitimate bundled plugin request
     if ($aPlugin = getPlugin($pluginName)) {
         require_once MAX_PATH.'/lib/OA.php';
@@ -102,21 +110,21 @@ function installPlugin($pluginName)
             // TODO: refactor for remote paths?
             $oPluginManager->installPackage(array('tmp_name'=>$filepath, 'name'=>$filename));
             if ($oPluginManager->countErrors()) {
-                $aResult['status'] = 'Failed';
+                $aResult['status'] = '<br />Failed';
                 foreach ($oPluginManager->aErrors as $errmsg) {
                     OX_Upgrade_Util_Job::logError($aResult, $errmsg);
                 }
             } else {
-                $aResult['status'] = 'OK';
+                $aResult['status'] = '<br />OK';
             }
         } else {
-            $aResult['status'] = 'Already Installed';
+            $aResult['status'] = '<br />Already Installed';
             OX_Upgrade_Util_Job::logError($aResult, 'Could not be installed because previous installation (whole or partial) was found');
         }
         unset($oPluginManager);
         //OA::logMem('stop deliveryLog/installPlugin');
     } else {
-        $aResult['status'] = 'Invalid';
+        $aResult['status'] = '<br />Invalid';
         OX_Upgrade_Util_Job::logError($aResult, 'Not a valid default plugin');
     }
     return $aResult;
@@ -133,7 +141,11 @@ function installPlugin($pluginName)
 function checkPlugin($pluginName)
 {
     $aErrors = array();
-    $aResult = array('name'=>$pluginName,'status'=>'','errors'=>&$aErrors);
+    $aResult = array(
+        'name'   => $pluginName,
+        'status' => '',
+        'errors' => &$aErrors
+    );
     require_once LIB_PATH.'/Plugin/PluginManager.php';
     $oPluginManager = new OX_PluginManager();
     // if plugin definition is not found in situ
@@ -147,13 +159,13 @@ function checkPlugin($pluginName)
                 OX_Upgrade_Util_Job::logError($aResult, 'Exported plugin file found, attempting to import from '.$file);
                 if (!$oPluginManager->installPackageCodeOnly($aFile)) {
                     if ($oPluginManager->countErrors()) {
-                        $aResult['status'] = 'Failed';
+                        $aResult['status'] = '<br />Failed';
                         foreach ($oPluginManager->aErrors as $errmsg) {
                             OX_Upgrade_Util_Job::logError($aResult, $errmsg);
                         }
                     }
                 } else {
-                    $aResult['status'] = 'OK';
+                    $aResult['status'] = '<br />OK';
                 }
             }
         }
@@ -200,25 +212,25 @@ function checkPlugin($pluginName)
     if (!$aDiag['plugin']['error'])
     {
         if ($upgraded) {
-            $aResult['status'].= 'OK, Upgraded';
+            $aResult['status'] .= '<br />OK; Upgraded';
         } elseif ($oPluginManager->previousVersionInstalled == OX_PLUGIN_NEWER_VERSION_INSTALLED) {
-            $aResult['status'].= 'OK. Notice: You have a newer plugin version installed than the one that comes with this upgrade package.';
+            $aResult['status'].= '<br />OK; Notice: You have a newer plugin version installed than the one that comes with this upgrade package';
         } elseif ($oPluginManager->previousVersionInstalled == OX_PLUGIN_SAME_VERSION_INSTALLED) {
-            $aResult['status'].= 'OK, Up to date';
+            $aResult['status'] .= '<br />OK; Up to date';
         } else {
-            $aResult['status'].= 'OK';
+            $aResult['status'] .= '<br />OK';
         }
         if ($enabled) {
             if ($oPluginManager->enablePackage($pluginName)) {
-                $aResult['status'].= ', Enabled';
+                $aResult['status'] .= '; Enabled';
             } else {
-                $aResult['status'].= ', failed to enable, check plugin configuration';
+                $aResult['status'] .= '; Failed to enable, check plugin configuration';
             }
         } else {
-            $aResult['status'].= ', Disabled';
+            $aResult['status'] .= '; Disabled';
         }
     } else {
-        $aResult['status'] = 'Errors, disabled';
+        $aResult['status'] = '<br />Errors; Disabled';
     }
     return $aResult;
 }
@@ -234,16 +246,20 @@ function checkPlugin($pluginName)
 function removePlugin($pluginName)
 {
     $aErrors = array();
-    $aResult = array('name'=>$pluginName,'status'=>'','errors'=>&$aErrors);
+    $aResult = array(
+        'name'   => $pluginName,
+        'status' => '',
+        'errors' => &$aErrors
+    );
     if (array_key_exists($pluginName, $GLOBALS['_MAX']['CONF']['plugins'])) {
         require_once MAX_PATH.'/lib/OA.php';
         require_once LIB_PATH.'/Plugin/PluginManager.php';
         $oPluginManager = new OX_PluginManager();
         $result = $oPluginManager->uninstallPackage($pluginName, true);
         if ($result) {
-            $aResult['status'] = 'OK';
+            $aResult['status'] = '<br />Uninstalled';
         } else {
-            $aResult['status'] = 'Error';
+            $aResult['status'] = '<br />Error';
             $aErrors[] = 'Problems found with plugin '.$pluginName.
                      '. The plugin was found in the previous installation'.
                      ' and has been marked as deprecated, but was unable to'.
@@ -251,7 +267,7 @@ function removePlugin($pluginName)
                      ' and remove it.';
         }
     } else {
-        $aResult['status'] = 'OK';
+        $aResult['status'] = '<br />OK; Not installed';
         $aErrors[] = 'Problems found with plugin '.$pluginName.
                      '. The plugin was found in the previous installation'.
                      ' and has been marked as deprecated, but was then not'.

@@ -422,7 +422,7 @@ class OA_Preferences
     {
         phpAds_registerGlobalUnslashed('token');
         if (!phpAds_SessionValidateToken($GLOBALS['token'])) { return false; }
-        
+
         // Get all of the preference types that exist
         $aPreferenceTypes = array();
         $doPreferences = OA_Dal::factoryDO('preferences');
@@ -764,8 +764,8 @@ class OA_Preferences
         require_once MAX_PATH . '/lib/OA/Admin/Statistics/Fields/Delivery/Affiliates.php';
         require_once MAX_PATH . '/lib/OA/Admin/Statistics/Fields/Delivery/Default.php';
 
-        $aStatisticsFieldsDelivery['affiliates'] = & new OA_StatisticsFieldsDelivery_Affiliates();
-        $aStatisticsFieldsDelivery['default'] = & new OA_StatisticsFieldsDelivery_Default();
+        $aStatisticsFieldsDelivery['affiliates'] = new OA_StatisticsFieldsDelivery_Affiliates();
+        $aStatisticsFieldsDelivery['default'] = new OA_StatisticsFieldsDelivery_Default();
 
         foreach ($aStatisticsFieldsDelivery as $obj) {
             foreach (array_keys($obj->getVisibilitySettings()) as $prefName) {

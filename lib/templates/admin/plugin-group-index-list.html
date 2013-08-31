@@ -38,7 +38,13 @@
         {foreach from=$aPlugins key=name item=aPlugin}
         {cycle name=bgclass assign=bgClass}
             <tr class="{$bgClass}">
-                <td>{$aPlugin.name}</td>
+                <td>
+                    {if $aPlugin.displayname != ''}
+                        {$aPlugin.displayname}
+                    {else}
+                        {$name}
+                    {/if}
+                </td>
                 <td>{$aPlugin.version}</td>
                 <td>{if {$aPlugin.authoremail}<a href="mailto:{$aPlugin.authoremail}">{/if}{$aPlugin.author}{if {$aPlugin.authoremail}</a>{/if}</td>
                 <td>{$aPlugin.extends}</td>

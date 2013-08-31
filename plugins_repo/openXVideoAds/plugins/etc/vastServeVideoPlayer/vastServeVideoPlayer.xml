@@ -2,13 +2,14 @@
 <?xml-stylesheet type="text/xsl" href=""?>
 <plugin>
     <name>vastServeVideoPlayer</name>
+    <displayName>IAB VAST Video Player Plugin</displayName>
     <creationDate>2009-05-05</creationDate>
-    <author>OpenX</author>
-    <authorEmail>plugins@openx.org</authorEmail>
-    <authorUrl>http://www.openx.org</authorUrl>
-    <license>GPL</license>
-    <description>Delivery Log Vast Plugin</description>
-    <version>1.8.5</version>
+    <author>Revive Adserver</author>
+    <authorEmail>revive@revive-adserver.com</authorEmail>
+    <authorUrl>http://www.revive-adserver.com</authorUrl>
+    <license>GNU Gneral Public License v2</license>
+    <description>Plugin that provides player support for IAB VAST video ads.</description>
+    <version>1.9.0</version>
     <oxversion>2.7.30-beta-rc11</oxversion>
 
     <install>

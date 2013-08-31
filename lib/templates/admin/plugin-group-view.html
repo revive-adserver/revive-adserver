@@ -18,7 +18,7 @@
 </div>
 {/if}
 
-<p class="backlink"><a href="{$backURL|escape}">&laquo; Back to {$parent|escape}</a></p>
+<p class="backlink"><a href="{$backURL|escape}">&laquo; Back to {if $parentDisplay} {$parentDisplay|escape} {elseif $parent} {$parent|escape} {else} plugins list {/if}</a></p>
 
 <div class='panel'>
    <span class='corner top-left'></span>
@@ -59,7 +59,15 @@
 
     <div class="split-left">
            <div class="item-info">
-               <p><span class="name">{$aPlugin.name}</span></p>
+               <p>
+                   <span class="name">
+                       {if $aPlugin.displayname}
+                           {$aPlugin.displayname}
+                       {else}
+                           {$aPlugin.name}
+                       {/if}
+                   </span>
+               </p>
                <p>{$aPlugin.description}</p>
            </div>
     </div>

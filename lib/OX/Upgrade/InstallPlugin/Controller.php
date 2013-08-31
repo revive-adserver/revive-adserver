@@ -48,7 +48,7 @@ class OX_Upgrade_InstallPlugin_Controller
             $name = substr($file, 0, strrpos($file, '.'));
             $aPluginZips[$name] = array(
                 'id'    => 'plugin:' . $name,
-                'name'  => $GLOBALS['strPluginTaskChecking'].': ' . $name,
+                'name'  => $GLOBALS['strPluginTaskChecking'] . ': <br/> ' . $name,
                 'url'   => $baseInstallUrl . 'install-plugin.php?status=0&plugin=' . $name . '&disabled=1'
             );
         }
@@ -65,10 +65,17 @@ class OX_Upgrade_InstallPlugin_Controller
                     $status = '1'; // Install or migrate
                 }
 
+                $displayName = $name;
+                $oPluginManager = new OX_PluginManager();
+                $aPackageInfo = $oPluginManager->getPackageInfo($name);
+                if ($aPackageInfo['displayname']) {
+                    $displayName = $aPackageInfo['displayname'];
+                }
+
                 $aUrls[] = array(
-                    'id' => 'plugin:'.$name,
-                    'name' => $GLOBALS['strPluginTaskChecking'].': '.$name,
-                    'url' => $baseInstallUrl.'install-plugin.php?status='.$status.'&plugin='.$name);
+                    'id' => 'plugin:' . $name,
+                    'name' => $GLOBALS['strPluginTaskChecking'].': <br/> ' . $displayName,
+                    'url' => $baseInstallUrl . 'install-plugin.php?status=' . $status . '&plugin=' . $name);
                 unset($aPluginZips[$name]);
             }
         }
@@ -78,13 +85,13 @@ class OX_Upgrade_InstallPlugin_Controller
         if ($aDefaultPlugins) {
             foreach ($aDefaultPlugins AS $idx => $aPlugin) {
                 if (!array_key_exists($aPlugin['name'], $GLOBALS['_MAX']['CONF']['plugins'])) {
-                    $url = $baseInstallUrl.'install-plugin.php?status=0&plugin='.$aPlugin['name'];
+                    $url = $baseInstallUrl . 'install-plugin.php?status=0&plugin=' . $aPlugin['name'];
                     if (!empty($aPlugin['disabled'])) {
                         $url .= '&disabled=1';
                     }
                     $aUrls[] = array(
-                        'id' => 'plugin:'.$aPlugin['name'],
-                        'name' => $GLOBALS['strPluginTaskInstalling'].': '.$aPlugin['name'],
+                        'id' => 'plugin:' . $aPlugin['name'],
+                        'name' => $GLOBALS['strPluginTaskInstalling'] . ': <br/> ' . $aPlugin['name'],
                         'url' => $url
                     );
                     unset($aPluginZips[$aPlugin['name']]);

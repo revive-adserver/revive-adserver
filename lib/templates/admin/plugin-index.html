@@ -91,7 +91,16 @@
               <tr class="{$bgClass}">
                   <td width="40%">
                      <div class="item-info">
-                         <p><span class="name">{$name}</span><span class="version">{$aitem.version}</span></p>
+                         <p>
+                            <span class="name">
+                                {if $aitem.displayname != ''}
+                                    {$aitem.displayname}
+                                {else}
+                                    {$name}
+                                {/if}
+                            </span>
+                            <span class="version">{$aitem.version}</span>
+                         </p>
                          <p>{$aitem.description}</p>
                      </div>
                   </td>
