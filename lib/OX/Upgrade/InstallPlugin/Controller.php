@@ -48,7 +48,7 @@ class OX_Upgrade_InstallPlugin_Controller
             $name = substr($file, 0, strrpos($file, '.'));
             $aPluginZips[$name] = array(
                 'id'    => 'plugin:' . $name,
-                'name'  => $GLOBALS['strPluginTaskChecking'] . ': <br/>  ' . $name,
+                'name'  => $GLOBALS['strPluginTaskChecking'] . ': <br/> ' . $name,
                 'url'   => $baseInstallUrl . 'install-plugin.php?status=0&plugin=' . $name . '&disabled=1'
             );
         }
@@ -64,7 +64,7 @@ class OX_Upgrade_InstallPlugin_Controller
                 } else {
                     $status = '1'; // Install or migrate
                 }
-                
+
                 $displayName = $name;
                 $oPluginManager = new OX_PluginManager();
                 $aPackageInfo = $oPluginManager->getPackageInfo($name);
@@ -91,7 +91,7 @@ class OX_Upgrade_InstallPlugin_Controller
                     }
                     $aUrls[] = array(
                         'id' => 'plugin:' . $aPlugin['name'],
-                        'name' => $GLOBALS['strPluginTaskInstalling'] . ': <br/>  ' . $aPlugin['name'],
+                        'name' => $GLOBALS['strPluginTaskInstalling'] . ': <br/> ' . $aPlugin['name'],
                         'url' => $url
                     );
                     unset($aPluginZips[$aPlugin['name']]);
