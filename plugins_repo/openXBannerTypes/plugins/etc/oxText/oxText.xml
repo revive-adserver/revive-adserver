@@ -3,13 +3,13 @@
 
 <plugin>
     <name>oxText</name>
-    <displayName>Revive Adserver Text Banner Type</displayName>
+    <displayName>Text Banner Type Plugin</displayName>
     <creationDate>2008-02-19</creationDate>
     <author>Revive Adserver</author>
     <authorEmail>revive@revive-adserver.com</authorEmail>
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>GNU Gneral Public License v2</license>
-    <description>Text Banner Type Plugin for Revive Adserver</description>
+    <description>Plugin that provides the text banner type.</description>
     <version>1.1.0</version>
     <oxversion>2.7.30-beta-rc11</oxversion>
     <extends>bannerTypeText</extends>
