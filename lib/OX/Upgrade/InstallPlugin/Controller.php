@@ -64,10 +64,17 @@ class OX_Upgrade_InstallPlugin_Controller
                 } else {
                     $status = '1'; // Install or migrate
                 }
+                
+                $displayName = $name;
+                $oPluginManager = new OX_PluginManager();
+                $aPackageInfo = $oPluginManager->getPackageInfo($name);
+                if ($aPackageInfo['displayname']) {
+                    $displayName = $aPackageInfo['displayname'];
+                }
 
                 $aUrls[] = array(
                     'id' => 'plugin:' . $name,
-                    'name' => $GLOBALS['strPluginTaskChecking'].': <br/> ' . $name,
+                    'name' => $GLOBALS['strPluginTaskChecking'].': <br/> ' . $displayName,
                     'url' => $baseInstallUrl . 'install-plugin.php?status=' . $status . '&plugin=' . $name);
                 unset($aPluginZips[$name]);
             }
