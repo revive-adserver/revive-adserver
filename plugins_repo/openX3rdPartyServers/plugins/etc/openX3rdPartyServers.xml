@@ -3,13 +3,14 @@
 
 <plugin>
     <name>openX3rdPartyServers</name>
+    <displayName>3rd Party Servers Plugin</displayName>
     <creationDate>2008-08-01</creationDate>
-    <author>OpenX</author>
-    <authorEmail>plugins@openx.org</authorEmail>
-    <authorUrl>http://www.openx.org</authorUrl>
-    <license>license.txt</license>
-    <description>3rd Party Server plugins for OpenX</description>
-    <version>1.0.10</version>
+    <author>Revive Adserver</author>
+    <authorEmail>revive@revive-adserver.com</authorEmail>
+    <authorUrl>http://www.revive-adserver.com</authorUrl>
+    <license>GNU Gneral Public License v2</license>
+    <description>Plugin that provides 3rd Party Server click tracking.</description>
+    <version>1.1.0</version>
     <type>package</type>
 
     <install>
