@@ -44,8 +44,8 @@ else {
 }
 
 // get the settings for this plugin
-$oManager   = & new OX_Plugin_ComponentGroupManager();
-$aComponentSettings    = $oManager->getComponentGroupSettings($group, true);
+$oManager = new OX_Plugin_ComponentGroupManager();
+$aComponentSettings = $oManager->getComponentGroupSettings($group, true);
 
 // If the settings page is a submission, deal with the form data
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true')
