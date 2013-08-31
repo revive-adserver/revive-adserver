@@ -119,7 +119,7 @@ class OX_ParserBase extends XML_Parser
         $this->aPlugin['allfiles']  = $this->aAllFiles;
     }
 
-    function startHandler($xp, $element, $attribs)
+    function startHandler($xp, $element, &$attribs)
     {
         $this->elements[$this->count++] = strtolower($element);
         $this->element = implode('-', $this->elements);

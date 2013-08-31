@@ -252,7 +252,7 @@ class OA_Admin_UI_Component_Form
      * @access   public
      * @throws   HTML_QuickForm_Error
      */
-    function addGroup($elements, $name=null, $groupLabel='', $separator=null, $appendName = false)
+    function &addGroup($elements, $name=null, $groupLabel='', $separator=null, $appendName = false)
     {
         return parent::addGroup($elements, $name, $groupLabel, $separator, $appendName);
     }
