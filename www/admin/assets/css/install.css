@@ -29,7 +29,7 @@ div.breadcrumb h3 {
 .loaderContent {
     background-color: #ffffff;
     padding: 15px;
-    width: 275px;
+    width: 375px;
     /*overlay positioning problem in IE6*/
     -position: relative;
     -left: 40%;
@@ -40,7 +40,7 @@ div.breadcrumb h3 {
     font-weight:bold;
     text-decoration:none;
     height: auto;
-    min-height: 25px;
+    min-height: 45px;
     text-align: center;
     background-image:    url('../images/loading.gif');
     background-repeat:   no-repeat;

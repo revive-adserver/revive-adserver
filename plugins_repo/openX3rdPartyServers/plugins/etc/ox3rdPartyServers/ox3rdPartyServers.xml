@@ -3,13 +3,14 @@
 
 <plugin>
     <name>ox3rdPartyServers</name>
+    <displayName>3rd Party Servers Plugin</displayName>
     <creationDate>2008-08-01</creationDate>
-    <author>Chris Nutting</author>
-    <authorEmail>Chris.Nutting@openx.org</authorEmail>
-    <authorUrl>http://www.openx.org</authorUrl>
-    <license>license.txt</license>
-    <description>Plugins for OpenX which automatically modify HTML banners to track clicks</description>
-    <version>1.0.8</version>
+    <author>Revive Adserver</author>
+    <authorEmail>revive@revive-adserver.com</authorEmail>
+    <authorUrl>http://www.revive-adserver.com</authorUrl>
+    <license>GNU Gneral Public License v2</license>
+    <description>Plugin that automatically modifies HTML banners to provide 3rd Party Server click tracking.</description>
+    <version>1.1.0</version>
     <oxversion>2.7.30-beta-rc11</oxversion>
     <extends>3rdPartyServers</extends>
 

@@ -61,8 +61,9 @@ function init()
     // Set up the common configuration variables
     setupConfigVariables();
 
-    // Disable all notices and warnings, as some PAN code still
-    // generates PHP warnings in places
+    // Disable all notices and warnings, as lots of code still
+    // generates PHP warnings - especially E_STRICT notices from PEAR
+    // libraries
     error_reporting(E_ALL & ~(E_NOTICE | E_WARNING | E_DEPRECATED | E_STRICT));
 
     // If not being called from the installation script...

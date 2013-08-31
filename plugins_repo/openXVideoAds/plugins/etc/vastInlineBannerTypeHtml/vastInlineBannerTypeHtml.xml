@@ -3,13 +3,14 @@
 
 <plugin>
     <name>vastInlineBannerTypeHtml</name>
+    <displayName>IAB VAST Inline Banner Type Plugin</displayName>
     <creationDate>2009-03-10</creationDate>
-    <author>OpenX</author>
-    <authorEmail>plugins@openx.org</authorEmail>
-    <authorUrl>http://www.openx.org</authorUrl>
-    <license>license.txt</license>
-    <description>Vast Inline banner for OpenX</description>
-    <version>1.8.5</version>
+    <author>Revive Adserver</author>
+    <authorEmail>revive@revive-adserver.com</authorEmail>
+    <authorUrl>http://www.revive-adserver.com</authorUrl>
+    <license>GNU Gneral Public License v2</license>
+    <description>Plugin that provides inline IAB VAST video ad support.</description>
+    <version>1.9.0</version>
     <oxversion>2.7.8-dev</oxversion>
     <extends>bannerTypeHtml</extends>
 

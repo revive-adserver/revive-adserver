@@ -378,7 +378,7 @@
               $(this).installTasks({
                   jobs: settings.jobs,
                   requestTimeout: 30000, //in milis 30sec
-                  delay: 200, //in milis delay between the requests
+                  delay: 2500, //in milis delay between the requests
                   allComplete: onAllComplete,
                   loaderId : settings.loaderId,
                   errorContainerId : settings.errorContainerId,
@@ -496,7 +496,7 @@
 
             function onStart(jobIndex, url)
             {
-                $loaderMessage.text(settings.jobs[jobIndex].name);
+                $loaderMessage.html(settings.jobs[jobIndex].name);
 
                 if (settings.debug) {
                     $("#job_status_" + jobIndex, $debug).text('Started');
@@ -518,7 +518,7 @@
                         return;
                    }
 
-                  $loaderMessage.text(settings.jobs[jobIndex].name + ' - ' + resultData.status);
+                  $loaderMessage.html(settings.jobs[jobIndex].name + resultData.status);
 
                    //debugging part
                    if (settings.debug) {

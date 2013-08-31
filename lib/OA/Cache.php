@@ -48,7 +48,7 @@ class OA_Cache
             $cacheDir = MAX_PATH . '/var/cache/';
         }
 
-        $this->oCache = &new Cache_Lite(array(
+        $this->oCache = new Cache_Lite(array(
             'cacheDir'                      => $cacheDir,
             'lifeTime'                      => $lifeTime,
             'readControlType'               => 'md5',
