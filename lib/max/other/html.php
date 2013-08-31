@@ -878,7 +878,7 @@ function _displayZoneEntitySelectionCell($entity, $entityId, $aOtherEntities, $e
 </td>";
 }
 
-function MAX_displayLinkedAdsPlacements($aParams, $publisherId, $zoneId, $hideInactive, $showParentPlacements, $pageName, &$tabIndex, $includeAdvertiserSystemTypes, $includeCampaignSystemTypes)
+function MAX_displayLinkedAdsPlacements($aParams, $publisherId, $zoneId, $hideInactive, $showParentPlacements, $pageName, &$tabIndex)
 {
     global $phpAds_TextDirection, $phpAds_TextAlignRight;
 
@@ -894,7 +894,7 @@ function MAX_displayLinkedAdsPlacements($aParams, $publisherId, $zoneId, $hideIn
 </tr>";
     $i = 0;
     $inactive = 0;
-    $aPlacements = !empty($aParams) ? Admin_DA::getPlacements($aParams + array('campaign_type' => $includeCampaignSystemTypes)) : array();
+    $aPlacements = !empty($aParams) ? Admin_DA::getPlacements($aParams) : array();
     foreach ($aPlacements as $placementId => $aPlacement) {
         $aAds = Admin_DA::getAds($aParams + array('placement_id' => $placementId), true);
         $placementActive = $aPlacement['status'] == OA_ENTITY_STATUS_RUNNING;
@@ -972,7 +972,7 @@ function MAX_displayLinkedAdsPlacements($aParams, $publisherId, $zoneId, $hideIn
 </table>";
 }
 
-function MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideInactive, $showMatchingAds, $pageName, &$tabIndex, $directLinkedAds=false, $includeAdvertiserSystemTypes, $includeCampaignSystemTypes)
+function MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideInactive, $showMatchingAds, $pageName, &$tabIndex, $directLinkedAds=false)
     {
         echo "
     <br /><strong>{$GLOBALS['strCampaignLinkedAds']}:</strong><br />
@@ -989,7 +989,7 @@ function MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideIn
 
         $i = 0;
         $inactive = 0;
-        $aPlacements = (!empty($aParams)) ? Admin_DA::getPlacements($aParams + array('campaign_type' => $includeCampaignSystemTypes)) : array();
+        $aPlacements = (!empty($aParams)) ? Admin_DA::getPlacements($aParams) : array();
         foreach ($aPlacements as $placementId => $aPlacement) {
             $placementActive = $aPlacement['status'] == OA_ENTITY_STATUS_RUNNING;
             if (!$hideInactive || $placementActive) {
@@ -1094,7 +1094,7 @@ function MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideIn
         if (!empty($directLinkedAds)) {
             echo "<br /><strong>{$GLOBALS['strBannerLinkedAds']}:</strong><br />";
             $aParams = array('ad_id' => implode(',', array_keys($directLinkedAds)));
-            MAX_displayLinkedAdsPlacements($aParams, $publisherId, $zoneId, $hideInactive, $showParentPlacements, $pageName, $tabIndex, $includeAdvertiserSystemTypes, $includeCampaignSystemTypes);
+            MAX_displayLinkedAdsPlacements($aParams, $publisherId, $zoneId, $hideInactive, $showParentPlacements, $pageName, $tabIndex);
         }
     }
 
