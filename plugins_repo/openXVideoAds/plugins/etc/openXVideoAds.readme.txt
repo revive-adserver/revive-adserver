@@ -1,22 +1,20 @@
-The OpenX Video Plugin enables you to set up, deliver and track video ads in accordance with the IAB Digital Video Ad Serving Template (VAST) standard.
+The IAB VAST Plugin enables you to set up, deliver and track video ads in accordance with the IAB Digital Video Ad Serving Template (VAST) standard.
 
-The plugin supports the following types of video ads: inline video ads and overlay video ads. 
- - Inline video ads include pre/mid/post-roll ads which take over the full view of the video. 
- - Overlay video ads include text or banners appearing within the video frame which click to initiate another video or to open a website. 
+The plugin supports the following types of video ads: inline video ads and overlay video ads.
+ - Inline video ads include pre/mid/post-roll ads which take over the full view of the video.
+ - Overlay video ads include text or banners appearing within the video frame which click to initiate another video or to open a website.
 
 The video plugin also supports the display of up to one companion banner per video ad.
 
 How to use your custom flowplayer and flowplayer plugins versions?
 ==================================================================
-By default, when previewing a banner in the OpenX UI, Flowplayer 3.1.1 will be used, 
-along with the Flowplayer Controls 3.1.1 and Flowplayer RMTP plugin 3.1.1.
-If you are using a newer version of these files in your production website, you 
-might want OpenX Video Ads plugin to use the same versions when previewing banners.
+By default, when previewing a banner in the Revive Adserver UI, Flowplayer 3.1.1 will be used, along with the Flowplayer Controls 3.1.1 and Flowplayer RMTP plugin 3.1.1.
+If you are using a newer version of these files in your production website, you might want the IAM VAST Plugin to use the same versions when previewing banners.
 
-To do so, you can manually add the files in 
-	/path/to/openx/plugins/deliveryLog/vastServeVideoPlayer/flowplayer/X.Y/
-Then in your configuration file /path/to/openx/var/youdomain.conf.php
-Under 
+To do so, you can manually add the files in
+	/path/to/revive-adserver/plugins/deliveryLog/vastServeVideoPlayer/flowplayer/X.Y/
+Then in your configuration file /path/to/revive-adserver/var/youdomain.conf.php
+Under
 	[vastServeVideoPlayer]
 Add the following (replacing X.Y by the corresponding version numbers)
 	flowplayerSwfUrl=flowplayer/X.Y/flowplayer-X.Y.swf
@@ -24,35 +22,31 @@ Add the following (replacing X.Y by the corresponding version numbers)
 	flowplayerControlsPluginUrl=flowplayer/X.Y/flowplayer.controls-X.Y.swf
 	flowplayerRtmpPluginUrl=flowplayer/X.Y/flowplayer.rtmp-X.Y.swf
 
-Known bugs
-==========
-- See the list on: https://developer.openx.org/jira/secure/IssueNavigator.jspa?reset=true&pid=10111&component=10481&resolution=-1&sorter/field=issuekey&sorter/order=DESC&sorter/field=priority&sorter/order=DESC
-
 Feature requests Video Plugin
 =============================
-- currently, if you create a video banner, you can link it to a HTML zone that has *x* dimensions; this however doesn't make sense and the video won't serve. Requesting this non-video zone from the flowplayer will just fail in some ways. Ideally, we should ensure that video banners are only linked to video zones (by design OpenX enforces zone linking by dimensions rather than type, so I think this is not easily possible?)
-- please email us with your ideas or suggestions
-- add a "Expand all"
-- video banners should have the right icons, instead of the generic html banner icons 
-- in video reports, a row should not be expandable if there is no data
-- add a message when no event were recorded yet: "It appears that no Video Events were recorded in the table %s"
-- add name of the reported item in the stats page, eg. "Advertiser Video Report for [advertiser name]"; Note that this usability issue is also true for all existing reports in OXP
+- Currently, if you create a video banner, you can link it to a HTML zone that has *x* dimensions; this however doesn't make sense and the video won't serve. Requesting this non-video zone from the flowplayer will just fail in some ways. Ideally, we should ensure that video banners are only linked to video zones (by design, Revive Adserver enforces zone linking by dimensions rather than type, so I think this is not easily possible?)
+- Please email us with your ideas or suggestions
+- Add a "Expand all"
+- Video banners should have the right icons, instead of the generic html banner icons
+- In video reports, a row should not be expandable if there is no data
+- Add a message when no event were recorded yet: "It appears that no Video Events were recorded in the table %s"
+- Add name of the reported item in the stats page, eg. "Advertiser Video Report for [advertiser name]"; Note that this usability issue is also true for all existing reports in OXP
 
 Schema changes
 ==============
 Users upgrading from versions < RC43 need to run the following SQL against the database:
-or 
+or
 alternatively uninstall the plugin (which will delete associated tables and data) and reinstall it.
 
 ALTER TABLE ox_banner_vast_element
 drop column vast_net_connection_url;
-     
+
 ALTER TABLE ox_banner_vast_element
 ADD COLUMN vast_video_clickthrough_url text;
 
 ALTER TABLE ox_banner_vast_element
 ADD COLUMN vast_overlay_action varchar(20);
-        
+
 ALTER TABLE ox_banner_vast_element
 ADD COLUMN vast_overlay_format varchar(20);
 

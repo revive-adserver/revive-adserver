@@ -3,13 +3,14 @@
 
 <plugin>
     <name>openXVideoAds</name>
+    <displayName>IAB VAST Plugin</displayName>
     <creationDate>2009-05-20</creationDate>
-    <author>OpenX</author>
-    <authorEmail>plugins@openx.org</authorEmail>
-    <authorUrl>http://www.openx.org</authorUrl>
-    <license>license.txt</license>
-    <description>Serve IAB VAST video ads through OpenX.</description>
-    <version>1.8.7</version>
+    <author>Revive Adserver</author>
+    <authorEmail>revive@revive-adserver.com</authorEmail>
+    <authorUrl>http://www.revive-adserver.com</authorUrl>
+    <license>GNU Gneral Public License v2</license>
+    <description>Plugin that provides IAB VAST video ad support.</description>
+    <version>1.9.0</version>
     <type>extension</type>
 
     <install>
