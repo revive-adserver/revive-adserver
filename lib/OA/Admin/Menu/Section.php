@@ -42,19 +42,19 @@ class OA_Admin_Menu_Section
     var $oSectionChecker; //checker used to decide whether this section can be shown to the user
     var $parentSection; //reference to parent section
     var $aSectionsMap; //hash holding id => section
-    
+
     /**
      * When replacing some information for a section, it can happen that you also replace the "link"
      * which means that a given menu section will link to a different page.
      * However, this old page can still be linked from other places in OpenX. Only the Menu knows about the fact that the link has changed.
      * For links still pointing to the old page name, the menu code will detect that the user is accessing the old page, and will
      * redirect the user to the new page.
-     * 
+     *
      * @see OA_Admin_UI::redirectSectionToCorrectUrlIfOldUrlDetected()
      * @var bool
      */
     var $sectionHasBeenReplaced;
-      
+
     /**
      * A string name that indicates relationship between sections on
      * the same level - if a couple of sections share the same group name they could
@@ -109,7 +109,7 @@ class OA_Admin_Menu_Section
         $this->id = $id;
         $this->setNameKey($nameKey);
 // Debug: uncomment below if you are looking for a given Section ID in order to add a new menu entry using the menu XML definition
-//      $this->setNameKey($id. " ".$nameKey); 
+//      $this->setNameKey($id. " ".$nameKey);
         $this->setLink($link);
         $this->setHelpLink($helpLink);
         $this->setExclusive($exclusive);
@@ -129,44 +129,44 @@ class OA_Admin_Menu_Section
 	{
         return $this->id;
 	}
-	
+
 
 	function setExclusive($exclusive)
 	{
         $this->exclusive = $exclusive;
 	}
-	
-	
+
+
 	function setHelpLink($helpLink)
 	{
 	    $this->helpLink = $helpLink;
 	}
-	
-	
+
+
 	function setNameKey($nameKey)
 	{
 	    $this->nameKey = $nameKey;
 	}
-	
-	
+
+
 	function setLink($link)
 	{
 	    $this->link = $link;
 	}
-	
-	
+
+
 	function setSectionHasBeenReplaced()
 	{
 	    $this->sectionHasBeenReplaced = true;
 	}
-	
-	
+
+
 	function hasSectionBeenReplaced()
 	{
 	    return $this->sectionHasBeenReplaced;
 	}
-	
-	
+
+
 	/**
 	 * Returns a translated name of this section
 	 *
@@ -176,13 +176,13 @@ class OA_Admin_Menu_Section
 	{
 	   return $this->oTranslation->translate($this->nameKey);
 	}
-	
+
 
 	function getLink($aParams = array())
 	{
 	    return $this->setLinkParams($aParams);
 	}
-	
+
 
 	function setLinkParams($aParams)
 	{
@@ -339,7 +339,7 @@ class OA_Admin_Menu_Section
             return $this->parentSection != null ? $this->parentSection->getParentOrSelf($type) : null;
         }
 	}
-	
+
 
 	/**
 	 * Returns siblings of this section. If type is given, returns only siblings
@@ -405,7 +405,7 @@ class OA_Admin_Menu_Section
 
         return true;
     }
-    
+
 
     /**
      * Inserts new section before the section with the specified id. If the section
@@ -521,7 +521,7 @@ class OA_Admin_Menu_Section
     			$aPairPermissions = array_make($aPairPermissions);
 
                 for ($i = 0; $i < count($aPairAccounts); $i++) {
-    			  $checkers[] = &new OA_Admin_Menu_Compound_Checker(
+    			  $checkers[] = new OA_Admin_Menu_Compound_Checker(
     			    array(
     			      new OA_Admin_SectionAccountChecker($aPairAccounts[$i]),
     			      new OA_Admin_SectionPermissionChecker($aPairPermissions) //plese remember that this checker does OR check for permissions
@@ -536,7 +536,7 @@ class OA_Admin_Menu_Section
     	}
 
     	if (!empty($justAccounts)) {
-            $checkers[] = &new OA_Admin_SectionAccountChecker($justAccounts); //add checker for accounts only
+            $checkers[] = new OA_Admin_SectionAccountChecker($justAccounts); //add checker for accounts only
     	}
 
         return new OA_Admin_Menu_Compound_Checker($checkers, 'OR');

@@ -202,7 +202,7 @@ class OA_DB_Upgrade
                 $this->_logOnly('migration file found: '.$this->file_migrate);
                 require_once($this->file_migrate);
                 $classname = 'Migration_'.$this->versionTo;
-                $this->oMigrator =&  new $classname();
+                $this->oMigrator = new $classname();
                 if ($this->oMigrator)
                 {
                     $this->oMigrator->init($this->oSchema->db, $this->logFile);

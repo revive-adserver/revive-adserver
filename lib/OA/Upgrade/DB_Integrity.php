@@ -59,7 +59,7 @@ class OA_DB_Integrity
                 return false;
             }
         }
-        $this->oDBUpgrader  =&  $this->oUpgrader->oDBUpgrader;
+        $this->oDBUpgrader =& $this->oUpgrader->oDBUpgrader;
         $this->_initDBUpgrader();
         $this->oUpgrader->oLogger->logClear();
         if ($version > 0)
@@ -96,7 +96,7 @@ class OA_DB_Integrity
 
     function getVersion()
     {
-        $this->oUpgrader  =& new OA_Upgrade();
+        $this->oUpgrader = new OA_Upgrade();
         if (!$this->oUpgrader->initDatabaseConnection())
         {
             return false;
