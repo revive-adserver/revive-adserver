@@ -86,6 +86,7 @@ class OX_ParserBase extends XML_Parser
                                 );
         $this->aPlugin = array(
                              'name'         => '',
+                             'displayname'  => '',
                              'creationdate' => '',
                              'author'       => '',
                              'authoremail'  => '',
@@ -240,6 +241,7 @@ class OX_ParserBase extends XML_Parser
                 @$this->aPlugin['version'] = preg_replace('/rc([0-9]+)$/', 'RC$1', $data);
                 break;
             case 'plugin-name':
+            case 'plugin-displayname':
             case 'plugin-creationdate':
             case 'plugin-author':
             case 'plugin-authoremail':
