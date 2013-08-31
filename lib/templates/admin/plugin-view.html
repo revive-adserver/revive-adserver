@@ -97,7 +97,15 @@
 
 	        <div class="split-left">
                 <div class="item-info">
-                    <p><span class="name">{$aPackage.name}</span></p>
+                    <p>
+                        <span class="name">
+                            {if $aPackage.displayname != ''}
+                                {$aPackage.displayname}
+                            {else}
+                                {$aPackage.name}
+                            {/if}
+                        </span>
+                    </p>
                     <p>{$aPackage.description}</p>
                 </div>
             </div>
