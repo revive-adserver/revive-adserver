@@ -3,13 +3,14 @@
 
 <plugin>
     <name>oxReportsAdmin</name>
+    <displayName>Administrator Reports Plugin</displayName>
     <creationDate>2008-09-08</creationDate>
-    <author>Monique Szpak</author>
-    <authorEmail>monique.szpak@openx.org</authorEmail>
-    <authorUrl>www.openx.org</authorUrl>
-    <license>GPL</license>
-    <description>Administrator Reports for OpenX</description>
-    <version>1.1</version>
+    <author>Revive Adserver</author>
+    <authorEmail>revive@revive-adserver.com</authorEmail>
+    <authorUrl>http://www.revive-adserver.com</authorUrl>
+    <license>GNU Gneral Public License v2</license>
+    <description>Plugin that provides administrator reports.</description>
+    <version>1.4.0</version>
     <oxversion>2.7.30-beta-rc11</oxversion>
     <extends>reports</extends>
 
