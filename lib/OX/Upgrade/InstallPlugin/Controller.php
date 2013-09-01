@@ -47,9 +47,10 @@ class OX_Upgrade_InstallPlugin_Controller
             if ((substr($file, 0, 1) == '.') || (substr($file, strrpos($file, '.')) != '.zip')) { continue; }
             $name = substr($file, 0, strrpos($file, '.'));
             $aPluginZips[$name] = array(
-                'id'    => 'plugin:' . $name,
-                'name'  => $GLOBALS['strPluginTaskChecking'] . ': <br/> ' . $name,
-                'url'   => $baseInstallUrl . 'install-plugin.php?status=0&plugin=' . $name . '&disabled=1'
+                'id'   => 'plugin:' . $name,
+                'name' => $GLOBALS['strPluginTaskChecking'] . ': <br/> ' .
+                          OX_Upgrade_InstallPlugin_Controller::openxToRevivePluginName($name),
+                'url'  => $baseInstallUrl . 'install-plugin.php?status=0&plugin=' . $name . '&disabled=1'
             );
         }
         closedir($PLUGINS_DIR);
@@ -73,9 +74,10 @@ class OX_Upgrade_InstallPlugin_Controller
                 }
 
                 $aUrls[] = array(
-                    'id' => 'plugin:' . $name,
-                    'name' => $GLOBALS['strPluginTaskChecking'].': <br/> ' . $displayName,
-                    'url' => $baseInstallUrl . 'install-plugin.php?status=' . $status . '&plugin=' . $name);
+                    'id'   => 'plugin:' . $name,
+                    'name' => $GLOBALS['strPluginTaskChecking'].': <br/> ' .
+                              OX_Upgrade_InstallPlugin_Controller::openxToRevivePluginName($displayName),
+                    'url'  => $baseInstallUrl . 'install-plugin.php?status=' . $status . '&plugin=' . $name);
                 unset($aPluginZips[$name]);
             }
         }
@@ -90,9 +92,10 @@ class OX_Upgrade_InstallPlugin_Controller
                         $url .= '&disabled=1';
                     }
                     $aUrls[] = array(
-                        'id' => 'plugin:' . $aPlugin['name'],
-                        'name' => $GLOBALS['strPluginTaskInstalling'] . ': <br/> ' . $aPlugin['name'],
-                        'url' => $url
+                        'id'   => 'plugin:' . $aPlugin['name'],
+                        'name' => $GLOBALS['strPluginTaskInstalling'] . ': <br/> ' .
+                                  OX_Upgrade_InstallPlugin_Controller::openxToRevivePluginName($aPlugin['name']),
+                        'url'  => $url
                     );
                     unset($aPluginZips[$aPlugin['name']]);
                 }
@@ -105,6 +108,43 @@ class OX_Upgrade_InstallPlugin_Controller
         }
 
         return $aUrls;
+    }
+
+    /**
+     * A static method that can be used by
+     * OX_Upgrade_InstallPlugin_Controller::getTasksUrls() to modify plugin
+     * names as displayed in the UI when installing or upgrading plugins which
+     * still have old OpenX-based filenames, so that they use the desired
+     * new Revive Adserver names for the plugins. A hack, but saves re-writing
+     * the plugin system to handle migration of plugins from one filename to
+     * another.
+     *
+     * @param string $pluginName The original, filename-based plugin name
+     * @return string The new plugin name, or the original if no match found.
+     */
+    static function openxToRevivePluginName($pluginName)
+    {
+        switch ($pluginName) {
+            case "openXBannerTypes":
+                return "Banner Types Plugin";
+            case "openXDeliveryLimitations":
+                return "Delivery Limitations Plugin";
+            case "openX3rdPartyServers":
+                return "3rd Party Servers Plugin";
+            case "openXReports":
+                return "Reports Plugin";
+            case "openXDeliveryCacheStore":
+                return "Banner Delivery Cache Store Plugin";
+            case "openXMaxMindGeoIP":
+                return "MaxMind GeoIP Plugin";
+            case "openXInvocationTags":
+                return "Invocation Tags Plugin";
+            case "openXDeliveryLog":
+                return "Banner Delivery Logging Plugin";
+            case "openXVideoAds":
+                return "IAB VAST Plugin";
+        }
+        return $pluginName;
     }
 
 
