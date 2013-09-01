@@ -52,16 +52,15 @@ class OX_Upgrade_InstallPlugin_ControllerTest extends UnitTestCase
         $GLOBALS['strPluginTaskInstalling'] = 'Installing';
         $aExpected = array();
         foreach ($GLOBALS['_MAX']['CONF']['plugins'] as $pluginName => $pluginEnabled) {
-            $pluginDisplayName = $this->_correctPluginName($pluginName);
             $aExpected[] = array(
                 'id' => 'plugin:'.$pluginName,
-                'name' => $GLOBALS['strPluginTaskChecking'].': <br/> '.$pluginDisplayName,
+                'name' => $GLOBALS['strPluginTaskChecking'].': <br/> '.$this->_correctPluginName($pluginName),
                 'url' => $baseInstallUrl.'install-plugin.php?status=1&plugin='.$pluginName
             );
         }
         $aExpected[] = array(
             'id' => 'plugin:'.$lastPlugin,
-            'name' => $GLOBALS['strPluginTaskInstalling'].': <br/> '.$lastPlugin,
+            'name' => $GLOBALS['strPluginTaskInstalling'].': <br/> '.$this->_correctPluginName($lastPlugin),
             'url' => $baseInstallUrl.'install-plugin.php?status=0&plugin='.$lastPlugin.
                      ((empty($lastPluginData['disabled'])) ? '' : '&disabled=1')
         );
@@ -90,6 +89,8 @@ class OX_Upgrade_InstallPlugin_ControllerTest extends UnitTestCase
                 return "Invocation Tags Plugin";
             case "openXDeliveryLog":
                 return "Banner Delivery Logging Plugin";
+            case "openXVideoAds":
+                return "IAB VAST Plugin";
         }
         return $pluginName;
     }
