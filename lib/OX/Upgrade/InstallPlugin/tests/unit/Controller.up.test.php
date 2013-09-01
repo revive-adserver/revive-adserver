@@ -52,9 +52,10 @@ class OX_Upgrade_InstallPlugin_ControllerTest extends UnitTestCase
         $GLOBALS['strPluginTaskInstalling'] = 'Installing';
         $aExpected = array();
         foreach ($GLOBALS['_MAX']['CONF']['plugins'] as $pluginName => $pluginEnabled) {
+            $pluginDisplayName = $this->_correctPluginName($pluginName);
             $aExpected[] = array(
                 'id' => 'plugin:'.$pluginName,
-                'name' => $GLOBALS['strPluginTaskChecking'].': <br/> '.$pluginName,
+                'name' => $GLOBALS['strPluginTaskChecking'].': <br/> '.$pluginDisplayName,
                 'url' => $baseInstallUrl.'install-plugin.php?status=1&plugin='.$pluginName
             );
         }
@@ -68,6 +69,29 @@ class OX_Upgrade_InstallPlugin_ControllerTest extends UnitTestCase
         $result = OX_Upgrade_InstallPlugin_Controller::getTasksUrls($baseInstallUrl);
         $this->assertEqual($result, $aExpected);
         $oStatus = $oStorage->set('installStatus', null);
+    }
+
+    function _correctPluginName($pluginName)
+    {
+        switch ($pluginName) {
+            case "openXBannerTypes":
+                return "Banner Types Plugin";
+            case "openXDeliveryLimitations":
+                return "Delivery Limitations Plugin";
+            case "openX3rdPartyServers":
+                return "3rd Party Servers Plugin";
+            case "openXReports":
+                return "Reports Plugin";
+            case "openXDeliveryCacheStore":
+                return "Banner Delivery Cache Store Plugin";
+            case "openXMaxMindGeoIP":
+                return "MaxMind GeoIP Plugin";
+            case "openXInvocationTags":
+                return "Invocation Tags Plugin";
+            case "openXDeliveryLog":
+                return "Banner Delivery Logging Plugin";
+        }
+        return $pluginName;
     }
 
 }
