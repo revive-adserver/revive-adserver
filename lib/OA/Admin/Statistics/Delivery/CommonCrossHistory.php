@@ -436,36 +436,36 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
 
         case 'campaign':
             if ($this->noStatsAvailable) {
-                $this->_addBreadcrumb('', MAX_getEntityIcon('placement'));
+                $this->_addBreadcrumb('', MAX_getEntityIcon('placement'), $type);
             } else {
-                $this->_addBreadcrumb(MAX_buildName($entityId, MAX_getPlacementName($cache[$entityId])), MAX_getEntityIcon('placement'));
+                $this->_addBreadcrumb(MAX_buildName($entityId, MAX_getPlacementName($cache[$entityId])), MAX_getEntityIcon('placement'), $type);
             }
 
             break;
 
         case 'banner':
             if ($this->noStatsAvailable) {
-                $this->_addBreadcrumb('', MAX_getEntityIcon('ad'));
+                $this->_addBreadcrumb('', MAX_getEntityIcon('ad'), $type);
             } else {
-                $this->_addBreadcrumb(MAX_buildName($entityId, MAX_getAdName($cache[$entityId]['name'], null, null, $cache[$entityId]['anonymous'], $entityId)), MAX_getEntityIcon('ad'));
+                $this->_addBreadcrumb(MAX_buildName($entityId, MAX_getAdName($cache[$entityId]['name'], null, null, $cache[$entityId]['anonymous'], $entityId)), MAX_getEntityIcon('ad'), $type);
             }
 
             break;
 
         case 'publisher':
             if ($this->noStatsAvailable) {
-                $this->_addBreadcrumb('', MAX_getEntityIcon('publisher'));
+                $this->_addBreadcrumb('', MAX_getEntityIcon('publisher'), '');
             } else {
-                $this->_addBreadcrumb(MAX_buildName($entityId, MAX_getPublisherName($cache[$entityId]['name'], null, $cache[$entityId]['anonymous'], $entityId)), MAX_getEntityIcon('publisher'));
+                $this->_addBreadcrumb(MAX_buildName($entityId, MAX_getPublisherName($cache[$entityId]['name'], null, $cache[$entityId]['anonymous'], $entityId)), MAX_getEntityIcon('publisher'), 'website');
             }
 
             break;
 
         case 'zone':
             if ($this->noStatsAvailable) {
-                $this->_addBreadcrumb('', MAX_getEntityIcon('zone'));
+                $this->_addBreadcrumb('', MAX_getEntityIcon('zone'), $type);
             } else {
-                $this->_addBreadcrumb(MAX_buildName($entityId, MAX_getZoneName($cache[$entityId]['name'], null, $cache[$entityId]['anonymous'], $entityId)), MAX_getEntityIcon('zone'));
+                $this->_addBreadcrumb(MAX_buildName($entityId, MAX_getZoneName($cache[$entityId]['name'], null, $cache[$entityId]['anonymous'], $entityId)), MAX_getEntityIcon('zone'), $type);
             }
 
             break;

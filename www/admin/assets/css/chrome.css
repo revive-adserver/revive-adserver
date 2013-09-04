@@ -6,7 +6,7 @@ del, dfn, em, font, ins, kbd, q, s, samp,
 small, strike, strong, sub, sup, tt, var,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend
-{ 
+{
     margin: 0;
     padding: 0;
     border: 0;
@@ -307,11 +307,11 @@ a:hover {
   -width: 130px;
   margin-left: 2px;
   margin-right: 2px;
-  
+
   padding: 2px 14px 0px 5px;
   color: #444444;
   background: url("../images/arrow-d.gif") no-repeat right 3px;
-    
+
   cursor: pointer;
 }
 
@@ -440,7 +440,7 @@ a:hover {
 }
 
 #oaNavigationExtra .accountSwitcher .result ul li a {
-  display: block;  
+  display: block;
   padding:0pt;
   text-decoration:none;
 }
@@ -511,9 +511,9 @@ a:hover {
   float: left;
   padding: 0 7px 0 7px;
 }
-#oaNavigationExtraTop li.infoUser, 
-#oaNavigationExtraTop li.buttonHelp, 
-#oaNavigationExtraTop li.buttonContactUs, 
+#oaNavigationExtraTop li.infoUser,
+#oaNavigationExtraTop li.buttonHelp,
+#oaNavigationExtraTop li.buttonContactUs,
 #oaNavigationExtraTop li.buttonReportBugs {
     border-right: 1px solid #9c9c9c;
 }
@@ -559,7 +559,7 @@ body.hasGradient #firstLevelContent {
   margin: 0 0 12px 0;
   padding: 0;
   list-style-type: none;
-  
+
   background: #f4f4f4;
 }
 
@@ -569,7 +569,7 @@ body.hasGradient #firstLevelContent {
 
   padding: 0;
   margin: 0;
-  
+
   -zoom: 1;
   -float: left;
   -width: 160px;
@@ -686,14 +686,14 @@ body.hasGradient #firstLevelContent {
 
 
 
-#secondLevelNavigation .navigation.first li.first.active li .top, 
-#secondLevelNavigation .navigation.first li.single.active li .top, 
-#secondLevelNavigation .navigation li.first.active li .top, 
+#secondLevelNavigation .navigation.first li.first.active li .top,
+#secondLevelNavigation .navigation.first li.single.active li .top,
+#secondLevelNavigation .navigation li.first.active li .top,
 #secondLevelNavigation .navigation li.single.active li .top {
   background-position: left 0;
 }
 
-#secondLevelNavigation .navigation.first li.active li.first .top, 
+#secondLevelNavigation .navigation.first li.active li.first .top,
 #secondLevelNavigation .navigation li.active li.first .top {
   top: -4px;
   left: -1px;
@@ -702,7 +702,7 @@ body.hasGradient #firstLevelContent {
   -margin-left: -20px;
 }
 
-#secondLevelNavigation .navigation li.active li .top, 
+#secondLevelNavigation .navigation li.active li .top,
 #secondLevelNavigation .navigation li.last.active li .bottom,
 #secondLevelNavigation .navigation li.single.active li .bottom,
 #secondLevelNavigation .navigation li.active li .bottom {
@@ -714,7 +714,7 @@ body.hasGradient #firstLevelContent {
   bottom: -3px;
   height: 6px;
   background-position: left -20px;
-  
+
   -margin-left: -20px;
 }
 
@@ -724,7 +724,7 @@ body.hasGradient #firstLevelContent {
   bottom: -1px;
   height: 4px;
   background-position: left -16px;
-  
+
   -margin-left: -20px;
 }
 
@@ -822,7 +822,7 @@ body.hasGradient #firstLevelContent {
   *z-index: 1;
   height: 68px;
   margin: 0;
-  
+
   border: 1px solid #ddd;
   background: #fff url(../images/header-background.gif) left top repeat-x;
 }
@@ -834,7 +834,7 @@ body.hasGradient #firstLevelContent {
   position: absolute;
   overflow: hidden;
   font-size: 0;
-    
+
   height: 8px;
   width: 8px;
 
@@ -850,16 +850,20 @@ body.hasGradient #firstLevelContent {
   right: -1px;
   top: -1px;
   background-position: top right;
-    
+
   -right: -2px;
 }
 
 #thirdLevelHeader div.breadcrumb {
-  margin: 9px 250px 0 9px;
-  padding: 0px 0px 0 3px;  
-  
+  margin: 9px 9px 0 9px;
+  padding: 0px 0px 0 3px;
+
   min-height: 50px;
   -height: 50px;
+}
+#thirdLevelHeader div.breadcrumb.reduced {
+  margin-right: 250px;
+  overflow: hidden;
 }
 #thirdLevelHeader div.breadcrumb.hasIcon {
   padding-left: 59px;
@@ -878,7 +882,7 @@ body.hasGradient #firstLevelContent {
 #thirdLevelContent {
   margin: 0;
   padding: 12px;
-  
+
   border-left: 1px solid #ddd;
   border-right: 1px solid #ddd;
   position: relative;
@@ -915,14 +919,14 @@ body.hasGradient #firstLevelContent {
     display: block;
     background: url(../images/header-dropdown-background.png) left -128px no-repeat;
     cursor: pointer;
-    
+
     position: relative;
     top: 0;
     padding: 0 0 4px;
-    
+
     height: 26px;
     line-height: 26px;
-    
+
     -width: 0%;
 }
 #thirdLevelTools a.buttonLink span {
@@ -932,7 +936,7 @@ body.hasGradient #firstLevelContent {
 
     position: relative;
     top: 0;
-	
+
 	font-weight: bold;
 	color: #255792;
 }
@@ -945,10 +949,10 @@ body.hasGradient #firstLevelContent {
     display: block;
     float: left;
     position: relative;
-    
+
     top: 0;
     left: 0;
-    
+
     white-space: nowrap;
     margin: 0;
 }
@@ -956,14 +960,14 @@ body.hasGradient #firstLevelContent {
     display: block;
     background: url(../images/header-dropdown-background.png) left top no-repeat;
     cursor: pointer;
-    
+
     position: relative;
     top:4px;
     padding: 0 0 4px;
-    
+
     height:20px;
     line-height:20px;
-    
+
     -width: 0%;
 }
 #thirdLevelTools .contextContainer .dropDown span {
@@ -978,7 +982,7 @@ body.hasGradient #firstLevelContent {
 
     position: relative;
     top: 0;
-	
+
 	font-weight: bold;
 	color: #255792;
 }
@@ -1040,7 +1044,7 @@ body.hasGradient #firstLevelContent {
     display: block;
     color: #255792;
     padding: 0 4px 0 8px;
-    
+
     -zoom: 1;
 }
 #thirdLevelTools .dropDown ul li label {
@@ -1067,9 +1071,9 @@ body.hasGradient #firstLevelContent {
     top: 0;
     bottom: 0;
     right: 0;
-    
+
     background-color: transparent;
-    
+
     z-index: 1000;
 }
 #thirdLevelTools .dropDown.active div.mask {
@@ -1173,7 +1177,7 @@ select.switcher optgroup {
 
 div.breadcrumb {
     font-size: 10px;
-    
+
     position: relative;
     z-index: 2000;
 }
@@ -1215,7 +1219,7 @@ div.breadcrumb span.sep {
 
 div.breadcrumb .entityLinks {
     position: relative;
-    top: 3px;  
+    top: 3px;
 }
 
 div.breadcrumb form {
@@ -1234,7 +1238,9 @@ div.bannercode {
 div.breadcrumb .adv,
 div.breadcrumb .camp,
 div.breadcrumb .ban,
-div.breadcrumb .webs {
+div.breadcrumb .webs,
+div.breadcrumb .zone,
+div.breadcrumb .day {
     padding: 2px 0px 2px 20px;
     background-repeat: no-repeat;
 }
@@ -1248,11 +1254,19 @@ div.breadcrumb .camp {
 }
 
 div.breadcrumb .ban {
-    background-image: url("../images/icon-campaign.gif");
+    background-image: url("../images/icon-banner.png");
 }
 
 div.breadcrumb .webs {
     background-image: url("../images/icon-affiliate.gif");
+}
+
+div.breadcrumb .zone {
+    background-image: url("../images/icon-zone.gif");
+}
+
+div.breadcrumb .day {
+    background-image: url("../images/icon-date.gif");
 }
 
 /* Context Actions and shortcuts */
@@ -1416,19 +1430,19 @@ form.flat .x-small, .x-small {
 }
 
 form.flat .small, .small {
-    width: 100px;   
-} 
+    width: 100px;
+}
 
 form.flat .medium, .medium {
     width: 200px;
 }
 
 form.flat .large, .large {
-    width: 350px;   
+    width: 350px;
 }
 
 form.flat .x-large, .x-large {
-    width: 550px;   
+    width: 550px;
 }
 
 
@@ -1445,7 +1459,7 @@ form.flat textarea.h-medium-h {
 }
 
 form.flat textarea.h-large-h {
-    height: 260px;  
+    height: 260px;
 }
 
 /* standard control sizes */
@@ -1454,15 +1468,15 @@ form.flat .x-small {
 }
 
 form.flat .small {
-    width: 100px;   
-} 
+    width: 100px;
+}
 
 form.flat .medium {
     width: 200px;
 }
 
 form.flat .large {
-    width: 350px;   
+    width: 350px;
 }
 
 form.flat textarea.x-small-h {
@@ -1478,7 +1492,7 @@ form.flat textarea.h-medium-h {
 }
 
 form.flat textarea.h-large-h {
-    height: 260px;  
+    height: 260px;
 }
 
 form.flat .prefix {
@@ -1506,7 +1520,7 @@ padding: 0px 10px;
 }
 
 #campaignform .type-desc {
-    width: 330px; 
+    width: 330px;
     margin: 2px 0px 4px 20px;
 }
 
@@ -1707,7 +1721,7 @@ padding: 0px 10px;
     border-top: 1px solid #dddddd;
 }
 
-/** rounded panel without gradient **/ 
+/** rounded panel without gradient **/
 .panel-plain {
   border: 1px solid #d4d4d4;
   position: relative;
@@ -1763,10 +1777,10 @@ table.global {
 table.global td, table.global th {
     font-size: 11px;
     text-align: left;
-    
+
     line-height: 26px;
     height: 26px;
-    
+
     padding: 0 6px 0 6px;
     white-space: nowrap;
 }
@@ -1782,7 +1796,7 @@ table.global tbody a {
     text-decoration: none;
 }
 table.global tbody a:hover {
-    text-decoration: underline; 
+    text-decoration: underline;
 }
 table.global tbody td, table.global tbody th {
     border-bottom: 1px solid #e6e6e6;
@@ -1798,7 +1812,7 @@ table.global tbody td.number {
     text-align: right;
 }
 
-table.global .odd td, 
+table.global .odd td,
 table.global .odd th {
     background-color: #f6f6f6;
 }
@@ -1812,7 +1826,7 @@ table.global caption, table.data caption {
     font-weight: bold;
     font-size: 13px;
     line-height: 2em;
-} 
+}
 
 table.data, .detail-table  {
     width: 100%;
@@ -1831,7 +1845,7 @@ table.data thead th, table.data thead td {
 }
 
 table.data thead.no-header th {
-    height: 1px;     
+    height: 1px;
 }
 
 table.data {
@@ -1891,7 +1905,7 @@ table.data td.graph .percentage {
     width: 10%;
 }
 
-/** icons **/ 
+/** icons **/
 .icon {
     padding-left: 20px;
     line-height: 20px;
@@ -1962,7 +1976,7 @@ table.data td.graph .percentage {
     margin-bottom: 1em;
     padding: .7em 1em 0.7em 30px;
     color: black;
-    border:1px solid #CA888A;    
+    border:1px solid #CA888A;
     background-position: 5px center;
     background-repeat: no-repeat;
 }
@@ -2054,10 +2068,10 @@ div.dropDown div.panel div div.column {
 .breadcrumb .dropDown {
     display: block;
     position: relative;
-    
+
     top: 3px;
     left: 1px;
-    
+
     white-space: nowrap;
 }
 .breadcrumb .dropDown span {
@@ -2065,18 +2079,18 @@ div.dropDown div.panel div div.column {
     display: block;
     float: left;
     z-index: 2002;
-    
+
     background: transparent url(../images/dropdown-background.png) repeat scroll left 1px;
-    
+
     line-height: 20px;
     padding: 0;
     cursor: pointer;
-    
+
     top: -1px;
     left: -1px;
 
 	-display: inline;
-	-float: none;    
+	-float: none;
 }
 .breadcrumb .dropDown.active span {
   		background-color: #e5f0f8;
@@ -2084,32 +2098,32 @@ div.dropDown div.panel div div.column {
 		background-position: left -2px;
 		background-repeat: repeat-x;
 		-background-image: none;
-		
+
 		border-left: 1px solid #e4e5e4;
 		border-right: 1px solid #aac0d8;
 		border-bottom: 1px solid #e5f0f8;
 		border-top: 1px solid #e4e5e4;
-		
+
     -moz-border-radius-topleft: 5px;
     -moz-border-radius-topright: 5px;
     -webkit-border-top-left-radius: 5px;
     -webkit-border-top-right-radius: 5px;
-    
+
     top: -2px;
     left: -2px;
-    
+
     -top: -1px;
 }
 .breadcrumb .dropDown span span,
 .breadcrumb .dropDown.active span span {
     position: static;
     float: none;
-    
+
     background-position: right -23px;
     background-repeat: no-repeat;
     color: #444;
     border: none;
-    
+
 	  padding: 1px 16px 1px 0;
 	  *padding: 1px 16px 2px 0;
 	  -padding: 3px 16px 3px 0;
@@ -2139,7 +2153,7 @@ div.dropDown div.panel div div.column {
 		border-left: 1px solid #e4e5e4;
     border-right: 1px solid #d5d5d5;
     border-bottom: 1px solid #d5d5d5;
-		
+
 		-moz-border-radius-bottomleft: 5px;
     -moz-border-radius-bottomright: 5px;
     -webkit-bottom-top-left-radius: 5px;
@@ -2187,8 +2201,8 @@ p {
 
 .wizard-steps li {
     height:44px;
-    padding: 0px;    
-    
+    padding: 0px;
+
     list-style:none;
     float:left;
     background-color:#e4e4e4;
@@ -2245,6 +2259,6 @@ p {
 
 .wizard-steps em {
   font-style:normal;
-  font-weight:bold;  
+  font-weight:bold;
 }
 
