@@ -260,6 +260,8 @@ function initAccoutSwitcher(searchUrl)
   $switcher.accountswitch({
     searchUrl: searchUrl
   });
+  
+  $breadcrumb = $("#thirdLevelHeader > .breadcrumb");
 
   $(".switchTrigger").hover(function() {
       $(".triggerContainer").addClass("hover");
@@ -268,6 +270,7 @@ function initAccoutSwitcher(searchUrl)
   });
 
   $(".switchTrigger, .triggerContainer > a", $switcher).click(function() {
+    $breadcrumb.toggleClass("reduced");
     $switcher.toggleClass("expanded");
     $switcher.accountswitch({action: 'show'});
     $(".accountSwitcherOverlay").toggle();
@@ -285,6 +288,7 @@ function initAccoutSwitcher(searchUrl)
 
   $(document).click(function(event) {
     if ($(event.target).parents(".expanded").length == 0) {
+      $breadcrumb.removeClass("reduced");
       $switcher.removeClass("expanded");
       $(".accountSwitcherOverlay").hide();
     }
@@ -292,6 +296,7 @@ function initAccoutSwitcher(searchUrl)
 
   $(document).keydown(function(event) {
     if ($(".expanded").length > 0 && event.keyCode == 27) {
+      $breadcrumb.removeClass("reduced");
       $switcher.removeClass("expanded");
       $(".accountSwitcherOverlay").hide();
     }

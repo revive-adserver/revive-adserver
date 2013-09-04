@@ -101,7 +101,7 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserHistory extends OA_Admin
         $this->_addBreadcrumbs('advertiser', $advertiserId);
 
         // Add context
-        $this->pageContext = array('advertisers', $advertiserId);
+        $this->aPageContext = array('advertisers', $advertiserId);
 
         // Add shortcuts
         if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {

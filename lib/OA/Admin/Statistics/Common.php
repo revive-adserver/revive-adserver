@@ -606,19 +606,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         $this->_generatePageURI();
         $this->assetPath = OX::assetPath();
 
-        // Add context links, if any
-        if (!is_null($this->aPageContext) && is_array($this->aPageContext)) {
-            call_user_func_array(array($this, '_showContext'), $this->aPageContext);
-        }
-
-        // Add shortcuts, if any
-        $this->_showShortcuts();
-
-        // Show the breadcrumbs
-        $this->_showBreadcrumbs();
-
-        // Display header, top tab section links and left hand side navigation column
-        phpAds_PageHeader($this->pageId);
+        phpAds_PageHeader($this->pageId, $this->getHeaderModel());
 
         // Welcome text
         if (!empty($this->welcomeText))
@@ -962,9 +950,9 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         case 'campaign':
             $campaigns = Admin_DA::getPlacements(array('placement_id' => $entityId), false);
             if (count($campaigns) == 1) {
+                $campaign = current($campaigns);
                 $this->_addBreadcrumbs('advertiser', $campaign['advertiser_id'], $level + 1);
 
-                $campaign = current($campaigns);
                 // mask campaign name if anonymous campaign
                    $campaign['name'] = MAX_getPlacementName($campaign);
                 $this->_addBreadcrumb(
@@ -978,9 +966,9 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         case 'banner':
             $banners = Admin_DA::getAds(array('ad_id' => $entityId), false);
             if (count($banners) == 1) {
+                $banner = current($banners);
                 $this->_addBreadcrumbs('campaign', $banner['placement_id'], $level + 1);
 
-                $banner = current($banners);
                 // mask banner name if anonymous campaign
                 $campaign = Admin_DA::getPlacement($banner['placement_id']);
                 $campaignAnonymous = $campaign['anonymous'] == 't' ? true : false;
@@ -1010,9 +998,8 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         case 'zone':
             $zones = Admin_DA::getZones(array('zone_id' => $entityId), false);
             if (count($zones) == 1) {
-                $this->_addBreadcrumbs('publisher', $zone['publisher_id'], $level + 1);
-
                 $zone = current($zones);
+                $this->_addBreadcrumbs('publisher', $zone['publisher_id'], $level + 1);
                 $this->_addBreadcrumb(
                     MAX_buildName($zone['zone_id'], $zone['name']),
                     MAX_getEntityIcon('zone'),
@@ -1034,6 +1021,30 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
     function _addBreadcrumb($name, $icon, $type = '')
     {
         $this->aPageBreadcrumbs[] = array('name' => $name, 'icon' => $icon, 'type' => $type);
+    }
+
+    function getHeaderModel()
+    {
+        $builder = new OA_Admin_UI_Model_InventoryPageHeaderModelBuilder();
+
+        $oMenu = OA_Admin_Menu::singleton();
+        $oMenu->_setLinkParams($this->aPageParams);
+        $oCurrentSection = $oMenu->get($this->pageId);
+
+        $oHeader = new OA_Admin_UI_Model_PageHeaderModel($oCurrentSection->getName());
+        $oHeader->setIconClass('iconTargetingChannelsLarge');
+
+        foreach ($this->aPageBreadcrumbs as $v) {
+            $headerMeta = $builder->getEntityHeaderMeta($v['type']);
+            $oSegment = new OA_Admin_UI_Model_EntityBreadcrumbSegment();
+            $oSegment->setEntityName($v['name']);
+            $oSegment->setEntityLabel($headerMeta['label']);
+            $oSegment->setCssClass($headerMeta['class']);
+
+            $oHeader->addSegment($oSegment);
+        }
+
+        return $oHeader;
     }
 
     /**
