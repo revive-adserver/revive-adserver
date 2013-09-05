@@ -30,6 +30,8 @@ What's New in Revive Adserver 3.0.0
    installation, instead of from OpenX.
  * Update checking mechanism no longer supports sending aggregate statistic
    data to the update server.
+ * Added support for the calculation of revenue and eCPM statistics for future
+   delivery of monthly tenancy campaigns and associated banners.
  * Added breadcrumbs to the statistics pages.
  * Fixed SQL banners on PostgreSQL.
  * Fixed bug with multiple banner/zone ID logging.
