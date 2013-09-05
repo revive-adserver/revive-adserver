@@ -350,6 +350,8 @@ function _adRenderFlash(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=fal
     }
     if (!empty($aBanner['transparent'])) {
         $code .= "\n   ox_swf.addParam('wmode','transparent');";
+    } else {
+        $code .= "\n   ox_swf.addParam('wmode','opaque');";
     }
     $code .= "
     ox_swf.addParam('allowScriptAccess','always');
