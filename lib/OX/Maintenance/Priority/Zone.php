@@ -25,6 +25,7 @@ class OX_Maintenance_Priority_Zone
 {
 
     var $id;
+    var $active               = true;
     var $availableImpressions = 0;
     var $averageImpressions   = 0;
     var $aAdverts             = array();

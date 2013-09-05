@@ -117,27 +117,21 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     }
 
     /*
-     * Set the minimum value of an operation interval's zone impression forecast,
-     * even when using operation intervals less than 60 minutes
-     */
-    static public $ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS_MINIMUM = 10;
-
-    /*
      * Set the default number of impressions to use as a forecast value when there
      * is simply no other data to use for calculation of forecasts, based on an
      * operation interval of 60 minutes (the value will be reduced for smaller OIs
      */
-    static public $ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS = 1000;
+    static public $ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS = 10;
 
     /*
-     * Returns the default minimum value for a forecast for a zone in one OI
-     *
-     * @return int
+     * The maximum traffic fraction that has to be assigned to contract campaigns
+     * where there is no forecast available. The default forecast is supposed to
+     * be low to avoid allocating too many impressions to inactive campaigns.
+     * However we need do consider that value as a fraction of the zone potential
+     * otherwise when a zone starts to deliver contract campaigns might have a
+     * very high priority number and over-deliver massively
      */
-    function getZoneForecastDefaultZoneImpressionsMinimum()
-    {
-        return self::$ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS_MINIMUM;
-    }
+    static public $ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS_FRACTION = 0.05;
 
     /*
      * Returns the default forecast to use, for a given zone in a given OI.
@@ -147,11 +141,22 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     function getZoneForecastDefaultZoneImpressions()
     {
         $multiplier = $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'] / 60;
-        $ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS = (int) round(self::$ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS * $multiplier);
-        if ($ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS < $this->getZoneForecastDefaultZoneImpressionsMinimum()) {
-            $ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS = $this->getZoneForecastDefaultZoneImpressionsMinimum();
+        $forecast = (int) round(self::$ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS * $multiplier);
+        if ($forecast < 1) {
+            return 1;
         }
-        return $ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS;
+        return $forecast;
+    }
+
+    /*
+     * Returns the default limit value for a forecast for a zone in one OI
+     *
+     * @return int
+     */
+    function getZoneForecastDefaultZoneImpressionsLimit()
+    {
+        return self::getZoneForecastDefaultZoneImpressions() /
+            self::$ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS_FRACTION;
     }
 
     /**
@@ -549,11 +554,13 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             zoneid AS zone_id
         FROM
         {$table}
-        UNION ALL SELECT 0";
+        UNION ALL SELECT 0
+        ORDER BY zone_id";
         $rc = $this->oDbh->query($query);
         while ($aRow = $rc->fetchRow()) {
             if (!isset($aResult[$aRow['zone_id']])) {
-                $aResult[$aRow['zone_id']] = $this->getZoneForecastDefaultZoneImpressions();
+                // No data available, forecast 0 impressions
+                $aResult[$aRow['zone_id']] = 0;
             }
         }
         return $aResult;
@@ -2194,6 +2201,11 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                     );
                 }
             }
+            // Overwrite current OI with previous OI to match the zone forecasting algorithm
+            $currOI = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
+            $prevOI = OX_OperationInterval::previousOperationIntervalID($currOI);
+            $aFinalResult[$currOI]['forecast_impressions'] = $aFinalResult[$prevOI]['forecast_impressions'];
+            // Return data
             return $aFinalResult;
     }
 
@@ -2525,6 +2537,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                       AND d.date_time < '{$intervalStart}'
                       AND d.date_time >= DATE_SUB('{$intervalStart}', $oneHourInterval)
                   GROUP BY d.zone_id
+                  ORDER BY zone_id
                   ";
         $rc = $this->oDbh->query($query);
         $aResult = array();

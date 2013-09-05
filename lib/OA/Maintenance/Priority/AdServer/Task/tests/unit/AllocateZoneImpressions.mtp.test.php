@@ -99,26 +99,26 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
         $this->assertTrue(is_array($oAllocateZoneImpressions->aAvailableForecastZoneImpressions));
         $this->assertTrue(!empty($oAllocateZoneImpressions->aAvailableForecastZoneImpressions));
         $this->assertEqual(count($oAllocateZoneImpressions->aAvailableForecastZoneImpressions), 3);
-        $this->assertEqual($oAllocateZoneImpressions->aAvailableForecastZoneImpressions[1], 4);
-        $this->assertEqual($oAllocateZoneImpressions->aAvailableForecastZoneImpressions[2], 6);
-        $this->assertEqual($oAllocateZoneImpressions->aAvailableForecastZoneImpressions[9], 8);
+        $this->assertEqual($oAllocateZoneImpressions->aAvailableForecastZoneImpressions[1], 5);
+        $this->assertEqual($oAllocateZoneImpressions->aAvailableForecastZoneImpressions[2], 7);
+        $this->assertEqual($oAllocateZoneImpressions->aAvailableForecastZoneImpressions[9], 9);
         $this->assertTrue(is_array($oAllocateZoneImpressions->aOverSubscribedZones));
         $this->assertTrue(!empty($oAllocateZoneImpressions->aOverSubscribedZones));
         $this->assertEqual(count($oAllocateZoneImpressions->aOverSubscribedZones), 3);
         $this->assertTrue(is_array($oAllocateZoneImpressions->aOverSubscribedZones[1]));
         $this->assertEqual($oAllocateZoneImpressions->aOverSubscribedZones[1]['zoneId'], 1);
-        $this->assertEqual($oAllocateZoneImpressions->aOverSubscribedZones[1]['availableImpressions'], 4);
+        $this->assertEqual($oAllocateZoneImpressions->aOverSubscribedZones[1]['availableImpressions'], 5);
         $this->assertEqual($oAllocateZoneImpressions->aOverSubscribedZones[1]['desiredImpressions'], 0);
         $this->assertTrue(!empty($oAllocateZoneImpressions->aOverSubscribedZones[1]));
         $this->assertTrue(is_array($oAllocateZoneImpressions->aOverSubscribedZones[2]));
         $this->assertEqual($oAllocateZoneImpressions->aOverSubscribedZones[2]['zoneId'], 2);
-        $this->assertEqual($oAllocateZoneImpressions->aOverSubscribedZones[2]['availableImpressions'], 6);
+        $this->assertEqual($oAllocateZoneImpressions->aOverSubscribedZones[2]['availableImpressions'], 7);
         $this->assertEqual($oAllocateZoneImpressions->aOverSubscribedZones[2]['desiredImpressions'], 0);
         $this->assertTrue(!empty($oAllocateZoneImpressions->aOverSubscribedZones[2]));
         $this->assertTrue(is_array($oAllocateZoneImpressions->aOverSubscribedZones[9]));
         $this->assertTrue(!empty($oAllocateZoneImpressions->aOverSubscribedZones[9]));
         $this->assertEqual($oAllocateZoneImpressions->aOverSubscribedZones[9]['zoneId'], 9);
-        $this->assertEqual($oAllocateZoneImpressions->aOverSubscribedZones[9]['availableImpressions'], 8);
+        $this->assertEqual($oAllocateZoneImpressions->aOverSubscribedZones[9]['availableImpressions'], 9);
         $this->assertEqual($oAllocateZoneImpressions->aOverSubscribedZones[9]['desiredImpressions'], 0);
     }
 

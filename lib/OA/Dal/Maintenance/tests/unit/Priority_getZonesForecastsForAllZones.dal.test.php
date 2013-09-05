@@ -125,7 +125,7 @@ class Test_OA_Dal_Maintenance_Priority_getZonesForecastsForAllZones extends Unit
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh =& OA_DB::singleton();
         $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
-        $zoneForecastDefaultZoneImpressions = $oMaxDalMaintenance->getZoneForecastDefaultZoneImpressions();
+        $zoneForecastDefaultZoneImpressions = 0; // $oMaxDalMaintenance->getZoneForecastDefaultZoneImpressions();
 
         // Test 1
         $oServiceLocator =& OA_ServiceLocator::instance();
