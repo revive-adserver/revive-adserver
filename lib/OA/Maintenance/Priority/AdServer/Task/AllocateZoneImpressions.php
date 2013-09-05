@@ -83,20 +83,20 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
         // Set the total number of initially avaiable (forecast) zone impressions,
         // from the previously calculated values now stored in the database
         $this->aAvailableForecastZoneImpressions = $this->oDal->getZonesForecastsForAllZones();
-        // Subtract one impression from each zone forecast, so that the "blank" ad
-        // is always allocated at least one impression
-        if (!empty($this->aAvailableForecastZoneImpressions)) {
-            foreach ($this->aAvailableForecastZoneImpressions as $zoneId => $availableImpressions) {
-                if ($availableImpressions > 0) {
-                    $this->aAvailableForecastZoneImpressions[$zoneId]--;
-                }
-            }
-        }
         // Save the data on the available impressions for use in dealing with
         // over-subscribed zones
         $this->aOverSubscribedZones = array();
         if (!empty($this->aAvailableForecastZoneImpressions)) {
             foreach ($this->aAvailableForecastZoneImpressions as $zoneId => $availableImpressions) {
+                // Is there a forecast?
+                if (!$availableImpressions) {
+                    // No forecast available. Use the minimum default forecast
+                    // as number of impressions that can be allocated.
+                    // This prevents contract campagigns to assign a large
+                    // number of impressions to "inactive" zones, causing
+                    // under-delivery
+                    $this->aAvailableForecastZoneImpressions[$zoneId] = $this->oDal->getZoneForecastDefaultZoneImpressions();
+                }
                 $this->aOverSubscribedZones[$zoneId] = array(
                                                            'zoneId'               => $zoneId,
                                                            'availableImpressions' => $availableImpressions,
@@ -294,6 +294,11 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
         if (is_array($this->aOverSubscribedZones) && !empty($this->aOverSubscribedZones)) {
             $globalMessage = '';
             foreach ($this->aOverSubscribedZones as $zoneId => $aZoneInfo) {
+                if (!$aZoneInfo['availableImpressions']) {
+                    $message  = "- Found that Zone ID $zoneId is inactive: Using default forecast";
+                    OA::debug($message, PEAR_LOG_DEBUG);
+                    $aZoneInfo['availableImpressions'] = $this->oDal->getZoneForecastDefaultZoneImpressions();
+                }
                 if ($aZoneInfo['desiredImpressions'] > $aZoneInfo['availableImpressions']) {
                     $message  = "- Found that Zone ID $zoneId was over-subscribed: Want ";
                     $message .= "{$aZoneInfo['desiredImpressions']} in {$aZoneInfo['availableImpressions']}";
