@@ -10,6 +10,16 @@
 +---------------------------------------------------------------------------+
 */
 
+// Protect this script to be used only from command-line
+if (php_sapi_name() != 'cli') {
+    echo "Sorry, this script must be run from the command-line";
+    exit;
+}
+
+error_reporting(E_ALL & ~(E_NOTICE | E_WARNING | E_DEPRECATED | E_STRICT));
+
+echo "=> STARTING TO REFRESH THE MDB2 SCHEMA XML FILE CACHE\n";
+
 define('MAX_PATH', dirname(__FILE__) . '/../..');
 define('OX_PATH', dirname(__FILE__) . '/../..');
 error_reporting(E_ALL);
@@ -20,12 +30,14 @@ require_once MAX_PATH . '/constants.php';
 require_once MAX_PATH . '/memory.php';
 require_once MAX_PATH . '/variables.php';
 setupServerVariables();
+
 // set conf array to prevent loading config file
 $GLOBALS['_MAX']['CONF'] = array();
 $GLOBALS['_MAX']['CONF']['log']['enabled'] = false;
 $GLOBALS['_MAX']['CONF']['webpath'] = null;
 $GLOBALS['_MAX']['CONF']['openads']['sslPort'] = null;
 $GLOBALS['_MAX']['HTTP'] = null;
+
 // set pear path
 $newPearPath = MAX_PATH . DIRECTORY_SEPARATOR.'lib' . DIRECTORY_SEPARATOR . 'pear';
 if (!empty($existingPearPath)) {
@@ -39,9 +51,10 @@ setupConfigVariables();
 @set_time_limit(600);
 OX_increaseMemoryLimit(OX_getMinimumRequiredMemory('cache'));
 
+error_reporting(E_ALL & ~(E_NOTICE | E_WARNING | E_DEPRECATED | E_STRICT));
 
 if (!is_writable(MAX_PATH.'/etc/xmlcache')) {
-    die("The directory ".MAX_PATH.'/etc/xmlcache'." is not writable\n");
+    die("=> The directory ".MAX_PATH.'/etc/xmlcache'." is not writable\n");
 }
 
 require MAX_PATH . '/lib/OA/DB/Table.php';
@@ -52,6 +65,7 @@ require_once 'MDB2/Driver/mysql.php';
 Mock::generatePartial('MDB2_Driver_mysql', 'MDB2_Mock', array());
 $oDbh = new MDB2_Mock;
 $oDbh->__construct();
+
 // add datatype mapping
 $aDatatypeOptions = OA_DB::getDatatypeMapOptions();
 MDB2::setOptions($oDbh, $aDatatypeOptions);
@@ -69,21 +83,23 @@ generateXmlCache(glob(MAX_PATH.'/etc/tables_*.xml'));
 generateXmlCache(glob(MAX_PATH.'/etc/changes/schema_tables_*.xml'));
 generateXmlCache(glob(MAX_PATH.'/etc/changes/changes_tables_*.xml'), 'parseChangesetDefinitionFile');
 
+echo "=> FINISHED REFRESHING THE MDB2 SCHEMA XML FILE CACHE\n\n";
+
 function generateXmlCache($xmlFiles, $callback = 'parseDatabaseDefinitionFile')
 {
     global $aSkipFiles, $aOptions, $oDbh, $oCache;
 
     foreach ($xmlFiles as $fileName) {
         if (!in_array(baseName($fileName), $aSkipFiles)) {
-            echo basename($fileName).": "; flush();
+            echo "  => " . basename($fileName).": "; flush();
             $oSchema = &MDB2_Schema::factory($oDbh, $aOptions);
             $result = $oSchema->$callback($fileName, true);
             if (PEAR::isError($result)) {
                 clean_up();
-                die("failed\n");
+                die("Failed\n");
             } else {
                 $oCache->save($result, $fileName);
-                echo "processed"; eol_flush();
+                echo "Processed"; eol_flush();
             }
             unset($result);
         }
@@ -102,4 +118,5 @@ function clean_up()
         unlink($fileName);
     }
 }
+
 ?>
