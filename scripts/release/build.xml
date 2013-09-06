@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="ReviveAdserver" default="release">
+
+    <import file="build-filelist.xml"/>
+
+    <!-- ============================================  -->
+    <!-- Target: rebuild-delivery                      -->
+    <!-- ============================================  -->
+    <target name="rebuild-delivery">
+        <echo msg="Rebuilding the delivery engine scripts..." />
+        <exec command="$PHP_COMMAND rebuild.php" dir="../delivery" checkreturn="true" />
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Target: update-mdb2-cache                     -->
+    <!-- ============================================  -->
+    <target name="update-mdb2-cache">
+        <echo msg="Updating the MDB2 schema XML cache files..." />
+        <exec command="$PHP_COMMAND buildXmlCache.php" dir="../upgrade" checkreturn="true" />
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Target: check-files                           -->
+    <!-- ============================================  -->
+    <target name="check-files">
+        <echo msg="Checking that all files are accounted for..." />
+    </target>
+
+    <!-- ============================================  -->
+    <!-- (DEFAULT)  Target: release                    -->
+    <!-- ============================================  -->
+    <target name="release" depends="rebuild-delivery, update-mdb2-cache, check-files">
+        <echo msg="Creating the release packages..." />
+        <property name="release.dir" value="${dir.test.results}/${release}"/>
+        <echo msg="  => Release directory is ${release.dir}" />
+        <mkdir dir="${release.dir}"/>
+        <copy todir="${release.dir}" includeEmptyDirs="true">
+            <fileset dir="../../">
+                <patternset refid="dist.included"/>
+            </fileset>
+        </copy>
+    </target>
+
+</project>
