@@ -32,18 +32,6 @@ if (!isset($banner) || ($banner != 't'))        $banner = false;
 if (!isset($zone) || ($zone != 't'))            $zone = false;
 if (!isset($affiliate) || ($affiliate != 't'))  $affiliate = false;
 
-
-if ($client == false &&    $campaign == false &&
-    $banner == false &&    $zone == false &&
-    $affiliate == false)
-{
-    $client = true;
-    $campaign = true;
-    $banner = true;
-    $zone = true;
-    $affiliate = true;
-}
-
 if (!isset($compact)) {
     $compact = false;
 }
