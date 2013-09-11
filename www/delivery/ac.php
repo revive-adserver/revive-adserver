@@ -49,7 +49,7 @@ $conf = @parse_ini_file($defaultConfig, $sections);
 if ($conf !== false) {
 return $conf;
 }
-echo "OpenX could not read the default configuration file for the {$pluginType} plugin";
+echo "Revive Adserver could not read the default configuration file for the {$pluginType} plugin";
 exit(1);
 }
 $configFileName = $configPath . '/default' . $configFile . '.conf.php';
@@ -61,10 +61,10 @@ if (!empty($conf)) {
 return $conf;
 }
 if (file_exists(MAX_PATH . '/var/INSTALLED')) {
-echo "OpenX has been installed, but no configuration file was found.\n";
+echo "Revive Adserver has been installed, but no configuration file was found.\n";
 exit(1);
 }
-echo "OpenX has not been installed yet -- please read the INSTALL.txt file.\n";
+echo "Revive Adserver has not been installed yet -- please read the INSTALL.txt file.\n";
 exit(1);
 }
 if (!function_exists('mergeConfigFiles'))
