@@ -3075,6 +3075,15 @@ return true;
 }
 }
 }
+$aAndedLimitations = explode('and', $row['compiledlimitation']);
+foreach ($aAndedLimitations as $andedLimitation) {
+$aOredLimitations = explode('or', $andedLimitation);
+foreach ($aOredLimitations as $limitation) {
+if (strpos(trim($limitation), 'MAX_check') !== 0) {
+return false;
+}
+}
+}
 @eval('$result = (' . $row['compiledlimitation'] . ');');
 return $result;
 } else {
