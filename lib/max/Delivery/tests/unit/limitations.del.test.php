@@ -78,7 +78,7 @@ class Test_DeliveryLimitations extends UnitTestCase
         $this->assertTrue($return);
 
         // Test of dummy deliveryLimitation plugin
-        $row['compiledlimitation']  = '(MAX_checkDummy_Dummy(\'1\', \'==\')) and (MAX_checkDummy_Dummy(\'2\', \'==\'))';
+        $row['compiledlimitation']  = 'MAX_checkDummy_Dummy(\'1\', \'==\') and MAX_checkDummy_Dummy(\'2\', \'==\')';
         $row['acl_plugins']         = 'deliveryLimitations:Dummy:Dummy';
         $return = MAX_limitationsCheckAcl($row, $source);
         $this->assertTrue($return);

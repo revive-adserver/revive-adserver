@@ -3209,6 +3209,9 @@ return true;
 }
 }
 }
+if ($row['compiledlimitation'] === 'true') {
+return true;
+}
 $aAndedLimitations = explode('and', $row['compiledlimitation']);
 foreach ($aAndedLimitations as $andedLimitation) {
 $aOredLimitations = explode('or', $andedLimitation);
