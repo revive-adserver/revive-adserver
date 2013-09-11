@@ -1,5 +1,11 @@
 Revive Adserver is Copyright (c) 2013 Matteo Beccati & Andrew Hill
 
+Revive Adserver thanks the following members of the community for their
+contributions to the code:
+
+ - Erik Geurts
+ - Florian Sander
+
 --------------------------------------------------------------------------------
 
 Revive Adserver is based on OpenX Source, which was Copyright (c) 2003-2013
