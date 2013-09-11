@@ -20,16 +20,21 @@ What's New in Revive Adserver 3.0.0
  * Release date: TBA
 
  * Application name has changed from "OpenX Source" to "Revive Adserver".
- * PHP 5.4+ now supported.
  * Signup for an OpenX account is no longer required during installation.
  * Removed plugins (OpenX Market and OpenX Workflow) related to the deprecated
    OpenX Market service.
- * Fixed upgrade wizard to ensure that that disabled plugins remain disabled
-   after upgrade is completed.
  * Updated the dashboard to be served from the local Revive Adserver
    installation, instead of from OpenX.
+
+ Security Updates
+
+ * Fixed code injection exploit with delivery limitations.
  * Update checking mechanism no longer supports sending aggregate statistic
    data to the update server.
+
+ New Features
+
+ * PHP 5.4+ now supported.
  * Added support for the calculation of revenue and eCPM statistics for future
    delivery of monthly tenancy campaigns and associated banners.
  * Added breadcrumbs to the statistics pages.
@@ -37,6 +42,11 @@ What's New in Revive Adserver 3.0.0
    linked, but inactive, zones have on the priority calculations, where
    impressions were being incorrectly allocated to these zones, resulting in
    under-delivery.
+
+ Bug Fixes
+
+ * Fixed upgrade wizard to ensure that that disabled plugins remain disabled
+   after upgrade is completed.
  * Fixed SQL banners on PostgreSQL.
  * Fixed bug with multiple banner/zone ID logging.
  * Fixed bug with non-transparent SWF banners being served without wmode=opaque,
