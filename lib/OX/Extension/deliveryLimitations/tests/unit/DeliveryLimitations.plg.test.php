@@ -41,6 +41,6 @@ class Plugins_DeliveryLimitations_Test extends UnitTestCase
         $oPlugin->init(array('data' => 'Mozilla', 'comparison' => '==', 'group' => 'group', 'component' => 'component'));
         $this->assertEqual('MAX_checkGroup_component(\'Mozilla\', \'==\')', $oPlugin->compile());
         $oPlugin->init(array('data' => 'Mozil\\la', 'comparison' => '==', 'group' => 'group', 'component' => 'component'));
-        $this->assertEqual('MAX_checkGroup_component(\'Mozil\\la\', \'==\')', $oPlugin->compile());
+        $this->assertEqual('MAX_checkGroup_component(\'Mozil\\\\la\', \'==\')', $oPlugin->compile());
     }
 }
