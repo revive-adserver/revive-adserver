@@ -14,7 +14,7 @@
  * @package    Max
  * @author     Andrew Hill <andrew@m3.net>
  *
- * A file to set up the environment for the OpenX administration interface.
+ * A file to set up the environment for the administration interface.
  */
 
 require_once 'pre-check.php';
@@ -23,7 +23,7 @@ require_once 'variables.php';
 require_once 'constants.php';
 
 /**
- * The environment initialisation function for the OpenX administration interface.
+ * The environment initialisation function for the administration interface.
  *
  * @TODO Should move the user authentication, loading of preferences into this
  *       file, and out of the /www/admin/config.php file.
@@ -132,7 +132,7 @@ function init()
     // Store the original memory limit before changing it
     $GLOBALS['_OX']['ORIGINAL_MEMORY_LIMIT'] = OX_getMemoryLimitSizeInBytes();
 
-    // Increase the PHP memory_limit value to the OpenX minimum required value, if necessary
+    // Increase the PHP memory_limit value to the minimum required value, if necessary
     OX_increaseMemoryLimit(OX_getMinimumRequiredMemory());
 }
 

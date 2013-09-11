@@ -129,14 +129,15 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true, 
         }
         if (!$configFile)
         {
-            // OpenX hasn't been installed, so use the distribution .ini file
-            // this deals with letting a PAN install get into the ugprader
+            // Revive Adserver hasn't been installed, so use the distribution
+            // .ini file; this deals with letting a PAN install get into the
+            // ugprader
             return @parse_ini_file(MAX_PATH . '/etc/dist.conf.php', $sections);
         }
         //return parseIniFile($configPath, $configFile, $sections, '.ini');
 
     }
-    // Check to ensure OpenX hasn't been installed
+    // Check to ensure Revive Adserver hasn't been installed
     if (file_exists(MAX_PATH . '/var/INSTALLED'))
     {
         // ah but MMM might be installed, check for the ini file
@@ -147,7 +148,7 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true, 
         echo MAX_PRODUCT_NAME . " has been installed, but no configuration file ".$configPath . '/' . $host . $configFile . '.conf.php'." was found.\n";
         exit(1);
     }
-    // OpenX hasn't been installed, so use the distribution .ini file
+    // Revive Adserver hasn't been installed, so use the distribution .ini file
     return @parse_ini_file(MAX_PATH . '/etc/dist.conf.php', $sections);
 }
 

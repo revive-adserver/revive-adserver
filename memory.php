@@ -20,7 +20,7 @@
  */
 
 /**
- * Returns the minimum required amount of memory required for OpenX operation.
+ * Returns the minimum required amount of memory required for operation.
  *
  * @param strting $limit An optional limitation level, to have a memory limit OTHER than
  *                       the default UI/delivery engine memory limit returned. If used,

@@ -16,7 +16,7 @@
  * @author     Andrew Hill <andrew.hill@openx.org>
  * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  *
- * A file to set up the environment for the OpenX delivery engine.
+ * A file to set up the environment for the delivery engine.
  *
  * Both opcode and PHP by itself slow things down when we require many
  * files. Therefore maintainability has been sacrificed in order to

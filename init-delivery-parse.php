@@ -54,7 +54,7 @@ function parseDeliveryIniFile($configPath = null, $configFile = null, $sections 
             // check for false here - it's possible file doesn't exist
             return $conf;
         }
-        echo "OpenX could not read the default configuration file for the {$pluginType} plugin";
+        echo "Revive Adserver could not read the default configuration file for the {$pluginType} plugin";
         exit(1);
     }
     // Check for a 'default.conf.php' file
@@ -69,11 +69,11 @@ function parseDeliveryIniFile($configPath = null, $configFile = null, $sections 
     }
     // Check to ensure Max hasn't been installed
     if (file_exists(MAX_PATH . '/var/INSTALLED')) {
-        echo "OpenX has been installed, but no configuration file was found.\n";
+        echo "Revive Adserver has been installed, but no configuration file was found.\n";
         exit(1);
     }
-    // Max hasn't been installed, so delivery engine can't run
-    echo "OpenX has not been installed yet -- please read the INSTALL.txt file.\n";
+    // Revive Adserver hasn't been installed, so delivery engine can't run
+    echo "Revive Adserver has not been installed yet -- please read the INSTALL.txt file.\n";
     exit(1);
 }
 

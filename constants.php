@@ -192,8 +192,8 @@ function setupConstants()
 
     // Ensure that the initialisation has not been run before
     if (!(isset($GLOBALS['_MAX']['CONF']))) {
-        // Define the OpenX installation base path if not defined
-        // since Local mode will pre-define this value
+        // Define the installation base path if not defined
+        // since local mode will pre-define this value
         if (!defined('MAX_PATH')) {
             define('MAX_PATH', dirname(__FILE__));
         }
@@ -227,9 +227,9 @@ function setupConstants()
         // Setup the include path
         setupIncludePath();
 
-        // Parse the OpenX configuration file
+        // Parse the configuration file
         $GLOBALS['_MAX']['CONF'] = parseIniFile();
-        // Define the OpenX Cache File location path (required trailing slash)
+        // Define the cache file location path (required trailing slash)
         define('MAX_CACHE', MAX_PATH . '/var/cache/');
 
        // Set the URL access mechanism

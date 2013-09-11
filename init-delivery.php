@@ -16,7 +16,7 @@
  * @author     Andrew Hill <andrew.hill@openx.org>
  * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  *
- * A file to set up the environment for the OpenX delivery engine.
+ * A file to set up the environment for the delivery engine.
  *
  * Both opcode and PHP by itself slow things down when we require many
  * files. Therefore we gave up a little bit of maintainability in
@@ -30,7 +30,7 @@ require_once 'init-delivery-parse.php';
 require_once 'memory.php';
 require_once 'variables.php';
 
-// Increase the PHP memory_limit value to the OpenX minimum required value, if necessery
+// Increase the PHP memory_limit value to the minimum required value, if necessery
 OX_increaseMemoryLimit(OX_getMinimumRequiredMemory());
 
 // PHP 5.3 compatibility
