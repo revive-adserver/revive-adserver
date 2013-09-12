@@ -3611,7 +3611,7 @@ $source = !empty($source) ? "{$del}source=" . urlencode($source) : '';
 $log = $logClick ? '' : "{$del}{$conf['var']['logClick']}=no";
 $dest = !empty($aBanner['url']) ? $aBanner['url'] : '';
 if (!empty($ct0) && strtolower(substr($ct0, 0, 4)) == 'http') {
-$dest = $ct0.urlencode($dest);
+$dest = $ct0.preg_replace('/%7B(.*?)%7D/', '{$1}', urlencode($dest));
 }
 $dest = preg_replace('/%7B(.*?)%7D/', '{$1}', urlencode($dest));
 $maxdest = "{$del}{$conf['var']['dest']}={$dest}";
