@@ -28,9 +28,7 @@ What's New in Revive Adserver 3.0.0
 
  Security Updates
 
- * Fixed code injection exploit with delivery limitations. Please note that
-   delivery limitations with keywords of "and" and/or "or" in them may no longer
-   work. Please see http://tinyurl.com/q846vcy
+ * Fixed code injection exploit with delivery limitations.
  * Update checking mechanism no longer supports sending aggregate statistic
    data to the update server.
 
@@ -52,11 +50,25 @@ What's New in Revive Adserver 3.0.0
  * Fixed issue with magic macros not working in a banner's destination URL
    when being displayed in an invocation tag with 3rd party click-tracking
    enabled.
+ * Fixed many different combinations of invocation tags failing to track clicks
+   correctly in 3rd party servers.
  * Fixed SQL banners on PostgreSQL.
  * Fixed bug with multiple banner/zone ID logging.
  * Fixed bug with non-transparent SWF banners being served without wmode=opaque,
    causing banners to be rendered on top of other dynamic content (e.g. menus).
  * Resolved several PHP warnings relating to code strictness.
+
+ Non-Backwards Compatible Changes
+
+ * Please note that due to a desire to protect upgraded installations from
+   possibly running injected code, delivery limitations containing keywords of
+   "and" and/or "or" in them may no longer work. Please see
+   http://tinyurl.com/q846vcy for details if you find that banners with these
+   keywords in delivery limitations no longer appear, and report a bug.
+ * Please note that bug fixes to 3rd party click-tracking mean that it is
+   possible that existing, working 3rd party click-tracking configrations may
+   break. Please see http://tinyurl.com/ojr989o for more details on why, and
+   what combinations of servers & tags may be affected.
 
 
 System Requirements
@@ -73,9 +85,6 @@ Downloading and Installing
 
    You can always find the latest version of Revive Adserver at
    http://www.revive-adserver.com.
-
-   Older and maintenance releases can be found here
-   http://download.revive-adserver.com/.
 
  * Installing Revive Adserver
 
@@ -152,7 +161,7 @@ this before reporting any new bugs.
    upgrading.
 
  * Some of the PEAR libraries used are not compatible with database prefix
-   names with double "_" characters (e.g. "ox__"). You should NOT install
+   names with double "_" characters (e.g. "rv__"). You should NOT install
    Revive Adserver with a prefix of this format.
 
  * Some users have reported issues of being logged out when viewing
@@ -181,5 +190,6 @@ FAQ
  3. What can I do to help?
 
     We need help from both developers and users to provide as much feedback
-    as possible to make Revive Adserver even better. You can contribute by
+    as possible to make Revive Adserver even better. You can contribute
+    feedback, bug reports, submit patches or help with documentation by
     visiting http://www.revive-adserver.com/.
