@@ -12,8 +12,6 @@
 
   <!-- OpenX Package Integrity Plugin -->
   <taskdef name="checkdistribution" classname="org.openads.ant.CheckDistributionTask"/>
-  <!-- OpenX Delivery Generation Plugin -->
-  <taskdef name="generatedelivery" classname="org.openads.ant.GenerateDeliveryTask"/>
 
   <macrodef name="oa-version" description="Sets a value of the OA_VERSION constant in the constants.php file.">
     <attribute name="versionstring" description="A version to be set."/>
