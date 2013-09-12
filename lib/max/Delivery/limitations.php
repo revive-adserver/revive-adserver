@@ -61,6 +61,12 @@ function MAX_limitationsCheckAcl($row, $source = '')
             foreach ($aOredLimitations as $limitation) {
                 if (strpos(trim($limitation), 'MAX_check') !== 0) {
                     // The limitation is invalid, do not execute any limitations
+                    OX_Delivery_logMessage(
+                        'WARNING: Banner ID ' . $row['ad_id'] . ' was NOT ' .
+                        'delivered because its compiled delivery limitations ' .
+                        'may possibly have been compromised. See: ' .
+                        'http://tinyurl.com/q846vcy'
+                    );
                     return false;
                 }
             }
