@@ -26,6 +26,8 @@ class OA_Admin_UI_Search extends OA_Admin_UI
         foreach($params as $key => $val){
             $this->oTpl->assign($key, htmlentities($val));
         }
+
+        parent::showHeader(0);
     }
 }
 
