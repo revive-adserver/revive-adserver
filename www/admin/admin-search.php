@@ -190,7 +190,7 @@ $oTpl->assign('aZones', $aZones);
 
 $oUI = new OA_Admin_UI_Search();
 
-$oUI->showHeader($keyword);
+$oUI->showHeader($keyword, $_GET);
 $oTpl->display();
 $oUI->showFooter();
 
