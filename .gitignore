@@ -1,5 +1,6 @@
 /nbproject
 /plugins
+/should_not_exist
 /var/INSTALLED
 /var/*.conf.php
 /var/*.log
