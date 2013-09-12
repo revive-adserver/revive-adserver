@@ -185,7 +185,7 @@ class Plugins_InvocationTags extends OX_Component
 
         $mi->macros = array(
             'cachebuster' => 'INSERT_RANDOM_NUMBER_HERE',
-            'clickurl'  => 'INSERT_CLICKURL_HERE',
+            'clickurl'    => 'INSERT_ENCODED_CLICKURL_HERE',
         );
         if (!empty($mi->thirdpartytrack) && ($mi->thirdpartytrack != 'generic')) {
             if ($thirdpartyserver = OX_Component::factoryByComponentIdentifier($mi->thirdpartytrack)) {
