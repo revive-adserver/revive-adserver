@@ -49,6 +49,9 @@ What's New in Revive Adserver 3.0.0
 
  * Fixed upgrade wizard to ensure that that disabled plugins remain disabled
    after upgrade is completed.
+ * Fixed issue with magic macros not working in a banner's destination URL
+   when being displayed in an invocation tag with 3rd party click-tracking
+   enabled.
  * Fixed SQL banners on PostgreSQL.
  * Fixed bug with multiple banner/zone ID logging.
  * Fixed bug with non-transparent SWF banners being served without wmode=opaque,
