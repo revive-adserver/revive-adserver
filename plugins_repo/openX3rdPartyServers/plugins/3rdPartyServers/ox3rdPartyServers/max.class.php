@@ -28,7 +28,7 @@ require_once LIB_PATH . '/Extension/3rdPartyServers/3rdPartyServers.php';
 class Plugins_3rdPartyServers_ox3rdPartyServers_max extends Plugins_3rdPartyServers
 {
     var $hasOutputMacros = true;
-    var $clickurlMacro = '{clickurl}';
+    var $clickurlMacro = '{clickurl_enc}';
     var $cachebusterMacro = '{random}';
 
     /**
@@ -48,8 +48,8 @@ class Plugins_3rdPartyServers_ox3rdPartyServers_max extends Plugins_3rdPartyServ
      */
     function getBannerCache($buffer, &$noScript)
     {
-        $search  = array("/insert_random_number_here/i", "/insert_click_?(track_|_)?url_here/i");
-        $replace = array("{random}", "{clickurl}");
+        $search  = array("/insert_random_number_here/i", "/insert_(?:encoded_)?click_?(?:track_|_)?url_here/i");
+        $replace = array("{random}", "{clickurl_enc}");
 
         $buffer = preg_replace($search, $replace, $buffer);
         $noScript[0] = preg_replace($search, $replace, $noScript[0]);
