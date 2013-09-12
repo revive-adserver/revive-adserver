@@ -48,6 +48,11 @@
     <exclude name="www/devel/**"/>
     <exclude name="www/delivery_dev"/>
     <exclude name="www/delivery_dev/**"/>
+    <include name="www/images/1x1.gif"/>
+    <include name="www/images/robots.txt"/>
+    <include name="www/images/layerstyles/**"/>
+    <exclude name="www/images/*.jpg"/>
+    <exclude name="www/images/*.png"/>
 
     <exclude name="www/admin/assets/js/jscalendar/test.php"/>
 
@@ -99,6 +104,11 @@
     <include name="www/devel/**"/>
     <include name="www/delivery_dev"/>
     <include name="www/delivery_dev/**"/>
+    <exclude name="www/images/1x1.gif"/>
+    <exclude name="www/images/robots.txt"/>
+    <exclude name="www/images/layerstyles/**"/>
+    <include name="www/images/*.jpg"/>
+    <include name="www/images/*.png"/>
 
     <!-- Build-wide rules -->
     <include name="nbproject/**"/>

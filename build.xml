@@ -9,12 +9,16 @@
   <!-- Import the include/exclude filelist -->
   <import file="build-filelist.xml"/>
 
-  <!-- OpenX Package Integrity Plugin -->
+  <!-- Package Integrity Plugin -->
   <taskdef name="checkdistribution" classname="org.openads.ant.CheckDistributionTask"/>
 
   <macrodef name="oa-version" description="Sets a value of the OA_VERSION constant in the constants.php file.">
     <attribute name="versionstring" description="A version to be set."/>
     <sequential>
+      <replaceregexp file="constants.php"
+        match="^ *define\('VERSION.*$"
+        replace="    define('VERSION', '@{versionstring}');"
+        byline="true"/>
       <replaceregexp file="constants.php"
         match="^ *define\('OA_VERSION.*$"
         replace="    define('OA_VERSION', '@{versionstring}');"
@@ -80,7 +84,7 @@
   </target>
 
   <target name="init-release" unless="release" depends="init,init-version">
-    <property name="release" value="openx-${version}"/>
+    <property name="release" value="revive-adserver-${version}"/>
     <echo message="Initialized release: ${release}."/>
   </target>
 
