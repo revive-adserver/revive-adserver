@@ -782,7 +782,7 @@ class Test_OA_Upgrade extends UnitTestCase
         $doAgency->joinAdd($doAccount);
         $doAgency->find();
         $this->assertTrue($doAgency->fetch());
-        $this->assertEqual($doAgency->name, 'Default manager');
+        $this->assertEqual($doAgency->name, 'Default account');
         $this->assertEqual($doAgency->email, $aAdmin['email']);
         $this->assertEqual($doAgency->active, 1);
         

@@ -208,7 +208,7 @@ class UserMigration extends Migration
                         account_name
                     ) VALUES (
                         ".$this->oDBH->quote('MANAGER').",
-                        ".$this->oDBH->quote('Default manager')."
+                        ".$this->oDBH->quote('Default account')."
                     )
                 ";
 

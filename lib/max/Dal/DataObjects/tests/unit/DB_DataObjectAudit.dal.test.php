@@ -1161,7 +1161,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
     function generateAccountId()
     {
         $doAccounts = OA_Dal::factoryDO('accounts');
-        $doAccounts->account_name = 'Default Manager';
+        $doAccounts->account_name = 'Default account';
         $doAccounts->account_type = OA_ACCOUNT_MANAGER;
         return DataGenerator::generateOne($doAccounts);
     }

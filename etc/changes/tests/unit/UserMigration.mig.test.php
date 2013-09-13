@@ -1549,7 +1549,7 @@ require_once MAX_PATH . '/lib/OA/Upgrade/Upgrade.php';
         return array(
             0 => array(
                 'agencyid'   => '6',
-                'name'       => 'Default manager',
+                'name'       => 'Default account',
                 'email'      => 'admin@example.com',
                 'account_id' => '2',
             )
@@ -1567,7 +1567,7 @@ require_once MAX_PATH . '/lib/OA/Upgrade/Upgrade.php';
             1 => array(
                 'account_id'   => '2',
                 'account_type' => 'MANAGER',
-                'account_name' => 'Default manager',
+                'account_name' => 'Default account',
             )
         );
     }

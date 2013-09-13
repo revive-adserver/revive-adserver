@@ -1679,7 +1679,7 @@ class OA_Upgrade
 
             // Create Manager entity
             $doAgency = OA_Dal::factoryDO('agency');
-            $doAgency->name   = 'Default manager';
+            $doAgency->name   = 'Default account';
             $doAgency->email  = $aAdmin['email'];
             $doAgency->active = 1;
             $agencyId = $doAgency->insert();
