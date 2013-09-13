@@ -1669,7 +1669,7 @@ class OA_Upgrade
 
             // Create Admin account
             $doAccount = OA_Dal::factoryDO('accounts');
-            $doAccount->account_name = 'Administrator account';
+            $doAccount->account_name = 'System Administrator';
             $doAccount->account_type = OA_ACCOUNT_ADMIN;
             $adminAccountId = $doAccount->insert();
 

@@ -920,7 +920,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
     {
         // Create the admin account
         $doAccounts = OA_Dal::factoryDO('accounts');
-        $doAccounts->account_name = 'Administrator Account';
+        $doAccounts->account_name = 'System Administrator';
         $doAccounts->account_type = OA_ACCOUNT_ADMIN;
         $adminAccountId = DataGenerator::generateOne($doAccounts);
 

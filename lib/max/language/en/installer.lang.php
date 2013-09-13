@@ -53,8 +53,8 @@ $GLOBALS['strCheckWarning']                     = 'warning';
 $GLOBALS['strCheckWarnings']                    = 'warnings';
 
 /** admin login step **/
-$GLOBALS['strAdminLoginTitle']                  = "Please login as your " . PRODUCT_NAME . " administrator";
-$GLOBALS['strAdminLoginIntro']                  = "To continue, please enter your " . PRODUCT_NAME . " administrator account login information.";
+$GLOBALS['strAdminLoginTitle']                  = "Please login as your " . PRODUCT_NAME . " system administrator";
+$GLOBALS['strAdminLoginIntro']                  = "To continue, please enter your " . PRODUCT_NAME . " system administrator login information.";
 $GLOBALS['strLoginProgressMessage']             = 'Logging in...';
 
 /** database step **/
@@ -77,8 +77,8 @@ $GLOBALS['strDBUpgradeSuccess']                 = 'Database upgraded successfull
 $GLOBALS['strDetectedVersion']                  = 'Detected ' . PRODUCT_NAME . ' version';
 
 /** config step **/
-$GLOBALS['strConfigureInstallTitle']            = 'Configure your local ' . PRODUCT_NAME . ' administrator account';
-$GLOBALS['strConfigureInstallIntro']            = 'Please provide the desired login information for your local ' . PRODUCT_NAME . ' administrator account.';
+$GLOBALS['strConfigureInstallTitle']            = 'Configure your local ' . PRODUCT_NAME . ' system administrator account';
+$GLOBALS['strConfigureInstallIntro']            = 'Please provide the desired login information for your ' . PRODUCT_NAME . ' system administrator.';
 $GLOBALS['strConfigureUpgradeTitle']            = 'Configuration settings';
 $GLOBALS['strConfigureUpgradeIntro']            = 'Provide the path to your previous ' . PRODUCT_NAME . ' installation.';
 $GLOBALS['strConfigSeeMoreFields']              = 'See more configuration fields...';
@@ -121,7 +121,7 @@ $GLOBALS['strSignupUpdates']                    = "Sign up for product updates a
 $GLOBALS['strUpgradeComplete']                  = "Congratulations, you have finished upgrading ". PRODUCT_NAME;
 $GLOBALS['strUnableCreateConfFile']             = "We are unable to create your configuration file. Please re-check the permissions of the ". PRODUCT_NAME ." var folder.";
 $GLOBALS['strUnableUpdateConfFile']             = "We are unable to update your configuration file. Please re-check the permissions of the ". PRODUCT_NAME ." var folder, and also check the permissions of the previous install's config file that you copied into this folder.";
-$GLOBALS['strUnableToCreateAdmin']              = "We are unable to create an administrator account, is your database accessible?";
+$GLOBALS['strUnableToCreateAdmin']              = "We are unable to create a system administrator, is your database accessible?";
 $GLOBALS['strTimezoneLocal']                    = PRODUCT_NAME . " has detected that your PHP installation is returning 'System/Localtime' as the ".
                                                   "timezone of your server. This is because of a patch to PHP applied by some Linux distributions. " .
                                                   "Unfortunately, this is not a valid PHP timezone. Please edit your php.ini file and set the 'date.timezone' " .

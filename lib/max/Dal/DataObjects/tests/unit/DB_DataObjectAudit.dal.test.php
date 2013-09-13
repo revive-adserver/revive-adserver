@@ -97,7 +97,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
     function testAuditAccounts()
     {
         $doAccounts = OA_Dal::factoryDO($context = 'accounts');
-        $doAccounts->account_name = 'Administrator Account';
+        $doAccounts->account_name = 'System Administrator';
         $doAccounts->account_type = OA_ACCOUNT_ADMIN;
         $accountId = DataGenerator::generateOne($doAccounts);
 
@@ -111,13 +111,13 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertTrue(!isset($aAudit['m2m_ticket']));
 
         $doAccounts = OA_Dal::staticGetDO('accounts', $accountId);
-        $doAccounts->account_name = 'Administrator Account Changed';
+        $doAccounts->account_name = 'System Administrator Changed';
         $doAccounts->update();
         $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_UPDATE);
         $aAudit = unserialize($oAudit->details);
         $this->assertEqual($oAudit->username,OA_TEST_AUDIT_USERNAME);
         $this->assertEqual($aAudit['account_name']['is'],$doAccounts->account_name);
-        $this->assertEqual($aAudit['account_name']['was'],'Administrator Account');
+        $this->assertEqual($aAudit['account_name']['was'],'System Administrator');
 
         // M2M records should not be audited
         $doAccounts = OA_Dal::staticGetDO('accounts', $accountId);

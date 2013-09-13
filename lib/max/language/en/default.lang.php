@@ -179,7 +179,7 @@ $GLOBALS['strDashboardErrorDsc800']     = "The dashboard pulls information from 
                                            You should also check that your firewall isn't blocking outbound connections.";
 $GLOBALS['strDashboardErrorDsc803']     = "Error in request to server - wrong parameters, please try to resend your data";
 $GLOBALS['strDashboardErrorDsc805']     = "XML-RPC connection wasn't allowed during " . PRODUCT_NAME . " installation and " . PRODUCT_NAME . " central server does not recognize your installation as valid.<br />
-                                           Please go to Administrator's account My account -> Product Updates to connect to and register in central server.";
+                                           Please switch to Working as System Administrator -> My account -> Product Updates to connect to and register in central server.";
 
 // Priority
 $GLOBALS['strPriority']                 = "Priority";
@@ -904,7 +904,7 @@ $GLOBALS['strWarnChangeZoneType']           = "Changing the zone type to text or
                                                 </ul>";
 $GLOBALS['strWarnChangeZoneSize']           = 'Changing the zone size will unlink any banners that are not the new size, and will add any banners from linked campaigns which are the new size';
 $GLOBALS['strWarnChangeBannerSize']         = 'Changing the banner size will unlink this banner from any zones that are not the new size, and if this banner\'s <strong>campaign</strong> is linked to a zone of the new size, this banner will be automatically linked';
-$GLOBALS['strWarnBannerReadonly']           = 'This banner is read-only because an extension has been disabled.  Contact your Administrator for more information.';
+$GLOBALS['strWarnBannerReadonly']           = 'This banner is read-only because an extension has been disabled.  Contact your System Administrator for more information.';
 $GLOBALS['strInventoryForecasting']         = 'Inventory Forecasting';
 $GLOBALS['strZonesOfWebsite']               = 'in'; //this is added between page name and website name eg. 'Zones in www.example.com'
 $GLOBALS['strBackToZones']                  = "Back to zones";
@@ -1249,7 +1249,7 @@ $GLOBALS['strMainPreferences']                  = "Main Preferences";
 $GLOBALS['strAccountPreferences']               = "Account Preferences";
 $GLOBALS['strCampaignEmailReportsPreferences']  = "Campaign email Reports Preferences";
 $GLOBALS['strTimezonePreferences']              = "Timezone Preferences";
-$GLOBALS['strAdminEmailWarnings']               = "Administrator email Warnings";
+$GLOBALS['strAdminEmailWarnings']               = "System Administrator email Warnings";
 $GLOBALS['strAgencyEmailWarnings']              = "Account email Warnings";
 $GLOBALS['strAdveEmailWarnings']                = "Advertiser email Warnings";
 $GLOBALS['strFullName']                         = "Full Name";
@@ -1473,7 +1473,7 @@ $GLOBALS['strFor']                    = "for";
 $GLOBALS['strHas']                    = "has";
 $GLOBALS['strAdZoneAsscociation']     = "Ad Zone Association";
 $GLOBALS['strBinaryData']             = "Binary data";
-$GLOBALS['strAuditTrailDisabled']     = "Audit Trail has been disabled by administrator. No further events are logged and shown in Audit Trail list.";
+$GLOBALS['strAuditTrailDisabled']     = "Audit Trail has been disabled by system administrator. No further events are logged and shown in Audit Trail list.";
 $GLOBALS['strAccount']                  = "Account";
 $GLOBALS['strAccountUserAssociation']   = "Account User Association";
 $GLOBALS['strEvent']                    = "Event";
