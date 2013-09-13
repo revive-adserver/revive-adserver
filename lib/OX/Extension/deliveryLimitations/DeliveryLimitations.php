@@ -121,6 +121,14 @@ class Plugins_DeliveryLimitations extends OX_Component
         return true;
     }
 
+    function checkComparison($acl)
+    {
+        if (!empty($acl['comparison']) && !isset($this->aOperations[$acl['comparison']])) {
+            return "Unknown operator";
+        }
+        return true;
+    }
+
     /**
      * Echos the HTML to display this limitation
      *
