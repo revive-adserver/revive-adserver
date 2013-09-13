@@ -32,6 +32,25 @@ What's New in Revive Adserver 3.0.0
  * Update checking mechanism no longer supports sending aggregate statistic
    data to the update server.
 
+   IMPORTANT NOTE
+
+   The code injection exploit deliver limitations fix requires user action to
+   ensure that you are safe. After upgrading to Revive 3.0.0, you must take the
+   following actions to ensure that all of your delivery limitations are not
+   potentially exposing your system.
+
+   1. Log into your Revive Adserver UI as an admin user.
+   2. Ensure that you are "Working as" the system administrator.
+   3. Go to "Configuration > Maintenance".
+   3. Select the "Delivery Limitations" section.
+   4. Click the "Check ACLs" link.
+   5. If errors are reported, click the "Recompile" button.
+
+   Please note that in this event, it is possible that some banners will no
+   longer deliver, as the injected code will render your re-compiled delivery
+   limitations as invalid. To correct this, you will need to re-set the
+   delivery limitations for each affected banner in the user interface.
+
  New Features
 
  * PHP 5.4+ now supported.
