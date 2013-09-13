@@ -58,6 +58,7 @@
     <exclude name="nbproject/**"/>
     <exclude name="**/tests"/>
     <exclude name="**/tests/**"/>
+    <exclude name="**/.git*"/>
     <exclude name="**/*.log"/><!-- Log files -->
   </patternset>
 
@@ -114,6 +115,8 @@
     <include name="nbproject/**"/>
     <include name="**/tests"/>
     <include name="**/tests/**"/>
+    <include name="**/.git*"/>
+    <include name="**/.git*/**"/>
     <include name="**/*.log"/><!-- Log files -->
     <include name="**/.*.swp"/><!-- Vim swap files -->
   </patternset>
