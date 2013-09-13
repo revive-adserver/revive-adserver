@@ -110,14 +110,6 @@
     </checkdistribution>
   </target>
 
-  <target name="package-bzip2-canoo" depends="prepare-version-info">
-    <property name="canoo.package" value="openx-canoo-${version}.tar.gz"/>
-    <property name="canoo.package.file" value="${dir.test.results}/${canoo.package}"/>
-    <tar destfile="${canoo.package.file}" basedir="." compression="gzip" longfile="gnu">
-      <patternset refid="dist.included"/>
-    </tar>
-  </target>
-
   <target name="prepare-distribution" depends="prepare-version-info">
     <property name="release.dir" value="${dir.test.results}/${release}"/>
     <mkdir dir="${release.dir}"/>
@@ -181,34 +173,6 @@
     <ant antfile="tests.xml"/>
   </target>
 
-<!--
-  <target name="test-canoo" description="Test canoo remotely or if -Drun.local=true switch exist tests it locally">
-  	<echo>test-canoo started</echo>
-    <if>
-      <istrue value="${run.local}"/>
-      <then>
-      	<echo message="running locally"/>
-        <antcall target="test-canoo-local" />
-      </then>
-      <else>
-      	<echo message="running remotely"/>
-        <antcall target="test-canoo-remote" />
-      </else>
-    </if>
-  	<echo>test-canoo finished</echo>
-  </target> -->
-
-  <!-- <target name="test-canoo-local" depends="canoo-create-openx-configuration-local, setup-delivery-files, run-test-canoo"> -->
-  <!--
-	<target name="test-canoo-local" depends="setup-delivery-files, run-test-canoo">
-    <property name="run.local" value="true" />
-  	<antcall target="clean-delivery"></antcall>
-  </target>
-
-  <target name="test-canoo-remote" depends="test-canoo-prepare, run-test-canoo, clean-ec2"/>
-
-  <target name="test-canoo-prepare" depends="clean, checkconsistency, init-version, package-bzip2-canoo, canoo-prepare-dir, canoo-copy-package, canoo-unpack-package, canoo-create-openx-configuration-remote"/>
--->
   <target name="simpletest" depends="clean, init, test-all" />
 
 </project>
