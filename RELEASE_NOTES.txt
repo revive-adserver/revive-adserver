@@ -17,7 +17,7 @@ Revive Adserver. Please read these notes before reporting any bugs.
 What's New in Revive Adserver 3.0.0
 -----------------------------------
 
- * Release date: TBA
+ * Release date: 13 September 2013
 
  * Application name has changed from "OpenX Source" to "Revive Adserver".
  * Signup for an OpenX account is no longer required during installation.
