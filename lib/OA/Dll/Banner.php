@@ -22,6 +22,7 @@ require_once MAX_PATH . '/lib/OA/Dll/BannerInfo.php';
 require_once MAX_PATH . '/lib/OA/Dll/TargetingInfo.php';
 require_once MAX_PATH . '/lib/OA/Dal/Statistics/Banner.php';
 require_once MAX_PATH . '/lib/OA/Creative/File.php';
+require_once MAX_PATH . '/lib/max/other/lib-acl.inc.php';
 
 
 /**
@@ -296,7 +297,7 @@ class OA_Dll_Banner extends OA_Dll
                                         : 0;
         $bannerData['block']            = $oBanner->block > 0
                                         ? $oBanner->block
-                                        : 0;        
+                                        : 0;
 
         if ($this->_validate($oBanner)) {
             $bannerData['storagetype'] = $oBanner->storageType;
@@ -348,7 +349,7 @@ class OA_Dll_Banner extends OA_Dll
                             $bannerData['alt_contenttype'] = '';
                             $bannerData['alt_filename']   = '';
                         }
-                    }                    
+                    }
                     break;
                 case 'url':
                     $bannerData['contenttype'] = OA_Creative_File::staticGetContentTypeByExtension($oBanner->imageURL);
@@ -513,6 +514,17 @@ class OA_Dll_Banner extends OA_Dll
                 }
             }
 
+            $aTargetingArray = array();
+            foreach ($aTargeting as $oTargeting) {
+                $aTargetingArray[] = $oTargeting->toArray();
+            }
+
+            $res = OX_AclCheckInputsFields($aTargetingArray, false);
+            if ($res !== true) {
+                $this->raiseError($res[0]);
+                return false;
+            }
+
             $doBannerTargeting = OA_Dal::factoryDO('acls');
             $doBannerTargeting->bannerid = $bannerId;
             $doBannerTargeting->find();
@@ -521,8 +533,7 @@ class OA_Dll_Banner extends OA_Dll
             // Create the new targeting options
             $executionOrder = 0;
             $aAcls = array();
-            foreach ($aTargeting as $oTargeting) {
-                $bannerTargetingData = $oTargeting->toArray();
+            foreach ($aTargetingArray as $bannerTargetingData) {
                 $doAcl = OA_Dal::factoryDO('acls');
                 $doAcl->setFrom($bannerTargetingData);
                 $doAcl->bannerid = $bannerId;

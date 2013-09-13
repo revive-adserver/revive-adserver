@@ -557,6 +557,10 @@ function OX_AclCheckInputsFields($aAcls, $page){
         if ($deliveryLimitationPlugin = OA_aclGetComponentFromRow($acl)) {
             $deliveryLimitationPlugin->init($acl);
             if ($deliveryLimitationPlugin->isAllowed($page)) {
+                $checkResult = $deliveryLimitationPlugin->checkComparison($acl);
+                if ($checkResult !== true) {
+                    $aErrors[] = $checkResult;
+                }
                 $checkResult = $deliveryLimitationPlugin->checkInputData($acl);
                 if ($checkResult !== true) {
                     $aErrors[] = $checkResult;
