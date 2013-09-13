@@ -14,6 +14,7 @@
     <include name="*.php"/>
     <include name="*.js"/>
     <include name="robots.txt"/>
+    <exclude name="build.sh"/>
 
     <!-- Subdirectory rules -->
     <exclude name="docs/**"/>
@@ -25,8 +26,7 @@
     <include name="lib/**"/>
     <exclude name="lib/simpletest/**"/>
     <include name="maintenance/**"/>
-    <include name="plugins"/>
-    <exclude name="plugins/*"/>
+    <include name="plugins/**"/>
     <include name="scripts/maintenance/**"/>
     <include name="scripts/rpm/**"/>
     <exclude name="scripts/rpm/*.spec*" />
@@ -67,6 +67,7 @@
     <include name="*.xml"/>
     <include name="*.properties"/>
     <include name="*.properties.example"/>
+    <include name="build.sh"/>
     <include name="should_not_exist"/><!-- Required for one of the tests - ask Andrew -->
 
     <!-- Subdirectory rules -->
