@@ -14,11 +14,10 @@
     <include name="*.php"/>
     <include name="*.js"/>
     <include name="robots.txt"/>
+    <exclude name="build.sh"/>
 
     <!-- Subdirectory rules -->
-    <include name="docs/**"/>
-    <exclude name="docs/developer"/>
-    <exclude name="docs/developer/**"/>
+    <exclude name="docs/**"/>
     <include name="etc/**"/>
     <exclude name="etc/*.properties*"/>
     <exclude name="etc/test.conf.php"/>
@@ -27,7 +26,6 @@
     <include name="lib/**"/>
     <exclude name="lib/simpletest/**"/>
     <include name="maintenance/**"/>
-    <include name="plugins/**"/>
     <include name="plugins/**"/>
     <include name="scripts/maintenance/**"/>
     <include name="scripts/rpm/**"/>
@@ -60,6 +58,7 @@
     <exclude name="nbproject/**"/>
     <exclude name="**/tests"/>
     <exclude name="**/tests/**"/>
+    <exclude name="**/.git*"/>
     <exclude name="**/*.log"/><!-- Log files -->
   </patternset>
 
@@ -69,15 +68,17 @@
     <include name="*.xml"/>
     <include name="*.properties"/>
     <include name="*.properties.example"/>
+    <include name="build.sh"/>
     <include name="should_not_exist"/><!-- Required for one of the tests - ask Andrew -->
 
     <!-- Subdirectory rules -->
     <include name="build/**"/>
-    <include name="docs/developer/**"/>
+    <include name="docs/**"/>
     <include name="etc/*.properties*"/>
     <include name="etc/test.conf.php"/>
     <include name="etc/changesfantasy/**"/>
     <include name="lib/simpletest/**"/>
+    <exclude name="plugins/**"/>
     <include name="scripts/db_dataobject/**"/>
     <include name="scripts/delivery/**"/>
     <include name="scripts/plugins/**"/>
@@ -114,6 +115,8 @@
     <include name="nbproject/**"/>
     <include name="**/tests"/>
     <include name="**/tests/**"/>
+    <include name="**/.git*"/>
+    <include name="**/.git*/**"/>
     <include name="**/*.log"/><!-- Log files -->
     <include name="**/.*.swp"/><!-- Vim swap files -->
   </patternset>

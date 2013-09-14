@@ -22,8 +22,8 @@
 function setupConstants()
 {
     // Define this version of Revive Adserver's constants
-    define('VERSION', '3.0.0-rc1');
-    define('OA_VERSION', '3.0.0-rc1'); // Deprecated, use above version in code
+    define('VERSION', '3.0.0');
+    define('OA_VERSION', '3.0.0');
     define('PRODUCT_NAME', 'Revive Adserver');
     define('MAX_PRODUCT_NAME', 'Revive Adserver'); // Deprecated, use above version in code
     define('PRODUCT_URL', 'www.revive-adserver.com');

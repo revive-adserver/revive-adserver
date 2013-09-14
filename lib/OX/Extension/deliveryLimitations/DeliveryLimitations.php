@@ -121,6 +121,14 @@ class Plugins_DeliveryLimitations extends OX_Component
         return true;
     }
 
+    function checkComparison($acl)
+    {
+        if (!empty($acl['comparison']) && !isset($this->aOperations[$acl['comparison']])) {
+            return "Unknown operator";
+        }
+        return true;
+    }
+
     /**
      * Echos the HTML to display this limitation
      *
@@ -294,7 +302,7 @@ class Plugins_DeliveryLimitations extends OX_Component
      */
     function compileData($data)
     {
-        return 'MAX_check' . ucfirst($this->group) . '_' . $this->component . "('".addslashes($data)."', '".addslashes($this->comparison)."')";
+        return 'MAX_check' . ucfirst($this->group) . '_' . $this->component . "(".var_export($data, true).", ".var_export($this->comparison, true).")";
     }
 
     /**

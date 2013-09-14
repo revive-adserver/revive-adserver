@@ -17,7 +17,7 @@ Revive Adserver. Please read these notes before reporting any bugs.
 What's New in Revive Adserver 3.0.0
 -----------------------------------
 
- * Release date: TBA
+ * Release date: 13 September 2013
 
  * Application name has changed from "OpenX Source" to "Revive Adserver".
  * Signup for an OpenX account is no longer required during installation.
@@ -27,14 +27,35 @@ What's New in Revive Adserver 3.0.0
    installation, instead of from OpenX.
 
  Security Updates
+ ----------------
 
- * Fixed code injection exploit with delivery limitations.
+ * Fixed code injection exploit with delivery limitations. (See note below.)
  * Update checking mechanism no longer supports sending aggregate statistic
    data to the update server.
 
- New Features
+   IMPORTANT NOTE
 
- * PHP 5.4+ now supported.
+   The code injection exploit deliver limitations fix requires user action to
+   ensure that you are safe. After upgrading to Revive 3.0.0, you must take the
+   following actions to ensure that all of your delivery limitations are not
+   potentially exposing your system.
+
+   1. Log into your Revive Adserver UI as an admin user.
+   2. Ensure that you are "Working as" the system administrator.
+   3. Go to "Configuration > Maintenance".
+   3. Select the "Delivery Limitations" section.
+   4. Click the "Check ACLs" link.
+   5. If errors are reported, click the "Recompile" button.
+
+   Please note that in this event, it is possible that some banners will no
+   longer deliver, as the injected code will render your re-compiled delivery
+   limitations as invalid. To correct this, you will need to re-set the
+   delivery limitations for each affected banner in the user interface.
+
+ New Features
+ ------------
+
+ * PHP 5.4+ now supported. (See note below.)
  * Added support for the calculation of revenue and eCPM statistics for future
    delivery of monthly tenancy campaigns and associated banners.
  * Added breadcrumbs to the statistics pages.
@@ -43,7 +64,16 @@ What's New in Revive Adserver 3.0.0
    impressions were being incorrectly allocated to these zones, resulting in
    under-delivery.
 
+   PHP 5.4+ Compatibility Note
+
+   Support for running Revive Adserver with modern PHP versions has been added,
+   however due to a PHP garbage collection bug the code might not work properly
+   in some circumstances and generate segmentation faults. The bug has been
+   reported to the PHP team (https://bugs.php.net/bug.php?id=65367) and fixed in
+   PHP 5.5.2; the bug is as yet unfixed in any versions of PHP 5.4.
+
  Bug Fixes
+ ---------
 
  * Fixed upgrade wizard to ensure that that disabled plugins remain disabled
    after upgrade is completed.
@@ -59,14 +89,10 @@ What's New in Revive Adserver 3.0.0
  * Resolved several PHP warnings relating to code strictness.
 
  Non-Backwards Compatible Changes
+ --------------------------------
 
- * Please note that due to a desire to protect upgraded installations from
-   possibly running injected code, delivery limitations containing keywords of
-   "and" and/or "or" in them may no longer work. Please see
-   http://tinyurl.com/q846vcy for details if you find that banners with these
-   keywords in delivery limitations no longer appear, and report a bug.
  * Please note that bug fixes to 3rd party click-tracking mean that it is
-   possible that existing, working 3rd party click-tracking configrations may
+   possible that existing, working 3rd party click-tracking configurations may
    break. Please see http://tinyurl.com/ojr989o for more details on why, and
    what combinations of servers & tags may be affected.
 
