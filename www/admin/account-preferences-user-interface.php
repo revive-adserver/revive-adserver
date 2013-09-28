@@ -33,8 +33,8 @@ $GLOBALS['_MAX']['PREF_EXTRA'] = OA_Preferences::loadPreferences(true, true);
 $oOptions = new OA_Admin_Option('preferences');
 $prefSection = "user-interface";
 
-$aStatisticsFieldsDelivery['affiliates'] = & new OA_StatisticsFieldsDelivery_Affiliates();
-$aStatisticsFieldsDelivery['default'] = & new OA_StatisticsFieldsDelivery_Default();
+$aStatisticsFieldsDelivery['affiliates'] = new OA_StatisticsFieldsDelivery_Affiliates();
+$aStatisticsFieldsDelivery['default'] = new OA_StatisticsFieldsDelivery_Default();
 
 // Prepare an array for storing error messages
 $aErrormessage = array();
