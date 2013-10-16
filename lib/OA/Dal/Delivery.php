@@ -104,7 +104,7 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
     $aConf = $GLOBALS['_MAX']['CONF'];
 
     // Sanitise parameteres
- 	$zoneid = (int)$zoneid;
+ 	//$zoneid = (int)$zoneid;
 
     // Get the zone information
     $query = "
@@ -135,7 +135,7 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
             ".OX_escapeIdentifier($aConf['table']['prefix'].$aConf['table']['affiliates'])." AS a,
             ".OX_escapeIdentifier($aConf['table']['prefix'].$aConf['table']['agency'])." AS m
         WHERE
-            z.zoneid = {$zoneid}
+            z.zoneid = ".(int)$zoneid."
           AND
             z.affiliateid = a.affiliateid
           AND
@@ -153,7 +153,7 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
             p.preference_id AS preference_id,
             p.preference_name AS preference_name
         FROM
-            {$aConf['table']['prefix']}{$aConf['table']['preferences']} AS p
+            ".OX_escapeIdentifier($aConf['table']['prefix'].$aConf['table']['preferences'])." AS p
         WHERE
             p.preference_name = 'default_banner_image_url'
             OR
@@ -185,9 +185,9 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
         FROM
             ".OX_escapeIdentifier($aConf['table']['prefix'].$aConf['table']['account_preference_assoc'])." AS apa
         WHERE
-            apa.account_id = {$aZoneInfo['trafficker_account_id']}
+            apa.account_id = ".(int)$aZoneInfo['trafficker_account_id']."
             AND
-            apa.preference_id = $default_banner_destination_url_id
+            apa.preference_id = ".(int)$default_banner_destination_url_id."
         UNION
         SELECT
             'default_banner_destination_url_manager' AS item,
@@ -195,9 +195,9 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
         FROM
             ".OX_escapeIdentifier($aConf['table']['prefix'].$aConf['table']['account_preference_assoc'])." AS apa
         WHERE
-            apa.account_id = {$aZoneInfo['manager_account_id']}
+            apa.account_id = ".(int)$aZoneInfo['manager_account_id']."
             AND
-            apa.preference_id = $default_banner_destination_url_id
+            apa.preference_id = ".(int)$default_banner_destination_url_id."
         UNION
         SELECT
             'default_banner_image_url_trafficker' AS item,
@@ -205,9 +205,9 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
         FROM
             ".OX_escapeIdentifier($aConf['table']['prefix'].$aConf['table']['account_preference_assoc'])." AS apa
         WHERE
-            apa.account_id = {$aZoneInfo['trafficker_account_id']}
+            apa.account_id = ".(int)$aZoneInfo['trafficker_account_id']."
             AND
-            apa.preference_id = $default_banner_image_url_id
+            apa.preference_id = ".(int)$default_banner_image_url_id."
         UNION
         SELECT
             'default_banner_image_url_manager' AS item,
@@ -215,9 +215,9 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
         FROM
             ".OX_escapeIdentifier($aConf['table']['prefix'].$aConf['table']['account_preference_assoc'])." AS apa
         WHERE
-            apa.account_id = {$aZoneInfo['manager_account_id']}
+            apa.account_id = ".(int)$aZoneInfo['manager_account_id']."
             AND
-            apa.preference_id = $default_banner_image_url_id
+            apa.preference_id = ".(int)$default_banner_image_url_id."
         UNION
         SELECT
             'default_banner_image_url_admin' AS item,
@@ -230,7 +230,7 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
             AND
             a.account_type = 'ADMIN'
             AND
-            apa.preference_id = $default_banner_image_url_id
+            apa.preference_id = ".(int)$default_banner_image_url_id."
         UNION
         SELECT
             'default_banner_destination_url_admin' AS item,
@@ -243,7 +243,7 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
             AND
             a.account_type = 'ADMIN'
             AND
-            apa.preference_id = $default_banner_destination_url_id";
+            apa.preference_id = ".(int)$default_banner_destination_url_id;
     $rDefaultBannerInfo = OA_Dal_Delivery_query($query);
 
     if (!is_resource($rDefaultBannerInfo)) {
@@ -310,7 +310,7 @@ function OA_Dal_Delivery_getPublisherZones($publisherid) {
     $conf = $GLOBALS['_MAX']['CONF'];
 
     // Sanitise parameteres
-    $publisherid = (int)$publisherid;
+    //$publisherid = (int)$publisherid;
 
     $rZones = OA_Dal_Delivery_query("
     SELECT
@@ -321,7 +321,7 @@ function OA_Dal_Delivery_getPublisherZones($publisherid) {
     FROM
         ".OX_escapeIdentifier($conf['table']['prefix'].$conf['table']['zones'])." AS z
     WHERE
-        z.affiliateid={$publisherid}
+        z.affiliateid=".(int)$publisherid."
     ");
 
     if (!is_resource($rZones)) {
@@ -355,7 +355,7 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
     $conf = $GLOBALS['_MAX']['CONF'];
 
     // Sanitise parameteres
-    $zoneid = (int)$zoneid;
+    //$zoneid = (int)$zoneid;
 
     $aRows = OA_Dal_Delivery_getZoneInfo($zoneid);
 
@@ -440,7 +440,7 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
             ".OX_escapeIdentifier($conf['table']['prefix'].$conf['table']['clients'])." AS m ON (m.clientid = c.clientid) LEFT JOIN
             ".OX_escapeIdentifier($conf['table']['prefix'].$conf['table']['agency'])." AS a ON (a.agencyid = m.agencyid)
         WHERE
-            az.zone_id = {$zoneid}
+            az.zone_id = ".(int)$zoneid."
           AND
             d.status <= 0
           AND
@@ -524,7 +524,7 @@ function OA_Dal_Delivery_getZoneLinkedAdInfos($zoneid) {
     $conf = $GLOBALS['_MAX']['CONF'];
 
     // Sanitise parameteres
-    $zoneid = (int)$zoneid;
+    //$zoneid = (int)$zoneid;
 
     $aRows['xAds']  = array();
     $aRows['ads']   = array();
@@ -568,7 +568,7 @@ function OA_Dal_Delivery_getZoneLinkedAdInfos($zoneid) {
         ."c.ecpm_enabled AS ecpm_enabled, "
         ."c.ecpm AS ecpm, "
         ."ct.status AS tracker_status, "
-        .OX_Dal_Delivery_regex("d.htmlcache", "src\\s?=\\s?[\\'\"]http:")." AS html_ssl_unsafe, "
+        .OX_Dal_Delivery_regex("d.htmlcache", OX_escapeString('src\s?=\s?['."'".'"]http:'))." AS html_ssl_unsafe, "
         .OX_Dal_Delivery_regex("d.imageurl", "^http:")." AS url_ssl_unsafe "
         ."FROM "
         .OX_escapeIdentifier($conf['table']['prefix'].$conf['table']['banners'])." AS d JOIN "
@@ -576,7 +576,7 @@ function OA_Dal_Delivery_getZoneLinkedAdInfos($zoneid) {
         .OX_escapeIdentifier($conf['table']['prefix'].$conf['table']['campaigns'])." AS c ON (c.campaignid = d.campaignid) LEFT JOIN "
         .OX_escapeIdentifier($conf['table']['prefix'].$conf['table']['campaigns_trackers'])." AS ct ON (ct.campaignid = c.campaignid) "
         ."WHERE "
-        ."az.zone_id = {$zoneid} "
+        ."az.zone_id = ".(int)$zoneid." "
         ."AND "
         ."d.status <= 0 "
         ."AND "
@@ -800,7 +800,7 @@ function OA_Dal_Delivery_getAd($ad_id) {
     $conf = $GLOBALS['_MAX']['CONF'];
 
     // Sanitise parameteres
-    $ad_id = (int)$ad_id;
+    //$ad_id = (int)$ad_id;
 
     $query = "
         SELECT
@@ -854,7 +854,7 @@ function OA_Dal_Delivery_getAd($ad_id) {
         ".OX_escapeIdentifier($conf['table']['prefix'].$conf['table']['campaigns'])." AS c,
         ".OX_escapeIdentifier($conf['table']['prefix'].$conf['table']['clients'])." AS m
     WHERE
-        d.bannerid={$ad_id}
+        d.bannerid=".(int)$ad_id."
         AND
         d.campaignid = c.campaignid
         AND
@@ -879,7 +879,7 @@ function OA_Dal_Delivery_getChannelLimitations($channelid) {
     $conf = $GLOBALS['_MAX']['CONF'];
 
     // Sanitise parameteres
-    $channelid = (int)$channelid;
+    //$channelid = (int)$channelid;
 
     $rLimitation = OA_Dal_Delivery_query("
     SELECT
@@ -887,7 +887,7 @@ function OA_Dal_Delivery_getChannelLimitations($channelid) {
     FROM
             ".OX_escapeIdentifier($conf['table']['prefix'].$conf['table']['channel'])."
     WHERE
-            channelid={$channelid}");
+            channelid=".(int)$channelid);
     if (!is_resource($rLimitation)) {
         return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : null;
     }
@@ -934,7 +934,7 @@ function OA_Dal_Delivery_getTracker($trackerid)
     $conf = $GLOBALS['_MAX']['CONF'];
 
     // Sanitise parameteres
-    $trackerid = (int)$trackerid;
+    //$trackerid = (int)$trackerid;
 
     $rTracker = OA_Dal_Delivery_query("
         SELECT
@@ -950,7 +950,7 @@ function OA_Dal_Delivery_getTracker($trackerid)
         FROM
             ".OX_escapeIdentifier($conf['table']['prefix'].$conf['table']['trackers'])." AS t
         WHERE
-            t.trackerid={$trackerid}
+            t.trackerid=".(int)$trackerid."
     ");
     if (!is_resource($rTracker)) {
         return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : null;
@@ -1007,7 +1007,7 @@ function OA_Dal_Delivery_getTrackerVariables($trackerid)
     $conf = $GLOBALS['_MAX']['CONF'];
 
     // Sanitise parameteres
-    $trackerid = (int)$trackerid;
+    //$trackerid = (int)$trackerid;
 
     $rVariables = OA_Dal_Delivery_query("
         SELECT
@@ -1023,7 +1023,7 @@ function OA_Dal_Delivery_getTrackerVariables($trackerid)
         FROM
             ".OX_escapeIdentifier($conf['table']['prefix'].$conf['table']['variables'])." AS v
         WHERE
-            v.trackerid={$trackerid}
+            v.trackerid=".(int)$trackerid."
     ");
     if (!is_resource($rVariables)) {
         return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : null;
@@ -1178,6 +1178,8 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
                 if(preg_match('#^(?:size:)?([0-9]+x[0-9]+)$#', $part_array[$k], $m))
                 {
                     list($width, $height) = explode('x', $m[1]);
+                    $width = (int) $width;
+                    $height = (int) $height;
 
                     if ($operator == 'OR')
                         $conditions .= "OR (d.width = $width AND d.height = $height) ";
@@ -1204,27 +1206,29 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
                             // Only upper limit, set lower limit to make sure not text ads are delivered
                             if ($min == '')
                                 $min = 1;
+                            $min = (int) $min;
 
                             // Only lower limit
                             if ($max == '')
                             {
                                 if ($operator == 'OR')
-                                    $conditions .= "OR d.width >= '".trim($min)."' ";
+                                    $conditions .= "OR d.width >= ".$min." ";
                                 elseif ($operator == 'AND')
-                                    $conditions .= "AND d.width >= '".trim($min)."' ";
+                                    $conditions .= "AND d.width >= ".$min." ";
                                 else
-                                    $conditions .= "AND d.width < '".trim($min)."' ";
+                                    $conditions .= "AND d.width < ".$min." ";
                             }
 
                             // Both lower and upper limit
                             if ($max != '')
                             {
+                            	$max = (int) $max;
                                 if ($operator == 'OR')
-                                    $conditions .= "OR (d.width >= '".trim($min)."' AND d.width <= '".trim($max)."') ";
+                                    $conditions .= "OR (d.width >= ".$min." AND d.width <= ".$max.") ";
                                 elseif ($operator == 'AND')
-                                    $conditions .= "AND (d.width >= '".trim($min)."' AND d.width <= '".trim($max)."') ";
+                                    $conditions .= "AND (d.width >= ".$min." AND d.width <= ".$max.") ";
                                 else
-                                    $conditions .= "AND (d.width < '".trim($min)."' OR d.width > '".trim($max)."') ";
+                                    $conditions .= "AND (d.width < ".$min." OR d.width > ".$max.") ";
                             }
                         }
                         else
@@ -1232,11 +1236,11 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
                             // Single value
 
                             if ($operator == 'OR')
-                                $conditions .= "OR d.width = '".trim($part_array[$k])."' ";
+                                $conditions .= "OR d.width = ".(int)$part_array[$k]." ";
                             elseif ($operator == 'AND')
-                                $conditions .= "AND d.width = '".trim($part_array[$k])."' ";
+                                $conditions .= "AND d.width = ".(int)$part_array[$k]." ";
                             else
-                                $conditions .= "AND d.width != '".trim($part_array[$k])."' ";
+                                $conditions .= "AND d.width != ".(int)$part_array[$k]." ";
                         }
                     }
 
@@ -1257,27 +1261,28 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
                             // Only upper limit, set lower limit to make sure not text ads are delivered
                             if ($min == '')
                                 $min = 1;
+                            $min = (int)$min;
 
                             // Only lower limit
                             if ($max == '')
                             {
                                 if ($operator == 'OR')
-                                    $conditions .= "OR d.height >= '".trim($min)."' ";
+                                    $conditions .= "OR d.height >= ".$min." ";
                                 elseif ($operator == 'AND')
-                                    $conditions .= "AND d.height >= '".trim($min)."' ";
+                                    $conditions .= "AND d.height >= ".$min." ";
                                 else
-                                    $conditions .= "AND d.height < '".trim($min)."' ";
+                                    $conditions .= "AND d.height < ".$min." ";
                             }
 
                             // Both lower and upper limit
                             if ($max != '')
                             {
                                 if ($operator == 'OR')
-                                    $conditions .= "OR (d.height >= '".trim($min)."' AND d.height <= '".trim($max)."') ";
+                                    $conditions .= "OR (d.height >= ".$min." AND d.height <= ".(int)$max.") ";
                                 elseif ($operator == 'AND')
-                                    $conditions .= "AND (d.height >= '".trim($min)."' AND d.height <= '".trim($max)."') ";
+                                    $conditions .= "AND (d.height >= ".$min." AND d.height <= ".(int)$max.") ";
                                 else
-                                    $conditions .= "AND (d.height < '".trim($min)."' OR d.height > '".trim($max)."') ";
+                                    $conditions .= "AND (d.height < ".$min." OR d.height > ".(int)$max.") ";
                             }
                         }
                         else
@@ -1285,11 +1290,11 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
                             // Single value
 
                             if ($operator == 'OR')
-                                $conditions .= "OR d.height = '".trim($part_array[$k])."' ";
+                                $conditions .= "OR d.height = ".(int)$part_array[$k]." ";
                             elseif ($operator == 'AND')
-                                $conditions .= "AND d.height = '".trim($part_array[$k])."' ";
+                                $conditions .= "AND d.height = ".(int)$part_array[$k]." ";
                             else
-                                $conditions .= "AND d.height != '".trim($part_array[$k])."' ";
+                                $conditions .= "AND d.height != ".(int)$part_array[$k]." ";
                         }
                     }
 
@@ -1304,11 +1309,11 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
                     if ($part_array[$k])
                     {
                         if ($operator == 'OR')
-                            $conditions .= "OR d.bannerid='".$part_array[$k]."' ";
+                            $conditions .= "OR d.bannerid=".(int)$part_array[$k]." ";
                         elseif ($operator == 'AND')
-                            $conditions .= "AND d.bannerid='".$part_array[$k]."' ";
+                            $conditions .= "AND d.bannerid=".(int)$part_array[$k]." ";
                         else
-                            $conditions .= "AND d.bannerid!='".$part_array[$k]."' ";
+                            $conditions .= "AND d.bannerid!=".(int)$part_array[$k]." ";
                     }
 
                     $onlykeywords = false;
@@ -1322,11 +1327,11 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
                     if ($part_array[$k])
                     {
                         if ($operator == 'OR')
-                            $conditions .= "OR d.campaignid='".trim($part_array[$k])."' ";
+                            $conditions .= "OR d.campaignid=".(int)$part_array[$k]." ";
                         elseif ($operator == 'AND')
-                            $conditions .= "AND d.campaignid='".trim($part_array[$k])."' ";
+                            $conditions .= "AND d.campaignid=".(int)$part_array[$k]." ";
                         else
-                            $conditions .= "AND d.campaignid!='".trim($part_array[$k])."' ";
+                            $conditions .= "AND d.campaignid!=".(int)$part_array[$k]." ";
                     }
 
                     $onlykeywords = false;
@@ -1339,11 +1344,11 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
                     if($part_array[$k] != '' && $part_array[$k] != ' ')
                     {
                         if ($operator == 'OR')
-                            $conditions .= "OR d.contenttype='".trim($part_array[$k])."' ";
+                            $conditions .= "OR d.contenttype=".(int)$part_array[$k]." ";
                         elseif ($operator == 'AND')
-                            $conditions .= "AND d.contenttype='".trim($part_array[$k])."' ";
+                            $conditions .= "AND d.contenttype=".(int)$part_array[$k]." ";
                         else
-                            $conditions .= "AND d.contenttype!='".trim($part_array[$k])."' ";
+                            $conditions .= "AND d.contenttype!=".(int)$part_array[$k]." ";
                     }
 
                     $onlykeywords = false;
@@ -1454,7 +1459,7 @@ function OA_Dal_Delivery_buildAdInfoQuery($part, $lastpart, $precondition)
             'm.ecpm_enabled AS ecpm_enabled',
             'm.ecpm AS ecpm',
             'ct.status AS tracker_status',
-            OX_Dal_Delivery_regex("d.htmlcache", "src\\s?=\\s?[\\'\"]http:")." AS html_ssl_unsafe",
+            OX_Dal_Delivery_regex("d.htmlcache", OX_escapeString('src\s?=\s?['."'".'"]http:'))." AS html_ssl_unsafe",
             OX_Dal_Delivery_regex("d.imageurl", "^http:")." AS url_ssl_unsafe",
     );
 
@@ -1504,6 +1509,8 @@ function OA_Dal_Delivery_buildAdInfoQuery($part, $lastpart, $precondition)
                 if(preg_match('#^(?:size:)?([0-9]+x[0-9]+)$#', $part_array[$k], $m))
                 {
                     list($width, $height) = explode('x', $m[1]);
+                    $width = (int) $width;
+                    $height = (int) $height;
 
                     if ($operator == 'OR')
                         $conditions .= "OR (d.width = $width AND d.height = $height) ";
@@ -1530,27 +1537,28 @@ function OA_Dal_Delivery_buildAdInfoQuery($part, $lastpart, $precondition)
                             // Only upper limit, set lower limit to make sure not text ads are delivered
                             if ($min == '')
                                 $min = 1;
+                            $min = (int) $min;
 
                             // Only lower limit
                             if ($max == '')
                             {
                                 if ($operator == 'OR')
-                                    $conditions .= "OR d.width >= '".trim($min)."' ";
+                                    $conditions .= "OR d.width >= ".$min." ";
                                 elseif ($operator == 'AND')
-                                    $conditions .= "AND d.width >= '".trim($min)."' ";
+                                    $conditions .= "AND d.width >= ".$min." ";
                                 else
-                                    $conditions .= "AND d.width < '".trim($min)."' ";
+                                    $conditions .= "AND d.width < ".$min." ";
                             }
 
                             // Both lower and upper limit
                             if ($max != '')
                             {
                                 if ($operator == 'OR')
-                                    $conditions .= "OR (d.width >= '".trim($min)."' AND d.width <= '".trim($max)."') ";
+                                    $conditions .= "OR (d.width >= ".(int)$min." AND d.width <= ".(int)$max.") ";
                                 elseif ($operator == 'AND')
-                                    $conditions .= "AND (d.width >= '".trim($min)."' AND d.width <= '".trim($max)."') ";
+                                    $conditions .= "AND (d.width >= ".(int)$min." AND d.width <= ".(int)$max.") ";
                                 else
-                                    $conditions .= "AND (d.width < '".trim($min)."' OR d.width > '".trim($max)."') ";
+                                    $conditions .= "AND (d.width < ".(int)$min." OR d.width > ".(int)$max.") ";
                             }
                         }
                         else
@@ -1558,11 +1566,11 @@ function OA_Dal_Delivery_buildAdInfoQuery($part, $lastpart, $precondition)
                             // Single value
 
                             if ($operator == 'OR')
-                                $conditions .= "OR d.width = '".trim($part_array[$k])."' ";
+                                $conditions .= "OR d.width = ".(int)$part_array[$k]." ";
                             elseif ($operator == 'AND')
-                                $conditions .= "AND d.width = '".trim($part_array[$k])."' ";
+                                $conditions .= "AND d.width = ".(int)$part_array[$k]." ";
                             else
-                                $conditions .= "AND d.width != '".trim($part_array[$k])."' ";
+                                $conditions .= "AND d.width != ".(int)$part_array[$k]." ";
                         }
                     }
 
@@ -1583,27 +1591,28 @@ function OA_Dal_Delivery_buildAdInfoQuery($part, $lastpart, $precondition)
                             // Only upper limit, set lower limit to make sure not text ads are delivered
                             if ($min == '')
                                 $min = 1;
+                            $min = (int) $min;
 
                             // Only lower limit
                             if ($max == '')
                             {
                                 if ($operator == 'OR')
-                                    $conditions .= "OR d.height >= '".trim($min)."' ";
+                                    $conditions .= "OR d.height >= ".(int)$min." ";
                                 elseif ($operator == 'AND')
-                                    $conditions .= "AND d.height >= '".trim($min)."' ";
+                                    $conditions .= "AND d.height >= ".(int)$min." ";
                                 else
-                                    $conditions .= "AND d.height < '".trim($min)."' ";
+                                    $conditions .= "AND d.height < ".(int)$min." ";
                             }
 
                             // Both lower and upper limit
                             if ($max != '')
                             {
                                 if ($operator == 'OR')
-                                    $conditions .= "OR (d.height >= '".trim($min)."' AND d.height <= '".trim($max)."') ";
+                                    $conditions .= "OR (d.height >= ".(int)$min." AND d.height <= ".(int)$max.") ";
                                 elseif ($operator == 'AND')
-                                    $conditions .= "AND (d.height >= '".trim($min)."' AND d.height <= '".trim($max)."') ";
+                                    $conditions .= "AND (d.height >= ".(int)$min." AND d.height <= ".(int)$max.") ";
                                 else
-                                    $conditions .= "AND (d.height < '".trim($min)."' OR d.height > '".trim($max)."') ";
+                                    $conditions .= "AND (d.height < ".(int)$min." OR d.height > ".(int)$max.") ";
                             }
                         }
                         else
@@ -1611,11 +1620,11 @@ function OA_Dal_Delivery_buildAdInfoQuery($part, $lastpart, $precondition)
                             // Single value
 
                             if ($operator == 'OR')
-                                $conditions .= "OR d.height = '".trim($part_array[$k])."' ";
+                                $conditions .= "OR d.height = ".(int)$part_array[$k]." ";
                             elseif ($operator == 'AND')
-                                $conditions .= "AND d.height = '".trim($part_array[$k])."' ";
+                                $conditions .= "AND d.height = ".(int)$part_array[$k]." ";
                             else
-                                $conditions .= "AND d.height != '".trim($part_array[$k])."' ";
+                                $conditions .= "AND d.height != ".(int)$part_array[$k]." ";
                         }
                     }
 
@@ -1630,11 +1639,11 @@ function OA_Dal_Delivery_buildAdInfoQuery($part, $lastpart, $precondition)
                     if ($part_array[$k])
                     {
                         if ($operator == 'OR')
-                            $conditions .= "OR d.bannerid='".$part_array[$k]."' ";
+                            $conditions .= "OR d.bannerid=".(int)$part_array[$k]." ";
                         elseif ($operator == 'AND')
-                            $conditions .= "AND d.bannerid='".$part_array[$k]."' ";
+                            $conditions .= "AND d.bannerid=".(int)$part_array[$k]." ";
                         else
-                            $conditions .= "AND d.bannerid!='".$part_array[$k]."' ";
+                            $conditions .= "AND d.bannerid!=".(int)$part_array[$k]." ";
                     }
 
                     $onlykeywords = false;
@@ -1648,11 +1657,11 @@ function OA_Dal_Delivery_buildAdInfoQuery($part, $lastpart, $precondition)
                     if ($part_array[$k])
                     {
                         if ($operator == 'OR')
-                            $conditions .= "OR d.campaignid='".trim($part_array[$k])."' ";
+                            $conditions .= "OR d.campaignid=".(int)$part_array[$k]." ";
                         elseif ($operator == 'AND')
-                            $conditions .= "AND d.campaignid='".trim($part_array[$k])."' ";
+                            $conditions .= "AND d.campaignid=".(int)$part_array[$k]." ";
                         else
-                            $conditions .= "AND d.campaignid!='".trim($part_array[$k])."' ";
+                            $conditions .= "AND d.campaignid!=".(int)$part_array[$k]." ";
                     }
 
                     $onlykeywords = false;
@@ -1665,11 +1674,11 @@ function OA_Dal_Delivery_buildAdInfoQuery($part, $lastpart, $precondition)
                     if($part_array[$k] != '' && $part_array[$k] != ' ')
                     {
                         if ($operator == 'OR')
-                            $conditions .= "OR d.contenttype='".trim($part_array[$k])."' ";
+                            $conditions .= "OR d.contenttype='".OX_escapeString(trim($part_array[$k]))."' ";
                         elseif ($operator == 'AND')
-                            $conditions .= "AND d.contenttype='".trim($part_array[$k])."' ";
+                            $conditions .= "AND d.contenttype='".OX_escapeString(trim($part_array[$k]))."' ";
                         else
-                            $conditions .= "AND d.contenttype!='".trim($part_array[$k])."' ";
+                            $conditions .= "AND d.contenttype!='".OX_escapeString(trim($part_array[$k]))."' ";
                     }
 
                     $onlykeywords = false;
