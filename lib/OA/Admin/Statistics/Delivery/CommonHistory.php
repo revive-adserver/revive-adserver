@@ -142,7 +142,7 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
      */
     function prepare(&$aParams, $link = '')
     {
-        parent::prepare(&$aParams);
+        parent::prepare($aParams);
         
         // Set the span requirements
         // Disable this for now, since these queries can be very slow
