@@ -28,7 +28,7 @@ function MAX_getDisplayName($name, $length = 60, $append = '...')
 
 function MAX_buildName($id, $name)
 {
-    return htmlentities($name);
+    return htmlentities($name, ENT_COMPAT | ENT_HTML401, isset($GLOBALS['phpAds_CharSet']) ? $GLOBALS['phpAds_CharSet'] : 'UTF-8');
 }
 
 function MAX_getEntityIcon($entity, $active=true, $type='', $marketAdvertiserid = '')
