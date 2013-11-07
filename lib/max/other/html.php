@@ -28,7 +28,7 @@ function MAX_getDisplayName($name, $length = 60, $append = '...')
 
 function MAX_buildName($id, $name)
 {
-    return htmlentities($name);
+    return htmlspecialchars($name);
 }
 
 function MAX_getEntityIcon($entity, $active=true, $type='', $marketAdvertiserid = '')
@@ -1713,7 +1713,7 @@ function addCampaignPageTools($clientid, $campaignid, $aOtherAdvertisers, $aEnti
             $form = "<form action='" . MAX::constructUrl(MAX_URL_ADMIN, 'campaign-modify.php') . "'>
             <input type='hidden' name='clientid' value='$clientid'>
             <input type='hidden' name='campaignid' value='$campaignid'>
-            <input type='hidden' name='returnurl' value='".htmlentities(basename($_SERVER['SCRIPT_NAME']))."'>
+            <input type='hidden' name='returnurl' value='".htmlspecialchars(basename($_SERVER['SCRIPT_NAME']))."'>
             <select name='newclientid'>";
                 $aOtherAdvertisers = _multiSort($aOtherAdvertisers,'name','advertiser_id');
                 foreach ($aOtherAdvertisers as $aOtherAdvertiser) {
@@ -1764,7 +1764,7 @@ function addBannerPageTools($advertiserId, $campaignId, $bannerId, $aOtherCampai
     <input type='hidden' name='clientid' value='$advertiserId'>
     <input type='hidden' name='campaignid' value='$campaignId'>
     <input type='hidden' name='bannerid' value='$bannerId'>
-    <input type='hidden' name='returnurl' value='".htmlentities(basename($_SERVER['SCRIPT_NAME']))."'>
+    <input type='hidden' name='returnurl' value='".htmlspecialchars(basename($_SERVER['SCRIPT_NAME']))."'>
     <select name='moveto'>";
     $aOtherCampaigns = _multiSort($aOtherCampaigns,'name','placement_id');
     foreach ($aOtherCampaigns as $otherCampaignId => $aOtherCampaign) {
@@ -1788,7 +1788,7 @@ function addBannerPageTools($advertiserId, $campaignId, $bannerId, $aOtherCampai
         <input type='hidden' name='clientid' value='$advertiserId'>
         <input type='hidden' name='campaignid' value='$campaignId'>
         <input type='hidden' name='bannerid' value='$bannerId'>
-        <input type='hidden' name='returnurl' value='".htmlentities(basename($_SERVER['SCRIPT_NAME']))."'>
+        <input type='hidden' name='returnurl' value='".htmlspecialchars(basename($_SERVER['SCRIPT_NAME']))."'>
         <select name='applyto'>";
 
         $aOtherBanners = _multiSort($aOtherBanners,'name','ad_id');
@@ -1843,7 +1843,7 @@ function addZonePageTools($affiliateid, $zoneid, $aOtherPublishers, $aEntities)
         $form = "<form action='" . MAX::constructUrl(MAX_URL_ADMIN, 'zone-modify.php') . "'>
         <input type='hidden' name='affiliateid' value='$affiliateid'>
         <input type='hidden' name='zoneid' value='$zoneid'>
-        <input type='hidden' name='returnurl' value='".htmlentities(basename($_SERVER['SCRIPT_NAME']))."'>
+        <input type='hidden' name='returnurl' value='".htmlspecialchars(basename($_SERVER['SCRIPT_NAME']))."'>
         <select name='newaffiliateid'>";
         $aOtherPublishers = _multiSort($aOtherPublishers,'name','publisher_id');
         foreach ($aOtherPublishers as $otherPublisherId => $aOtherPublisher) {

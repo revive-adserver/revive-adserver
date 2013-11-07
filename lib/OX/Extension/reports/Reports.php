@@ -192,7 +192,7 @@ class Plugins_Reports extends OX_Component
            case PLUGINS_REPORTS_MISSING_SHEETS_ERROR :
                return $GLOBALS['strReportErrorMissingSheets'];
            default :
-               return $GLOBALS['strReportErrorUnknownCode'].htmlentities($errorCode);
+               return $GLOBALS['strReportErrorUnknownCode'].htmlspecialchars($errorCode);
         }
     }
 
