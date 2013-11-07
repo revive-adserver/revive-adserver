@@ -11,144 +11,239 @@
 */
 
 // Main strings
-$GLOBALS['strChooseSection']			= "选择章节";
+$GLOBALS['strChooseSection']			= "请选择任务";
+$GLOBALS['strAppendCodes']              = "附加代码";
+
+// Maintenance
+$GLOBALS['strScheduledMaintenanceHasntRun']	   = "<b>维护任务在过去 1 小时内没有执行。请检查系统设置。</b>";
+
+$GLOBALS['strAutoMantenaceEnabledAndHasntRun'] = "维护任务已经设置为自动运行，但是没有被触发。维护任务只有在 ".MAX_PRODUCT_NAME." 投放广告的时候才会被触发。出于性能的考虑，建议您设置<a href='" . PRODUCT_DOCSURL . "/maintenance' target='_blank'>定时执行维护任务</a>。";
+
+$GLOBALS['strAutoMantenaceDisabledAndHasntRun'] = "
+	Automatic maintenance is currently disabled, so when ".MAX_PRODUCT_NAME." delivers banners, automatic maintenance will not be triggered.
+	For the best performance, you should set up <a href='" . PRODUCT_DOCSURL . "/admin/maintenance' target='_blank'>scheduled maintenance</a>.
+    However, if you are not going to set up <a href='" . PRODUCT_DOCSURL . "/admin/maintenance' target='_blank'>scheduled maintenance</a>,
+    then you <i>must</i> <a href='account-settings-maintenance.php'>enable automatic maintenance</a> to ensure that ".MAX_PRODUCT_NAME." works correctly.
+";
+
+$GLOBALS['strAutoMantenaceEnabledAndRunning']   = "
+	Automatic maintenance is enabled and will be triggered, as required, when ".MAX_PRODUCT_NAME." delivers banners.
+	However, for the best performance, you should set up <a href='" . PRODUCT_DOCSURL . "/admin/maintenance' target='_blank'>scheduled maintenance</a>.
+";
+
+$GLOBALS['strAutoMantenaceDisabledAndRunning']  = "
+	However, automatic maintenance has recently been disabled. To ensure that ".MAX_PRODUCT_NAME." works correctly, you should
+	either set up <a href='" . PRODUCT_DOCSURL . "/admin/maintenance' target='_blank'>scheduled maintenance</a> or
+	<a href='account-settings-maintenance.php'>re-enable automatic maintenance</a>.
+	<br><br>
+	For the best performance, you should set up <a href='" . PRODUCT_DOCSURL . "/admin/maintenance' target='_blank'>scheduled maintenance</a>.
+";
+
+$GLOBALS['strScheduledMantenaceRunning']  		= "<b>Scheduled maintenance is running correctly.</b>";
+
+$GLOBALS['strAutomaticMaintenanceHasRun']  		= "<b>Automatic maintenance is running correctly.</b>";
+
+$GLOBALS['strAutoMantenaceEnabled']		= "However, automatic maintenance is still enabled. For the best performance, you should <a href='account-settings-maintenance.php'>disable automatic maintenance</a>.";
 
 
 // Priority
-$GLOBALS['strRecalculatePriority']		= "�?新计算优先级";
-$GLOBALS['strHighPriorityCampaigns']		= "������Ȩ��Ŀ";
-$GLOBALS['strAdViewsAssigned']			= "����Ĺ�������";
-$GLOBALS['strLowPriorityCampaigns']		= "������Ȩ��Ŀ";
-$GLOBALS['strPredictedAdViews']			= "Ԥ���Ĺ�������";
-$GLOBALS['strPriorityDaysRunning']		= MAX_PRODUCT_NAME."������������{days}����ݵĻ���Ԥ��ÿ�������Ȩ.";
-$GLOBALS['strPriorityBasedLastWeek']		= "�����ܺͱ�����ݻ��ϵ�Ԥ��ֵ.";
-$GLOBALS['strPriorityBasedLastDays']		= "T��ǰ������ݵĻ��ϵ�Ԥ��ֵ.";
-$GLOBALS['strPriorityBasedYesterday']		= "��������ݵĻ��ϵ�Ԥ��ֵ";
-$GLOBALS['strPriorityNoData']			= "����û���㹻���������ȷ����˹����������������Ԥ��ֵ������ֻ��ʵʱ��ݵĻ��Ϸ�������Ȩ.";
-$GLOBALS['strPriorityEnoughAdViews']		= "���㹻�ķ���������ȫ����Ԥ�������и�����Ȩ�ķ���.";
-$GLOBALS['strPriorityNotEnoughAdViews']		= "����֪���Ƿ����㹻���Ʋ�������ȫ����Ԥ�������и�����Ȩ�ķ���,�������е�����Ȩ�ķ����Ѿ���ʱͣ����.";
+$GLOBALS['strRecalculatePriority']		= "Recalculate priority";
+$GLOBALS['strHighPriorityCampaigns']		= "High priority campaigns";
+$GLOBALS['strAdViewsAssigned']			= "AdViews assigned";
+$GLOBALS['strLowPriorityCampaigns']		= "Low priority campaigns";
+$GLOBALS['strPredictedAdViews']			= "Predicted AdViews";
+$GLOBALS['strPriorityDaysRunning']		= "There are currently {days} days worth of statistics available from where ".MAX_PRODUCT_NAME." can base its daily prediction on. ";
+$GLOBALS['strPriorityBasedLastWeek']		= "The prediction is based on data from this week and last week. ";
+$GLOBALS['strPriorityBasedLastDays']		= "The prediction is based on data from the last couple of days. ";
+$GLOBALS['strPriorityBasedYesterday']		= "The prediction is based on data from yesterday. ";
+$GLOBALS['strPriorityNoData']			= "There isn't enough data available to make a reliable prediction about the number of impressions this adserver will generate today. Priority assignments will be based on real time statistics only. ";
+$GLOBALS['strPriorityEnoughAdViews']		= "There should be enough AdViews to fully satisfy the target all high priority campaigns. ";
+$GLOBALS['strPriorityNotEnoughAdViews']		= "It isn't clear wether there will be enough AdViews served today to satisfy the target all high priority campaigns. ";
 
 
 // Banner cache
-$GLOBALS['strRebuildBannerCache']		= "�ؽ���滺����";
-$GLOBALS['strBannerCacheExplaination']		= "广告数�?�库缓存的作用是加速广告的投放<br />\n该缓存需�?在以下情况下更新：\n    <ul>\n        <li>您�?�级了OpenX</li>\n        <li>您将OpenX�?移到一个新的�?务器上</li>\n    </ul>";
-
+$GLOBALS['strCheckBannerCache']		= "Check banner cache";
+$GLOBALS['strRebuildBannerCache']		= "Rebuild banner cache";
+$GLOBALS['strBannerCacheErrorsFound'] = "The database banner cache check has found some errors. These banners will not work until you manually fix them.";
+$GLOBALS['strBannerCacheOK'] = "There were no errors detected. Your database banner cache is up to date";
+$GLOBALS['strBannerCacheDifferencesFound'] = "The database banner cache check has found that your cache is not up to date and requires rebuilding. Click here to automatically  update your cache.";
+$GLOBALS['strBannerCacheFixed'] = "The database banner cache rebuild was successfully completed. Your database cache is now up to date.";
+$GLOBALS['strBannerCacheRebuildButton'] = "Rebuild";
+$GLOBALS['strRebuildDeliveryCache']			= "Rebuild database banner cache";
+$GLOBALS['strBannerCacheExplaination']		= "
+    The database banner cache is used to speed up delivery of banners during delivery<br />
+    This cache needs to be updated when:
+    <ul>
+        <li>You upgrade your version of ".MAX_PRODUCT_NAME."</li>
+        <li>You move your ".MAX_PRODUCT_NAME." installation to a different server</li>
+    </ul>
+";
 
 // Cache
-$GLOBALS['strCache']				= "�?�布缓存";
-$GLOBALS['strAge']				= "年龄";
-$GLOBALS['strRebuildDeliveryCache']		= "�?构数�?�库广告缓存";
-$GLOBALS['strDeliveryCacheExplaination']	= "���ͻ����������߹��ķ����ٶ�.���ͻ���������ӵ��˰�λ�����й���һ������,�����ʵ�ʷ��Ÿ��û���ʱ�������һЩ��ݿ�Ĳ�ѯ.�˻�����ͨ����һ����λ���߰�λ��һ�����Ķ���ʱ���ؽ�,����ܻ����.���Ի������ÿ��Сʱ�Զ��ؽ�һ��,����Ҳ�����ֹ��ؽ�.";
-$GLOBALS['strDeliveryCacheSharedMem']		= "共享内存目�?正被�?�布缓存�?�用";
-$GLOBALS['strDeliveryCacheDatabase']		= "数�?�正在存储�?�布缓存";
-$GLOBALS['strDeliveryCacheFiles']		= "�?�布缓存正在存储到你�?务器上的多个文件";
+$GLOBALS['strCache']			= "Delivery cache";
+$GLOBALS['strAge']				= "Age";
+$GLOBALS['strDeliveryCacheSharedMem']		= "
+	Shared memory is currently being used for storing the delivery cache.
+";
+$GLOBALS['strDeliveryCacheDatabase']		= "
+	The database is currently being used for storing the delivery cache.
+";
+$GLOBALS['strDeliveryCacheFiles']		= "
+	The delivery cache is currently being stored into multiple files on your server.
+";
 
 
 // Storage
-$GLOBALS['strStorage']				= "存储";
-$GLOBALS['strMoveToDirectory']			= "将图片从数�?�库中移动到目录下";
-$GLOBALS['strStorageExplaination']		= "图片文件�?�存储在数�?�库或文件系统中。存储在文件系统中将比存储在数�?�库中效率更高。";
+$GLOBALS['strStorage']				= "Storage";
+$GLOBALS['strMoveToDirectory']			= "Move images stored inside the database to a directory";
+$GLOBALS['strStorageExplaination']		= "
+	The images used by local banners are stored inside the database or stored in a directory. If you store the images inside
+	a directory the load on the database will be reduced and this will lead to an increase in speed.
+";
+
+// Encoding
+$GLOBALS['strEncoding']                 = "Encoding";
+$GLOBALS['strEncodingExplaination']     = "" . MAX_PRODUCT_NAME ." now stores all data in the database in UTF-8 format.<br />
+    Where possible, your data will have been automatically converted to this encoding.<br />
+    If after upgrading you find corrupt characters, and you know the encoding used, you may use this tool to convert the data from that format to UTF-8";
+$GLOBALS['strEncodingConvertFrom']      = "Convert from this encoding:";
+$GLOBALS['strEncodingConvert']          = "Convert";
+$GLOBALS['strEncodingConvertTest']      = "Test conversion";
+$GLOBALS['strConvertThese']             = "The following data will be changed if you continue";
 
 
 // Storage
-$GLOBALS['strStatisticsExplaination']		= "您已�?�?�用了<i>紧缩统计</i>, 但是您的报表还是详细格�?, 您是�?�愿�?把现有的详细格�?转�?�为紧缩格�??";
+$GLOBALS['strStatisticsExplaination']		= "
+	You have enabled the <i>compact statistics</i>, but your old statistics are still in verbose format.
+	Do you want to convert your verbose statistics to the new compact format?
+";
 
 
 // Product Updates
-$GLOBALS['strSearchingUpdates']			= "查找更新，请�?候……";
-$GLOBALS['strAvailableUpdates']			= "�??供的更新";
-$GLOBALS['strDownloadZip']			= "下载（.zip）";
-$GLOBALS['strDownloadGZip']			= "下载（.tar.gz）";
+$GLOBALS['strSearchingUpdates']			= "Looking for updates. Please wait...";
+$GLOBALS['strAvailableUpdates']			= "Available updates";
+$GLOBALS['strDownloadZip']			= "Download (.zip)";
+$GLOBALS['strDownloadGZip']			= "Download (.tar.gz)";
 
-$GLOBALS['strUpdateAlert']			= MAX_PRODUCT_NAME."���µİ汾����\\n\\n����֪�������ڴ˴������Ϣ��?";
-$GLOBALS['strUpdateAlertSecurity']		= MAX_PRODUCT_NAME."���µİ汾����\\n\\nǿ���Ƽ������,\\n��Ϊ�˴��°汾����һ��������ȫ����!";
+$GLOBALS['strUpdateAlert']			= "A new version of ".MAX_PRODUCT_NAME." is available.                 \\n\\nDo you want to get more information \\nabout this update?";
+$GLOBALS['strUpdateAlertSecurity']		= "A new version of ".MAX_PRODUCT_NAME." is available.                 \\n\\nIt is highly recommended to upgrade \\nas soon as possible, because this \\nversion contains one or more security fixes.";
 
-$GLOBALS['strUpdateServerDown']			= "由于�?明原因，导致无法获�?�更新信�?�。<br>请�?�?��?试一下。";
+$GLOBALS['strUpdateServerDown']			= "Due to an unknown reason it isn't possible to retrieve <br>information about possible updates. Please try again later.";
 
-$GLOBALS['strNoNewVersionAvailable']		= "您". MAX_PRODUCT_NAME ."的版本已是最新的。";
+$GLOBALS['strNoNewVersionAvailable']		= "
+	Your version of ".MAX_PRODUCT_NAME." is up-to-date. There are currently no updates available.
+";
 
-$GLOBALS['strNewVersionAvailable']		= " <b>". MAX_PRODUCT_NAME ."的新版本已�?�?�布。</b><br /> 由于修改一些已知的问题�?�增加了一些新功能。所以建议您安装这个更新。如果您希望进一步了解相关细心，请�?�阅文件中的相关文档。\n";
+$GLOBALS['strServerCommunicationError'] = "
+    <b>Communication with the update server timed out, so ".MAX_PRODUCT_NAME." is not
+    able to check if a newer version is available at this stage. Please try again later.</b>";
 
-$GLOBALS['strSecurityUpdate']			= "<b>由于涉�?�若干个安全更新，所以强烈建议您�?�级。</b> \n您现在的". MAX_PRODUCT_NAME ."版本，�?�能因为攻击而�?�得�?�?��?�。如果希望了解进一步的信�?�，请�?�阅文件中的相关文档。";
+$GLOBALS['strCheckForUpdatesDisabled'] = "
+    <b>Check for updates is disabled. Please enable via the
+    <a href='account-settings-update.php'>update settings</a> screen.</b>
+";
 
-$GLOBALS['strNotAbleToCheck']			= " <b>由于您�?务器上没有XML引申，所以". MAX_PRODUCT_NAME ."无法查找是�?�有新的更新�??供。</b>";
+$GLOBALS['strNewVersionAvailable']		= "
+	<b>A new version of ".MAX_PRODUCT_NAME." is available.</b><br /> It is recommended to install this update,
+	because it may fix some currently existing problems and will add new features. For more information
+	about upgrading please read the documentation which is included in the files below.</b>
+";
 
-$GLOBALS['strForUpdatesLookOnWebsite']		= "如果您希望知�?�是�?�有新的版本�??供，请查阅我们的网站。";
+$GLOBALS['strSecurityUpdate']			= "
+	<b>It is highly recommended to install this update as soon as possible, because it contains a number
+	of security fixes.</b> The version of ".MAX_PRODUCT_NAME." which you are currently using might
+	be vulnerable to certain attacks and is probably not secure. For more information
+	about upgrading please read the documentation which is included in the files below.</b>
+";
 
-$GLOBALS['strClickToVisitWebsite']		= "点击访问官方网站";
-$GLOBALS['strCurrentlyUsing']			= "你正在使用的";
-$GLOBALS['strRunningOn']			= "�?行的";
-$GLOBALS['strAndPlain']				= "与";
+$GLOBALS['strNotAbleToCheck']			= "
+	<b>Because the XML extention isn't available on your server, ".MAX_PRODUCT_NAME." is not
+    able to check if a newer version is available.</b>
+";
+
+$GLOBALS['strForUpdatesLookOnWebsite']	= "
+	If you want to know if there is a newer version available, please take a look at our website.
+";
+
+$GLOBALS['strClickToVisitWebsite']		= "Click here to visit our website";
+$GLOBALS['strCurrentlyUsing'] 			= "You are currently using";
+$GLOBALS['strRunningOn']				= "running on";
+$GLOBALS['strAndPlain']					= "and";
 
 
 // Stats conversion
-$GLOBALS['strConverting']			= "ת����";
-$GLOBALS['strConvertingStats']			= "ͳ�����ת����...";
-$GLOBALS['strConvertStats']			= "ת��ͳ�����";
-$GLOBALS['strConvertAdViews']			= "�������Ѿ�ת�����,";
-$GLOBALS['strConvertAdClicks']			= "������Ѿ�ת�����...";
-$GLOBALS['strConvertNothing']			= "û����ݿ���ת��...";
-$GLOBALS['strConvertFinished']			= "���...";
+$GLOBALS['strConverting']			= "Converting";
+$GLOBALS['strConvertingStats']			= "Converting statistics...";
+$GLOBALS['strConvertStats']			= "Convert statistics";
+$GLOBALS['strConvertAdViews']			= "AdViews converted,";
+$GLOBALS['strConvertAdClicks']			= "AdClicks converted...";
+$GLOBALS['strConvertAdConversions']			= "AdConversions converted...";
+$GLOBALS['strConvertNothing']			= "Nothing to convert...";
+$GLOBALS['strConvertFinished']			= "Finished...";
 
-$GLOBALS['strConvertExplaination']		= "������ʹ�ü���ʽ�����汨��,���ǻ���һЩ��������ϸ��ʽ.<br />��ϸ��ʽ�ı���û��ת���ɼ���ʽ��������ҳ����ֱ��ʹ��.<br />��ת����ı���֮ǰ,������ݿ��һ������!<br />�Ƿ�ȷ��Ҫ����ϸ��ʽ�ı���ת�����µļ���ʽ?<br />";
+$GLOBALS['strConvertExplaination']		= "
+	You are currently using the compact format to store your statistics, but there are <br />
+	still some statistics in verbose format. As long as the verbose statistics aren't  <br />
+	converted to compact format they will not be used while viewing these pages.  <br />
+	Before converting your statistics, make a backup of the database!  <br />
+	Do you want to convert your verbose statistics to the new compact format? <br />
+";
 
-$GLOBALS['strConvertingExplaination']		= "����ʣ�����ϸ��ʽ�ı�������ת���ɼ���ʽ<br />�����ϸ��ʽ����Ŀ����Ҫʱ�䲻ͬ��������Ҫ�����ӡ����������ҳ��֮ǰһ��Ҫ�ȵ�ת����ɡ�<br />����������ݿ��޸ĵļ�¼.<br />";
+$GLOBALS['strConvertingExplaination']		= "
+	All remaining verbose statistics are now being converted to the compact format. <br />
+	Depending on how many impressions are stored in verbose format this may take a  <br />
+	couple of minutes. Please wait until the conversion is finished before you visit other <br />
+	pages. Below you will see a log of all modification made to the database. <br />
+";
 
-$GLOBALS['strConvertFinishedExplaination']  	= "ʣ�����ϸ��ʽ�ı����Ѿ�ת���ɹ����������Ҫ�ٴ�ʹ�ã�����������ݿ��޸ĵļ�¼<br />";
+$GLOBALS['strConvertFinishedExplaination']  	= "
+	The conversion of the remaining verbose statistics was succesful and the data <br />
+	should now be usable again. Below you will see a log of all modification made <br />
+	to the database.<br />
+";
+
+//  Maintenace
+$GLOBALS['strAutoMaintenanceDisabled'] = "Automatic maintenance is disabled.";
+$GLOBALS['strAutoMaintenanceEnabled']  = "Automatic maintenance is enabled. For best performance it is advised to <a href='settings-admin.php'>disable automatic maintenance</a>.";
+$GLOBALS['strScheduledMaintenance']         = "Scheduled maintenance seems to be correctly running.";
+$GLOBALS['strScheduledMaintenanceNotRun']   = "Scheduled maintenance hasn't run in the past hour. This may mean that you have not set it up correctly.";
+$GLOBALS['strAutoMaintenanceEnabledNotTriggered']  = "Automatic maintenance is enabled, but it has not been triggered. Note that automatic maintenance is triggered only when Openads delivers banners.";
+$GLOBALS['strAutoMaintenanceBestPerformance']      = "For best performance it is advised to set up <a href='http://docs.openads.org/openads-2.3-guide/maintenance.html' target='_blank'>scheduled maintenance</a>.";
+$GLOBALS['strAutoMaintenanceEnabledWilltTrigger']  = "Automatic maintenance is enabled and will trigger maintenance every hour.";
+$GLOBALS['strAutoMaintenanceDisabledMaintenanceRan'] = "Automatic maintenance is disabled too but a maintenance task has recently run. To make sure that ".MAX_PRODUCT_NAME." works correctly you should either
+ set up <a href='http://docs.openads.org/openads-2.3-guide/maintenance.html' target='_blank'>scheduled maintenance</a> or <a href='settings-admin.php'>enable auto maintenance</a>. ";
+$GLOBALS['strAutoMaintenanceDisabledNotTriggered'] = "Also, automatic maintenance is disabled, so when ".MAX_PRODUCT_NAME." delivers banners, maintenance is not triggered.
+ If you do not plan to run <a href='http://docs.openads.org/openads-2.3-guide/maintenance.html' target='_blank'>scheduled maintenance</a>,
+ you must <a href='settings-admin.php'>enable auto maintenance</a> to ensure that ".MAX_PRODUCT_NAME." works correctly.";
+
+//  Deliver Limitations
+$GLOBALS['strDeliveryLimitations']      = "Delivery Limitations";
+$GLOBALS['strAllBannerChannelCompiled'] = "All banner/channel compiled limitation values have been recompiled";
+$GLOBALS['strBannerChannelResult']      = "Here are the results of the banner/channel compiled limitation validation";
+$GLOBALS['strChannelCompiledLimitationsValid']  = "All channel compiled limitations are valid";
+$GLOBALS['strBannerCompiledLimitationsValid']   = "All banner compiled limitations are valid";
+$GLOBALS['strErrorsFound']              = "Errors found";
+$GLOBALS['strRepairCompiledLimitations']        = "Some inconsistancies were found above, you can repair these using the button below, this will recompile the compiled limitation for every banner/channel in the system<br />";
+$GLOBALS['strRecompile']                = "Recompile";
+$GLOBALS['strDeliveryEngineDisagreeNotice'] = "Under some circumstances the delivery engine can disagree with the stored ACLs for banners and channels, use the folowing link to validate the ACLs in the database";
+$GLOBALS['strCheckACLs'] = "Check ACLs";
 
 
+//  Append codes
+$GLOBALS['strAppendCodesDesc']          = "Under some circumstances the delivery engine can disagree with the stored append codes for trackers, use the folowing link to validate the append codes in the database";
+$GLOBALS['strCheckAppendCodes']         = "Check Append codes";
+$GLOBALS['strAppendCodesRecompiled']    = "All compiled append codes values have been recompiled";
+$GLOBALS['strAppendCodesResult']        = "Here are the results of the compiled append codes validation";
+$GLOBALS['strAppendCodesValid']         = "All tracker compiled appendcodes are valid";
+$GLOBALS['strRepairAppenedCodes']       = "Some inconsistancies were found above, you can repair these using the button below, this will recompile the append codes for every tracker in the system";
 
+$GLOBALS['strPlugins']                  = "Plugins";
+$GLOBALS['strPluginsPrecis']            = "Diagnose and repair problems with " . PRODUCT_NAME . " plugins";
+$GLOBALS['strPluginsOk']                = "No problems found";
 
-// Note: new translatiosn not found in original lang files but found in CSV
-$GLOBALS['strCheckBannerCache'] = "检查广告缓存";
-$GLOBALS['strBannerCacheErrorsFound'] = "�?查，数�?�库广告缓存�?�现错误。在手工修正这些错误之�?，这些广告将无法正常�?行。";
-$GLOBALS['strBannerCacheOK'] = "未�?�现错误，您的数�?�库广告缓存已是最新的";
-$GLOBALS['strBannerCacheDifferencesFound'] = "�?查，数�?�库广告缓存�?是最新的，需�?�?建。点击这里自动更新缓存。";
-$GLOBALS['strBannerCacheRebuildButton'] = "�?构";
-$GLOBALS['strUpdateAlert'] = "". MAX_PRODUCT_NAME ." 新版本已�?�布。                 \n\n您希望了解更多关于新版本的信�?��?�？?";
-$GLOBALS['strUpdateAlertSecurity'] = "". MAX_PRODUCT_NAME ." 新版本已�?�布。                 \n\n由于�??供了很多安全方�?�的修改? 所以强烈建议您更新到新版本。";
-$GLOBALS['strBannerCacheFixed'] = "�?功完�?广告数�?�库缓存�?构, 数�?�库缓存已�?更新.";
+$GLOBALS['strMenus']                    = "Menus";
+$GLOBALS['strMenusPrecis']              = "Rebuild the menu cache";
+$GLOBALS['strMenusCachedOk']            = "Menu cache has been rebuilt";
+$GLOBALS['strMenusCachedErr']           = "Errors while rebuilding Menu cache";
 
-
-// Note: New translations not found in original lang files but found in CSV
-$GLOBALS['strEncoding'] = "编�?";
-$GLOBALS['strEncodingExplaination'] = "". MAX_PRODUCT_NAME ." 在数�?�库中使用UTF-8格�?�?存�?��?数�?�。<br />在任何�?�能情况下，您的数�?�会被自动转�?�为这�?编�?。<br />如果�?�级�?�您�?�现错乱的字符，并且您知�?�所用的编�?，您�?�以使用这个工具�?�将数�?�转�?�为UTF-8格�?。";
-$GLOBALS['strEncodingConvertFrom'] = "从此编�?转�?�：";
-$GLOBALS['strEncodingConvert'] = "转�?�";
-$GLOBALS['strEncodingConvertTest'] = "转�?�测试";
-$GLOBALS['strConvertThese'] = "如您继续，则下列数�?�会被修改";
-$GLOBALS['strAppendCodes'] = "附加代�?";
-$GLOBALS['strScheduledMaintenanceHasntRun'] = "自动维护程�?在上个�?时没有被执行，请检查你的设置。";
-$GLOBALS['strAutoMantenaceEnabledAndHasntRun'] = "自动维护程�?已�?�?�动，但是他没有被触�?�，自动程�?被触�?�当". MAX_PRODUCT_NAME ."�?�布广告时，为性能考虑，你最好设置<a href='". OX_PRODUCT_DOCSURL ."/maintenance' target='_blank'>自动维护</a>.";
-$GLOBALS['strAutoMantenaceDisabledAndHasntRun'] = "自动维护程�?已�?被�?用，所以当". MAX_PRODUCT_NAME ."�?�布广告时，自动维护程�?�?会被广告所触�?�，为了性能考虑，你必需设置<a href='". OX_PRODUCT_DOCSURL ."/maintenance' target='_blank'>计划维护</a>。当然，如果你�?设置<a href='". OX_PRODUCT_DOCSURL ."/maintenance' target='_blank'>计划维护</a>的�?，你<i>必需</i><a href='account-settings-maintenance.php'>开�?�自动维护程�?</a>以确�? ". MAX_PRODUCT_NAME ." �?行正常. ";
-$GLOBALS['strAutoMantenaceEnabledAndRunning'] = "自动维护程�?已�?�?�动，但是他没有被触�?�，自动程�?被触�?�当". MAX_PRODUCT_NAME ."�?�布广告时，为性能考虑，你最好设置<a href='". OX_PRODUCT_DOCSURL ."/maintenance' target='_blank'>自动维护</a>.";
-$GLOBALS['strAutoMantenaceDisabledAndRunning'] = "自动维护程�?已�?被�?用。为�?�?". MAX_PRODUCT_NAME ."能够正常�?行，请设定<a href='". OX_PRODUCT_DOCSURL ."/maintenance' target='_blank'>计划维护任务</a>或<a href='account-settings-maintenance.php'>�?新开�?�自动维护程�?</a>。为性能考虑，你最好设置<a href='". OX_PRODUCT_DOCSURL ."/maintenance' target='_blank'>自动维护</a>.";
-$GLOBALS['strScheduledMantenaceRunning'] = "计划维护�?行正常";
-$GLOBALS['strAutomaticMaintenanceHasRun'] = "自动维护程�?�?行正常";
-$GLOBALS['strAutoMantenaceEnabled'] = "自动维护程�?任然开�?�。为性能考虑，你最好<a href='account-settings-maintenance.php'>关闭自动维护</a>.";
-$GLOBALS['strAutoMaintenanceDisabled'] = "自动维护程�?已被�?用";
-$GLOBALS['strAutoMaintenanceEnabled'] = "自动维护程�?已�?开�?�。为性能考虑，你最好<a href='account-settings-maintenance.php'>关闭自动维护</a>.";
-$GLOBALS['strCheckACLs'] = "检查ACL";
-$GLOBALS['strScheduledMaintenance'] = "计划维护任务似乎正常�?行中。";
-$GLOBALS['strAutoMaintenanceEnabledNotTriggered'] = "自动维护程�?已�?开�?�，但是他没有被触�?�。请注�?自动维护程�?�?�有在广告被访问时�?会被触�?�。";
-$GLOBALS['strAutoMaintenanceBestPerformance'] = "为性能考虑，请设置<a href='". OX_PRODUCT_DOCSURL ."/maintenance.html' target='_blank'>计划维护任务</a>";
-$GLOBALS['strAutoMaintenanceEnabledWilltTrigger'] = "自动维护程�?已�?�?�用，将会�?个�?时进行一次维护。";
-$GLOBALS['strAutoMaintenanceDisabledMaintenanceRan'] = "自动维护程�?已�?被�?用，但是一个维护任务正在�?行中。为确定". MAX_PRODUCT_NAME ."�?行正常你必须设置<a href='http://". OX_PRODUCT_DOCSURL ."/maintenance.html' target='_blank'>计划维护任务</a>或<a href='settings-admin.php'>开�?�自动维护程�?</a>.";
-$GLOBALS['strAutoMaintenanceDisabledNotTriggered'] = "自动维护程�?已�?被�?用，所以当". MAX_PRODUCT_NAME ."�?�布广告时，维护程�?将�?会被触�?�，如果你没有计划去�?行<a href='http://". OX_PRODUCT_DOCSURL ."/maintenance.html' target='_blank'>计划维护程�?</a>,你必须 <a href='settings-admin.php'>开�?�自动维护程�?</a>以�?�?". MAX_PRODUCT_NAME ." 正常�?行。";
-$GLOBALS['strAllBannerChannelCompiled'] = "所有的广告/频�?��?制已�?被�?新设置。";
-$GLOBALS['strBannerChannelResult'] = "广告/频�?��?制结果";
-$GLOBALS['strChannelCompiledLimitationsValid'] = "所有的频�?��?制设置正常";
-$GLOBALS['strBannerCompiledLimitationsValid'] = "所有的广告�?制设置正常";
-$GLOBALS['strErrorsFound'] = "找到错误";
-$GLOBALS['strRepairCompiledLimitations'] = "有些�?制设置有误，你�?�以点击按钮以修�?这些问题<br />";
-$GLOBALS['strRecompile'] = "�?算";
-$GLOBALS['strAppendCodesDesc'] = "在�?些环境下广告引擎在�?�布附属代�?跟踪信�?�时会�?一致，有以下链接确认附属代�?。";
-$GLOBALS['strCheckAppendCodes'] = "检查附属代�?";
-$GLOBALS['strAppendCodesRecompiled'] = "所有附属代�?已�?被�?设";
-$GLOBALS['strAppendCodesResult'] = "附属代�?�?设结果";
-$GLOBALS['strAppendCodesValid'] = "所有的跟踪附属代�?正常";
-$GLOBALS['strRepairAppenedCodes'] = "有些附属代�?有误，你�?�以点击按钮以修�?这些问题";
-$GLOBALS['strScheduledMaintenanceNotRun'] = "计划维护程�?在上个�?时中并没有�?行，这�?味�?�你�?�能没有设置正确";
-$GLOBALS['strDeliveryEngineDisagreeNotice'] = "在�?些环境下广告�?�布引擎会�?�?��?广告�?�和频�?�的ACL，请点击下�?�的链接�?�验�?数�?�库中的ACL";
-$GLOBALS['strServerCommunicationError'] = "<b>与更新�?务器的通信超时，因此".MAX_PRODUCT_NAME." 无法检查此时是�?�有�?�用的新版本。请�?�?��?试。</b>";
 ?>

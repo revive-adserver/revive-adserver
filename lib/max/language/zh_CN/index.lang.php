@@ -11,8 +11,8 @@
 */
 
 // Meta information
-$translation_readable   = "Chinese";
-$translation_maintainer	= "vincen guo";
-$translation_contact	= "guo9310@yahoo.com.cn";
+$translation_readable   = "简体中文";
+$translation_maintainer	= "Sah Lee";
+$translation_contact	= "contact@leesah.name";
 
 ?>

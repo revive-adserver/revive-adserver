@@ -10,133 +10,145 @@
 +---------------------------------------------------------------------------+
 */
 
-// Invocation Types
-$GLOBALS['strInvocationRemote']			= "Զ�̵���";
-$GLOBALS['strInvocationJS']			= "Զ�̵���Javascript";
-$GLOBALS['strInvocationIframes']		= "Զ�̵���Frames";
-$GLOBALS['strInvocationXmlRpc']			= "Զ�̵���XML-RPC";
-$GLOBALS['strInvocationCombined']		= "���Զ�̵���";
-$GLOBALS['strInvocationPopUp']			= "����";
-$GLOBALS['strInvocationAdLayer']		= "��϶����Ư����DHTML";
-$GLOBALS['strInvocationLocal']			= "����ģʽ";
-
-
 // Other
-$GLOBALS['strCopyToClipboard']			= "拷贝到粘贴板";
-
+$GLOBALS['strCopyToClipboard']                      = "复制到剪贴板";
+$GLOBALS['strCopy']                                 = "复制";
+$GLOBALS['strChooseTypeOfInvocation']               = "请选择调用方式";
+$GLOBALS['strChooseTypeOfBannerInvocation']         = "请选择调用方式";
 
 // Measures
-$GLOBALS['strAbbrPixels']			= "px";
-$GLOBALS['strAbbrSeconds']			= "秒";
-
+$GLOBALS['strAbbrPixels']                           = "像素";
+$GLOBALS['strAbbrSeconds']                          = "秒";
 
 // Common Invocation Parameters
-$GLOBALS['strInvocationWhat']			= "选择广告";
-$GLOBALS['strInvocationClientID']		= "�ͻ�����Ŀ";
-$GLOBALS['strInvocationTarget']			= "目标Frame";
-$GLOBALS['strInvocationSource']			= "来源";
-$GLOBALS['strInvocationWithText']		= "广告现显示的文字";
-$GLOBALS['strInvocationDontShowAgain']		= "同一页不重复显示相同广告";
-$GLOBALS['strInvocationDontShowAgainCampaign']	= "同一页不显示相同项目";
-$GLOBALS['strInvocationTemplate'] 		= "保存广告变量作为将来使用的模板";
-
+$GLOBALS['strInvocationWhat']                       = "素材选择";
+$GLOBALS['strInvocationPreview']                    = "素材预览";
+$GLOBALS['strInvocationClientID']                   = "客户";
+$GLOBALS['strInvocationCampaignID']                 = "项目";
+$GLOBALS['strInvocationTarget']                     = "目标窗口";
+$GLOBALS['strInvocationSource']                     = "来源";
+$GLOBALS['strInvocationWithText']                   = "在素材下方显示文字";
+$GLOBALS['strInvocationDontShowAgain']              = "禁止在同一个页面上重复投放相同的素材";
+$GLOBALS['strInvocationDontShowAgainCampaign']      = "禁止在同一个页面上重复投放属于同一项目的素材";
+$GLOBALS['strInvocationTemplate']                   = "Store the banner inside a variable so it can be used in a template";
+$GLOBALS['strInvocationBannerID']                   = "Banner ID";
+$GLOBALS['strInvocationComments']                   = "包含注释";
 
 // Iframe
-$GLOBALS['strIFrameRefreshAfter']		= "于此之后刷新";
-$GLOBALS['strIframeResizeToBanner']		= "按照广告尺寸重新设置iframe大小";
-$GLOBALS['strIframeMakeTransparent']		= "iframe透明";
-$GLOBALS['strIframeIncludeNetscape4']		= "兼容Netscape4或更高版本";
+$GLOBALS['strIFrameRefreshAfter']                   = "Refresh after";
+$GLOBALS['strIframeResizeToBanner']                 = "Resize iframe to banner dimensions";
+$GLOBALS['strIframeMakeTransparent']                = "Make the iframe transparent";
+$GLOBALS['strIframeIncludeNetscape4']               = "Include Netscape 4 compatible ilayer";
+$GLOBALS['strIframeGoogleClickTracking']            = "Include code to track Google AdSense clicks";
 
 
 // PopUp
-$GLOBALS['strPopUpStyle']			= "��������";
-$GLOBALS['strPopUpStylePopUp']			= "����";
-$GLOBALS['strPopUpStylePopUnder']		= "����";
-$GLOBALS['strPopUpCreateInstance']		= "��������ʽ�������";
-$GLOBALS['strPopUpImmediately']			= "����";
-$GLOBALS['strPopUpOnClose']			= "����ҳ��ر�ʱ";
-$GLOBALS['strPopUpAfterSec']			= "ʱ����";
-$GLOBALS['strAutoCloseAfter']			= "�Զ��ر�ʱ��";
-$GLOBALS['strPopUpTop']				= "��ʼλ��(��)";
-$GLOBALS['strPopUpLeft']			= "��ʼλ��(��)";
-$GLOBALS['strWindowOptions']			= "����ѡ��";
-$GLOBALS['strShowToolbars']			= "������";
-$GLOBALS['strShowLocation']			= "��ַ��";
-$GLOBALS['strShowMenubar']			= "�˵���";
-$GLOBALS['strShowStatus']			= "״̬��";
-$GLOBALS['strWindowResizable']			= "�ɵ���С";
-$GLOBALS['strShowScrollbars']			= "����";
+$GLOBALS['strPopUpStyle']			= "Pop-up type";
+$GLOBALS['strPopUpStylePopUp']			= "Pop-up";
+$GLOBALS['strPopUpStylePopUnder']		= "Pop-under";
+$GLOBALS['strPopUpCreateInstance']		= "Instance when the pop-up is created";
+$GLOBALS['strPopUpImmediately']			= "Immediately";
+$GLOBALS['strPopUpOnClose']			= "When the page is closed";
+$GLOBALS['strPopUpAfterSec']			= "After";
+$GLOBALS['strAutoCloseAfter']			= "Automatically close after";
+$GLOBALS['strPopUpTop']				= "Initial position (top)";
+$GLOBALS['strPopUpLeft']			= "Initial position (left)";
+$GLOBALS['strWindowOptions']		= "Window options";
+$GLOBALS['strShowToolbars']			= "Toolbars";
+$GLOBALS['strShowLocation']			= "Location";
+$GLOBALS['strShowMenubar']			= "Menubar";
+$GLOBALS['strShowStatus']			= "Status";
+$GLOBALS['strWindowResizable']		= "Resizable";
+$GLOBALS['strShowScrollbars']		= "Scrollbars";
 
 
 // XML-RPC
-$GLOBALS['strXmlRpcLanguage']			= "��������";
+$GLOBALS['strXmlRpcLanguage']       = "Host Language";
+$GLOBALS['strXmlRpcProtocol']       = "Use HTTPS to contact XML-RPC Server";
+$GLOBALS['strXmlRpcTimeout']        = "XML-RPC Timeout (Seconds)";
 
 
 // AdLayer
-$GLOBALS['strAdLayerStyle']			= "风格";
+$GLOBALS['strAdLayerStyle']			= "Style";
 
-$GLOBALS['strAlignment']			= "����";
-$GLOBALS['strHAlignment']			= "�������";
-$GLOBALS['strLeft']				= "��";
-$GLOBALS['strCenter']				= "��";
-$GLOBALS['strRight']				= "��";
+$GLOBALS['strAlignment']			= "Alignment";
+$GLOBALS['strHAlignment']			= "Horizontal alignment";
+$GLOBALS['strLeft']				= "Left";
+$GLOBALS['strCenter']				= "Center";
+$GLOBALS['strRight']				= "Right";
 
-$GLOBALS['strVAlignment']			= "�������";
-$GLOBALS['strTop']				= "����";
-$GLOBALS['strMiddle']				= "�в�";
-$GLOBALS['strBottom']				= "�ײ�";
+$GLOBALS['strVAlignment']			= "Vertical alignment";
+$GLOBALS['strTop']				= "Top";
+$GLOBALS['strMiddle']				= "Middle";
+$GLOBALS['strBottom']				= "Bottom";
 
-$GLOBALS['strAutoCollapseAfter']		= "�Զ��۵�ʱ��";
-$GLOBALS['strCloseText']			= "�ر�����";
-$GLOBALS['strClose']				= "[�ر�]";
-$GLOBALS['strBannerPadding']			= "��油��";
+$GLOBALS['strAutoCollapseAfter']		= "Automatically collapse after";
+$GLOBALS['strCloseText']			= "Close text";
+$GLOBALS['strClose']				= "[Close]";
+$GLOBALS['strBannerPadding']			= "Banner padding";
 
-$GLOBALS['strHShift']				= "�����ƶ�";
-$GLOBALS['strVShift']				= "�����ƶ�";
+$GLOBALS['strHShift']				= "Horizontal shift";
+$GLOBALS['strVShift']				= "Vertical shift";
 
-$GLOBALS['strShowCloseButton']			= "��ʾ�رհ�ť";
-$GLOBALS['strBackgroundColor']			= "����ɫ";
-$GLOBALS['strBorderColor']			= "�߿���ɫ";
+$GLOBALS['strShowCloseButton']			= "Show close button";
+$GLOBALS['strBackgroundColor']			= "Background color";
+$GLOBALS['strBorderColor']			= "Border color";
 
-$GLOBALS['strDirection']			= "����";
-$GLOBALS['strLeftToRight']			= "������";
-$GLOBALS['strRightToLeft']			= "���ҵ���";
-$GLOBALS['strLooping']				= "ѭ��";
-$GLOBALS['strAlwaysActive']			= "��������";
-$GLOBALS['strSpeed']				= "�ٶ�";
-$GLOBALS['strPause']				= "暂停";
-$GLOBALS['strLimited']				= "����";
-$GLOBALS['strLeftMargin']			= "��߽�";
-$GLOBALS['strRightMargin']			= "�ұ߽�";
-$GLOBALS['strTransparentBackground']		= "͸������";
+$GLOBALS['strDirection']			= "Direction";
+$GLOBALS['strLeftToRight']			= "Left to right";
+$GLOBALS['strRightToLeft']			= "Right to left";
+$GLOBALS['strLooping']				= "Looping";
+$GLOBALS['strAlwaysActive']			= "Always active";
+$GLOBALS['strSpeed']				= "Speed";
+$GLOBALS['strPause']				= "Pause";
+$GLOBALS['strLimited']				= "Limited";
+$GLOBALS['strLeftMargin']			= "Left margin";
+$GLOBALS['strRightMargin']			= "Right margin";
+$GLOBALS['strTransparentBackground']		= "Transparent background";
 
-$GLOBALS['strSmoothMovement']			= "ƽ���ƶ�";
-$GLOBALS['strHideNotMoving']			= "��겻�ƶ�ʱ���ع��";
-$GLOBALS['strHideDelay']			= "���ع��ǰ��ʱ���ӳ�";
-$GLOBALS['strHideTransparancy']			= "ʹ���صĹ��͸��";
-
-
-$GLOBALS['strAdLayerStyleName']['geocities'] = "个人主页";
-$GLOBALS['strAdLayerStyleName']['simple'] = "简单式";
-$GLOBALS['strAdLayerStyleName']['cursor'] = "光标式";
-$GLOBALS['strAdLayerStyleName']['floater'] = "浮动式";
+$GLOBALS['strSmoothMovement']		= "Smooth movement";
+$GLOBALS['strHideNotMoving']		= "Hide the banner when the cursor is not moving";
+$GLOBALS['strHideDelay']			= "Delay before banner is hidden";
+$GLOBALS['strHideTransparancy']		= "Transparancy of the hidden banner";
 
 
+$GLOBALS['strAdLayerStyleName']	= array(
+	'geocities'		=> "Geocities",
+	'simple'		=> "Simple",
+	'cursor'		=> "Cursor",
+	'floater'		=> "Floater"
+);
 
+// Support for 3rd party server clicktracking
+$GLOBALS['str3rdPartyTrack']		 = "支持第三方点击率统计工具";
 
-// Note: new translatiosn not found in original lang files but found in CSV
-$GLOBALS['strCopy'] = "拷贝";
-$GLOBALS['strInvocationCampaignID'] = "项目";
-$GLOBALS['strInvocationBannerID'] = "广告ID";
-$GLOBALS['strInvocationComments'] = "包括注释";
-$GLOBALS['str3rdPartyTrack'] = "支持第三方广告跟踪服务器";
-$GLOBALS['strCacheBuster'] = "插入Icache-Busitng代码";
-$GLOBALS['strImgWithAppendWarning'] = "跟踪器带有附加代码，这些附加代码必须在JavaScript标签中才可运行。";
+// Support for cachebusting code
+$GLOBALS['strCacheBuster']		    = "包含 Cache Buster 参数";
 
+// Non-Img creatives Warning for zone image-only invocation
+$GLOBALS['strNonImgWarningZone']	= "Warning: There are banners attached to this zone which are not images. These banners will not be rotated using this tag.";
+$GLOBALS['strNonImgWarning']        = "Warning: This tag will not work because this banner is not an image.";
 
-// Note: New translations not found in original lang files but found in CSV
-$GLOBALS['strIframeGoogleClickTracking'] = "插入一段代码，统计Google AdSense点击";
-$GLOBALS['strWarningLocalInvocation'] = "<span class='tab-s'><strong>警告:</strong>本地模式中，系统将只会返回这台服务器的广告请求</span><br />请检查代码内的 MAX_PATH <br />，你将会在MAX_PATH/var 内有一个以你域名为文件名的配置文件";
-$GLOBALS['strChooseTypeOfInvocation'] = "请选择生成的公告形式";
-$GLOBALS['strChooseTypeOfBannerInvocation'] = "请选择生成的公告形式";
+// unkown HTML tag type Warning for zone invocation
+$GLOBALS['strUnknHtmlWarning']      = "Warning: This banner is an unkown HTML ad format.";
+
+// sql/web banner-type warning for clickonly zone invocation
+$GLOBALS['strWebBannerWarning']     = "Warning: This banner must be downloaded and you must notify us the correct URL for the banner.
+<br /> 1) Download the banner:";
+$GLOBALS['strDwnldWebBanner']       = "Right-click here and choose Save Target As";
+$GLOBALS['strWebBannerWarning2']    = "<br /> 2) Upload the banner to your webserver and write its location here: ";
+
+// IMG invocation selected for tracker with appended code
+$GLOBALS['strWarning'] = "Warning";
+$GLOBALS['strImgWithAppendWarning'] = "This tracker has appended code, appended code will <strong>only</strong> work with JavaScript tags";
+
+// Local Invocation
+$GLOBALS['strWarningLocalInvocation'] = "<span class='tab-s'><strong>Warning:</strong> Local mode invocation will ONLY work if the site calling the code
+ is on the same physical machine as the adserver</span><br />
+Check that the MAX_PATH defined in the code below points to the base directory of your MAX installation<br />
+and that you have a config file for the domain of the site showing the ads (in MAX_PATH/var)";
+
+$GLOBALS['strIABNoteLocalInvocation'] = "<b>注意：</b>使用本地模式生成的代码不兼容 IAB 的素材展示标准。";
+$GLOBALS['strIABNoteXMLRPCInvocation'] = "<b>Note:</b> Impression data generated from using XML-RPC invocation tags are not compliant with IAB guidelines for ad impression measurements.";
+
 ?>
