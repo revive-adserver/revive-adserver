@@ -17,6 +17,7 @@
  */
 
 $res = array(
+    'w8'        => 'Windows 8',
     'w7'        => 'Windows 7',
     'xp'        => 'Windows XP',
     '2k'        => 'Windows 2000',
