@@ -134,6 +134,25 @@ class phpSniff
         );
 
     /**
+     *  2D Array of devices we wish to search for in key => value pairs.
+     *  <pre>
+     *  key   = device to search for [as in HTTP_USER_AGENT]
+     *  value = value to return as 'device' property
+     *  </pre>
+     *
+     *  @access public
+     *  @var array
+     */
+    var $_devices = array(
+        'iphone'          => 'iphone',
+        'ipad'            => 'ipad',
+        'ipod'            => 'ipod',
+        'Android Phone'   => 'androidphone',
+        'Android Tablet'  => 'androidtablet',
+        'blackberry'      => 'blackberry'
+    );
+
+    /**
      *  $_javascript_versions
      *      desc    : 2D Array of javascript version supported by which browser
      *              : in key => value pairs.
@@ -236,7 +255,8 @@ class phpSniff
         'language'   => '',
         'long_name'  => '',
         'gecko'      => '',
-        'gecko_ver'  => ''
+        'gecko_ver'  => '',
+        'device'     => ''
         );
     
     /**
@@ -563,19 +583,27 @@ class phpSniff
      */
     function _get_os_info ()
     {   // regexes to use
-        $regex_windows  = '/([^dar]win[dows]*)[\s]?([0-9a-z]*)[\w\s]?([a-z0-9.]*)/i';
-        $regex_mac      = '/(68[k0]{1,3})|(ppc mac os x)|([p\S]{1,5}pc)|(darwin)/i';
-        $regex_os2      = '/os\/2|ibm-webexplorer/i';
-        $regex_sunos    = '/(sun|i86)[os\s]*([0-9]*)/i';
-        $regex_irix     = '/(irix)[\s]*([0-9]*)/i';
-        $regex_hpux     = '/(hp-ux)[\s]*([0-9]*)/i';
-        $regex_aix      = '/aix([0-9]*)/i';
-        $regex_dec      = '/dec|osfl|alphaserver|ultrix|alphastation/i';
-        $regex_vms      = '/vax|openvms/i';
-        $regex_sco      = '/sco|unix_sv/i';
-        $regex_linux    = '/x11|inux/i';
-        $regex_bsd      = '/(free)?(bsd)/i';
-        $regex_amiga    = '/amiga[os]?/i';
+        $regex_windows      = '/([^dar]win[dows]*)[\s]?([0-9a-z]*)[\w\s]?([a-z0-9.]*)/i';
+        //Better MacOSX Check: 'PPC Mac OS X' OR 'Intel Mac OS X'
+        $regex_mac          = '/(68[k0]{1,3})|(ppc mac os x|intel mac os x)|([p\S]{1,5}pc)|(darwin)/i';
+        $regex_ios          = '/(ipad|iphone|ipod)/i';
+        $regex_android      = '/(android)/i';
+        $regex_androidphone = '/(android.*mobile)/i';
+        $regex_os2          = '/os\/2|ibm-webexplorer/i';
+        $regex_sunos        = '/(sun|i86)[os\s]*([0-9]*)/i';
+        $regex_irix         = '/(irix)[\s]*([0-9]*)/i';
+        $regex_hpux         = '/(hp-ux)[\s]*([0-9]*)/i';
+        $regex_aix          = '/aix([0-9]*)/i';
+        $regex_dec          = '/dec|osfl|alphaserver|ultrix|alphastation/i';
+        $regex_vms          = '/vax|openvms/i';
+        $regex_sco          = '/sco|unix_sv/i';
+        $regex_linux        = '/x11|inux/i';
+        $regex_bsd          = '/(free)?(bsd)/i';
+        $regex_amiga        = '/amiga[os]?/i';
+        $regex_iphone       = '/(iphone)/i';
+        $regex_ipad         = '/(ipad)/i';
+        $regex_ipod         = '/(ipod)/i';
+        $regex_blackberry   = '/(blackberry)/i';
 
         // look for Windows Box
         if(preg_match_all($regex_windows,$this->_browser_info['ua'],$match))
@@ -594,6 +622,8 @@ class phpSniff
                 elseif(stristr($v,'9x') && $v2 == 4.9) $v = '98';
             // See if we're running windows 3.1
                 elseif($v.$v2 == '16bit') $v = '31';
+            // Windows Mobile
+                elseif(stristr($v,'phone')) $v = 'wmobile';
             // otherwise display as is (31,95,98,NT,ME,XP)
                 else $v .= $v2;
             // update browser info container array
@@ -632,6 +662,36 @@ class phpSniff
             $os = !empty($match[3]) ? 'ppc' : $os;
             $os = !empty($match[4]) ? 'osx' : $os;
             $this->_set_browser('os',$os);
+        }
+        // look for iOS
+        // sets: platform = ios
+        elseif( preg_match($regex_ios,$this->_browser_info['ua'],$match) )
+        {   $this->_set_browser('platform','ios');
+            $this->_set_browser('os', 'ios');
+            if (preg_match($regex_ipod,$this->_browser_info['ua'],$match) ) {
+                $this->_set_browser('device', 'ipod');
+            } else if (preg_match($regex_ipad,$this->_browser_info['ua'],$match) ) {
+                $this->_set_browser('device', 'ipad');
+            } else if (preg_match($regex_iphone,$this->_browser_info['ua'],$match) ) {
+                $this->_set_browser('device', 'iphone');
+            }
+        }
+        // look for Android
+        // sets: platform = android
+        elseif( preg_match($regex_android,$this->_browser_info['ua'],$match) )
+        {   $this->_set_browser('platform','android');
+            $this->_set_browser('os','android');
+            //phone or tablet?
+            if (preg_match($regex_androidphone,$this->_browser_info['ua'],$match)) {
+                $this->_set_browser('device', 'androidphone');
+            } else {
+                $this->_set_browser('device', 'androidtablet');
+            }
+        }
+        // look for blackberry
+        // sets: device = blackberry
+        elseif( preg_match($regex_blackberry,$this->_browser_info['ua'],$match) )
+        {   $this->_set_browser('device','blackberry');
         }
         //  look for *nix boxes
         //  sunos sets: platform = *nix ; os = sun|sun4|sun5|suni86
