@@ -35,7 +35,14 @@ function phpAds_SWFVersion($buffer)
 {
 	if (substr($buffer, 0, 3) == swf_tag_identify ||
 		substr($buffer, 0, 3) == swf_tag_compressed)
-		return ord(substr($buffer, 3, 1));
+		// http://sleepydesign.blogspot.in/2012/04/flash-swf-version-meaning.html
+		// based on this: http://www.shdon.com/blog/2012/12/03/bugfix-for-handling-of-flash-content-in-openx
+		$rv = ord(substr($buffer, 3, 1));
+		if ($rv > 10 && $rv < 13)
+			$rv = 10;
+		elseif ($rv >= 13)
+			$rv = 11;
+		return $rv;
 	else
 		return false;
 }
