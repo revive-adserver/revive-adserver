@@ -62,7 +62,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             'bool'     => true
         ),
         'delivery_aclsDirectSelection' => array(
-            'delivery' => 'acls',
+            'delivery' => 'aclsDirectSelection',
             'bool'     => true
         ),
         'delivery_obfuscate' => array(
