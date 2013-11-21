@@ -33,20 +33,34 @@ $GLOBALS['swf_target_var'] = 'atar';		// The name of the ActionScript variable u
 
 function phpAds_SWFVersion($buffer)
 {
-	if (substr($buffer, 0, 3) == swf_tag_identify ||
-		substr($buffer, 0, 3) == swf_tag_compressed)
+	$tag = substr($buffer, 0, 3);
+	if ($tag == swf_tag_identify || $tag == swf_tag_compressed)
 	{
 		// http://sleepydesign.blogspot.in/2012/04/flash-swf-version-meaning.html
 		// based on this: http://www.shdon.com/blog/2012/12/03/bugfix-for-handling-of-flash-content-in-openx
 		$rv = ord(substr($buffer, 3, 1));
-		if ($rv > 10 && $rv < 13)
-			$rv = 10;
-		elseif ($rv >= 13)
+		if ($rv >= 23) {
+			/**
+			* http://blogs.adobe.com/flashplayer/2013/11/new-version-numbering-2.html
+			* With this release (12), we introduce a new numbering scheme 
+			* for our product versions. Adopting the pattern set by Google 
+			* with Chrome and Mozilla with Firefox, we will simply update 
+			* the major version number with each subsequent release, 
+			* doing away with minor releases altogether. In other words, 
+			* beginning with the release of “Jones“, Flash Player will 
+			* become Flash Player 12. With each new release, roughly every 
+			* 3 months, that number will increase by one.
+			*/
+			$rv = ($rv - 11);
+		} elseif ($rv >= 13 && $rv <= 22) {
 			$rv = 11;
+		} elseif ($rv > 10 && $rv < 13) {
+			$rv = 10;
+		}
 		return $rv;
-	}
-	else
+	} else {
 		return false;
+	}
 }
 
 
