@@ -223,6 +223,13 @@ class OA_Dll_BannerInfo extends OA_Info
     var $prepend;
 
     /**
+      * This field provides the ext_bannertype for the banner
+      *
+      * @var string $extBannerType
+      */
+     var $extBannerType;
+
+    /**
      * This method sets all default values when adding a new banner.
      *
      * @access public
@@ -322,6 +329,7 @@ class OA_Dll_BannerInfo extends OA_Info
                     'filename' => 'string',
                     'append' => 'string',
                     'prepend' => 'string',
+                    'extBannerType' => 'string',
                 );
     }
 }
