@@ -103,7 +103,7 @@ class ZoneXmlRpcService extends BaseZoneService
                 $oResponseWithError) ||
             !XmlRpcUtils::getStructureScalarFields($oZoneInfo, $oParams,
                 1, array('zoneId', 'publisherId', 'zoneName', 'type', 'width',
-                  'height', 'comments', 'capping', 'sessionCapping', 'block', 'append', 'prepend', 'chainedZoneId'), $oResponseWithError)) {
+                  'height', 'comments', 'capping', 'sessionCapping', 'block', 'append', 'prepend', 'chainedZoneId', 'description'), $oResponseWithError)) {
 
             return $oResponseWithError;
         }
