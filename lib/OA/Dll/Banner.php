@@ -320,6 +320,13 @@ class OA_Dll_Banner extends OA_Dll
                       $this->oImage->store('web');
                       $bannerData['filename']   = $this->oImage->fileName;
                     }
+                    if (empty($oBanner->extBannerType)) {
+                        if ($bannerData['storagetype'] == 'html') {
+                            $bannerData['ext_bannertype'] = 'bannerTypeHtml:oxHtml:genericHtml';
+                        } else {
+                            $bannerData['ext_bannertype'] = 'bannerTypeText:oxText:genericText';
+                        }
+                    }
                     break;
                 case 'sql':
                 case 'web':
