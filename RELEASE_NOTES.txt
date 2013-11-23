@@ -34,6 +34,8 @@ What's New in Revive Adserver 3.1.0
 
  * Fixed issue with blank statistics pages under PHP 5.4+.
  * Fixed various strict warning issues under PHP 5.4+.
+ * Fixed an incorrect email header name which caused some SMTP systems to fail
+   to send emails.
 
  Non-Backwards Compatible Changes
  --------------------------------
