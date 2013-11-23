@@ -37,6 +37,7 @@ What's New in Revive Adserver 3.1.0
  * Fixed an incorrect email header name which caused some SMTP systems to fail
    to send emails.
  * Spelling & punctuation fixes for some error messages.
+ * Fixed issue with some text not being translated in the standard reports.
 
  Non-Backwards Compatible Changes
  --------------------------------
