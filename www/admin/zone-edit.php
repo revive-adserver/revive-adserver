@@ -106,7 +106,7 @@ if ($zoneForm->validate()) {
     if(!empty($errors)) {
     }
 }
-//display the page - show any validation errors that may have occured
+//display the page - show any validation errors that may have occurred
 displayPage($zone, $zoneForm, $errors);
 
 

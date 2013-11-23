@@ -21,7 +21,7 @@ require_once "PEAR.php";
 
 /**
 * IT[X] Error class
-* 
+*
 * @package HTML_Template_IT
 */
 class IT_Error extends PEAR_Error {
@@ -29,23 +29,23 @@ class IT_Error extends PEAR_Error {
 
   /**
   * Prefix of all error messages.
-  * 
+  *
   * @var  string
   */
   var $error_message_prefix = "IntegratedTemplate Error: ";
-  
+
   /**
   * Creates an cache error object.
-  * 
+  *
   * @param  string  error message
-  * @param  string  file where the error occured
-  * @param  string  linenumber where the error occured
+  * @param  string  file where the error occurred
+  * @param  string  linenumber where the error occurred
   */
   function IT_Error($msg, $file = __FILE__, $line = __LINE__) {
-    
+
     $this->PEAR_Error(sprintf("%s [%s on line %d].", $msg, $file, $line));
-    
+
   } // end func IT_Error
-  
+
 } // end class IT_Error
 ?>

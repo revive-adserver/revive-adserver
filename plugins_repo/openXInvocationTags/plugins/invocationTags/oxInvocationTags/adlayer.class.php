@@ -175,7 +175,7 @@ class Plugins_InvocationTags_OxInvocationTags_adlayer extends Plugins_Invocation
      * @static
      * @param string $layerName    Name of the invocation tag layer
      *
-     * @return object              Plugin object or false if any error occured
+     * @return object              Plugin object or false if any error occurred
      *
      */
     function factoryLayer($style = PLUGINS_INVOCATIONS_TAGS_ADLAYER_DEFAULT_LAYERSTYLE, $type = 'invocation')
