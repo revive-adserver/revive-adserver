@@ -27,11 +27,11 @@ function Xajax()
 			alert("Xajax Debug:\n " + text);
 		}
 	};
-	
+
 	this.workId = 'xajaxWork'+ new Date().getTime();
 	this.depth = 0;
 	this.responseErrorsForAlert = ["400","401","402","403","404","500","501","502","503"];
-	
+
 	//Get the XMLHttpRequest Object
 	this.getRequestObject = function()
 	{
@@ -65,9 +65,9 @@ function Xajax()
 		}
 		if(!req && window.createRequest)
 			req = window.createRequest();
-		
+
 		if (!req) this.DebugMessage("Request Object Instantiation failed.");
-			
+
 		return req;
 	}
 
@@ -86,7 +86,7 @@ function Xajax()
 		}
 		return returnObj;
 	}
-	
+
 	// xajax.include(sFileName) dynamically includes an external javascript file
 	this.include = function(sFileName)
 	{
@@ -96,7 +96,7 @@ function Xajax()
 		objScript.src = sFileName;
 		objHead[0].appendChild(objScript);
 	}
-	
+
 	this.stripOnPrefix = function(sEventName)
 	{
 		sEventName = sEventName.toLowerCase();
@@ -104,10 +104,10 @@ function Xajax()
 		{
 			sEventName = sEventName.replace(/on/,'');
 		}
-		
+
 		return sEventName;
 	}
-	
+
 	this.addOnPrefix = function(sEventName)
 	{
 		sEventName = sEventName.toLowerCase();
@@ -115,10 +115,10 @@ function Xajax()
 		{
 			sEventName = 'on' + sEventName;
 		}
-		
+
 		return sEventName;
 	}
-	
+
 	// xajax.addHandler adds an event handler to an element
 	this.addHandler = function(sElementId, sEvent, sFunctionName)
 	{
@@ -133,7 +133,7 @@ function Xajax()
 			eval("this.$('"+sElementId+"').attachEvent('"+sAltEvent+"',"+sFunctionName+",false);");
 		}
 	}
-	
+
 	// xajax.removeHandler removes an event handler from an element
 	this.removeHandler = function(sElementId, sEvent, sFunctionName)
 	{
@@ -148,7 +148,7 @@ function Xajax()
 			eval("this.$('"+sElementId+"').detachEvent('"+sAltEvent+"',"+sFunctionName+",false);");
 		}
 	}
-	
+
 	// xajax.create creates a new child node under a parent
 	this.create = function(sParentId, sTag, sId)
 	{
@@ -158,7 +158,7 @@ function Xajax()
 		if (objParent)
 			objParent.appendChild(objElement);
 	}
-	
+
 	// xajax.insert inserts a new node before another node
 	this.insert = function(sBeforeId, sTag, sId)
 	{
@@ -176,7 +176,7 @@ function Xajax()
 		objElement.setAttribute('id',sId);
 		objSibling.parentNode.insertBefore(objElement, objSibling.nextSibling);
 	}
-	
+
 	this.getInput = function(sType, sName, sId)
 	{
 		var Obj;
@@ -193,7 +193,7 @@ function Xajax()
 		}
 		return Obj;
 	}
-	
+
 	// xajax.createInput creates a new input node under a parent
 	this.createInput = function(sParentId, sType, sName, sId)
 	{
@@ -202,7 +202,7 @@ function Xajax()
 		if (objParent && objElement)
 			objParent.appendChild(objElement);
 	}
-	
+
 	// xajax.insertInput creates a new input node before another node
 	this.insertInput = function(sBeforeId, sType, sName, sId)
 	{
@@ -221,7 +221,7 @@ function Xajax()
 			objSibling.parentNode.insertBefore(objElement, objSibling.nextSibling);
 		}
 	}
-		
+
 	// xajax.remove deletes an element
 	this.remove = function(sId)
 	{
@@ -231,16 +231,16 @@ function Xajax()
 			objElement.parentNode.removeChild(objElement);
 		}
 	}
-	
+
 	//xajax.replace searches for text in an attribute of an element and replaces it
 	//with a different text
 	this.replace = function(sId,sAttribute,sSearch,sReplace)
 	{
 		var bFunction = false;
-		
+
 		if (sAttribute == "innerHTML")
 			sSearch = this.getBrowserHTML(sSearch);
-		
+
 		eval("var txt=this.$('"+sId+"')."+sAttribute);
 		if (typeof txt == "function")
         {
@@ -267,7 +267,7 @@ function Xajax()
 			}
 		}
 	}
-	
+
 	// xajax.getFormValues() builds a query string XML message from the elements of a form object
 	// * The first argument is the id of the form
 	// * The second argument (optional) can be set to true if you want to submit disabled elements
@@ -282,7 +282,7 @@ function Xajax()
 		var prefix="";
 		if(arguments.length > 2)
 			prefix = arguments[2];
-		
+
 		if (typeof(frm) == "string")
 			objForm = this.$(frm);
 		else
@@ -318,15 +318,15 @@ function Xajax()
 					{
 						sXml += name+"="+encodeURIComponent(formElements[i].value);
 					}
-				} 
+				}
 			}
 		}
-		
+
 		sXml +="</q></xjxquery>";
-		
+
 		return sXml;
 	}
-	
+
 	// Generates an XML message that xajax can understand from a javascript object
 	this.objectToXML = function(obj)
 	{
@@ -339,7 +339,7 @@ function Xajax()
 					continue;
 				if (obj[i] && typeof(obj[i]) == 'function')
 					continue;
-					
+
 				var key = i;
 				var value = obj[i];
 				if (value && typeof(value)=="object" && this.depth <= 50)
@@ -348,9 +348,9 @@ function Xajax()
 					value = this.objectToXML(value);
 					this.depth--;
 				}
-				
+
 				sXml += "<e><k>"+key+"</k><v>"+value+"</v></e>";
-				
+
 			}
 			catch(e)
 			{
@@ -358,7 +358,7 @@ function Xajax()
 			}
 		}
 		sXml += "</xjxobj>";
-	
+
 		return sXml;
 	}
 
@@ -394,7 +394,7 @@ function Xajax()
 				}
 			}
 			return data;
-		}		
+		}
 	}
 
 	this.loadingFunction = function(){};
@@ -473,7 +473,7 @@ function Xajax()
 		{
 			if (r.readyState != 4)
 				return;
-			
+
 			if (r.status==200)
 			{
 				if (xajaxDebug) xajax.DebugMessage("Received:\n" + r.responseText);
@@ -488,7 +488,7 @@ function Xajax()
 						errorString += "\nYou have whitespace in your response.";
 					alert(errorString);
 					document.body.style.cursor = 'default';
-					if (xajaxStatusMessages == true) window.status = 'Invalid XML response error';				
+					if (xajaxStatusMessages == true) window.status = 'Invalid XML response error';
 				}
 			}
 			else {
@@ -498,9 +498,9 @@ function Xajax()
 					alert(errorString);
 				}
 				document.body.style.cursor = 'default';
-				if (xajaxStatusMessages == true) window.status = 'Invalid XML response error';								
+				if (xajaxStatusMessages == true) window.status = 'Invalid XML response error';
 			}
-			
+
 			delete r;
 			r = null;
 		}
@@ -510,7 +510,7 @@ function Xajax()
 		delete r;
 		return true;
 	}
-	
+
 	//Gets the text as it would be if it were being retrieved from
 	//the innerHTML property in the current browser
 	this.getBrowserHTML = function(html)
@@ -526,11 +526,11 @@ function Xajax()
 		}
 		tmpXajax.innerHTML = html;
 		var browserHTML = tmpXajax.innerHTML;
-		tmpXajax.innerHTML = '';	
-		
+		tmpXajax.innerHTML = '';
+
 		return browserHTML;
 	}
-	
+
 	// Tests if the new Data is the same as the extant data
 	this.willChange = function(element, attribute, newData)
 	{
@@ -544,7 +544,7 @@ function Xajax()
 		}
 		elementObject = this.$(element);
 		if (elementObject) {
-			var oldData;		
+			var oldData;
 			eval("oldData=this.$('"+element+"')."+attribute);
 			if (newData !== oldData)
 				return true;
@@ -552,13 +552,13 @@ function Xajax()
 
 		return false;
 	}
-	
+
 	//Returns the source code of the page after it's been modified by xajax
 	this.viewSource = function()
 	{
 		return "<html>"+document.getElementsByTagName("HTML")[0].innerHTML+"</html>";
 	}
-	
+
 	//Process XML xajaxResponses returned from the request
 	this.processResponse = function(xml)
 	{
@@ -569,7 +569,7 @@ function Xajax()
 		xml = xml.documentElement;
 		if (xml == null)
 			return;
-		
+
 		var skipCommands = 0;
 		for (var i=0; i<xml.childNodes.length; i++)
 		{
@@ -633,7 +633,7 @@ function Xajax()
 						} else {
 							var internalData = xml.childNodes[i].childNodes[j].firstChild.nodeValue;
 						}
-					
+
 						if (xml.childNodes[i].childNodes[j].nodeName == "s")
 						{
 							search = internalData;
@@ -648,7 +648,7 @@ function Xajax()
 					data = xml.childNodes[i].firstChild.nodeValue;
 				else
 					data = "";
-				
+
 				if (objElement != "XJX_SKIP") objElement = this.$(id);
 				var cmdFullname;
 				try
@@ -766,7 +766,7 @@ function Xajax()
 				catch(e)
 				{
 					if (xajaxDebug)
-						alert("While trying to '"+cmdFullname+"' (command number "+i+"), the following error occured:\n"
+						alert("While trying to '"+cmdFullname+"' (command number "+i+"), the following error occurred:\n"
 							+ e.name+": "+e.message+"\n"
 							+ (id&&!objElement?"Object with id='"+id+"' wasn't found.\n":""));
 				}
@@ -782,7 +782,7 @@ function Xajax()
 				delete internalData;
 				delete j;
 				delete k;
-			}	
+			}
 		}
 		delete xml;
 		delete i;

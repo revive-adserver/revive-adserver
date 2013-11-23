@@ -459,8 +459,8 @@ $GLOBALS['strShowCappedNoCookie']           = "Show capped ads if cookies are di
 // Campaign-zone linking page
 $GLOBALS['strCalculatedForAllCampaigns']    = "Calculated for all campaigns";
 $GLOBALS['strCalculatedForThisCampaign']    = "Calculated for this campaign";
-$GLOBALS['strLinkingZonesProblem']          = "Problem occured when linking zones";
-$GLOBALS['strUnlinkingZonesProblem']        = "Problem occured when unlinking zones";
+$GLOBALS['strLinkingZonesProblem']          = "Problem occurred when linking zones";
+$GLOBALS['strUnlinkingZonesProblem']        = "Problem occurred when unlinking zones";
 $GLOBALS['strZonesLinked']                  = "zone(s) linked";
 $GLOBALS['strZonesUnlinked']                = "zone(s) unlinked";
 $GLOBALS['strZonesSearch']                  = "Search";

@@ -101,7 +101,7 @@ class OA_Creative_File extends OA_Creative
         return OA_Creative_File::staticGetContentTypeByExtension(
             $this->fileName, $alt);
     }
-    
+
     function staticGetContentTypeByExtension($fileName, $alt = false)
     {
         $contentType = '';
@@ -145,7 +145,7 @@ class OA_Creative_File extends OA_Creative
         } elseif (preg_match('/\.('.$validImageExtensions.')$/i', $fileName)) {
             $type = 'Image';
         } else {
-            return new PEAR_Error('The uploaded file does not have a valid extension. 
+            return new PEAR_Error('The uploaded file does not have a valid extension.
             The file must be an image file (JPG, PNG, GIF, etc.) or a SWF.');
         }
 
@@ -214,7 +214,7 @@ class OA_Creative_File extends OA_Creative
             } else {
                 $message = 'Error code: '.$_FILES[$variableName]['error'];
             }
-            return new PEAR_Error('An error occured dealing with the file upload: '.$message);
+            return new PEAR_Error('An error occurred dealing with the file upload: '.$message);
         }
         if (!isset($_FILES[$variableName]['tmp_name']) || !is_uploaded_file($_FILES[$variableName]['tmp_name'])) {
             return new PEAR_Error('Could not find the uploaded file: '.$variableName);

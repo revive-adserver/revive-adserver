@@ -109,7 +109,7 @@ $GLOBALS['strInstallNonBlockingErrors']         = "An error occurred when perfor
                                                    and install log at '%s' for details. You will still be able to login to your " . PRODUCT_NAME . " instance.";
 $GLOBALS['strDetailedTaskErrorList']            = 'Detailed list of errors found';
 $GLOBALS['strPluginInstallFailed']              = "Installation of plugin '%s' failed:";
-$GLOBALS['strTaskInstallFailed']                = "Error occured when running installation task '%s':";
+$GLOBALS['strTaskInstallFailed']                = "Error occurred when running installation task '%s':";
 $GLOBALS['strContinueToLogin']                  = 'Click "Continue" to login to your ' . PRODUCT_NAME . ' instance.';
 
 $GLOBALS['strContinue']                         = "Continue";

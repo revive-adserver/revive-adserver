@@ -82,7 +82,7 @@ $pgName = 'stats.php';
 
 $oStats = &OA_Admin_Statistics_Factory::getController($entity . "-" . $breakdown);
 if (PEAR::isError($oStats)) {
-    phpAds_Die('Error occured', htmlspecialchars($oStats->getMessage()));
+    phpAds_Die('Error occurred', htmlspecialchars($oStats->getMessage()));
 }
 $oStats->noFormat = true;
 $oStats->start();
