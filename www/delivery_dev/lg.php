@@ -50,6 +50,19 @@ $aCapZone['capping']             = MAX_Delivery_log_getArrGetVariable('capZone')
 $aCapZone['session_capping']     = MAX_Delivery_log_getArrGetVariable('sessionCapZone');
 $aSetLastSeen                    = MAX_Delivery_log_getArrGetVariable('lastView');
 
+MAX_cookieFlush();
+MAX_querystringConvertParams();
+
+if (!empty($_REQUEST[$GLOBALS['_MAX']['CONF']['var']['dest']])) {
+    MAX_redirect($_REQUEST[$GLOBALS['_MAX']['CONF']['var']['dest']]);
+} else {
+    // Display a 1x1 pixel gif
+    MAX_commonDisplay1x1();
+}
+
+// Done generating output so flush it while doing logging and maintenance.
+flush();
+
 // Loop over the ads to be logged (there may be more than one due to internal re-directs)
 // and log each ad, and th  en set any capping cookies required
 $countAdIds = count($aAdIds);
@@ -76,16 +89,6 @@ for ($index = 0; $index < $countAdIds; $index++) {
             }
         }
     }
-}
-
-MAX_cookieFlush();
-MAX_querystringConvertParams();
-
-if (!empty($_REQUEST[$GLOBALS['_MAX']['CONF']['var']['dest']])) {
-    MAX_redirect($_REQUEST[$GLOBALS['_MAX']['CONF']['var']['dest']]);
-} else {
-    // Display a 1x1 pixel gif
-    MAX_commonDisplay1x1();
 }
 
 // Run automaintenance, if needed
