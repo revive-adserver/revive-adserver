@@ -1172,7 +1172,9 @@ class OA_Email
      * @return boolean True if the mail was send, false otherwise.
      */
     function sendMail($subject, $contents, $userEmail, $userName = null, $fromDetails = null)
-    {
+    {   # Add mail send by PHP Mailer
+         require_once MAX_PATH . '/lib/util/class.phpmailer.php';
+        # Add mail send by PHP Mailer
         $aConf = $GLOBALS['_MAX']['CONF'];
 
         if (defined('DISABLE_ALL_EMAILS') || $aConf['debug']['disableSendEmails']) {
@@ -1212,13 +1214,30 @@ class OA_Email
     	// Add \r to linebreaks in the contents for MS Exchange compatibility
     	$contents = str_replace("\n", "\r\n", $contents);
     	// Send email, if possible!
-    	if (function_exists('mail')) {
-    	   $value = @mail($toParam, $subject, $contents, $headersParam);
-    	   return $value;
-    	} else {
-    	    OA::debug('Cannot send emails - mail() does not exist!', PEAR_LOG_ERR);
-    	    return false;
-    	}
+    	# Modified by QuangTam - Add Mail Sender
+        $mail = new PHPMailer();
+        $mail->IsSMTP();
+        $mail->SMTPDebug = 1;
+        $mail->SMTPAuth = true;
+        $mail->Host = 'smtp.domain.com'; // Your SMTP Server
+        $mail->Port = '25'; // Your SMTP Server Port
+        $mail->Username = 'yourmail@domain.com'; // Your SMTP Account
+        $mail->Password = 'yourpass'; // Your SMTP Password
+        $mail->SetFrom($fromDetails['emailAddress'], $fromDetails['name']);
+        $mail->AddAddress($userEmail, $userName);
+        $mail->Subject = $subject;
+        $mail->CharSet = "UTF-8";
+        $mail->IsHTML(true);
+        $mail->Body = $contents;
+        $mail->Send();
+        if (!$mail->Send()) {
+            OA::debug('Cannot send emails - please check your STMP config!', PEAR_LOG_ERR);
+            return false;
+        }
+        # Modified by QuangTam - Add Mail Sender
+        
+        /* For other way, you can use POP3 config for send mail
+    	
     }
 
     /**
