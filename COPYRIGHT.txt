@@ -5,6 +5,7 @@ contributions to the code:
 
  - Erik Geurts
  - Florian Sander
+ - Stelios Skiathitis
 
 --------------------------------------------------------------------------------
 
