@@ -41,6 +41,10 @@ What's New in Revive Adserver 3.1.0
  * Fixed issue with being unable to save some of the options as an administrator
    in the Configuration > Global Settings > Banner Delivery Settings screen.
 
+ * The IAB VAST Plugin has been updated to version 1.9.1 to migrate the video ad
+   player information screen from an externally hosted location to the local
+   Revive Adserver installation.
+
  Non-Backwards Compatible Changes
  --------------------------------
 
