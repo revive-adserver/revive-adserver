@@ -63,6 +63,7 @@ class OA_Dll_Banner extends OA_Dll
         $bannerData['sessionCapping']   = $bannerData['session_capping'];
         $bannerData['block']            = $bannerData['block'];
         $bannerData['alt']              = $bannerData['alt'];
+        $bannerData['extBannerType']    = $bannerData['ext_bannertype'];
 
         $oBanner->readDataFromArray($bannerData);
         return  true;
@@ -176,6 +177,13 @@ class OA_Dll_Banner extends OA_Dll
             }
         }
 
+        // Check for image provided for custom html banners
+        if ($oBanner->storageType == 'html' && isset($oBanner->aImage)) {
+             if (!$this->_validateImage($oBanner->aImage, $this->oImage)) {
+                return false;
+            }
+        }
+
         if (!$this->checkStructureNotRequiredStringField($oBanner,  'bannerName', 255) ||
             !$this->checkStructureNotRequiredStringField($oBanner,  'imageURL', 255) ||
             !$this->checkStructureNotRequiredStringField($oBanner,  'htmlTemplate') ||
@@ -191,7 +199,8 @@ class OA_Dll_Banner extends OA_Dll
             !$this->checkStructureNotRequiredIntegerField($oBanner, 'sessionCapping') ||
             !$this->checkStructureNotRequiredIntegerField($oBanner, 'block') ||
             !$this->checkStructureNotRequiredStringField($oBanner,  'comments') ||
-            !$this->checkStructureNotRequiredStringField($oBanner,  'alt')
+            !$this->checkStructureNotRequiredStringField($oBanner,  'alt') ||
+            !$this->checkStructureNotRequiredStringField($oBanner,  'extBannerType')
             ) {
             return false;
         }
@@ -250,11 +259,11 @@ class OA_Dll_Banner extends OA_Dll
      * @param OA_Dll_BannerInfo &$oBanner <br />
      *          <b>For adding</b><br />
      *          <b>Required properties:</b> campaignId<br />
-     *          <b>Optional properties:</b> bannerName, storageType, imageURL, htmlTemplate, width, height, weight, url, alt<br />
+     *          <b>Optional properties:</b> bannerName, storageType, imageURL, htmlTemplate, width, height, weight, url, alt, extBannerType<br />
      *
      *          <b>For modify</b><br />
      *          <b>Required properties:</b> bannerId<br />
-     *          <b>Optional properties:</b> campaignId, bannerName, storageType, imageURL, htmlTemplate, width, height, weight, url, altText<br />
+     *          <b>Optional properties:</b> campaignId, bannerName, storageType, imageURL, htmlTemplate, width, height, weight, url, altText, extBannerType<br />
      *
      * @return boolean  True if the operation was successful
      *
@@ -288,6 +297,7 @@ class OA_Dll_Banner extends OA_Dll
         $bannerData['imageurl']     = $oBanner->imageURL;
         $bannerData['htmltemplate'] = $oBanner->htmlTemplate;
         $bannerData['alt']          = $oBanner->alt;
+        $bannerData['ext_bannertype']  = $oBanner->extBannerType;
 
         $bannerData['capping']          = $oBanner->capping > 0
                                         ? $oBanner->capping
@@ -303,14 +313,13 @@ class OA_Dll_Banner extends OA_Dll
             $bannerData['storagetype'] = $oBanner->storageType;
             switch($bannerData['storagetype']) {
                 case 'html':
-                    $bannerData['contenttype']    = $bannerData['storagetype'];
-                    $bannerData['bannertext']     = $oBanner->bannerText;
-                    $bannerData['ext_bannertype'] = 'bannerTypeHtml:oxHtml:genericHtml';
-                    break;
                 case 'txt':
                     $bannerData['contenttype']    = $bannerData['storagetype'];
                     $bannerData['bannertext']     = $oBanner->bannerText;
-                    $bannerData['ext_bannertype'] = 'bannerTypeText:oxText:genericText';
+                    if (!empty($oBanner->aImage)) {
+                      $this->oImage->store('web');
+                      $bannerData['filename']   = $this->oImage->fileName;
+                    }
                     break;
                 case 'sql':
                 case 'web':
@@ -478,7 +487,7 @@ class OA_Dll_Banner extends OA_Dll
         if (!$this->checkStructureRequiredStringField($oTargeting,  'logical', 255) ||
             !$this->checkStructureRequiredStringField($oTargeting,  'type', 255) ||
             !$this->checkStructureRequiredStringField($oTargeting,  'comparison', 255) ||
-            !$this->checkStructureNotRequiredStringField($oTargeting,  'data', 255)) {
+            !$this->checkStructureNotRequiredStringField($oTargeting,  'data')) {
 
             return false;
         }

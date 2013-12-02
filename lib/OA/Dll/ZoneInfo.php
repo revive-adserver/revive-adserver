@@ -113,6 +113,13 @@ class OA_Dll_ZoneInfo extends OA_Info
      * @var string $prepend
      */
     var $prepend;
+
+    /* 
+     * This field provides any description to be stored.
+     *
+     * @var string $description
+     */
+     var $description;
     
     /**
      * This method sets all default values when adding a new zone.
@@ -168,6 +175,7 @@ class OA_Dll_ZoneInfo extends OA_Info
                     'comments' => 'string',
                     'append' => 'string',
                     'prepend' => 'string',
+                    'description' => 'string',
                 );
     }
 }
