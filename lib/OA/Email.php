@@ -1179,7 +1179,7 @@ class OA_Email {
         $contents = str_replace("\n", "\r\n", $contents);
         // Send email, if possible!
         # Modified by QuangTam - Add mail config - Get config from Config
-        $emailConfigure = $GLOBALS['_MAX']['CONF']['email'];
+        $emailConfigure = $aConf['email'];
         // mail_type = 2 => smtp; 3=> pop3; 1 => Default mail() php
         // Send email, if possible!
         if ($emailConfigure['Type'] == '2') {
