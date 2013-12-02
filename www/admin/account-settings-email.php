@@ -1,14 +1,14 @@
 <?php
 
 /*
-+---------------------------------------------------------------------------+
-| Revive Adserver                                                           |
-| http://www.revive-adserver.com                                            |
-|                                                                           |
-| Copyright: See the COPYRIGHT.txt file.                                    |
-| License: GPLv2 or later, see the LICENSE.txt file.                        |
-+---------------------------------------------------------------------------+
-*/
+  +---------------------------------------------------------------------------+
+  | Revive Adserver                                                           |
+  | http://www.revive-adserver.com                                            |
+  |                                                                           |
+  | Copyright: See the COPYRIGHT.txt file.                                    |
+  | License: GPLv2 or later, see the LICENSE.txt file.                        |
+  +---------------------------------------------------------------------------+
+ */
 
 // Require the initialisation file
 require_once '../../init.php';
@@ -39,25 +39,37 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     $aElements = array();
     // E-mail Addresses
     $aElements += array(
-        'email_fromAddress'       => array('email' => 'fromAddress'),
-        'email_fromName'          => array('email' => 'fromName'),
-        'email_fromCompany'       => array('email' => 'fromCompany'),
+        'email_fromAddress' => array('email' => 'fromAddress'),
+        'email_fromName' => array('email' => 'fromName'),
+        'email_fromCompany' => array('email' => 'fromCompany'),
         'email_useManagerDetails' => array('email' => 'useManagerDetails',
-                                           'bool'  => true
-                                          )
+            'bool' => true
+        )
     );
-    // E-mail Log
+    // Modified by QuangTam - Email Config
+    $aElements += array(
+        'email_Type' => array('email' => 'Type'),
+        'email_SMTPServer' => array('email' => 'SMTPServer'),
+        'email_SMTPPort' => array('email' => 'SMTPPort'),
+        'email_SMTPAccount' => array('email' => 'SMTPAccount'),
+        'email_SMTPPass' => array('email' => 'SMTPPass'),
+        'email_POP3Server' => array('email' => 'POP3Server'),
+        'email_POP3Port' => array('email' => 'POP3Port'),
+        'email_POP3Account' => array('email' => 'POP3Account'),
+        'email_POP3Pass' => array('email' => 'POP3Pass')
+    );
+    // Modified by QuangTam - E-mail Log
     $aElements += array(
         'email_logOutgoing' => array(
             'email' => 'logOutgoing',
-            'bool'  => true
+            'bool' => true
         )
     );
     // E-mail Headers
     $aElements += array(
         'email_headers' => array(
-            'email'        => 'headers',
-            'preg_match'   => "/\r?\n/",
+            'email' => 'headers',
+            'preg_match' => "/\r?\n/",
             'preg_replace' => '\\r\\n'
         )
     );
@@ -65,23 +77,22 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     $aElements += array(
         'email_qmailPatch' => array(
             'email' => 'qmailPatch',
-            'bool'  => true
+            'bool' => true
         )
     );
     // Create a new settings object, and save the settings!
     $oSettings = new OA_Admin_Settings();
     $result = $oSettings->processSettingsFromForm($aElements);
     if ($result) {
-            // Queue confirmation message
-            $setPref = $oOptions->getSettingsPreferences($prefSection);
-            $title = $setPref[$prefSection]['name'];
-            $translation = new OX_Translation ();
-            $translated_message = $translation->translate($GLOBALS['strXSettingsHaveBeenUpdated'],
-                array(htmlspecialchars($title)));
-            OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
-             // The settings configuration file was written correctly,
-            OX_Admin_Redirect::redirect(basename($_SERVER['SCRIPT_NAME']));
-            }
+        // Queue confirmation message
+        $setPref = $oOptions->getSettingsPreferences($prefSection);
+        $title = $setPref[$prefSection]['name'];
+        $translation = new OX_Translation ();
+        $translated_message = $translation->translate($GLOBALS['strXSettingsHaveBeenUpdated'], array(htmlspecialchars($title)));
+        OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+        // The settings configuration file was written correctly,
+        OX_Admin_Redirect::redirect(basename($_SERVER['SCRIPT_NAME']));
+    }
     // Could not write the settings configuration file, store this
     // error message and continue
     $aErrormessage[0][] = $strUnableToWriteConfig;
@@ -98,75 +109,177 @@ phpAds_PageHeader('account-settings-index', $oHeaderModel);
 
 // Prepare an array of HTML elements to display for the form, and
 // output using the $oOption object
-$aSettings = array (
-    array (
-       'text'  => $strEmailAddresses,
-       'items' => array (
-            array (
-                'type'    => 'text',
-                'name'    => 'email_fromAddress',
-                'text'    => $strEmailFromAddress,
-                'req'     => true,
-                'size'    => 35,
-                'check'   => 'email'
+$aSettings = array(
+    array(
+        'text' => $strEmailAddresses,
+        'items' => array(
+            array(
+                'type' => 'text',
+                'name' => 'email_fromAddress',
+                'text' => $strEmailFromAddress,
+                'req' => true,
+                'size' => 35,
+                'check' => 'email'
             ),
-            array (
-                'type'    => 'break'
+            array(
+                'type' => 'break'
             ),
-            array (
-                'type'    => 'text',
-                'name'    => 'email_fromName',
-                'text'    => $strEmailFromName,
-                'req'     => false,
-                'size'    => 35
+            array(
+                'type' => 'text',
+                'name' => 'email_fromName',
+                'text' => $strEmailFromName,
+                'req' => false,
+                'size' => 35
             ),
-            array (
-                'type'    => 'break'
+            array(
+                'type' => 'break'
             ),
-            array (
-                'type'    => 'text',
-                'name'    => 'email_fromCompany',
-                'text'    => $strEmailFromCompany,
-                'req'     => false,
-                'size'    => 35,
+            array(
+                'type' => 'text',
+                'name' => 'email_fromCompany',
+                'text' => $strEmailFromCompany,
+                'req' => false,
+                'size' => 35,
             ),
-            array (
-                'type'    => 'break'
+            array(
+                'type' => 'break'
             ),
-            array (
-                'type'    => 'checkbox',
-                'name'    => 'email_useManagerDetails',
-                'text'    => $strUseManagerDetails,
+            array(
+                'type' => 'checkbox',
+                'name' => 'email_useManagerDetails',
+                'text' => $strUseManagerDetails,
             )
         )
     ),
-    array (
-       'text'  => $strEmailLog,
-       'items' => array (
-            array (
-                'type'    => 'checkbox',
-                'name'    => 'email_logOutgoing',
-                'text'    => $strUserlogEmail
+    // Modified by QuangTam - Email config
+    array(
+        'text' => 'Email Send Type',
+        'items' => array(
+            array(
+                'type' => 'select',
+                'name' => 'email_Type',
+                'text' => 'Email Type',
+                'size' => 12,
+                'items' => array(
+                    1 => 'PHP mail()',
+                    2 => 'SMTP',
+                    3 => 'POP3'
+                )
             )
         )
     ),
-    array (
-       'text'  => $strEmailHeader,
-       'items' => array (
-            array (
-               'type'     => 'textarea',
-               'name'     => 'email_headers',
-               'text'     => $strAdminEmailHeaders
+    array(
+        'text' => 'SMTP Config',
+        'items' => array(
+            array(
+                'type' => 'text',
+                'name' => 'email_SMTPServer',
+                'text' => 'SMTP Server',
+                'req' => false,
+                'size' => 35,
+            ),
+            array(
+                'type' => 'break'
+            ),
+            array(
+                'type' => 'text',
+                'name' => 'email_SMTPPort',
+                'text' => 'SMTP Port',
+                'req' => false,
+                'size' => 35,
+            ),
+            array(
+                'type' => 'break'
+            ),
+            array(
+                'type' => 'text',
+                'name' => 'email_SMTPAccount',
+                'text' => 'SMTP Account',
+                'req' => false,
+                'size' => 35,
+            ),
+            array(
+                'type' => 'break'
+            ),
+            array(
+                'type' => 'text',
+                'name' => 'email_SMTPPass',
+                'text' => 'SMTP Pass',
+                'req' => false,
+                'size' => 35,
             )
         )
     ),
-        array (
-        'text'  => $strQmailPatch,
-        'items' => array (
-            array (
-                'type'    => 'checkbox',
-                'name'    => 'email_qmailPatch',
-                'text'    => $strEnableQmailPatch
+    array(
+        'text' => 'POP3 Config',
+        'items' => array(
+            array(
+                'type' => 'text',
+                'name' => 'email_POP3Server',
+                'text' => 'POP3 Server',
+                'req' => false,
+                'size' => 35,
+            ),
+            array(
+                'type' => 'break'
+            ),
+            array(
+                'type' => 'text',
+                'name' => 'email_POP3Port',
+                'text' => 'POP3 Port',
+                'req' => false,
+                'size' => 35,
+            ),
+            array(
+                'type' => 'break'
+            ),
+            array(
+                'type' => 'text',
+                'name' => 'email_POP3Account',
+                'text' => 'POP3 Account',
+                'req' => false,
+                'size' => 35,
+            ),
+            array(
+                'type' => 'break'
+            ),
+            array(
+                'type' => 'text',
+                'name' => 'email_POP3Pass',
+                'text' => 'POP3 Pass',
+                'req' => false,
+                'size' => 35,
+            )
+        )
+    ),
+    // Modified by QuangTam - Email config
+    array(
+        'text' => $strEmailLog,
+        'items' => array(
+            array(
+                'type' => 'checkbox',
+                'name' => 'email_logOutgoing',
+                'text' => $strUserlogEmail
+            )
+        )
+    ),
+    array(
+        'text' => $strEmailHeader,
+        'items' => array(
+            array(
+                'type' => 'textarea',
+                'name' => 'email_headers',
+                'text' => $strAdminEmailHeaders
+            )
+        )
+    ),
+    array(
+        'text' => $strQmailPatch,
+        'items' => array(
+            array(
+                'type' => 'checkbox',
+                'name' => 'email_qmailPatch',
+                'text' => $strEnableQmailPatch
             )
         )
     )
@@ -175,5 +288,4 @@ $oOptions->show($aSettings, $aErrormessage);
 
 // Display the page footer
 phpAds_PageFooter();
-
 ?>
