@@ -12,16 +12,12 @@
   <!-- Package Integrity Plugin -->
   <taskdef name="checkdistribution" classname="org.openads.ant.CheckDistributionTask"/>
 
-  <macrodef name="rv-version" description="Sets a value of the OA_VERSION constant in the constants.php file.">
+  <macrodef name="rv-version" description="Sets a value of the VERSION constant in the constants.php file.">
     <attribute name="versionstring" description="A version to be set."/>
     <sequential>
       <replaceregexp file="constants.php"
         match="^ *define\('VERSION.*$"
         replace="    define('VERSION', '@{versionstring}');"
-        byline="true"/>
-      <replaceregexp file="constants.php"
-        match="^ *define\('OA_VERSION.*$"
-        replace="    define('OA_VERSION', '@{versionstring}');"
         byline="true"/>
     </sequential>
   </macrodef>
@@ -78,7 +74,7 @@
   </target>
 
   <target name="prepare-version-info" if="version" depends="init-release">
-    <echo message="Setting OA_VERSION to '${version}'."/>
+    <echo message="Setting VERSION to '${version}'."/>
     <rv-version versionstring="${version}"/>
   </target>
 
