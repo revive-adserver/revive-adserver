@@ -6,6 +6,7 @@ contributions to the code:
  - Erik Geurts
  - Sah Lee
  - Florian Sander
+ - Joan Sarola
  - Stelios Skiathitis
 
 --------------------------------------------------------------------------------
