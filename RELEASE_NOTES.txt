@@ -39,6 +39,8 @@ What's New in Revive Adserver 3.1.0
  * Fixed issue with some text not being translated in the standard reports.
  * Fixed issue with being unable to save some of the options as an administrator
    in the Configuration > Global Settings > Banner Delivery Settings screen.
+ * Fixed a bug that unlinked all zone's banners when editing the name or
+   description of a zone, without changing the zone type or size.
  * Fixed bug with user interface settings to allow a custom logo to display
    if set, without also requiring a custom application name.
 
