@@ -3400,7 +3400,7 @@ $prepend = !empty($aBanner['prepend']) ? $aBanner['prepend'] : '';
 $append = !empty($aBanner['append']) ? $aBanner['append'] : '';
 $width = !empty($aBanner['width']) ? $aBanner['width'] : 0;
 $height = !empty($aBanner['height']) ? $aBanner['height'] : 0;
-$pluginVersion = !empty($aBanner['pluginversion']) ? $aBanner['pluginversion'] : '4';
+$pluginVersion = !empty($aBanner['pluginversion']) ? _adRenderGetRealPluginVersion($aBanner['pluginversion']) : '4';
 if (!empty($aBanner['alt_filename']) || !empty($aBanner['alt_imageurl'])) {
 $altImageAdCode = _adRenderImage($aBanner, $zoneId, $source, $ct0, false, $logClick, false, true, true, $loc, $referer, false);
 $fallBackLogURL = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&', true);
@@ -3633,6 +3633,19 @@ return $clickUrl;
 function _adRenderBuildStatusCode($aBanner)
 {
 return !empty($aBanner['status']) ? " onmouseover=\"self.status='" . addslashes($aBanner['status']) . "'; return true;\" onmouseout=\"self.status=''; return true;\"" : '';
+}
+function _adRenderGetRealPluginVersion($swfVersion)
+{
+if ($swfVersion <= 10) {
+$pluginVersion = $swfVersion;
+} elseif ($swfVersion >= 23) {
+$pluginVersion = $swfVersion - 11;
+} elseif ($swfVersion == 11 || $swfVersion == 12) {
+$pluginVersion = 10 + ($swfVersion - 9) / 10;
+} elseif ($swfVersion >= 13 && $swfVersion <= 17) {
+$pluginVersion = 11 + ($swfVersion - 13) / 10;
+}
+return (string)$pluginVersion;
 }
 function _getAdRenderFunction($aBanner, $richMedia = true)
 {
