@@ -28,7 +28,7 @@ case $2 in
 esac
 done
 
-rm "$arg".zip
+rm -f "$arg".zip
 sh ./zipkg.sh "$arg"
 
 if [ -z "$bundle" ]; then

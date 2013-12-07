@@ -16,7 +16,7 @@
 
   #echo "$arg"
 
-  rm "$arg".zip
+  rm -f "$arg".zip
 
   cd "$arg"
 
