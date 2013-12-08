@@ -32,7 +32,7 @@ $GLOBALS['strFixErrorsBeforeContinuing']        = "Configuration of your webserv
                                                    For help, please see our <a href='".PRODUCT_DOCSURL."'>documentation</a> and <a href='http://"
                                                    .PRODUCT_DOCSURL."/faq'>FAQs</a>";
 
-$GLOBALS['strAppCheckErrors']                   = "Errors were found when detecing previous installations of " . PRODUCT_NAME;
+$GLOBALS['strAppCheckErrors']                   = "Errors were found when detecting previous installations of " . PRODUCT_NAME;
 $GLOBALS['strAppCheckDbIntegrityError']         = "We have detected integrity issues with your database. This means that the layout of your database
                                                    differs from what we expect it to be. This could be due to customization of your database.";
 
