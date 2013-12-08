@@ -28,6 +28,7 @@ What's New in Revive Adserver 3.1.0
  ------------
 
  * Added support for SWF banners created using SWF version 11 or higher.
+ * Delivery javascript files (fl.js) are minified using YUI Compressor
 
  Bug Fixes
  ---------

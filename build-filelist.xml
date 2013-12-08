@@ -77,6 +77,7 @@
     <include name="etc/*.properties*"/>
     <include name="etc/test.conf.php"/>
     <include name="etc/changesfantasy/**"/>
+    <include name="lib/ant/**"/>
     <include name="lib/simpletest/**"/>
     <exclude name="plugins/**"/>
     <include name="scripts/db_dataobject/**"/>
