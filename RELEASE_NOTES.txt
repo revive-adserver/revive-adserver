@@ -27,7 +27,7 @@ What's New in Revive Adserver 3.1.0
  New Features
  ------------
 
- * TBA
+ * Added support for SWF banners created using SWF version 11 or higher.
 
  Bug Fixes
  ---------
