@@ -53,6 +53,8 @@ What's New in Revive Adserver 3.1.0
  * The IAB VAST Plugin has been updated to version 1.9.1 to migrate the video ad
    player information screen from an externally hosted location to the local
    Revive Adserver installation.
+ * Fixed HTML code being displayed in the banner name for eCPM banners in the
+   zone probabilities screen
 
  Non-Backwards Compatible Changes
  --------------------------------
