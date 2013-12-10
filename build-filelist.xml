@@ -25,6 +25,7 @@
     <include name="etc/permanentcache/**"/>
     <include name="lib/**"/>
     <exclude name="lib/simpletest/**"/>
+    <exclude name="lib/ant/**"/>
     <include name="maintenance/**"/>
     <include name="plugins/**"/>
     <include name="scripts/maintenance/**"/>
