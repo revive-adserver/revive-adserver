@@ -6,7 +6,7 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
-Release Notes: Revive Adserver 3.1.0
+Release Notes: Revive Adserver 3.0.1
 ====================================
 
 These release notes cover what's new, system requirements, download and
@@ -14,7 +14,7 @@ installation instructions, known issues and frequently asked questions for
 Revive Adserver. Please read these notes before reporting any bugs.
 
 
-What's New in Revive Adserver 3.1.0
+What's New in Revive Adserver 3.0.1
 -----------------------------------
 
  * Release date: 13 December 2013
