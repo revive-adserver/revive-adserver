@@ -17,12 +17,12 @@ Revive Adserver. Please read these notes before reporting any bugs.
 What's New in Revive Adserver 3.1.0
 -----------------------------------
 
- * Release date: TBA
+ * Release date: 13 December 2013
 
  Security Updates
  ----------------
 
- * TBA
+ * None
 
  New Features
  ------------
@@ -59,7 +59,7 @@ What's New in Revive Adserver 3.1.0
  Non-Backwards Compatible Changes
  --------------------------------
 
- * TBA
+ * None
 
 
 System Requirements
@@ -80,12 +80,12 @@ Downloading and Installing
  * Installing Revive Adserver
 
    Installing Revive Adserver is a straightforward process. Follow the steps at
-   http://www.revive-adserver.com/docs/install.
+   http://www.revive-adserver.com/support/installation/.
 
  * Upgrading Revive Adserver
 
    Upgrading Revive Adserver is a straightforward process. Follow the steps at
-   http://www.revive-adserver.com/docs/upgrade.
+   http://www.revive-adserver.com/support/upgrading/.
 
    Please note: The upgrade process will update your Revive Adserver database,
    and the database may no longer be compatible with your old installation.
@@ -180,7 +180,12 @@ FAQ
     Yes. OpenX Source has rebranded as Revive Adserver. You will be able to
     upgrade from any version of OpenX Source.
 
- 3. What can I do to help?
+ 3. Where can I get help?
+
+    You can ask for help at the Revive Adserver community forums:
+    http://forum.revive-adserver.com/
+
+ 4. What can I do to help?
 
     We need help from both developers and users to provide as much feedback
     as possible to make Revive Adserver even better. You can contribute
