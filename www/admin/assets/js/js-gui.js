@@ -91,11 +91,11 @@ function confirm_submit(o, str)
 function search_window(keyword, where)
 {
 	path = where+'?keyword='+keyword;
-	SearchWindow = window.open("","Search","toolbar=no,location=no,status=no,scrollbars=yes,width=700,height=500,innerheight=50,screenX=100,screenY=100,pageXoffset=100,pageYoffset=100,resizable=yes");
+	SearchWindow = window.open("","Search","toolbar=no,location=no,status=no,scrollbars=yes,width=700,height=500,screenX=100,screenY=100,pageXoffset=100,pageYoffset=100,resizable=yes");
 
 	if (SearchWindow.frames.length == 0)
 	{
-		SearchWindow = window.open(path,"Search","toolbar=no,location=no,status=no,scrollbars=yes,width=800,height=600,innerheight=50,screenX=100,screenY=100,pageXoffset=100,pageYoffset=100,resizable=yes");
+		SearchWindow = window.open(path,"Search","toolbar=no,location=no,status=no,scrollbars=yes,width=800,height=600,screenX=100,screenY=100,pageXoffset=100,pageYoffset=100,resizable=yes");
 	}
 	else
 	{
@@ -110,11 +110,11 @@ function search_window(keyword, where)
 
 function help_window(path)
 {
-	SearchWindow = window.open("","Help","toolbar=no,location=no,status=no,scrollbars=yes,width=700,height=500,innerheight=50,screenX=100,screenY=100,pageXoffset=100,pageYoffset=100,resizable=yes");
+	SearchWindow = window.open("","Help","toolbar=no,location=no,status=no,scrollbars=yes,width=700,height=500,screenX=100,screenY=100,pageXoffset=100,pageYoffset=100,resizable=yes");
 
 	if (SearchWindow.frames.length == 0)
 	{
-		SearchWindow = window.open(path,"Help","toolbar=no,location=no,status=no,scrollbars=yes,width=800,height=600,innerheight=50,screenX=100,screenY=100,pageXoffset=100,pageYoffset=100,resizable=yes");
+		SearchWindow = window.open(path,"Help","toolbar=no,location=no,status=no,scrollbars=yes,width=800,height=600,screenX=100,screenY=100,pageXoffset=100,pageYoffset=100,resizable=yes");
 	}
 	else
 	{
