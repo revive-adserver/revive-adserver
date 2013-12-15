@@ -197,7 +197,7 @@ function OX_bucket_prepareUpdateQuery($tableName, $aQuery, $increment = true, $c
 function OA_Dal_Delivery_getKeywordCondition($operator, $keyword)
 {
     $p1 = "CONCAT(' ',d.keyword,' ')";
-    $p2 = "LIKE '% $keyword %'";
+    $p2 = "LIKE '% ".OX_escapeString($keyword)." %'";
 
     if ($operator == 'OR') {
         return "OR {$p1} {$p2} ";
