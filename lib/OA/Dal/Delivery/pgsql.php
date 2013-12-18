@@ -198,7 +198,7 @@ function OX_bucket_quoteArgs($aArgs)
 function OA_Dal_Delivery_getKeywordCondition($operator, $keyword)
 {
     $p1 = "(' ' || d.keyword || ' ')";
-    $p2 = "ILIKE '% $keyword %'";
+    $p2 = "ILIKE '% ".OX_escapeString($keyword)." %'";
 
     if ($operator == 'OR') {
         return "OR {$p1} {$p2} ";
