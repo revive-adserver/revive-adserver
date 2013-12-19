@@ -196,6 +196,9 @@ function OX_bucket_prepareUpdateQuery($tableName, $aQuery, $increment = true, $c
 
 function OA_Dal_Delivery_getKeywordCondition($operator, $keyword)
 {
+    // Escape properly
+    $keyword = OX_escapeString(stripslashes($keyword));
+
     $p1 = "CONCAT(' ',d.keyword,' ')";
     $p2 = "LIKE '% $keyword %'";
 
