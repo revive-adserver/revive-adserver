@@ -6,7 +6,7 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
-Release Notes: Revive Adserver 3.0.1
+Release Notes: Revive Adserver 3.0.2
 ====================================
 
 These release notes cover what's new, system requirements, download and
@@ -14,47 +14,27 @@ installation instructions, known issues and frequently asked questions for
 Revive Adserver. Please read these notes before reporting any bugs.
 
 
-What's New in Revive Adserver 3.0.1
+What's New in Revive Adserver 3.0.2
 -----------------------------------
 
- * Release date: 13 December 2013
+ * Release date: 20 December 2013
 
  Security Updates
  ----------------
 
- * None
+ * CVE-2013-7149 - Fixed SQL-Injection vulnerability in the XML-RPC invocation
+   script (www/delivery/axmlrpc.php). For more information:
+   http://www.revive-adserver.com/security/REVIVE-SA-2013-001
 
  New Features
  ------------
 
- * Added support for SWF banners created using SWF version 11 or higher.
- * Delivery javascript files (fl.js) are minified using YUI Compressor
+ * None
 
  Bug Fixes
  ---------
 
- * Fixed upgrade bug - Revive Adserver no longer leaves all plugins disabled
-   when upgrading using a different URL defined in the configuration file.
- * Fixed issue with blank statistics pages under PHP 5.4+.
- * Fixed various strict warning issues under PHP 5.4+.
- * Fixed an incorrect email header name which caused some SMTP systems to fail
-   to send emails.
- * Fixed issue with some text not being translated in the standard reports.
- * Fixed issue with being unable to save some of the options as an administrator
-   in the Configuration > Global Settings > Banner Delivery Settings screen.
- * Fixed a bug that unlinked all zone's banners when editing the name or
-   description of a zone, without changing the zone type or size.
- * Fixed bug with user interface settings to allow a custom logo to display
-   if set, without also requiring a custom application name.
- * Fixed spelling issue in installer error message.
-
- * The Reports Plugin has been updated to version 1.4.1 to fix spelling and
-   punctuation issues in error messages.
- * The IAB VAST Plugin has been updated to version 1.9.1 to migrate the video ad
-   player information screen from an externally hosted location to the local
-   Revive Adserver installation.
- * Fixed HTML code being displayed in the banner name for eCPM banners in the
-   zone probabilities screen
+ * None
 
  Non-Backwards Compatible Changes
  --------------------------------
