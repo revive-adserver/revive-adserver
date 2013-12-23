@@ -32,7 +32,7 @@ What's New in Revive Adserver 3.0.3
  Bug Fixes
  ---------
 
- * None
+ * Fixed the date format for the Spanish language pack.
 
  Non-Backwards Compatible Changes
  --------------------------------
