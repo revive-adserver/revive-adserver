@@ -33,6 +33,7 @@ What's New in Revive Adserver 3.0.3
  ---------
 
  * Fixed the date format for the Spanish language pack.
+ * Fixed some instances of the old application name in robots.txt files.
 
  Non-Backwards Compatible Changes
  --------------------------------
