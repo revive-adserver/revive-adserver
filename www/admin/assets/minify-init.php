@@ -62,6 +62,7 @@ $oxpCssRtl = array (
             'css/message.css',
             'css/chrome-rtl.css',
             'js/jscalendar/calendar-openads.css',
+			'css/interface-ltr.css',
             'css/interface-rtl.css',
             'css/icons.css'
 );
