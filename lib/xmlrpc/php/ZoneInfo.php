@@ -102,19 +102,26 @@ class OA_Dll_ZoneInfo extends OA_Info
     var $comments;
 
     /**
-     * This field provides appended code for this zone.
+     * The appended code for this zone.
      *
      * @var string $append
      */
     var $append;
-    
+
     /**
-     * This field provides the filename of the zone.
+     * The prepended code of the zone.
      *
      * @var string $prepend
      */
     var $prepend;
-    
+
+    /**
+     * The chained zone of the current zone.
+     *
+     * @var int $chainedZoneId
+     */
+    var $chainedZoneId;
+
     /**
      * This method sets all default values when adding a new zone.
      *
@@ -133,9 +140,10 @@ class OA_Dll_ZoneInfo extends OA_Info
         if (is_null($this->height)) {
             $this->height = 0;
         }
+
         if (is_null($this->capping)) {
             // Leave null
-    }
+        }
 
         if (is_null($this->sessionCapping)) {
             // Leave null
@@ -144,6 +152,10 @@ class OA_Dll_ZoneInfo extends OA_Info
         if (is_null($this->block)) {
             // Leave null
         }
+
+        if (is_null($this->chainedZoneId)) {
+            // Leave null
+    }
     }
 
     /**
@@ -168,6 +180,7 @@ class OA_Dll_ZoneInfo extends OA_Info
                     'comments' => 'string',
                     'append' => 'string',
                     'prepend' => 'string',
+                    'chainedZoneId' => 'integer',
                 );
     }
 }
