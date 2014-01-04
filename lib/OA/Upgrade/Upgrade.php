@@ -493,12 +493,15 @@ class OA_Upgrade
                 if ($noText) {
                     return $this->versionInitialApplication;
                 } else {
-                    // The product was re-branded OpenX at 2.4.4, so deal with
-                    // the product name in this text description accordingly
+                    // The product was re-branded OpenX at 2.4.4, and Revive
+                    // Adserver at 3.0.0, so deal with the product names in this
+                    // text description accordingly
                     if (version_compare($this->versionInitialApplication, '2.4.4', '<')) {
                         return 'Openads ' . $this->versionInitialApplication;
-                    } else {
+                    } else if (version_compare($this->versionInitialApplication, '3.0.0', '<')) {
                         return 'OpenX ' . $this->versionInitialApplication;
+                    } else {
+                        return 'Revive Adserver ' . $this->versionInitialApplication;
                     }
                 }
         }
@@ -675,7 +678,7 @@ class OA_Upgrade
                 return true;
         }
 
-        $this->oLogger->logOnly('Attempting to detect an existing OpenX installation...');
+        $this->oLogger->logOnly('Attempting to detect an existing Revive Adserver installation...');
         $this->detectOpenads();
         $strProductName = $this->getProductApplicationVersion();
         switch ($this->existing_installation_status)
@@ -683,7 +686,7 @@ class OA_Upgrade
             case OA_STATUS_OAD_NOT_INSTALLED:
                 if (!$this->oLogger->errorExists)
                 {
-                    $this->oLogger->log('No previous version of OpenX detected');
+                    $this->oLogger->log('No previous version of Revive Adserver detected');
                     return true;
                 }
                 break;

@@ -27,14 +27,16 @@ What's New in Revive Adserver 3.0.3
  New Features
  ------------
 
- * API now supports setting chainedZoneId
+ * API now supports setting chainedZoneId.
 
  Bug Fixes
  ---------
 
+ * Fixed the detected product name on upgrade to correctly distinguish between
+   older OpenX Source installations vs. newer Revive Adserver installations.
  * Fixed the date format for the Spanish language pack.
  * Fixed some instances of the old application name in robots.txt files.
- * Fixed API incompatibilities with PHP 5.4+
+ * Fixed API incompatibilities with PHP 5.4+.
 
  Non-Backwards Compatible Changes
  --------------------------------
