@@ -228,10 +228,10 @@ class RV_Sync
                 $aReturn = array(0, XML_RPC_Decode($response->value()));
                 // Prepare cache
                 $cache = $aReturn[1];
-                // Also write to the debug log
-                OA::debug("Sync: updates found!", PEAR_LOG_INFO);
                 // Update last run
                 OA_Dal_ApplicationVariables::set('sync_last_run', date('Y-m-d H:i:s'));
+                // Also write to the debug log
+                OA::debug("Sync: updates found!", PEAR_LOG_INFO);
             } else {
                 // Boo! An error! (Well, maybe - if it's 800, yay!)
                 $aReturn = array($response->faultCode(), $response->faultString());
@@ -239,6 +239,7 @@ class RV_Sync
                 $cache = false;
                 // Update last run
                 if ($response->faultCode() == 800) {
+                    // Update last run
                     OA_Dal_ApplicationVariables::set('sync_last_run', date('Y-m-d H:i:s'));
                     // Also write to the debug log
                     OA::debug("Sync: {$aReturn[1]}", PEAR_LOG_INFO);
