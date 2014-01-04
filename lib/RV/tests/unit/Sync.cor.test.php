@@ -10,22 +10,21 @@
 +---------------------------------------------------------------------------+
 */
 
-require_once MAX_PATH . '/lib/OA/Sync.php';
+require_once MAX_PATH . '/lib/RV/Sync.php';
 
 /**
- * A class for testing the OA_Sync class.
+ * A class for testing the RV_Sync class.
  *
- * @package    OpenX
+ * @package    Revive Adserver
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
-class Test_OA_Sync extends UnitTestCase
+class Test_RV_Sync extends UnitTestCase
 {
 
     /**
      * The constructor method.
      */
-    function Test_OA_Sync()
+    function Test_RV_Sync()
     {
         $this->UnitTestCase();
     }
@@ -35,7 +34,7 @@ class Test_OA_Sync extends UnitTestCase
      */
     function testGetConfigVersion()
     {
-        $oSync = new OA_Sync();
+        $oSync = new RV_Sync();
 
         // Prepare sample ascending versions
         $aVersions = array(

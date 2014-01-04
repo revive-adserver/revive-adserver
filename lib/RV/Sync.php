@@ -17,12 +17,11 @@ require_once MAX_PATH . '/lib/OA/Central.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
- * A class to deal with the services provided by OpenX Sync
+ * A class to deal with the services provided by Revive Adserver Sync
  *
- * @package    OpenX
- * @author     Matteo Beccati <matteo@beccati.com>
+ * @package    Revive Adserver
  */
-class OA_Sync
+class RV_Sync
 {
     var $aConf;
     var $aPref;
@@ -39,7 +38,7 @@ class OA_Sync
      * @param array $conf array, if null reads the global variable
      * @param array $pref array, if null reads the global variable
      */
-    function OA_Sync($conf = null, $pref = null)
+    function RV_Sync($conf = null, $pref = null)
     {
         $this->aConf = is_null($conf) ? $GLOBALS['_MAX']['CONF'] : $conf;
         $this->aPref = is_null($pref) ? $GLOBALS['_MAX']['PREF'] : $pref;
@@ -154,13 +153,28 @@ class OA_Sync
         // Create the XML-RPC client object
         $client = OA_Central::getXmlRpcClient($this->_conf);
 
+        // Prepare the installation's platform hash
+        $platform_hash = OA_Dal_ApplicationVariables::get('platform_hash');
+        if (!$platform_hash) {
+            // The installation does not have a platform hash; generate one,
+            // and save it to the database for later use
+            OA::debug("Generating a new platform_hash for the installation", PEAR_LOG_INFO);
+            $platform_hash = OA_Dal_ApplicationVariables::generatePlatformHash();
+            if (!OA_Dal_ApplicationVariables::set('platform_hash', $platform_hash)) {
+                OA::debug("Could not save the new platform_hash to the database", PEAR_LOG_ERR);
+                unset($platform_hash);
+                OA::debug("Sync process proceeding without a platform_hash", PEAR_LOG_INFO);
+            }
+        }
+
+
         // Prepare the parameters required for the XML-RPC call to
         // obtain if an update is available for this installation
         $params = array(
             new XML_RPC_Value(PRODUCT_NAME, 'string'),
             new XML_RPC_Value($this->getConfigVersion(OA_Dal_ApplicationVariables::get('oa_version')), 'string'),
             new XML_RPC_Value($already_seen, 'string'),
-            new XML_RPC_Value(OA_Dal_ApplicationVariables::get('platform_hash'), 'string')
+            new XML_RPC_Value($platform_hash, 'string')
         );
 
         // Has the Revive Adserver admin user kindly agreed to share the
@@ -214,17 +228,18 @@ class OA_Sync
                 $aReturn = array(0, XML_RPC_Decode($response->value()));
                 // Prepare cache
                 $cache = $aReturn[1];
-                // Also write to the debug log
-                OA::debug("Sync: updates found!", PEAR_LOG_INFO);
                 // Update last run
                 OA_Dal_ApplicationVariables::set('sync_last_run', date('Y-m-d H:i:s'));
+                // Also write to the debug log
+                OA::debug("Sync: updates found!", PEAR_LOG_INFO);
             } else {
-                // Boo! An error! (Well, maybe - it it's 800, yay!)
+                // Boo! An error! (Well, maybe - if it's 800, yay!)
                 $aReturn = array($response->faultCode(), $response->faultString());
                 // Prepare cache
                 $cache = false;
                 // Update last run
                 if ($response->faultCode() == 800) {
+                    // Update last run
                     OA_Dal_ApplicationVariables::set('sync_last_run', date('Y-m-d H:i:s'));
                     // Also write to the debug log
                     OA::debug("Sync: {$aReturn[1]}", PEAR_LOG_INFO);
