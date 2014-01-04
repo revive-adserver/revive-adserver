@@ -13,7 +13,7 @@
 require_once MAX_PATH . '/init-delivery-parse.php';
 
 /**
- * A class for testing the OA_Sync class.
+ * A class for testing the OA_ConfParse class.
  *
  * @package    OpenX
  * @subpackage TestSuite

@@ -13,7 +13,7 @@
 require_once MAX_PATH . '/lib/OA/Central.php';
 
 /**
- * A class for testing the OA_Sync class.
+ * A class for testing the OA_Central class.
  *
  * @package    OpenX
  * @subpackage TestSuite
