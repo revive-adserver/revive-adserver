@@ -153,13 +153,28 @@ class RV_Sync
         // Create the XML-RPC client object
         $client = OA_Central::getXmlRpcClient($this->_conf);
 
+        // Prepare the installation's platform hash
+        $platform_hash = OA_Dal_ApplicationVariables::get('platform_hash');
+        if (!$platform_hash) {
+            // The installation does not have a platform hash; generate one,
+            // and save it to the database for later use
+            OA::debug("Generating a new platform_hash for the installation", PEAR_LOG_INFO);
+            $platform_hash = OA_Dal_ApplicationVariables::generatePlatformHash();
+            if (!OA_Dal_ApplicationVariables::set('platform_hash', $platform_hash)) {
+                OA::debug("Could not save the new platform_hash to the database", PEAR_LOG_ERR);
+                unset($platform_hash);
+                OA::debug("Sync process proceeding without a platform_hash", PEAR_LOG_INFO);
+            }
+        }
+
+
         // Prepare the parameters required for the XML-RPC call to
         // obtain if an update is available for this installation
         $params = array(
             new XML_RPC_Value(PRODUCT_NAME, 'string'),
             new XML_RPC_Value($this->getConfigVersion(OA_Dal_ApplicationVariables::get('oa_version')), 'string'),
             new XML_RPC_Value($already_seen, 'string'),
-            new XML_RPC_Value(OA_Dal_ApplicationVariables::get('platform_hash'), 'string')
+            new XML_RPC_Value($platform_hash, 'string')
         );
 
         // Has the Revive Adserver admin user kindly agreed to share the
