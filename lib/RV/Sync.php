@@ -233,7 +233,7 @@ class RV_Sync
                 // Update last run
                 OA_Dal_ApplicationVariables::set('sync_last_run', date('Y-m-d H:i:s'));
             } else {
-                // Boo! An error! (Well, maybe - it it's 800, yay!)
+                // Boo! An error! (Well, maybe - if it's 800, yay!)
                 $aReturn = array($response->faultCode(), $response->faultString());
                 // Prepare cache
                 $cache = false;
