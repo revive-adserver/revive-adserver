@@ -17,12 +17,11 @@ require_once MAX_PATH . '/lib/OA/Central.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
- * A class to deal with the services provided by OpenX Sync
+ * A class to deal with the services provided by Revive Adserver Sync
  *
- * @package    OpenX
- * @author     Matteo Beccati <matteo@beccati.com>
+ * @package    Revive Adserver
  */
-class OA_Sync
+class RV_Sync
 {
     var $aConf;
     var $aPref;
@@ -39,7 +38,7 @@ class OA_Sync
      * @param array $conf array, if null reads the global variable
      * @param array $pref array, if null reads the global variable
      */
-    function OA_Sync($conf = null, $pref = null)
+    function RV_Sync($conf = null, $pref = null)
     {
         $this->aConf = is_null($conf) ? $GLOBALS['_MAX']['CONF'] : $conf;
         $this->aPref = is_null($pref) ? $GLOBALS['_MAX']['PREF'] : $pref;

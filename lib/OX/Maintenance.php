@@ -276,8 +276,8 @@ class OX_Maintenance
         $delay = mt_rand(0,10000000);
         OA::debug(sprintf('  Starting OpenX Sync process in %dms.', $delay / 1000), PEAR_LOG_DEBUG);
         usleep($delay);
-        require_once MAX_PATH . '/lib/OA/Sync.php';
-        $oSync = new OA_Sync($this->aConf, $this->aPref);
+        require_once MAX_PATH . '/lib/RV/Sync.php';
+        $oSync = new RV_Sync($this->aConf, $this->aPref);
         $oSync->checkForUpdates(0);
         OA::debug('  Finished OpenX Sync process.', PEAR_LOG_DEBUG);
     }

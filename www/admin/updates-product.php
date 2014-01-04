@@ -14,9 +14,9 @@
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/RV/Sync.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-maintenance.inc.php';
-require_once MAX_PATH . '/lib/OA/Sync.php';
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
@@ -66,7 +66,7 @@ if (!isset($session['maint_update'])) {
         flush();
 
         // Get updates info and store them into a session var
-        $oSync = new OA_Sync();
+        $oSync = new RV_Sync();
         $res = $oSync->checkForUpdates();
         phpAds_SessionDataRegister('maint_update', $res);
         phpAds_SessionDataStore();
