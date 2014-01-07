@@ -106,6 +106,7 @@ elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
         foreach ($banners as &$banner) {
             $banner['status'] = $banner['active'];
         }
+        unset($banner);
     }
 }
 
