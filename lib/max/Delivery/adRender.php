@@ -340,10 +340,14 @@ function _adRenderFlash(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=fal
 
     $swfId = (!empty($aBanner['alt']) ? $aBanner['alt'] : 'Advertisement');
 
-    $code = "
-<div id='ox_$rnd' style='display: inline;'>$altImageAdCode</div>
-<script type='text/javascript'><!--/"."/ <![CDATA[
-    var ox_swf = new FlashObject('{$fileUrl}', '{$swfId}', '{$width}', '{$height}', '{$pluginVersion}');\n";
+    $code  = "<div style='width:{$width}px ; height:{$height}px ; position:relative'><div id='ox_$rnd' style='position:absolute'>$altImageAdCode</div>\n" ; 
+	$code .= "<div style='position:absolute ; left:0px ; top:0px ; width:{$width}px ; height:{$height}px ; cursor:pointer' title=\"{$aBanner['alt']}\">\n" ; 
+	$code .= "<a href=\"{$clickUrl}\" target=\"{$target}\"><div style=\"width:{$width}px ; height:{$height}px\"></div></a>\n" ; 
+	$code .= "</div></div>" ; 
+	
+	$code .= "<script type='text/javascript'><!--/"."/ <![CDATA[\n";
+	$code .= "	var ox_swf = new FlashObject('{$fileUrl}', '{$swfId}', '{$width}', '{$height}', '{$pluginVersion}');\n" ;
+    
     foreach ($swfParams as $key => $value) {
         // URL encode the value, but leave any Openads "magic macros" unescaped to allow substitution
         $code .= "    ox_swf.addVariable('{$key}', '" . preg_replace('#%7B(.*?)%7D#', '{$1}', urlencode($value)) . "');\n";
