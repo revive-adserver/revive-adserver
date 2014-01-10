@@ -81,8 +81,11 @@ class OA_Info
 
     function toArray()
     {
-        return (array)$this;
+        return array_filter(get_object_vars($this), array($this, '_nullFilter'));
+    }
+
+    function _nullFilter($var)
+    {
+        return isset($var);
     }
 }
-
-?>

@@ -15,7 +15,7 @@ require_once '../../init.php';
 
 // Required files
 require_once MAX_PATH . '/lib/OA/Dal.php';
-require_once MAX_PATH . '/lib/OA/Sync.php';
+require_once MAX_PATH . '/lib/RV/Sync.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-maintenance.inc.php';
 
@@ -41,7 +41,7 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN))
 
         // If cache timestamp not set or older than 24hrs, re-sync
         if (isset($aVars['sync_timestamp']) && $aVars['sync_timestamp'] + 86400 < time()) {
-            $oSync = new OA_Sync();
+            $oSync = new RV_Sync();
             $res = $oSync->checkForUpdates();
 
             if ($res[0] == 0) {

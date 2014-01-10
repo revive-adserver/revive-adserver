@@ -49,6 +49,11 @@ class OA_Dll_Zone extends OA_Dll
         $zoneData['zoneName']       = $zoneData['zonename'];
         $zoneData['sessionCapping'] = $zoneData['session_capping'];
         $zoneData['block']          = $zoneData['block'];
+
+        if (preg_match('/^zone:(\d+)$/D', $zoneData['chain'], $m)) {
+            $zoneData['chainedZoneId'] = (int)$m[1];
+        }
+
         $oZone->readDataFromArray($zoneData);
         return  true;
     }
@@ -98,6 +103,7 @@ class OA_Dll_Zone extends OA_Dll
             !$this->checkStructureNotRequiredIntegerField($oZone, 'sessionCapping') ||
             !$this->checkStructureNotRequiredIntegerField($oZone, 'block') ||
             !$this->checkStructureNotRequiredIntegerField($oZone, 'height') ||
+            !$this->checkStructureNotRequiredIntegerField($oZone, 'cheinedZone') ||
             !$this->checkStructureNotRequiredStringField($oZone,  'comments')
         ) {
 
@@ -123,6 +129,15 @@ class OA_Dll_Zone extends OA_Dll
             return false;
         }
 
+        if (isset($oZone->chainedZoneId)) {
+            if ($oZone->chainedZoneId == $oZone->zoneId) {
+                $this->raiseError('Cannot chain a zone to itself');
+                return false;
+            }
+            if (!$this->checkIdExistence('zones', $oZone->chainedZoneId)) {
+                return false;
+            }
+        }
 
         return true;
     }
@@ -207,6 +222,15 @@ class OA_Dll_Zone extends OA_Dll
             }
         }
 
+        if (!empty($oZone->chainedZoneId)) {
+            if (!$this->checkPermissions(
+                $this->aAllowTraffickerAndAbovePerm,
+                'zones', $oZone->chainedZoneId, OA_PERM_ZONE_EDIT))
+            {
+                return false;
+            }
+        }
+
         $zoneData = (array) $oZone;
 
         // Name
@@ -218,6 +242,7 @@ class OA_Dll_Zone extends OA_Dll
         $zoneData['capping']        = $oZone->capping > 0 ? $oZone->capping : 0;
         $zoneData['session_capping']= $oZone->sessionCapping > 0 ? $oZone->sessionCapping : 0;
         $zoneData['block']          = $oZone->block > 0 ? $oZone->block : 0;
+        $zoneData['chain']          = empty($oZone->chainedZoneId) ? null : 'zone:'.$oZone->chainedZoneId;
 
         if ($this->_validate($oZone)) {
             $doZone = OA_Dal::factoryDO('zones');

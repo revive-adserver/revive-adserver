@@ -24,7 +24,7 @@ $GLOBALS['strSpecifySyncSettings']          = "Synchronisation settings";
 $GLOBALS['strLicenseInformation']           = "License information";
 $GLOBALS['strWarning']                      = "Warning";
 $GLOBALS['strFatalError']                   = "A fatal error occurred";
-$GLOBALS['strUpdateError']                  = "An error occured while updating";
+$GLOBALS['strUpdateError']                  = "An error occurred while updating";
 $GLOBALS['strBtnContinue']                  = "Continue »";
 $GLOBALS['strBtnRecover']                   = "Recover »";
 $GLOBALS['strBtnStartAgain']                   = "Start Upgrade Again »";
@@ -98,7 +98,7 @@ $GLOBALS['strInstallNotSuccessful']         = "<b>The installation of ".MAX_PROD
                                                 please consult the supplied documentation.";
 $GLOBALS['strDbSuccessIntro']               = "The " . MAX_PRODUCT_NAME . " database has now been created. Please click the 'Continue' button to proceed with configuring " . MAX_PRODUCT_NAME . " Administrator and Delivery settings.";
 $GLOBALS['strDbSuccessIntroUpgrade']        = "Your system has been successfully upgraded.  The remaining screens will help you update the configuration of your new ad server.";
-$GLOBALS['strErrorOccured']                 = "The following error occured:";
+$GLOBALS['strErrorOccured']                 = "The following error occurred:";
 $GLOBALS['strErrorInstallDatabase']         = "The database structure could not be created.";
 $GLOBALS['strErrorInstallPrefs']            = "The administrator user preferences could not be written to the database.";
 $GLOBALS['strErrorInstallVersion']          = "The " . MAX_PRODUCT_NAME . " version number could not be written to the database.";

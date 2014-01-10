@@ -131,7 +131,7 @@ EOF;
             }
 
             //  email the error to admin if threshold reached
-            //  never send email if error occured in test
+            //  never send email if error occurred in test
             //
             $emailAdminThreshold = is_numeric($conf['debug']['emailAdminThreshold']) ? $conf['debug']['emailAdminThreshold'] :
                 @constant($conf['debug']['emailAdminThreshold']);

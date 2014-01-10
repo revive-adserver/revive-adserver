@@ -32,7 +32,7 @@ $GLOBALS['strFixErrorsBeforeContinuing']        = "Configuration of your webserv
                                                    For help, please see our <a href='".PRODUCT_DOCSURL."'>documentation</a> and <a href='http://"
                                                    .PRODUCT_DOCSURL."/faq'>FAQs</a>";
 
-$GLOBALS['strAppCheckErrors']                   = "Errors were found when detecing previous installations of " . PRODUCT_NAME;
+$GLOBALS['strAppCheckErrors']                   = "Errors were found when detecting previous installations of " . PRODUCT_NAME;
 $GLOBALS['strAppCheckDbIntegrityError']         = "We have detected integrity issues with your database. This means that the layout of your database
                                                    differs from what we expect it to be. This could be due to customization of your database.";
 
@@ -109,7 +109,7 @@ $GLOBALS['strInstallNonBlockingErrors']         = "An error occurred when perfor
                                                    and install log at '%s' for details. You will still be able to login to your " . PRODUCT_NAME . " instance.";
 $GLOBALS['strDetailedTaskErrorList']            = 'Detailed list of errors found';
 $GLOBALS['strPluginInstallFailed']              = "Installation of plugin '%s' failed:";
-$GLOBALS['strTaskInstallFailed']                = "Error occured when running installation task '%s':";
+$GLOBALS['strTaskInstallFailed']                = "Error occurred when running installation task '%s':";
 $GLOBALS['strContinueToLogin']                  = 'Click "Continue" to login to your ' . PRODUCT_NAME . ' instance.';
 
 $GLOBALS['strContinue']                         = "Continue";

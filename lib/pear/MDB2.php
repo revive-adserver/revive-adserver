@@ -1218,7 +1218,7 @@ class MDB2_Driver_Common extends PEAR
     var $nested_transaction_counter = null;
 
     /**
-     * the first error that occured inside a nested transaction
+     * the first error that occurred inside a nested transaction
      * @var     MDB2_Error|bool
      * @access  protected
      */
@@ -2142,7 +2142,7 @@ class MDB2_Driver_Common extends PEAR
     // {{{ function completeNestedTransaction($force_rollback = false, $release = false)
 
     /**
-     * Finish a nested transaction by rolling back if an error occured or
+     * Finish a nested transaction by rolling back if an error occurred or
      * committing otherwise.
      *
      * EXPERIMENTAL
@@ -2233,14 +2233,14 @@ class MDB2_Driver_Common extends PEAR
     // {{{ function getNestedTransactionError()
 
     /**
-     * The first error that occured since the transaction start.
+     * The first error that occurred since the transaction start.
      *
      * EXPERIMENTAL
      *
      * WARNING: this function is experimental and may change signature at
      * any time until labelled as non-experimental
      *
-     * @return  MDB2_Error|bool     MDB2 error object if an error occured or false.
+     * @return  MDB2_Error|bool     MDB2 error object if an error occurred or false.
      *
      * @access  public
      * @since   2.1.1

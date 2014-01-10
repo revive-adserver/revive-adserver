@@ -266,6 +266,29 @@ function OA_Delivery_XmlRpc_View($params)
     // Add $referer parameter
     $view_params[] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
 
+    // Mimic the behaviour of MAX_commonInitVariables()
+    //
+    // MAX_adSelect signature is:
+    // $what, $campaignid = '', $target = '', $source = '', $withtext = 0, $charset = '', $context = array(), $richmedia = true, $ct0 = '', $loc = '', $referer = ''
+    $escape = array(
+        'addslashes',
+        'intval',
+        'addslashes',
+        'addslashes',
+        'intval',
+        'addslashes',
+        'MAX_commonAddslashesRecursive',
+        'intval',
+        'addslashes',
+        'addslashes',
+        '', // referer doesn't need escaping
+    );
+    foreach ($escape as $key => $callback) {
+        if (is_callable($callback)) {
+            $view_params[$key] = $callback($view_params[$key]);
+        }
+    }
+
     // Call MAX_adSelect with supplied parameters
     $output = call_user_func_array('MAX_adSelect', $view_params);
 
@@ -437,10 +460,10 @@ function OA_Delivery_XmlRpc_SPC($params)
         } else {
             $varname = $zoneid = $zone;
         }
-        
+
         // Clear deiveryData between iterations
         unset($GLOBALS['_MAX']['deliveryData']);
-        
+
         // Get the banner
         $output = MAX_adSelect('zone:'.$zoneid, '', $target, $source, $withtext, '', $context, $richmedia, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
 

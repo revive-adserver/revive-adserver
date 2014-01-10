@@ -296,7 +296,7 @@ function _adRenderFlash(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=fal
     $append = !empty($aBanner['append']) ? $aBanner['append'] : '';
     $width = !empty($aBanner['width']) ? $aBanner['width'] : 0;
     $height = !empty($aBanner['height']) ? $aBanner['height'] : 0;
-    $pluginVersion = !empty($aBanner['pluginversion']) ? $aBanner['pluginversion'] : '4';
+    $pluginVersion = !empty($aBanner['pluginversion']) ? _adRenderGetRealPluginVersion($aBanner['pluginversion']) : '4';
     // $imageUrlPrefix = ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) ? $conf['type_web_ssl_url'] : $conf['type_web_url'];
     if (!empty($aBanner['alt_filename']) || !empty($aBanner['alt_imageurl'])) {
         $altImageAdCode = _adRenderImage($aBanner, $zoneId, $source, $ct0, false, $logClick, false, true, true, $loc, $referer, false);
@@ -679,6 +679,38 @@ function _adRenderBuildStatusCode($aBanner)
 {
     return !empty($aBanner['status']) ? " onmouseover=\"self.status='" . addslashes($aBanner['status']) . "'; return true;\" onmouseout=\"self.status=''; return true;\"" : '';
 
+}
+
+/**
+ * Calculate the minimum plugin version required to display a file with
+ * a certain SWF version. Until version 10, all that was needed was a plugin
+ * with a matching major version, but until version 23 SWF and plugin
+ * versions were following a "custom" scheme involving minor versions too.
+ *
+ * For more info:
+ * http://sleepydesign.blogspot.it/2012/04/flash-swf-version-meaning.html
+ * http://blogs.adobe.com/flashplayer/2013/11/new-version-numbering-2.html
+ *
+ * @param int $swfVersion
+ * @return string
+ */
+function _adRenderGetRealPluginVersion($swfVersion)
+{
+    if ($swfVersion <= 10) {
+        // SWF and plugin major matching
+        $pluginVersion = $swfVersion;
+    } elseif ($swfVersion >= 23) {
+        // No weird versioning anymore... at last, thanks Adobe! ;)
+        $pluginVersion = $swfVersion - 11;
+    } elseif ($swfVersion == 11 || $swfVersion == 12) {
+        // SWF11 -> 10.2, SWF12 -> 10.3
+        $pluginVersion = 10 + ($swfVersion - 9) / 10;
+    } elseif ($swfVersion >= 13 && $swfVersion <= 22) {
+        // SWF13 -> 11.0 until SWF22 -> 11.9
+        $pluginVersion = 11 + ($swfVersion - 13) / 10;
+    }
+
+    return (string)$pluginVersion;
 }
 
 function _getAdRenderFunction($aBanner, $richMedia = true)

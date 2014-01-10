@@ -152,7 +152,7 @@ abstract class OA_Algorithm_Dependency_Source
      * Lazy loading
      *
      * @return boolean  True if data is already loaded or was loaded succesfully or false
-     *                  if any error occured.
+     *                  if any error occurred.
      */
     function checkLoaded()
     {

@@ -168,7 +168,7 @@ class Maintenance_TestOfMaintenancePriorityAdServerBannerLimitations extends Uni
             $this->assertEqual($impressions, 1000, "Incorrectly requested $impressions impressions instead of 1000 in test hour $counter");
 
             // Insert the required impressions for the banner into the
-            // data_intermediate_ad table, as if the delivery has occured,
+            // data_intermediate_ad table, as if the delivery has occurred,
             // so that the next hour's test is based on delivery having happened
             $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNowDate);
             $operationIntervalId = OX_OperationInterval::convertDateToOperationIntervalID($oNowDate);

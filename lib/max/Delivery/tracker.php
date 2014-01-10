@@ -145,7 +145,7 @@ function MAX_trackerbuildJSVariablesScript($trackerid, $conversionInfo, $tracker
  * This function checks if the specified tracker connects back to a valid action
  *
  * @param integer $trackerid The ID of the tracker to look up in the database
- * @return mixed If action occured: array indexed on [#s since action] => array('type' => <connection type>, 'id' => <creative ID>
+ * @return mixed If action occurred: array indexed on [#s since action] => array('type' => <connection type>, 'id' => <creative ID>
  *               else false
  */
 function MAX_trackerCheckForValidAction($trackerid)
@@ -182,11 +182,11 @@ function MAX_trackerCheckForValidAction($trackerid)
                 // Decode the base32 timestamp
                 $lastAction = MAX_commonUnCompressInt($lastAction);
 
-                // Calculate how long ago this action occured
+                // Calculate how long ago this action occurred
                 $lastSeenSecondsAgo = $now - $lastAction;
-                // If the action occured within the window (and sanity check that it's > 0), record this as a matching action
+                // If the action occurred within the window (and sanity check that it's > 0), record this as a matching action
                 if ($lastSeenSecondsAgo <= $aLinkedInfo[$action . '_window'] && $lastSeenSecondsAgo > 0) {
-                    // Index the matching array against the # seconds ago that the action occured
+                    // Index the matching array against the # seconds ago that the action occurred
                     $aMatchingActions[$lastSeenSecondsAgo] = array(
                         'action_type'   => $actionId,
                         'tracker_type'  => $aLinkedInfo['tracker_type'],

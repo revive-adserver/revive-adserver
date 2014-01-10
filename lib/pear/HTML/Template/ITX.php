@@ -336,7 +336,7 @@ class HTML_Template_ITX extends HTML_Template_IT
     *                   all blocks are scanned.
     * @return   string  Name of the (first) block that contains
     *                   the specified placeholder.
-    *                   If the placeholder was not found or an error occured
+    *                   If the placeholder was not found or an error occurred
     *                   an empty string is returned.
     * @throws   IT_Error
     * @access   public
@@ -394,23 +394,23 @@ class HTML_Template_ITX extends HTML_Template_IT
         reset($this->functions);
         while (list($func_id, $function) = each($this->functions)) {
             if (isset($this->callback[$function['name']])) {
-                if ($this->callback[$function['name']]['expandParameters']) { 
+                if ($this->callback[$function['name']]['expandParameters']) {
                     $callFunction = 'call_user_func_array';
                 } else {
                     $callFunction = 'call_user_func';
                 }
 
                 if ($this->callback[$function['name']]['object'] != '') {
-                     $call = 
+                     $call =
                        $callFunction(
                         array(
                         &$GLOBALS[$this->callback[$function['name']]['object']],
                         $this->callback[$function['name']]['function']),
                         $function['args']
                        );
-                
+
                 } else {
-                     $call = 
+                     $call =
                        $callFunction(
                         $this->callback[$function['name']]['function'],
                         $function['args']
@@ -419,7 +419,7 @@ class HTML_Template_ITX extends HTML_Template_IT
                 $this->variableCache['__function' . $func_id . '__'] = $call;
             }
         }
-            
+
     } // end func performCallback
 
     /**
@@ -489,7 +489,7 @@ class HTML_Template_ITX extends HTML_Template_IT
     * @return     boolean   False on failure.
     * @throws     IT_Error
     * @access     public
-    * @deprecated The $callbackobject parameter is depricated since 
+    * @deprecated The $callbackobject parameter is depricated since
     *             version 1.2 and might be dropped in further versions.
     */
     function
@@ -665,7 +665,7 @@ class HTML_Template_ITX extends HTML_Template_IT
     /**
      * Truncates the given code from the first occurence of
      * $delimiter but ignores $delimiter enclosed by " or '.
-     * 
+     *
      * @access private
      * @param  string   The code which should be parsed
      * @param  string   The delimiter char
@@ -803,8 +803,8 @@ class HTML_Template_ITX extends HTML_Template_IT
     * calls die() depending on the flags
     *
     * @param    string    Warning
-    * @param    string    File where the warning occured
-    * @param    int       Linenumber where the warning occured
+    * @param    string    File where the warning occurred
+    * @param    int       Linenumber where the warning occurred
     * @see      $warn, $printWarning, $haltOnWarning
     * @access   private
     */

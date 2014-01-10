@@ -1241,12 +1241,12 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
     function _getConnectionStatuses()
     {
         return array(
-            MAX_CONNECTION_STATUS_PENDING     => 'Pending',
-            MAX_CONNECTION_STATUS_APPROVED    => 'Approved',
-            MAX_CONNECTION_STATUS_DUPLICATE   => 'Duplicate',
-            MAX_CONNECTION_STATUS_DISAPPROVED => 'Disapproved',
-            MAX_CONNECTION_STATUS_ONHOLD      => 'On Hold',
-            MAX_CONNECTION_STATUS_IGNORE      => 'Ignored',
+            MAX_CONNECTION_STATUS_PENDING     => $GLOBALS['strStatusPending'],
+            MAX_CONNECTION_STATUS_APPROVED    => $GLOBALS['strStatusApproved'],
+            MAX_CONNECTION_STATUS_DUPLICATE   => $GLOBALS['strStatusDuplicate'],
+            MAX_CONNECTION_STATUS_DISAPPROVED => $GLOBALS['strStatusDisapproved'],
+            MAX_CONNECTION_STATUS_ONHOLD      => $GLOBALS['strStatusOnHold'],
+            MAX_CONNECTION_STATUS_IGNORE      => $GLOBALS['strStatusIgnore'],
         );
     }
 

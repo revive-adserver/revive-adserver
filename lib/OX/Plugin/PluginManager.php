@@ -997,10 +997,6 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
     {
         if (!$this->_parsePackage($name))
         {
-            if (!$this->disablePackage($name))
-            {
-                $this->_setPackage($name, 0);
-            }
             return false;
         }
         $aPackage = &$this->aParse['package'];

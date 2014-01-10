@@ -795,8 +795,10 @@ class Test_OX_PluginManager extends UnitTestCase
         $this->assertEqual($result['readme'],MAX_PATH.$oManager->pathPackages.'test.readme.txt');
         $this->assertEqual($result['uninstallReadme'],MAX_PATH.$oManager->pathPackages.'test.uninstall.txt');
 
+        // Plugins are not disabled automatically anymore, otherwise plugins
+        // might be left all disabled after an upgrade.
+        $oManager->expectCallCount('disablePackage',0);
 
-        $oManager->expectCallCount('disablePackage',1);
         $oManager->expectCallCount('_parsePackage',2);
         $oManager->expectCallCount('getComponentGroupInfo',2);
 

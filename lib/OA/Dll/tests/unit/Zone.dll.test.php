@@ -39,6 +39,7 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
      *
      */
     var $unknownIdError = 'Unknown zoneId Error';
+    var $chainError = 'Cannot chain a zone to itself';
 
     /**
      * The constructor method.
@@ -81,7 +82,7 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
         $dllPublisherPartialMock->expectCallCount('checkPermissions', 2);
 
         $dllZonePartialMock->setReturnValue('checkPermissions', true);
-        $dllZonePartialMock->expectCallCount('checkPermissions', 5);
+        $dllZonePartialMock->expectCallCount('checkPermissions', 10);
 
         $oZoneInfo      = new OA_DLL_ZoneInfo();
         $oPublisherInfo = new OA_DLL_PublisherInfo();
@@ -102,6 +103,18 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
 
         $this->assertTrue($dllZonePartialMock->modify($oZoneInfo),
             $dllZonePartialMock->getLastError());
+
+        // Chain zone to itself
+        $oZoneInfo->chainedZoneId = $oZoneInfo->zoneId;
+        $this->assertTrue((!$dllZonePartialMock->modify($oZoneInfo) &&
+                $dllZonePartialMock->getLastError() == $this->chainError),
+            $this->_getMethodShouldReturnError($this->chainError));
+
+        // Chain zone to non existing zone
+        $oZoneInfo->chainedZoneId = 100000;
+        $this->assertTrue((!$dllZonePartialMock->modify($oZoneInfo) &&
+                $dllZonePartialMock->getLastError() == $this->unknownIdError),
+            $this->_getMethodShouldReturnError($this->unknownIdError));
 
         // Delete
         $this->assertTrue($dllZonePartialMock->delete($oZoneInfo->zoneId),
@@ -133,7 +146,7 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
         $dllPublisherPartialMock->expectCallCount('checkPermissions', 2);
 
         $dllZonePartialMock->setReturnValue('checkPermissions', true);
-        $dllZonePartialMock->expectCallCount('checkPermissions', 6);
+        $dllZonePartialMock->expectCallCount('checkPermissions', 7);
 
         $oPublisherInfo = new OA_DLL_PublisherInfo();
         $oPublisherInfo->publisherName = "Publisher";
@@ -150,15 +163,21 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
         $oZoneInfo2                 = new OA_Dll_ZoneInfo();
         $oZoneInfo2->publisherId    = $oPublisherInfo->publisherId;
         $oZoneInfo2->zoneName       = 'test name 2';
-        // Add
+
+        // Add zone 1
         $this->assertTrue($dllZonePartialMock->modify($oZoneInfo1),
                           $dllZonePartialMock->getLastError());
 
+        // Chain zone 2 to 1
+        $oZoneInfo2->chainedZoneId = $oZoneInfo1->zoneId;
+
+        // Add zone 2
         $this->assertTrue($dllZonePartialMock->modify($oZoneInfo2),
                           $dllZonePartialMock->getLastError());
 
         $oZoneInfo1Get = null;
         $oZoneInfo2Get = null;
+
         // Get
         $this->assertTrue($dllZonePartialMock->getZone($oZoneInfo1->zoneId,
                                                                    $oZoneInfo1Get),
@@ -174,6 +193,7 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
         $this->assertFieldEqual($oZoneInfo1, $oZoneInfo1Get, 'width');
         $this->assertFieldEqual($oZoneInfo1, $oZoneInfo1Get, 'height');
         $this->assertFieldEqual($oZoneInfo2, $oZoneInfo2Get, 'zoneName');
+        $this->assertFieldEqual($oZoneInfo2, $oZoneInfo2Get, 'chainedZoneId');
 
         // Get List
         $aZoneList = array();
