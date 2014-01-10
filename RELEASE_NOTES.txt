@@ -40,6 +40,7 @@ What's New in Revive Adserver 3.0.3
  * Fixed an issue with the generation of a platform hash value which is used
    when connecting to the sync server to check for updates to Revive Adserver.
  * Fixed encoding issues with some of the Russian language translations.
+ * Fixed SWF plugin version requirements for v18-22
 
  Non-Backwards Compatible Changes
  --------------------------------
