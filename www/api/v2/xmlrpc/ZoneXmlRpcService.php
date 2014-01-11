@@ -427,6 +427,11 @@ class ZoneXmlRpcService extends BaseZoneService
                 array(true, true, true, false), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
+        
+        if (!XmlRpcUtils::getNotRequiredNonScalarValue(
+                &$aParams, &$oParams, 3, $oResponseWithError)) {
+           return $oResponseWithError;
+        }
 
         if ($this->_oZoneServiceImp->generateTags($sessionId, $zoneId, $codeType, $aParams, $generatedTag)) {
             return XmlRpcUtils::stringTypeResponse($generatedTag);
