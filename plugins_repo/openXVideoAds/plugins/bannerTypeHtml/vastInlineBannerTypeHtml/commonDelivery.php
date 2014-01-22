@@ -194,18 +194,18 @@ function prepareCompanionBanner(&$aOutputParams, $aBanner, $zoneId=0, $source=''
             $context = array();
         }
         $companionOutput = MAX_adSelect("bannerid:$companionBannerId", '', "", $source, $withText, '', $context, true, $ct0, $loc, $referer);
-        
+
         //$aBanner = _adSelectDirect("bannerid:$companionBannerId", '', $context, $source);
         //$companionOutput = MAX_adRender($aBanner, 0, '', '', '', true, '', false, false);
         //$aOutputParams['companionId'] = $companionBannerId;
         if ( !empty($companionOutput['html'] )){
             // We only regard  a companion existing, if we have some markup to output
             $html = $companionOutput['html'];
-            
+
             // deal with the case where the companion code itself contains a CDATA
             $html = str_replace(']]>', ']]]]><![CDATA[>', $html);
             $aOutputParams['companionMarkup'] = $html;
-            
+
             $aOutputParams['companionWidth'] = $companionOutput['width'];
             $aOutputParams['companionHeight'] = $companionOutput['height'];
             $aOutputParams['companionClickUrl'] = $companionOutput['url'];
@@ -258,7 +258,7 @@ function _adRenderBuildVideoClickThroughUrl($aBanner, $zoneId=0, $source='', $ct
     }
     return $clickUrl;
 }
-    
+
 function getVastVideoAdOutput($aO)
 {
     if(!empty($aO['vastVideoClickThroughUrl'])) {
@@ -268,7 +268,7 @@ function getVastVideoAdOutput($aO)
                         </ClickThrough>
                     </VideoClicks>';
     }
-                    
+
     $vastVideoMarkup =<<<VAST_VIDEO_AD_TEMPLATE
 			    <Video>
                     <Duration>${aO['vastVideoDuration']}</Duration>
@@ -280,7 +280,7 @@ function getVastVideoAdOutput($aO)
                         </MediaFile>
                     </MediaFiles>
                 </Video>
-                
+
                 <TrackingEvents>
                     <Tracking event="start">
                         <URL id="primaryAdServer"><![CDATA[${aO['trackUrlStart']}]]></URL>
@@ -314,7 +314,7 @@ function getVastVideoAdOutput($aO)
                     </Tracking>
                     <Tracking event="unmute">
                         <URL id="primaryAdServer"><![CDATA[${aO['trackUrlUnmute']}]]></URL>
-                    </Tracking> 
+                    </Tracking>
                    <Tracking event="resume">
                         <URL id="primaryAdServer"><![CDATA[${aO['trackUrlResume']}]]></URL>
                     </Tracking>
@@ -368,7 +368,7 @@ function renderVastOutput( $aOut, $pluginType, $vastAdDescription )
                 $resourceType = 'HTML';
                 $elementName = 'Code';
             break;
-            
+
             case VAST_OVERLAY_FORMAT_IMAGE:
                 $creativeType = strtoupper($aOut['overlayContentType']);
                 // BC when the overlay_creative_type field is not set in the DB
@@ -387,14 +387,14 @@ function renderVastOutput( $aOut, $pluginType, $vastAdDescription )
                 $resourceType = 'static';
                 $elementName = 'URL';
             break;
-            
+
             case VAST_OVERLAY_FORMAT_SWF:
                 $creativeType = 'application/x-shockwave-flash';
                 $code = getImageUrlFromFilename($aOut['overlayFilename']);
                 $resourceType = 'static';
                 $elementName = 'URL';
             break;
-            
+
             case VAST_OVERLAY_FORMAT_TEXT:
                 $resourceType = 'TEXT';
                 $code = "<![CDATA[
@@ -406,19 +406,19 @@ function renderVastOutput( $aOut, $pluginType, $vastAdDescription )
                 $elementName = 'Code';
             break;
         }
-        
+
         if(!empty($aOut['clickUrl'])) {
             $nonLinearClickThrough = "<NonLinearClickThrough>
                     <URL><![CDATA[${aOut['clickUrl']}]]></URL>
                 </NonLinearClickThrough>\n";
         }
-        
+
         $creativeTypeAttribute = '';
         if(!empty($creativeType)) {
             $creativeType = strtolower($creativeType);
             $creativeTypeAttribute = 'creativeType="'. $creativeType .'"';
         }
-        
+
         $player .= "             <NonLinearAds>\n";
         $player .= "                <NonLinear id=\"overlay\" width=\"${aOut['overlayWidth']}\" height=\"${aOut['overlayHeight']}\" resourceType=\"$resourceType\" $creativeTypeAttribute>\n";
         $player .= "                    <$elementName>
@@ -429,7 +429,7 @@ function renderVastOutput( $aOut, $pluginType, $vastAdDescription )
         $player .= "            </NonLinearAds>\n";
     }
 
-    
+
     if ( isset($aOut['fullPathToVideo']) ){
         $player .= getVastVideoAdOutput($aOut);
     }
@@ -441,7 +441,6 @@ function renderVastOutput( $aOut, $pluginType, $vastAdDescription )
 
 function renderPlayerInPage($aOut)
 {
-
 	$player = "";
 	if ( isset($aOut['fullPathToVideo'] ) ){
 		$player = <<<PLAYER
@@ -463,7 +462,7 @@ PLAYER;
 		// encode data before echoing to the browser to prevent xss
 		$aOut['videoFileName'] = encodeUserSuppliedData( $aOut['videoFileName'] );
         $aOut['videoNetConnectionUrl'] = encodeUserSuppliedData( $aOut['videoNetConnectionUrl'] );
-		
+
 		$httpPlayer = <<<HTTP_PLAYER
 
 		    <!-- http flowplayer setup -->
@@ -483,7 +482,7 @@ PLAYER;
             });
             </script>
 HTTP_PLAYER;
-        
+
         $rtmpPlayer = <<<RTMP_PLAYER
 
             <!-- rmtp flowplayer setup -->
@@ -507,15 +506,30 @@ HTTP_PLAYER;
                }
 
             });
-            </script> 
+            </script>
 RTMP_PLAYER;
 
+        $webmPlayer = <<<WEBM_PLAYER
+
+            <!-- HTML5 Webm setup -->
+            <script type="text/javascript">
+                (function (p) {
+                    p.html('<video width="640" height="360" controls><source src="{$aOut['fullPathToVideo']}" type="{$aOut['vastVideoType']}"/>You need an HTML5 compatible player, sorry</video>');
+                })($("#player"));
+            </script>
+
+WEBM_PLAYER;
+
         if ( $aOut['videoDelivery'] == 'player_in_http_mode' ){
-            $player .= $httpPlayer;
+            if ($aOut['vastVideoType'] == 'video/webm') {
+                $player .= $webmPlayer;
+            } else {
+                $player .= $httpPlayer;
+            }
         }
         else if ( $aOut['videoDelivery'] == 'player_in_rtmp_mode' ) {
             $player .= $rtmpPlayer;
-        }        
+        }
         else {
             // default to rtmp play format
             $player .= $rtmpPlayer;
@@ -537,7 +551,7 @@ function renderCompanionInAdminTool($aOut)
         $player .= "This companion banner will appear during the duration of the Video Ad in the DIV specified in the video player plugin configuration. ";
         if(!empty($aOut['companionWidth'])) {
             $player .= " It has the following dimensions: width = ". $aOut['companionWidth'] .", height = ".$aOut['companionHeight'] .". ";
-        } 
+        }
         $player .= "<a href='".VideoAdsHelper::getHelpLinkVideoPlayerConfig()."' target='_blank'>Learn more</a><br/><br/>";
         $player .= $bannerCode;*/
         $player .= "<br>";
@@ -547,7 +561,7 @@ function renderCompanionInAdminTool($aOut)
 
 function renderOverlayInAdminTool($aOut, $aBanner)
 {
-    
+
     $title =  "Overlay Preview";
     $borderStart = "<div style='color:black;text-decoration:none;border:1px solid black;padding:15px;'>";
     $borderEnd = "</div>";
@@ -556,7 +570,7 @@ function renderOverlayInAdminTool($aOut, $aBanner)
         case VAST_OVERLAY_FORMAT_HTML:
             $htmlOverlay = $borderStart . $aOut['overlayMarkupTemplate'] . $borderEnd;
         break;
-        
+
         case VAST_OVERLAY_FORMAT_IMAGE:
             $title = "Image Overlay Preview";
             $imagePath = getImageUrlFromFilename($aOut['overlayFilename']);
@@ -566,12 +580,12 @@ function renderOverlayInAdminTool($aOut, $aBanner)
         case VAST_OVERLAY_FORMAT_SWF:
             $title = "SWF Overlay Preview";
             // we need to set a special state for adRenderFlash to work (which tie us to this implementation...)
-            $aBanner['type'] = 'web'; 
-            $aBanner['width'] = $aOut['overlayWidth']; 
-            $aBanner['height'] = $aOut['overlayHeight']; 
+            $aBanner['type'] = 'web';
+            $aBanner['width'] = $aOut['overlayWidth'];
+            $aBanner['height'] = $aOut['overlayHeight'];
             $htmlOverlay = _adRenderFlash($aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=false, $logView=false);
         break;
-        
+
         case VAST_OVERLAY_FORMAT_TEXT:
             $title = "Text Overlay Preview";
             $overlayTitle = $aOut['overlayTextTitle'];
@@ -586,8 +600,8 @@ function renderOverlayInAdminTool($aOut, $aBanner)
             ";
         break;
     }
- 
-    
+
+
     $htmlOverlayPrepend = 'The overlay will appear on top of video content during video play.';
 
     switch($aOut['overlayFormat']) {
@@ -600,9 +614,9 @@ function renderOverlayInAdminTool($aOut, $aBanner)
         $htmlOverlayPrepend .= ' In the video player, this overlay will be clickable.';
         $htmlOverlay =  "<a target=\"_blank\" href=\"${aOut['overlayDestinationUrl']}\"> {$htmlOverlay}</a>";
     }
-    
+
     $htmlOverlay = $htmlOverlayPrepend . '<br/><br/>' . $htmlOverlay;
-    
+
     $player = "<h3>$title</h3>";
     $player .= $htmlOverlay;
     $player .= "<br>";
@@ -614,7 +628,7 @@ if ( !(function_exists('bcmod'))) {
     /**
      * for extremely large numbers of seconds this will break
      * but for video we will never have extremely large numbers of seconds
-     * 
+     *
      * see http://www.php.net/manual/en/language.operators.arithmetic.php
      **/
     function bcmod( $x, $y )
@@ -623,7 +637,7 @@ if ( !(function_exists('bcmod'))) {
 
         return (int)$mod;
     }
-    
+
 }// end of if bcmath php extension not installed
 
 function secondsToVASTDuration($seconds)
