@@ -48,7 +48,8 @@ What's New in Revive Adserver 3.0.3
  Non-Backwards Compatible Changes
  --------------------------------
 
- * None
+ * Removed unused Zend XML-RPC library. Make sure your 3rd party plugins bundle
+   their own if they need it.
 
 
 System Requirements
