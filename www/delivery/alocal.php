@@ -3510,7 +3510,7 @@ $pluginVersion = $swfVersion;
 $pluginVersion = $swfVersion - 11;
 } elseif ($swfVersion == 11 || $swfVersion == 12) {
 $pluginVersion = 10 + ($swfVersion - 9) / 10;
-} elseif ($swfVersion >= 13 && $swfVersion <= 17) {
+} elseif ($swfVersion >= 13 && $swfVersion <= 22) {
 $pluginVersion = 11 + ($swfVersion - 13) / 10;
 }
 return (string)$pluginVersion;

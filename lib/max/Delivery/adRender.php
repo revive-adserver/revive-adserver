@@ -705,7 +705,7 @@ function _adRenderGetRealPluginVersion($swfVersion)
     } elseif ($swfVersion == 11 || $swfVersion == 12) {
         // SWF11 -> 10.2, SWF12 -> 10.3
         $pluginVersion = 10 + ($swfVersion - 9) / 10;
-    } elseif ($swfVersion >= 13 && $swfVersion <= 17) {
+    } elseif ($swfVersion >= 13 && $swfVersion <= 22) {
         // SWF13 -> 11.0 until SWF22 -> 11.9
         $pluginVersion = 11 + ($swfVersion - 13) / 10;
     }
