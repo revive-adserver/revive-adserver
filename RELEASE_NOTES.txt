@@ -32,6 +32,9 @@ What's New in Revive Adserver 3.0.3
  * Increased the maximum delay in the midnight maintenance script (from 10
    seconds to 30 seconds) before calling the sync server for update information
    to improve load distribution on the server.
+ * Updated the Revive Adserver application header to replace the "Report bug"
+   link with a more useful "Support" link (which includes details on how to
+   report a bug, in addition to how to get support).
 
  Bug Fixes
  ---------

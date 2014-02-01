@@ -513,8 +513,7 @@ a:hover {
 }
 #oaNavigationExtraTop li.infoUser,
 #oaNavigationExtraTop li.buttonHelp,
-#oaNavigationExtraTop li.buttonContactUs,
-#oaNavigationExtraTop li.buttonReportBugs {
+#oaNavigationExtraTop li.buttonSupport {
     border-right: 1px solid #9c9c9c;
 }
 #oaNavigationExtraTop li.last {
