@@ -53,6 +53,9 @@ What's New in Revive Adserver 3.0.3
    side validation error.
  * Fixed a library bug that was causing invalid errors to be displayed in the
    statistics screens under certain conditions.
+ * Added missing configuration options relating to the filenames for Single Page
+   Call functionality to the admin user Configuration > Global Settings > Banner
+   Delivery Settings tab.
 
  Non-Backwards Compatible Changes
  --------------------------------

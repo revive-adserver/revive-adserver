@@ -134,7 +134,9 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         'file_xmlrpc'          => array('file' => 'xmlrpc'),
         'file_local'           => array('file' => 'local'),
         'file_frontcontroller' => array('file' => 'frontcontroller'),
-        'file_flash'           => array('file' => 'flash')
+        'file_flash'           => array('file' => 'flash'),
+        'file_singlepagecall'  => array('file' => 'singlepagecall'),
+        'file_spcjs'           => array('file' => 'spcjs')
     );
     // Test the suitability of the cache store type, if required
     MAX_commonRegisterGlobalsArray(array('delivery_cacheStorePlugin'));
@@ -513,6 +515,24 @@ $aSettings = array(
                 'type'    => 'text',
                 'name'    => 'file_flash',
                 'text'    => $strDeliveryFilenamesFlash,
+                'req'     => true
+            ),
+            array (
+                'type'    => 'break'
+            ),
+            array (
+                'type'    => 'text',
+                'name'    => 'file_singlepagecall',
+                'text'    => $strDeliveryFilenamesSinglePageCall,
+                'req'     => true
+            ),
+            array (
+                'type'    => 'break'
+            ),
+            array (
+                'type'    => 'text',
+                'name'    => 'file_spcjs',
+                'text'    => $strDeliveryFilenamesSinglePageCallJS,
                 'req'     => true
             )
         )
