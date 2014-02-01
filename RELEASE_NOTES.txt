@@ -51,6 +51,8 @@ What's New in Revive Adserver 3.0.3
  * Fixed SWF plugin version requirements for v18-22.
  * Fixed a bug that prevented successfully submitting the forms after a server
    side validation error.
+ * Fixed a library bug that was causing invalid errors to be displayed in the
+   statistics screens under certain conditions.
 
  Non-Backwards Compatible Changes
  --------------------------------
