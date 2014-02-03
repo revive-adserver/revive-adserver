@@ -57,14 +57,14 @@ $GLOBALS['strUpdateSuccess']			= "<b>The upgrade of ".MAX_PRODUCT_NAME." was suc
 $GLOBALS['strInstallNotSuccessful']		= "<b>The installation of ".MAX_PRODUCT_NAME." was not succesful</b><br><br>Some portions of the install process could not be completed.\n						   It is possible these problems are only temporarily, in that case you can simply click <b>Proceed</b> and return to the\n						   first step of the install process. If you want to know more on what the error message below means, and how to solve it,\n						   please consult the supplied documentation.";
 $GLOBALS['strErrorOccured']			= "Nastala tato chyba:";
 $GLOBALS['strErrorInstallDatabase']		= "Databázová struktura nemohla být vytvořena.";
-$GLOBALS['strErrorUpgrade'] 			= "Databáze sou�?asné instalace nemohla být aktualizována";
-$GLOBALS['strErrorInstallConfig']		= "Konfigura�?ní soubor nebo databáze nemohla být aktualizována.";
+$GLOBALS['strErrorUpgrade'] 			= "Databáze současné instalace nemohla být aktualizována";
+$GLOBALS['strErrorInstallConfig']		= "Konfigurační soubor nebo databáze nemohla být aktualizována.";
 $GLOBALS['strErrorInstallDbConnect']		= "Nepodařilo se připojit k databázi.";
 
 $GLOBALS['strUrlPrefix']			= "Delivery Engine URL Prefix";
 $GLOBALS['strUrlPrefix']			= "Delivery Engine SSL URL Prefix";
 
-$GLOBALS['strProceed']				= "Pokra�?ovat >";
+$GLOBALS['strProceed']				= "Pokračovat >";
 $GLOBALS['strInvalidUserPwd']			= "Špatné jméno nebo heslo";
 
 $GLOBALS['strUpgrade']				= "Aktualizace";
@@ -92,8 +92,8 @@ $GLOBALS['strDayFullNames'][4] = "Čtvrtek";
 $GLOBALS['strDayFullNames'][5] = "Pátek";
 $GLOBALS['strDayFullNames'][6] = "Sobota";
 
-$GLOBALS['strEditConfigNotPossible']   		= "Není možné upravit tato nastavení, neboť konfigura�?ní soubor je z bezpe�?nostních důvodů uzam�?en.";
-$GLOBALS['strEditConfigPossible']		= "Je možné provádět změny v nastavení, neboť konfigura�?ní soubor není uzam�?en. Toto ale může způsobit bezpe�?nostní problémy.";
+$GLOBALS['strEditConfigNotPossible']   		= "Není možné upravit tato nastavení, neboť konfigurační soubor je z bezpečnostních důvodů uzamčen.";
+$GLOBALS['strEditConfigPossible']		= "Je možné provádět změny v nastavení, neboť konfigurační soubor není uzamčen. Toto ale může způsobit bezpečnostní problémy.";
 
 
 
@@ -116,7 +116,7 @@ $GLOBALS['strCantConnectToDb']			= "Nemohu se připojit k databázi";
 
 
 // Invocation and Delivery
-$GLOBALS['strInvocationAndDelivery']		= "Nastavení volání a doru�?ování";
+$GLOBALS['strInvocationAndDelivery']		= "Nastavení volání a doručování";
 
 $GLOBALS['strAllowedInvocationTypes']		= "Povolené typy volání";
 $GLOBALS['strAllowRemoteInvocation']		= "Povolit vzdálené volání";
@@ -128,29 +128,29 @@ $GLOBALS['strAllowLocalmode']			= "Povolit lokální mód";
 $GLOBALS['strAllowInterstitial']		= "Povolit Interstitialy";
 $GLOBALS['strAllowPopups']			= "Povolit Popupy";
 
-$GLOBALS['strUseAcl']				= "Vyhodnocovat omezení doru�?ování v průbehu doru�?ování";
+$GLOBALS['strUseAcl']				= "Vyhodnocovat omezení doručování v průbehu doručování";
 
-$GLOBALS['strDeliverySettings']			= "Nastavení doru�?ování";
-$GLOBALS['strCacheType']				= "Typ doru�?ovací cache";
+$GLOBALS['strDeliverySettings']			= "Nastavení doručování";
+$GLOBALS['strCacheType']				= "Typ doručovací cache";
 $GLOBALS['strCacheFiles']				= "Soubory";
 $GLOBALS['strCacheDatabase']			= "Databáze";
 $GLOBALS['strCacheShmop']				= "Sdílená paměť/Shmop";
 $GLOBALS['strCacheSysvshm']				= "Sdílená paměť/Sysvshm";
 $GLOBALS['strExperimental']				= "Experimentální";
-$GLOBALS['strKeywordRetrieval']			= "Na�?ítání klí�?ových slov";
-$GLOBALS['strBannerRetrieval']			= "Způsob na�?ítání bannerů";
-$GLOBALS['strRetrieveRandom']			= "Náhodné na�?ítání bannerů (standardní)";
-$GLOBALS['strRetrieveNormalSeq']		= "Normální sekven�?ní na�?ítání bannerů";
-$GLOBALS['strWeightSeq']			= "Vážené sekven�?ní na�?ítání bannerů";
-$GLOBALS['strFullSeq']				= "Plně sekven�?ní na�?ítání bannerů";
-$GLOBALS['strUseKeywords']				= "Použít klí�?ová slova k volbě bannerů";
+$GLOBALS['strKeywordRetrieval']			= "Načítání klíčových slov";
+$GLOBALS['strBannerRetrieval']			= "Způsob načítání bannerů";
+$GLOBALS['strRetrieveRandom']			= "Náhodné načítání bannerů (standardní)";
+$GLOBALS['strRetrieveNormalSeq']		= "Normální sekvenční načítání bannerů";
+$GLOBALS['strWeightSeq']			= "Vážené sekvenční načítání bannerů";
+$GLOBALS['strFullSeq']				= "Plně sekvenční načítání bannerů";
+$GLOBALS['strUseKeywords']				= "Použít klíčová slova k volbě bannerů";
 $GLOBALS['strUseConditionalKeys']		= "Povolit logické operatory při použití přímé volby";
-$GLOBALS['strUseMultipleKeys']			= "Povolit vícero klí�?ových slov při použití přímé volby";
+$GLOBALS['strUseMultipleKeys']			= "Povolit vícero klíčových slov při použití přímé volby";
 
-$GLOBALS['strZonesSettings']			= "Na�?ítání zón";
-$GLOBALS['strZoneCache']			= "Cacheování zón, toto zrychlí na�?ítání při použití zón";
+$GLOBALS['strZonesSettings']			= "Načítání zón";
+$GLOBALS['strZoneCache']			= "Cacheování zón, toto zrychlí načítání při použití zón";
 $GLOBALS['strZoneCacheLimit']			= "Čas mezi obnovami cache (ve vteřinách)";
-$GLOBALS['strZoneCacheLimitErr']		= "Čas mezi obnovami cache musí být kladné �?íslo";
+$GLOBALS['strZoneCacheLimitErr']		= "Čas mezi obnovami cache musí být kladné číslo";
 
 $GLOBALS['strP3PSettings']			= "Pravidla soukromí P3P";
 $GLOBALS['strUseP3P']				= "Použít P3P pravidla";
@@ -202,9 +202,9 @@ $GLOBALS['strTypeHtmlPhp']			= "Povolit spouštění PHP výrazů z HTML banner�
 $GLOBALS['strHostAndGeo']				= "Informace o hostech a geocílení";
 
 $GLOBALS['strRemoteHost']				= "Vzdálený host";
-$GLOBALS['strReverseLookup']			= "Pokus se ur�?it název hostitele návštěníka pokud není poskytnuto serverem";
-$GLOBALS['strProxyLookup']				= "Pokus se ur�?it pravou IP adresu navštěvníka, který používá proxy server";
-$GLOBALS['strObfuscate']				= "O�?esat zdrojový kód pro doru�?ování reklamy.";
+$GLOBALS['strReverseLookup']			= "Pokus se určit název hostitele návštěníka pokud není poskytnuto serverem";
+$GLOBALS['strProxyLookup']				= "Pokus se určit pravou IP adresu navštěvníka, který používá proxy server";
+$GLOBALS['strObfuscate']				= "Očesat zdrojový kód pro doručování reklamy.";
 
 $GLOBALS['strGeotargeting']				= "Geocílení";
 $GLOBALS['strGeotrackingType']			= "Typ databáze geocílení";
@@ -219,7 +219,7 @@ $GLOBALS['strStatisticsSettings']		= "Nastavení statistik";
 
 $GLOBALS['strStatisticsFormat']			= "Formát statistik";
 $GLOBALS['strCompactStats']				= "Formát statistik";
-$GLOBALS['strLogAdviews']				= "Logovat zobrazení při každém doru�?ení banneru";
+$GLOBALS['strLogAdviews']				= "Logovat zobrazení při každém doručení banneru";
 $GLOBALS['strLogAdclicks']				= "Logovat kliknuí pří každém kliknutí na banner";
 $GLOBALS['strLogAdConversions']			= "Logovat prodeje při každém zobrazení stránky se sledovacím kódem";
 $GLOBALS['strLogSource']				= "Logovat parametr zdroje předaný při volání";
@@ -227,23 +227,23 @@ $GLOBALS['strGeoLogStats']				= "Logovat zemi návštěvníka ve statistikách";
 $GLOBALS['strLogHostnameOrIP']			= "Logovat jméno hostitele nebo IP adresu návštěvníka";
 $GLOBALS['strLogIPOnly']				= "Logovat pouze IP addresu návštěvníka i když je znám název hostitele";
 $GLOBALS['strLogIP']					= "Logovat IP addresu návštěvníka";
-$GLOBALS['strLogBeacon']				= "Používat malý markovací obrázek k logování AdViews aby bylo zajištěno že jsou logovány pouze doru�?ené bannery";
+$GLOBALS['strLogBeacon']				= "Používat malý markovací obrázek k logování AdViews aby bylo zajištěno že jsou logovány pouze doručené bannery";
 
 $GLOBALS['strRemoteHosts']				= "Vzdálení hostitelé";
 $GLOBALS['strIgnoreHosts']				= "Neukládát statistiky pro návštěvníky užívající jednu z následujících IP adres nebo názvů hostitelů";
-$GLOBALS['strBlockAdviews']				= "Nelogovat zobrazení pokud návštěvník viděl stejný banner v průběhu zadaného po�?tu vteřin";
-$GLOBALS['strBlockAdclicks']			= "Nelogovat kliknuti pokud návštěvník kliknul na stejný banner v průběhu zadaného po�?tu vteřin";
-$GLOBALS['strBlockAdConversions']		= "Nelogovat prodeje pokud návštěvník navštívil stránku se sledovacím kódem v průběhu zadaného po�?tu vteřin";
+$GLOBALS['strBlockAdviews']				= "Nelogovat zobrazení pokud návštěvník viděl stejný banner v průběhu zadaného počtu vteřin";
+$GLOBALS['strBlockAdclicks']			= "Nelogovat kliknuti pokud návštěvník kliknul na stejný banner v průběhu zadaného počtu vteřin";
+$GLOBALS['strBlockAdConversions']		= "Nelogovat prodeje pokud návštěvník navštívil stránku se sledovacím kódem v průběhu zadaného počtu vteřin";
 
 
 $GLOBALS['strPreventLogging']			= "Zamezit logování";
 $GLOBALS['strEmailWarnings']			= "E-mailová upozornění";
-$GLOBALS['strAdminEmailHeaders']		= "Přidej následujíc hlavi�?ku ke každé správě poslané ".MAX_PRODUCT_NAME;
-$GLOBALS['strWarnLimit']				= "Poslat upozornění když po�?et zbývajících impresí je nižší než zde uvedený";
-$GLOBALS['strWarnLimitErr']				= "Limit pro upozornění by mělo být kladné �?íslo";
-$GLOBALS['strWarnAdmin']				= "Poslat upozornění správci kdykoliv je kampaň téměř vy�?erpána";
-$GLOBALS['strWarnClient']				= "Poslat upozornění inzerentovi kdykoliv je kampaň téměř vy�?erpána";
-$GLOBALS['strWarnAgency']				= "Poslat upozornění partnerovi kdykoliv je kampaň téměř vy�?erpána";
+$GLOBALS['strAdminEmailHeaders']		= "Přidej následujíc hlavičku ke každé správě poslané ".MAX_PRODUCT_NAME;
+$GLOBALS['strWarnLimit']				= "Poslat upozornění když počet zbývajících impresí je nižší než zde uvedený";
+$GLOBALS['strWarnLimitErr']				= "Limit pro upozornění by mělo být kladné číslo";
+$GLOBALS['strWarnAdmin']				= "Poslat upozornění správci kdykoliv je kampaň téměř vyčerpána";
+$GLOBALS['strWarnClient']				= "Poslat upozornění inzerentovi kdykoliv je kampaň téměř vyčerpána";
+$GLOBALS['strWarnAgency']				= "Poslat upozornění partnerovi kdykoliv je kampaň téměř vyčerpána";
 $GLOBALS['strQmailPatch']				= "Zapnout qmail patch";
 
 $GLOBALS['strAutoCleanTables']			= "Čištění databáze";
@@ -271,13 +271,13 @@ $GLOBALS['strAdminCheckUpdates']		= "Kontrolovat aktualizace";
 $GLOBALS['strAdminCheckEveryLogin']		= "Při přihlášení";
 $GLOBALS['strAdminCheckDaily']			= "Denně";
 $GLOBALS['strAdminCheckWeekly']			= "Týdenně";
-$GLOBALS['strAdminCheckMonthly']		= "Měsí�?ně";
+$GLOBALS['strAdminCheckMonthly']		= "Měsíčně";
 $GLOBALS['strAdminCheckNever']			= "Nikdy";
 
-$GLOBALS['strAdminNovice']			= "Mazací akce Admina vyžadují z bezpe�?nostních důvodů potvrzení";
+$GLOBALS['strAdminNovice']			= "Mazací akce Admina vyžadují z bezpečnostních důvodů potvrzení";
 $GLOBALS['strUserlogEmail']			= "Logovat veškerou odchozí poštu";
 $GLOBALS['strUserlogPriority']			= "Logovat hodinové kalkulace priorit";
-$GLOBALS['strUserlogAutoClean']			= "Logovat automatické �?ištění databáze";
+$GLOBALS['strUserlogAutoClean']			= "Logovat automatické čištění databáze";
 
 
 // User interface settings
@@ -285,18 +285,18 @@ $GLOBALS['strGuiSettings']			= "Nastavení uživatelského rozhraní";
 
 $GLOBALS['strGeneralSettings']			= "Základní nastavení";
 $GLOBALS['strAppName']				= "Název aplikace";
-$GLOBALS['strMyHeader']				= "Umístění souboru hlavi�?ky";
-$GLOBALS['strMyHeaderError']		= "Soubor hlavi�?ky neexistuje v místě které jste zadal";
-$GLOBALS['strMyFooter']				= "Umístění souboru pati�?ky";
-$GLOBALS['strMyFooterError']		= "Soubor pati�?ky neexistuje v místě které jste zadal";
+$GLOBALS['strMyHeader']				= "Umístění souboru hlavičky";
+$GLOBALS['strMyHeaderError']		= "Soubor hlavičky neexistuje v místě které jste zadal";
+$GLOBALS['strMyFooter']				= "Umístění souboru patičky";
+$GLOBALS['strMyFooterError']		= "Soubor patičky neexistuje v místě které jste zadal";
 $GLOBALS['strGzipContentCompression']		= "Použít kompresi obsahu GZIPem";
 
 $GLOBALS['strClientInterface']			= "Rozhraní inzerenta";
 $GLOBALS['strClientWelcomeEnabled']		= "Zapnout uvítací text inzerenta";
 $GLOBALS['strClientWelcomeText']		= "Uvítací text<br>(HTML tagy jsou povoleny)";
 
-$GLOBALS['strInstantUpdateSettings']    = "Aktualizovat priority v reálném �?ase";
-$GLOBALS['strInstantUpdate']            = "Povolit aktualizace v reálném �?ase";
+$GLOBALS['strInstantUpdateSettings']    = "Aktualizovat priority v reálném čase";
+$GLOBALS['strInstantUpdate']            = "Povolit aktualizace v reálném čase";
 $GLOBALS['strInstantUpdatePriority']    = "Aktualizovat priority";
 $GLOBALS['strInstantUpdateCache']       = "Expirovat soubory cache";
 
@@ -316,14 +316,14 @@ $GLOBALS['strGUIShowParentCampaigns']		= "Zobrazit nadřazenou kampaň na strán
 $GLOBALS['strGUILinkCompactLimit']		= "Skrýt nepřipojené kampaně nebo bannery na stránce <i>Připojený banner</i> když je jich více než";
 
 $GLOBALS['strStatisticsDefaults'] 		= "Statistiky";
-$GLOBALS['strBeginOfWeek']			= "Po�?átek týdne";
+$GLOBALS['strBeginOfWeek']			= "Počátek týdne";
 $GLOBALS['strPercentageDecimals']		= "Desetinná místa procent";
 
 $GLOBALS['strWeightDefaults']			= "Implicitní váha";
 $GLOBALS['strDefaultBannerWeight']		= "Implicitní váha banneru";
 $GLOBALS['strDefaultCampaignWeight']		= "Implicitní váha kampaně";
-$GLOBALS['strDefaultBannerWErr']		= "Implicitní váha banneru by měla být kladné �?íslo";
-$GLOBALS['strDefaultCampaignWErr']		= "Implicitní váha kampaně by měla být kladné �?íslo";
+$GLOBALS['strDefaultBannerWErr']		= "Implicitní váha banneru by měla být kladné číslo";
+$GLOBALS['strDefaultCampaignWErr']		= "Implicitní váha kampaně by měla být kladné číslo";
 
 
 
@@ -339,12 +339,12 @@ $GLOBALS['strTimeZone']				= "Časové pásmo";
 
 // Note: New translations not found in original lang files but found in CSV
 $GLOBALS['strDbSetupTitle'] = "Nastavení databáze";
-$GLOBALS['strDeliveryUrlPrefix'] = "Doru�?ovací engine";
-$GLOBALS['strDeliveryUrlPrefixSSL'] = "Doru�?ovací engine";
+$GLOBALS['strDeliveryUrlPrefix'] = "Doručovací engine";
+$GLOBALS['strDeliveryUrlPrefixSSL'] = "Doručovací engine";
 $GLOBALS['strDbType'] = "Jméno databáze";
 $GLOBALS['strDebugTypeFile'] = "Soubory";
-$GLOBALS['strDeliveryPath'] = "Cache doru�?ování";
-$GLOBALS['strDeliverySslPath'] = "Cache doru�?ování";
+$GLOBALS['strDeliveryPath'] = "Cache doručování";
+$GLOBALS['strDeliverySslPath'] = "Cache doručování";
 $GLOBALS['strGeotargetingSettings'] = "Geocílení";
 $GLOBALS['strEnableQmailPatch'] = "Zapnout qmail patch";
 $GLOBALS['strEmailSettings'] = "Základní nastavení";

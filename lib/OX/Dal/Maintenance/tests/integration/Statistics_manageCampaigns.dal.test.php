@@ -733,7 +733,11 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         Mock::generate('OA_Email');
         $oEmailMock = new MockOA_Email($this);
         $oEmailMock->expectOnce('sendCampaignActivatedDeactivatedEmail', array("$campaignId", 2));
-        $oEnd = new Date();
+
+        // This is the date that is going to be used later
+        $oDate = new Date();
+
+        $oEnd = clone($oDate);
         $oEnd->addSpan(new Date_Span('1-0-0-0'));
         $oEmailMock->expectOnce('sendCampaignDeliveryEmail', array($aAdvertiser, new Date($aAdvertiser['reportlastdate']), $oEnd, "$campaignId"));
 
@@ -743,7 +747,6 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
 
         // Run the manageCampaigns() method and ensure that the correct
         // calls to OA_Email were made
-        $oDate = new Date();
         $oFactory = new OX_Dal_Maintenance_Statistics_Factory();
         $oDalMaintenanceStatistics = $oFactory->factory();
         $report = $oDalMaintenanceStatistics->manageCampaigns($oDate);

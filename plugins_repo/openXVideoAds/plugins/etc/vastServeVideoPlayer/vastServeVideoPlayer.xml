@@ -3,13 +3,13 @@
 <plugin>
     <name>vastServeVideoPlayer</name>
     <displayName>IAB VAST Video Player Plugin</displayName>
-    <creationDate>2009-05-05</creationDate>
+    <creationDate>2014-01-21</creationDate>
     <author>Revive Adserver</author>
     <authorEmail>revive@revive-adserver.com</authorEmail>
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>GNU Gneral Public License v2</license>
     <description>Plugin that provides IAB VAST video ad support.</description>
-    <version>1.9.1</version>
+    <version>1.10.0</version>
     <oxversion>2.7.30-beta-rc11</oxversion>
 
     <install>

@@ -273,13 +273,13 @@ class OX_Maintenance
      */
     function _runReviveSync()
     {
-        $delay = mt_rand(0,10000000);
-        usleep($delay);
-        OA::debug(sprintf('  Starting ' . PRODUCT_NAME . ' Sync process in %dms.', $delay / 1000), PEAR_LOG_DEBUG);
+        $delay = mt_rand(0, 30); // Delay up to 30 seconds
+        OA::debug(sprintf('Delaying ' . PRODUCT_NAME . ' sync process by %d seconds.', $delay), PEAR_LOG_INFO);
+        sleep($delay);
         require_once MAX_PATH . '/lib/RV/Sync.php';
         $oSync = new RV_Sync($this->aConf, $this->aPref);
         $oSync->checkForUpdates(0);
-        OA::debug('  Finished ' . PRODUCT_NAME . ' Sync process.', PEAR_LOG_DEBUG);
+        OA::debug('Finished ' . PRODUCT_NAME . ' Sync process.', PEAR_LOG_INFO);
     }
 
 

@@ -28,6 +28,13 @@ What's New in Revive Adserver 3.0.3
  ------------
 
  * API now supports setting chainedZoneId.
+ * Added support for WebM videos in the IAB Video plugin.
+ * Increased the maximum delay in the midnight maintenance script (from 10
+   seconds to 30 seconds) before calling the sync server for update information
+   to improve load distribution on the server.
+ * Updated the Revive Adserver application header to replace the "Report bug"
+   link with a more useful "Support" link (which includes details on how to
+   report a bug, in addition to how to get support).
 
  Bug Fixes
  ---------
@@ -39,13 +46,22 @@ What's New in Revive Adserver 3.0.3
  * Fixed API incompatibilities with PHP 5.4+.
  * Fixed an issue with the generation of a platform hash value which is used
    when connecting to the sync server to check for updates to Revive Adserver.
+ * Fixed encoding issues with some of the Czech language translations.
  * Fixed encoding issues with some of the Russian language translations.
- * Fixed SWF plugin version requirements for v18-22
+ * Fixed SWF plugin version requirements for v18-22.
+ * Fixed a bug that prevented successfully submitting the forms after a server
+   side validation error.
+ * Fixed a library bug that was causing invalid errors to be displayed in the
+   statistics screens under certain conditions.
+ * Added missing configuration options relating to the filenames for Single Page
+   Call functionality to the admin user Configuration > Global Settings > Banner
+   Delivery Settings tab.
 
  Non-Backwards Compatible Changes
  --------------------------------
 
- * None
+ * Removed unused Zend XML-RPC library. Make sure your 3rd party plugins bundle
+   their own if they need it.
 
 
 System Requirements

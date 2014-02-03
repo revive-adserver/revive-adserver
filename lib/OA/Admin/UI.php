@@ -610,7 +610,7 @@ class OA_Admin_UI
             if (!defined('phpAds_installing')) {
                 $this->oTpl->assign('infoUser', OA_Permission::getUsername());
                 $this->oTpl->assign('buttonLogout', true);
-                $this->oTpl->assign('buttonReportBugs', true);
+                $this->oTpl->assign('buttonSupport', true);
 
                 // Account switcher
                 OA_Admin_UI_AccountSwitch::assignModel($this->oTpl);
