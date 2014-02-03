@@ -737,7 +737,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         // This is the date that is going to be used later
         $oDate = new Date();
 
-        $oEnd = new Date($oDate);
+        $oEnd = clone($oDate);
         $oEnd->addSpan(new Date_Span('1-0-0-0'));
         $oEmailMock->expectOnce('sendCampaignDeliveryEmail', array($aAdvertiser, new Date($aAdvertiser['reportlastdate']), $oEnd, "$campaignId"));
 
