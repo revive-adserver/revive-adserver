@@ -59,6 +59,9 @@ What's New in Revive Adserver 3.0.3
  * Added missing configuration options relating to the filenames for Single Page
    Call functionality to the admin user Configuration > Global Settings > Banner
    Delivery Settings tab.
+ * Fixed incorrect detection of command-line based called to Revive Adserver, so
+   that an error message is shown when the maintenance script is called without]
+   the required host parameter, instead of displaying a PHP error.
 
  Non-Backwards Compatible Changes
  --------------------------------
