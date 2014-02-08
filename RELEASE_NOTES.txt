@@ -27,6 +27,7 @@ What's New in Revive Adserver 3.0.3
  New Features
  ------------
 
+ * Preview of Flash banners now also shows the backup image, if set.
  * API now supports setting chainedZoneId.
  * Added support for WebM videos in the IAB Video plugin.
  * Increased the maximum delay in the midnight maintenance script (from 10
