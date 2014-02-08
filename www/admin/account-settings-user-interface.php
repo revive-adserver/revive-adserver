@@ -51,6 +51,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         'ui_headerBackgroundColor' => array('ui' => 'headerBackgroundColor'),
         'ui_headerActiveTabColor'  => array('ui' => 'headerActiveTabColor'),
         'ui_headerTextColor'       => array('ui' => 'headerTextColor'),
+        'ui_supportLink'           => array('ui' => 'supportLink'),
         'ui_gzipCompression' => array(
             'ui'   => 'gzipCompression',
             'bool' => true
@@ -194,6 +195,15 @@ $aSettings = array (
                 'type'    => 'text',
                 'name'    => 'ui_headerTextColor',
                 'text'    => $strGuiHeaderTextColor,
+                'size'    => 35
+            ),
+            array (
+                'type'    => 'break'
+            ),
+            array (
+                'type'    => 'text',
+                'name'    => 'ui_supportLink',
+                'text'    => $strGuiSupportLink,
                 'size'    => 35
             ),
             array (

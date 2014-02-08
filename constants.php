@@ -202,6 +202,9 @@ function setupConstants()
         if (!defined('OX_PATH')) {
             define('OX_PATH', dirname(__FILE__));
         }
+        if (!defined('RV_PATH')) {
+            define('RV_PATH', dirname(__FILE__));
+        }
         // Ensure that the DIRECTORY_SEPARATOR and PATH_SEPARATOR
         // constants are correctly defined
         if (!defined('DIRECTORY_SEPARATOR')) {

@@ -96,8 +96,8 @@
         <li class="buttonHelp"><a href="{$helpLink|escape}" target="help">{t str=Help}</a></li>
 {/if}
 
-{if $buttonSupport}
-        <li class="buttonSupport"><a href="http://www.revive-adserver.com/support/" target="_blank">{t str=Support}</a></li>
+{if $buttonSupport && $supportLink}
+        <li class="buttonSupport"><a href="{$supportLink|escape}" target="_blank">{t str=Support}</a></li>
 {/if}
 
 {if $buttonLogout}

@@ -35,6 +35,8 @@ What's New in Revive Adserver 3.0.3
  * Updated the Revive Adserver application header to replace the "Report bug"
    link with a more useful "Support" link (which includes details on how to
    report a bug, in addition to how to get support).
+ * Added support for hosting providers of Revive Adserver to configure a custom
+   URL for the "Support" link in the application header.
 
  Bug Fixes
  ---------
