@@ -26,7 +26,7 @@ class RV
      * @static
      * @return array
      */
-    function getAppConfig() {
+    static function getAppConfig() {
         return $GLOBALS['_MAX']['CONF'];
     }
 
