@@ -62,6 +62,10 @@ What's New in Revive Adserver 3.0.3
  Non-Backwards Compatible Changes
  --------------------------------
 
+ * Email based campaign activation/deactivation reports are now disabled by
+   default when creating new advertisers. This does not affect any existing
+   advertiser account settings for this feature; but please be aware that the
+   default for all new advertiser accounts has been changed.
  * Removed unused Zend XML-RPC library. Make sure your 3rd party plugins bundle
    their own if they need it.
 
