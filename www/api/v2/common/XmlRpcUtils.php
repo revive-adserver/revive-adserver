@@ -212,7 +212,7 @@ class XmlRpcUtils
      */
     function getEntityResponse(&$oInfoObject)
     {
-        return new XML_RPC_Response(XmlRpcUtils::getEntity($oInfoObject));
+        return new XML_RPC_Response(XmlRpcUtils::getEntityWithNotNullFields($oInfoObject));
     }
 
     /**

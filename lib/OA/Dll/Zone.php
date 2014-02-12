@@ -103,7 +103,7 @@ class OA_Dll_Zone extends OA_Dll
             !$this->checkStructureNotRequiredIntegerField($oZone, 'sessionCapping') ||
             !$this->checkStructureNotRequiredIntegerField($oZone, 'block') ||
             !$this->checkStructureNotRequiredIntegerField($oZone, 'height') ||
-            !$this->checkStructureNotRequiredIntegerField($oZone, 'cheinedZone') ||
+            !$this->checkStructureNotRequiredIntegerField($oZone, 'chainedZoneId') ||
             !$this->checkStructureNotRequiredStringField($oZone,  'comments')
         ) {
 

@@ -154,7 +154,7 @@ class OA_Dll_ZoneInfo extends OA_Info
 
         if (is_null($this->chainedZoneId)) {
             // Leave null
-    }
+        }
     }
 
     /**
