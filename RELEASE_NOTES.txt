@@ -53,6 +53,7 @@ What's New in Revive Adserver 3.0.3
    translations.
  * Fixed encoding issues with some of the Czech language translations.
  * Fixed encoding issues with some of the Russian language translations.
+ * Added (some) new Chinese translations for plugins.
  * Fixed SWF plugin version requirements for v18-22.
  * Fixed a bug that prevented successfully submitting the forms after a server
    side validation error.
