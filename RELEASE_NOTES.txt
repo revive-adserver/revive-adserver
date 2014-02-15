@@ -62,6 +62,7 @@ What's New in Revive Adserver 3.0.3
  * Fixed incorrect detection of command-line based called to Revive Adserver, so
    that an error message is shown when the maintenance script is called without]
    the required host parameter, instead of displaying a PHP error.
+ * Fixed branding on the website Single Page Call invocation code tag page.
 
  Non-Backwards Compatible Changes
  --------------------------------
