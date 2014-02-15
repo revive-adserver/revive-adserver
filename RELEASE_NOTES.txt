@@ -63,6 +63,8 @@ What's New in Revive Adserver 3.0.3
    that an error message is shown when the maintenance script is called without]
    the required host parameter, instead of displaying a PHP error.
  * Fixed branding on the website Single Page Call invocation code tag page.
+ * Fixed the display of the license on the install/upgrade welcome screen when
+   using a non-root based installation process.
 
  Non-Backwards Compatible Changes
  --------------------------------
