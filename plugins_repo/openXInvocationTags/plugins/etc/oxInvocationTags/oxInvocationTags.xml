@@ -76,8 +76,9 @@
             <file path="{MODULEPATH}invocationTags/oxInvocationTags/layerstyles/simple/">layerstyle.inc.php</file>
 
             <file path="{GROUPPATH}/_lang/">en.mo</file>
+            <file path="{GROUPPATH}/_lang/">zh_CN.mo</file>
             <file path="{GROUPPATH}/_lang/po/">en.po</file>
-
+            <file path="{GROUPPATH}/_lang/po/">zh_CN.po</file>
         </files>
 
         <components>
