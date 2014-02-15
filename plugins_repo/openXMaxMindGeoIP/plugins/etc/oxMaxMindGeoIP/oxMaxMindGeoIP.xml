@@ -46,13 +46,13 @@
         <files>
             <file path="{MODULEPATH}geoTargeting/oxMaxMindGeoIP/">oxMaxMindGeoIP.class.php</file>
             <file path="{MODULEPATH}geoTargeting/oxMaxMindGeoIP/">oxMaxMindGeoIP.delivery.php</file>
-            <file path="{MODULEPATH}geoTargeting/oxMaxMindGeoIP/data/">GeoLite2-Country.mmdb</file>
+            <file path="{MODULEPATH}geoTargeting/oxMaxMindGeoIP/data/">GeoIP.dat</file>
 
             <file path="{GROUPPATH}/_lang/">en.mo</file>
             <file path="{GROUPPATH}/_lang/">zh_CN.mo</file>
             <file path="{GROUPPATH}/_lang/po/">en.po</file>
             <file path="{GROUPPATH}/_lang/po/">zh_CN.po</file>
-            
+
             <!--file path="{MODULEPATH}geoTargeting/oxMaxMindGeoIP/_lang">en.mo</file-->
         </files>
 
