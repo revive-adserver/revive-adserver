@@ -229,7 +229,7 @@ class XmlRpcUtils
         $cRecords = 0;
 
         foreach ($aInfoObjects as $oInfoObject) {
-            $xmlValue[$cRecords] = XmlRpcUtils::getEntity($oInfoObject);
+            $xmlValue[$cRecords] = XmlRpcUtils::getEntityWithNotNullFields($oInfoObject);
             $cRecords++;
         }
 
