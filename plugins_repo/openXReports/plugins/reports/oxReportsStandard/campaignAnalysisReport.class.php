@@ -135,9 +135,13 @@ class Plugins_Reports_OxReportsStandard_CampaignAnalysisReport extends Plugins_R
                 'title'   => $GLOBALS['strWorksheets'],
                 'type'    => 'sheet',
                 'sheets'  => array(
-                    'daily_breakdown' => $this->translate("Daily Breakdown"),
-                    'ad_breakdown'    => $this->translate("Ad Breakdown"),
-                    'zone_breakdown'  => $this->translate("Zone Breakdown")
+                    'campaign_breakdown' => $this->translate("Campaign Totals"),
+                    'daily_breakdown'    => $this->translate("Daily Breakdown"),
+                    'weekly_breakdown'   => $this->translate("Weekly Breakdown"),
+                    'monthly_breakdown'  => $this->translate("Monthly Breakdown"),
+                    'dow_breakdown'      => $this->translate("Day of Week Breakdown"),
+                    'ad_breakdown'       => $this->translate("Ad Breakdown"),
+                    'zone_breakdown'     => $this->translate("Zone Breakdown")
                 )
             )
         );
@@ -219,8 +223,20 @@ class Plugins_Reports_OxReportsStandard_CampaignAnalysisReport extends Plugins_R
         // Prepare the output writer for generation
         $this->_oReportWriter->openWithFilename($reportFileName);
         // Add the worksheets to the report, as required
+        if (isset($aSheets['campaign_breakdown'])) {
+            $this->_addCampaignBreakdownWorksheet();
+        }
+        if (isset($aSheets['monthly_breakdown'])) {
+            $this->_addMonthlyBreakdownWorksheet();
+        }
+        if (isset($aSheets['weekly_breakdown'])) {
+            $this->_addWeeklyBreakdownWorksheet();
+        }
         if (isset($aSheets['daily_breakdown'])) {
             $this->_addDailyBreakdownWorksheet();
+        }
+        if (isset($aSheets['dow_breakdown'])) {
+            $this->_addDOWBreakdownWorksheet();
         }
         if (isset($aSheets['ad_breakdown'])) {
             $this->_addAdBreakdownWorksheet();
@@ -242,7 +258,11 @@ class Plugins_Reports_OxReportsStandard_CampaignAnalysisReport extends Plugins_R
      */
     function _checkParameters($oDaySpan, $placementId, $aSheets)
     {
-        if (!isset($aSheets['daily_breakdown']) &&
+        if (!isset($aSheets['campaign_breakdown']) &&
+            !isset($aSheets['daily_breakdown']) &&
+            !isset($aSheets['weekly_breakdown']) &&
+            !isset($aSheets['monthly_breakdown']) &&
+            !isset($aSheets['dow_breakdown']) &&
             !isset($aSheets['ad_breakdown']) &&
             !isset($aSheets['zone_breakdown']))
         {
@@ -273,6 +293,44 @@ class Plugins_Reports_OxReportsStandard_CampaignAnalysisReport extends Plugins_R
         return $aParams;
     }
 
+     /**
+     * A private method to create and add the "campaign totals" worksheet
+     * of the report.
+     *
+     * @access private
+     */
+    function _addCampaignBreakdownWorksheet()
+    {
+        // Prepare the $_REQUEST array as if it was set up via the stats.php page
+        if (is_null($this->_oDaySpan)) {
+            $_REQUEST['period_preset'] = 'all_stats';
+        } else {
+            $_REQUEST['period_preset'] = 'specific';
+            $_REQUEST['period_start']  = $this->_oDaySpan->getStartDateString();
+            $_REQUEST['period_end']    = $this->_oDaySpan->getEndDateString();
+        }
+        $_REQUEST['expand']     = 'none';
+        $_REQUEST['startlevel'] = 0;
+        $_REQUEST['clientid'] = $this->_advertiserId;
+        $_REQUEST['campaignid'] = $this->_placementId;
+        // Select the correct statistics page controller type
+        if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+            $controllerType = 'affiliate-zones';
+        } else {
+            $controllerType = 'campaign-affiliates';
+            $_REQUEST['startlevel'] = 0;
+        }
+        // Get the header and data arrays from the same statistics controllers
+        // that prepare stats for the user interface stats pages
+        list($aHeaders, $aData) = $this->getHeadersAndDataFromStatsController($controllerType);
+        // Add the worksheet
+        $this->createSubReport(
+            $this->translate("Campaign Totals"),
+            $aHeaders,
+            $aData
+        );
+    }
+
     /**
      * A private method to create and add the "daily breakdown" worksheet
      * of the report.
@@ -290,6 +348,7 @@ class Plugins_Reports_OxReportsStandard_CampaignAnalysisReport extends Plugins_R
             $_REQUEST['period_end']    = $this->_oDaySpan->getEndDateString();
         }
         $_REQUEST['breakdown'] = 'day';
+        $_REQUEST['statsBreakdown'] = 'day';
         $_REQUEST['clientid'] = $this->_advertiserId;
         $_REQUEST['campaignid'] = $this->_placementId;
         // Select the correct statistics page controller type
@@ -304,6 +363,117 @@ class Plugins_Reports_OxReportsStandard_CampaignAnalysisReport extends Plugins_R
         // Add the worksheet
         $this->createSubReport(
             $this->translate("Daily Breakdown"),
+            $aHeaders,
+            $aData
+        );
+    }
+
+     /**
+     * A private method to create and add the "weekly breakdown" worksheet
+     * of the report.
+     *
+     * @access private
+     */
+    function _addWeeklyBreakdownWorksheet()
+    {
+        // Prepare the $_REQUEST array as if it was set up via the stats.php page
+        if (is_null($this->_oDaySpan)) {
+            $_REQUEST['period_preset'] = 'all_stats';
+       } else {
+            $_REQUEST['period_preset'] = 'specific';
+            $_REQUEST['period_start']  = $this->_oDaySpan->getStartDateString();
+            $_REQUEST['period_end']    = $this->_oDaySpan->getEndDateString();
+        }
+        $_REQUEST['breakdown'] = 'day';
+        $_REQUEST['statsBreakdown'] = 'week';
+        $_REQUEST['clientid'] = $this->_advertiserId;
+        $_REQUEST['campaignid'] = $this->_placementId;
+        // Select the correct statistics page controller type
+        if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+            $controllerType = 'affiliate-campaign-history';
+        } else {
+            $controllerType = 'campaign-history';
+        }
+        // Get the header and data arrays from the same statistics controllers
+        // that prepare stats for the user interface stats pages
+        list($aHeaders, $aData) = $this->getHeadersAndDataFromStatsController($controllerType);
+        // Add the worksheet
+        $this->createSubReport(
+            $this->translate("Weekly Breakdown"),
+            $aHeaders,
+            $aData
+        );
+    }
+
+    /**
+     * A private method to create and add the "monthly breakdown" worksheet
+     * of the report.
+     *
+     * @access private
+     */
+    function _addMonthlyBreakdownWorksheet()
+    {
+        // Prepare the $_REQUEST array as if it was set up via the stats.php page
+        if (is_null($this->_oDaySpan)) {
+            $_REQUEST['period_preset'] = 'all_stats';
+        } else {
+            $_REQUEST['period_preset'] = 'specific';
+            $_REQUEST['period_start']  = $this->_oDaySpan->getStartDateString();
+            $_REQUEST['period_end']    = $this->_oDaySpan->getEndDateString();
+        }
+        $_REQUEST['breakdown'] = 'day';
+        $_REQUEST['statsBreakdown'] = 'month';
+        $_REQUEST['clientid'] = $this->_advertiserId;
+        $_REQUEST['campaignid'] = $this->_placementId;
+        // Select the correct statistics page controller type
+        if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+            $controllerType = 'affiliate-campaign-history';
+        } else {
+            $controllerType = 'campaign-history';
+        }
+        // Get the header and data arrays from the same statistics controllers
+        // that prepare stats for the user interface stats pages
+        list($aHeaders, $aData) = $this->getHeadersAndDataFromStatsController($controllerType);
+        // Add the worksheet
+        $this->createSubReport(
+            $this->translate("Monthly Breakdown"),
+            $aHeaders,
+            $aData
+        );
+    }
+
+    /**
+     * A private method to create and add the "day of week breakdown" worksheet
+     * of the report.
+     *
+     * @access private
+     */
+    function _addDOWBreakdownWorksheet()
+    {
+        // Prepare the $_REQUEST array as if it was set up via the stats.php page
+        if (is_null($this->_oDaySpan)) {
+            $_REQUEST['period_preset'] = 'all_stats';
+        } else {
+            $_REQUEST['period_preset'] = 'specific';
+            $_REQUEST['period_start']  = $this->_oDaySpan->getStartDateString();
+            $_REQUEST['period_end']    = $this->_oDaySpan->getEndDateString();
+        }
+        $_REQUEST['breakdown'] = 'day';
+        $_REQUEST['statsBreakdown'] = 'dow';
+        $_REQUEST['clientid'] = $this->_advertiserId;
+        $_REQUEST['campaignid'] = $this->_placementId;
+        // Select the correct statistics page controller type
+        if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+            $controllerType = 'affiliate-campaign-history';
+        } else {
+            $controllerType = 'campaign-history';
+        }
+        // Get the header and data arrays from the same statistics controllers
+        // that prepare stats for the user interface stats pages
+        list($aHeaders, $aData) = $this->getHeadersAndDataFromStatsController($controllerType);
+        // Add the worksheet
+        $this->createSubReport(
+            $this->translate("Day of Week Breakdown"),
             $aHeaders,
             $aData
         );
