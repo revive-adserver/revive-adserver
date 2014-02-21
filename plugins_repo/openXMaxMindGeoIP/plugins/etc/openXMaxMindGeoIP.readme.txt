@@ -1,8 +1,22 @@
-This plugin uses one (or more) of the MaxMind database files to perform viewer IP geo-location lookups.
+This plugin provides support for using one or more MaxMind database files to
+to perform viewer geo-location data lookup & targeting.
 
-If you wish to use any of the additional MaxMind databases, you will need to upload them to your server
-and then set the /path/to/databasefile.dat in this plugin's settings screen.
+The plugin includes the free MaxMind GeoLite Country database; if you wish to
+perform geo-location based targeting using any of MaxMind's other databases, you
+will need to purchase the relevant database(s) from MaxMind, upload the database
+file(s) to your server, and then use the "Settings" link above to configure the
+plugin, so that it can locate the relevant database(s).
 
-Note: If you do not set any paths, then the plugin will use the bundled GeoCountry database (you do not need to set this)
+Note: The included MaxMind GeoLite Country database path does not need to be
+configured in the "Settings" above; it will be used by default. However, you can
+override the "Country" database in the settings to specify either a more up to
+date version of the free MaxMind GeoLite Country database, or a paid-for
+version of the database with greater accuracy.
 
-Note: The current version of the bundled GeoCountry database is the one updated June 1st. 2009
+Note: The included MaxMind GeoLite Country database is the February 2014
+release.
+
+
+
+This product includes GeoLite data created by MaxMind, available from
+<a href="http://www.maxmind.com">http://www.maxmind.com</a>.

@@ -51,6 +51,7 @@ headerBackgroundColor               =
 headerActiveTabColor                =
 headerTextColor                     =
 gzipCompression                     = true
+supportLink                         =
 combineAssets                       = true
 dashboardEnabled                    = true
 hideNavigator                       = false

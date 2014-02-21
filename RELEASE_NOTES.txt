@@ -27,6 +27,7 @@ What's New in Revive Adserver 3.0.3
  New Features
  ------------
 
+ * Preview of Flash banners now also shows the backup image, if set.
  * API now supports setting chainedZoneId.
  * Added support for WebM videos in the IAB Video plugin.
  * Increased the maximum delay in the midnight maintenance script (from 10
@@ -35,6 +36,8 @@ What's New in Revive Adserver 3.0.3
  * Updated the Revive Adserver application header to replace the "Report bug"
    link with a more useful "Support" link (which includes details on how to
    report a bug, in addition to how to get support).
+ * Added support for hosting providers of Revive Adserver to configure a custom
+   URL for the "Support" link in the application header.
 
  Bug Fixes
  ---------
@@ -46,8 +49,11 @@ What's New in Revive Adserver 3.0.3
  * Fixed API incompatibilities with PHP 5.4+.
  * Fixed an issue with the generation of a platform hash value which is used
    when connecting to the sync server to check for updates to Revive Adserver.
+ * Fixed encoding issues and bad translations in the Chinese language
+   translations.
  * Fixed encoding issues with some of the Czech language translations.
  * Fixed encoding issues with some of the Russian language translations.
+ * Added (some) new Chinese translations for plugins.
  * Fixed SWF plugin version requirements for v18-22.
  * Fixed a bug that prevented successfully submitting the forms after a server
    side validation error.
@@ -56,10 +62,20 @@ What's New in Revive Adserver 3.0.3
  * Added missing configuration options relating to the filenames for Single Page
    Call functionality to the admin user Configuration > Global Settings > Banner
    Delivery Settings tab.
+ * Fixed incorrect detection of command-line based called to Revive Adserver, so
+   that an error message is shown when the maintenance script is called without]
+   the required host parameter, instead of displaying a PHP error.
+ * Fixed branding on the website Single Page Call invocation code tag page.
+ * Fixed the display of the license on the install/upgrade welcome screen when
+   using a non-root based installation process.
 
  Non-Backwards Compatible Changes
  --------------------------------
 
+ * Email based campaign activation/deactivation reports are now disabled by
+   default when creating new advertisers. This does not affect any existing
+   advertiser account settings for this feature; but please be aware that the
+   default for all new advertiser accounts has been changed.
  * Removed unused Zend XML-RPC library. Make sure your 3rd party plugins bundle
    their own if they need it.
 

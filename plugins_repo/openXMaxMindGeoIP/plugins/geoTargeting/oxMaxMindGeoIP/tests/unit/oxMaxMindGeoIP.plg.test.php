@@ -90,7 +90,7 @@ class Delivery_TestOfOxMaxMindGeoIP extends UnitTestCase
         $this->assertNull($result['netspeed']);
 
         // Test with a supplied GeoIP Country database
-        $conf['oxMaxMindGeoIP']['geoipCountryLocation'] = dirname(dirname(dirname(__FILE__))) . '/data/FreeGeoIPCountry.dat';
+        $conf['oxMaxMindGeoIP']['geoipCountryLocation'] = dirname(dirname(dirname(__FILE__))) . '/data/GeoIP.dat';
         $conf['oxMaxMindGeoIP']['geoipRegionLocation'] = '';
         $conf['oxMaxMindGeoIP']['geoipCityLocation'] = '';
         $conf['oxMaxMindGeoIP']['geoipAreaLocation'] = '';

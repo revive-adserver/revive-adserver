@@ -10,7 +10,7 @@
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>GNU Gneral Public License v2</license>
     <description>Plugin that provides the ability to target delivery of ads by site.</description>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
     <oxversion>2.7.30-beta-rc11</oxversion>
     <extends>deliveryLimitations</extends>
 
@@ -28,7 +28,9 @@
             <file path="{MODULEPATH}deliveryLimitations/Site/">Variable.delivery.php</file>
 
             <file path="{GROUPPATH}/_lang/">en.mo</file>
+            <file path="{GROUPPATH}/_lang/">zh_CN.mo</file>
             <file path="{GROUPPATH}/_lang/po/">en.po</file>
+            <file path="{GROUPPATH}/_lang/po/">zh_CN.po</file>
         </files>
 
         <components>

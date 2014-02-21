@@ -11,21 +11,20 @@
 */
 
 /**
- * @package    Max
- * @author     Andrew Hill <andrew@m3.net>
+ * @package    ReviveAdserver
  */
 
 /**
  * The general (non-delivery engine) function to parse the configuration .ini file
  *
  * @param string $configPath The directory to load the config file from.
- *                           Default is Max's /var directory.
+ *                           Default is Revive Adserver's /var directory.
  * @param string $configFile The configuration file name (eg. "geotargeting").
- *                           Default is no name (ie. the main Max
+ *                           Default is no name (ie. the main Revive Adserver
  *                           configuration file).
  * @param boolean $sections  Process sections, as per parse_ini_file().
- * @param string  $type      The config file type value (eg. ".php"). Allows BC
- *                           support for old ".ini" files.
+ * @param string  $type      The config file type value (eg. ".php"). Allows
+ *                           for backwards-compatibility for old ".ini" files.
  *
  * @return mixed The array resulting from the call to parse_ini_file(), with
  *               the appropriate .php file for the installation.
@@ -40,18 +39,23 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true, 
     if (!is_null($configFile)) {
         $configFile = '.' . $configFile;
     }
-    // Is this a web, or a cli call?
+    // Is this a command line call (i.e. to run maintenance?)
     if (is_null($configFile) && !isset($_SERVER['SERVER_NAME'])) {
+        // Yes; set the $_SERVER['HTTP_HOST'] variable to fake the command line
+        // call to act like a web client call, so that the host name processing
+        // works the same both ways
         if (defined('TEST_ENVIRONMENT_RUNNING')) {
             $_SERVER['HTTP_HOST'] = 'test';
         } else {
-            if (!isset($GLOBALS['argv'][1]) && !file_exists($configPath . '/default' . $configFile . '.conf' . $type)) {
-                echo MAX_PRODUCT_NAME . " was called via the command line, but had no host as a parameter.\n";
+            if (!isset($GLOBALS['argv'][1])) {
+                echo PRODUCT_NAME . " was called via the command line, but had no host as a parameter.\n";
                 exit(1);
             }
             $_SERVER['HTTP_HOST'] = trim($GLOBALS['argv'][1]);
         }
     }
+    // Get the host name that Revive Adserver is being accessed via, so that
+    // this can be correlated with the appropriate configuration file
     $host = OX_getHostName();
 
     // Is the system running the test environment?

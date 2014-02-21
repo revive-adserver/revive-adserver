@@ -10,7 +10,7 @@
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>GNU Gneral Public License v2</license>
     <description>Plugin that provides the text banner type.</description>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
     <oxversion>2.7.30-beta-rc11</oxversion>
     <extends>bannerTypeText</extends>
 
@@ -20,7 +20,9 @@
             <file path="{MODULEPATH}bannerTypeText/oxText/">genericText.delivery.php</file>
 
             <file path="{GROUPPATH}/_lang/">en.mo</file>
+            <file path="{GROUPPATH}/_lang/">zh_CN.mo</file>
             <file path="{GROUPPATH}/_lang/po/">en.po</file>
+            <file path="{GROUPPATH}/_lang/po/">zh_CN.po</file>
         </files>
 
         <components>

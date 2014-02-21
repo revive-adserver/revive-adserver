@@ -67,8 +67,8 @@ class Plugins_InvocationTags_OxInvocationTags_Spc extends Plugins_InvocationTags
         $conf = $GLOBALS['_MAX']['CONF'];
         $this->publisherPlugin = true;
         $this->varprefix = $conf['var']['prefix'];
-        $this->appname = (!empty($GLOBALS['_MAX']['PREF']['name'])) 
-            ? $GLOBALS['_MAX']['PREF']['name']." ".OA_VERSION 
+        $this->appname = (!empty($GLOBALS['_MAX']['PREF']['name']))
+            ? $GLOBALS['_MAX']['PREF']['name']." ".OA_VERSION
             : MAX_PRODUCT_NAME." ".OA_VERSION;
     }
 
@@ -184,7 +184,7 @@ class Plugins_InvocationTags_OxInvocationTags_Spc extends Plugins_InvocationTags
 
     <body class='invocationCodes'>
         <div class='header'>
-            <h1>OpenX</h1>
+            <h1>" . PRODUCT_NAME . "</h1>
         </div>
         ";
 
@@ -327,7 +327,7 @@ class Plugins_InvocationTags_OxInvocationTags_Spc extends Plugins_InvocationTags
             </p>
 
             <div class='sizePreview " . (count($customClass) ? ' ' . implode(' ', $customClass) : '') . "' style='width: {$width}px; height: {$height}px;'>
-                <img src='" . OX::assetPath() . "/images/watermark.gif' alt='' />
+                <img src='" . OX::assetPath() . "/images/logo-adserver-small.png' alt='' />
                 <span>{$widthLabel} x {$heightLabel}</span>
             </div>
 

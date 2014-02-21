@@ -17,15 +17,15 @@ html {
 }
 
 .invocationCodes .header h1 {
-  width: 170px;
-  height: 56px;
-	background: url(../images/logo-wtag.png) top left no-repeat;
+  width: 270px;
+  height: 32px;
+	background: url(../images/logo-adserver.png) top left no-repeat;
 	text-indent: -2000em;
-	margin: 0 0 0 32px;
+	margin: 12px 0 0 32px;
 
   /* Fix IE bug: transparent PNG support */
   -background: none;
-  -filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/logo-wtag.png');
+  -filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/logo-adserver.png');
 }
 
 .invocationCodes p {
@@ -147,7 +147,7 @@ html {
 
 
 .invocationCodes button#closeWindow {
-	width: 140px;
+	width: 150px;
 	height: 32px;
 	text-align: left;
 	line-height: 32px;
@@ -160,7 +160,6 @@ html {
 
 .sizePreview {
 	position: relative;
-	background: #66c761; /* #eee; */
 	border: 1px solid #349e3f; /* #ccc; */
 }
 
