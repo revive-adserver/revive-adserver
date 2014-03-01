@@ -68,6 +68,8 @@ What's New in Revive Adserver 3.0.3
  * Fixed branding on the website Single Page Call invocation code tag page.
  * Fixed the display of the license on the install/upgrade welcome screen when
    using a non-root based installation process.
+ * Fixed bug causing the last advertiser being sometimes hidden in the
+   advertiser index screen.
 
  Non-Backwards Compatible Changes
  --------------------------------
