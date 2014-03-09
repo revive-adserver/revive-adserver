@@ -41,11 +41,11 @@ function Plugin_deliveryLog_oxLogConversion_logConversion_Delivery_logConversion
 
     $aValues = array(
         'server_ip'        => $serverRawIp,
-        'tracker_id'       => $trackerId,
+        'tracker_id'       => (int)$trackerId,
         'date_time'        => gmdate('Y-m-d H:i:s', $time),
         'action_date_time' => gmdate('Y-m-d H:i:s', $aConversion['dt']),
-        'creative_id'      => $aConversion['cid'],
-        'zone_id'          => $aConversion['zid'],
+        'creative_id'      => (int)$aConversion['cid'],
+        'zone_id'          => (int)$aConversion['zid'],
         'ip_address'       => $_SERVER['REMOTE_ADDR'],
         'action'           => $aConversion['action_type'],
         'window'           => $aConversion['window'],

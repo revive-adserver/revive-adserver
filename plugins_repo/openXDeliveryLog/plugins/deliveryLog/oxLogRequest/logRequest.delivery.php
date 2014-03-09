@@ -21,8 +21,8 @@ function Plugin_deliveryLog_oxLogRequest_logRequest_Delivery_logRequest($adId = 
     $aData = $GLOBALS['_MAX']['deliveryData'];
     $aQuery = array(
         'interval_start' => $aData['interval_start'],
-        'creative_id'    => $aData['creative_id'],
-        'zone_id'        => $aData['zone_id']
+        'creative_id'    => (int)$aData['creative_id'],
+        'zone_id'        => (int)$aData['zone_id']
     );
     return OX_bucket_updateTable('data_bkt_r', $aQuery);
 }

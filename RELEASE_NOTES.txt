@@ -72,6 +72,8 @@ What's New in Revive Adserver 3.0.3
    advertiser index screen.
  * Fixed issue that allowed installing an already installed plugin, causing the
    plugin tables to be dropped without notice.
+ * Fixed logging of direct selection impressions/requests not properly working
+   on Postgres under some circumstances.
 
  Non-Backwards Compatible Changes
  --------------------------------
