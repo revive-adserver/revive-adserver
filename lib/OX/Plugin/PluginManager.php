@@ -305,6 +305,9 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
      */
     function installPackage($aFile)
     {
+        // Get installed plugins
+        $aList = $this->getPackagesList();
+
         //OA::logMem('enter installPackage');
         if (!$this->unpackPlugin($aFile))
         {
@@ -313,6 +316,12 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
         $this->_switchToPluginLog();
         try {
             $aPackage = &$this->aParse['package'];
+
+            if (isset($aList[$aPackage['name']])) {
+                $this->_logError('Package '.$aPackage['name'].' already installed. Perhaps you should try to upgrade it instead');
+                throw new Exception();
+            }
+
             $aPlugins = &$this->aParse['plugins'];
             $this->_runExtensionTasks('BeforePluginInstall');
             $this->_auditSetKeys( array('upgrade_name'=>'install_'.$aPackage['name'],
@@ -325,6 +334,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
                                                 'action'=>UPGRADE_ACTION_INSTALL_FAILED,
                                                 )
                                           );
+
             if (!$this->_installComponentGroups($aPlugins))
             {
                 $this->_logError('Failed to install plugins for package '.$aPackage['name']);

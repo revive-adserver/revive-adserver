@@ -70,6 +70,8 @@ What's New in Revive Adserver 3.0.3
    using a non-root based installation process.
  * Fixed bug causing the last advertiser being sometimes hidden in the
    advertiser index screen.
+ * Fixed issue that allowed installing an already installed plugin, causing the
+   plugin tables to be dropped without notice.
 
  Non-Backwards Compatible Changes
  --------------------------------
