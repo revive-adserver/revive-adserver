@@ -591,21 +591,34 @@ $GLOBALS['_MAX']['CLIENT_GEO'] = OX_Delivery_Common_hook('getGeoInfo', array(), 
 }
 function MAX_remotehostPrivateAddress($ip)
 {
-setupIncludePath();
-require_once 'Net/IPv4.php';
-
-$aPrivateNetworks = array(
-'10.0.0.0/8',
-'172.16.0.0/12',
-'192.168.0.0/16',
-'127.0.0.0/24'
+$ip = ip2long($ip);
+if (!$ip) return false;
+return (MAX_remotehostMatchSubnet($ip, '10.0.0.0', 8) ||
+MAX_remotehostMatchSubnet($ip, '172.16.0.0', 12) ||
+MAX_remotehostMatchSubnet($ip, '192.168.0.0', 16) ||
+MAX_remotehostMatchSubnet($ip, '127.0.0.0', 8)
 );
-foreach ($aPrivateNetworks as $privateNetwork) {
-if (Net_IPv4::ipInNetwork($ip, $privateNetwork)) {
-return true;
 }
+function MAX_remotehostMatchSubnet($ip, $net, $mask)
+{
+$net = ip2long($net);
+if (!is_integer($ip)) {
+$ip = ip2long($ip);
 }
+if (!$ip || !$net) {
 return false;
+}
+if (is_integer($mask)) {
+if ($mask > 32 || $mask <= 0)
+return false;
+elseif ($mask == 32)
+$mask = ~0;
+else
+$mask = ~((1 << (32 - $mask)) - 1);
+} elseif (!($mask = ip2long($mask))) {
+return false;
+}
+return ($ip & $mask) == ($net & $mask) ? true : false;
 }
 
 
@@ -3061,4 +3074,3 @@ $serverRawIp = (isset($_GET['server_raw_ip'])) ? $_GET['server_raw_ip'] : null;
 $aVariables = MAX_cacheGetTrackerVariables($trackerId);
 MAX_Delivery_log_logVariableValues($aVariables, $trackerId, $serverConvId, $serverRawIp);
 }
-?>
