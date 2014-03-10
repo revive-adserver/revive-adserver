@@ -74,6 +74,7 @@ What's New in Revive Adserver 3.0.3
    plugin tables to be dropped without notice.
  * Fixed logging of direct selection impressions/requests not properly working
    on Postgres under some circumstances.
+ * Fixed API XML-RPC output not properly dealing with NULL values.
 
  Non-Backwards Compatible Changes
  --------------------------------
