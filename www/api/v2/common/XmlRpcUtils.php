@@ -212,7 +212,7 @@ class XmlRpcUtils
      */
     function getEntityResponse(&$oInfoObject)
     {
-        return new XML_RPC_Response(XmlRpcUtils::getEntity($oInfoObject));
+        return new XML_RPC_Response(XmlRpcUtils::getEntityWithNotNullFields($oInfoObject));
     }
 
     /**
@@ -229,7 +229,7 @@ class XmlRpcUtils
         $cRecords = 0;
 
         foreach ($aInfoObjects as $oInfoObject) {
-            $xmlValue[$cRecords] = XmlRpcUtils::getEntity($oInfoObject);
+            $xmlValue[$cRecords] = XmlRpcUtils::getEntityWithNotNullFields($oInfoObject);
             $cRecords++;
         }
 
