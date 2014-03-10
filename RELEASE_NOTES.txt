@@ -38,6 +38,8 @@ What's New in Revive Adserver 3.0.3
    report a bug, in addition to how to get support).
  * Added support for hosting providers of Revive Adserver to configure a custom
    URL for the "Support" link in the application header.
+ * Removed usage of PEAR libraries to detect non-routable IP addresses during
+   delivery.
 
  Bug Fixes
  ---------
