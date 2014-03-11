@@ -85,8 +85,11 @@ What's New in Revive Adserver 3.0.3
    default when creating new advertisers. This does not affect any existing
    advertiser account settings for this feature; but please be aware that the
    default for all new advertiser accounts has been changed.
- * Removed unused Zend XML-RPC library. Make sure your 3rd party plugins bundle
-   their own if they need it.
+ * 3rd party plugins developers should be aware:
+    * The unused Zend XML-RPC library has been removed; please make sure your
+      3rd party plugins bundle their own copy if they need it.
+    * The OA_Sync class has been moved to the RV_Sync class; please make sure
+      your 3rd party plugins are updated accordingly.
 
 
 System Requirements
