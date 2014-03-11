@@ -17,7 +17,7 @@ Revive Adserver. Please read these notes before reporting any bugs.
 What's New in Revive Adserver 3.0.3
 -----------------------------------
 
- * Release date: TBA
+ * Release date: 13 March 2014
 
  Security Updates
  ----------------
@@ -191,8 +191,7 @@ this before reporting any new bugs.
    statistics. This can be worked around by ensuring that the timezone is
    correctly set in PHP.
 
- * See https://github.com/revive-adserver/revive-adserver/issues?state=open
-   for the latest bug reports.
+ * See http://www.revive-adserver.com/support/bugs/ for the latest bug reports.
 
 
 FAQ
