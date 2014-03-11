@@ -27,18 +27,20 @@ body.hasSidebar {
 #oaNavigationTabs {
 	left: auto;
 	right: 14px;
+	top: -29px;
+	
 }
 #oaNavigationTabs li {
 	float: right;
 }
 #oaNavigationTabs li a {
 	float: left;
-	font-size: 14px;
+	font-size: 10pt;
 }
 
 
 #oaNavigationExtra {
-	left: 0;
+	left: -3px;
 	right: auto;
 }
 #oaNavigationExtra li {

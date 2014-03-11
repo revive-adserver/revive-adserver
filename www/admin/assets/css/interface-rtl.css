@@ -3,7 +3,7 @@
 
 body, table, td, select, textarea, input  {
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 12px;
+    font-size: 10pt;
 }
 
 span.link {
@@ -460,3 +460,6 @@ a.time:before
 .section .row .link-buttons span {
     color: #999999;
 }
+
+
+.filter-panel label.filter {float:right; text-align:right}
