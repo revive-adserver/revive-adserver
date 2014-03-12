@@ -2,7 +2,7 @@
 
     <property name="rpm.basepath" value="opt/ox/adserver" />
     <property name="rpm.specfile" value="${basedir}/../../../openx/trunk/scripts/rpm/plugin.spec.dist" />
-	
+
     <target name="clean" description="Clean all the files generated during the build.">
         <delete dir="${basedir}/../build" />
         <delete file="${basedir}/temp.xml" />
@@ -29,13 +29,13 @@
 				<filtersfile file="${basedir}/${sourcepath}/plugins/etc/default.properties"/>
 			</filterset>
 		</copy>
-		
+
 		<delete verbose="true">
 			<fileset dir="${basedir}/${sourcepath}">
 				<include name="**/*.temp.xml"/>
 			</fileset>
 		</delete>
-		
+
 	</target>
 
 	<target name="process-no-override" if="nooverride">
@@ -49,9 +49,9 @@
 				<filtersfile file="${basedir}/${sourcepath}/plugins/etc/default.properties"/>
 			</filterset>
 		</copy>
-		
+
 	</target>
-	
+
 	<target name="process-settings">
 		<fail unless="name" message="[name] property is not given via -Dname=[folder] e.g. -Dname=openXTests"/>
 		<property name="sourcepath" value="${name}" />
@@ -71,33 +71,33 @@
 		<echo>processing of ${name} finished</echo>
 
 	</target>
-	
+
 	<target name="package-defaults" description="Same as package but using only default settings.">
 		<property name="nooverride" value="true"/>
 		<antcall target="package"/>
 	</target>
 
 	<target name="package" depends="process-settings" description="Process settings and create zip file.">
-	
+
 		<echo>packaging of ${name} started</echo>
-		
+
 		<delete file="${basedir}/${sourcepath}.zip"/>
 		<zip destfile="${basedir}/${sourcepath}.zip" basedir="${basedir}/${sourcepath}" level="9"
-			excludes="**/tests/**,**/packages/**,**/*.template.xml,**/override.properties,**/default.properties,**/${name}.zip,**/${name}.spec.dist"/>
-		
+			excludes="**/.git*,**/.git/**,**/tests/**,**/packages/**,**/*.template.xml,**/override.properties,**/default.properties,**/${name}.zip,**/${name}.spec.dist"/>
+
 		<echo>packaging of ${name} finished</echo>
-		
+
 	</target>
-	
+
 	<target name="rpm" depends="package" description="Package the plugin .zip file into an RPM (requires passing -Dbuild=[BUILD NUMBER].)">
     	<fail message="Unable to locate the plugin.spec.dist file">
     		<condition><not><available file="${rpm.specfile}"/></not></condition>
     	</fail>
-        
+
 	    <property name="rpm.buildroot" value="${basedir}/build"/>
         <property name="rpm.buildpath" value="${rpm.buildroot}/${rpm.basepath}"/>
         <mkdir dir="${rpm.buildpath}" />
-        
+
         <!-- Since you can't do regex replacement on a property value, copy the file, and change it on disk before reading it in -->
         <copy file="${basedir}/${sourcepath}/plugins/etc/${name}.xml" tofile="${basedir}/temp.xml" overwrite="true" />
         <!-- Move -rc to a dot for the rpm numbering scheme -->
@@ -105,23 +105,23 @@
         <replaceregexp file="${basedir}/temp.xml" match="version&gt;([0-9.]*).*&lt;" replace="version&gt;\1&lt;" byline="true"/>
     	<xmlproperty file="${basedir}/temp.xml" collapseAttributes="true" />
         <delete file="${basedir}/temp.xml" />
-    	
+
         <fail unless="plugin.version" message="Unable to parse out the &lt;version&gt; value from the plugin XML file (${sourcepath}/plugins/etc/${name}.xml)"/>
         <fail unless="build" message="You must specify a build number # when building an RPM package e.g. -Dbuild=1" />
-    	
+
         <!-- Copy plugin.spec.dist file, then potentially overwrite it with a plugin specific one... -->
         <copy file="${rpm.specfile}" tofile="${basedir}/${name}.spec" overwrite="true" />
         <copy file="${basedir}/${sourcepath}/${name}.spec.dist" tofile="${basedir}/${name}.spec" overwrite="true" failonerror="false" />
-        
+
     	<replace file="${basedir}/${name}.spec" token="{PLUGIN_NAME}" value="${name}" />
         <replace file="${basedir}/${name}.spec" token="{VERSION}" value="${plugin.version}" />
-        <replace file="${basedir}/${name}.spec" token="{BUILD}" value="${build}" />    
-        <replace file="${basedir}/${name}.spec" token="{DOCUMENT_ROOT}" value="/${rpm.basepath}" />    
-	    
+        <replace file="${basedir}/${name}.spec" token="{BUILD}" value="${build}" />
+        <replace file="${basedir}/${name}.spec" token="{DOCUMENT_ROOT}" value="/${rpm.basepath}" />
+
         <!-- Relocate the files into the desired output path -->
         <mkdir dir="${rpm.buildpath}/openx/etc/plugins" />
         <copy file="${basedir}/${sourcepath}.zip" toFile="${rpm.buildpath}/openx/etc/plugins/${name}-${plugin.version}.zip" />
-        
+
         <exec dir="${basedir}/" executable="rpmbuild" failonerror="true" >
           <arg value="-bb" />
           <arg value="--buildroot" />
@@ -130,9 +130,9 @@
         </exec>
 
         <!-- clean up -->
-        <delete file="${rpm.buildpath}/openx/etc/plugins/${name}-${plugin.version}.zip" />        
+        <delete file="${rpm.buildpath}/openx/etc/plugins/${name}-${plugin.version}.zip" />
     </target>
-	
+
 	<target name="help" description="Print help text.">
 		<echo>Usage: ant [release|bundle|rpm|package|package-defaults] -Dname=[FOLDER]</echo>
 		<echo>- release (copy file to release folder) When releasing a new plugin you will need to edit releases/release.xml</echo>
