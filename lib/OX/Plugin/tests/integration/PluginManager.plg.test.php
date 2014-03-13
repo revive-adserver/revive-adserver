@@ -187,7 +187,7 @@ class Test_OX_PluginManager extends UnitTestCase
 
         // try reinstalling
         $this->assertFalse($oPkgMgr->installPackage(array('tmp_name'=>$file, 'name'=>'testPluginPackage.zip')));
-        $this->assertEqual($oPkgMgr->aErrors[0], "Package testPluginPackage already installed. Perhaps you should try to upgrade it instead");
+        $this->assertEqual($oPkgMgr->aErrors[0], "Plugin with this name is already installed testPluginPackage");
 
         //uninstall
         $oPkgMgr->clearErrors();
