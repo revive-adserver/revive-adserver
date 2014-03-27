@@ -1196,7 +1196,7 @@ class OA_Email
     		$toParam = $userEmail;
     	}
     	// Build additional email headers
-    	$headersParam = "MIME-Versions: 1.0\r\n";
+    	$headersParam = "MIME-Version: 1.0\r\n";
     	if (isset($phpAds_CharSet)) {
     		$headersParam .= "Content-Type: text/plain; charset=" . $phpAds_CharSet . "\r\n";
     	}

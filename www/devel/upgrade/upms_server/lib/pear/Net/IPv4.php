@@ -96,7 +96,7 @@ class Net_IPv4
     var $network = "";
     var $broadcast = "";
     var $long = 0;
-    
+
     // }}}
     // {{{ validateIP()
 
@@ -120,7 +120,7 @@ class Net_IPv4
             return false;
         }
     }
-    
+
     // }}}
     // {{{ check_ip()
 
@@ -140,7 +140,7 @@ class Net_IPv4
 
     // }}}
     // {{{ validateNetmask()
-    
+
     /**
      * Validate the syntax of a four octet netmask
      *
@@ -162,7 +162,7 @@ class Net_IPv4
 
     // }}}
     // {{{ parseAddress()
-    
+
     /**
      * Parse a formatted IP address
      *
@@ -208,7 +208,7 @@ class Net_IPv4
             }
             $myself->ip = $parts[0];
 
-            // Check the style of netmask that was entered 
+            // Check the style of netmask that was entered
             /*
              *  a hexadecimal string was entered
              */
@@ -248,10 +248,10 @@ class Net_IPv4
             return PEAR::raiseError("invalid IP address");
         }
     }
-    
+
     // }}}
     // {{{ calculate()
-    
+
     /**
      * Calculates network information based on an IP address and netmask.
      *
@@ -260,7 +260,7 @@ class Net_IPv4
      * calculate() will perform calculations to determine the network and
      * broadcast address of the network.
      *
-     * @return mixed     true if no errors occured, otherwise PEAR_Error object
+     * @return mixed     true if no errors occurred, otherwise PEAR_Error object
      */
     function calculate()
     {
@@ -306,7 +306,7 @@ class Net_IPv4
 
     // }}}
     // {{{ getNetmask()
-    
+
 	function getNetmask($length)
 	{
 		if (! PEAR::isError($ipobj = Net_IPv4::parseAddress("0.0.0.0/" . $length))) {
@@ -316,7 +316,7 @@ class Net_IPv4
 		}
 		return false;
 	}
-    
+
     // }}}
     // {{{ getNetLength()
 
@@ -332,7 +332,7 @@ class Net_IPv4
 
     // }}}
     // {{{ getSubnet()
-    
+
 	function getSubnet($ip, $netmask)
 	{
 		if (! PEAR::isError($ipobj = Net_IPv4::parseAddress($ip . "/" . $netmask))) {
@@ -345,7 +345,7 @@ class Net_IPv4
 
     // }}}
     // {{{ inSameSubnet()
-    
+
 	function inSameSubnet($ip1, $ip2)
 	{
 		if (! is_object($ip1) || strcasecmp(get_class($ip1), 'net_ipv4') <> 0) {
@@ -366,7 +366,7 @@ class Net_IPv4
 		}
 		return false;
 	}
-    
+
     // }}}
     // {{{ atoh()
 
@@ -386,7 +386,7 @@ class Net_IPv4
 
     // }}}
     // {{{ htoa()
-    
+
     /**
      * Converts a hexadecimal string into a dot-quad formatted IP address
      * @param  string $addr IP-adress in hexadecimal format
@@ -401,10 +401,10 @@ class Net_IPv4
         }
         return false;
     }
-    
+
     // }}}
     // {{{ ip2double()
-    
+
     /**
      * Converts an IP address to a PHP double.  Better than ip2long because
      * a long in PHP is a signed integer.
@@ -415,7 +415,7 @@ class Net_IPv4
     {
         return (double)(sprintf("%u", ip2long($ip)));
     }
-    
+
     // }}}
     // {{{ ipInNetwork()
 
@@ -427,7 +427,7 @@ class Net_IPv4
      * network ($network) may be either a string containing a CIDR
      * formatted network definition, or a Net_IPv4 object.
      *
-     * @param  string  $ip      A dot quad representation of an IP address 
+     * @param  string  $ip      A dot quad representation of an IP address
      * @param  string  $network A string representing the network in CIDR format or a Net_IPv4 object.
      * @return bool             true if the IP address exists within the network
      */
@@ -436,7 +436,7 @@ class Net_IPv4
         if (! is_object($network) || strcasecmp(get_class($network), 'net_ipv4') <> 0) {
             $network = Net_IPv4::parseAddress($network);
         }
-        
+
         $net = Net_IPv4::ip2double($network->network);
         $bcast = Net_IPv4::ip2double($network->broadcast);
         $ip = Net_IPv4::ip2double($ip);
@@ -446,7 +446,7 @@ class Net_IPv4
         }
         return false;
     }
-    
+
     // }}}
 }
 

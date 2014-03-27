@@ -106,7 +106,7 @@ if ($zoneForm->validate()) {
     if(!empty($errors)) {
     }
 }
-//display the page - show any validation errors that may have occured
+//display the page - show any validation errors that may have occurred
 displayPage($zone, $zoneForm, $errors);
 
 
@@ -311,7 +311,7 @@ function processForm($form, $oComponent = null)
             // before we commit any changes to db, store whether the size has changed
             $aZone = Admin_DA::getZone($aFields['zoneid']);
             $size_changed = ($aFields['width'] != $aZone['width'] || $aFields['height'] != $aZone['height']) ? true : false;
-            $type_changed = ($aFields['delivery'] != $aZone['delivery']) ? true : false;
+            $type_changed = ($aFields['delivery'] != $aZone['type']) ? true : false;
 
             $doZones = OA_Dal::factoryDO('zones');
             $doZones->zonename = $aFields['zonename'];

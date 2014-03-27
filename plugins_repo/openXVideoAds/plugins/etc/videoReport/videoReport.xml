@@ -4,13 +4,13 @@
 <plugin>
     <name>videoReport</name>
     <displayName>IAB VAST Report Plugin</displayName>
-    <creationDate>2009-05-05</creationDate>
+    <creationDate>2014-01-21</creationDate>
     <author>Revive Adserver</author>
     <authorEmail>revive@revive-adserver.com</authorEmail>
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>GNU Gneral Public License v2</license>
-    <description>Plugin that provides reports for IAB VAST video ads.</description>
-    <version>1.9.0</version>
+    <description>Plugin that provides IAB VAST video ad support.</description>
+    <version>1.10.0</version>
     <oxversion>2.7.30-beta-rc11</oxversion>
 
     <install>
@@ -27,6 +27,8 @@
 
             <file path="{ADMINPATH}/">VastAreaGraph.php</file>
             <file path="{ADMINPATH}/">VastMultiAreaGraph.php</file>
+            <file path="{ADMINPATH}/">players-content.css</file>
+            <file path="{ADMINPATH}/">players-content.html</file>
             <file path="{ADMINPATH}/">players.php</file>
             <file path="{ADMINPATH}/">stats-api.php</file>
             <file path="{ADMINPATH}/">stats-export-csv.php</file>
@@ -49,13 +51,21 @@
             <file path="{ADMINPATH}/css/">report.css</file>
             <file path="{ADMINPATH}/css/">ui.datepicker.css</file>
             <file path="{ADMINPATH}/images/">arrow-blue-left.gif</file>
+            <file path="{ADMINPATH}/images/">box-left.png</file>
+            <file path="{ADMINPATH}/images/">box-middle.png</file>
+            <file path="{ADMINPATH}/images/">box-right.png</file>
             <file path="{ADMINPATH}/images/">button-arrow-left.gif</file>
             <file path="{ADMINPATH}/images/">button-arrow-right.gif</file>
             <file path="{ADMINPATH}/images/">corner_diagram.png</file>
+            <file path="{ADMINPATH}/images/">flowplayer.gif</file>
             <file path="{ADMINPATH}/images/">icon-calendar.gif</file>
             <file path="{ADMINPATH}/images/">icon-csv.gif</file>
             <file path="{ADMINPATH}/images/">icon-video-plugin-large.png</file>
+            <file path="{ADMINPATH}/images/">longtail.gif</file>
             <file path="{ADMINPATH}/images/">message-background.png</file>
+            <file path="{ADMINPATH}/images/">openvideoads.gif</file>
+            <file path="{ADMINPATH}/images/">panel-background.png</file>
+            <file path="{ADMINPATH}/images/">panel-corners.png</file>
             <file path="{ADMINPATH}/js/">ox.reports.js</file>
             <file path="{ADMINPATH}/js/">ui.core.js</file>
             <file path="{ADMINPATH}/js/">ui.datepicker-mod.js</file>

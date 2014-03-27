@@ -101,7 +101,7 @@ class OA_Creative_File extends OA_Creative
         return OA_Creative_File::staticGetContentTypeByExtension(
             $this->fileName, $alt);
     }
-    
+
     function staticGetContentTypeByExtension($fileName, $alt = false)
     {
         $contentType = '';
@@ -145,7 +145,7 @@ class OA_Creative_File extends OA_Creative
         } elseif (preg_match('/\.('.$validImageExtensions.')$/i', $fileName)) {
             $type = 'Image';
         } else {
-            return new PEAR_Error('The uploaded file does not have a valid extension. 
+            return new PEAR_Error('The uploaded file does not have a valid extension.
             The file must be an image file (JPG, PNG, GIF, etc.) or a SWF.');
         }
 
@@ -203,18 +203,18 @@ class OA_Creative_File extends OA_Creative
     function &factoryUploadedFile($variableName) {
         if (!empty($_FILES[$variableName]['error'])) {
             $aErrors = array(
-                UPLOAD_ERR_INI_SIZE   => "file size exceeds PHP max allowed size",
-                UPLOAD_ERR_FORM_SIZE  => "file size exceeds form max allowed size",
-                UPLOAD_ERR_PARTIAL    => "partial upload",
-                UPLOAD_ERR_NO_FILE    => "no file uploaded",
-                UPLOAD_ERR_NO_TMP_DIR => "temp directory not available"
+                UPLOAD_ERR_INI_SIZE   => "file size exceeds PHP max allowed size.",
+                UPLOAD_ERR_FORM_SIZE  => "file size exceeds form max allowed size.",
+                UPLOAD_ERR_PARTIAL    => "partial upload.",
+                UPLOAD_ERR_NO_FILE    => "no file uploaded.",
+                UPLOAD_ERR_NO_TMP_DIR => "temp directory not available."
             );
             if (isset($aErrors[$_FILES[$variableName]['error']])) {
                 $message = $aErrors[$_FILES[$variableName]['error']];
             } else {
                 $message = 'Error code: '.$_FILES[$variableName]['error'];
             }
-            return new PEAR_Error('An error occured dealing with the file upload: '.$message);
+            return new PEAR_Error('An error occurred dealing with the file upload: '.$message);
         }
         if (!isset($_FILES[$variableName]['tmp_name']) || !is_uploaded_file($_FILES[$variableName]['tmp_name'])) {
             return new PEAR_Error('Could not find the uploaded file: '.$variableName);

@@ -96,17 +96,6 @@ a:hover {
     z-index: 3;
 }
 
-.brandingDefault {
-    width: 170px;
-    height: 62px;
-    background: url(../images/logo-wtag.png) no-repeat;
-    margin: 3px 0px 0px 3px;
-    text-indent: -1000px;
-  /* Fix IE bug: transparent PNG support */
-  -background: none;
-  -filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='assets/images/logo-wtag.png');
-}
-
 .brandingName {
     height: 48px;
     padding: 0 0 0 22px;
@@ -129,6 +118,7 @@ a:hover {
     -background: none;
     -filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='assets/images/logo-s.png');
 }
+
 .brandingAdServer {
   width: 270px;
   height: 32px;
@@ -513,8 +503,7 @@ a:hover {
 }
 #oaNavigationExtraTop li.infoUser,
 #oaNavigationExtraTop li.buttonHelp,
-#oaNavigationExtraTop li.buttonContactUs,
-#oaNavigationExtraTop li.buttonReportBugs {
+#oaNavigationExtraTop li.buttonSupport {
     border-right: 1px solid #9c9c9c;
 }
 #oaNavigationExtraTop li.last {

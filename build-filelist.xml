@@ -25,6 +25,7 @@
     <include name="etc/permanentcache/**"/>
     <include name="lib/**"/>
     <exclude name="lib/simpletest/**"/>
+    <exclude name="lib/ant/**"/>
     <include name="maintenance/**"/>
     <include name="plugins/**"/>
     <include name="scripts/maintenance/**"/>
@@ -77,6 +78,7 @@
     <include name="etc/*.properties*"/>
     <include name="etc/test.conf.php"/>
     <include name="etc/changesfantasy/**"/>
+    <include name="lib/ant/**"/>
     <include name="lib/simpletest/**"/>
     <exclude name="plugins/**"/>
     <include name="scripts/db_dataobject/**"/>

@@ -185,6 +185,10 @@ class Test_OX_PluginManager extends UnitTestCase
         $this->assertEqual($id = $doTestPluginTable->insert(),1);
         $this->assertTrue($doTestPluginTable->delete());
 
+        // try reinstalling
+        $this->assertFalse($oPkgMgr->installPackage(array('tmp_name'=>$file, 'name'=>'testPluginPackage.zip')));
+        $this->assertEqual($oPkgMgr->aErrors[0], "Plugin with this name is already installed testPluginPackage");
+
         //uninstall
         $oPkgMgr->clearErrors();
         $this->assertTrue($oPkgMgr->uninstallPackage('testPluginPackage'));

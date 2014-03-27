@@ -306,7 +306,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
     function installPackage($aFile)
     {
         //OA::logMem('enter installPackage');
-        if (!$this->unpackPlugin($aFile))
+        if (!$this->unpackPlugin($aFile, false))
         {
             return false;
         }
@@ -325,6 +325,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
                                                 'action'=>UPGRADE_ACTION_INSTALL_FAILED,
                                                 )
                                           );
+
             if (!$this->_installComponentGroups($aPlugins))
             {
                 $this->_logError('Failed to install plugins for package '.$aPackage['name']);
@@ -997,10 +998,6 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
     {
         if (!$this->_parsePackage($name))
         {
-            if (!$this->disablePackage($name))
-            {
-                $this->_setPackage($name, 0);
-            }
             return false;
         }
         $aPackage = &$this->aParse['package'];
@@ -1486,43 +1483,6 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             }
         }
         return ($error ? false : $result);
-    }
-
-    function checkForUpdates($aParams)
-    {
-        require_once ('XML/RPC.php' );
-        $message = new XML_RPC_Message('OXPS.checkForUpdate', array(
-            XML_RPC_encode($aParams)
-        ));
-        $aConf  = $GLOBALS['_MAX']['CONF']['pluginUpdatesServer'];
-        $client = new XML_RPC_Client($aConf['path'].'/xmlrpc.php',$aConf['host'], $aConf['httpPort']);
-        $client->debug  = 0;
-        // Send the XML-RPC message to the server
-        $response = $client->send($message, 60, 'http');
-
-        // Assign the response code strings
-        if ($response && $response->faultCode() == 0)
-        {
-            $response = XML_RPC_decode($response->value());
-
-            switch ($response['status'])
-            {
-                case 0:
-                    if (substr($response['downloadurl'],0,7) == '{local}')
-                    {
-                        $response['downloadurl'] = str_replace('{local}',$aConf['host'],$response['downloadurl']);
-                    }
-                    $aResult[] = '<a href="http://'.$response['downloadurl'].'" target="_blank">Download Now</a>';
-
-                    break;
-            }
-            return $response;
-        }
-        else
-        {
-            $this->_logError($response->fs);
-            return false;
-        }
     }
 
     function _switchToPluginLog() {

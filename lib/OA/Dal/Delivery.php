@@ -294,7 +294,7 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
 //    if (empty($aZoneInfo['default_banner_image_url']) && !empty($aConf['defaultBanner']['imageUrl'])) {
 //        $aZoneInfo['default_banner_image_url'] = $aConf['defaultBanner']['imageUrl'];
 //    }
-    
+
     // Done, at last!
     return $aZoneInfo;
 }
@@ -538,9 +538,9 @@ function OA_Dal_Delivery_getZoneLinkedAdInfos($zoneid) {
         ."d.bannerid AS ad_id, "              //MAX_limitationsIsZoneForbidden
         ."d.campaignid AS placement_id, "     //MAX_limitationsIsZoneForbidden
         ."d.status AS status, "               //self
-        ."d.width AS width, "                 
-        ."d.ext_bannertype AS ext_bannertype, "                 
-        ."d.height AS height, "               
+        ."d.width AS width, "
+        ."d.ext_bannertype AS ext_bannertype, "
+        ."d.height AS height, "
         ."d.storagetype AS type, "            //_adSelectCheckCriteria
         ."d.contenttype AS contenttype, "     //_adSelectCheckCriteria
         ."d.weight AS weight, "               //_setPriorityFromWeights
@@ -1175,68 +1175,63 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
             if($part_array[$k] != '' && $part_array[$k] != ' ')
             {
                 // Banner dimensions, updated to support 2.3-only size keyword
-                if(preg_match('#^(?:size:)?([0-9]+x[0-9]+)$#', $part_array[$k], $m))
+                if(preg_match('#^(?:size:)?(\d+)x(\d+)$#', $part_array[$k], $m))
                 {
-                    list($width, $height) = explode('x', $m[1]);
+                    $width  = (int)$m[1];
+                    $height = (int)$m[2];
 
-                    if ($operator == 'OR')
-                        $conditions .= "OR (d.width = $width AND d.height = $height) ";
-                    elseif ($operator == 'AND')
-                        $conditions .= "AND (d.width = $width AND d.height = $height) ";
-                    else
-                        $conditions .= "AND (d.width != $width OR d.height != $height) ";
+                    if ($operator == 'OR') {
+                        $conditions .= "OR (d.width = {$width} AND d.height = {$height}) ";
+                    } elseif ($operator == 'AND') {
+                        $conditions .= "AND (d.width = {$width} AND d.height = {$height}) ";
+                    } else {
+                        $conditions .= "AND (d.width <> {$width} OR d.height <> {$height}) ";
+                    }
 
                     $onlykeywords = false;
                 }
 
                 // Banner Width
-                elseif (substr($part_array[$k],0,6) == 'width:')
+                elseif (preg_match('#^width:(\d*)(-?)(\d*)$#', $part_array[$k], $m))
                 {
-                    $part_array[$k] = substr($part_array[$k], 6);
+                    $min   = (int)$m[1];
+                    $range = !empty($m[2]);
+                    $max   = (int)$m[3];
 
-                    if ($part_array[$k] != '' && $part_array[$k] != ' ')
-                    {
-                        if (is_int(strpos($part_array[$k], '-')))
-                        {
-                            // Width range
-                            list($min, $max) = explode('-', $part_array[$k]);
-
-                            // Only upper limit, set lower limit to make sure not text ads are delivered
-                            if ($min == '')
-                                $min = 1;
-
-                            // Only lower limit
-                            if ($max == '')
-                            {
-                                if ($operator == 'OR')
-                                    $conditions .= "OR d.width >= '".trim($min)."' ";
-                                elseif ($operator == 'AND')
-                                    $conditions .= "AND d.width >= '".trim($min)."' ";
-                                else
-                                    $conditions .= "AND d.width < '".trim($min)."' ";
-                            }
-
-                            // Both lower and upper limit
-                            if ($max != '')
-                            {
-                                if ($operator == 'OR')
-                                    $conditions .= "OR (d.width >= '".trim($min)."' AND d.width <= '".trim($max)."') ";
-                                elseif ($operator == 'AND')
-                                    $conditions .= "AND (d.width >= '".trim($min)."' AND d.width <= '".trim($max)."') ";
-                                else
-                                    $conditions .= "AND (d.width < '".trim($min)."' OR d.width > '".trim($max)."') ";
-                            }
+                    if (!$range && $min) {
+                        // Single value
+                        if ($operator == 'OR') {
+                            $conditions .= "OR d.width = {$min} ";
+                        } elseif ($operator == 'AND') {
+                            $conditions .= "AND d.width = {$min} ";
+                        } else {
+                            $conditions .= "AND d.width <> {$min} ";
                         }
-                        else
-                        {
-                            // Single value
+                    } else {
+                        if (!$min) {
+                            // Only upper limit, set lower limit to make sure not text ads are delivered
+                            $min = 1;
+                        }
 
-                            if ($operator == 'OR')
-                                $conditions .= "OR d.width = '".trim($part_array[$k])."' ";
-                            elseif ($operator == 'AND')
-                                $conditions .= "AND d.width = '".trim($part_array[$k])."' ";
-                            else
-                                $conditions .= "AND d.width != '".trim($part_array[$k])."' ";
+                        if (!$max)
+                        {
+                            // Only lower limit
+                            if ($operator == 'OR') {
+                                $conditions .= "OR d.width >= {$min} ";
+                            } elseif ($operator == 'AND') {
+                                $conditions .= "AND d.width >= {$min} ";
+                            } else {
+                                $conditions .= "AND d.width < {$min} ";
+                            }
+                        } else {
+                            // Both lower and upper limit
+                            if ($operator == 'OR') {
+                                $conditions .= "OR (d.width >= {$min} AND d.width <= {$max}) ";
+                            } elseif ($operator == 'AND') {
+                                $conditions .= "AND (d.width >= {$min} AND d.width <= {$max}) ";
+                            } else {
+                                $conditions .= "AND (d.width < {$min} OR d.width > {$max}) ";
+                            }
                         }
                     }
 
@@ -1244,52 +1239,46 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
                 }
 
                 // Banner Height
-                elseif (substr($part_array[$k],0,7) == 'height:')
+                elseif (preg_match('#^height:(\d*)(-?)(\d*)$#', $part_array[$k], $m))
                 {
-                    $part_array[$k] = substr($part_array[$k], 7);
-                    if ($part_array[$k] != '' && $part_array[$k] != ' ')
-                    {
-                        if (is_int(strpos($part_array[$k], '-')))
-                        {
-                            // Height range
-                            list($min, $max) = explode('-', $part_array[$k]);
+                    $min   = (int)$m[1];
+                    $range = !empty($m[2]);
+                    $max   = (int)$m[3];
 
-                            // Only upper limit, set lower limit to make sure not text ads are delivered
-                            if ($min == '')
-                                $min = 1;
-
-                            // Only lower limit
-                            if ($max == '')
-                            {
-                                if ($operator == 'OR')
-                                    $conditions .= "OR d.height >= '".trim($min)."' ";
-                                elseif ($operator == 'AND')
-                                    $conditions .= "AND d.height >= '".trim($min)."' ";
-                                else
-                                    $conditions .= "AND d.height < '".trim($min)."' ";
-                            }
-
-                            // Both lower and upper limit
-                            if ($max != '')
-                            {
-                                if ($operator == 'OR')
-                                    $conditions .= "OR (d.height >= '".trim($min)."' AND d.height <= '".trim($max)."') ";
-                                elseif ($operator == 'AND')
-                                    $conditions .= "AND (d.height >= '".trim($min)."' AND d.height <= '".trim($max)."') ";
-                                else
-                                    $conditions .= "AND (d.height < '".trim($min)."' OR d.height > '".trim($max)."') ";
-                            }
+                    if (!$range && $min) {
+                        // Single value
+                        if ($operator == 'OR') {
+                            $conditions .= "OR d.height = {$min} ";
+                        } elseif ($operator == 'AND') {
+                            $conditions .= "AND d.height = {$min} ";
+                        } else {
+                            $conditions .= "AND d.height <> {$min} ";
                         }
-                        else
-                        {
-                            // Single value
+                    } else {
+                        if (!$min) {
+                            // Only upper limit, set lower limit to make sure not text ads are delivered
+                            $min = 1;
+                        }
 
-                            if ($operator == 'OR')
-                                $conditions .= "OR d.height = '".trim($part_array[$k])."' ";
-                            elseif ($operator == 'AND')
-                                $conditions .= "AND d.height = '".trim($part_array[$k])."' ";
-                            else
-                                $conditions .= "AND d.height != '".trim($part_array[$k])."' ";
+                        if (!$max)
+                        {
+                            // Only lower limit
+                            if ($operator == 'OR') {
+                                $conditions .= "OR d.height >= {$min} ";
+                            } elseif ($operator == 'AND') {
+                                $conditions .= "AND d.height >= {$min} ";
+                            } else {
+                                $conditions .= "AND d.height < {$min} ";
+                            }
+                        } else {
+                            // Both lower and upper limit
+                            if ($operator == 'OR') {
+                                $conditions .= "OR (d.height >= {$min} AND d.height <= {$max}) ";
+                            } elseif ($operator == 'AND') {
+                                $conditions .= "AND (d.height >= {$min} AND d.height <= {$max}) ";
+                            } else {
+                                $conditions .= "AND (d.height < {$min} OR d.height > {$max}) ";
+                            }
                         }
                     }
 
@@ -1297,36 +1286,38 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
                 }
 
                 // Banner ID, updated to support 2.3-only adid or ad_id
-                elseif (preg_match('#^(?:(?:bannerid|adid|ad_id):)?([0-9]+)$#', $part_array[$k], $m))
+                elseif (preg_match('#^(?:(?:bannerid|adid|ad_id):)?(\d+)$#', $part_array[$k], $m))
                 {
-                    $part_array[$k] = $m[1];
+                    $bannerid = (int)$m[1];
 
-                    if ($part_array[$k])
+                    if ($bannerid)
                     {
-                        if ($operator == 'OR')
-                            $conditions .= "OR d.bannerid='".$part_array[$k]."' ";
-                        elseif ($operator == 'AND')
-                            $conditions .= "AND d.bannerid='".$part_array[$k]."' ";
-                        else
-                            $conditions .= "AND d.bannerid!='".$part_array[$k]."' ";
+                        if ($operator == 'OR') {
+                            $conditions .= "OR d.bannerid = {$bannerid} ";
+                        } elseif ($operator == 'AND') {
+                            $conditions .= "AND d.bannerid = {$bannerid} ";
+                        } else {
+                            $conditions .= "AND d.bannerid <> {$bannerid} ";
+                        }
                     }
 
                     $onlykeywords = false;
                 }
 
                 // Campaign ID
-                elseif (preg_match('#^(?:(?:clientid|campaignid|placementid|placement_id):)?([0-9]+)$#', $part_array[$k], $m))
+                elseif (preg_match('#^(?:(?:clientid|campaignid|placementid|placement_id):)?(\d+)$#', $part_array[$k], $m))
                 {
-                    $part_array[$k] = $m[1];
+                    $campaignid = (int)$m[1];
 
-                    if ($part_array[$k])
+                    if ($campaignid)
                     {
-                        if ($operator == 'OR')
-                            $conditions .= "OR d.campaignid='".trim($part_array[$k])."' ";
-                        elseif ($operator == 'AND')
-                            $conditions .= "AND d.campaignid='".trim($part_array[$k])."' ";
-                        else
-                            $conditions .= "AND d.campaignid!='".trim($part_array[$k])."' ";
+                        if ($operator == 'OR') {
+                            $conditions .= "OR d.campaignid = {$campaignid} ";
+                        } elseif ($operator == 'AND') {
+                            $conditions .= "AND d.campaignid = {$campaignid} ";
+                        } else {
+                            $conditions .= "AND d.campaignid <> {$campaignid} ";
+                        }
                     }
 
                     $onlykeywords = false;
@@ -1335,42 +1326,46 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
                 // Format
                 elseif (substr($part_array[$k], 0, 7) == 'format:')
                 {
-                    $part_array[$k] = substr($part_array[$k], 7);
-                    if($part_array[$k] != '' && $part_array[$k] != ' ')
+                    $format = OX_escapeString(trim(stripslashes(substr($part_array[$k], 7))));
+
+                    if (!empty($format))
                     {
-                        if ($operator == 'OR')
-                            $conditions .= "OR d.contenttype='".trim($part_array[$k])."' ";
-                        elseif ($operator == 'AND')
-                            $conditions .= "AND d.contenttype='".trim($part_array[$k])."' ";
-                        else
-                            $conditions .= "AND d.contenttype!='".trim($part_array[$k])."' ";
+                        if ($operator == 'OR') {
+                            $conditions .= "OR d.contenttype = '{$format}' ";
+                        } elseif ($operator == 'AND') {
+                            $conditions .= "AND d.contenttype = '{$format}' ";
+                        } else {
+                            $conditions .= "AND d.contenttype <> '{$format}' ";
+                        }
                     }
 
                     $onlykeywords = false;
                 }
 
                 // HTML
-                elseif($part_array[$k] == 'html')
+                elseif ($part_array[$k] == 'html')
                 {
-                    if ($operator == 'OR')
-                        $conditions .= "OR d.storagetype='html' ";
-                    elseif ($operator == 'AND')
-                        $conditions .= "AND d.storagetype='html' ";
-                    else
-                        $conditions .= "AND d.storagetype!='html' ";
+                    if ($operator == 'OR') {
+                        $conditions .= "OR d.storagetype = 'html' ";
+                    } elseif ($operator == 'AND') {
+                        $conditions .= "AND d.storagetype = 'html' ";
+                    } else {
+                        $conditions .= "AND d.storagetype <> 'html' ";
+                    }
 
                     $onlykeywords = false;
                 }
 
                 // TextAd
-                elseif($part_array[$k] == 'textad')
+                elseif ($part_array[$k] == 'textad')
                 {
-                    if ($operator == 'OR')
-                        $conditions .= "OR d.storagetype='txt' ";
-                    elseif ($operator == 'AND')
-                        $conditions .= "AND d.storagetype='txt' ";
-                    else
-                        $conditions .= "AND d.storagetype!='txt' ";
+                    if ($operator == 'OR') {
+                        $conditions .= "OR d.storagetype = 'txt' ";
+                    } elseif ($operator == 'AND') {
+                        $conditions .= "AND d.storagetype = 'txt' ";
+                    } else {
+                        $conditions .= "AND d.storagetype <> 'txt' ";
+                    }
 
                     $onlykeywords = false;
                 }
@@ -1501,68 +1496,63 @@ function OA_Dal_Delivery_buildAdInfoQuery($part, $lastpart, $precondition)
             if($part_array[$k] != '' && $part_array[$k] != ' ')
             {
                 // Banner dimensions, updated to support 2.3-only size keyword
-                if(preg_match('#^(?:size:)?([0-9]+x[0-9]+)$#', $part_array[$k], $m))
+                if(preg_match('#^(?:size:)?(\d+)x(\d+)$#', $part_array[$k], $m))
                 {
-                    list($width, $height) = explode('x', $m[1]);
+                    $width  = (int)$m[1];
+                    $height = (int)$m[2];
 
-                    if ($operator == 'OR')
-                        $conditions .= "OR (d.width = $width AND d.height = $height) ";
-                    elseif ($operator == 'AND')
-                        $conditions .= "AND (d.width = $width AND d.height = $height) ";
-                    else
-                        $conditions .= "AND (d.width != $width OR d.height != $height) ";
+                    if ($operator == 'OR') {
+                        $conditions .= "OR (d.width = {$width} AND d.height = {$height}) ";
+                    } elseif ($operator == 'AND') {
+                        $conditions .= "AND (d.width = {$width} AND d.height = {$height}) ";
+                    } else {
+                        $conditions .= "AND (d.width <> {$width} OR d.height <> {$height}) ";
+                    }
 
                     $onlykeywords = false;
                 }
 
                 // Banner Width
-                elseif (substr($part_array[$k],0,6) == 'width:')
+                elseif (preg_match('#^width:(\d*)(-?)(\d*)$#', $part_array[$k], $m))
                 {
-                    $part_array[$k] = substr($part_array[$k], 6);
+                    $min   = (int)$m[1];
+                    $range = !empty($m[2]);
+                    $max   = (int)$m[3];
 
-                    if ($part_array[$k] != '' && $part_array[$k] != ' ')
-                    {
-                        if (is_int(strpos($part_array[$k], '-')))
-                        {
-                            // Width range
-                            list($min, $max) = explode('-', $part_array[$k]);
-
-                            // Only upper limit, set lower limit to make sure not text ads are delivered
-                            if ($min == '')
-                                $min = 1;
-
-                            // Only lower limit
-                            if ($max == '')
-                            {
-                                if ($operator == 'OR')
-                                    $conditions .= "OR d.width >= '".trim($min)."' ";
-                                elseif ($operator == 'AND')
-                                    $conditions .= "AND d.width >= '".trim($min)."' ";
-                                else
-                                    $conditions .= "AND d.width < '".trim($min)."' ";
-                            }
-
-                            // Both lower and upper limit
-                            if ($max != '')
-                            {
-                                if ($operator == 'OR')
-                                    $conditions .= "OR (d.width >= '".trim($min)."' AND d.width <= '".trim($max)."') ";
-                                elseif ($operator == 'AND')
-                                    $conditions .= "AND (d.width >= '".trim($min)."' AND d.width <= '".trim($max)."') ";
-                                else
-                                    $conditions .= "AND (d.width < '".trim($min)."' OR d.width > '".trim($max)."') ";
-                            }
+                    if (!$range && $min) {
+                        // Single value
+                        if ($operator == 'OR') {
+                            $conditions .= "OR d.width = {$min} ";
+                        } elseif ($operator == 'AND') {
+                            $conditions .= "AND d.width = {$min} ";
+                        } else {
+                            $conditions .= "AND d.width <> {$min} ";
                         }
-                        else
-                        {
-                            // Single value
+                    } else {
+                        if (!$min) {
+                            // Only upper limit, set lower limit to make sure not text ads are delivered
+                            $min = 1;
+                        }
 
-                            if ($operator == 'OR')
-                                $conditions .= "OR d.width = '".trim($part_array[$k])."' ";
-                            elseif ($operator == 'AND')
-                                $conditions .= "AND d.width = '".trim($part_array[$k])."' ";
-                            else
-                                $conditions .= "AND d.width != '".trim($part_array[$k])."' ";
+                        if (!$max)
+                        {
+                            // Only lower limit
+                            if ($operator == 'OR') {
+                                $conditions .= "OR d.width >= {$min} ";
+                            } elseif ($operator == 'AND') {
+                                $conditions .= "AND d.width >= {$min} ";
+                            } else {
+                                $conditions .= "AND d.width < {$min} ";
+                            }
+                        } else {
+                            // Both lower and upper limit
+                            if ($operator == 'OR') {
+                                $conditions .= "OR (d.width >= {$min} AND d.width <= {$max}) ";
+                            } elseif ($operator == 'AND') {
+                                $conditions .= "AND (d.width >= {$min} AND d.width <= {$max}) ";
+                            } else {
+                                $conditions .= "AND (d.width < {$min} OR d.width > {$max}) ";
+                            }
                         }
                     }
 
@@ -1570,52 +1560,46 @@ function OA_Dal_Delivery_buildAdInfoQuery($part, $lastpart, $precondition)
                 }
 
                 // Banner Height
-                elseif (substr($part_array[$k],0,7) == 'height:')
+                elseif (preg_match('#^height:(\d*)(-?)(\d*)$#', $part_array[$k], $m))
                 {
-                    $part_array[$k] = substr($part_array[$k], 7);
-                    if ($part_array[$k] != '' && $part_array[$k] != ' ')
-                    {
-                        if (is_int(strpos($part_array[$k], '-')))
-                        {
-                            // Height range
-                            list($min, $max) = explode('-', $part_array[$k]);
+                    $min   = (int)$m[1];
+                    $range = !empty($m[2]);
+                    $max   = (int)$m[3];
 
-                            // Only upper limit, set lower limit to make sure not text ads are delivered
-                            if ($min == '')
-                                $min = 1;
-
-                            // Only lower limit
-                            if ($max == '')
-                            {
-                                if ($operator == 'OR')
-                                    $conditions .= "OR d.height >= '".trim($min)."' ";
-                                elseif ($operator == 'AND')
-                                    $conditions .= "AND d.height >= '".trim($min)."' ";
-                                else
-                                    $conditions .= "AND d.height < '".trim($min)."' ";
-                            }
-
-                            // Both lower and upper limit
-                            if ($max != '')
-                            {
-                                if ($operator == 'OR')
-                                    $conditions .= "OR (d.height >= '".trim($min)."' AND d.height <= '".trim($max)."') ";
-                                elseif ($operator == 'AND')
-                                    $conditions .= "AND (d.height >= '".trim($min)."' AND d.height <= '".trim($max)."') ";
-                                else
-                                    $conditions .= "AND (d.height < '".trim($min)."' OR d.height > '".trim($max)."') ";
-                            }
+                    if (!$range && $min) {
+                        // Single value
+                        if ($operator == 'OR') {
+                            $conditions .= "OR d.height = {$min} ";
+                        } elseif ($operator == 'AND') {
+                            $conditions .= "AND d.height = {$min} ";
+                        } else {
+                            $conditions .= "AND d.height <> {$min} ";
                         }
-                        else
-                        {
-                            // Single value
+                    } else {
+                        if (!$min) {
+                            // Only upper limit, set lower limit to make sure not text ads are delivered
+                            $min = 1;
+                        }
 
-                            if ($operator == 'OR')
-                                $conditions .= "OR d.height = '".trim($part_array[$k])."' ";
-                            elseif ($operator == 'AND')
-                                $conditions .= "AND d.height = '".trim($part_array[$k])."' ";
-                            else
-                                $conditions .= "AND d.height != '".trim($part_array[$k])."' ";
+                        if (!$max)
+                        {
+                            // Only lower limit
+                            if ($operator == 'OR') {
+                                $conditions .= "OR d.height >= {$min} ";
+                            } elseif ($operator == 'AND') {
+                                $conditions .= "AND d.height >= {$min} ";
+                            } else {
+                                $conditions .= "AND d.height < {$min} ";
+                            }
+                        } else {
+                            // Both lower and upper limit
+                            if ($operator == 'OR') {
+                                $conditions .= "OR (d.height >= {$min} AND d.height <= {$max}) ";
+                            } elseif ($operator == 'AND') {
+                                $conditions .= "AND (d.height >= {$min} AND d.height <= {$max}) ";
+                            } else {
+                                $conditions .= "AND (d.height < {$min} OR d.height > {$max}) ";
+                            }
                         }
                     }
 
@@ -1623,36 +1607,38 @@ function OA_Dal_Delivery_buildAdInfoQuery($part, $lastpart, $precondition)
                 }
 
                 // Banner ID, updated to support 2.3-only adid or ad_id
-                elseif (preg_match('#^(?:(?:bannerid|adid|ad_id):)?([0-9]+)$#', $part_array[$k], $m))
+                elseif (preg_match('#^(?:(?:bannerid|adid|ad_id):)?(\d+)$#', $part_array[$k], $m))
                 {
-                    $part_array[$k] = $m[1];
+                    $bannerid = (int)$m[1];
 
-                    if ($part_array[$k])
+                    if ($bannerid)
                     {
-                        if ($operator == 'OR')
-                            $conditions .= "OR d.bannerid='".$part_array[$k]."' ";
-                        elseif ($operator == 'AND')
-                            $conditions .= "AND d.bannerid='".$part_array[$k]."' ";
-                        else
-                            $conditions .= "AND d.bannerid!='".$part_array[$k]."' ";
+                        if ($operator == 'OR') {
+                            $conditions .= "OR d.bannerid = {$bannerid} ";
+                        } elseif ($operator == 'AND') {
+                            $conditions .= "AND d.bannerid = {$bannerid} ";
+                        } else {
+                            $conditions .= "AND d.bannerid <> {$bannerid} ";
+                        }
                     }
 
                     $onlykeywords = false;
                 }
 
                 // Campaign ID
-                elseif (preg_match('#^(?:(?:clientid|campaignid|placementid|placement_id):)?([0-9]+)$#', $part_array[$k], $m))
+                elseif (preg_match('#^(?:(?:clientid|campaignid|placementid|placement_id):)?(\d+)$#', $part_array[$k], $m))
                 {
-                    $part_array[$k] = $m[1];
+                    $campaignid = (int)$m[1];
 
-                    if ($part_array[$k])
+                    if ($campaignid)
                     {
-                        if ($operator == 'OR')
-                            $conditions .= "OR d.campaignid='".trim($part_array[$k])."' ";
-                        elseif ($operator == 'AND')
-                            $conditions .= "AND d.campaignid='".trim($part_array[$k])."' ";
-                        else
-                            $conditions .= "AND d.campaignid!='".trim($part_array[$k])."' ";
+                        if ($operator == 'OR') {
+                            $conditions .= "OR d.campaignid = {$campaignid} ";
+                        } elseif ($operator == 'AND') {
+                            $conditions .= "AND d.campaignid = {$campaignid} ";
+                        } else {
+                            $conditions .= "AND d.campaignid <> {$campaignid} ";
+                        }
                     }
 
                     $onlykeywords = false;
@@ -1661,42 +1647,46 @@ function OA_Dal_Delivery_buildAdInfoQuery($part, $lastpart, $precondition)
                 // Format
                 elseif (substr($part_array[$k], 0, 7) == 'format:')
                 {
-                    $part_array[$k] = substr($part_array[$k], 7);
-                    if($part_array[$k] != '' && $part_array[$k] != ' ')
+                    $format = OX_escapeString(trim(stripslashes(substr($part_array[$k], 7))));
+
+                    if (!empty($format))
                     {
-                        if ($operator == 'OR')
-                            $conditions .= "OR d.contenttype='".trim($part_array[$k])."' ";
-                        elseif ($operator == 'AND')
-                            $conditions .= "AND d.contenttype='".trim($part_array[$k])."' ";
-                        else
-                            $conditions .= "AND d.contenttype!='".trim($part_array[$k])."' ";
+                        if ($operator == 'OR') {
+                            $conditions .= "OR d.contenttype = '{$format}' ";
+                        } elseif ($operator == 'AND') {
+                            $conditions .= "AND d.contenttype = '{$format}' ";
+                        } else {
+                            $conditions .= "AND d.contenttype <> '{$format}' ";
+                        }
                     }
 
                     $onlykeywords = false;
                 }
 
                 // HTML
-                elseif($part_array[$k] == 'html')
+                elseif ($part_array[$k] == 'html')
                 {
-                    if ($operator == 'OR')
-                        $conditions .= "OR d.storagetype='html' ";
-                    elseif ($operator == 'AND')
-                        $conditions .= "AND d.storagetype='html' ";
-                    else
-                        $conditions .= "AND d.storagetype!='html' ";
+                    if ($operator == 'OR') {
+                        $conditions .= "OR d.storagetype = 'html' ";
+                    } elseif ($operator == 'AND') {
+                        $conditions .= "AND d.storagetype = 'html' ";
+                    } else {
+                        $conditions .= "AND d.storagetype <> 'html' ";
+                    }
 
                     $onlykeywords = false;
                 }
 
                 // TextAd
-                elseif($part_array[$k] == 'textad')
+                elseif ($part_array[$k] == 'textad')
                 {
-                    if ($operator == 'OR')
-                        $conditions .= "OR d.storagetype='txt' ";
-                    elseif ($operator == 'AND')
-                        $conditions .= "AND d.storagetype='txt' ";
-                    else
-                        $conditions .= "AND d.storagetype!='txt' ";
+                    if ($operator == 'OR') {
+                        $conditions .= "OR d.storagetype = 'txt' ";
+                    } elseif ($operator == 'AND') {
+                        $conditions .= "AND d.storagetype = 'txt' ";
+                    } else {
+                        $conditions .= "AND d.storagetype <> 'txt' ";
+                    }
 
                     $onlykeywords = false;
                 }

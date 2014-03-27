@@ -44,11 +44,12 @@ define( 'VAST_VIDEO_URL_PROGRESSIVE_FORMAT', 'progressive' );
 
 define('VAST_OVERLAY_DEFAULT_WIDTH', 600);
 define('VAST_OVERLAY_DEFAULT_HEIGHT', 40);
-        
+
 function getVastVideoTypes()
 {
    static $videoEncodingTypes = array( 'video/x-mp4' =>  'MP4',
                                        'video/x-flv' => 'FLV',
+                                       'video/webm' => 'WEBM',
                                        // not supported by flowplayer -  'video/x-ms-wmv' => 'WMV',
                                        // not supported by flowplayer -  'video/x-ra' => 'video/x-ra',
    );
@@ -56,79 +57,79 @@ function getVastVideoTypes()
 }
 
 
-function encodeUserSuppliedData($text) 
+function encodeUserSuppliedData($text)
 {
-   return htmlspecialchars($text, ENT_QUOTES); 
+   return htmlspecialchars($text, ENT_QUOTES);
 }
 
-function xmlspecialchars($text) 
+function xmlspecialchars($text)
 {
-   return htmlspecialchars($text, ENT_QUOTES); 
+   return htmlspecialchars($text, ENT_QUOTES);
 }
 
 function combineVideoUrl( &$aAdminFields )
-{    
+{
     // If either of these fields are set we know that its a form submit (as these fields do not exist in db)
     if ( $aAdminFields['vast_net_connection_url'] || $aAdminFields['vast_video_filename'] ){
-        
+
         // In the case of streaming - there are 2 seperate fields stored in the db field vast_video_outgoing_filename
         if ( $aAdminFields['vast_video_delivery'] == 'streaming'  ) {
             $aSeek = array( VAST_RTMP_FLV_DELIMITER, VAST_RTMP_MP4_DELIMITER );
             str_replace( $aSeek, '', $aAdminFields['vast_net_connection_url'] );
             str_replace( $aSeek, '', $aAdminFields['vast_video_filename'] );
-            
+
             if ( $aAdminFields['vast_video_type'] == 'video/x-flv' ){
-                $aAdminFields['vast_video_outgoing_filename'] = $aAdminFields['vast_net_connection_url']  . VAST_RTMP_FLV_DELIMITER  . $aAdminFields['vast_video_filename']; 
+                $aAdminFields['vast_video_outgoing_filename'] = $aAdminFields['vast_net_connection_url']  . VAST_RTMP_FLV_DELIMITER  . $aAdminFields['vast_video_filename'];
             }
-            elseif ( $aAdminFields['vast_video_type'] == 'video/x-mp4' ){
-                $aAdminFields['vast_video_outgoing_filename'] = $aAdminFields['vast_net_connection_url'] . VAST_RTMP_MP4_DELIMITER  . $aAdminFields['vast_video_filename']; 
-            } 
-        } 
+            elseif ( $aAdminFields['vast_video_type'] == 'video/x-mp4'){
+                $aAdminFields['vast_video_outgoing_filename'] = $aAdminFields['vast_net_connection_url'] . VAST_RTMP_MP4_DELIMITER  . $aAdminFields['vast_video_filename'];
+            }
+        }
         // In the case of progressive - we just store vast_video_filename in the db field vast_video_outgoing_filename
         else {
-            $aAdminFields['vast_video_outgoing_filename'] = $aAdminFields['vast_video_filename'];  
+            $aAdminFields['vast_video_outgoing_filename'] = $aAdminFields['vast_video_filename'];
         }
     }
 }
 
 function parseVideoUrl( $inFields, &$aDeliveryFields, &$aAdminFields )
-{    
+{
     $fullPathToVideo = $inFields['vast_video_outgoing_filename'];
-    $aDeliveryFields['fullPathToVideo'] = $fullPathToVideo; 
-    
-    if(($fileDelimPosn = strpos($fullPathToVideo, VAST_RTMP_MP4_DELIMITER)) !== false ) 
+    $aDeliveryFields['fullPathToVideo'] = $fullPathToVideo;
+
+    if(($fileDelimPosn = strpos($fullPathToVideo, VAST_RTMP_MP4_DELIMITER)) !== false )
     {
-      $netConnectionUrl = substr( $fullPathToVideo, 0, $fileDelimPosn ); 
+      $netConnectionUrl = substr( $fullPathToVideo, 0, $fileDelimPosn );
       $filename = substr( $fullPathToVideo, $fileDelimPosn + strlen( VAST_RTMP_MP4_DELIMITER ), strlen($fullPathToVideo) );
-      
+
       $aDeliveryFields['videoNetConnectionUrl'] = $netConnectionUrl;
-      
+
       // for some unknown reason - I need to have mp4: at the start of the filename to play in the in Admin tool player..
       $aDeliveryFields['videoFileName'] = 'mp4:' . $filename;
       $aDeliveryFields['videoDelivery'] =  'player_in_rtmp_mode';
-      
+
       // parameters used at admin time
       $aAdminFields['vast_net_connection_url'] =  $netConnectionUrl;
-      $aAdminFields['vast_video_filename'] = $filename;     
+      $aAdminFields['vast_video_filename'] = $filename;
     }
     elseif ( ($fileDelimPosn = strpos($fullPathToVideo, VAST_RTMP_FLV_DELIMITER)) !== false )
     {
-      $netConnectionUrl = substr( $fullPathToVideo, 0, $fileDelimPosn ); 
+      $netConnectionUrl = substr( $fullPathToVideo, 0, $fileDelimPosn );
       $filename = substr( $fullPathToVideo, $fileDelimPosn + strlen( VAST_RTMP_FLV_DELIMITER ), strlen($fullPathToVideo) );
-      
+
       $aDeliveryFields['videoNetConnectionUrl'] = $netConnectionUrl;
       $aDeliveryFields['videoFileName'] =  $filename;
       $aDeliveryFields['videoDelivery'] = 'player_in_rtmp_mode';
-      
+
       // parameters used at admin time
       $aAdminFields['vast_net_connection_url'] = $netConnectionUrl;
-      $aAdminFields['vast_video_filename'] = $filename; 
+      $aAdminFields['vast_video_filename'] = $filename;
     }
-    else 
+    else
     {
       $aDeliveryFields['videoDelivery'] = 'player_in_http_mode';
       $aDeliveryFields['videoFileName'] = $inFields['vast_video_outgoing_filename'];
-      $aAdminFields['vast_video_filename'] = $inFields['vast_video_outgoing_filename'];  
+      $aAdminFields['vast_video_filename'] = $inFields['vast_video_outgoing_filename'];
     }
 }
 
@@ -184,27 +185,27 @@ class VideoAdsHelper
               <span class='tab-r' style='font-weight:normal;'>&nbsp;". $message ."</span>
               </div>";
     }
-    
+
     static function displayWarningMessage( $message )
     {
-        echo self::getWarningMessage($message); 
+        echo self::getWarningMessage($message);
     }
 
     static function getErrorMessage($message)
     {
         return '<div style="" id="errors" class="form-message form-message-error">'. $message .'</div>';
     }
-    
+
     static function getHelpLinkVideoPlayerConfig()
     {
         return 'http://www.openx.org/en/docs/2.8/userguide/video+ads+player+configuration';
     }
-    
+
     static function getHelpLinkOpenXPlugin()
     {
         return 'http://www.openx.org/en/docs/2.8/userguide/banners+video+ads';
     }
-    
+
     static function getLinkCrossdomainExample()
     {
         return 'https://svn.openx.org/openx/trunk/www/delivery_dev/crossdomain.xml';

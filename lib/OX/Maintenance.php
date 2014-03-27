@@ -210,7 +210,7 @@ class OX_Maintenance
         $this->_runGeneralPruning();
         $this->_runPriorityPruning();
         $this->_runDeleteUnverifiedAccounts();
-        $this->_runOpenadsSync();
+        $this->_runReviveSync();
         OA::debug('Midnight Maintenance Tasks Completed', PEAR_LOG_INFO);
     }
 
@@ -267,19 +267,19 @@ class OX_Maintenance
     }
 
     /**
-     * A private method to run OpenX Sync.
+     * A private method to run Revive Adserver Sync.
      *
      * @access private
      */
-    function _runOpenadsSync()
+    function _runReviveSync()
     {
-        $delay = mt_rand(0,10000000);
-        OA::debug(sprintf('  Starting OpenX Sync process in %dms.', $delay / 1000), PEAR_LOG_DEBUG);
-        usleep($delay);
-        require_once MAX_PATH . '/lib/OA/Sync.php';
-        $oSync = new OA_Sync($this->aConf, $this->aPref);
+        $delay = mt_rand(0, 30); // Delay up to 30 seconds
+        OA::debug(sprintf('Delaying ' . PRODUCT_NAME . ' sync process by %d seconds.', $delay), PEAR_LOG_INFO);
+        sleep($delay);
+        require_once MAX_PATH . '/lib/RV/Sync.php';
+        $oSync = new RV_Sync($this->aConf, $this->aPref);
         $oSync->checkForUpdates(0);
-        OA::debug('  Finished OpenX Sync process.', PEAR_LOG_DEBUG);
+        OA::debug('Finished ' . PRODUCT_NAME . ' Sync process.', PEAR_LOG_INFO);
     }
 
 

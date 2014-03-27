@@ -6,22 +6,27 @@
   <property file="devel.properties"/>
   <property file="etc/version.properties"/>
 
+  <!-- YUI compressor -->
+  <path id="task.classpath">
+    <pathelement location="${basedir}/lib/ant/yuicompressor-2.4.8.jar" />
+    <pathelement location="${basedir}/lib/ant/yui-compressor-ant-task-0.5.jar" />
+  </path>
+  <taskdef name="yui-compressor" classname="net.noha.tools.ant.yuicompressor.tasks.YuiCompressorTask">
+    <classpath refid="task.classpath" />
+  </taskdef>
+
   <!-- Import the include/exclude filelist -->
   <import file="build-filelist.xml"/>
 
   <!-- Package Integrity Plugin -->
   <taskdef name="checkdistribution" classname="org.openads.ant.CheckDistributionTask"/>
 
-  <macrodef name="rv-version" description="Sets a value of the OA_VERSION constant in the constants.php file.">
+  <macrodef name="rv-version" description="Sets a value of the VERSION constant in the constants.php file.">
     <attribute name="versionstring" description="A version to be set."/>
     <sequential>
       <replaceregexp file="constants.php"
         match="^ *define\('VERSION.*$"
         replace="    define('VERSION', '@{versionstring}');"
-        byline="true"/>
-      <replaceregexp file="constants.php"
-        match="^ *define\('OA_VERSION.*$"
-        replace="    define('OA_VERSION', '@{versionstring}');"
         byline="true"/>
     </sequential>
   </macrodef>
@@ -42,6 +47,17 @@
         <arg value="rebuild.php" />
     </exec>
   </target>
+
+  <target name="minify-delivery"
+    description="Minify delivery JS files into /www/delivery">
+    <delete>
+        <fileset dir="${basedir}/www/delivery" includes="*.js"/>
+    </delete>
+    <yui-compressor warn="false" munge="true" jsSuffix=".js" cssSuffix=".css" preserveAllSemiColons="false" fromDir="${basedir}/www/delivery_dev" toDir="${basedir}/www/delivery">
+        <include name="*.js" />
+    </yui-compressor>
+  </target>
+
 
   <target name="generate-xml-cache" description="Generate XML Cache from MDB2 Schema XML files">
     <exec dir="${basedir}/scripts/upgrade" executable="php" failonerror="true">
@@ -78,7 +94,7 @@
   </target>
 
   <target name="prepare-version-info" if="version" depends="init-release">
-    <echo message="Setting OA_VERSION to '${version}'."/>
+    <echo message="Setting VERSION to '${version}'."/>
     <rv-version versionstring="${version}"/>
   </target>
 

@@ -1489,7 +1489,15 @@ function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners
         $aBanner = Admin_DA::getAd($bannerId);
         $aBanner['storagetype'] = $aBanner['type'];
         $aBanner['bannerid'] = $aBanner['ad_id'];
-        $bannerCode = MAX_adRender($aBanner, 0, '', '', '', true, '', false, false);
+        if ($aBanner['contenttype'] == 'swf') {
+            $bannerCode =
+                MAX_adRender($aBanner, 0, '', '', '', true, '', false, false) .
+                "<br /><br />" .
+                _adRenderImage($aBanner, 0, '', '', true, false, false, true);
+        } else {
+            $bannerCode =
+                MAX_adRender($aBanner, 0, '', '', '', true, '', false, false);
+        }
     }
     else {
         $bannerCode = '';

@@ -22,16 +22,18 @@
 function setupConstants()
 {
     // Define this version of Revive Adserver's constants
-    define('VERSION', '3.0.0');
-    define('OA_VERSION', '3.0.0');
-    define('PRODUCT_NAME', 'Revive Adserver');
-    define('MAX_PRODUCT_NAME', 'Revive Adserver'); // Deprecated, use above version in code
-    define('PRODUCT_URL', 'www.revive-adserver.com');
-    define('MAX_PRODUCT_URL', 'www.revive-adserver.com'); // Deprecated, use above version in code
-    define('PRODUCT_DOCSURL',   "http://www.revive-adserver.com/docs");
-    define('OX_PRODUCT_DOCSURL',   "http://www.revive-adserver.com/docs"); // Deprecated, use above version in code
+    define('VERSION',           '3.0.4-dev');
+    define('PRODUCT_NAME',      'Revive Adserver');
+    define('PRODUCT_URL',       'www.revive-adserver.com');
+    define('PRODUCT_DOCSURL',   'http://documentation.revive-adserver.com');
 
-    // PHP 5.3 compatibility
+    // Deprecated constants for backwards compatibility. Please use the ones above
+    define('OA_VERSION',         VERSION);
+    define('MAX_PRODUCT_NAME',   PRODUCT_NAME);
+    define('MAX_PRODUCT_URL',    PRODUCT_URL);
+    define('OX_PRODUCT_DOCSURL', PRODUCT_DOCSURL);
+
+    // PHP <5.3 compatibility
     if (!defined('E_DEPRECATED')) {
         define('E_DEPRECATED', 0);
     }
@@ -199,6 +201,9 @@ function setupConstants()
         }
         if (!defined('OX_PATH')) {
             define('OX_PATH', dirname(__FILE__));
+        }
+        if (!defined('RV_PATH')) {
+            define('RV_PATH', dirname(__FILE__));
         }
         // Ensure that the DIRECTORY_SEPARATOR and PATH_SEPARATOR
         // constants are correctly defined

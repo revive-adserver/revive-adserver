@@ -30,7 +30,7 @@ setupConfigVariables();
 function init()
 {
     // Disable notices, but enable warnings
-    error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED);
+    error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT);
     // Always include the configuration file
     include_once MAX_PATH . '/tests/config.php';
 

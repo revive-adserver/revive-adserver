@@ -4,7 +4,10 @@ Revive Adserver thanks the following members of the community for their
 contributions to the code:
 
  - Erik Geurts
+ - Sah Lee
  - Florian Sander
+ - Joan Sarola
+ - Stelios Skiathitis
 
 --------------------------------------------------------------------------------
 

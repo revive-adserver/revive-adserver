@@ -541,8 +541,8 @@
             }
 
             /**
-            * Handles error from server, eg. response is bad, parse error occured, memory error
-            * occured, maybe a PHP fatal. If response given just grab it and report
+            * Handles error from server, eg. response is bad, parse error occurred, memory error
+            * occurred, maybe a PHP fatal. If response given just grab it and report
             */
             function onError(jobIndex, url, errorText, HttpStatus, HttpStatusText, serverResponse)
             {

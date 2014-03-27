@@ -96,8 +96,8 @@
         <li class="buttonHelp"><a href="{$helpLink|escape}" target="help">{t str=Help}</a></li>
 {/if}
 
-{if $buttonReportBugs}
-        <li class="buttonReportBugs"><a href="https://github.com/revive-adserver/revive-adserver/issues?state=open" target="_blank">{t str='Report bug'}</a></li>
+{if $buttonSupport && $supportLink}
+        <li class="buttonSupport"><a href="{$supportLink|escape}" target="_blank">{t str=Support}</a></li>
 {/if}
 
 {if $buttonLogout}
@@ -199,7 +199,7 @@
 {/if}
 
 {if $productUpdatesCheck}
-<script type="text/javascript" src="maintenance-updates-js.php"></script>
+<script type="text/javascript" src="{$adminWebPath}maintenance-updates-js.php"></script>
 {/if}
 
 {if $maintenanceAlert}
