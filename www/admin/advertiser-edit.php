@@ -69,7 +69,7 @@ else {
         $aAdvertiser['contact']          = '';
         $aAdvertiser['comments']         = '';
         $aAdvertiser['email']            = '';
-        $aAdvertiser['reportdeactivate'] = 't';
+        $aAdvertiser['reportdeactivate'] = 'f';
         $aAdvertiser['report']           = 'f';
         $aAdvertiser['reportinterval']   = 7;
     }

@@ -23,8 +23,7 @@ require_once MAX_PATH . '/www/admin/assets/minify-init.php';
 
 require_once LIB_PATH . '/Admin/Redirect.php';
 
-
-
+require_once MAX_PATH . '/lib/RV.php';
 
 /**
  * A class to generate all the UI parts
@@ -62,14 +61,12 @@ class OA_Admin_UI
      */
     var $otherCSSFiles;
 
-
     /**
      * An array containing a list of JS files to be included in HEAD section
      * when page header is rendered.
      * @var array
      */
     var $otherJSFiles;
-
 
     /**
      * Class constructor, private to force getInstance usage
@@ -150,7 +147,6 @@ class OA_Admin_UI
         if (empty($this->notificationManager) ) {
             $this->notificationManager = new OA_Admin_UI_NotificationManager();
         }
-
         return $this->notificationManager;
     }
 
@@ -267,15 +263,11 @@ class OA_Admin_UI
         $this->oTpl->assign('aTools', $this->aTools);
         $this->oTpl->assign('aShortcuts', $this->aShortcuts);
 
-
-
         //additional things
         $this->_assignJavascriptDefaults(); //JS validation messages and other defaults
         $this->_assignAlertMPE(); //mpe xajax
         $this->_assignInstalling(); //install indicator
         $this->_assignMessagesAndNotifications(); //messaging system
-
-
 
         //html header
         $this->_assignJavascriptandCSS();
@@ -611,6 +603,12 @@ class OA_Admin_UI
                 $this->oTpl->assign('infoUser', OA_Permission::getUsername());
                 $this->oTpl->assign('buttonLogout', true);
                 $this->oTpl->assign('buttonSupport', true);
+                $aAppConfig = RV::getAppConfig();
+                if ($aAppConfig['ui']['supportLink']) {
+                    $this->oTpl->assign('supportLink', $aAppConfig['ui']['supportLink']);
+                } else {
+                    $this->oTpl->assign('supportLink', 'http://www.revive-adserver.com/support/');
+                }
 
                 // Account switcher
                 OA_Admin_UI_AccountSwitch::assignModel($this->oTpl);

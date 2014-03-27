@@ -55,6 +55,9 @@ msgstr "Zone Breakdown"
 msgid "Campaign Delivery Report"
 msgstr "Campaign Delivery Report"
 
+msgid "Campaign delivery"
+msgstr "Campaign delivery"
+
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//liveCampaignDeliveryReport.class.php:60
 msgid "This report shows delivery statistics for all campaigns which were live during the specified period, highlighting campaigns which are underperforming."
 msgstr "This report shows delivery statistics for all campaigns which were live during the specified period, highlighting campaigns which are underperforming."

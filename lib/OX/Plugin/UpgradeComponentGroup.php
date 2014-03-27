@@ -226,19 +226,19 @@ class OX_Plugin_UpgradeComponentGroup extends OA_Upgrade
             $aSchema = $this->aComponentGroup['install']['schema'];
             if (!$this->oComponentGroupManager->_putDataObjects($name, $aSchema))
             {
-                $this->_logError('Failed to implement dataobjects for '.$name);
+                $this->oLogger->logError('Failed to implement dataobjects for '.$name);
                 //$this->_dropTables($name, $aSchema);
                 return false;
             }
             if (!$this->oComponentGroupManager->_cacheDataObjects($name, $aSchema))
             {
-                $this->_logError('Failed to cache dataobject schema for '.$name);
+                $this->oLogger->logError('Failed to cache dataobject schema for '.$name);
                 //$this->_dropTables($name, $aSchema);
                 return false;
             }
             if (!$this->oComponentGroupManager->_verifyDataObjects($name, $aSchema))
             {
-                $this->_logError('Failed to verify dataobjects for '.$name);
+                $this->oLogger->logError('Failed to verify dataobjects for '.$name);
                 //$this->_dropTables($name, $aSchema);
                 return false;
             }

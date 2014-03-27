@@ -476,6 +476,7 @@ $GLOBALS['strGuiHeaderForegroundColor']              = "Color of the header fore
 $GLOBALS['strGuiHeaderBackgroundColor']              = "Color of the header background";
 $GLOBALS['strGuiActiveTabColor']                     = "Color of the active tab";
 $GLOBALS['strGuiHeaderTextColor']                    = "Color of the text in the header";
+$GLOBALS['strGuiSupportLink']                        = "Custom URL for 'Support' link in header";
 $GLOBALS['strColorError']                            = "Please enter colors in an RGB format, like '0066CC'";
 
 $GLOBALS['strGzipContentCompression']                = "Use GZIP Content Compression";

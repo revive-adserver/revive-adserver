@@ -22,10 +22,10 @@
 function setupConstants()
 {
     // Define this version of Revive Adserver's constants
-    define('VERSION',           '3.0.3-dev');
+    define('VERSION',           '3.0.4-dev');
     define('PRODUCT_NAME',      'Revive Adserver');
     define('PRODUCT_URL',       'www.revive-adserver.com');
-    define('PRODUCT_DOCSURL',   'http://www.revive-adserver.com/docs');
+    define('PRODUCT_DOCSURL',   'http://documentation.revive-adserver.com');
 
     // Deprecated constants for backwards compatibility. Please use the ones above
     define('OA_VERSION',         VERSION);
@@ -201,6 +201,9 @@ function setupConstants()
         }
         if (!defined('OX_PATH')) {
             define('OX_PATH', dirname(__FILE__));
+        }
+        if (!defined('RV_PATH')) {
+            define('RV_PATH', dirname(__FILE__));
         }
         // Ensure that the DIRECTORY_SEPARATOR and PATH_SEPARATOR
         // constants are correctly defined

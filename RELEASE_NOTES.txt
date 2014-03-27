@@ -17,7 +17,7 @@ Revive Adserver. Please read these notes before reporting any bugs.
 What's New in Revive Adserver 3.0.3
 -----------------------------------
 
- * Release date: TBA
+ * Release date: 13 March 2014
 
  Security Updates
  ----------------
@@ -27,6 +27,7 @@ What's New in Revive Adserver 3.0.3
  New Features
  ------------
 
+ * Preview of Flash banners now also shows the backup image, if set.
  * API now supports setting chainedZoneId.
  * Added support for WebM videos in the IAB Video plugin.
  * Increased the maximum delay in the midnight maintenance script (from 10
@@ -35,6 +36,10 @@ What's New in Revive Adserver 3.0.3
  * Updated the Revive Adserver application header to replace the "Report bug"
    link with a more useful "Support" link (which includes details on how to
    report a bug, in addition to how to get support).
+ * Added support for hosting providers of Revive Adserver to configure a custom
+   URL for the "Support" link in the application header.
+ * Removed usage of PEAR libraries to detect non-routable IP addresses during
+   delivery.
 
  Bug Fixes
  ---------
@@ -46,8 +51,11 @@ What's New in Revive Adserver 3.0.3
  * Fixed API incompatibilities with PHP 5.4+.
  * Fixed an issue with the generation of a platform hash value which is used
    when connecting to the sync server to check for updates to Revive Adserver.
+ * Fixed encoding issues and bad translations in the Chinese language
+   translations.
  * Fixed encoding issues with some of the Czech language translations.
  * Fixed encoding issues with some of the Russian language translations.
+ * Added (some) new Chinese translations for plugins.
  * Fixed SWF plugin version requirements for v18-22.
  * Fixed a bug that prevented successfully submitting the forms after a server
    side validation error.
@@ -56,12 +64,32 @@ What's New in Revive Adserver 3.0.3
  * Added missing configuration options relating to the filenames for Single Page
    Call functionality to the admin user Configuration > Global Settings > Banner
    Delivery Settings tab.
+ * Fixed incorrect detection of command-line based called to Revive Adserver, so
+   that an error message is shown when the maintenance script is called without]
+   the required host parameter, instead of displaying a PHP error.
+ * Fixed branding on the website Single Page Call invocation code tag page.
+ * Fixed the display of the license on the install/upgrade welcome screen when
+   using a non-root based installation process.
+ * Fixed bug causing the last advertiser being sometimes hidden in the
+   advertiser index screen.
+ * Fixed issue that allowed installing an already installed plugin, causing the
+   plugin tables to be dropped without notice.
+ * Fixed logging of direct selection impressions/requests not properly working
+   on Postgres under some circumstances.
+ * Fixed API XML-RPC output not properly dealing with NULL values.
 
  Non-Backwards Compatible Changes
  --------------------------------
 
- * Removed unused Zend XML-RPC library. Make sure your 3rd party plugins bundle
-   their own if they need it.
+ * Email based campaign activation/deactivation reports are now disabled by
+   default when creating new advertisers. This does not affect any existing
+   advertiser account settings for this feature; but please be aware that the
+   default for all new advertiser accounts has been changed.
+ * 3rd party plugins developers should be aware:
+    * The unused Zend XML-RPC library has been removed; please make sure your
+      3rd party plugins bundle their own copy if they need it.
+    * The OA_Sync class has been moved to the RV_Sync class; please make sure
+      your 3rd party plugins are updated accordingly.
 
 
 System Requirements
@@ -163,8 +191,7 @@ this before reporting any new bugs.
    statistics. This can be worked around by ensuring that the timezone is
    correctly set in PHP.
 
- * See https://github.com/revive-adserver/revive-adserver/issues?state=open
-   for the latest bug reports.
+ * See http://www.revive-adserver.com/support/bugs/ for the latest bug reports.
 
 
 FAQ

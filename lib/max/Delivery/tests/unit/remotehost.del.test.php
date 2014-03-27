@@ -124,13 +124,13 @@ class Test_DeliveryRemotehost extends UnitTestCase
         $_SERVER['HTTP_X_FORWARDED_FOR'] = '10.10.10.10, 111.111.111.111, 222.222.222.222';
         $return = MAX_remotehostProxyLookup();
         $this->assertTrue($_SERVER['REMOTE_ADDR'] == '111.111.111.111');
-        
+
         // Check that with multiple X_FORWARDED_FOR entries, the leftmost NON-PRIVATE value is used
         $_SERVER = $sampleSERVER;
         $_SERVER['HTTP_X_FORWARDED_FOR'] = '10.10.10.10, 192.168.1.1, 111.111.111.111, 222.222.222.222';
         $return = MAX_remotehostProxyLookup();
         $this->assertTrue($_SERVER['REMOTE_ADDR'] == '111.111.111.111');
-        
+
         $_SERVER = $serverSave;
     }
 
@@ -179,7 +179,20 @@ class Test_DeliveryRemotehost extends UnitTestCase
     {
         $return = MAX_remotehostPrivateAddress('127.0.0.1');
         $this->assertTrue($return);
-        $return = MAX_remotehostPrivateAddress('235.0.0.66');
+        $return = MAX_remotehostPrivateAddress('127.10.0.2');
+        $this->assertTrue($return);
+        $return = MAX_remotehostPrivateAddress('10.1.0.23');
+        $this->assertTrue($return);
+        $return = MAX_remotehostPrivateAddress('172.16.0.0');
+        $this->assertTrue($return);
+        $return = MAX_remotehostPrivateAddress('172.31.255.255');
+        $this->assertTrue($return);
+
+        $return = MAX_remotehostPrivateAddress('172.15.255.255');
+        $this->assertFalse($return);
+        $return = MAX_remotehostPrivateAddress('172.32.0.1');
+        $this->assertFalse($return);
+        $return = MAX_remotehostPrivateAddress('8.8.8.8');
         $this->assertFalse($return);
     }
 }

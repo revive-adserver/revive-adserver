@@ -290,6 +290,7 @@ class OX_Admin_UI_Install_InstallController
         $this->setModelProperty('oWizard', $oWizard);
         $this->setModelProperty('loaderMessage', $GLOBALS['strSyscheckProgressMessage']);
         $this->setModelProperty('oxVersion', OA_VERSION);
+        $this->setModelProperty('LICENSE', file_get_contents(RV_PATH . '/LICENSE.txt'));
     }
 
 

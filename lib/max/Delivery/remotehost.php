@@ -77,7 +77,7 @@ function MAX_remotehostProxyLookup()
         // Has the viewer come via an HTTP proxy?
         if ($proxy) {
             OX_Delivery_logMessage('proxy detected', 7);
-        
+
             // Try to find the "real" IP address the viewer has come from
             $aHeaders = array(
                 'HTTP_FORWARDED',
@@ -171,22 +171,41 @@ function MAX_remotehostSetGeoInfo()
  */
 function MAX_remotehostPrivateAddress($ip)
 {
-    setupIncludePath();
-    require_once 'Net/IPv4.php';
-    // Define the private address networks, see
-    // http://rfc.net/rfc1918.html
-    $aPrivateNetworks = array(
-        '10.0.0.0/8',
-        '172.16.0.0/12',
-        '192.168.0.0/16',
-        '127.0.0.0/24'
+	$ip = ip2long($ip);
+
+	if (!$ip) return false;
+
+	return (MAX_remotehostMatchSubnet($ip, '10.0.0.0', 8) ||
+		MAX_remotehostMatchSubnet($ip, '172.16.0.0', 12) ||
+		MAX_remotehostMatchSubnet($ip, '192.168.0.0', 16) ||
+		MAX_remotehostMatchSubnet($ip, '127.0.0.0', 8)
     );
-    foreach ($aPrivateNetworks as $privateNetwork) {
-        if (Net_IPv4::ipInNetwork($ip, $privateNetwork)) {
-            return true;
-        }
-    }
-    return false;
 }
 
-?>
+function MAX_remotehostMatchSubnet($ip, $net, $mask)
+{
+	$net = ip2long($net);
+
+	if (!is_integer($ip)) {
+        $ip = ip2long($ip);
+    }
+
+	if (!$ip || !$net) {
+		return false;
+    }
+
+	if (is_integer($mask)) {
+		// Netmask notation x.x.x.x/y used
+
+		if ($mask > 32 || $mask <= 0)
+			return false;
+		elseif ($mask == 32)
+			$mask = ~0;
+		else
+			$mask = ~((1 << (32 - $mask)) - 1);
+	} elseif (!($mask = ip2long($mask))) {
+		return false;
+    }
+
+	return ($ip & $mask) == ($net & $mask) ? true : false;
+}

@@ -257,7 +257,7 @@ if (!$type)
     if ($show_web)     $type = "web";
 }
 
-//build banner form
+// Build banner form
 $form = buildBannerForm($type, $aBanner, $oComponent, $formDisabled);
 
 $valid = $form->validate();
@@ -292,6 +292,8 @@ function displayPage($bannerid, $campaignid, $clientid, $bannerTypes, $aBanner, 
     // Display navigation
     $aOtherCampaigns = Admin_DA::getPlacements(array($entityType => $entityId));
     $aOtherBanners = Admin_DA::getAds(array('placement_id' => $campaignid), false);
+
+    // Display banner preview
     MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners, $aEntities);
 
     //actual page content - type chooser and form
@@ -571,7 +573,7 @@ function addUploadGroup($form, $aBanner, $vars)
 {
         $uploadG = array();
         if (isset($vars['fileName']) && $vars['fileName'] != '') {
-            $uploadG['radio1'] = $form->createElement('radio', $vars['radioName'], null, (empty($vars['imageName']) ? '' : "<img src='".OX::assetPath()."/images/".$vars['imageName']."' align='absmiddle'> ").$vars['fileName']."<i dir=".$GLOBALS['phpAds_TextDirection'].">(".$vars['fileSize'].")</i>", 'f');
+            $uploadG['radio1'] = $form->createElement('radio', $vars['radioName'], null, (empty($vars['imageName']) ? '' : "<img src='".OX::assetPath()."/images/".$vars['imageName']."' align='absmiddle'> ").$vars['fileName']." <i dir=".$GLOBALS['phpAds_TextDirection'].">(".$vars['fileSize'].")</i>", 'f');
             $uploadG['radio2'] = $form->createElement('radio', $vars['radioName'], null, null, 't');
             $uploadG['upload'] = $form->createElement('file', $vars['uploadName'], null, array("onchange" => "selectFile(this, ".($vars['handleSWF'] ? 'true' : 'false').")", "style" => "width: 250px;"));
             if ($vars['handleSWF']) {
@@ -879,4 +881,5 @@ function _getBannerSizeText($type, $filename)
 
     return $size;
 }
+
 ?>

@@ -11,540 +11,510 @@
 */
 
 // Installer translation strings
-$GLOBALS['strInstall']				= "安装";
-$GLOBALS['strChooseInstallLanguage']		= "ѡ��װ��̵�����";
-$GLOBALS['strLanguageSelection']		= "语言选择";
-$GLOBALS['strDatabaseSettings']			= "数�?�库设置";
-$GLOBALS['strAdminSettings']			= "管�?�员设置";
-$GLOBALS['strAdvancedSettings']			= "高级设置";
-$GLOBALS['strOtherSettings']			= "��������";
-
-$GLOBALS['strWarning']				= "警告";
-$GLOBALS['strFatalError']			= "����һ���������";
-$GLOBALS['strUpdateError']			= "�����з���һ�����";
-$GLOBALS['strUpdateDatabaseError']		= "��Ϊδ֪����,��ݿ�ṹ��û�гɹ�.������<b>������</b>4�����޸���ЩǱ�ڵĴ���. �����ȷ����Щ���󲻻�Ӱ��".MAX_PRODUCT_NAME."�Ĺ���,����Ե��<b>���Դ���</b>����.������Щ���������ɺ����ص�����,���Բ��Ƽ�ʹ��!";
-$GLOBALS['strAlreadyInstalled']			= MAX_PRODUCT_NAME."�Ѿ���װ. �����������ϵͳ,�뵽 <a href='settings-index.php'>���ý���</a>";
-$GLOBALS['strCouldNotConnectToDB']		= "����l����ݿ�,�����������";
-$GLOBALS['strCreateTableTestFailed']		= "���ṩ���û�û��Ȩ�޴�����ݿ�ṹ,��jϵ��ݿ����Ա.";
-$GLOBALS['strUpdateTableTestFailed']		= "���ṩ���û�û��Ȩ�޸�����ݿ�ṹ,��jϵ��ݿ����Ա.";
-$GLOBALS['strTablePrefixInvalid']		= "��ݱ��ǰ׺��Ƿ��ַ�";
-$GLOBALS['strTableInUse']			= "���ṩ����ݿ��Ѿ���".MAX_PRODUCT_NAME."ʹ��,��ʹ�ò�ͬ�ı�ǰ׺,���߲ο��û��ֲ���ϵͳ���ָ������.";
-$GLOBALS['strTableWrongType']			= "��װ��".$phpAds_dbmsname."��֧������ѡ�����ݱ�����";
-$GLOBALS['strMayNotFunction']			= "������һ��֮ǰ,�������ЩǱ�ڵĴ���:";
-$GLOBALS['strFixProblemsBefore']		= "����װ".MAX_PRODUCT_NAME."֮ǰ��������������Ŀ.�����Դ�����Ϣ��ʲô����,��鿴<i>����Ա�ֲ�</i>,�ֲ�����������ص����ѹ������ҵ�.";
-$GLOBALS['strFixProblemsAfter']			= "������޷����������г������,��jϵ��Ҫ��װ".MAX_PRODUCT_NAME."�ķ�����Ĺ���Ա.�˷�����Ĺ���Ա�����ܹ�����������Щ����";
-$GLOBALS['strIgnoreWarnings']			= "���Ծ���";
-$GLOBALS['strWarningDBavailable']		= "������ʹ�õ�PHP�汾��֧��".$phpAds_dbmsname."��ݿ�.�ڽ�������Ĳ���֮ǰ,����Ҫ����PHP��".$phpAds_dbmsname."��֧��";
-$GLOBALS['strWarningPHPversion']		= MAX_PRODUCT_NAME."��ҪPHP 4.0���߸�߰汾��������������ʹ�õİ汾��{php_version}.";
-$GLOBALS['strWarningRegisterGlobals']		= "PHP���ñ�register_globals��Ҫ��.";
-$GLOBALS['strWarningMagicQuotesGPC']		= "PHP���ñ�magic_quotes_gpc��Ҫ��.";
-$GLOBALS['strWarningMagicQuotesRuntime']	= "PHP���ñ�magic_quotes_runtime��Ҫ�ر�.";
-$GLOBALS['strWarningFileUploads']		= "PHP���ñ�file_uploads��Ҫ��.";
-$GLOBALS['strWarningTrackVars']			= "PHP���ñ�track_vars��Ҫ��.";
-$GLOBALS['strWarningPREG']			= "������ʹ�õ�PHP�汾��֧��PERL����ģʽ��������ʽ. �ڽ�������Ĳ���֮ǰ,����Ҫ����PREL������ʽ��֧��.";
-$GLOBALS['strConfigLockedDetected']		= MAX_PRODUCT_NAME."��⵽��������ļ�<b>config.inc.php</b>����д<br />������޸�Ȩ��֮����ܽ�����һ��.<br />�����֪����β�����ο��ĵ�.";
-$GLOBALS['strCantUpdateDB']  			= "���ڲ��ܸ�����ݿ�.�����ȷ�Ͻ���,�������еĹ��,����Ϳͻ����ᱻɾ��.";
-$GLOBALS['strIgnoreErrors']			= "���Դ���";
-$GLOBALS['strRetryUpdate']			= "������";
-$GLOBALS['strTableNames']			= "��ݱ�����";
-$GLOBALS['strTablesPrefix']			= "�??称�?缀";
-$GLOBALS['strTablesType']			= "表格类型";
-
-$GLOBALS['strInstallWelcome']			= "��ӭʹ��".MAX_PRODUCT_NAME;
-$GLOBALS['strInstallMessage']			= "����ʹ��".MAX_PRODUCT_NAME."֮ǰ,��Ҫ����ϵͳ��<br />������ݿ�.��<b>��һ��</b>����.";
-$GLOBALS['strInstallSuccess']			= "点击确定登入您的广告�?务器.	<p><strong>下一步？</strong></p>	<div class='psub'>	  <p><b>登入以获�?�更新</b><br>	    <a href='". OX_PRODUCT_DOCSURL ."/wizard/join' target='_blank'>加入". MAX_PRODUCT_NAME ."邮件列表</a> 以获得最新的更新通知和安全性警告.	  </p>	  <p><b>开始你的第一个广告</b><br>	    查看我们的 <a href='". OX_PRODUCT_DOCSURL ."/wizard/qsg-firstcampaign' target='_blank'>快速入门指�?�</a>.	  </p>	</div>	<p><strong>�?�选的安装步骤</strong></p>	<div class='psub'>	  <p><b>�?定你的�?置文件</b><br>	    这对你的系统安全是一个�?外的帮助.  <a href='". OX_PRODUCT_DOCSURL ."/wizard/lock-config' target='_blank'>查看更多</a>.	  </p>	  <p><b>设定一个维护任务（�?�?）</b><br>	    维护任务�?�以定时统计你的任务报表�?�广告投放计划.  <a href='". OX_PRODUCT_DOCSURL ."/wizard/setup-cron' target='_blank'>查看更多</a>	  </p>	  <p><b>查看你的系统设置</b><br>	    在时使用 ". MAX_PRODUCT_NAME ."之�?，我们建议你�?新确定你的系统设置（在“设置�?选项�?�内）.	  </p>	</div>";
-$GLOBALS['strUpdateSuccess']			= "<b>".MAX_PRODUCT_NAME."��ɹ�.</b><br /><br />Ϊ��".MAX_PRODUCT_NAME."����ʹ��,����Ҫȷ��ά���ļ�ÿСʱ����һ��,�йص���Ϣ���Բο�����ĵ�.<br /><br />��<b>��һ��</b>��������ҳ��,����Խ��и�������.��������ɺ��벻Ҫ�����config.inc.php�Ա�֤��ȫ.";
-$GLOBALS['strInstallNotSuccessful']		= "<b>". MAX_PRODUCT_NAME ."  的安装并�?�?功!</b><br /><br />其中�?些安装过程无法完�?.\n                                                �?�能这些问题�?�是暂时性的, 如果确实如此您�?�需点击 <b>继续</b> 并返回整个安装�?程的第一步, 如果您希望了解下列错误信�?�的详情以�?�解决方法, 请自行阅读�?机文档.";
-$GLOBALS['strErrorOccured']			= "�����������:";
-$GLOBALS['strErrorInstallDatabase']		= "���ܴ�����ݿ�.";
-$GLOBALS['strErrorUpgrade'] = 'The existing installation\'s database could not be upgraded.';
-$GLOBALS['strErrorInstallConfig']		= "T�����ļ�������ݿⲻ�ܸ���.";
-$GLOBALS['strErrorInstallDbConnect']		= "����l�ӵ���ݿ�.";
-
-$GLOBALS['strUrlPrefix']			= "URLǰ׺";
-
-$GLOBALS['strProceed']				= "继续>";
-$GLOBALS['strInvalidUserPwd']			= "������û��������";
-
-$GLOBALS['strUpgrade']				= "��";
-$GLOBALS['strSystemUpToDate']			= "���ϵͳ�Ѿ������°�,���ڲ���Ҫ��<br />��<b>��һ��</b>�ص���ҳ.";
-$GLOBALS['strSystemNeedsUpgrade']		= "��ݿ�ṹ�������ļ���Ҫ����������<b>��һ��</b>��ʼ��<br />��ʱ������ݿ�ͳ����ݵĶ��ٶ�ͬ,����̿�������ϵͳ��ݿ⸺�����.�����ĵȴ�,������Ҫ�����ӵ�ʱ��.";
-$GLOBALS['strSystemUpgradeBusy']		= "ϵͳ���У����Ժ�...";
-$GLOBALS['strSystemRebuildingCache']		= "�ؽ��������У����Ժ�...";
-$GLOBALS['strServiceUnavalable']		= "������ʱ������,ϵͳ����...";
-
-$GLOBALS['strConfigNotWritable']		= "��������ļ�config.inc.php����д";
+$GLOBALS['strInstall']                      = "Install";
+$GLOBALS['strChooseInstallLanguage']        = "Choose language for the installation procedure";
+$GLOBALS['strLanguageSelection']            = "Language Selection";
+$GLOBALS['strDatabaseSettings']             = "Database Settings";
+$GLOBALS['strAdminSettings']                = "Administrator Settings";
+$GLOBALS['strAdminAccount']                 = "Administrator Account";
+$GLOBALS['strAdministrativeSettings']       = "Administrative Settings";
+$GLOBALS['strAdvancedSettings']             = "Advanced Settings";
+$GLOBALS['strOtherSettings']                = "Other settings";
+$GLOBALS['strSpecifySyncSettings']          = "Synchronisation settings";
+$GLOBALS['strLicenseInformation']           = "License information";
+$GLOBALS['strWarning']                      = "Warning";
+$GLOBALS['strFatalError']                   = "A fatal error occurred";
+$GLOBALS['strUpdateError']                  = "An error occured while updating";
+$GLOBALS['strBtnContinue']                  = "Continue »";
+$GLOBALS['strBtnRecover']                   = "Recover »";
+$GLOBALS['strBtnStartAgain']                   = "Start Upgrade Again »";
+$GLOBALS['strBtnGoBack']                    = "« Go Back";
+$GLOBALS['strBtnAgree']                     = "I Agree »";
+$GLOBALS['strBtnDontAgree']                 = "« I Disagree";
+$GLOBALS['strBtnRetry']                     = "Retry";
+$GLOBALS['strUpdateDatabaseError']          = "Due to unknown reasons the update of the database structure wasn't succesful. The recommended way to proceed is to click <b>Retry updating</b> to try to correct these potential problems. If you are sure these errors won't affect the functionality of ".MAX_PRODUCT_NAME." you can click <b>Ignore errors</b> to continue. Ignoring these errors may cause serious problems and is not recommended!";
+$GLOBALS['strAlreadyInstalled']             = "" . PRODUCT_NAME." is already installed on this system. If you want to configure it go to the <a href='account-index.php'>settings interface</a>";
+$GLOBALS['strCouldNotConnectToDB']          = "Could not connect to database, please recheck the settings you specified";
+$GLOBALS['strCreateTableTestFailed']        = "The user you specified doesn't have permission to create or update the database structure, please contact the database administrator.";
+$GLOBALS['strUpdateTableTestFailed']        = "The user you specified doesn't have permission to update the database structure, please contact the database administrator.";
+$GLOBALS['strTablePrefixInvalid']           = "Table prefix contains invalid characters";
+$GLOBALS['strTableInUse']                   = "The database which you specified is already used for ".PRODUCT_NAME.", please use a different table prefix, or read the UPGRADE.txt file for upgrading instructions.";
+$GLOBALS['strNoVersionInfo']                = "Unable to select the database version";
+$GLOBALS['strInvalidVersionInfo']           = "Unable to determine the database version";
+$GLOBALS['strInvalidMySqlVersion']          = "" . PRODUCT_NAME." requires MySQL 4.0 or higher to function correctly. Please select a different database server.";
+$GLOBALS['strTableWrongType']               = "The table type you selected isn't supported by your installation of ".phpAds_dbmsname;
+$GLOBALS['strMayNotFunction']               = "Before you continue, please correct these potential problems:";
+$GLOBALS['strFixProblemsBefore']            = "The following item(s) need to be corrected before you can install ".MAX_PRODUCT_NAME.". If you have any questions about this error message, please read the <i>Administrator Guide</i>, which is part of the package you downloaded.";
+$GLOBALS['strFixProblemsAfter']             = "If you are not able to correct the problems listed above, please contact the administrator of the server you are trying to install ".MAX_PRODUCT_NAME." on. The administrator of the server may be able to help you.";
+$GLOBALS['strIgnoreWarnings']               = "Ignore warnings";
+$GLOBALS['strWarningDBavailable']           = "The version of PHP you are using doesn't have support for connecting to a ".phpAds_dbmsname." database server. You need to enable the PHP ".phpAds_dbmsname." extension before you can proceed.";
+$GLOBALS['strWarningPHPversion']            = "" . PRODUCT_NAME." requires PHP 5.1.4 or higher to function correctly. You are currently using {php_version}.";
+$GLOBALS['strWarningRegisterGlobals']       = "The PHP configuration variable register_globals needs to be turned on.";
+$GLOBALS['strWarningRegisterArgcArv']       = "The PHP configuration variable register_argc_argv needs to be turned on to run maintenance from the command line.";
+$GLOBALS['strWarningMagicQuotesGPC']        = "The PHP configuration variable magic_quotes_gpc needs to be turned on.";
+$GLOBALS['strWarningMagicQuotesRuntime']    = "The PHP configuration variable magic_quotes_runtime needs to be turned off.";
+$GLOBALS['strWarningFileUploads']           = "The PHP configuration variable file_uploads needs to be turned on.";
+$GLOBALS['strWarningTrackVars']             = "The PHP configuration variable track_vars needs to be turned on.";
+$GLOBALS['strWarningPREG']                  = "The version of PHP you are using doesn't have support for PERL compatible regular expressions. You need to enable the PREG extension before you can proceed.";
+$GLOBALS['strConfigLockedDetected']         = "" . PRODUCT_NAME." has detected that the <b>max.conf.php</b> file cannot be written by the web server. You can't proceed until you make the 'var' directory writable by the web server. Read the supplied documentation if you don't know how to do that.";
+$GLOBALS['strCantUpdateDB']                 = "It is currently not possible to update the database. If you decide to proceed, all existing banners, statistics and advertisers will be deleted.";
+$GLOBALS['strIgnoreErrors']                 = "Ignore errors";
+$GLOBALS['strRetryUpdate']                  = "Retry updating";
+$GLOBALS['strTableNames']                   = "Table Names";
+$GLOBALS['strTablesPrefix']                 = "Table names prefix";
+$GLOBALS['strTablesType']                   = "Table type";
 
 
+$GLOBALS['strRecoveryRequiredTitle']    = "Your previous upgrade attempt encountered an error";
+$GLOBALS['strRecoveryRequired']         = "There was an error while processing your previous upgrade and " . PRODUCT_NAME . " must attempt to recover the upgrade process. Please click the Recover button below.";
 
+$GLOBALS['strProductUpToDateTitle']     =  PRODUCT_NAME . " is up to date";
+$GLOBALS['strOaUpToDate']               = "Your " . PRODUCT_NAME . " database and file structure are both using the most recent version and therefore no upgrade is required at this time. Please click Continue to proceed to the administration panel.";
+$GLOBALS['strOaUpToDateCantRemove']     = "The UPGRADE file is still present inside of your 'var' folder. We are unable to remove this file because of insufficient permissions. Please delete this file yourself.";
+$GLOBALS['strRemoveUpgradeFile']               = "You must remove the UPGRADE file from the 'var' folder.";
+$GLOBALS['strInstallSuccess']               = "Clicking 'Continue' will log you in to your ad server.
+<p><strong>What next?</strong></p>
+<div class='psub'>";
+$GLOBALS['strInstallSuccess2'] ="
+  <p><b>Serving your first ad campaign</b><br>
+    Use our <a href='".PRODUCT_DOCSURL."/user/quickStartGuide' target='_blank'>quick start guide to start serving your first ad campaign</a>.
+  </p>
+</div>
+<p><strong>Optional installation steps</strong></p>
+<div class='psub'>
+  <p><b>Lock your configuration files</b><br>
+    This is a good extra security step to protect your ad server configuration settings from being altered.  <a href='".PRODUCT_DOCSURL."/admin/lockConfig' target='_blank'>Find out more</a>.
+  </p>
+  <p><b>Set up a regular maintenance task</b><br>
+    A maintenance script is recommended to ensure timely reporting and the best possible ad delivery performance.  <a href='".PRODUCT_DOCSURL."/admin/maintenance' target='_blank'>Find out more</a>
+  </p>
+  <p><b>Review your system configuration settings</b><br>
+    Before you start using ".MAX_PRODUCT_NAME." we suggest you review your settings within the 'Settings' tab.
+  </p>
+</div>";
+$GLOBALS['strInstallNotSuccessful']         = "<b>The installation of ".MAX_PRODUCT_NAME." was not succesful</b><br /><br />Some portions of the install process could not be completed.
+                                                It is possible these problems are only temporarily, in that case you can simply click <b>Proceed</b> and return to the
+                                                first step of the install process. If you want to know more on what the error message below means, and how to solve it,
+                                                please consult the supplied documentation.";
+$GLOBALS['strDbSuccessIntro']               = "The " . MAX_PRODUCT_NAME . " database has now been created. Please click the 'Continue' button to proceed with configuring " . MAX_PRODUCT_NAME . " Administrator and Delivery settings.";
+$GLOBALS['strDbSuccessIntroUpgrade']        = "Your system has been successfully upgraded.  The remaining screens will help you update the configuration of your new ad server.";
+$GLOBALS['strErrorOccured']                 = "The following error occured:";
+$GLOBALS['strErrorInstallDatabase']         = "The database structure could not be created.";
+$GLOBALS['strErrorInstallPrefs']            = "The administrator user preferences could not be written to the database.";
+$GLOBALS['strErrorInstallVersion']          = "The " . MAX_PRODUCT_NAME . " version number could not be written to the database.";
+$GLOBALS['strErrorUpgrade']                 = 'The existing installation\'s database could not be upgraded.';
+$GLOBALS['strErrorInstallDbConnect']        = "It was not possible to open a connection to the database.";
 
+$GLOBALS['strErrorWritePermissions']        = "File permission errors have been detected, and must be fixed before you can continue.<br />To fix the errors on a Linux system, try typing in the following command(s):";
+$GLOBALS['strErrorFixPermissionsCommand']   = "<i>chmod a+w %s</i>";
+$GLOBALS['strErrorFixPermissionsRCommand']  = "<i>chmod -R a+w %s</i>";
+$GLOBALS['strNotWriteable']                 = "NOT writeable";
+$GLOBALS['strDirNotWriteableError']         = "Directory must be writeable";
+
+$GLOBALS['strErrorWritePermissionsWin']     = "File permission errors have been detected, and must be fixed before you can continue.";
+$GLOBALS['strCheckDocumentation']           = "For more help, please see the <a href=\"".PRODUCT_DOCSURL."\">" . PRODUCT_NAME . " documentation</a>.";
+$GLOBALS['strSystemCheckBadPHPConfig']      = "Your current PHP configuration does not meet requirements of " . MAX_PRODUCT_NAME . ". To resolve the problems, please modify settings in your 'php.ini' file.";
+
+$GLOBALS['strAdminUrlPrefix']               = "Admin Interface URL";
+$GLOBALS['strDeliveryUrlPrefix']            = "Delivery Engine URL";
+$GLOBALS['strDeliveryUrlPrefixSSL']         = "Delivery Engine URL (SSL)";
+$GLOBALS['strImagesUrlPrefix']              = "Image Store URL";
+$GLOBALS['strImagesUrlPrefixSSL']           = "Image Store URL (SSL)";
+
+$GLOBALS['strInvalidUserPwd']               = "Invalid username or password";
+
+$GLOBALS['strUpgrade']                      = "Upgrade";
+$GLOBALS['strSystemUpToDate']               = "Your system is already up to date, no upgrade is needed at the moment. <br />Click on <b>Proceed</b> to go to home page.";
+$GLOBALS['strSystemNeedsUpgrade']           = "The database structure and configuration file need to be upgraded in order to function correctly. Click <b>Proceed</b> to start the upgrade process. <br /><br />Depending on which version you are upgrading from and how many statistics are already stored in the database, this process can cause high load on your database server. Please be patient, the upgrade can take up to a couple of minutes.";
+$GLOBALS['strSystemUpgradeBusy']            = "System upgrade in progress, please wait...";
+$GLOBALS['strSystemRebuildingCache']        = "Rebuilding cache, please wait...";
+$GLOBALS['strServiceUnavalable']            = "The service is temporarily unavailable. System upgrade in progress";
 
 /*-------------------------------------------------------*/
 /* Configuration translations                            */
 /*-------------------------------------------------------*/
 
 // Global
-$GLOBALS['strChooseSection'] = "选择章节";
-$GLOBALS['strDayFullNames'][0] = "星期天";
-$GLOBALS['strDayFullNames'][1] = "星期一";
-$GLOBALS['strDayFullNames'][2] = "星期二";
-$GLOBALS['strDayFullNames'][3] = "星期三";
-$GLOBALS['strDayFullNames'][4] = "星期四";
-$GLOBALS['strDayFullNames'][5] = "星期五";
-$GLOBALS['strDayFullNames'][6] = "星期六";
+$GLOBALS['strChooseSection']                         = "Choose Section";
+$GLOBALS['strEditConfigNotPossible']                 = "出于安全考虑，配置文件已经锁定。目前禁止更新任何系统设置。".
+                                                       "If you want to make changes, you may need to unlock the configuration file for this installation first.";
+$GLOBALS['strEditConfigPossible']                    = "配置文件已经解除锁定，系统设置可以按您的需要进行更新。但是这可能会带来安全隐患。如果您希望提高安全性，请将配置文件设置为只读。";
+$GLOBALS['strUnableToWriteConfig']                   = "Unable to write changes to the config file";
+$GLOBALS['strUnableToWritePrefs']                    = "Unable to commit preferences to the database";
+$GLOBALS['strImageDirLockedDetected']	             = "The supplied <b>Images Folder</b> is not writeable by the server. <br>You can't proceed until you either change permissions of the folder or create the folder.";
 
-$GLOBALS['strEditConfigNotPossible']   		= "由于安全原因无法编辑所有设定。如果你希望修改，你需�?解�?�?置文件。";
-$GLOBALS['strEditConfigPossible']		= "由于�?置文件已�?解�?，所以所有�?置�?��?�修改。但是这�?�能导致安全问题。如果您希望确�?系统安全，您需�?�?定�?置文件。";
+// Configuration Settings
+$GLOBALS['strConfigurationSetup']                    = "Configuration checklist";
+$GLOBALS['strConfigurationSettings']                 = "Configuration settings";
 
+// Administrator Settings
+$GLOBALS['strAdministratorSettings']                 = "Administrator Settings";
+$GLOBALS['strAdministratorAccount']                  = "The Administrator Account";
+$GLOBALS['strLoginCredentials']                      = "Login Credentials";
+$GLOBALS['strAdminUsername']                         = "Administrator  Username";
+$GLOBALS['strAdminPassword']                         = "Administrator  Password";
+$GLOBALS['strInvalidUsername']                       = "Invalid Username";
+$GLOBALS['strBasicInformation']                      = "Basic Information";
+$GLOBALS['strAdminFullName']                         = "Admin's Full Name";
+$GLOBALS['strAdminEmail']                            = "Admin's email Address";
+$GLOBALS['strAdministratorEmail']                    = "Administrator email Address";
+$GLOBALS['strCompanyName']                           = "Company Name";
+$GLOBALS['strAdminCheckUpdates']                     = "Automatically check for product updates and security alerts (Recommended).";
+$GLOBALS['strAdminShareStack']                       = "Share technical information with the " . PRODUCT_NAME . " Team to help with development and testing.";
+$GLOBALS['strAdminCheckEveryLogin']                  = "Every Login";
+$GLOBALS['strAdminCheckDaily']                       = "Daily";
+$GLOBALS['strAdminCheckWeekly']                      = "Weekly";
+$GLOBALS['strAdminCheckMonthly']                     = "Monthly";
+$GLOBALS['strAdminCheckNever']                       = "Never";
+$GLOBALS['strNovice']                                = "执行删除操作之前需要确认";
+$GLOBALS['strUserlogEmail']                          = "Log all outgoing email messages";
+$GLOBALS['strEnableDashboard']                       = "启用首页仪表盘";
+$GLOBALS['strEnableDashboardSyncNotice']             = "Please enable <a href='account-settings-update.php'>check for updates</a> to use the dashboard.";
+$GLOBALS['strTimezone']                              = "时区";
+$GLOBALS['strTimezoneEstimated']                     = "Estimated Timezone";
+$GLOBALS['strTimezoneGuessedValue']                  = "Server timezone not correctly set in PHP";
+$GLOBALS['strTimezoneSeeDocs']                       = "Please see the %DOCS% about setting this variable for PHP.";
+$GLOBALS['strTimezoneDocumentation']                 = "documentation";
+$GLOBALS['strAdminSettingsTitle']                    = "Create an administrator account";
+$GLOBALS['strAdminSettingsIntro']                    = "Please complete this form to create your ad server administration account.";
+$GLOBALS['strConfigSettingsIntro']                   = "Please check the configuration settings below and make any required changes before proceeding. If unsure, leave the default values.";
 
+$GLOBALS['strEnableAutoMaintenance']	             = "Automatically perform maintenance during delivery if scheduled maintenance is not set up";
 
-// Database
-$GLOBALS['strDatabaseSettings']			= "��ݿ�����";
-$GLOBALS['strDatabaseServer']			= "全局数�?�库�?务器设置";
-$GLOBALS['strDbLocal']				= "使用本地套接字连接"; //Pgר��
-$GLOBALS['strDbHost']				= "数�?�库主机�??";
-$GLOBALS['strDbPort']				= "数�?�库端�?��?�";
-$GLOBALS['strDbUser']				= "数�?�库用户�??";
-$GLOBALS['strDbPassword']			= "数�?�库密�?";
-$GLOBALS['strDbName']				= "数�?�库�??";
-
-$GLOBALS['strDatabaseOptimalisations']		= "全局数�?�库优化设置";
-$GLOBALS['strPersistentConnections']		= "使用�?久链接";
-$GLOBALS['strCompatibilityMode']		= "ʹ����ݿ����ģʽ";
-$GLOBALS['strCantConnectToDb']			= "无法链接数�?�库";
-
-
-
-// Invocation and Delivery
-$GLOBALS['strInvocationAndDelivery']		= "生�?设置";
-$GLOBALS['strAllowedInvocationTypes']		= "�?许生�?模�?";
-$GLOBALS['strAllowRemoteInvocation']		= "����Զ�̵���";
-$GLOBALS['strAllowRemoteJavascript']		= "����Զ�̵���Javascript";
-$GLOBALS['strAllowRemoteFrames']		= "����Զ�̵���Frames";
-$GLOBALS['strAllowRemoteXMLRPC']		= "����Զ�̵���XML-RPC";
-$GLOBALS['strAllowLocalmode']			= "���?��ģʽ";
-$GLOBALS['strAllowInterstitial']		= "�����϶ģʽ";
-$GLOBALS['strAllowPopups']			= "���?��ģʽ";
-
-$GLOBALS['strUseAcl']				= "�ڷ��͹����Ԥ�7�������";
-
-$GLOBALS['strDeliverySettings']			= "�?�布设置";
-$GLOBALS['strCacheType']			= "���ͻ���������";
-$GLOBALS['strCacheFiles']			= "文件";
-$GLOBALS['strCacheDatabase']			= "��ݿ�";
-$GLOBALS['strCacheShmop']			= "�����ڴ�/shmop";
-$GLOBALS['strCacheSysvshm']			= "�����ڴ�/Sysvshm";
-$GLOBALS['strExperimental']			= "ʵ���Ե�";
-$GLOBALS['strKeywordRetrieval']			= "��ȡ�ؼ���";
-$GLOBALS['strBannerRetrieval']			= "����ȡģʽ";
-$GLOBALS['strRetrieveRandom']			= "������ȡ(ȱʡ)";
-$GLOBALS['strRetrieveNormalSeq']		= "��ȡ��ͨϵ�й��";
-$GLOBALS['strWeightSeq']			= "��ȡȨ��ϵ�й��";
-$GLOBALS['strFullSeq']				= "��ȡȫ��ϵ�еĹ��";
-$GLOBALS['strUseConditionalKeys']		= "ֱ�ӹ��ѡȡ������ʹ���߼�����";
-$GLOBALS['strUseMultipleKeys']			= "ֱ�ӹ��ѡȡ������ʹ�ö��ؼ���";
-
-$GLOBALS['strZonesSettings']			= "��ȡ��λ";
-$GLOBALS['strZoneCache']			= "�����λ����ʹ�ð�λʱ��ѡ���ܹ���������ٶ�";
-$GLOBALS['strZoneCacheLimit']			= "��������µ�ʱ����(��)";
-$GLOBALS['strZoneCacheLimitErr']		= "��������µ�ʱ����Ӧ����һ������";
-
-$GLOBALS['strP3PSettings']			= "P3P�?�?策略的全局设置";
-$GLOBALS['strUseP3P']				= "使用P3P策略";
-$GLOBALS['strP3PCompactPolicy']			= "P3P压缩策略";
-$GLOBALS['strP3PPolicyLocation']		= "P3P策略地点";
+// Database Settings
+$GLOBALS['strDatabaseSettings']                      = "数据库";
+$GLOBALS['strDatabaseServer']                        = "Database Server Settings";
+$GLOBALS['strDbLocal']                               = "Use local socket connection";
+$GLOBALS['strDbType']                                = "Database Type";
+$GLOBALS['strDbHost']                                = "Database Hostname";
+$GLOBALS['strDbSocket']                              = "Database Socket";
+$GLOBALS['strDbPort']                                = "Database Port Number";
+$GLOBALS['strDbUser']                                = "Database Username";
+$GLOBALS['strDbPassword']                            = "Database Password";
+$GLOBALS['strDbName']                                = "Database Name";
+$GLOBALS['strDbNameHint']                            = "Database will be created if it does not exist";
+$GLOBALS['strDatabaseOptimalisations']               = "Database Optimisation Settings";
+$GLOBALS['strPersistentConnections']                 = "Use Persistent Connections";
+$GLOBALS['strCantConnectToDb']                       = "Can't Connect to Database";
+$GLOBALS['strCantConnectToDbDelivery']               = 'Can\'t Connect to Database for Delivery';
+$GLOBALS['strDemoDataInstall']                       = "Install Demo Data";
+$GLOBALS['strDemoDataIntro']                         = "Default setup data can be loaded into ". MAX_PRODUCT_NAME ." to help you get started serving online advertising. The most common banner types, as well as some initial campaigns can be loaded and pre-configured. This is highly recommended for new installations.";
 
 
 
-// Banner Settings
-$GLOBALS['strBannerSettings']			= "广告设置";
+// Email Settings
+$GLOBALS['strEmailSettings']                         = "Email 功能";
+$GLOBALS['strEmailAddresses']                        = "Email 'From' Address";
+$GLOBALS['strEmailFromName']                         = "Email 'From' Name";
+$GLOBALS['strEmailFromAddress']                      = "Email 'From' Email Address";
+$GLOBALS['strEmailFromCompany']                      = "Email 'From' Company";
+$GLOBALS['strUseManagerDetails']                     = 'Use the owning account\'s Contact, Email and Name instead of the above Name, Email Address and Company when emailing reports to Advertiser or Website accounts.';
+$GLOBALS['strQmailPatch']                            = "qmail patch";
+$GLOBALS['strEnableQmailPatch']                      = "Enable qmail patch";
+$GLOBALS['strEmailHeader']                           = "Email headers";
+$GLOBALS['strEmailLog']                              = "Email log";
 
-$GLOBALS['strAllowedBannerTypes']		= "�?许的广告形�?";
-$GLOBALS['strTypeSqlAllow']			= "�?�使用本地数�?�库广告";
-$GLOBALS['strTypeWebAllow']			= "�?�使用Webserver�?务器本地广告";
-$GLOBALS['strTypeUrlAllow']			= "使用外部广告";
-$GLOBALS['strTypeHtmlAllow']			= "�?�使用HTML广告";
-$GLOBALS['strTypeTxtAllow']			= "�?�使用文字广告";
+// Audit Trail Settings
+$GLOBALS['strAuditTrailSettings']                    = "Audit Trail Settings";
+$GLOBALS['strEnableAudit']                           = "Enable Audit Trail";
+$GLOBALS['strEnableAuditForZoneLinking']             = "Enable Audit Trail for Zone Linking screen (introduces huge performance penalty when linking large amounts of zones)";
 
-$GLOBALS['strTypeWebSettings']			= "Webserver本地广告全局存储设置";
-$GLOBALS['strTypeWebMode']			= "存储模�?";
-$GLOBALS['strTypeWebModeLocal']			= "本地目录";
-$GLOBALS['strTypeWebModeFtp']			= "扩展FTP�?务器";
-$GLOBALS['strTypeWebDir']			= "本地目录";
-$GLOBALS['strTypeWebFtp']			= "Ftpģʽ��������";
-$GLOBALS['strTypeWebUrl']			= "������URL";
-$GLOBALS['strTypeWebSslUrl']			= "Public URL (SSL)";
-$GLOBALS['strTypeFTPHost']			= "FTP主机";
-$GLOBALS['strTypeFTPDirectory']			= "主机目录";
-$GLOBALS['strTypeFTPUsername']			= "登录";
-$GLOBALS['strTypeFTPPassword']			= "密�?";
-$GLOBALS['strTypeFTPErrorDir']			= "FTP主机目录�?存在";
-$GLOBALS['strTypeFTPErrorConnect']		= "无法链接FTP�?务器，登录�??或密�?�?正确";
-$GLOBALS['strTypeFTPErrorHost']			= "FTP主机�?正确";
-$GLOBALS['strTypeDirError']			= "无法通过Web Server写入本地目录";
+// Debug Logging Settings
+$GLOBALS['strDebug']                                 = "调试日志";
+$GLOBALS['strProduction']                            = "Production server";
+$GLOBALS['strEnableDebug']                           = "Enable Debug Logging";
+$GLOBALS['strDebugMethodNames']                      = "Include method names in debug log";
+$GLOBALS['strDebugLineNumbers']                      = "Include line numbers in debug log";
+$GLOBALS['strDebugType']                             = "Debug Log Type";
+$GLOBALS['strDebugTypeFile']                         = "File";
+$GLOBALS['strDebugTypeMcal']                         = "mCal";
+$GLOBALS['strDebugTypeSql']                          = "SQL Database";
+$GLOBALS['strDebugTypeSyslog']                       = "Syslog";
+$GLOBALS['strDebugName']                             = "Debug Log Name, Calendar, SQL Table,<br />or Syslog Facility";
+$GLOBALS['strDebugPriority']                         = "Debug Priority Level";
+$GLOBALS['strPEAR_LOG_DEBUG']                        = "PEAR_LOG_DEBUG - Most Information";
+$GLOBALS['strPEAR_LOG_INFO']                         = "PEAR_LOG_INFO - Default Information";
+$GLOBALS['strPEAR_LOG_NOTICE']                       = "PEAR_LOG_NOTICE";
+$GLOBALS['strPEAR_LOG_WARNING']                      = "PEAR_LOG_WARNING";
+$GLOBALS['strPEAR_LOG_ERR']                          = "PEAR_LOG_ERR";
+$GLOBALS['strPEAR_LOG_CRIT']                         = "PEAR_LOG_CRIT";
+$GLOBALS['strPEAR_LOG_ALERT']                        = "PEAR_LOG_ALERT";
+$GLOBALS['strPEAR_LOG_EMERG']                        = "PEAR_LOG_EMERG - Least Information";
+$GLOBALS['strDebugIdent']                            = "Debug Identification String";
+$GLOBALS['strDebugUsername']                         = "mCal, SQL Server Username";
+$GLOBALS['strDebugPassword']                         = "mCal, SQL Server Password";
+$GLOBALS['strProductionSystem']                      = "Production System";
 
-$GLOBALS['strDefaultBanners']			= "默认广告";
-$GLOBALS['strDefaultBannerUrl']			= "默认图片URL";
-$GLOBALS['strDefaultBannerTarget']		= "ȱʡ��Ŀ��URL";
+// Delivery Settings
+$GLOBALS['strDeliverySettings']                      = "Delivery Settings";
+$GLOBALS['strWebPath']                               =  MAX_PRODUCT_NAME ." Server Access Paths";
+$GLOBALS['strWebPathSimple']                         = "Web path";
+$GLOBALS['strDeliveryPath']                          = "Delivery path";
+$GLOBALS['strImagePath']                             = "Images path";
+$GLOBALS['strDeliverySslPath']                       = "Delivery SSL path";
+$GLOBALS['strImageSslPath']                          = "Images SSL path";
+$GLOBALS['strImageStore']                            = "Images folder";
+$GLOBALS['strTypeWebSettings']                       = "Webserver Local Banner Storage Settings";
+$GLOBALS['strTypeWebMode']                           = "Storing Method";
+$GLOBALS['strTypeWebModeLocal']                      = "Local Directory";
+$GLOBALS['strTypeDirError']                          = "The local directory cannot be written to by the web server";
+$GLOBALS['strTypeWebModeFtp']                        = "External FTP Server";
+$GLOBALS['strTypeWebDir']                            = "Local Directory";
+$GLOBALS['strTypeFTPHost']                           = "FTP Host";
+$GLOBALS['strTypeFTPDirectory']                      = "Host Directory";
+$GLOBALS['strTypeFTPUsername']                       = "Login";
+$GLOBALS['strTypeFTPPassword']                       = "Password";
+$GLOBALS['strTypeFTPPassive']                        = "Use passive FTP";
+$GLOBALS['strTypeFTPErrorDir']                       = "The FTP Host Directory does not exist";
+$GLOBALS['strTypeFTPErrorConnect']                   = "Could not connect to the FTP Server, the Login or Password is not correct";
+$GLOBALS['strTypeFTPErrorNoSupport']                 = "Your installation of PHP does not support FTP.";
+$GLOBALS['strTypeFTPErrorUpload']                    = "Could not upload file to the FTP Server, check set proper rights to Host Directory";
+$GLOBALS['strTypeFTPErrorHost']                      = "The FTP Host is not correct";
+$GLOBALS['strDeliveryFilenames']                     = "Delivery File Names";
+$GLOBALS['strDeliveryFilenamesAdClick']              = "Ad Click";
+$GLOBALS['strDeliveryFilenamesAdConversionVars']     = "Ad Conversion Variables";
+$GLOBALS['strDeliveryFilenamesAdContent']            = "Ad Content";
+$GLOBALS['strDeliveryFilenamesAdConversion']         = "Ad Conversion";
+$GLOBALS['strDeliveryFilenamesAdConversionJS']       = "Ad Conversion (JavaScript)";
+$GLOBALS['strDeliveryFilenamesAdFrame']              = "Ad Frame";
+$GLOBALS['strDeliveryFilenamesAdImage']              = "Ad Image";
+$GLOBALS['strDeliveryFilenamesAdJS']                 = "Ad (JavaScript)";
+$GLOBALS['strDeliveryFilenamesAdLayer']              = "Ad Layer";
+$GLOBALS['strDeliveryFilenamesAdLog']                = "Ad Log";
+$GLOBALS['strDeliveryFilenamesAdPopup']              = "Ad Popup";
+$GLOBALS['strDeliveryFilenamesAdView']               = "Ad View";
+$GLOBALS['strDeliveryFilenamesXMLRPC']               = "XML RPC Invocation";
+$GLOBALS['strDeliveryFilenamesLocal']                = "Local Invocation";
+$GLOBALS['strDeliveryFilenamesFrontController']      = "Front Controller";
+$GLOBALS['strDeliveryFilenamesFlash']                = "Flash Include (Can be a full URL)";
+$GLOBALS['strDeliveryCaching']                       = "素材缓存";
+$GLOBALS['strDeliveryCacheLimit']                    = "更新间隔（秒）";
+$GLOBALS['strDeliveryCacheStore']                    = "存储类型";
 
-$GLOBALS['strTypeHtmlSettings']			= "HTML广告选项";
-$GLOBALS['strTypeHtmlAuto']			= "自动转�?�HTML广告以实现点击跟踪";
-$GLOBALS['strTypeHtmlPhp']			= "�?许HTML格�?广告中�?行PHP表达�?";
+$GLOBALS['strErrorInCacheStorePlugin']               = "Some errors were reported by the '%s' delivery store plugin:";
+$GLOBALS['strDeliveryCacheStorage']                  = "Delivery cache storage type";
 
+$GLOBALS['strOrigin']                                = "Use remote origin server";
+$GLOBALS['strOriginType']                            = "Origin server type";
+$GLOBALS['strOriginHost']                            = "Hostname for origin server";
+$GLOBALS['strOriginPort']                            = "Port number for origin database";
+$GLOBALS['strOriginScript']                          = "Script file for origin database";
+$GLOBALS['strOriginTypeXMLRPC']                      = "XMLRPC";
+$GLOBALS['strOriginTimeout']                         = "Origin timeout (seconds)";
+$GLOBALS['strOriginProtocol']                        = "Origin server protocol";
 
+$GLOBALS['strDeliveryAcls']                          = "在投放时检查投放控制选项";
+$GLOBALS['strDeliveryAclsDirectSelection']           = "Evaluate banner delivery limitations for direct selected ads";
+$GLOBALS['strDeliveryObfuscate']                     = "Obfuscate channel when delivering ads";
+$GLOBALS['strDeliveryExecPhp']                       = "Allow PHP code in ads to be executed<br />(Warning: Security risk)";
+$GLOBALS['strDeliveryCtDelimiter']                   = "3rd Party Click Tracking Delimiter";
+$GLOBALS['strGlobalDefaultBannerUrl']                = "Global default Banner Image URL";
+$GLOBALS['strP3PSettings']                           = "P3P Privacy Policies";
+$GLOBALS['strUseP3P']                                = "Use P3P Policies";
+$GLOBALS['strP3PCompactPolicy']                      = "P3P Compact Policy";
+$GLOBALS['strP3PPolicyLocation']                     = "P3P Policy Location";
 
-// Host information and Geotargeting
-$GLOBALS['strHostAndGeo']			= "�����Ϣ�͵���";
+// General Settings
+$GLOBALS['generalSettings']                          = "Global General System Settings";
+$GLOBALS['uiEnabled']                                = "User Interface Enabled";
+$GLOBALS['defaultLanguage']                          = "Default System Language<br />(Each user can select their own language)";
 
-$GLOBALS['strRemoteHost']			= "Զ�����";
-$GLOBALS['strReverseLookup']			= "�??�?�查找�?览者的主机�??";
-$GLOBALS['strProxyLookup']			= "�?试查找通过代�?��?务器访问的访问者的真是IP地�?�";
+// Geotargeting Settings
+$GLOBALS['strGeotargetingSettings']                  = "地理信息库";
+$GLOBALS['strGeotargeting']                          = "Geotargeting Settings";
+$GLOBALS['strGeotargetingType']                      = "Geotargeting Module Type";
+$GLOBALS['strGeotargetingUseBundledCountryDb']       = "Use the bundled MaxMind GeoLiteCountry database";
+$GLOBALS['strGeotargetingGeoipCountryLocation']      = "MaxMind GeoIP Country Database Location";
+$GLOBALS['strGeotargetingGeoipRegionLocation']       = "MaxMind GeoIP Region Database Location";
+$GLOBALS['strGeotargetingGeoipCityLocation']         = "MaxMind GeoIP City Database Location";
+$GLOBALS['strGeotargetingGeoipAreaLocation']         = "MaxMind GeoIP Area Database Location";
+$GLOBALS['strGeotargetingGeoipDmaLocation']          = "MaxMind GeoIP DMA Database Location";
+$GLOBALS['strGeotargetingGeoipOrgLocation']          = "MaxMind GeoIP Organisation Database Location";
+$GLOBALS['strGeotargetingGeoipIspLocation']          = "MaxMind GeoIP ISP Database Location";
+$GLOBALS['strGeotargetingGeoipNetspeedLocation']     = "MaxMind GeoIP Netspeed Database Location";
+$GLOBALS['strGeoShowUnavailable']                    = "Show geotargeting delivery limitations even if GeoIP data unavailable";
+$GLOBALS['strGeotrackingGeoipCountryLocationError']  = "The MaxMind GeoIP Country Database does not exist in the location specified";
+$GLOBALS['strGeotrackingGeoipRegionLocationError']   = "The MaxMind GeoIP Region Database does not exist in the location specified";
+$GLOBALS['strGeotrackingGeoipCityLocationError']     = "The MaxMind GeoIP City Database does not exist in the location specified";
+$GLOBALS['strGeotrackingGeoipAreaLocationError']     = "The MaxMind GeoIP Area Database does not exist in the location specified";
+$GLOBALS['strGeotrackingGeoipDmaLocationError']      = "The MaxMind GeoIP DMA Database does not exist in the location specified";
+$GLOBALS['strGeotrackingGeoipOrgLocationError']      = "The MaxMind GeoIP Organisation Database does not exist in the location specified";
+$GLOBALS['strGeotrackingGeoipIspLocationError']      = "The MaxMind GeoIP ISP Database does not exist in the location specified";
+$GLOBALS['strGeotrackingGeoipNetspeedLocationError'] = "The MaxMind GeoIP Netspeed Database does not exist in the location specified";
 
-$GLOBALS['strGeotargeting']			= "地�?�定�?设置";
-$GLOBALS['strGeotrackingType']			= "������ݿ�����";
-$GLOBALS['strGeotrackingLocation'] 		= "������ݿ�λ��";
-$GLOBALS['strGeotrackingLocationError'] 	= "����ָ����λ��û���ҵ�������ݿ�λ��";
-$GLOBALS['strGeoStoreCookie']			= "������cookie�й��Ժ�ο�";
+// Interface Settings
+$GLOBALS['strInventory']                             = "管理界面";
+$GLOBALS['strUploadConversions']                     = "Upload Conversions";
+$GLOBALS['strShowCampaignInfo']                      = "在<i>项目列表</i>页面显示更多信息";
+$GLOBALS['strShowBannerInfo']                        = "在<i>素材列表</i>页面显示更多信息";
+$GLOBALS['strShowCampaignPreview']                   = "在<i>素材列表</i>页面显示所有素材的预览";
+$GLOBALS['strShowBannerHTML']                        = "预览 HTML 素材时显示实际内容（而不是 HTML 代码）";
+$GLOBALS['strShowBannerPreview']                     = "在所有操作素材的页面顶部显示素材预览";
+$GLOBALS['strHideInactive']                          = "在所有列表页面隐藏无效的行";
+$GLOBALS['strGUIShowMatchingBanners']                = "在<i>素材关联<i>页面显示可匹配的素材";
+$GLOBALS['strGUIShowParentCampaigns']                = "在<i>素材关联<i>页面显示素材所属的项目";
+$GLOBALS['strShowEntityId']                          = "显示 ID";
+$GLOBALS['strGUIAnonymousCampaignsByDefault']        = "Default Campaigns to Anonymous";
+$GLOBALS['strStatisticsDefaults']                    = "报表";
+$GLOBALS['strBeginOfWeek']                           = "每周的第一天";
+$GLOBALS['strPercentageDecimals']                    = "精确到小数点后...位";
+$GLOBALS['strWeightDefaults']                        = "默认权重";
+$GLOBALS['strDefaultBannerWeight']                   = "素材";
+$GLOBALS['strDefaultCampaignWeight']                 = "项目";
+$GLOBALS['strDefaultBannerWErr']                     = "Default banner weight should be a positive integer";
+$GLOBALS['strDefaultCampaignWErr']                   = "Default campaign weight should be a positive integer";
+$GLOBALS['strConfirmationUI']                        = "操作确认";
 
+$GLOBALS['strPublisherDefaults']                     = "Website defaults";
+$GLOBALS['strModesOfPayment']                        = "Modes of payment";
+$GLOBALS['strCurrencies']                            = "Currencies";
+$GLOBALS['strCategories']                            = "Categories";
+$GLOBALS['strHelpFiles']                             = "Help files";
+$GLOBALS['strHasTaxID']                              = "Tax ID";
+$GLOBALS['strDefaultApproved']                       = "Approved check box";
 
+// CSV Import Settings
+$GLOBALS['strChooseAdvertiser']                      = "Choose Advertiser";
+$GLOBALS['strChooseCampaign']                        = "Choose Campaign";
+$GLOBALS['strChooseCampaignBanner']                  = "Choose Banner";
+$GLOBALS['strChooseTracker']                         = "Choose Tracker";
+$GLOBALS['strDefaultConversionStatus']               = "Default Conversion Status";
+$GLOBALS['strDefaultConversionType']                 = "Default Conversion Type";
+$GLOBALS['strCSVTemplateSettings']                   = "CSV Template Settings";
+$GLOBALS['strIncludeCountryInfo']                    = "Include Country Info";
+$GLOBALS['strIncludeBrowserInfo']                    = "Include Browser Info";
+$GLOBALS['strIncludeOSInfo']                         = "Include OS Info";
+$GLOBALS['strIncludeSampleRow']                      = "Include Sample Row";
+$GLOBALS['strCSVTemplateAdvanced']                   = "Advanced Template";
+$GLOBALS['strCSVTemplateIncVariables']               = "Include Tracker Variables";
 
-// Statistics Settings
-$GLOBALS['strStatisticsSettings']		= "统计与管�?�设置";
+/**
+ * @todo remove strBannerSettings if banner is only configurable as a preference
+ *       rename // Banner Settings to  // Banner Preferences
+ */
+// Invocation Settings
+$GLOBALS['strAllowedInvocationTypes']                = "Allowed Invocation Types";
+$GLOBALS['strInvocationDefaults']                    = "Invocation Defaults";
+$GLOBALS['strEnable3rdPartyTrackingByDefault']       = "Enable 3rd Party Clicktracking by Default";
 
-$GLOBALS['strStatisticsFormat']			= "�����ʽ";
-$GLOBALS['strCompactStats']			= "ʹ�ü��ģʽ";
-$GLOBALS['strLogAdviews']			= "��¼��������";
-$GLOBALS['strLogAdclicks']			= "��¼�������";
-$GLOBALS['strLogSource']			= "��¼���ù���е�4Դ����";
-$GLOBALS['strGeoLogStats']			= "��¼�����ߵĹ��";
-$GLOBALS['strLogHostnameOrIP']			= "��¼�����ߵ�������IP��ַ";
-$GLOBALS['strLogIPOnly']			= "��������δ֪,���¼�����ߵ�IP��ַ";
-$GLOBALS['strLogIP']				= "��¼�����ߵ�IP��ַ";
-$GLOBALS['strLogBeacon']			= "ʹ���źŵ�4��¼��������,���Ա�ֻ֤��¼���ͳɹ��Ĺ��";
+// Banner Delivery Settings
+$GLOBALS['strBannerDelivery']                         = "素材投放";
 
-$GLOBALS['strRemoteHosts']			= "Զ�����";
-$GLOBALS['strIgnoreHosts']			= "�?�自以下IP地�?�或主机的访客数�?��?统计";
-$GLOBALS['strBlockAdviews']			= "���������Ѿ������˹��,����¼ͬһ���������ʱ����";
-$GLOBALS['strBlockAdclicks']			= "���������Ѿ�����˹��,����¼ͬһ��������ʱ����";
+// Banner Logging Settings
+$GLOBALS['strBannerLogging']                         = "素材投放日志";
+$GLOBALS['strLogAdRequests']                         = "Log a request every time a banner is requested";
+$GLOBALS['strLogAdImpressions']                      = "Log an impression every time a banner is viewed";
+$GLOBALS['strLogAdClicks']                           = "Log a click every time a viewer clicks on a banner";
+$GLOBALS['strLogTrackerImpressions']                 = "Log a tracker impression every time a tracker beacon is viewed";
+$GLOBALS['strReverseLookup']                         = "Reverse lookup the hostnames of viewers when not supplied";
+$GLOBALS['strProxyLookup']                           = "Try to determine the real IP address of viewers behind a proxy server";
+$GLOBALS['strPreventLogging']                        = "Block Banner Logging Settings";
+$GLOBALS['strIgnoreHosts']                           = "Don't log any statistics for viewers using any of the following IP addresses or hostnames";
+$GLOBALS['strIgnoreUserAgents']                      = "<b>Don't</b> log statistics from clients with any of the following strings in their user-agent (one-per-line)";
+$GLOBALS['strEnforceUserAgents']                     = "<b>Only</b> log statistics from clients with any of the following strings in their user-agent (one-per-line)";
 
+// Banner Storage Settings
+$GLOBALS['strBannerStorage']                         = "素材存储";
 
-$GLOBALS['strPreventLogging']			= "全�?�防止统计登录设置";
-$GLOBALS['strEmailWarnings']			= "邮件�??醒";
-$GLOBALS['strAdminEmailHeaders']		= MAX_PRODUCT_NAME."���͵�ÿһ������ʼ������ϴ��ʼ�ͷ";
-$GLOBALS['strWarnLimit']			= "邮件�??醒剩余�?光投放数以少于指定的数�?";
-$GLOBALS['strWarnLimitErr']			= "警告�?制请使用正整数";
-$GLOBALS['strWarnAdmin']			= "邮件�??醒管�?�员项目�?�将过期";
-$GLOBALS['strWarnClient']			= "邮件�??醒客户项目�?�将过期";
-$GLOBALS['strQmailPatch']			= "qmail的补�?";
+// Campaign ECPM settings
+$GLOBALS['strEnableECPM']                            = "Use eCPM optimized priorities instead of remnant-weighted priorities";
+$GLOBALS['strEnableContractECPM']                    = "Use eCPM optimized priorities instead of standard contract priorities";
+$GLOBALS['strEnableECPMfromRemnant']                 = "(If you enable this feature all your remnant campaigns will be deactivated, you will have to update them manually to reactivate them)";
+$GLOBALS['strEnableECPMfromECPM']                    = "(If you disable this feature some of your active eCPM campaigns will be deactivated, you will have to update them manually to reactivate them)";
+$GLOBALS['strInactivatedCampaigns']                  = "List of campaigns which became inactive due to the changes in preferences:";
 
-$GLOBALS['strAutoCleanTables']			= "�Զ�������ݿ�";
-$GLOBALS['strAutoCleanStats']			= "���ͳ�����";
-$GLOBALS['strAutoCleanUserlog']			= "����û���¼";
-$GLOBALS['strAutoCleanStatsWeeks']		= "ͳ����ݵ��������<br />(��С3��)";
-$GLOBALS['strAutoCleanUserlogWeeks']		= "�û���¼���������<br />(��С3��)";
-$GLOBALS['strAutoCleanErr']			= "�������������3��";
-$GLOBALS['strAutoCleanVacuum']			= "ÿ����շ�����ݱ�"; // only Pg
+// Statistics & Maintenance Settings
+$GLOBALS['strMaintenanceSettings']                   = "维护任务";
+$GLOBALS['strConversionTracking']                    = "数据追踪";
+$GLOBALS['strEnableConversionTracking']              = "Enable Conversion Tracking";
+$GLOBALS['strCsvImport']                             = "Allow upload of offline conversions";
+$GLOBALS['strBlockAdViews']                          = "Don't count Ad Impressions if the viewer has seen the same ad/zone pair within the specified time (seconds)";
+$GLOBALS['strBlockAdViewsError']                     = "Ad Impression block value must be a non-negative integer";
+$GLOBALS['strBlockAdClicks']                         = "Don't count Ad Clicks if the viewer has clicked on the same ad/zone pair within the specified time (seconds)";
+$GLOBALS['strBlockAdClicksError']                    = "Ad Click block value must be a non-negative integer";
+$GLOBALS['strMaintenanceOI']                         = "Maintenance Operation Interval (minutes)";
+$GLOBALS['strMaintenanceOIError']                    = "The Maintenace Operation Interval is not valid - see documentation for valid values";
+$GLOBALS['strPrioritySettings']                      = "Priority Settings";
+$GLOBALS['strPriorityInstantUpdate']                 = "Update advertisement priorities immediately when changes made in the UI";
+$GLOBALS['strDefaultImpConWindow']                   = "Default Ad Impression Connection Window (seconds)";
+$GLOBALS['strDefaultImpConWindowError']              = "If set, the Default Ad Impression Connection Window must be a positive integer";
+$GLOBALS['strDefaultCliConWindow']                   = "Default Ad Click Connection Window (seconds)";
+$GLOBALS['strDefaultCliConWindowError']              = "If set, the Default Ad Click Connection Window must be a positive integer";
+$GLOBALS['strAdminEmailHeaders']                     = "Add the following headers to each email message sent by ". MAX_PRODUCT_NAME;
+$GLOBALS['strWarnLimit']                             = "如果剩余投放量低于";
+$GLOBALS['strWarnLimitErr']                          = "投放量必须是正整数";
+$GLOBALS['strWarnLimitDays']                         = "如果剩余天数少于";
+$GLOBALS['strWarnLimitDaysErr']                      = "天数必须是正整数";
+$GLOBALS['strAllowEmail']                            = "全局启用 Email 发送功能";
+$GLOBALS['strEmailAddressFrom']                      = "发件人地址";
+$GLOBALS['strEmailAddressName']                      = "发件人名称";
+$GLOBALS['strWarnAdmin']                             = "项目即将过期时发送通知";
+$GLOBALS['strWarnClient']                            = "项目即将过期时发送通知";
+$GLOBALS['strWarnAgency']                            = "项目即将过期时发送通知";
 
+// UI Settings
+$GLOBALS['strGuiSettings']                           = "用户界面";
+$GLOBALS['strGeneralSettings']                       = "基本";
+$GLOBALS['strAppName']                               = "系统名称";
+$GLOBALS['strMyHeader']                              = "页眉文件";
+$GLOBALS['strMyHeaderError']                         = "在指定的路径找不到页眉文件";
+$GLOBALS['strMyFooter']                              = "页脚文件";
+$GLOBALS['strMyFooterError']                         = "在指定的路径找不到页脚文件";
+$GLOBALS['strDefaultTrackerStatus']                  = "Default tracker status";
+$GLOBALS['strDefaultTrackerType']                    = "Default tracker type";
+$GLOBALS['strSSLSettings']                           = "HTTPS";
+$GLOBALS['requireSSL']                               = "强制使用 HTTPS 登录用户界面";
+$GLOBALS['sslPort']                                  = "HTTPS 端口";
+$GLOBALS['strDashboardSettings']                     = "首页仪表盘";
 
-// Administrator settings
-$GLOBALS['strAdministratorSettings']		= "管�?�员设置";
+$GLOBALS['strMyLogo']                                = "Logo 文件名或 URL";
+$GLOBALS['strMyLogoError']                           = "在 admin/images 目录中找不到指定的 Logo 文件";
+$GLOBALS['strGuiHeaderForegroundColor']              = "页眉前景色";
+$GLOBALS['strGuiHeaderBackgroundColor']              = "页眉背景色";
+$GLOBALS['strGuiActiveTabColor']                     = "激活标签颜色";
+$GLOBALS['strGuiHeaderTextColor']                    = "页眉文本颜色";
+$GLOBALS['strColorError']                            = "请按 RGB 格式输入，例如“0066CC”";
 
-$GLOBALS['strLoginCredentials']			= "登录信任";
-$GLOBALS['strAdminUsername']			= "管�?�员用户�??";
-$GLOBALS['strInvalidUsername']			= "用户�??�?正确";
+$GLOBALS['strGzipContentCompression']                = "使用 GZIP 压缩";
+$GLOBALS['strClientInterface']                       = "Advertiser Interface";
+$GLOBALS['strReportsInterface']                      = "Reports Interface";
+$GLOBALS['strClientWelcomeEnabled']                  = "Enable Advertiser Welcome Message";
+$GLOBALS['strClientWelcomeText']                     = "Welcome Text<br />(HTML Tags Allowed)";
 
-$GLOBALS['strBasicInformation']			= "基本信�?�";
-$GLOBALS['strAdminFullName']			= "管�?�员全�??";
-$GLOBALS['strAdminEmail']			= "管�?�员邮件地�?�";
-$GLOBALS['strCompanyName']			= "公�?��??称";
+$GLOBALS['strPublisherInterface']                    = "Website interface";
+$GLOBALS['strPublisherAgreementEnabled']             = "Enable login control for websites who haven't accepted Terms and Conditions";
+$GLOBALS['strPublisherAgreementText']                = "Login text (HTML tags allowed)";
 
-$GLOBALS['strAdminCheckUpdates']		= "查找更新";
-$GLOBALS['strAdminCheckEveryLogin']		= "ÿ�ε�¼";
-$GLOBALS['strAdminCheckDaily']			= "ÿ��";
-$GLOBALS['strAdminCheckWeekly']			= "ÿ��";
-$GLOBALS['strAdminCheckMonthly']		= "ÿ��";
-$GLOBALS['strAdminCheckNever']			= "�Ӳ�";
+// Regenerate Platfor Hash script
+$GLOBALS['strPlatformHashRegenerate']                = "Platform Hash Regenerate";
+$GLOBALS['strNewPlatformHash']                       = "Your new Platform Hash is:";
+$GLOBALS['strPlatformHashInsertingError']            = "Error inserting Platform Hash into database";
 
-$GLOBALS['strAdminNovice']			= "出于安全，Admin的删除�?��?需�?确认";
-$GLOBALS['strUserlogEmail']			= "记录所有�?�出邮件信�?�";
-$GLOBALS['strUserlogPriority']			= "��¼ÿСʱ�����ȼ�����";
-$GLOBALS['strUserlogAutoClean']			= "��¼��ݿ���Զ�����";
+// Plugin Settings
+$GLOBALS['strPluginSettings']                        = "插件";
+$GLOBALS['strEnableNewPlugins']                      = "Enable newly installed plugins";
+$GLOBALS['strUseMergedFunctions']                    = "Use merged delivery functions file";
 
+/*-------------------------------------------------------*/
+/* Unknown (unused?) translations                        */
+/*-------------------------------------------------------*/
 
-// User interface settings
-$GLOBALS['strGuiSettings']			= "用户界�?�设定";
+$GLOBALS['strExperimental']                 = "Experimental";
+$GLOBALS['strKeywordRetrieval']             = "Keyword retrieval";
+$GLOBALS['strBannerRetrieval']              = "Banner retrieval method";
+$GLOBALS['strRetrieveRandom']               = "Random banner retrieval (default)";
+$GLOBALS['strRetrieveNormalSeq']            = "Normal sequental banner retrieval";
+$GLOBALS['strWeightSeq']                    = "Weight based sequential banner retrieval";
+$GLOBALS['strFullSeq']                      = "Full sequential banner retrieval";
+$GLOBALS['strUseKeywords']                  = "Use keywords to select banners";
+$GLOBALS['strUseConditionalKeys']           = "Allow logical operators when using direct selection";
+$GLOBALS['strUseMultipleKeys']              = "Allow multiple keywords when using direct selection";
 
-$GLOBALS['strGeneralSettings']			= "一般设置";
-$GLOBALS['strAppName']				= "应用�??称";
-$GLOBALS['strMyHeader']				= "页眉文件�?置";
-$GLOBALS['strMyHeaderError']			= "在您指定的�?置下没有页眉文件";
-$GLOBALS['strMyFooter']				= "页脚文件�?置";
-$GLOBALS['strMyFooterError']			= "在您指定的�?置下没有页脚文件";
-$GLOBALS['strGzipContentCompression']		= "使用GZIP进行压缩";
+$GLOBALS['strTableBorderColor']             = "Table Border Color";
+$GLOBALS['strTableBackColor']               = "Table Back Color";
+$GLOBALS['strTableBackColorAlt']            = "Table Back Color (Alternative)";
+$GLOBALS['strMainBackColor']                = "Main Back Color";
+$GLOBALS['strOverrideGD']                   = "Override GD Imageformat";
+$GLOBALS['strTimeZone']                     = "Time Zone";
 
-$GLOBALS['strClientInterface']			= "客户界�?�";
-$GLOBALS['strClientWelcomeEnabled']		= "�?�用客户欢迎信�?�";
-$GLOBALS['strClientWelcomeText']		= "欢迎辞";
-
-
-
-// Interface defaults
-$GLOBALS['strInterfaceDefaults']		= "界�?�默认值";
-
-$GLOBALS['strInventory']			= "系统管�?�";
-$GLOBALS['strShowCampaignInfo']			= "在 <i>项目</i> 页中显示更多项目信�?�";
-$GLOBALS['strShowBannerInfo']			= "在 <i>广告</i> 页中显示更多广告信�?�";
-$GLOBALS['strShowCampaignPreview']		= "在 <i>广告</i> 页中预览所有广告";
-$GLOBALS['strShowBannerHTML']			= "实际显示广告，以代替plain html代�?的广告预览";
-$GLOBALS['strShowBannerPreview']		= "在页首显示广告预览";
-$GLOBALS['strHideInactive']			= "�?�?�?活动内容";
-$GLOBALS['strGUIShowMatchingBanners']		= "显示符�?� <i>Linked banner</i> 的广告";
-$GLOBALS['strGUIShowParentCampaigns']		= "显示<i>Linked banner</i> 的父项目";
-$GLOBALS['strGUILinkCompactLimit']		= "��<i>l�ӹ��</i>ҳ������û��l�ӵ���Ŀ���棬����Ŀ����";
-
-$GLOBALS['strStatisticsDefaults'] 		= "统计";
-$GLOBALS['strBeginOfWeek']			= "一周的开始";
-$GLOBALS['strPercentageDecimals']		= "�??进制百分比";
-
-$GLOBALS['strWeightDefaults']			= "默认�?��?";
-$GLOBALS['strDefaultBannerWeight']		= "默认广告�?��?";
-$GLOBALS['strDefaultCampaignWeight']		= "默认项目�?��?";
-$GLOBALS['strDefaultBannerWErr']		= "ȱʡ���Ȩ��ֵӦ����һ��������";
-$GLOBALS['strDefaultCampaignWErr']		= "ȱʡ��ĿȨ��ֵӦ����һ��������";
-
-
-
-// Not used at the moment
-$GLOBALS['strTableBorderColor']			= "���ߵ���ɫ";
-$GLOBALS['strTableBackColor']			= "���ı���ɫ";
-$GLOBALS['strTableBackColorAlt']		= "���ı���ɫ(��ѡ)";
-$GLOBALS['strMainBackColor']			= "��Ҫ����ɫ";
-$GLOBALS['strOverrideGD']			= "����GDͼ�ο��ʽ";
-$GLOBALS['strTimeZone']				= "ʱ��";
-
-
-
-// Note: new translatiosn not found in original lang files but found in CSV
-$GLOBALS['strAdminAccount'] = "管�?�员�?�?�";
-$GLOBALS['strSpecifySyncSettings'] = "�?�步设置";
-$GLOBALS['strBtnContinue'] = "继续》";
-$GLOBALS['strBtnRecover'] = "�?��?》";
-$GLOBALS['strBtnStartAgain'] = "开始�?�级》";
-$GLOBALS['strBtnGoBack'] = "《返回";
-$GLOBALS['strBtnAgree'] = "我�?��?》";
-$GLOBALS['strBtnDontAgree'] = "《我拒�?";
-$GLOBALS['strBtnRetry'] = "�?试";
-$GLOBALS['strFixErrorsBeforeContinuing'] = "在继续之�?请修�?所有错误";
-$GLOBALS['strWarningRegisterArgcArv'] = "如许�?行维护脚本，您需�?开�?�PHP�?置�?��?中的register_argc_argv";
-$GLOBALS['strInstallIntro'] = "谢谢您选择<a href='http://". MAX_PRODUCT_URL ."' target='_blank'><strong>". MAX_PRODUCT_NAME ."</strong></a><p>�?�导会指导您完�?". MAX_PRODUCT_NAME ." 广告�?务器的安装/�?�级�?程。</p><p>为了帮助您完�?安装过程，我们准备了<a href='". OX_PRODUCT_DOCSURL ."/wizard/qsg-install' target='_blank'>快速安装指�?�</a>�?�帮助您安装并�?�动�?务。关于". MAX_PRODUCT_NAME ."的安装和�?置，如需更详细的信�?�，请访问<a href='". OX_PRODUCT_DOCSURL ."/wizard/admin-guide' target='_blank'>管�?�员指�?�</a>。";
-$GLOBALS['strRecoveryRequiredTitle'] = "你以�?�?试�?�级�?�到一个错误";
-$GLOBALS['strRecoveryRequired'] = "你之�?�?�级". MAX_PRODUCT_NAME ."中出现了一个错误，请点击�?��?按钮�?��?到错误产生之�?的状�?。";
-$GLOBALS['strTermsTitle'] = "团队使用�?�?策略";
-$GLOBALS['strPolicyTitle'] = "�?�?�?�政策";
-$GLOBALS['strPolicyIntro'] = "请审阅并�?��?下列文档�?��?继续安装过程。";
-$GLOBALS['strDbSetupTitle'] = "数�?�库设置";
-$GLOBALS['strDbUpgradeIntro'] = "为安装". MAX_PRODUCT_NAME ."，系统为您检测出下列数�?�库信�?�。请检查并确认这些信�?�是正确的.<p>下一步将为您�?�级数�?�库。点击[继续]�?��?�级您的系统。</p>";
-$GLOBALS['strOaUpToDate'] = "您的". MAX_PRODUCT_NAME ."和数�?�库都使用的都是最新的版本，没有需�?更新的。请点击继续进入管�?�员�?��?�。";
-$GLOBALS['strOaUpToDateCantRemove'] = "警告: �?�级文件�?在var目录。因为�?��?�?够，我们无法移除此档案。请先手动删除该文件�?�。";
-$GLOBALS['strRemoveUpgradeFile'] = "你需�?删除删除var文件夹下的�?�级文件";
-$GLOBALS['strSystemCheck'] = "系统检查";
-$GLOBALS['strDbSuccessIntro'] = "". MAX_PRODUCT_NAME ." 数�?�库已�?更新。请点击“继续�?按钮进入管�?�员与�?�布设定。";
-$GLOBALS['strDbSuccessIntroUpgrade'] = "您的系统已被�?功更新。�?��?�的页�?�将帮助您�?�级新建广告�?务器的�?置。";
-$GLOBALS['strErrorWritePermissions'] = "文件�?��?错误。\n<br />在Linux下修正这个错误，请输入以下命令:";
-$GLOBALS['strErrorFixPermissionsCommand'] = "<i>chmod a+w %s</i>";
-$GLOBALS['strErrorFixPermissionsRCommand']  = "<i>chmod -R a+w %s</i>";
-$GLOBALS['strErrorWritePermissionsWin'] = "文件�?��?错误。您必须先修正这个错误�?�?�继续下一步。";
-$GLOBALS['strCheckDocumentation'] = "需�?帮助，请�?�阅 <a href='". OX_PRODUCT_DOCSURL ."'>". MAX_PRODUCT_NAME ."  文档</a>.";
-$GLOBALS['strAdminUrlPrefix'] = "管�?�员界�?�路径";
-$GLOBALS['strDeliveryUrlPrefix'] = "�?�布引擎路径";
-$GLOBALS['strDeliveryUrlPrefixSSL'] = "�?�布引擎路径（SSL）";
-$GLOBALS['strImagesUrlPrefix'] = "图片存储路径";
-$GLOBALS['strImagesUrlPrefixSSL'] = "图片存储路径（SSL）";
-$GLOBALS['strUnableToWriteConfig'] = "无法修改�?置文件";
-$GLOBALS['strUnableToWritePrefs'] = "无法�?�数�?�库�??交属性更改";
-$GLOBALS['strImageDirLockedDetected'] = "<b>图片文件夹</b>�?�?�写<br>在修改文件夹�?��?之�?无法修改或创建相关文件夹。\n";
-$GLOBALS['strConfigurationSetup'] = "�?置检查表";
-$GLOBALS['strConfigurationSettings'] = "�?置设置";
-$GLOBALS['strAdminPassword'] = "管�?�员密�?";
-$GLOBALS['strAdministratorEmail'] = "管�?�员邮件地�?�";
-$GLOBALS['strTimezoneInformation'] = "时区信�?�（时区的修改将影�?统计数�?�）";
-$GLOBALS['strTimezone'] = "时区";
-$GLOBALS['strTimezoneEstimated'] = "预计时区";
-$GLOBALS['strTimezoneGuessedValue'] = "在PHP设定中的时区�?正确";
-$GLOBALS['strTimezoneSeeDocs'] = "请�?�阅 %DOCS% 了解在PHP中设定这个�?��?的方法。";
-$GLOBALS['strTimezoneDocumentation'] = "文档";
-$GLOBALS['strLoginSettingsTitle'] = "管�?�员登录";
-$GLOBALS['strLoginSettingsIntro'] = "为了继续�?�级，请输入您". MAX_PRODUCT_NAME ." 管�?�员登录信�?�。您必须以管�?�员身份登录，以继续安装。";
-$GLOBALS['strAdminSettingsTitle'] = "创建管�?�员账�?�";
-$GLOBALS['strAdminSettingsIntro'] = "请完�?这个表格�?�创建您的广告�?务器管�?�员账�?�。";
-$GLOBALS['strEnableAutoMaintenance'] = "�?行期间的自动维护还未设定";
-$GLOBALS['strDefaultBannerDestination'] = "默认链接地�?�";
-$GLOBALS['strDbType'] = "数�?�库类型";
-$GLOBALS['strDemoDataInstall'] = "安装演示数�?�";
-$GLOBALS['strDemoDataIntro'] = "将默认安装数�?�加载到 ". MAX_PRODUCT_NAME ." 中，�?�以帮助您�?次�?�动在线广告�?务。最常�?的广告类型和一些�?始广告项目会被加载并被预先�?置。我们强烈推�??新安装的系统都这么�?�。";
-$GLOBALS['strDebugSettings'] = "调试日志";
-$GLOBALS['strDebug'] = "调试日志设置";
-$GLOBALS['strProduction'] = "产�?�?务器";
-$GLOBALS['strEnableDebug'] = "�?�用调试日志";
-$GLOBALS['strDebugMethodNames'] = "在调试日志中包括方法�??";
-$GLOBALS['strDebugLineNumbers'] = "在调试日志中包括方线程�?��?";
-$GLOBALS['strDebugType'] = "调试日志类型";
-$GLOBALS['strDebugTypeFile'] = "文件";
-$GLOBALS['strDebugTypeMcal'] = "mCal";
-$GLOBALS['strDebugTypeSql'] = "SQL数�?�库";
-$GLOBALS['strDebugTypeSyslog'] = "系统日志";
-$GLOBALS['strDebugName'] = "除错日志�??，日历，SQL表格或系统日志工具";
-$GLOBALS['strDebugPriority'] = "除错优先级";
-$GLOBALS['strPEAR_LOG_DEBUG'] = "PEAR_LOG_DEBUG - 所有信�?�";
-$GLOBALS['strPEAR_LOG_INFO'] = "PEAR_LOG_INFO - 默认信�?�";
-$GLOBALS['strPEAR_LOG_NOTICE'] = "PEAR_LOG_NOTICE";
-$GLOBALS['strPEAR_LOG_WARNING'] = "PEAR_LOG_WARNING";
-$GLOBALS['strPEAR_LOG_ERR'] = "PEAR_LOG_ERR";
-$GLOBALS['strPEAR_LOG_CRIT'] = "PEAR_LOG_CRIT";
-$GLOBALS['strPEAR_LOG_ALERT'] = "PEAR_LOG_ALERT";
-$GLOBALS['strPEAR_LOG_EMERG'] = "PEAR_LOG_EMERG - 最少信�?�";
-$GLOBALS['strDebugIdent'] = "调试鉴定弦";
-$GLOBALS['strDebugUsername'] = "mCal, SQL �?务器用户�??";
-$GLOBALS['strDebugPassword'] = "mCal, SQL �?务器密�?";
-$GLOBALS['strWebPath'] = "". MAX_PRODUCT_NAME ." �?务器路径";
-$GLOBALS['strWebPathSimple'] = "页�?�路径";
-$GLOBALS['strDeliveryPath'] = "�?�布路径";
-$GLOBALS['strImagePath'] = "图片路径";
-$GLOBALS['strDeliverySslPath'] = "�?�布SSL路径";
-$GLOBALS['strImageSslPath'] = "图片SSL路径";
-$GLOBALS['strImageStore'] = "图片文件夹";
-$GLOBALS['strTypeFTPPassive'] = "使用被动FTP";
-$GLOBALS['strDeliveryFilenames'] = "全局�?�布文件�??";
-$GLOBALS['strDeliveryFilenamesAdClick'] = "广告点击";
-$GLOBALS['strDeliveryFilenamesAdConversionVars'] = "广告转化�?�数";
-$GLOBALS['strDeliveryFilenamesAdContent'] = "广告内容";
-$GLOBALS['strDeliveryFilenamesAdConversion'] = "广告转化";
-$GLOBALS['strDeliveryFilenamesAdConversionJS'] = "广告转化（JavaScript）";
-$GLOBALS['strDeliveryFilenamesAdFrame'] = "广告框架";
-$GLOBALS['strDeliveryFilenamesAdImage'] = "广告图片";
-$GLOBALS['strDeliveryFilenamesAdJS'] = "广告（JavaScript）";
-$GLOBALS['strDeliveryFilenamesAdLayer'] = "广告层";
-$GLOBALS['strDeliveryFilenamesAdLog'] = "广告记录";
-$GLOBALS['strDeliveryFilenamesAdPopup'] = "弹出广告";
-$GLOBALS['strDeliveryFilenamesAdView'] = "广告预览";
-$GLOBALS['strDeliveryFilenamesXMLRPC'] = "生�?远程调用XML";
-$GLOBALS['strDeliveryFilenamesLocal'] = "生�?本地的";
-$GLOBALS['strDeliveryFilenamesFrontController'] = "字体控制器";
-$GLOBALS['strDeliveryFilenamesFlash'] = "包括Flash（�?�以使用�?对路径）";
-$GLOBALS['strDeliveryCaching'] = "全局�?��?缓存设置";
-$GLOBALS['strDeliveryCacheLimit'] = "缓存刷新频率（秒）";
-$GLOBALS['strOrigin'] = "使用远程�?�?务器";
-$GLOBALS['strOriginType'] = "�?�?务器类型";
-$GLOBALS['strOriginHost'] = "�?�?务器主机�??";
-$GLOBALS['strOriginPort'] = "�?数�?�库端�?��?�";
-$GLOBALS['strOriginScript'] = "�?数�?�库脚本文件";
-$GLOBALS['strOriginTypeXMLRPC'] = "远程调用XML";
-$GLOBALS['strOriginTimeout'] = "�?暂�?�（秒）";
-$GLOBALS['strOriginProtocol'] = "�?�?务器�??议";
-$GLOBALS['strDeliveryBanner'] = "广告�?��?全局设置";
-$GLOBALS['strDeliveryAcls'] = "在分�?�时评估广告的分�?�";
-$GLOBALS['strDeliveryObfuscate'] = "混淆通�?�时广告";
-$GLOBALS['strDeliveryExecPhp'] = "�?�在广告中使用PHP代�?<br/>（�?�能存在安全�?患）";
-$GLOBALS['strDeliveryCtDelimiter'] = "第三方广告跟踪分隔符";
-$GLOBALS['strGeotargetingSettings'] = "地�?�定�?设置";
-$GLOBALS['strGeotargetingType'] = "地�?�定�?模�?�类型";
-$GLOBALS['strGeotargetingGeoipRegionLocation'] = "MaxMind GeoIP 区域数�?�库地�?�";
-$GLOBALS['strGeotargetingGeoipCityLocation'] = "MaxMind GeoIP 城市数�?�地�?�";
-$GLOBALS['strGeotargetingGeoipAreaLocation'] = "MaxMind GeoIP 大区数�?�库地�?�";
-$GLOBALS['strGeotargetingGeoipDmaLocation'] = "MaxMind GeoIP DMA 数�?�库地�?�";
-$GLOBALS['strGeotargetingGeoipOrgLocation'] = "MaxMind GeoIP 组织数�?�库地�?�";
-$GLOBALS['strGeotargetingGeoipIspLocation'] = "MaxMind GeoIP ISP数�?�库地�?�";
-$GLOBALS['strGeotargetingGeoipNetspeedLocation'] = "MaxMind GeoIP网速数�?�地�?�";
-$GLOBALS['strGeoShowUnavailable'] = "如果没有GeoIP数�?�，则�??示地�?�定�?�?�布�?�件";
-$GLOBALS['strGeotrackingGeoipCountryLocationError'] = "在指定�?置没有MaxMind GeoIP 国家数�?�库";
-$GLOBALS['strGeotrackingGeoipRegionLocationError'] = "在指定�?置没有MaxMind GeoIP 区域数�?�库";
-$GLOBALS['strGeotrackingGeoipCityLocationError'] = "在指定�?置没有MaxMind GeoIP 城市数�?�库";
-$GLOBALS['strGeotrackingGeoipAreaLocationError'] = "在指定�?置没有MaxMind GeoIP 大区数�?�库";
-$GLOBALS['strGeotrackingGeoipDmaLocationError'] = "在指定�?置没有MaxMind GeoIP DMA数�?�库";
-$GLOBALS['strGeotrackingGeoipOrgLocationError'] = "在指定�?置没有MaxMind GeoIP 组织数�?�库";
-$GLOBALS['strGeotrackingGeoipIspLocationError'] = "在指定�?置没有MaxMind GeoIP ISP数�?�库";
-$GLOBALS['strGeotrackingGeoipNetspeedLocationError'] = "在指定�?置没有MaxMind GeoIP 网速数�?�库";
-$GLOBALS['strGUIAnonymousCampaignsByDefault'] = "默认匿�??项目";
-$GLOBALS['strModesOfPayment'] = "支付方�?";
-$GLOBALS['strCurrencies'] = "现金";
-$GLOBALS['strCategories'] = "分类";
-$GLOBALS['strHelpFiles'] = "帮助文件";
-$GLOBALS['strHasTaxID'] = "税务ID";
-$GLOBALS['strDefaultApproved'] = "勾选的�?选框";
-$GLOBALS['strInvocationDefaults'] = "默认生�?";
-$GLOBALS['strEnable3rdPartyTrackingByDefault'] = "默认�?�用第三方点击跟踪";
-$GLOBALS['strStatisticsLogging'] = "全局统计登录设置";
-$GLOBALS['strCsvImport'] = "�?许上传离线转化结果";
-$GLOBALS['strLogAdRequests'] = "广告的�?次请求都需�?记录";
-$GLOBALS['strLogAdImpressions'] = "广告的�?次�?览都需�?记录";
-$GLOBALS['strLogAdClicks'] = "广告的�?次点击都需�?记录";
-$GLOBALS['strLogTrackerImpressions'] = "广告�?次的跟踪�?光都需�?记录";
-$GLOBALS['strBlockAdViews'] = "如果�?览者在在指定时间（秒）内�?览�?�一个广告，�?计算广告�?光�?";
-$GLOBALS['strBlockAdViewsError'] = "广告�?光�?�值必须�?�负整数";
-$GLOBALS['strBlockAdClicks'] = "如果�?览者在在指定时间（秒）内点击�?�一个广告，�?计算广告点击数";
-$GLOBALS['strBlockAdClicksError'] = "阻挡广告点击值应该为�?�负整数";
-$GLOBALS['strMaintenaceSettings'] = "全�?�管�?�设置";
-$GLOBALS['strMaintenanceOI'] = "管�?��?行间隔（分钟）";
-$GLOBALS['strMaintenanceOIError'] = "维护�?作间隔设定�?�?�法 - 请阅读文档中关于�?�法时间的定义";
-$GLOBALS['strMaintenanceCompactStats'] = "处�?��?�是�?�删除原始统计数�?�";
-$GLOBALS['strMaintenanceCompactStatsGrace'] = "删除原始统计�?的宽�?时间(秒)";
-$GLOBALS['strPrioritySettings'] = "全局优先�?�设定";
-$GLOBALS['strPriorityInstantUpdate'] = "修改�?�广告优先级立�?�生效";
-$GLOBALS['strWarnCompactStatsGrace'] = "紧缩统计格�?的宽�?时间必须是正整数";
-$GLOBALS['strDefaultImpConWindow'] = "默认广告�?光链接窗�?�（秒）";
-$GLOBALS['strDefaultImpConWindowError'] = "默认广告�?光链接窗�?�数应该为正整数";
-$GLOBALS['strDefaultCliConWindow'] = "默认广告点击链接窗�?�（秒）";
-$GLOBALS['strDefaultCliConWindowError'] = "默认广告点击链接窗�?�数应该为正整数";
-$GLOBALS['strWarnLimitDays'] = "在指定日期之�?�?��?一�?�??醒邮件";
-$GLOBALS['strWarnLimitDaysErr'] = "�??醒�?制日期应该是一个整数";
-$GLOBALS['strWarnAgency'] = "邮件�??醒代�?�商项目�?�将过期";
-$GLOBALS['strDefaultTrackerStatus'] = "默认跟踪状�?";
-$GLOBALS['strDefaultTrackerType'] = "默认跟踪模�?";
-$GLOBALS['strMyLogo'] = "自定义logo文件�??";
-$GLOBALS['strMyLogoError'] = "admin/images目录下没有logo文件";
-$GLOBALS['strGuiHeaderForegroundColor'] = "页眉�?景颜色";
-$GLOBALS['strGuiHeaderBackgroundColor'] = "页眉背景颜色";
-$GLOBALS['strGuiActiveTabColor'] = "激活标签的颜色";
-$GLOBALS['strGuiHeaderTextColor'] = "页眉文本的颜色";
-$GLOBALS['strColorError'] = "请使用RGB格�?输入颜色信�?�，如'0066CC'";
-$GLOBALS['strReportsInterface'] = "报告界�?�";
-$GLOBALS['strPublisherAgreementText'] = "登录文本(支�?HTML标签)";
-$GLOBALS['requireSSL'] = "强制使用SSL访问用户界�?�(UI)";
-$GLOBALS['sslPort'] = "Web�?务器使用的SSL端�?�";
-$GLOBALS['strEmailAddress'] = "电�?邮件地�?�";
-$GLOBALS['strAllowEmail'] = "全局�?许�?��?电�?邮件";
-$GLOBALS['strEmailAddressName'] = "�?��?�?�止活动电�?邮件的公�?�或者人�??";
-
-
-// Note: New translations not found in original lang files but found in CSV
-$GLOBALS['strTermsIntro'] = "". MAX_PRODUCT_NAME ." 在�?�守Open Source license, the GNU General Public License的情况下�?�以被自由分�?�使用，请查看以下文档并确认以继续安装过程";
-$GLOBALS['strDbSetupIntro'] = "请输入详细信�?�连接到数�?�库。如果你�?确定这些信�?�，请�?�系您的系统管�?�员。<p>下一步将为您创建数�?�库，请点击[继续]进入下一步</p>";
-$GLOBALS['strSystemCheckIntro'] = "安装�?�导正在检查您的Web�?务器设置以便�?�?安装过程已�?�?功完�?。	<p>请检查被高亮的问题�?�结�?�安装过程.</p>";
-$GLOBALS['strConfigSettingsIntro'] = "请检查以下设定，进行必需的修改，如果您�?确定，请使用默认选项";
-$GLOBALS['uiEnabled'] = "�?�用用户界�?�";
-$GLOBALS['strGeotargetingGeoipCountryLocation'] = "MaxMind GeoIP 国家数�?�库<br />(如果�?填则使用�?费数�?�库)";
-$GLOBALS['strPublisherDefaults'] = "网站默认设置";
-$GLOBALS['strPublisherInterface'] = "网站界�?�";
-$GLOBALS['strPublisherAgreementEnabled'] = "�?许对没有接�?��??议的网站进行登录控制";
-$GLOBALS['strAuditTrailSettings'] = "审计追踪设置";
-$GLOBALS['strDbSocket'] = "数�?�库套接字";
-$GLOBALS['strEmailAddresses'] = "电�?邮件\"From\"地�?�";
-$GLOBALS['strEmailFromName'] = "电�?邮件\"From\"姓�??";
-$GLOBALS['strEmailFromAddress'] = "电�?邮件\"From\"邮件地�?�";
-$GLOBALS['strEmailFromCompany'] = "电�?邮件\"From\"公�?�";
-$GLOBALS['strIgnoreUserAgents'] = "<b>�?</b> 记录在用户代�?�中包括下列字符串的客户端统计信�?�（一个一行）";
-$GLOBALS['strEnforceUserAgents'] = "<b>�?�</b> 记录在用户代�?�中包括下列字符串的客户端统计信�?�（一个一行）";
-$GLOBALS['strConversionTracking'] = "转化跟踪器设置";
-$GLOBALS['strEnableConversionTracking'] = "�?�用转化跟踪";
-$GLOBALS['strDbNameHint'] = "如果没有�?�现数�?�库，它将被创建";
-$GLOBALS['strProductionSystem'] = "生产系统";
-$GLOBALS['strTypeFTPErrorUpload'] = "�?能将文件上传到你的FTP�?务器，请检查�?��?";
-$GLOBALS['strBannerLogging'] = "图片日志设定";
-$GLOBALS['strBannerDelivery'] = "广告�?�布设定";
-$GLOBALS['strEnableDashboardSyncNotice'] = "如果您希望使用�?��?�，请开�?�  <a href='account-settings-update.php'>检查更新</a>";
-$GLOBALS['strDashboardSettings'] = "�?��?�设置";
-$GLOBALS['strGlobalDefaultBannerUrl'] = "全局默认广告图片URL";
-$GLOBALS['strCantConnectToDbDelivery'] = "无法连接数�?��?��?�布信�?�";
-$GLOBALS['strDefaultConversionStatus'] = "默认转化规则";
-$GLOBALS['strDefaultConversionType'] = "默认转化规则";
 ?>

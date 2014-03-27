@@ -959,7 +959,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
         if ($oStartDate->format('%Y-%m-%d') != $oEndDate->format('%Y-%m-%d')) {
             MAX::raiseError('_saveSummaryUpdateWithFinanceInfo called with dates not on the same day.', null, PEAR_ERROR_DIE);
         }
-        
+
         $indexHint = '';
         if($aConf['database']['type'] == 'mysql'
             && $table == 'data_summary_ad_hourly') {
@@ -1073,7 +1073,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
     function _saveSummaryUpdateAdsWithFinanceInfo($aAdFinanceInfo, $oStartDate, $oEndDate, $table)
     {
         OA::debug('- Starting update finance information for ads', PEAR_LOG_DEBUG);
-        
+
         $aConf = $GLOBALS['_MAX']['CONF'];
         if ($oStartDate->format('%H') != 0 || $oEndDate->format('%H') != 23) {
             if ($oStartDate->format('%Y-%m-%d') != $oEndDate->format('%Y-%m-%d')) {
@@ -1172,7 +1172,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
 
     /**
      * A method to get the hourly revenuo of a monthly tenancy campaign
-     * 
+     *
      * Monthly tenancy calculation sponsored by www.admost.nl
      *
      * @param array $aInfo The finance information, as returned by _saveSummaryGetAdFinanceInfo
@@ -1227,7 +1227,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
         ), PEAR_LOG_DEBUG);
 
         $daysInMonth = $oMonthStart->getDaysInMonth();
-        
+
         OA::debug(sprintf("    - Days in month: %d",
             $daysInMonth
         ), PEAR_LOG_DEBUG);
@@ -1236,7 +1236,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
         $oMonthEnd->setDay($daysInMonth);
         $oMonthEnd = $oMonthEnd->getNextDay();
         $oMonthEnd->setTZ($oMonthStart->tz);
-        
+
         OA::debug(sprintf("    - Month end: %s",
             $oMonthEnd->format('%Y-%m-%d %H:%M:%S %Z')
         ), PEAR_LOG_DEBUG);
@@ -1539,9 +1539,9 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                         $aAdvertiser = $doClients->toArray();
                         OA::debug("  - Sending campaign delivery email ", PEAR_LOG_DEBUG);
                         $oStart = new Date($aAdvertiser['reportlastdate']);
-                        $oEnd = new Date();
+                        $oEnd = new Date($oDate);
                         // Set end date to tomorrow so we get stats for today.
-                        $oEnd->addSpan(new Date_Span('1-0-0-0')); 
+                        $oEnd->addSpan(new Date_Span('1-0-0-0'));
                         $oEmail->sendCampaignDeliveryEmail($aAdvertiser, $oStart, $oEnd, $aCampaign['campaign_id']);
                     }
                 } else if ($canExpireSoon) {

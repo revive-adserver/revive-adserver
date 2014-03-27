@@ -69,7 +69,7 @@ function Plugin_geoTargeting_oxMaxMindGeoIP_oxMaxMindGeoIP_Delivery_getGeoInfo($
     }
 
     if (empty($ret['country_code']) && empty($aGeoConf['geoipCountryLocation'])) {
-        $geo = oxMaxMind_getGeo($ip, dirname(__FILE__) . '/data/FreeGeoIPCountry.dat');
+        $geo = oxMaxMind_getGeo($ip, dirname(__FILE__) . '/data/GeoIP.dat');
         foreach ($geo as $feature => $value) {
             if (!empty($value) && empty($ret[$feature])) {
                 $ret[$feature] = $geo[$feature];

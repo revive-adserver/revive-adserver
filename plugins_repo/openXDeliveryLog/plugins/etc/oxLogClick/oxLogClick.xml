@@ -4,13 +4,13 @@
 <plugin>
     <name>oxLogClick</name>
     <displayName>Banner Click Logging Plugin</displayName>
-    <creationDate>2008-02-19</creationDate>
+    <creationDate>2014-03-10</creationDate>
     <author>Revive Adserver</author>
     <authorEmail>revive@revive-adserver.com</authorEmail>
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>GNU Gneral Public License v2</license>
     <description>Plugin that provides logging of clicks on banners.</description>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
     <oxversion>2.7.30-beta-rc11</oxversion>
     <extends>deliveryLog</extends>
 
