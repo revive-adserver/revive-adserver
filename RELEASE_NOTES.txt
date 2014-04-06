@@ -34,6 +34,7 @@ What's New in Revive Adserver 3.0.4
 
  * Fixed problem with automatic maintenance not working in 3.0.3
  * Fixed mangled characters in the hebrew translation
+ * Fixed query errors when a non-existing zone was requested
 
  Non-Backwards Compatible Changes
  --------------------------------

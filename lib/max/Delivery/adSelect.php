@@ -390,14 +390,21 @@ function _adSelectZone($zoneId, $context = array(), $source = '', $richMedia = t
 {
     // ZoneID zero is used for direct selected adRequests only
     if ($zoneId === 0) { return false; }
-    
+
     global $g_append, $g_prepend;
     while (!in_array($zoneId, $GLOBALS['_MAX']['followedChain'])) {
         $GLOBALS['_MAX']['followedChain'][] = $zoneId;
         $appendedThisZone = false;
 
-        // first get zone info and check zone level limitations
+        // first get zone info
         $aZoneInfo = MAX_cacheGetZoneInfo($zoneId);
+
+        if (empty($aZoneInfo)) {
+            // the zone does not exist, sorry!
+            return false;
+        }
+
+        //check zone level limitations
         if ($zoneId != 0 && MAX_limitationsIsZoneForbidden($zoneId, $aZoneInfo)) {
             $zoneId = _getNextZone($zoneId, $aZoneInfo);
             continue;
@@ -874,8 +881,8 @@ function _adSelect(&$aLinkedAdInfos, $context, $source, $richMedia, $companion, 
                 $ad['tracker_status'] = (!empty($aLinkedAd['tracker_status'])) ? $aLinkedAd['tracker_status'] : null;
                 // Carry over for ad dimensions for market ads
                 if($ad['width'] == $ad['height'] && $ad['width'] == -1) {
-                   $ad['width'] = $aLinkedAd['width']; 
-                   $ad['height'] = $aLinkedAd['height']; 
+                   $ad['width'] = $aLinkedAd['width'];
+                   $ad['height'] = $aLinkedAd['height'];
                 }
                 return $ad;
             }

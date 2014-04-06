@@ -147,6 +147,11 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
     }
     $aZoneInfo = OA_Dal_Delivery_fetchAssoc($rZoneInfo);
 
+    if (empty($aZoneInfo)) {
+        // The zone does not exist!
+        return false;
+    }
+
     // Set the default banner preference information for the zone
     $query = "
         SELECT
