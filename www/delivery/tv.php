@@ -723,6 +723,9 @@ if (!is_resource($rZoneInfo)) {
 return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : false;
 }
 $aZoneInfo = OA_Dal_Delivery_fetchAssoc($rZoneInfo);
+if (empty($aZoneInfo)) {
+return false;
+}
 $query = "
         SELECT
             p.preference_id AS preference_id,

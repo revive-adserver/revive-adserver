@@ -723,6 +723,9 @@ if (!is_resource($rZoneInfo)) {
 return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : false;
 }
 $aZoneInfo = OA_Dal_Delivery_fetchAssoc($rZoneInfo);
+if (empty($aZoneInfo)) {
+return false;
+}
 $query = "
         SELECT
             p.preference_id AS preference_id,
@@ -3898,6 +3901,9 @@ while (!in_array($zoneId, $GLOBALS['_MAX']['followedChain'])) {
 $GLOBALS['_MAX']['followedChain'][] = $zoneId;
 $appendedThisZone = false;
 $aZoneInfo = MAX_cacheGetZoneInfo($zoneId);
+if (empty($aZoneInfo)) {
+return false;
+}
 if ($zoneId != 0 && MAX_limitationsIsZoneForbidden($zoneId, $aZoneInfo)) {
 $zoneId = _getNextZone($zoneId, $aZoneInfo);
 continue;
