@@ -97,6 +97,9 @@ function setupDeliveryConfigVariables()
     if (!defined('OX_PATH')) {
         define('OX_PATH', MAX_PATH);
     }
+    if (!defined('RV_PATH')) {
+        define('RV_PATH', MAX_PATH);
+    }
     if (!defined('LIB_PATH')) {
         define('LIB_PATH', MAX_PATH. DIRECTORY_SEPARATOR. 'lib'. DIRECTORY_SEPARATOR. 'OX');
     }

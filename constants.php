@@ -200,10 +200,10 @@ function setupConstants()
             define('MAX_PATH', dirname(__FILE__));
         }
         if (!defined('OX_PATH')) {
-            define('OX_PATH', dirname(__FILE__));
+            define('OX_PATH', MAX_PATH);
         }
         if (!defined('RV_PATH')) {
-            define('RV_PATH', dirname(__FILE__));
+            define('RV_PATH', MAX_PATH);
         }
         // Ensure that the DIRECTORY_SEPARATOR and PATH_SEPARATOR
         // constants are correctly defined
