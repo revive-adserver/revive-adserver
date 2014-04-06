@@ -19,4 +19,4 @@ release.
 
 
 This product includes GeoLite data created by MaxMind, available from
-<a href="http://www.maxmind.com">http://www.maxmind.com</a>.
+<a href="http://dev.maxmind.com/geoip/legacy/geolite/">http://dev.maxmind.com/geoip/legacy/geolite/</a>.
