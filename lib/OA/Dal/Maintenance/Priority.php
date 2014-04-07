@@ -155,7 +155,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      */
     function getZoneForecastDefaultZoneImpressionsLimit()
     {
-        return self::getZoneForecastDefaultZoneImpressions() /
+        return self::getZoneForecastDefaultZoneImpressions() *
             self::$ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS_FRACTION;
     }
 
