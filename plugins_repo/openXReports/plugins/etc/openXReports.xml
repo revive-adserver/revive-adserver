@@ -4,13 +4,13 @@
 <plugin>
     <name>openXReports</name>
     <displayName>Reports Plugin</displayName>
-    <creationDate>2009-08-06</creationDate>
+    <creationDate>2014-04-08</creationDate>
     <author>Revive Adserver</author>
     <authorEmail>revive@revive-adserver.com</authorEmail>
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>GNU Gneral Public License v2</license>
     <description>Plugin that provides standard reports.</description>
-    <version>1.5.0</version>
+    <version>1.5.1</version>
     <oxversion>2.8.2-rc9</oxversion>
     <type>package</type>
 

@@ -4,13 +4,13 @@
 <plugin>
     <name>Time</name>
     <displayName>Time Delivery Limitation Plugin</displayName>
-    <creationDate>2008-07-01</creationDate>
+    <creationDate>2014-04-08</creationDate>
     <author>Revive Adserver</author>
     <authorEmail>revive@revive-adserver.com</authorEmail>
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>GNU Gneral Public License v2</license>
     <description>Plugin that provides the ability to target delivery of ads by time.</description>
-    <version>1.2.0</version>
+    <version>1.2.1</version>
     <oxversion>2.8.2-rc7</oxversion>
     <extends>deliveryLimitations</extends>
 

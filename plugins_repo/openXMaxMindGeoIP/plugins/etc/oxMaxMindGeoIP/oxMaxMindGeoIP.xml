@@ -4,7 +4,7 @@
 <plugin>
     <name>oxMaxMindGeoIP</name>
     <displayName>MaxMind GeoIP Plugin</displayName>
-    <creationDate>2014-04-06</creationDate>
+    <creationDate>2014-04-08</creationDate>
     <author>Revive Adserver</author>
     <authorEmail>revive@revive-adserver.com</authorEmail>
     <authorUrl>http://www.revive-adserver.com</authorUrl>

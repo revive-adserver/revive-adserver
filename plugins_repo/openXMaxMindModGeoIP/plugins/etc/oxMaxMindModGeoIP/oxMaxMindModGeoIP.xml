@@ -3,13 +3,13 @@
 
 <plugin>
     <name>oxMaxMindModGeoIP</name>
-    <creationDate>2008-08-27</creationDate>
-    <author>Chris Nutting</author>
-    <authorEmail>chris.nutting@openx.org</authorEmail>
-    <authorUrl>www.openx.org</authorUrl>
+    <creationDate>2014-04-08</creationDate>
+    <author>Revive Adserver</author>
+    <authorEmail>revive@revive-adserver.com</authorEmail>
+    <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>GPL</license>
-    <description>My New Plugin</description>
-    <version>1.0.1</version>
+    <description>Plugin that provides MaxMind GeoIP Geotargeting via mod_geoip.</description>
+    <version>1.0.2</version>
     <oxversion>2.7.30-beta-rc11</oxversion>
     <extends>geoTargeting</extends>
 
