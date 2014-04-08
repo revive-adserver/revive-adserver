@@ -31,7 +31,7 @@ class Plugins_BannerTypeHTML_oxHtml_genericHtml extends Plugins_BannerTypeHTML
      */
     function getOptionDescription()
     {
-        return $this->translate("OpenX Generic HTML Banner");
+        return $this->translate("Generic HTML Banner");
     }
 
     function buildForm(&$form, $row)

@@ -33,12 +33,12 @@ class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastInlineHtml extends Plu
     {
         return 'Inline Video Ad';
     }
-    
+
     function getZoneToLinkShortName()
     {
         return $this->getBannerShortName();
     }
-    
+
     /**
      * Return description of banner type
      * for the dropdown selection on the banner-edit screen
@@ -47,14 +47,14 @@ class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastInlineHtml extends Plu
      */
     function getOptionDescription()
     {
-        return $this->translate('OpenX '.$this->getBannerShortName().' (pre/mid/post-roll)');
+        return $this->translate($this->getBannerShortName().' (pre/mid/post-roll)');
     }
 
     function getHelpAdTypeDescription()
     {
         return 'An '.$this->getBannerShortName().' is a video ad that can be presented before, in the middle of, or after the video content and takes over the full view of the video. ';
     }
-    
+
     /**
      * Append type-specific form elements to the base form
      *
@@ -76,7 +76,7 @@ class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastInlineHtml extends Plu
         $header->setAttribute('icon', 'icon-banner-text.gif');
         $form->addElement($header);
         $form->addElement('hidden', 'ext_bannertype', $this->getComponentIdentifier());
-        
+
         $this->addIntroductionInlineHelp($form);
         $this->addVastHardcodedDimensionsToForm($form, $bannerRow, VAST_INLINE_DIMENSIONS);
 
@@ -96,11 +96,11 @@ class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastInlineHtml extends Plu
             );
         }
         $this->addVastParametersToForm($form, $bannerRow, $isNewBanner);
-        $this->setElementIsRequired('vast_video_delivery', 'ext_bannertype', $this->getComponentIdentifier());                                
+        $this->setElementIsRequired('vast_video_delivery', 'ext_bannertype', $this->getComponentIdentifier());
         $this->setElementIsRequired('vast_video_filename', 'ext_bannertype', $this->getComponentIdentifier());
         $this->setElementIsRequired('vast_video_type', 'ext_bannertype', $this->getComponentIdentifier());
         $this->setElementIsRequired('vast_video_duration', 'ext_bannertype', $this->getComponentIdentifier());
-        
+
         $this->addThirdPartyImpressionTracking($form);
         $this->addVastCompanionsToForm($form, $selectableCompanions);
     }
