@@ -1,28 +1,30 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenX - Reports (Standard)\n"
+"Project-Id-Version: Reports (Standard)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-09-17 11:37+0100\n"
-"PO-Revision-Date: 2013-04-25 21:00+0800\n"
-"Last-Translator: Sah Lee <contact@leesah.name>\n"
-"Language-Team: Chris Nutting <Chris.Nutting@openx.org>\n"
+"PO-Revision-Date: 2014-04-08 11:31+0100\n"
+"Last-Translator: Matteo Beccati <matteo@beccati.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: (n != 1)\n"
-"X-Poedit-Language: English\n"
-"X-Poedit-Country: UNITED KINGDOM\n"
+"Plural-Forms: (n != 1);\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-KeywordsList: translate\n"
-"X-Poedit-Basepath: /home/chris/svn/openx/branches/2.8/OX-3686/\n"
-"X-Poedit-SearchPath-0: plugins_repo/openXReports/extensions/reports/oxReportsStandard/\n"
+"Language-Team: \n"
+"Language: en_GB\n"
+"X-Generator: Poedit 1.6.4\n"
+"X-Poedit-SearchPath-0: plugins_repo/openXReports/extensions/reports/"
+"oxReportsStandard/\n"
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//campaignAnalysisReport.class.php:120
 msgid "Campaign Analysis Report"
 msgstr "项目分析报表"
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//campaignAnalysisReport.class.php:121
-msgid "This report shows a breakdown of advertising for a particular campaign, by day, banner, and zone."
+msgid ""
+"This report shows a breakdown of advertising for a particular campaign, by "
+"day, banner, and zone."
 msgstr "指定项目投放记录的明细报表，提供日期、素材及版位视图"
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//campaignAnalysisReport.class.php:123
@@ -59,7 +61,10 @@ msgid "Campaign delivery"
 msgstr "项目对比"
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//liveCampaignDeliveryReport.class.php:60
-msgid "This report shows delivery statistics for all campaigns which were live during the specified period, highlighting campaigns which are underperforming."
+msgid ""
+"This report shows delivery statistics for all campaigns which were live "
+"during the specified period, highlighting campaigns which are "
+"underperforming."
 msgstr "对比指定时间段内所有项目的投放情况，以便于发现表现欠佳的项目"
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//liveCampaignDeliveryReport.class.php:86
@@ -127,7 +132,9 @@ msgid "Advertising Analysis Report"
 msgstr "投放分析报表"
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//advertisingAnalysisReport.class.php:94
-msgid "This report shows a breakdown of advertising for a particular advertiser or website, by day, campaign, and zone."
+msgid ""
+"This report shows a breakdown of advertising for a particular advertiser or "
+"website, by day, campaign, and zone."
 msgstr "指定客户或媒体投放记录的明细报表，提供日期、项目及版位视图"
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//advertisingAnalysisReport.class.php:120
@@ -140,7 +147,8 @@ msgid "Conversion Tracking Report"
 msgstr "数据追踪报表"
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//conversionTrackingReport.class.php:141
-msgid "A detailed breakdown of all conversion activity by advertiser or website."
+msgid ""
+"A detailed breakdown of all conversion activity by advertiser or website."
 msgstr "指定客户或媒体数据追踪的明细报表"
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//conversionTrackingReport.class.php:184
@@ -219,4 +227,3 @@ msgstr "时间"
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//conversionTrackingReport.class.php:725
 msgid "IP Address"
 msgstr "IP 地址"
-

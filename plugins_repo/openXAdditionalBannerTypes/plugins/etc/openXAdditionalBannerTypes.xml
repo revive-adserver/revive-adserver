@@ -3,13 +3,13 @@
 
 <plugin>
     <name>openXAdditionalBannerTypes</name>
-    <creationDate>2008-02-19</creationDate>
-    <author>OpenX</author>
-    <authorEmail>plugins@openx.org</authorEmail>
-    <authorUrl>http://www.openx.org</authorUrl>
-    <license>license.txt</license>
+    <creationDate>2014-04-08</creationDate>
+    <author>Revive Adserver</author>
+    <authorEmail>revive@revive-adserver.com</authorEmail>
+    <authorUrl>http://www.revive-adserver.com</authorUrl>
+    <license>GNU GPL v2</license>
     <description>Additional Banner Type Plugins for OpenX</description>
-    <version>1.0.1</version>
+    <version>1.1.0</version>
     <type>package</type>
 
     <install>

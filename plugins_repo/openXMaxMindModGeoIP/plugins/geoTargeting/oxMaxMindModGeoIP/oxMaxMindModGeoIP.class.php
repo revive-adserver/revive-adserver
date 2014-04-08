@@ -32,7 +32,7 @@ class Plugins_Geotargeting_oxMaxMindModGeoIP_oxMaxMindModGeoIP extends OX_Compon
      */
     function getName()
     {
-        return $this->translate("OpenX MaxMind (Apache module)");
+        return $this->translate("MaxMind GeoIP (Apache mod_geoip)");
     }
 
     /**

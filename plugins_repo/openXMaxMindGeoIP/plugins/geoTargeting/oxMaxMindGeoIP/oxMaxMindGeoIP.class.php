@@ -31,7 +31,7 @@ class Plugins_GeoTargeting_oxMaxMindGeoIP_OxMaxMindGeoIP extends OX_Component
      */
     function getName()
     {
-        return $this->translate("MaxMind (Flat file)");
+        return $this->translate("MaxMind GeoIP (Flat file)");
     }
 
     /**

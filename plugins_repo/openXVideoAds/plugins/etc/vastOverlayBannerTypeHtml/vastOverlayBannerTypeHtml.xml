@@ -4,13 +4,13 @@
 <plugin>
     <name>vastOverlayBannerTypeHtml</name>
     <displayName>IAB VAST Overlay Banner Type Plugin</displayName>
-    <creationDate>2014-01-21</creationDate>
+    <creationDate>2014-04-08</creationDate>
     <author>Revive Adserver</author>
     <authorEmail>revive@revive-adserver.com</authorEmail>
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>GNU Gneral Public License v2</license>
     <description>Plugin that provides IAB VAST video ad support.</description>
-    <version>1.10.0</version>
+    <version>1.10.1</version>
     <oxversion>2.7.8-dev</oxversion>
     <extends>bannerTypeHtml</extends>
 
@@ -18,9 +18,6 @@
         <files>
             <file path="{MODULEPATH}bannerTypeHtml/vastOverlayBannerTypeHtml/">vastOverlayHtml.class.php</file>
             <file path="{MODULEPATH}bannerTypeHtml/vastOverlayBannerTypeHtml/">vastOverlayHtml.delivery.php</file>
-
-            <file path="{GROUPPATH}/_lang/">en.mo</file>
-            <file path="{GROUPPATH}/_lang/po/">en.po</file>
         </files>
 
         <configuration>
