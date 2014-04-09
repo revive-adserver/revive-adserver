@@ -6,7 +6,7 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
-Release Notes: Revive Adserver 3.0.4
+Release Notes: Revive Adserver 3.0.5
 ====================================
 
 These release notes cover what's new, system requirements, download and
@@ -14,10 +14,10 @@ installation instructions, known issues and frequently asked questions for
 Revive Adserver. Please read these notes before reporting any bugs.
 
 
-What's New in Revive Adserver 3.0.4
+What's New in Revive Adserver 3.0.5
 -----------------------------------
 
- * Release date: 8 April 2014
+ * Release date: TBA
 
  Security Updates
  ----------------
@@ -32,10 +32,7 @@ What's New in Revive Adserver 3.0.4
  Bug Fixes
  ---------
 
- * Fixed problem with automatic maintenance not working in 3.0.3
- * Fixed mangled characters in the hebrew translation
- * Fixed query errors when a non-existing zone was requested
- * Removed references to previous product name from plugin translation files
+ * None
 
  Non-Backwards Compatible Changes
  --------------------------------
