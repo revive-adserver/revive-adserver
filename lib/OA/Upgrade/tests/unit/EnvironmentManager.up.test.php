@@ -71,12 +71,23 @@ class Test_OA_Environment_Manager extends UnitTestCase
         // Prepare a new OA_Environment_Manager class
         $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
-        // Set a valid version of PHP
-        $oEnvironmentManager->aInfo['PHP']['actual']['version'] = '6.0.0-dev';
+        // Set an invalid version of PHP
+        $oEnvironmentManager->aInfo['PHP']['actual']['version'] = '5.4.19';
         // Test critical PHP settings
         $result = $oEnvironmentManager->_checkCriticalPHP();
         // Check the results
-        $this->assertEqual($result, OA_ENV_ERROR_PHP_VERSION_NEWER);
+        $this->assertEqual($result, OA_ENV_ERROR_PHP_VERSION_54);
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array(), array('version'));
+
+        // Prepare a new OA_Environment_Manager class
+        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+        // Set an invalid version of PHP
+        $oEnvironmentManager->aInfo['PHP']['actual']['version'] = '5.5.1';
+        // Test critical PHP settings
+        $result = $oEnvironmentManager->_checkCriticalPHP();
+        // Check the results
+        $this->assertEqual($result, OA_ENV_ERROR_PHP_VERSION_55);
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array(), array('version'));
 
         // Test 2: Test memory_limit

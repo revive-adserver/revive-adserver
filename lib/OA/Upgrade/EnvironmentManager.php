@@ -32,7 +32,8 @@ define('OA_ENV_ERROR_PHP_TIMEOUT',                  -12);
 define('OA_ENV_ERROR_PHP_SPL',                      -13);
 define('OA_ENV_ERROR_PHP_MBSTRING',                 -14);
 define('OA_ENV_WARNING_MEMORY',                     -15);
-define('OA_ENV_ERROR_PHP_VERSION_NEWER',            -16);
+define('OA_ENV_ERROR_PHP_VERSION_54',               -16);
+define('OA_ENV_ERROR_PHP_VERSION_55',               -17);
 
 require_once MAX_PATH.'/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/Admin/Settings.php';
@@ -92,7 +93,6 @@ class OA_Environment_Manager
         $this->aInfo['FILES']['actual']   = array();
 
         $this->aInfo['PHP']['expected']['version']              = '5.1.4';
-        $this->aInfo['PHP']['expected']['version_new']          = '6.0.0-dev';
         $this->aInfo['PHP']['expected']['magic_quotes_runtime'] = '0';
         $this->aInfo['PHP']['expected']['safe_mode']            = '0';
         $this->aInfo['PHP']['expected']['file_uploads']         = '1';
@@ -343,7 +343,8 @@ class OA_Environment_Manager
      * @return integer One of the following values:
      *                      - OA_ENV_ERROR_PHP_NOERROR
      *                      - OA_ENV_ERROR_PHP_VERSION
-     *                      - OA_ENV_ERROR_PHP_VERSION_NEWER
+     *                      - OA_ENV_ERROR_PHP_VERSION_54
+     *                      - OA_ENV_ERROR_PHP_VERSION_55
      *                      - OA_ENV_ERROR_PHP_SAFEMODE
      *                      - OA_ENV_ERROR_PHP_MAGICQ
      *                 Note that sometimes an error value is returned, sometimes
@@ -360,50 +361,54 @@ class OA_Environment_Manager
         // Test the PHP version
         if (function_exists('version_compare'))
         {
-            $result = version_compare(
+            if (version_compare(
                 $this->aInfo['PHP']['actual']['version'],
                 $this->aInfo['PHP']['expected']['version'],
                 "<"
-            );
-            if ($result) {
+            )) {
                 $result = OA_ENV_ERROR_PHP_VERSION;
-            } elseif (!empty($this->aInfo['PHP']['expected']['version_new'])) {
-                $result = version_compare(
-                    $this->aInfo['PHP']['actual']['version'],
-                    $this->aInfo['PHP']['expected']['version_new'],
-                    ">="
-                );
-                if ($result) {
-                    $result = OA_ENV_ERROR_PHP_VERSION_NEWER;
-                } else {
-                    $result = OA_ENV_ERROR_PHP_NOERROR;
-                }
+            } elseif (version_compare(
+                $this->aInfo['PHP']['actual']['version'],
+                '5.4.0',
+                ">="
+            ) && version_compare(
+                $this->aInfo['PHP']['actual']['version'],
+                '5.4.20',
+                "<"
+            )) {
+                $result = OA_ENV_ERROR_PHP_VERSION_54;
+            } elseif (version_compare(
+                $this->aInfo['PHP']['actual']['version'],
+                '5.5.0',
+                ">="
+            ) && version_compare(
+                $this->aInfo['PHP']['actual']['version'],
+                '5.5.2',
+                "<"
+            )) {
+                $result = OA_ENV_ERROR_PHP_VERSION_55;
             } else {
                 $result = OA_ENV_ERROR_PHP_NOERROR;
             }
-        }
-        else
-        {
+        } else {
             // The user's PHP version is well old - it doesn't
             // even have the version_compare() function!
             $result = OA_ENV_ERROR_PHP_VERSION;
         }
-        if ($result == OA_ENV_ERROR_PHP_VERSION)
-        {
+
+        if ($result == OA_ENV_ERROR_PHP_VERSION) {
             $this->aInfo['PHP']['warning']['version'] =
                 "Version {$this->aInfo['PHP']['actual']['version']} is below the minimum supported version of {$this->aInfo['PHP']['expected']['version']}." .
                 "<br />Although you can install " . PRODUCT_NAME . ", this is not a supported version, and it is not possible to guarantee that everything will work correctly. " .
                 "Please see the <a href='" . PRODUCT_DOCSURL . "/faq'>FAQ</a> for more information.";
-        }
-        elseif ($result == OA_ENV_ERROR_PHP_VERSION_NEWER)
-        {
-            $this->aInfo['PHP']['warning']['version'] =
-                "Version {$this->aInfo['PHP']['actual']['version']} is not supported yet." .
-                "<br />Although you can install " . PRODUCT_NAME . ", this is not a supported version, and it is not possible to guarantee that everything will work correctly. " .
+        } elseif ($result == OA_ENV_ERROR_PHP_VERSION_54 || $result == OA_ENV_ERROR_PHP_VERSION_55) {
+            $this->aInfo['PHP']['error']['version'] =
+                "Version {$this->aInfo['PHP']['actual']['version']} is not supported due to a bug that prevents " . PRODUCT_NAME . " from working properly." .
+                "<br />You should upgrade your PHP to at least 5.4.20 or 5.5.2 in order to propery install " . PRODUCT_NAME . ". " .
                 "Please see the <a href='" . PRODUCT_DOCSURL . "/faq'>FAQ</a> for more information.";
-        }
-        else
-        {
+                // Exit immediately
+                return $result;
+        } else {
             $this->aInfo['PHP']['error'] = false;
         }
 
