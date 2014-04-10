@@ -77,7 +77,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $result = $oEnvironmentManager->_checkCriticalPHP();
         // Check the results
         $this->assertEqual($result, OA_ENV_ERROR_PHP_VERSION_54);
-        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array(), array('version'));
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array('version'), array());
 
         // Prepare a new OA_Environment_Manager class
         $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
@@ -88,7 +88,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $result = $oEnvironmentManager->_checkCriticalPHP();
         // Check the results
         $this->assertEqual($result, OA_ENV_ERROR_PHP_VERSION_55);
-        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array(), array('version'));
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array('version'), array());
 
         // Test 2: Test memory_limit
 
