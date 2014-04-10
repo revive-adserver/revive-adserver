@@ -27,7 +27,8 @@ What's New in Revive Adserver 3.0.5
  New Features
  ------------
 
- * None
+ * An error message is now displayed when trying to install or upgrade Revive
+   with unsupported PHP 5.4/5.5 versions (< 5.4.20 or < 5.5.2)
 
  Bug Fixes
  ---------
