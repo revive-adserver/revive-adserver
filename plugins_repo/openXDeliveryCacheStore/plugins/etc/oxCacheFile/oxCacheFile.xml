@@ -4,13 +4,13 @@
 <plugin>
     <name>oxCacheFile</name>
     <displayName>Banner Delivery File Cache Store Plugin</displayName>
-    <creationDate>2008-07-21</creationDate>
+    <creationDate>2014-04-08</creationDate>
     <author>Revive Adserver</author>
     <authorEmail>revive@revive-adserver.com</authorEmail>
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>GNU Gneral Public License v2</license>
     <description>Plugin that provides file-based banner delivery caching.</description>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
     <oxversion>2.7.30-beta-rc11</oxversion>
     <extends>deliveryCacheStore</extends>
 
@@ -20,7 +20,6 @@
             <file path="{MODULEPATH}deliveryCacheStore/oxCacheFile/">oxCacheFile.delivery.php</file>
 
             <file path="{PLUGINPATH}oxCacheFile/_lang/">en.mo</file>
-            <file path="{PLUGINPATH}oxCacheFile/_lang/po/">en.pot</file>
             <file path="{PLUGINPATH}oxCacheFile/_lang/po/">en.po</file>
 
             <file path="{GROUPPATH}/">processSettings.php</file>
