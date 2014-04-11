@@ -291,15 +291,13 @@ class OA_Admin_Statistics_History
             // Adjust end date to be now, if it's in the future
             if ($oEndDate->isFuture()) {
                 $oEndDate = new Date();
-                $aDates['day_end'] = new Date();
-                $aDates['day_end'] = $aDates['day_end']->format('%Y-%m-%d');
+                $aDates['day_end'] = date('Y-m-d');
             }
         } else {
             // Use the dates given by the statistics date limitation
             // and now
-            $oStartDate = new Date();
-            $oStartDate->copy($oStatsStartDate);
-            $oEndDate   = new Date();
+            $oStartDate = new Date($oStatsStartDate);
+            $oEndDate   = new Date(date('Y-m-d'));
         }
         // Prepare the return array
         $aDatesResult = array();
@@ -308,8 +306,7 @@ class OA_Admin_Statistics_History
             case 'day' :
                 $oOneDaySpan = new Date_Span('1', '%d');
                 $oEndDate->addSpan($oOneDaySpan);
-                $oDate = new Date();
-                $oDate->copy($oStartDate);
+                $oDate = new Date($oStartDate);
                 while ($oDate->before($oEndDate)) {
                     $aDatesResult[$oDate->format('%Y-%m-%d')] = $oDate->format($GLOBALS['date_format']);
                     $oDate->addSpan($oOneDaySpan);
@@ -318,8 +315,7 @@ class OA_Admin_Statistics_History
             case 'month' :
                 $oOneMonthSpan = new Date_Span((string)($oEndDate->getDaysInMonth() - $oEndDate->getDay() + 1), '%d');
                 $oEndDate->addSpan($oOneMonthSpan);
-                $oDate = new Date();
-                $oDate->copy($oStartDate);
+                $oDate = new Date($oStartDate);
                 while ($oDate->before($oEndDate)) {
                     $aDatesResult[$oDate->format('%Y-%m')] = $oDate->format($GLOBALS['month_format']);
                     $oOneMonthSpan = new Date_Span((string)($oDate->getDaysInMonth() - $oDate->getDay() + 1), '%d');
