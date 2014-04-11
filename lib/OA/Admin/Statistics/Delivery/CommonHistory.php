@@ -143,7 +143,7 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
     function prepare(&$aParams, $link = '')
     {
         parent::prepare($aParams);
-        
+
         // Set the span requirements
         // Disable this for now, since these queries can be very slow
         // $this->oHistory->getSpan($this, $aParams);
@@ -256,16 +256,16 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
             // assumes first row has earliest date
             $firstDate = new Date ($dates[0]);
 
-            // are these steps really needed?
+            // Convert to current TZ
             $firstDate->setTZbyID('UTC');
             $firstDate->convertTZ($oNow->tz);
             $firstDate->setHour(0);
             $firstDate->setMinute(0);
             $firstDate->setSecond(0);
 
-            if (empty($oCaller->aDates)) {
-                $oCaller->aDates['day_begin'] = $firstDate->format('%Y-%m-%d');
-                $oCaller->aDates['day_end']   = $oNow->format('%Y-%m-%d');
+            if (empty($this->aDates)) {
+                $this->aDates['day_begin'] = $firstDate->format('%Y-%m-%d');
+                $this->aDates['day_end']   = $oNow->format('%Y-%m-%d');
             }
 
             $this->oStartDate = new Date($firstDate);

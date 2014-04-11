@@ -34,6 +34,8 @@ What's New in Revive Adserver 3.0.5
  ---------
 
  * Fixed bad translation in the Russian language translation.
+ * Fixed history statistics screens also displaying "tomorrow" when switched to
+   "All statistics".
 
  Non-Backwards Compatible Changes
  --------------------------------
