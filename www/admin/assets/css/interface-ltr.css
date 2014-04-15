@@ -623,7 +623,7 @@ table.data-grid {
 }
 
 table.data-grid tr.header {
-  background-image: url('../table-bg.gif');
+  background-image: url('../images/table-bg.gif');
   background-repeat: repeat-x;
   background-position: left bottom;
   height: 35px;
