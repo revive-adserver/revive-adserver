@@ -35,19 +35,19 @@ function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataPageInfo()
     $GLOBALS['_MAX']['deliveryData']['pageInfo'] = $pageInfo;
 }
 
-function Plugin_deliveryDataPrepare_dataPageInfo_Delivery_logRequest()
+function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataPageInfo_Delivery_logRequest()
 {
-    Plugin_deliveryDataPrepare_dataPageInfo();
+    Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataPageInfo();
 }
 
-function Plugin_deliveryDataPrepare_dataPageInfo_Delivery_logImpression()
+function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataPageInfo_Delivery_logImpression()
 {
-    Plugin_deliveryDataPrepare_dataPageInfo();
+    Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataPageInfo();
 }
 
-function Plugin_deliveryDataPrepare_dataPageInfo_Delivery_logClick()
+function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataPageInfo_Delivery_logClick()
 {
-    Plugin_deliveryDataPrepare_dataPageInfo();
+    Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataPageInfo();
 }
 
 ?>
