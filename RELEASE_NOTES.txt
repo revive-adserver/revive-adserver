@@ -36,7 +36,9 @@ What's New in Revive Adserver 3.0.5
  * Fixed bad translation in the Russian language translation.
  * Fixed history statistics screens also displaying "tomorrow" when switched to
    "All statistics".
-
+ * Fixed broken dataPageInfo and dataUserAgent DeliveryDataPrepare
+   components of the standard delivery logging plugin.
+ 
  Non-Backwards Compatible Changes
  --------------------------------
 

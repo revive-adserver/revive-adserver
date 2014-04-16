@@ -33,19 +33,19 @@ function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataUserAgent()
     $GLOBALS['_MAX']['deliveryData']['userAgentInfo'] = $userAgentInfo;
 }
 
-function Plugin_deliveryDataPrepare_dataUserAgent_logRequest()
+function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataUserAgent_Delivery_logRequest()
 {
-    Plugin_deliveryDataPrepare_dataUserAgent();
+    Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataUserAgent();
 }
 
-function Plugin_deliveryDataPrepare_dataUserAgent_logImpression()
+function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataUserAgent_Delivery_logImpression()
 {
-    Plugin_deliveryDataPrepare_dataUserAgent();
+    Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataUserAgent();
 }
 
-function Plugin_deliveryDataPrepare_dataUserAgent_logClick()
+function Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataUserAgent_Delivery_logClick()
 {
-    Plugin_deliveryDataPrepare_dataUserAgent();
+    Plugin_deliveryDataPrepare_oxDeliveryDataPrepare_dataUserAgent();
 }
 
 ?>
