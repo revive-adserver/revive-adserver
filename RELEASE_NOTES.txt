@@ -95,6 +95,10 @@ What's New in Revive Adserver 3.1.0
    this feature; but please be aware that the default for all new advertiser
    accounts has been changed.
 
+ * The adRender hook function signature was missing the $richMedia argument before
+   $loc and $referer. Please make sure you double check your custom plugins in
+   case they use such hook.
+
 
 System Requirements
 -------------------
