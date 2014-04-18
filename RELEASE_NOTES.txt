@@ -38,15 +38,11 @@ What's New in Revive Adserver 3.0.5
    "All statistics".
  * Fixed broken dataPageInfo and dataUserAgent DeliveryDataPrepare
    components of the standard delivery logging plugin.
- * Fixed logging beacon generation so that the page URL and referrer are
-   properly sent as GET parameters.
-
+ 
  Non-Backwards Compatible Changes
  --------------------------------
 
- * The adRender hook call was sending an unexpected $richMedia argument before
-   $loc and $referer. Please make sure you double check your custom plugins in
-   case they use such hook.
+ * None
 
 
 System Requirements
