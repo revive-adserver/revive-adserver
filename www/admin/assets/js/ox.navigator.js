@@ -111,7 +111,12 @@
         this.empty();
         this.list.removeClass('loading');
 
+        var order = [];
         for (k in data) {
+            order[data[k].idx] = k;
+        }
+        for (n=0;n < order.length;n++) {
+            var k = order[n];
             var d = this.options.name;
             var d = this.options.className;
             var d = data[k].name;
