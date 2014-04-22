@@ -3132,7 +3132,7 @@ return file_get_contents(MAX_PATH . '/www/delivery/' . $conf['file']['flash']);
 MAX_commonRegisterGlobalsArray(array('id'));
 $output = OA_SPCGetJavaScript($id);
 MAX_commonSendContentTypeHeader("application/x-javascript");
-header("Content-Size: ".strlen($output));
+header("Content-Length: ".strlen($output));
 header("Expires: ".gmdate('r', time() + 86400));
 MAX_cookieFlush();
 echo $output;
