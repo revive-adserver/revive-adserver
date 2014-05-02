@@ -110,7 +110,27 @@ class OA_Admin_Template extends Smarty
         $this->assign("pluginBaseDir", MAX_PATH.'/www/admin/plugins/');
         $this->assign("pluginTemplateDir", '/templates/');
 
+        /**
+         * CVE-2013-5954
+         *
+         * Register the helper method to allow the the required session token to
+         * be placed into GET method calls for CRUD operations in templates. See
+         * OA_Permission::checkSessionToken() method for details.
+         */
+        $this->register_function('rv_add_session_token', array('OA_Admin_Template', '_add_session_token'));
 
+    }
+
+    /**
+     * CVE-2013-5954
+     *
+     * Helper method to allow the the required session token to be placed
+     * into GET method calls for CRUD operations in templates. See
+     * OA_Permission::checkSessionToken() method for details.
+     */
+    static public function _add_session_token()
+    {
+        return 'token=' . urlencode(phpAds_SessionGetToken());
     }
 
     /**

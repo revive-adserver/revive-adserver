@@ -38,7 +38,7 @@
 						});
 
 						if (!tablePreferences.warningBeforeDelete || confirm("{/literal}{t str=ConfirmDeleteChannels}{literal}")) {
-							window.location = 'channel-delete.php?{/literal}{$entityId}{literal}&channelid=' + ids.join(',');
+							window.location = 'channel-delete.php?{/literal}{$entityId}&{rv_add_session_token}{literal}&channelid=' + ids.join(',');
 						}
 					}
                 });

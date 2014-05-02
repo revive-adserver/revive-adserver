@@ -41,7 +41,7 @@
 						});
 
 						if (!tablePreferences.warningBeforeDelete || confirm("{/literal}{t str=ConfirmDeleteCampaigns}{literal}")) {
-    						window.location = 'campaign-delete.php?clientid={/literal}{$clientId}{literal}&campaignid=' + ids.join(',');
+    						window.location = 'campaign-delete.php?clientid={/literal}{$clientId}&{rv_add_session_token}{literal}&campaignid=' + ids.join(',');
 						}
 					}
                 });
