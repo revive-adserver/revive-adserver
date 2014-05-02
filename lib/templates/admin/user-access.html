@@ -57,7 +57,7 @@
       {/if}
         <td class="last">
           <a href="{$editPage}?userid={$user.user_id}&amp;{$entityIdName}={$entityIdValue}" class="permissions" style="padding-right: 10px">{t str=Permissions}</a>
-          <a href="{$unlinkPage}?userid={$user.user_id}&amp;{$entityIdName}={$entityIdValue}" class="unlink{if $user.toDelete} unlink-last{else} unlink-normal{/if}">{t str=Remove}</a>
+          <a href="{$unlinkPage}?userid={$user.user_id}&amp;{$entityIdName}={$entityIdValue}&amp;{rv_add_session_token}" class="unlink{if $user.toDelete} unlink-last{else} unlink-normal{/if}">{t str=Remove}</a>
         </td>
       </tr>
 

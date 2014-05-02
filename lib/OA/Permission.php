@@ -81,6 +81,23 @@ class OA_Permission
     const OPERATION_VIEW_CHILDREN = 128;
     const OPERATION_ALL = 255;//1+2+4+8+16+  32+64+128 
     
+    /**
+     * CVE-2013-5954
+     *
+     * Helper method which checks if the correct session token is present
+     * when CRUD actions (generally deletes) are performed using a GET instead
+     * of a POST (for historical reasons). Allows the CSRF vulnerabilities
+     * reported in CVE-2013-5954 to be closed off without the required (and
+     * eventually needed) refactoring of the enture UI to a proper MVC
+     * framework.
+     */
+    public static function checkSessionToken()
+    {
+        $token = isset($_GET['token']) ? $_GET['token'] : false;
+        OA_Permission::enforceTrue(
+            phpAds_SessionValidateToken($token)
+        );
+    }
     
     /**
      * Helper method which checks whether $condition is true, if it is not true

@@ -28,6 +28,8 @@ phpAds_registerGlobal ('returnurl');
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
 OA_Permission::enforceAccessToObject('clients', $clientid);
 
+// CVE-2013-5954 - see OA_Permission::checkSessionToken() method for details
+OA_Permission::checkSessionToken();
 
 /*-------------------------------------------------------*/
 /* Main code                                             */
