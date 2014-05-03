@@ -179,7 +179,7 @@ function OX_bucket_prepareUpdateQuery($tableName, $aQuery, $increment = true, $c
     // Initiate the connection to the database (before using mysql_real_escape_string)
  	OA_Dal_Delivery_connect('rawDatabase');
 
-    array_map('mysql_real_escape_string', $aQuery);
+    $aQuery = array_map('OX_escapeString', $aQuery);
     if ($increment) {
     $aQuery[$counter] = 1;
     } else {
