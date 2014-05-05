@@ -25,6 +25,9 @@ OA_Permission::enforceAccessToObject ( 'campaigns', $campaignid );
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
+// Send header with charset info
+header ("Content-Type: text/html".(isset($phpAds_CharSet) && $phpAds_CharSet != "" ? "; charset=".$phpAds_CharSet : ""));
+
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI/CampaignZoneLink.php';
 
