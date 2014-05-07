@@ -212,7 +212,7 @@ class Net_IPv4
             /*
              *  a hexadecimal string was entered
              */
-            if (eregi("^([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$", $parts[1], $regs)) {
+            if (preg_match("/^([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i", $parts[1], $regs)) {
                 // hexadecimal string
                 $myself->netmask = hexdec($regs[1]) . "." .  hexdec($regs[2]) . "." .
                     hexdec($regs[3]) . "." .  hexdec($regs[4]);
@@ -394,7 +394,7 @@ class Net_IPv4
      */
     function htoa($addr)
     {
-        if (eregi("^([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$",
+        if (preg_match("/^([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i",
                     $addr, $regs)) {
             return hexdec($regs[1]) . "." .  hexdec($regs[2]) . "." .
                    hexdec($regs[3]) . "." .  hexdec($regs[4]);
