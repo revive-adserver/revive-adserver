@@ -4327,5 +4327,5 @@ $context[] = $contextArray;
 }
 MAX_cookieFlush();
 MAX_commonSendContentTypeHeader("application/x-javascript", $charset);
-header("Content-Size: ".strlen($spc_output));
+header("Content-Length: ".strlen($spc_output));
 echo $spc_output;

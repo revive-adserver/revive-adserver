@@ -3075,6 +3075,6 @@ OX_Delivery_Common_hook('postInit');
 
 $output = MAX_cacheGetGoogleJavaScript();
 MAX_commonSendContentTypeHeader("application/x-javascript");
-MAX_header("Content-Size: ".strlen($output));
+MAX_header("Content-Length: ".strlen($output));
 MAX_header("Expires: ".gmdate('r', time() + 86400));
 echo $output;

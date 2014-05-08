@@ -28,7 +28,7 @@ $output = OA_SPCGetJavaScript($id);
 
 // Output JS
 MAX_commonSendContentTypeHeader("application/x-javascript");
-header("Content-Size: ".strlen($output));
+header("Content-Length: ".strlen($output));
 header("Expires: ".gmdate('r', time() + 86400));
 
 // Flush cookies
