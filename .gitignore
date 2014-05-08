@@ -19,3 +19,4 @@
 /var/templates_compiled/*.serial
 /www/admin/plugins/*
 /www/images/
+/plugins_repo/build-ap.xml
