@@ -38,6 +38,8 @@ What's New in Revive Adserver 3.0.5
    "All statistics".
  * Fixed broken dataPageInfo and dataUserAgent DeliveryDataPrepare
    components of the standard delivery logging plugin.
+ * Added proper Content-Type header with charset to some scripts in order to
+   override the webserver default.
  
  Non-Backwards Compatible Changes
  --------------------------------
