@@ -42,6 +42,7 @@ What's New in Revive Adserver 3.0.5
    override the webserver default.
  * Changed a few occurrencies of the non-existing Content-Size header to
    Content-Length.
+ * Switched a few deprecated ereg calls to preg in PEAR libraries.
  
  Non-Backwards Compatible Changes
  --------------------------------
