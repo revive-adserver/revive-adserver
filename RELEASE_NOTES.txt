@@ -40,6 +40,8 @@ What's New in Revive Adserver 3.0.5
    components of the standard delivery logging plugin.
  * Added proper Content-Type header with charset to some scripts in order to
    override the webserver default.
+ * Changed a few occurrencies of the non-existing Content-Size header to
+   Content-Length.
  
  Non-Backwards Compatible Changes
  --------------------------------
