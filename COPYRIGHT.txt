@@ -9,6 +9,7 @@ contributions to the code:
  - Florian Sander
  - Joan Sarola
  - Stelios Skiathitis
+ - Sunci Syz
 
 --------------------------------------------------------------------------------
 
