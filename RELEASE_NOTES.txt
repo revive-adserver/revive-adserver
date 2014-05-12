@@ -29,6 +29,8 @@ What's New in Revive Adserver 3.0.5
 
  * An error message is now displayed when trying to install or upgrade Revive
    Adserver with unsupported PHP 5.4/5.5 versions (< 5.4.20 or < 5.5.2).
+ * Updated the MaxMind GeoIP plugin to include the May 2014 MaxMind GeoCountry
+   database.
 
  Bug Fixes
  ---------
