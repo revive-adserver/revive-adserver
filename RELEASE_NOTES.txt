@@ -36,16 +36,17 @@ What's New in Revive Adserver 3.0.5
  ---------
 
  * Fixed bad translation in the Russian language translation.
- * Fixed history statistics screens also displaying "tomorrow" when switched to
-   "All statistics".
- * Fixed broken dataPageInfo and dataUserAgent DeliveryDataPrepare
-   components of the standard delivery logging plugin.
+ * Fixed history statistics screens to prevent displaying future dates when
+   showing "All statistics".
+ * Fixed broken "DeliveryDataPrepare:dataPageInfo" and
+   "DeliveryDataPrepare:dataUserAgent" components of the standard delivery
+   logging plugin.
  * Added proper Content-Type header with charset to some scripts in order to
    override the webserver default.
- * Changed a few occurrencies of the non-existing Content-Size header to
-   Content-Length.
- * Switched a few deprecated ereg calls to preg in PEAR libraries.
- 
+ * Changed a few occurrences of the non-existing "Content-Size" header to
+   "Content-Length".
+ * Switched a few deprecated "ereg" calls to "preg" in PEAR libraries.
+
  Non-Backwards Compatible Changes
  --------------------------------
 
