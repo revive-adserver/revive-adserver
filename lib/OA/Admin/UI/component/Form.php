@@ -134,6 +134,7 @@ class OA_Admin_UI_Component_Form
         $ret = parent::validate();
 
         if (!$ret) {
+            // The form returned an error. We need to generate a new CSRF token, in any.
             $token = $this->getElement('token');
             if (!empty($token)) {
                 $token->setValue(phpAds_SessionGetToken());
