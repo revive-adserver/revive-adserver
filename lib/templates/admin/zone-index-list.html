@@ -41,7 +41,7 @@
 						});
 
 						if (!tablePreferences.warningBeforeDelete || confirm("{/literal}{t str=ConfirmDeleteZones}{literal}")) {
-							window.location = 'zone-delete.php?affiliateid={/literal}{$affiliateId}{literal}&zoneid=' + ids.join(',');
+							window.location = 'zone-delete.php?affiliateid={/literal}{$affiliateId}&{rv_add_session_token}{literal}&zoneid=' + ids.join(',');
 						}
 					}
 				});

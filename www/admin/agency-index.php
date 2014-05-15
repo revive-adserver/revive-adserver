@@ -187,7 +187,7 @@ else
 
         // Delete
         echo "\t\t\t\t\t<td height='25'>";
-        echo "<img src='" . OX::assetPath() . "/images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;<a href='agency-delete.php?agencyid=".$agency['agencyid']."&returnurl=agency-index.php'".phpAds_DelConfirm($strConfirmDeleteAgency).">$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+        echo "<img src='" . OX::assetPath() . "/images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;<a href='agency-delete.php?token=" . urlencode(phpAds_SessionGetToken()) . "&agencyid=".$agency['agencyid']."&returnurl=agency-index.php'".phpAds_DelConfirm($strConfirmDeleteAgency).">$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
         echo "</td>\n";
 
         echo "\t\t\t\t</tr>\n";

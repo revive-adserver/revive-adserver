@@ -29,6 +29,9 @@ OA_Permission::enforceAccessToObject('clients', $clientid);
 
 $accountId = OA_Permission::getAccountIdForEntity('clients', $clientid);
 
+// CVE-2013-5954 - see OA_Permission::checkSessionToken() method for details
+OA_Permission::checkSessionToken();
+
 /*-------------------------------------------------------*/
 /* Main code                                             */
 /*-------------------------------------------------------*/

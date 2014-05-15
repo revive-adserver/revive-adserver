@@ -33,7 +33,7 @@
 						});
 
 						if (!tablePreferences.warningBeforeDelete || confirm("{/literal}{t str=ConfirmDeleteAffiliates}{literal}")) {
-							window.location = 'affiliate-delete.php?affiliateid=' + ids.join(',');
+							window.location = 'affiliate-delete.php?{/literal}{rv_add_session_token}{literal}&affiliateid=' + ids.join(',');
 						}
 					}
                 });

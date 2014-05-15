@@ -189,7 +189,7 @@ function OX_bucket_quoteArgs($aArgs)
     $array = $aArgs;
     foreach ($array as &$value) {
         if (!is_integer($value)) {
-            $value = "'" . $value . "'";
+            $value = "'" . OX_escapeString($value) . "'";
         }
     }
     return $array;

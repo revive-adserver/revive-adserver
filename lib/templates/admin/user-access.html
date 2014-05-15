@@ -44,10 +44,10 @@
     <tbody class="{$rowType}">
       <tr height="25" {if $user.justModified}class="hl"{/if}>
       {if $sso}
-        <td class="first"><a href="{$editPage}?userid={$user.user_id}&amp;{$entityIdName}={$entityIdValue}">{$user.email_address}</a></td>
+        <td class="first"><a href="{$editPage}?userid={$user.user_id}{if $entityIdName}&amp;{$entityIdName}={$entityIdValue}{/if}">{$user.email_address}</a></td>
       {else}
-        <td class="first"><a href="{$editPage}?userid={$user.user_id}&amp;{$entityIdName}={$entityIdValue}">{$user.username|escape}</a></td>
-        <td><a href="{$editPage}?userid={$user.user_id}&amp;{$entityIdName}={$entityIdValue}">{$user.email_address}</a></td>
+        <td class="first"><a href="{$editPage}?userid={$user.user_id}{if $entityIdName}&amp;{$entityIdName}={$entityIdValue}{/if}">{$user.username|escape}</a></td>
+        <td><a href="{$editPage}?userid={$user.user_id}{if $entityIdName}&amp;{$entityIdName}={$entityIdValue}{/if}">{$user.email_address}</a></td>
       {/if}
         <td>{$user.contact_name|escape}</td>
       {if $sso}
@@ -56,8 +56,8 @@
         <td>{$user.date_created}</td>
       {/if}
         <td class="last">
-          <a href="{$editPage}?userid={$user.user_id}&amp;{$entityIdName}={$entityIdValue}" class="permissions" style="padding-right: 10px">{t str=Permissions}</a>
-          <a href="{$unlinkPage}?userid={$user.user_id}&amp;{$entityIdName}={$entityIdValue}" class="unlink{if $user.toDelete} unlink-last{else} unlink-normal{/if}">{t str=Remove}</a>
+          <a href="{$editPage}?userid={$user.user_id}{if $entityIdName}&amp;{$entityIdName}={$entityIdValue}{/if}" class="permissions" style="padding-right: 10px">{t str=Permissions}</a>
+          <a href="{$unlinkPage}?userid={$user.user_id}{if $entityIdName}&amp;{$entityIdName}={$entityIdValue}{/if}&amp;{rv_add_session_token}" class="unlink{if $user.toDelete} unlink-last{else} unlink-normal{/if}">{t str=Remove}</a>
         </td>
       </tr>
 

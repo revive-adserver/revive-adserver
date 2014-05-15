@@ -27,6 +27,9 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 $doAccounts = OA_Dal::factoryDO('accounts');
 $accountId = $doAccounts->getAdminAccountId();
 
+// CVE-2013-5954 - see OA_Permission::checkSessionToken() method for details
+OA_Permission::checkSessionToken();
+
 /*-------------------------------------------------------*/
 /* Main code                                             */
 /*-------------------------------------------------------*/

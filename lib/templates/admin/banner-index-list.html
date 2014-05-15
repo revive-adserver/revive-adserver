@@ -41,7 +41,7 @@
 						});
 
 						if (!tablePreferences.warningBeforeDelete || confirm("{/literal}{t str=ConfirmDeleteBanners}{literal}")) {
-    						window.location = 'banner-delete.php?clientid={/literal}{$clientId}{literal}&campaignid={/literal}{$campaignId}{literal}&bannerid=' + ids.join(',');
+    						window.location = 'banner-delete.php?clientid={/literal}{$clientId}{literal}&campaignid={/literal}{$campaignId}&{rv_add_session_token}{literal}&bannerid=' + ids.join(',');
 						}
 					}
                 });
@@ -157,7 +157,7 @@
                     {else}
                       <span class='inlineIcon {ox_banner_icon type=$banner.type active=$banner.active}'>{$banner.description|escape:html}</span>
                     {/if}
-                  {ox_entity_id type="Banner" id=$bannerId} 
+                  {ox_entity_id type="Banner" id=$bannerId}
                 </td>
                 <td class='alignRight verticalActions'>
                     <ul class='rowActions'>

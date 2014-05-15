@@ -20,6 +20,9 @@ require_once MAX_PATH . '/www/admin/config.php';
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 
+// CVE-2013-5954 - see OA_Permission::checkSessionToken() method for details
+OA_Permission::checkSessionToken();
+
 /*-------------------------------------------------------*/
 /* Main code                                             */
 /*-------------------------------------------------------*/
@@ -28,6 +31,6 @@ $doUserLog = OA_Dal::factoryDO('userlog');
 $doUserLog->whereAdd('1=1');
 $doUserLog->delete(DB_DATAOBJECT_WHEREADD_ONLY);
 
-header ("Location: userlog-index.php");
+header ("Location: userlog-maintenance.php");
 
 ?>

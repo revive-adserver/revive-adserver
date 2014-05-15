@@ -22,7 +22,16 @@ What's New in Revive Adserver 3.0.5
  Security Updates
  ----------------
 
- * None
+ * CVE-2013-5954 - Fixed CSRF vulnerability a number of UI pages performing
+   delete and unlink actions (www/admin/admin-user-unlink.php,
+   www/admin/advertiser-delete.php, www/admin/advertiser-user-unlink.php,
+   www/admin/affiliate-delete.php, www/admin/affiliate-user-unlink.php,
+   www/admin/agency-delete.php, www/admin/agency-user-unlink.php,
+   www/admin/banner-delete.php, www/admin/campaign-delete.php,
+   www/admin/channel-delete.php, www/admin/tracker-delete.php,
+   www/admin/userlog-delete.php and www/admin/zone-delete.php).
+   For more information:
+   http://www.revive-adserver.com/security/revive-sa-2014-001
 
  New Features
  ------------

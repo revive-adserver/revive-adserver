@@ -117,7 +117,7 @@ if ($doUserLog->getRowCount() > 0)
 {
 	echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
 	echo "<tr><td height='25' colspan='2'>";
-		echo "<img src='" . OX::assetPath() . "/images/icon-recycle.gif' border='0' align='absmiddle'>&nbsp;<a href='userlog-delete.php'>".$strDeleteLog."</a>";
+		echo "<img src='" . OX::assetPath() . "/images/icon-recycle.gif' border='0' align='absmiddle'>&nbsp;<a href='userlog-delete.php?token=".urlencode(phpAds_SessionGetToken())."'>".$strDeleteLog."</a>";
 	echo "</td><td height='25' colspan='2' align='".$phpAds_TextAlignRight."'>";
 		if ($start > 0)
 		{
