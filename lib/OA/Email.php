@@ -1190,20 +1190,13 @@ class OA_Email
     	$contents = html_entity_decode($contents, ENT_QUOTES);
 
     	// Build the "to:" header for the email
-    	if (!get_cfg_var('SMTP')) {
-    		$toParam = '"'.$userName.'" <'.$userEmail.'>';
-    	} else {
-    		$toParam = $userEmail;
-    	}
+    	$toParam = '"'.$userName.'" <'.$userEmail.'>';
     	// Build additional email headers
     	$headersParam = "MIME-Version: 1.0\r\n";
     	if (isset($phpAds_CharSet)) {
     		$headersParam .= "Content-Type: text/plain; charset=" . $phpAds_CharSet . "\r\n";
     	}
     	$headersParam .= "Content-Transfer-Encoding: 8bit\r\n";
-    	if (get_cfg_var('SMTP')) {
-    		$headersParam .= 'To: "' . $userName . '" <' . $userEmail . ">\r\n";
-    	}
     	$headersParam .= 'From: "' . $fromDetails['name'] . '" <' . $fromDetails['emailAddress'] . '>' . "\r\n";
     	// Use only \n as header separator when qmail is used
     	if ($aConf['email']['qmailPatch']) {
