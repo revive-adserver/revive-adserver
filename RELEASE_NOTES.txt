@@ -6,7 +6,7 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
-Release Notes: Revive Adserver 3.0.5
+Release Notes: Revive Adserver 3.0.6
 ====================================
 
 These release notes cover what's new, system requirements, download and
@@ -14,47 +14,25 @@ installation instructions, known issues and frequently asked questions for
 Revive Adserver. Please read these notes before reporting any bugs.
 
 
-What's New in Revive Adserver 3.0.5
+What's New in Revive Adserver 3.0.6
 -----------------------------------
 
- * Release date: 14 May 2014
+ * Release date: TBA
 
  Security Updates
  ----------------
 
- * CVE-2013-5954 - Fixed CSRF vulnerability a number of UI pages performing
-   delete and unlink actions (www/admin/admin-user-unlink.php,
-   www/admin/advertiser-delete.php, www/admin/advertiser-user-unlink.php,
-   www/admin/affiliate-delete.php, www/admin/affiliate-user-unlink.php,
-   www/admin/agency-delete.php, www/admin/agency-user-unlink.php,
-   www/admin/banner-delete.php, www/admin/campaign-delete.php,
-   www/admin/channel-delete.php, www/admin/tracker-delete.php,
-   www/admin/userlog-delete.php and www/admin/zone-delete.php).
-   For more information:
-   http://www.revive-adserver.com/security/revive-sa-2014-001
+ * None
 
  New Features
  ------------
 
- * An error message is now displayed when trying to install or upgrade Revive
-   Adserver with unsupported PHP 5.4/5.5 versions (< 5.4.20 or < 5.5.2).
- * Updated the MaxMind GeoIP plugin to include the May 2014 MaxMind GeoCountry
-   database.
+ * None
 
  Bug Fixes
  ---------
 
- * Fixed bad translation in the Russian language translation.
- * Fixed history statistics screens to prevent displaying future dates when
-   showing "All statistics".
- * Fixed broken "DeliveryDataPrepare:dataPageInfo" and
-   "DeliveryDataPrepare:dataUserAgent" components of the standard delivery
-   logging plugin.
- * Added proper Content-Type header with charset to some scripts in order to
-   override the webserver default.
- * Changed a few occurrences of the non-existing "Content-Size" header to
-   "Content-Length".
- * Switched a few deprecated "ereg" calls to "preg" in PEAR libraries.
+ * None
 
  Non-Backwards Compatible Changes
  --------------------------------
