@@ -121,6 +121,14 @@ class OA_Dll_ZoneInfo extends OA_Info
      */
     var $chainedZoneId;
 
+    /* 
+     * This field provides the description of the zone.
+     *
+     * @var string $description
+     */
+     var $description;
+    
+
     /**
      * This method sets all default values when adding a new zone.
      *
@@ -180,6 +188,7 @@ class OA_Dll_ZoneInfo extends OA_Info
                     'append' => 'string',
                     'prepend' => 'string',
                     'chainedZoneId' => 'integer',
+                    'description' => 'string',
                 );
     }
 }
