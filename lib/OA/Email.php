@@ -1190,7 +1190,14 @@ class OA_Email
     	$contents = html_entity_decode($contents, ENT_QUOTES);
 
     	// Build the "to:" header for the email
-    	$toParam = '"'.$userName.'" <'.$userEmail.'>';
+        if (strncasecmp(PHP_OS, 'WIN', 3) == 0) {
+            // We do not know if PHP's mail() in windows can handle the
+            // full username in the "To:" header for all supported 
+            // PHP versions so we leave it out for now to be on the safe side.
+            $toParam = $userEmail;
+        } else {
+            $toParam = '"'.$userName.'" <'.$userEmail.'>';
+        }
     	// Build additional email headers
     	$headersParam = "MIME-Version: 1.0\r\n";
     	if (isset($phpAds_CharSet)) {
