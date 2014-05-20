@@ -324,6 +324,7 @@ function MAX_cookieClientCookieUnset($name)
 function MAX_cookieClientCookieFlush()
 {
     $conf = $GLOBALS['_MAX']['CONF'];
+    $domain = !empty($conf['cookie']['domain']) ? $conf['cookie']['domain'] : null;
 
     MAX_cookieSendP3PHeaders();
 
@@ -334,9 +335,9 @@ function MAX_cookieClientCookieFlush()
             list($value, $expire) = $v;
             // Treat the viewerId cookie differently, (always set in client)
             if ($name == $conf['var']['viewerId']) {
-                MAX_cookieClientCookieSet($name, $value, $expire, '/', (!empty($conf['cookie']['domain']) ? $conf['cookie']['domain'] : null));
+                MAX_cookieClientCookieSet($name, $value, $expire, '/', !empty($conf['cookie']['viewerIdDomain']) ? $conf['cookie']['viewerIdDomain'] : $domain);
             } else {
-                MAX_cookieSet($name, $value, $expire, '/', (!empty($conf['cookie']['domain']) ? $conf['cookie']['domain'] : null));
+                MAX_cookieSet($name, $value, $expire, '/', $domain);
             }
         }
         // Clear cache
@@ -351,7 +352,7 @@ function MAX_cookieClientCookieFlush()
 		return;
 
     $maxCookieSize = !empty($conf['cookie']['maxCookieSize']) ? $conf['cookie']['maxCookieSize'] : 2048;
-    
+
     // For each type of cookie, repack if necessary
     foreach ($cookieNames as $cookieName) {
         // We only need to write out the compacted cookie if a new item is to be inserted (or updated)
@@ -382,7 +383,7 @@ function MAX_cookieClientCookieFlush()
             while (strlen(implode('_', $data)) > $maxCookieSize) {
                 $data = array_slice($data, 1);
             }
-            MAX_cookieSet($cookieName, implode('_', $data), $expire, '/', (!empty($conf['cookie']['domain']) ? $conf['cookie']['domain'] : null));
+            MAX_cookieSet($cookieName, implode('_', $data), $expire, '/', $domain);
         }
     }
 }
