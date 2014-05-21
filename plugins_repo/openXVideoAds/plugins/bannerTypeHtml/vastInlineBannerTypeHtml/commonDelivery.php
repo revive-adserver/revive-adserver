@@ -218,20 +218,24 @@ function prepareTrackingParams(&$aOutputParams, $aBanner, $zoneId, $source, $loc
     $conf = $GLOBALS['_MAX']['CONF'];
     $aOutputParams['impressionUrl'] =  _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&');
     if ( $aOutputParams['format'] == 'vast' ){
-       $trackingUrl = 'http://' . $conf['webpath']['delivery'] . "/fc.php?script=deliveryLog:oxLogVast:logImpressionVast&banner_id=" . $aBanner['bannerid'] . "&zone_id=$zoneId&source=$source";
-       $aOutputParams['trackUrlStart'] = $trackingUrl . '&vast_event=start';
-       $aOutputParams['trackUrlMidPoint'] = $trackingUrl . '&vast_event=midpoint';
-       $aOutputParams['trackUrlFirstQuartile'] = $trackingUrl . '&vast_event=firstquartile';
-       $aOutputParams['trackUrlThirdQuartile'] = $trackingUrl . '&vast_event=thirdquartile';
-       $aOutputParams['trackUrlComplete'] = $trackingUrl . '&vast_event=complete';
-       $aOutputParams['trackUrlMute'] = $trackingUrl . '&vast_event=mute';
-       $aOutputParams['trackUrlPause'] = $trackingUrl . '&vast_event=pause';
-       $aOutputParams['trackReplay'] = $trackingUrl . '&vast_event=replay';
-       $aOutputParams['trackUrlFullscreen'] = $trackingUrl . '&vast_event=fullscreen';
-       $aOutputParams['trackUrlStop'] = $trackingUrl . '&vast_event=stop';
-       $aOutputParams['trackUrlUnmute'] = $trackingUrl . '&vast_event=unmute';
-       $aOutputParams['trackUrlResume'] = $trackingUrl . '&vast_event=resume';
-       $aOutputParams['vastVideoClickThroughUrl'] = _adRenderBuildVideoClickThroughUrl($aBanner, $zoneId, $source, $ct0 );
+        $trackingUrl = MAX_commonGetDeliveryUrl($conf['file']['frontcontroller']).
+            "/fc.php?script=deliveryLog:oxLogVast:logImpressionVast&banner_id={$aBanner['bannerid']}&zone_id={$zoneId}";
+        if (!empty($source)) {
+            $trackingUrl .= "&source={$source}";
+        }
+        $aOutputParams['trackUrlStart'] = $trackingUrl . '&vast_event=start';
+        $aOutputParams['trackUrlMidPoint'] = $trackingUrl . '&vast_event=midpoint';
+        $aOutputParams['trackUrlFirstQuartile'] = $trackingUrl . '&vast_event=firstquartile';
+        $aOutputParams['trackUrlThirdQuartile'] = $trackingUrl . '&vast_event=thirdquartile';
+        $aOutputParams['trackUrlComplete'] = $trackingUrl . '&vast_event=complete';
+        $aOutputParams['trackUrlMute'] = $trackingUrl . '&vast_event=mute';
+        $aOutputParams['trackUrlPause'] = $trackingUrl . '&vast_event=pause';
+        $aOutputParams['trackReplay'] = $trackingUrl . '&vast_event=replay';
+        $aOutputParams['trackUrlFullscreen'] = $trackingUrl . '&vast_event=fullscreen';
+        $aOutputParams['trackUrlStop'] = $trackingUrl . '&vast_event=stop';
+        $aOutputParams['trackUrlUnmute'] = $trackingUrl . '&vast_event=unmute';
+        $aOutputParams['trackUrlResume'] = $trackingUrl . '&vast_event=resume';
+        $aOutputParams['vastVideoClickThroughUrl'] = _adRenderBuildVideoClickThroughUrl($aBanner, $zoneId, $source, $ct0 );
     }
     $aOutputParams['clickUrl'] = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick);
 }
