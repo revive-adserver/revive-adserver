@@ -41,8 +41,12 @@ class Plugins_TestOfPlugins_openXDeliveryCacheStore extends UnitTestCase
 
     function test_oxMemcached_class()
     {
-        $oComponent = &OX_Component::factory('deliveryCacheStore', 'oxMemcached', 'oxMemcached');
-        $this->_assertClass($oComponent, 'deliveryCacheStore', 'oxMemcached', 'oxMemcached');
+        if (extension_loaded('memcache')) {
+            $oComponent = &OX_Component::factory('deliveryCacheStore', 'oxMemcached', 'oxMemcached');
+            $this->_assertClass($oComponent, 'deliveryCacheStore', 'oxMemcached', 'oxMemcached');
+        } else {
+            $this->skip("memcache extension not available");
+        }
     }
 
     function _assertClass($oComponent, $extension, $group, $component)
