@@ -33,6 +33,7 @@ What's New in Revive Adserver 3.0.6
  ---------
 
  * VAST tracking URLs are now using https when the call is performed via SSL
+ * Allow domain for the viewerId cookie to be set separately
 
  Non-Backwards Compatible Changes
  --------------------------------
