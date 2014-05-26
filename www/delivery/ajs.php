@@ -437,15 +437,16 @@ MAX_cookieSet(str_replace('_', '%5F', urlencode($name)), false, _getTimeYearAgo(
 function MAX_cookieClientCookieFlush()
 {
 $conf = $GLOBALS['_MAX']['CONF'];
+$domain = !empty($conf['cookie']['domain']) ? $conf['cookie']['domain'] : null;
 MAX_cookieSendP3PHeaders();
 if (!empty($GLOBALS['_MAX']['COOKIE']['CACHE'])) {
 reset($GLOBALS['_MAX']['COOKIE']['CACHE']);
 while (list($name,$v) = each ($GLOBALS['_MAX']['COOKIE']['CACHE'])) {
 list($value, $expire) = $v;
 if ($name == $conf['var']['viewerId']) {
-MAX_cookieClientCookieSet($name, $value, $expire, '/', (!empty($conf['cookie']['domain']) ? $conf['cookie']['domain'] : null));
+MAX_cookieClientCookieSet($name, $value, $expire, '/', !empty($conf['cookie']['viewerIdDomain']) ? $conf['cookie']['viewerIdDomain'] : $domain);
 } else {
-MAX_cookieSet($name, $value, $expire, '/', (!empty($conf['cookie']['domain']) ? $conf['cookie']['domain'] : null));
+MAX_cookieSet($name, $value, $expire, '/', $domain);
 }
 }
 $GLOBALS['_MAX']['COOKIE']['CACHE'] = array();
@@ -479,7 +480,7 @@ $data[] = "{$adId}.{$value}";
 while (strlen(implode('_', $data)) > $maxCookieSize) {
 $data = array_slice($data, 1);
 }
-MAX_cookieSet($cookieName, implode('_', $data), $expire, '/', (!empty($conf['cookie']['domain']) ? $conf['cookie']['domain'] : null));
+MAX_cookieSet($cookieName, implode('_', $data), $expire, '/', $domain);
 }
 }
 }
