@@ -221,6 +221,14 @@ class XmlRpcFrontController
         return $service->getBannerListByCampaignId($message);
     }
 
+	// Added by Giannis Maris    
+    public function getLinkedBannersByZone($message)
+    {
+        $service = new BannerXmlRpcService();
+        return $service->getLinkedBannersByZone($message);
+    }
+    //
+	
     public function getBannerTargeting($message)
     {
         $service = new BannerXmlRpcService();
@@ -564,6 +572,12 @@ class XmlRpcFrontController
         return $service->getZoneListByPublisherId($message);
     }
 
+	public function getLinkedZonesByBannerId($message)
+    {
+        $service = new ZoneXmlRpcService();
+        return $service->getLinkedZonesByBannerId($message);
+    }
+	
     public function linkBanner($message)
     {
         $service = new ZoneXmlRpcService();
