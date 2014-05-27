@@ -52,18 +52,19 @@ class Plugins_TestOfPlugins_DeliveryCacheStore_oxMemcached_oxMemcached extends U
     /**
      * Check if tests can be runned
      */
-    function skip()
+    function _skip()
     {
         // Skip tests if there is no Memcached connection
-        $this->skipUnless(
-            isset($this->oMemcached),
-            "There are no memcached settings"
-        );
+		if (!isset($this->oMemcached)) {
+		    $this->skip("There are no memcached settings");
+		    return true;
+        }
+        if (@$this->oMemcached->getVersion()=== false) {
+            $this->skip("There is no connection to the memcached server(s)");
+            return true;
+        };
 
-        $this->skipIf(
-            (@$this->oMemcached->getVersion()=== false),
-            "There is no connection to the memcached server(s)"
-        );
+        return false;
     }
 
     /**
@@ -91,6 +92,10 @@ class Plugins_TestOfPlugins_DeliveryCacheStore_oxMemcached_oxMemcached extends U
      * A method to test the Plugin_deliveryCacheStore_oxMemcached_oxMemcached_Delivery_cacheStore
      */
     function test_Plugin_deliveryCacheStore_oxMemcached_oxMemcached_Delivery_cacheStore() {
+        if ($this->_skip()) {
+           return;
+        }
+
         $content = array( 'string' => 'teststring', 'num' => -1, 'file' => "\x02\x00\xff\xea\x01");
         $name = 'testname';
         $filename = OA_Delivery_Cache_buildFileName($filename);
@@ -119,6 +124,10 @@ class Plugins_TestOfPlugins_DeliveryCacheStore_oxMemcached_oxMemcached extends U
      * A method to test the _deleteCacheFile method
      */
     function test__deleteCacheFile() {
+        if ($this->_skip()) {
+           return;
+        }
+
         $oPlgOxMemcached= new Plugins_DeliveryCacheStore_oxMemcached_oxMemcached('deliveryCacheStore', 'oxMemcached', 'oxMemcached');
         $content = NULL;
         $name = 'test';
@@ -137,6 +146,10 @@ class Plugins_TestOfPlugins_DeliveryCacheStore_oxMemcached_oxMemcached extends U
      * A method to test the _deleteAll mathod
      */
     function test__deleteAll() {
+        if ($this->_skip()) {
+           return;
+        }
+
         $oPlgOxMemcached= new Plugins_DeliveryCacheStore_oxMemcached_oxMemcached('deliveryCacheStore', 'oxMemcached', 'oxMemcached');
         $content = NULL;
         $name = 'test';
