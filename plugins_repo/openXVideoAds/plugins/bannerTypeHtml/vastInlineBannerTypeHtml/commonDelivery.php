@@ -219,7 +219,7 @@ function prepareTrackingParams(&$aOutputParams, $aBanner, $zoneId, $source, $loc
     $aOutputParams['impressionUrl'] =  _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&');
     if ( $aOutputParams['format'] == 'vast' ){
         $trackingUrl = MAX_commonGetDeliveryUrl($conf['file']['frontcontroller']).
-            "/fc.php?script=deliveryLog:oxLogVast:logImpressionVast&banner_id={$aBanner['bannerid']}&zone_id={$zoneId}";
+            "?script=deliveryLog:oxLogVast:logImpressionVast&banner_id={$aBanner['bannerid']}&zone_id={$zoneId}";
         if (!empty($source)) {
             $trackingUrl .= "&source={$source}";
         }
