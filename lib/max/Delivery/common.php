@@ -438,7 +438,7 @@ function MAX_commonInitVariables()
         $GLOBALS['_MAX']['CONF']['var']['lastView'],
         $GLOBALS['_MAX']['CONF']['var']['blockLoggingClick'],
     );
-    
+
     if (strtolower($charset) == 'unicode') { $charset = 'utf-8'; }
 }
 
@@ -448,9 +448,8 @@ function MAX_commonInitVariables()
 function MAX_commonDisplay1x1()
 {
     MAX_header('Content-Type: image/gif');
-    MAX_header('Content-Length: 43');
     // 1 x 1 gif
-    echo base64_decode('R0lGODlhAQABAIAAAP///wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==');
+    echo "GIF89a\001\0\001\0\200\0\0\377\377\377\0\0\0!\371\004\0\0\0\0\0,\0\0\0\0\001\0\001\0\0\002\002D\001\0;";
 }
 
 function MAX_commonGetTimeNow()
@@ -727,17 +726,17 @@ function OX_Delivery_logMessage($message, $priority = 6)
     $conf = $GLOBALS['_MAX']['CONF'];
     // Don't even try if the deliveryLog is not enabled...
     if (empty($conf['deliveryLog']['enabled'])) return true;
-    
+
     // Only log messages above the configured priority level (See lib/pear/Log.php for a description of the levels)
     $priorityLevel = is_numeric($conf['deliveryLog']['priority']) ? $conf['deliveryLog']['priority'] : 6;
     if ($priority > $priorityLevel && empty($_REQUEST[$conf['var']['trace']])) { return true; }
-    
+
     // Log the error message
     error_log('[' . date('r') . "] {$conf['log']['ident']}-delivery-{$GLOBALS['_MAX']['thread_id']}: {$message}\n", 3, MAX_PATH . '/var/' . $conf['deliveryLog']['name']);
-    
+
     // Call any plugins registered on the "logMessage" hook
     OX_Delivery_Common_hook('logMessage', array($message, $priority));
-    
+
     return true;
 }
 

@@ -34,6 +34,10 @@ What's New in Revive Adserver 3.0.6
 
  * VAST tracking URLs are now using https when the call is performed via SSL
  * Allow domain for the viewerId cookie to be set separately
+ * Removed useless Content-Length headers when sending the 1x1 transparent gif
+   and spc delivery files, as the header interferes with ob_gzhandler and/or
+   zlib.output_compression
+   
 
  Non-Backwards Compatible Changes
  --------------------------------

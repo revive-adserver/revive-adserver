@@ -21,7 +21,6 @@ $output = MAX_cacheGetGoogleJavaScript();
 
 // Output JS
 MAX_commonSendContentTypeHeader("application/x-javascript");
-MAX_header("Content-Length: ".strlen($output));
 MAX_header("Expires: ".gmdate('r', time() + 86400));
 
 echo $output;
