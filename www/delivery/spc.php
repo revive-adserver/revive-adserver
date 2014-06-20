@@ -2610,8 +2610,7 @@ if (strtolower($charset) == 'unicode') { $charset = 'utf-8'; }
 function MAX_commonDisplay1x1()
 {
 MAX_header('Content-Type: image/gif');
-MAX_header('Content-Length: 43');
-echo base64_decode('R0lGODlhAQABAIAAAP///wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==');
+echo "GIF89a\001\0\001\0\200\0\0\377\377\377\0\0\0!\371\004\0\0\0\0\0,\0\0\0\0\001\0\001\0\0\002\002D\001\0;";
 }
 function MAX_commonGetTimeNow()
 {
@@ -4328,5 +4327,4 @@ $context[] = $contextArray;
 }
 MAX_cookieFlush();
 MAX_commonSendContentTypeHeader("application/x-javascript", $charset);
-header("Content-Length: ".strlen($spc_output));
 echo $spc_output;
