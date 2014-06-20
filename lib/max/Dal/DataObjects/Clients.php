@@ -28,7 +28,7 @@ class DataObjects_Clients extends DB_DataObjectCommon
      */
     const ADVERTISER_TYPE_DEFAULT = 0;
     const ADVERTISER_TYPE_MARKET = 1;
-    
+
     /**
      * BC-compatible user details
      *
@@ -40,22 +40,22 @@ class DataObjects_Clients extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'clients';                         // table name
-    public $clientid;                        // MEDIUMINT(9) => openads_mediumint => 129 
-    public $agencyid;                        // MEDIUMINT(9) => openads_mediumint => 129 
-    public $clientname;                      // VARCHAR(255) => openads_varchar => 130 
-    public $contact;                         // VARCHAR(255) => openads_varchar => 2 
-    public $email;                           // VARCHAR(64) => openads_varchar => 130 
-    public $report;                          // ENUM('t','f') => openads_enum => 130 
-    public $reportinterval;                  // MEDIUMINT(9) => openads_mediumint => 129 
-    public $reportlastdate;                  // DATE() => openads_date => 134 
-    public $reportdeactivate;                // ENUM('t','f') => openads_enum => 130 
-    public $comments;                        // TEXT() => openads_text => 34 
-    public $updated;                         // DATETIME() => openads_datetime => 142 
-    public $an_adnetwork_id;                 // INT(11) => openads_int => 1 
-    public $as_advertiser_id;                // INT(11) => openads_int => 1 
-    public $account_id;                      // MEDIUMINT(9) => openads_mediumint => 1 
-    public $advertiser_limitation;           // TINYINT(1) => openads_tinyint => 145 
-    public $type;                            // TINYINT(4) => openads_tinyint => 129 
+    public $clientid;                        // MEDIUMINT(9) => openads_mediumint => 129
+    public $agencyid;                        // MEDIUMINT(9) => openads_mediumint => 129
+    public $clientname;                      // VARCHAR(255) => openads_varchar => 130
+    public $contact;                         // VARCHAR(255) => openads_varchar => 2
+    public $email;                           // VARCHAR(64) => openads_varchar => 130
+    public $report;                          // ENUM('t','f') => openads_enum => 130
+    public $reportinterval;                  // MEDIUMINT(9) => openads_mediumint => 129
+    public $reportlastdate;                  // DATE() => openads_date => 134
+    public $reportdeactivate;                // ENUM('t','f') => openads_enum => 130
+    public $comments;                        // TEXT() => openads_text => 34
+    public $updated;                         // DATETIME() => openads_datetime => 142
+    public $an_adnetwork_id;                 // INT(11) => openads_int => 1
+    public $as_advertiser_id;                // INT(11) => openads_int => 1
+    public $account_id;                      // MEDIUMINT(9) => openads_mediumint => 1
+    public $advertiser_limitation;           // TINYINT(1) => openads_tinyint => 145
+    public $type;                            // TINYINT(4) => openads_tinyint => 129
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Clients',$k,$v); }
@@ -64,10 +64,10 @@ class DataObjects_Clients extends DB_DataObjectCommon
                 'agencyid' => 0,
                 'clientname' => '',
                 'email' => '',
-                'report' => 't',
+                'report' => 'f',
                 'reportinterval' => 7,
                 'reportlastdate' => '%NO_DATE_TIME%',
-                'reportdeactivate' => 't',
+                'reportdeactivate' => 'f',
                 'updated' => '%DATE_TIME%',
                 'advertiser_limitation' => 0,
                 'type' => ADVERTISER_TYPE_DEFAULT,

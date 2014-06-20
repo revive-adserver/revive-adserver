@@ -37,12 +37,16 @@ What's New in Revive Adserver 3.0.6
  * Removed useless Content-Length headers when sending the 1x1 transparent gif
    and spc delivery files, as the header interferes with ob_gzhandler and/or
    zlib.output_compression
-   
+
 
  Non-Backwards Compatible Changes
  --------------------------------
 
- * None
+ * Activation/deactivation emails and scheduled reports are now disabled by
+   default when creating new advertisers via the API, in order to match the UI
+   behaviour. This does not affect any existing advertiser account settings for
+   this feature; but please be aware that the default for all new advertiser
+   accounts has been changed.
 
 
 System Requirements
