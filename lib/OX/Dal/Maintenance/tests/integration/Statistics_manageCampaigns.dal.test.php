@@ -641,7 +641,8 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         $aData = array(
             'agencyid' => $managerAgencyId,
             'contact'  => 'Test Placement Activated Contact',
-            'email'    => 'postmaster@placement.activated'
+            'email'    => 'postmaster@placement.activated',
+            'reportdeactivate' => 't',
         );
         $advertiserId = $this->_insertAdvertiser($aData);
 
@@ -699,8 +700,10 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         // be deactivated)
 
         $aData = array(
-           'contact' => 'Test Placement Deactivated Contact',
-           'email'   => 'postmaster@placement.deactivated'
+            'contact' => 'Test Placement Deactivated Contact',
+            'email'   => 'postmaster@placement.deactivated',
+            'reportdeactivate' => 't',
+            'report' => 't',
         );
         $advertiserId = $this->_insertAdvertiser($aData);
 
