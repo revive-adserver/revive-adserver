@@ -642,6 +642,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
             'agencyid' => $managerAgencyId,
             'contact'  => 'Test Placement Activated Contact',
             'email'    => 'postmaster@placement.activated',
+            'report'   => 't',
             'reportdeactivate' => 't',
         );
         $advertiserId = $this->_insertAdvertiser($aData);
