@@ -642,7 +642,6 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
             'agencyid' => $managerAgencyId,
             'contact'  => 'Test Placement Activated Contact',
             'email'    => 'postmaster@placement.activated',
-            'report'   => 't',
             'reportdeactivate' => 't',
         );
         $advertiserId = $this->_insertAdvertiser($aData);
@@ -653,6 +652,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         $oDateStart->subtractSeconds(SECONDS_PER_HOUR + 1);
 
         $aData = array(
+            'clientid'      => $advertiserId,
             'status'        => OA_ENTITY_STATUS_AWAITING,
             'activate_time' => $oDateStart->format('%Y-%m-%d 00:00:00')
         );
