@@ -146,6 +146,10 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
         $this->assertIsA($aReturn['lAds'], 'array');
         $this->assertIsA($aReturn['count_active'], 'integer');
         $this->assertIsA($aReturn['zone_companion'], 'boolean');
+
+        // Test for bug #352 (pgsql regex returns 't'/'f')
+        $this->assertTrue(empty($aReturn['xAds'][227]['html_ssl_unsafe']));
+        $this->assertTrue(empty($aReturn['xAds'][227]['url_ssl_unsafe']));
     }
 
     /**
