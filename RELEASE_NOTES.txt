@@ -37,6 +37,7 @@ What's New in Revive Adserver 3.0.6
  * Removed useless Content-Length headers when sending the 1x1 transparent gif
    and spc delivery files, as the header interferes with ob_gzhandler and/or
    zlib.output_compression
+ * Fixed SSL banner delivery not working properly when using Postgres
 
 
  Non-Backwards Compatible Changes
