@@ -376,7 +376,23 @@ class OA_Environment_Manager
                 '5.4.20',
                 "<"
             )) {
-                $result = OA_ENV_ERROR_PHP_VERSION_54;
+                /*
+                 * debian has backported the bugfix for [1], so the updates from debian wheezy are ok
+                 *
+                 * references:
+                 *   [1] https://bugs.php.net/bug.php?id=65367
+                 *   [2] https://github.com/revive-adserver/revive-adserver/issues/65
+                 *   [3] https://github.com/revive-adserver/revive-adserver/issues/116
+                 */
+                if (version_compare(
+                    $this->aInfo['PHP']['actual']['version'],
+                    '5.4.4-14+deb7u9',
+                    '>='
+                )) {
+                    $result = OA_ENV_ERROR_PHP_NOERROR;
+                } else {
+                    $result = OA_ENV_ERROR_PHP_VERSION_54;
+                }
             } elseif (version_compare(
                 $this->aInfo['PHP']['actual']['version'],
                 '5.5.0',
