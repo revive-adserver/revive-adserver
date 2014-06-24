@@ -302,7 +302,8 @@ function _adRenderFlash(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=fal
         $altImageAdCode = _adRenderImage($aBanner, $zoneId, $source, $ct0, false, $logClick, false, true, true, $loc, $referer, false);
         $fallBackLogURL = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&', true);
     } else {
-        $altImageAdCode = "<img src='" . _adRenderBuildImageUrlPrefix() . '/1x1.gif' . "' alt='".$aBanner['alt']."' title='".$aBanner['alt']."' border='0' />";
+        $alt = !empty($aBanner['alt']) ? htmlspecialchars($aBanner['alt'], ENT_QUOTES) : '';
+        $altImageAdCode = "<img src='" . _adRenderBuildImageUrlPrefix() . '/1x1.gif' . "' alt='".$alt."' title='".$alt."' border='0' />";
         $fallBackLogURL = false;
     }
 
@@ -339,6 +340,7 @@ function _adRenderFlash(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=fal
     $rnd = md5(microtime());
 
     $swfId = (!empty($aBanner['alt']) ? $aBanner['alt'] : 'Advertisement');
+    $swfId = 'id-' . preg_replace('/[a-z0-1]+/', '', strtolower($swfId));
 
     $code = "
 <div id='ox_$rnd' style='display: inline;'>$altImageAdCode</div>
