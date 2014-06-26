@@ -38,7 +38,8 @@ What's New in Revive Adserver 3.0.6
    and spc delivery files, as the header interferes with ob_gzhandler and/or
    zlib.output_compression
  * Fixed SSL banner delivery not working properly when using Postgres
-
+ * Fixed click redirection to internationalized domain names when the IDN
+   functions are available (PHP 5.3+)
 
  Non-Backwards Compatible Changes
  --------------------------------

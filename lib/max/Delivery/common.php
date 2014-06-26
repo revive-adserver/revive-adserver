@@ -499,6 +499,13 @@ function MAX_header($value)
 function MAX_redirect($url)
 {
     if (!preg_match('/^(?:javascript|data):/i', $url)) {
+        $host = @parse_url($url, PHP_URL_HOST);
+        if (function_exists('idn_to_ascii')) {
+            $idn = idn_to_ascii($host);
+            if ($host != $idn) {
+                $url = preg_replace('#^(.*?://)'.preg_quote($host, '#').'#', '$1'.$idn, $url);
+            }
+        }
         header('Location: '.$url);
         MAX_sendStatusCode(302);
     }
