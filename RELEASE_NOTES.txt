@@ -40,6 +40,8 @@ What's New in Revive Adserver 3.0.6
  * Fixed SSL banner delivery not working properly when using Postgres
  * Fixed click redirection to internationalized domain names when the IDN
    functions are available (PHP 5.3+)
+ * Properly display the current value in the UI when settings contain an
+   underscore in their name
 
  Non-Backwards Compatible Changes
  --------------------------------

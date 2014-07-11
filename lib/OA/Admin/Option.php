@@ -418,7 +418,7 @@ class OA_Admin_Option
             				// If that did not work, and the item is a setting, try to load the
             				// item value from the settings configuration file
             				if (is_null($value) && $this->_optionType == 'account-settings') {
-            					$aNameExploded = explode('_', $aItem['name']);
+            					$aNameExploded = explode('_', $aItem['name'], 2);
             					$aSettingSection = isset($aNameExploded[0]) ? $aNameExploded[0] : null;
             					$aSettingKey     = isset($aNameExploded[1]) ? $aNameExploded[1] : null;
             					if (isset($aConf[$aSettingSection][$aSettingKey])) {
