@@ -21,3 +21,4 @@
 /www/admin/plugins/*
 /www/images/
 /plugins_repo/build-ap.xml
+/plugins_repo/release/*.zip
