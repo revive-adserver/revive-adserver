@@ -1241,6 +1241,13 @@ $GLOBALS['strSourceEdit']                       = "Edit Sources";
 // Preferences
 $GLOBALS['strPreferences']                      = "Preferences";
 $GLOBALS['strMyAccount']                        = "My Account";
+$GLOBALS['strUserPreferences']                  = "User Preferences";
+$GLOBALS['strChangePassword']                   = "Change Password";
+$GLOBALS['strChangeEmail']                      = "Change E-mail";
+$GLOBALS['strCurrentPassword']                  = "Current Password";
+$GLOBALS['strChooseNewPassword']                = "Choose a new password";
+$GLOBALS['strReenterNewPassword']               = "Re-enter new password";
+$GLOBALS['strNameLanguage']                     = "Name & Language";
 $GLOBALS['strAccountPreferences']               = "Account Preferences";
 $GLOBALS['strCampaignEmailReportsPreferences']  = "Campaign email Reports Preferences";
 $GLOBALS['strTimezonePreferences']              = "Timezone Preferences";
@@ -1259,13 +1266,6 @@ $GLOBALS['strColumnName']                       = "Column Name";
 $GLOBALS['strShowColumn']                       = "Show Column";
 $GLOBALS['strCustomColumnName']                 = "Custom Column Name";
 $GLOBALS['strColumnRank']                       = "Column Rank";
-$GLOBALS['strUserPreferences']                  = "User Preferences";
-$GLOBALS['strChangePassword']                   = "Change Password";
-$GLOBALS['strChangeEmail']                      = "Change E-mail";
-$GLOBALS['strCurrentPassword']                  = "Current Password";
-$GLOBALS['strChooseNewPassword']                = "Choose a new password";
-$GLOBALS['strReenterNewPassword']               = "Re-enter new password";
-$GLOBALS['strNameLanguage']                     = "Name & Language";
 
 
 // Statistics columns
