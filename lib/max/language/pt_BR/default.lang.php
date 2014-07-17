@@ -889,7 +889,6 @@ $GLOBALS['strTrackerPreferences'] = "Preferências do Rastreador";
 $GLOBALS['strBannerPreferences'] = "Preferências dos Anúncios";
 $GLOBALS['strAdvertiserSetup'] = "Inscrição de anunciante";
 $GLOBALS['strSelectZone'] = "Escolher zona";
-$GLOBALS['strMainPreferences'] = "Preferências gerais";
 $GLOBALS['strAccountPreferences'] = "Preferências da conta";
 $GLOBALS['strCampaignEmailReportsPreferences'] = "Preferências de E-mails com relatórios de campanhas";
 $GLOBALS['strAdminEmailWarnings'] = "Alertas de e-mail do Administrador";

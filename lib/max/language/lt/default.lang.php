@@ -625,7 +625,6 @@ $GLOBALS['strAdvertiserSetup'] = "Prisijunti reklamuotojui";
 $GLOBALS['strAdvertiserSignup'] = "Prisijunti reklamuotojui";
 $GLOBALS['strSelectPublisher'] = "Pasirinkite internetinį puslapį";
 $GLOBALS['strSelectZone'] = "Pasirinkite zoną";
-$GLOBALS['strMainPreferences'] = "Pagrindinės pirmenybės";
 $GLOBALS['strAccountPreferences'] = "Sąskaitos pirmenybės";
 $GLOBALS['strCampaignEmailReportsPreferences'] = "Kampanijos e. pašto ataskaitų pirmenybės";
 $GLOBALS['strAdminEmailWarnings'] = "Administratoriaus el. pašto įspėjimai";

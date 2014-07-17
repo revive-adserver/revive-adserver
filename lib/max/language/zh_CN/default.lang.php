@@ -1244,7 +1244,6 @@ $GLOBALS['strSourceEdit']                       = "Edit Sources";
 $GLOBALS['strPreferences']                      = "设置";
 $GLOBALS['strMyAccount']                        = "账户";
 $GLOBALS['strConfiguration']                    = "系统";
-$GLOBALS['strMainPreferences']                  = "Main Preferences";
 $GLOBALS['strAccountPreferences']               = "Account Preferences";
 $GLOBALS['strCampaignEmailReportsPreferences']  = "报表";
 $GLOBALS['strTimezonePreferences']              = "时区";

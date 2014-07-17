@@ -661,7 +661,6 @@ $GLOBALS['strAdvertiserSetup'] = "Annoncør Oprettelse";
 $GLOBALS['strAdvertiserSignup'] = "Annoncør Oprettelse";
 $GLOBALS['strSelectPublisher'] = "Vælg Website";
 $GLOBALS['strSelectZone'] = "Vælg Zone";
-$GLOBALS['strMainPreferences'] = "Generelle Indstillinger";
 $GLOBALS['strAccountPreferences'] = "Konto Indstillinger";
 $GLOBALS['strCampaignEmailReportsPreferences'] = "Kampagne email Rapport Indstillinger";
 $GLOBALS['strAdminEmailWarnings'] = "Administrator email Advarsler";

@@ -911,7 +911,6 @@ $GLOBALS['strAdvertiserSetup'] = "Podpis reklamodawcy";
 $GLOBALS['strAdvertiserSignup'] = "Podpis reklamodawcy";
 $GLOBALS['strSelectPublisher'] = "Wybierz stronę";
 $GLOBALS['strSelectZone'] = "Wybierz strefę (obszar)";
-$GLOBALS['strMainPreferences'] = "Główne ustawienia";
 $GLOBALS['strAccountPreferences'] = "Ustawienia konta";
 $GLOBALS['strCampaignEmailReportsPreferences'] = "Ustawienia raportów e-mail kampanii";
 $GLOBALS['strAdminEmailWarnings'] = "Ostrzeżenia e-mail administratora";

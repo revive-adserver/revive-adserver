@@ -931,7 +931,6 @@ $GLOBALS['strTrackerPreferences'] = "Предпочтения трекера";
 $GLOBALS['strBannerPreferences'] = "Предпочтения баннера";
 $GLOBALS['strAdvertiserSetup'] = "Регистрация рекламодателя";
 $GLOBALS['strSelectZone'] = "Выбрать зону";
-$GLOBALS['strMainPreferences'] = "Главные настройки";
 $GLOBALS['strAccountPreferences'] = "Настройки аккаунта";
 $GLOBALS['strCampaignEmailReportsPreferences'] = "Настройки доставки отчетов";
 $GLOBALS['strAdminEmailWarnings'] = "Предупреждения администратора";

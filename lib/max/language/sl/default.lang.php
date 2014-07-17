@@ -701,7 +701,6 @@ $GLOBALS['strAdvertiserSetup'] = "Prijava za oglaševalca";
 $GLOBALS['strAdvertiserSignup'] = "Prijava za oglaševalca";
 $GLOBALS['strSelectPublisher'] = "Izberite spletno stran";
 $GLOBALS['strSelectZone'] = "Izberite področje";
-$GLOBALS['strMainPreferences'] = "Glavne preference";
 $GLOBALS['strAccountPreferences'] = "Preference računa";
 $GLOBALS['strCampaignEmailReportsPreferences'] = "Preference kampanjskih e-poštnih sporočil";
 $GLOBALS['strAdminEmailWarnings'] = "Administratorska e-poštna opozorila";

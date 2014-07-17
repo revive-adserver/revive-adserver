@@ -996,7 +996,6 @@ $GLOBALS['strSourceEdit']            			= "ソースパラメータの編集";
 // Preferences
 $GLOBALS['strPreferences']                      = "プリファレンス";
 $GLOBALS['strMyAccount']                        = "マイアカウント";
-$GLOBALS['strMainPreferences']                  = "メインプリファレンス";
 $GLOBALS['strAccountPreferences']               = "アカウントプリファレンス";
 $GLOBALS['strCampaignEmailReportsPreferences']  = "メール送信プリファレンス";
 $GLOBALS['strAdminEmailWarnings']               = "管理者メール警告";

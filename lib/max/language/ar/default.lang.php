@@ -509,7 +509,6 @@ $GLOBALS['strCampaignPause'] = "إيقاف مؤقت";
 $GLOBALS['strTrackerPreferences'] = "الخيارات العامة";
 $GLOBALS['strBannerPreferences'] = "الخيارات العامة";
 $GLOBALS['strSelectZone'] = "إختيار المنطقة";
-$GLOBALS['strMainPreferences'] = "الخيارات العامة";
 $GLOBALS['strAccountPreferences'] = "خيارات الحساب";
 $GLOBALS['strCampaignEmailReportsPreferences'] = "خيارات التقارير الخاصة بالحملة الإعلانية";
 $GLOBALS['strAdminEmailWarnings'] = "البريد الالكتروني للمدير العام";

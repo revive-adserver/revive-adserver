@@ -616,7 +616,6 @@ $GLOBALS['strAdvertiserSetup'] = "註冊廣告主";
 $GLOBALS['strAdvertiserSignup'] = "註冊廣告主";
 $GLOBALS['strSelectPublisher'] = "選擇網站";
 $GLOBALS['strSelectZone'] = "選擇版位";
-$GLOBALS['strMainPreferences'] = "主要選項";
 $GLOBALS['strAccountPreferences'] = "賬號首選項";
 $GLOBALS['strCampaignEmailReportsPreferences'] = "項目的電子郵件首選項";
 $GLOBALS['strAdminEmailWarnings'] = "管理員電子郵件報警";

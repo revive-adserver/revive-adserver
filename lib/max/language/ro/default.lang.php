@@ -689,7 +689,6 @@ $GLOBALS['strAdvertiserSetup'] = "Înscriere Advertiser";
 $GLOBALS['strAdvertiserSignup'] = "Înscriere Advertiser";
 $GLOBALS['strSelectPublisher'] = "Alege Website";
 $GLOBALS['strSelectZone'] = "Alege Zonă";
-$GLOBALS['strMainPreferences'] = "Preferinţe de Bază";
 $GLOBALS['strAccountPreferences'] = "Preferinţe Cont";
 $GLOBALS['strCampaignEmailReportsPreferences'] = "Preferinţe Rapoarte prin e-mail ale Campaniei";
 $GLOBALS['strAdminEmailWarnings'] = "Avertizări e-mail administrator";

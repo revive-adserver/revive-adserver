@@ -1238,14 +1238,10 @@ $GLOBALS['strImpendingCampaignExpiryBody']      = "As a result, the campaign wil
 $GLOBALS['strPriority']                         = "Priority";
 $GLOBALS['strSourceEdit']                       = "Edit Sources";
 
-
-
-
 // Preferences
 $GLOBALS['strPreferences']                      = "Preferences";
 $GLOBALS['strMyAccount']                        = "My Account";
 $GLOBALS['strConfiguration']                    = "Configuration";
-$GLOBALS['strMainPreferences']                  = "Main Preferences";
 $GLOBALS['strAccountPreferences']               = "Account Preferences";
 $GLOBALS['strCampaignEmailReportsPreferences']  = "Campaign email Reports Preferences";
 $GLOBALS['strTimezonePreferences']              = "Timezone Preferences";

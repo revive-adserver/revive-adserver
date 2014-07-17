@@ -792,7 +792,6 @@ $GLOBALS['strAdvertiserSetup'] = "Adverteerder aanmelden";
 $GLOBALS['strAdvertiserSignup'] = "Adverteerder aanmelden";
 $GLOBALS['strSelectPublisher'] = "Selecteer website";
 $GLOBALS['strSelectZone'] = "Selecteer zone";
-$GLOBALS['strMainPreferences'] = "Algemene voorkeuren";
 $GLOBALS['strAccountPreferences'] = "Account voorkeuren";
 $GLOBALS['strCampaignEmailReportsPreferences'] = "Campagne e-mail rapporteer voorkeuren";
 $GLOBALS['strAdminEmailWarnings'] = "Administrator e-mail waarschuwingen";

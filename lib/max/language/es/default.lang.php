@@ -826,7 +826,6 @@ $GLOBALS['strReasonBreakTerms'] = "Página web no cumple de términos y condicio
 $GLOBALS['strTrackerPreferences'] = "Preferencias del tracker";
 $GLOBALS['strSelectPublisher'] = "Seleccionar página web";
 $GLOBALS['strSelectZone'] = "Seleccionar zona";
-$GLOBALS['strMainPreferences'] = "Opciones principales";
 $GLOBALS['strAccountPreferences'] = "Preferencias de cuenta";
 $GLOBALS['strCampaignEmailReportsPreferences'] = "Preferencias de informes de campaña por e-mail";
 $GLOBALS['strAdminEmailWarnings'] = "Avisos e-mail de administrador";

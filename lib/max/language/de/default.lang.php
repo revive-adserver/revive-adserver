@@ -1088,7 +1088,6 @@ $GLOBALS['strAdvertiserSetup'] = "Anmeldung Werbetreibender";
 $GLOBALS['strAdvertiserSignup'] = "Anmeldung Werbetreibender";
 $GLOBALS['strSelectPublisher'] = "Webseite auswählen";
 $GLOBALS['strSelectZone'] = "Zone auswählen";
-$GLOBALS['strMainPreferences'] = "Allgemeine Voreinstellungen";
 $GLOBALS['strAccountPreferences'] = "Voreinstellungen für dieses Benutzerkonto";
 $GLOBALS['strCampaignEmailReportsPreferences'] = "Voreinstellungen Kampagnen E-Mail Berichte";
 $GLOBALS['strAdminEmailWarnings'] = "E-Mail-Warnungen des Administrators";

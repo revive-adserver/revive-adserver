@@ -928,7 +928,6 @@ $GLOBALS['strAdvertiserSetup'] = "Registrazione inserzionisti";
 $GLOBALS['strAdvertiserSignup'] = "Registrazione inserzionisti";
 $GLOBALS['strSelectPublisher'] = "Seleziona sito";
 $GLOBALS['strSelectZone'] = "Seleziona zona";
-$GLOBALS['strMainPreferences'] = "Preferenze principali";
 $GLOBALS['strAccountPreferences'] = "Preferenze account";
 $GLOBALS['strCampaignEmailReportsPreferences'] = "Preferenze rapporti email della campagna";
 $GLOBALS['strAdminEmailWarnings'] = "Email di notifica amministratore";
