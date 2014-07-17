@@ -1241,7 +1241,6 @@ $GLOBALS['strSourceEdit']                       = "Edit Sources";
 // Preferences
 $GLOBALS['strPreferences']                      = "Preferences";
 $GLOBALS['strMyAccount']                        = "My Account";
-$GLOBALS['strConfiguration']                    = "Configuration";
 $GLOBALS['strAccountPreferences']               = "Account Preferences";
 $GLOBALS['strCampaignEmailReportsPreferences']  = "Campaign email Reports Preferences";
 $GLOBALS['strTimezonePreferences']              = "Timezone Preferences";
@@ -1325,6 +1324,7 @@ $GLOBALS['strImpressionSR_short']               = "Impr. SR";
 $GLOBALS['strClickSR_short']                    = "Click SR";
 
 // Global Settings
+$GLOBALS['strConfiguration']                = "Configuration";
 $GLOBALS['strGlobalSettings']               = "Global Settings";
 $GLOBALS['strGeneralSettings']              = "General Settings";
 $GLOBALS['strMainSettings']                 = "Main Settings";
