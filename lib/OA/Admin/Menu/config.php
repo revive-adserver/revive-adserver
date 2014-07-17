@@ -82,9 +82,9 @@ function _buildNavigation($accountType)
                 $oMenu->addTo("inventory", new OA_Admin_Menu_Section("admin-access", 'AdminAccess', "admin-access.php"));
                 $oMenu->addTo("admin-access", new OA_Admin_Menu_Section("admin-user", 'AdminAccess', "admin-user.php?userid={userid}"));
 
-            $oMenu->add(new OA_Admin_Menu_Section("account-index", 'MyAccount', "account-index.php", false, "settings/preferences"));
+            $oMenu->add(new OA_Admin_Menu_Section("account-index", 'Preferences', "account-index.php", false, "settings/preferences"));
                 $oMenu->addTo("account-index", new OA_Admin_Menu_Section("account-user-index", 'UserPreferences', "account-user-index.php", false, ""));
-                $oMenu->addTo("account-index", new OA_Admin_Menu_Section("account-preferences-index", 'Preferences', "account-preferences-index.php", false, "settings/preferences"));
+                $oMenu->addTo("account-index", new OA_Admin_Menu_Section("account-preferences-index", 'AccountPreferences', "account-preferences-index.php", false, "settings/preferences"));
                 $oMenu->addTo("account-index", new OA_Admin_Menu_Section("userlog-index", 'UserLog', "userlog-index.php", false, "settings/userLog"));
                 $oMenu->addTo("userlog-index", new OA_Admin_Menu_Section("userlog-details", 'UserLogDetails', "userlog-audit-detailed.php", false, "settings/userLog/details"));
 
@@ -205,9 +205,9 @@ function _buildNavigation($accountType)
             $oMenu->addTo("inventory", new OA_Admin_Menu_Section("agency-access", 'UserAccess', "agency-access.php?agencyid={agencyid}", false, "", array(array(OA_ACCOUNT_MANAGER => OA_PERM_SUPER_ACCOUNT))));
                 $oMenu->addTo("agency-access", new OA_Admin_Menu_Section("agency-user", 'UserProperties', "agency-user.php?userid={userid}&agencyid={agencyid}", false, ""));
 
-            $oMenu->add(new OA_Admin_Menu_Section("account-index", 'MyAccount', "account-index.php", false, "settings"));
+            $oMenu->add(new OA_Admin_Menu_Section("account-index", 'Preferences', "account-index.php", false, "settings"));
                 $oMenu->addTo("account-index", new OA_Admin_Menu_Section("account-user-index", 'UserPreferences', "account-user-index.php", false, ""));
-                $oMenu->addTo("account-index", new OA_Admin_Menu_Section("account-preferences-index", 'Preferences', "account-preferences-index.php", false, "settings/preferences"));
+                $oMenu->addTo("account-index", new OA_Admin_Menu_Section("account-preferences-index", 'AccountPreferences', "account-preferences-index.php", false, "settings/preferences"));
                 $oMenu->addTo("account-index", new OA_Admin_Menu_Section("userlog-index", 'UserLog', "userlog-index.php", false, "settings/userLog"));
                 $oMenu->addTo("account-index", new OA_Admin_Menu_Section("channel-index", 'ChannelManagement', "channel-index.php", false, "settings/channelManagement"));
                     $oMenu->addTo("channel-index", new OA_Admin_Menu_Section("channel-edit_new", 'AddNewChannel', "channel-edit.php?agencyid={agencyid}", true, "settings/channelManagement/addChannel"));
@@ -244,9 +244,9 @@ function _buildNavigation($accountType)
                 $oMenu->addTo('inventory', new OA_Admin_Menu_Section('affiliate-invocation', 'Invocationcode', 'affiliate-invocation.php?affiliateid={affiliateid}', false, "inventory/affiliateInvocation", array(array(OA_ACCOUNT_TRAFFICKER => OA_PERM_ZONE_INVOCATION))));
                     $oMenu->addTo('affiliate-invocation', new OA_Admin_Menu_Section('affiliate-preview', 'InvocationcodePreview', 'affiliate-preview.php', false, "", array(array(OA_ACCOUNT_TRAFFICKER => OA_PERM_ZONE_INVOCATION))));
                 $oMenu->addTo('inventory', new OA_Admin_Menu_Section('affiliate-access', 'UserAccess', 'affiliate-access.php?affiliateid={affiliateid}', false, "", array(array(OA_ACCOUNT_TRAFFICKER => OA_PERM_SUPER_ACCOUNT))));
-            $oMenu->add(new OA_Admin_Menu_Section("account-index", 'MyAccount', "account-index.php", false, "settings"));
+            $oMenu->add(new OA_Admin_Menu_Section("account-index", 'Preferences', "account-index.php", false, "settings"));
                 $oMenu->addTo("account-index", new OA_Admin_Menu_Section("account-user-index", 'UserPreferences', "account-user-index.php", false, "settings/preferences"));
-                $oMenu->addTo("account-index", new OA_Admin_Menu_Section("account-preferences-index", 'Preferences', "account-preferences-index.php", false, "settings/preferences"));
+                $oMenu->addTo("account-index", new OA_Admin_Menu_Section("account-preferences-index", 'AccountPreferences', "account-preferences-index.php", false, "settings/preferences"));
                 $oMenu->addTo("account-index", new OA_Admin_Menu_Section("userlog-index", 'UserLog', "userlog-index.php", false, "settings/userLog", array(array(OA_ACCOUNT_TRAFFICKER => OA_PERM_USER_LOG_ACCESS))));
         break;
         case OA_ACCOUNT_ADVERTISER:
@@ -284,9 +284,9 @@ function _buildNavigation($accountType)
                 $oMenu->addTo("inventory", new OA_Admin_Menu_Section("advertiser-access", 'UserAccess', "advertiser-access.php?clientid={clientid}", false, "", array(array(OA_ACCOUNT_ADVERTISER => OA_PERM_SUPER_ACCOUNT))));
                     $oMenu->addTo("advertiser-access", new OA_Admin_Menu_Section("advertiser-user", 'UserProperties', "advertiser-user.php?userid={userid}&clientid={clientid}", false, "", array(array(OA_ACCOUNT_ADVERTISER => OA_PERM_SUPER_ACCOUNT))));
 
-            $oMenu->add(new OA_Admin_Menu_Section("account-index", 'MyAccount', "account-index.php", false, "settings"));
+            $oMenu->add(new OA_Admin_Menu_Section("account-index", 'Preferences', "account-index.php", false, "settings"));
                 $oMenu->addTo("account-index", new OA_Admin_Menu_Section("account-user-index", 'UserPreferences', "account-user-index.php", false, ""));
-                $oMenu->addTo("account-index", new OA_Admin_Menu_Section("account-preferences-index", 'Preferences', "account-preferences-index.php", false, "settings/prefrences"));
+                $oMenu->addTo("account-index", new OA_Admin_Menu_Section("account-preferences-index", 'AccountPreferences', "account-preferences-index.php", false, "settings/prefrences"));
                 $oMenu->addTo("account-index", new OA_Admin_Menu_Section("userlog-index", 'UserLog', "userlog-index.php", false, "settings/userLog", array(array(OA_ACCOUNT_ADVERTISER => OA_PERM_USER_LOG_ACCESS))));
         break;
         default:

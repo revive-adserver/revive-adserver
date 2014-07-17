@@ -34,12 +34,12 @@ OA_Permission::enforceAccessToObject('audit', $auditId);
 
 phpAds_PageHeader('userlog-index');
 if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
-    // Show all "My Account" sections
+    // Show all "Preferences" sections
     phpAds_ShowSections(array("5.1", "5.2", "5.3", "5.5", "5.6", "5.4"));
     phpAds_UserlogSelection("index");
 }
 else if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-    // Show the "Preferences", "User Log" and "Channel Management" sections of the "My Account" sections
+    // Show the "Account Preferences", "User Log" and "Channel Management" sections of the "Preferences" sections
     phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.7"));
 }
 else if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) || OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
