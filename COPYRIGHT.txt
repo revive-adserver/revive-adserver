@@ -13,6 +13,12 @@ contributions to the code:
  - Stelios Skiathitis
  - Sunci Syz
 
+Please note: The Revive Adserver team does not have time to track every single
+pull request that is merged into the project. If you would like your name
+included in the above list, please include the change in your pull request or
+simply ask to have it added in GitHub. Otherwise, thank you so much to everyone
+who contributes but is not listed above!
+
 --------------------------------------------------------------------------------
 
 Revive Adserver is based on OpenX Source, which was Copyright (c) 2003-2013
