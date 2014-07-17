@@ -28,6 +28,7 @@ What's New in Revive Adserver 3.1.0
  ------------
 
  * The domain used for the viewerId cookie is now configurable.
+ * The "My Account" main menu has been re-named to "Preferences" for clarity.
 
  Bug Fixes
  ---------
