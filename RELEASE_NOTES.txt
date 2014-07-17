@@ -6,7 +6,7 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
-Release Notes: Revive Adserver 3.0.6
+Release Notes: Revive Adserver 3.1.0
 ====================================
 
 These release notes cover what's new, system requirements, download and
@@ -14,7 +14,7 @@ installation instructions, known issues and frequently asked questions for
 Revive Adserver. Please read these notes before reporting any bugs.
 
 
-What's New in Revive Adserver 3.0.6
+What's New in Revive Adserver 3.1.0
 -----------------------------------
 
  * Release date: TBA
@@ -27,21 +27,20 @@ What's New in Revive Adserver 3.0.6
  New Features
  ------------
 
- * None
+ * The domain used for the viewerId cookie is now configurable.
 
  Bug Fixes
  ---------
 
- * VAST tracking URLs are now using https when the call is performed via SSL
- * Allow domain for the viewerId cookie to be set separately
+ * VAST tracking URLs now use https:// when called via SSL.
  * Removed useless Content-Length headers when sending the 1x1 transparent gif
    and spc delivery files, as the header interferes with ob_gzhandler and/or
-   zlib.output_compression
- * Fixed SSL banner delivery not working properly when using Postgres
+   zlib.output_compression.
+ * Fixed issue with banner delivery over SSL when using Postgres.
  * Fixed click redirection to internationalized domain names when the IDN
-   functions are available (PHP 5.3+)
+   functions are available (PHP 5.3+).
  * Properly display the current value in the UI when settings contain an
-   underscore in their name
+   underscore in their name.
 
  Non-Backwards Compatible Changes
  --------------------------------
