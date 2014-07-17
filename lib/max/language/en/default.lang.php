@@ -1240,7 +1240,6 @@ $GLOBALS['strSourceEdit']                       = "Edit Sources";
 
 // Preferences
 $GLOBALS['strPreferences']                      = "Preferences";
-$GLOBALS['strMyAccount']                        = "My Account";
 $GLOBALS['strUserPreferences']                  = "User Preferences";
 $GLOBALS['strChangePassword']                   = "Change Password";
 $GLOBALS['strChangeEmail']                      = "Change E-mail";

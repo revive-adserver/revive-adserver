@@ -742,7 +742,6 @@ $GLOBALS['strPwdRecEmailSent'] = "Generhvervelses email er sendt";
 $GLOBALS['strAccount'] = "Konto";
 $GLOBALS['strImpressionSR'] = "Visninger";
 $GLOBALS['strGlobalSettings'] = "Overordnede Indstillinger";
-$GLOBALS['strMyAccount'] = "Min Konto";
 $GLOBALS['strSwitchTo'] = "Skift til";
 $GLOBALS['strActions'] = "Aktion";
 $GLOBALS['strFinanceCTR'] = "CTR";

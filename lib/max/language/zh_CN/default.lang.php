@@ -1242,7 +1242,6 @@ $GLOBALS['strSourceEdit']                       = "Edit Sources";
 
 // Preferences
 $GLOBALS['strPreferences']                      = "设置";
-$GLOBALS['strMyAccount']                        = "账户";
 $GLOBALS['strConfiguration']                    = "系统";
 $GLOBALS['strAccountPreferences']               = "Account Preferences";
 $GLOBALS['strCampaignEmailReportsPreferences']  = "报表";

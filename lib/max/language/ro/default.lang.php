@@ -910,7 +910,6 @@ $GLOBALS['str_ru'] = "Rusă";
 $GLOBALS['str_sl'] = "Slovacă";
 $GLOBALS['str_tr'] = "Turcă";
 $GLOBALS['strGlobalSettings'] = "Setări Globale";
-$GLOBALS['strMyAccount'] = "Contul Meu";
 $GLOBALS['strSwitchTo'] = "Schimbă către";
 $GLOBALS['strRevenue'] = "Venit";
 $GLOBALS['str_ar'] = "Arabă";

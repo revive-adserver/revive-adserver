@@ -1158,7 +1158,6 @@ $GLOBALS['str_sl'] = "Slovène";
 $GLOBALS['str_tr'] = "Turc";
 $GLOBALS['str_zh_CN'] = "Chinois simplifié";
 $GLOBALS['strGlobalSettings'] = "Paramètres généraux";
-$GLOBALS['strMyAccount'] = "Mon compte";
 $GLOBALS['strSwitchTo'] = "Passer à";
 $GLOBALS['strRevenue'] = "Recettes";
 $GLOBALS['str_ar'] = "Arabe";

@@ -864,7 +864,6 @@ $GLOBALS['strClear'] = "Limpar";
 $GLOBALS['strLinkNewUser'] = "Vincular novo usuário";
 $GLOBALS['strLinkNewUser_Key'] = "Vincular <u>u</u>suário";
 $GLOBALS['strUserAccess'] = "Acesso de usuário";
-$GLOBALS['strMyAccount'] = "Minha conta";
 $GLOBALS['strCampaignStatusRunning'] = "Executando";
 $GLOBALS['strCampaignStatusPaused'] = "Pausado";
 $GLOBALS['strCampaignStatusAwaiting'] = "Aguardando";

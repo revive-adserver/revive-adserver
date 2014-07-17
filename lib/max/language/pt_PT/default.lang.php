@@ -902,7 +902,6 @@ $GLOBALS['str_ru'] = "Russo";
 $GLOBALS['str_sl'] = "Eslovaco";
 $GLOBALS['str_tr'] = "Turco";
 $GLOBALS['strGlobalSettings'] = "Configurações global";
-$GLOBALS['strMyAccount'] = "Minha conta";
 $GLOBALS['strSwitchTo'] = "Alternar para";
 $GLOBALS['strRevenue'] = "Receita";
 $GLOBALS['str_ar'] = "Árabe";

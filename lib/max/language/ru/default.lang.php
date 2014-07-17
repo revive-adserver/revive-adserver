@@ -906,7 +906,6 @@ $GLOBALS['strClear'] = "Очистить";
 $GLOBALS['strLinkNewUser'] = "Привязать нового пользователя";
 $GLOBALS['strLinkNewUser_Key'] = "Привязать <u>п</u>ользователя";
 $GLOBALS['strUserAccess'] = "Доступ пользователя";
-$GLOBALS['strMyAccount'] = "Мой аккаунт";
 $GLOBALS['strCampaignStatusRunning'] = "Запущен ";
 $GLOBALS['strCampaignStatusPaused'] = "Приостановлен";
 $GLOBALS['strCampaignStatusAwaiting'] = "Ожидает";

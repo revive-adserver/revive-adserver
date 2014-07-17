@@ -802,7 +802,6 @@ $GLOBALS['strPwdRecEmailPwdRecovery'] = "Recuperación de contraseña %s";
 $GLOBALS['strAuditTrail'] = "Audit Trail";
 $GLOBALS['strLinkNewUser'] = "Asignar nuevo usuario";
 $GLOBALS['strUserAccess'] = "Acceso de usuario";
-$GLOBALS['strMyAccount'] = "Mi Cuenta";
 $GLOBALS['strCampaignStatusRunning'] = "Ejecutándose";
 $GLOBALS['strCampaignStatusPaused'] = "Pausada";
 $GLOBALS['strCampaignStatusAwaiting'] = "Añadida";

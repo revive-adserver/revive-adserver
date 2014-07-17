@@ -924,7 +924,6 @@ $GLOBALS['str_sl'] = "Slovenščina";
 $GLOBALS['str_tr'] = "Turščina";
 $GLOBALS['str_zh_CN'] = "Poenostavljena kitajščina";
 $GLOBALS['strGlobalSettings'] = "Globalne nastavitve";
-$GLOBALS['strMyAccount'] = "Moj račun";
 $GLOBALS['strSwitchTo'] = "Preklopi na";
 $GLOBALS['strRevenue'] = "Dohodek";
 $GLOBALS['str_ar'] = "Arabščina";

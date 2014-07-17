@@ -1297,7 +1297,6 @@ $GLOBALS['str_sl'] = "Slowenisch";
 $GLOBALS['str_tr'] = "Türkisch";
 $GLOBALS['str_zh_CN'] = "Einfaches Chinesisch";
 $GLOBALS['strGlobalSettings'] = "Grundeinstellungen des Systems";
-$GLOBALS['strMyAccount'] = "Mein Benutzerkonto";
 $GLOBALS['strSwitchTo'] = "Wechseln zu";
 $GLOBALS['strRevenue'] = "Einkommen";
 $GLOBALS['str_ar'] = "Arabisch";
