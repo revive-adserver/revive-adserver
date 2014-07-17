@@ -27,6 +27,8 @@ What's New in Revive Adserver 3.1.0
  New Features
  ------------
 
+ * The Revive Adserver delivery engine now includes a completely inclusive
+   CORS header (i.e. 'Access-Control-Allow-Origin: *').
  * The domain used for the viewerId cookie is now configurable.
  * The "My Account" main menu has been re-named to "Preferences" for clarity.
 
