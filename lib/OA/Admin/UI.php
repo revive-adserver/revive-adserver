@@ -180,9 +180,9 @@ class OA_Admin_UI
         $aSectionNav     = array();
 
         if ($ID !== phpAds_Login && $ID !== phpAds_Error && $ID !== phpAds_PasswordRecovery) {
-            //get system navigation
+            // Get system navigation
             $oMenu = OA_Admin_Menu::singleton();
-            //update page title
+            // Update page title
             $oCurrentSection = $oMenu->get($ID);
 
             $this->redirectSectionToCorrectUrlIfOldUrlDetected($oCurrentSection);
