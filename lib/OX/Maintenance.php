@@ -104,8 +104,10 @@ class OX_Maintenance
             // Run the Maintenance Statistics Engine (MSE) process
             $this->_runMSE();
             // Run the "midnight" tasks, if required
+            $runSync = false;
             if ($this->isMidnightMaintenance($oLastRun)) {
                 $this->_runMidnightTasks();
+                $runSync = true;
             }
             // Release lock before starting MPE
             $oLock->release();
@@ -122,6 +124,15 @@ class OX_Maintenance
                       ', taking ' . $oDateSpan->format('%H:%M:%S') .
                       ')', PEAR_LOG_INFO);
             OA::switchLogIdent();
+            // Run the Revive Adserver Sync process, to get details of any updates
+            // to Revive Adserver, if the process is due to be run (because the
+            // "midnight" tasks were triggered); this happens as the very last
+            // thing to ensure that network issues or timeouts with the sync server
+            // don't affect the normal running of the MSE & MPE, which are important
+            // to have run properly!
+            if ($runSync) {
+                $this->_runReviveSync();
+            }
         } else {
             OA::switchLogIdent('maintenance');
 			OA::debug('Maintenance Engine not run: could not acquire lock', PEAR_LOG_INFO);
@@ -210,7 +221,6 @@ class OX_Maintenance
         $this->_runGeneralPruning();
         $this->_runPriorityPruning();
         $this->_runDeleteUnverifiedAccounts();
-        $this->_runReviveSync();
         OA::debug('Midnight Maintenance Tasks Completed', PEAR_LOG_INFO);
     }
 
@@ -281,8 +291,6 @@ class OX_Maintenance
         $oSync->checkForUpdates(0);
         OA::debug('Finished ' . PRODUCT_NAME . ' Sync process.', PEAR_LOG_INFO);
     }
-
-
 
     function _runPriorityPruning()
     {
