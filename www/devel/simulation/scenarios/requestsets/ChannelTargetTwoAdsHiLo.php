@@ -22,7 +22,7 @@ $oRequest->ct0      = '';
 $oRequest->loc      = '';
 $oRequest->referer  = '';
 
-// bannerid 1 is exclusive with capping limitation
+// bannerid 1 is override with capping limitation
 // bannerid 2 is low priority with no limitations
 
 $aIterations[1]['request_objects'][1]   = $oRequest;
@@ -43,7 +43,7 @@ $precis=    '<h1>Scenario Simulation: ChannelTargetTwoAdsHiLo_nohistory</h1>'
             .'-- Total advertisers: 1<br />'
             .'-- Active banners: 2<br />'
             .'-- Active campaigns: 2<br />'
-            .'-- banner 1: priority lvl=exclusive / capping=10<br />'
+            .'-- banner 1: priority lvl=override / capping=10<br />'
             .'-- banner 2: priority lvl=low / no limitations<br />'
             .'-- priority starts at 0<br />'
             .'-- no impression history<br />'

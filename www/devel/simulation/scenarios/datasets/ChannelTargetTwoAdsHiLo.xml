@@ -452,7 +452,7 @@
 
     <field>
      <name>description</name>
-     <value>exclusive &amp; capped</value>
+     <value>override &amp; capped</value>
     </field>
 
     <field>
