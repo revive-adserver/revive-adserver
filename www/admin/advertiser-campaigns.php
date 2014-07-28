@@ -148,7 +148,7 @@ foreach ($aCampaigns as $campaignId => $aCampaign) {
     }
 
     if ($aCampaign['priority'] == -1) {
-        $aCampaign['priority'] = $strExclusive;
+        $aCampaign['priority'] = $strOverride;
     }
     elseif ($aCampaign['priority'] == -2) {
         $aCampaign['priority'] = $strCampaignECPM;

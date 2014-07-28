@@ -20,7 +20,7 @@ class OX_Util_UtilsTest
     {
         $aTestValues = array(
             -2 => OX_CAMPAIGN_TYPE_ECPM,
-            -1 => OX_CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE,
+            -1 => OX_CAMPAIGN_TYPE_OVERRIDE,
             0 => OX_CAMPAIGN_TYPE_REMNANT
         );
         for ($i = 1; $i <= 10; $i++) {
@@ -36,7 +36,7 @@ class OX_Util_UtilsTest
 
     function testGetCampaignTranslationKey()
     {
-        $aTestValues = array(-1 => 'strExclusiveContract', 0 => 'strRemnant');
+        $aTestValues = array(-1 => 'strOverride', 0 => 'strRemnant');
         for ($i = 1; $i <= 10; $i++) {
             $aTestValues[$i] = 'strStandardContract';
         }

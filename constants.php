@@ -47,7 +47,7 @@ function setupConstants()
     //campaign types
     define('OX_CAMPAIGN_TYPE_REMNANT', 1);
     define('OX_CAMPAIGN_TYPE_CONTRACT_NORMAL', 2);
-    define('OX_CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE', 3);
+    define('OX_CAMPAIGN_TYPE_OVERRIDE', 3);
     define('OX_CAMPAIGN_TYPE_ECPM', 4);
     define('OX_CAMPAIGN_TYPE_CONTRACT_ECPM', 5);
 

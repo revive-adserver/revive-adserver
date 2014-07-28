@@ -399,27 +399,27 @@ function buildBasicInformationFormSection(&$form, $campaign, $newCampaign, $remn
 
     $form->addElement ( 'text', 'campaignname', $GLOBALS ['strName'] );
 
+    $priority_o [] = $form->createElement ( 'radio', 'campaign_type', null, "<span class='type-name'>" . $GLOBALS ['strOverride'] . "</span>", OX_CAMPAIGN_TYPE_OVERRIDE, array ('id' => 'priority-e' ) );
+    $priority_o [] = $form->createElement ( 'custom', array ('excl-limit-both-set-note', 'campaign-date-limit-both-set-note' ), null, null, false );
+    $form->addDecorator ( 'excl-limit-both-set-note', 'tag', array ('attributes' => array ('id' => 'excl-limit-date-both-set', 'class' => 'hide' ) ) );
+    $priority_o [] = $form->createElement ( 'custom', 'campaign-type-note', null, array ('radioId' => 'priority-e', 'infoKey' => 'OverrideInfo' ) );
+
     $priority_h [] = $form->createElement ( 'radio', 'campaign_type', null, "<span class='type-name'>" . $GLOBALS ['strStandardContract'] . "</span>", OX_CAMPAIGN_TYPE_CONTRACT_NORMAL, array ('id' => 'priority-h' ) );
     $priority_h [] = $form->createElement ( 'custom', 'campaign-type-note', null, array ('radioId' => 'priority-h', 'infoKey' => 'StandardContractInfo' ) );
-
-    $priority_e [] = $form->createElement ( 'radio', 'campaign_type', null, "<span class='type-name'>" . $GLOBALS ['strExclusiveContract'] . "</span>", OX_CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE, array ('id' => 'priority-e' ) );
-    $priority_e [] = $form->createElement ( 'custom', array ('excl-limit-both-set-note', 'campaign-date-limit-both-set-note' ), null, null, false );
-    $form->addDecorator ( 'excl-limit-both-set-note', 'tag', array ('attributes' => array ('id' => 'excl-limit-date-both-set', 'class' => 'hide' ) ) );
-    $priority_e [] = $form->createElement ( 'custom', 'campaign-type-note', null, array ('radioId' => 'priority-e', 'infoKey' => 'ExclusiveContractInfo' ) );
 
     if ($remnantEcpmEnabled) {
         $priority_l [] = $form->createElement ( 'radio', 'campaign_type', null, "<span class='type-name'>" . $GLOBALS ['strRemnant'] . "</span>", OX_CAMPAIGN_TYPE_ECPM, array ('id' => 'priority-l' ) );
         $priority_l [] = $form->createElement ( 'custom', array ('ecpm-limit-both-set-note', 'campaign-date-limit-both-set-note' ), null, null, false );
         $form->addDecorator ( 'ecpm-limit-both-set-note', 'tag', array ('attributes' => array ('id' => 'ecpm-limit-date-both-set', 'class' => 'hide' ) ) );
         $priority_l [] = $form->createElement ( 'custom', 'campaign-type-note', null, array ('radioId' => 'priority-l', 'infoKey' => 'ECPMInfo' ) );
-//        $form->addElement ( 'hidden', 'ecpm_enabled', 1 );
+        // $form->addElement ( 'hidden', 'ecpm_enabled', 1 );
     } else {
         $priority_l [] = $form->createElement ( 'radio', 'campaign_type', null, "<span class='type-name'>" . $GLOBALS ['strRemnant'] . "</span>", OX_CAMPAIGN_TYPE_REMNANT, array ('id' => 'priority-l' ) );
         $priority_l [] = $form->createElement ( 'custom', array ('low-limit-both-set-note', 'campaign-date-limit-both-set-note' ), null, null, false );
         $form->addDecorator ( 'low-limit-both-set-note', 'tag', array ('attributes' => array ('id' => 'low-limit-date-both-set', 'class' => 'hide' ) ) );
         $priority_l [] = $form->createElement ( 'custom', 'campaign-type-note', null, array ('radioId' => 'priority-l', 'infoKey' => 'RemnantInfo' ) );
         $form->addElement ( 'hidden', 'campaignid', $aCampaign ['campaignid'] );
-//        $form->addElement ( 'hidden', 'ecpm_enabled', 0 );
+        // $form->addElement ( 'hidden', 'ecpm_enabled', 0 );
     }
 
     if ($remnantEcpmEnabled) {
@@ -433,8 +433,8 @@ function buildBasicInformationFormSection(&$form, $campaign, $newCampaign, $remn
         $form->addElement ( 'hidden', 'contract_ecpm_enabled', 0 );
     }
 
+    $typeG [] = $form->createElement ( 'group', 'g_priority_o', null, $priority_o, null, false );
     $typeG [] = $form->createElement ( 'group', 'g_priority_h', null, $priority_h, null, false );
-    $typeG [] = $form->createElement ( 'group', 'g_priority_e', null, $priority_e, null, false );
     $typeG [] = $form->createElement ( 'group', 'g_priority_l', null, $priority_l, null, false );
     $form->addGroup ( $typeG, 'g_ctype', $GLOBALS ['strCampaignType'], "" );
 
@@ -450,6 +450,7 @@ function buildBasicInformationFormSection(&$form, $campaign, $newCampaign, $remn
 
 //EX.    $form->addDecorator('test', 'process', array('tag' => 'tr',
 //        'addAttributes' => array('id' => 'trtest{numCall}', 'style' => 'display: none')));
+
 }
 
 function buildDateFormSection(&$form, $campaign, $newCampaign)
@@ -725,11 +726,11 @@ function processCampaignForm($form, &$oComponent = null)
     if (empty($errors)) {
         //check booked limits values
 
-        // If this is a remnant, ecpm or exclusive campaign with an expiry date, set the target's to unlimited
+        // If this is a remnant, ecpm or override campaign with an expiry date, set the target's to unlimited
         if (!empty($expire) &&
             ($aFields['campaign_type'] == OX_CAMPAIGN_TYPE_REMNANT
                 || $aFields['campaign_type'] == OX_CAMPAIGN_TYPE_ECPM
-                || $aFields['campaign_type'] == OX_CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE)
+                || $aFields['campaign_type'] == OX_CAMPAIGN_TYPE_OVERRIDE)
         ) {
             $aFields['impressions'] = $aFields['clicks'] = $aFields['conversions'] = -1;
         } else {
@@ -767,13 +768,13 @@ function processCampaignForm($form, &$oComponent = null)
 
         //check type and set priority
         if ($aFields['campaign_type'] == OX_CAMPAIGN_TYPE_REMNANT) {
-            $aFields['priority'] = 0; //low
+            $aFields['priority'] = 0; // low
         } else if ($aFields['campaign_type'] == OX_CAMPAIGN_TYPE_CONTRACT_NORMAL) {
             $aFields['priority'] = (isset($aFields['high_priority_value']) ? $aFields['high_priority_value'] : 5); //high
-        } else if ($aFields['campaign_type'] == OX_CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE) {
-            $aFields['priority'] = - 1; //exclusive
+        } else if ($aFields['campaign_type'] == OX_CAMPAIGN_TYPE_OVERRIDE) {
+            $aFields['priority'] = - 1; // override
         } else if ($aFields['campaign_type'] == OX_CAMPAIGN_TYPE_ECPM) {
-            $aFields['priority'] = - 2; //ecpm
+            $aFields['priority'] = - 2; // ecpm
         }
 
         // Set target
@@ -998,7 +999,7 @@ function displayPage($campaign, $campaignForm, $statusForm, $campaignErrors = nu
 
     $oTpl->assign ( 'CAMPAIGN_TYPE_REMNANT', OX_CAMPAIGN_TYPE_REMNANT );
     $oTpl->assign ( 'CAMPAIGN_TYPE_CONTRACT_NORMAL', OX_CAMPAIGN_TYPE_CONTRACT_NORMAL );
-    $oTpl->assign ( 'CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE', OX_CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE );
+    $oTpl->assign ( 'CAMPAIGN_TYPE_OVERRIDE', OX_CAMPAIGN_TYPE_OVERRIDE );
     $oTpl->assign ( 'CAMPAIGN_TYPE_ECPM', OX_CAMPAIGN_TYPE_ECPM );
     $oTpl->assign ( 'CAMPAIGN_TYPE_CONTRACT_ECPM', OX_CAMPAIGN_TYPE_CONTRACT_ECPM );
     $oTpl->assign ( 'PRIORITY_ECPM_FROM', DataObjects_Campaigns::PRIORITY_ECPM_FROM);

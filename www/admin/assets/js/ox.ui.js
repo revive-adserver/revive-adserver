@@ -260,7 +260,7 @@ function initAccoutSwitcher(searchUrl)
   $switcher.accountswitch({
     searchUrl: searchUrl
   });
-  
+
   $breadcrumb = $("#thirdLevelHeader > .breadcrumb");
 
   $(".switchTrigger").hover(function() {
@@ -482,7 +482,7 @@ function updateCampaignDateAndLimitsAndType()
 	});
 
 	if (campaignType == CAMPAIGN_TYPE_REMNANT || campaignType == CAMPAIGN_TYPE_ECPM
-        || campaignType == CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE)
+        || campaignType == CAMPAIGN_TYPE_OVERRIDE)
     {
 	     $("#excl-limit-date-both-set, #low-limit-date-both-set, #ecpm-limit-date-both-set").hide();
 
@@ -592,7 +592,7 @@ function updateCampaignTypeForm()
     updateCampaignDateAndLimitsAndType();
 
     if (campaignType == CAMPAIGN_TYPE_CONTRACT_NORMAL ||
-        campaignType == CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE ||
+        campaignType == CAMPAIGN_TYPE_OVERRIDE ||
         campaignType == CAMPAIGN_TYPE_CONTRACT_ECPM ||
         campaignType == CAMPAIGN_TYPE_REMNANT ||
         campaignType == CAMPAIGN_TYPE_ECPM) {
@@ -749,9 +749,9 @@ function updateCampaignPrioritySection()
             $lowExclPrioritySection.show();
         }
     }
-    else if (campaignType == CAMPAIGN_TYPE_CONTRACT_NORMAL || campaignType == CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE || campaignType == CAMPAIGN_TYPE_CONTRACT_ECPM) {
+    else if (campaignType == CAMPAIGN_TYPE_CONTRACT_NORMAL || campaignType == CAMPAIGN_TYPE_OVERRIDE || campaignType == CAMPAIGN_TYPE_CONTRACT_ECPM) {
 	   //if exclusive selected - show weight
-	   if (campaignType == CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE) {
+	   if (campaignType == CAMPAIGN_TYPE_OVERRIDE) {
 	        $highPrioritySection.hide();
 	        $lowExclPrioritySection.show();
 	   }
@@ -822,13 +822,13 @@ function campaignFormPriorityCheck(form)
 {
     var campaignType = getCampaignType();
 
-    if (campaignType == CAMPAIGN_TYPE_CONTRACT_NORMAL || campaignType == CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE
+    if (campaignType == CAMPAIGN_TYPE_CONTRACT_NORMAL || campaignType == CAMPAIGN_TYPE_OVERRIDE
         || campaignType == CAMPAIGN_TYPE_CONTRACT_ECPM)
     {
-	    if (campaignType == CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE && !parseInt($("#weight").val())) {
+	    if (campaignType == CAMPAIGN_TYPE_OVERRIDE && !parseInt($("#weight").val())) {
 	        return confirm (strCampaignWarningExclusiveNoWeight);
 	    }
-	    else if (campaignType != CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE
+	    else if (campaignType != CAMPAIGN_TYPE_OVERRIDE
             && ($("#endSet_immediate").attr("checked") == true || !campaignHasAnyLimitSet())
             && !parseInt($("#target_value").val()) ) {
             return confirm (strCampaignWarningNoTargetMessage);
@@ -864,7 +864,7 @@ function getCampaignType()
             }
 	    }
 	    else if ($("#priority-e").attr("checked") == true) {
-	        return CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE;
+	        return CAMPAIGN_TYPE_OVERRIDE;
 	    }
 	    else if ($("#priority-l").attr("checked") == true) {
             if ($("[@name=remnant_ecpm_enabled]").val() == 1) {
