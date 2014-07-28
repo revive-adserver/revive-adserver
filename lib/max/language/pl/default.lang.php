@@ -677,7 +677,6 @@ $GLOBALS['strConversionsBooked'] = "Konwersje zarezerwowane";
 $GLOBALS['strOptimise'] = "Optymalizacja";
 $GLOBALS['strAnonymous'] = "Ukryj reklamodawcę i strony tej kampanii.";
 $GLOBALS['strCampaignWarningRemnantNoWeight'] = "Kampania została ustwiona jako pozostała, \njednak jej waga jest równa zeru bądź nie została \nsprecyzowana. Spowoduje to dezaktywację \nkampanii. Banery będą dostarczane dopiero \npo wprowadzeniu wartości w formacie liczby. \n\nCzy na pewno chcesz kontynuować?";
-$GLOBALS['strCampaignWarningExclusiveNoWeight'] = "Kampania została ustwiona jako wyłączna, \njednak jej waga jest równa zeru bądź nie została \nsprecyzowana. Spowoduje to dezaktywację \nkampanii. Banery będą dostarczane dopiero \npo wprowadzeniu wartości w formacie liczby. \n\nCzy na pewno chcesz kontynuować?";
 $GLOBALS['strCampaignWarningNoTarget'] = "Kampania została ustwiona jako Kontrakt, \njednak dzienny limit nie został \nsprecyzowany. Spowoduje to dezaktywację \nkampanii. Banery będą dostarczane dopiero \npo wprowadzeniu dziennego limitu. \n\nCzy na pewno chcesz kontynuować?";
 $GLOBALS['strTrackerOverview'] = "Podgląd trackera";
 $GLOBALS['strAddTracker'] = "Dodaj nowy tracker";

@@ -148,7 +148,6 @@ $GLOBALS['strPriority']                 = "اولویت";
 $GLOBALS['strPriorityLevel']            = "درجه اولویت";
 $GLOBALS['strPriorityTargeting']        = "توزیع";
 $GLOBALS['strPriorityOptimisation']     = "گوناگون";
-$GLOBALS['strExclusiveAds']             = "آگهی دهندگان انحصاری";
 $GLOBALS['strHighAds']                  = "High-Priority Advertisements";
 $GLOBALS['strLowAds']                   = "Low-Priority Advertisements";
 $GLOBALS['strLimitations']              = "محدودیت ها";

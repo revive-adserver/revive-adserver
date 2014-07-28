@@ -247,7 +247,6 @@ $GLOBALS['strAnonymous'] = "Esconder o anunciante e o site desta campanha";
 $GLOBALS['strTargetPerDay'] = "por dia.";
 $GLOBALS['strPriorityAutoTargeting'] = "Automático - Distribuir o restante do contratado homogeneamente pelos dias restantes.";
 $GLOBALS['strCampaignWarningRemnantNoWeight'] = "A prioridade desta campanha foi configurada para baixa, \nmas seu peso configurado para zero ou não informado.\nIsto causará a campanha a ser desativada e seus banners\nnão serão entregues até o peso  ser alterado para um número\nválido.\n\nDeseja continuar?";
-$GLOBALS['strCampaignWarningExclusiveNoWeight'] = "A prioridade desta campanha foi configurada para baixa, \nmas seu peso configurado para zero ou não informado.\nIsto causará a campanha a ser desativada e seus banners\nnão serão entregues até o peso  ser alterado para um número\nválido.\n\nDeseja continuar?";
 $GLOBALS['strCampaignWarningNoTarget'] = "A prioridade desta campanha foi configurada para alta,\nmas o número alvejado de impressões não foi especificado\nIsto causará a campanha a ser desativada e seus banners não\nserão entregues até que um número válido seja cadastrado.\n\nDeseja continuar?";
 $GLOBALS['strTrackerOverview'] = "Visão geral do rastreador";
 $GLOBALS['strAddTracker'] = "Adicionar no rastreador";

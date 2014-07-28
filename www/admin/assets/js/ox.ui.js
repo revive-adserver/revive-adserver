@@ -826,7 +826,7 @@ function campaignFormPriorityCheck(form)
         || campaignType == CAMPAIGN_TYPE_CONTRACT_ECPM)
     {
 	    if (campaignType == CAMPAIGN_TYPE_OVERRIDE && !parseInt($("#weight").val())) {
-	        return confirm (strCampaignWarningExclusiveNoWeight);
+	        return confirm (strCampaignWarningOverrideNoWeight);
 	    }
 	    else if (campaignType != CAMPAIGN_TYPE_OVERRIDE
             && ($("#endSet_immediate").attr("checked") == true || !campaignHasAnyLimitSet())

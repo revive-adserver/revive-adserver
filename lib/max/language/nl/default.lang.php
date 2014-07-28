@@ -697,7 +697,6 @@ $GLOBALS['strConversionsBooked'] = "geboekte conversies";
 $GLOBALS['strOptimise'] = "Optimaliseer ";
 $GLOBALS['strAnonymous'] = "Verberg de adverteerder en websites van deze campagne";
 $GLOBALS['strCampaignWarningRemnantNoWeight'] = "De prioriteit van deze campagne is laag, \nterwijl het gewicht op nul is gezet of niet \ngespecificeerd is. Dit zal er voor zorgen dat de campagne \ngedeactiveerd wordt en de banners zullen niet getoond \nworden totdat het gewicht aangepast is. \n\nWeet u zeker dat u door wilt gaan?";
-$GLOBALS['strCampaignWarningExclusiveNoWeight'] = "De prioriteit van deze campagne is laag, \nterwijl het gewicht op nul is gezet of niet \ngespecificeerd is. Dit zal er voor zorgen dat de campagne \ngedeactiveerd wordt en de banners zullen niet getoond \nworden totdat het gewicht aangepast is. \n\nWeet u zeker dat u door wilt gaan?";
 $GLOBALS['strTrackerOverview'] = "Banner overzicht";
 $GLOBALS['strAddTracker'] = "Voeg nieuwe banner toe";
 $GLOBALS['strAddTracker_Key'] = "<u>V</u>oeg een banner toe";

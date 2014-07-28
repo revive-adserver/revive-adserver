@@ -250,7 +250,6 @@ $GLOBALS['strAnonymous'] = "Dölj kampanjens annonsörer och sajter.";
 $GLOBALS['strTargetPerDay'] = "per dag.";
 $GLOBALS['strPriorityAutoTargeting'] = "Automatisk - Distribuera återstående lager jämnt över återstående antal dagar.";
 $GLOBALS['strCampaignWarningRemnantNoWeight'] = "Kampanjens prioriteringar är satta till låg, \nmen vikten är satt till noll eller har inte \nspecifiserats. Kampanjen kommer att \navaktiveras och dess banners ej levereras\ntills vikten sätts till giltigt nummer. \n\nVill du fortsätta?";
-$GLOBALS['strCampaignWarningExclusiveNoWeight'] = "Kampanjens prioriteringar är satta till låg, \nmen vikten är satt till noll eller har inte \nspecifiserats. Kampanjen kommer att \navaktiveras och dess banners ej levereras\ntills vikten sätts till giltigt nummer. \n\nVill du fortsätta?";
 $GLOBALS['strCampaignWarningNoTarget'] = "Kampanjens prioritet är satt till hög, \nmen målantal för visningar är inte angivet. \nDetta gör att kampanjen blir avaktiverad och \ndess banners kommer inte att levereras tills \ngiltigt målantal anges \n \nÄr du säker på att du vill fortsätta? \n";
 $GLOBALS['strTrackerOverview'] = "Spårningsöversikt";
 $GLOBALS['strAddTracker'] = "Lägg till ny spårning";

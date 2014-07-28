@@ -246,7 +246,6 @@ $GLOBALS['strAnonymous'] = "Cuddio hysbysebwr a gwefannau'r ymgyrch hwn.";
 $GLOBALS['strTargetPerDay'] = "y diwrnod.";
 $GLOBALS['strPriorityAutoTargeting'] = "Awtomatig - Dosbarthu y rhestren sy'n weddill yn gydradd dros y nifer o ddiwrnodau sy'n weddill.";
 $GLOBALS['strCampaignWarningRemnantNoWeight'] = "Mae blaenoriaeth yr ymgyrch wedi ei osod i isel, \nond mae'r pwysau wedi ei osod i sero neu nid yw wedi cael \nei nodi. Bydd hyn yn achosi bod eich ymgyrch yn \ncael ei ddad-ysgogi ac ni fydd y baneri yn cael eu trosglwyddo \nnes bod y pwysau yn cael ei newid i rif dilys. \n\nYdych chi'n siwr eich bod am barhau?";
-$GLOBALS['strCampaignWarningExclusiveNoWeight'] = "Mae blaenoriaeth yr ymgyrch wedi ei osod i isel, \nond mae'r pwysau wedi ei osod i sero neu nid yw wedi cael \nei nodi. Bydd hyn yn achosi bod eich ymgyrch yn \ncael ei ddad-ysgogi ac ni fydd y baneri yn cael eu trosglwyddo \nnes bod y pwysau yn cael ei newid i rif dilys. \n\nYdych chi'n siwr eich bod am barhau?";
 $GLOBALS['strCampaignWarningNoTarget'] = "Mae blaenoriaeth yr ymgyrch wedi ei osod i uchel, \nond nid yw'r nifer darged o Argraffiadau wedi cael ei nodi.\nBydd hyn yn achosi bod eich ymgyrch yn cael ei ddad-ysgogi \nac ni fydd y baneri yn cael eu trosglwyddo nes bod rhif targed \ndilys o Argraffiadau wedi cael ei osod. \n\nYdych chi'n siwr eich bod am barhau?";
 $GLOBALS['strTrackerOverview'] = "Trosolwg Traciwr";
 $GLOBALS['strAddTracker'] = "Ychwanegu traciwr newydd";

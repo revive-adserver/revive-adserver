@@ -138,7 +138,6 @@ $GLOBALS['strPriority']                 		= "優先度";
 $GLOBALS['strPriorityLevel']            		= "優先度レベル";
 $GLOBALS['strPriorityTargeting']        		= "配信方法";
 $GLOBALS['strPriorityOptimisation']     		= "その他";
-$GLOBALS['strExclusiveAds']             		= "独占広告";
 $GLOBALS['strHighAds']                  		= "高優先広告";
 $GLOBALS['strLowAds']                   		= "低優先広告";
 $GLOBALS['strLimitations']              		= "制限";
@@ -1180,7 +1179,6 @@ $GLOBALS['keyLinkUser']        			= 'u';
 // Note: New translations not found in original lang files but found in CSV
 $GLOBALS['strHideParentAdvertisers'] = "親キャンペーンの非表示";
 $GLOBALS['strCampaignWarningRemnantNoWeight'] = "優先度が'低'に設定されていますが、\nウェイトがゼロか未設定です。\nこのため、ウェイトが設定されるまでキャンペーンは無効で、\nバナーは配信されません。\n\n本当に継続しますか？";
-$GLOBALS['strCampaignWarningExclusiveNoWeight'] = "優先度が'低'に設定されていますが、\nウェイトがゼロか未設定です。\nこのため、ウェイトが設定されるまでキャンペーンは無効で、\nバナーは配信されません。\n\n本当に継続しますか？";
 $GLOBALS['strConversionType'] = "コンバージョンタイプ";
 $GLOBALS['strAdvertiserSignup'] = "広告主サインアップ";
 $GLOBALS['strContactName'] = "コンタクト名";

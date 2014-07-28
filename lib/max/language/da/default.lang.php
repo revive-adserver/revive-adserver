@@ -244,7 +244,6 @@ $GLOBALS['strAnonymous'] = "Skjul annoncør og webside af denne kampagne";
 $GLOBALS['strTargetPerDay'] = "per dag.";
 $GLOBALS['strPriorityAutoTargeting'] = "Automatisk - fordel de resterende inventory jævnt over de resterende antal dage.";
 $GLOBALS['strCampaignWarningRemnantNoWeight'] = "Prioriteringen af denne kampagne er sat til lav,\nmen vægten er sat til nul eller den ikke er \n specificeret. Dette vil betyde at kampagnen er \n deaktiveret og dens banner vil ikke blive levert \n indtil vægten er sat til valid nummer. \n \n Er du sikker på at du vil fortsætte?";
-$GLOBALS['strCampaignWarningExclusiveNoWeight'] = "Prioriteringen af denne kampagne er sat til lav,\nmen vægten er sat til nul eller den ikke er \n specificeret. Dette vil betyde at kampagnen er \n deaktiveret og dens banner vil ikke blive levert \n indtil vægten er sat til valid nummer. \n \n Er du sikker på at du vil fortsætte?";
 $GLOBALS['strCampaignWarningNoTarget'] = "Prioriteringen af denne kampagne er sat til høj,\nmen ønsket antal impressions er ikke specificeret. Dette vil betyde at kampagnen er \n deaktiveret og dens banner vil ikke blive levert \n indtil vægten er sat til valid nummer. \n \n Er du sikker på at du vil fortsætte?";
 $GLOBALS['strTrackerOverview'] = "Tracker oversigt";
 $GLOBALS['strAddTracker'] = "Tilføj ny tracker";

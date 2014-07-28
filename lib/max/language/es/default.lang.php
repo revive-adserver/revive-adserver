@@ -538,7 +538,6 @@ $GLOBALS['strCollectedSpecificDates'] = "Fechas específicas";
 $GLOBALS['strPriorityLevel'] = "Nivel de prioridad";
 $GLOBALS['strPriorityTargeting'] = "Distribución";
 $GLOBALS['strPriorityOptimisation'] = "Miscelánea";
-$GLOBALS['strExclusiveAds'] = "Publicidades con contrato exclusivo";
 $GLOBALS['strHighAds'] = "Publicidades con contrato";
 $GLOBALS['strLowAds'] = "Publicidades remanentes";
 $GLOBALS['strLimitations'] = "Limitaciones";
@@ -1168,7 +1167,6 @@ $GLOBALS['aProductStatus']['UPGRADE FAILED'] = "ACTUALIZACI&Oacute;N FALLIDA";
 
 // Note: New translations not found in original lang files but found in CSV
 $GLOBALS['strCampaignWarningRemnantNoWeight'] = "La tipo de esta campaña se ha marcado como exclusiva,\npero el peso está fijado como cero o no ha sido\nespecificado. Esto hará que la campaña se desactive \ny sus banners no se muestren hasta que se fije \nun número válido en el peso.\n\n¿Está seguro de querer continuar?";
-$GLOBALS['strCampaignWarningExclusiveNoWeight'] = "La tipo de esta campaña se ha marcado como exclusiva,\npero el peso está fijado como cero o no ha sido\nespecificado. Esto hará que la campaña se desactive \ny sus banners no se muestren hasta que se fije \nun número válido en el peso.\n\n¿Está seguro de querer continuar?";
 $GLOBALS['strConversionType'] = "Tipo de Conversión";
 $GLOBALS['strTrackerImageTag'] = "Tag de Imagen";
 $GLOBALS['strTrackerJsTag'] = "Tag de Javascript";

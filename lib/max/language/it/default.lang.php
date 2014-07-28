@@ -704,7 +704,6 @@ $GLOBALS['strConversionsBooked'] = "Conversioni Prenotate";
 $GLOBALS['strOptimise'] = "Ottimizza";
 $GLOBALS['strAnonymous'] = "Nascondi l'inserzionista e il sito di questa campagna";
 $GLOBALS['strCampaignWarningRemnantNoWeight'] = "Questa campagna è stata impostata come esclusiva, \nma il suo peso è impostato a zero o non è stato specificato. \nQuesto comporterà la disattivazione della campagna: i suoi banner \nnon verranno visualizzati finché il peso non sarà impostato \nad un numero valido. \n\nSei sicuro di voler procedere?";
-$GLOBALS['strCampaignWarningExclusiveNoWeight'] = "Questa campagna è stata impostata come esclusiva, \nma il suo peso è impostato a zero o non è stato specificato. \nQuesto comporterà la disattivazione della campagna: i suoi banner \nnon verranno visualizzati finché il peso non sarà impostato \nad un numero valido. \n\nSei sicuro di voler procedere?";
 $GLOBALS['strTrackerOverview'] = "Informazioni Tracker";
 $GLOBALS['strAddTracker'] = "Aggiungi nuovo tracker";
 $GLOBALS['strAddTracker_Key'] = "Aggiungi <u>n</u>uovo tracker";

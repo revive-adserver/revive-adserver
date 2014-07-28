@@ -620,7 +620,6 @@ $GLOBALS['strConversionsBooked'] = "Ayırtılmış Dönüşümler";
 $GLOBALS['strOptimise'] = "Optimize et";
 $GLOBALS['strAnonymous'] = "Bu kampanyanın reklamverenini ve web sitesini gizle ";
 $GLOBALS['strCampaignWarningRemnantNoWeight'] = "Bu kampanyanın önceliği düşük olarak ayarlanmış,\nancak ağırlığı 0 ya da ayarlanmamış.\nBu durum, kampanya ağırlığına geçerli bir değer verilene kadar kampanyanın etkinliğinin kaldırılmasına\nve bağlı bannerların gösteriminin durdurulmasına \nneden olacak.\n\nDevam etmek istediğinize emin misiniz?";
-$GLOBALS['strCampaignWarningExclusiveNoWeight'] = "Bu kampanyanın önceliği düşük olarak ayarlanmış,\nancak ağırlığı 0 ya da ayarlanmamış.\nBu durum, kampanya ağırlığına geçerli bir değer verilene kadar kampanyanın etkinliğinin kaldırılmasına\nve bağlı bannerların gösteriminin durdurulmasına \nneden olacak.\n\nDevam etmek istediğinize emin misiniz?";
 $GLOBALS['strCampaignWarningNoTarget'] = "Bu kampanyanın önceliği yüksek olarak ayarlanmış,\nancak hedeflenen gösterim sayısı belirlenmemiş.\nBu durum, geçerli bir hedef gösterim sayısı verilene kadar kampanyanın etkinliğinin kaldırılmasına\nve bağlı bannerların gösteriminin durdurulmasına \nneden olacak.\n\nDevam etmek istediğinize emin misiniz?";
 $GLOBALS['strTrackerOverview'] = "İzleyici Genel Görünümü";
 $GLOBALS['strAddTracker'] = "Yeni bir izleyici ekle";

@@ -235,7 +235,6 @@ $GLOBALS['strAnonymous'] = "Slėpti šios kampanijos internetinius puslapius ir 
 $GLOBALS['strTargetPerDay'] = "per dieną.";
 $GLOBALS['strPriorityAutoTargeting'] = "Automatiškai - Lygiai paskirstyti turimą inventorių atitinkamam dienų skaičiui.";
 $GLOBALS['strCampaignWarningRemnantNoWeight'] = "Šiai kompanijai nustatyta žema pirmenybė \nbet nustatytas svoris lygus arba jis nebuvo \nnustatytas iš viso. Tai priverčia kampanija būti \n išformuotair jos baneriai nebus pristatyti \ntol kol jos svoris bus nustatytas kaip tinkamas dydis. \n\nAr esate tikri, kad norite tęsti?";
-$GLOBALS['strCampaignWarningExclusiveNoWeight'] = "Šiai kompanijai nustatyta žema pirmenybė \nbet nustatytas svoris lygus arba jis nebuvo \nnustatytas iš viso. Tai priverčia kampanija būti \n išformuotair jos baneriai nebus pristatyti \ntol kol jos svoris bus nustatytas kaip tinkamas dydis. \n\nAr esate tikri, kad norite tęsti?";
 $GLOBALS['strCampaignWarningNoTarget'] = "Šiai kampanijai parinktas aukšto lygio prioritetas, \ntačiau tikslus spaudinių skaičius nėra nurodytas. \nTai priverčia kampaniją būti deaktyvuotai ir \njos baneriai nebus pristatyti tol, kol tinkamas \nspaudinių skaičius nebus parinktas. \n\nAr esate įsitikines, kad norite tęsti?";
 $GLOBALS['strAddTracker'] = "Pridėti naują agentą";
 $GLOBALS['strAddTracker_Key'] = "Pridėti <u>n</u>aują agentą";

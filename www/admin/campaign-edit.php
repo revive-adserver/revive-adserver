@@ -617,7 +617,7 @@ function buildLowAndExclusivePriorityFormSection(&$form, $campaign, $newCampaign
     //section decorator to allow hiding of the section
     $form->addDecorator ( 'h_lowexcl_priority', 'tag', array ('attributes' => array ('id' => 'sect_priority_low_excl', 'class' => $newCampaign ? 'hide' : '' ) ) );
 
-    //exclusive and low - weight only (this group is artificial - there's one field only,
+    //override and low - weight only (this group is artificial - there's one field only,
     //but I want it to get proper size)
     $weightGroup ['weight'] = $form->createElement ( 'text', 'weight', null, array ('id' => 'weight' ) );
     $form->addGroup ( $weightGroup, 'weight_group', $GLOBALS ['strCampaignWeight'], null, false );
@@ -993,7 +993,7 @@ function displayPage($campaign, $campaignForm, $statusForm, $campaignErrors = nu
     $oTpl->assign ( 'strCampaignWarningNoTargetMessage', str_replace ( "\n", '\n', addslashes ( $GLOBALS ['strCampaignWarningNoTarget'] ) ) );
     $oTpl->assign ( 'strCampaignWarningRemnantNoWeight', str_replace ( "\n", '\n', addslashes ( $GLOBALS ['strCampaignWarningRemnantNoWeight'] ) ) );
     $oTpl->assign ( 'strCampaignWarningEcpmNoRevenue', str_replace ( "\n", '\n', addslashes ( $GLOBALS ['strCampaignWarningEcpmNoRevenue'] ) ) );
-    $oTpl->assign ( 'strCampaignWarningExclusiveNoWeight', str_replace ( "\n", '\n', addslashes ( $GLOBALS ['strCampaignWarningExclusiveNoWeight'] ) ) );
+    $oTpl->assign ( 'strCampaignWarningOverrideNoWeight', str_replace ( "\n", '\n', addslashes ( $GLOBALS ['strCampaignWarningOverrideNoWeight'] ) ) );
 
     $oTpl->assign ( 'campaignErrors', $campaignErrors );
 

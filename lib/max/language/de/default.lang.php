@@ -141,7 +141,6 @@ $GLOBALS['strPriority']				= "Priorität";
 $GLOBALS['strPriorityLevel']		= "Dringlichkeitsstufe";
 $GLOBALS['strPriorityTargeting']	= "Auslieferung";
 $GLOBALS['strPriorityOptimisation']	= "Sonstiges";
-$GLOBALS['strExclusiveAds']         = "Exklusive Vertrags-Werbeanzeigen";
 $GLOBALS['strHighAds']              = "Vertrags-Werbeanzeigen";
 $GLOBALS['strLowAds']               = "Verbleibende-Werbeanzeigen";
 $GLOBALS['strLimitations']          = "Einschränkungen";
@@ -1045,7 +1044,6 @@ $GLOBALS['keyPrevious']				= 'z'; // zurück
 // Note: New translations not found in original lang files but found in CSV
 $GLOBALS['strNotice'] = "Hinweis";
 $GLOBALS['strCampaignWarningRemnantNoWeight'] = "Der Kampagnentyp ist auf Verbleibende gesetzt, \naber die Gewichtung ist 0 (oder sie ist undefiniert) - \n hierdurch wird diese Kampagne inaktiv bleiben und \n die Banner werden nicht ausgeliefert bis eine gültige \n Gewichtung eingegeben wird. \n\nSind Sie sicher dass Sie fortfahren möchten?";
-$GLOBALS['strCampaignWarningExclusiveNoWeight'] = "Diese Kampagne ist auf exklusiv gesetzt, \naber die Gewichtung ist 0 (oder sie ist undefiniert) - \n hierdurch wird diese Kampagne inaktiv bleiben und \n die Banner werden nicht ausgeliefert bis eine gültige \n Gewichtung eingegeben wird. \n\nSind Sie sicher dass Sie fortfahren möchten?";
 $GLOBALS['strConversionType'] = "Konversionstyp";
 $GLOBALS['strGreaterThan'] = "ist größer als";
 $GLOBALS['strLessThan'] = "ist kleiner als";

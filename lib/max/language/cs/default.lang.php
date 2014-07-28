@@ -772,7 +772,6 @@ $GLOBALS['strHiddenAdvertiser'] = "Inzerent";
 $GLOBALS['strHiddenTracker'] = "Sledovač";
 $GLOBALS['strHiddenZone'] = "Zóna";
 $GLOBALS['strCampaignWarningRemnantNoWeight'] = "Priorita této kampaně byla nastavena na nízkou, \nale váha byla nastavena na nulu nebo nebyla \nzadána. Takto bude kampaň okamžitě \ndeaktivována a její bannery nebudou doručeny \ndokud její váha nebude nastavena na platné číslo. \n\nJste si jist že chcete pokračovat?";
-$GLOBALS['strCampaignWarningExclusiveNoWeight'] = "Priorita této kampaně byla nastavena na nízkou, \nale váha byla nastavena na nulu nebo nebyla \nzadána. Takto bude kampaň okamžitě \ndeaktivována a její bannery nebudou doručeny \ndokud její váha nebude nastavena na platné číslo. \n\nJste si jist že chcete pokračovat?";
 $GLOBALS['strChannelLimitations'] = "Nastavení doručování";
 $GLOBALS['strGreaterThan'] = "je později než";
 $GLOBALS['strWeekDays'] = "V pracovní den";
