@@ -15,7 +15,7 @@ $source     = '';
 $richMedia  = true;
 
 // 3 arrays
-// xAds - exclusive ads
+// xAds - override ads
 // cAds - companion ads
 // ads  - ads
 

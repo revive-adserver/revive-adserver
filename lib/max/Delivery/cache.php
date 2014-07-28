@@ -246,12 +246,12 @@ function MAX_cacheGetAccountTZs($cached = true)
  * @return array|false
  *                   The array containg zone information with nested arrays of linked ads
  *                   or false on failure. Note that:
- *                      - Exclusive ads are in "xAds"
+ *                      - Override ads are in "xAds"
  *                      - Normal (paid) ads are in "ads"
  *                      - Low-priority ads are in "lAds"
  *                      - Companion ads, in addition to being in one of the above, are
  *                        also in "cAds" and "clAds"
- *                      - Exclusive and low-priority ads have had their priorities
+ *                      - Override and low-priority ads have had their priorities
  *                        calculated on the basis of the placement and advertisement
  *                        weight
  */
@@ -277,12 +277,12 @@ function MAX_cacheGetZoneLinkedAds($zoneId, $cached = true)
  * @return array|false
  *                   The array containg zone information with nested arrays of linked ads
  *                   or false on failure. Note that:
- *                      - Exclusive ads are in "xAds"
+ *                      - Override ads are in "xAds"
  *                      - Normal (paid) ads are in "ads"
  *                      - Low-priority ads are in "lAds"
  *                      - Companion ads, in addition to being in one of the above, are
  *                        also in "cAds" and "clAds"
- *                      - Exclusive and low-priority ads have had their priorities
+ *                      - Override and low-priority ads have had their priorities
  *                        calculated on the basis of the placement and advertisement
  *                        weight
  */

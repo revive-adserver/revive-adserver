@@ -301,7 +301,7 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
     }
 
     /**
-     * proper low/exclusive prioritisation with campaign weight coming first
+     * proper low/override prioritisation with campaign weight coming first
      *
      */
     function test_setPriorityFromWeights()

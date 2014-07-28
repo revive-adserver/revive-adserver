@@ -179,7 +179,7 @@ class Test_Priority extends UnitTestCase
         // 2 records remain
         $this->assertEqual($this->_countRowsInDSAZA(),2);
 
-        // ad_id 1 => campaignid 1 => not active, exclusive (low priority)
+        // ad_id 1 => campaignid 1 => not active, override (low priority)
         $doCampaigns = OA_Dal::staticGetDO('campaigns', $this->idCampaign1);
         $doCampaigns->priority          = -1;
         $doCampaigns->status            = OA_ENTITY_STATUS_EXPIRED;
