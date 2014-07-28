@@ -219,7 +219,6 @@ $GLOBALS['strCompanionPositioning'] = "Kampanijos vietos pasirinkimas";
 $GLOBALS['strSelectUnselectAll'] = "Pažymėti/ Nuimti žymėjimą visiems";
 $GLOBALS['strLow'] = "Žemas";
 $GLOBALS['strHigh'] = "Aukštas";
-$GLOBALS['strExclusive'] = "Ypatingas";
 $GLOBALS['strExpirationDate'] = "Pasibaigimo data";
 $GLOBALS['strExpirationDateComment'] = "Kampanija baigsis šios dienos pabaigoje";
 $GLOBALS['strActivationDate'] = "Pradžios data";

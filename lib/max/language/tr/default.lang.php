@@ -608,7 +608,6 @@ $GLOBALS['strTracker'] = "İzleyici";
 $GLOBALS['strHiddenZone'] = "Alan";
 $GLOBALS['strCompanionPositioning'] = "Klavuz yerleştirme";
 $GLOBALS['strSelectUnselectAll'] = "Tümünü Seç / Seçme";
-$GLOBALS['strExclusive'] = "Ayrıcalıklı";
 $GLOBALS['strExpirationDateComment'] = "Kampanya bu günün sonunda bitecek";
 $GLOBALS['strActivationDateComment'] = "Kampanya bu tarihte başlayacak";
 $GLOBALS['strRevenueInfo'] = "Gelir Bilgisi";

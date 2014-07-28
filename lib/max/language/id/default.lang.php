@@ -356,7 +356,6 @@ $GLOBALS['strDontExpire']							= "Jangan menghembuskan kampanye ini pada tangga
 $GLOBALS['strActivateNow'] 							= "Aktifkan kampanye ini segera";
 $GLOBALS['strLow']									= "Rendah";
 $GLOBALS['strHigh']									= "Tinggi";
-$GLOBALS['strExclusive']                			= "Ekskulif";
 $GLOBALS['strExpirationDate']						= "Akhir pada tanggal";
 $GLOBALS['strExpirationDateComment']    			= "Kampanye akan berakhir pada ujung hari yang ditentukan";
 $GLOBALS['strActivationDate']						= "Mulai dari tanggal";

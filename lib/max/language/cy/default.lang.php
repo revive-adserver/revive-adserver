@@ -230,7 +230,6 @@ $GLOBALS['strCompanionPositioning'] = "Safleoli cymar";
 $GLOBALS['strSelectUnselectAll'] = "Dewis / Dad-ddewis popeth";
 $GLOBALS['strLow'] = "Isel";
 $GLOBALS['strHigh'] = "Uchel";
-$GLOBALS['strExclusive'] = "Egsgliwsif";
 $GLOBALS['strExpirationDate'] = "Dyddiad Gorffen";
 $GLOBALS['strExpirationDateComment'] = "Bydd yr ymgyrch yn gorffen ar ddiwedd y diwrnod yma";
 $GLOBALS['strActivationDate'] = "Dyddiad Cychwyn";

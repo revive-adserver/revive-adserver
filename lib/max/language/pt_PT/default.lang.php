@@ -231,7 +231,6 @@ $GLOBALS['strCompanionPositioning'] = "Entrega casada (com outras peças)";
 $GLOBALS['strSelectUnselectAll'] = "Selecionar / Deselecionar Todos";
 $GLOBALS['strLow'] = "Baixa";
 $GLOBALS['strHigh'] = "Alta";
-$GLOBALS['strExclusive'] = "Exclusiva";
 $GLOBALS['strExpirationDate'] = "Data de término";
 $GLOBALS['strExpirationDateComment'] = "A campanha terminará ao final deste dia";
 $GLOBALS['strActivationDate'] = "Data de início";

@@ -234,7 +234,6 @@ $GLOBALS['strDontExpire'] = "Nu dezactiva";
 $GLOBALS['strActivateNow'] = "Activează imediat";
 $GLOBALS['strLow'] = "Scăzută";
 $GLOBALS['strHigh'] = "Mare";
-$GLOBALS['strExclusive'] = "Exclusiv";
 $GLOBALS['strExpirationDate'] = "Dată Sfârşit";
 $GLOBALS['strExpirationDateComment'] = "Campania se va încheia la sfârşitul acestei zile";
 $GLOBALS['strActivationDate'] = "Dată Început";

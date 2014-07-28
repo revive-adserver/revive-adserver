@@ -579,7 +579,6 @@ $GLOBALS['strHiddenTracker'] = "Rastreador";
 $GLOBALS['strHiddenZone'] = "Zona";
 $GLOBALS['strCompanionPositioning'] = "Entrega casada (com outras peças)";
 $GLOBALS['strSelectUnselectAll'] = "Selecionar / Deselecionar Todos";
-$GLOBALS['strExclusive'] = "Exclusiva";
 $GLOBALS['strExpirationDateComment'] = "A campanha terminará ao final deste dia";
 $GLOBALS['strActivationDateComment'] = "A Campanha iniciará ao início deste dia";
 $GLOBALS['strRevenueInfo'] = "Orçamento";

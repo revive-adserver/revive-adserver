@@ -685,7 +685,6 @@ $GLOBALS['strHiddenTracker'] = "Banner";
 $GLOBALS['strTracker'] = "Banner";
 $GLOBALS['strHiddenZone'] = "Zone";
 $GLOBALS['strSelectUnselectAll'] = "Selecteer/deselecteer alles";
-$GLOBALS['strExclusive'] = "Exclusief ";
 $GLOBALS['strExpirationDateComment'] = "Campagne zal eindigen op het einde van deze dag";
 $GLOBALS['strActivationDateComment'] = "Campagne zal beginnen aan het begin van deze dag";
 $GLOBALS['strRevenueInfo'] = "Inkomsten informatie";

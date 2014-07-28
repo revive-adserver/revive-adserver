@@ -230,7 +230,6 @@ $GLOBALS['strCompanionPositioning'] = "Позициониране на камп�
 $GLOBALS['strSelectUnselectAll'] = "Избери / Откажи всички";
 $GLOBALS['strLow'] = "Нисък";
 $GLOBALS['strHigh'] = "Висок";
-$GLOBALS['strExclusive'] = "Ексклузивен";
 $GLOBALS['strExpirationDateComment'] = "Кампания ще приключи в края на този ден";
 $GLOBALS['strActivationDateComment'] = "Кампанията ще започне в началото на този ден";
 $GLOBALS['strRevenueInfo'] = "Информация за приходи";

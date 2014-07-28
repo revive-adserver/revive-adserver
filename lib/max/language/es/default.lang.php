@@ -584,7 +584,6 @@ $GLOBALS['strHiddenTracker'] = "Tracker";
 $GLOBALS['strHiddenZone'] = "Zona";
 $GLOBALS['strCompanionPositioning'] = "Mostrar compañeros (No mostrar banners de esta campaña junto a banners de otras campañas)";
 $GLOBALS['strSelectUnselectAll'] = "Seleccionar / Deseleccionar todo";
-$GLOBALS['strExclusive'] = "Exclusivo";
 $GLOBALS['strExpirationDateComment'] = "La campaña expirará al final del día";
 $GLOBALS['strActivationDateComment'] = "La campaña comenzará al principio del día";
 $GLOBALS['strImpressionsRemaining'] = "Impresiones restantes";

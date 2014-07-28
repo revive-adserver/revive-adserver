@@ -233,7 +233,6 @@ $GLOBALS['strSelectUnselectAll'] = "Markera / avmarkera alla";
 $GLOBALS['strDontExpire'] = "Inte förfalla/utgå";
 $GLOBALS['strLow'] = "Låg";
 $GLOBALS['strHigh'] = "Hög";
-$GLOBALS['strExclusive'] = "Exklusiv";
 $GLOBALS['strExpirationDate'] = "Slutdatum";
 $GLOBALS['strExpirationDateComment'] = "Kampanjen avslutas i slutet av denna dag";
 $GLOBALS['strActivationDate'] = "Startdatum";

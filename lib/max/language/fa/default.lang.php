@@ -367,7 +367,6 @@ $GLOBALS['strDontExpire']                = "غیر�?عال شدن بعد از 
 $GLOBALS['strActivateNow']                 = "�?عال کردن سریع داخلی";
 $GLOBALS['strLow']                        = "پایین";
 $GLOBALS['strHigh']                        = "بالا";
-$GLOBALS['strExclusive']                = "انحصاری";
 $GLOBALS['strExpirationDate']            = "تاریخ اتمام";
 $GLOBALS['strExpirationDateComment']    = "اتمام در این تاریخ";
 $GLOBALS['strActivationDate']            = "تاریخ شروع";

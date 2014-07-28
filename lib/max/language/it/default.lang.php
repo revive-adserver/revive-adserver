@@ -692,7 +692,6 @@ $GLOBALS['strTracker'] = "Tracker";
 $GLOBALS['strHiddenZone'] = "Zona";
 $GLOBALS['strCompanionPositioning'] = "Posizionamento del companion";
 $GLOBALS['strSelectUnselectAll'] = "Seleziona / Deseleziona tutti";
-$GLOBALS['strExclusive'] = "Esclusiva";
 $GLOBALS['strExpirationDateComment'] = "La campagna finirà alla fine di questo giorno";
 $GLOBALS['strActivationDateComment'] = "La campagna incomincerà all'inizio di questo giorno";
 $GLOBALS['strRevenueInfo'] = "Informazioni Ricavi";

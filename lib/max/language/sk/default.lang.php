@@ -227,7 +227,6 @@ $GLOBALS['strZone'] = "Oblasť";
 $GLOBALS['strSelectUnselectAll'] = "Označiť/Odznačiť všetko";
 $GLOBALS['strLow'] = "Nízka";
 $GLOBALS['strHigh'] = "Vysoká";
-$GLOBALS['strExclusive'] = "Výhradná";
 $GLOBALS['strExpirationDateComment'] = "Kampaň sa skončí na konci tohto dňa";
 $GLOBALS['strActivationDateComment'] = "Kampaň sa zaháji na začiatku tohto dňa";
 $GLOBALS['strRevenueInfo'] = "Informácie o výnose";

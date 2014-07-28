@@ -228,7 +228,6 @@ $GLOBALS['strCompanionPositioning'] = "Ledsagende positionering";
 $GLOBALS['strSelectUnselectAll'] = "Vælg/fravælg alt";
 $GLOBALS['strLow'] = "Lav";
 $GLOBALS['strHigh'] = "Høj";
-$GLOBALS['strExclusive'] = "Eksklusiv";
 $GLOBALS['strExpirationDate'] = "Slut dato";
 $GLOBALS['strExpirationDateComment'] = "Kampagnen vil udløbe ved afslutningen på denne dag";
 $GLOBALS['strActivationDate'] = "Start dato";

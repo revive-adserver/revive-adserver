@@ -665,7 +665,6 @@ $GLOBALS['strTracker'] = "Tracker";
 $GLOBALS['strHiddenZone'] = "Strefa";
 $GLOBALS['strCompanionPositioning'] = "Poyzcjonowanie wzajemne";
 $GLOBALS['strSelectUnselectAll'] = "Zaznacz/ odznacz wszystko";
-$GLOBALS['strExclusive'] = "Wyłączny";
 $GLOBALS['strExpirationDateComment'] = "Kampania wygaśnie z końcem dnia";
 $GLOBALS['strActivationDateComment'] = "Kampania rozpocznie się z początkiem dnia";
 $GLOBALS['strRevenueInfo'] = "Informacje o dochodzie";

@@ -390,7 +390,6 @@ $GLOBALS['strDontExpire']						= "このキャンペーンの終了日を指定�
 $GLOBALS['strActivateNow'] 						= "このキャンペーンを今すぐアクティブにする";
 $GLOBALS['strLow']								= "低";
 $GLOBALS['strHigh']								= "高";
-$GLOBALS['strExclusive']                		= "独占";
 $GLOBALS['strExpirationDate']					= "終了日";
 $GLOBALS['strExpirationDateComment']    		= "キャンペーンはこの指定日に終了します。";
 $GLOBALS['strActivationDate']					= "開始日";

@@ -226,7 +226,6 @@ $GLOBALS['strZone'] = "المنطقة";
 $GLOBALS['strSelectUnselectAll'] = "اختيار/عدم اختيار الكل";
 $GLOBALS['strLow'] = "منخفض";
 $GLOBALS['strHigh'] = "عالي";
-$GLOBALS['strExclusive'] = "حصري";
 $GLOBALS['strExpirationDate'] = "تاريخ النهاية";
 $GLOBALS['strExpirationDateComment'] = "الحملة الاعلانية ستنتهي مع نهاية هذا اليوم";
 $GLOBALS['strActivationDate'] = "تاريخ البداية";

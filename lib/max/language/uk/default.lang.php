@@ -230,7 +230,6 @@ $GLOBALS['strCompanionPositioning'] = "Сумісне розміщення ба�
 $GLOBALS['strSelectUnselectAll'] = "Вибрати все / Зняти виділення";
 $GLOBALS['strLow'] = "Низький";
 $GLOBALS['strHigh'] = "Високий";
-$GLOBALS['strExclusive'] = "Ексклюзивний";
 $GLOBALS['strExpirationDateComment'] = "Кампанія закінчиться в кінці цього дня";
 $GLOBALS['strActivationDateComment'] = "Кампанія почнеться на початку цього дня";
 $GLOBALS['strRevenueInfo'] = "Ціна";
