@@ -214,8 +214,6 @@ $GLOBALS['strInactiveCampaignsHidden'] = "تم إخفاء الحملات الا�
 $GLOBALS['strContractDetails'] = "تفاصيل العقد";
 $GLOBALS['strInventoryDetails'] = "تفاصيل المخزون";
 $GLOBALS['strPriorityInformation'] = "الأهمية مقارنة بالحملات الإعلانية الأخرى";
-$GLOBALS['strPriorityHigh'] = "\- الحملات الاعلانية المدفوعة";
-$GLOBALS['strPriorityLow'] = "\- الحملات الإعلانية الداخلية و غير المدفوعة";
 $GLOBALS['strHiddenAd'] = "الاعلانات";
 $GLOBALS['strHiddenTracker'] = "المتتبع";
 $GLOBALS['strTracker'] = "المتتبع";
