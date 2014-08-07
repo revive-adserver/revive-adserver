@@ -408,8 +408,8 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
         if(OX_Util_Utils::getCampaignType($doCampaigns->priority) == OX_CAMPAIGN_TYPE_CONTRACT_NORMAL)
         {
             $form->addElement('html', 'companion_help_contract',
-                            '<br/><b>Note:</b> OpenX currently doesn\'t support the display of a companion banner for Contract campaigns.
-                            <br/>If you wish to display a companion banner, please select a "Contract (Exclusive)" or "Remnant" campaign.');
+                            '<br/><b>Note:</b> Revive Adserver currently doesn\'t support the display of a companion banner for "Contract" campaigns.
+                             <br/>If you wish to display a companion banner, please select a "Remnant" or "Override" campaign.');
 
             return;
         }
