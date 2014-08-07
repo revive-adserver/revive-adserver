@@ -9,7 +9,7 @@
     <!-- Files in the main directory -->
     <include name="COPYRIGHT.txt"/>
     <include name="LICENSE.txt"/>
-    <include name="README.txt"/>
+    <include name="README.md"/>
     <include name="RELEASE_NOTES.txt"/>
     <include name="*.php"/>
     <include name="*.js"/>
