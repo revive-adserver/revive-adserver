@@ -313,8 +313,8 @@ function buildCampaignForm($campaign, &$oComponent = null)
     buildDateFormSection ( $form, $campaign, $newCampaign );
     buildPricingFormSection($form, $campaign, $newCampaign, $remnantEcpmEnabled, $contractEcpmEnabled);
     buildPluggableFormSection ( $oComponent, 'afterPricingFormSection', $form, $campaign, $newCampaign );
-    buildHighPriorityFormSection ( $form, $campaign, $newCampaign );
-    buildLowAndExclusivePriorityFormSection ( $form, $campaign, $newCampaign );
+    buildContractCampaignFormSection ( $form, $campaign, $newCampaign );
+    buildRemnantAndOverrideCampaignFormSection ( $form, $campaign, $newCampaign );
     buildDeliveryCappingFormSection ( $form, $GLOBALS ['strCappingCampaign'], $campaign, null, null, true, $newCampaign );
     buildMiscFormSection ( $form, $campaign, $newCampaign );
 
@@ -331,15 +331,6 @@ function buildCampaignForm($campaign, &$oComponent = null)
 
     $typeRequiredMsg = $translation->translate ( $GLOBALS ['strXRequiredField'], array ($GLOBALS ['strPricingModel'] ) );
     $form->addRule ( 'revenue_type', $typeRequiredMsg, 'required' );
-
-    //  $form->addRule('impressions', 'TODO message', 'formattedNumber');
-    //  $form->addRule('clicks', 'TODO message', 'formattedNumber');
-    //    if ($conf['logging']['trackerImpressions']) {
-    //      $form->addRule('conversions', 'TODO message', 'formattedNumber');
-    //    }
-    //  $form->addRule('weight', 'TODO message', 'wholeNumber-');
-    //  $form->addRule('target_value', 'TODO message', 'wholeNumber-');
-
 
     //set form values
     $form->setDefaults($campaign);
@@ -404,20 +395,20 @@ function buildBasicInformationFormSection(&$form, $campaign, $newCampaign, $remn
     $form->addDecorator ( 'excl-limit-both-set-note', 'tag', array ('attributes' => array ('id' => 'excl-limit-date-both-set', 'class' => 'hide' ) ) );
     $priority_o [] = $form->createElement ( 'custom', 'campaign-type-note', null, array ('radioId' => 'priority-e', 'infoKey' => 'OverrideInfo' ) );
 
-    $priority_h [] = $form->createElement ( 'radio', 'campaign_type', null, "<span class='type-name'>" . $GLOBALS ['strStandardContract'] . "</span>", OX_CAMPAIGN_TYPE_CONTRACT_NORMAL, array ('id' => 'priority-h' ) );
-    $priority_h [] = $form->createElement ( 'custom', 'campaign-type-note', null, array ('radioId' => 'priority-h', 'infoKey' => 'StandardContractInfo' ) );
+    $priority_c [] = $form->createElement ( 'radio', 'campaign_type', null, "<span class='type-name'>" . $GLOBALS ['strStandardContract'] . "</span>", OX_CAMPAIGN_TYPE_CONTRACT_NORMAL, array ('id' => 'priority-h' ) );
+    $priority_c [] = $form->createElement ( 'custom', 'campaign-type-note', null, array ('radioId' => 'priority-h', 'infoKey' => 'StandardContractInfo' ) );
 
     if ($remnantEcpmEnabled) {
-        $priority_l [] = $form->createElement ( 'radio', 'campaign_type', null, "<span class='type-name'>" . $GLOBALS ['strRemnant'] . "</span>", OX_CAMPAIGN_TYPE_ECPM, array ('id' => 'priority-l' ) );
-        $priority_l [] = $form->createElement ( 'custom', array ('ecpm-limit-both-set-note', 'campaign-date-limit-both-set-note' ), null, null, false );
+        $priority_r [] = $form->createElement ( 'radio', 'campaign_type', null, "<span class='type-name'>" . $GLOBALS ['strRemnant'] . "</span>", OX_CAMPAIGN_TYPE_ECPM, array ('id' => 'priority-l' ) );
+        $priority_r [] = $form->createElement ( 'custom', array ('ecpm-limit-both-set-note', 'campaign-date-limit-both-set-note' ), null, null, false );
         $form->addDecorator ( 'ecpm-limit-both-set-note', 'tag', array ('attributes' => array ('id' => 'ecpm-limit-date-both-set', 'class' => 'hide' ) ) );
-        $priority_l [] = $form->createElement ( 'custom', 'campaign-type-note', null, array ('radioId' => 'priority-l', 'infoKey' => 'ECPMInfo' ) );
+        $priority_r [] = $form->createElement ( 'custom', 'campaign-type-note', null, array ('radioId' => 'priority-l', 'infoKey' => 'ECPMInfo' ) );
         // $form->addElement ( 'hidden', 'ecpm_enabled', 1 );
     } else {
-        $priority_l [] = $form->createElement ( 'radio', 'campaign_type', null, "<span class='type-name'>" . $GLOBALS ['strRemnant'] . "</span>", OX_CAMPAIGN_TYPE_REMNANT, array ('id' => 'priority-l' ) );
-        $priority_l [] = $form->createElement ( 'custom', array ('low-limit-both-set-note', 'campaign-date-limit-both-set-note' ), null, null, false );
+        $priority_r [] = $form->createElement ( 'radio', 'campaign_type', null, "<span class='type-name'>" . $GLOBALS ['strRemnant'] . "</span>", OX_CAMPAIGN_TYPE_REMNANT, array ('id' => 'priority-l' ) );
+        $priority_r [] = $form->createElement ( 'custom', array ('low-limit-both-set-note', 'campaign-date-limit-both-set-note' ), null, null, false );
         $form->addDecorator ( 'low-limit-both-set-note', 'tag', array ('attributes' => array ('id' => 'low-limit-date-both-set', 'class' => 'hide' ) ) );
-        $priority_l [] = $form->createElement ( 'custom', 'campaign-type-note', null, array ('radioId' => 'priority-l', 'infoKey' => 'RemnantInfo' ) );
+        $priority_r [] = $form->createElement ( 'custom', 'campaign-type-note', null, array ('radioId' => 'priority-l', 'infoKey' => 'RemnantInfo' ) );
         $form->addElement ( 'hidden', 'campaignid', $aCampaign ['campaignid'] );
         // $form->addElement ( 'hidden', 'ecpm_enabled', 0 );
     }
@@ -433,23 +424,10 @@ function buildBasicInformationFormSection(&$form, $campaign, $newCampaign, $remn
         $form->addElement ( 'hidden', 'contract_ecpm_enabled', 0 );
     }
 
+    $typeG [] = $form->createElement ( 'group', 'g_priority_r', null, $priority_r, null, false );
+    $typeG [] = $form->createElement ( 'group', 'g_priority_c', null, $priority_c, null, false );
     $typeG [] = $form->createElement ( 'group', 'g_priority_o', null, $priority_o, null, false );
-    $typeG [] = $form->createElement ( 'group', 'g_priority_h', null, $priority_h, null, false );
-    $typeG [] = $form->createElement ( 'group', 'g_priority_l', null, $priority_l, null, false );
     $form->addGroup ( $typeG, 'g_ctype', $GLOBALS ['strCampaignType'], "" );
-
-//EX.   $form->addElement('text', 'test', 'Test field');
-//EX.   $form->addRule('test', 'Weight must be positive number', 'formattednumber');
-
-
-//EX.    $form->addDecorator('h_basic_info', 'tag',
-//        array('attributes' => array('id' => 'test', 'style' => 'display:none')));
-//EX.    $form->addDecorator('h_basic_info', 'tag', array('tag' => 'div',
-//        'attributes' => array('id' => 'innerdiv', 'style' => 'display:none')));
-
-
-//EX.    $form->addDecorator('test', 'process', array('tag' => 'tr',
-//        'addAttributes' => array('id' => 'trtest{numCall}', 'style' => 'display: none')));
 
 }
 
@@ -576,7 +554,7 @@ function buildPricingFormSection(&$form, $campaign, $newCampaign, $remnantEcpmEn
     }
 }
 
-function buildHighPriorityFormSection(&$form, $campaign, $newCampaign)
+function buildContractCampaignFormSection(&$form, $campaign, $newCampaign)
 {
     global $conf;
 
@@ -608,7 +586,7 @@ function buildHighPriorityFormSection(&$form, $campaign, $newCampaign)
     $form->addGroup ( $highPriorityGroup, 'g_high_priority', $GLOBALS ['strPriorityLevel'], null, false );
 }
 
-function buildLowAndExclusivePriorityFormSection(&$form, $campaign, $newCampaign)
+function buildRemnantAndOverrideCampaignFormSection(&$form, $campaign, $newCampaign)
 {
     global $conf;
 

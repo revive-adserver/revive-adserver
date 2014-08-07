@@ -536,11 +536,22 @@ $GLOBALS['strCampaignType']                     = "Campaign type";
 $GLOBALS['strType']                             = "Type";
 $GLOBALS['strContract']                         = "Contract";
 $GLOBALS['strOverride']                         = "Override";
-$GLOBALS['strOverrideInfo']                     = "A campaign type that will override all Contract and Remnant campaigns. Generally used with specific targeting and/or capping rules to override other campaigns for a specific promotion. (Previously known as Contract Exclusive.)";
+$GLOBALS['strOverrideInfo']                     = "Override campaigns are a special campaign type specifically to
+    override (i.e. take priority over) Remnant and Contract campaigns. Override campaigns are generally used with
+    specific targeting and/or capping rules to ensure that the campaign banners are always displayed in certain
+    locations, to certain users, and perhaps a certain number of times, as part of a specific promotion. (This campaign
+    type was previously known as 'Contract (Exclusive)'.)";
 $GLOBALS['strStandardContract']                 = "Contract";
-$GLOBALS['strStandardContractInfo']             = "A capaign type for smoothly delivering the impressions required to delivery or performance targets over the duration of an advertising campaign.";
+$GLOBALS['strStandardContractInfo']             = "Contract campaigns are for smoothly delivering the impressions
+    required to achieve a specified time-critical performance requirement. That is, Contract campaigns are for when
+    an advertiser has paid specifically to have a given number of impressions, clicks and/or conversions to be
+    achieved either between two dates, or per day.";
 $GLOBALS['strRemnant']                          = "Remnant";
-$GLOBALS['strRemnantInfo']                      = "The default campaign type with plenty of delivery options, but which will only deliver banners when there are no Override or Contract campaign banners to display first. Normally used for the delivery of low cost campaigns, ad network tags and/or house banners, to ensure there is no blank inventory going to waste.";
+$GLOBALS['strRemnantInfo']                      = "The default campaign type. Remnant campaigns have lots of different
+    delivery options, and you should ideally always have at least one Remnant campaign linked to every zone, to ensure
+    that there is always something to show. Use Remnant campaigns to display house banners, ad-network banners, or even
+    direct advertising that has been sold, but where there is not a time-critical performance requirement for the
+    campaign to adhere to.";
 $GLOBALS['strECPMInfo']                         = "This is a standard campaign which can be constrained with either an end date or a specific limit. Based on current settings it will be prioritised using eCPM.";
 $GLOBALS['strContractCampaign']                 = "Contract Campaign";
 $GLOBALS['strRemnantCampaign']                  = "Remnant Campaign";
