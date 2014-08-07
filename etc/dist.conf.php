@@ -25,6 +25,7 @@ combineAssets                       = true
 dashboardEnabled                    = true
 hideNavigator                       = false
 zoneLinkingStatistics               = true
+disableDirectSelection              = true
 
 ;------------------------------------------------------------------------------------------;
 ; Database Settings                                                                        ;
