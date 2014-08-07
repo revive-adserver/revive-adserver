@@ -510,13 +510,13 @@ function updateCampaignDateAndLimitsAndType()
 	     }
 	}
     else { //no type or high
-        //clear all remnant/exclusive warnings
+        //clear all remnant/override warnings
         $unlimitedCheckboxes.attr("disabled", false);
         $("#endSet_specific").attr("disabled", false);
         $("#impr-disabled-note, #click-disabled-note, #conv-disabled-note").hide();
         $("#date-section-limit-date-set").hide();
 
-        //check if both date and limit is set and disable exclusive
+        //check if both date and limit is set and disable override
         if ((campaignType == CAMPAIGN_TYPE_CONTRACT_NORMAL || campaignType == CAMPAIGN_TYPE_CONTRACT_ECPM) && dateSet && limitClicked) {
             $("#excl-limit-date-both-set, #low-limit-date-both-set, #ecpm-limit-date-both-set").show();
             $("#priority-e, #priority-l").attr("disabled", true);
@@ -750,7 +750,7 @@ function updateCampaignPrioritySection()
         }
     }
     else if (campaignType == CAMPAIGN_TYPE_CONTRACT_NORMAL || campaignType == CAMPAIGN_TYPE_OVERRIDE || campaignType == CAMPAIGN_TYPE_CONTRACT_ECPM) {
-	   //if exclusive selected - show weight
+	   //if override selected - show weight
 	   if (campaignType == CAMPAIGN_TYPE_OVERRIDE) {
 	        $highPrioritySection.hide();
 	        $lowExclPrioritySection.show();

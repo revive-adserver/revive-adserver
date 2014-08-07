@@ -448,7 +448,7 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
                 $aCampaignDisplayData[] = $this->_calculateOverallMisdelivery($aCampaignData);
                 $aCampaignDisplayData[] = $this->_calculateTodaysMisdelivery($aCampaignData);
             } else {
-                // Campaign is either exclusive or low priority
+                // Campaign is either override or remnant
                 $aCampaignDisplayData[] = false;
                 $aCampaignDisplayData[] = false;
                 $aCampaignDisplayData[] = false;
