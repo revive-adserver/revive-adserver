@@ -121,16 +121,16 @@ msgid "Stopped"
 msgstr "Stopped"
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//liveCampaignDeliveryReport.class.php:522
-msgid "1: Exclusive"
-msgstr "1: Exclusive"
+msgid "Override"
+msgstr "Override"
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//liveCampaignDeliveryReport.class.php:524
-msgid "3: Low"
-msgstr "3: Low"
+msgid "Remnant"
+msgstr "Remnant"
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//liveCampaignDeliveryReport.class.php:526
-msgid "2: High"
-msgstr "2: High"
+msgid "Contract"
+msgstr "Contract"
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//advertisingAnalysisReport.class.php:93
 msgid "Advertising Analysis Report"

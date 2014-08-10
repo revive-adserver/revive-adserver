@@ -37,7 +37,7 @@ Zones (1200 impressions):
 2.	Not directly called, chained to zone 1
 
 Campaigns:
-1.	Exclusive targeted between 9am-6pm	linked to zone 1
+1.	Override targeted between 9am-6pm	linked to zone 1
 2.	ROS no targeting 600 impressions target	linked to zone 1
 3.	Low priority	linked to zone 2
 ".'</pre>';

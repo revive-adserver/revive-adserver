@@ -110,7 +110,7 @@ class OA_Admin_Menu_Section
         $this->setNameKey($nameKey);
         // Debug: uncomment below if you are looking for a given Section ID in
         // order to add a new menu entry using the menu XML definition
-//      $this->setNameKey($id. " ".$nameKey);
+        // $this->setNameKey($id. " ".$nameKey);
         $this->setLink($link);
         $this->setHelpLink($helpLink);
         $this->setExclusive($exclusive);

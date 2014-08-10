@@ -745,12 +745,12 @@
 
     <field>
      <name>bannertext</name>
-     <value>Exclusive ad, campaign capped to 2, blocked for 2 hours</value>
+     <value>Override ad, campaign capped to 2, blocked for 2 hours</value>
     </field>
 
     <field>
      <name>description</name>
-     <value>Exclusive ad, campaign capped to 2, blocked for 2 hours</value>
+     <value>Override ad, campaign capped to 2, blocked for 2 hours</value>
     </field>
 
     <field>

@@ -39,9 +39,9 @@ Zones (480 impressions):
 1.	20 hourly impressions (480 total)
 
 Campaigns:
-1.	Exclusive, 	campaign capped to 2 impr. and blocked for 2 hours
-2.	High (pri 7) 	300 impressions target
-3.	High (pri 5) 	300 impressions target
+1.	Override, campaign capped to 2 impr. and blocked for 2 hours
+2.	High (pri 7) 300 impressions target
+3.	High (pri 5) 300 impressions target
 4.	Low priority
 ".'</pre>';
 

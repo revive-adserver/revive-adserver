@@ -131,9 +131,9 @@ class Test_DeliveryAdSelect extends UnitTestCase {
     /**
      * @todo identify more test cases!!!!
      *
-     * Test1: if there are exclusive ads with no limitations one is selected
-     * Test2: if there are no exclusive ads then an ad is selected from the ['ads'] array
-     * Test3: if no exclusive and one companion with 100% probability
+     * Test1: if there are override ads with no limitations one is selected
+     * Test2: if there are no override ads then an ad is selected from the ['ads'] array
+     * Test3: if no override and one companion with 100% probability
      */
     function test_adSelect()
     {

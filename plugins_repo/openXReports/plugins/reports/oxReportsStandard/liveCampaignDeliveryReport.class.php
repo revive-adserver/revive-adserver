@@ -448,7 +448,7 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
                 $aCampaignDisplayData[] = $this->_calculateOverallMisdelivery($aCampaignData);
                 $aCampaignDisplayData[] = $this->_calculateTodaysMisdelivery($aCampaignData);
             } else {
-                // Campaign is either exclusive or low priority
+                // Campaign is either override or remnant
                 $aCampaignDisplayData[] = false;
                 $aCampaignDisplayData[] = false;
                 $aCampaignDisplayData[] = false;
@@ -514,11 +514,11 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
     function _decodePriority($priorityCode)
     {
         if ($priorityCode == -1) {
-            $type = $this->translate("1: Exclusive");
+            $type = $this->translate("Override");
         } else if ($priorityCode == 0) {
-            $type = $this->translate("3: Low");
+            $type = $this->translate("Remnant");
         } else {
-            $type = $this->translate("2: High");
+            $type = $this->translate("Contract");
         }
         return $type;
     }

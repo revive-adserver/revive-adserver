@@ -91,8 +91,8 @@ class OX_Maintenance_Priority_Campaign
     var $conversionTargetDaily;
 
     /**
-     * The placement's priority value (ie. -1 for exclusive,
-     * 0 for low priority, >= 1 for high-priority).
+     * The placement's priority value (ie. -1 for override, 0 for low priority,
+     * >= 1 for high-priority).
      *
      * @var integer
      */

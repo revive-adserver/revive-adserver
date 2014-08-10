@@ -462,7 +462,7 @@ function _adSelectZone($zoneId, $context = array(), $source = '', $richMedia = t
 
 
 /**
- * This function selects an ad cyclying through exclusive, paid, low-pri etc.
+ * This function selects an ad cyclying through override, contract, renmant, etc.
  *
  * @param string  $aAds         The array of ads to pick from
  * @param array   $context      The context of this ad selection
@@ -506,7 +506,7 @@ function _adSelectCommon($aAds, $context, $source, $richMedia)
 }
 
 /**
- * This internal function selects an ad cyclying through exclusive, paid, low-pri etc.
+ * This internal function selects an ad cyclying through override, contract, remnant, etc.
  * taking into account companion positioning as requested
  *
  * @param callback $adSelectFunction The plugin callback function

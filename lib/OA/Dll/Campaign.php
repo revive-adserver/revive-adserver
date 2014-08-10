@@ -132,7 +132,7 @@ class OA_Dll_Campaign extends OA_Dll
                               ' that is greater than zero.');
             return false;
         } else if (!$this->_isHighPriority($oCampaign) && $this->_hasTargets($oCampaign)) {
-            $this->raiseError('Low or exclusive priority campaigns cannot have targets.');
+            $this->raiseError('Low or override priority campaigns cannot have targets.');
             return false;
         }
 

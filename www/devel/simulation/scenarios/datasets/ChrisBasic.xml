@@ -543,12 +543,12 @@
 
     <field>
      <name>bannertext</name>
-     <value>Exclusive between 9am-6pm</value>
+     <value>Override between 9am-6pm</value>
     </field>
 
     <field>
      <name>description</name>
-     <value>Exclusive between 9am-6pm</value>
+     <value>Override between 9am-6pm</value>
     </field>
 
     <field>
@@ -1100,7 +1100,7 @@
 
     <field>
      <name>campaignname</name>
-     <value>Exclusive between 9am-6pm</value>
+     <value>Override between 9am-6pm</value>
     </field>
 
     <field>

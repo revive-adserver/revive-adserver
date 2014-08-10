@@ -553,7 +553,9 @@ class OA_Admin_Template extends Smarty
 				$type = $aParams['type'];
 				$translation = new OX_Translation ();
 
-				if ($type == OX_CAMPAIGN_TYPE_CONTRACT_NORMAL || $type == OX_CAMPAIGN_TYPE_CONTRACT_EXCLUSIVE) {
+                if ($type == OX_CAMPAIGN_TYPE_OVERRIDE) {
+					return "<span class='campaign-type campaign-override'>" . $translation->translate('Override') . "</span>";
+                } elseif ($type == OX_CAMPAIGN_TYPE_CONTRACT_NORMAL) {
 					return "<span class='campaign-type campaign-contract'>" . $translation->translate('Contract') . "</span>";
 				} elseif ($type == OX_CAMPAIGN_TYPE_REMNANT || $type == OX_CAMPAIGN_TYPE_ECPM){
 					return "<span class='campaign-type campaign-remnant'>" . $translation->translate('Remnant') . "</span>";

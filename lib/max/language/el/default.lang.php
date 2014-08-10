@@ -186,7 +186,6 @@ $GLOBALS['strCampaignProperties'] = "Ιδιότητες Καμπάνιας";
 $GLOBALS['strCampaignOverview'] = "Σύνοψη Καμπάνιας";
 $GLOBALS['strCampaignHistory'] = "Ιστορικό Καμπάνιας";
 $GLOBALS['strContractDetails'] = "Λεπτομέρειες συμβολαίου";
-$GLOBALS['strPriorityHigh'] = "\- Πληρωμένες καμπάνιες";
 $GLOBALS['strHiddenAd'] = "Διαφήμιση";
 $GLOBALS['strAffiliate'] = "Ιστοσελίδα";
 $GLOBALS['strWebsite'] = "Ιστοσελίδα";
