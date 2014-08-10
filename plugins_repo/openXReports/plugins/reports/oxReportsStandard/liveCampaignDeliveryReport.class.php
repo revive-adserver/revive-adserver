@@ -514,11 +514,11 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
     function _decodePriority($priorityCode)
     {
         if ($priorityCode == -1) {
-            $type = $this->translate("1: Exclusive");
+            $type = $this->translate("Override");
         } else if ($priorityCode == 0) {
-            $type = $this->translate("3: Low");
+            $type = $this->translate("Remnant");
         } else {
-            $type = $this->translate("2: High");
+            $type = $this->translate("Contract");
         }
         return $type;
     }
