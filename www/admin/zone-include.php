@@ -88,19 +88,20 @@ phpAds_SessionDataStore();
             if (!isset($aLinkedAds[$adId])) {
                 $result = Admin_DA::addAdZone(array('zone_id' => $zoneId, 'ad_id' => $adId));
             }
-
-            // Queue confirmation message
-            $translation = new OX_Translation ();
-            $translated_message = $translation->translate ( $GLOBALS['strZoneLinkedBanner'], array(
-                MAX::constructURL(MAX_URL_ADMIN, 'zone-edit.php?affiliateid=' .  $publisherId . '&zoneid=' . $zoneId),
-                htmlspecialchars($aZone['name'])
-            ));
-            OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+            if (!PEAR::isError($result)) {
+                // Queue confirmation message
+                $translation = new OX_Translation();
+                $translated_message = $translation->translate ( $GLOBALS['strZoneLinkedBanner'], array(
+                    MAX::constructURL(MAX_URL_ADMIN, 'zone-edit.php?affiliateid=' .  $publisherId . '&zoneid=' . $zoneId),
+                    htmlspecialchars($aZone['name'])
+                ));
+                OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+            }
         } elseif ($action == 'remove' && !empty($placementId) && empty($adId)) {
             Admin_DA::deletePlacementZones(array('zone_id' => $zoneId, 'placement_id' => $placementId));
 
             // Queue confirmation message
-            $translation = new OX_Translation ();
+            $translation = new OX_Translation();
             $translated_message = $translation->translate ( $GLOBALS['strZoneRemovedCampaign'], array(
                 MAX::constructURL(MAX_URL_ADMIN, 'zone-edit.php?affiliateid=' .  $publisherId . '&zoneid=' . $zoneId),
                 htmlspecialchars($aZone['name'])
@@ -188,7 +189,8 @@ phpAds_SessionDataStore();
         // Message
         echo "<br>";
         echo "<div class='errormessage'><img class='errormessage' src='" . OX::assetPath() . "/images/errormessage.gif' align='absmiddle'>";
-        echo "<span class='tab-r'>{$GLOBALS['strUnableToLinkBanner']}</span><br><br>{$GLOBALS['strErrorLinkingBanner']} <br />" . $result->message . "</div><br>";
+        echo "<span class='tab-r'> {$GLOBALS['strUnableToLinkBanner']}</span><br /><br />";
+        echo "{$GLOBALS['strErrorLinkingBanner']} <br />" . $result->message . "</div><br />";
     }
 
     MAX_displayPlacementAdSelectionViewForm($publisherId, $zoneId, $view, $pageName, $tabIndex, $aOtherZones);

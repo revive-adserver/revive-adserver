@@ -982,7 +982,8 @@ class Admin_DA
             $azParams['market_ads_include'] = true;
             $azAds = Admin_DA::getAds($azParams);
             if (!empty($azAds)) {
-                // Ad seems OK to link, check if this is an email zone, and enforce only a single active linked ad at a time
+                // Ad seems OK to link, check if this is an email zone, and
+                // enforce only a single active linked ad at a time
                 $aZone = Admin_DA::getZone($aVariables['zone_id']);
                 if ($aZone['type'] == MAX_ZoneEmail) {
                     $aAd = Admin_DA::getAd($azParams['ad_id']);

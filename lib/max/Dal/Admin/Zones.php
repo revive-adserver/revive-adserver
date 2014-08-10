@@ -537,7 +537,8 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
                 b.bannerid = " . DBC::makeLiteral($bannerId) . "
                 AND";
 
-            // Remove any zoneids which this banner cannot be linked to due to email zone restrictions
+            // Remove any zoneids which this banner cannot be linked to due to
+            // email zone restrictions
             foreach ($aEmailZoneIds as $zoneId) {
                 $aAd = Admin_DA::getAd($bannerId);
                 $okToLink = Admin_DA::_checkEmailZoneAdAssoc($zoneId, $aAd['placement_id']);
@@ -545,6 +546,9 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
                     $aZonesIds = array_diff($aZonesIds, array($zoneId));
                 }
             }
+        }
+        if (empty($aZonesIds)) {
+            return $okToLink;
         }
 
         $fromWhereClause .= "

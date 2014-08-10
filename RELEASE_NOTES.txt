@@ -40,6 +40,12 @@ What's New in Revive Adserver 3.1.0
 
  * Fixed the preview of all banners on the "Banners" page user interface
    preference.
+ * Fixed incorrectly displayed error message when trying to link a banner to
+   an email zone where the banner's parent campaign dates overlap with an
+   already linked campaign.
+ * Fixed incorrectly displayed message stating that a link has been created when
+   trying to link an email zone to a banner where the banner's parent campaign
+   dates overlap with an already linked campaign.
  * VAST tracking URLs now use https:// when called via SSL.
  * Removed useless Content-Length headers when sending the 1x1 transparent gif
    and spc delivery files, as the header interferes with ob_gzhandler and/or

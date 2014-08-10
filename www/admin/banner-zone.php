@@ -158,15 +158,13 @@ phpAds_SessionDataStore();
         // Message
         echo "<br>";
         echo "<div class='errormessage'><img class='errormessage' src='" . OX::assetPath() . "/images/errormessage.gif' align='absmiddle'>";
-        echo "<span class='tab-r'>{$GLOBALS['strUnableToLinkBanner']} {$errorMoreInformation}</span>";
-        echo "</div>";
+        echo "<span class='tab-r'> {$GLOBALS['strUnableToLinkBanner']}</span><br /><br />";
+        echo "{$GLOBALS['strErrorLinkingBanner']} <br />" . $errorMoreInformation . "</div><br />";
     } else {
         echo "<br /><br />";
     }
 
-
-
-        $zoneToSelect = false;
+    $zoneToSelect = false;
     if (!empty($aPublishers)) {
         MAX_sortArray($aPublishers, ($listorder == 'id' ? 'publisher_id' : $listorder), $orderdirection == 'up');
         $i=0;
