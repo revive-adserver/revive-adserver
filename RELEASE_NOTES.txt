@@ -37,6 +37,8 @@ What's New in Revive Adserver 3.1.0
  Bug Fixes
  ---------
 
+ * Fixed the preview of all banners on the "Banners" page user interface
+   preference.
  * VAST tracking URLs now use https:// when called via SSL.
  * Removed useless Content-Length headers when sending the 1x1 transparent gif
    and spc delivery files, as the header interferes with ob_gzhandler and/or

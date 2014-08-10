@@ -1483,23 +1483,10 @@ function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners
         $campaignEditUrl = "campaign-edit.php?clientid=$advertiserId&campaignid=$campaignId";
     }
 
-    // Build ad preview
+    // Build banner preview
     if ($bannerId && !empty($GLOBALS['_MAX']['PREF']['ui_show_banner_preview']) && empty($_GET['nopreview'])) {
-        require_once (MAX_PATH . '/lib/max/Delivery/adRender.php');
-        $aBanner = Admin_DA::getAd($bannerId);
-        $aBanner['storagetype'] = $aBanner['type'];
-        $aBanner['bannerid'] = $aBanner['ad_id'];
-        if ($aBanner['contenttype'] == 'swf') {
-            $bannerCode =
-                MAX_adRender($aBanner, 0, '', '', '', true, '', false, false) .
-                "<br /><br />" .
-                _adRenderImage($aBanner, 0, '', '', true, false, false, true);
-        } else {
-            $bannerCode =
-                MAX_adRender($aBanner, 0, '', '', '', true, '', false, false);
-        }
-    }
-    else {
+        $bannerCode = MAX_bannerPreview($bannerId);
+    } else {
         $bannerCode = '';
     }
 
@@ -1526,6 +1513,22 @@ function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners
     phpAds_PageHeader($tabValue, $oHeaderModel);
 }
 
+function MAX_bannerPreview($bannerId)
+{
+    require_once (MAX_PATH . '/lib/max/Delivery/adRender.php');
+    $aBanner = Admin_DA::getAd($bannerId);
+    $aBanner['storagetype'] = $aBanner['type'];
+    $aBanner['bannerid'] = $aBanner['ad_id'];
+    if ($aBanner['contenttype'] == 'swf') {
+        return
+            MAX_adRender($aBanner, 0, '', '', '', true, '', false, false) .
+            "<br /><br />" .
+            _adRenderImage($aBanner, 0, '', '', true, false, false, true);
+    } else {
+        return
+            MAX_adRender($aBanner, 0, '', '', '', true, '', false, false);
+    }
+}
 
 function MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $aEntities)
 {

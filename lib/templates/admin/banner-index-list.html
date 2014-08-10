@@ -92,56 +92,55 @@
                 <th class='{ox_column_class item=name order=up default=1}'>
                     {ox_column_title item=name order=up default=1 str=Name url=campaign-banners.php}
                 </th>
-                <th>&nbsp;
-
+                <th>
+                    &nbsp;
                 </th>
-                <th class='last alignRight'>&nbsp;
-
+                <th>
+                    &nbsp;
+                </th>
+                <th class='last alignRight'>
+                    &nbsp;
                 </th>
             </tr>
         </thead>
 
 {if !$from|@count}
-        <tbody>
-            <tr class='odd'>
-                <td colspan='4'>&nbsp;</td>
-            </tr>
-            <tr class='even'>
-                <td colspan='4' class="hasPanel">
-                    <div class='tableMessage'>
-                        <div class='panel'>
-
-                            {if $clientId != -1}
-                            	{if $campaignId != -1}
-                                    {if $hideinactive}
-                                        {$aCount.banners_hidden} {t str=InactiveBannersHidden}
-                                    {else}
-                                        {t str=NoBanners}
-                                    {/if}
+    <tbody>
+        <tr class='odd'>
+            <td colspan='5'>&nbsp;</td>
+        </tr>
+        <tr class='even'>
+            <td colspan='5' class="hasPanel">
+                <div class='tableMessage'>
+                    <div class='panel'>
+                        {if $clientId != -1}
+                        	{if $campaignId != -1}
+                                {if $hideinactive}
+                                    {$aCount.banners_hidden} {t str=InactiveBannersHidden}
                                 {else}
-                                    {t str=NoBannersAddCampaign values=$clientId}
+                                    {t str=NoBanners}
                                 {/if}
                             {else}
-                                {t str=NoBannersAddAdvertiser}
+                                {t str=NoBannersAddCampaign values=$clientId}
                             {/if}
-
-                            <div class='corner top-left'></div>
-                            <div class='corner top-right'></div>
-                            <div class='corner bottom-left'></div>
-                            <div class='corner bottom-right'></div>
-                        </div>
+                        {else}
+                            {t str=NoBannersAddAdvertiser}
+                        {/if}
+                        <div class='corner top-left'></div>
+                        <div class='corner top-right'></div>
+                        <div class='corner bottom-left'></div>
+                        <div class='corner bottom-right'></div>
                     </div>
-
-                    &nbsp;
-                </td>
-            </tr>
-            <tr class='odd'>
-                <td colspan='4'>&nbsp;</td>
-            </tr>
-      </tbody>
-
+                </div>
+                &nbsp;
+            </td>
+        </tr>
+        <tr class='odd'>
+            <td colspan='5'>&nbsp;</td>
+        </tr>
+    </tbody>
 {else}
-        <tbody>
+    <tbody>
     {cycle name=bgcolor values="even,odd" assign=bgColor reset=1}
     {foreach key=bannerId item=banner from=$from}
         {cycle name=bgcolor assign=bgColor}
@@ -158,6 +157,9 @@
                       <span class='inlineIcon {ox_banner_icon type=$banner.type active=$banner.active}'>{$banner.description|escape:html}</span>
                     {/if}
                   {ox_entity_id type="Banner" id=$bannerId}
+                </td>
+                <td>
+                    {$banner.preview}
                 </td>
                 <td class='alignRight verticalActions'>
                     <ul class='rowActions'>
