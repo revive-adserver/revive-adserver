@@ -32,6 +32,8 @@ What's New in Revive Adserver 3.1.0
    CORS header (i.e. 'Access-Control-Allow-Origin: *').
  * The domain used for the viewerId cookie is now configurable.
  * The "My Account" main menu has been re-named to "Preferences" for clarity.
+ * The quick navigation dropdown lists for advertisers/campaigns and websites is
+   now sorted alphabetically.
  * The "midnight" sync process that checks for updates to Revive Adserver is
    now the very last thing to happen in the overall maintenance process.
 
