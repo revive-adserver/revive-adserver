@@ -65,12 +65,13 @@
 
           {/literal}
               {section name=breadcrumbIndex loop=$breadcrumbs}
+              {assign var=idx value=0}
           {literal}
 
           itemTree{/literal}{$smarty.capture.ids}{literal} = {
                   {/literal}{foreach name=items from=$breadcrumbs[breadcrumbIndex]->getEntityMap() key=itemId item=aEntity}{literal}
               			{/literal}{$itemId}{literal}:     {
-                      'name': '{/literal}{$aEntity.name|escape}{literal}'
+                      'name': '{/literal}{$aEntity.name|escape}{literal}', 'idx': '{/literal}{$idx++}{literal}'
                     }{/literal}{if $smarty.foreach.items.last eq false},{/if}{literal}
                   {/literal}{/foreach}{literal}
           };
