@@ -195,13 +195,16 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
             $impressions = 0;
         }
         // Choose smallest required impression
-        $oCampaign->requiredImpressions = $this->_getSmallestNonZeroInteger(
+        $requiredImpressions = $this->_getSmallestNonZeroInteger(
             array(
                 $clickImpressions,
                 $conversionImpressions,
                 $impressions
             )
         );
+
+        // Apply user-defined level of aggressiveness to selected delivery target
+        $oCampaign->requiredImpressions = $requiredImpressions * 1.02;
     }
 
     /**
@@ -225,7 +228,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
      */
     function _getInventoryImpressionsRequired($inventory, $defaultRatio, $inventoryToDate = 0, $impressionsToDate = 0)
     {
-        if($inventoryToDate >= $inventory) {
+        if ($inventoryToDate >= $inventory) {
             return 0;
         }
         $requiredImpressions = 0;
