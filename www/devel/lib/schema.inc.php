@@ -1401,28 +1401,35 @@ class Openads_Schema_Manager
         foreach ($aChanges['hooks'][$timing]['tables'] AS $table => $aTable_hooks)
         {
             $params = "'{$table}'";
-            foreach ($aTable_hooks['self'] AS $parent => $method)
-            {
-                $task_buffer.= $this->_buildTask($method, $timing);
-                $method_buffer.= $this->_buildMethod($method, $parent, $params);
-            }
-
-            foreach ($aTable_hooks['fields'] AS $field => $aField_hooks)
-            {
-                foreach ($aField_hooks AS $parent => $method)
+            if (!is_null($aTable_hooks['self'])) {
+                foreach ($aTable_hooks['self'] AS $parent => $method)
                 {
-                    $params = "'{$table}', '{$field}'";
                     $task_buffer.= $this->_buildTask($method, $timing);
                     $method_buffer.= $this->_buildMethod($method, $parent, $params);
                 }
             }
-            foreach ($aTable_hooks['indexes'] AS $index => $aIndex_hooks)
-            {
-                foreach ($aIndex_hooks AS $parent => $method)
+
+            if (!is_null($aTable_hooks['fields'])) {
+                foreach ($aTable_hooks['fields'] AS $field => $aField_hooks)
                 {
-                    $params = "'{$table}', '{$index}'";
-                    $task_buffer.= $this->_buildTask($method, $timing);
-                    $method_buffer.= $this->_buildMethod($method, $parent, $params);
+                    foreach ($aField_hooks AS $parent => $method)
+                    {
+                        $params = "'{$table}', '{$field}'";
+                        $task_buffer.= $this->_buildTask($method, $timing);
+                        $method_buffer.= $this->_buildMethod($method, $parent, $params);
+                    }
+                }
+            }
+
+            if (!is_null($aTable_hooks['indexes'])) {
+                foreach ($aTable_hooks['indexes'] AS $index => $aIndex_hooks)
+                {
+                    foreach ($aIndex_hooks AS $parent => $method)
+                    {
+                        $params = "'{$table}', '{$index}'";
+                        $task_buffer.= $this->_buildTask($method, $timing);
+                        $method_buffer.= $this->_buildMethod($method, $parent, $params);
+                    }
                 }
             }
         }
