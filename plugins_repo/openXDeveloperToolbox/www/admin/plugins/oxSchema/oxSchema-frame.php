@@ -61,7 +61,7 @@ setcookie('schemaFile', $schemaFile);
 
 require_once 'lib/oxSchema.inc.php';
 global $oSchema;
-$oSchema = & new openXSchemaEditor($schemaFile, '', $schemaPath);
+$oSchema = new openXSchemaEditor($schemaFile, '', $schemaPath);
 
 require_once 'lib/oxAjax.inc.php';
 

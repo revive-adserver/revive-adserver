@@ -10,10 +10,11 @@
                     </tr>
                     <?php
                     $i = 0;
-                    foreach ($tbl_links AS $name => $link_def)
-                    {
-                        $i++;
-                        $form_name = 'frm_link_'.$i;
+                    if (!is_null($tbl_links)) {
+                        foreach ($tbl_links AS $name => $link_def)
+                        {
+                            $i++;
+                            $form_name = 'frm_link_'.$i;
                     ?>
                     <tr>
                     <form name="<?php echo $form_name; ?>" id="<?php echo $form_name; ?>" action="schema.php" method="POST">
@@ -27,8 +28,9 @@
                     </tr>
                     </form>
                     <?php
+                        }
                     }
-                   ?>
+                    ?>
                     <tr>
                         <td class="tableheader" colspan="4">
                             <form name="frm_index" action="schema.php" method="POST">

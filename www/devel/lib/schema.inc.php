@@ -1291,7 +1291,7 @@ class Openads_Schema_Manager
             $valid_types = $this->oSchema->options['valid_types'];
             $force_defaults = '';
 
-            $this->oValidator =& new MDB2_Schema_Validate($fail_on_invalid_names, $valid_types, $force_defaults);
+            $this->oValidator = new MDB2_Schema_Validate($fail_on_invalid_names, $valid_types, $force_defaults);
         }
         if (!Pear::iserror($this->oValidator))
         {

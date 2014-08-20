@@ -42,7 +42,7 @@ if (empty($changesFile))
 if (array_key_exists('btn_field_save', $_POST))
 {
     require_once 'lib/oxSchema.inc.php';
-    $oSchema = & new openXSchemaEditor($schemaFile, $changesFile, $schemaPath);
+    $oSchema = new openXSchemaEditor($schemaFile, $changesFile, $schemaPath);
 
     $table_name = $_POST['table_name'];
     $field_name = $_POST['fld_old_name'];
@@ -52,7 +52,7 @@ if (array_key_exists('btn_field_save', $_POST))
 else if (array_key_exists('btn_table_save', $_POST))
 {
     require_once 'lib/oxSchema.inc.php';
-    $oSchema = & new openXSchemaEditor($schemaFile, $changesFile, $schemaPath);
+    $oSchema = new openXSchemaEditor($schemaFile, $changesFile, $schemaPath);
 
     //$table_name = $_POST['table_name'];
     $table_name = $_POST['tbl_old_name'];
