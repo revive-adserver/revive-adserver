@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>614</version>
+  <comments>Removed table columns deprecated by removal of OpenX Market support.</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>614</version>
+      <change>
+        <table>
+          <name>accounts</name>
+      </table>
+    </change>
+  </changeset>
+</constructive>
+<destructive>
+  <changeset>
+    <name>openads</name>
+    <version>614</version>
+    <change>
+      <table>
+        <name>accounts</name>
+      <remove>
+        <field>
+          <name>m2m_password</name>
+        </field>
+          <field>
+            <name>m2m_ticket</name>
+          </field>
+        </remove>
+      </table>
+    </change>
+  </changeset>
+</destructive>
+</instructionset>

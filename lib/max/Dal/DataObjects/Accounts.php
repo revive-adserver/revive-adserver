@@ -29,8 +29,6 @@ class DataObjects_Accounts extends DB_DataObjectCommon
     public $account_id;                      // MEDIUMINT(9) => openads_mediumint => 129 
     public $account_type;                    // VARCHAR(16) => openads_varchar => 130 
     public $account_name;                    // VARCHAR(255) => openads_varchar => 2 
-    public $m2m_password;                    // VARCHAR(32) => openads_varchar => 2 
-    public $m2m_ticket;                      // VARCHAR(32) => openads_varchar => 2 
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Accounts',$k,$v); }
