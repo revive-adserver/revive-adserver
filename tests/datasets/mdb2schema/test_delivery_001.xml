@@ -80,16 +80,6 @@
      <value>agency</value>
     </field>
 
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
-    </field>
-
    </insert>
 
    <insert>
@@ -107,16 +97,6 @@
     <field>
      <name>account_name</name>
      <value>agency2</value>
-    </field>
-
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
     </field>
 
    </insert>
@@ -138,16 +118,6 @@
      <value>Agency Three</value>
     </field>
 
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
-    </field>
-
    </insert>
 
    <insert>
@@ -165,16 +135,6 @@
     <field>
      <name>account_name</name>
      <value>Test Advertiser</value>
-    </field>
-
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
     </field>
 
    </insert>
@@ -196,16 +156,6 @@
      <value>Test Advertiser</value>
     </field>
 
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
-    </field>
-
    </insert>
 
    <insert>
@@ -223,16 +173,6 @@
     <field>
      <name>account_name</name>
      <value>Test Advertiser</value>
-    </field>
-
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
     </field>
 
    </insert>
@@ -254,16 +194,6 @@
      <value>Test Advertiser</value>
     </field>
 
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
-    </field>
-
    </insert>
 
    <insert>
@@ -281,16 +211,6 @@
     <field>
      <name>account_name</name>
      <value>Test Advertiser</value>
-    </field>
-
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
     </field>
 
    </insert>
@@ -312,16 +232,6 @@
      <value>Test Advertiser</value>
     </field>
 
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
-    </field>
-
    </insert>
 
    <insert>
@@ -339,16 +249,6 @@
     <field>
      <name>account_name</name>
      <value>Test Advertiser</value>
-    </field>
-
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
     </field>
 
    </insert>
@@ -370,16 +270,6 @@
      <value>Test Advertiser</value>
     </field>
 
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
-    </field>
-
    </insert>
 
    <insert>
@@ -397,16 +287,6 @@
     <field>
      <name>account_name</name>
      <value>Test Advertiser</value>
-    </field>
-
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
     </field>
 
    </insert>
@@ -428,16 +308,6 @@
      <value>Test Advertiser</value>
     </field>
 
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
-    </field>
-
    </insert>
 
    <insert>
@@ -455,16 +325,6 @@
     <field>
      <name>account_name</name>
      <value>Test Advertiser</value>
-    </field>
-
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
     </field>
 
    </insert>
@@ -486,16 +346,6 @@
      <value>Test Advertiser</value>
     </field>
 
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
-    </field>
-
    </insert>
 
    <insert>
@@ -513,16 +363,6 @@
     <field>
      <name>account_name</name>
      <value>Test Advertiser</value>
-    </field>
-
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
     </field>
 
    </insert>
@@ -544,16 +384,6 @@
      <value>Test Advertiser</value>
     </field>
 
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
-    </field>
-
    </insert>
 
    <insert>
@@ -571,16 +401,6 @@
     <field>
      <name>account_name</name>
      <value>Test Advertiser</value>
-    </field>
-
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
     </field>
 
    </insert>
@@ -602,16 +422,6 @@
      <value>Test Advertiser</value>
     </field>
 
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
-    </field>
-
    </insert>
 
    <insert>
@@ -629,16 +439,6 @@
     <field>
      <name>account_name</name>
      <value>Test Advertiser</value>
-    </field>
-
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
     </field>
 
    </insert>
@@ -660,16 +460,6 @@
      <value>Test Advertiser</value>
     </field>
 
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
-    </field>
-
    </insert>
 
    <insert>
@@ -687,16 +477,6 @@
     <field>
      <name>account_name</name>
      <value>Test Advertiser</value>
-    </field>
-
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
     </field>
 
    </insert>
@@ -718,16 +498,6 @@
      <value>Test Advertiser</value>
     </field>
 
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
-    </field>
-
    </insert>
 
    <insert>
@@ -745,16 +515,6 @@
     <field>
      <name>account_name</name>
      <value>Test Advertiser</value>
-    </field>
-
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
     </field>
 
    </insert>
@@ -776,16 +536,6 @@
      <value>Test Advertiser</value>
     </field>
 
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
-    </field>
-
    </insert>
 
    <insert>
@@ -803,16 +553,6 @@
     <field>
      <name>account_name</name>
      <value>Test Advertiser</value>
-    </field>
-
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
     </field>
 
    </insert>
@@ -834,16 +574,6 @@
      <value>Test Advertiser</value>
     </field>
 
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
-    </field>
-
    </insert>
 
    <insert>
@@ -861,16 +591,6 @@
     <field>
      <name>account_name</name>
      <value>Test Advertiser</value>
-    </field>
-
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
     </field>
 
    </insert>
@@ -892,16 +612,6 @@
      <value>Test Advertiser</value>
     </field>
 
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
-    </field>
-
    </insert>
 
    <insert>
@@ -919,16 +629,6 @@
     <field>
      <name>account_name</name>
      <value>Test Advertiser</value>
-    </field>
-
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
     </field>
 
    </insert>
@@ -950,16 +650,6 @@
      <value>Test Advertiser</value>
     </field>
 
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
-    </field>
-
    </insert>
 
    <insert>
@@ -977,16 +667,6 @@
     <field>
      <name>account_name</name>
      <value>Test Advertiser</value>
-    </field>
-
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
     </field>
 
    </insert>
@@ -1008,16 +688,6 @@
      <value>Test Advertiser</value>
     </field>
 
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
-    </field>
-
    </insert>
 
    <insert>
@@ -1035,16 +705,6 @@
     <field>
      <name>account_name</name>
      <value>Test Advertiser</value>
-    </field>
-
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
     </field>
 
    </insert>
@@ -1066,16 +726,6 @@
      <value>Test Advertiser</value>
     </field>
 
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
-    </field>
-
    </insert>
 
    <insert>
@@ -1093,16 +743,6 @@
     <field>
      <name>account_name</name>
      <value>Test Advertiser</value>
-    </field>
-
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
     </field>
 
    </insert>
@@ -1124,16 +764,6 @@
      <value>publisher</value>
     </field>
 
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
-    </field>
-
    </insert>
 
    <insert>
@@ -1151,16 +781,6 @@
     <field>
      <name>account_name</name>
      <value>another publisher</value>
-    </field>
-
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
     </field>
 
    </insert>
@@ -1182,16 +802,6 @@
      <value>Arrival tracking</value>
     </field>
 
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
-    </field>
-
    </insert>
 
    <insert>
@@ -1209,16 +819,6 @@
     <field>
      <name>account_name</name>
      <value>Cookieless Conversions</value>
-    </field>
-
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
     </field>
 
    </insert>
@@ -1240,16 +840,6 @@
      <value>MAX Ext (Unanimis)</value>
     </field>
 
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
-    </field>
-
    </insert>
 
    <insert>
@@ -1267,16 +857,6 @@
     <field>
      <name>account_name</name>
      <value>MAX Int (Migration)</value>
-    </field>
-
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
     </field>
 
    </insert>
@@ -1298,16 +878,6 @@
      <value>Capping test</value>
     </field>
 
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
-    </field>
-
    </insert>
 
    <insert>
@@ -1325,16 +895,6 @@
     <field>
      <name>account_name</name>
      <value>DHTML Publisher</value>
-    </field>
-
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
     </field>
 
    </insert>
@@ -1356,16 +916,6 @@
      <value>Pick-Up point</value>
     </field>
 
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
-    </field>
-
    </insert>
 
    <insert>
@@ -1383,16 +933,6 @@
     <field>
      <name>account_name</name>
      <value>FlashObject</value>
-    </field>
-
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
     </field>
 
    </insert>
@@ -1414,16 +954,6 @@
      <value>No Website</value>
     </field>
 
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
-    </field>
-
    </insert>
 
    <insert>
@@ -1441,16 +971,6 @@
     <field>
      <name>account_name</name>
      <value>Psudo-Ticketmaster</value>
-    </field>
-
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
     </field>
 
    </insert>
@@ -1472,16 +992,6 @@
      <value>Companion Positioning</value>
     </field>
 
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
-    </field>
-
    </insert>
 
    <insert>
@@ -1499,16 +1009,6 @@
     <field>
      <name>account_name</name>
      <value>SSL serving</value>
-    </field>
-
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
     </field>
 
    </insert>
@@ -1530,16 +1030,6 @@
      <value>Iframe Wrapping</value>
     </field>
 
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
-    </field>
-
    </insert>
 
    <insert>
@@ -1557,16 +1047,6 @@
     <field>
      <name>account_name</name>
      <value>AAA Tracking Publisher</value>
-    </field>
-
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
     </field>
 
    </insert>
@@ -1588,16 +1068,6 @@
      <value>Ad Zone Assoc</value>
     </field>
 
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
-    </field>
-
    </insert>
 
    <insert>
@@ -1615,16 +1085,6 @@
     <field>
      <name>account_name</name>
      <value>With Text Publisher</value>
-    </field>
-
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
     </field>
 
    </insert>
@@ -1646,16 +1106,6 @@
      <value>Public Publisher</value>
     </field>
 
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
-    </field>
-
    </insert>
 
    <insert>
@@ -1673,16 +1123,6 @@
     <field>
      <name>account_name</name>
      <value>Reducing targeting</value>
-    </field>
-
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
     </field>
 
    </insert>
@@ -1704,16 +1144,6 @@
      <value>Affiliate</value>
     </field>
 
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
-    </field>
-
    </insert>
 
    <insert>
@@ -1733,16 +1163,6 @@
      <value>New DE Testing</value>
     </field>
 
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
-    </field>
-
    </insert>
 
    <insert>
@@ -1760,16 +1180,6 @@
     <field>
      <name>account_name</name>
      <value>Publisher (Agency 2)</value>
-    </field>
-
-    <field>
-     <name>m2m_password</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>m2m_ticket</name>
-     <value></value>
     </field>
 
    </insert>

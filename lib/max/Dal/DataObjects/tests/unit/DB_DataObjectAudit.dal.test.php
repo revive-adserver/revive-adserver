@@ -107,8 +107,6 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($oAudit->contextid,$accountId);
         $this->assertEqual($aAudit['key_desc'],$doAccounts->account_name);
         $this->assertEqual($aAudit['account_id'],$accountId);
-        $this->assertTrue(!isset($aAudit['m2m_password']));
-        $this->assertTrue(!isset($aAudit['m2m_ticket']));
 
         $doAccounts = OA_Dal::staticGetDO('accounts', $accountId);
         $doAccounts->account_name = 'Administrator Account Changed';
@@ -118,14 +116,6 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($oAudit->username,OA_TEST_AUDIT_USERNAME);
         $this->assertEqual($aAudit['account_name']['is'],$doAccounts->account_name);
         $this->assertEqual($aAudit['account_name']['was'],'Administrator Account');
-
-        // M2M records should not be audited
-        $doAccounts = OA_Dal::staticGetDO('accounts', $accountId);
-        $doAccounts->m2m_password = 'foo';
-        $doAccounts->m2m_ticket = 'bar';
-        $doAccounts->update();
-        $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_UPDATE);
-        $this->assertNotA($oAudit, 'array', 'M2M information was logged, found more than one update audit row');
 
         $doAccounts->delete();
         $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_DELETE);
