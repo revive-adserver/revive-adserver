@@ -51,8 +51,6 @@ class DataObjects_Clients extends DB_DataObjectCommon
     public $reportdeactivate;                // ENUM('t','f') => openads_enum => 130
     public $comments;                        // TEXT() => openads_text => 34
     public $updated;                         // DATETIME() => openads_datetime => 142
-    public $an_adnetwork_id;                 // INT(11) => openads_int => 1
-    public $as_advertiser_id;                // INT(11) => openads_int => 1
     public $account_id;                      // MEDIUMINT(9) => openads_mediumint => 1
     public $advertiser_limitation;           // TINYINT(1) => openads_tinyint => 145
     public $type;                            // TINYINT(4) => openads_tinyint => 129

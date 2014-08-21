@@ -51,8 +51,6 @@ class DataObjects_Zones extends DB_DataObjectCommon
     public $capping;                         // INT(11) => openads_int => 129 
     public $session_capping;                 // INT(11) => openads_int => 129
     public $what;                            // TEXT() => openads_text => 162 
-    public $as_zone_id;                      // INT(11) => openads_int => 1 
-    public $is_in_ad_direct;                 // TINYINT(1) => openads_tinyint => 145 
     public $rate;                            // DECIMAL(19,2) => openads_decimal => 1 
     public $pricing;                         // VARCHAR(50) => openads_varchar => 130 
     public $oac_category_id;                 // INT(11) => openads_int => 1 
@@ -83,7 +81,6 @@ class DataObjects_Zones extends DB_DataObjectCommon
                 'session_capping' => 0,
                 'show_capped_no_cookie' => 1,
                 'what' => '',
-                'is_in_ad_direct' => 0,
                 'pricing' => 'CPM',
                 'show_capped_no_cookie' => 0,
                 'ext_adselection' => '',

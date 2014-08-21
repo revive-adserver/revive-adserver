@@ -21,6 +21,46 @@
             <file>changes_tables_core_614.xml</file>
             <file>migration_tables_core_614.php</file>
         </package>
+        <package>
+            <version>615</version>
+            <stamp>615</stamp>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_615.xml</file>
+            <file>changes_tables_core_615.xml</file>
+            <file>migration_tables_core_615.php</file>
+        </package>
+        <package>
+            <version>616</version>
+            <stamp>616</stamp>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_616.xml</file>
+            <file>changes_tables_core_616.xml</file>
+            <file>migration_tables_core_616.php</file>
+        </package>
+        <package>
+            <version>617</version>
+            <stamp>617</stamp>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_617.xml</file>
+            <file>changes_tables_core_617.xml</file>
+            <file>migration_tables_core_617.php</file>
+        </package>
+        <package>
+            <version>618</version>
+            <stamp>618</stamp>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_618.xml</file>
+            <file>changes_tables_core_618.xml</file>
+            <file>migration_tables_core_618.php</file>
+        </package>
+        <package>
+            <version>619</version>
+            <stamp>619</stamp>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_619.xml</file>
+            <file>changes_tables_core_619.xml</file>
+            <file>migration_tables_core_619.php</file>
+        </package>
     </database>
 
 </upgrade>
