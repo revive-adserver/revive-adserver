@@ -2238,11 +2238,6 @@
      <value></value>
     </field>
 
-    <field>
-     <name>as_zone_id</name>
-     <value></value>
-    </field>
-
    </insert>
 
   </initialization>

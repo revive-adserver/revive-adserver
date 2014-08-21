@@ -64,13 +64,12 @@ public class OapSql {
 				" `delivery`, `zonetype`, `what`, `width`, `height`, `chain`, `prepend`, `append`," +
 				" `appendtype`, `category`, `ad_selection`, `forceappend`, `inventory_forecast_type`," +
 				" `comments`, `cost`, `cost_type`, `cost_variable_id`, `technology_cost`," +
-				" `technology_cost_type`, `updated`, `block`, `capping`, `session_capping`," +
-				" `as_zone_id`) " +
+				" `technology_cost_type`, `updated`, `block`, `capping`, `session_capping`) " +
 				"VALUES(" +
 				zone + ", " +
 				affiliate + ", 'http://www.test1.org - Default', '', 0, 3, '', 120, 120, '', ''," +
 				" 0x5a6f6e65, 0, '', '', 'f', 0, '', 1.3333, 2, '', NULL, NULL," +
-				" '2007-11-20 15:10:34', 0, 0, 0, NULL);";
+				" '2007-11-20 15:10:34', 0, 0, 0);";
 	}
 
 	private String getBanner() {

@@ -2238,11 +2238,6 @@
      <value></value>
     </field>
 
-    <field>
-     <name>as_zone_id</name>
-     <value></value>
-    </field>
-
    </insert>
 
    <insert>
@@ -2379,11 +2374,6 @@
 
     <field>
      <name>what</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>as_zone_id</name>
      <value></value>
     </field>
 

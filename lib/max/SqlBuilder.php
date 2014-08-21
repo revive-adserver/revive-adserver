@@ -110,12 +110,12 @@ class SqlBuilder
         case 'stats' :
             $aColumns += array("DATE_FORMAT(date_time, '%Y-%m-%d')" => 'day', 'HOUR(date_time)' => 'hour', 'SUM(s.requests)' => 'sum_requests', 'SUM(s.impressions)' => 'sum_views', 'SUM(s.clicks)' => 'sum_clicks', 'SUM(s.conversions)' => 'sum_conversions');
             break;
-            
+
         case 'stats_by_entity' :
             if (isset($aParams['add_columns']) && is_array($aParams['add_columns'])) {
                 $aColumns += $aParams['add_columns'];
             }
-            
+
             if(empty($aParams['market_stats_get_start_date'])) {
                 if (isset($aParams['include']) && is_array($aParams['include'])) {
                     if (array_search('advertiser_id', $aParams['include']) !== false) $aColumns += array('m.clientid' => 'advertiser_id');
@@ -134,13 +134,13 @@ class SqlBuilder
                     $concat_pkey = " s.ad_id || '_' || s.zone_id ";
                 }
                 $aColumns += array(
-                	$concat_pkey => 'pkey', 
-                	's.ad_id' => 'ad_id', 
+                	$concat_pkey => 'pkey',
+                	's.ad_id' => 'ad_id',
                 	's.zone_id' => 'zone_id'
-                    ) 
+                    )
                     + SqlBuilder::_getColumns('stats_common', $aParams, $allFields);
-    
-    
+
+
                 // Remove unused columns to avoid implicit group by (otherwise postgresql errors out)
                 if (isset($aParams['exclude']) && is_array($aParams['exclude'])) {
                     if (array_search('ad_id', $aParams['exclude']) !== false) {
@@ -159,7 +159,7 @@ class SqlBuilder
                                 $aColumns["(0)"] = 'pkey';
                             }
                         } else {
-                            if(false !== ($found = array_search('ad_id',$aColumns))) {  
+                            if(false !== ($found = array_search('ad_id',$aColumns))) {
                                 unset($aColumns[$found]);
                             }
                             if(isset($aParams['market_stats_including_zone_zero'])) {
@@ -175,7 +175,7 @@ class SqlBuilder
                     } elseif (array_search('zone_id', $aParams['exclude']) !== false) {
                         unset($aColumns[$concat_pkey]);
                         unset($aColumns['s.zone_id']);
-            
+
                         // core stats: the primary key is simply the ad_id (unique across all rows)
                         if(empty($aParams['market_stats']))
                         {
@@ -185,7 +185,7 @@ class SqlBuilder
                         else
                         {
                             $pkey = array_search('ad_id', $aParams['custom_columns']);
-                            
+
                             if(empty($pkey)) {
                                 $pkey = 's.ad_id';
                             } else {
@@ -258,20 +258,20 @@ class SqlBuilder
 
         case 'zone' :
             $aColumns += array('z.zoneid' => 'zone_id', 'z.affiliateid' => 'publisher_id', 'z.zonename' => 'name', 'z.delivery' => 'type');
-            if ($allFields) $aColumns += array('z.description' => 'description', 'z.width' => 'width', 'z.height' => 'height', 'z.chain' => 'chain', 'z.prepend' => 'prepend', 'z.append' => 'append', 'z.appendtype' => 'appendtype', 'z.forceappend' => 'forceappend', 'z.inventory_forecast_type' => 'inventory_forecast_type', 'z.comments' => 'comments', 'z.block' => 'block', 'z.capping' => 'capping', 'z.session_capping' => 'session_capping', 'z.category' => 'category', 'z.ad_selection' => 'ad_selection', 'z.is_in_ad_direct' => 'is_in_ad_direct', 'z.rate' => 'rate', 'z.pricing' => 'pricing', 'z.show_capped_no_cookie' => 'show_capped_no_cookie');
+            if ($allFields) $aColumns += array('z.description' => 'description', 'z.width' => 'width', 'z.height' => 'height', 'z.chain' => 'chain', 'z.prepend' => 'prepend', 'z.append' => 'append', 'z.appendtype' => 'appendtype', 'z.forceappend' => 'forceappend', 'z.inventory_forecast_type' => 'inventory_forecast_type', 'z.comments' => 'comments', 'z.block' => 'block', 'z.capping' => 'capping', 'z.session_capping' => 'session_capping', 'z.category' => 'category', 'z.ad_selection' => 'ad_selection', 'z.rate' => 'rate', 'z.pricing' => 'pricing', 'z.show_capped_no_cookie' => 'show_capped_no_cookie');
             break;
 
         case 'placement_zone_assoc' :
             $aColumns += array('pz.placement_zone_assoc_id' => 'placement_zone_assoc_id', 'pz.placement_id' => 'placement_id', 'pz.zone_id' => 'zone_id');
             break;
         }
-        
+
         $matchingEntitiesToFix = 'history_';
         if(substr($entity, 0, strlen($matchingEntitiesToFix)) == $matchingEntitiesToFix) {
             // postgresql throws an error: column "m.campaignid" must appear in the GROUP BY clause or be used in an aggregate function
             // we therefore remove the column ad_id built on a concatenation of various other fields, as this particular field
             // is not in use in the Global History stats screen (when entity == history_*)
-            if(false !== ($found = array_search('ad_id',$aColumns))) {  
+            if(false !== ($found = array_search('ad_id',$aColumns))) {
                 unset($aColumns[$found]);
             }
 
@@ -469,24 +469,24 @@ class SqlBuilder
             // stats always require the join to advertiser table to ensure only core stats are displayed (excluding market advertiser)
             $aTables += array(
                 $conf['table']['prefix'].$conf['table']['clients'] => 'a',
-                $conf['table']['prefix'].$conf['table']['campaigns'] => 'm', 
-                $conf['table']['prefix'].$conf['table']['banners'] => 'd', 
+                $conf['table']['prefix'].$conf['table']['campaigns'] => 'm',
+                $conf['table']['prefix'].$conf['table']['banners'] => 'd',
             );
-            
+
             if(empty($aParams['market_stats_get_start_date'])) {
                 if (!empty($aParams['agency_id'])) {
                     $aTables += array(
                         $conf['table']['prefix'].$conf['table']['clients'] => 'a',
-                        $conf['table']['prefix'].$conf['table']['campaigns'] => 'm', 
-                        $conf['table']['prefix'].$conf['table']['banners'] => 'd', 
+                        $conf['table']['prefix'].$conf['table']['campaigns'] => 'm',
+                        $conf['table']['prefix'].$conf['table']['banners'] => 'd',
                         $conf['table']['prefix'].$conf['table']['affiliates'] => 'p',
                         $conf['table']['prefix'].$conf['table']['zones'] => 'z'
                     );
                 }
-    
-                if (!empty($aParams['advertiser_id'])) { 
+
+                if (!empty($aParams['advertiser_id'])) {
                     $aTables += array(
-                        $conf['table']['prefix'].$conf['table']['campaigns'] => 'm', 
+                        $conf['table']['prefix'].$conf['table']['campaigns'] => 'm',
                         $conf['table']['prefix'].$conf['table']['banners'] => 'd'
                     );
                 }
@@ -505,9 +505,9 @@ class SqlBuilder
                 }
             }
             break;
-        
+
         case 'stats_by_entity' :
-            
+
             if (isset($aParams['include']) && is_array($aParams['include'])) {
                 // Fake needed parameters
                 if (array_search('advertiser_id', $aParams['include']) !== false) $aParams['advertiser_id'] = 1;
@@ -516,7 +516,7 @@ class SqlBuilder
             }
             $aTables += SqlBuilder::_getTables('stats', $aParams);
             break;
-            
+
         case 'tracker' :
             $aTables += array($conf['table']['prefix'].$conf['table']['trackers'] => 't');
             if (!empty($aParams['agency_id'])) $aTables += array($conf['table']['prefix'].$conf['table']['clients'] => 'a');
@@ -577,7 +577,7 @@ class SqlBuilder
                 $aLimitations[] = '('.$sizeLimitation.')';
             }
         }
-        
+
         if (!empty($aParams['ad_type'])) {
             if ($aParams['ad_type'] == "!txt") {
                 SqlBuilder::_addLimitation($aLimitations, 'ad_type', 'd.storagetype', 'txt', MAX_LIMITATION_NOT_EQUAL);
@@ -770,31 +770,31 @@ class SqlBuilder
                     SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'a.agencyid', $aParams['agency_id']);
                 }
             }
-            
+
             if (!empty($aParams['publisher_id'])) {
                 if(!empty($aParams['market_stats'])) {
                     SqlBuilder::_addLimitation($aLimitations, 'publisher_id', 's.website_id', $aParams['publisher_id']);
                 } else {
                     SqlBuilder::_addLimitation($aLimitations, 'publisher_id', 'z.affiliateid', $aParams['publisher_id']);
                 }
-            } 
+            }
             if (!empty($aParams['advertiser_id'])) SqlBuilder::_addLimitation($aLimitations, 'advertiser_id', 'm.clientid', $aParams['advertiser_id']);
             if (isset($aParams['zone_id'])) SqlBuilder::_addLimitation($aLimitations, 'zone_id', 's.zone_id', $aParams['zone_id']);
             if (!empty($aParams['placement_id'])) SqlBuilder::_addLimitation($aLimitations, 'placement_id', 'd.campaignid', $aParams['placement_id']);
             if (!empty($aParams['ad_id'])) SqlBuilder::_addLimitation($aLimitations, 'ad_id', 's.ad_id', $aParams['ad_id']);
-            
+
             if(empty($aParams['market_stats_get_start_date'])) {
-    			
+
                 $do = OA_Dal::factoryDO('Clients');
                 // Core stats exclude all Market advertiser activity
-    			// Market stats only include the Market advertiser activity 
+    			// Market stats only include the Market advertiser activity
     			if(!empty($aParams['market_stats'])) {
                     $aLimitations[] = 'a.type = ' . DataObjects_Clients::ADVERTISER_TYPE_MARKET;
                     // if we are not explicitely selecting zone_id = 0 stats, we exclude all zone_id stats
                     if(empty($aParams['market_stats_including_zone_zero'])) {
                         $aLimitations[] = 's.zone_id <> 0';
                     }
-                    
+
                 } else {
                     $aLimitations[] = 'a.type = ' . DataObjects_Clients::ADVERTISER_TYPE_DEFAULT;
                 }
@@ -999,17 +999,17 @@ class SqlBuilder
     function _getGroupColumns($entity, $aParams)
     {
         $aGroupColumns = array();
-        switch ($entity) 
+        switch ($entity)
         {
             case 'history_day_hour' : $aGroupColumns[] = 'date_time'; break;
             case 'history_day' :      $aGroupColumns[] = 'day'; break;
             case 'history_month' :    $aGroupColumns[] = 'month'; break;
             case 'history_dow' :      $aGroupColumns[] = 'dow'; break;
             case 'history_hour' :     $aGroupColumns[] = 'hour'; break;
-    
+
             case 'stats_by_entity' :
                 if(empty($aParams['market_stats_get_start_date'])) {
-                    
+
                     $aGroupColumns = array('ad_id', 'zone_id');
                     if (isset($aParams['include'])) $aGroupColumns = array_merge($aGroupColumns, $aParams['include']);
                     if (isset($aParams['exclude'])) $aGroupColumns = array_diff($aGroupColumns, $aParams['exclude']);
