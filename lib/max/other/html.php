@@ -770,7 +770,6 @@ function MAX_displayNavigationPublisher($pageName, $aOtherPublishers, $aEntities
     // Determine which tab is highlighted
     switch ($pageName) {
         case 'affiliate-channels.php' : $tabValue = '4.2.4'; break;
-        case 'affiliate-advsetup.php' : $tabValue = '4.2.6'; break;
     }
 
     // Sort the publishers by name...

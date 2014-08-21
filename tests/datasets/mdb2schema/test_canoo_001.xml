@@ -2796,11 +2796,6 @@
     </field>
 
     <field>
-     <name>an_website_id</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>oac_country_code</name>
      <value></value>
     </field>
@@ -2812,11 +2807,6 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>as_website_id</name>
      <value></value>
     </field>
 
@@ -2875,11 +2865,6 @@
     </field>
 
     <field>
-     <name>an_website_id</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>oac_country_code</name>
      <value></value>
     </field>
@@ -2891,11 +2876,6 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>as_website_id</name>
      <value></value>
     </field>
 
