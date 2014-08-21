@@ -59,7 +59,7 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
         // clients generated will start with client ID 1
         TestEnv::truncateAllTables();
         $aIncludeSystemTypes = array(DataObjects_Clients::ADVERTISER_TYPE_MARKET);
-        
+
         // Test 1
         $rsClients = $this->dalClients->getClientByKeyword('foo');
         $rsClients->reset();
@@ -193,8 +193,6 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
         $this->assertTrue(array_key_exists('reportinterval', $aClients));
         $this->assertTrue(array_key_exists('reportlastdate', $aClients));
         $this->assertTrue(array_key_exists('updated', $aClients));
-        $this->assertTrue(array_key_exists('an_adnetwork_id', $aClients));
-        $this->assertTrue(array_key_exists('as_advertiser_id', $aClients));
         $this->assertTrue(array_key_exists('advertiser_limitation', $aClients));
         $this->assertTrue(array_key_exists('type', $aClients));
 
@@ -260,7 +258,7 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
         $this->assertEqual(count($aClients[3]), 3);
         $this->assertEqual($aClients[3]['clientname'], 'Advertiser 3');
         $this->assertEqual($aClients[3]['type'], DataObjects_Clients::ADVERTISER_TYPE_DEFAULT);
-        $aClients = $this->dalClients->getAllAdvertisers('name', 'up', null, 
+        $aClients = $this->dalClients->getAllAdvertisers('name', 'up', null,
                         array(DataObjects_Clients::ADVERTISER_TYPE_MARKET));
         $this->assertTrue(is_array($aClients));
         $this->assertEqual(count($aClients), 3);
@@ -300,7 +298,7 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
         $this->assertEqual(count($aClients[3]), 3);
         $this->assertEqual($aClients[3]['clientname'], 'Advertiser 3');
         $this->assertEqual($aClients[3]['type'], DataObjects_Clients::ADVERTISER_TYPE_DEFAULT);
-        $aClients = $this->dalClients->getAllAdvertisers('name', 'down', null, 
+        $aClients = $this->dalClients->getAllAdvertisers('name', 'down', null,
                         array(DataObjects_Clients::ADVERTISER_TYPE_MARKET));
         $this->assertTrue(is_array($aClients));
         $this->assertEqual(count($aClients), 3);

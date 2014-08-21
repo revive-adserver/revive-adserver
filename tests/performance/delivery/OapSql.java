@@ -95,11 +95,10 @@ public class OapSql {
 		return "INSERT INTO `oa_clients` (`clientid`, `clientname`," +
 				" `contact`, `email`, `clientusername`, `clientpassword`, `permissions`," +
 				" `language`, `report`, `reportinterval`, `reportlastdate`, `reportdeactivate`," +
-				" `lb_reporting`, `agencyid`, `comments`, `updated`, `an_adnetwork_id`," +
-				" `as_advertiser_id`) " +
+				" `lb_reporting`, `agencyid`, `comments`, `updated`) " +
 				"VALUES(" +
 				client + ", 'QA', 'qa', 'nobody@example.com', 'adv', '4acedbc1e89475eeeabf43c3088ed4a0'," +
-				" 187, 'english', 't', 7, '2007-11-27', 't', 'f', 0, '', '2007-11-27 12:07:23', NULL, NULL);";
+				" 187, 'english', 't', 7, '2007-11-27', 't', 'f', 0, '', '2007-11-27 12:07:23');";
 	}
 
 	private String getCampaign() {

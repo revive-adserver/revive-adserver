@@ -86018,16 +86018,6 @@
     </field>
 
     <field>
-     <name>an_adnetwork_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>as_advertiser_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
      <name>account_id</name>
      <value>4</value>
     </field>
@@ -86094,16 +86084,6 @@
     <field>
      <name>updated</name>
      <value>2008-01-29 11:05:12</value>
-    </field>
-
-    <field>
-     <name>an_adnetwork_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>as_advertiser_id</name>
-     <value>1</value>
     </field>
 
     <field>
@@ -86176,16 +86156,6 @@
     </field>
 
     <field>
-     <name>an_adnetwork_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>as_advertiser_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
      <name>account_id</name>
      <value>6</value>
     </field>
@@ -86252,16 +86222,6 @@
     <field>
      <name>updated</name>
      <value>2008-01-29 11:05:12</value>
-    </field>
-
-    <field>
-     <name>an_adnetwork_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>as_advertiser_id</name>
-     <value>1</value>
     </field>
 
     <field>
@@ -86334,16 +86294,6 @@
     </field>
 
     <field>
-     <name>an_adnetwork_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>as_advertiser_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
      <name>account_id</name>
      <value>8</value>
     </field>
@@ -86413,16 +86363,6 @@
     </field>
 
     <field>
-     <name>an_adnetwork_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>as_advertiser_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
      <name>account_id</name>
      <value>9</value>
     </field>
@@ -86489,16 +86429,6 @@
     <field>
      <name>updated</name>
      <value>2008-01-29 11:05:13</value>
-    </field>
-
-    <field>
-     <name>an_adnetwork_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>as_advertiser_id</name>
-     <value>1</value>
     </field>
 
     <field>
@@ -86571,16 +86501,6 @@
     </field>
 
     <field>
-     <name>an_adnetwork_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>as_advertiser_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
      <name>account_id</name>
      <value>11</value>
     </field>
@@ -86647,16 +86567,6 @@
     <field>
      <name>updated</name>
      <value>2008-01-29 11:05:13</value>
-    </field>
-
-    <field>
-     <name>an_adnetwork_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>as_advertiser_id</name>
-     <value>1</value>
     </field>
 
     <field>
@@ -86729,16 +86639,6 @@
     </field>
 
     <field>
-     <name>an_adnetwork_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>as_advertiser_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
      <name>account_id</name>
      <value>13</value>
     </field>
@@ -86805,16 +86705,6 @@
     <field>
      <name>updated</name>
      <value>2008-01-29 11:05:13</value>
-    </field>
-
-    <field>
-     <name>an_adnetwork_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>as_advertiser_id</name>
-     <value>1</value>
     </field>
 
     <field>
@@ -86887,16 +86777,6 @@
     </field>
 
     <field>
-     <name>an_adnetwork_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>as_advertiser_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
      <name>account_id</name>
      <value>15</value>
     </field>
@@ -86963,16 +86843,6 @@
     <field>
      <name>updated</name>
      <value>2008-01-29 11:05:13</value>
-    </field>
-
-    <field>
-     <name>an_adnetwork_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>as_advertiser_id</name>
-     <value>1</value>
     </field>
 
     <field>
@@ -87045,16 +86915,6 @@
     </field>
 
     <field>
-     <name>an_adnetwork_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>as_advertiser_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
      <name>account_id</name>
      <value>17</value>
     </field>
@@ -87121,16 +86981,6 @@
     <field>
      <name>updated</name>
      <value>2008-01-29 11:05:13</value>
-    </field>
-
-    <field>
-     <name>an_adnetwork_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>as_advertiser_id</name>
-     <value>1</value>
     </field>
 
     <field>
@@ -87203,16 +87053,6 @@
     </field>
 
     <field>
-     <name>an_adnetwork_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>as_advertiser_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
      <name>account_id</name>
      <value>19</value>
     </field>
@@ -87279,16 +87119,6 @@
     <field>
      <name>updated</name>
      <value>2008-01-29 11:05:13</value>
-    </field>
-
-    <field>
-     <name>an_adnetwork_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>as_advertiser_id</name>
-     <value>1</value>
     </field>
 
     <field>
@@ -87361,16 +87191,6 @@
     </field>
 
     <field>
-     <name>an_adnetwork_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>as_advertiser_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
      <name>account_id</name>
      <value>21</value>
     </field>
@@ -87437,16 +87257,6 @@
     <field>
      <name>updated</name>
      <value>2008-01-29 11:05:13</value>
-    </field>
-
-    <field>
-     <name>an_adnetwork_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>as_advertiser_id</name>
-     <value>1</value>
     </field>
 
     <field>
@@ -87519,16 +87329,6 @@
     </field>
 
     <field>
-     <name>an_adnetwork_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>as_advertiser_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
      <name>account_id</name>
      <value>23</value>
     </field>
@@ -87595,16 +87395,6 @@
     <field>
      <name>updated</name>
      <value>2008-01-29 11:05:13</value>
-    </field>
-
-    <field>
-     <name>an_adnetwork_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>as_advertiser_id</name>
-     <value>1</value>
     </field>
 
     <field>
@@ -87677,16 +87467,6 @@
     </field>
 
     <field>
-     <name>an_adnetwork_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>as_advertiser_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
      <name>account_id</name>
      <value>25</value>
     </field>
@@ -87753,16 +87533,6 @@
     <field>
      <name>updated</name>
      <value>2008-01-29 11:05:13</value>
-    </field>
-
-    <field>
-     <name>an_adnetwork_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>as_advertiser_id</name>
-     <value>1</value>
     </field>
 
     <field>
@@ -87835,16 +87605,6 @@
     </field>
 
     <field>
-     <name>an_adnetwork_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>as_advertiser_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
      <name>account_id</name>
      <value>27</value>
     </field>
@@ -87911,16 +87671,6 @@
     <field>
      <name>updated</name>
      <value>2008-01-29 11:05:13</value>
-    </field>
-
-    <field>
-     <name>an_adnetwork_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>as_advertiser_id</name>
-     <value>1</value>
     </field>
 
     <field>
@@ -87993,16 +87743,6 @@
     </field>
 
     <field>
-     <name>an_adnetwork_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>as_advertiser_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
      <name>account_id</name>
      <value>29</value>
     </field>
@@ -88069,16 +87809,6 @@
     <field>
      <name>updated</name>
      <value>2008-01-29 11:05:13</value>
-    </field>
-
-    <field>
-     <name>an_adnetwork_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>as_advertiser_id</name>
-     <value>1</value>
     </field>
 
     <field>
@@ -88151,16 +87881,6 @@
     </field>
 
     <field>
-     <name>an_adnetwork_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>as_advertiser_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
      <name>account_id</name>
      <value>31</value>
     </field>
@@ -88227,16 +87947,6 @@
     <field>
      <name>updated</name>
      <value>2008-01-29 11:05:13</value>
-    </field>
-
-    <field>
-     <name>an_adnetwork_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>as_advertiser_id</name>
-     <value>1</value>
     </field>
 
     <field>
@@ -88309,16 +88019,6 @@
     </field>
 
     <field>
-     <name>an_adnetwork_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>as_advertiser_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
      <name>account_id</name>
      <value>33</value>
     </field>
@@ -88385,16 +88085,6 @@
     <field>
      <name>updated</name>
      <value>2008-01-29 11:05:13</value>
-    </field>
-
-    <field>
-     <name>an_adnetwork_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>as_advertiser_id</name>
-     <value>1</value>
     </field>
 
     <field>
@@ -88467,16 +88157,6 @@
     </field>
 
     <field>
-     <name>an_adnetwork_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>as_advertiser_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
      <name>account_id</name>
      <value>35</value>
     </field>
@@ -88543,16 +88223,6 @@
     <field>
      <name>updated</name>
      <value>2008-01-29 11:05:13</value>
-    </field>
-
-    <field>
-     <name>an_adnetwork_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>as_advertiser_id</name>
-     <value>1</value>
     </field>
 
     <field>

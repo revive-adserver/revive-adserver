@@ -1571,16 +1571,6 @@
     </field>
 
     <field>
-     <name>an_adnetwork_id</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>as_advertiser_id</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>account_id</name>
      <value></value>
     </field>
