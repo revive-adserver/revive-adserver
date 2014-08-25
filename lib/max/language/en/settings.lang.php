@@ -453,7 +453,7 @@ $GLOBALS['strEmailAddressFrom']                      = "Email address to send re
 $GLOBALS['strEmailAddressName']                      = "Company or personal name to sign off email with";
 $GLOBALS['strWarnAdmin']                             = "Send a warning to the administrator every time a campaign is almost expired";
 $GLOBALS['strWarnClient']                            = "Send a warning to the advertiser every time a campaign is almost expired";
-$GLOBALS['strWarnAgency']                            = "Send a warning to the agency every time a campaign is almost expired";
+$GLOBALS['strWarnAgency']                            = "Send a warning to the account every time a campaign is almost expired";
 
 // UI Settings
 $GLOBALS['strGuiSettings']                           = "User Interface Settings";
