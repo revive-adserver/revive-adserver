@@ -23946,27 +23946,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -24160,28 +24140,8 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
      <value>-1</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
-     <value>0</value>
     </field>
 
     <field>
@@ -24374,27 +24334,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -24588,27 +24528,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -24802,27 +24722,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -25016,27 +24916,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -25230,27 +25110,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -25444,27 +25304,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -25658,27 +25498,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -25872,27 +25692,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -26086,27 +25886,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -26300,27 +26080,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -26514,27 +26274,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -26728,27 +26468,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -26942,27 +26662,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -27156,27 +26856,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -27370,27 +27050,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -27584,27 +27244,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -27798,27 +27438,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -28012,27 +27632,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -28226,27 +27826,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -28440,27 +28020,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -28654,27 +28214,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -28868,27 +28408,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -29082,27 +28602,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -29296,27 +28796,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -29510,27 +28990,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -29724,27 +29184,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -29938,27 +29378,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -30152,27 +29572,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -30366,27 +29766,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -30580,27 +29960,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -30794,27 +30154,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -31008,27 +30348,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -31222,27 +30542,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -31436,27 +30736,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -31650,27 +30930,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -31864,27 +31124,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -32078,27 +31318,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -32292,27 +31512,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -32506,27 +31706,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -32720,27 +31900,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -32934,27 +32094,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -33148,27 +32288,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -33362,27 +32482,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -33576,27 +32676,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -33790,27 +32870,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -34004,27 +33064,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -34218,27 +33258,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -34432,27 +33452,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -34646,27 +33646,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -34860,27 +33840,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -35074,27 +34034,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -35288,27 +34228,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -35502,27 +34422,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -35716,27 +34616,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -35930,27 +34810,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -36144,27 +35004,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -36358,27 +35198,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -36572,27 +35392,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -36786,27 +35586,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -37000,27 +35780,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -37214,27 +35974,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -37428,27 +36168,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -37642,27 +36362,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -37856,27 +36556,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -38070,27 +36750,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -38284,27 +36944,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -38498,27 +37138,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -38712,27 +37332,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -38926,27 +37526,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -39140,27 +37720,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -39354,27 +37914,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -39568,27 +38108,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -39782,27 +38302,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -39996,27 +38496,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -40210,27 +38690,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -40424,27 +38884,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -40638,27 +39078,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -40852,27 +39272,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -41066,27 +39466,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -41280,27 +39660,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -41494,27 +39854,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -41708,27 +40048,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -41922,27 +40242,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -42136,27 +40436,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -42350,27 +40630,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -42564,27 +40824,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -42778,27 +41018,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -42992,27 +41212,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -43206,27 +41406,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -43420,27 +41600,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -43634,27 +41794,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -43848,27 +41988,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -44062,27 +42182,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -44276,27 +42376,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -44490,27 +42570,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -44704,27 +42764,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -44918,27 +42958,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -45132,27 +43152,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -45346,27 +43346,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -45560,27 +43540,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -45774,27 +43734,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -45988,27 +43928,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -46202,27 +44122,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -46416,27 +44316,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -46630,27 +44510,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -46844,27 +44704,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -47058,27 +44898,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -47272,27 +45092,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -47486,27 +45286,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -47700,27 +45480,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -47914,27 +45674,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -48128,27 +45868,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -48342,27 +46062,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -48556,27 +46256,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -48770,27 +46450,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -48984,27 +46644,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -49198,27 +46838,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -49412,27 +47032,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -49626,27 +47226,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -49840,27 +47420,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -50054,27 +47614,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -50268,27 +47808,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -50482,27 +48002,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -50696,27 +48196,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -50910,27 +48390,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -51124,27 +48584,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -51338,27 +48778,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -51552,27 +48972,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -51766,27 +49166,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -51980,27 +49360,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -52194,27 +49554,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -52408,27 +49748,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -52622,27 +49942,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -52836,27 +50136,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -53050,27 +50330,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -53264,27 +50524,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -53478,27 +50718,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -53692,27 +50912,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -53906,27 +51106,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -54120,27 +51300,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -54334,27 +51494,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -54548,27 +51688,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -54762,27 +51882,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -54976,27 +52076,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -55190,27 +52270,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -55404,27 +52464,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -55618,27 +52658,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -55832,27 +52852,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -56046,27 +53046,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -56260,27 +53240,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -56474,27 +53434,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -56688,27 +53628,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -56902,27 +53822,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -57116,27 +54016,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -57330,27 +54210,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -57544,27 +54404,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -57758,27 +54598,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -57972,27 +54792,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -58186,27 +54986,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -58400,27 +55180,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -58614,27 +55374,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -58828,27 +55568,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -59042,27 +55762,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -59256,27 +55956,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -59470,27 +56150,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -59684,27 +56344,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -59898,27 +56538,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -60112,27 +56732,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -60326,27 +56926,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -60540,27 +57120,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -60754,27 +57314,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -60968,27 +57508,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -61182,27 +57702,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -61396,27 +57896,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -61610,27 +58090,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -61824,27 +58284,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -62038,27 +58478,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -62252,27 +58672,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -62466,27 +58866,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -62680,27 +59060,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -62894,27 +59254,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -63108,27 +59448,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -63322,27 +59642,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -63536,27 +59836,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -63750,27 +60030,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -63964,27 +60224,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -64178,27 +60418,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -64392,27 +60612,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -64606,27 +60806,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -64820,27 +61000,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -65034,27 +61194,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -65248,27 +61388,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -65462,27 +61582,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -65676,27 +61776,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -65890,27 +61970,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -66104,27 +62164,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -66318,27 +62358,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -66532,27 +62552,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -66746,27 +62746,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -66960,27 +62940,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -67174,27 +63134,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -67388,27 +63328,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -67602,27 +63522,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -67816,27 +63716,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -68030,27 +63910,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -68244,27 +64104,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -68458,27 +64298,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -68672,27 +64492,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -68886,27 +64686,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -69100,27 +64880,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -69314,27 +65074,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -69528,27 +65268,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -69742,27 +65462,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -69956,27 +65656,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -70170,27 +65850,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -70384,27 +66044,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -70598,27 +66238,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -70812,27 +66432,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -71026,27 +66626,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -71240,27 +66820,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -71454,27 +67014,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -71668,27 +67208,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -71882,27 +67402,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -72096,27 +67596,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -72310,27 +67790,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -72524,27 +67984,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -72738,27 +68178,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 
@@ -72952,27 +68372,7 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>ad_direct_rejection_reason_id</name>
      <value>0</value>
     </field>
 

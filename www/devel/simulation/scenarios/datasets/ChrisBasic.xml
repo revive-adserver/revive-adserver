@@ -637,16 +637,6 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>status</name>
      <value>0</value>
     </field>
@@ -846,16 +836,6 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>status</name>
      <value>0</value>
     </field>
@@ -1051,16 +1031,6 @@
 
     <field>
      <name>parameters</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>an_banner_id</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
      <value></value>
     </field>
 

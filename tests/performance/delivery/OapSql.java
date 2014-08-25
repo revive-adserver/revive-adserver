@@ -81,13 +81,13 @@ public class OapSql {
 				" `compiledlimitation`, `append`, `appendtype`, `bannertype`, `transparent`," +
 				" `campaignid`, `adserver`, `session_capping`, `acl_plugins`, `alt_filename`," +
 				" `alt_imageurl`, `alt_contenttype`, `comments`, `updated`, `parameters`," +
-				" `acls_updated`, `statustext`, `an_banner_id`, `as_banner_id`, `status`) " +
+				" `acls_updated`, `statustext`, `status`) " +
 				"VALUES(" +
 				banner + ", 'gif', 0, 'sql', '120x120.gif', '', '', '', 120, 120, 1, 0, ''," +
 				" 'http://www.wp.pl', '', '', '', '', 'f', 0, 0, 0x74727565, 0x48744d6c202d20," +
 				" 0, 0, 0, " +
 				campaign+", '', 0, '', '', '', '', '', '2007-11-20 15:14:41'," +
-				" 'N;', '2007-11-20 15:14:41', '', NULL, NULL, 0);";}
+				" 'N;', '2007-11-20 15:14:41', '', 0);";}
 
 	private String getClient() {
 		client++;
