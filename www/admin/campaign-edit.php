@@ -31,7 +31,7 @@ require_once MAX_PATH . '/lib/max/Dal/DataObjects/Campaigns.php';
 
 
 // Register input variables
-phpAds_registerGlobalUnslashed ( 'start', 'startSet', 'anonymous', 'campaignname', 'clicks', 'companion', 'show_capped_no_cookie', 'comments', 'conversions', 'end', 'endSet', 'priority', 'high_priority_value', 'revenue', 'revenue_type', 'submit', 'submit_status', 'target_old', 'target_type_old', 'target_value', 'target_type', 'rd_impr_bkd', 'rd_click_bkd', 'rd_conv_bkd', 'impressions', 'weight_old', 'weight', 'clientid', 'status', 'status_old', 'as_reject_reason', 'an_status', 'previousimpressions', 'previousconversions', 'previousclicks' );
+phpAds_registerGlobalUnslashed ( 'start', 'startSet', 'anonymous', 'campaignname', 'clicks', 'companion', 'show_capped_no_cookie', 'comments', 'conversions', 'end', 'endSet', 'priority', 'high_priority_value', 'revenue', 'revenue_type', 'submit', 'submit_status', 'target_old', 'target_type_old', 'target_value', 'target_type', 'rd_impr_bkd', 'rd_click_bkd', 'rd_conv_bkd', 'impressions', 'weight_old', 'weight', 'clientid', 'status', 'status_old', 'previousimpressions', 'previousconversions', 'previousclicks' );
 
 // Security check
 OA_Permission::enforceAccount ( OA_ACCOUNT_MANAGER );
@@ -75,8 +75,6 @@ if ($campaignid != "") {
         $campaign['expire_date'] = $oExpireDate->format('%Y-%m-%d');
     }
     $campaign['status'] = $doCampaigns->status;
-    $campaign['an_status'] = $doCampaigns->an_status;
-    $campaign['as_reject_reason'] = $doCampaigns->as_reject_reason;
 
     if (!empty($data['activate_time'])) {
         $oActivateDate = new Date($data['activate_time']);
@@ -916,7 +914,6 @@ function processStatusForm($form)
     //update status for existing campaign
     $doCampaigns = OA_Dal::factoryDO ( 'campaigns' );
     $doCampaigns->campaignid = $aFields['campaignid'];
-    $doCampaigns->as_reject_reason = $aFields['as_reject_reason'];
     $doCampaigns->status = $aFields['status'];
     $doCampaigns->update ();
 

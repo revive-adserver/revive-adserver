@@ -107,13 +107,12 @@ public class OapSql {
 				" `activate`, `priority`, `weight`, `target_impression`," +
 				" `target_click`, `target_conversion`, `anonymous`, `companion`," +
 				" `comments`, `revenue`, `revenue_type`, `updated`, `block`," +
-				" `capping`, `session_capping`, `an_campaign_id`, `as_campaign_id`," +
-				" `status`, `an_status`) " +
+				" `capping`, `session_capping`, `status`) " +
 				"VALUES(" +
 				campaign + ", 'QA - Default Campaign"+campaign+"', " +
 				client + ", 1000, 1000, 1000, '0000-00-00'," +
 				" '0000-00-00', -1, 1, 0, 0, 0, 'f', 0, '', 1.0000, 2, '2007-11-20 16:09:08'," +
-				" 0, 0, 0, NULL, NULL, 0, 0);";
+				" 0, 0, 0, 0);";
 	}
 
 	private String getAdZoneAssoc() {

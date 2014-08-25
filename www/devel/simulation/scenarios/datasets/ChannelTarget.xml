@@ -771,27 +771,7 @@
     </field>
 
     <field>
-     <name>an_campaign_id</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>as_campaign_id</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>an_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_reject_reason</name>
      <value>0</value>
     </field>
 
