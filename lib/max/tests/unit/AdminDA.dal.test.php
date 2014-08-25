@@ -757,7 +757,6 @@ class Admin_DaTest extends DalUnitTestCase
         unset($aZone1['capping']);
         unset($aZone1['session_capping']);
         unset($aZone1['category']);
-        unset($aZone1['is_in_ad_direct']);
         unset($aZone1['rate']);
         unset($aZone1['pricing']);
         unset($aZone1['show_capped_no_cookie']);

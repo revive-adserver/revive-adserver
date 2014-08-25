@@ -66,11 +66,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
     public $block;                           // INT(11) => openads_int => 129 
     public $capping;                         // INT(11) => openads_int => 129 
     public $session_capping;                 // INT(11) => openads_int => 129 
-    public $an_campaign_id;                  // INT(11) => openads_int => 1 
-    public $as_campaign_id;                  // INT(11) => openads_int => 1 
     public $status;                          // INT(11) => openads_int => 129 
-    public $an_status;                       // INT(11) => openads_int => 129 
-    public $as_reject_reason;                // INT(11) => openads_int => 129 
     public $hosted_views;                    // INT(11) => openads_int => 129 
     public $hosted_clicks;                   // INT(11) => openads_int => 129 
     public $viewwindow;                      // MEDIUMINT(9) => openads_mediumint => 129 
@@ -105,8 +101,6 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
                 'session_capping' => 0,
                 'show_capped_no_cookie' => 1,
                 'status' => 0,
-                'an_status' => 0,
-                'as_reject_reason' => 0,
                 'hosted_views' => 0,
                 'hosted_clicks' => 0,
                 'viewwindow' => 0,

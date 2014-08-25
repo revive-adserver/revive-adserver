@@ -239,11 +239,6 @@
     </field>
 
     <field>
-     <name>an_website_id</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>oac_country_code</name>
      <value></value>
     </field>
@@ -255,11 +250,6 @@
 
     <field>
      <name>oac_category_id</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>as_website_id</name>
      <value></value>
     </field>
 
@@ -652,16 +642,6 @@
     </field>
 
     <field>
-     <name>an_banner_id</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>as_banner_id</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>status</name>
      <value>0</value>
     </field>
@@ -791,27 +771,7 @@
     </field>
 
     <field>
-     <name>an_campaign_id</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>as_campaign_id</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>an_status</name>
-     <value>0</value>
-    </field>
-
-    <field>
-     <name>as_reject_reason</name>
      <value>0</value>
     </field>
 
@@ -1015,16 +975,6 @@
     <field>
      <name>lb_reporting</name>
      <value>0</value>
-    </field>
-
-    <field>
-     <name>an_adnetwork_id</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>as_advertiser_id</name>
-     <value></value>
     </field>
 
     <field>
@@ -1717,11 +1667,6 @@
 
     <field>
      <name>what</name>
-     <value></value>
-    </field>
-
-    <field>
-     <name>as_zone_id</name>
      <value></value>
     </field>
 
