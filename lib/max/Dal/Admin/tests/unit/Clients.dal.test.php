@@ -181,7 +181,7 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
         // Test 3
         $aClients = $this->dalClients->getAdvertiserDetails(2);
         $this->assertTrue(is_array($aClients));
-        $this->assertEqual(count($aClients), 16);
+        $this->assertEqual(count($aClients), 14);
         $this->assertEqual($aClients['clientid'], 2);
         $this->assertTrue(array_key_exists('agencyid', $aClients));
         $this->assertTrue(array_key_exists('clientname', $aClients));
