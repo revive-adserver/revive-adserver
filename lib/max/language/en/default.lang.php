@@ -172,14 +172,6 @@ $GLOBALS['strDashboardErrorMsg822']     = "M2M authentication error - password a
 $GLOBALS['strDashboardErrorMsg823']     = "M2M authentication error - password invalid";
 $GLOBALS['strDashboardErrorMsg824']     = "M2M authentication error - password expired";
 $GLOBALS['strDashboardErrorMsg825']     = "M2M authentication error - cannot connect";
-$GLOBALS['strDashboardErrorMsg826']     = "M2M authentication error - cannot reconnect";
-
-$GLOBALS['strDashboardErrorDsc800']     = "The dashboard pulls information from a central server for some widgets. There are several things which can affect this.<br />
-                                           Your server may not have the the Curl extension enabled. You may need to install or enable the Curl extension, see <a href='http://php.net/curl'>here</a> for more details.<br />
-                                           You should also check that your firewall isn't blocking outbound connections.";
-$GLOBALS['strDashboardErrorDsc803']     = "Error in request to server - wrong parameters, please try to resend your data";
-$GLOBALS['strDashboardErrorDsc805']     = "XML-RPC connection wasn't allowed during " . PRODUCT_NAME . " installation and " . PRODUCT_NAME . " central server does not recognize your installation as valid.<br />
-                                           Please go to Administrator's account My account -> Product Updates to connect to and register in central server.";
 
 // Priority
 $GLOBALS['strPriority']                 = "Priority";

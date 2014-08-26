@@ -1306,10 +1306,6 @@ $GLOBALS['strDashboardErrorMsg822'] = "Error de autenticación M2M - clave de ac
 $GLOBALS['strDashboardErrorMsg823'] = "Error de autenticación M2M - password inválido";
 $GLOBALS['strDashboardErrorMsg824'] = "Error de autenticación M2M - el password ha expirado";
 $GLOBALS['strDashboardErrorMsg825'] = "Error de autenticación M2M - imposible conectarse";
-$GLOBALS['strDashboardErrorMsg826'] = "Error de autenticación M2M - imposible reconectarse";
-$GLOBALS['strDashboardErrorDsc800'] = "El Tablero coloca información desde un servidor central para algunos widgets. Ha varias cosas que pueden afectar esto.<br />Su servidor puede no tener activada la extensión Curl. Usted podrá necesitar instalar o activarla la extensión Curl. Haga clic <a href='http://php.net/curl'>aquí</a> para más detalles.<br />	Debe comprobar también que su firewall o cortafuegos no esté bloqueando alguna conexión saliente.";
-$GLOBALS['strDashboardErrorDsc803'] = "Error de solicitud al servidor - parámetros equivocados, por favor reintente enviando los datos. ";
-$GLOBALS['strDashboardErrorDsc805'] = "La conexión XML-RPC no fue permitida durante la instalación de OpenX y El servidor central de OpenX no reconoce su instalación de Openx como valida.<br />	                                           Por favor, como Administrador, vaya a Mi Cuenta -> Actualizar Producto para conectarse y registrarse con el servidor central.";
 $GLOBALS['strActions'] = "Acción";
 $GLOBALS['strFinanceCTR'] = "CTR";
 $GLOBALS['strNoClientsForBanners'] = "No hay actualmente anunciantes definidos . Para crear una campaña, <a href='advertiser-edit.php'>agregue un anunciante</a> primero.";

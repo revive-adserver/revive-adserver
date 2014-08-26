@@ -1337,10 +1337,6 @@ $GLOBALS['strDashboardErrorMsg822'] = "M2M認証エラー - パスワードは�
 $GLOBALS['strDashboardErrorMsg823'] = "M2M認証エラー - パスワードが合致しません";
 $GLOBALS['strDashboardErrorMsg824'] = "M2M認証エラー - パスワードは失効しました";
 $GLOBALS['strDashboardErrorMsg825'] = "M2M認証エラー - 接続エラー";
-$GLOBALS['strDashboardErrorMsg826'] = "M2M認証エラー - 再接続エラー";
-$GLOBALS['strDashboardErrorDsc800'] = "ダッシュボードはOpenXセントラルサーバからウィジェットに情報をプルします。このことに影響を与えるいくつかのことがあります。<br/>                                           　　サーバはCurlエクステンションが有効になっていないかもしれませんが、Curlエクステンションをインストールするか有効にしてください。詳しくは、<a href='http://php.net/curl'>ここ</a>を参照してください。<br/>                                           　　また、その際ファイアウォールがアウトバウンド接続をブロックしていないかチェックしてください。";
-$GLOBALS['strDashboardErrorDsc803'] = "サーバへの不正パラメータリクエストによりエラーが発生しました。データを修正して再度送信してください。";
-$GLOBALS['strDashboardErrorDsc805'] = "OpenXのインストール中にXML-RPC接続が許可されなかったので、OpenXセントラルサーバはOpenXの正常インストールを認識していません。<br />                                           　　OpenXセントラルサーバに接続し登録するには、管理者アカウントのマイアカウント -> 製品アップデートに進んでください。";
 $GLOBALS['strActions'] = "アクション";
 $GLOBALS['strFinanceCTR'] = "CTR";
 $GLOBALS['strNoClientsForBanners'] = "広告主が存在しません。キャンペーンを作成するためには、先に<a href='advertiser-edit.php'>広告主の作成</a>をして下さい。";

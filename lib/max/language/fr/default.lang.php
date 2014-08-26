@@ -1186,10 +1186,6 @@ $GLOBALS['strDashboardErrorMsg822'] = "Erreur d'authentification M2M - mot de pa
 $GLOBALS['strDashboardErrorMsg823'] = "Erreur d'authentification M2M - mot de passe invalide";
 $GLOBALS['strDashboardErrorMsg824'] = "Erreur d'authentification M2M - mot de passe expiré";
 $GLOBALS['strDashboardErrorMsg825'] = "Erreur d'authentification M2M - connexion impossible";
-$GLOBALS['strDashboardErrorMsg826'] = "Erreur d'authentification M2M - reconnexion impossible";
-$GLOBALS['strDashboardErrorDsc800'] = "Le tableau de bord tire ses informations d'un serveur central pour certains widgets. Plusieurs choses peuvent affecter cela.<br />Votre serveur peut ne pas avoir l'extension Curl activée. Vous pourriez avoir besoin d'installer ou d'activer l'extension Curl, voir <a href='http://php.net/curl'>ici</a> pour plus d'informations.<br />	                                           Vous devriez aussi vérifier que votre pare-feu ne bloque pas les connexions sortantes.";
-$GLOBALS['strDashboardErrorDsc803'] = "Erreur dans la requête au serveur - mauvais paramètres, veuillez essayer de renvoyer vos données";
-$GLOBALS['strDashboardErrorDsc805'] = "La connexion XML-RPC n'a pas été autorisée lors de l'installation d'OpenX et le serveur central OpenX ne reconnaît pas votre installation comme étant valide.<br />	                                           Veuillez aller dans le compte Administrateur, Mon compte > Mises à jour produit pour vous connecter et vous inscrire dans le serveur central.";
 $GLOBALS['strActions'] = "Actions";
 $GLOBALS['strMore'] = "Plus";
 $GLOBALS['strLess'] = "Moins";

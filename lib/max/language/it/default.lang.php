@@ -1173,10 +1173,6 @@ $GLOBALS['strDashboardErrorMsg822'] = "Errore di autenticazione M2M: la password
 $GLOBALS['strDashboardErrorMsg823'] = "Errore di autenticazione M2M: password non valida";
 $GLOBALS['strDashboardErrorMsg824'] = "Errore di autenticazione M2M: password scaduta";
 $GLOBALS['strDashboardErrorMsg825'] = "Errore di autenticazione M2M: connessione fallita";
-$GLOBALS['strDashboardErrorMsg826'] = "Errore di autenticazione M2M: riconnessione fallita";
-$GLOBALS['strDashboardErrorDsc800'] = "Per alcuni widget il cruscotto ottiene informazioni da un server centrale. Ci sono alcune cose che potrebbero influire sul buon esito dell'operazione.<br /> Il tuo server potrebbe essere stato configurato senza estensione CURL. Potresti aver necessità di installare o abilitare l' <a href='http://it.php.net/curl'>estensione CURL</a>, controlla nel manuale PHP per aver maggiori dettagli.<br /> Inoltre controlla che il firewall del tuo server consenta le connessioni in uscita.";
-$GLOBALS['strDashboardErrorDsc803'] = "Errore nella richiesta al server: parametri errati, per favore ritenta l'invio dei tuoi dati.";
-$GLOBALS['strDashboardErrorDsc805'] = "La connessione XML-RPC non è stata permessa durante l'installazione di OpenX quindi il server centrale di OpenX non ha riconosciuto come valida questa installazione. <br /> Per favore, visita la pagina <em>Account amministratore » Il mio account » Aggiornamenti prodotto</em> e registrati nuovamente sul server centrale.";
 $GLOBALS['strActions'] = "Azione";
 $GLOBALS['strFinanceCTR'] = "CTR";
 $GLOBALS['strNoClientsForBanners'] = "Non è stato definito alcun inserzionista. Per creare una campagna, prima <a href='advertiser-edit.php'>aggiungi un inserzionista</a>.";

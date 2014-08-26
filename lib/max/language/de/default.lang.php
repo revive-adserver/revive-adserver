@@ -1323,10 +1323,6 @@ $GLOBALS['strDashboardErrorMsg822'] = "M2M Bestätigungsfehler - Passwort bereit
 $GLOBALS['strDashboardErrorMsg823'] = "M2M Bestätigungsfehler - Passwort ungültig";
 $GLOBALS['strDashboardErrorMsg824'] = "M2M Bestätigungsfehler - Passwort abgelaufen";
 $GLOBALS['strDashboardErrorMsg825'] = "M2M Bestätigungsfehler - Verbindung nicht möglich";
-$GLOBALS['strDashboardErrorMsg826'] = "M2M Bestätigungsfehler - Verbindung wiederherstellen nicht möglich";
-$GLOBALS['strDashboardErrorDsc800'] = "Das Dashboard lädt für einige Widgets Informationen von einem zentralen Server. Es gibt einige Gründe die diesen Vorgang beeinflussen.<br />Möglicherweise verfügt Ihr Server nicht über die nötige curl-Extension, weitere <a href='http://php.net/curl'>Details finden Sie hier</a>.<br />Zusätzlich können Sie überprüfen ob Ihre Firewall ausgehende Verbindungen abweist.";
-$GLOBALS['strDashboardErrorDsc803'] = "Fehler beim Abruf vom Server - falsche Parameter, bitte versuchen Sie Ihre Daten erneut zu senden";
-$GLOBALS['strDashboardErrorDsc805'] = "Eine XML-RPC Verbindung war während der Installation von OpenX nicht erlaubt und so hat der OpenX Zentral-Server Ihre OpenX-Installation nicht als gültig erkannt.<br />Bitte wechseln Sie als Administrator in Mein Benutzerzugang -> Produkt-Update um sich mit mit dem Zentral-Server zu verbinden und dort zu registrieren. ";
 $GLOBALS['strActions'] = "Aktionen";
 $GLOBALS['strMore'] = "Mehr";
 $GLOBALS['strLess'] = "Weniger";

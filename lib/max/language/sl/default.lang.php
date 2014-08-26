@@ -952,10 +952,6 @@ $GLOBALS['strDashboardErrorMsg822'] = "M2M napaka pristnosti - geslo je že ustv
 $GLOBALS['strDashboardErrorMsg823'] = "M2M napaka pristnosti - neveljavno geslo";
 $GLOBALS['strDashboardErrorMsg824'] = "M2M napaka pristnosti - potečeno geslo";
 $GLOBALS['strDashboardErrorMsg825'] = "M2M napaka pristnosti - ne morem se povezati";
-$GLOBALS['strDashboardErrorMsg826'] = "M2M napaka pristnosti - ne morem se znova povezati";
-$GLOBALS['strDashboardErrorDsc800'] = "Nadzorna plošča pridobiva podatke iz centralnega strežnika za nekatere naprave. Na to lahko vpliva veliko stvari.<br />Vaš strežnik mogoče nima omogočene Curl razširitve. Verjetno boste morali namestiti in omogočiti to razširitev, za več informacij si oglejte <a href='http://php.net/curl'>here</a> .<br />	                                           Preverite tudi nastavitve odhodnih povezav vašega požarnega zidu .";
-$GLOBALS['strDashboardErrorDsc803'] = "Napaka pri povezovanju s strežnikom - napačne postavke, prosimo, znova pošljite vaše podatke";
-$GLOBALS['strDashboardErrorDsc805'] = "XML-RPC povezava ni bila dovoljena med namestitvijo OpenX-a, zato centralni OpenX strežnik vaše namestitve ne prepoznava kot veljavne.<br />	                                           Prosimo, pojdite v administratorski račun in registrirajte svojo različico OpenX-a.";
 $GLOBALS['strActions'] = "Dejanja";
 $GLOBALS['strMore'] = "Več";
 $GLOBALS['strLess'] = "Manj";

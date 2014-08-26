@@ -1159,10 +1159,6 @@ $GLOBALS['strDashboardErrorMsg822'] = "Błąd autoryzacji M2M - hasło już stwo
 $GLOBALS['strDashboardErrorMsg823'] = "Błąd autoryzacji M2M - nieprawidłowe hasło";
 $GLOBALS['strDashboardErrorMsg824'] = "Błąd autoryzacji M2M - hasło wygasło";
 $GLOBALS['strDashboardErrorMsg825'] = "Błąd autoryzacji M2M - brak połączenia";
-$GLOBALS['strDashboardErrorMsg826'] = "Błąd autoryzacji M2M - brak ponownego połączenia";
-$GLOBALS['strDashboardErrorDsc800'] = "Dla niektórych widżetów panel pobiera informacje z serwera centralnego. Jest kilka rzeczy, które mogą mieć na to wpływ.<br /> Twój serwer może nie mieć włączonego rozszerzenia Curl. Być może trzeba zainstalować lub włączyć rozszerzenie Curl, sprawdź <a href='http://php.net/curl'>tutaj</a>, aby otrzymać więcej szczegółów.<br />	                                           Należy również sprawdzić, czy zapora nie blokuje połączeń wychodzących.";
-$GLOBALS['strDashboardErrorDsc803'] = "Błąd we wniosku do serwera - błędne parametry, proszę poprawić swoje dane";
-$GLOBALS['strDashboardErrorDsc805'] = "Połączenie XML-RPC nie zostało dopuszczone podczas instalacji OpenX i centralny serwer OpenX nie uznaje Twojej instalacji OpenX za prawidłową.<br />	                                           Przejdź do konta administratora: Moje konto -> Aktualizacje produktów, aby połączyć się i zarejestrować w serwerze centralnym.";
 $GLOBALS['strActions'] = "Operacje";
 $GLOBALS['strAdditionalInformation'] = "Informacje dodatkowe";
 $GLOBALS['strDashboardCantBeDisplayed'] = "Panel nawigacyjny nie może zostać wyświetlony";

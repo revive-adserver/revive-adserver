@@ -939,10 +939,6 @@ $GLOBALS['strDashboardErrorMsg822'] = "Eroare de autentificare M2M - parola a fo
 $GLOBALS['strDashboardErrorMsg823'] = "Eroare de autentificare M2M - parolă greşită";
 $GLOBALS['strDashboardErrorMsg824'] = "Eroare de autentificare M2M - parola a expirat";
 $GLOBALS['strDashboardErrorMsg825'] = "Eroare de autentificare M2M - nu se poate conecta";
-$GLOBALS['strDashboardErrorMsg826'] = "Eroare de autentificare M2M - nu se poate reconecta";
-$GLOBALS['strDashboardErrorDsc800'] = "Panoul principal extrage informaţii de la un server central pentru câteva widgeturi. Sunt câteva lucruri care pot afecta această funcţionare.<br />Este posibil ca serverul tău să nu aibă activată extensia Curl. Probabil va trebui să instalezi sau să activezi extensia Curl; citeşte <a href='http://php.net/curl'>aici</a> pentru mai multe informaţii.<br />Ar trebui deasemenea să verifici dacă firewallul tău nu blochează cumva conexiunile de ieşire.";
-$GLOBALS['strDashboardErrorDsc803'] = "Eroare în cererea adresată serverului - parametri greşiţi, te rugăm să retrimiţi datele";
-$GLOBALS['strDashboardErrorDsc805'] = "Conexiunea XML-RPC nu a fost permisă în timpul instalării OpenX şi serverul central OpenX nu recunoaşte instalarea ta OpenX ca fiind validă.<br />Te rugăm să accesezi Contul Administratorului (Contul Meu -> Actualizări Produs) pentru a te conecta şi a te înregistra la serverul central.";
 $GLOBALS['strActions'] = "Acţiune";
 $GLOBALS['strFinanceCTR'] = "CTR";
 $GLOBALS['strNoClientsForBanners'] = "Momentan nu este nici un advertiser definit. Pentru a crea o campanie, <a href='advertiser-edit.php'>adaugă un advertiser</a> mai întâi.";
