@@ -16,7 +16,7 @@ $GLOBALS['strChooseInstallLanguage']        = "Choose language for the installat
 $GLOBALS['strLanguageSelection']            = "Language Selection";
 $GLOBALS['strDatabaseSettings']             = "Database Settings";
 $GLOBALS['strAdminSettings']                = "Administrator Settings";
-$GLOBALS['strAdminAccount']                 = "Administrator Account";
+$GLOBALS['strAdminAccount']                 = "System Administrator Account";
 $GLOBALS['strAdministrativeSettings']       = "Administrative Settings";
 $GLOBALS['strAdvancedSettings']             = "Advanced Settings";
 $GLOBALS['strOtherSettings']                = "Other settings";
@@ -150,7 +150,7 @@ $GLOBALS['strConfigurationSettings']                 = "Configuration settings";
 
 // Administrator Settings
 $GLOBALS['strAdministratorSettings']                 = "Administrator Settings";
-$GLOBALS['strAdministratorAccount']                  = "The Administrator Account";
+$GLOBALS['strAdministratorAccount']                  = "The System Administrator Account";
 $GLOBALS['strLoginCredentials']                      = "Login Credentials";
 $GLOBALS['strAdminUsername']                         = "Administrator  Username";
 $GLOBALS['strAdminPassword']                         = "Administrator  Password";
@@ -176,7 +176,7 @@ $GLOBALS['strTimezoneEstimated']                     = "Estimated Timezone";
 $GLOBALS['strTimezoneGuessedValue']                  = "Server timezone not correctly set in PHP";
 $GLOBALS['strTimezoneSeeDocs']                       = "Please see the %DOCS% about setting this variable for PHP.";
 $GLOBALS['strTimezoneDocumentation']                 = "documentation";
-$GLOBALS['strAdminSettingsTitle']                    = "Create an administrator account";
+$GLOBALS['strAdminSettingsTitle']                    = "Create a system administrator account";
 $GLOBALS['strAdminSettingsIntro']                    = "Please complete this form to create your ad server administration account.";
 $GLOBALS['strConfigSettingsIntro']                   = "Please check the configuration settings below and make any required changes before proceeding. If unsure, leave the default values.";
 

@@ -420,12 +420,6 @@ admin      = /www/admin/plugins/
 var        = /var/plugins/
 repo       = "../plugins_repo/release/|../etc/plugins/" ; http://your.test.server/path_to_plugins/
 
-[pluginUpdatesServer]
-protocol=http
-host=code.openx.org
-path=/openx/plugin-updates
-httpPort=80
-
 [pluginSettings]
 enableOnInstall = true
 useMergedFunctions = true
