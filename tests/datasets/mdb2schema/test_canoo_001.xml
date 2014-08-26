@@ -2330,7 +2330,7 @@
 
     <field>
      <name>account_name</name>
-     <value>Default manager</value>
+     <value>Default account</value>
     </field>
 
    </insert>
@@ -3137,7 +3137,7 @@
 
     <field>
      <name>name</name>
-     <value>Default manager</value>
+     <value>Default account</value>
     </field>
 
     <field>

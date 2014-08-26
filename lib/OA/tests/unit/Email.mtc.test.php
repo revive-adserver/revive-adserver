@@ -678,7 +678,7 @@ class Test_OA_Email extends UnitTestCase
         // Prepare an admin user
          // Create the admin account
         $doAccounts = OA_Dal::factoryDO('accounts');
-        $doAccounts->account_name = 'Administrator Account';
+        $doAccounts->account_name = 'System Administrator';
         $doAccounts->account_type = OA_ACCOUNT_ADMIN;
         $adminAccountId = DataGenerator::generateOne($doAccounts);
 
@@ -1332,7 +1332,7 @@ class Test_OA_Email extends UnitTestCase
         // Prepare an admin user
          // Create the admin account
         $doAccounts = OA_Dal::factoryDO('accounts');
-        $doAccounts->account_name = 'Administrator Account';
+        $doAccounts->account_name = 'System Administrator';
         $doAccounts->account_type = OA_ACCOUNT_ADMIN;
         $adminAccountId = DataGenerator::generateOne($doAccounts);
 

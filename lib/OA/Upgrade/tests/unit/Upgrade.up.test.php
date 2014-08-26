@@ -760,7 +760,7 @@ class Test_OA_Upgrade extends UnitTestCase
         $doAccount = OA_Dal::factoryDO('accounts');
         $doAccount->get($adminAccountId);
         $this->assertEqual($doAccount->account_type, OA_ACCOUNT_ADMIN);
-        $this->assertEqual($doAccount->account_name, 'Administrator account');
+        $this->assertEqual($doAccount->account_name, 'System Administrator');
         
         // user exists
         $doUser =  OA_Dal::factoryDO('users');
@@ -782,7 +782,7 @@ class Test_OA_Upgrade extends UnitTestCase
         $doAgency->joinAdd($doAccount);
         $doAgency->find();
         $this->assertTrue($doAgency->fetch());
-        $this->assertEqual($doAgency->name, 'Default manager');
+        $this->assertEqual($doAgency->name, 'Default account');
         $this->assertEqual($doAgency->email, $aAdmin['email']);
         $this->assertEqual($doAgency->active, 1);
         

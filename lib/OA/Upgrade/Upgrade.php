@@ -1672,7 +1672,7 @@ class OA_Upgrade
 
             // Create Admin account
             $doAccount = OA_Dal::factoryDO('accounts');
-            $doAccount->account_name = 'Administrator account';
+            $doAccount->account_name = 'System Administrator';
             $doAccount->account_type = OA_ACCOUNT_ADMIN;
             $adminAccountId = $doAccount->insert();
 
@@ -1682,7 +1682,7 @@ class OA_Upgrade
 
             // Create Manager entity
             $doAgency = OA_Dal::factoryDO('agency');
-            $doAgency->name   = 'Default manager';
+            $doAgency->name   = 'Default account';
             $doAgency->email  = $aAdmin['email'];
             $doAgency->active = 1;
             $agencyId = $doAgency->insert();
