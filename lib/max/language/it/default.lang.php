@@ -989,7 +989,6 @@ $GLOBALS['strSwitchAccount'] = "Passa a questo account";
 $GLOBALS['strAdditionalItems'] = "e oggetti aggiuntivi";
 $GLOBALS['strFor'] = "per";
 $GLOBALS['strFieldStartDateBeforeEnd'] = "La data di inizio deve essere antecedente alla data di fine";
-$GLOBALS['strDashboardDocs'] = "Documentazione OpenX";
 $GLOBALS['strLinkUserHelpUser'] = "nome utente";
 $GLOBALS['strLinkUserHelpEmail'] = "indirizzo email";
 $GLOBALS['strSessionIDNotMatch'] = "Errore nel cookie di sessione, per favore entra nuovamente.";

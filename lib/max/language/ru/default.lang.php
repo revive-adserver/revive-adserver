@@ -1011,7 +1011,6 @@ $GLOBALS['strSwitchAccount'] = "Переключиться в этот акка�
 $GLOBALS['strAdditionalItems'] = "добавить дополнительные элементы";
 $GLOBALS['strFor'] = "для";
 $GLOBALS['strFieldStartDateBeforeEnd'] = "\'От' должно быть ранее даты 'До'";
-$GLOBALS['strDashboardDocs'] = "Документация OpenX";
 $GLOBALS['strLinkUserHelpUser'] = "Имя пользователя";
 $GLOBALS['strLinkUserHelpEmail'] = "Адрес e-mail";
 $GLOBALS['strSessionIDNotMatch'] = "Ошибка cookie, пожалуйста, авторизуйтесь заново";

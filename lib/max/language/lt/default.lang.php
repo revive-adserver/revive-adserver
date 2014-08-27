@@ -676,7 +676,6 @@ $GLOBALS['strWorksheets'] = "Darbalaukiai";
 $GLOBALS['strSwitchAccount'] = "Perjungti į šią sąskaitą";
 $GLOBALS['strAdditionalItems'] = "Pridėti papildomų punktų";
 $GLOBALS['strFor'] = "skirta";
-$GLOBALS['strDashboardDocs'] = "OpenX dokumentai";
 $GLOBALS['strLinkUserHelpUser'] = "Vartotojo vardas";
 $GLOBALS['strLinkUserHelpEmail'] = "El. pašto adresas";
 $GLOBALS['strSessionIDNotMatch'] = "Sesijos cookie klaida, prašome prisijungti dar kartą";

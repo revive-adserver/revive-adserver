@@ -131,11 +131,6 @@ $GLOBALS['strPercentageOfTotal']        = '% Gesamt';
 $GLOBALS['strValue']                    = 'Wert';
 $GLOBALS['strAdmin']                    = 'Admin';
 
-// Dashboard
-$GLOBALS['strDashboardCommunity']       = 'Community';
-$GLOBALS['strDashboardDashboard']       = 'Dashboard';
-$GLOBALS['strDashboardDocs']            = 'OpenX Dokumentation';
-
 // Priority
 $GLOBALS['strPriority']				= "Priorität";
 $GLOBALS['strPriorityLevel']		= "Dringlichkeitsstufe";

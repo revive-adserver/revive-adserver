@@ -993,7 +993,6 @@ $GLOBALS['strVariableHidden'] = "Esconder variável de sites?";
 $GLOBALS['strTrackerImageTag'] = "Tag de imagem";
 $GLOBALS['strTrackerJsTag'] = "Tag de javascript";
 $GLOBALS['strFieldStartDateBeforeEnd'] = "A data 'De' deve ser anterior à data 'Até'";
-$GLOBALS['strDashboardDocs'] = "Documentação do OpenX";
 $GLOBALS['strLinkUserHelpUser'] = "Nome de usuário";
 $GLOBALS['strLinkUserHelpEmail'] = "Endereço de e-mail";
 $GLOBALS['strSessionIDNotMatch'] = "Erro no cookie de sessão, por favor faça login novamente";

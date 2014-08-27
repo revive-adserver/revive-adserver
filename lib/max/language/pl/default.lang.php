@@ -973,7 +973,6 @@ $GLOBALS['strSwitchAccount'] = "Zmień konto";
 $GLOBALS['strAdditionalItems'] = "oraz dodatkowych pozycji";
 $GLOBALS['strFor'] = "dla";
 $GLOBALS['strFieldStartDateBeforeEnd'] = "Data 'Od' musi być wcześniejsza niż data 'Do'";
-$GLOBALS['strDashboardDocs'] = "Dokumentacja OpenX";
 $GLOBALS['strLinkUserHelpUser'] = "Nazwa użytkownika";
 $GLOBALS['strLinkUserHelpEmail'] = "adres e-mail";
 $GLOBALS['strSessionIDNotMatch'] = "Błąd cookie, zaloguj się ponownie";

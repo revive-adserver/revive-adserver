@@ -1167,7 +1167,6 @@ $GLOBALS['strCampaignWarningRemnantNoWeight'] = "La tipo de esta campaña se ha 
 $GLOBALS['strConversionType'] = "Tipo de Conversión";
 $GLOBALS['strTrackerImageTag'] = "Tag de Imagen";
 $GLOBALS['strTrackerJsTag'] = "Tag de Javascript";
-$GLOBALS['strDashboardDocs'] = "Documentación de OpenX";
 $GLOBALS['strLinkUserHelpUser'] = "Nombre de usuario";
 $GLOBALS['strLinkUserHelpEmail'] = "Dirección e-mail";
 $GLOBALS['strSessionIDNotMatch'] = "Error de cookie de sesión, por favor ingrese de nuevo.";

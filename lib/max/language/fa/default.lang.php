@@ -138,11 +138,6 @@ $GLOBALS['strAdmin']                    = 'مدیر';
 $GLOBALS['strWarning']                  = 'اخطار';
 $GLOBALS['strNotice']                   = 'توجه';
 
-// Dashboard
-$GLOBALS['strDashboardCommunity']       = 'انجمن';
-$GLOBALS['strDashboardDashboard']       = 'Dashboard';
-$GLOBALS['strDashboardDocs']            = 'Openads Docs';
-
 // Priority
 $GLOBALS['strPriority']                 = "اولویت";
 $GLOBALS['strPriorityLevel']            = "درجه اولویت";

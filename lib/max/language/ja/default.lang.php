@@ -128,11 +128,6 @@ $GLOBALS['strAdmin']                    		= "管理者";
 $GLOBALS['strWarning']                  		= '警告';
 $GLOBALS['strNotice']                   		= 'お知らせ';
 
-// Dashboard
-$GLOBALS['strDashboardCommunity']       		= 'コミュニティ';
-$GLOBALS['strDashboardDashboard']       		= 'ダッシュボード';
-$GLOBALS['strDashboardDocs']            		= 'OpenX Docs';
-
 // Priority
 $GLOBALS['strPriority']                 		= "優先度";
 $GLOBALS['strPriorityLevel']            		= "優先度レベル";

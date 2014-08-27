@@ -143,9 +143,6 @@ $GLOBALS['strRequiredField']            = "Required field";
 $GLOBALS['strCloseWindow']              = "Close window";
 
 // Dashboard
-$GLOBALS['strDashboardCommunity']       = "Community";
-$GLOBALS['strDashboardDashboard']       = "Dashboard";
-$GLOBALS['strDashboardDocs']            = PRODUCT_NAME . " Docs";
 $GLOBALS['strDashboardCantBeDisplayed'] = "The dashboard can not be displayed";
 $GLOBALS['strNoCheckForUpdates']        = "The dashboard cannot be displayed unless the<br />check for updates setting is enabled.";
 $GLOBALS['strEnableCheckForUpdates']    = "Please enable the <a href='account-settings-update.php' target='_top'>check for updates</a> setting on the<br/><a href='account-settings-update.php' target='_top'>update settings</a> page.";
