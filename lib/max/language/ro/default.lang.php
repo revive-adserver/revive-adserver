@@ -921,7 +921,6 @@ $GLOBALS['str_sk'] = "Slovacă";
 $GLOBALS['str_sv'] = "Suedeză";
 $GLOBALS['str_uk'] = "Ucrainiană";
 $GLOBALS['strDashboardErrorCode'] = "cod";
-$GLOBALS['strDashboardGenericError'] = "Eroare generică";
 $GLOBALS['strDashboardSystemMessage'] = "Mesaj al sistemului";
 $GLOBALS['strDashboardErrorHelp'] = "Daca această eroare se va repeta te rugăm să descrii problema detaliat şi să o postezi în <a href='http://forum.openx.org/'>forumul OpenX</a>.";
 $GLOBALS['strActions'] = "Acţiune";

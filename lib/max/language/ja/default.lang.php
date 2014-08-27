@@ -1319,7 +1319,6 @@ $GLOBALS['str_sk'] = "スロバキア語";
 $GLOBALS['str_sv'] = "スウェーデン語";
 $GLOBALS['str_uk'] = "ウクライナ語";
 $GLOBALS['strDashboardErrorCode'] = "エラーコード";
-$GLOBALS['strDashboardGenericError'] = "一般エラー";
 $GLOBALS['strDashboardSystemMessage'] = "システムメッセージ";
 $GLOBALS['strDashboardErrorHelp'] = "このエラーが繰り返し発生する場合、問題の詳細を<a href='http://forum.openx.org/'>OpenXフォーラム</a>に投稿してください。";
 $GLOBALS['strActions'] = "アクション";

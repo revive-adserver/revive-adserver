@@ -934,7 +934,6 @@ $GLOBALS['str_sv'] = "Švedščina";
 $GLOBALS['str_uk'] = "Ukrajinščina";
 $GLOBALS['str_zh_TW'] = "Tradicionalna kitajščina";
 $GLOBALS['strDashboardErrorCode'] = "koda";
-$GLOBALS['strDashboardGenericError'] = "Splošna napaka";
 $GLOBALS['strDashboardSystemMessage'] = "Sistemsko sporočilo";
 $GLOBALS['strDashboardErrorHelp'] = "Če se ta napaka ponovi, jo prosimo podrobno opišite in objavite na <a href='http://forum.openx.org/'>OpenX forumu</a>.";
 $GLOBALS['strActions'] = "Dejanja";

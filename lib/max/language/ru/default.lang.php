@@ -1173,7 +1173,6 @@ $GLOBALS['str_sk'] = "Словацкий";
 $GLOBALS['str_sv'] = "Шведский";
 $GLOBALS['str_uk'] = "Украинский";
 $GLOBALS['strDashboardErrorCode'] = "код";
-$GLOBALS['strDashboardGenericError'] = "Основная ошибка";
 $GLOBALS['strDashboardSystemMessage'] = "Системное собщение";
 $GLOBALS['strDashboardErrorHelp'] = "Если эта ошибка повторяется просьба описать проблему в деталях и разместить её на <a href='http://forum.openx.org/'>OpenX форуме</а>.";
 $GLOBALS['strActions'] = "Действие";

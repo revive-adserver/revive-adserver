@@ -1141,7 +1141,6 @@ $GLOBALS['str_sv'] = "Szwedzki";
 $GLOBALS['str_uk'] = "Ukraiński";
 $GLOBALS['str_zh_TW'] = "Chiński (pismo tradycyjne)";
 $GLOBALS['strDashboardErrorCode'] = "kod";
-$GLOBALS['strDashboardGenericError'] = "Typowy błąd";
 $GLOBALS['strDashboardSystemMessage'] = "Wiadomość systemowa";
 $GLOBALS['strDashboardErrorHelp'] = "Jeśli błąd będzie się powtarzał proszę opisz problem szczegółowo na <a href='http://forum.openx.org/'>forum OpenX</a>.";
 $GLOBALS['strActions'] = "Operacje";

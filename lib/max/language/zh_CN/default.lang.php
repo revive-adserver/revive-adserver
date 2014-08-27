@@ -156,9 +156,8 @@ $GLOBALS['strAccessHomePage']           = "Click here to access your Home page";
 $GLOBALS['strEditSyncSettings']         = "and edit your synchronization settings";
 // Dashboard Errors
 $GLOBALS['strDashboardErrorCode']       = "code";
-$GLOBALS['strDashboardGenericError']    = "Generic error";
 $GLOBALS['strDashboardSystemMessage']   = "System message";
-$GLOBALS['strDashboardErrorHelp']       = "If this error repeats please describe your problem in detail and post it on the <a href='http://www.revive-adserver.com/'>www.revive-adserver.com</a>.";
+$GLOBALS['strDashboardErrorHelp']       = "If this error repeats please describe your problem in detail and post it on <a href='http://forum.revive-adserver.com/'>forum.revive-adserver.com/</a>.";
 
 // Priority
 $GLOBALS['strPriority']                 = "优先级";
