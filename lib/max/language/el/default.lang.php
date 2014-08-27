@@ -309,7 +309,6 @@ $GLOBALS['strAgencies'] = "Λογαριασμός";
 $GLOBALS['strAccount'] = "Λογαριασμός";
 $GLOBALS['strImpressionSR'] = "Εντυπώσεις";
 $GLOBALS['strGlobalSettings'] = "Γενικές Ρυθμίσεις";
-$GLOBALS['strDashboardErrorMsg806'] = "Σφάλμα διακομιστή";
 $GLOBALS['strActions'] = "Ενέργεια";
 $GLOBALS['strFinanceCTR'] = "CTR";
 $GLOBALS['strAdvertiserCampaigns'] = "Διαφημιζόμενοι & Καμπάνιες";

@@ -157,21 +157,6 @@ $GLOBALS['strDashboardErrorCode']       = "code";
 $GLOBALS['strDashboardGenericError']    = "Generic error";
 $GLOBALS['strDashboardSystemMessage']   = "System message";
 $GLOBALS['strDashboardErrorHelp']       = "If this error repeats please describe your problem in detail and post it on the <a href='http://www.revive-adserver.com/'>www.revive-adserver.com</a>.";
-$GLOBALS['strDashboardErrorMsg800']     = "XML-RPC connection error";
-$GLOBALS['strDashboardErrorMsg801']     = "Not authenticated";
-$GLOBALS['strDashboardErrorMsg802']     = "CAPTCHA failed";
-$GLOBALS['strDashboardErrorMsg803']     = "Wrong parameters";
-$GLOBALS['strDashboardErrorMsg804']     = "User name does not match platform";
-$GLOBALS['strDashboardErrorMsg805']     = "Platform does not exist";
-$GLOBALS['strDashboardErrorMsg806']     = "Server error";
-$GLOBALS['strDashboardErrorMsg807']     = "Not authorised";
-$GLOBALS['strDashboardErrorMsg808']     = "XML-RPC version not supported";
-$GLOBALS['strDashboardErrorMsg900']     = "Transport error code";
-$GLOBALS['strDashboardErrorMsg821']     = "M2M authentication error - account type not allowed";
-$GLOBALS['strDashboardErrorMsg822']     = "M2M authentication error - password already generated";
-$GLOBALS['strDashboardErrorMsg823']     = "M2M authentication error - password invalid";
-$GLOBALS['strDashboardErrorMsg824']     = "M2M authentication error - password expired";
-$GLOBALS['strDashboardErrorMsg825']     = "M2M authentication error - cannot connect";
 
 // Priority
 $GLOBALS['strPriority']                 = "Priority";
