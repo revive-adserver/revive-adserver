@@ -65,6 +65,12 @@ What's New in Revive Adserver 3.1.0
    process for Revive Adserver 3.1.0, as they were deprecated with the removal
    of the OpenX Market in version 3.0.0. Please ensure that you back up your
    Revive Adserver database before upgrading to 3.1.0.
+
+ * Existing accounts with the name "Default manager" will be updated to
+   "Default Account" to ensure the account name is consistent with updated
+   language files. Similarly, existing accounts with the name "Administrator
+   account" will be updated to "System Administrator".
+
  * Activation/deactivation emails and scheduled reports are now disabled by
    default when creating new advertisers via the API, in order to match the UI
    behaviour. This does not affect any existing advertiser account settings for
