@@ -28,12 +28,17 @@ What's New in Revive Adserver 3.1.0
  ------------
 
  * The "Contract (Exclusive)" campaign type has been re-named to "Override".
+
  * The Revive Adserver delivery engine now includes a completely inclusive
    CORS header (i.e. 'Access-Control-Allow-Origin: *').
+
  * The domain used for the viewerId cookie is now configurable.
+
  * The "My Account" main menu has been re-named to "Preferences" for clarity.
+
  * The quick navigation dropdown lists for advertisers/campaigns and websites is
    now sorted alphabetically.
+
  * The "midnight" sync process that checks for updates to Revive Adserver is
    now the very last thing to happen in the overall maintenance process.
 
@@ -42,21 +47,32 @@ What's New in Revive Adserver 3.1.0
 
  * Fixed the preview of all banners on the "Banners" page user interface
    preference.
+
  * Fixed incorrectly displayed error message when trying to link a banner to
    an email zone where the banner's parent campaign dates overlap with an
    already linked campaign.
+
  * Fixed incorrectly displayed message stating that a link has been created when
    trying to link an email zone to a banner where the banner's parent campaign
    dates overlap with an already linked campaign.
+
  * VAST tracking URLs now use https:// when called via SSL.
+
  * Removed useless Content-Length headers when sending the 1x1 transparent gif
    and spc delivery files, as the header interferes with ob_gzhandler and/or
    zlib.output_compression.
+
  * Fixed issue with banner delivery over SSL when using Postgres.
+
  * Fixed click redirection to internationalized domain names when the IDN
    functions are available (PHP 5.3+).
+
  * Properly display the current value in the UI when settings contain an
    underscore in their name.
+
+ * Properly display 'Site - Variable' delivery limitations when the value is set
+   to zero (i.e. '0').
+
  * Fixed product name and removed bad documentation link on installer pre-check
    warning page.
 
