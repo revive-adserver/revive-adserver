@@ -11,8 +11,7 @@
 */
 
 /**
- * @package    OpenX
- * @author     Andrew Hill <andrew.hill@openx.org>
+ * @package    Revive Adserver
  *
  * A file of memory-related functions, that are used as part of the UI system's
  * pre-initialisation "pre-check.php" file, and also as part of the delivery

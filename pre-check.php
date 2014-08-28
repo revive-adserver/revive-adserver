@@ -11,10 +11,9 @@
 */
 
 /**
- * @package    OpenX
- * @author     Łukasz Wikierski <lukasz.wikierski@openx.org>
+ * @package    Revive Adserver
  *
- * A pre-initialisation file to check if system settings allow OpenX
+ * A pre-initialisation file to check if system settings allow Revive Adserver
  * to be run or not.
  */
 
@@ -23,11 +22,12 @@ require_once 'memory.php';
 /**
  * A function to check system settings and display detected problems
  */
-function OX_initialSystemCheck(){
+function RV_initialSystemCheck()
+{
     $errorUrl = 'http://www.openx.org/help/2.8/pre-init-error/';
     $installed = OX_checkSystemInstalled();
     $aErrors = array();
-    $erorCode = OX_checkSystemInitialRequirements($aErrors);
+    $erorCode = RV_checkSystemInitialRequirements($aErrors);
     if ($erorCode !== true) {
         $imageRelativePath = "./www/admin/precheck/";
         // Do functions strpos & parse_url exist? If so, try to
@@ -43,118 +43,104 @@ function OX_initialSystemCheck(){
         // We always trying show images in CSS
         $bodyBackground = "url('{$imageRelativePath}body_piksel.gif') repeat-x";
         $liBackground = "background: url('{$imageRelativePath}list_element.gif') no-repeat;";
-        $openXLogo = "background: url('{$imageRelativePath}openx_logo.gif') no-repeat;";
+        $logo = "background: url('{$imageRelativePath}logo-adserver.png') no-repeat;";
 
-        $message = '
-            <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-            "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-            <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-            <head>
-            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-            <meta name="Keywords" content="" />
-            <meta name="Description" content="" />
-            <title>php Error page</title>
-<style type="text/css">
-body {
-    margin: 0;
-    background: #fff '. $bodyBackground .';
-    font-family: Arial, Helvetica, sans-serif;
-    font: 12px Arial;
-    color: #747474;
-}
-h1 {
-    width:80%;
-    font: 26px Arial;
-    color:#000;
-}
-h2 {
-    width:80%;
-    font:12px Arial;
-    color:#747474;
-    margin-top:20px;
-}
-.error_container {
-    margin-top: 80px;
-    margin-left: 93px;
-}
-.error_list {
-    width: 80%;
-    padding-left: 33px;
-    padding-top: 15px;
-    padding-bottom:15px;
-    line-height:18px;
-    border-top: 1px solid #eee;
-    border-bottom: 1px solid #eee;
-}
-ul {
-    list-style-type: none;
-    list-style-position: outside;
-    padding:0px;
-    padding-top:10px;
-    margin:0px;
-    margin-left:15px;
+        $message = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="Keywords" content="" />
+    <meta name="Description" content="" />
+    <title>php Error page</title>
+    <style type="text/css">
+        body {
+            margin: 0;
+            background: #fff '. $bodyBackground .';
+            font-family: Arial, Helvetica, sans-serif;
+            font: 12px Arial;
+            color: #747474;
+        }
+        h1 {
+            width:80%;
+            font: 26px Arial;
+            color:#000;
+        }
+        h2 {
+            width:80%;
+            font:12px Arial;
+            color:#747474;
+            margin-top:20px;
+        }
+        .error_container {
+            margin-top: 80px;
+            margin-left: 93px;
+        }
+        .error_list {
+            width: 80%;
+            padding-left: 33px;
+            padding-top: 15px;
+            padding-bottom:15px;
+            line-height:18px;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+        ul {
+            list-style-type: none;
+            list-style-position: outside;
+            padding:0px;
+            padding-top:10px;
+            margin:0px;
+            margin-left:15px;
 
-}
-li {
-    '.$liBackground.'
-    padding-left:10px;
-}
-.help_link:active, .help_link:link, .help_link:visited  {
-    color: #0767a8;
-    text-decoration:none;
-}
-.help_link:hover {
-    color: #0767a8;
-    text-decoration:underline;
-}
-.logo_image {
-    '.$openXLogo.'
-    width:  173px;
-    height: 60px;
-}
-
-</style>
-            </head>
-            <body>
-                <div class="logo_image">&nbsp;</div>
-                    <div class="error_container">
-        ';
+        }
+        li {
+            '.$liBackground.'
+            padding-left:10px;
+        }
+        .help_link:active, .help_link:link, .help_link:visited  {
+            color: #0767a8;
+            text-decoration:none;
+        }
+        .help_link:hover {
+            color: #0767a8;
+            text-decoration:underline;
+        }
+        .logo_image {
+            '.$logo.'
+            width:  270px;
+            height: 32px;
+        }
+    </style>
+  </head>
+  <body>
+  <div class="logo_image">&nbsp;</div>
+    <div class="error_container">';
         if ($installed) {
             $message .= "
-                <h1>Sorry, but OpenX cannot currently run on your machine</h1>
-            ";
+      <h1>Sorry, but Revive Adserver cannot currently run on your machine</h1>";
         } else {
             $message .= "
-                <h1>Sorry, but the OpenX installer system cannot currently be started</h1>
-            ";
+      <h1>Sorry, but the Revive Adserver installer system cannot currently be started</h1>";
         }
         $message .= '
-            <div class="error_list">
-            Detected problem';
+      <div class="error_list">
+        Detected problem';
         if (count($aErrors) > 1) {
             $message .= "s";
         }
         $message .= ":
-            <ul>
-        ";
+        <ul>";
         echo $message;
         foreach ($aErrors as $errorMessage) {
-            echo "<li>{$errorMessage}</li>";
+            echo "
+          <li>{$errorMessage}</li>";
         }
-        $message = '
-            </ul>
-            </div>
-            <h2>Please see our <a href="'.$errorUrl.'" class="help_link" >documentation</a> for help
-            with the above error';
-        if (count($aErrors) > 1) {
-            $message .= "s";
-        }
-        $message .= ".
-            </h2>
-            </div>
-            </body>
-            </html>
-        ";
+        $message = "
+        </ul>
+      </div>
+    </div>
+  </body>
+</html>";
         echo $message;
         // Terminate execution
         exit;
@@ -198,7 +184,7 @@ function OX_checkSystemInstalled()
  *                         -4 => The amount of memory required was too low
  *
  */
-function OX_checkSystemInitialRequirements(&$aErrors){
+function RV_checkSystemInitialRequirements(&$aErrors){
 
     // Variables for tracking if the test has passed or not,
     // and if not, what value to return
@@ -206,7 +192,7 @@ function OX_checkSystemInitialRequirements(&$aErrors){
     $return = true;
 
     // The general list of built in PHP functions that are required to
-    // run OpenX, apart from the functions:
+    // run Revive Adserver, apart from the functions:
     //
     //   - "function_exists"
     //   - "array_intersect"
@@ -343,5 +329,6 @@ function OX_checkSystemInitialRequirements(&$aErrors){
     return true;
 }
 
-OX_initialSystemCheck();
+RV_initialSystemCheck();
+
 ?>
