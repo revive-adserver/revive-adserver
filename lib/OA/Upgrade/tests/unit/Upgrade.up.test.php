@@ -760,7 +760,7 @@ class Test_OA_Upgrade extends UnitTestCase
         $doAccount = OA_Dal::factoryDO('accounts');
         $doAccount->get($adminAccountId);
         $this->assertEqual($doAccount->account_type, OA_ACCOUNT_ADMIN);
-        $this->assertEqual($doAccount->account_name, 'System Administrator');
+        $this->assertEqual($doAccount->account_name, 'Administrator account');
         
         // user exists
         $doUser =  OA_Dal::factoryDO('users');
