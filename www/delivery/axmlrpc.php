@@ -3498,7 +3498,7 @@ $aConf = $GLOBALS['_MAX']['CONF'];
 if (!function_exists('Plugin_BannerTypeHtml_delivery_adRender')) {
 @include LIB_PATH . '/Extension/bannerTypeHtml/bannerTypeHtmlDelivery.php';
 }
-return Plugin_BannerTypeHtml_delivery_adRender($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $loc, $referer);
+return Plugin_BannerTypeHtml_delivery_adRender($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $richMedia, $loc, $referer);
 }
 function _adRenderText(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $richMedia=false, $loc='', $referer='', $context=array())
 {
@@ -3506,7 +3506,7 @@ $aConf = $GLOBALS['_MAX']['CONF'];
 if (!function_exists('Plugin_BannerTypeText_delivery_adRender')) {
 @include LIB_PATH . '/Extension/bannerTypeText/bannerTypeTextDelivery.php';
 }
-return Plugin_BannerTypeText_delivery_adRender($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $loc, $referer);
+return Plugin_BannerTypeText_delivery_adRender($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $richMedia, $loc, $referer);
 }
 function _adRenderBuildFileUrl($aBanner, $useAlt = false, $params = '')
 {
