@@ -4,14 +4,14 @@
 <plugin>
     <name>oxHtml</name>
     <displayName>HTML Banner Type Plugin</displayName>
-    <creationDate>2014-04-08</creationDate>
+    <creationDate>2014-04-17</creationDate>
     <author>Revive Adserver</author>
     <authorEmail>revive@revive-adserver.com</authorEmail>
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>GNU Gneral Public License v2</license>
     <description>Plugin that provides the HTML banner type.</description>
-    <version>1.2.1</version>
-    <oxversion>2.7.30-beta-rc11</oxversion>
+    <version>1.2.2</version>
+    <oxversion>3.1-dev</oxversion>
     <extends>bannerTypeHtml</extends>
 
     <install>

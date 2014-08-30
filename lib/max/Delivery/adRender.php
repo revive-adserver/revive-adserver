@@ -284,6 +284,7 @@ function _adRenderImage(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=fal
  * @param bookean $logClick     Should this click be logged (clicks in admin should not be logged)
  * @param boolean $logView      Should this view be logged (views in admin should not be logged
  *                              also - 3rd party callback logging should not be logged at view time)
+ * @param boolean $richMedia    Does this invocation method allow for serving 3rd party/html ads
  * @param string  $loc          The "current page" URL
  * @param string  $referer      The "referring page" URL
  *
@@ -386,6 +387,7 @@ function _adRenderFlash(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=fal
  * @param boolean $logView      Should this view be logged (views in admin should not be logged
  *                              also - 3rd party callback logging should not be logged at view time)
  * @param boolean $useAlt       Should the backup file be used for this code
+ * @param boolean $richMedia    Does this invocation method allow for serving 3rd party/html ads
  * @param string  $loc          The "current page" URL
  * @param string  $referer      The "referring page" URL
  *
@@ -413,6 +415,7 @@ function _adRenderHtml(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=fals
  * @param boolean $logView      Should this view be logged (views in admin should not be logged
  *                              also - 3rd party callback logging should not be logged at view time)
  * @param boolean $useAlt       Should the backup file be used for this code
+ * @param boolean $richMedia    Does this invocation method allow for serving 3rd party/html ads
  * @param string  $loc          The "current page" URL
  * @param string  $referer      The "referring page" URL
  *
