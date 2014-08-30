@@ -326,7 +326,7 @@
          *    @access protected
          */
         function &_createShell() {
-            $shell = &new SimpleShell();
+            $shell = new SimpleShell();
             return $shell;
         }
     }

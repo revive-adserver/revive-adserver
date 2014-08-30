@@ -164,7 +164,7 @@ class OA_DB_Table
     function listOATablesCaseSensitive($like='')
     {
         OA_DB::setCaseSensitive();
-        $oDbh =& OA_DB::singleton();
+        $oDbh = OA_DB::singleton();
         $aDBTables = $oDbh->manager->listTables(null, $GLOBALS['_MAX']['CONF']['table']['prefix'].$like);
         OA_DB::disableCaseSensitive();
         sort($aDBTables);

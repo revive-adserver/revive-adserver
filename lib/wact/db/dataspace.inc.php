@@ -246,7 +246,7 @@ class DataSpace {
                 return new ObjectDataSpace($var);
             }
         } else if (is_array($var)) {
-            $dataspace =& new dataSpace();
+            $dataspace = new dataSpace();
             $dataspace->properties = $var;
             return $dataspace;
         } else {

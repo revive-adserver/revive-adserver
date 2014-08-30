@@ -7,7 +7,7 @@
     require_once(dirname(__FILE__) . '/../reporter.php');
     
     if (TEST == __FILE__) {
-        $test = &new UnitTests();
+        $test = new UnitTests();
         if (SimpleReporter::inCli()) {
             exit ($test->run(new TextReporter()) ? 0 : 1);
         }

@@ -42,7 +42,7 @@ class Test_OA_DB_Table_Core extends UnitTestCase
     {
         // Mock the OA_DB class used in the constructor method
         Mock::generate('OA_DB');
-        $oDbh =& new MockOA_DB($this);
+        $oDbh = new MockOA_DB($this);
 
         // Partially mock the OA_DB_Table_Core class, overriding the
         // inherited _getDbConnection() method

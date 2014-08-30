@@ -125,7 +125,7 @@ class OA_DB_Upgrade
      */
     function initMDB2Schema()
     {
-        $result  =&  MDB2_Schema::factory(OA_DB::singleton(OA_DB::getDsn()));
+        $result  = MDB2_Schema::factory(OA_DB::singleton(OA_DB::getDsn()));
         if (!$this->_isPearError($result, 'failed to instantiate MDB2_Schema'))
         {
             $this->oSchema = $result;

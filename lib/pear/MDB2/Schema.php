@@ -224,7 +224,7 @@ class MDB2_Schema extends PEAR
      */
     function &factory(&$db, $options = array())
     {
-        $obj =& new MDB2_Schema();
+        $obj = new MDB2_Schema();
         $err = $obj->connect($db, $options);
         if (PEAR::isError($err)) {
             return $err;
@@ -358,7 +358,7 @@ class MDB2_Schema extends PEAR
         $dtd_file = $this->options['dtd_file'];
         if ($dtd_file) {
             require_once 'XML/DTD/XmlValidator.php';
-            $dtd =& new XML_DTD_XmlValidator;
+            $dtd = new XML_DTD_XmlValidator;
             if (!$dtd->isValid($dtd_file, $input_file)) {
                 return $this->raiseError(MDB2_SCHEMA_ERROR_PARSE, null, null, $dtd->getMessage());
             }
@@ -370,7 +370,7 @@ class MDB2_Schema extends PEAR
             return $result;
         }
 
-        $parser =& new $class_name($variables, $fail_on_invalid_names, $structure, $this->options['valid_types'], $this->options['force_defaults']);
+        $parser = new $class_name($variables, $fail_on_invalid_names, $structure, $this->options['valid_types'], $this->options['force_defaults']);
         $result = $parser->setInputFile($input_file);
         if (PEAR::isError($result)) {
             return $result;
@@ -408,7 +408,7 @@ class MDB2_Schema extends PEAR
             return $result;
         }
         $variables['header_only'] = true;
-        $parser =& new $class_name($variables);
+        $parser = new $class_name($variables);
         $parser->validate = false;
         $result = $parser->setInputFile($input_file);
         if (PEAR::isError($result))
@@ -447,7 +447,7 @@ class MDB2_Schema extends PEAR
         $dtd_file = $this->options['dtd_file'];
         if ($dtd_file) {
             require_once 'XML/DTD/XmlValidator.php';
-            $dtd =& new XML_DTD_XmlValidator;
+            $dtd = new XML_DTD_XmlValidator;
             if (!$dtd->isValid($dtd_file, $input_file)) {
                 return $this->raiseError(MDB2_SCHEMA_ERROR_PARSE, null, null, $dtd->getMessage());
             }
@@ -459,7 +459,7 @@ class MDB2_Schema extends PEAR
             return $result;
         }
 
-        $parser =& new $class_name($variables, $fail_on_invalid_names, $structure, $this->options['valid_types'], $this->options['force_defaults']);
+        $parser = new $class_name($variables, $fail_on_invalid_names, $structure, $this->options['valid_types'], $this->options['force_defaults']);
         // structure has already been parsed
         $parser->database_definition = $database_definition;
         // don't validate database structure
@@ -2237,7 +2237,7 @@ class MDB2_Schema extends PEAR
                 }
             }
         }
-        $writer =& new $class_name($this->options['valid_types']);
+        $writer = new $class_name($this->options['valid_types']);
         return $writer->dumpDatabase($database_definition, $arguments, $dump);
     }
 
@@ -2284,7 +2284,7 @@ class MDB2_Schema extends PEAR
         {
             $prefix = $arguments['prefix'];
         }
-        $writer =& new $class_name($this->options['valid_types']);
+        $writer = new $class_name($this->options['valid_types']);
         $writer->dumpDatabaseHeader($database_definition, $arguments);
         // get initialization data
         if (isset($database_definition['tables']) && is_array($database_definition['tables']))
@@ -2637,7 +2637,7 @@ class MDB2_Schema extends PEAR
         if (PEAR::isError($result)) {
             return $result;
         }
-        $writer = & new $class_name($this->options['valid_types']);
+        $writer = new $class_name($this->options['valid_types']);
         if (PEAR::isError($writer)) {
             return $writer;
         }
@@ -2676,7 +2676,7 @@ class MDB2_Schema extends PEAR
         $dtd_file = $this->options['dtd_file'];
         if ($dtd_file) {
             require_once 'XML/DTD/XmlValidator.php';
-            $dtd =& new XML_DTD_XmlValidator;
+            $dtd = new XML_DTD_XmlValidator;
             if (!$dtd->isValid($dtd_file, $input_file)) {
                 return $this->raiseError(MDB2_SCHEMA_ERROR_PARSE, null, null, $dtd->getMessage());
             }
@@ -2688,10 +2688,10 @@ class MDB2_Schema extends PEAR
             return $result;
         }
 
-        $parser =& new $class_name($variables, $fail_on_invalid_names, $structure, $this->options['valid_types'], $this->options['force_defaults']);
+        $parser = new $class_name($variables, $fail_on_invalid_names, $structure, $this->options['valid_types'], $this->options['force_defaults']);
 
         $class_name = 'MDB2_Schema_Validate';
-        $parser->val =& new $class_name($fail_on_invalid_names, $this->options['valid_types'], $this->options['force_defaults']);
+        $parser->val = new $class_name($fail_on_invalid_names, $this->options['valid_types'], $this->options['force_defaults']);
 
         $result = $parser->setInputFile($input_file);
         if (PEAR::isError($result)) {
@@ -2732,7 +2732,7 @@ class MDB2_Schema extends PEAR
         $dtd_file = $this->options['dtd_file'];
         if ($dtd_file) {
             require_once 'XML/DTD/XmlValidator.php';
-            $dtd =& new XML_DTD_XmlValidator;
+            $dtd = new XML_DTD_XmlValidator;
             if (!$dtd->isValid($dtd_file, $input_file)) {
                 return $this->raiseError(MDB2_SCHEMA_ERROR_PARSE, null, null, $dtd->getMessage());
             }
@@ -2744,10 +2744,10 @@ class MDB2_Schema extends PEAR
             return $result;
         }
 
-        $parser =& new $class_name($variables, $fail_on_invalid_names, $structure, $this->options['valid_types'], $this->options['force_defaults']);
+        $parser = new $class_name($variables, $fail_on_invalid_names, $structure, $this->options['valid_types'], $this->options['force_defaults']);
 
         $class_name = 'MDB2_Schema_Validate';
-        $parser->val =& new $class_name($fail_on_invalid_names, $this->options['valid_types'], $this->options['force_defaults']);
+        $parser->val = new $class_name($fail_on_invalid_names, $this->options['valid_types'], $this->options['force_defaults']);
 
         $result = $parser->setInputFile($input_file);
         if (PEAR::isError($result)) {

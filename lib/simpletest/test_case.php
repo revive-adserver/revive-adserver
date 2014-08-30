@@ -105,9 +105,9 @@
          *    @access public
          */
         function &createInvoker() {
-            $invoker = &new SimpleErrorTrappingInvoker(new SimpleInvoker($this));
+            $invoker = new SimpleErrorTrappingInvoker(new SimpleInvoker($this));
             if (version_compare(phpversion(), '5') >= 0) {
-                $invoker = &new SimpleExceptionTrappingInvoker($invoker);
+                $invoker = new SimpleExceptionTrappingInvoker($invoker);
             }
             return $invoker;
         }
@@ -421,7 +421,7 @@
          */
         function addTestClass($class) {
             if ($this->_getBaseTestCase($class) == 'testsuite' || $this->_getBaseTestCase($class) == 'grouptest') {
-                $this->_test_cases[] = &new $class();
+                $this->_test_cases[] = new $class();
             } else {
                 $this->_test_cases[] = $class;
             }
@@ -537,7 +537,7 @@
          */
         function &_createGroupFromClasses($title, $classes) {
             SimpleTest::ignoreParentsIfIgnored($classes);
-            $group = &new TestSuite($title);
+            $group = new TestSuite($title);
             foreach ($classes as $class) {
                 if (! SimpleTest::isIgnored($class)) {
                     $group->addTestClass($class);
@@ -584,7 +584,7 @@
             for ($i = 0, $count = count($this->_test_cases); $i < $count; $i++) {
                 if (is_string($this->_test_cases[$i])) {
                     $class = $this->_test_cases[$i];
-                    $test = &new $class();
+                    $test = new $class();
                     $test->run($reporter);
                     unset($test);
                 } else {

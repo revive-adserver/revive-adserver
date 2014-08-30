@@ -140,7 +140,7 @@ class PEAR_Command
             return $a;
         }
         $ui =& PEAR_Command::getFrontendObject();
-        $obj = &new $class($ui, $config);
+        $obj = new $class($ui, $config);
         return $obj;
     }
 
@@ -157,7 +157,7 @@ class PEAR_Command
         }
         $ui =& PEAR_Command::getFrontendObject();
         $config = &PEAR_Config::singleton();
-        $obj = &new $class($ui, $config);
+        $obj = new $class($ui, $config);
         return $obj;
     }
 

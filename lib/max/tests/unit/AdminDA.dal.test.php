@@ -821,7 +821,7 @@ class Admin_DaTest extends DalUnitTestCase
 
     function testAddCategory()
     {
-        $name = & new Text_Password();
+        $name = new Text_Password();
 
         TestEnv::startTransaction();
 

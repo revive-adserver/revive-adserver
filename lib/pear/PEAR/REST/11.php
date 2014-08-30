@@ -46,7 +46,7 @@ class PEAR_REST_11
 
     function PEAR_REST_11($config, $options = array())
     {
-        $this->_rest = &new PEAR_REST($config, $options);
+        $this->_rest = new PEAR_REST($config, $options);
     }
 
     function listAll($base, $dostable, $basic = true)

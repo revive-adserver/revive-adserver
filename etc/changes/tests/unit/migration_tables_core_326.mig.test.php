@@ -61,7 +61,7 @@ class Migration_tables_core_326Test extends MigrationTest
         $oLogger = new OA_UpgradeLogger();
         $oLogger->setLogFile('DB_Upgrade.test.log');
 
-        $oDB_Upgrade = & new OA_DB_Upgrade($oLogger);
+        $oDB_Upgrade = new OA_DB_Upgrade($oLogger);
 
         $oDB_Upgrade->oAuditor = new $mockAuditor($this);
         $oDB_Upgrade->oAuditor->setReturnValue('logAuditAction', true);

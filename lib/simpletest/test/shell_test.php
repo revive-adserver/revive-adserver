@@ -6,13 +6,13 @@
     class TestOfShell extends UnitTestCase {
         
         function testEcho() {
-            $shell = &new SimpleShell();
+            $shell = new SimpleShell();
             $this->assertIdentical($shell->execute('echo Hello'), 0);
             $this->assertPattern('/Hello/', $shell->getOutput());
         }
         
         function testBadCommand() {
-            $shell = &new SimpleShell();
+            $shell = new SimpleShell();
             $this->assertNotEqual($ret = $shell->execute('blurgh! 2>&1'), 0);
         }
     }

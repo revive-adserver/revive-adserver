@@ -54,13 +54,13 @@ class OX_UpgradePluginImport extends OX_PluginExport
             $this->aErrors = $this->oPluginManager->aErrors;
             return false;
         }
-        $this->aPlugin = &$this->oPluginManager->aParse['package'];
+        $this->aPlugin = $this->oPluginManager->aParse['package'];
         if (!$this->oPluginManager->_parseComponentGroups($this->aPlugin['install']['contents']))
         {
             $this->aErrors = $this->oPluginManager->aErrors;
             return false;
         }
-        $this->aGroups = &$this->oPluginManager->aParse['plugins'];
+        $this->aGroups = $this->oPluginManager->aParse['plugins'];
         $this->_compileContents($name);
 
         // Check if any of the registered files are DataObject files

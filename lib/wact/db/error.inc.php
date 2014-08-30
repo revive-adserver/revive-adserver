@@ -28,7 +28,7 @@ function RaiseErrorHandler($group, $id, $info=NULL) {
         $phpAds_last_query = $info['sql'];
         phpAds_sqlDie();
     } else {
-        $oError = &new ErrorInfo();
+        $oError = new ErrorInfo();
         $oError->group = $group;
         $oError->id = $id;
         $oError->info = $info;

@@ -37,7 +37,7 @@ phpAds_MaintenanceSelection("appendcodes");
 /*-------------------------------------------------------*/
 
 // Init DAL
-$tr = & new MAX_Dal_Inventory_Trackers();
+$tr = new MAX_Dal_Inventory_Trackers();
 
 if (!empty($action) && ($action == 'Recompile')) {
     $tr->recompileAppendCodes();

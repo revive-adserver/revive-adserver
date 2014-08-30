@@ -154,7 +154,7 @@ class MDB2Connection {
 	* @access public
 	*/
 	function &NewRecord($DataSpace = NULL) {
-		$Record =& new MDB2Record($this);
+		$Record = new MDB2Record($this);
 		if (!is_null($DataSpace)) {
 			$Record->import($DataSpace->export());
 		}
@@ -171,7 +171,7 @@ class MDB2Connection {
 	* @access public
 	*/
 	function &NewRecordSet($query, $filter = NULL) {
-		$RecordSet =& new MDB2RecordSet($this, $query);
+		$RecordSet = new MDB2RecordSet($this, $query);
 		if (!is_null($filter)) {
 			$RecordSet->registerFilter($filter);
 		}
@@ -201,7 +201,7 @@ class MDB2Connection {
 	* @access public
 	*/
 	function &FindRecord($query) {
-		$Record =& new MDB2Record($this);
+		$Record = new MDB2Record($this);
 		$QueryId = $this->_execute($query);
 		$Record->properties =& $QueryId->fetchRow(MDB2_FETCHMODE_ASSOC);
 		$QueryId->free();

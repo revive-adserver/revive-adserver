@@ -45,7 +45,7 @@ class PEAR_REST_10
     var $_rest;
     function PEAR_REST_10($config, $options = array())
     {
-        $this->_rest = &new PEAR_REST($config, $options);
+        $this->_rest = new PEAR_REST($config, $options);
     }
 
     /**

@@ -87,7 +87,7 @@ class PEAR_Frontend extends PEAR
             }
         }
         if (class_exists($uiclass)) {
-            $obj = &new $uiclass;
+            $obj = new $uiclass;
             // quick test to see if this class implements a few of the most
             // important frontend methods
             if (is_a($obj, 'PEAR_Frontend')) {

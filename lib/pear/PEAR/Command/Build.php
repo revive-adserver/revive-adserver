@@ -80,7 +80,7 @@ Builds one or more extensions contained in a package.'
         if (sizeof($params) < 1) {
             $params[0] = 'package.xml';
         }
-        $builder = &new PEAR_Builder($this->ui);
+        $builder = new PEAR_Builder($this->ui);
         $this->debug = $this->config->get('verbose');
         $err = $builder->build($params[0], array(&$this, 'buildCallback'));
         if (PEAR::isError($err)) {

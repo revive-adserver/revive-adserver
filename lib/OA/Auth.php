@@ -29,7 +29,7 @@ class OA_Auth
      * @param string $authType
      * @return Plugins_Authentication
      */
-    function &staticGetAuthPlugin()
+    static function staticGetAuthPlugin()
     {
         static $authPlugin;
         static $authPluginType;
@@ -38,7 +38,7 @@ class OA_Auth
             $aConf = $GLOBALS['_MAX']['CONF'];
             if (!empty($aConf['authentication']['type'])) {
                 $authType = $aConf['authentication']['type'];
-                $authPlugin = &OX_Component::factoryByComponentIdentifier($authType);
+                $authPlugin = OX_Component::factoryByComponentIdentifier($authType);
             }
             if (!$authPlugin) {
                 // Fall back to internal
@@ -103,7 +103,7 @@ class OA_Auth
      */
     function logout()
     {
-        $authPlugin = &OA_Auth::staticGetAuthPlugin();
+        $authPlugin = OA_Auth::staticGetAuthPlugin();
         $authPlugin->logout();
     }
 
@@ -116,7 +116,7 @@ class OA_Auth
      */
     function suppliedCredentials()
     {
-        $authPlugin = &OA_Auth::staticGetAuthPlugin();
+        $authPlugin = OA_Auth::staticGetAuthPlugin();
         return $authPlugin->suppliedCredentials();
     }
 
@@ -129,8 +129,8 @@ class OA_Auth
      */
     function authenticateUser()
     {
-        $authPlugin = &OA_Auth::staticGetAuthPlugin();
-        $doUsers = &$authPlugin->authenticateUser();
+        $authPlugin = OA_Auth::staticGetAuthPlugin();
+        $doUsers = $authPlugin->authenticateUser();
         if ($doUsers) {
             // never upgrade the username
             $tmpUserName = $doUsers->username;
@@ -218,7 +218,7 @@ class OA_Auth
      */
     function displayLogin($sMessage = '', $sessionID = 0, $inLineLogin = false)
     {
-        $authLogin = &OA_Auth::staticGetAuthPlugin();
+        $authLogin = OA_Auth::staticGetAuthPlugin();
         $authLogin->displayLogin($sMessage, $sessionID, $inLineLogin);
     }
 

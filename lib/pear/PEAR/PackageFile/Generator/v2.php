@@ -221,7 +221,7 @@ http://pear.php.net/dtd/package-2.0.xsd',
                         foreach ($orig as $tag => $raw) {
                             $tag = str_replace($this->_packagefile->getTasksNs() . ':', '', $tag);
                             $task = "PEAR_Task_$tag";
-                            $task = &new $task($this->_packagefile->_config,
+                            $task = new $task($this->_packagefile->_config,
                                 $this->_packagefile->_logger,
                                 PEAR_TASK_PACKAGE);
                             $task->init($raw, $atts, null);
@@ -257,7 +257,7 @@ http://pear.php.net/dtd/package-2.0.xsd',
         }
         $packagexml = $this->toPackageFile($where, PEAR_VALIDATE_PACKAGING, $name);
         if ($packagexml) {
-            $tar =& new Archive_Tar($dest_package, $compress);
+            $tar = new Archive_Tar($dest_package, $compress);
             $tar->setErrorHandling(PEAR_ERROR_RETURN); // XXX Don't print errors
             // ----- Creates with the package.xml file
             $ok = $tar->createModify(array($packagexml), '', $where);

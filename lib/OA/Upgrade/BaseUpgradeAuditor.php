@@ -31,7 +31,7 @@ class OA_BaseUpgradeAuditor
 	{
 	}
 
-	function init(&$oDbh='', $oLogger='')
+	function init($oDbh='', $oLogger='')
 	{
 	    if ($oDbh)
 	    {

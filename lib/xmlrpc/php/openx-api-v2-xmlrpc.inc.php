@@ -92,7 +92,7 @@ class OA_Api_Xmlrpc
      */
     function &_getClient()
     {
-        $oClient = &new XML_RPC_Client($this->basepath . '/' . $this->debug, $this->host);
+        $oClient = new XML_RPC_Client($this->basepath . '/' . $this->debug, $this->host);
         return $oClient;
     }
 

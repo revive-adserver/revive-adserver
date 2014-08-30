@@ -78,7 +78,7 @@ class Test_Priority extends UnitTestCase
         $oDate      = new Date();
         $oServiceLocator =& OA_ServiceLocator::instance();
         $oServiceLocator->register('now', $oDate);
-        $oDal       =& new OA_Maintenance_Pruning();
+        $oDal       = new OA_Maintenance_Pruning();
         $doDSAZA    = OA_Dal::factoryDO('data_summary_ad_zone_assoc');
 
         // Test 1: table is empty : nothing to delete
@@ -133,7 +133,7 @@ class Test_Priority extends UnitTestCase
         $oExpire->subtractSpan(new Date_Span('10-0-0-0'));
         $today      = $oToday->getDate(DATE_FORMAT_ISO);
         $expire     = $oExpire->getDate(DATE_FORMAT_ISO);
-        $oDal       =& new OA_Maintenance_Pruning();
+        $oDal       = new OA_Maintenance_Pruning();
 
         $doDSAZA    = OA_Dal::factoryDO('data_summary_ad_zone_assoc');
 
@@ -292,7 +292,7 @@ class Test_Priority extends UnitTestCase
         $oExpire->subtractSeconds(999999);
         $today      = $oToday->getDate();
         $expire     = $oExpire->getDate();
-        $oDal       =& new OA_Maintenance_Pruning();
+        $oDal       = new OA_Maintenance_Pruning();
 
         $doDSAZA    = OA_Dal::factoryDO('data_summary_ad_zone_assoc');
         $doDIA      = OA_Dal::factoryDO('data_intermediate_ad');

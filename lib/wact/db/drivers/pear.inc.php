@@ -163,7 +163,7 @@ class PearConnection {
     * @access public
     */
     function &NewRecord($DataSpace = NULL) {
-        $Record =& new PearRecord($this);
+        $Record = new PearRecord($this);
         if (!is_null($DataSpace)) {
             $Record->import($DataSpace->export());
         }
@@ -180,7 +180,7 @@ class PearConnection {
     * @access public
     */
     function &NewRecordSet($query, $filter = NULL) {
-        $RecordSet =& new PearRecordSet($this, $query);
+        $RecordSet = new PearRecordSet($this, $query);
         if (!is_null($filter)) {
             $RecordSet->registerFilter($filter);
         }
@@ -210,7 +210,7 @@ class PearConnection {
 	* @access public
 	*/
 	function &FindRecord($query) {
-		$Record =& new PearRecord($this);
+		$Record = new PearRecord($this);
 		$QueryId = $this->_execute($query);
 		$Record->properties =& $QueryId->fetchRow(DB_FETCHMODE_ASSOC);
 		$QueryId->free();

@@ -212,7 +212,7 @@ class Migration
         $prefix     = $GLOBALS['_MAX']['CONF']['table']['prefix'];
         $query      = sprintf($statement, $prefix.$toTable, $prefix.$fromTable);
         $this->_log('select query prepared: '.$query);
-        $result     =&  $this->oDBH->exec($query);
+        $result     = $this->oDBH->exec($query);
         if (PEAR::isError($result))
         {
             $this->_logError('error executing query: '.$result->getUserInfo());
@@ -244,7 +244,7 @@ class Migration
 //        $statement  = $this->aSQLStatements['table_insert'];
 //        $query      = sprintf($statement, $prefix.$fromTable, $toColumn, '(:data)');
 //        //$query  = "INSERT INTO {$prefix}{$toTable} ({$toColumn}) VALUES (:data)";
-//        $stmt   =&  $this->oDBH->prepare($query, array(), MDB2_PREPARE_MANIP);
+//        $stmt   = $this->oDBH->prepare($query, array(), MDB2_PREPARE_MANIP);
 //        if (PEAR::isError($stmt))
 //        {
 //            $this->_logError('error preparing statement: '.$stmt->getUserInfo());
@@ -278,7 +278,7 @@ class Migration
         $statement  = $this->aSQLStatements['table_update_col'];
         $query      = sprintf($statement, $prefix.$toTable, $toColumn, $prefix.$fromTable, $fromColumn);
         $this->_log('select query prepared: '.$query);
-        $result     =&  $this->oDBH->exec($query);
+        $result     = $this->oDBH->exec($query);
         if (PEAR::isError($result))
         {
             $this->_logError('error executing statement: '.$result->getUserInfo());

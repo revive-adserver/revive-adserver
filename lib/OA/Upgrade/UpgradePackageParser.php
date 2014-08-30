@@ -120,7 +120,7 @@ class OA_UpgradePackageParser extends XML_Parser
                 $error.= " - Byte: $byte; Line: $line; Col: $column";
             }
             $error.= "\n";
-            $this->error =& PEAR::raiseError($ecode, null, null, $error);
+            $this->error = PEAR::raiseError($ecode, null, null, $error);
         }
         return $this->error;
     }

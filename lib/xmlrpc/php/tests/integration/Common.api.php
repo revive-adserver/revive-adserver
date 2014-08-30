@@ -86,7 +86,7 @@ class Test_OA_Api_XmlRpc extends UnitTestCase
             $doAUA->user_id    = $userId;
             DataGenerator::generateOne($doAUA);
 
-            $oApi = &new Mocked_OA_Api_Xmlrpc($doUsers->username, 'secret');
+            $oApi = new Mocked_OA_Api_Xmlrpc($doUsers->username, 'secret');
         }
 
         return $oApi;
@@ -112,7 +112,7 @@ class Mocked_OA_Api_Xmlrpc extends OA_Api_Xmlrpc
         $oClient = &$GLOBALS['_STATIC']['staticGetClient'];
 
         if (empty($oClient)) {
-            $oClient = &new Mocked_XML_RPC_Client();
+            $oClient = new Mocked_XML_RPC_Client();
         }
 
         return $oClient;

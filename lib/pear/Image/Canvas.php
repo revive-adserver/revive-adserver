@@ -724,7 +724,7 @@ class Image_Canvas
         $class = 'Image_Canvas_'. $canvas;
         include_once 'Image/Canvas/'. str_replace('_', '/', $canvas) . '.php';
         
-        $obj =& new $class($params);
+        $obj = new $class($params);
         return $obj;
     }
 

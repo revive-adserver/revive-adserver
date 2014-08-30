@@ -55,7 +55,7 @@
         }
         
         function testObjectReferences () {
-            $object = &new ComparisonClass();
+            $object = new ComparisonClass();
             $object_reference = &$object;
             $object_copy = new ComparisonClass();
             $object_assignment = $object;

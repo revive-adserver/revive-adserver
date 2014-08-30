@@ -89,7 +89,7 @@
             $package = 'packageName';
             $processSections = false;
 
-            $mockPlugin = &new MockMAX_Plugin($this);
+            $mockPlugin = new MockMAX_Plugin($this);
             $mockPlugin->setReturnValue('getConfigByFileName', true);
 
             $mockPlugin->expectOnce('getConfigByFileName');

@@ -104,7 +104,7 @@ class Config_Container {
     */
     function &createItem($type, $name, $content, $attributes = null, $where = 'bottom', $target = null)
     {
-        $item =& new Config_Container($type, $name, $content, $attributes);
+        $item = new Config_Container($type, $name, $content, $attributes);
         $result =& $this->addItem($item, $where, $target);
         return $result;
     } // end func &createItem

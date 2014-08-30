@@ -66,7 +66,7 @@ class Services_ExchangeRates_Common {
             include_once 'HTTP/Request.php';
 
             // HTTP_Request has moronic redirect "handling", turn that off (Alexey Borzov)
-            $req =& new HTTP_Request($url, array('allowRedirects' => false));
+            $req = new HTTP_Request($url, array('allowRedirects' => false));
 
             // if $cache->get($cacheID) found the file, but it was expired,
             // $cache->_file will exist

@@ -140,7 +140,7 @@ class HTML_Template_Flexy_Translator {
             return;
         }
         require_once 'Translation2/Admin.php';
-        $trd = &new Translation2_Admin('dataobjectsimple', 'translations' );
+        $trd = new Translation2_Admin('dataobjectsimple', 'translations' );
         //$trd->setDecoratedLang('en');
         foreach($this->options['targetLangs'] as $l) {
             $trd->createNewLang(array('lang_id'=>$l));
@@ -163,10 +163,10 @@ class HTML_Template_Flexy_Translator {
         $t = explode(' ',microtime()); $start= $t[0] + $t[1];
      
         require_once 'Translation2.php';
-        $tr = &new Translation2('dataobjectsimple','translations');
+        $tr = new Translation2('dataobjectsimple','translations');
         $tr->setLang($displayLang);
         
-        //$suggestions = &new Translation2('dataobjectsimple','translations');
+        //$suggestions = new Translation2('dataobjectsimple','translations');
         //$suggestions->setLang($displayLang);
         
         $this->compileAll();

@@ -13,13 +13,13 @@ function &recurseDir($path) {
         return false;
     }
     $files = array();
-    $node = &new HTML_TreeNode(basename($path), basename($path), 'folder.gif');
+    $node = new HTML_TreeNode(basename($path), basename($path), 'folder.gif');
     while (($file = readdir($dir)) !== false) {
         if ($file != '.' && $file != '..') {
             if (@is_dir("$path/$file")) {
                 $addnode = &recurseDir("$path/$file");
             } else {
-                $addnode = &new HTML_TreeNode($file, $file, 'document2.png');
+                $addnode = new HTML_TreeNode($file, $file, 'document2.png');
             }
             $node->addItem($addnode);
         }

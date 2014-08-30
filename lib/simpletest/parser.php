@@ -205,7 +205,7 @@
             $this->_case = $case;
             $this->_regexes = array();
             $this->_parser = &$parser;
-            $this->_mode = &new SimpleStateStack($start);
+            $this->_mode = new SimpleStateStack($start);
             $this->_mode_handlers = array($start => $start);
         }
         
@@ -587,7 +587,7 @@
          *    @static
          */
         function &createLexer(&$parser) {
-            $lexer = &new SimpleHtmlLexer($parser);
+            $lexer = new SimpleHtmlLexer($parser);
             return $lexer;
         }
         

@@ -39,7 +39,7 @@ class Openads_Links
      */
     function readLinksDotIni($file_links)
     {
-        $links =& new Config();
+        $links = new Config();
         $root =& $links->parseConfig($file_links, 'inifile');
         if (PEAR::isError($root)) {
             $links = array();
@@ -96,7 +96,7 @@ class Openads_Links
      */
     function writeLinksDotIni($file_links, $link_array)
     {
-        $links =& new Config();
+        $links = new Config();
         $root =& $links->parseConfig($file_links, 'inifile');
         $root = $root->toArray();
         $root = $root['root'];
@@ -117,7 +117,7 @@ class Openads_Links
 
         ksort($root);
 
-        $links =& new Config();
+        $links = new Config();
         $links->parseConfig($root, 'phparray');
         return $links->writeConfig($file_links, 'inifile');
     }
