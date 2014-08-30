@@ -168,6 +168,15 @@
 
   <target name="test-prepare">
     <xslt style="tests.xsl" in="${test.conf.xml}" out="tests.xml"/>
+    <ant dir="${basedir}/plugins_repo" target="release">
+        <property name="name" value="demoExtension"/>
+    </ant>
+    <ant dir="${basedir}/plugins_repo" target="release">
+        <property name="name" value="openXAdditionalBannerTypes"/>
+    </ant>
+    <ant dir="${basedir}/plugins_repo" target="release">
+        <property name="name" value="openXTests"/>
+    </ant>
   </target>
 
   <target name="test-all" depends="init, test-prepare">
