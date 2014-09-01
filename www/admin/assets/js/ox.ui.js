@@ -402,7 +402,9 @@ function initCampaignForm(formId)
 
 	initCampaignBookedInput($impressionsField, $impressionsUnlimitedField, 'openadsRemainingImpressions');
 	initCampaignBookedInput($clicksField, $clicksUnlimitedField,  'openadsRemainingClicks');
-	initCampaignBookedInput($conversionsField, $conversionsUnlimitedField);
+    if ($conversionsField && $conversionsUnlimitedField) {
+        initCampaignBookedInput($conversionsField, $conversionsUnlimitedField);
+    }
 
     initEcpmInput($pricingField);
     initEcpmInput($revenueField);
@@ -456,7 +458,9 @@ function initCampaignForm(formId)
     //update fields states to reflect current values
     formFormat($impressionsField.get(0), true);
     formFormat($clicksField.get(0), true);
-    formFormat($conversionsField.get(0), true);
+    if ($conversionsField) {
+        formFormat($conversionsField.get(0), true);
+    }
 
     //show hide sections
     updateCampaignTypeForm();
