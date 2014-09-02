@@ -2643,4 +2643,39 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         return $aResult;
     }
 
+    /**
+     * Return the timezone object that the campaign is suposed to be using
+     *
+     * @staticvar array $aCache
+     * @param int $campaignId
+     * @return Date_TimeZone
+     */
+    public function getTimezoneForCampaign($campaignId)
+    {
+        static $aCache;
+
+        $doAgency = OA_Dal::factoryDO('agency');
+        $doClients = OA_Dal::factoryDO('clients');
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
+        $doCampaigns->campaignid = $campaignId;
+        $doClients->joinAdd($doCampaigns);
+        $doAgency->joinAdd($doClients);
+
+        if ($doAgency->find()) {
+            $doAgency->fetch();
+
+            if (!isset($aCache[$doAgency->account_id])) {
+                $aPrefs = OA_Preferences::loadAccountPreferences($doAgency->account_id, true);
+                $oTz = new Date_TimeZone(empty($aPrefs['timezone']) ? 'UTC' : $aPrefs['timezone']);
+                $aCache[$doAgency->account_id] = $oTz;
+            } else {
+                $oTz = $aCache[$doAgency->account_id];
+            }
+        } else {
+            $oTz = new Date_TimeZone('UTC');
+        }
+
+        return $oTz;
+    }
+
 }

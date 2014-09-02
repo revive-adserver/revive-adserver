@@ -47,6 +47,13 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
     var $oTable;
 
     /**
+     * The TZ for the current campaign
+     *
+     * @var type Date_Timezone
+     */
+    var $currentTz;
+
+    /**
      * The class constructor method.
      *
      * @return OA_Maintenance_Priority_Common_Task_GetRequiredAdImpressions
@@ -55,6 +62,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
     {
         parent::OA_Maintenance_Priority_AdServer_Task();
         $this->oTable =& $this->_getMaxTablePriorityObj();
+        $this->currentTz = new Date_TimeZone('UTC');
     }
 
     /**
@@ -69,6 +77,9 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
         $aAllCampaigns = $this->_getValidCampaigns();
         if (is_array($aAllCampaigns) && (count($aAllCampaigns) > 0)) {
             foreach ($aAllCampaigns as $k => $oCampaign) {
+                // Store the Tz for the current campaign
+                $this->currentTz = $this->oDal->getTimezoneForCampaign($oCampaign->id);
+
                 $this->getCampaignImpressionInventoryRequirement($aAllCampaigns[$k]);
                 $aAllCampaigns[$k]->setAdverts();
             }
@@ -156,7 +167,8 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
             if ($type == 'total') {
                 $oCampaign->setSummaryStatisticsToDate();
             } else {
-                $oTodayDate = $this->_getDate();
+                $oTodayDate = new Date($this->_getDate());
+                $oTodayDate->convertTZ($this->currentTz);
                 $oCampaign->setSummaryStatisticsToday($oTodayDate->format('%Y-%m-%d'));
             }
         }
@@ -300,9 +312,11 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
                 // of the existance of any activation or expiration dates that
                 // may (or may not) be set for the campaign
                 $oCampaignExpiryDate = new Date($this->_getDate());
+                $oCampaignExpiryDate->setTZ($this->currentTz);
                 $oCampaignExpiryDate->setHour(23);
                 $oCampaignExpiryDate->setMinute(59);
                 $oCampaignExpiryDate->setSecond(59);
+                $oCampaignExpiryDate->toUTC();
                 // Unless the campaign has an expiry date and it happens before the end of today
                 if (!empty($oCampaign->expireTime)) {
                     if ($oCampaignExpiryDate->after($this->_getDate($oCampaign->expireTime))) {
@@ -475,11 +489,19 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
             OA::debug('- Invalid parameters in _getAdImpressions, skipping...', PEAR_LOG_ERR);
             return 0;
         }
-        if ($oDeliveryLimitation->deliveryBlocked($oDate) == true) {
+
+        // This part must be run using the agency timezone
+        $oStart = new Date($oDate);
+        $oStart->convertTZ($this->currentTz);
+        $oEnd = new Date($oCampaignExpiryDate);
+        $oEnd->convertTZ($this->currentTz);
+
+        if ($oDeliveryLimitation->deliveryBlocked($oStart) == true) {
             // The advertisement is not currently able to deliver, and so
             // no impressions should be allocated for this operation interval
             return 0;
         }
+
         // Get the cumulative associated zones forecasts for the previous week's
         // zone inventory forecasts, keyed by the operation interval ID
         $aCumulativeZoneForecast = $this->_getCumulativeZoneForecast($oAd->id, $aAdZones);
@@ -488,8 +510,8 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
         // intervals where the ad is blocked)
         $totalAdLifetimeZoneImpressionsRemaining =
             $oDeliveryLimitation->getAdLifetimeZoneImpressionsRemaining(
-                $oDate,
-                $oCampaignExpiryDate,
+                $oStart,
+                $oEnd,
                 $aCumulativeZoneForecast
             );
         // Are there impressions forecast?
