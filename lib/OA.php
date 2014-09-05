@@ -329,7 +329,7 @@ class OA
     static function stripVersion($version, $aAllow = null)
     {
         $allow = is_null($aAllow) ? '' : '|'.join('|', $aAllow);
-        return preg_replace('/^v?(\d+.\d+.\d+(?:-(?:beta(?:-rc)\d+?|rc\d+'.$allow.'))?).*$/i', '$1', $version);
+        return preg_replace('/^v?(\d+.\d+.\d+(?:-(?:beta(?:-rc\d+)?|rc\d+'.$allow.'))?).*$/i', '$1', $version);
     }
 
     /**
