@@ -4303,7 +4303,7 @@ return '"'.$string.'"';
 MAX_commonSetNoCacheHeaders();
 MAX_commonRegisterGlobalsArray(array('zones' ,'source', 'block', 'blockcampaign', 'exclude', 'mmm_fo', 'q', 'nz'));
 $source = MAX_commonDeriveSource($source);
-$spc_output = 'var ' . $conf['var']['prefix'] . 'output = new Array(); ' . "\n";
+$spc_output = 'var ' . $conf['var']['prefix'] . 'output = new Object(); ' . "\n";
 if(!empty($zones)) {
 $zones = explode('|', $zones);
 foreach ($zones as $thisZone) {
@@ -4335,4 +4335,6 @@ $context[] = $contextArray;
 }
 MAX_cookieFlush();
 MAX_commonSendContentTypeHeader("application/x-javascript", $charset);
+$spc_output = "window.".$conf['var']['prefix'] ."output=". $spc_output;
+header("Content-Length: ".strlen($spc_output));
 echo $spc_output;
