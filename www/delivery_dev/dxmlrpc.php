@@ -28,47 +28,47 @@ $server = new XML_RPC_Server(array(
     'pluginExecute'     => array('function' => '_pluginExecute'),
 ));
 
-function _getZoneLinkedAds(&$params)
+function _getZoneLinkedAds($params)
 {
-    $paramZoneId = &$params->getParam(0);
+    $paramZoneId = $params->getParam(0);
     $zoneId = $paramZoneId->scalarval();
     $response = new XML_RPC_Value(serialize(OA_Dal_Delivery_getZoneLinkedAds($zoneId)), 'base64');
 
     return new XML_RPC_Response($response);
 }
 
-function _getLinkedAds(&$params)
+function _getLinkedAds($params)
 {
-    $paramSearch = &$params->getParam(0);
+    $paramSearch = $params->getParam(0);
     $search = $paramSearch->scalarval();
     $response = new XML_RPC_Value(serialize(OA_Dal_Delivery_getLinkedAds($search)), 'base64');
 
     return new XML_RPC_Response($response);
 }
 
-function _getZoneInfo(&$params)
+function _getZoneInfo($params)
 {
-    $paramZoneId = &$params->getParam(0);
+    $paramZoneId = $params->getParam(0);
     $zoneId = $paramZoneId->scalarval();
     $response = new XML_RPC_Value(serialize(OA_Dal_Delivery_getZoneInfo($zoneId)), 'base64');
 
     return new XML_RPC_Response($response);
 }
 
-function _getAd(&$params)
+function _getAd($params)
 {
-    $paramAdId = &$params->getParam(0);
+    $paramAdId = $params->getParam(0);
     $adId = $paramAdId->scalarval();
     $response = new XML_RPC_Value(serialize(OA_Dal_Delivery_getAd($adId)), 'base64');
 
     return new XML_RPC_Response($response);
 }
 
-function _pluginExecute(&$params)
+function _pluginExecute($params)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
 
-    $paramParams = &$params->getParam(0);
+    $paramParams = $params->getParam(0);
     $pluginParams = unserialize($paramParams->scalarval());
     // Instansiate the plugin and execute the method
     include_once MAX_PATH . '/lib/max/Plugin.php';
