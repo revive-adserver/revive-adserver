@@ -3197,7 +3197,46 @@ $script .= "
             return;
         } else {
             document.getElementById(id).innerHTML = {$varprefix}output[name];
+            executeMarkup({$varprefix}output[name]);
         }
+    }
+    function executeMarkup(markup){
+        var init = function(){
+            var div = document.createElement('div');
+            div.innerHTML = markup;
+            var arr = div.getElementsByTagName('script');
+            var len = arr.length;
+            for(var j=0;j<len;j++){
+                if(arr[j].hasAttribute('src')){
+                    execScript(arr[j],arr[j].getAttribute('src'))
+                }else{
+                    execScript(arr[j],'');
+                }
+            }
+        }
+        var execScript = function(ele,source){
+                if(source.length && (source.indexOf(\"//\") || source.indexOf(\"http:\") || source.indexOf(\"https:\")== -1)){
+                   var useSSL = 'https:'==document.location.protocol;
+                   sourceArray = source.split('//');
+                   source = sourceArray[sourceArray.length - 1]
+                   source = useSSL?'https:':'http:'+source;
+                }
+                 evaluateScript(ele.text || ele.textContent || ele.innerHTML, source);
+        }
+        var evaluateScript = function(code, source){
+            var head = document.head || document.getElementsByTagName( \"head\" )[0] || document.documentElement,
+            script = document.createElement( \"script\" );
+            if(source!==''){
+                script.src=source;
+            }else{
+                script.text = code;
+            }
+            // Use insertBefore instead of appendChild to circumvent an IE6 bug.
+            // This arises when a base node is used (#2709).
+            head.insertBefore( script, head.firstChild );
+            head.removeChild( script );
+        }
+        init();
     }
 
     function {$varprefix}showpop(name) {
