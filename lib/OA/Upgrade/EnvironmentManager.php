@@ -384,11 +384,9 @@ class OA_Environment_Manager
                  *   [2] https://github.com/revive-adserver/revive-adserver/issues/65
                  *   [3] https://github.com/revive-adserver/revive-adserver/issues/116
                  */
-                if (version_compare(
-                    $this->aInfo['PHP']['actual']['version'],
-                    '5.4.4-14+deb7u9',
-                    '>='
-                )) {
+                if (preg_match('#^5\.4\.4-14\+deb7u(\d+)$#', $this->aInfo['PHP']['actual']['version'], $m) &&
+                    $m[1] >= 11
+                ) {
                     $result = OA_ENV_ERROR_PHP_NOERROR;
                 } else {
                     $result = OA_ENV_ERROR_PHP_VERSION_54;
