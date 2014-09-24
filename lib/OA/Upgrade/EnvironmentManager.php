@@ -358,6 +358,9 @@ class OA_Environment_Manager
      */
     function _checkCriticalPHP()
     {
+        // Due to https://bugs.php.net/bug.php?id=65367 we need to blacklist PHP
+        // 5.4.0-5.4.19 and 5.5.0-5.5.1
+
         // Test the PHP version
         if (function_exists('version_compare'))
         {
@@ -376,17 +379,10 @@ class OA_Environment_Manager
                 '5.4.20',
                 "<"
             )) {
-                /*
-                 * debian has backported the bugfix for [1], so the updates from debian wheezy are ok
-                 *
-                 * references:
-                 *   [1] https://bugs.php.net/bug.php?id=65367
-                 *   [2] https://github.com/revive-adserver/revive-adserver/issues/65
-                 *   [3] https://github.com/revive-adserver/revive-adserver/issues/116
-                 */
                 if (preg_match('#^5\.4\.4-14\+deb7u(\d+)$#', $this->aInfo['PHP']['actual']['version'], $m) &&
-                    $m[1] >= 11
+                    $m[1] >= 9
                 ) {
+                    // Thanks Debian for backporting the fix into 5.4.4-14+deb7u9
                     $result = OA_ENV_ERROR_PHP_NOERROR;
                 } else {
                     $result = OA_ENV_ERROR_PHP_VERSION_54;
