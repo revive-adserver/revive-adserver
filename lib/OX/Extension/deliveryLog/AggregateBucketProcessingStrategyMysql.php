@@ -79,10 +79,12 @@ class OX_Extension_DeliveryLog_AggregateBucketProcessingStrategyMysql implements
             if (count($aExecQueries)) {
                 // Try to disable the binlog for the inserts so we don't
                 // replicate back out over our logged data.
+                PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
                 $result = $oMainDbh->exec('SET SQL_LOG_BIN = 0');
                 if (PEAR::isError($result)) {
                     OA::debug('Unable to disable the bin log, proceeding anyway.', PEAR_LOG_WARNING);
                 }
+                PEAR::staticPopErrorHandling();
                 foreach ($aExecQueries as $execQuery) {
                     $result = $oMainDbh->exec($execQuery);
                     if (PEAR::isError($result)) {
