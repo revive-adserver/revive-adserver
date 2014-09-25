@@ -44,7 +44,9 @@ class Test_RV_Sync extends UnitTestCase
             '2.3.33-beta-rc1'   => 2333.101,
             'v2.3.33-beta'      => 2333.200,
             '2.4.0-rc1'         => 2400.301,
+            '2.4.0-RC1'         => 2400.301, // The plugin framework uses uppercase
             'v2.4.0-rc2'        => 2400.302,
+            'v2.4.0-RC2'        => 2400.302, // The plugin framework uses uppercase
             '2.4.0'             => 2400.400,
             'v2.4.0-stable'     => 2400.400,
             '2.5.0-dev'         => 2499.999,
