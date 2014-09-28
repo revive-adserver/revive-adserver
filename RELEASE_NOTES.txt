@@ -84,6 +84,10 @@ What's New in Revive Adserver 3.1.0
  Non-Backwards Compatible Changes
  --------------------------------
 
+ * HTML banners no longer present URL and Target fields in the user interface
+   unless editing an existing HTML banner where one of these fields is present;
+   the URL(s) and target(s) should be set as part of the HTML banner.
+
  * A number of database table columns are removed as part of the upgrade
    process for Revive Adserver 3.1.0, as they were deprecated with the removal
    of the OpenX Market in version 3.0.0. Please ensure that you back up your

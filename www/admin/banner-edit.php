@@ -107,7 +107,7 @@ html html
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-//decide whether this is add or edit, get banner data or initialise it
+// Decide whether this is add or edit, get banner data or initialise it
 if ($bannerid != '') {
     // Fetch the data from the database
     $doBanners = OA_Dal::factoryDO('banners');
@@ -192,7 +192,7 @@ if ($ext_bannertype)
 if ((!$ext_bannertype) && $type && (!in_array($type, array('sql','web','url','html','txt'))))
 {
     list($extension, $group, $plugin) = explode('.',$type);
-    $oComponent = &OX_Component::factoryByComponentIdentifier($extension,$group,$plugin);
+    $oComponent = &OX_Component::factoryByComponentIdentifier($extension, $group, $plugin);
     $formDisabled = (!$oComponent || !$oComponent->enabled);
     if ($oComponent)
     {
@@ -516,6 +516,23 @@ function buildBannerForm($type, $aBanner, &$oComponent=null, $formDisabled=false
     if ($oComponent)
     {
         $oComponent->buildForm($form, $aBanner);
+        if ($type == 'html') {
+            if ($aBanner['bannerid'] == '') {
+                // Remove the deprecated "url" and "target" form elements; these
+                // are not required for new HTML banners
+                $form->removeElement('header_b_links');
+                $form->removeElement('url');
+                $form->removeElement('target');
+            } else {
+                // Remove the deprecated "url" and "target" form elements from
+                // the existing HTML banner only if BOTH are unset
+                if ($aBanner['url'] == '' && $aBanner['target'] == '' ) {
+                    $form->removeElement('header_b_links');
+                    $form->removeElement('url');
+                    $form->removeElement('target');
+                }
+            }
+        }
     }
 
     $translation = new OX_Translation();
