@@ -80,6 +80,11 @@ What's New in Revive Adserver 3.1.0
 
  * Allow Revive Adserver to be installed on Debian Wheezy PHP versions that have
    had a critical PHP bugfix backported.
+ 
+ * Fixed a problem with timezones not being taken into account when running
+   the zone allocation algorithm during MPE. This resulted in underdelivery
+   if the manager timezone had a positive offset from UTC, and potentially some
+   overdelivery otherwise.
 
  Non-Backwards Compatible Changes
  --------------------------------
