@@ -701,7 +701,15 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled=false)
 
         // Delete the old file for this banner
         if (!empty($aBanner['filename']) && ($aBanner['filename'] != $aFile['filename']) && ($aBanner['storagetype'] == 'web' || $aBanner['storagetype'] == 'sql')) {
-            DataObjects_Banners::deleteBannerFile($aBanner['storagetype'], $aBanner['filename']);
+            /*
+             * Actually, don't delete it. It might be still being used until the
+             * cache expires. See:
+             *  - https://github.com/revive-adserver/revive-adserver/issues/341
+             *  - https://github.com/revive-adserver/revive-adserver/issues/421
+             *
+             * DataObjects_Banners::deleteBannerFile($aBanner['storagetype'], $aBanner['filename']);
+             *
+             */
         }
     }
     if (!empty($_FILES['uploadalt']) && $_FILES['uploadalt']['size'] > 0

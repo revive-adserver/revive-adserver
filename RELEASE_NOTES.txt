@@ -86,6 +86,9 @@ What's New in Revive Adserver 3.1.0
    if the manager timezone had a positive offset from UTC, and potentially some
    overdelivery otherwise.
 
+ * Fixed an issue with old creative file being deleted although still in use
+   when a banner image file was replaced.
+
  Non-Backwards Compatible Changes
  --------------------------------
 
