@@ -131,12 +131,7 @@ class Admin_DaTest extends DalUnitTestCase
         foreach ($entities as $entity => $hash) {
             $ret = SqlBuilder::_getTables($entity, array());
             $this->assertTrue(is_array($ret));
-            if($entity == 'stats') {
-                $expected = 4;
-            } else {
-                $expected = 1;
-            }
-            $this->assertTrue(count($ret) == $expected);
+            $this->assertTrue(count($ret) == 1);
             $keys = array_keys($ret);
             $vals = array_values($ret);
             $this->assertTrue(is_string($keys[0]));

@@ -3853,6 +3853,13 @@ MAX_Delivery_cookie_setCapping('Zone', $row['zoneid'], $row['block_zone'], $row[
 MAX_Delivery_log_setLastAction(0, array($row['bannerid']), array($zoneId), array($row['viewwindow']));
 }
 } else {
+if (!empty($zoneId)) {
+$logUrl = _adRenderBuildLogURL(array(
+'ad_id' => 0,
+'placement_id' => 0,
+), $zoneId, $source, $loc, $referer, '&');
+$g_append = str_replace('{random}', MAX_getRandomNumber(), MAX_adRenderImageBeacon($logUrl)).$g_append;
+}
 if (!empty($row['default'])) {
 if (empty($target)) {
 $target = '_blank';  }

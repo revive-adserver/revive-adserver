@@ -219,24 +219,23 @@ class Admin_DA
         switch ($entity) {
 
         case 'agency' : $aLeftJoinedTables[$conf['table']['prefix'].$conf['table']['clients']] = 'a';
-            $aGroupBy = $aColumns;
+            $aGroupBy = array_keys($aColumns);
             $aColumns['COUNT(a.clientid)'] = 'num_children';
             break;
 
         case 'advertiser' : $aLeftJoinedTables[$conf['table']['prefix'].$conf['table']['campaigns']] = 'm';
-            $aGroupBy = $aColumns;
+            $aGroupBy = array_keys($aColumns);
             $aColumns['COUNT(m.campaignid)'] = 'num_children';
-            $aGroupBy['a.type'] = 'a.type'; // Hack to allow this to work with Postgres
             break;
 
         case 'placement' : $aLeftJoinedTables[$conf['table']['prefix'].$conf['table']['banners']] = 'd';
-            $aGroupBy = $aColumns;
+            $aGroupBy = array_keys($aColumns);
             $aGroupBy['m.status'] = 'm.status'; // Hack to allow this to work with Postgres
             $aColumns['COUNT(d.bannerid)'] = 'num_children';
             break;
 
         case 'publisher' : $aLeftJoinedTables[$conf['table']['prefix'].$conf['table']['zones']] = 'z';
-            $aGroupBy = $aColumns;
+            $aGroupBy = array_keys($aColumns);
             $aColumns['COUNT(z.zoneid)'] = 'num_children';
             break;
 
@@ -268,15 +267,9 @@ class Admin_DA
         $aLimitations = array_merge(SqlBuilder::_getStatsLimitations($entity, $aParams),
             SqlBuilder::_getTableLimitations($aTables, $aParams));
 
-        // An ugly hack to get the alias used for the entity table so
-        // the query works with Postgres.
-        end($aColumns);
-        $groupByColumn = key($aColumns);
-        reset($aColumns);
+        $aGroupBy = array($key);
 
-        $aGroups = array($groupByColumn);
-
-        return SqlBuilder::_select($aColumns, $aTables, $aLimitations, $aGroups, $key);
+        return SqlBuilder::_select($aColumns, $aTables, $aLimitations, $aGroupBy, $key);
     }
 
     // +---------------------------------------+

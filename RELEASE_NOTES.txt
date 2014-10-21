@@ -42,6 +42,12 @@ What's New in Revive Adserver 3.1.0
  * The "midnight" sync process that checks for updates to Revive Adserver is
    now the very last thing to happen in the overall maintenance process.
 
+ * Blank impressions are now logged and taken into account during
+   prioritization. This should allow using zones without remnant campagins,
+   which was previously discouraged. Blank impressions are also counted in the
+   "Global History" and "Website & Zones" statistic screens and separately
+   displayed in the "Campaign distribuion" tab for websites and zones.
+
  Bug Fixes
  ---------
 
