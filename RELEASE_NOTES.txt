@@ -35,6 +35,11 @@ What's New in Revive Adserver 3.1.0
 
  * The "Contract (Exclusive)" campaign type has been re-named to "Override".
 
+ * Added the ability to intentionally attempt to over deliver Contract campaigns
+   by a given percentage of impressions against the predicted "ideal" to help
+   ensure that Contract campaigns always meet their contracted delivery by their
+   end date.
+
  * The Revive Adserver delivery engine now includes a completely inclusive
    CORS header (i.e. 'Access-Control-Allow-Origin: *').
 
