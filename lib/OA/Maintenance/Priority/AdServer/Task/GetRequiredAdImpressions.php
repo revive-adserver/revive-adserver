@@ -225,9 +225,12 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
             $scale = 1 + ($GLOBALS['_MAX']['CONF']['priority']['intentionalOverdelivery'] / 100);
             // Final check
             if ($scale > 1) {
-                $oCampaign->requiredImpressions = $requiredImpressions * $scale;
+                $requiredImpressions = $requiredImpressions * $scale;
             }
         }
+
+        $oCampaign->requiredImpressions = $requiredImpressions;
+
     }
 
     /**
