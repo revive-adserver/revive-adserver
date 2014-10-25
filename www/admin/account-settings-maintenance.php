@@ -51,7 +51,8 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         'priority_instantUpdate' => array(
             'priority' => 'instantUpdate',
             'bool'     => true
-        )
+        ),
+        'priority_intentionalOverdelivery' => array('priority' => 'intentionalOverdelivery')
     );
     // Create a new settings object, and save the settings!
     $oSettings = new OA_Admin_Settings();
@@ -117,7 +118,16 @@ $aSettings = array (
                 'type'    => 'checkbox',
                 'name'    => 'priority_instantUpdate',
                 'text'    => $strPriorityInstantUpdate
-            )
+            ),
+            array (
+                'type'    => 'break'
+            ),
+            array (
+                'type'    => 'text',
+                'name'    => 'priority_intentionalOverdelivery',
+                'text'    => $strPriorityIntentionalOverdelivery,
+                'check'   => 'wholeNumber'
+            ),
         )
     )
 );
