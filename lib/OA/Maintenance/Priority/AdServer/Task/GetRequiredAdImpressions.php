@@ -203,8 +203,19 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
             )
         );
 
-        // Apply user-defined level of aggressiveness to selected delivery target
-        $oCampaign->requiredImpressions = $requiredImpressions * 1.02;
+        // Apply globally defined level of intentional over-delivery from
+        // $GLOBALS['_MAX']['CONF']['priority']['intentionalOverdelivery'] to
+        // the calculated required impressions
+        if (isset($GLOBALS['_MAX']['CONF']['priority']['intentionalOverdelivery'])
+                && is_numeric($GLOBALS['_MAX']['CONF']['priority']['intentionalOverdelivery'])
+                && $GLOBALS['_MAX']['CONF']['priority']['intentionalOverdelivery'] > 0) {
+            // Convert the % into a usable number
+            $scale = 1 + ($GLOBALS['_MAX']['CONF']['priority']['intentionalOverdelivery'] / 100);
+            // Final check
+            if ($scale > 1) {
+                $oCampaign->requiredImpressions = $requiredImpressions * $scale;
+            }
+        }
     }
 
     /**
