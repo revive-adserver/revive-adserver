@@ -27,6 +27,12 @@ What's New in Revive Adserver 3.1.0
  New Features
  ------------
 
+ * Blank impressions are now logged and taken into account during
+   prioritization. This should allow using zones without remnant campaigns,
+   which was previously discouraged. Blank impressions are also counted in the
+   "Global History" and "Website & Zones" statistic screens and separately
+   displayed in the "Campaign distribution" tab for websites and zones.
+
  * The "Contract (Exclusive)" campaign type has been re-named to "Override".
 
  * The Revive Adserver delivery engine now includes a completely inclusive
@@ -42,14 +48,13 @@ What's New in Revive Adserver 3.1.0
  * The "midnight" sync process that checks for updates to Revive Adserver is
    now the very last thing to happen in the overall maintenance process.
 
- * Blank impressions are now logged and taken into account during
-   prioritization. This should allow using zones without remnant campagins,
-   which was previously discouraged. Blank impressions are also counted in the
-   "Global History" and "Website & Zones" statistic screens and separately
-   displayed in the "Campaign distribuion" tab for websites and zones.
-
  Bug Fixes
  ---------
+
+ * Fixed a problem with timezones not being taken into account when running
+   the zone allocation algorithm during maintenance. This resulted in
+   underdelivery if the account timezone had a positive offset from UTC, and
+   potentially some overdelivery otherwise.
 
  * Fixed the editing of campaigns when conversion tracking is disabled.
 
@@ -86,11 +91,6 @@ What's New in Revive Adserver 3.1.0
 
  * Allow Revive Adserver to be installed on Debian Wheezy PHP versions that have
    had a critical PHP bugfix backported.
- 
- * Fixed a problem with timezones not being taken into account when running
-   the zone allocation algorithm during MPE. This resulted in underdelivery
-   if the manager timezone had a positive offset from UTC, and potentially some
-   overdelivery otherwise.
 
  * Fixed an issue with old creative file being deleted although still in use
    when a banner image file was replaced.
