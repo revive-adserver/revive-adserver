@@ -77,12 +77,11 @@ class Plugins_BannerTypeHTML extends OX_Component
         $htmlG['select'] = HTML_QuickForm::createElement('select', 'adserver', $GLOBALS['strAlterHTML'], $adPluginsList, $aSelectAttributes);
         $form->addGroup($htmlG, 'html_banner_g', null, array("<br>", ""), false);
 
-        $form->addElement('header', 'header_b_links', "Banner link");
-        
         // The "url" and "target" elements remain as part of the form definition
         // for HTML banners, even though they are not desired for new banners,
         // as they may be required for historical banners set up before these
         // elements were deprecated
+        $form->addElement('header', 'header_b_links', "Banner link");
         $form->addElement('text', 'url', $GLOBALS['strURL']);
         $form->addElement('text', 'target', $GLOBALS['strTarget']);
 
