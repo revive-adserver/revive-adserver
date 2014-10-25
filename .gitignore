@@ -5,6 +5,7 @@
 /var/INSTALLED
 /var/*.conf.php
 /var/*.log
+/var/*.log.rollback
 /var/*.xml
 /var/cache/*.html
 /var/cache/*.php
@@ -20,3 +21,4 @@
 /www/admin/plugins/*
 /www/images/
 /plugins_repo/build-ap.xml
+/plugins_repo/release/*.zip

@@ -101,7 +101,7 @@ class DalUnitTestCase extends UnitTestCase
      *    @access public
      */
     function assertEmpty($value, $message = "%s") {
-        $dumper =& new SimpleDumper();
+        $dumper = new SimpleDumper();
         $message = sprintf(
                 $message,
                 "[" . $dumper->describeValue($value) . "] should be empty");
@@ -116,7 +116,7 @@ class DalUnitTestCase extends UnitTestCase
      *    @access public
      */
     function assertNotEmpty($value, $message = "%s") {
-        $dumper =& new SimpleDumper();
+        $dumper = new SimpleDumper();
         $message = sprintf(
                 $message,
                 "[" . $dumper->describeValue($value) . "] should not be null");

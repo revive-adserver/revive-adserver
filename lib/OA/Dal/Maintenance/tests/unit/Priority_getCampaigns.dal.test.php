@@ -87,6 +87,36 @@ class Test_OA_Dal_Maintenance_Priority_getCampaigns extends UnitTestCase
         $this->assertTrue(array_key_exists('sum_clicks', $ret));
         $this->assertTrue(array_key_exists('sum_conversions', $ret));
 
+        // Test 4 getTimezoneForCampaign method
+        $oTz = $da->getTimezoneForCampaign(1);
+        $this->assertIsA($oTz, 'Date_TimeZone');
+        $this->assertEqual($oTz->getID(), 'UTC');
+
+        $doPreferences = OA_Dal::factoryDO('preferences');
+        $doPreferences->preference_name = 'timezone';
+        $doPreferences->account_type = OA_ACCOUNT_MANAGER;
+        $preferenceId = DataGenerator::generateOne($doPreferences);
+        $doAccount_Preference_Assoc = OA_Dal::factoryDO('account_preference_assoc');
+        $doAccount_Preference_Assoc->account_id = 3;
+        $doAccount_Preference_Assoc->preference_id = $preferenceId;
+        $doAccount_Preference_Assoc->value = 'Europe/Rome';
+        DataGenerator::generateOne($doAccount_Preference_Assoc);
+
+        $oTz = $da->getTimezoneForCampaign(5);
+        $this->assertIsA($oTz, 'Date_TimeZone');
+        $this->assertEqual($oTz->getID(), 'Europe/Rome');
+
+        // Test cache
+        $doAccount_Preference_Assoc = OA_Dal::factoryDO('account_preference_assoc');
+        $doAccount_Preference_Assoc->account_id = 3;
+        $doAccount_Preference_Assoc->preference_id = $preferenceId;
+        $doAccount_Preference_Assoc->value = 'Europe/Berlin';
+        $doAccount_Preference_Assoc->update();
+
+        $oTz = $da->getTimezoneForCampaign(5);
+        $this->assertIsA($oTz, 'Date_TimeZone');
+        $this->assertEqual($oTz->getID(), 'Europe/Rome');
+
         DataGenerator::cleanUp();
     }
 
@@ -205,9 +235,11 @@ class Test_OA_Dal_Maintenance_Priority_getCampaigns extends UnitTestCase
         $doCampaigns->updated = $oDate->format('%Y-%m-%d %H:%M:%S');
         $idCampaign4 = DataGenerator::generateOne($doCampaigns, true);
 
+        $clientId2 = DataGenerator::generateOne('clients', true);
+
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->campaignname = 'Test Campaign 5';
-        $doCampaigns->clientid = $clientId;
+        $doCampaigns->clientid = $clientId2;
         $doCampaigns->views = 500;
         $doCampaigns->clicks = 0;
         $doCampaigns->conversions = 401;

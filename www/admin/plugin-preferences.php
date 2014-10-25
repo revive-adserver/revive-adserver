@@ -45,7 +45,7 @@ else {
 }
 
 // get the settings for this plugin
-$oManager   = & new OX_Plugin_ComponentGroupManager();
+$oManager   = new OX_Plugin_ComponentGroupManager();
 $aConfig    = $oManager->_getComponentGroupConfiguration($group);
 
 // If the settings page is a submission, deal with the form data

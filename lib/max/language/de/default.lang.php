@@ -131,11 +131,6 @@ $GLOBALS['strPercentageOfTotal']        = '% Gesamt';
 $GLOBALS['strValue']                    = 'Wert';
 $GLOBALS['strAdmin']                    = 'Admin';
 
-// Dashboard
-$GLOBALS['strDashboardCommunity']       = 'Community';
-$GLOBALS['strDashboardDashboard']       = 'Dashboard';
-$GLOBALS['strDashboardDocs']            = 'OpenX Dokumentation';
-
 // Priority
 $GLOBALS['strPriority']				= "Priorität";
 $GLOBALS['strPriorityLevel']		= "Dringlichkeitsstufe";
@@ -1305,28 +1300,8 @@ $GLOBALS['str_sv'] = "Schwedisch";
 $GLOBALS['str_uk'] = "Ukrainisch";
 $GLOBALS['str_zh_TW'] = "Traditionelles Chinesisch";
 $GLOBALS['strDashboardErrorCode'] = "Code";
-$GLOBALS['strDashboardGenericError'] = "Allgemeiner Fehler";
 $GLOBALS['strDashboardSystemMessage'] = "Systemnachricht";
 $GLOBALS['strDashboardErrorHelp'] = "Sollte dieser Fehler wiederholt vorkommen, schreiben Sie uns bitte einen detailierten Fehlerbericht im<a href='http://forum.openx.org/'>OpenX Forum</a>.";
-$GLOBALS['strDashboardErrorMsg800'] = "XML-RPC Verbindungsfehler";
-$GLOBALS['strDashboardErrorMsg801'] = "Nicht Bestätigt";
-$GLOBALS['strDashboardErrorMsg802'] = "CAPTCHA fehlerhaft";
-$GLOBALS['strDashboardErrorMsg803'] = "Falsche Parameter";
-$GLOBALS['strDashboardErrorMsg804'] = "Benutzername entspricht nicht der Plattform";
-$GLOBALS['strDashboardErrorMsg805'] = "Plattform existiert nicht";
-$GLOBALS['strDashboardErrorMsg806'] = "Serverfehler";
-$GLOBALS['strDashboardErrorMsg807'] = "Nicht autorisiert";
-$GLOBALS['strDashboardErrorMsg808'] = "XML-RPC Version nicht unterstützt";
-$GLOBALS['strDashboardErrorMsg900'] = "Übertragungsfehlercode";
-$GLOBALS['strDashboardErrorMsg821'] = "M2M Bestätigungsfehler - Accounttyp nicht erlaubt";
-$GLOBALS['strDashboardErrorMsg822'] = "M2M Bestätigungsfehler - Passwort bereits erzeugt";
-$GLOBALS['strDashboardErrorMsg823'] = "M2M Bestätigungsfehler - Passwort ungültig";
-$GLOBALS['strDashboardErrorMsg824'] = "M2M Bestätigungsfehler - Passwort abgelaufen";
-$GLOBALS['strDashboardErrorMsg825'] = "M2M Bestätigungsfehler - Verbindung nicht möglich";
-$GLOBALS['strDashboardErrorMsg826'] = "M2M Bestätigungsfehler - Verbindung wiederherstellen nicht möglich";
-$GLOBALS['strDashboardErrorDsc800'] = "Das Dashboard lädt für einige Widgets Informationen von einem zentralen Server. Es gibt einige Gründe die diesen Vorgang beeinflussen.<br />Möglicherweise verfügt Ihr Server nicht über die nötige curl-Extension, weitere <a href='http://php.net/curl'>Details finden Sie hier</a>.<br />Zusätzlich können Sie überprüfen ob Ihre Firewall ausgehende Verbindungen abweist.";
-$GLOBALS['strDashboardErrorDsc803'] = "Fehler beim Abruf vom Server - falsche Parameter, bitte versuchen Sie Ihre Daten erneut zu senden";
-$GLOBALS['strDashboardErrorDsc805'] = "Eine XML-RPC Verbindung war während der Installation von OpenX nicht erlaubt und so hat der OpenX Zentral-Server Ihre OpenX-Installation nicht als gültig erkannt.<br />Bitte wechseln Sie als Administrator in Mein Benutzerzugang -> Produkt-Update um sich mit mit dem Zentral-Server zu verbinden und dort zu registrieren. ";
 $GLOBALS['strActions'] = "Aktionen";
 $GLOBALS['strMore'] = "Mehr";
 $GLOBALS['strLess'] = "Weniger";

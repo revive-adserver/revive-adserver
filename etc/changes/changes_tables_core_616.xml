@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>616</version>
+  <comments>Removed table columns deprecated by removal of OpenX Market support.</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>616</version>
+      <change>
+        <table>
+          <name>banners</name>
+      </table>
+    </change>
+  </changeset>
+</constructive>
+<destructive>
+  <changeset>
+    <name>openads</name>
+    <version>616</version>
+    <change>
+      <table>
+        <name>banners</name>
+      <remove>
+        <field>
+          <name>an_banner_id</name>
+        </field>
+          <field>
+            <name>as_banner_id</name>
+          </field>
+            <field>
+              <name>ad_direct_status</name>
+            </field>
+              <field>
+                <name>ad_direct_rejection_reason_id</name>
+              </field>
+            </remove>
+          </table>
+        </change>
+      </changeset>
+    </destructive>
+  </instructionset>

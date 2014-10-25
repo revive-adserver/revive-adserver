@@ -49,7 +49,7 @@ if (!empty($affiliateid)) {
         addPageTools($affiliateid);
         addWebsitePageTools($affiliateid);
         phpAds_PageHeader("4.2.7", $oHeaderModel);
-        phpAds_ShowSections(array("4.2.2", "4.2.3","4.2.4","4.2.5","4.2.6","4.2.7"));
+        phpAds_ShowSections(array("4.2.2", "4.2.3","4.2.4","4.2.5","4.2.7"));
     } else {
         addPageTools($affiliateid);
         phpAds_PageHeader('2.3', $oHeaderModel);

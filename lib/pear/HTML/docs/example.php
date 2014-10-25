@@ -56,9 +56,9 @@
     $menu->addItem($node1);
     
     // Create the presentation class
-    $treeMenu = &new HTML_TreeMenu_DHTML($menu, array('images' => '../images', 'defaultClass' => 'treeMenuDefault'));
-    $listBox  = &new HTML_TreeMenu_Listbox($menu, array('linkTarget' => '_self'));
-    //$treeMenuStatic = &new HTML_TreeMenu_staticHTML($menu, array('images' => '../images', 'defaultClass' => 'treeMenuDefault', 'noTopLevelImages' => true));
+    $treeMenu = new HTML_TreeMenu_DHTML($menu, array('images' => '../images', 'defaultClass' => 'treeMenuDefault'));
+    $listBox  = new HTML_TreeMenu_Listbox($menu, array('linkTarget' => '_self'));
+    //$treeMenuStatic = new HTML_TreeMenu_staticHTML($menu, array('images' => '../images', 'defaultClass' => 'treeMenuDefault', 'noTopLevelImages' => true));
 ?>
 <html>
 <head>

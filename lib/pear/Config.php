@@ -76,7 +76,7 @@ class Config {
     */
     function Config()
     {
-        $this->container =& new Config_Container('section', 'root');
+        $this->container = new Config_Container('section', 'root');
     } // end constructor
 
     /**
@@ -162,7 +162,7 @@ class Config {
         	if ($rootContainer->getName() === 'root' && $rootContainer->getType() === 'section') {
         		$this->container =& $rootContainer;
         	} else {
-	            $this->container =& new Config_Container('section', 'root');
+	            $this->container = new Config_Container('section', 'root');
     	        $this->container->addItem($rootContainer);
     	    }
             return true;

@@ -52,7 +52,7 @@ class Test_OA_Admin_Menu extends Test_OA_Admin_MenuTestCase
 
     function testAdd()
     {
-        $menu = &new OA_Admin_Menu();
+        $menu = new OA_Admin_Menu();
         $parent = $this->generateSection(0);
         $sections = $this->generateSections(10, 1);
 
@@ -78,7 +78,7 @@ class Test_OA_Admin_Menu extends Test_OA_Admin_MenuTestCase
 
     function testAddTwice()
     {
-        $menu = &new OA_Admin_Menu();
+        $menu = new OA_Admin_Menu();
         $section1 = $this->generateSection(0);
         $fakeSection1 = $this->generateSection(0); //will generate with the
                                                     //same data as the section above
@@ -101,7 +101,7 @@ class Test_OA_Admin_Menu extends Test_OA_Admin_MenuTestCase
 
     function testAddTo()
     {
-        $menu = &new OA_Admin_Menu();
+        $menu = new OA_Admin_Menu();
         $parent = $this->generateSection(0);
         $sections = $this->generateSections(10, 1);
         $menu->add($parent);
@@ -141,7 +141,7 @@ class Test_OA_Admin_Menu extends Test_OA_Admin_MenuTestCase
 
     function testAddToTwice()
     {
-        $menu = &new OA_Admin_Menu();
+        $menu = new OA_Admin_Menu();
         $parent = $this->generateSection(0);
         $section1 = $this->generateSection(1);
         $fakeSection1 = $this->generateSection(1); //will generate with the
@@ -171,7 +171,7 @@ class Test_OA_Admin_Menu extends Test_OA_Admin_MenuTestCase
 
     function testAddToHierarchy()
     {
-        $menu = &new OA_Admin_Menu();
+        $menu = new OA_Admin_Menu();
         $parent = $this->generateSection(0);
         $sections = $this->generateSections(10, 1);
         $menu->add($parent);
@@ -205,7 +205,7 @@ class Test_OA_Admin_Menu extends Test_OA_Admin_MenuTestCase
 
     function testGetRootSections()
     {
-        $menu = &new OA_Admin_Menu();
+        $menu = new OA_Admin_Menu();
         $sections = $this->generateSections(10, 1);
 
         for ($i = 0; $i < count($sections); $i++) {
@@ -218,7 +218,7 @@ class Test_OA_Admin_Menu extends Test_OA_Admin_MenuTestCase
     function testGetNextSection()
     {
         //build hierarchy
-        $menu = &new OA_Admin_Menu();
+        $menu = new OA_Admin_Menu();
         $sections = $this->generateSections(5, 1);
 
         $menu->add($sections[0]);
@@ -243,7 +243,7 @@ class Test_OA_Admin_Menu extends Test_OA_Admin_MenuTestCase
 
     function testIsRootSection()
     {
-        $menu = &new OA_Admin_Menu();
+        $menu = new OA_Admin_Menu();
         $sections = $this->generateSections(10, 0);
         $someOtherSections = $this->generateSections(2, 10);
 
@@ -281,7 +281,7 @@ class Test_OA_Admin_Menu extends Test_OA_Admin_MenuTestCase
 
     function testGetById()
     {
-        $menu = &new OA_Admin_Menu();
+        $menu = new OA_Admin_Menu();
         $sections = $this->generateSections(10, 1);
 
         //test get by non existent id
@@ -308,7 +308,7 @@ class Test_OA_Admin_Menu extends Test_OA_Admin_MenuTestCase
 
     function testGetParents()
     {
-        $menu = &new OA_Admin_Menu();
+        $menu = new OA_Admin_Menu();
         $sections = $this->generateSections(20, 1);
 
 
@@ -344,7 +344,7 @@ class Test_OA_Admin_Menu extends Test_OA_Admin_MenuTestCase
 
     function testGetLevel()
     {
-        $menu = &new OA_Admin_Menu();
+        $menu = new OA_Admin_Menu();
         $sections = $this->generateSections(20, 1);
 
 

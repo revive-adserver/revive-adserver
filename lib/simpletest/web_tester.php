@@ -503,7 +503,7 @@
          *    @access public
          */
         function &createBrowser() {
-            $browser = &new SimpleBrowser();
+            $browser = new SimpleBrowser();
             return $browser;
         }
         

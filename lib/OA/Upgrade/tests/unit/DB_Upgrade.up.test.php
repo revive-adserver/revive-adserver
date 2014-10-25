@@ -116,7 +116,7 @@ class Test_DB_Upgrade extends UnitTestCase
 
     function _newDBUpgradeObject($timing='constructive')
     {
-        $oDB_Upgrade =&  new OA_DB_Upgrade();
+        $oDB_Upgrade = new OA_DB_Upgrade();
         $oDB_Upgrade->initMDB2Schema();
         $oDB_Upgrade->timingStr = $timing;
         $oDB_Upgrade->timingInt = ($timing ? 0 : 1);

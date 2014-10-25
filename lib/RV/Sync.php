@@ -79,7 +79,7 @@ class RV_Sync
             'stable'  => 0.4
         );
 
-        $version = OA::stripVersion($version, array('dev', 'stable'));
+        $version = OA::stripVersion(strtolower($version), array('dev', 'stable'));
 
         if (preg_match('/^v/', $version)) {
             $v = preg_split('/[.-]/', substr($version, 1));

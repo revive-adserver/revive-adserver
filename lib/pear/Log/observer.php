@@ -78,7 +78,7 @@ class Log_observer
          * instance.
          */
         if (class_exists($class)) {
-            $object = &new $class($priority, $conf);
+            $object = new $class($priority, $conf);
             return $object;
         }
 
@@ -102,9 +102,9 @@ class Log_observer
         if (class_exists($class)) {
             /* Support both new-style and old-style construction. */
             if ($newstyle) {
-                $object = &new $class($priority, $conf);
+                $object = new $class($priority, $conf);
             } else {
-                $object = &new $class($priority);
+                $object = new $class($priority);
             }
             return $object;
         }

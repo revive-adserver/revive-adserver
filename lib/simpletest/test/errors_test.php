@@ -34,63 +34,63 @@
         }
 
         function testAssertNoErrorsGivesTrueWhenNoErrors() {
-            $test = &new MockSimpleTestCase();
+            $test = new MockSimpleTestCase();
             $test->expectOnce('assert', array(new TrueExpectation(), true, 'Should be no errors'));
             $test->setReturnValue('assert', true);
-            $queue = &new SimpleErrorQueue();
+            $queue = new SimpleErrorQueue();
             $queue->setTestCase($test);
             $this->assertTrue($queue->assertNoErrors('%s'));
         }
 
         function testAssertNoErrorsIssuesFailWhenErrors() {
-            $test = &new MockSimpleTestCase();
+            $test = new MockSimpleTestCase();
             $test->expectOnce('assert', array(new TrueExpectation(), false, 'Should be no errors'));
             $test->setReturnValue('assert', false);
-            $queue = &new SimpleErrorQueue();
+            $queue = new SimpleErrorQueue();
             $queue->setTestCase($test);
             $queue->add(1024, 'Ouch', 'here.php', 100);
             $this->assertFalse($queue->assertNoErrors('%s'));
         }
 
         function testAssertErrorFailsWhenNoError() {
-            $test = &new MockSimpleTestCase();
+            $test = new MockSimpleTestCase();
             $test->expectOnce('fail', array('Expected error not found'));
             $test->setReturnValue('assert', false);
-            $queue = &new SimpleErrorQueue();
+            $queue = new SimpleErrorQueue();
             $queue->setTestCase($test);
             $this->assertFalse($queue->assertError(false, '%s'));
         }
 
         function testAssertErrorFailsWhenErrorDoesntMatch() {
-            $test = &new MockSimpleTestCase();
+            $test = new MockSimpleTestCase();
             $test->expectOnce('assert', array(
                     new MockSimpleExpectation(),
                     'B',
                     'Expected PHP error [B] severity [E_USER_NOTICE] in [b.php] line [100]'));
             $test->setReturnValue('assert', false);
-            $queue = &new SimpleErrorQueue();
+            $queue = new SimpleErrorQueue();
             $queue->setTestCase($test);
             $queue->add(1024, 'B', 'b.php', 100);
             $this->assertFalse($queue->assertError(new MockSimpleExpectation(), '%s'));
         }
 
         function testExpectationMatchCancelsIncomingError() {
-            $test = &new MockSimpleTestCase();
+            $test = new MockSimpleTestCase();
             $test->expectOnce('assert', array(new MockSimpleExpectation(), 'B', 'a message'));
             $test->setReturnValue('assert', true);
             $test->expectNever('error');
-            $queue = &new SimpleErrorQueue();
+            $queue = new SimpleErrorQueue();
             $queue->setTestCase($test);
             $queue->expectError(new MockSimpleExpectation(), 'a message');
             $queue->add(1024, 'B', 'b.php', 100);
         }
 
         function testExpectationMissTriggersError() {
-            $test = &new MockSimpleTestCase();
+            $test = new MockSimpleTestCase();
             $test->expectOnce('assert', array(new MockSimpleExpectation(), 'B', 'a message'));
             $test->setReturnValue('assert', false);
             $test->expectOnce('error');
-            $queue = &new SimpleErrorQueue();
+            $queue = new SimpleErrorQueue();
             $queue->setTestCase($test);
             $queue->expectError(new MockSimpleExpectation(), 'a message');
             $queue->add(1024, 'B', 'b.php', 100);

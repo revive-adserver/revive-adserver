@@ -62,7 +62,7 @@ class OA_Dashboard_Widget_Feed extends OA_Dashboard_Widget
     {
         if (!$this->oTpl->is_cached()) {
             OA::disableErrorHandling();
-            $oRss =& new XML_RSS($this->url);
+            $oRss = new XML_RSS($this->url);
             $result = $oRss->parse();
             OA::enableErrorHandling();
 

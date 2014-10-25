@@ -244,7 +244,7 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
     function test_Tables()
     {
         $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
-        $oTable = & new OA_DB_Table;
+        $oTable = new OA_DB_Table;
         $oTable->init(MAX_PATH.$this->testpathPackages.'testPlugin/etc/tables_testplugin.xml');
         $version = $oTable->aDefinition['version'];
         $oPluginManager = new OX_Plugin_ComponentGroupManager();

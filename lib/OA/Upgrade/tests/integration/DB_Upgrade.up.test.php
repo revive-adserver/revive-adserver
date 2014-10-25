@@ -53,14 +53,14 @@ class Test_DB_Upgrade extends UnitTestCase
     function test_constructor()
     {
         $this->path = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
-        $oDB_Upgrade =&  new OA_DB_Upgrade();
+        $oDB_Upgrade = new OA_DB_Upgrade();
         $this->assertIsA($oDB_Upgrade, 'OA_DB_Upgrade', 'OA_DB_Upgrade not instantiated');
     }
 
     function test_initMDB2Schema()
     {
         $this->path = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
-        $oDB_Upgrade =&  new OA_DB_Upgrade();
+        $oDB_Upgrade = new OA_DB_Upgrade();
         $oDB_Upgrade->initMDB2Schema();
         $this->assertIsA($oDB_Upgrade->oSchema, 'MDB2_Schema', 'MDB2 Schema not instantiated');
         $this->assertIsA($oDB_Upgrade->oSchema->db, 'MDB2_Driver_Common', 'MDB2 Driver not instantiated');
@@ -1538,7 +1538,7 @@ class Test_DB_Upgrade extends UnitTestCase
      */
     function _newDBUpgradeObject($timing='constructive')
     {
-        $oDB_Upgrade =&  new OA_DB_Upgrade();
+        $oDB_Upgrade = new OA_DB_Upgrade();
         $oDB_Upgrade->initMDB2Schema();
         $oDB_Upgrade->timingStr = $timing;
         $oDB_Upgrade->timingInt = ($timing ? 0 : 1);

@@ -1075,7 +1075,7 @@ class MDB2_Driver_mysqli extends MDB2_Driver_Common
         }
 
         $class_name = 'MDB2_Statement_'.$this->phptype;
-        $obj =& new $class_name($this, $statement, $positions, $query, $types, $result_types, $is_manip, $limit, $offset);
+        $obj = new $class_name($this, $statement, $positions, $query, $types, $result_types, $is_manip, $limit, $offset);
         $this->debug($query, __FUNCTION__, array('is_manip' => $is_manip, 'when' => 'post', 'result' => $obj));
         return $obj;
     }
@@ -1341,7 +1341,7 @@ class MDB2_Result_mysqli extends MDB2_Result_Common
             if ($object_class == 'stdClass') {
                 $row = (object) $row;
             } else {
-                $row = &new $object_class($row);
+                $row = new $object_class($row);
             }
         }
         ++$this->rownum;

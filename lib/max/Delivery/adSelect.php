@@ -279,6 +279,15 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
             MAX_Delivery_log_setLastAction(0, array($row['bannerid']), array($zoneId), array($row['viewwindow']));
         }
     } else {
+
+        if (!empty($zoneId)) {
+            $logUrl = _adRenderBuildLogURL(array(
+                'ad_id' => 0,
+                'placement_id' => 0,
+            ), $zoneId, $source, $loc, $referer, '&');
+            $g_append = str_replace('{random}', MAX_getRandomNumber(), MAX_adRenderImageBeacon($logUrl)).$g_append;
+        }
+
         // No banner found
         if (!empty($row['default'])) {
             // Return the default banner

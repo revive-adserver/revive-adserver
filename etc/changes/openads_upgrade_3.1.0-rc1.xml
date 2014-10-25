@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<upgrade>
+    <name>Revive Adserver</name>
+    <creationDate>2014-08-20</creationDate>
+    <author>Andrew Hill</author>
+    <authorEmail>revive@revive-adserver.com</authorEmail>
+    <authorUrl>http://www.revive-adserver.com</authorUrl>
+    <license>LICENSE.txt</license>
+    <description>Revive Adserver Upgrade 3.1.0-rc1</description>
+    <versionFrom></versionFrom>
+    <versionTo>3.1.0-rc1</versionTo>
+
+    <!-- Database Packages -->
+    <database>
+        <package>
+            <version>614</version>
+            <stamp>614</stamp>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_614.xml</file>
+            <file>changes_tables_core_614.xml</file>
+            <file>migration_tables_core_614.php</file>
+        </package>
+        <package>
+            <version>615</version>
+            <stamp>615</stamp>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_615.xml</file>
+            <file>changes_tables_core_615.xml</file>
+            <file>migration_tables_core_615.php</file>
+        </package>
+        <package>
+            <version>616</version>
+            <stamp>616</stamp>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_616.xml</file>
+            <file>changes_tables_core_616.xml</file>
+            <file>migration_tables_core_616.php</file>
+        </package>
+        <package>
+            <version>617</version>
+            <stamp>617</stamp>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_617.xml</file>
+            <file>changes_tables_core_617.xml</file>
+            <file>migration_tables_core_617.php</file>
+        </package>
+        <package>
+            <version>618</version>
+            <stamp>618</stamp>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_618.xml</file>
+            <file>changes_tables_core_618.xml</file>
+            <file>migration_tables_core_618.php</file>
+        </package>
+        <package>
+            <version>619</version>
+            <stamp>619</stamp>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_619.xml</file>
+            <file>changes_tables_core_619.xml</file>
+            <file>migration_tables_core_619.php</file>
+        </package>
+    </database>
+
+</upgrade>

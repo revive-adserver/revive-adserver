@@ -90,16 +90,16 @@ class MAX_ErrorHandler
      */
     function errHandler($errNo, $errStr, $file, $line, $context)
     {
-        //  if an @ error suppression operator has been detected (0) return null
-        if (error_reporting() == 0) {
-            return null;
-        }
         $conf = $GLOBALS['_MAX']['CONF'];
         // do not show notices
         if ($conf['debug']['errorOverride'] == true) {
             if ($errNo == E_NOTICE || $errNo >= E_STRICT) {
                 return null;
             }
+        }
+        //  if an @ error suppression operator has been detected (0) return null
+        if (error_reporting() == 0) {
+            return null;
         }
         if (in_array($errNo, array_keys($this->errorType))) {
             //  final param is 2nd dimension element from errorType array,

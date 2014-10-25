@@ -180,7 +180,7 @@ class Pager
 
         // If the class exists, return a new instance of it.
         if (class_exists($classname)) {
-            $pager =& new $classname($options);
+            $pager = new $classname($options);
             return $pager;
         }
 

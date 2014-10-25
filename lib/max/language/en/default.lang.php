@@ -143,9 +143,6 @@ $GLOBALS['strRequiredField']            = "Required field";
 $GLOBALS['strCloseWindow']              = "Close window";
 
 // Dashboard
-$GLOBALS['strDashboardCommunity']       = "Community";
-$GLOBALS['strDashboardDashboard']       = "Dashboard";
-$GLOBALS['strDashboardDocs']            = PRODUCT_NAME . " Docs";
 $GLOBALS['strDashboardCantBeDisplayed'] = "The dashboard can not be displayed";
 $GLOBALS['strNoCheckForUpdates']        = "The dashboard cannot be displayed unless the<br />check for updates setting is enabled.";
 $GLOBALS['strEnableCheckForUpdates']    = "Please enable the <a href='account-settings-update.php' target='_top'>check for updates</a> setting on the<br/><a href='account-settings-update.php' target='_top'>update settings</a> page.";
@@ -154,32 +151,8 @@ $GLOBALS['strAccessHomePage']           = "Click here to access your Home page";
 $GLOBALS['strEditSyncSettings']         = "and edit your synchronization settings";
 // Dashboard Errors
 $GLOBALS['strDashboardErrorCode']       = "code";
-$GLOBALS['strDashboardGenericError']    = "Generic error";
 $GLOBALS['strDashboardSystemMessage']   = "System message";
-$GLOBALS['strDashboardErrorHelp']       = "If this error repeats please describe your problem in detail and post it on the <a href='http://www.revive-adserver.com/'>www.revive-adserver.com</a>.";
-$GLOBALS['strDashboardErrorMsg800']     = "XML-RPC connection error";
-$GLOBALS['strDashboardErrorMsg801']     = "Not authenticated";
-$GLOBALS['strDashboardErrorMsg802']     = "CAPTCHA failed";
-$GLOBALS['strDashboardErrorMsg803']     = "Wrong parameters";
-$GLOBALS['strDashboardErrorMsg804']     = "User name does not match platform";
-$GLOBALS['strDashboardErrorMsg805']     = "Platform does not exist";
-$GLOBALS['strDashboardErrorMsg806']     = "Server error";
-$GLOBALS['strDashboardErrorMsg807']     = "Not authorised";
-$GLOBALS['strDashboardErrorMsg808']     = "XML-RPC version not supported";
-$GLOBALS['strDashboardErrorMsg900']     = "Transport error code";
-$GLOBALS['strDashboardErrorMsg821']     = "M2M authentication error - account type not allowed";
-$GLOBALS['strDashboardErrorMsg822']     = "M2M authentication error - password already generated";
-$GLOBALS['strDashboardErrorMsg823']     = "M2M authentication error - password invalid";
-$GLOBALS['strDashboardErrorMsg824']     = "M2M authentication error - password expired";
-$GLOBALS['strDashboardErrorMsg825']     = "M2M authentication error - cannot connect";
-$GLOBALS['strDashboardErrorMsg826']     = "M2M authentication error - cannot reconnect";
-
-$GLOBALS['strDashboardErrorDsc800']     = "The dashboard pulls information from a central server for some widgets. There are several things which can affect this.<br />
-                                           Your server may not have the the Curl extension enabled. You may need to install or enable the Curl extension, see <a href='http://php.net/curl'>here</a> for more details.<br />
-                                           You should also check that your firewall isn't blocking outbound connections.";
-$GLOBALS['strDashboardErrorDsc803']     = "Error in request to server - wrong parameters, please try to resend your data";
-$GLOBALS['strDashboardErrorDsc805']     = "XML-RPC connection wasn't allowed during " . PRODUCT_NAME . " installation and " . PRODUCT_NAME . " central server does not recognize your installation as valid.<br />
-                                           Please go to Administrator's account My account -> Product Updates to connect to and register in central server.";
+$GLOBALS['strDashboardErrorHelp']       = "If this error repeats please describe your problem in detail and post it on <a href='http://forum.revive-adserver.com/'>forum.revive-adserver.com/</a>.";
 
 // Priority
 $GLOBALS['strPriority']                 = "Priority";
@@ -908,7 +881,7 @@ $GLOBALS['strWarnChangeZoneType']           = "Changing the zone type to text or
                                                 </ul>";
 $GLOBALS['strWarnChangeZoneSize']           = 'Changing the zone size will unlink any banners that are not the new size, and will add any banners from linked campaigns which are the new size';
 $GLOBALS['strWarnChangeBannerSize']         = 'Changing the banner size will unlink this banner from any zones that are not the new size, and if this banner\'s <strong>campaign</strong> is linked to a zone of the new size, this banner will be automatically linked';
-$GLOBALS['strWarnBannerReadonly']           = 'This banner is read-only because an extension has been disabled.  Contact your Administrator for more information.';
+$GLOBALS['strWarnBannerReadonly']           = 'This banner is read-only because an extension has been disabled. Contact your system administrator for more information.';
 $GLOBALS['strInventoryForecasting']         = 'Inventory Forecasting';
 $GLOBALS['strZonesOfWebsite']               = 'in'; //this is added between page name and website name eg. 'Zones in www.example.com'
 $GLOBALS['strBackToZones']                  = "Back to zones";
@@ -1071,7 +1044,7 @@ $GLOBALS['strReports']                = "Reports";
 $GLOBALS['strAdvancedReports']        = "Advanced Reports";
 $GLOBALS['strAdminReports']           = "Admin Reports";
 $GLOBALS['strAdvertiserReports']      = "Advertiser Reports";
-$GLOBALS['strAgencyReports']          = "Agency Reports";
+$GLOBALS['strAgencyReports']          = "Account Reports";
 $GLOBALS['strPublisherReports']       = "Website Reports";
 $GLOBALS['strSelectReport']           = "Select the report you want to generate";
 $GLOBALS['strStartDate']              = "Start Date";
@@ -1254,8 +1227,8 @@ $GLOBALS['strNameLanguage']                     = "Name & Language";
 $GLOBALS['strAccountPreferences']               = "Account Preferences";
 $GLOBALS['strCampaignEmailReportsPreferences']  = "Campaign email Reports Preferences";
 $GLOBALS['strTimezonePreferences']              = "Timezone Preferences";
-$GLOBALS['strAdminEmailWarnings']               = "Administrator email Warnings";
-$GLOBALS['strAgencyEmailWarnings']              = "Agency email Warnings";
+$GLOBALS['strAdminEmailWarnings']               = "System administrator email Warnings";
+$GLOBALS['strAgencyEmailWarnings']              = "Account email Warnings";
 $GLOBALS['strAdveEmailWarnings']                = "Advertiser email Warnings";
 $GLOBALS['strFullName']                         = "Full Name";
 $GLOBALS['strEmailAddress']                     = "Email address";
@@ -1472,7 +1445,7 @@ $GLOBALS['strFor']                    = "for";
 $GLOBALS['strHas']                    = "has";
 $GLOBALS['strAdZoneAsscociation']     = "Ad Zone Association";
 $GLOBALS['strBinaryData']             = "Binary data";
-$GLOBALS['strAuditTrailDisabled']     = "Audit Trail has been disabled by administrator. No further events are logged and shown in Audit Trail list.";
+$GLOBALS['strAuditTrailDisabled']     = "Audit Trail has been disabled by the system administrator. No further events are logged and shown in Audit Trail list.";
 $GLOBALS['strAccount']                  = "Account";
 $GLOBALS['strAccountUserAssociation']   = "Account User Association";
 $GLOBALS['strEvent']                    = "Event";

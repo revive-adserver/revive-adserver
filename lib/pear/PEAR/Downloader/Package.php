@@ -1247,7 +1247,7 @@ class PEAR_Downloader_Package
                 if ($s = $params[$i]->explicitState()) {
                     $obj->setExplicitState($s);
                 }
-                $obj = &new PEAR_Downloader_Package($params[$i]->getDownloader());
+                $obj = new PEAR_Downloader_Package($params[$i]->getDownloader());
                 PEAR::pushErrorHandling(PEAR_ERROR_RETURN);
                 if (PEAR::isError($dir = $dl->getDownloadDir())) {
                     PEAR::popErrorHandling();
@@ -1292,7 +1292,7 @@ class PEAR_Downloader_Package
             // around
             $params[$i]->_downloadDeps = array();
             foreach ($newdeps as $dep) {
-                $obj = &new PEAR_Downloader_Package($params[$i]->getDownloader());
+                $obj = new PEAR_Downloader_Package($params[$i]->getDownloader());
                 if ($s = $params[$i]->explicitState()) {
                     $obj->setExplicitState($s);
                 }
@@ -1350,7 +1350,7 @@ class PEAR_Downloader_Package
      */
     function &getPackagefileObject(&$c, $d, $t = false)
     {
-        $a = &new PEAR_PackageFile($c, $d, $t);
+        $a = new PEAR_PackageFile($c, $d, $t);
         return $a;
     }
 
@@ -1433,7 +1433,7 @@ class PEAR_Downloader_Package
             }
             if ($this->_rawpackagefile) {
                 require_once 'Archive/Tar.php';
-                $tar = &new Archive_Tar($file);
+                $tar = new Archive_Tar($file);
                 $packagexml = $tar->extractInString('package2.xml');
                 if (!$packagexml) {
                     $packagexml = $tar->extractInString('package.xml');

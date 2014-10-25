@@ -68,11 +68,7 @@ class DataObjects_Banners extends DB_DataObjectCommon
     public $keyword;                         // VARCHAR(255) => openads_varchar => 130
     public $transparent;                     // TINYINT(1) => openads_tinyint => 145
     public $parameters;                      // TEXT() => openads_text => 34
-    public $an_banner_id;                    // INT(11) => openads_int => 1
-    public $as_banner_id;                    // INT(11) => openads_int => 1
     public $status;                          // INT(11) => openads_int => 129
-    public $ad_direct_status;                // TINYINT(4) => openads_tinyint => 129
-    public $ad_direct_rejection_reason_id;    // TINYINT(4) => openads_tinyint => 129
     public $ext_bannertype;                  // VARCHAR(255) => openads_varchar => 2
     public $prepend;                         // TEXT() => openads_text => 162
 
@@ -113,8 +109,6 @@ class DataObjects_Banners extends DB_DataObjectCommon
                 'keyword' => '',
                 'transparent' => 0,
                 'status' => 0,
-                'ad_direct_status' => 0,
-                'ad_direct_rejection_reason_id' => 0,
                 'prepend' => '',
                 );
 

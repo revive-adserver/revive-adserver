@@ -180,6 +180,9 @@ class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics
         $aEntitiesData = parent::getCampaigns($aParams, $level, $expand);
 
         $this->maskHiddenEntities($aEntitiesData, 'campaign');
+        if ($level == $this->startLevel) {
+            $this->addBlanks($aParams, $aEntitiesData);
+        }
 
         return $aEntitiesData;
     }
@@ -189,6 +192,9 @@ class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics
         $aEntitiesData = parent::getBanners($aParams, $level, $expand);
 
         $this->maskHiddenEntities($aEntitiesData, 'banner');
+        if ($level == $this->startLevel) {
+            $this->addBlanks($aParams, $aEntitiesData);
+        }
 
         return $aEntitiesData;
     }
@@ -198,7 +204,7 @@ class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics
         $aEntitiesData = parent::getPublishers($aParams, $level, $expand);
 
         $this->maskHiddenEntities($aEntitiesData, 'publisher');
-        if (!$level) {
+        if ($level == $this->startLevel) {
             $this->addDirectSelection($aParams, $aEntitiesData);
         }
 
@@ -210,7 +216,7 @@ class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics
         $aEntitiesData = parent::getZones($aParams, $level, $expand);
 
         $this->maskHiddenEntities($aEntitiesData, 'zone');
-        if (!$level) {
+        if ($level == $this->startLevel) {
             $this->addDirectSelection($aParams, $aEntitiesData);
         }
 
@@ -252,6 +258,59 @@ class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics
                 $zone['prefix'] = 'x';
                 $zone['id'] = '-';
                 $zone['icon'] =  OX::assetPath().'/images/icon-generatecode.gif';
+                $zone['htmlclass'] = 'last';
+
+                if ($this->listOrderField != 'name' && $this->listOrderField != 'id') {
+                    $aEntitiesData[] = $zone;
+                    MAX_sortArray(
+                        $aEntitiesData,
+                        $this->listOrderField,
+                        $this->listOrderDirection == 'up'
+                    );
+                } elseif ($this->listOrderDirection == 'up') {
+                    array_push($aEntitiesData, $zone);
+                } else {
+                    array_unshift($aEntitiesData, $zone);
+                }
+            }
+        }
+    }
+
+    /**
+     * Add "blanks" stats to an entity array
+     *
+     * @param array Query parameters
+     * @param array Entities array
+     */
+    function addBlanks($aParams, &$aEntitiesData)
+    {
+        $aParams['exclude'] = array('zone_id');
+        $aParams['ad_id'] = 0;
+
+        // Get plugin aParams
+        $pluginParams = array();
+        foreach ($this->aPlugins as $oPlugin) {
+            $oPlugin->addQueryParams($pluginParams);
+        }
+
+        $aBlanks = Admin_DA::fromCache('getEntitiesStats', $aParams + $this->aDates, 1);
+
+        // Merge plugin additional data
+        foreach ($this->aPlugins as $oPlugin) {
+            $oPlugin->mergeData($aBlanks, $this->aEmptyRow, 'getEntitiesStats', $aParams + $this->aDates);
+        }
+
+        if (count($aBlanks)) {
+            $zone = current($aBlanks) + $this->aEmptyRow;
+            $zone['active'] = $this->_hasActiveStats($zone);
+
+            if ($zone['active']) {
+                $this->_summarizeStats($zone);
+
+                $zone['name'] = 'Blank impressions';
+                $zone['prefix'] = 'x';
+                $zone['id'] = '-';
+                $zone['icon'] =  OX::assetPath().'/images/icon-banner-disabled.png';
                 $zone['htmlclass'] = 'last';
 
                 if ($this->listOrderField != 'name' && $this->listOrderField != 'id') {

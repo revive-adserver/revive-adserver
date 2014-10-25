@@ -107,7 +107,7 @@ html html
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-//decide whether this is add or edit, get banner data or initialise it
+// Decide whether this is add or edit, get banner data or initialise it
 if ($bannerid != '') {
     // Fetch the data from the database
     $doBanners = OA_Dal::factoryDO('banners');
@@ -192,7 +192,7 @@ if ($ext_bannertype)
 if ((!$ext_bannertype) && $type && (!in_array($type, array('sql','web','url','html','txt'))))
 {
     list($extension, $group, $plugin) = explode('.',$type);
-    $oComponent = &OX_Component::factoryByComponentIdentifier($extension,$group,$plugin);
+    $oComponent = &OX_Component::factoryByComponentIdentifier($extension, $group, $plugin);
     $formDisabled = (!$oComponent || !$oComponent->enabled);
     if ($oComponent)
     {
@@ -516,6 +516,23 @@ function buildBannerForm($type, $aBanner, &$oComponent=null, $formDisabled=false
     if ($oComponent)
     {
         $oComponent->buildForm($form, $aBanner);
+        if ($type == 'html') {
+            if ($aBanner['bannerid'] == '') {
+                // Remove the deprecated "url" and "target" form elements; these
+                // are not required for new HTML banners
+                $form->removeElement('header_b_links');
+                $form->removeElement('url');
+                $form->removeElement('target');
+            } else {
+                // Remove the deprecated "url" and "target" form elements from
+                // the existing HTML banner only if BOTH are unset
+                if ($aBanner['url'] == '' && $aBanner['target'] == '' ) {
+                    $form->removeElement('header_b_links');
+                    $form->removeElement('url');
+                    $form->removeElement('target');
+                }
+            }
+        }
     }
 
     $translation = new OX_Translation();
@@ -684,7 +701,15 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled=false)
 
         // Delete the old file for this banner
         if (!empty($aBanner['filename']) && ($aBanner['filename'] != $aFile['filename']) && ($aBanner['storagetype'] == 'web' || $aBanner['storagetype'] == 'sql')) {
-            DataObjects_Banners::deleteBannerFile($aBanner['storagetype'], $aBanner['filename']);
+            /*
+             * Actually, don't delete it. It might be still being used until the
+             * cache expires. See:
+             *  - https://github.com/revive-adserver/revive-adserver/issues/341
+             *  - https://github.com/revive-adserver/revive-adserver/issues/421
+             *
+             * DataObjects_Banners::deleteBannerFile($aBanner['storagetype'], $aBanner['filename']);
+             *
+             */
         }
     }
     if (!empty($_FILES['uploadalt']) && $_FILES['uploadalt']['size'] > 0

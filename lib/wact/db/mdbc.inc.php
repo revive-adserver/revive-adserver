@@ -42,7 +42,7 @@ class MDBC {
     * @access public
     */
     function &newConnection($name) {
-        $ConnectionConfiguration =& new MDBC_ConnectionConfiguration($name);
+        $ConnectionConfiguration = new MDBC_ConnectionConfiguration($name);
         $driver = $ConnectionConfiguration->get("driver");
         $ConnectionClass = $driver . 'Connection'; 
 

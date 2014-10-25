@@ -74,7 +74,7 @@ class OA_Upgrade_Login
 
     function autoLogin()
     {
-        $oPlugin = &OA_Auth::staticGetAuthPlugin();
+        $oPlugin = OA_Auth::staticGetAuthPlugin();
 
         phpAds_SessionStart();
 
@@ -136,7 +136,7 @@ class OA_Upgrade_Login
             $aPref = $oDbh->queryRow($query, null, MDB2_FETCHMODE_ASSOC);
 
             if (is_array($aPref)) {
-                $oPlugin = &OA_Auth::staticGetAuthPlugin('internal');
+                $oPlugin = OA_Auth::staticGetAuthPlugin('internal');
                 $aCredentials = $oPlugin->_getCredentials(false);
 
                 if (!PEAR::isError($aCredentials)) {

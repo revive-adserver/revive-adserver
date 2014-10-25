@@ -514,12 +514,12 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
     {
         // always add default type
         $aIncludeSystemTypes = array_merge(
-            array(DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT), 
+            array(DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT),
             $aIncludeSystemTypes);
         foreach ($aIncludeSystemTypes as $k => $v) {
             $aIncludeSystemTypes[$k] = DBC::makeLiteral((int)$v);
         }
-            
+
         $whereCampaign = is_numeric($keyword) ? " OR m.campaignid=". DBC::makeLiteral($keyword) : '';
         $prefix = $this->getTablePrefix();
         $oDbh = OA_DB::singleton();
@@ -549,24 +549,24 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
 
         return DBC::NewRecordSet($query);
     }
-    
-    
+
+
     /**
      * Get list of campaigns for a given advertiser.
      *
      * @param int $clientid
      * @param string $listorder Column name to use for sorting
-     * @param string $orderdirection soring direction 'up'/'down' 
-     * @param array $aIncludeSystemTypes an array of system types to be 
+     * @param string $orderdirection soring direction 'up'/'down'
+     * @param array $aIncludeSystemTypes an array of system types to be
      *              included apart from default campaigns
-     * @return array associative array $campaignId => array of campaign details 
+     * @return array associative array $campaignId => array of campaign details
      */
     public function getClientCampaigns($clientid, $listorder = null, $orderdirection = null, $aIncludeSystemTypes = array())
     {
         $aIncludeSystemTypes = array_merge(
-            array(DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT), 
+            array(DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT),
             $aIncludeSystemTypes);
-        
+
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->clientid = $clientid;
         $doCampaigns->selectAs(array('campaignid'), 'placement_id');
@@ -574,9 +574,9 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
         $doCampaigns->whereInAdd('type', $aIncludeSystemTypes);
         $doCampaigns->orderBy('(type='.DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT.') ASC');
         $doCampaigns->addListOrderBy($listorder, $orderdirection);
-        
+
         $doCampaigns->find();
-        
+
         $aCampaigns = array();
         while ($doCampaigns->fetch() && $row_campaigns = $doCampaigns->toArray()) {
             // mask campaign name if anonymous campaign
@@ -584,11 +584,11 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
             $row_campaigns['name'] = $row_campaigns['campaignname'];
             $aCampaigns[$row_campaigns['campaignid']] = $row_campaigns;
         }
-        
+
         return $aCampaigns;
     }
-    
-    
+
+
     /**
      * @todo Consider removing order options (or making them optional)
      */
@@ -604,20 +604,18 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
                 campaignid,
                 clientid,
                 campaignname,
-                an_campaign_id,
                 status,
-                an_status,
                 priority AS priority,
                 revenue AS revenue
             FROM
-                {$tableM} 
+                {$tableM}
             WHERE
                 type IN (". implode(',', $aIncludeSystemTypes) .") ".
             $this->getSqlListOrder('type+'.$listorder, $orderdirection) // sort by type first
         ;
 
         $rsCampaigns = DBC::NewRecordSet($query);
-        $aCampaigns = $rsCampaigns->getAll(array('campaignid', 'clientid', 'campaignname', 'an_campaign_id', 'status', 'an_status', 'priority', 'revenue'));
+        $aCampaigns = $rsCampaigns->getAll(array('campaignid', 'clientid', 'campaignname', 'status', 'priority', 'revenue'));
         $aCampaigns = $this->_rekeyCampaignsArray($aCampaigns);
         return $aCampaigns;
     }
@@ -642,7 +640,6 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
                 m.clientid as clientid,
                 m.campaignname as campaignname,
                 m.status as status,
-                m.an_status as an_status,
                 m.priority AS priority,
                 revenue AS revenue
             FROM
@@ -656,7 +653,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
         ;
 
         $rsCampaigns = DBC::NewRecordSet($query);
-        $aCampaigns = $rsCampaigns->getAll(array('campaignid', 'clientid', 'campaignname', 'status', 'an_status', 'priority', 'revenue'));
+        $aCampaigns = $rsCampaigns->getAll(array('campaignid', 'clientid', 'campaignname', 'status', 'priority', 'revenue'));
         $aCampaigns = $this->_rekeyCampaignsArray($aCampaigns);
         $aRetCampaigns = array();
         foreach ($aCampaigns as $campaignId => $aCampaign) {
@@ -668,7 +665,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
         }
         return $aRetCampaigns;
     }
-    
+
 
     function countActiveCampaigns()
     {
@@ -769,8 +766,8 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
         $rsResult->free();
         return $aResult;
     }
-    
-    
+
+
     /**
      * Prepare array of include system types for campaigns, include ADVERTISER_TYPE_DEFAULT
      * All values are prepared by DBC::makeLiteral
@@ -778,10 +775,10 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
      * @param array $aIncludeSystemTypes input array
      * @return array prepared array
      */
-    private function _prepareIncludeSystemTypes($aIncludeSystemTypes) 
+    private function _prepareIncludeSystemTypes($aIncludeSystemTypes)
     {
         $aIncludeSystemTypes = array_merge(
-            array(DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT), 
+            array(DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT),
             $aIncludeSystemTypes);
         foreach ($aIncludeSystemTypes as $k => $v) {
             $aIncludeSystemTypes[$k] = DBC::makeLiteral((int)$v);

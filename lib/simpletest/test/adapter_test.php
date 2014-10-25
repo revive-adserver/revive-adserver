@@ -37,7 +37,7 @@
         }
         
         function testSame() {
-            $same = &new SameTestClass();
+            $same = new SameTestClass();
             $this->assertSame($same, $same, "PEAR same");
         }
         

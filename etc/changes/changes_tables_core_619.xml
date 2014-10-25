@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>619</version>
+  <comments>Removed table columns deprecated by removal of OpenX Market support.</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>619</version>
+      <change>
+        <table>
+          <name>zones</name>
+      </table>
+    </change>
+  </changeset>
+</constructive>
+<destructive>
+  <changeset>
+    <name>openads</name>
+    <version>619</version>
+    <change>
+      <table>
+        <name>zones</name>
+      <remove>
+        <field>
+          <name>as_zone_id</name>
+        </field>
+          <field>
+            <name>is_in_ad_direct</name>
+          </field>
+        </remove>
+      </table>
+    </change>
+  </changeset>
+</destructive>
+</instructionset>

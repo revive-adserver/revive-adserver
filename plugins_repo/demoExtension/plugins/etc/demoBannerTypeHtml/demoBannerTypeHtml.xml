@@ -10,7 +10,7 @@
     <license>license.txt</license>
     <description>Demo HTML Banner Type extension for OpenX</description>
     <version>2.0.2</version>
-    <oxversion>2.7.30-beta-rc11</oxversion>
+    <oxversion>3.1-dev</oxversion>
     <extends>bannerTypeHtml</extends>
 
     <install>

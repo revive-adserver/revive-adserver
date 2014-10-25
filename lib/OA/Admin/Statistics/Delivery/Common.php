@@ -82,9 +82,9 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
     function _loadPlugins()
     {
         require_once MAX_PATH . '/lib/OA/Admin/Statistics/Fields/Delivery/Default.php';
-        $aPlugins['default'] = & new OA_StatisticsFieldsDelivery_Default();
+        $aPlugins['default'] = new OA_StatisticsFieldsDelivery_Default();
         require_once MAX_PATH . '/lib/OA/Admin/Statistics/Fields/Delivery/Affiliates.php';
-        $aPlugins['affiliates'] = & new OA_StatisticsFieldsDelivery_Affiliates();
+        $aPlugins['affiliates'] = new OA_StatisticsFieldsDelivery_Affiliates();
         $this->aPlugins = $aPlugins;
     }
     

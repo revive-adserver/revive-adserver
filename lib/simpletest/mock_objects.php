@@ -151,7 +151,7 @@
             $descriptions = array();
             if (is_array($args)) {
                 foreach ($args as $arg) {
-                    $dumper = &new SimpleDumper();
+                    $dumper = new SimpleDumper();
                     $descriptions[] = $dumper->describeValue($arg);
                 }
             }
@@ -1041,7 +1041,7 @@
             $code .= $this->_addMethodList($methods);
             $code .= "\n";
             $code .= "    function " . $this->_mock_class . "() {\n";
-            $code .= "        \$this->_mock = &new " . $this->_mock_base . "();\n";
+            $code .= "        \$this->_mock = new " . $this->_mock_base . "();\n";
             $code .= "        \$this->_mock->disableExpectationNameChecks();\n";
             $code .= "    }\n";
             $code .= $this->_chainMockReturns();

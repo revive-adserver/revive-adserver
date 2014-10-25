@@ -39,7 +39,7 @@ class OA_DB_Integrity
         $this->_clearProperties();
         $this->version      = $version;
         $this->oUpgrader    = new OA_Upgrade();
-        $aConf              = &$GLOBALS['_MAX']['CONF'];
+        $aConf              = $GLOBALS['_MAX']['CONF'];
         if ($dbname)
         {
             $aConf['database']['name'] = $dbname;
@@ -59,7 +59,7 @@ class OA_DB_Integrity
                 return false;
             }
         }
-        $this->oDBUpgrader =& $this->oUpgrader->oDBUpgrader;
+        $this->oDBUpgrader = $this->oUpgrader->oDBUpgrader;
         $this->_initDBUpgrader();
         $this->oUpgrader->oLogger->logClear();
         if ($version > 0)
@@ -280,7 +280,7 @@ class OA_DB_Integrity
     {
         $this->_clearProperties();
         $this->version                      = $version;
-        $this->oDBUpgrader                  =&  $this->oUpgrader->oDBUpgrader;
+        $this->oDBUpgrader                  =  $this->oUpgrader->oDBUpgrader;
         $this->_initDBUpgrader($aSchema['schemaOld']);
         if (!$this->oDBUpgrader->buildSchemaDefinition())
         {

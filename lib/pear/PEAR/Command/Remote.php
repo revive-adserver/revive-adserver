@@ -486,7 +486,7 @@ parameter.
         if (!class_exists('PEAR_Downloader')) {
             require_once 'PEAR/Downloader.php';
         }
-        $a = &new PEAR_Downloader($this->ui, $options, $this->config);
+        $a = new PEAR_Downloader($this->ui, $options, $this->config);
         return $a;
     }
     // {{{ doDownload()

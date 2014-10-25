@@ -539,7 +539,7 @@ class PEAR_Installer extends PEAR_Downloader
                     $tag = str_replace(array($pkg->getTasksNs() . ':', '-'), 
                         array('', '_'), $tag);
                     $task = "PEAR_Task_$tag";
-                    $task = &new $task($this->config, $this, PEAR_TASK_INSTALL);
+                    $task = new $task($this->config, $this, PEAR_TASK_INSTALL);
                     if (!$task->isScript()) { // scripts are only handled after installation
                         $task->init($raw, $attribs, $pkg->getLastInstalledVersion());
                         $res = $task->startSession($pkg, $contents, $final_dest_file);
@@ -1084,7 +1084,7 @@ class PEAR_Installer extends PEAR_Downloader
             $this->config->setInstallRoot(false);
             $this->_registry = &$this->config->getRegistry();
             if (isset($this->_options['packagingroot'])) {
-                $installregistry = &new PEAR_Registry($regdir);
+                $installregistry = new PEAR_Registry($regdir);
                 if (!$installregistry->channelExists($channel, true)) {
                     // we need to fake a channel-discover of this channel
                     $chanobj = $this->_registry->getChannel($channel, true);
@@ -1143,7 +1143,7 @@ class PEAR_Installer extends PEAR_Downloader
                             }
                         }
                     }
-                    $pfk = &new PEAR_PackageFile($this->config);
+                    $pfk = new PEAR_PackageFile($this->config);
                     $parentpkg = &$pfk->fromArray($parentreg);
                     $installregistry->updatePackage2($parentpkg);
                 }
@@ -1386,7 +1386,7 @@ class PEAR_Installer extends PEAR_Downloader
     {
         require_once 'PEAR/Builder.php';
         $this->log(1, "$this->source_files source files, building");
-        $bob = &new PEAR_Builder($this->ui);
+        $bob = new PEAR_Builder($this->ui);
         $bob->debug = $this->debug;
         $built = $bob->build($filelist, array(&$this, '_buildCallback'));
         if (PEAR::isError($built)) {
@@ -1528,7 +1528,7 @@ class PEAR_Installer extends PEAR_Downloader
         if (!class_exists('PEAR_Dependency2')) {
             require_once 'PEAR/Dependency2.php';
         }
-        $depchecker = &new PEAR_Dependency2($this->config, $options, 
+        $depchecker = new PEAR_Dependency2($this->config, $options, 
             array('channel' => $channel, 'package' => $package),
             PEAR_VALIDATE_UNINSTALLING);
         $e = $depchecker->validatePackageUninstall($this);

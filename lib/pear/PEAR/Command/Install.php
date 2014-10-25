@@ -322,7 +322,7 @@ Run post-installation scripts in package <package>, if any exist.
         if (!class_exists('PEAR_Downloader')) {
             require_once 'PEAR/Downloader.php';
         }
-        $a = &new PEAR_Downloader($ui, $options, $config);
+        $a = new PEAR_Downloader($ui, $options, $config);
         return $a;
     }
 
@@ -334,7 +334,7 @@ Run post-installation scripts in package <package>, if any exist.
         if (!class_exists('PEAR_Installer')) {
             require_once 'PEAR/Installer.php';
         }
-        $a = &new PEAR_Installer($ui);
+        $a = new PEAR_Installer($ui);
         return $a;
     }
 
@@ -1042,7 +1042,7 @@ Run post-installation scripts in package <package>, if any exist.
         $dest .= DIRECTORY_SEPARATOR . $pkgname;
         $orig = $pkgname . '-' . $pkgversion;
 
-        $tar = &new Archive_Tar($pkgfile->getArchiveFile());
+        $tar = new Archive_Tar($pkgfile->getArchiveFile());
         if (!$tar->extractModify($dest, $orig)) {
             return $this->raiseError('unable to unpack ' . $pkgfile->getArchiveFile());
         }

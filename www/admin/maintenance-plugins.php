@@ -105,7 +105,7 @@ if (!empty($action))
             break;
         /*case 'dep':
             require_once LIB_PATH . '/Plugin/PluginManager.php';
-            $oPluginManager = & new OX_PluginManager();
+            $oPluginManager = new OX_PluginManager();
             $oPluginManager->_cacheDependencies();
             if (empty($oPluginManager->aErrors))
             {

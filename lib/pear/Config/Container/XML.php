@@ -133,7 +133,7 @@ class Config_Container_XML extends XML_Parser
     */
     function startHandler($xp, $elem, &$attribs)
     {
-        $container =& new Config_Container('section', $elem, null, $attribs);
+        $container = new Config_Container('section', $elem, null, $attribs);
         $this->containers[] =& $container;
         return null;
     } // end func startHandler

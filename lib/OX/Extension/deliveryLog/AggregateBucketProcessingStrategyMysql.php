@@ -77,12 +77,14 @@ class OX_Extension_DeliveryLog_AggregateBucketProcessingStrategyMysql implements
             }
 
             if (count($aExecQueries)) {
-                // Disable the binlog for the inserts so we don't
+                // Try to disable the binlog for the inserts so we don't
                 // replicate back out over our logged data.
+                PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
                 $result = $oMainDbh->exec('SET SQL_LOG_BIN = 0');
                 if (PEAR::isError($result)) {
-                    MAX::raiseError('Unable to disable the bin log - will not insert stats.', MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+                    OA::debug('Unable to disable the bin log, proceeding anyway.', PEAR_LOG_WARNING);
                 }
+                PEAR::staticPopErrorHandling();
                 foreach ($aExecQueries as $execQuery) {
                     $result = $oMainDbh->exec($execQuery);
                     if (PEAR::isError($result)) {

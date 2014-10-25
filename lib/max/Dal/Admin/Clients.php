@@ -37,18 +37,18 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
     {
         // always add default type
         $aIncludeSystemTypes = array_merge(
-            array(DataObjects_Clients::ADVERTISER_TYPE_DEFAULT), 
+            array(DataObjects_Clients::ADVERTISER_TYPE_DEFAULT),
             $aIncludeSystemTypes);
         foreach ($aIncludeSystemTypes as $k => $v) {
             $aIncludeSystemTypes[$k] = DBC::makeLiteral((int)$v);
         }
-            
+
         $conf = $GLOBALS['_MAX']['CONF'];
         $whereClient = is_numeric($keyword) ? " OR c.clientid = $keyword" : '';
         $oDbh = OA_DB::singleton();
         $tableC = $oDbh->quoteIdentifier($this->getTablePrefix().'clients',true);
 
-        
+
         $query = "
             SELECT
                 c.clientid AS clientid,
@@ -65,7 +65,7 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
         }
         return DBC::NewRecordSet($query);
     }
-    
+
 
     /**
      * A method to retrieve all information about one advertiser from the database.
@@ -84,7 +84,7 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
         }
         return null;
     }
-    
+
 
     /**
      * A method to retrieve a list of all advertiser names. Can be limited to
@@ -93,9 +93,9 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
      * @param string  $listorder      The column name to sort the agency names by. One of "name" or "id".
      * @param string  $orderdirection The sort oder for the sort column. One of "up" or "down".
      * @param integer $agencyId       Optional. The agency ID to limit results to.
-     * @param array $aIncludeSystemTypes an array of system types to be 
+     * @param array $aIncludeSystemTypes an array of system types to be
      *              included apart from default advertisers
-     *  
+     *
      * @return array
      *
      * @todo Consider removing order options (or making them optional)
@@ -103,9 +103,9 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
     function getAllAdvertisers($listorder, $orderdirection, $agencyId = null, $aIncludeSystemTypes = array())
     {
         $aIncludeSystemTypes = array_merge(
-            array(DataObjects_Clients::ADVERTISER_TYPE_DEFAULT), 
+            array(DataObjects_Clients::ADVERTISER_TYPE_DEFAULT),
             $aIncludeSystemTypes);
-        
+
         $doClients = OA_Dal::factoryDO('clients');
         if (!empty($agencyId) && is_numeric($agencyId)) {
             $doClients->agencyid = $agencyId;
@@ -113,7 +113,7 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
         $doClients->whereInAdd('type', $aIncludeSystemTypes);
         $doClients->orderBy('(type='.DataObjects_Clients::ADVERTISER_TYPE_DEFAULT.') ASC');
         $doClients->addListOrderBy($listorder, $orderdirection);
-        return $doClients->getAll(array('clientname', 'an_adnetwork_id', 'type'), $indexWitkPk = true, $flatten = false);
+        return $doClients->getAll(array('clientname', 'type'), $indexWitkPk = true, $flatten = false);
     }
 
     /**

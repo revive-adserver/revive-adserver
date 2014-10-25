@@ -293,7 +293,7 @@ class DB_storage extends PEAR
     function &create($table, &$data)
     {
         $classname = strtolower(get_class($this));
-        $obj =& new $classname($table);
+        $obj = new $classname($table);
         foreach ($data as $name => $value) {
             $obj->_properties[$name] = true;
             $obj->$name = &$value;

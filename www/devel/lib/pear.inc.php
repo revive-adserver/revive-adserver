@@ -28,7 +28,7 @@ $conf = array('append'=>false);
 //    $logger = &Log::singleton('file',
 //                              MAX_PATH . '/var/upgrade.log',
 //                              'upgrade_mdb2');
-$logger = & new Log_file(MAX_SCHEMA_LOG,'schema_mdb2', $conf);
+$logger = new Log_file(MAX_SCHEMA_LOG,'schema_mdb2', $conf);
 $logger->debug('========================INITIALISED=============================================');
 
 // assign the callback function that will actually handle the error

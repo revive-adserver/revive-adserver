@@ -36,7 +36,7 @@ $oOptions = new OA_Admin_Option('preferences');
 // Prepare an array for storing error messages
 $aErrormessage = array();
 
-$oComponentGroupManager  = & new OX_Plugin_ComponentGroupManager();
+$oComponentGroupManager  = new OX_Plugin_ComponentGroupManager();
 $aGroup     = $oComponentGroupManager->_getComponentGroupConfiguration($group);
 $enabled    = $GLOBALS['_MAX']['CONF']['pluginGroupComponents'][$group];
 $disabled   = ((!$enabled) && (OA_Permission::getAccountType()!=OA_ACCOUNT_ADMIN));

@@ -137,7 +137,7 @@ class MySQLConnection {
     * @access public
     */
     function &NewRecord($DataSpace = NULL) {
-        $Record =& new MySqlRecord($this);
+        $Record = new MySqlRecord($this);
         if (!is_null($DataSpace)) {
             $Record->import($DataSpace->export());
         }
@@ -154,7 +154,7 @@ class MySQLConnection {
     * @access public
     */
     function &NewRecordSet($query, $filter = NULL) {
-        $RecordSet =& new MySqlRecordSet($this, $query);
+        $RecordSet = new MySqlRecordSet($this, $query);
         if (!is_null($filter)) {
             $RecordSet->registerFilter($filter);
         }
@@ -184,7 +184,7 @@ class MySQLConnection {
 	* @access public
 	*/
 	function &FindRecord($query) {
-		$Record =& new MySqlRecord($this);
+		$Record = new MySqlRecord($this);
 		$QueryId = $this->_execute($query);
 		$Record->properties =& mysql_fetch_assoc($QueryId);
 		mysql_free_result($QueryId);

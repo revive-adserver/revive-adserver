@@ -284,8 +284,7 @@ class OA_Maintenance_Priority_DeliveryLimitation
         }
 
         // Ensure that the end of campaign date is at the end of the day
-        $oEndDateCopy = new Date();
-        $oEndDateCopy->copy($oEndDate);
+        $oEndDateCopy = new Date($oEndDate);
         $oEndDateCopy->setHour(23);
         $oEndDateCopy->setMinute(59);
         $oEndDateCopy->setSecond(59);
@@ -297,8 +296,8 @@ class OA_Maintenance_Priority_DeliveryLimitation
 
         // Step 1: Calculate the sum of the forecast values from "now" until the end of "today"
         $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNowDate);
-        $oEndOfToday = new Date();
-        $oEndOfToday->copy($aDates['start']);
+        $oEndOfToday = new Date($aDates['start']);
+        $oEndOfToday->setTZ($oEndDate->tz);
         $oEndOfToday->setHour(23);
         $oEndOfToday->setMinute(59);
         $oEndOfToday->setSecond(59);
@@ -319,8 +318,7 @@ class OA_Maintenance_Priority_DeliveryLimitation
         // Step 2: Calculate how many times each day of the week occurs between the end of
         //         "today" (i.e. starting "tomorrow morning") and the last day the ad can run
         $aDays = array();
-        $oStartOfTomorrow = new Date();
-        $oStartOfTomorrow->copy($oEndOfToday);
+        $oStartOfTomorrow = new Date($oEndOfToday);
         $oStartOfTomorrow->addSeconds(1);
         $oTempDate = new Date();
         $oTempDate->copy($oStartOfTomorrow);
@@ -338,8 +336,7 @@ class OA_Maintenance_Priority_DeliveryLimitation
         //         operation interval in that day
         if (!empty($aDays)) {
             $operationIntervalsPerDay = OX_OperationInterval::operationIntervalsPerDay();
-            $oTempDate = new Date();
-            $oTempDate->copy($oStartOfTomorrow);
+            $oTempDate = new Date($oStartOfTomorrow);
             $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oTempDate);
             for ($counter = 0; $counter < 7; $counter++) {
                 // Are there any instances of this day in the campaign?
@@ -362,14 +359,6 @@ class OA_Maintenance_Priority_DeliveryLimitation
         // Step 4: Subtract any blocked interval values
         if ($this->blockedOperationIntervalCount > 0) {
             OA::debug("      - Subtracting {$this->blockedOperationIntervalCount} blocked intervals", PEAR_LOG_DEBUG);
-            // Iterate over the blocked interval dates, exclude those that are "today",
-            // and use these to subtract the required forecast values from the running total
-            $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNowDate);
-            $oEndOfToday = new Date();
-            $oEndOfToday->copy($aDates['start']);
-            $oEndOfToday->setHour(23);
-            $oEndOfToday->setMinute(59);
-            $oEndOfToday->setSecond(59);
             foreach ($this->aBlockedOperationIntervalDates as $aDates) {
                 if ($aDates['start']->after($oEndOfToday)) {
                     $blockedOperationInvervalID = OX_OperationInterval::convertDateToOperationIntervalID($aDates['start']);

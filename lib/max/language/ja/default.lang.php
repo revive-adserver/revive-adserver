@@ -128,11 +128,6 @@ $GLOBALS['strAdmin']                    		= "管理者";
 $GLOBALS['strWarning']                  		= '警告';
 $GLOBALS['strNotice']                   		= 'お知らせ';
 
-// Dashboard
-$GLOBALS['strDashboardCommunity']       		= 'コミュニティ';
-$GLOBALS['strDashboardDashboard']       		= 'ダッシュボード';
-$GLOBALS['strDashboardDocs']            		= 'OpenX Docs';
-
 // Priority
 $GLOBALS['strPriority']                 		= "優先度";
 $GLOBALS['strPriorityLevel']            		= "優先度レベル";
@@ -1319,28 +1314,8 @@ $GLOBALS['str_sk'] = "スロバキア語";
 $GLOBALS['str_sv'] = "スウェーデン語";
 $GLOBALS['str_uk'] = "ウクライナ語";
 $GLOBALS['strDashboardErrorCode'] = "エラーコード";
-$GLOBALS['strDashboardGenericError'] = "一般エラー";
 $GLOBALS['strDashboardSystemMessage'] = "システムメッセージ";
 $GLOBALS['strDashboardErrorHelp'] = "このエラーが繰り返し発生する場合、問題の詳細を<a href='http://forum.openx.org/'>OpenXフォーラム</a>に投稿してください。";
-$GLOBALS['strDashboardErrorMsg800'] = "XML-RPC接続エラー";
-$GLOBALS['strDashboardErrorMsg801'] = "認証エラー";
-$GLOBALS['strDashboardErrorMsg802'] = "画像キャプチャ不一致エラー";
-$GLOBALS['strDashboardErrorMsg803'] = "パラメータ不正エラー";
-$GLOBALS['strDashboardErrorMsg804'] = "ユーザ名不一致エラー";
-$GLOBALS['strDashboardErrorMsg805'] = "プラットホームアクセスエラー";
-$GLOBALS['strDashboardErrorMsg806'] = "サーバーエラー";
-$GLOBALS['strDashboardErrorMsg807'] = "権限エラー";
-$GLOBALS['strDashboardErrorMsg808'] = "XML-RPCバージョン不一致エラー";
-$GLOBALS['strDashboardErrorMsg900'] = "コネクションエラー";
-$GLOBALS['strDashboardErrorMsg821'] = "M2M認証エラー - アカウントタイプが許可されていません";
-$GLOBALS['strDashboardErrorMsg822'] = "M2M認証エラー - パスワードはすでに生成されています";
-$GLOBALS['strDashboardErrorMsg823'] = "M2M認証エラー - パスワードが合致しません";
-$GLOBALS['strDashboardErrorMsg824'] = "M2M認証エラー - パスワードは失効しました";
-$GLOBALS['strDashboardErrorMsg825'] = "M2M認証エラー - 接続エラー";
-$GLOBALS['strDashboardErrorMsg826'] = "M2M認証エラー - 再接続エラー";
-$GLOBALS['strDashboardErrorDsc800'] = "ダッシュボードはOpenXセントラルサーバからウィジェットに情報をプルします。このことに影響を与えるいくつかのことがあります。<br/>                                           　　サーバはCurlエクステンションが有効になっていないかもしれませんが、Curlエクステンションをインストールするか有効にしてください。詳しくは、<a href='http://php.net/curl'>ここ</a>を参照してください。<br/>                                           　　また、その際ファイアウォールがアウトバウンド接続をブロックしていないかチェックしてください。";
-$GLOBALS['strDashboardErrorDsc803'] = "サーバへの不正パラメータリクエストによりエラーが発生しました。データを修正して再度送信してください。";
-$GLOBALS['strDashboardErrorDsc805'] = "OpenXのインストール中にXML-RPC接続が許可されなかったので、OpenXセントラルサーバはOpenXの正常インストールを認識していません。<br />                                           　　OpenXセントラルサーバに接続し登録するには、管理者アカウントのマイアカウント -> 製品アップデートに進んでください。";
 $GLOBALS['strActions'] = "アクション";
 $GLOBALS['strFinanceCTR'] = "CTR";
 $GLOBALS['strNoClientsForBanners'] = "広告主が存在しません。キャンペーンを作成するためには、先に<a href='advertiser-edit.php'>広告主の作成</a>をして下さい。";

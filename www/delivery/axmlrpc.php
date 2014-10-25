@@ -3434,7 +3434,8 @@ if (!empty($aBanner['alt_filename']) || !empty($aBanner['alt_imageurl'])) {
 $altImageAdCode = _adRenderImage($aBanner, $zoneId, $source, $ct0, false, $logClick, false, true, true, $loc, $referer, false);
 $fallBackLogURL = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&', true);
 } else {
-$altImageAdCode = "<img src='" . _adRenderBuildImageUrlPrefix() . '/1x1.gif' . "' alt='".$aBanner['alt']."' title='".$aBanner['alt']."' border='0' />";
+$alt = !empty($aBanner['alt']) ? htmlspecialchars($aBanner['alt'], ENT_QUOTES) : '';
+$altImageAdCode = "<img src='" . _adRenderBuildImageUrlPrefix() . '/1x1.gif' . "' alt='".$alt."' title='".$alt."' border='0' />";
 $fallBackLogURL = false;
 }
 $clickUrl = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick);
@@ -3464,6 +3465,7 @@ $swfParams["atar{$iKey}"] = $aSwf['tar'];
 $fileUrl = _adRenderBuildFileUrl($aBanner, false);
 $rnd = md5(microtime());
 $swfId = (!empty($aBanner['alt']) ? $aBanner['alt'] : 'Advertisement');
+$swfId = 'id-' . preg_replace('/[a-z0-1]+/', '', strtolower($swfId));
 $code = "
 <div id='ox_$rnd' style='display: inline;'>$altImageAdCode</div>
 <script type='text/javascript'><!--/"."/ <![CDATA[
@@ -3498,7 +3500,7 @@ $aConf = $GLOBALS['_MAX']['CONF'];
 if (!function_exists('Plugin_BannerTypeHtml_delivery_adRender')) {
 @include LIB_PATH . '/Extension/bannerTypeHtml/bannerTypeHtmlDelivery.php';
 }
-return Plugin_BannerTypeHtml_delivery_adRender($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $loc, $referer);
+return Plugin_BannerTypeHtml_delivery_adRender($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $richMedia, $loc, $referer);
 }
 function _adRenderText(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $richMedia=false, $loc='', $referer='', $context=array())
 {
@@ -3506,7 +3508,7 @@ $aConf = $GLOBALS['_MAX']['CONF'];
 if (!function_exists('Plugin_BannerTypeText_delivery_adRender')) {
 @include LIB_PATH . '/Extension/bannerTypeText/bannerTypeTextDelivery.php';
 }
-return Plugin_BannerTypeText_delivery_adRender($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $loc, $referer);
+return Plugin_BannerTypeText_delivery_adRender($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $richMedia, $loc, $referer);
 }
 function _adRenderBuildFileUrl($aBanner, $useAlt = false, $params = '')
 {
@@ -3851,6 +3853,13 @@ MAX_Delivery_cookie_setCapping('Zone', $row['zoneid'], $row['block_zone'], $row[
 MAX_Delivery_log_setLastAction(0, array($row['bannerid']), array($zoneId), array($row['viewwindow']));
 }
 } else {
+if (!empty($zoneId)) {
+$logUrl = _adRenderBuildLogURL(array(
+'ad_id' => 0,
+'placement_id' => 0,
+), $zoneId, $source, $loc, $referer, '&');
+$g_append = str_replace('{random}', MAX_getRandomNumber(), MAX_adRenderImageBeacon($logUrl)).$g_append;
+}
 if (!empty($row['default'])) {
 if (empty($target)) {
 $target = '_blank';  }

@@ -201,7 +201,7 @@ class PEAR_ChannelFile {
 
     function PEAR_ChannelFile()
     {
-        $this->_stack = &new PEAR_ErrorStack('PEAR_ChannelFile');
+        $this->_stack = new PEAR_ErrorStack('PEAR_ChannelFile');
         $this->_stack->setErrorMessageTemplate($this->_getErrorMessage());
         $this->_isValid = false;
     }
@@ -1567,7 +1567,7 @@ class PEAR_ChannelFile {
         if (isset($this->_channelInfo['validatepackage'])) {
             if ($package == $this->_channelInfo['validatepackage']) {
                 // channel validation packages are always validated by PEAR_Validate
-                $val = &new PEAR_Validate;
+                $val = new PEAR_Validate;
                 return $val;
             }
             if (!class_exists(str_replace('.', '_',
@@ -1578,7 +1578,7 @@ class PEAR_ChannelFile {
                         $this->_channelInfo['validatepackage']['_content']) . '.php';
                     $vclass = str_replace('.', '_',
                         $this->_channelInfo['validatepackage']['_content']);
-                    $val = &new $vclass;
+                    $val = new $vclass;
                 } else {
                     $a = false;
                     return $a;
@@ -1586,10 +1586,10 @@ class PEAR_ChannelFile {
             } else {
                 $vclass = str_replace('.', '_',
                     $this->_channelInfo['validatepackage']['_content']);
-                $val = &new $vclass;
+                $val = new $vclass;
             }
         } else {
-            $val = &new PEAR_Validate;
+            $val = new PEAR_Validate;
         }
         return $val;
     }

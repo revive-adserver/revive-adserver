@@ -915,7 +915,6 @@ $GLOBALS['str_sk'] = "Slowaaks ";
 $GLOBALS['str_sv'] = "Zweeds";
 $GLOBALS['strDashboardErrorCode'] = "code";
 $GLOBALS['strDashboardSystemMessage'] = "Systeem bericht";
-$GLOBALS['strDashboardErrorMsg806'] = "Server fout";
 $GLOBALS['strActions'] = "Actie";
 $GLOBALS['strFinanceCTR'] = "CTR";
 $GLOBALS['strNoClientsForBanners'] = "Er zijn momenteel geen adverteerders beschikbaar. Om een campagne aan te maken, <a href='advertiser-edit.php'>voeg eerst een nieuwe adverteerder toe</a>.";

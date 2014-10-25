@@ -286,10 +286,10 @@ class XML_Tree extends XML_Parser
             if (!empty($this->cdata)) {
                 $parent_id = 'obj' . ($this->i - 1);
                 $parent    =& $this->$parent_id;
-                $parent->children[] = &new XML_Tree_Node(null, $this->cdata, null, $lineno);
+                $parent->children[] = new XML_Tree_Node(null, $this->cdata, null, $lineno);
             }
             $obj_id = 'obj' . $this->i++;
-            $this->$obj_id = &new XML_Tree_Node($elem, null, $attribs, $lineno);
+            $this->$obj_id = new XML_Tree_Node($elem, null, $attribs, $lineno);
         }
         $this->cdata = null;
         return null;
@@ -314,7 +314,7 @@ class XML_Tree extends XML_Parser
             // mixed contents
             if (count($node->children) > 0) {
                 if (trim($this->cdata) != '') {
-                    $node->children[] = &new XML_Tree_Node(null, $this->cdata);
+                    $node->children[] = new XML_Tree_Node(null, $this->cdata);
                 }
             } else {
                 $node->setContent($this->cdata);
@@ -327,7 +327,7 @@ class XML_Tree extends XML_Parser
             $node =& $this->obj1;
             if (count($node->children) > 0) {
                 if (trim($this->cdata)) {
-                    $node->children[] = &new XML_Tree_Node(null, $this->cdata);
+                    $node->children[] = new XML_Tree_Node(null, $this->cdata);
                 }
             } else {
                 $node->setContent($this->cdata);

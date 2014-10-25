@@ -284,6 +284,7 @@ function _adRenderImage(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=fal
  * @param bookean $logClick     Should this click be logged (clicks in admin should not be logged)
  * @param boolean $logView      Should this view be logged (views in admin should not be logged
  *                              also - 3rd party callback logging should not be logged at view time)
+ * @param boolean $richMedia    Does this invocation method allow for serving 3rd party/html ads
  * @param string  $loc          The "current page" URL
  * @param string  $referer      The "referring page" URL
  *
@@ -302,7 +303,8 @@ function _adRenderFlash(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=fal
         $altImageAdCode = _adRenderImage($aBanner, $zoneId, $source, $ct0, false, $logClick, false, true, true, $loc, $referer, false);
         $fallBackLogURL = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&', true);
     } else {
-        $altImageAdCode = "<img src='" . _adRenderBuildImageUrlPrefix() . '/1x1.gif' . "' alt='".$aBanner['alt']."' title='".$aBanner['alt']."' border='0' />";
+        $alt = !empty($aBanner['alt']) ? htmlspecialchars($aBanner['alt'], ENT_QUOTES) : '';
+        $altImageAdCode = "<img src='" . _adRenderBuildImageUrlPrefix() . '/1x1.gif' . "' alt='".$alt."' title='".$alt."' border='0' />";
         $fallBackLogURL = false;
     }
 
@@ -339,6 +341,7 @@ function _adRenderFlash(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=fal
     $rnd = md5(microtime());
 
     $swfId = (!empty($aBanner['alt']) ? $aBanner['alt'] : 'Advertisement');
+    $swfId = 'id-' . preg_replace('/[a-z0-1]+/', '', strtolower($swfId));
 
     $code = "
 <div id='ox_$rnd' style='display: inline;'>$altImageAdCode</div>
@@ -386,6 +389,7 @@ function _adRenderFlash(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=fal
  * @param boolean $logView      Should this view be logged (views in admin should not be logged
  *                              also - 3rd party callback logging should not be logged at view time)
  * @param boolean $useAlt       Should the backup file be used for this code
+ * @param boolean $richMedia    Does this invocation method allow for serving 3rd party/html ads
  * @param string  $loc          The "current page" URL
  * @param string  $referer      The "referring page" URL
  *
@@ -398,7 +402,7 @@ function _adRenderHtml(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=fals
     if (!function_exists('Plugin_BannerTypeHtml_delivery_adRender')) {
         @include LIB_PATH . '/Extension/bannerTypeHtml/bannerTypeHtmlDelivery.php';
     }
-    return Plugin_BannerTypeHtml_delivery_adRender($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $loc, $referer);
+    return Plugin_BannerTypeHtml_delivery_adRender($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $richMedia, $loc, $referer);
 }
 
 /**
@@ -413,6 +417,7 @@ function _adRenderHtml(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=fals
  * @param boolean $logView      Should this view be logged (views in admin should not be logged
  *                              also - 3rd party callback logging should not be logged at view time)
  * @param boolean $useAlt       Should the backup file be used for this code
+ * @param boolean $richMedia    Does this invocation method allow for serving 3rd party/html ads
  * @param string  $loc          The "current page" URL
  * @param string  $referer      The "referring page" URL
  *
@@ -425,7 +430,7 @@ function _adRenderText(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=fals
     if (!function_exists('Plugin_BannerTypeText_delivery_adRender')) {
         @include LIB_PATH . '/Extension/bannerTypeText/bannerTypeTextDelivery.php';
     }
-    return Plugin_BannerTypeText_delivery_adRender($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $loc, $referer);
+    return Plugin_BannerTypeText_delivery_adRender($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $richMedia, $loc, $referer);
 }
 
 /**

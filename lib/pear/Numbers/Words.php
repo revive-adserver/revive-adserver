@@ -71,7 +71,7 @@ class Numbers_Words
             return Numbers_Words::raiseError("Unable to find toWords method in '$classname' class");
         }
 
-        @$obj =& new $classname;
+        @$obj = new $classname;
 
         return trim($obj->toWords($num));
     }
@@ -113,7 +113,7 @@ class Numbers_Words
             return Numbers_Words::raiseError("Unable to find toCurrencyWords method in '$classname' class");
         }
 
-        @$obj =& new $classname;
+        @$obj = new $classname;
 
 	if (strpos($num, '.') === false)
 	{

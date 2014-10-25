@@ -56,7 +56,7 @@ class OLE extends PEAR
 
     /**
     * Creates a new OLE object
-    * Remember to use ampersand when creating an OLE object ($my_ole =& new OLE();)
+    * Remember to use ampersand when creating an OLE object ($my_ole = new OLE();)
     * @access public
     */
     function OLE()

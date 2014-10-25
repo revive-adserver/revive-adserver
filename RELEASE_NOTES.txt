@@ -27,45 +27,100 @@ What's New in Revive Adserver 3.1.0
  New Features
  ------------
 
+ * Blank impressions are now logged and taken into account during
+   prioritization. This should allow using zones without remnant campaigns,
+   which was previously discouraged. Blank impressions are also counted in the
+   "Global History" and "Website & Zones" statistic screens and separately
+   displayed in the "Campaign distribution" tab for websites and zones.
+
  * The "Contract (Exclusive)" campaign type has been re-named to "Override".
+
  * The Revive Adserver delivery engine now includes a completely inclusive
    CORS header (i.e. 'Access-Control-Allow-Origin: *').
+
  * The domain used for the viewerId cookie is now configurable.
+
  * The "My Account" main menu has been re-named to "Preferences" for clarity.
+
  * The quick navigation dropdown lists for advertisers/campaigns and websites is
    now sorted alphabetically.
+
  * The "midnight" sync process that checks for updates to Revive Adserver is
    now the very last thing to happen in the overall maintenance process.
 
  Bug Fixes
  ---------
 
+ * Fixed a problem with timezones not being taken into account when running
+   the zone allocation algorithm during maintenance. This resulted in
+   underdelivery if the account timezone had a positive offset from UTC, and
+   potentially some overdelivery otherwise.
+
+ * Fixed the editing of campaigns when conversion tracking is disabled.
+
  * Fixed the preview of all banners on the "Banners" page user interface
    preference.
+
  * Fixed incorrectly displayed error message when trying to link a banner to
    an email zone where the banner's parent campaign dates overlap with an
    already linked campaign.
+
  * Fixed incorrectly displayed message stating that a link has been created when
    trying to link an email zone to a banner where the banner's parent campaign
    dates overlap with an already linked campaign.
+
  * VAST tracking URLs now use https:// when called via SSL.
+
  * Removed useless Content-Length headers when sending the 1x1 transparent gif
    and spc delivery files, as the header interferes with ob_gzhandler and/or
    zlib.output_compression.
+
  * Fixed issue with banner delivery over SSL when using Postgres.
+
  * Fixed click redirection to internationalized domain names when the IDN
    functions are available (PHP 5.3+).
+
  * Properly display the current value in the UI when settings contain an
    underscore in their name.
 
+ * Properly display 'Site - Variable' delivery limitations when the value is set
+   to zero (i.e. '0').
+
+ * Fixed product name and removed bad documentation link on installer pre-check
+   warning page.
+
+ * Allow Revive Adserver to be installed on Debian Wheezy PHP versions that have
+   had a critical PHP bugfix backported.
+
+ * Fixed an issue with old creative file being deleted although still in use
+   when a banner image file was replaced.
+
  Non-Backwards Compatible Changes
  --------------------------------
+
+ * HTML banners no longer present URL and Target fields in the user interface
+   unless editing an existing HTML banner where one of these fields is present;
+   the URL(s) and target(s) should be set as part of the HTML banner.
+
+ * A number of database table columns are removed as part of the upgrade
+   process for Revive Adserver 3.1.0, as they were deprecated with the removal
+   of the OpenX Market in version 3.0.0. Please ensure that you back up your
+   Revive Adserver database before upgrading to 3.1.0.
+
+ * Existing accounts with the name "Default manager" will be updated to
+   "Default Account" to ensure the account name is consistent with updated
+   language files. Similarly, existing accounts with the name "Administrator
+   account" will be updated to "System Administrator".
 
  * Activation/deactivation emails and scheduled reports are now disabled by
    default when creating new advertisers via the API, in order to match the UI
    behaviour. This does not affect any existing advertiser account settings for
    this feature; but please be aware that the default for all new advertiser
    accounts has been changed.
+
+ * The adRender hook function signature was missing the $richMedia argument before
+   $loc and $referer. Please make sure you double check your custom plugins in
+   case they use such hook.
 
 
 System Requirements

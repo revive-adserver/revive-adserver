@@ -273,7 +273,7 @@ class DB_dbase extends DB_common
     {
         // emulate result resources
         $this->res_row[(int)$this->result] = 0;
-        $tmp =& new DB_result($this, $this->result++);
+        $tmp = new DB_result($this, $this->result++);
         return $tmp;
     }
 

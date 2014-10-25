@@ -98,7 +98,7 @@ generate both package.xml.
         if (!class_exists('PEAR_Packager')) {
             require_once 'PEAR/Packager.php';
         }
-        $a = &new PEAR_Packager;
+        $a = new PEAR_Packager;
         return $a;
     }
 
@@ -118,7 +118,7 @@ generate both package.xml.
         if (!class_exists('PEAR/PackageFile.php')) {
             require_once 'PEAR/PackageFile.php';
         }
-        $a = &new PEAR_PackageFile($config, $debug, $tmpdir);
+        $a = new PEAR_PackageFile($config, $debug, $tmpdir);
         $common = new PEAR_Common;
         $common->ui = $this->ui;
         $a->setLogger($common);

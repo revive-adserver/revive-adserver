@@ -39,7 +39,7 @@ if (array_key_exists('clear_cookies', $_POST))
 else if ( array_key_exists('xml_file', $_REQUEST) && (!empty($_REQUEST['xml_file'])) )
 {
     $schemaPath = dirname($_REQUEST['xml_file']);
-    
+
     $schemaFile = basename($_REQUEST['xml_file']);
     if ($schemaFile==$_COOKIE['schemaFile'])
     {
@@ -61,16 +61,16 @@ if (empty($schemaPath) || empty($schemaFile))
 // ensure correct directory format. $schemaPath requires trailing '/'. Using trailing DIRECTORY_SEPARATOR fails on Windows for reasons unknown
 if (isset($schemaPath) && $schemaPath!='')
 {
-    
+
     $schemaPath=OX::realPathRelative(urldecode($schemaPath)) ;
-    $schemaPath.='/' ; 
+    $schemaPath.='/' ;
 }
 
 setcookie('schemaPath', $schemaPath);
 setcookie('schemaFile', $schemaFile);
 
 global $oaSchema;
-$oaSchema = & new Openads_Schema_Manager($schemaFile, '', $schemaPath);
+$oaSchema = new Openads_Schema_Manager($schemaFile, '', $schemaPath);
 
 if (is_array($aErrs = OX_DevToolbox::checkFilePermissions(array(PATH_DEV, PATH_VAR, MAX_PATH.$pluginPath))))
 {
@@ -217,9 +217,9 @@ else if (array_key_exists('btn_table_edit', $_POST))
 
 if (!$table)
 {
-     
+
     header('Content-Type: application/xhtml+xml; charset=ISO-8859-1');
-    
+
     readfile($oaSchema->working_file_schema);
     // echo $before.' - '.$after ;
     exit();

@@ -1702,7 +1702,7 @@ class PEAR_PackageFile_v2_Validator
         if (!is_array($info)) {
             $info = array($info);
         }
-        $pkg = &new PEAR_PackageFile($this->_pf->_config);
+        $pkg = new PEAR_PackageFile($this->_pf->_config);
         foreach ($info as $package) {
             if (!file_exists($dir_prefix . DIRECTORY_SEPARATOR . $package)) {
                 $this->_fileNotFound($dir_prefix . DIRECTORY_SEPARATOR . $package);
