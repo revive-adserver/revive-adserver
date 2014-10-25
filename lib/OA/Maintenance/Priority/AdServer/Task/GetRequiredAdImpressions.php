@@ -207,13 +207,30 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
             $impressions = 0;
         }
         // Choose smallest required impression
-        $oCampaign->requiredImpressions = $this->_getSmallestNonZeroInteger(
+        $requiredImpressions = $this->_getSmallestNonZeroInteger(
             array(
                 $clickImpressions,
                 $conversionImpressions,
                 $impressions
             )
         );
+
+        // Apply globally defined level of intentional over-delivery from
+        // $GLOBALS['_MAX']['CONF']['priority']['intentionalOverdelivery'] to
+        // the calculated required impressions
+        if (isset($GLOBALS['_MAX']['CONF']['priority']['intentionalOverdelivery'])
+                && is_numeric($GLOBALS['_MAX']['CONF']['priority']['intentionalOverdelivery'])
+                && $GLOBALS['_MAX']['CONF']['priority']['intentionalOverdelivery'] > 0) {
+            // Convert the % into a usable number
+            $scale = 1 + ($GLOBALS['_MAX']['CONF']['priority']['intentionalOverdelivery'] / 100);
+            // Final check
+            if ($scale > 1) {
+                $requiredImpressions = $requiredImpressions * $scale;
+            }
+        }
+
+        $oCampaign->requiredImpressions = $requiredImpressions;
+
     }
 
     /**
@@ -237,7 +254,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
      */
     function _getInventoryImpressionsRequired($inventory, $defaultRatio, $inventoryToDate = 0, $impressionsToDate = 0)
     {
-        if($inventoryToDate >= $inventory) {
+        if ($inventoryToDate >= $inventory) {
             return 0;
         }
         $requiredImpressions = 0;

@@ -439,6 +439,7 @@ $GLOBALS['strMaintenanceOI']                         = "Maintenance Operation In
 $GLOBALS['strMaintenanceOIError']                    = "The Maintenace Operation Interval is not valid - see documentation for valid values";
 $GLOBALS['strPrioritySettings']                      = "Priority Settings";
 $GLOBALS['strPriorityInstantUpdate']                 = "Update advertisement priorities immediately when changes made in the UI";
+$GLOBALS['strPriorityIntentionalOverdelivery']       = "Intentionally over-deliver Contract Campaigns<br />(% over-delivery)";
 $GLOBALS['strDefaultImpConWindow']                   = "Default Ad Impression Connection Window (seconds)";
 $GLOBALS['strDefaultImpConWindowError']              = "If set, the Default Ad Impression Connection Window must be a positive integer";
 $GLOBALS['strDefaultCliConWindow']                   = "Default Ad Click Connection Window (seconds)";
