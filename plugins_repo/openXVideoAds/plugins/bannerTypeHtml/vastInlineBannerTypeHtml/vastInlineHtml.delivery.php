@@ -172,12 +172,10 @@ if ( !empty($format) && $format == 'vast'){
         $spc_output .=  getVastXMLFooter();
         // Setup the banners for this page
         MAX_commonSendContentTypeHeader("application/xml", $charset);
-        header("Content-Length: ".strlen($spc_output));
     }
     else {
         // Setup the banners for this page
         MAX_commonSendContentTypeHeader("application/x-javascript", $charset);
-        header("Content-Length: ".strlen($spc_output));
     }
     $spc_output .= getClientMessages();
     echo $spc_output;
