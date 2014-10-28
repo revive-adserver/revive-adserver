@@ -335,11 +335,13 @@ function getImageUrlFromFilename($filename)
 
 function renderVastOutput( $aOut, $pluginType, $vastAdDescription )
 {
+    $adSystem = $GLOBALS['_MAX']['CONF']['ui']['applicationName'] ? $GLOBALS['_MAX']['CONF']['ui']['applicationName'] : 'Revive Adserver';
+
     $adName = $aOut['name'];
     $player = "";
     $player .= "    <Ad id=\"{player_allocated_ad_id}\" >";
     $player .= "        <InLine>";
-    $player .= "            <AdSystem>OpenX</AdSystem>\n";
+    $player .= "            <AdSystem><![CDATA[$adSystem]]></AdSystem>\n";
     $player .= "                <AdTitle><![CDATA[$adName]]></AdTitle>\n";
     $player .= "                    <Description><![CDATA[$vastAdDescription]]></Description>\n";
     $player .= "                    <Impression>\n";
