@@ -11,7 +11,6 @@
 */
 
 $conf = $GLOBALS['_MAX']['CONF'];
-$name = (!empty($GLOBALS['_MAX']['PREF']['name'])) ? $GLOBALS['_MAX']['PREF']['name'] : MAX_PRODUCT_NAME;
 $varprefix = $conf['var']['prefix'];
 
 $words = array(
@@ -40,4 +39,5 @@ $words = array(
     'Option - noscript' => '&lt;noscript&gt;タグをインクルードする',
     'Option - SSL' => 'SSLページ用のコードを生成する',
 );
+
 ?>

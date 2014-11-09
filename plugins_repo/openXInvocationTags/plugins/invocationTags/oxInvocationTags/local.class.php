@@ -104,7 +104,7 @@ class Plugins_InvocationTags_OxInvocationTags_local extends Plugins_InvocationTa
         parent::prepareCommonInvocationData($aComments);
 
         $conf = $GLOBALS['_MAX']['CONF'];
-        $name = (!empty($GLOBALS['_MAX']['PREF']['name'])) ? $GLOBALS['_MAX']['PREF']['name'] : MAX_PRODUCT_NAME;
+        $name = PRODUCT_NAME;
         $mi = &$this->maxInvocation;
 
         $buffer = $mi->buffer;

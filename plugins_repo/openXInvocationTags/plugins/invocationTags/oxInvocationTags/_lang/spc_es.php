@@ -11,7 +11,6 @@
 */
 
 $conf = $GLOBALS['_MAX']['CONF'];
-$name = (!($GLOBALS['_MAX']['PREF']['name'])) ? $GLOBALS['_MAX']['PREF']['name'] : MAX_PRODUCT_NAME;
 $varprefix = $conf['var']['prefix'];
 
 $words =  array(
@@ -27,4 +26,5 @@ $words =  array(
     'Option - noscript' => 'Incluir etiquetas <noscript>',
     'Option - SSL' => 'Generar código para ser usado en páginas SSL',
 );
+
 ?>

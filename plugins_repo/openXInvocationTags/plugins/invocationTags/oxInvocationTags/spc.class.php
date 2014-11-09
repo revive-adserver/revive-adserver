@@ -62,14 +62,12 @@ class Plugins_InvocationTags_OxInvocationTags_Spc extends Plugins_InvocationTags
      * Constructor
      *
      */
-    function Plugins_InvocationTags_OxInvocationTags_Spc() 
+    function Plugins_InvocationTags_OxInvocationTags_Spc()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $this->publisherPlugin = true;
         $this->varprefix = $conf['var']['prefix'];
-        $this->appname = (!empty($GLOBALS['_MAX']['PREF']['name']))
-            ? $GLOBALS['_MAX']['PREF']['name']." ".OA_VERSION
-            : MAX_PRODUCT_NAME." ".OA_VERSION;
+        $this->appname = PRODUCT_NAME . " v" . VERSION;
     }
 
      /**
@@ -126,7 +124,7 @@ class Plugins_InvocationTags_OxInvocationTags_Spc extends Plugins_InvocationTags
         $doZones->find();
         while ($doZones->fetch() && $row = $doZones->toArray()) {
             // Email/Newsletter and DHTML and Video zones are not included in SPC
-            if ($row['delivery'] != MAX_ZoneEmail 
+            if ($row['delivery'] != MAX_ZoneEmail
                 && $row['delivery'] != phpAds_ZoneInterstitial
                 && $row['delivery'] != OX_ZoneVideoInstream
                 && $row['delivery'] != OX_ZoneVideoOverlay) {
@@ -462,7 +460,7 @@ class Plugins_InvocationTags_OxInvocationTags_Spc extends Plugins_InvocationTags
             $codeblock .= "    var {$this->varprefix}source = '{$source}';\n";
             $codeblock .= "// ]]> --></script>";
         }
-        
+
         $aliasesBlock = '';
         if (!empty($aZoneAliases)) {
             $aliasesBlock = $this->generateAliasesCode($aZoneAliases);
@@ -473,29 +471,29 @@ class Plugins_InvocationTags_OxInvocationTags_Spc extends Plugins_InvocationTags
 
         return $codeblock;
     }
-    
-    
+
+
     private function generateAliasesCode($aZoneAliases)
     {
         $oJson = new Services_JSON();
-        
+
         $aStruct = array();
         foreach ($aZoneAliases as $zoneId => $aAliases) {
             foreach($aAliases as $alias) {
-                $aStruct[$alias] = $zoneId;        
+                $aStruct[$alias] = $zoneId;
             }
         }
         $aliasesCode.= $oJson->encode($aStruct);
-        
+
         $codeblock .= "<script type='text/javascript'><!--// <![CDATA[\n";
         $codeblock .= "    var {$this->varprefix}zones = ";
         $codeblock .= $aliasesCode;
         $codeblock .= "    \n";
         $codeblock .= "// ]]> --></script>\n";
-        
+
         return $codeblock;
     }
-    
+
 
     function getZoneCode($zone, $affiliate, $zoneAlias = null)
     {

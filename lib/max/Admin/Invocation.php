@@ -187,11 +187,15 @@ class MAX_Admin_Invocation {
 
         $variables = Admin_DA::getVariables(array('trackerid' => $trackerId), true);
 
+        $name = PRODUCT_NAME;
+        if (!empty($GLOBALS['_MAX']['CONF']['ui']['applicationName'])) {
+            $name = $GLOBALS['_MAX']['CONF']['ui']['applicationName'];
+        }
         $buffer = "
 <!--/*
   *
-  *  OpenX image beacon tracker code
-  *  - Generated with OpenX v" . OA_VERSION . "
+  *  " . $name . " Image Beacon Tracker Code
+  *  - Generated with " . PRODUCT_NAME . " v" . VERSION . "
   *
   *  If this tag is being served on a secure (SSL) page, you must replace
   *  'http://{$conf['webpath']['delivery']}/...'
@@ -515,10 +519,14 @@ class MAX_Admin_Invocation {
         $variables = Admin_DA::getVariables(array('trackerid' => $trackerId), true);
         $variablesQuerystring = '';
 
+        $name = PRODUCT_NAME;
+        if (!empty($GLOBALS['_MAX']['CONF']['ui']['applicationName'])) {
+            $name = $GLOBALS['_MAX']['CONF']['ui']['applicationName'];
+        }
         $buffer = "<!--/*
   *
-  *  OpenX JavaScript tracker code
-  *  - Generated with OpenX v" . OA_VERSION . "
+  *  " . $name . " JavaScript Tracker Code
+  *  - Generated with " . PRODUCT_NAME . " v" . VERSION . "
   *
   *  To help prevent caching of the <noscript> beacon, if possible,
   *  Replace %%RANDOM_NUMBER%% with a randomly generated number (or timestamp)
