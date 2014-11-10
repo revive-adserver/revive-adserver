@@ -108,6 +108,8 @@ What's New in Revive Adserver 3.1.0
  Non-Backwards Compatible Changes
  --------------------------------
 
+ * Revive Adserver now requires PHP 5.3+
+
  * HTML banners no longer present URL and Target fields in the user interface
    unless editing an existing HTML banner where one of these fields is present;
    the URL(s) and target(s) should be set as part of the HTML banner.
