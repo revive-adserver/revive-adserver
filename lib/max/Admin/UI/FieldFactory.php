@@ -42,16 +42,16 @@ class FieldFactory
     {
         switch ($fieldType) {
             case 'advertiser':           $oField = new Admin_UI_AdvertiserIdField(); break;
-            case 'affiliateid-dropdown': $oField = new Admin_UI_PublisherIdField(); break;
+            case 'affiliateid-dropdown':
+            case 'publisherid-dropdown': $oField = new Admin_UI_PublisherIdField(); break;
             case 'campaignid-dropdown':  $oField = new Admin_UI_CampaignSelectionField(); break;
             case 'clientid-dropdown':    $oField = new Admin_UI_AdvertiserIdField(); break;
             case 'channelid-dropdown':   $oField = new Admin_UI_ChannelIdField(); break;
-            case 'date-month':           $oField = new Admin_UI_DaySpanField(); break;
-            case 'day-span':             $oField = new Admin_UI_DaySpanField(); break;
+            case 'date-month':
+            case 'day-span':
             case 'day-span-selector':    $oField = new Admin_UI_DaySpanField(); break;
             case 'dropdown':             $oField = new Admin_UI_DropdownField(); break;
             case 'edit':                 $oField = new Admin_UI_TextField(); break;
-            case 'publisher':            $oField = new Admin_UI_PublisherIdField(); break;
             case 'scope':                $oField = new Admin_UI_OrganisationSelectionField(); break;
             case 'sheet':                $oField = new Admin_UI_SheetSelectionField(); break;
             case 'trackerid-dropdown':   $oField = new Admin_UI_TrackerField(); break;

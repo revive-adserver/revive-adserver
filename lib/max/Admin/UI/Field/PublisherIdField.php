@@ -32,7 +32,7 @@ class Admin_UI_PublisherIdField extends Admin_UI_Field
         }
         else
         {
-        $aPublishers = Admin_UI_PublisherIdField::phpAds_getPublisherArray('name');
+        $aPublishers = Admin_UI_PublisherIdField::_getPublisherArray('name');
 
         // if no default publisher set, set it to the first id in the array
         // - this is to ensure that we'll know which publisher to filter any other
