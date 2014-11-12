@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenX - 3rd Party Servers\n"
+"Project-Id-Version: Revive Adserver - 3rd Party Servers\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-08-06 11:03+0100\n"
 "PO-Revision-Date: 2008-08-06 11:04+0100\n"
@@ -17,59 +17,62 @@ msgstr ""
 "X-Poedit-Basepath: /home/chris/svn/openx/trunk-HEAD/\n"
 "X-Poedit-SearchPath-0: plugins_repo/openX3rdPartyServers\n"
 
-#: plugins_repo/openX3rdPartyServers/extensions/3rdPartyServers/ox3rdPartyServers/doubleclick.class.php:59
-msgid "Rich Media - Doubleclick"
+#: plugins_repo/openX3rdPartyServers/extensions/3rdPartyServers/ox3rdPartyServers/doubleclick.class.php:41
+msgid "Doubleclick/DFP"
 msgstr ""
 
-#: plugins_repo/openX3rdPartyServers/extensions/3rdPartyServers/ox3rdPartyServers/eyeblaster.class.php:56
-msgid "Rich Media - Eyeblaster"
+#: plugins_repo/openX3rdPartyServers/extensions/3rdPartyServers/ox3rdPartyServers/eyeblaster.class.php:38
+msgid "Eyeblaster"
 msgstr ""
 
-#: plugins_repo/openX3rdPartyServers/extensions/3rdPartyServers/ox3rdPartyServers/google.class.php:56
-msgid "Rich Media - Google AdSense"
+#: plugins_repo/openX3rdPartyServers/extensions/3rdPartyServers/ox3rdPartyServers/google.class.php:38
+msgid "Google AdSense"
 msgstr ""
 
-#: plugins_repo/openX3rdPartyServers/extensions/3rdPartyServers/ox3rdPartyServers/bluestreak.class.php:56
-msgid "Rich Media - Bluestreak"
+#: plugins_repo/openX3rdPartyServers/extensions/3rdPartyServers/ox3rdPartyServers/bluestreak.class.php:38
+msgid "Bluestreak"
 msgstr ""
 
-#: plugins_repo/openX3rdPartyServers/extensions/3rdPartyServers/ox3rdPartyServers/mediaplex.class.php:56
-msgid "Rich Media - Mediaplex"
+#: plugins_repo/openX3rdPartyServers/extensions/3rdPartyServers/ox3rdPartyServers/mediaplex.class.php:38
+msgid "Mediaplex"
 msgstr ""
 
-#: plugins_repo/openX3rdPartyServers/extensions/3rdPartyServers/ox3rdPartyServers/atlas.class.php:56
-msgid "Rich Media - Atlas"
+#: plugins_repo/openX3rdPartyServers/extensions/3rdPartyServers/ox3rdPartyServers/atlas.class.php:38
+msgid "Atlas"
 msgstr ""
 
-#: plugins_repo/openX3rdPartyServers/extensions/3rdPartyServers/ox3rdPartyServers/kontera.class.php:56
-msgid "Rich Media - Kontera"
+#: plugins_repo/openX3rdPartyServers/extensions/3rdPartyServers/ox3rdPartyServers/kontera.class.php:38
+msgid "Kontera"
 msgstr ""
 
-#: plugins_repo/openX3rdPartyServers/extensions/3rdPartyServers/ox3rdPartyServers/cpx.class.php:56
-msgid "Rich Media - CPX"
+#: plugins_repo/openX3rdPartyServers/extensions/3rdPartyServers/ox3rdPartyServers/cpx.class.php:38
+msgid "CPX"
 msgstr ""
 
-#: plugins_repo/openX3rdPartyServers/extensions/3rdPartyServers/ox3rdPartyServers/ypn.class.php:56
-msgid "Rich Media - Yahoo! Publisher Network"
+#: plugins_repo/openX3rdPartyServers/extensions/3rdPartyServers/ox3rdPartyServers/ypn.class.php:38
+msgid "Yahoo! Publisher Network"
 msgstr ""
 
-#: plugins_repo/openX3rdPartyServers/extensions/3rdPartyServers/ox3rdPartyServers/falk.class.php:56
-msgid "Rich Media - Falk"
+#: plugins_repo/openX3rdPartyServers/extensions/3rdPartyServers/ox3rdPartyServers/falk.class.php:38
+msgid "Falk"
 msgstr ""
 
-#: plugins_repo/openX3rdPartyServers/extensions/3rdPartyServers/ox3rdPartyServers/adtech.class.php:56
-msgid "Rich Media - adtech"
+#: plugins_repo/openX3rdPartyServers/extensions/3rdPartyServers/ox3rdPartyServers/adtech.class.php:38
+msgid "adtech"
 msgstr ""
 
-#: plugins_repo/openX3rdPartyServers/extensions/3rdPartyServers/ox3rdPartyServers/tradedoubler.class.php:56
-msgid "Rich Media - Trade Doubler"
+#: plugins_repo/openX3rdPartyServers/extensions/3rdPartyServers/ox3rdPartyServers/tradedoubler.class.php:38
+msgid "Trade Doubler"
 msgstr ""
 
-#: plugins_repo/openX3rdPartyServers/extensions/3rdPartyServers/ox3rdPartyServers/tangozebra.class.php:56
-msgid "Rich Media - Tango Zebra"
+#: plugins_repo/openX3rdPartyServers/extensions/3rdPartyServers/ox3rdPartyServers/tangozebra.class.php:38
+msgid "Tango Zebra"
 msgstr ""
 
-#: plugins_repo/openX3rdPartyServers/extensions/3rdPartyServers/ox3rdPartyServers/max.class.php:59
-msgid "Rich Media - OpenX"
+#: plugins_repo/openX3rdPartyServers/extensions/3rdPartyServers/ox3rdPartyServers/max.class.php:41
+msgid "Revive Adserver"
 msgstr ""
 
+#: plugins_repo/openX3rdPartyServers/extensions/3rdPartyServers/ox3rdPartyServers/openadstream.class.php:41
+msgid "Open AdStream"
+msgstr ""

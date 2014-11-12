@@ -35,7 +35,7 @@ class Plugins_3rdPartyServers_ox3rdPartyServers_cpx extends Plugins_3rdPartyServ
      */
     function getName()
     {
-        return $this->translate('Rich Media - CPX');
+        return $this->translate('CPX');
     }
 
     /**

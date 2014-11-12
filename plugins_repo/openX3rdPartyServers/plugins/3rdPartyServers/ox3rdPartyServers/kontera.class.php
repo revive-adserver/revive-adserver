@@ -35,7 +35,7 @@ class Plugins_3rdPartyServers_ox3rdPartyServers_kontera extends Plugins_3rdParty
      */
     function getName()
     {
-        return $this->translate('Rich Media - Kontera');
+        return $this->translate('Kontera');
     }
 
     /**

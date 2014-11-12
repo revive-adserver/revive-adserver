@@ -35,7 +35,7 @@ class Plugins_3rdPartyServers_ox3rdPartyServers_google extends Plugins_3rdPartyS
      */
     function getName()
     {
-        return $this->translate('Rich Media - Google AdSense');
+        return $this->translate('Google AdSense');
     }
 
     /**

@@ -1,5 +1,15 @@
 <?php
 
+/*
++---------------------------------------------------------------------------+
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
+|                                                                           |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
++---------------------------------------------------------------------------+
+*/
+
 /**
  * @package    OpenXPlugin
  * @subpackage 3rdPartyServers
@@ -28,7 +38,7 @@ class Plugins_3rdPartyServers_ox3rdPartyServers_openadstream extends Plugins_3rd
      */
     function getName()
     {
-        return $this->translate('Rich Media - Open AdStream');
+        return $this->translate('Open AdStream');
     }
 
     /**

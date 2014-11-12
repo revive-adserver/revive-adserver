@@ -35,7 +35,7 @@ class Plugins_3rdPartyServers_ox3rdPartyServers_mediaplex extends Plugins_3rdPar
      */
     function getName()
     {
-        return $this->translate('Rich Media - Mediaplex');
+        return $this->translate('Mediaplex');
     }
 
     /**

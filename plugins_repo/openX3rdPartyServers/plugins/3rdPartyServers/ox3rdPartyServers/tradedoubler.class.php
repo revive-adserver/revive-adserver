@@ -35,7 +35,7 @@ class Plugins_3rdPartyServers_ox3rdPartyServers_tradedoubler extends Plugins_3rd
      */
     function getName()
     {
-        return $this->translate('Rich Media - Trade Doubler');
+        return $this->translate('Trade Doubler');
     }
 
     /**

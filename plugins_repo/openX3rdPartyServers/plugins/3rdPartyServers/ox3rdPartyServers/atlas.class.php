@@ -35,7 +35,7 @@ class Plugins_3rdPartyServers_ox3rdPartyServers_atlas extends Plugins_3rdPartySe
      */
     function getName()
     {
-        return $this->translate('Rich Media - Atlas');
+        return $this->translate('Atlas');
     }
 
     /**

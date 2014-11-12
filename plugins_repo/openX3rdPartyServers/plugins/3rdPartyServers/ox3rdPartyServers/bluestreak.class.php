@@ -35,7 +35,7 @@ class Plugins_3rdPartyServers_ox3rdPartyServers_bluestreak extends Plugins_3rdPa
      */
     function getName()
     {
-        return $this->translate('Rich Media - Bluestreak');
+        return $this->translate('Bluestreak');
     }
 
     /**

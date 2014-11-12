@@ -35,7 +35,7 @@ class Plugins_3rdPartyServers_ox3rdPartyServers_tangozebra extends Plugins_3rdPa
      */
     function getName()
     {
-        return $this->translate('Rich Media - Tango Zebra');
+        return $this->translate('Tango Zebra');
     }
 
     /**

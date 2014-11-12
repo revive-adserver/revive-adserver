@@ -35,7 +35,7 @@ class Plugins_3rdPartyServers_ox3rdPartyServers_adtech extends Plugins_3rdPartyS
      */
     function getName()
     {
-        return $this->translate('Rich Media - adtech');
+        return $this->translate('adtech');
     }
 
     /**

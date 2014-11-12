@@ -35,7 +35,7 @@ class Plugins_3rdPartyServers_ox3rdPartyServers_falk extends Plugins_3rdPartySer
      */
     function getName()
     {
-        return $this->translate('Rich Media - Falk');
+        return $this->translate('Falk');
     }
 
     /**

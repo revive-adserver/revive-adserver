@@ -3,6 +3,7 @@ Revive Adserver is Copyright (c) 2013-2014 Matteo Beccati & Andrew Hill
 Revive Adserver thanks the following members of the community for their
 contributions to the code:
 
+ - Pedro Faustino
  - Erik Geurts
  - Cédric Jouannin
  - Itai Lulu Koren

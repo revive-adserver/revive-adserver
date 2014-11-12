@@ -10,7 +10,7 @@
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>GNU Gneral Public License v2</license>
     <description>Plugin that automatically modifies HTML banners to provide 3rd Party Server click tracking.</description>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
     <oxversion>2.7.30-beta-rc11</oxversion>
     <extends>3rdPartyServers</extends>
 
