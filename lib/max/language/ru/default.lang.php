@@ -1021,7 +1021,6 @@ $GLOBALS['strAllowAuditTrailAccess'] = "разрешить этому польз
 $GLOBALS['strCampaignStatusAdded'] = "Добавлен";
 $GLOBALS['strCampaignStatusStarted'] = "Стартовал";
 $GLOBALS['strCampaignStatusRestarted'] = "Перезапущен";
-$GLOBALS['strAdserverTypeMax'] = "Rich Media - OpenX";
 $GLOBALS['strConfirmDeleteZoneLinkActive'] = "С выбранной зоной связаны платные кампании. Если вы удалите эту зону - платные кампании остановятся и вы не получите за них денег.";
 $GLOBALS['strCharset'] = "Кодировка";
 $GLOBALS['strAutoDetect'] = "Автоопределение";

@@ -1177,7 +1177,6 @@ $GLOBALS['strAllowAuditTrailAccess'] = "Permitir a este usuario acceder al audit
 $GLOBALS['strCampaignStatusAdded'] = "Añadido";
 $GLOBALS['strCampaignStatusStarted'] = "Iniciado";
 $GLOBALS['strCampaignStatusRestarted'] = "Reiniciado";
-$GLOBALS['strAdserverTypeMax'] = "Rich Media - OpenX";
 $GLOBALS['strCharset'] = "Juego de caracteres";
 $GLOBALS['strAutoDetect'] = "Autodetectar";
 $GLOBALS['strWarningInaccurateStats'] = "Algunas de estas estadísticas no fueron logueadas en un huso horario UTC por lo que podrían ser mostradas en un huso horario incorrecto.";

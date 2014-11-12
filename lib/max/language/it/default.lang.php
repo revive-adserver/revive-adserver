@@ -999,7 +999,6 @@ $GLOBALS['strAllowAuditTrailAccess'] = "Permetti a questo utente di accedere all
 $GLOBALS['strCampaignStatusAdded'] = "Aggiunto";
 $GLOBALS['strCampaignStatusStarted'] = "Avviato";
 $GLOBALS['strCampaignStatusRestarted'] = "Riavviato";
-$GLOBALS['strAdserverTypeMax'] = "OpenX - Rich Media";
 $GLOBALS['strConfirmDeleteZoneLinkActive'] = "Ci sono ancora dei pagamenti per campagne collegate a questa zona, se la elimini non riuscirai ad eseguire le campagne ed ottenere i pagamenti.";
 $GLOBALS['strCharset'] = "Set di caratteri";
 $GLOBALS['strAutoDetect'] = "Riconoscimento automatico";

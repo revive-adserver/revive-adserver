@@ -756,7 +756,6 @@ $GLOBALS['strAllowAuditTrailAccess'] = "Permitir que este usuário acesse o rast
 $GLOBALS['strCampaignStatusAdded'] = "Adicionado";
 $GLOBALS['strCampaignStatusStarted'] = "Inicializado";
 $GLOBALS['strCampaignStatusRestarted'] = "Re-iniciado";
-$GLOBALS['strAdserverTypeMax'] = "Rich Media - OpenX";
 $GLOBALS['strConfirmDeleteZoneLinkActive'] = "Ainda existem campanhas ligadas a esta zona, caso você a remova estas campanhas não serão executadas e você não será pago por elas";
 $GLOBALS['strCharset'] = "Conjunto de caracteres";
 $GLOBALS['strAutoDetect'] = "Auto-detectar";

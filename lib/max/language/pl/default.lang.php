@@ -983,7 +983,6 @@ $GLOBALS['strAllowAuditTrailAccess'] = "Zezwól temu użytkownikowi na dostęp d
 $GLOBALS['strCampaignStatusAdded'] = "Dodana";
 $GLOBALS['strCampaignStatusStarted'] = "Rozpoczęta";
 $GLOBALS['strCampaignStatusRestarted'] = "Uruchomiona ponownie";
-$GLOBALS['strAdserverTypeMax'] = "Rich Media - OpenX";
 $GLOBALS['strConfirmDeleteZoneLinkActive'] = "Do tej strefy wciąż podłączone są kampanie, jeśli ją usuniesz, kampanie przestaną działać i nie otrzymasz za nie należności.";
 $GLOBALS['strCharset'] = "Zestaw znaków";
 $GLOBALS['strAutoDetect'] = "Automatyczne wykrywanie";

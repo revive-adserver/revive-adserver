@@ -763,7 +763,6 @@ $GLOBALS['strAllowAuditTrailAccess'] = "Permite acestui utilizator să acceseze 
 $GLOBALS['strCampaignStatusAdded'] = "Adăugat";
 $GLOBALS['strCampaignStatusStarted'] = "Început";
 $GLOBALS['strCampaignStatusRestarted'] = "Reînceput";
-$GLOBALS['strAdserverTypeMax'] = "Rich Media - OpenX";
 $GLOBALS['strConfirmDeleteZoneLinkActive'] = "Încă sunt campanii asociate acestei zone, dacă o ştergi acestea nu vor mai putea fi livrate şi nu vei fi plătit pentru ele.";
 $GLOBALS['strCharset'] = "Set caractere";
 $GLOBALS['strAutoDetect'] = "Auto-detectează";

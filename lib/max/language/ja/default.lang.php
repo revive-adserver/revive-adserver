@@ -539,14 +539,6 @@ $GLOBALS['strStatusText']						= "ブラウザステータス表示（マウス�
 $GLOBALS['strBannerWeight']						= "バナーウェイト";
 $GLOBALS['strBannerType']           			= "バナータイプ";
 $GLOBALS['strAdserverTypeGeneric']  			= "汎用HTMLバナー";
-$GLOBALS['strAdserverTypeMax']      			= "リッチメディア - OpenX";
-$GLOBALS['strAdserverTypeAtlas']    			= "リッチメディア - Atlas";
-$GLOBALS['strAdserverTypeBluestreak']   		= "リッチメディア - Bluestreak";
-$GLOBALS['strAdserverTypeDoubleclick']  		= "リッチメディア - DoubleClick";
-$GLOBALS['strAdserverTypeEyeblaster']   		= "リッチメディア - Eyeblaster";
-$GLOBALS['strAdserverTypeFalk']         		= "リッチメディア - Falk";
-$GLOBALS['strAdserverTypeMediaplex']    		= "リッチメディア - Mediaplex";
-$GLOBALS['strAdserverTypeTangozebra']   		= "リッチメディア - Tango Zebra";
 $GLOBALS['strGenericOutputAdServer'] 			= "汎用Adserver";
 $GLOBALS['strSwfTransparency']					= "背景の透過を許可する";
 

@@ -477,14 +477,6 @@ $GLOBALS['strStatusText']			= "Status-Text";
 $GLOBALS['strBannerWeight']			= "Bannergewichtung";
 $GLOBALS['strBannerType']           = "Werbemitteltyp";
 $GLOBALS['strAdserverTypeGeneric']  = "Standard HTML-Banner";
-$GLOBALS['strAdserverTypeMax']      = "Rich Media - OpenX";
-$GLOBALS['strAdserverTypeAtlas']    = "Rich Media - Atlas";
-$GLOBALS['strAdserverTypeBluestreak']   = "Rich Media - Bluestreak";
-$GLOBALS['strAdserverTypeDoubleclick']  = "Rich Media - DoubleClick";
-$GLOBALS['strAdserverTypeEyeblaster']   = "Rich Media - Eyeblaster";
-$GLOBALS['strAdserverTypeFalk']         = "Rich Media - Falk";
-$GLOBALS['strAdserverTypeMediaplex']    = "Rich Media - Mediaplex";
-$GLOBALS['strAdserverTypeTangozebra']   = "Rich Media - Tango Zebra";
 $GLOBALS['strGenericOutputAdServer'] = "Generisch";
 $GLOBALS['strSwfTransparency']		= "Transparenten Hintergrund zulassen";
 

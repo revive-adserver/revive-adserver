@@ -478,14 +478,6 @@ $GLOBALS['strStatusText']            = "وضعیت متن";
 $GLOBALS['strBannerWeight']            = "حجم بنر";
 $GLOBALS['strBannerType']           = "پسوند تبلیغ";
 $GLOBALS['strAdserverTypeGeneric']  = "Generic HTML Banner";
-$GLOBALS['strAdserverTypeMax']      = "Rich Media - Openads";
-$GLOBALS['strAdserverTypeAtlas']    = "Rich Media - Atlas";
-$GLOBALS['strAdserverTypeBluestreak']   = "Rich Media - Bluestreak";
-$GLOBALS['strAdserverTypeDoubleclick']  = "Rich Media - DoubleClick";
-$GLOBALS['strAdserverTypeEyeblaster']   = "Rich Media - Eyeblaster";
-$GLOBALS['strAdserverTypeFalk']         = "Rich Media - Falk";
-$GLOBALS['strAdserverTypeMediaplex']    = "Rich Media - Mediaplex";
-$GLOBALS['strAdserverTypeTangozebra']   = "Rich Media - Tango Zebra";
 $GLOBALS['strGenericOutputAdServer'] = "عمومی";
 $GLOBALS['strSwfTransparency']		= "Transparent background (Flash-only)";
 

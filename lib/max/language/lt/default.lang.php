@@ -685,7 +685,6 @@ $GLOBALS['strAdvertiserLimitation'] = "Rodyti tik banerį ";
 $GLOBALS['strCampaignStatusAdded'] = "Pridėtas";
 $GLOBALS['strCampaignStatusStarted'] = "Pradėtas";
 $GLOBALS['strCampaignStatusRestarted'] = "Atnaujintas";
-$GLOBALS['strAdserverTypeMax'] = "Gausus pasirinkimas visuomenės informavimo priemonių";
 $GLOBALS['strConfirmDeleteZoneLinkActive'] = "Už kampanijas prijungtas prie šios zonos sumokėta, jei ištrinsite jas, nebegalėsite jų paleisti ir jums už jas nebus sumokėta.";
 $GLOBALS['strCharset'] = "Ženklų nustatymus";
 $GLOBALS['strAutoDetect'] = "Auto radimas";

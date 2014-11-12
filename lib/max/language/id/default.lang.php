@@ -467,14 +467,6 @@ $GLOBALS['strStatusText']							= "Teks status";
 $GLOBALS['strBannerWeight']							= "Bobot banner";
 $GLOBALS['strBannerType']           				= "Tambah Jenis";
 $GLOBALS['strAdserverTypeGeneric']  				= "Banner HTML Generik";
-$GLOBALS['strAdserverTypeMax']      				= "Rich Media - OpenX";
-$GLOBALS['strAdserverTypeAtlas']    				= "Rich Media - Atlas";
-$GLOBALS['strAdserverTypeBluestreak']   			= "Rich Media - Bluestreak";
-$GLOBALS['strAdserverTypeDoubleclick']  			= "Rich Media - DoubleClick";
-$GLOBALS['strAdserverTypeEyeblaster']   			= "Rich Media - Eyeblaster";
-$GLOBALS['strAdserverTypeFalk']         			= "Rich Media - Falk";
-$GLOBALS['strAdserverTypeMediaplex']    			= "Rich Media - Mediaplex";
-$GLOBALS['strAdserverTypeTangozebra']   			= "Rich Media - Tango Zebra";
 $GLOBALS['strGenericOutputAdServer'] 				= "Generik";
 $GLOBALS['strSwfTransparency']						= "Background transparan (hanya Flash)";
 
