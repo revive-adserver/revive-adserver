@@ -481,7 +481,7 @@ PLAYER;
                plugins: {
 
                    controls: {
-                        url: escape('${aOut['videoPlayerControlsPluginUrl']}')
+                        url: encodeURI('${aOut['videoPlayerControlsPluginUrl']}')
                    }
                }
 
@@ -503,11 +503,11 @@ HTTP_PLAYER;
                plugins: {
                    streamer: {
                         // see http://flowplayer.org/forum/8/15861 for reason I use encode() function
-                        url: escape('${aOut['videoPlayerRtmpPluginUrl']}'),
+                        url: encodeURI('${aOut['videoPlayerRtmpPluginUrl']}'),
                         netConnectionUrl: '${aOut['videoNetConnectionUrl']}'
                    },
                    controls: {
-                        url: escape('${aOut['videoPlayerControlsPluginUrl']}')
+                        url: encodeURI('${aOut['videoPlayerControlsPluginUrl']}')
                    }
                }
 

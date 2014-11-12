@@ -142,7 +142,7 @@ class Plugins_InvocationTags_OxInvocationTags_adjs extends Plugins_InvocationTag
         if (!empty($mi->thirdpartytrack)) {
             // Don't pass this in as a parameter... it is dealt with seperatly
             unset($mi->parameters['ct0']);
-            $buffer .= "   document.MAX_ct0 = unescape('{$mi->macros['clickurl']}');\n\n";
+            $buffer .= "   document.MAX_ct0 = decodeURI('{$mi->macros['clickurl']}');\n\n";
         }
         $buffer .= "   var m3_u = (location.protocol=='https:'?'https:".MAX_commonConstructPartialDeliveryUrl($conf['file']['js'], true)."':'http:".MAX_commonConstructPartialDeliveryUrl($conf['file']['js'])."');\n";
         $buffer .= "   var m3_r = Math.floor(Math.random()*99999999999);\n";
@@ -162,14 +162,14 @@ class Plugins_InvocationTags_OxInvocationTags_adjs extends Plugins_InvocationTag
         } else {
             $buffer .= "   document.write ('&amp;charset=" . $mi->charset . "');\n";
         }
-        $buffer .= "   document.write (\"&amp;loc=\" + escape(window.location));\n";
-        $buffer .= "   if (document.referrer) document.write (\"&amp;referer=\" + escape(document.referrer));\n";
-        $buffer .= "   if (document.context) document.write (\"&context=\" + escape(document.context));\n";
+        $buffer .= "   document.write (\"&amp;loc=\" + encodeURIComponent(window.location));\n";
+        $buffer .= "   if (document.referrer) document.write (\"&amp;referer=\" + encodeURIComponent(document.referrer));\n";
+        $buffer .= "   if (document.context) document.write (\"&context=\" + encodeURIComponent(document.context));\n";
 
         // Only pass in the 3rd party click URL if it is required and (probably) a valid URL (i.e. not a macro like '%c')
         if (!empty($mi->thirdpartytrack)) {
             $buffer .= "   if ((typeof(document.MAX_ct0) != 'undefined') && (document.MAX_ct0.substring(0,4) == 'http')) {\n";
-            $buffer .= "       document.write (\"&amp;ct0=\" + escape(document.MAX_ct0));\n   }\n";
+            $buffer .= "       document.write (\"&amp;ct0=\" + encodeURIComponent(document.MAX_ct0));\n   }\n";
         }
         // Pass in if the FlashObject - Inline code has already been passed in
         $buffer .= "   if (document.mmm_fo) document.write (\"&amp;mmm_fo=1\");\n";
