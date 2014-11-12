@@ -10,7 +10,7 @@
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>GNU Gneral Public License v2</license>
     <description>Plugin that provides MaxMind GeoIP Geotargeting.</description>
-    <version>1.2.2</version>
+    <version>1.2.3</version>
     <oxversion>2.7.30-beta-rc11</oxversion>
     <type>package</type>
 

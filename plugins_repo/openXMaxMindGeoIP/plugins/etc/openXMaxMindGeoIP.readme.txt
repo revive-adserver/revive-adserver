@@ -13,7 +13,7 @@ override the "Country" database in the settings to specify either a more up to
 date version of the free MaxMind GeoLite Country database, or a paid-for
 version of the database with greater accuracy.
 
-Note: The included MaxMind GeoLite Country database is the May 2014
+Note: The included MaxMind GeoLite Country database is the November 2014
 release.
 
 
