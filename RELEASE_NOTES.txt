@@ -6,8 +6,8 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
-Release Notes: Revive Adserver 3.1.0
-====================================
+Release Notes: Revive Adserver 3.1.0-beta
+=========================================
 
 These release notes cover what's new, system requirements, download and
 installation instructions, known issues and frequently asked questions for
@@ -17,7 +17,7 @@ Revive Adserver. Please read these notes before reporting any bugs.
 What's New in Revive Adserver 3.1.0
 -----------------------------------
 
- * Release date: TBA
+ * Release date: 13 December 2014
 
  Security Updates
  ----------------
@@ -169,7 +169,7 @@ Downloading and Installing
    ---------------------------------------------------------------
    | Product                             | Version(s)            |
    ---------------------------------------------------------------
-   | Revive Adserver 3.0                 | All versions          |
+   | Revive Adserver 3.x                 | All versions          |
    ---------------------------------------------------------------
    | OpenX 2.8                           | All versions          |
    ---------------------------------------------------------------
@@ -213,9 +213,6 @@ this before reporting any new bugs.
  * The upgrade process may time out with very large databases. See
    http://www.revive-adserver.com/docs/faq for more information if you
    have a large database.
-
- * Revive Adserver requires PHP 5. If you are using PHP 4, you will need to
-   update your web server to use PHP 5 before upgrading.
 
  * If you want to run Revive Adserver with MySQL, please note that MySQL 4.1 or
    higher is required. If you are using an older version of MySQL, you will
