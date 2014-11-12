@@ -153,9 +153,9 @@ class Plugins_InvocationTags_OxInvocationTags_adjs extends Plugins_InvocationTag
         } else {
             $buffer .= "   document.write ('&amp;charset=" . $mi->charset . "');\n";
         }
-        $buffer .= "   document.write (\"&amp;loc=\" + escape(window.location));\n";
-        $buffer .= "   if (document.referrer) document.write (\"&amp;referer=\" + escape(document.referrer));\n";
-        $buffer .= "   if (document.context) document.write (\"&context=\" + escape(document.context));\n";
+        $buffer .= "   document.write (\"&amp;loc=\" + encodeURIComponent(window.location));\n";
+        $buffer .= "   if (document.referrer) document.write (\"&amp;referer=\" + encodeURIComponent(document.referrer));\n";
+        $buffer .= "   if (document.context) document.write (\"&context=\" + encodeURIComponent(document.context));\n";
 
         $buffer .= "   document.write (\"'><\\/scr\"+\"ipt>\");\n";
         $buffer .= "//]]>--></script>";
