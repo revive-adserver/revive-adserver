@@ -7,9 +7,9 @@
     <authorEmail>revive@revive-adserver.com</authorEmail>
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>LICENSE.txt</license>
-    <description>Revive Adserver Upgrade 3.1.0-rc1</description>
+    <description>Revive Adserver Upgrade 3.1.0-beta-rc1</description>
     <versionFrom></versionFrom>
-    <versionTo>3.1.0-rc1</versionTo>
+    <versionTo>3.1.0-beta-rc1</versionTo>
 
     <!-- Database Packages -->
     <database>
