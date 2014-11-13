@@ -10,12 +10,12 @@
 +---------------------------------------------------------------------------+
 */
 
-$className = 'OA_UpgradePostscript_3_1_0_rc2';
+$className = 'OA_UpgradePostscript_3_1_0_beta_rc2';
 
 require_once MAX_PATH . '/lib/OA/DB/Table.php';
 require_once MAX_PATH . '/lib/OA/Upgrade/UpgradeLogger.php';
 
-class OA_UpgradePostscript_3_1_0_rc2
+class OA_UpgradePostscript_3_1_0_beta_rc2
 {
     /**
      * @var OA_Upgrade
@@ -69,8 +69,8 @@ class OA_UpgradePostscript_3_1_0_rc2
 
         $this->logOnly("Attempting to rename the 'Default Manager' account to 'Default Account' in the 'agency' table");
         $tblAgency = $aConf['prefix'] . ($aConf['agency'] ? $aConf['agency'] : 'agency');
-        $query = 'UPDATE ' . $this->oDbh->quoteIdentifier($tblAgency, true) .
-                 ' SET name = "Default Account" WHERE name = "Default manager"';
+        $query = "UPDATE " . $this->oDbh->quoteIdentifier($tblAgency, true) .
+                 " SET name = 'Default Account' WHERE name = 'Default manager'";
         $result = $this->oDbh->query($query);
         if (!PEAR::isError($result)) {
             $this->logOnly("Renamed the old 'Default Manager' account in the 'agency' table");
@@ -80,8 +80,8 @@ class OA_UpgradePostscript_3_1_0_rc2
 
         $this->logOnly("Attempting to rename the 'Default Manager' account to 'Default Account' in the 'accounts' table");
         $tblAccounts = $aConf['prefix'] . ($aConf['accounts'] ? $aConf['accounts'] : 'accounts');
-        $query = 'UPDATE ' . $this->oDbh->quoteIdentifier($tblAccounts, true) .
-                 ' SET account_name = "Default Account" WHERE account_name = "Default manager"';
+        $query = "UPDATE " . $this->oDbh->quoteIdentifier($tblAccounts, true) .
+                 " SET account_name = 'Default Account' WHERE account_name = 'Default manager'";
         $result = $this->oDbh->query($query);
         if (!PEAR::isError($result)) {
             $this->logOnly("Renamed the old 'Default Manager' account in the 'accounts' table");
@@ -102,8 +102,8 @@ class OA_UpgradePostscript_3_1_0_rc2
 
         $this->logOnly("Attempting to rename the 'Administrator Account' account to 'System Administrator' in the 'accounts' table");
         $tblAccounts = $aConf['prefix'] . ($aConf['accounts'] ? $aConf['accounts'] : 'accounts');
-        $query = 'UPDATE ' . $this->oDbh->quoteIdentifier($tblAccounts, true) .
-                 ' SET account_name = "System Administrator" WHERE account_name = "Administrator account"';
+        $query = "UPDATE " . $this->oDbh->quoteIdentifier($tblAccounts, true) .
+                 " SET account_name = 'System Administrator' WHERE account_name = 'Administrator account'";
         $result = $this->oDbh->query($query);
         if (!PEAR::isError($result)) {
             $this->logOnly("Renamed the old 'Administrator Account' account in the 'accounts' table");
