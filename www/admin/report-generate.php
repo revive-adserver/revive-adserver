@@ -20,20 +20,6 @@ require_once MAX_PATH . '/lib/OA/Admin/Reports/Generate.php';
 
 global $session;
 
-if (isset($_REQUEST['submit_type']) && $_REQUEST['submit_type'] == 'change') {
-    // Store any values we need to pass to the next page
-    switch ($_REQUEST['changed_field']) {
-    case 'publisher' :
-        if (isset($_REQUEST['publisherId'])) {
-            $session['prefs']['GLOBALS']['report_publisher'] = $_REQUEST['publisherId'];
-            phpAds_SessionDataStore();
-        }
-    default :
-        break;
-    }
-    echo "<script type='text/javascript'>window.location='".$_REQUEST['refresh_page']."'</script>";
-}
-
 // If the report is for a "specific" period, store the period for later user
 if (!is_null($_GET['period_preset']) && ($_GET['period_preset'] == 'specific')) {
     if (!is_null($_GET['period_start'])) {
