@@ -103,5 +103,8 @@ if($vast_event) {
         MAX_redirect($_REQUEST[$GLOBALS['_MAX']['CONF']['var']['dest']]);
         exit;
     }
-} 
+}
+
+MAX_cookieFlush();
+
 MAX_commonDisplay1x1();

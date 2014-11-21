@@ -108,6 +108,8 @@ What's New in Revive Adserver 3.1.0
  * Added compatibility for systems affected by PHP bug #53829, i.e. having
    gzopen64 rather than gzopen.
 
+ * Fixed a problem with frequency capping/blocking not working for video ads.
+
  Non-Backwards Compatible Changes
  --------------------------------
 
