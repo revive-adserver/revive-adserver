@@ -88,7 +88,7 @@ class OX_Maintenance_Distributed
                 $oBucketClass->processBucket($aPreviousOperationIntervalDates['start']);
                 $oBucketClass->pruneBucket($aPreviousOperationIntervalDates['start']);
             } else {
-                OA::debug('  - Skipping '.$sBucketName, PEAR_LOG_INFO);
+                OA::debug('  - Skipping '.$sBucketName, PEAR_LOG_DEBUG);
             }
         }
 
