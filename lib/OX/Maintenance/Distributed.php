@@ -84,8 +84,12 @@ class OX_Maintenance_Distributed
         OA::debug(' - Will process data for all operation intervals before and up to start', PEAR_LOG_DEBUG);
         OA::debug('   time of ' . $aPreviousOperationIntervalDates['start']->format('%Y-%m-%d %H:%M:%S') . ' ' . $aPreviousOperationIntervalDates['start']->tz->getShortName(), PEAR_LOG_DEBUG);
         foreach ($aBuckets as $sBucketName => $oBucketClass) {
-            $oBucketClass->processBucket($aPreviousOperationIntervalDates['start']);
-            $oBucketClass->pruneBucket($aPreviousOperationIntervalDates['start']);
+            if ($oBucketClass->testStatisticsMigration($oBucketClass->getStatisticsMigration())){
+                $oBucketClass->processBucket($aPreviousOperationIntervalDates['start']);
+                $oBucketClass->pruneBucket($aPreviousOperationIntervalDates['start']);
+            } else {
+                OA::debug('  - Skipping '.$sBucketName, PEAR_LOG_INFO);
+            }
         }
 
         $oLock->release();

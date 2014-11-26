@@ -110,6 +110,9 @@ What's New in Revive Adserver 3.1.0
 
  * Fixed a problem with frequency capping/blocking not working for video ads.
 
+ * Fixed an issue in distributed maintenance trying to migrate unsupported
+   plugin statistics.
+
  Non-Backwards Compatible Changes
  --------------------------------
 
