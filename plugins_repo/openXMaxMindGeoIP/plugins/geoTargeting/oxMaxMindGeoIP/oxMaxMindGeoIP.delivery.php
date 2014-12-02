@@ -300,7 +300,7 @@ function _oxMaxMind_seek($fp, $ipnum)
         'SJ', 'SK', 'SL', 'SM', 'SN', 'SO', 'SR', 'ST', 'SV', 'SY', 'SZ', 'TC', 'TD',
         'TF', 'TG', 'TH', 'TJ', 'TK', 'TM', 'TN', 'TO', 'TP', 'TR', 'TT', 'TV', 'TW',
         'TZ', 'UA', 'UG', 'UM', 'US', 'UY', 'UZ', 'VA', 'VC', 'VE', 'VG', 'VI', 'VN',
-        'VU', 'WF', 'WS', 'YE', 'YT', 'YU', 'ZA', 'ZM', 'ZR', 'ZW', 'A1', 'A2', 'O1'
+        'VU', 'WF', 'WS', 'YE', 'YT', 'RS', 'ZA', 'ZM', 'ZR', 'ZW', 'A1', 'A2', 'O1'
     );
 
     $us2fips = array (
