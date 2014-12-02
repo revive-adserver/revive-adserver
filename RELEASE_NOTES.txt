@@ -113,6 +113,9 @@ What's New in Revive Adserver 3.1.0
  * Fixed an issue in distributed maintenance trying to migrate unsupported
    plugin statistics.
 
+ * Updated ISO-3166 country codes to the latest available version. This also
+   fixes an issue with Serbia country targeting previously not working.
+
  Non-Backwards Compatible Changes
  --------------------------------
 

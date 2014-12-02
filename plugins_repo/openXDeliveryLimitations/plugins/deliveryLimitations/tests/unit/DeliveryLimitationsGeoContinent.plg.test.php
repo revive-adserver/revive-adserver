@@ -63,7 +63,7 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Geo_Continent extends UnitTestCa
 
         $result = $oPlugin->compile();
 
-        $this->assertEqual("MAX_checkGeo_Continent('eu,yu,gb,uk,ua,ch,se,sj,es,si,sk,sm,ru,ro,pt,pl,no,nl,mc,md,mt,mk,lu,lt,li,lv,it,ie,is,hu,va,gr,gi,de,ge,fx,fr,fi,fo,ee,dk,cz,cy,hr,bg,ba,be,by,at,am,ad,al', '!~')", $result);
+        $this->assertEqual("MAX_checkGeo_Continent('eu,ad,al,at,ba,be,bg,by,ch,cz,de,dk,ee,es,fi,fo,fr,gb,gi,gr,hr,hu,ie,is,it,li,lt,lu,lv,mc,md,mk,mt,nl,no,pl,pt,ro,ru,se,si,sj,sk,sm,tr,ua,va,rs,me,ax,gg,im,je', '!~')", $result);
     }
 
     function _assertResourceData()
