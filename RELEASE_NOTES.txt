@@ -6,8 +6,8 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
-Release Notes: Revive Adserver 3.1.0-beta
-=========================================
+Release Notes: Revive Adserver 3.1.0
+====================================
 
 These release notes cover what's new, system requirements, download and
 installation instructions, known issues and frequently asked questions for
@@ -17,12 +17,16 @@ Revive Adserver. Please read these notes before reporting any bugs.
 What's New in Revive Adserver 3.1.0
 -----------------------------------
 
- * Release date: 13 December 2014
+ * Release date: 17 December 2014
 
  Security Updates
  ----------------
 
- * None
+ * CVE-2014-8793 - Fixed Cross-Site-Scripting vulnerability
+ * CVE-2014-8875 - Fixed Denial-of-Service vulnerability
+
+ For more information:
+ http://www.revive-adserver.com/security/revive-sa-2014-002
 
  New Features
  ------------

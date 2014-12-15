@@ -548,6 +548,24 @@ function XML_RPC_cd($parser_resource, $data)
 
     $parser = (int) $parser_resource;
 
+    // Make sure that the data content doesn't exceed the limit, in order to
+    // prevent XML bomb attacks. See the following link for more information:
+    //
+    // http://msdn.microsoft.com/en-us/magazine/ee335713.aspx
+    //
+    if (isset($XML_RPC_xh[$parser]['max_data_len'])) {
+        $XML_RPC_xh[$parser]['max_data_len'] -= strlen($data);
+        if ($XML_RPC_xh[$parser]['max_data_len'] < 0) {
+            // Set error message
+            $XML_RPC_xh[$parser]['isf'] = 2;
+            $XML_RPC_xh[$parser]['isf_reason'] = 'xml bomb attack detected';
+
+            // Stop parsing charachter data
+            xml_set_character_data_handler($parser_resource, null);
+            return;
+        }
+    }
+
     if ($XML_RPC_xh[$parser]['lv'] != 3) {
         // "lookforvalue==3" means that we've found an entire value
         // and should discard any further character data
