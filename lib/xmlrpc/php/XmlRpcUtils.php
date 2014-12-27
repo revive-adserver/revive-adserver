@@ -12,10 +12,8 @@
 
 /**
  * @package    OpenX
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *
  * This file describes the XmlRpcUtils class.
- *
  */
 
 // Require the XML-RPC classes.

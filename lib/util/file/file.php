@@ -13,10 +13,9 @@
 /**
  * The package allows for some advanced operations on files and directories.
  * It requires PEAR_Error to be included as well.
- * 
+ *
  * @package Util
  * @subpackage File
- * @author     Andrzej Swedrzynski <andrzej.swedrzynski@openx.org>
  */
 
 /**

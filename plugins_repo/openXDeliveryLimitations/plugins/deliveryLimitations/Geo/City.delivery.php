@@ -13,8 +13,6 @@
 /**
  * @package    OpenXPlugin
  * @subpackage DeliveryLimitations
- * @author     Chris Nutting <chris@m3.net>
- * @author     Andrzej Swedrzynski <andrzej.swedrzynski@m3.net>
  */
 
 require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
@@ -35,7 +33,7 @@ function MAX_checkGeo_City($limitation, $op, $aParams = array())
     if ($aParams && $aParams['city'] && $aParams['country_code']) {
         $aLimitation = array ( substr($limitation, 0, strpos($limitation, '|')),
                                substr($limitation, strpos($limitation, '|')+1)
-                              );                               
+                              );
         $sCities = $aLimitation[1];
         if (!empty($aLimitation[0])) {
             return MAX_limitationsMatchStringValue($aParams['country_code'], $aLimitation[0], '==')

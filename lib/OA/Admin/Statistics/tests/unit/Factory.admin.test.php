@@ -17,7 +17,6 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Factory.php';
  *
  * @package    OpenXAdmin
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class Test_OA_Admin_Statistics_Factory extends UnitTestCase
 {

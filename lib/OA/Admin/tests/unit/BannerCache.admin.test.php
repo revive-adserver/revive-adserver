@@ -18,7 +18,6 @@ include_once MAX_PATH . '/www/admin/lib-banner.inc.php';
  *
  * @package    OpenXAdmin
  * @subpackage TestSuite
- * @author
  */
 class Test_OA_Admin_BannerCache extends UnitTestCase
 {
@@ -166,7 +165,7 @@ class Test_OA_Admin_BannerCache extends UnitTestCase
          $aBanner['expected'] = "<a href=\"\" target=\"\">Click Here</a>";
          return $aBanner;
     }
-    
+
     function _getBanner8()
     {
          $aBanner['bannerid'] = 8;
@@ -191,7 +190,7 @@ class Test_OA_Admin_BannerCache extends UnitTestCase
 </object>';
          return $aBanner;
     }
-    
+
     function _getBanner9()
     {
         $aBanner = $this->_getBanner8();

@@ -20,7 +20,6 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Common.php';
  * @abstract
  * @package    OpenXPlugin
  * @subpackage StatisticsFields
- * @author     Matteo Beccati <matteo@beccati.com>
  */
 class OA_StatisticsFieldsDelivery
 {

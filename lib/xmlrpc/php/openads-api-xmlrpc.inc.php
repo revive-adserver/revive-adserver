@@ -32,7 +32,6 @@ require_once('ZoneInfo.php');
  *
  * @package    OpenX
  * @subpackage ExternalLibrary
- * @author     Chris Nutting <Chris.Nutting@openx.org>
  */
 
 class OA_Api_Xmlrpc
@@ -703,7 +702,7 @@ class OA_Api_Xmlrpc
 
         return $oBannerInfo;
     }
-    
+
     /**
      * This method returns TargetingInfo for a specified banner.
      *
@@ -742,7 +741,7 @@ class OA_Api_Xmlrpc
         return (bool) $this->_sendWithSession('BannerXmlRpcService.php',
                                               'setBannerTargeting', array((int) $bannerId, $aTargetingInfoObjects));
     }
-    
+
     /**
      * This method returns a list of banners for a specified campaign.
      *

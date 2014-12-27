@@ -18,7 +18,6 @@ require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
  *
  * @package    OpenXDB
  * @subpackage AdvisoryLock
- * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
 class OA_DB_AdvisoryLock_pgsql extends OA_DB_AdvisoryLock
 {

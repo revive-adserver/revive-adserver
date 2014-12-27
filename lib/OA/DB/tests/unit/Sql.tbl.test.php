@@ -17,7 +17,6 @@ require_once MAX_PATH . '/tests/testClasses/DbTestCase.php';
  *
  * @package    OpenXDB
  * @subpackage TestSuite
- * @author     Andrzej Swedrzynski <andrzej.swedrzynski@openx.org>
  */
 class Test_OA_DB_Sql extends DbTestCase
 {

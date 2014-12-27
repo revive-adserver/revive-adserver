@@ -17,8 +17,6 @@ require_once MAX_PATH . '/lib/Max.php';
  *
  * @package    MaxDelivery
  * @subpackage TestSuite
- * @author
- *
  */
 class test_MAX extends UnitTestCase
 {

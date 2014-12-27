@@ -14,7 +14,6 @@
  * A class used for creating simple custom queries.
  *
  * @package    OpenXDB
- * @author     Andrzej Swedrzynski <andrzej.swedrzynski@openx.org>
  */
 class OA_DB_Sql
 {
