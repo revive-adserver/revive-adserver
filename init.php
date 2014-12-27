@@ -12,7 +12,6 @@
 
 /**
  * @package    Max
- * @author     Andrew Hill <andrew@m3.net>
  *
  * A file to set up the environment for the administration interface.
  */

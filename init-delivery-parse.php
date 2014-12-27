@@ -12,8 +12,6 @@
 
 /**
  * @package    OpenXDelivery
- * @author     Andrew Hill <andrew.hill@openx.org>
- * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  */
 
 /**
