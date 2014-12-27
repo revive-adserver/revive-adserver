@@ -4,7 +4,7 @@
 
 /**
  * Class for handling output in PDF format.
- * 
+ *
  * Requires PHP extension PDFlib
  *
  * PHP versions 4 and 5
@@ -25,10 +25,9 @@
  * @author     Jesper Veggerby <pear.nosey@veggerby.dk>
  * @copyright  Copyright (C) 2003, 2004 Jesper Veggerby Hansen
  * @license    http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version    CVS: $Id$
  * @link       http://pear.php.net/pepr/pepr-proposal-show.php?id=212
  */
- 
+
 /**
  * Include file Image/Canvas.php
  */
@@ -41,7 +40,7 @@ require_once 'Image/Canvas/Color.php';
 
 /**
  * PDF Canvas class.
- * 
+ *
  * @category   Images
  * @package    Image_Canvas
  * @author     Jesper Veggerby <pear.nosey@veggerby.dk>
@@ -392,12 +391,12 @@ class Image_Canvas_PDF extends Image_Canvas
         if (($lineStyle == 'transparent') || ($lineStyle === false)) {
             return false;
         }
-        
+
         if (is_array($lineStyle)) {
             // TODO Implement linestyles in PDFlib (using pdf_setcolor(.., 'pattern'...); ?
             reset($lineStyle);
             $lineStyle = current($lineStyle);
-        } 
+        }
 
         $color = $this->_color($lineStyle);
 
@@ -808,11 +807,11 @@ class Image_Canvas_PDF extends Image_Canvas
         if (!is_array($alignment)) {
             $alignment = array('vertical' => 'top', 'horizontal' => 'left');
         }
-        
+
         if (!isset($alignment['vertical'])) {
             $alignment['vertical'] = 'top';
         }
-        
+
         if (!isset($alignment['horizontal'])) {
             $alignment['horizontal'] = 'left';
         }
@@ -874,11 +873,11 @@ class Image_Canvas_PDF extends Image_Canvas
         if (!is_array($alignment)) {
             $alignment = array('vertical' => 'top', 'horizontal' => 'left');
         }
-        
+
         if (!isset($alignment['vertical'])) {
             $alignment['vertical'] = 'top';
         }
-        
+
         if (!isset($alignment['horizontal'])) {
             $alignment['horizontal'] = 'left';
         }
@@ -894,16 +893,16 @@ class Image_Canvas_PDF extends Image_Canvas
         } elseif ($alignment['vertical'] == 'center') {
             $y += $outputHeight / 2;
         }
-        
+
         if (($width === false) && ($height === false)) {
             $scale = 1;
         } else {
             $scale = max(($height/$height_), ($width/$width_));
-        }   
+        }
 
         pdf_place_image($this->_pdf, $image, $this->_getX($x), $this->_getY($y), $scale);
         pdf_close_image($this->_pdf, $image);
-        
+
         parent::image($params);
     }
 
@@ -952,13 +951,13 @@ class Image_Canvas_PDF extends Image_Canvas
         }
         pdf_delete($this->_pdf);
     }
-    
+
     /**
      * Get a canvas specific HTML tag.
-     * 
-     * This method implicitly saves the canvas to the filename in the 
+     *
+     * This method implicitly saves the canvas to the filename in the
      * filesystem path specified and parses it as URL specified by URL path
-     * 
+     *
      * Parameter array:
      * 'filename': string
      * 'filepath': string Path to the file on the file system. Remember the final slash
@@ -968,8 +967,8 @@ class Image_Canvas_PDF extends Image_Canvas
     function toHtml($params)
     {
         parent::toHtml($params);
-        return '<a href="' . $params['urlpath'] . $params['filename'] . '">' . $params['title'] . '</a>';        
-    }    
+        return '<a href="' . $params['urlpath'] . $params['filename'] . '">' . $params['title'] . '</a>';
+    }
 
     /**
      * Check which major version of PDFlib is installed

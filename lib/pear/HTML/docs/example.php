@@ -11,7 +11,7 @@
 // |   notice, this list of conditions and the following disclaimer.       |
 // | o Redistributions in binary form must reproduce the above copyright   |
 // |   notice, this list of conditions and the following disclaimer in the |
-// |   documentation and/or other materials provided with the distribution.| 
+// |   documentation and/or other materials provided with the distribution.|
 // | o The names of the authors may not be used to endorse or promote      |
 // |   products derived from this software without specific prior written  |
 // |   permission.                                                         |
@@ -32,9 +32,8 @@
 // | Author: Richard Heyes <http://www.phpguru.org/>                       |
 // |         Harald Radi <harald.radi@nme.at>                              |
 // +-----------------------------------------------------------------------+
-//
-// $Id$
-//error_reporting(E_ALL | E_STRICT);
+
+    //error_reporting(E_ALL | E_STRICT);
     //require_once('HTML/TreeMenu.php');
     require_once('../TreeMenu.php');
 
@@ -54,7 +53,7 @@
 
     $menu->addItem($node1);
     $menu->addItem($node1);
-    
+
     // Create the presentation class
     $treeMenu = new HTML_TreeMenu_DHTML($menu, array('images' => '../images', 'defaultClass' => 'treeMenuDefault'));
     $listBox  = new HTML_TreeMenu_Listbox($menu, array('linkTarget' => '_self'));
@@ -67,11 +66,11 @@
             font-family: Georgia;
             font-size: 11pt;
         }
-        
+
         .treeMenuDefault {
             font-style: italic;
         }
-        
+
         .treeMenuBold {
             font-style: italic;
             font-weight: bold;
@@ -95,7 +94,7 @@
 <!--
     b = new Date();
     b = b.getTime();
-    
+
     document.write("Time to render tree: " + ((b - a) / 1000) + "s");
 //-->
 </script>

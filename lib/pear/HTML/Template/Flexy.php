@@ -58,11 +58,6 @@ define('HTML_TEMPLATE_FLEXY_ERROR_DIE',8);  // FATAL DEATH
 * associateve array cast to an object) - I normally send it the controller class.
 * the seconde argument '$elements' is an array of HTML_Template_Flexy_Elements
 * eg. array('name'=> new HTML_Template_Flexy_Element('',array('value'=>'fred blogs'));
-*
-*
-*
-*
-* @version    $Id$
 */
 class HTML_Template_Flexy
 {

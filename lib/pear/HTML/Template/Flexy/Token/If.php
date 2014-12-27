@@ -15,32 +15,29 @@
 // +----------------------------------------------------------------------+
 // | Authors:  Alan Knowles <alan@akbkhome>                               |
 // +----------------------------------------------------------------------+
-//
-// $Id$
-//
- 
+
 /**
 * Class to handle If statements
 *
 *
 */
-class HTML_Template_Flexy_Token_If extends HTML_Template_Flexy_Token{ 
+class HTML_Template_Flexy_Token_If extends HTML_Template_Flexy_Token{
     /**
     * Condition for the if statement.
     * @var string // a variable
     * @access public
     */
-    
+
     var $condition;
      /**
     * if the statement is negative = eg. !somevar..
     * @var string
     * @access public
     */
-    
-    
+
+
     var $isNegative = '';
-    
+
     /**
     * Setvalue - a string
     * @see parent::setValue()
@@ -53,10 +50,9 @@ class HTML_Template_Flexy_Token_If extends HTML_Template_Flexy_Token{
         }
         $this->condition=$value;
     }
-    
+
 
 }
 
- 
- 
-  
+
+

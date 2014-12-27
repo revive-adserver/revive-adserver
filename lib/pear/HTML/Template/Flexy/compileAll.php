@@ -15,9 +15,6 @@
 // +----------------------------------------------------------------------+
 // | Author:  Alan Knowles <alan@akbkhome.com>
 // +----------------------------------------------------------------------+
-//
-// $Id$
-//
 
 @include 'HTML/Template/Flexy.php';
 if (!class_exists('HTML_Template_Flexy')) {

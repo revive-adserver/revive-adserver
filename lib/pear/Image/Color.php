@@ -17,13 +17,11 @@
 // |          Sebastian Bergmann <sb@sebastian-bergmann.de>               |
 // |          Laurent Laville <pear@laurent-laville.org>                  |
 // +----------------------------------------------------------------------+
-//
-// $Id$
 
 /**
 *    Color
 *    Handles and manages color mixing.
-*    
+*
 *    TODO: Eventually, I would like to expand upon this class to include other
 *    color types, and make it handle colors in a cleaner manner, however, as of
 *    right now, I would rather get it out rather than remain vaporware.  At least
@@ -31,7 +29,7 @@
 *    Besides, someone else might get more use out of it than I.
 *
 *    The class is really simple to use, and pretty much does its job fairly well.
-*    A sample of what can be done with this class is found here: 
+*    A sample of what can be done with this class is found here:
 *        http://www.newbienetwork.net/class.colour.php
 *    As you can well see, it is very good at what it does, and is rather quick.
 *    If someone has ideas or thoughts on this, please let me know.  I would like
@@ -59,32 +57,32 @@ class Image_Color
     *   @see    setColors
     */
     var $color1 = array();
-    
+
     /**
     *   second color that the class handles for ranges and mixes.
     *	@access private
     */
     var $color2 = array();
-    
+
     /**
     *   Boolean value for determining whether colors outputted should be websafe or not.  Defaults to false.
     *	@access private
     *   @see    setWebSafe
     */
     var $_websafeb = false;
-    
+
     /**
     *   the websafe ranges we use to determine where to set each value.  The key
     *   is the websafe part, and the value is the non-websafe value.
     *	@access private
     */
-    var $websafe = array(   '00' => '00', 
-                            '33' => '51', 
-                            '66' => '102', 
-                            '99' => '153', 
-                            'cc' => '204', 
+    var $websafe = array(   '00' => '00',
+                            '33' => '51',
+                            '66' => '102',
+                            '99' => '153',
+                            'cc' => '204',
                             'ff' => '255');
-    
+
     /**
     *    mixColors
     *    Given two colors, this will return a mix of the two together.
@@ -101,22 +99,22 @@ class Image_Color
         {
             $this->_setColors($col1, $col2);
         }
-        
+
         // RED
         $color3[0] = ( $this->color1[0] + $this->color2[0] ) / 2;
         // GREEN
         $color3[1] = ( $this->color1[1] + $this->color2[1] ) / 2;
         // BLUE
         $color3[2] = ( $this->color1[2] + $this->color2[2] ) / 2;
-        
+
         if ( $this->_websafeb )
         {
             array_walk( $color3, '_makeWebSafe' );
         }
-        
+
         return $this->_returnColor( $color3 );
     }
-    
+
     /**
     *    setWebSafe
     *    Sets whether we should output websafe colors or not.
@@ -129,7 +127,7 @@ class Image_Color
     {
         $this->_websafeb = $bool;
     }
-    
+
     /**
     *    setColors
     *    This class primarily works with two colors, and using this function, you
@@ -144,7 +142,7 @@ class Image_Color
     {
         $this->_setColors($col1, $col2);
     }
-    
+
     /**
     *   getRange
     *   Given a degree, you can get the range of colors between one color and
@@ -159,35 +157,35 @@ class Image_Color
     {
         if ( $degrees == 0 )
             $degrees = 1;
-        
+
         /**
         The degrees give us how much we should advance each color at each phase
         of the loop.  This way, the advance is equal throughout all the colors.
-        
+
         TODO: Allow for degrees for individual parts of the colors.
         */
-        
+
         // RED
         $red_steps   = ( $this->color2[0] - $this->color1[0] ) / $degrees;
         // GREEN
         $green_steps = ( $this->color2[1] - $this->color1[1] ) / $degrees;
         // BLUE
         $blue_steps  = ( $this->color2[2] - $this->color1[2] ) / $degrees;
-        
+
         $allcolors = array();
         $x = 0;
-        
+
         /**
         The loop stops once any color has gone beyond the end color.
         */
-        
+
         // Loop through all the degrees between the colors
         for ( $x = 0; $x < $degrees; $x++ )
         {
             $col[0] = $red_steps * $x;
             $col[1] = $green_steps * $x;
             $col[2] = $blue_steps * $x;
-            
+
             // Loop through each R, G, and B
             for ( $i = 0; $i < 3; $i++ )
             {
@@ -207,19 +205,19 @@ class Image_Color
                     $newcolor[$i] = 255;
                 }
             }
-            
+
             if ( $this->_websafeb )
             {
                 array_walk( $newcolor, '_makeWebSafe' );
             }
-            
+
             $allcolors[] = $this->_returnColor($newcolor);
         }
-        
-          
+
+
         return $allcolors;
     }
-    
+
     /**
     *    changeLightness
     *    Changes the lightness of the color.
@@ -235,7 +233,7 @@ class Image_Color
     {
         $color2 =& $this->color2;
         $color1 =& $this->color1;
-        
+
         for ( $x = 0; $x < 3; $x++ )
         {
             if ( ( $color1[$x] + $degree ) < 256 )
@@ -250,7 +248,7 @@ class Image_Color
                 $color1[$x] = 255;
             }
         }
-        
+
         for ( $x = 0; $x < 3; $x++ )
         {
             if ( ( $color2[$x] + $degree ) < 256 )
@@ -266,7 +264,7 @@ class Image_Color
             }
         }
     }
-    
+
     /**
     *    getTextColor
     *    Given a color, will return whether you should use a dark font or a light font.
@@ -291,7 +289,7 @@ class Image_Color
             return $light;
         }
     }
-    
+
     /**
     *    _setColors
     *    Internal method to correctly set the colors.
@@ -306,11 +304,11 @@ class Image_Color
         $this->color1 = Image_Color::_splitColor($col1);
         $this->color2 = Image_Color::_splitColor($col2);
     }
-    
+
     /**
     *    _splitColor
     *    Given a color, it will properly split it up into a 3 element dec. array.
-    *    
+    *
     *    @access    private
     *    @param    string    The color.
     *    @return    array    3 element array containing the RGB information.
@@ -324,7 +322,7 @@ class Image_Color
         $c[] = hexdec( substr( $color, 4, 2 ) );
         return $c;
     }
-    
+
     /**
     *    _returnColor
     *    Given an array of 3 elements containing RGB decimal information, it will
@@ -337,7 +335,7 @@ class Image_Color
     {
         return sprintf('%02X%02X%02X',$color[0],$color[1],$color[2]);
     }
-    
+
     /**
     *    rgb2hex
     *    Given an array of 3 elements containing RGB information, it will return
@@ -352,7 +350,7 @@ class Image_Color
     {
         return Image_Color::_returnColor( $color );
     }
-    
+
     /**
     *    hex2rgb
     *    Given a hex color, returns a 4 element array, with keys 0-2 containing
@@ -370,7 +368,7 @@ class Image_Color
         $return['hex'] = $hex;
         return $return;
     }
-    
+
     /**
     *   hsv2rgb
     *   Converts a HSV (Hue, Saturation, Brightness) value to RGB.
@@ -386,7 +384,7 @@ class Image_Color
     {
         return Image_Color::hex2rgb(Image_Color::hsv2hex($h, $s, $v));
     }
-    
+
     /**
     *   hsv2hex
     *   Converts a HSV (Hue, Saturation, Brightness) value to Hexidecimal.
@@ -412,42 +410,42 @@ class Image_Color
             $h = $h/256.0*6.0;
             $i = floor($h);
             $f = $h - $i;
-            
+
             $v *= 256.0;
             $p = (integer)($v * (1.0 - $s));
             $q = (integer)($v * (1.0 - $s * $f));
             $t = (integer)($v * (1.0 - $s * (1.0 - $f)));
             switch( $i )
             {
-                case 0:  
-                    $r = $v; 
-                    $g = $t; 
-                    $b = $p; 
+                case 0:
+                    $r = $v;
+                    $g = $t;
+                    $b = $p;
                     break;
-                case 1:  
-                    $r = $q; 
-                    $g = $v; 
-                    $b = $p; 
+                case 1:
+                    $r = $q;
+                    $g = $v;
+                    $b = $p;
                     break;
-                case 2:  
-                    $r = $p; 
-                    $g = $v; 
-                    $b = $t; 
+                case 2:
+                    $r = $p;
+                    $g = $v;
+                    $b = $t;
                     break;
-                case 3:  
-                    $r = $p; 
-                    $g = $q; 
-                    $b = $v; 
+                case 3:
+                    $r = $p;
+                    $g = $q;
+                    $b = $v;
                     break;
-                case 4:  
-                    $r = $t; 
-                    $g = $p; 
-                    $b = $v; 
+                case 4:
+                    $r = $t;
+                    $g = $p;
+                    $b = $v;
                     break;
-                default: 
-                    $r = $v; 
-                    $g = $p; 
-                    $b = $q; 
+                default:
+                    $r = $v;
+                    $g = $p;
+                    $b = $q;
                     break;
             }
         }
@@ -459,8 +457,8 @@ class Image_Color
 
     /**
     * Allocates a color in the given image.
-    * 
-    * Userdefined color specifications get translated into 
+    *
+    * Userdefined color specifications get translated into
     * an array of rgb values.
     *
     * @param    resource    Image handle
@@ -468,12 +466,12 @@ class Image_Color
     * @return   resource    Image color handle
     * @see      color2RGB()
     * @access   public
-    */  
+    */
     function allocateColor(&$img, $color) {
         $color = Image_Color::color2RGB($color);
 
         return ImageColorAllocate($img, $color[0], $color[1], $color[2]);
-    }                 
+    }
 
     /**
     * @access   public
@@ -497,10 +495,10 @@ class Image_Color
     * Returns the RGB interger values of a named color, [0,0,0] if unknown.
     *
     * The static variable $colornames is used to resolve
-    * the color names. Modify it if neccessary. 
+    * the color names. Modify it if neccessary.
     *
     * @param    string  Case insensitive color name.
-    * @return   array   [int red, int green, int blue], 
+    * @return   array   [int red, int green, int blue],
     *                   returns black [0, 0, 0] if the color is unknown.
     * @access   public
     * @static
@@ -532,7 +530,7 @@ class Image_Color
               'cornsilk'              => array(255, 248, 220),
               'crimson'               => array(220,  20,  60),
               'cyan'                  => array(  0, 255, 255),
-              'darkblue'              => array(  0,   0,  13), 
+              'darkblue'              => array(  0,   0,  13),
               'darkcyan'              => array(  0, 139, 139),
               'darkgoldenrod'         => array(184, 134,  11),
               'darkgray'              => array(169, 169, 169),
@@ -653,7 +651,7 @@ class Image_Color
               'yellowgreen'           => array(154, 205,  50)
             );
         }
-        
+
         $color = strtolower($color);
 
         if (!isset($colornames[$color])) {
@@ -664,7 +662,7 @@ class Image_Color
     }
 
     /**
-    * Returns the RGB integer values of a color specified by a "percentage string" like "50%,20%,100%". 
+    * Returns the RGB integer values of a color specified by a "percentage string" like "50%,20%,100%".
     *
     * @param    string
     * @return   array   [int red, int green, int blue]
@@ -672,8 +670,8 @@ class Image_Color
     */
     function percentageColor2RGB($color) {
         // split the string 50%,20%,100% by ,
-        $color = explode(",", $color);        
-                
+        $color = explode(",", $color);
+
         foreach ($color as $k => $v) {
             // remove the trailing percentage sign %
             $v = (int)substr($v, 1);
@@ -686,7 +684,7 @@ class Image_Color
             } else {
                 $color[$k] = (int)(2.55 * $v);
             }
-        } 
+        }
 
         return $color;
     }
@@ -696,7 +694,7 @@ class Image_Color
 // {{{
     /**
     *    _makeWebSafe
-    *    Function for array_walk() to easily change colors from whatever to 
+    *    Function for array_walk() to easily change colors from whatever to
     *    the closests websafe representation.
     *
     *    @access   private

@@ -15,23 +15,21 @@
 // +----------------------------------------------------------------------+
 // | Authors:  Alan Knowles <alan@akbkhome>                               |
 // +----------------------------------------------------------------------+
-//
-// $Id$
- 
- 
+
+
 $GLOBALS['_HTML_TEMPLATE_FLEXY_TOKEN_TAG']['activeSelect'] = false;
 require_once 'HTML/Template/Flexy/Element.php';
 /**
 * A standard HTML Tag = eg. Table/Body etc.
 *
-* @abstract 
-* This is the generic HTML tag 
+* @abstract
+* This is the generic HTML tag
 * a simple one will have some attributes and a name.
 *
 */
 
 class HTML_Template_Flexy_Token_Tag extends HTML_Template_Flexy_Token {
-        
+
     /**
     * HTML Tag: eg. Body or /Body - uppercase
     *
@@ -52,7 +50,7 @@ class HTML_Template_Flexy_Token_Tag extends HTML_Template_Flexy_Token {
     * key is the left, value is the right..
     * note:
     *     values are raw (eg. include "")
-    *     valuse can be 
+    *     valuse can be
     *                text = standard
     *                array (a parsed value with flexy tags in)
     *                object (normally some PHP code that generates the key as well..)
@@ -63,7 +61,7 @@ class HTML_Template_Flexy_Token_Tag extends HTML_Template_Flexy_Token {
     */
 
     var $attributes = array();
-    
+
     /**
     * Associative array of attributes ucase to Original Case for attributes..
     *
@@ -72,11 +70,11 @@ class HTML_Template_Flexy_Token_Tag extends HTML_Template_Flexy_Token {
     */
 
     var $ucAttributes = array();
-    
-    
-    
+
+
+
     /**
-    * postfix tokens 
+    * postfix tokens
     * used to add code to end of tags "<xxxx>here....children .. <close tag>"
     *
     * @var array
@@ -84,15 +82,15 @@ class HTML_Template_Flexy_Token_Tag extends HTML_Template_Flexy_Token {
     */
     var $postfix = '';
      /**
-    * prefix tokens 
+    * prefix tokens
     * used to add code to beginning of tags TODO  "here<xxxx>....children .. <close tag>"
     *
     * @var array
     * @access public
     */
     var $prefix = '';
-     
-        
+
+
     /**
     * Alias to closing tag (built externally).
     * used to add < ? } ? > code to dynamic tags.
@@ -100,15 +98,15 @@ class HTML_Template_Flexy_Token_Tag extends HTML_Template_Flexy_Token {
     * @access public
     */
     var $close; // alias to closing tag.
-    
-    
-    
+
+
+
     /**
     * Setvalue - gets name, attribute as an array
     * @see parent::setValue()
     */
-  
-    function setValue($value) 
+
+    function setValue($value)
     {
         global $_HTML_TEMPLATE_FLEXY_TOKEN;
         $this->tag = strtoupper($value[0]);
@@ -116,37 +114,37 @@ class HTML_Template_Flexy_Token_Tag extends HTML_Template_Flexy_Token {
         if (isset($value[1])) {
             $this->attributes = $value[1];
         }
-        
+
         foreach(array_keys($this->attributes) as $k) {
             $this->ucAttributes[strtoupper($k)] =&  $this->attributes[$k];
         }
-       
+
     }
-    
-  
-    
+
+
+
     /**
-    * getAttribute = reads an attribute value and strips the quotes 
+    * getAttribute = reads an attribute value and strips the quotes
     *
-    * TODO 
+    * TODO
     * does not handle values with flexytags in them
     *
-    * @return   string ( 
+    * @return   string (
     * @access   public
     */
     function getAttribute($key) {
         // all attribute keys are stored Upper Case,
         // however just to make sure we have not done a typo :)
-        $key = strtoupper($key); 
+        $key = strtoupper($key);
         //echo "looking for $key\n";
         //var_dump($this->attributes);
-        
+
         // this is weird case isset() returns false on this being null!
-        
+
         if (@$this->ucAttributes[$key] === true) {
             return true;
         }
-        
+
         if (!isset($this->ucAttributes[$key])) {
             return false;
         }
@@ -156,12 +154,12 @@ class HTML_Template_Flexy_Token_Tag extends HTML_Template_Flexy_Token {
             return false;
         }
         $v = $this->ucAttributes[$key];
-         
+
         // unlikely :)
         if ($v=='') {
             return $v;
         }
-        
+
         switch($v{0}) {
             case "\"":
             case "'":
@@ -170,7 +168,7 @@ class HTML_Template_Flexy_Token_Tag extends HTML_Template_Flexy_Token {
                 return $v;
         }
     }
-      
+
     /**
     * getAttributes = returns all the attributes key/value without quotes
     *
@@ -178,7 +176,7 @@ class HTML_Template_Flexy_Token_Tag extends HTML_Template_Flexy_Token {
     * @return   array
     * @access   string
     */
-    
+
     function getAttributes() {
         $ret = array();
         foreach($this->attributes as $k=>$v) {
@@ -189,7 +187,7 @@ class HTML_Template_Flexy_Token_Tag extends HTML_Template_Flexy_Token {
         }
         return $ret;
     }
-     
+
     /**
     * clearAttributes = removes an attribute from the object.
     *
@@ -202,11 +200,10 @@ class HTML_Template_Flexy_Token_Tag extends HTML_Template_Flexy_Token {
             unset($this->attributes[$string]);
         }
     }
-    
-     
-    
+
+
+
 }
 
- 
- 
-  
+
+

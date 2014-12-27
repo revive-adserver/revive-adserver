@@ -16,26 +16,24 @@
 // | Authors:  Alan Knowles <alan@akbkhome.com>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id$
-//
-//  Description this class emulates the Smarty API to attempt to enable 
+//  Description this class emulates the Smarty API to attempt to enable
 //  upgrading to flexy. (eg. for use with flexy templates (that have been
 //  converted using the SmartyConverter Compiler.
-//  
+//
 //  I've no idea how complete this will end up being..
 //
 //  Technically Smarty is LGPL - so theortically no code in here should
 //  use the copy & paste the original smarty code....
 //
- 
-// to use as a full emulator : 
-// try 
+
+// to use as a full emulator :
+// try
 // class Smarty extends HTML_Template_Flexy_SmartyAPI {
-//   function Smarty() { parent::construct(); } 
+//   function Smarty() { parent::construct(); }
 // }
 
 
-// not implemented: 
+// not implemented:
 /*
 append_by_ref
 append
@@ -48,7 +46,7 @@ register_resource / unregister_resource
 register_prefilter / unregister_prefilter
 register_postfilter / unregister_postfilter
 register_outputfilter / unregister_outputfilter
-load_filter 
+load_filter
 clear_cache
 clear_all_cache
 is_cached
@@ -65,34 +63,32 @@ _* (all the privates)
 */
 
 /**
-* Smarty API emulator for Flexy 
+* Smarty API emulator for Flexy
 * - designed to make transitions simpler
 * - provides only basic support for variables
 * - uses flexy templates (that have been converted previosly with the converor)
-*  
-* @version    $Id$
 */
 
 class HTML_Template_Flexy_SmartyAPI {
-    
+
     /**
     * where the data for the template gets stored.
     *
     * @var array
-    * @access public 
+    * @access public
     */
-    var $vars = array();  
+    var $vars = array();
 
     /**
     * Standard Variable assignment
     *
-    * @param   string|array    element name to assign value or assoc. array 
+    * @param   string|array    element name to assign value or assoc. array
     * @param   mixed           value of element.
-    * 
+    *
     * @return   none
     * @access   public
     */
-    function assign($k,$v) 
+    function assign($k,$v)
     {
         if (is_array($k)) {
             $this->vars = $k + $this->vars;
@@ -103,9 +99,9 @@ class HTML_Template_Flexy_SmartyAPI {
     /**
     * Standard Variable assignment (by reference)
     *
-    * @param   string         element name to assign value 
+    * @param   string         element name to assign value
     * @param   mixed           value of element.
-    * 
+    *
     * @return   none
     * @access   public
     */
@@ -117,11 +113,11 @@ class HTML_Template_Flexy_SmartyAPI {
     * Unset a variable assignment
     *
     * @param   string         element name to remove
-     * 
+     *
     * @return   none
     * @access   public
     */
-    function clear_assign($k) 
+    function clear_assign($k)
     {
         if (is_array($k)) {
             foreach ($k as $kk) {
@@ -129,7 +125,7 @@ class HTML_Template_Flexy_SmartyAPI {
             }
             return;
         }
-    
+
         if (isset($this->vars[$k])) {
             unset($this->vars[$k]);
         }
@@ -140,40 +136,40 @@ class HTML_Template_Flexy_SmartyAPI {
     * @return   none
     * @access   public
     */
-    function clear_all_assign() 
+    function clear_all_assign()
     {
-       $this->vars = array(); 
-    
+       $this->vars = array();
+
     }
-    
+
     /**
     * output a template (optionally with flexy object & element.)
     *
     * @param   string         name of flexy template.
     * @param   object         object as per HTML_Template_Flexy:outputObject
-    * @param   array          elements array as per HTML_Template_Flexy:outputObject    
-    * 
+    * @param   array          elements array as per HTML_Template_Flexy:outputObject
+    *
     * @return   none
     * @access   public
     */
-    function display($templatename,$object=null,$elements=array()) 
+    function display($templatename,$object=null,$elements=array())
     {
         // some standard stuff available to a smarty template..
         $this->vars['SCRIPT_NAME'] =  $_SERVER['SCRIPT_NAME'];
-        
-        
+
+
         $o = PEAR::getStaticProperty('HTML_Template_Flexy','options');
-         
+
         require_once 'HTML/Template/Flexy.php';
         $t = new HTML_Template_Flexy;
         $t->compile($templatename);
         $object = ($object !== null) ? $object : new StdClass;
-        
+
         foreach($this->vars as $k=>$v) {
             $object->$k = $v;
         }
         $t->outputObject($object,$elements);
     }
-    
+
 }
-    
+

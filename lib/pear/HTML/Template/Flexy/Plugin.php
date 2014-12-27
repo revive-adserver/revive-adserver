@@ -16,17 +16,15 @@
 // | Authors:  nobody <nobody@localhost>                                  |
 // +----------------------------------------------------------------------+
 //
-// $Id$
-//
 // Plugin API provides support for  < ? = $this->plugin(".....",.....); ? >
 //  or {this.plugin(#xxxxx#,#xxxx#):h}
 //
 // BASICALLY THIS IS SAVANT'S PLUGIN PROVIDER.
 // @author Paul M. Jones <pmjones@ciaweb.net>
- 
- 
+
+
 class HTML_Template_Flexy_Plugin {
-    
+
     /**
     * reference to main engine..
     *
@@ -35,59 +33,59 @@ class HTML_Template_Flexy_Plugin {
     */
     var $flexy; // reference to flexy.
     var $pluginCache = array(); // store of instanced plugins..
-    
+
     /**
     * Call a Plugin method.
     *
     * Look up in all the plugins to see if the method exists, if it does, call it.
-    * 
-    * 
+    *
+    *
     * @param   array        name of method, arguments.
-    * 
+    *
     *
     * @return   string      hopefully
     * @access   public
     */
-  
+
     function call($args)
     {
-        
-        
+
+
         $method = $args[0];
         // attempt to load the plugin on-the-fly
         $class = $this->_loadPlugins($method);
-         
+
         if (is_a($class,'PEAR_Error')) {
             //echo $class->toString();
             return $class->toString();
         }
-        
-         
+
+
         // first argument is always the plugin name; shift the first
         // argument off the front of the array and reduce the number of
         // array elements.
         array_shift($args);
-        
+
         return call_user_func_array(array(&$this->plugins[$class],$method), $args);
     }
-    
+
     /**
-    * Load the plugins, and lookup which one provides the required method 
+    * Load the plugins, and lookup which one provides the required method
     *
-    * 
+    *
     * @param   string           Name
     *
     * @return   string|PEAR_Error   the class that provides it.
     * @access   private
     */
-    
-    function _loadPlugins($name) 
+
+    function _loadPlugins($name)
     {
         // name can be:
         // ahref = maps to {class_prefix}_ahref::ahref
         $this->plugins = array();
         if (empty($this->plugins)) {
-          
+
             foreach ($this->flexy->options['plugins'] as $cname=>$file) {
                 if (!is_int($cname)) {
                     include_once $file;
@@ -102,8 +100,8 @@ class HTML_Template_Flexy_Plugin {
                 $this->plugins[$class]->flexy = &$this->flexy;
             }
         }
-                
-        
+
+
         foreach ($this->plugins as $class=>$o) {
             //echo "checking :". get_class($o). ":: $name\n";
             if (method_exists($o,$name)) {
@@ -112,6 +110,6 @@ class HTML_Template_Flexy_Plugin {
         }
         return HTML_Template_Flexy::raiseError("could not find plugin with method: '$name'");
     }
-    
-    
+
+
 }
