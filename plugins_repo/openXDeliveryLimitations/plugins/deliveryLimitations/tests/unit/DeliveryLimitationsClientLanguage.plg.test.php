@@ -19,7 +19,6 @@ require_once dirname(dirname(dirname(__FILE__))) . '/Client/Language.delivery.ph
  *
  * @package    OpenXPlugin
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew@m3.net>
  */
 class Plugins_TestOfPlugins_DeliveryLimitations_Client_Language extends UnitTestCase
 {
@@ -27,12 +26,12 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Client_Language extends UnitTest
     {
         $this->langSave = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
     }
-    
+
     function tearDown()
     {
         $_SERVER['HTTP_ACCEPT_LANGUAGE'] = $this->langSave;
     }
-    
+
     function testMAX_checkClient_Language()
     {
         $this->assertTrue(MAX_checkClient_Language('en', '=~', array('language' => 'en')));
@@ -41,7 +40,7 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Client_Language extends UnitTest
         $this->assertTrue(MAX_checkClient_Language('en,pl,fr,de', '=~', array('language' => 'jp,en')));
         $this->assertFalse(MAX_checkClient_Language('en,pl,fr,de', '=~', array('language' => 'jp,en-us')));
         $this->assertTrue(MAX_checkClient_Language('en', '=~', array('language' => 'jp,en')));
-        
+
         $_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'en-us,en,pl';
         $this->assertFalse(MAX_checkClient_Language('af', '=~'));
         $this->assertTrue(MAX_checkClient_Language('af,pl', '=~'));

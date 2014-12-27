@@ -14,7 +14,6 @@
  *
  * @package    OpenXPlugin
  * @subpackage Plugins_BannerTypes
- * @author     Monique Szpak <monique.szpak@openx.org>
  */
 function Plugin_BannerTypeHTML_oxHtml_genericHtml_delivery(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $richMedia=true, $loc, $referer)
 {

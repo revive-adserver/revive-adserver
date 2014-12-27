@@ -12,10 +12,8 @@
 
 /**
  * @package    OpenX
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *
  * The campaign XML-RPC service enables XML-RPC communication with the campaign object.
- *
  */
 
 // Require the initialisation file.

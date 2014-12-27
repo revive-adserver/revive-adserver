@@ -28,8 +28,6 @@ require_once LIB_PATH . '/Extension/deliveryLimitations/DeliveryLimitationsComma
  *
  * @package    OpenXPlugin
  * @subpackage DeliveryLimitations
- * @author     Andrew Hill <andrew@m3.net>
- * @author     Chris Nutting <chris@m3.net>
  *
  * @TODO Does this need to be updated to use =~ and !~ comparison operators?
  */

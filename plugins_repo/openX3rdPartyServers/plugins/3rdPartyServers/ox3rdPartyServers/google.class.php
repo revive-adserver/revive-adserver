@@ -13,8 +13,6 @@
 /**
  * @package    OpenXPlugin
  * @subpackage 3rdPartyServers
- * @author     Matteo Beccati <matteo.beccati@openx.org>
- *
  */
 
 require_once LIB_PATH . '/Extension/3rdPartyServers/3rdPartyServers.php';

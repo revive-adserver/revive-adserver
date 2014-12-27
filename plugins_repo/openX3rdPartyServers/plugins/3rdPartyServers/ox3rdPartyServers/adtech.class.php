@@ -14,7 +14,6 @@
  * @package    MaxPlugins
  * @subpackage 3rdPartyServers
  * @author     Heiko Weber <heiko@wecos.de>
- *
  */
 
 require_once LIB_PATH . '/Extension/3rdPartyServers/3rdPartyServers.php';

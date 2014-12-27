@@ -13,7 +13,6 @@
 /**
  * @package    OpenXPlugin
  * @subpackage DeliveryLimitations
- * @author     Chris Nutting <chris.nutting@openx.org>
  */
 
 $res = array(

@@ -27,9 +27,6 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
  *
  * @package    OpenXPlugin
  * @subpackage DeliveryLimitations
- * @author     Andrew Hill <andrew@m3.net>
- * @author     Chris Nutting <chris@m3.net>
- * @author     Andrzej Swedrzynski <andrzej.swedrzynski@m3.net>
  */
 class Plugins_DeliveryLimitations_Geo_Continent extends Plugins_DeliveryLimitations_CommaSeparatedData
 {

@@ -26,8 +26,6 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
  *
  * @package    OpenXPlugin
  * @subpackage DeliveryLimitations
- * @author     Andrew Hill <andrew@m3.net>
- * @author     Chris Nutting <chris@m3.net>
  *
  * @TODO Does this need to be updated to use =~ and !~ comparison operators?
  */

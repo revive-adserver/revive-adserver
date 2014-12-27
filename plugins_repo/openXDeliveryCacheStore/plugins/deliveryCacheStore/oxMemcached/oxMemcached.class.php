@@ -20,7 +20,6 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
  *
  * @package    OpenXPlugin
  * @subpackage DeliveryCacheStore
- * @author     Lukasz Wikierski <lukasz.wikierski@openx.org>
  */
 class Plugins_DeliveryCacheStore_oxMemcached_oxMemcached extends Plugins_DeliveryCacheStore
 {

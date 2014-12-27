@@ -13,8 +13,6 @@
 /**
  * @package    OpenXPlugin
  * @subpackage DeliveryLimitations
- * @author     Chris Nutting <chris.nutting@openx.org>
- * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
 
 if (!isset($GLOBALS['_MAX']['_GEOCACHE']['dma'])) {

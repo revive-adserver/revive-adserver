@@ -21,7 +21,6 @@ require_once dirname(dirname(dirname(dirname(__FILE__)))).'/etc/Client/etc/posts
  *
  * @package    OpenXPlugin
  * @subpackage TestSuite
- * @author     Andrzej Swedrzynski <andrzej.swedrzynski@m3.net>
  */
 class Plugins_TestOfPlugins_DeliveryLimitations_Client_Browser extends UnitTestCase
 {
@@ -68,7 +67,7 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Client_Browser extends UnitTestC
         $GLOBALS['_MAX']['CONF']['logging']['sniff'] = true;
         $http_user_agent = 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.8) Gecko/20061109 CentOS/1.5.0.8-0.1.el4.centos4 Firefox/1.5.0.8 pango-text';
         $_SERVER['HTTP_USER_AGENT'] = $http_user_agent;
-        
+
         Plugin_deliveryLimitations_Client_initClientData_Delivery_postInit();
         $this->assertIsA($GLOBALS['_MAX']['CLIENT'], 'array');
         $this->assertEqual($GLOBALS['_MAX']['CLIENT']['browser'], 'fx');

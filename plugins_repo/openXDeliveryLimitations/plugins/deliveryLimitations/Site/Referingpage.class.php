@@ -22,8 +22,6 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
  *
  * @package    OpenXPlugin
  * @subpackage DeliveryLimitations
- * @author     Andrew Hill <andrew@m3.net>
- * @author     Chris Nutting <chris@m3.net>
  */
 class Plugins_DeliveryLimitations_Site_Referingpage extends Plugins_DeliveryLimitations
 {

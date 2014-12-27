@@ -14,7 +14,6 @@
  * @package    OpenXPlugin
  * @subpackage 3rdPartyServers
  * @author     Pedro Faustino <pedro.faustino@247realmedia.com>
- *
  */
 
 require_once LIB_PATH . '/Extension/3rdPartyServers/3rdPartyServers.php';

@@ -12,8 +12,6 @@
 
 /**
  * @package    OpenX
- * @author     Ivan Klishch <iklishch@lohika.com>
- *
  */
 
 // Require Zone Service Implementation

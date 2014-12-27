@@ -19,15 +19,13 @@ require_once dirname(dirname(dirname(__FILE__))) . '/Client/Ip.delivery.php';
  *
  * @package    OpenXPlugin
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew@m3.net>
- * @author     Andrzej Swedrzynski <andrzej.swedrzynski@m3.net>
  */
 class Plugins_TestOfPlugins_DeliveryLimitations_Client_Ip extends UnitTestCase
 {
     function testMAX_checkClient_Ip()
     {
         $_SERVER['REMOTE_ADDR'] = '150.254.149.189';
-        
+
         // Test sta
         $this->assertTrue(MAX_checkClient_Ip('150.254.149.189', '=='));
         $this->assertFalse(MAX_checkClient_Ip('150.254.149.190', '=='));
@@ -37,7 +35,7 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Client_Ip extends UnitTestCase
         $this->assertFalse(MAX_checkClient_Ip('150.254.148.*', '=='));
         $this->assertFalse(MAX_checkClient_Ip('150.254.149.*', '!='));
         $this->assertTrue(MAX_checkClient_Ip('150.254.148.*', '!='));
-        
+
         // Test netmasks
         $this->assertTrue(MAX_checkClient_Ip('150.254.149.189/255.255.255.255', '=='));
         $this->assertFalse(MAX_checkClient_Ip('150.254.149.190/255.255.255.255', '=='));

@@ -26,9 +26,6 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
  *
  * @package    OpenXPlugin
  * @subpackage DeliveryLimitations
- * @author     Andrew Hill <andrew.hill@openx.org>
- * @author     Chris Nutting <chris.nutting@openx.org>
- * @author     Andrzej Swedrzynski <andrzej.swedrzynski@openx.org>
  */
 class Plugins_DeliveryLimitations_Client_Os extends Plugins_DeliveryLimitations_CommaSeparatedData
 {
@@ -37,7 +34,7 @@ class Plugins_DeliveryLimitations_Client_Os extends Plugins_DeliveryLimitations_
         parent::__construct();
         $this->nameEnglish = 'Client - Operating system';
     }
-    
+
     function init($data)
     {
         parent::init($data);

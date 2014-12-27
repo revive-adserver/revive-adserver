@@ -18,7 +18,6 @@ require_once MAX_PATH . '/lib/max/Plugin/Common.php';
  *
  * @package    OpenXPlugin
  * @subpackage Plugins_BannerTypes
- * @author     Monique Szpak <monique.szpak@openx.org>
  * @abstract
  */
 class Plugins_BannerTypeHTML_demoBannerTypeHtml_demoHtml extends Plugins_BannerTypeHTML

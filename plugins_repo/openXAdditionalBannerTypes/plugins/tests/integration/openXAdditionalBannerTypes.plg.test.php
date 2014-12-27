@@ -17,8 +17,6 @@ require_once LIB_PATH . '/Plugin/Component.php';
  *
  * @package    OpenXPlugin
  * @subpackage TestSuite
- * @author     Monique Szpak <monique.szpak@openx.org>
- * @author     Chris Nutting <chris.nutting@openx.org>
  */
 class Plugins_TestOfPlugins_openXAdditionalBannerTypes extends UnitTestCase
 {

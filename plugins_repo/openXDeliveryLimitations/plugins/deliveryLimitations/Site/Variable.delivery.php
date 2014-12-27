@@ -20,8 +20,6 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
  * @param string $op The operator
  * @param array $aParams An array of additional parameters to be checked
  * @return boolean Whether this impression's channel passes this limitation's test.
- * @author     Chris Nutting <chris.nutting@openx.org>
- * @author Mohammed El-Hakim
  */
 function MAX_checkSite_Variable($limitation, $op, $aParams = array())
 {

@@ -12,10 +12,8 @@
 
 /**
  * @package    OpenX
- * @author     Matteo Beccati <matteo.beccati@openx.org>
  *
  * The user XML-RPC service enables XML-RPC communication with the user object.
- *
  */
 
 // Require the initialisation file.

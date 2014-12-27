@@ -15,7 +15,6 @@
  *
  * @package    OpenXPlugin
  * @subpackage DeliveryCacheStore
- * @author     Lukasz Wikierski <lukasz.wikierski@openx.org>
  */
 
 /**
@@ -33,7 +32,7 @@ if (!empty($GLOBALS['_MAX']['CONF']['oxCacheFile']['cachePath'])) {
  * @param string $filename The name of file where cache entry is stored
  * @return mixed False on error, or array the cache content
  */
-function Plugin_deliveryCacheStore_oxCacheFile_oxCacheFile_Delivery_cacheRetrieve($filename) 
+function Plugin_deliveryCacheStore_oxCacheFile_oxCacheFile_Delivery_cacheRetrieve($filename)
 {
     $cache_complete = false;
     $cache_contents = '';
@@ -56,7 +55,7 @@ function Plugin_deliveryCacheStore_oxCacheFile_oxCacheFile_Delivery_cacheRetriev
  * @return bool True if the entry was succesfully stored
  */
 function Plugin_deliveryCacheStore_oxCacheFile_oxCacheFile_Delivery_cacheStore($filename, $cache_contents)
-{    
+{
     if (!is_writable($GLOBALS['OA_Delivery_Cache']['path'])) {
         return false;
     }

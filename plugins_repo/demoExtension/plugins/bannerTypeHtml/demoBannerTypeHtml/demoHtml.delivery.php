@@ -14,7 +14,6 @@
  *
  * @package    OpenXPlugin
  * @subpackage Plugins_BannerTypes
- * @author     Monique Szpak <monique.szpak@openx.org>
  * @abstract
  */
 function Plugin_BannerTypeHTML_demoBannerTypeHtml_demoHtml_delivery()

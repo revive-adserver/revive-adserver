@@ -26,9 +26,6 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
  *
  * @package    OpenXPlugin
  * @subpackage DeliveryLimitations
- * @author     Andrew Hill <andrew.hill@openx.org>
- * @author     Chris Nutting <chris.nutting@openx.org>
- * @author     Andrzej Swedrzynski <andrzej.swedrzynski@openx.org>
  */
 class Plugins_DeliveryLimitations_Client_Domain extends Plugins_DeliveryLimitations
 {
