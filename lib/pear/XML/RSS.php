@@ -16,9 +16,6 @@
 // | Authors: Martin Jansen <mj@php.net>                                  |
 // |                                                                      |
 // +----------------------------------------------------------------------+
-//
-// $Id$
-//
 
 require_once 'XML/Parser.php';
 
