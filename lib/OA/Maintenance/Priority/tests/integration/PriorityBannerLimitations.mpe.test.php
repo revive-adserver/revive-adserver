@@ -20,7 +20,6 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/GetRequiredA
  *
  * @package    OpenXMaintenance
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class Maintenance_TestOfMaintenancePriorityAdServerBannerLimitations extends UnitTestCase
 {

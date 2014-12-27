@@ -18,7 +18,6 @@
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 0.1
  */
@@ -536,7 +535,7 @@ class PEAR_Installer extends PEAR_Downloader
                     $md5sum = md5($contents);
                 }
                 foreach ($atts as $tag => $raw) {
-                    $tag = str_replace(array($pkg->getTasksNs() . ':', '-'), 
+                    $tag = str_replace(array($pkg->getTasksNs() . ':', '-'),
                         array('', '_'), $tag);
                     $task = "PEAR_Task_$tag";
                     $task = new $task($this->config, $this, PEAR_TASK_INSTALL);
@@ -1528,7 +1527,7 @@ class PEAR_Installer extends PEAR_Downloader
         if (!class_exists('PEAR_Dependency2')) {
             require_once 'PEAR/Dependency2.php';
         }
-        $depchecker = new PEAR_Dependency2($this->config, $options, 
+        $depchecker = new PEAR_Dependency2($this->config, $options,
             array('channel' => $channel, 'package' => $package),
             PEAR_VALIDATE_UNINSTALLING);
         $e = $depchecker->validatePackageUninstall($this);

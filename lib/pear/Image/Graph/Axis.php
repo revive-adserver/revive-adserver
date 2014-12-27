@@ -24,10 +24,9 @@
  * @author     Jesper Veggerby <pear.nosey@veggerby.dk>
  * @copyright  Copyright (C) 2003, 2004 Jesper Veggerby Hansen
  * @license    http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/Image_Graph
  */
- 
+
 /**
  * Include file Image/Graph/Plotarea/Element.php
  */
@@ -47,7 +46,7 @@ require_once 'Image/Graph/Plotarea/Element.php';
  */
  class Image_Graph_Axis extends Image_Graph_Plotarea_Element
 {
-    
+
     /**
      * The type of the axis, possible values are:
      * <ul>
@@ -103,17 +102,17 @@ require_once 'Image/Graph/Plotarea/Element.php';
      * @access private
      */
     var $_axisValueSpan = false;
-    
+
     /**
      * The axis padding.
      * The index 'low' specifies the padding for the low axis values (when not
      * inverted), i.e. to the left on an x-axis and on the bottom of an y-axis,
      * vice versa for 'high'.
-     * 
+     *
      * Axis padding does not make sense on a normal linear y-axis with a 'y-min'
      * of 0 since this corresponds to displaying a small part of the y-axis
      * below 0!
-     * 
+     *
      * @var array
      * @access private
      */
@@ -127,7 +126,7 @@ require_once 'Image/Graph/Plotarea/Element.php';
      * @access private
      */
     var $_delta = false;
-    
+
     /**
      * Specify if the axis should label the minimum value
      * @var bool
@@ -183,15 +182,15 @@ require_once 'Image/Graph/Plotarea/Element.php';
             'interval' => 1,
             'type' => 'auto',
             'tick' => array(
-                'start' => -2, 
-                'end' => 2, 
+                'start' => -2,
+                'end' => 2,
                 'color' => false // default color
             ),
             'showtext' => true,
             'showoffset' => false,
             'font' => array(),
             'offset' => 0,
-            'position' => 'outside',            
+            'position' => 'outside',
         )
     );
 
@@ -239,7 +238,7 @@ require_once 'Image/Graph/Plotarea/Element.php';
      * @access private
      */
     var $_titleFont = false;
-    
+
     /**
      * Invert the axis (i.e. if an y-axis normally displays minimum values at
      * the bottom, they are not displayed at the top
@@ -248,7 +247,7 @@ require_once 'Image/Graph/Plotarea/Element.php';
      * @since 0.3.0dev3
      */
     var $_invert = false;
-    
+
     /**
      * Transpose the axis (i.e. is a normal y-axis transposed, so thats it's not show
      * vertically as normally expected, but instead horizontally)
@@ -283,7 +282,7 @@ require_once 'Image/Graph/Plotarea/Element.php';
     {
         $this->_pushValues = true;
     }
-    
+
     /**
      * Sets the axis padding for a given position ('low' or 'high')
      * @param string $where The position
@@ -293,7 +292,7 @@ require_once 'Image/Graph/Plotarea/Element.php';
     function _setAxisPadding($where, $value)
     {
         $this->_axisPadding[$where] = $value;
-    }     
+    }
 
     /**
      * Gets the font of the title.
@@ -414,7 +413,7 @@ require_once 'Image/Graph/Plotarea/Element.php';
      * @param bool $userEnforce This value should not be set, used internally
      */
     function forceMinimum($minimum, $userEnforce = true)
-    {        
+    {
         if (($userEnforce) || (!$this->_minimumSet)) {
             $this->_minimum = $minimum;
             $this->_minimumSet = $userEnforce;
@@ -496,15 +495,15 @@ require_once 'Image/Graph/Plotarea/Element.php';
      * Sets options for the label at a specific level.
      *
      * Possible options are:
-     * 
+     *
      * 'showtext' true or false whether label text should be shown or not
-     * 
+     *
      * 'showoffset' should the label be shown at an offset, i.e. should the
      * label be shown at a position so that it does not overlap with prior
      * levels. Only applies to multilevel labels with text
-     * 
+     *
      * 'font' The font options as an associated array
-     * 
+     *
      * 'position' The position at which the labels are written ('inside' or
      * 'outside' the axis). NB! This relative position only applies to the
      * default location of the axis, i.e. if an x-axis is inverted then
@@ -547,16 +546,16 @@ require_once 'Image/Graph/Plotarea/Element.php';
             } else {
                 $this->_labelOptions[$level] = $options;
             }
-                
+
         }
-    }    
-    
+    }
+
     /**
      * Sets the title of this axis.
      *
      * This is used as an alternative (maybe better) method, than using layout's
      * for axis-title generation.
-     * 
+     *
      * To use the current propagated font, but just set it vertically, simply
      * pass 'vertical' as second parameter for vertical alignment down-to-up or
      * 'vertical2' for up-to-down alignment.
@@ -579,7 +578,7 @@ require_once 'Image/Graph/Plotarea/Element.php';
 
     /**
      * Sets a fixed "size" for the axis.
-     * 
+     *
      * If the axis is any type of y-axis the size relates to the width of the
      * axis, if an x-axis is concerned the size is the height.
      *
@@ -627,18 +626,18 @@ require_once 'Image/Graph/Plotarea/Element.php';
      * @return double The pixel position along the axis
      * @access private
      */
-    function _point($value)    
-    {        
+    function _point($value)
+    {
         if ((($this->_type == IMAGE_GRAPH_AXIS_X) && (!$this->_transpose)) ||
-           (($this->_type != IMAGE_GRAPH_AXIS_X) && ($this->_transpose))) 
+           (($this->_type != IMAGE_GRAPH_AXIS_X) && ($this->_transpose)))
         {
-            if ($this->_invert) {                
+            if ($this->_invert) {
                 return max($this->_left, $this->_right - $this->_axisPadding['high'] - $this->_delta * $this->_value($value));
             } else {
                 return min($this->_right, $this->_left + $this->_axisPadding['low'] + $this->_delta * $this->_value($value));
-            }                
+            }
         } else {
-            if ($this->_invert) {                
+            if ($this->_invert) {
                 return min($this->_bottom, $this->_top + $this->_axisPadding['high'] + $this->_delta * $this->_value($value));
             } else {
                 return max($this->_top, $this->_bottom - $this->_axisPadding['low'] - $this->_delta * $this->_value($value));
@@ -689,11 +688,11 @@ require_once 'Image/Graph/Plotarea/Element.php';
                     return ($this->_transpose ? $this->_right : $this->_top);
                 }
             }
-        } 
-        
+        }
+
         return $this->_point($value);
     }
-    
+
     /**
      * Calculate the delta value (the number of pixels representing one unit
      * on the axis)
@@ -710,8 +709,8 @@ require_once 'Image/Graph/Plotarea/Element.php';
         } else {
             $this->_delta = (($this->_transpose ? $this->width() : $this->height()) - ($this->_axisPadding['low'] + $this->_axisPadding['high'])) / ($this->_axisValueSpan + ($this->_pushValues ? 1 : 0));
         }
-    }        
-    
+    }
+
     /**
      * Calculate the label interval
      *
@@ -724,9 +723,9 @@ require_once 'Image/Graph/Plotarea/Element.php';
     {
         $min = $this->_getMinimum();
         $max = $this->_getMaximum();
-        
+
         $this->_axisValueSpan = $this->_axisSpan = abs($max - $min);
-        
+
         if ((!empty($min)) && (!empty($max)) && ($min > $max)) {
             $this->_labelOptions[1]['interval'] = 1;
             return true;
@@ -875,11 +874,11 @@ require_once 'Image/Graph/Plotarea/Element.php';
         if (!$this->_visible) {
             return 0;
         }
-        
+
         if ($this->_fixedSize !== false) {
             return $this->_fixedSize;
         }
-         
+
         krsort($this->_labelOptions);
 
         $totalMaxSize = 0;
@@ -891,12 +890,12 @@ require_once 'Image/Graph/Plotarea/Element.php';
                 $this->_labelOptions[$level]['offset'] = 0;
             }
             if (
-                (isset($labelOptions['showtext'])) &&                
+                (isset($labelOptions['showtext'])) &&
                 ($labelOptions['showtext'] === true) &&
                 (
                     (!isset($labelOptions['position'])) ||
                     ($labelOptions['position'] == 'outside')
-                )               
+                )
             ) {
                 if (isset($labelOptions['font'])) {
                     $font = $this->_getFont($labelOptions['font']);
@@ -1008,10 +1007,10 @@ require_once 'Image/Graph/Plotarea/Element.php';
             'end' => $end
         );
     }
-    
+
     /**
      * Invert the axis direction
-     * 
+     *
      * If the minimum values are normally displayed fx. at the bottom setting
      * axis inversion to true, will cause the minimum values to be displayed at
      * the top and maximum at the bottom.
@@ -1029,10 +1028,10 @@ require_once 'Image/Graph/Plotarea/Element.php';
      *
      * Sets the value at which the axis intersects other axis, fx. at which Y-
      * value the x-axis intersects the y-axis (normally at 0).
-     * 
+     *
      * Possible values are 'default', 'min', 'max' or a number between axis min
      * and max (the value will automatically be limited to this range).
-     * 
+     *
      * For a coordinate system with 2 y-axis, the x-axis can either intersect
      * the primary or the secondary y-axis. To make the x-axis intersect the
      * secondary y-axis at a given value pass IMAGE_GRAPH_AXIS_Y_SECONDARY as
@@ -1061,7 +1060,7 @@ require_once 'Image/Graph/Plotarea/Element.php';
 
     /**
      * Get axis intersection data.
-     * 
+     *
      * @return array An array with the axis intersection data.
      * @since 0.3.0dev2
      * @access private
@@ -1070,14 +1069,14 @@ require_once 'Image/Graph/Plotarea/Element.php';
     {
         $value = $this->_intersect['value'];
         $axis = $this->_intersect['axis'];
-        if (($this->_type == IMAGE_GRAPH_AXIS_Y) 
+        if (($this->_type == IMAGE_GRAPH_AXIS_Y)
             || ($this->_type == IMAGE_GRAPH_AXIS_Y_SECONDARY)
         ) {
             $axis = IMAGE_GRAPH_AXIS_X;
         } elseif ($axis == 'default') {
             $axis = IMAGE_GRAPH_AXIS_Y;
         }
-        
+
         if ($value === 'default') {
             switch ($this->_type) {
             case IMAGE_GRAPH_AXIS_Y:
@@ -1091,10 +1090,10 @@ require_once 'Image/Graph/Plotarea/Element.php';
                 break;
             }
         }
-        
+
         return array('value' => $value, 'axis' => $axis);
     }
-    
+
     /**
      * Resets the elements
      *
@@ -1105,7 +1104,7 @@ require_once 'Image/Graph/Plotarea/Element.php';
         parent::_reset();
         $this->_labelText = array();
     }
-    
+
     /**
      * Output an axis tick mark.
      *
@@ -1149,16 +1148,16 @@ require_once 'Image/Graph/Plotarea/Element.php';
                         }
                     }
                     $this->_canvas->setFont($font);
-                    
+
                     if (
-                        (isset($labelOptions['position'])) && 
+                        (isset($labelOptions['position'])) &&
                         ($labelOptions['position'] == 'inside')
                     ) {
                         $labelInside = true;
                     } else {
                         $labelInside = false;
                     }
-                                        
+
                     if ($this->_type == IMAGE_GRAPH_AXIS_Y) {
                         if ($this->_transpose) {
                             if ($labelInside) {
@@ -1172,14 +1171,14 @@ require_once 'Image/Graph/Plotarea/Element.php';
                             } else {
                                 $this->write(
                                     $labelPosition,
-                                    $this->_top + 6 + $offset + $font['size'] * (substr_count($labelText, "\n") + 1),                                                                   
+                                    $this->_top + 6 + $offset + $font['size'] * (substr_count($labelText, "\n") + 1),
                                     $labelText,
                                     IMAGE_GRAPH_ALIGN_BOTTOM | IMAGE_GRAPH_ALIGN_CENTER_X,
                                     $font
                                 );
                             }
                         }
-                        else {                        
+                        else {
                             if ($labelInside) {
                                 $this->write(
                                     $this->_right + 3 + $offset,
@@ -1211,7 +1210,7 @@ require_once 'Image/Graph/Plotarea/Element.php';
                             } else {
                                 $this->write(
                                     $labelPosition,
-                                    $this->_bottom - 3 - $offset,                                                                   
+                                    $this->_bottom - 3 - $offset,
                                     $labelText,
                                     IMAGE_GRAPH_ALIGN_BOTTOM | IMAGE_GRAPH_ALIGN_CENTER_X,
                                     $font
@@ -1249,7 +1248,7 @@ require_once 'Image/Graph/Plotarea/Element.php';
                                 );
                             } else {
                                 $this->write(
-                                    $this->_right - 3 - $offset,                                                                   
+                                    $this->_right - 3 - $offset,
                                     $labelPosition,
                                     $labelText,
                                     IMAGE_GRAPH_ALIGN_CENTER_Y | IMAGE_GRAPH_ALIGN_RIGHT,
@@ -1266,7 +1265,7 @@ require_once 'Image/Graph/Plotarea/Element.php';
                                     IMAGE_GRAPH_ALIGN_CENTER_X | IMAGE_GRAPH_ALIGN_BOTTOM,
                                     $font
                                 );
-                            } else {                                
+                            } else {
                                 $this->write(
                                     $labelPosition,
                                     $this->_top + 6 + $offset + $font['size'] * (substr_count($labelText, "\n") + 1),
@@ -1282,27 +1281,27 @@ require_once 'Image/Graph/Plotarea/Element.php';
 
             $tickColor = false;
             if (isset($this->_labelOptions[$level]['tick'])) {
-                if (isset($this->_labelOptions[$level]['tick']['start'])) {                
+                if (isset($this->_labelOptions[$level]['tick']['start'])) {
                     $tickStart = $this->_labelOptions[$level]['tick']['start'];
                 } else {
                     $tickStart = false;
                 }
 
-                if (isset($this->_labelOptions[$level]['tick']['end'])) {                
+                if (isset($this->_labelOptions[$level]['tick']['end'])) {
                     $tickEnd = $this->_labelOptions[$level]['tick']['end'];
                 } else {
                     $tickEnd = false;
                 }
-                                    
+
                 if ((isset($this->_labelOptions[$level]['tick']['color'])) && ($this->_labelOptions[$level]['tick']['color'] !== false)) {
                     $tickColor = $this->_labelOptions[$level]['tick']['color'];
                 }
             }
-            
+
             if ($tickStart === false) {
                 $tickStart = -2;
             }
-            
+
             if ($tickEnd === false) {
                 $tickEnd = 2;
             }
@@ -1313,7 +1312,7 @@ require_once 'Image/Graph/Plotarea/Element.php';
             else {
                 $this->_getLineStyle();
             }
-            
+
             if ($this->_type == IMAGE_GRAPH_AXIS_Y) {
                 if ($tickStart === 'auto') {
                     $tickStart = -$offset;
@@ -1398,9 +1397,9 @@ require_once 'Image/Graph/Plotarea/Element.php';
     function _drawAxisLines()
     {
         if ($this->_type == IMAGE_GRAPH_AXIS_X) {
-            $this->_getLineStyle(); 
-            $this->_getFillStyle(); 
-            
+            $this->_getLineStyle();
+            $this->_getFillStyle();
+
             if ($this->_transpose) {
                 $data = array(
                         'x0' => $this->_right,
@@ -1416,7 +1415,7 @@ require_once 'Image/Graph/Plotarea/Element.php';
                         'y1' => $this->_top
                     );
             }
-                
+
             if ($this->_showArrow) {
                 if ($this->_getMaximum() <= 0) {
                     $data['end0'] = 'arrow2';
@@ -1426,8 +1425,8 @@ require_once 'Image/Graph/Plotarea/Element.php';
                     $data['end1'] = 'arrow2';
                     $data['size1'] = 7;
                 }
-            } 
-            
+            }
+
             $this->_canvas->line($data);
 
             if ($this->_title) {
@@ -1444,8 +1443,8 @@ require_once 'Image/Graph/Plotarea/Element.php';
             }
         } elseif ($this->_type == IMAGE_GRAPH_AXIS_Y_SECONDARY) {
             $this->_getLineStyle();
-            $this->_getFillStyle(); 
-            
+            $this->_getFillStyle();
+
             if ($this->_transpose) {
                 $data = array(
                         'x0' => $this->_left,
@@ -1470,7 +1469,7 @@ require_once 'Image/Graph/Plotarea/Element.php';
                     $data['end1'] = 'arrow2';
                     $data['size1'] = 7;
                 }
-            } 
+            }
             $this->_canvas->line($data);
 
             if ($this->_title) {
@@ -1487,8 +1486,8 @@ require_once 'Image/Graph/Plotarea/Element.php';
             }
         } else {
             $this->_getLineStyle();
-            $this->_getFillStyle(); 
-                        
+            $this->_getFillStyle();
+
             if ($this->_transpose) {
                 $data = array(
                         'x0' => $this->_left,
@@ -1513,8 +1512,8 @@ require_once 'Image/Graph/Plotarea/Element.php';
                     $data['end1'] = 'arrow2';
                     $data['size1'] = 7;
                 }
-            } 
-            $this->_canvas->line($data);            
+            }
+            $this->_canvas->line($data);
 
             if ($this->_title) {
                 if ($this->_transpose) {
@@ -1544,7 +1543,7 @@ require_once 'Image/Graph/Plotarea/Element.php';
         parent::_updateCoords();
         $this->_calcDelta();
     }
-    
+
     /**
      * Output the axis
      *
@@ -1553,15 +1552,15 @@ require_once 'Image/Graph/Plotarea/Element.php';
      */
     function _done()
     {
-        $this->_canvas->startGroup(get_class($this));        
+        $this->_canvas->startGroup(get_class($this));
 
         if (parent::_done() === false) {
             return false;
         }
-        
+
         $this->_drawAxisLines();
 
-        $this->_canvas->startGroup(get_class($this) . '_ticks');        
+        $this->_canvas->startGroup(get_class($this) . '_ticks');
         ksort($this->_labelOptions);
         foreach ($this->_labelOptions as $level => $labelOption) {
             $value = false;
@@ -1575,7 +1574,7 @@ require_once 'Image/Graph/Plotarea/Element.php';
                 }
             }
         }
-        $this->_canvas->endGroup();        
+        $this->_canvas->endGroup();
 
         $tickStart = -3;
         $tickEnd = 2;
@@ -1620,7 +1619,7 @@ require_once 'Image/Graph/Plotarea/Element.php';
                         $y0 = $this->_point($mark[1]);
                         $x1 = $this->_left + $tickEnd;
                         $y1 = $this->_point($mark[0]);
-                    }                        
+                    }
                 }
                 $this->_getFillStyle();
                 $this->_getLineStyle();
@@ -1664,23 +1663,23 @@ require_once 'Image/Graph/Plotarea/Element.php';
                         $y0 = $this->_point($mark);
                         $x1 = $this->_left - 15;
                         $y1 = $y0;
-                    }                        
+                    }
                 }
                 $this->_getFillStyle();
                 $this->_getLineStyle();
                 $this->_canvas->line(
                     array(
                         'x0' => $x0,
-                        'y0' => $y0, 
-                        'x1' => $x1, 
-                        'y1' => $y1, 
+                        'y0' => $y0,
+                        'x1' => $x1,
+                        'y1' => $y1,
                         'end0' => 'arrow2',
-                        'size0' => 5                        
+                        'size0' => 5
                     )
                 );
             }
         }
-        $this->_canvas->endGroup();        
+        $this->_canvas->endGroup();
 
         return true;
     }

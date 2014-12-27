@@ -1,6 +1,4 @@
 <?php
-// $Id$
-
 /**
  * The Log_daemon class is a concrete implementation of the Log::
  * abstract class which sends messages to syslog daemon on UNIX-like machines.

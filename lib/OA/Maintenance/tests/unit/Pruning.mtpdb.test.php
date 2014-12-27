@@ -20,7 +20,6 @@ require_once MAX_PATH . '/lib/pear/Date/Span.php';
  *
  * @package    OpenXMaintenance
  * @subpackage TestSuite
- * @author     Monique Szpak <monique.szpak@openx.org>
  */
 class Test_Priority extends UnitTestCase
 {

@@ -23,7 +23,6 @@
  * @author     Jesper Veggerby <pear.nosey@veggerby.dk>
  * @copyright  Copyright (C) 2003, 2004 Jesper Veggerby Hansen
  * @license    http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/Image_Graph
  */
 
@@ -97,10 +96,10 @@ class Image_Graph_Common
      * @access private
      */
     var $_canvas = null;
-    
+
     /**
      * Is the object visible?
-     * 
+     *
      * @var bool
      * @access private
      */
@@ -165,7 +164,7 @@ class Image_Graph_Common
     function hide()
     {
         $this->_visible = false;
-    }        
+    }
 
     /**
      * Get the canvas
@@ -174,7 +173,7 @@ class Image_Graph_Common
      * @access private
      */
     function &_getCanvas()
-    { 
+    {
         if (($this->_canvas !== null) || ($this->_canvas !== false)) {
             return $this->_canvas;
         } elseif (is_a($this->_parent, 'Image_Graph_Common')) {
@@ -240,23 +239,23 @@ class Image_Graph_Common
      * @access private
      */
     function _error($text, $params = false, $error_code = IMAGE_GRAPH_ERROR_GENERIC)
-    {       
+    {
         if ((is_array($params)) && (count($params) > 0)) {
             foreach ($params as $name => $key) {
                 if (isset($parameters)) {
                     $parameters .= ' ';
-                } 
+                }
                 else {
                     $parameters = '';
                 }
                 $parameters .= $name . '=' . $key;
             }
-        }        
+        }
         $error =& PEAR::raiseError(
             $text .
             ($error_code != IMAGE_GRAPH_ERROR_GENERIC ? ' error:' . IMAGE_GRAPH_ERROR_GENERIC : '') .
-            (isset($parameters) ? ' parameters:[' . $parameters . ']' : '')            
-        );         
+            (isset($parameters) ? ' parameters:[' . $parameters . ']' : '')
+        );
     }
 
     /**

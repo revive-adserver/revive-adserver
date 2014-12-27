@@ -17,7 +17,6 @@
 * @author     Florian Anderiasch <fa@php.net>
 * @copyright  1997-2005 The PHP Group
 * @license    http://www.php.net/license/3_01.txt  PHP License 3.01
-* @version    CVS: $Id$
 * @link       http://pear.php.net/package/Net_IPv4
 */
 

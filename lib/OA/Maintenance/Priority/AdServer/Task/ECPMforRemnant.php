@@ -14,13 +14,12 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/ECPMCommon.p
 
 /**
  * A class to carry out the task of calculating eCPM Remnant (Low priority campaigns) probabilities.
- * 
+ *
  * For more information on details of eCPM algorithm see the
  * ad selection algorithm (market maker).andrew.hill
  *
  * @package    OpenXMaintenance
  * @subpackage Priority
- * @author     Radek Maciaszek <radek@urbantrip.com>
  */
 class OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends OA_Maintenance_Priority_AdServer_Task_ECPMCommon
 {
@@ -36,7 +35,7 @@ class OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends OA_Maintenanc
 
     /**
      * How many operation intervals are left till the end of today
-     * 
+     *
      * @var integer
      */
     public $operationIntervalsTillTheEndOfToday;

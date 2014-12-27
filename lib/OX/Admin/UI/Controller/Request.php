@@ -17,7 +17,6 @@
  *
  * @package OX_Admin_UI
  * @subpackage Controller
- * @author Bernard Lange <bernard@openx.org> 
  */
 class OX_Admin_UI_Controller_Request
 {
@@ -26,7 +25,7 @@ class OX_Admin_UI_Controller_Request
      * @var array
      */
     protected $_params = array();
-    
+
 
     /**
      * Request base url
@@ -35,18 +34,18 @@ class OX_Admin_UI_Controller_Request
      */
     protected $baseUrl;
 
-    
+
     /**
      * REQUEST_URI
      *
      * @var unknown_type
      */
     protected $requestUri;
-    
-    
-    
+
+
+
     /**
-     * Set a user-specified parameter. 
+     * Set a user-specified parameter.
      *
      * @param string $key
      * @param mixed $value
@@ -55,19 +54,19 @@ class OX_Admin_UI_Controller_Request
     {
         if ((null === $value) && isset($this->_params[$key])) {
             unset($this->_params[$key]);
-        } 
+        }
         elseif (null !== $value) {
             $this->_params[$key] = $value;
         }
 
         return $this;
-    }   
-     
+    }
+
 
     /**
      * Retrieves a parameter from the instance. Priority is in the order of
      * user-specified parameters (see {@link setParam()}), $_GET, $_POST. If a
-     * parameter matching the $key is not found, if $default has not been given 
+     * parameter matching the $key is not found, if $default has not been given
      * null is returned, otherwise $default.
      *
      * @param string $key
@@ -78,17 +77,17 @@ class OX_Admin_UI_Controller_Request
     {
         if (isset($this->_params[$keyName])) {
             return $this->_params[$keyName];
-        } 
+        }
         elseif (isset($_GET[$keyName])) {
             return $_GET[$keyName];
-        } 
+        }
         elseif (isset($_POST[$keyName])) {
             return $_POST[$keyName];
         }
 
         return $default;
     }
-    
+
 
     /**
      * Retrieves a merged array of parameters, with precedence of user-defined
@@ -108,7 +107,7 @@ class OX_Admin_UI_Controller_Request
         }
         return $return;
     }
-    
+
 
     /**
      * Set one or more parameters. Parameters are set as user-defined instance
@@ -133,7 +132,7 @@ class OX_Admin_UI_Controller_Request
     {
         return $this->getServer('REQUEST_METHOD');
     }
-    
+
 
     /**
      * Was the request made by POST?
@@ -148,7 +147,7 @@ class OX_Admin_UI_Controller_Request
 
         return false;
     }
-    
+
 
     /**
      * Was the request made by GET?
@@ -163,8 +162,8 @@ class OX_Admin_UI_Controller_Request
 
         return false;
     }
-    
-    
+
+
     /**
      * Retrieve a member of the $_SERVER superglobal
      *
@@ -183,10 +182,10 @@ class OX_Admin_UI_Controller_Request
         return (isset($_SERVER[$key])) ? $_SERVER[$key] : $default;
     }
 
-    
+
     /**
      * Returns base url for the request.
-     * 
+     *
      * @return string
      */
     public function getBaseUrl()
@@ -194,13 +193,13 @@ class OX_Admin_UI_Controller_Request
         if ($this->baseUrl == null) {
             $baseUrl = 'http'.((isset($_SERVER["HTTPS"]) && ($_SERVER["HTTPS"] == "on")) ? 's' : '').'://';
             $baseUrl .= OX_getHostNameWithPort().substr($_SERVER['REQUEST_URI'],0,strrpos($_SERVER['REQUEST_URI'], '/')+1);
-            
-            $this->baseUrl = $baseUrl; 
+
+            $this->baseUrl = $baseUrl;
         }
-        
+
         return $this->baseUrl;
     }
-     
+
 
     /**
      * Returns the REQUEST_URI taking into account
@@ -212,26 +211,26 @@ class OX_Admin_UI_Controller_Request
     {
         if ($this->requestUri == null) {
             $requestUri = null;
-            
+
             if (isset($_SERVER['HTTP_X_REWRITE_URL'])) { // check this first so IIS will catch
                 $requestUri = $_SERVER['HTTP_X_REWRITE_URL'];
-            } 
+            }
             elseif (isset($_SERVER['REQUEST_URI'])) {
                 $requestUri = $_SERVER['REQUEST_URI'];
-            } 
+            }
             elseif (isset($_SERVER['ORIG_PATH_INFO'])) { // IIS 5.0, PHP as CGI
                 $requestUri = $_SERVER['ORIG_PATH_INFO'];
                 if (!empty($_SERVER['QUERY_STRING'])) {
                     $requestUri .= '?' . $_SERVER['QUERY_STRING'];
                 }
-            } 
-                
+            }
+
             $this->requestUri = $requestUri;
         }
 
         return $this->requestUri;
     }
-    
+
 }
 
 ?>

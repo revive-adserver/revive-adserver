@@ -21,7 +21,6 @@ require_once MAX_PATH.'/lib/OX/Admin/UI/Event/tests/unit/TestDummyObject.php';
  *
  * @package    OpenXAdmin
  * @subpackage TestSuite
- * @author     Bernard Lange <bernard@openx.org>
  */
 class Test_OX_Admin_UI_Event_EventDispatcher
     extends UnitTestCase

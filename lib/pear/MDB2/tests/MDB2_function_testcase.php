@@ -40,8 +40,6 @@
 // +----------------------------------------------------------------------+
 // | Author: Lorenzo Alberton <l dot alberton at quipo dot it>            |
 // +----------------------------------------------------------------------+
-//
-// $Id$
 
 class MDB2_Function_TestCase extends MDB2_TestCase
 {

@@ -41,8 +41,6 @@
 // | Author: Monique Szpak <monique.szpak@openads.org>                    |
 // |         Andrew Hill <andrew.hill@openads.org>                        |
 // +----------------------------------------------------------------------+
-//
-// $Id$
 
 require_once 'MDB2_testcase.php';
 

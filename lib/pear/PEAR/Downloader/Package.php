@@ -15,7 +15,6 @@
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 1.4.0a1
  */
@@ -275,7 +274,7 @@ class PEAR_Downloader_Package
         return $this->_downloader;
     }
 
-    function getType() 
+    function getType()
     {
         return $this->_type;
     }
@@ -822,7 +821,7 @@ class PEAR_Downloader_Package
     }
 
     function getParsedPackage()
-    {   
+    {
         if (isset($this->_packagefile) || isset($this->_parsedname)) {
             return array('channel' => $this->getChannel(),
                 'package' => $this->getPackage(),
@@ -1776,7 +1775,7 @@ class PEAR_Downloader_Package
         }
         if (isset($info['deprecated']) && $info['deprecated']) {
             $this->_downloader->log(0,
-                'WARNING: "' . 
+                'WARNING: "' .
                     $this->_registry->parsedPackageNameToString(
                             array('channel' => $info['info']->getChannel(),
                                   'package' => $info['info']->getPackage()), true) .

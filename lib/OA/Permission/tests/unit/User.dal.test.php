@@ -20,7 +20,6 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
  *
  * @package    OpenX
  * @subpackage TestSuite
- * @author     Lukasz Wikierski <lukasz.wikierski@openx.org>
  */
 class Test_OA_Permission_User extends UnitTestCase
 {
@@ -28,7 +27,7 @@ class Test_OA_Permission_User extends UnitTestCase
     var $agencyId;
     var $accountId;
     var $userId;
-    
+
     /**
      * The constructor method.
      */
@@ -46,7 +45,7 @@ class Test_OA_Permission_User extends UnitTestCase
     {
         DataGenerator::cleanUp();
     }
-    
+
     /**
      * Method to prepare user connected to manager account
      *
@@ -61,18 +60,18 @@ class Test_OA_Permission_User extends UnitTestCase
         $doUsers->username = 'user1';
         $this->userId = DataGenerator::generateOne($doUsers);
     }
-    
+
     /**
      * A method to test the class constructor.
      */
     function testOA_Task_Runner()
     {
-        // Test constructor for user with non-existing account       
+        // Test constructor for user with non-existing account
         // Set the error handling class' handleErrors() method as
         // the error handler for PHP for this test.
         $oTestErrorHandler = new TestErrorHandler();
         PEAR::pushErrorHandling(PEAR_ERROR_CALLBACK, array(&$oTestErrorHandler, 'handleErrors'));
-        
+
         $doUsers   = OA_Dal::factoryDO('users');
         $doUsers->default_account_id = -1;
         $oPermUser = new OA_Permission_User($doUsers);
@@ -85,15 +84,15 @@ class Test_OA_Permission_User extends UnitTestCase
         $oTestErrorHandler->reset();
         // Unset the error handler
         PEAR::popErrorHandling();
-        
+
         // Test for user with existing account
         $doUsers   = OA_Dal::staticGetDO('users', $this->userId);
         $oPermUser = new OA_Permission_User($doUsers);
-        
+
         $this->assertTrue(is_object($oPermUser));
         $this->assertTrue(is_a($oPermUser, 'OA_Permission_User'));
-        
-        
+
+
     }
 
     /**
@@ -103,16 +102,16 @@ class Test_OA_Permission_User extends UnitTestCase
     {
         $doUsers   = OA_Dal::staticGetDO('users', $this->userId);
         $oPermUser = new OA_Permission_User($doUsers);
-        
+
         // Test non existing account
-        
+
         // Set the error handling class' handleErrors() method as
         // the error handler for PHP for this test.
         $oTestErrorHandler = new TestErrorHandler();
         PEAR::pushErrorHandling(PEAR_ERROR_CALLBACK, array(&$oTestErrorHandler, 'handleErrors'));
-        
+
         $oPermUser->loadAccountData(-1);
-                        
+
         $this->assertEqual(count($oTestErrorHandler->aErrors), 1);
         $this->assertEqual(
             $oTestErrorHandler->aErrors[0]->message,
@@ -120,13 +119,13 @@ class Test_OA_Permission_User extends UnitTestCase
         );
         // Unset the error handler
         PEAR::popErrorHandling();
-        
+
         // Test manager account
         $oPermUser->loadAccountData($this->accountId);
         $this->assertEqual($oPermUser->aAccount["account_id"], $this->accountId);
         $this->assertEqual($oPermUser->aAccount["account_type"], OA_ACCOUNT_MANAGER);
     }
-    
+
     /**
      * A method to test _clearAccountData method
      */
@@ -134,31 +133,31 @@ class Test_OA_Permission_User extends UnitTestCase
     {
         $doUsers   = OA_Dal::staticGetDO('users', $this->userId);
         $oPermUser = new OA_Permission_User($doUsers);
-        
+
         // Test if all values in aAccount array are empty after clearing
         $oPermUser->_clearAccountData();
         foreach( $oPermUser->aAccount as $value) {
             $this->assertTrue(empty($value));
         }
     }
-    
+
     /**
      * A method to test _getEntityId method
      */
     function test_getEntityId()
     {
         $doUsers   = OA_Dal::staticGetDO('users', $this->userId);
-        $oPermUser = new OA_Permission_User($doUsers);      
-        
+        $oPermUser = new OA_Permission_User($doUsers);
+
         // Test if agency Id is returned
         $result = $oPermUser->_getEntityId();
         $this->assertEqual($result, $this->agencyId);
-        
-        // Test non existing account 
+
+        // Test non existing account
         $oPermUser->aAccount['account_id'] = -1;
-        $this->assertFalse($oPermUser->_getEntityId());        
+        $this->assertFalse($oPermUser->_getEntityId());
     }
-    
+
     /**
      * A method to test _getAgencyId method
      */
@@ -168,20 +167,20 @@ class Test_OA_Permission_User extends UnitTestCase
         $doClients = OA_Dal::factoryDO('clients');
         $doClients->agencyid = $this->agencyId;
         $clientId  = DataGenerator::generateOne($doClients);
-        
+
         $doClients   = OA_Dal::staticGetDO('clients', $clientId);
         $accountId = $doClients->account_id;
-        
+
         $doUsers  = OA_Dal::factoryDO('users');
         $doUsers->username = 'user2';
         $doUsers->default_account_id = $accountId;
         $userId = DataGenerator::generateOne($doUsers);
-        
+
         $oPermUser = new OA_Permission_User($doUsers);
-        
+
         $this->assertEqual($oPermUser->_getAgencyId(), $this->agencyId);
     }
-    
+
     /**
      * A method to test _isAdmin method
      */
@@ -200,7 +199,7 @@ class Test_OA_Permission_User extends UnitTestCase
         $doAUA->user_id = $this->userId;
         DataGenerator::generateOne($doAUA);
         $this->assertTrue($oPermUser->_isAdmin());
-    }    
+    }
     /**
      * A method to test _getEntityDO method
      */
@@ -209,44 +208,44 @@ class Test_OA_Permission_User extends UnitTestCase
         // Tests manager account
         $doUsers   = OA_Dal::staticGetDO('users', $this->userId);
         $oPermUser = new OA_Permission_User($doUsers);
-        
+
         $result = $oPermUser->_getEntityDO();
         $this->assertTrue(is_a($result, 'DataObjects_Agency'));
-        
+
         // Tests advertiser account
         $doClients = OA_Dal::factoryDO('clients');
         $doClients->agencyid = $this->agencyId;
         $clientId  = DataGenerator::generateOne($doClients);
-        
+
         $doClients   = OA_Dal::staticGetDO('clients', $clientId);
         $accountId = $doClients->account_id;
-        
+
         $doUsers  = OA_Dal::factoryDO('users');
         $doUsers->username = 'user2';
         $doUsers->default_account_id = $accountId;
         $userId = DataGenerator::generateOne($doUsers);
-        
+
         $oPermUser = new OA_Permission_User($doUsers);
         $result = $oPermUser->_getEntityDO();
         $this->assertTrue(is_a($result, 'DataObjects_Clients'));
-        
+
         // Test trafficer account
         $doAffiliates = OA_Dal::factoryDO('affiliates');
         $doAffiliates->agencyid = $this->agencyId;
         $affiliateId  = DataGenerator::generateOne($doAffiliates);
-        
+
         $doAffiliates   = OA_Dal::staticGetDO('affiliates', $affiliateId);
         $accountId = $doAffiliates->account_id;
-        
+
         $doUsers  = OA_Dal::factoryDO('users');
         $doUsers->username = 'user3';
         $doUsers->default_account_id = $accountId;
         $userId = DataGenerator::generateOne($doUsers);
-        
+
         $oPermUser = new OA_Permission_User($doUsers);
         $result = $oPermUser->_getEntityDO();
         $this->assertTrue(is_a($result, 'DataObjects_Affiliates'));
-        
+
         // Tests when no account data
         $oPermUser->_clearAccountData();
         $result = $oPermUser->_getEntityDO();

@@ -16,8 +16,6 @@
 // | Authors: Stig Bakken <ssb@php.net>                                   |
 // |          Chuck Hagenbuch <chuck@horde.org>                           |
 // +----------------------------------------------------------------------+
-//
-// $Id$
 
 require_once 'PEAR.php';
 

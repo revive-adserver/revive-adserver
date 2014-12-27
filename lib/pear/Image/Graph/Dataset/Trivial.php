@@ -24,7 +24,6 @@
  * @author     Jesper Veggerby <pear.nosey@veggerby.dk>
  * @copyright  Copyright (C) 2003, 2004 Jesper Veggerby Hansen
  * @license    http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/Image_Graph
  */
 
@@ -61,7 +60,7 @@ class Image_Graph_Dataset_Trivial extends Image_Graph_Dataset
      * Pass an associated array ($data[$x] = $y) to the constructor for easy
      * data addition. Alternatively (if multiple entries with same x value is
      * required) pass an array with (x, y) values: $data[$id] = array('x' => $x,
-     * 'y' => $y); 
+     * 'y' => $y);
      *
      * NB! If passing the 1st type array at this point, the x-values will also
      * be used for ID tags, i.e. when using {@link Image_Graph_Fill_Array}. In
@@ -94,13 +93,13 @@ class Image_Graph_Dataset_Trivial extends Image_Graph_Dataset
      * $ID can contain either the ID of the point, i.e. 'DK', 123, 'George', etc. or it can contain
      * values used for creation of the HTML image map. This is achieved using is an an associated array
      * with the following values:
-     * 
+     *
      * 'url' The URL to create the link to
-     * 
+     *
      * 'alt' [optional] The alt text on the link
-     * 
+     *
      * 'target' [optional] The target of the link
-     * 
+     *
      * 'htmltags' [optional] An associated array with html tags (tag as key), fx. 'onMouseOver' => 'history.go(-1);', 'id' => 'thelink'
      *
      * @param int $x The X value to add
@@ -212,7 +211,7 @@ class Image_Graph_Dataset_Trivial extends Image_Graph_Dataset
             return false;
         }
     }
-    
+
     /**
      * The number of values in the dataset
      *

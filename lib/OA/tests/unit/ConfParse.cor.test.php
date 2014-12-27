@@ -17,7 +17,6 @@ require_once MAX_PATH . '/init-delivery-parse.php';
  *
  * @package    OpenX
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class Test_OA_ConfParse extends UnitTestCase
 {

@@ -18,8 +18,6 @@ require_once MAX_PATH . '/lib/OA/Task/Runner.php';
  *
  * @package    OpenX
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew.hill@openx.org>
- * @author     Demian Turner <demian@m3.net>
  */
 class Test_OA_Task_Runner extends UnitTestCase
 {

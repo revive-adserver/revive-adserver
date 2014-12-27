@@ -19,7 +19,6 @@ require_once MAX_PATH . '/lib/OA/Admin/UI/UserAccess.php';
  *
  * @package    OpenX
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class Test_OA_Email extends UnitTestCase
 {

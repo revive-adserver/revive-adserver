@@ -24,10 +24,9 @@
  * @author     Jesper Veggerby <pear.nosey@veggerby.dk>
  * @copyright  Copyright (C) 2003, 2004 Jesper Veggerby Hansen
  * @license    http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/Image_Graph
  */
- 
+
 /**
  * Include file Image/Graph/Axis.php
  */
@@ -125,9 +124,9 @@ class Image_Graph_Axis_Category extends Image_Graph_Axis
      * Forces the minimum value of the axis
      *
      * <b>A minimum cannot be set on this type of axis</b>
-     * 
-     * To modify the labels which are displayed on the axis, instead use 
-     * setLabelInterval($labels) where $labels is an array containing the 
+     *
+     * To modify the labels which are displayed on the axis, instead use
+     * setLabelInterval($labels) where $labels is an array containing the
      * values/labels the axis should display. <b>Note!</b> Only values in
      * this array will then be displayed on the graph!
      *
@@ -141,9 +140,9 @@ class Image_Graph_Axis_Category extends Image_Graph_Axis
      * Forces the maximum value of the axis
      *
      * <b>A maximum cannot be set on this type of axis</b>
-     * 
-     * To modify the labels which are displayed on the axis, instead use 
-     * setLabelInterval($labels) where $labels is an array containing the 
+     *
+     * To modify the labels which are displayed on the axis, instead use
+     * setLabelInterval($labels) where $labels is an array containing the
      * values/labels the axis should display. <b>Note!</b> Only values in
      * this array will then be displayed on the graph!
      *
@@ -219,7 +218,7 @@ class Image_Graph_Axis_Category extends Image_Graph_Axis
         if (!$this->_visible) {
             return 0;
         }
-        
+
         $this->_canvas->setFont($this->_getFont());
 
         $maxSize = 0;
@@ -298,8 +297,8 @@ class Image_Graph_Axis_Category extends Image_Graph_Axis
         }
 
         if (count($this->_labels) == 0) {
-            $this->_labels = $newLabels;           
-        } elseif ((is_array($newLabels)) && (count($newLabels) > 0)) {           
+            $this->_labels = $newLabels;
+        } elseif ((is_array($newLabels)) && (count($newLabels) > 0)) {
             // get all intersecting labels
             $intersect = array_intersect(array_keys($allLabels), array_keys($this->_labels));
             // traverse all new and find their relative position withing the
@@ -415,20 +414,20 @@ class Image_Graph_Axis_Category extends Image_Graph_Axis
         if (Image_Graph_Element::_done() === false) {
             $result = false;
         }
-        
+
         $this->_canvas->startGroup(get_class($this));
-        
+
         $this->_drawAxisLines();
-        
+
         $this->_canvas->startGroup(get_class($this) . '_ticks');
         $label = false;
         while (($label = $this->_getNextLabel($label)) !== false) {
             $this->_drawTick($label);
         }
-        $this->_canvas->endGroup();       
+        $this->_canvas->endGroup();
 
         $this->_canvas->endGroup();
-        
+
         return $result;
     }
 

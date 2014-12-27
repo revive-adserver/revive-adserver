@@ -25,10 +25,9 @@
  * @author     Jesper Veggerby <pear.nosey@veggerby.dk>
  * @copyright  Copyright (C) 2003, 2004 Jesper Veggerby Hansen
  * @license    http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version    CVS: $Id$
  * @link       http://pear.php.net/pepr/pepr-proposal-show.php?id=212
  */
- 
+
 /**
  * Include file Image/Canvas/GD.php
  */
@@ -36,7 +35,7 @@ require_once 'Image/Canvas/GD.php';
 
 /**
  * PNG Canvas class.
- * 
+ *
  * @category   Images
  * @package    Image_Canvas
  * @author     Jesper Veggerby <pear.nosey@veggerby.dk>
@@ -104,7 +103,7 @@ class Image_Canvas_GD_PNG extends Image_Canvas_GD
         header('Content-type: image/png');
         header('Content-Disposition: inline; filename = \"'. basename($_SERVER['PHP_SELF'], '.php') . '.png\"');
         ImagePNG($this->_canvas);
-        ImageDestroy($this->_canvas);       
+        ImageDestroy($this->_canvas);
     }
 
         /**
