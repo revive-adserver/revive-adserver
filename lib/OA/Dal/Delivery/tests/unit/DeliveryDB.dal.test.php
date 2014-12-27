@@ -23,11 +23,8 @@ require_once 'Log.php';
  *
  * @package    OpenXDal
  * @subpackage TestSuite
- * @author     Unknown!
  *
- *
- * this method combines and replaces the previously separate mysql and pgsql tests
- *
+ * This method combines and replaces the previously separate mysql and pgsql tests
  */
 class Test_OA_Dal_DeliveryDB extends UnitTestCase
 {

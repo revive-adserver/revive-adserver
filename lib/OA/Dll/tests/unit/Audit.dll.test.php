@@ -18,9 +18,6 @@ require_once MAX_PATH . '/lib/OA/Dll/tests/util/DllUnitTestCase.php';
  *
  * @package    OpenadsDll
  * @subpackage TestSuite
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
- * @author     Alexander J. Tarachanowicz II <aj.tarachanowicz@openads.org>
- *
  */
 
 

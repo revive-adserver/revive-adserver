@@ -22,8 +22,6 @@ require_once MAX_PATH . '/lib/max/Dal/DataObjects/Campaigns.php';
  *
  * @package    OpenXDll
  * @subpackage TestSuite
- * @author     Ivan Klishch <iklishch@lohika.com>
- *
  */
 
 

@@ -13,8 +13,6 @@
 /**
  * @package    OpenXDal
  * @subpackage Statistics
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
- *
  */
 
 // Required classes
@@ -310,22 +308,22 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
         $tableBanners = $this->quoteTableName('banners');
         $tableVariables = $this->quoteTableName('variables');
         $tableDataIntermadiateAdConnection = $this->quoteTableName('data_intermediate_ad_connection');
-        $tableDataIntermadiateAdVariableValue = $this->quoteTableName('data_intermediate_ad_variable_value');        
+        $tableDataIntermadiateAdVariableValue = $this->quoteTableName('data_intermediate_ad_variable_value');
 
         $localTZ = false;
         $dateField = 'd.tracker_date_time';
-        
+
         $query = "
             SELECT
                 d.data_intermediate_ad_connection_id as conversionid,
-                b.campaignid as campaignid,                
+                b.campaignid as campaignid,
                 d.tracker_id as trackerid,
                 d.ad_id as bannerid,
                 d.tracker_date_time as tracker_date_time,
                 d.connection_date_time as connection_date_time,
                 d.connection_status as conversionstatus,
                 d.tracker_ip_address as userip,
-                d.connection_action as action,                
+                d.connection_action as action,
                 v.name as variablename,
                 i.value as variablevalue
             FROM
@@ -339,12 +337,12 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
                 AND b.campaignid = " . $campaignId . "
             ";
 
-        OX::disableErrorHandling();        
+        OX::disableErrorHandling();
         $rsResult = $this->oDbh->query($query);
         OX::enableErrorHandling();
 
         $aResult = array();
-        while (($row = $rsResult->fetchRow())) {            
+        while (($row = $rsResult->fetchRow())) {
             $aResult[$row['conversionid']] = array('campaignID' => $row['campaignid'],
                                                    'trackerID' =>  $row['trackerid'],
                                                    'bannerID' => $row['bannerid'],

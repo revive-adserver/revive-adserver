@@ -19,8 +19,6 @@ require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
  *
  * @package    OpenXDal
  * @subpackage TestSuite
- * @author     Monique Szpak <monique.szpak@openx.org>
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class Test_OA_Dal_Maintenance_Priority_getAllZonesWithAllocInv extends UnitTestCase
 {

@@ -12,8 +12,6 @@
 
 /**
  * @package    OpenXDll
- * @author     David Keen <david.keen@openx.org>
- *
  */
 
 require_once MAX_PATH . '/lib/OA/Info.php';

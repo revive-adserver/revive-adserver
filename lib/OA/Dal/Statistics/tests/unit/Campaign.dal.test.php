@@ -18,8 +18,6 @@ require_once MAX_PATH . '/lib/OA/Dal/Statistics/tests/util/DalStatisticsUnitTest
  *
  * @package    OpenXDal
  * @subpackage TestSuite
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
- *
  */
 
 
@@ -452,7 +450,7 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
      *
      */
     function testGetCampaignConversionStatistics()
-    {       
+    {
         $doBanner = OA_Dal::factoryDO('banners');
         $doCampaign = OA_Dal::factoryDO('campaigns');
         $campaignId = DataGenerator::generateOne($doCampaign);
@@ -475,7 +473,7 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
         $doData_intermediate_ad_connection->connection_window = 3600;
         $doData_intermediate_ad_connection->connection_status = MAX_CONNECTION_STATUS_APPROVED;
         $connectionId1 = DataGenerator::generateOne($doData_intermediate_ad_connection);
-        
+
         $doData_intermediate_ad_variable_value = OA_Dal::factoryDO('data_intermediate_ad_variable_value');
         $doData_intermediate_ad_variable_value->data_intermediate_ad_connection_id = $connectionId1;
         $doData_intermediate_ad_variable_value->tracker_variable_id = 1;
@@ -493,33 +491,33 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
         $doVariables->trackerid = 501;
         $doVariables->name = 'test_variable1_name';
         DataGenerator::generateOne($doVariables);
-        
+
         $doVariables = OA_Dal::factoryDO('variables');
         $doVariables->variableid = 2;
         $doVariables->trackerid = 501;
         $doVariables->name = 'test_variable2_name';
         DataGenerator::generateOne($doVariables);
-        
+
         $aResult = $this->_dalCampaignStatistics->getCampaignConversionStatistics($campaignId, $oStartDate, $oEndDate);
 
         // Get 0 Row
         $this->assertEmpty($aResult, '0 records should be returned');
 
         // Test 3: Test with data that is inside the range to manage,
-        //         with corresponding data_intermediate_ad_connection rows        
-        $doData_intermediate_ad_connection = OA_Dal::factoryDO('data_intermediate_ad_connection');        
+        //         with corresponding data_intermediate_ad_connection rows
+        $doData_intermediate_ad_connection = OA_Dal::factoryDO('data_intermediate_ad_connection');
         $doData_intermediate_ad_connection->tracker_date_time = '2004-06-06 12:15:00';
         $doData_intermediate_ad_connection->connection_date_time = '2004-06-06 12:14:58';
         $doData_intermediate_ad_connection->tracker_id = 501;
-        $doData_intermediate_ad_connection->ad_id = $bannerId;        
+        $doData_intermediate_ad_connection->ad_id = $bannerId;
         $doData_intermediate_ad_connection->tracker_ip_address = '127.0.0.1';
         $doData_intermediate_ad_connection->connection_action = MAX_CONNECTION_AD_CLICK;
         $doData_intermediate_ad_connection->connection_window = 3600;
         $doData_intermediate_ad_connection->connection_status = MAX_CONNECTION_STATUS_APPROVED;
         $connectionId2 = DataGenerator::generateOne($doData_intermediate_ad_connection);
-        
+
         $aResult = $this->_dalCampaignStatistics->getCampaignConversionStatistics($campaignId, $oStartDate, $oEndDate);
-        
+
         // Get 1 Row
         $this->assertEqual(1, count($aResult), '1 records should be returned');
 
@@ -545,7 +543,7 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
         $this->assertFieldEqual($aConversion, 'action', MAX_CONNECTION_AD_CLICK);
         $this->assertFieldEqual($aConversion, 'window', '2');
         // Conversion without variables
-        $this->assertEmpty($aConversion['variables']);        
+        $this->assertEmpty($aConversion['variables']);
 
         // Test 4: Test with data that is inside the range to manage and with
         //         2 conversions
@@ -601,7 +599,7 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
         $this->assertFieldEqual($aConversion, 'window', '2');
         $aVariables = $aConversion['variables'];
         $this->assertFieldEqual($aVariables, 'test_variable1_name', 'test_value3');
-        $this->assertFieldEqual($aVariables, 'test_variable2_name', 'test_value4');        
+        $this->assertFieldEqual($aVariables, 'test_variable2_name', 'test_value4');
 
         $aConversion = next($aResult);
         // Check return fields value
@@ -624,7 +622,7 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
         $doCampaign2 = OA_Dal::factoryDO('campaigns');
         $campaignId2 = DataGenerator::generateOne($doCampaign2);
         $doBanner2->campaignid = $campaignId2;
-        $bannerId2 = DataGenerator::generateOne($doBanner2);        
+        $bannerId2 = DataGenerator::generateOne($doBanner2);
 
         $doData_intermediate_ad_connection = OA_Dal::factoryDO('data_intermediate_ad_connection');
         $doData_intermediate_ad_connection->tracker_date_time = '2004-06-06 12:20:00';
@@ -645,7 +643,7 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
 
         // Get 2 Row
         $this->assertEqual(2, count($aResult), '2 records should be returned');
-        
+
         $aConversion = current($aResult);
         // Check return fields value
         $this->assertFieldEqual($aConversion, 'campaignID', $campaignId);
@@ -673,9 +671,9 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
         $aVariables = $aConversion['variables'];
         $this->assertFieldEqual($aVariables, 'test_variable1_name', 'test_value5');
         $this->assertFieldEqual($aVariables, 'test_variable2_name', 'test_value6');
-        
+
         // Clean Up
-        DataGenerator::cleanUp();       
+        DataGenerator::cleanUp();
     }
 
 }

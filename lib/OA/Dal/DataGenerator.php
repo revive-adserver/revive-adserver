@@ -37,8 +37,6 @@ define('MAX_DATAGENERATOR_DEFAULT_DATE_VALUE', date('Y-m-d'));
  * Online manual: https://developer.openx.org/wiki/DataGenerator
  *
  * @package    OpenXDal
- * @author     Radek Maciaszek <radek.maciaszek@openx.org>
- *
  */
 class DataGenerator
 {

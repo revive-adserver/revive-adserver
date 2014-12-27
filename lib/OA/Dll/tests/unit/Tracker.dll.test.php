@@ -21,8 +21,6 @@ require_once MAX_PATH . '/lib/OA/Dll/tests/util/DllUnitTestCase.php';
  *
  * @package    OpenXDll
  * @subpackage TestSuite
- * @author     David Keen <david.keen@openx.org>
- *
  */
 
 

@@ -17,7 +17,6 @@ require_once MAX_PATH . '/lib/OA/Dal.php';
  * A DAL class to easily deal with application variables
  *
  * @package    OpenXDal
- * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
 class OA_Dal_ApplicationVariables
 {
@@ -131,10 +130,10 @@ class OA_Dal_ApplicationVariables
 
         return $aVars;
     }
-    
+
     /**
      * Generates unique platform hash
-     * 
+     *
      * @return string 40-chars hexadecimal number as unique platform hash
      */
     function generatePlatformHash()

@@ -17,8 +17,6 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
  *
  * @package    OpenXDll
  * @subpackage TestSuite
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
- *
  */
 
 

@@ -21,7 +21,6 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  * @static
  * @package    OpenXMaintenance
  * @subpackage Priority
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_Maintenance_Priority
 {

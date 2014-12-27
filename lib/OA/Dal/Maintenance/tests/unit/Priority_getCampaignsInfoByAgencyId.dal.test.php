@@ -20,7 +20,6 @@ require_once MAX_PATH . '/lib/max/Dal/DataObjects/Campaigns.php';
  *
  * @package    OpenXDal
  * @subpackage TestSuite
- * @author     Radek Maciaszek <radek@urbantrip.com>
  */
 class Test_OA_Dal_Maintenance_Priority_getCampaignsInfoByAgencyId extends UnitTestCase
 {
@@ -28,7 +27,7 @@ class Test_OA_Dal_Maintenance_Priority_getCampaignsInfoByAgencyId extends UnitTe
 
     private $firsCampaignId;
     private $secondCampaignId;
-    
+
     private $firsAdId;
     private $secondAdId;
 
@@ -85,7 +84,7 @@ class Test_OA_Dal_Maintenance_Priority_getCampaignsInfoByAgencyId extends UnitTe
         $this->assertTrue(is_array($ret));
         $aExpectedCampaign = $this->aExpectedData['campaigns'][$campaignId];
         $aExpectedAd = $this->aExpectedData['banners'][$adId];
-        
+
         $idxAds = OA_Maintenance_Priority_AdServer_Task_ECPMCommon::IDX_ADS;
         $idxZones = OA_Maintenance_Priority_AdServer_Task_ECPMCommon::IDX_ZONES;
         $idxWeight = OA_Maintenance_Priority_AdServer_Task_ECPMCommon::IDX_WEIGHT;

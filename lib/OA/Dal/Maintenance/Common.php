@@ -22,7 +22,6 @@ require_once LIB_PATH . '/OperationInterval.php';
  *
  * @package    OpenXDal
  * @subpackage Maintenance
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_Dal_Maintenance_Common extends MAX_Dal_Common
 {

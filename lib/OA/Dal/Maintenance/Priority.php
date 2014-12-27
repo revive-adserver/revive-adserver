@@ -39,9 +39,6 @@ define('DAL_PRIORITY_UPDATE_ECPM', 2);
  *
  * @package    OpenXDal
  * @subpackage MaintenancePriority
- * @author     James Floyd <james@m3.net>
- * @author     Andrew Hill <andrew.hill@openx.org>
- * @author     Radek Maciaszek <radek@urbantrip.com>
  */
 class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
 {
