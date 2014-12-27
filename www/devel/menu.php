@@ -20,7 +20,6 @@ require_once 'HTML/TreeMenu.php';
  *
  * @package     Max
  * @subpackage  SimulationSuite
- * @author      Monique Szpak <monique@m3.net>
  */
 class Menu
 {

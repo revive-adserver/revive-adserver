@@ -14,7 +14,6 @@
  *
  * @package    OpenX
  * @subpackage Upgrade Package Management System
- * @author
  */
 
 require_once ('XML/RPC.php' );

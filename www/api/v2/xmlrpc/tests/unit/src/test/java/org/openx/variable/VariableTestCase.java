@@ -21,8 +21,6 @@ import org.openx.tracker.TrackerTestCase;
 
 /**
  * Base class for all tracker web service tests
- *
- * @author     David Keen <david.keen@openx.org>
  */
 public class VariableTestCase extends TrackerTestCase {
 

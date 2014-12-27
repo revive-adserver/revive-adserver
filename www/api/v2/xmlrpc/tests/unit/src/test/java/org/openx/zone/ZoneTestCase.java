@@ -22,8 +22,6 @@ import org.openx.publisher.PublisherTestCase;
 
 /**
  * Base class for all zone web service tests
- *
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class ZoneTestCase extends PublisherTestCase {
 	protected static final String GET_ZONE_LIST_BY_PUBLISHER_ID_METHOD = "ox.getZoneListByPublisherId";

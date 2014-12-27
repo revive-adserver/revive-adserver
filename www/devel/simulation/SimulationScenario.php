@@ -29,7 +29,6 @@ require_once LIB_PATH . '/Maintenance/Statistics.php';
  *
  * @package
  * @subpackage
- * @author
  */
 class SimulationScenario
 {

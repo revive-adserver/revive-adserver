@@ -20,8 +20,6 @@ import org.openx.utils.TextUtils;
 
 /**
  * Verify Generate Tags method
- *
- * @author     Pawel Dachterski <pawel.dachterski@openx.org>
  */
 public class TestZoneGenerateTags extends ZoneTestCase {
 

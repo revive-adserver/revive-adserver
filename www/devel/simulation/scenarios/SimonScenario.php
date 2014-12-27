@@ -17,7 +17,6 @@ require_once MAX_PATH . '/simulation/SimulationScenario.php';
  *
  * @package
  * @subpackage
- * @author
  */
 class SimonScenario extends SimulationScenario
 {

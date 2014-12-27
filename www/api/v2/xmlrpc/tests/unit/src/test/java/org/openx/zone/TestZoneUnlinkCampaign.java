@@ -17,8 +17,6 @@ import org.openx.utils.TextUtils;
 
 /**
  * Verify Unlink Campaign method
- *
- * @author     Pawel Dachterski <pawel.dachterski@openx.org>
  */
 public class TestZoneUnlinkCampaign extends ZoneTestCase {
 

@@ -17,7 +17,6 @@
  *
  * @package    Max
  * @subpackage SimulationSuite
- * @author
  */
 
 require_once 'init.php';

@@ -19,8 +19,6 @@ import org.openx.utils.TextUtils;
 
 /**
  * Verify Zone Advertiser Statistics method
- *
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class TestZoneAdvertiserStatistics extends ZoneTestCase {
 	private Integer zoneId;

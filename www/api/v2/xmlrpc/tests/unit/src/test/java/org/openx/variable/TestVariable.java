@@ -13,10 +13,6 @@ package org.openx.variable;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-/**
- *
- * @author David Keen <david.keen@openx.org>
- */
 public class TestVariable {
 
     public static Test suite() {
