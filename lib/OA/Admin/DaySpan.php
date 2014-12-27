@@ -16,8 +16,6 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  * A class to deal with day-based spans, for use in statistics screens, etc.
  *
  * @package    OpenXAdmin
- * @author     Scott Switzer <scott@switzer.org>
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_Admin_DaySpan
 {

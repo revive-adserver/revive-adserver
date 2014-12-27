@@ -22,7 +22,6 @@ require_once MAX_PATH . '/lib/max/other/html.php';
  * A UI templating class.
  *
  * @package    OpenXAdmin
- * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
 class OA_Admin_Template extends Smarty
 {

@@ -154,10 +154,6 @@ class OA_Admin_ExcelWriter
         $worksheet =&  $workbook->addWorksheet($name);
         $worksheet->setInputEncoding('UTF-8');
 
-        // Insert m3 bitmap
-        // Note that a scale of (1, 0.8) is specified to work around an underlying scale bug
-        //$worksheet->insertBitmap(0,0,MAX_PATH . '/www/admin/images/m3.bmp', 5, 3, 1, 0.8);
-
         $row = 1;
         // Write Report Title
         $worksheet->write($row, 1, $reportTitle, $this->getFormat(array('h1', 'border-top','border-left')));

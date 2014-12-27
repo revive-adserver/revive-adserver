@@ -19,8 +19,6 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonHistory.php';
  *
  * @package    OpenXAdmin
  * @subpackage StatisticsDelivery
- * @author     Matteo Beccati <matteo@beccati.com>
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_Admin_Statistics_Delivery_Controller_CampaignHistory extends OA_Admin_Statistics_Delivery_CommonHistory
 {
@@ -72,7 +70,7 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignHistory extends OA_Admin_S
         // Get parameters
         $advertiserId = $this->_getId('advertiser');
         $placementId  = $this->_getId('placement');
-        
+
         // Security check
         OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
         $this->_checkObjectsExist($advertiserId, $placementId);
@@ -140,12 +138,12 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignHistory extends OA_Admin_S
      */
     function _checkObjectsExist($advertiserId, $placementId)
     {
-        // Check if placement (campaign) exist 
+        // Check if placement (campaign) exist
         if (0 == count(Admin_DA::getPlacements(
                 $this->coreParams +
                 array(  'advertiser_id' => $advertiserId,
                         'placement_id' => $placementId)))) {
-            phpAds_PageHeader('2'); 
+            phpAds_PageHeader('2');
             // Check if advertiser (clientid) exist
             if (0 == count(Admin_DA::getPlacements(
                 $this->coreParams +

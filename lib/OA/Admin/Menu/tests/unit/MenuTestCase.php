@@ -15,7 +15,6 @@
  *
  * @package    OpenXAdmin
  * @subpackage TestSuite
- * @author     Bernard Lange <bernard@openx.org>
  */
 class Test_OA_Admin_MenuTestCase extends UnitTestCase
 {

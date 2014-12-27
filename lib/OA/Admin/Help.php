@@ -21,8 +21,6 @@ $GLOBALS['OA_HELP_LINK_BUILD_TYPE'] = OA_HELP_LINK_BUILD_USING_LINK;
  * A class for generating context sensitive help links to the documentation.
  *
  * @package    OpenXAdmin
- * @author     Marek Bedkowski <marek@bedkowski.pl>
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_Admin_Help
 {

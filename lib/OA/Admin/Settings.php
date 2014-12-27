@@ -18,7 +18,6 @@ require_once MAX_PATH . '/lib/pear/Config.php';
  * A class for managing the OpenX settings configuration file(s).
  *
  * @package    OpenXAdmin
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_Admin_Settings
 {

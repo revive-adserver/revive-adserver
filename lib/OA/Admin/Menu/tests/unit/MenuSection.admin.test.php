@@ -17,7 +17,6 @@ require_once MAX_PATH . '/lib/OA/Admin/Menu/tests/unit/MenuTestCase.php';
  *
  * @package    OpenXAdmin
  * @subpackage TestSuite
- * @author     Bernard Lange <bernard@openx.org>
  */
 class Test_OA_Admin_Menu_Section
     extends Test_OA_Admin_MenuTestCase

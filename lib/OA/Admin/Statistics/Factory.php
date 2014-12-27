@@ -16,8 +16,6 @@
  *
  * @package    OpenXAdmin
  * @subpackage Statistics
- * @author     Matteo Beccati <matteo@beccati.com>
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_Admin_Statistics_Factory
 {
