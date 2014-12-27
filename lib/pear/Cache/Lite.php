@@ -19,7 +19,6 @@
 *
 * @package Cache_Lite
 * @category Caching
-* @version $Id$
 * @author Fabien MARTY <fab@php.net>
 */
 

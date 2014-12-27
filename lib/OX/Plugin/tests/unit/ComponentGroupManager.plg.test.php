@@ -25,7 +25,6 @@ require_once LIB_PATH.'/Plugin/ComponentGroupManager.php';
  * A class for testing the OX_Plugin_ComponentGroupManager class.
  *
  * @package Plugins
- * @author  Monique Szpak <monique.szpak@openx.org>
  * @subpackage TestSuite
  */
 class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase

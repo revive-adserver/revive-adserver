@@ -14,8 +14,6 @@
 // +----------------------------------------------------------------------+
 // | Author: Bertrand Mansion <bmansion@mamasam.com>                      |
 // +----------------------------------------------------------------------+
-//
-// $Id$
 
 require_once('XML/Parser.php');
 require_once('XML/Util.php');

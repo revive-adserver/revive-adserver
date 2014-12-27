@@ -12,19 +12,18 @@
 
 /**
  * Reads and store install config
- * 
+ *
  * @package    OpenXUpgrade
- * @author     Lukasz Wikierski <lukasz.wikierski@openx.org>
  */
 class OX_Upgrade_InstallConfig
 {
-    
+
     /**
      * @var array
      */
     private static $installConfig;
-    
-    
+
+
     /**
      * Get install section forom /etc/dist.conf.php config file
      * Returns empyt array if can't read dist.conf.php
@@ -41,6 +40,6 @@ class OX_Upgrade_InstallConfig
                 return array(); // empty settings on fail
             }
         }
-        return self::$installConfig; 
+        return self::$installConfig;
     }
 }

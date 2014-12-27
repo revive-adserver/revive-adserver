@@ -5,8 +5,6 @@
 // Vincent Blavet - vincent@phpconcept.net
 // http://www.phpconcept.net
 // --------------------------------------------------------------------------------
-// $Id$
-// --------------------------------------------------------------------------------
 
 
 
@@ -36,7 +34,7 @@
     - Code optimisation
     - New attributes PCLZIP_ATT_FILE_COMMENT gives the ability to
       add a comment for a specific file. (Don't really know if this is usefull)
-    - New attribute PCLZIP_ATT_FILE_CONTENT gives the ability to add a string 
+    - New attribute PCLZIP_ATT_FILE_CONTENT gives the ability to add a string
       as a file.
     - New attribute PCLZIP_ATT_FILE_MTIME modify the timestamp associated with
       a file.
@@ -46,12 +44,12 @@
       action.
     - Add missing closedir() statement.
     - When adding a folder, and removing the path of this folder, files were
-      incorrectly added with a '/' at the beginning. Which means files are 
+      incorrectly added with a '/' at the beginning. Which means files are
       related to root in unix systems. Corrected.
     - Add conditional if before constant definition. This will allow users
       to redefine constants without changing the file, and then improve
       upgrade of pclzip code for new versions.
-  
+
   Version 2.5 :
     - Introduce the ability to add file/folder with individual properties (file descriptor).
       This gives for example the ability to change the filename of a zipped file.
@@ -69,19 +67,19 @@
     - New error code : PCLZIP_ERR_DIRECTORY_RESTRICTION
     - Modification in PclZipUtilPathInclusion() : dir and path beginning with ./ will be prepend
       by current path (getcwd())
-  
+
   Version 2.4 :
     - Code improvment : try to speed up the code by removing unusefull call to pack()
     - Correct bug in delete() : delete() should be called with no argument. This was not
       the case in 2.3. This is corrected in 2.4.
     - Correct a bug in path_inclusion function. When the path has several '../../', the
       result was bad.
-    - Add a check for magic_quotes_runtime configuration. If enabled, PclZip will 
+    - Add a check for magic_quotes_runtime configuration. If enabled, PclZip will
       disable it while working and det it back to its original value.
       This resolve a lots of bad formated archive errors.
     - Bug correction : PclZip now correctly unzip file in some specific situation,
       when compressed content has same size as uncompressed content.
-    - Bug correction : When selecting option 'PCLZIP_OPT_REMOVE_ALL_PATH', 
+    - Bug correction : When selecting option 'PCLZIP_OPT_REMOVE_ALL_PATH',
       directories are not any more created.
     - Code improvment : correct unclosed opendir(), better handling of . and .. in
       loops.
@@ -132,7 +130,7 @@
     - Add support for parameters PCLZIP_OPT_COMMENT, PCLZIP_OPT_ADD_COMMENT,
       PCLZIP_OPT_PREPEND_COMMENT. This will create, replace, add, or prepend comments
       in the zip archive.
-    - When merging two archives, the comments are not any more lost, but merged, with a 
+    - When merging two archives, the comments are not any more lost, but merged, with a
       blank space separator.
     - Corrected bug : Files are not deleted when all files are asked to be deleted.
     - Corrected bug : Folders with name '0' made PclZip to abort the create or add feature.
@@ -141,12 +139,12 @@
   Version 2.0 :
     ***** Warning : Some new features may break the backward compatibility for your scripts.
                     Please carefully read the readme file.
-    - Add the ability to delete by Index, name and regular expression. This feature is 
+    - Add the ability to delete by Index, name and regular expression. This feature is
       performed by the method delete(), which uses the optional parameters
       PCLZIP_OPT_BY_INDEX, PCLZIP_OPT_BY_NAME, PCLZIP_OPT_BY_EREG or PCLZIP_OPT_BY_PREG.
     - Add the ability to extract by regular expression. To extract by regexp you must use the method
-      extract(), with the option PCLZIP_OPT_BY_EREG or PCLZIP_OPT_BY_PREG 
-      (depending if you want to use ereg() or preg_match() syntax) followed by the 
+      extract(), with the option PCLZIP_OPT_BY_EREG or PCLZIP_OPT_BY_PREG
+      (depending if you want to use ereg() or preg_match() syntax) followed by the
       regular expression pattern.
     - Add the ability to extract by index, directly with the extract() method. This is a
       code improvment of the extractByIndex() method.
@@ -162,7 +160,7 @@
       The default separator is now a comma (,) and not any more a blank space.
       THIS BREAK THE BACKWARD COMPATIBILITY : Please check if this may have an impact with
       your script.
-    - Improve algorythm performance by removing the use of temporary files when adding or 
+    - Improve algorythm performance by removing the use of temporary files when adding or
       extracting files in an archive.
     - Add (correct) detection of empty filename zipping. This can occurs when the removed
       path is the same
@@ -257,7 +255,7 @@
 
   Corrected in Version 2.0 :
     - Corrected : During an extraction, if a call-back fucntion is used and try to skip
-                  a file, all the extraction process is stopped. 
+                  a file, all the extraction process is stopped.
 
   Corrected in Version 1.3 :
     - Corrected : Support of static synopsis for method extract() is broken.

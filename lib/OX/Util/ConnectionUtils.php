@@ -24,7 +24,6 @@ require_once MAX_PATH . '/lib/Zend/Http/Client.php';
  *
  * @package    OpenX
  * @subpackage Util
- * @author     Lukasz Wikierski (lukasz.wikierski@openx.org)
  */
 class OX_Util_ConnectionUtils
 {

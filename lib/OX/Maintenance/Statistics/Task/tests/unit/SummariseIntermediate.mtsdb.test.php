@@ -21,7 +21,6 @@ require_once OX_PATH . '/lib/pear/Date.php';
  *
  * @package    OpenXMaintenance
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
 {

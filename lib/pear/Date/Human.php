@@ -15,9 +15,6 @@
 // +----------------------------------------------------------------------+
 // | Author: Allan Kent <allan@lodestone.co.za>                           |
 // +----------------------------------------------------------------------+
-//
-// $Id$
-//
 
 /**
  * Class to convert date strings between Gregorian and Human calendar formats.

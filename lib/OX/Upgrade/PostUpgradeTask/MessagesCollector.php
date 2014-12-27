@@ -14,28 +14,27 @@
  * Class to help collecting messages from Post Upgrade Task,
  * messages are logged to given OA_UpgradeLogger and stored locally,
  * so we don't need to clear OA_UpgradeLogger
- * 
+ *
  * @package    OpenXUpgrade
- * @author     Lukasz Wikierski <lukasz.wikierski@openx.org>
  */
 class OX_Upgrade_PostUpgradeTask_MessagesCollector
-{   
+{
     /**
      * @var array
-     */ 
+     */
     protected $aInfos;
-    
+
     /**
      * @var array
      */
     protected $aErrors;
-    
+
     /**
      * @var OA_UpgradeLogger
      */
     protected $oUpgradeLogger;
-    
-    
+
+
     /**
      * Constructor
      *
@@ -47,8 +46,8 @@ class OX_Upgrade_PostUpgradeTask_MessagesCollector
         $this->aErrors   = array();
         $this->oUpgradeLogger = $oUpgradeLogger;
     }
-    
-    
+
+
     /**
      * Log info message
      *
@@ -59,8 +58,8 @@ class OX_Upgrade_PostUpgradeTask_MessagesCollector
         $this->aInfos[] = $message;
         $this->oUpgradeLogger->logOnly($message);
     }
-    
-    
+
+
     /**
      * Log error message
      *
@@ -72,7 +71,7 @@ class OX_Upgrade_PostUpgradeTask_MessagesCollector
         $this->oUpgradeLogger->logError($message);
     }
 
-    
+
     /**
      * Get all error messages
      *
@@ -82,8 +81,8 @@ class OX_Upgrade_PostUpgradeTask_MessagesCollector
     {
         return $this->aErrors;
     }
-    
-    
+
+
     /**
      * Get all info messages
      *
@@ -93,8 +92,8 @@ class OX_Upgrade_PostUpgradeTask_MessagesCollector
     {
         return $this->aInfos;
     }
-    
-    
+
+
     /**
      * Check if there was errors logged
      *

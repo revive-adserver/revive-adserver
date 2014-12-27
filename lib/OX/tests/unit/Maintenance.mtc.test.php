@@ -21,7 +21,6 @@ require_once OX_PATH . '/lib/pear/Date.php';
  *
  * @package    OpenX
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class Test_OA_Maintenance extends UnitTestCase
 {

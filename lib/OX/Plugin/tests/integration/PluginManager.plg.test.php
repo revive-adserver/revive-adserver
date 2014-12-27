@@ -16,7 +16,6 @@ require_once LIB_PATH.'/Plugin/PluginManager.php';
  * A class for testing the Test_OX_PluginManager class.
  *
  * @package Plugins
- * @author  Monique Szpak <monique.szpak@openx.org>
  * @subpackage TestSuite
  */
 class Test_OX_PluginManager extends UnitTestCase

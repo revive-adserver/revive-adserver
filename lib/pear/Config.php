@@ -14,13 +14,11 @@
 // +----------------------------------------------------------------------+
 // | Author: Bertrand Mansion <bmansion@mamasam.com>                      |
 // +----------------------------------------------------------------------+
-//
-// $Id$
 
 require_once('PEAR.php');
 require_once('Config/Container.php');
 
-$GLOBALS['CONFIG_TYPES'] = 
+$GLOBALS['CONFIG_TYPES'] =
         array(
             'apache'        =>array('Config/Container/Apache.php','Config_Container_Apache'),
             'genericconf'   =>array('Config/Container/GenericConf.php','Config_Container_GenericConf'),
@@ -174,7 +172,7 @@ class Config {
     /**
     * Parses the datasource contents
     *
-    * This method will parse the datasource given and fill the root 
+    * This method will parse the datasource given and fill the root
     * Config_Container object with other Config_Container objects.
     *
     * @param mixed   $datasrc     Datasource to parse

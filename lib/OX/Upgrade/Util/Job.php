@@ -19,9 +19,8 @@ require_once MAX_PATH.'/lib/OA/Upgrade/UpgradeLogger.php';
 /**
  * class containing common codes for jobs tasks
  *  install plugins and run post upgrade tasks
- * 
+ *
  * @package    OpenXUpgrade
- * @author     Lukasz Wikierski <lukasz.wikierski@openx.org>
  */
 class OX_Upgrade_Util_Job
 {
@@ -30,7 +29,7 @@ class OX_Upgrade_Util_Job
      * @var OA_UpgradeLogger
      */
     protected static $oLogger;
-    
+
     /**
      * put job result to the session storage
      *
@@ -44,12 +43,12 @@ class OX_Upgrade_Util_Job
             if (!isset($aJobStatuses)) {
                 $aJobStatuses = array();
             }
-            $aJobStatuses[$result['type'].':'.$result['name']] = $result; 
+            $aJobStatuses[$result['type'].':'.$result['name']] = $result;
             $oStorage->set('aJobStatuses', $aJobStatuses);
         }
     }
-    
-    
+
+
     /**
      * Check if it's install process and given step is completed
      *
@@ -68,13 +67,13 @@ class OX_Upgrade_Util_Job
             $oWizard = new OX_Admin_UI_Install_Wizard($oStatus);
             if (!$oWizard->isStepCompleted($step)) {
                 self::logError($result, 'Invalid installation step detected');
-                return false;    
+                return false;
             }
         }
         return true;
     }
-    
-    
+
+
     /**
      * Log errors to error log
      *
@@ -89,5 +88,5 @@ class OX_Upgrade_Util_Job
         $result['errors'][] = $message;
         self::$oLogger->logError($result['name'].'('.$result['type'].'): '. $message);
     }
-    
+
 }

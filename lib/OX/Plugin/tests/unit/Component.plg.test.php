@@ -57,8 +57,6 @@ class TestErrorHandler {
  *
  * @package    OpenXPlugin
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew@m3.net>
- * @author     Radek Maciaszek <radek@m3.net>
  */
 class Test_OX_Component extends UnitTestCase {
 
@@ -227,18 +225,18 @@ class Test_OX_Component extends UnitTestCase {
         $this->assertEqual(count($aHooks),1);
         $this->assertEqual($aHooks[0],'admin:testPlugin:testPlugin');
 
-        //remove cache 
+        //remove cache
         unset($GLOBALS['_MAX']['ComponentHooks']);
         $oCache = new OA_Cache('Plugins', 'ComponentHooks');
         $oCache->setFileNameProtection(false);
         $oCache->clear();
-        
+
         //should auto regenerate cache
         $aHooks = OX_Component::getListOfRegisteredComponentsForHook('duringTest');
         $this->assertIsA($aHooks, 'array');
         $this->assertEqual(count($aHooks),1);
         $this->assertEqual($aHooks[0],'admin:testPlugin:testPlugin');
-  
+
         //cache file should be regenerated
         $aAllHooks = $oCache->load();
         $this->assertEqual($aHooks, $aAllHooks['duringTest']);
