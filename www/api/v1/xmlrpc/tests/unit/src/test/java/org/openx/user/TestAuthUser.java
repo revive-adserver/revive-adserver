@@ -19,8 +19,6 @@ import org.openx.utils.TextUtils;
 
 /**
  * Verify Auth User method
- *
- * @author     Pawel Dachterski <pawel.dachterski@openx.org>
  */
 public class TestAuthUser extends WebServiceTestCase {
 

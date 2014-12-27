@@ -20,8 +20,6 @@ import org.openx.utils.TextUtils;
 
 /**
  * Verify Campaign Zone Statistics method
- *
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class TestCampaignZoneStatistics extends CampaignTestCase {
 	private Integer campaignId;

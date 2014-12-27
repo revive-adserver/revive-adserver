@@ -18,8 +18,6 @@ import org.openx.utils.TextUtils;
 
 /**
  * Verify Delete Publisher method
- *
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class TestDeletePublisher extends PublisherTestCase {
 	/**

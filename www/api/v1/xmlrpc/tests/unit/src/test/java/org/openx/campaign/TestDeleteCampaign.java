@@ -18,8 +18,6 @@ import org.openx.utils.TextUtils;
 
 /**
  * Verify Delete Campaign method
- *
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class TestDeleteCampaign extends CampaignTestCase {
 	/**

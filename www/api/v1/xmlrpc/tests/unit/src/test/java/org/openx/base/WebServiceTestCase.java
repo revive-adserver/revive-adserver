@@ -25,8 +25,6 @@ import org.openx.proxy.ErrorLoggingXmlRpcSunHttpTransport;
 
 /**
  * Base class for all web service tests
- *
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class WebServiceTestCase extends TestCase {
 

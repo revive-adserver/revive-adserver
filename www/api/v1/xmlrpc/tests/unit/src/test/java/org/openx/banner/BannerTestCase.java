@@ -25,8 +25,6 @@ import org.openx.utils.StreamUtils;
 
 /**
  * Base class for all banner web service tests
- *
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class BannerTestCase extends CampaignTestCase {
 	protected static final String GET_BANNER_LIST_BY_CAMPAIGN_ID_METHOD = "getBannerListByCampaignId";

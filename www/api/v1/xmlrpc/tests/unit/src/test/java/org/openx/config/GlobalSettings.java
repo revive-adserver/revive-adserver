@@ -13,9 +13,6 @@ package org.openx.config;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-/**
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
- */
 public class GlobalSettings {
 
 	private static final String SERVICE_URL = "ServiceURL";

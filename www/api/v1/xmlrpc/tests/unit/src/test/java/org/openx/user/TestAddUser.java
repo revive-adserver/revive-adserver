@@ -20,8 +20,6 @@ import org.openx.utils.TextUtils;
 
 /**
  * Verify Add User method
- *
- * @author     Pawel Dachterski <pawel.dachterski@openx.org>
  */
 public class TestAddUser extends UserTestCase {
 

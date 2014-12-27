@@ -21,8 +21,6 @@ import org.openx.utils.TextUtils;
 
 /**
  * Verify Add Campaign method
- *
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 
 public class TestAddCampaign extends CampaignTestCase {

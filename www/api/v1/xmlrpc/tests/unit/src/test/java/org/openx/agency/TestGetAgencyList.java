@@ -19,8 +19,6 @@ import org.apache.xmlrpc.XmlRpcException;
 
 /**
  * Verify Get Agency List method
- *
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class TestGetAgencyList extends AgencyTestCase {
 
