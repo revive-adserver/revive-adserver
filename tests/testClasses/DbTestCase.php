@@ -18,7 +18,6 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
  *
  * @package    OpenXDB
  * @subpackage TestSuite
- * @author     Andrzej Swedrzynski <andrzej.swedrzynski@openx.org>
  */
 class DbTestCase extends UnitTestCase
 {

@@ -28,7 +28,6 @@ require_once dirname(dirname(dirname(__FILE__))) . '/Site/Variable.class.php';
  *
  * @package    OpenXPluginDelivery
  * @subpackage TestSuite
- * @author     Chris Nutting <chris.nutting@openx.org>
  */
 class Plugins_TestOfPlugins_Delivery_Site_Variable extends UnitTestCase
 {
@@ -394,19 +393,19 @@ class Plugins_TestOfPlugins_Delivery_Site_Variable extends UnitTestCase
         $data = array('key' => '');
         $result = $this->_evalCompiledLimitation($compiledlimitation, $data);
         $this->assertFalse($result);
-        
+
         // Test | in regex
         $compiledlimitation = "MAX_checkSite_Variable('key|([0-4])|([a-z])', '=x')";
         // Test "734" matches
         $data = array('key' => '734');
         $result = $this->_evalCompiledLimitation($compiledlimitation, $data);
         $this->assertTrue($result);
-        
+
         // Test "asdfs" matches
         $data = array('key' => 'asdfs');
         $result = $this->_evalCompiledLimitation($compiledlimitation, $data);
         $this->assertTrue($result);
-        
+
         // Test "567" does not match
         $data = array('key' => '567');
         $result = $this->_evalCompiledLimitation($compiledlimitation, $data);

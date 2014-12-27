@@ -15,8 +15,6 @@ import junit.framework.TestSuite;
 
 /**
  * Run all Advertiser service tests
- *
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class TestAdvertiser {
 

@@ -17,7 +17,6 @@ require_once LIB_PATH . '/Extension/deliveryLimitations/DeliveryLimitationsComma
 /**
  * @package    OpenXPlugin
  * @subpackage DeliveryLimitations
- * @author     Andrzej Swedrzynski <andrzej.swedrzynski@m3.net>
  */
 
 /**
@@ -31,8 +30,6 @@ require_once LIB_PATH . '/Extension/deliveryLimitations/DeliveryLimitationsComma
  *
  * @package    OpenXPlugin
  * @subpackage DeliveryLimitations
- * @author     Andrew Hill <andrew@m3.net>
- * @author     Chris Nutting <chris@m3.net>
  */
 class Plugins_DeliveryLimitations_AbstractTimePlugin extends Plugins_DeliveryLimitations_CommaSeparatedData
 {

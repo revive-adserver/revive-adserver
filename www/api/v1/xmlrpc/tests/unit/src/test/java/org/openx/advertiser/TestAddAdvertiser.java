@@ -19,8 +19,6 @@ import org.openx.utils.TextUtils;
 
 /**
  * Verify Add Advertiser method
- *
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class TestAddAdvertiser extends AdvertiserTestCase {
 

@@ -17,7 +17,6 @@
  *
  * @package    OpenX
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew.hill@openx.org>
  *
  * @todo Only show HTML when run from Web.
  */

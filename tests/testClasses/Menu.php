@@ -19,7 +19,6 @@ require_once 'HTML/TreeMenu.php';
  *
  * @package    Max
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew@m3.net>
  *
  * @todo Consider reducing repetition by extracting "add node" logic.
  */

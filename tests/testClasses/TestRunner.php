@@ -15,7 +15,6 @@ require_once MAX_PATH . '/tests/testClasses/TestEnv.php';
 require_once MAX_PATH . '/lib/simpletest/unit_tester.php';
 require_once MAX_PATH . '/lib/simpletest/mock_objects.php';
 require_once MAX_PATH . '/lib/simpletest/reporter.php';
-require_once MAX_PATH . '/tests/testClasses/TracHtmlReporter.php';
 require_once MAX_PATH . '/lib/simpletest/web_tester.php';
 require_once MAX_PATH . '/lib/simpletest/xml.php';
 
@@ -27,7 +26,6 @@ require_once 'Console/Getopt.php';
  *
  * @package    Max
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew@m3.net>
  * @todo Consider fitting in with the SimpleTest style and inheriting from
  *       SimpleTestRunner.
  */
@@ -376,7 +374,7 @@ class TestRunner
         if (SimpleReporter::inCli()) {
             $reporter = new TextReporter();
         } else {
-            $reporter = new TracHtmlReporter();
+            $reporter = new HtmlReporter();
         }
         return $reporter;
     }

@@ -15,7 +15,6 @@ require_once LIB_PATH . '/Extension/deliveryLimitations/DeliveryLimitations.php'
 /**
  * @package    OpenXPlugin
  * @subpackage DeliveryLimitations
- * @author     Chris Nutting <chris@m3.net>
  */
 class Plugins_DeliveryLimitations_Dummy_Dummy extends Plugins_DeliveryLimitations
 {

@@ -27,7 +27,6 @@ require_once MAX_PATH . '/tests/data/DefaultData.php';
  *
  * @package    Max
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew@m3.net>
  */
 class TestEnv
 {

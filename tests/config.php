@@ -15,7 +15,6 @@
  *
  * @package    OpenX
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 
 // Define the different environment configurations

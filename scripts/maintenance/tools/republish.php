@@ -14,9 +14,8 @@
 /**
  * @package    OpenXMaintenance
  * @subpackage Tools
- * @author     Chris Nutting <chris.nutting>
  *
- * A script that can be run to process orphaned data when running OpenX in distributed mode, 
+ * A script that can be run to process orphaned data when running OpenX in distributed mode,
  * the 'orphaned' data is bucket data which arrived in the central server, after central maintenace
  * had already processed that time period
  *
@@ -195,12 +194,12 @@ echo "Finished! \$result = " . $result . "<br />\n";
 
 $oDbh = OA_DB::singleton();
 $oMigratorFinal = new OX_Maintenance_Statistics_Task_SummariseFinal();
-    
+
 foreach ($aRunHours as $aDates) {
-    echo "Recomputing data_summary_ad_hourly totals from " . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . " -> " . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "<br />\n"; 
+    echo "Recomputing data_summary_ad_hourly totals from " . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . " -> " . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "<br />\n";
     $query = "DELETE FROM ".$oDbh->quoteIdentifier($conf['table']['prefix'] . 'data_summary_ad_hourly',true)." WHERE date_time >= '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "' AND date_time <= '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "'";
     $oDbh->exec($query);
-    
+
     $oMigratorFinal->_saveSummary($aDates['start'], $aDates['end']);
 }
 

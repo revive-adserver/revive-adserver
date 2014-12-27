@@ -14,8 +14,6 @@
  *
  * @abstract A class for generating/loading a dataset for delivery testing
  * @package Test Classes
- * @author Monique Szpak <monique.szpak@openads.org>
- *
  */
 
 //require_once MAX_PATH . '/tests/testClasses/OATestData_DataObjects.php';

@@ -18,8 +18,6 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
  *
  * @package    OpenXPlugin
  * @subpackage InvocationTags
- * @author     Radek Maciaszek <radek@m3.net>
- *
  */
 class Plugins_InvocationTags_OxInvocationTags_local extends Plugins_InvocationTags
 {

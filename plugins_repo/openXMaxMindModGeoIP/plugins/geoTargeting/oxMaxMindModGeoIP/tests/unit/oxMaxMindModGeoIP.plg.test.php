@@ -17,7 +17,6 @@ require_once dirname(dirname(dirname(__FILE__))) . '/oxMaxMindModGeoIP.delivery.
  *
  * @package    MaxDelivery
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew@m3.net>
  */
 class Delivery_TestOfPlugins_Geotargeting_ModGeoIP_ModGeoIP extends UnitTestCase
 {

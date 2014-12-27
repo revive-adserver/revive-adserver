@@ -30,8 +30,6 @@ require_once MAX_PATH . '/lib/max/Dal/DataObjects/Campaigns.php';
  *
  * @package    OpenXPlugin
  * @subpackage Reports
- * @author     Andrew Hill <andrew.hill@openx.org>
- * @author     Scott Switzer <scott@switzer.org>
  */
 class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugins_ReportsScope
 {

@@ -22,8 +22,6 @@ import org.openx.config.GlobalSettings;
 
 /**
  * Base class for all agency web service tests
- *
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class AgencyTestCase extends WebServiceTestCase {
 	protected static final String GET_AGENCY_LIST_METHOD = "getAgencyList";

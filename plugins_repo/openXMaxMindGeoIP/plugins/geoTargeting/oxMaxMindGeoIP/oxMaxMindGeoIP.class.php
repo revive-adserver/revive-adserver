@@ -19,7 +19,6 @@ require_once dirname(__FILE__) . '/oxMaxMindGeoIP.delivery.php';
  *
  * @package    OpenXPlugin
  * @subpackage GeoTargeting
- * @author     Chris Nutting <chris.nutting@openx.org>
  */
 class Plugins_GeoTargeting_oxMaxMindGeoIP_OxMaxMindGeoIP extends OX_Component
 {

@@ -13,8 +13,6 @@
 /**
  * @package    MaxPlugins
  * @subpackage InvocationTags
- * @author     Chris Nutting <chris@m3.net>
- *
  */
 
 require_once MAX_PATH . '/lib/Max.php';

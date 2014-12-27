@@ -20,7 +20,6 @@ require_once dirname(dirname(dirname(__FILE__))) . '/oxMaxMindGeoIP.delivery.php
  *
  * @package    MaxDelivery
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew@m3.net>
  * @TODO       Has not been tested with the Netspeed database,
  *             tests for this database type need to be written.
  */
