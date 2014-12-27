@@ -18,8 +18,6 @@ require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
  *
  * @package    OpenXMaintenance
  * @subpackage Priority
- * @author     Demain Turner <demian@m3.net>
- * @author     James Floyd <james@m3.net>
  */
 class OX_Maintenance_Priority_Zone
 {

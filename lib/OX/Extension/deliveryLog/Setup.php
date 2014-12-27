@@ -27,7 +27,6 @@ define('OX_BUCKETS_COMPILED_FILE', MAX_PATH.'/var/cache/' . OX_getHostName() . '
  *
  * @package    OpenXExtension
  * @subpackage DeliveryLog
- * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  */
 class OX_Extension_DeliveryLog_Setup extends OX_Component
 {

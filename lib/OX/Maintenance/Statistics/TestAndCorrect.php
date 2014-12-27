@@ -19,7 +19,6 @@ require_once OX_PATH . '/lib/OA/Dal.php';
  *
  * @package    OpenXMaintenance
  * @subpackage Tools
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OX_Maintenance_Statistics_TestAndCorrect
 {

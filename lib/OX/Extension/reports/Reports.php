@@ -31,9 +31,6 @@ define('PLUGINS_REPORTS_MISSING_SHEETS_ERROR' , 1);
  * @abstract
  * @package    OpenXPlugin
  * @subpackage Reports
- * @author     Andrew Hill <andrew.hill@openx.org>
- * @author     Radek Maciaszek <radek@m3.net>
- * @author     Robert Hunter <roh@m3.net>
  */
 class Plugins_Reports extends OX_Component
 {

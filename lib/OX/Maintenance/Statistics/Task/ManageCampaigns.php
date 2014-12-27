@@ -21,7 +21,6 @@ require_once LIB_PATH . '/Maintenance/Statistics/Task.php';
  *
  * @package    OpenXMaintenance
  * @subpackage Statistics
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OX_Maintenance_Statistics_Task_ManageCampaigns extends OX_Maintenance_Statistics_Task
 {

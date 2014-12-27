@@ -22,7 +22,6 @@ require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
  *
  * @package    OpenXMaintenance
  * @subpackage Priority
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OX_Maintenance_Priority_Campaign
 {

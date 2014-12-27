@@ -19,7 +19,6 @@ require_once LIB_PATH . '/Plugin/Component.php';
  *
  * @package    OpenXPlugin
  * @subpackage DeliveryCacheStore
- * @author     Lukasz Wikierski <lukasz.wikierski@openx.org>
  * @abstract
  */
 abstract class Plugins_DeliveryCacheStore extends OX_Component

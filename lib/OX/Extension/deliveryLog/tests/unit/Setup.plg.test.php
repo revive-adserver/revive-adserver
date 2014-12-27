@@ -19,7 +19,6 @@ require_once LIB_PATH . '/Extension/deliveryLog/DeliveryLog.php';
  *
  * @package    OpenXExtension
  * @subpackage TestSuite
- * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  */
 class Test_OX_Extension_DeliveryLog_Setup extends UnitTestCase
 {

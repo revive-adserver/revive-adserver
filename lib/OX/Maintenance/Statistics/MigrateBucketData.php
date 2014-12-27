@@ -23,7 +23,6 @@ require_once OX_PATH . '/lib/OA/DB/Table.php';
  *
  * @package    OpenXMaintenance
  * @subpackage Tools
- * @author     David Keen <david.keen@openx.org>
  */
 class OX_Maintenance_Statistics_MigrateBucketData
 {

@@ -25,7 +25,6 @@ define('MAX_PLUGINS_INVOCATION_TAGS_CUSTOM', 1);
  *
  * @package    OpenXPlugin
  * @subpackage InvocationTags
- * @author     Radek Maciaszek <radek@m3.net>
  * @abstract
  */
 class Plugins_InvocationTags extends OX_Component

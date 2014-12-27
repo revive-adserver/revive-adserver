@@ -20,7 +20,6 @@ require_once LIB_PATH . '/Extension/reports/Reports.php';
  * @abstract
  * @package    OpenXPlugin
  * @subpackage Reports
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class Plugins_ReportsScope extends Plugins_Reports
 {

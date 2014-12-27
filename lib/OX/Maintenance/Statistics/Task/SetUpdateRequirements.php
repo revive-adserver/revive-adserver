@@ -22,7 +22,6 @@ require_once LIB_PATH . '/Plugin/Component.php';
  *
  * @package    OpenXMaintenance
  * @subpackage Statistics
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OX_Maintenance_Statistics_Task_SetUpdateRequirements extends OX_Maintenance_Statistics_Task
 {

@@ -20,7 +20,6 @@ require_once LIB_PATH . '/Plugin/PluginManager.php';
  *
  * @package    OpenXMaintenance
  * @subpackage Statistics
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_Statistics_Task
 {
@@ -114,7 +113,7 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
                     $oStartDate->addSeconds(1);
                 }
             }
-            
+
             // Check to see if any historical raw data needs to be migrated,
             // post-upgrade, and if so, migrate the data; requires that the
             // default openXDeliveryLog plugin is installed, so the migration

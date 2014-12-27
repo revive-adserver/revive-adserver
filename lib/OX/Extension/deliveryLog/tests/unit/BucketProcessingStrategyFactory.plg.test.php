@@ -17,7 +17,6 @@ require_once LIB_PATH . '/Extension/deliveryLog/BucketProcessingStrategyFactory.
  *
  * @package    OpenXExtension
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew.hill@openx.org>
  *
  * @TODO Complete tests for all cases, once central server strategies have been
  *       implemented.
