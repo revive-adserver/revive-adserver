@@ -13,7 +13,6 @@
 /**
  * @package    OpenXUI
  * @param 	   lang - symbol of language used on administrator UI (default value = 'en')
- * @author     Andrew Hill <andrew.hill@openx.org>
  *
  * A collection of JavaScript functions for formatting numbers.
  *

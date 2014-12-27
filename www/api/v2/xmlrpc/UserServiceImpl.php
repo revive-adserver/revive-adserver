@@ -12,8 +12,6 @@
 
 /**
  * @package    OpenX
- * @author     Matteo Beccati <matteo.beccati@openx.org>
- *
  */
 
 // Require the base class, BaseLogonService

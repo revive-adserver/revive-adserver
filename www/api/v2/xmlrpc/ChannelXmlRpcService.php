@@ -12,10 +12,8 @@
 
 /**
  * @package    OpenX
- * @author     Heiko Weber <heiko@wecos.de>
  *
  * The channel XML-RPC service enables XML-RPC communication with the channel object.
- *
  */
 
 require_once '../../../../init.php';
