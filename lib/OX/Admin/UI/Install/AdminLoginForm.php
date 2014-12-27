@@ -16,9 +16,8 @@ require_once 'BaseForm.php';
 /**
  * @package OX_Admin_UI
  * @subpackage Install
- * @author Bernard Lange <bernard@openx.org> 
  */
-class OX_Admin_UI_Install_AdminLoginForm 
+class OX_Admin_UI_Install_AdminLoginForm
     extends OX_Admin_UI_Install_BaseForm
 {
     /**
@@ -31,9 +30,9 @@ class OX_Admin_UI_Install_AdminLoginForm
         $this->addElement('hidden', 'action', $action);
 
         $this->buildLoginSection();
-    
+
         $this->addElement('controls', 'form-controls');
-        $this->addElement('submit', 'save', $GLOBALS['strLogin']);        
+        $this->addElement('submit', 'save', $GLOBALS['strLogin']);
     }
 
 
@@ -41,12 +40,12 @@ class OX_Admin_UI_Install_AdminLoginForm
     {
         //build form
         $this->addElement('header', 'h_account', '');
-    
+
         $this->addElement('text', 'username', $GLOBALS['strAdminUsername'], array('class' => 'medium'));
         $this->addElement('password', 'password', $GLOBALS['strAdminPassword'],
             array('class' => 'medium'));
-        
-    
+
+
         //Form validation rules
         $this->addRequiredRule('username', $GLOBALS['strAdminUsername']);
         $this->addRequiredRule('password', $GLOBALS['strAdminPassword']);

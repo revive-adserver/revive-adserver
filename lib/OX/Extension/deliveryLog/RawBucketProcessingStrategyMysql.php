@@ -28,7 +28,6 @@ require_once OX_PATH . '/lib/wact/db/db.inc.php';
  *
  * @package    OpenXExtension
  * @subpackage DeliveryLog
- * @author     David Keen <david.keen@openx.org>
  */
 class OX_Extension_DeliveryLog_RawBucketProcessingStrategyMysql implements OX_Extension_DeliveryLog_BucketProcessingStrategy
 {

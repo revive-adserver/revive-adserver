@@ -17,8 +17,6 @@ require_once MAX_PATH . '/lib/max/Delivery/querystring.php';
  *
  * @package    MaxDelivery
  * @subpackage TestSuite
- * @author
- *
  */
 class Test_DeliveryQuerystring extends UnitTestCase
 {

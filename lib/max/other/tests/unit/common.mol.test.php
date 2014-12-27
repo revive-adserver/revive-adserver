@@ -17,7 +17,6 @@ require_once MAX_PATH . '/lib/max/other/common.php';
  *
  * @package    OpenXPlugin
  * @subpackage TestSuite
- * @author     Andrzej Swedrzynski <andrzej.swedrzynski@m3.net>
  */
 class CommonTest extends UnitTestCase
 {

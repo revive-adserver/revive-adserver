@@ -12,8 +12,6 @@
 
 /**
  * @package    MaxDelivery
- * @author     Scott Switzer <scott@switzer.org>
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 
 // Require the initialisation file

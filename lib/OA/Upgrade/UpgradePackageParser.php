@@ -17,7 +17,6 @@ require_once 'XML/Parser.php';
  *
  * Parses an XML schema file
  *
- * @author     Monique Szpak <monique.szpak@openx.org>
  * @package OpenX
  * @category Upgrade
  */

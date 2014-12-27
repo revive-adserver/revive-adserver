@@ -34,7 +34,6 @@ define('OX_DAL_MAINTENANCE_STATISTICS_UPDATE_BOTH', 2);
  *
  * @package    OpenXDal
  * @subpackage MaintenanceStatistics
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
 {

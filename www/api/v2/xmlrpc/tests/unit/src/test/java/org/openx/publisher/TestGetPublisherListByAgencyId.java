@@ -21,8 +21,6 @@ import org.openx.utils.TextUtils;
 
 /**
  * Verify Get Publisher List By Agency Id method
- *
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class TestGetPublisherListByAgencyId extends PublisherTestCase {
 	/**

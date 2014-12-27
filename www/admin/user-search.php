@@ -20,8 +20,6 @@
  *
  * Results of auto completion are limited to those users that are already
  * linked to accounts in the current account realm.
- *
- * @author     Stanislaw Osinski <stanislaw.osinski@openx.org>
  */
 
 $q = strtolower($_GET["q"]);

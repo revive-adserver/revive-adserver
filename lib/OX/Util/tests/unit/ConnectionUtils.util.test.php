@@ -12,7 +12,7 @@
 
 require_once MAX_PATH . '/lib/OX/Util/ConnectionUtils.php';
 
-class OX_Util_ConnectionUtilsMockup 
+class OX_Util_ConnectionUtilsMockup
     extends OX_Util_ConnectionUtils
 {
     // method to set avaliable extension (for test purposes)
@@ -26,12 +26,11 @@ class OX_Util_ConnectionUtilsMockup
  *
  * @package    OpenX
  * @subpackage TestSuite
- * @author     Lukasz Wikierski <lukasz.wikierski@openx.org>
  */
-class OX_Util_ConnectionUtilsTest extends UnitTestCase 
+class OX_Util_ConnectionUtilsTest extends UnitTestCase
 {
-    
-    function testFactoryGetZendHttpClient() 
+
+    function testFactoryGetZendHttpClient()
     {
         OX_Util_ConnectionUtilsMockup::setAvailableSSLExtensions(array('curl'));
         try {
@@ -44,7 +43,7 @@ class OX_Util_ConnectionUtilsTest extends UnitTestCase
             // in case if cUrl isn't loaded
             $this->assertEqual($e->getMessage(), 'cURL extension has to be loaded to use this Zend_Http_Client adapter.');
         }
-        
+
         OX_Util_ConnectionUtilsMockup::setAvailableSSLExtensions(array());
         $oZendHttpClient = OX_Util_ConnectionUtilsMockup::factoryGetZendHttpClient();
         $this->assertIsA($oZendHttpClient, 'Zend_Http_Client');
@@ -60,7 +59,7 @@ class OX_Util_ConnectionUtilsTest extends UnitTestCase
         $exportZendHttpClient = var_export($oZendHttpClient, true);
         $this->assertFalse(strpos($exportZendHttpClient, 'Zend_Http_Client_Adapter_Curl::__set_state'));
         $this->assertTrue(strpos($exportZendHttpClient, "'adapter' => 'Zend_Http_Client_Adapter_Socket'"));
-        
+
         OX_Util_ConnectionUtilsMockup::setAvailableSSLExtensions(false);
         $oZendHttpClient = OX_Util_ConnectionUtilsMockup::factoryGetZendHttpClient();
         $this->assertIsA($oZendHttpClient, 'Zend_Http_Client');
@@ -82,7 +81,7 @@ class OX_Util_ConnectionUtilsTest extends UnitTestCase
         $this->assertFalse(OX_Util_ConnectionUtilsMockup::isSSLAvailable());
         OX_Util_ConnectionUtilsMockup::setAvailableSSLExtensions(array('openssl', 'curl'));
         $this->assertTrue(OX_Util_ConnectionUtilsMockup::isSSLAvailable());
-        
+
     }
 }
 

@@ -17,7 +17,6 @@ require_once LIB_PATH . '/Plugin/Component.php';
  *
  * @package    OpenXPlugin
  * @subpackage TestSuite
- * @author     Lukasz Wikierski <lukasz.wikierski@openx.org>
  */
 class Plugins_TestOfPlugins_openXDeliveryCacheStore extends UnitTestCase
 {

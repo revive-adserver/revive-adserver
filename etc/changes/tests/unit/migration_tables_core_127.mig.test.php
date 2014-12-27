@@ -19,7 +19,6 @@ require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
  *
  * @package    changes
  * @subpackage TestSuite
- * @author     Andrzej Swedrzynski <andrzej.swedrzynski@openx.org>
  */
 class migration_tables_core_127Test extends MigrationTest
 {

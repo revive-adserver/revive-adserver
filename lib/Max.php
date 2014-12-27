@@ -17,8 +17,6 @@ require_once OX_PATH . '/lib/pear/PEAR.php';
  * The main OpenX class.
  *
  * @package    Max
- * @author     Andrew Hill <andrew@m3.net>
- * @author     Demian Turner <demian@m3.net>
  */
 class MAX
 {

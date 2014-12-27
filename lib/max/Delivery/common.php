@@ -25,7 +25,6 @@ require_once MAX_PATH . '/lib/max/Delivery/log.php';
 /**
  * @package    MaxDelivery
  * @subpackage common
- * @author     Chris Nutting <chris@m3.net>
  *
  * This library defines functions that need to be available to
  * all delivery engine scripts

@@ -16,8 +16,6 @@
 // | Author: Alan Knowles <alan@akbkhome.com>                             |
 // | Based on HTML_Common by: Adam Daniel <adaniel1@eesus.jnj.com>        |
 // +----------------------------------------------------------------------+
-//
-// $Id$
 
 /**
  * Lightweight HTML Element builder and render
@@ -25,7 +23,7 @@
  * This differs from HTML_Common in the following ways:
  *
  * $element->attributes is Public
- * $element->override if set to anything other than false, renders the value rather than 
+ * $element->override if set to anything other than false, renders the value rather than
  *   the defined element
  *
  * $element->children is a recursvable child array which is rendered by toHTML
@@ -36,14 +34,14 @@
  * Full support for Select, and common Form elements using
  * setValue()
  * setOptions()
- * 
+ *
  * overlay support with SetFrom - base + inherited..
  *
  * attributes array values:
  *  key="value" // standard key="value" in output
  *  key = true // outputs just key.
  *
- * children can be 
+ * children can be
  *  another HTML_Element
  *  or string (raw text)
  *
@@ -55,7 +53,7 @@
  */
 class HTML_Template_Flexy_Element {
 
-    
+
 
     /**
      * Tag that this Element represents.
@@ -66,7 +64,7 @@ class HTML_Template_Flexy_Element {
     /**
      * Associative array of table attributes
      * Note Special values:
-     *   true == only display the key 
+     *   true == only display the key
      *   false == remove
      *
      * @var  array
@@ -76,15 +74,15 @@ class HTML_Template_Flexy_Element {
 
     /**
      * Sequence array of children
-     * children that are strings are assumed to be text 
+     * children that are strings are assumed to be text
      * @var  array
      * @access   public
      */
     var $children = array();
-    
+
     /**
      * override the tag.
-     * if this is set to anything other than false, it will be output 
+     * if this is set to anything other than false, it will be output
      * rather than the tags+children
      * @var  array
      * @access   public
@@ -104,7 +102,7 @@ class HTML_Template_Flexy_Element {
      * @access   private
      */
     var $suffix = '';
-    
+
     /**
      * a value for delayed merging into live objects
      * if you set this on an element, it is merged by setValue, at merge time.
@@ -114,23 +112,23 @@ class HTML_Template_Flexy_Element {
     var $value = null;
     /**
      * Class constructor
-     * @param    mixed   $attributes     Associative array of table tag attributes 
+     * @param    mixed   $attributes     Associative array of table tag attributes
      *                                   or HTML attributes name="value" pairs
      * @access   public
      */
     function HTML_Template_Flexy_Element($tag='', $attributes=null)
     {
-        
+
         $this->tag = strtolower($tag);
         if (false !== strpos($tag, ':')) {
             $bits = explode(':',$this->tag);
             $this->tag = $bits[0] . ':'.strtolower($bits[1]);
         }
-        
+
         $this->setAttributes($attributes);
     } // end constructor
 
-      
+
     /**
      * Returns an HTML formatted attribute string
      * @param    array   $attributes
@@ -141,14 +139,14 @@ class HTML_Template_Flexy_Element {
     {
         $strAttr = '';
         $xhtmlclose = '';
-        
+
         foreach ($this->attributes as $key => $value) {
-        
+
             // you shouldn't do this, but It shouldnt barf when you do..
             if (is_array($value) || is_object($value)) {
                 continue;
             }
-            
+
             if ($key == 'flexy:xhtml') {
                 continue;
             }
@@ -168,10 +166,10 @@ class HTML_Template_Flexy_Element {
                 }
             } else {
                 // dont replace & with &amp;
-                $strAttr .= ' ' . $key . '="' . 
+                $strAttr .= ' ' . $key . '="' .
                     str_replace('&amp;','&',htmlspecialchars($value)) . '"';
             }
-            
+
         }
         $strAttr .= $xhtmlclose;
         return $strAttr;
@@ -218,15 +216,15 @@ class HTML_Template_Flexy_Element {
         }
     } // end func _parseAttributes
 
-     
-     
-       
+
+
+
     /**
      * Utility function to set values from common tag types.
      * @param    HTML_Element   $from  override settings from another element.
      * @access   public
      */
-     
+
     function setValue($value) {
         // store the value in all situations
         $this->value = $value;
@@ -248,7 +246,7 @@ class HTML_Template_Flexy_Element {
                         }
                         //print_r($this); echo "SET TO "; serialize($value);
                         if (substr($this->attributes['name'],-2) == '[]') {
-                            if (is_array($value) && 
+                            if (is_array($value) &&
                                 in_array((string) $this->attributes['value'],$value)
                                 ) {
                                 $this->attributes['checked'] =  true;
@@ -258,61 +256,61 @@ class HTML_Template_Flexy_Element {
                         if ($this->attributes['value'] == $value) {
                             $this->attributes['checked'] =  true;
                         }
-                        
-                        
+
+
                         return;
                     case 'radio':
                         if (isset($this->attributes['checked'])) {
                             unset($this->attributes['checked']);
                         }
-                        
+
                         if ($this->attributes['value'] == $value) {
                             $this->attributes['checked'] =  true;
                         }
                         return;
-                    
+
                     default:
                         // no other input accepts array as a value.
                         if (is_array($value)) {
                             return;
                         }
-                    
+
                         $this->attributes['value'] = $value;
                         return;
                 }
-                
+
             case 'select':
-                
+
                 if (!is_array($value)) {
                     $value = array($value);
                 }
-                
+
                 // its setting the default value..
-                
+
                 foreach($this->children as $i=>$child) {
-                    
+
                     if (is_string($child)) {
                         continue;
                     }
                     if ($child->tag == 'optgroup') {
                         foreach($this->children[$i]->children as $ii=>$child) {
-                        
+
                             // does the value exist and match..
-                            if (isset($child->attributes['value']) 
-                                && in_array((string) $child->attributes['value'], $value)) 
+                            if (isset($child->attributes['value'])
+                                && in_array((string) $child->attributes['value'], $value))
                             {
-                                $this->children[$i]->children[$ii]->attributes['selected'] = 
+                                $this->children[$i]->children[$ii]->attributes['selected'] =
                                     isset($this->attributes['flexy:xhtml']) ? 'selected' : true;
                                 continue;
                             }
-                            if (isset($child->attributes['value']) && 
-                                isset($this->children[$i]->children[$ii]->attributes['selected'])) 
+                            if (isset($child->attributes['value']) &&
+                                isset($this->children[$i]->children[$ii]->attributes['selected']))
                             {
                                 unset($this->children[$i]->children[$ii]->attributes['selected']);
                                 continue;
                             }
                             // value doesnt exst..
-                          
+
                             if (isset($this->children[$i]->children[$ii]->attributes['selected'])) {
                                 unset($this->children[$i]->children[$ii]->attributes['selected']);
                                 continue;
@@ -320,17 +318,17 @@ class HTML_Template_Flexy_Element {
                         }
                         continue;
                     }
-                    
+
                     // standard option value...
                     //echo "testing {$child->attributes['value']} against ". print_r($value,true)."\n";
                     // does the value exist and match..
-                    
-                    if (isset($child->attributes['value']) 
-                        && in_array((string) $child->attributes['value'], $value)) 
+
+                    if (isset($child->attributes['value'])
+                        && in_array((string) $child->attributes['value'], $value))
                     {
                        // echo "MATCH!\n";
-                      
-                        $this->children[$i]->attributes['selected'] = 
+
+                        $this->children[$i]->attributes['selected'] =
                             isset($this->attributes['flexy:xhtml']) ? 'selected' : true;;
                         continue;
                     }
@@ -339,28 +337,28 @@ class HTML_Template_Flexy_Element {
                         && is_string($child->children[0])
                         && in_array((string) $child->children[0], $value))
                     {
-                        
+
                         $this->children[$i]->attributes['selected'] =
                             isset($this->attributes['flexy:xhtml']) ? 'selected' : true;
                         continue;
                     }
-                     
-                    if (isset($child->attributes['value']) && 
-                        isset($this->children[$i]->attributes['selected'])) 
+
+                    if (isset($child->attributes['value']) &&
+                        isset($this->children[$i]->attributes['selected']))
                     {
                         //echo "clearing selected\n";
                         unset($this->children[$i]->attributes['selected']);
                         continue;
                     }
                     // value doesnt exst..
-                    
+
                     if (isset($this->children[$i]->attributes['selected'])) {
                         //echo "clearing selected\n";
                         unset($this->children[$i]->attributes['selected']);
                         continue;
                     }
-                    
-                    
+
+
                 }
                 return;
             case 'textarea':
@@ -369,34 +367,34 @@ class HTML_Template_Flexy_Element {
             case '':  // dummy objects.
                 $this->value = $value;
                 return;
-                
+
             // XUL elements
             case 'menulist':
                 require_once 'HTML/Template/Flexy/Element/Xul.php';
                 HTML_Template_Flexy_Element_Xul::setValue($this,$value);
                 return ;
-                
+
             default:
                 if (is_array($value)) {
                     return;
                 }
                 $this->value = $value;
         }
-            
-        
-    
-    
+
+
+
+
     }
     /**
-     * Utility function equivilant to HTML_Select - loadArray ** 
-     * but using 
-     * key=>value maps 
+     * Utility function equivilant to HTML_Select - loadArray **
+     * but using
+     * key=>value maps
      * <option value="key">Value</option>
      * Key=key (eg. both the same) maps to
      * <option>key</option>
-     * and label = array(key=>value) maps to 
+     * and label = array(key=>value) maps to
      * <optgroup label="label"> <option value="key">value</option></optgroup>
-     * 
+     *
      * $element->setOptions(array('a'=>'xxx','b'=>'yyy'));
      * or
      * $element->setOptions(array('a','b','c','d'),true);
@@ -407,29 +405,29 @@ class HTML_Template_Flexy_Element {
      * @param    HTML_Element   $noValue  ignore the key part of the array
      * @access   public
      */
-     
+
     function setOptions($array,$noValue=false) {
         if (!is_array($array)) {
             $this->children = array();
             return;
         }
-        
-        
+
+
         $tag = strtolower($this->tag);
         $namespace = '';
         if (false !== strpos($this->tag, ':')) {
-            
+
             $bits = explode(':',$this->tag);
             $namespace = $bits[0] . ':';
             $tag = strtolower($bits[1]);
-            
+
         }
         // if we have specified a xultag!!?
         if (strlen($tag) && ($tag != 'select')) {
                 require_once 'HTML/Template/Flexy/Element/Xul.php';
                 return HTML_Template_Flexy_Element_Xul::setOptions($this,$array,$noValue);
         }
-        
+
         foreach($array as $k=>$v) {
             if (is_array($v)) {     // optgroup
                 $child = new HTML_Template_Flexy_Element($namespace . 'optgroup',array('label'=>$k));
@@ -444,7 +442,7 @@ class HTML_Template_Flexy_Element {
                 }
                 $this->children[] = $child;
                 continue;
-            } 
+            }
             $atts=array();
             if (($k !== $v) && !$noValue) {
                 $atts = array('value'=>$k);
@@ -455,14 +453,14 @@ class HTML_Template_Flexy_Element {
             $add->children = array(htmlspecialchars($v));
             $this->children[] = $add;
         }
-       
+
     }
     /**
      * Sets the HTML attributes
      * @param    mixed   $attributes     Either a typical HTML attribute string or an associative array
      * @access   public
      */
-     
+
     function setAttributes($attributes)
     {
         $attrs= $this->parseAttributes($attributes);
@@ -476,7 +474,7 @@ class HTML_Template_Flexy_Element {
 
     /**
      * Removes an attributes
-     * 
+     *
      * @param     string    $attr   Attribute name
      * @since     1.4
      * @access    public
@@ -488,14 +486,14 @@ class HTML_Template_Flexy_Element {
         if (is_string($attrs)) {
             $attrs = array($attrs);
         }
-        foreach ($attrs as $attr) { 
+        foreach ($attrs as $attr) {
             if (isset($this->attributes[strtolower($attr)])) {
                  $this->attributes[strtolower($attr)] = false;
-            } 
+            }
         }
     } //end func removeAttribute
 
-      
+
     /**
      * Output HTML and children
      *
@@ -506,13 +504,13 @@ class HTML_Template_Flexy_Element {
      */
     function toHtml($overlay=false)
     {
-         
+
         //echo "BEFORE<PRE>";print_R($this);
         $ret = $this;
         if ($overlay !== false) {
             $ret = HTML_Template_Flexy::mergeElement($this,$overlay);
         }
-        
+
         if ($ret->override !== false) {
             return $ret->override;
         }
@@ -525,13 +523,13 @@ class HTML_Template_Flexy_Element {
             $suffix = $suffix->toHtml();
         }
         //echo "AFTER<PRE>";print_R($ret);
-      
+
         $tag = $this->tag;
         if (strpos($tag,':') !==  false) {
             $bits = explode(':',$tag);
             $tag = $bits[1];
         }
-        // tags that never should have closers  
+        // tags that never should have closers
         $close = "</{$ret->tag}>";
         if (in_array(strtoupper($tag),array("INPUT","IMG"))) {
             $close = '';
@@ -541,13 +539,13 @@ class HTML_Template_Flexy_Element {
         }
 
         $close .= $suffix ;
-       
+
         return "{$prefix}<{$ret->tag}".$ret->attributesToHTML() . '>'.$ret->childrenToHTML() .$close;
-        
-         
+
+
     } // end func toHtml
-    
-    
+
+
     /**
      * Output Open Tag and any children and not Child tag (designed for use with <form + hidden elements>
      *
@@ -565,14 +563,14 @@ class HTML_Template_Flexy_Element {
         if ($overlay !== false) {
             $ret = HTML_Template_Flexy::mergeElement($this,$overlay);
         }
-        
-  
+
+
         return "<{$ret->tag}".$ret->attributesToHTML() . '>' . $ret->childrenToHTML();
-       
-         
+
+
     } // end func toHtml
-    
-    
+
+
     /**
      * Output HTML and children
      *
@@ -588,14 +586,14 @@ class HTML_Template_Flexy_Element {
                 $ret .= $child;
                 continue;
             }
-            
+
             $ret .= $child->toHtml();
         }
         return $ret;
     } // end func toHtml
-    
-     
-    
-    
-    
+
+
+
+
+
 } // end class HTML_Template_Flexy_Element

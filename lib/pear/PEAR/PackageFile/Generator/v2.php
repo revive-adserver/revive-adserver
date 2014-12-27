@@ -16,7 +16,6 @@
  * @author     Stephan Schmidt (original XML_Serializer code)
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 1.4.0a1
  */
@@ -203,7 +202,7 @@ http://pear.php.net/dtd/package-2.0.xsd',
             if (!isset($contents[0])) {
                 $contents = array($contents);
             }
-    
+
             $packageDir = $where;
             foreach ($contents as $i => $file) {
                 $fname = $file['attribs']['name'];
@@ -477,7 +476,7 @@ http://pear.php.net/dtd/package-2.0.xsd',
     {
         $this->options[$name] = $value;
     }
-    
+
    /**
     * sets several options at once
     *
@@ -513,7 +512,7 @@ http://pear.php.net/dtd/package-2.0.xsd',
         else {
             $optionsBak = null;
         }
-        
+
         //  start depth is zero
         $this->_tagDepth = 0;
 
@@ -528,7 +527,7 @@ http://pear.php.net/dtd/package-2.0.xsd',
 
             $this->_serializedData .= $this->_serializeArray($data, $tagName, $this->options['rootAttributes']);
         }
-        
+
         // add doctype declaration
         if ($this->options['addDoctype'] === true) {
             $this->_serializedData = PEAR_PackageFile_Generator_v2_XML_Util::getDoctypeDeclaration($tagName, $this->options['doctype'])
@@ -548,12 +547,12 @@ http://pear.php.net/dtd/package-2.0.xsd',
                                    . $this->options['linebreak']
                                    . $this->_serializedData;
         }
-        
-        
+
+
 		if ($optionsBak !== null) {
 			$this->options = $optionsBak;
 		}
-		
+
         return  true;
     }
 
@@ -570,7 +569,7 @@ http://pear.php.net/dtd/package-2.0.xsd',
         }
         return $this->_serializedData;
     }
-    
+
    /**
     * serialize any value
     *
@@ -598,7 +597,7 @@ http://pear.php.net/dtd/package-2.0.xsd',
         }
         return $xml;
     }
-    
+
    /**
     * serialize an array
     *
@@ -612,7 +611,7 @@ http://pear.php.net/dtd/package-2.0.xsd',
     function _serializeArray(&$array, $tagName = null, $attributes = array())
     {
         $_content = null;
-        
+
         /**
          * check for special attributes
          */
@@ -676,7 +675,7 @@ http://pear.php.net/dtd/package-2.0.xsd',
                             $this->_curdir = $savedir;
                         }
                     }
-                    
+
                     $string .= $this->options['linebreak'];
         			//	do indentation
                     if ($this->options['indent']!==null && $this->_tagDepth>0) {
@@ -686,7 +685,7 @@ http://pear.php.net/dtd/package-2.0.xsd',
                 return rtrim($string);
             }
         }
-        
+
 		if ($this->options['scalarAsAttributes'] === true) {
 	        foreach ($array as $key => $value) {
 				if (is_scalar($value) && (PEAR_PackageFile_Generator_v2_XML_Util::isValidName($key) === true)) {
@@ -712,7 +711,7 @@ http://pear.php.net/dtd/package-2.0.xsd',
                 if ($this->options['indent']!==null && $this->_tagDepth>0) {
                     $tmp .= str_repeat($this->options['indent'], $this->_tagDepth);
                 }
-    
+
     			//	copy key
     			$origKey	=	$key;
     			//	key cannot be used as tagname => use default tag
@@ -730,7 +729,7 @@ http://pear.php.net/dtd/package-2.0.xsd',
     				if ($key !== $origKey) {
     					$atts[$this->options['keyAttribute']] = (string)$origKey;
     				}
-    
+
                 }
                 if ($this->options['beautifyFilelist'] && $key == 'dir') {
                     if (!isset($this->_curdir)) {
@@ -766,16 +765,16 @@ http://pear.php.net/dtd/package-2.0.xsd',
                 }
                 $tmp .= $this->options['linebreak'];
             }
-            
+
             $this->_tagDepth--;
             if ($this->options['indent']!==null && $this->_tagDepth>0) {
                 $tmp .= str_repeat($this->options['indent'], $this->_tagDepth);
             }
-    
+
     		if (trim($tmp) === '') {
     			$tmp = null;
     		}
-    		
+
             $tag = array(
                             'qname'      => $tagName,
                             'content'    => $tmp,
@@ -791,7 +790,7 @@ http://pear.php.net/dtd/package-2.0.xsd',
         $string = $this->_createXMLTag($tag, false);
         return $string;
     }
-  
+
    /**
     * create a tag from an array
     * this method awaits an array in the following format
@@ -824,7 +823,7 @@ http://pear.php.net/dtd/package-2.0.xsd',
             $multiline = false;
             $indent    = false;
         }
-    
+
         if (is_array($tag['content'])) {
             if (empty($tag['content'])) {
                 $tag['content'] =   '';
@@ -832,7 +831,7 @@ http://pear.php.net/dtd/package-2.0.xsd',
         } elseif(is_scalar($tag['content']) && (string)$tag['content'] == '') {
             $tag['content'] =   '';
         }
-    
+
         if (is_scalar($tag['content']) || is_null($tag['content'])) {
             if ($this->options['encoding'] == 'UTF-8' &&
                   version_compare(phpversion(), '5.0.0', 'lt')) {
@@ -870,8 +869,6 @@ http://pear.php.net/dtd/package-2.0.xsd',
 // +----------------------------------------------------------------------+
 // | Authors: Stephan Schmidt <schst@php-tools.net>                       |
 // +----------------------------------------------------------------------+
-//
-//    $Id$
 
 /**
  * error code for invalid chars in XML name
@@ -887,12 +884,12 @@ define("PEAR_PackageFile_Generator_v2_XML_Util_ERROR_INVALID_START", 52);
  * error code for non-scalar tag content
  */
 define("PEAR_PackageFile_Generator_v2_XML_Util_ERROR_NON_SCALAR_CONTENT", 60);
-    
+
 /**
  * error code for missing tag name
  */
 define("PEAR_PackageFile_Generator_v2_XML_Util_ERROR_NO_TAG_NAME", 61);
-    
+
 /**
  * replace XML entities
  */
@@ -934,7 +931,7 @@ define("PEAR_PackageFile_Generator_v2_XML_Util_ENTITIES_UTF8_XML", 4);
 
 /**
  * utility class for working with XML documents
- * 
+ *
  * customized version of XML_Util 0.6.0
  *
  * @category XML
@@ -965,7 +962,7 @@ class PEAR_PackageFile_Generator_v2_XML_Util {
     *
     * <code>
     * require_once 'XML/Util.php';
-    * 
+    *
     * // replace XML entites:
     * $string = PEAR_PackageFile_Generator_v2_XML_Util::replaceEntities("This string contains < & >.");
     * </code>
@@ -1013,7 +1010,7 @@ class PEAR_PackageFile_Generator_v2_XML_Util {
     *
     * <code>
     * require_once 'XML/Util.php';
-    * 
+    *
     * // get an XML declaration:
     * $xmlDecl = PEAR_PackageFile_Generator_v2_XML_Util::getXMLDeclaration("1.0", "UTF-8", true);
     * </code>
@@ -1039,7 +1036,7 @@ class PEAR_PackageFile_Generator_v2_XML_Util {
         if ($standalone !== null) {
             $attributes["standalone"] = $standalone ? "yes" : "no";
         }
-        
+
         return sprintf("<?xml%s?>", PEAR_PackageFile_Generator_v2_XML_Util::attributesToString($attributes, false));
     }
 
@@ -1048,7 +1045,7 @@ class PEAR_PackageFile_Generator_v2_XML_Util {
     *
     * <code>
     * require_once 'XML/Util.php';
-    * 
+    *
     * // get a doctype declaration:
     * $xmlDecl = PEAR_PackageFile_Generator_v2_XML_Util::getDocTypeDeclaration("rootTag","myDocType.dtd");
     * </code>
@@ -1057,7 +1054,7 @@ class PEAR_PackageFile_Generator_v2_XML_Util {
     * @static
     * @param    string  $root         name of the root tag
     * @param    string  $uri          uri of the doctype definition (or array with uri and public id)
-    * @param    string  $internalDtd  internal dtd entries   
+    * @param    string  $internalDtd  internal dtd entries
     * @return   string  $decl         doctype declaration
     * @since    0.2
     */
@@ -1083,14 +1080,14 @@ class PEAR_PackageFile_Generator_v2_XML_Util {
     *
     * <code>
     * require_once 'XML/Util.php';
-    * 
+    *
     * // build an attribute string
     * $att = array(
     *              "foo"   =>  "bar",
     *              "argh"  =>  "tomato"
     *            );
     *
-    * $attList = PEAR_PackageFile_Generator_v2_XML_Util::attributesToString($att);    
+    * $attList = PEAR_PackageFile_Generator_v2_XML_Util::attributesToString($att);
     * </code>
     *
     * @access   public
@@ -1167,7 +1164,7 @@ class PEAR_PackageFile_Generator_v2_XML_Util {
     *
     * <code>
     * require_once 'XML/Util.php';
-    * 
+    *
     * // create an XML tag:
     * $tag = PEAR_PackageFile_Generator_v2_XML_Util::createTag("myNs:myTag", array("foo" => "bar"), "This is inside the tag", "http://www.w3c.org/myNs#");
     * </code>
@@ -1198,7 +1195,7 @@ class PEAR_PackageFile_Generator_v2_XML_Util {
         if ($content !== null) {
             $tag["content"] = $content;
         }
-        
+
         // add namespace Uri
         if ($namespaceUri !== null) {
             $tag["namespaceUri"] = $namespaceUri;
@@ -1223,7 +1220,7 @@ class PEAR_PackageFile_Generator_v2_XML_Util {
     *
     * <code>
     * require_once 'XML/Util.php';
-    * 
+    *
     * $tag = array(
     *           "qname"        => "foo:bar",
     *           "namespaceUri" => "http://foo.com",
@@ -1260,7 +1257,7 @@ class PEAR_PackageFile_Generator_v2_XML_Util {
         if (!isset($tag["attributes"]) || !is_array($tag["attributes"])) {
             $tag["attributes"] = array();
         }
-        
+
         // qualified name is not given
         if (!isset($tag["qname"])) {
             // check for namespace
@@ -1294,7 +1291,7 @@ class PEAR_PackageFile_Generator_v2_XML_Util {
                 $indent = str_repeat(" ", (strlen($tag["qname"])+2));
             }
         }
-        
+
         // create attribute list
         $attList    =   PEAR_PackageFile_Generator_v2_XML_Util::attributesToString($tag["attributes"], true, $multiline, $indent, $linebreak );
         if (!isset($tag["content"]) || (string)$tag["content"] == '') {
@@ -1306,7 +1303,7 @@ class PEAR_PackageFile_Generator_v2_XML_Util {
                 $tag["content"] = PEAR_PackageFile_Generator_v2_XML_Util::createCDataSection($tag["content"]);
             }
             $tag    =   sprintf("<%s%s>%s</%s>", $tag["qname"], $attList, $tag["content"], $tag["qname"] );
-        }        
+        }
         return  $tag;
     }
 
@@ -1315,7 +1312,7 @@ class PEAR_PackageFile_Generator_v2_XML_Util {
     *
     * <code>
     * require_once 'XML/Util.php';
-    * 
+    *
     * // create an XML start element:
     * $tag = PEAR_PackageFile_Generator_v2_XML_Util::createStartElement("myNs:myTag", array("foo" => "bar") ,"http://www.w3c.org/myNs#");
     * </code>
@@ -1337,7 +1334,7 @@ class PEAR_PackageFile_Generator_v2_XML_Util {
         if (!isset($attributes) || !is_array($attributes)) {
             $attributes = array();
         }
-        
+
         if ($namespaceUri != null) {
             $parts = PEAR_PackageFile_Generator_v2_XML_Util::splitQualifiedName($qname);
         }
@@ -1370,7 +1367,7 @@ class PEAR_PackageFile_Generator_v2_XML_Util {
     *
     * <code>
     * require_once 'XML/Util.php';
-    * 
+    *
     * // create an XML start element:
     * $tag = PEAR_PackageFile_Generator_v2_XML_Util::createEndElement("myNs:myTag");
     * </code>
@@ -1386,13 +1383,13 @@ class PEAR_PackageFile_Generator_v2_XML_Util {
         $element    =   sprintf("</%s>", $qname);
         return  $element;
     }
-    
+
    /**
     * create an XML comment
     *
     * <code>
     * require_once 'XML/Util.php';
-    * 
+    *
     * // create an XML start element:
     * $tag = PEAR_PackageFile_Generator_v2_XML_Util::createComment("I am a comment");
     * </code>
@@ -1407,13 +1404,13 @@ class PEAR_PackageFile_Generator_v2_XML_Util {
         $comment    =   sprintf("<!-- %s -->", $content);
         return  $comment;
     }
-    
+
    /**
     * create a CData section
     *
     * <code>
     * require_once 'XML/Util.php';
-    * 
+    *
     * // create a CData section
     * $tag = PEAR_PackageFile_Generator_v2_XML_Util::createCDataSection("I am content.");
     * </code>
@@ -1433,7 +1430,7 @@ class PEAR_PackageFile_Generator_v2_XML_Util {
     *
     * <code>
     * require_once 'XML/Util.php';
-    * 
+    *
     * // split qualified tag
     * $parts = PEAR_PackageFile_Generator_v2_XML_Util::splitQualifiedName("xslt:stylesheet");
     * </code>
@@ -1478,7 +1475,7 @@ class PEAR_PackageFile_Generator_v2_XML_Util {
     *
     * <code>
     * require_once 'XML/Util.php';
-    * 
+    *
     * // verify tag name
     * $result = PEAR_PackageFile_Generator_v2_XML_Util::isValidName("invalidTag?");
     * if (PEAR_PackageFile_Generator_v2_XML_Util::isError($result)) {
@@ -1498,7 +1495,7 @@ class PEAR_PackageFile_Generator_v2_XML_Util {
         if (!preg_match("/^[[:alnum:]_\-.]\\z/", $string{0})) {
             return PEAR_PackageFile_Generator_v2_XML_Util::raiseError( "XML names may only start with letter or underscore", PEAR_PackageFile_Generator_v2_XML_Util_ERROR_INVALID_START );
         }
-        
+
         // check for invalid chars
         if (!preg_match("/^([a-zA-Z_]([a-zA-Z0-9_\-\.]*)?:)?[a-zA-Z_]([a-zA-Z0-9_\-\.]+)?\\z/", $string)) {
             return PEAR_PackageFile_Generator_v2_XML_Util::raiseError( "XML names may only contain alphanumeric chars, period, hyphen, colon and underscores", PEAR_PackageFile_Generator_v2_XML_Util_ERROR_INVALID_CHARS );

@@ -22,7 +22,6 @@ require_once LIB_PATH . '/Admin/Redirect.php';
  *
  * @package    OpenXAdmin
  * @subpackage Reports
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_Admin_Reports_Generate
 {

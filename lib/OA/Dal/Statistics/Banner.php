@@ -13,8 +13,6 @@
 /**
  * @package    OpenXDal
  * @subpackage Statistics
- * @author     Ivan Klishch <iklishch@lohika.com>
- *
  */
 
 // Required classes

@@ -36,7 +36,6 @@ define('OA_DB_ADVISORYLOCK_DISTRIBUTED',  '2');
  *
  * @package    OpenXDB
  * @subpackage AdvisoryLock
- * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
 class OA_DB_AdvisoryLock
 {

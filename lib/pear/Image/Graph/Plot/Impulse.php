@@ -24,7 +24,6 @@
  * @author     Jesper Veggerby <pear.nosey@veggerby.dk>
  * @copyright  Copyright (C) 2003, 2004 Jesper Veggerby Hansen
  * @license    http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/Image_Graph
  */
 
@@ -78,9 +77,9 @@ class Image_Graph_Plot_Impulse extends Image_Graph_Plot
         if (!is_array($this->_dataset)) {
             return false;
         }
-        
+
         $this->_canvas->startGroup(get_class($this) . '_' . $this->_title);
-        $this->_clip(true);       
+        $this->_clip(true);
 
         if ($this->_multiType == 'stacked100pct') {
             $total = $this->_getTotals();
@@ -181,9 +180,9 @@ class Image_Graph_Plot_Impulse extends Image_Graph_Plot
                         $this->_mergeData(
                             $point,
                             array(
-                                'x0' => $x1, 
-                                'y0' => $y1, 
-                                'x1' => $x2, 
+                                'x0' => $x1,
+                                'y0' => $y1,
+                                'x1' => $x2,
                                 'y1' => $y2
                             )
                         )
@@ -195,7 +194,7 @@ class Image_Graph_Plot_Impulse extends Image_Graph_Plot
         unset($keys);
         $this->_drawMarker();
         $this->_clip(false);
-        $this->_canvas->endGroup();        
+        $this->_canvas->endGroup();
         return true;
     }
 

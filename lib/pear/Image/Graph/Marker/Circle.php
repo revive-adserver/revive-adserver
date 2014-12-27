@@ -24,7 +24,6 @@
  * @author     Jesper Veggerby <pear.nosey@veggerby.dk>
  * @copyright  Copyright (C) 2003, 2004 Jesper Veggerby Hansen
  * @license    http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/Image_Graph
  */
 
@@ -74,15 +73,15 @@ class Image_Graph_Marker_Circle extends Image_Graph_Marker
         $dA = 2*pi()/($this->_size*2);
         $angle = 0;
         while ($angle < 2*pi()) {
-            $this->_canvas->addVertex(array('x' => 
-                $x + $this->_size*cos($angle), 'y' => 
+            $this->_canvas->addVertex(array('x' =>
+                $x + $this->_size*cos($angle), 'y' =>
                 $y - $this->_size*sin($angle)
             ));
             $angle += $dA;
         }
 
-        $this->_canvas->addVertex(array('x' => 
-            $x + $this->_size*cos(0), 'y' => 
+        $this->_canvas->addVertex(array('x' =>
+            $x + $this->_size*cos(0), 'y' =>
             $y - $this->_size*sin(0)
         ));
 

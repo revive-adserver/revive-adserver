@@ -12,8 +12,6 @@
  * Read the entire license text here: http://www.gnu.org/licenses/lgpl.html
  */
 
-// $Id$
-
 /** The Calendar object constructor. */
 Calendar = function (firstDayOfWeek, dateStr, onSelected, onClose) {
 	// member variables
@@ -1498,7 +1496,7 @@ Calendar.prototype.hideShowCovered = function () {
 		// Not apply for select items in opera9 and ie7
 	    if ( tags[--k] == "select" && (Calendar.is_opera9up || Calendar.is_ie7up) )
 	       continue;
-		
+
 		var ar = document.getElementsByTagName(tags[k]);
 		var cc = null;
 

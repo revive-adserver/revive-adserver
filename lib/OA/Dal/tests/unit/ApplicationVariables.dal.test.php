@@ -17,7 +17,6 @@ require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
  *
  * @package    OpenXDal
  * @subpackage TestSuite
- * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
 class Test_OA_Dal_ApplicationVariables extends UnitTestCase
 {
@@ -133,10 +132,10 @@ class Test_OA_Dal_ApplicationVariables extends UnitTestCase
         $result = OA_Dal_ApplicationVariables::delete('foo');
         $this->assertFalse($result);
     }
-    
+
     /**
      * Test generatin platform hash
-     * 
+     *
      */
     function testGeneratePlatformHash()
     {

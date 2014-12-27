@@ -15,7 +15,6 @@
  *
  * @package    OpenXExtension
  * @subpackage DeliveryLog
- * @author     David Keen <david.keen@openx.org>
  */
 interface OX_Extension_DeliveryLog_BucketProcessingStrategy {
 

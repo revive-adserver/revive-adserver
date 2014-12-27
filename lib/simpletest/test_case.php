@@ -3,7 +3,6 @@
      *	Base include file for SimpleTest
      *	@package	SimpleTest
      *	@subpackage	UnitTester
-     *	@version	$Id$
      */
 
     /**#@+
@@ -72,7 +71,7 @@
          */
         function skip() {
         }
-		
+
         /**
          *    Will issue a message to the reporter and tell the test
          *    case to skip if the incoming flag is true.
@@ -87,7 +86,7 @@
 				$this->_reporter->paintSkip($message . $this->getAssertionLine());
 			}
         }
-		
+
         /**
          *    Will issue a message to the reporter and tell the test
          *    case to skip if the incoming flag is false.
@@ -98,7 +97,7 @@
         function skipUnless($shouldnt_skip, $message = false) {
 			$this->skipIf(! $shouldnt_skip, $message);
         }
-		
+
         /**
          *    Used to invoke the single tests.
          *    @return SimpleInvoker        Individual test runner.
@@ -612,7 +611,7 @@
             return $count;
         }
     }
-    
+
     /**
      *    @deprecated
      */
@@ -670,7 +669,7 @@
             return 0;
         }
     }
-    
+
     /**
      *    @deprecated
      */

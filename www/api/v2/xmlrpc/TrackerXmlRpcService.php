@@ -18,8 +18,6 @@ require_once MAX_PATH . '/lib/OA/Dll/Tracker.php';
 
 /**
  * Description of TrackerXmlRpcService
- *
- * @author David Keen <david.keen@openx.org>
  */
 class TrackerXmlRpcService extends BaseTrackerService
 {

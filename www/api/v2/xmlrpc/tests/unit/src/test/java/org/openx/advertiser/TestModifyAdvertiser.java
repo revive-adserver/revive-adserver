@@ -19,8 +19,6 @@ import org.openx.utils.TextUtils;
 
 /**
  * Verify Modify Advertiser method
- *
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class TestModifyAdvertiser extends AdvertiserTestCase {
 	private Integer advertiserId;

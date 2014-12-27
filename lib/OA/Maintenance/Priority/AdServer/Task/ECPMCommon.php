@@ -19,10 +19,9 @@ require_once MAX_PATH . '/lib/OX/Util/Utils.php';
 
 /**
  * A common eCPM class.
- * 
+ *
  * @package    OpenXMaintenance
  * @subpackage Priority
- * @author     Radek Maciaszek <radek@urbantrip.com>
  */
 abstract class OA_Maintenance_Priority_AdServer_Task_ECPMCommon extends OA_Maintenance_Priority_AdServer_Task
 {
@@ -30,12 +29,12 @@ abstract class OA_Maintenance_Priority_AdServer_Task_ECPMCommon extends OA_Maint
      * Default alpha parameter used to calculate the probabilities.
      */
     const ALPHA = 5.0;
-    
+
     /**
      * If there is no data forecasted for a zone use this data as a default
      */
     const DEFAULT_ZONE_FORECAST = 100;
-    
+
     /**
      * Indexes used for indexing arrays. More effective than using strings because less memory
      * will be used to store the data.
@@ -69,7 +68,7 @@ abstract class OA_Maintenance_Priority_AdServer_Task_ECPMCommon extends OA_Maint
 
     /**
      * The array of dates when the MPE last ran
-     * Array of Date strings relating to the last run info 
+     * Array of Date strings relating to the last run info
      * (contains 'start_run' and 'now' indexes with the PEAR_Dates)
      *
      * @var array
@@ -102,7 +101,7 @@ abstract class OA_Maintenance_Priority_AdServer_Task_ECPMCommon extends OA_Maint
     abstract public function runAlgorithm();
 
     abstract public function getZonesAllocationByAgency($agencyId);
-    
+
     /**
      * The main method of the class, that is run by the controlling
      * task runner class.
@@ -193,7 +192,7 @@ abstract class OA_Maintenance_Priority_AdServer_Task_ECPMCommon extends OA_Maint
         if(is_null($this->aZonesAvailableImpressions)) {
             $startDateString = $this->aOIDates['start']->format(self::DATE_FORMAT);
             $endDateString = $this->aOIDates['end']->format(self::DATE_FORMAT);
-    
+
             $this->aZonesAvailableImpressions = $this->oDal->getZonesForecasts( $startDateString, $endDateString);
             if (!$this->aZonesAvailableImpressions) {
                 $this->aZonesAvailableImpressions = array();

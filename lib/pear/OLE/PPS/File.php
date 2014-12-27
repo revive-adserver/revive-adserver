@@ -16,9 +16,6 @@
 // | Author: Xavier Noguer <xnoguer@php.net>                              |
 // | Based on OLE::Storage_Lite by Kawai, Takanori                        |
 // +----------------------------------------------------------------------+
-//
-// $Id$
-
 
 require_once ('OLE/PPS.php');
 
@@ -48,7 +45,7 @@ class OLE_PPS_File extends OLE_PPS
     {
         $this->_tmp_dir = '';
         $this->OLE_PPS(
-            null, 
+            null,
             $name,
             OLE_PPS_TYPE_FILE,
             null,
@@ -94,7 +91,7 @@ class OLE_PPS_File extends OLE_PPS
             fseek($this->_PPS_FILE, 0);
         }
     }
-    
+
     /**
     * Append data to PPS
     *

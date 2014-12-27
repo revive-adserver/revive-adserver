@@ -12,10 +12,8 @@
 
 /**
  * @package    OpenXDll
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *
  * The Info class is the base class for all info classes.
- *
  */
 
 

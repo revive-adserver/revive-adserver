@@ -20,8 +20,6 @@ import org.openx.utils.TextUtils;
 
 /**
  * Verify Modify Publisher method
- *
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 
 public class TestModifyPublisher extends PublisherTestCase {

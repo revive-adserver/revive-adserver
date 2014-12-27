@@ -15,7 +15,6 @@ require_once MAX_PATH.'/lib/OA/Dal.php';
 /**
  * OpenX Upgrade Class
  *
- * @author     Monique Szpak <monique.szpak@openx.org>
  */
 class OA_Version_Controller
 {

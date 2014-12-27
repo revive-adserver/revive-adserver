@@ -19,8 +19,6 @@ import org.openx.utils.TextUtils;
 
 /**
  * Verify Link Campaign method
- *
- * @author     David Keen <david.keen@openx.org>
  */
 public class TestTrackerLinkCampaign extends TrackerTestCase {
 

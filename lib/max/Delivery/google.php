@@ -13,7 +13,6 @@
 /**
  * @package    MaxDelivery
  * @subpackage google
- * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
 
 $file = '/lib/max/Delivery/google.php';

@@ -12,10 +12,6 @@
 
 /**
  * OpenX Developer Toolbox
- *
- * @author     Monique Szpak <monique.szpak@openx.org>
- * $Id$
- *
  */
 
 require_once './init.php';

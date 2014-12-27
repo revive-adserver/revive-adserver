@@ -13,8 +13,6 @@
 /**
  * @package    OpenXPlugin
  * @subpackage DeliveryLimitations
- * @author     Chris Nutting <chris@m3.net>
- * @author     Andrzej Swedrzynski <andrzej.swedrzynski@m3.net>
  */
 
 require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
@@ -39,7 +37,7 @@ function MAX_checkClient_Language($limitation, $op, $aParams = array())
     }
     // Strip off q=X if present
     $language = preg_replace('/;q=[0-9\.]+$/', '', $language);
-    
+
     $aLimitation = MAX_limitationsGetAFromS($limitation);
     $aLanguages = MAX_limitationsGetAFromS($language);
 

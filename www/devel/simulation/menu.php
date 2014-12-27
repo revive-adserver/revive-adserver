@@ -22,7 +22,6 @@ require_once 'lib.inc.php';
  *
  * @package     Max
  * @subpackage  SimulationSuite
- * @author      Monique Szpak <monique@m3.net>
  */
 class Menu
 {

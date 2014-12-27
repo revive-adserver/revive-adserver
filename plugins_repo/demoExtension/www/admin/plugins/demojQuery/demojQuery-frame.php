@@ -12,18 +12,13 @@
 
 /**
  * OpenX jQuery ajax functions
- *
- * @author     Bernard Lange <bernard.lange@openx.org>
- *
- * $Id$
- *
  */
 
 require_once '../../../../init.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI.php';
 
-/** 
- since we are loading a page inside of a frame we do not have access to 
+/**
+ since we are loading a page inside of a frame we do not have access to
  scripts defined in top frame. Thus we need to load them on our own if we want to
  use jQuery.
  Please note that scripts.html is an admin template not a plugin template

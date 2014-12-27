@@ -19,7 +19,6 @@ require_once MAX_PATH.'/lib/OX/Admin/UI/Install/InstallUtils.php';
  * Controller to get install plugin tasks urls
  *
  * @package    OpenXUpgrade
- * @author     Lukasz Wikierski <lukasz.wikierski@openx.org>
  */
 class OX_Upgrade_InstallPlugin_Controller
 {

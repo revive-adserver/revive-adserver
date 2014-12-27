@@ -43,9 +43,6 @@ require_once MAX_PATH . '/lib/OX.php';
  *
  * @package    OpenX
  * @subpackage Utils
- * @author     Heiko Weber <heiko@wecos.de>
- * @author     Chris Nutting <chris.nutting@openx.org>
- * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  */
 class OX_Util_CodeMunger
 {

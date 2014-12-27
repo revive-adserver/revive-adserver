@@ -13,8 +13,6 @@
 /**
  * @package    OpenXDelivery
  * @subpackage Trackers
- * @author     Chris Nutting <chris.nutting@openx.org>
- *
  */
 
 /**

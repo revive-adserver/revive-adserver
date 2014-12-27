@@ -18,7 +18,6 @@
  *
  * @package    OpenXExtension
  * @subpackage DeliveryLog
- * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  */
 class OX_Extension_DeliveryLog_DB_Common
 {

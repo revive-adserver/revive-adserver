@@ -25,7 +25,6 @@ define('TMP_CONFIG_PATH', MAX_PATH . '/var/config.inc.php.tmp');
  *
  * @package    changes
  * @subpackage TestSuite
- * @author     Andrzej Swedrzynski <andrzej.swedrzynski@openx.org>
  */
 class MigrationTest extends DbTestCase
 {

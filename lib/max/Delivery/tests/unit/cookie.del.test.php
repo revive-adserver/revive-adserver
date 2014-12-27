@@ -17,7 +17,6 @@ require_once MAX_PATH . '/lib/max/Delivery/cookie.php';
  *
  * @package    MaxDelivery
  * @subpackage TestSuite
- * @author     Chris Nutting <chris.nutting@openx.org>
  */
 class Test_DeliveryCookie extends UnitTestCase
 {

@@ -29,8 +29,6 @@ require_once MAX_PATH . '/lib/OA/Cache/DeliveryCacheCommon.php';
  *
  * @package    OpenXCache
  * @subpackage TestSuite
- * @author     Lukasz Wikierski <lukasz.wikierski@openx.org>
- *
  */
 class test_OA_Cache_DeliveryCacheCommon extends DeliveryCacheUnitTestCase
 {

@@ -22,7 +22,6 @@ require_once MAX_PATH . '/lib/OA/Task.php';
  * @abstract
  * @package    OpenXMaintenance
  * @subpackage Priority
- * @author     Demian Turner <demian@m3.net>
  */
 class OA_Maintenance_Priority_AdServer_Task extends OA_Task
 {

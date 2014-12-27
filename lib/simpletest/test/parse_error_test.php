@@ -1,6 +1,4 @@
 <?php
-    // $Id$
-    
     require_once('../unit_tester.php');
     require_once('../reporter.php');
 

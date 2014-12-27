@@ -24,7 +24,6 @@
  * @author     Jesper Veggerby <pear.nosey@veggerby.dk>
  * @copyright  Copyright (C) 2003, 2004 Jesper Veggerby Hansen
  * @license    http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/Image_Graph
  */
 
@@ -53,7 +52,7 @@ require_once 'Image/Graph/Layout.php';
  */
 class Image_Graph_Legend extends Image_Graph_Layout
 {
-    
+
     /**
      * Alignment of the text
      * @var int
@@ -110,7 +109,7 @@ class Image_Graph_Legend extends Image_Graph_Layout
         unset($keys);
         return $count;
     }
-    
+
     /**
      * Get a default parameter array for legendSamples
      * @param bool $simulate Whether the array should be used for simulation or
@@ -135,7 +134,7 @@ class Image_Graph_Legend extends Image_Graph_Layout
         if ($simulate) {
             $param['simulate'] = true;
         }
-            
+
         return $param;
     }
 
@@ -228,7 +227,7 @@ class Image_Graph_Legend extends Image_Graph_Layout
         if (strtolower($parent) == 'image_graph_plotarea') {
             $w = $this->_width();
             $h = $this->_height();
-            
+
             if ($this->_alignment === false) {
                 $this->_alignment = IMAGE_GRAPH_ALIGN_TOP + IMAGE_GRAPH_ALIGN_RIGHT;
             }
@@ -299,7 +298,7 @@ class Image_Graph_Legend extends Image_Graph_Layout
         if (Image_Graph_Element::_done() === false) {
             return false;
         }
-        
+
         $this->_canvas->startGroup(get_class($this));
 
         $param = $this->_parameterArray();
@@ -309,7 +308,7 @@ class Image_Graph_Legend extends Image_Graph_Layout
             $this->_parent
         );
 
-        if (strtolower($parent) == 'image_graph_plotarea') {                    
+        if (strtolower($parent) == 'image_graph_plotarea') {
             $this->_getFillStyle();
             $this->_getLineStyle();
             $this->_canvas->rectangle(
@@ -322,7 +321,7 @@ class Image_Graph_Legend extends Image_Graph_Layout
             );
 
             $param = $this->_parameterArray();
-            
+
             $keys = array_keys($this->_plotareas);
             foreach($keys as $key) {
                 $plotarea =& $this->_plotareas[$key];
@@ -376,9 +375,9 @@ class Image_Graph_Legend extends Image_Graph_Layout
             }
             unset($keys);
         }
-        
+
         $this->_canvas->endGroup();
-        
+
         return true;
     }
 }

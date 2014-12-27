@@ -12,10 +12,9 @@
 
 /**
  * A very simple base controller for home cooked MVC for installer.
- * 
+ *
  * @package OX_Admin_UI
  * @subpackage Controller
- * @author Bernard Lange <bernard@openx.org> 
  */
 class OX_Admin_UI_Controller_BaseController
 {
@@ -32,44 +31,44 @@ class OX_Admin_UI_Controller_BaseController
     protected $aActions;
     protected $actionDefault = 'index';
     protected $currentAction;
-    
-    
+
+
     protected $oView;
     protected $aModel;
-    
+
     protected $hasLayout;
     protected $hasViewScript;
 
     protected $aErrors = array();
-    
-    
+
+
     public function __construct()
     {
         $this->hasLayout = true;
         $this->hasViewScript = true;
-        
+
     }
 
-    
+
     protected function init()
     {
         $this->initModel();
         $this->aActions = $this->getRegisteredActions();
     }
 
-    
+
     protected function initModel()
     {
         $this->aModel = array();
     }
-    
-    
+
+
     protected function getRegisteredActions()
     {
         return array();
     }
-    
-    
+
+
     /**
      * Checks request action parameter and executes appriopriate action.
      *
@@ -82,7 +81,7 @@ class OX_Admin_UI_Controller_BaseController
         $this->init();
         return $this->execute($this->request->getParam('action'));
     }
-    
+
 
     protected function execute($action = null)
     {
@@ -96,11 +95,11 @@ class OX_Admin_UI_Controller_BaseController
         }
         MAX::raiseError('No such action: ' . $action, PEAR_ERROR_DIE);
     }
-    
+
 
     /**
      * Forwards processing of request to another action. All model properties
-     * are preserved. Also, view and layout status is preserved. 
+     * are preserved. Also, view and layout status is preserved.
      *
      * @param string $action
      */
@@ -108,8 +107,8 @@ class OX_Admin_UI_Controller_BaseController
     {
         return $this->execute($action);
     }
-    
-    
+
+
     /**
      * Performs HTTP redirect to given action in same controller
      *
@@ -118,7 +117,7 @@ class OX_Admin_UI_Controller_BaseController
     protected function redirect($action)
     {
         $oRequest = $this->getRequest();
-        
+
         $url = $oRequest->getRequestUri();
         // Remove the query string from REQUEST_URI
         if ($pos = strpos($url, '?')) {
@@ -126,60 +125,60 @@ class OX_Admin_UI_Controller_BaseController
         }
         $url = $url.'?action='.$action;
         header('Location: ' . $url);
-        exit;    
+        exit;
     }
-    
+
 
     protected function setRequest($request)
     {
         $this->request = $request;
     }
-    
-    
+
+
     /*
      * Returns request object for that request.
-     * 
+     *
      * @return OX_Admin_UI_Controller_Request
      */
     protected function getRequest()
     {
         return $this->request;
     }
-    
+
 
     public function setView($oView)
     {
         $this->oView = $oView;
     }
-    
+
      /*
-      * Returns the name of the serviced action 
+      * Returns the name of the serviced action
       */
     public function getAction()
     {
         return $this->currentAction;
     }
 
-    
+
 
     public function getView()
     {
         return $this->oView;
     }
-    
+
 
     public function setModelProperty($property, $value)
     {
         $this->aModel[$property] = $value;
     }
-    
-    
+
+
     public function getModelProperty($property)
     {
-        return isset($this->aModel[$property]) ? $this->aModel[$property] : null; 
+        return isset($this->aModel[$property]) ? $this->aModel[$property] : null;
     }
-    
-    
+
+
 
     public function assignModelToView($view = null)
     {
@@ -190,40 +189,40 @@ class OX_Admin_UI_Controller_BaseController
             }
             $view = $this->getView();
         }
-        
+
         foreach ($this->aModel as $property => $value) {
             $view->assign($property, $value);
         }
     }
-    
+
 
     /**
      * Indicates that action has no view script
      */
     public function noViewScript()
     {
-        $this->hasViewScript = false;    
+        $this->hasViewScript = false;
     }
-    
-    
+
+
     public function hasViewScript()
     {
-        return $this->hasViewScript;    
+        return $this->hasViewScript;
     }
-    
-    
+
+
     public function disableLayout()
     {
         $this->hasLayout = false;
     }
-    
+
 
     public function hasLayout()
     {
         return $this->hasLayout;
     }
-        
-    
+
+
     /**
      * Returns true if checked value is equal false or it it is a PEAR_Error
      *
@@ -234,14 +233,14 @@ class OX_Admin_UI_Controller_BaseController
     {
         return $error === false || PEAR::isError($error);
     }
-    
+
 
     protected function getErrors()
     {
         return $this->aErrors;
     }
 
-    
+
     protected function addError($errorMsg)
     {
         if (PEAR::isError($errorMsg)) {
@@ -251,8 +250,8 @@ class OX_Admin_UI_Controller_BaseController
         }
         $this->aErrors[] = $errorMsg;
     }
-    
-    
+
+
 }
 
 ?>

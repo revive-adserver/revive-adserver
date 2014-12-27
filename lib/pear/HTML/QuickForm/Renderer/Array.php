@@ -3,7 +3,7 @@
 
 /**
  * A concrete renderer for HTML_QuickForm, makes an array of form contents
- * 
+ *
  * PHP versions 4 and 5
  *
  * LICENSE: This source file is subject to version 3.01 of the PHP license
@@ -20,7 +20,6 @@
  * @author      Thomas Schulz <ths@4bconsult.de>
  * @copyright   2001-2007 The PHP Group
  * @license     http://www.php.net/license/3_01.txt PHP License 3.01
- * @version     CVS: $Id$
  * @link        http://pear.php.net/package/HTML_QuickForm
  */
 

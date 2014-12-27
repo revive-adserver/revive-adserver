@@ -16,15 +16,11 @@
 // | Authors:  Alan Knowles <alan@akbkhome.com>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id$
-//
 // The Html Tree Component of Flexy
 // Designed to be used on it's own
-// 
-//
 //
 // The concept:
-// - it builds a big tokens[] array : 
+// - it builds a big tokens[] array :
 // - filters "Text with {placeholders}" into sprintf formated strings.
 // - matches closers to openers eg. token[4]->close = &token[5];
 // - it aliases the tokens into token[0] as children as a tree
@@ -41,18 +37,18 @@ class HTML_Template_Flexy_Tree {
     * 'ignore_html'     =>   return <html> elements as strings.
     * 'ignore_php'      =>   DELETE/DESTROY any php code in the original template.
     */
-  
+
     var $options = array(
         'ignore'        => false, // was flexyIgnore
         'filename'      => false,
         'ignore_html'   => false,
         'ignore_php'    => true,
     );
-    
-        
+
+
     /**
     * Array of all tokens (eg. nodes / text / tags etc. )
-    * All nodes have ID's 
+    * All nodes have ID's
     *
     * eg.
     *   <b>some text</b>
@@ -73,19 +69,19 @@ class HTML_Template_Flexy_Tree {
     * @var array
     * @access public
     */
-    
+
     var $tokens     = array();
     var $strings    = array();
-        
-    
-    
-    
-    
-   
+
+
+
+
+
+
     /**
     * Run a Tokenizer and Store its results and return the tree.
     * It should build a DOM Tree of the HTML
-    * 
+    *
     * @param   string $data         data to parse.
     * @param    array $options      see options array.
     *
@@ -93,60 +89,60 @@ class HTML_Template_Flexy_Tree {
     * @return   base token (really a dummy token, which contains the tree)
     * @static
     */
-  
-    function construct($data,$options=array()) 
+
+    function construct($data,$options=array())
     {
-    
+
         // local caching!
         $md5 = md5($data);
         if (isset($GLOBALS[__CLASS__]['cache'][$md5])) {
             return $GLOBALS[__CLASS__]['cache'][$md5];
-        } 
-        
+        }
+
         $t = new HTML_Template_Flexy_Tree;
         $t->options = $t->options + $options;
         require_once 'HTML/Template/Flexy/Token.php';
         $t->tokens = array(new HTML_Template_Flexy_Token);
         $t->tokens[0]->id =0;
-        
+
         // process
         if (is_a($r = $t->tokenize($data),'PEAR_Error')) {
             return $r;
         }
-        
+
         $t->matchClosers();
         $t->buildChildren(0);
         //new Gtk_VarDump($_HTML_TEMPLATE_FLEXY_TOKEN['tokens'][0]);
-        
+
         $GLOBALS[__CLASS__]['cache'][$md5] = $t->returnStart();
         return $GLOBALS[__CLASS__]['cache'][$md5];
 
     }
-    
+
     /**
     * The core tokenizing part - runs the tokenizer on the data,
     * and stores the results in $this->tokens[]
     *
     * @param   string               Data to tokenize
-    * 
+    *
     * @return   none | PEAR::Error
     * @access   public|private
     * @see      see also methods.....
     */
-  
-    
+
+
     function tokenize($data) {
         require_once 'HTML/Template/Flexy/Tokenizer.php';
         $tokenizer =  &HTML_Template_Flexy_Tokenizer::construct($data,$this->options);
-        
+
         // initialize state - this trys to make sure that
         // you dont do to many elses etc.
-       
+
         //echo "RUNNING TOKENIZER";
         // step one just tokenize it.
         $i=1;
-        while ($t = $tokenizer->yylex()) {  
-            
+        while ($t = $tokenizer->yylex()) {
+
             if ($t == HTML_TEMPLATE_FLEXY_TOKEN_ERROR) {
                 return HTML_Template_Flexy::raiseError(
                     array(
@@ -160,7 +156,7 @@ class HTML_Template_Flexy_Tree {
                     )
                     ,HTML_TEMPLATE_FLEXY_ERROR_SYNTAX ,HTML_TEMPLATE_FLEXY_ERROR_DIE);
             }
-                
+
             if ($t == HTML_TEMPLATE_FLEXY_TOKEN_NONE) {
                 continue;
             }
@@ -170,33 +166,33 @@ class HTML_Template_Flexy_Tree {
             $i++;
             $this->tokens[$i] = $tokenizer->value;
             $this->tokens[$i]->id = $i;
-            
-            
-            
+
+
+
             //print_r($_HTML_TEMPLATE_FLEXY_TOKEN['tokens'][$i]);
-             
+
         }
         //echo "BUILT TOKENS";
     }
-    
-    
-     
-    
+
+
+
+
     /**
     * Match the opening and closing tags eg. </B> is the closer of <B>
     *
     * aliases the ->close to the tokens[{closeid}] element
-    * 
+    *
     * @return   none
     * @access   public
     */
-  
-    function matchClosers() 
+
+    function matchClosers()
     {
         $res = &$this->tokens;
         $total = count($this->tokens);
         // connect open  and close tags.
-        
+
         // this is done by having a stack for each of the tag types..
         // then removing it when it finds the closing one
         // eg.
@@ -205,8 +201,8 @@ class HTML_Template_Flexy_Tree {
         //
         //
         //
-        
-       
+
+
         for($i=1;$i<$total;$i++) {
             //echo "Checking TAG $i\n";
             if (!isset($res[$i]->tag)) {
@@ -214,8 +210,8 @@ class HTML_Template_Flexy_Tree {
             }
             $tag = strtoupper($res[$i]->tag);
             if ($tag{0} != '/') { // it's not a close tag..
-                  
-                
+
+
                 if (!isset($stack[$tag])) {
                     $npos = $stack[$tag]['pos'] = 0;
                 } else {
@@ -224,13 +220,13 @@ class HTML_Template_Flexy_Tree {
                 $stack[$tag][$npos] = $i;
                 continue;
             }
-        
+
             //echo "GOT END TAG: {$res[$i]->tag}\n";
             $tag = substr($tag,1);
             if (!isset($stack[$tag]['pos'])) {
                 continue; // unmatched
             }
-            
+
             $npos = $stack[$tag]['pos'];
             if (!isset($stack[$tag][$npos])) {
                 // stack is empty!!!
@@ -248,22 +244,22 @@ class HTML_Template_Flexy_Tree {
             continue;
 
             // new entry on stack..
-          
-            
-           
+
+
+
         }
-                
+
         // create a dummy close for the end
         $i = $total;
         $this->tokens[$i] = new HTML_Template_Flexy_Token;
         $this->tokens[$i]->id = $total;
         $this->tokens[0]->close = &$this->tokens[$i];
-        
+
         // now is it possible to connect children...
-        // now we need to GLOBALIZE!! - 
-   
+        // now we need to GLOBALIZE!! -
+
     }
-    
+
    /**
     * Build the child array for each element.
     * RECURSIVE FUNCTION!!!!
@@ -274,15 +270,15 @@ class HTML_Template_Flexy_Tree {
     *
     * @access   public
     */
-    function buildChildren($id) 
+    function buildChildren($id)
     {
-      
-        
+
+
         $base = &$this->tokens[$id];
         $base->children = array();
         $start = $base->id +1;
         $end = $base->close->id;
-        
+
         for ($i=$start; $i<$end; $i++) {
             //echo "{$base->id}:{$base->tag} ADDING {$i}{$_HTML_TEMPLATE_FLEXY_TOKEN['tokens'][$i]->tag}<BR>";
             //if ($base->id == 1176) {
@@ -290,8 +286,8 @@ class HTML_Template_Flexy_Tree {
             // }
             $base->children[] = &$this->tokens[$i];
             if (isset($this->tokens[$i]->close)) {
-            
-                // if the close id is greater than my id - ignore it! - 
+
+                // if the close id is greater than my id - ignore it! -
                 if ($this->tokens[$i]->close->id > $end) {
                     continue;
                 }
@@ -300,8 +296,8 @@ class HTML_Template_Flexy_Tree {
             }
         }
     }
-            
-         
+
+
     /**
     * Locates Flexy:startchildren etc. if it is used.
     * and returns the base of the tree. (eg. otherwise token[0].
@@ -309,9 +305,9 @@ class HTML_Template_Flexy_Tree {
     * @return  HTML_Template_Flexy_Token (base of tree.)
     * @access   public
     */
-    
+
     function returnStart() {
-    
+
         foreach(array_keys($this->tokens) as $i) {
             switch(true) {
                 case isset($this->tokens[$i]->ucAttributes['FLEXYSTART']):
@@ -326,8 +322,8 @@ class HTML_Template_Flexy_Tree {
             }
         }
         return $this->tokens[0];
-       
-    
+
+
     }
-    
+
 }

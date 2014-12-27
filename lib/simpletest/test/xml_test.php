@@ -1,5 +1,4 @@
 <?php
-    // $Id$
     require_once(dirname(__FILE__) . '/../xml.php');
     Mock::generate('SimpleScorer');
 

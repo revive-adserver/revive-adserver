@@ -12,8 +12,6 @@
 
 /**
  * @package    OpenXDll
- * @author     Matteo Beccati <matteo.beccati@openx.org>
- *
  */
 
 // Require the base Info class.

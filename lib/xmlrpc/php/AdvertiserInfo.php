@@ -12,10 +12,8 @@
 
 /**
  * @package    OpenXDll
- * @author     Ivan Klishch <iklishch@lohika.com>
  *
  * This file describes the AdvertiserInfo class.
- *
  */
 
 // Require the base info class.

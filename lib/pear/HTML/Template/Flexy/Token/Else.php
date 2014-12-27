@@ -15,21 +15,17 @@
 // +----------------------------------------------------------------------+
 // | Authors:  Alan Knowles <alan@akbkhome>                               |
 // +----------------------------------------------------------------------+
-//
-// $Id$
-//
- 
+
 /**
 * Class to handle Else
 *
 *
 */
 class HTML_Template_Flexy_Token_Else extends HTML_Template_Flexy_Token {
-   
+
 
 
 }
 
 
- 
-  
+

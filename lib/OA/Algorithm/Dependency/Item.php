@@ -10,10 +10,6 @@
 +---------------------------------------------------------------------------+
 */
 
-/**
- * @author Radek Maciaszek <radek.maciaszek@openx.org>
- */
-
 class OA_Algorithm_Dependency_Item
 {
     protected $id;

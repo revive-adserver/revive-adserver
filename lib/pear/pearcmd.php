@@ -17,8 +17,6 @@
 // |          Tomas V.V.Cox <cox@idecnet.com>                             |
 // |                                                                      |
 // +----------------------------------------------------------------------+
-//
-// $Id$
 
 ob_end_clean();
 if (!defined('PEAR_RUNTYPE')) {

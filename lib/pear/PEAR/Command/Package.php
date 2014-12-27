@@ -18,7 +18,6 @@
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 0.1
  */
@@ -746,7 +745,7 @@ used for automated conversion or learning the format.
         $a = new PEAR_Installer($ui);
         return $a;
     }
-    
+
     /**
      * For unit testing purposes
      */
@@ -758,7 +757,7 @@ used for automated conversion or learning the format.
                 include_once 'PEAR/Command/Packaging.php';
             }
         }
-        
+
         if (class_exists('PEAR_Command_Packaging')) {
             $a = new PEAR_Command_Packaging($ui, $config);
         } else {

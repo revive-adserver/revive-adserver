@@ -13,10 +13,6 @@ package org.openx.channel;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-/**
- *
- * @author David Keen <david.keen@openx.org>
- */
 public class TestChannel {
     public static Test suite() {
 		TestSuite suite = new TestSuite("Tests for org.openx.channel");

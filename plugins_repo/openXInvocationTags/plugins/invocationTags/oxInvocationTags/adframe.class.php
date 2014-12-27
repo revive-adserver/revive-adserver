@@ -13,8 +13,6 @@
 /**
  * @package    OpenXPlugin
  * @subpackage InvocationTags
- * @author     Radek Maciaszek <radek@m3.net>
- *
  */
 
 require_once LIB_PATH . '/Extension/invocationTags/InvocationTags.php';

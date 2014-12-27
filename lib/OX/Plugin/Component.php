@@ -26,9 +26,6 @@ define('OX_COMPONENT_SUFFIX', '.class.php');
  *
  * @static
  * @package    OpenXPlugin
- * @author     Chris Nutting <chris.nutting@openx.org>
- * @author     Andrew Hill <andrew.hill@openx.org>
- * @author     Radek Maciaszek <radek@openx.org>
  */
 class OX_Component
 {
@@ -512,7 +509,7 @@ class OX_Component
     {
         return true;
     }
-    
+
     function getName()
     {
         return $this->getComponentIdentifier();

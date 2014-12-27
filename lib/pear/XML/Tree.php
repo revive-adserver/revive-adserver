@@ -18,9 +18,6 @@
 // |          Tomas V.V.Cox <cox@idecnet.com>                             |
 // |          Michele Manzato <michele.manzato@verona.miz.it>             |
 // +----------------------------------------------------------------------+
-//
-// $Id$
-//
 
 require_once 'XML/Parser.php';
 require_once 'XML/Tree/Node.php';

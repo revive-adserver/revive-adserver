@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.openx.utils;
 
@@ -9,12 +9,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
-
-
-/**
- * @version $Rev$ $Date:: 2007-01-01 00:00:00 #$ $LastChangedBy$
- * @author $Author$
- */
 
 public class StreamUtils
 {

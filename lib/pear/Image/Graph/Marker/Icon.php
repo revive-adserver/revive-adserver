@@ -24,7 +24,6 @@
  * @author     Jesper Veggerby <pear.nosey@veggerby.dk>
  * @copyright  Copyright (C) 2003, 2004 Jesper Veggerby Hansen
  * @license    http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/Image_Graph
  */
 
@@ -119,9 +118,9 @@ class Image_Graph_Marker_Icon extends Image_Graph_Marker
         if ($this->_filename) {
             $this->_canvas->image(
             	array(
-            		'x' => $x, 
-            		'y' => $y, 
-            		'filename' => $this->_filename, 
+            		'x' => $x,
+            		'y' => $y,
+            		'filename' => $this->_filename,
 					'alignment' => array('horizontal' => 'center', 'vertical' => 'center')
 				)
 			);

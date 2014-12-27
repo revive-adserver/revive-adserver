@@ -13,7 +13,6 @@
 /**
  * @package    OpenXPlugin
  * @subpackage DeliveryLimitations
- * @author     Chris Nutting <chris@m3.net>
  */
 
 if (!isset($GLOBALS['_MAX']['FILES']['/lib/max/Delivery/cache.php'])) {

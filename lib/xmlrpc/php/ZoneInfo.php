@@ -12,10 +12,8 @@
 
 /**
  * @package    OpenXDll
- * @author     Ivan Klishch <iklishch@lohika.com>
  *
  * This files describes the ZoneInfo class.
- *
  */
 
 // Include base info class.

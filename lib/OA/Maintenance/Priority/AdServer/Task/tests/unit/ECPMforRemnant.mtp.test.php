@@ -18,13 +18,12 @@ require_once MAX_PATH . '/lib/max/Dal/Admin/Data_intermediate_ad.php';
  *
  * @package    OpenXMaintenance
  * @subpackage TestSuite
- * @author     Radek Maciaszek <radek@urbantrip.com>
  */
 class Test_OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends UnitTestCase
 {
     private $mockDal;
     private $mockDalIntermediateAd;
-    
+
     const IDX_ADS = OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant::IDX_ADS;
     const IDX_MIN_IMPRESSIONS = OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant::IDX_MIN_IMPRESSIONS;
     const IDX_WEIGHT = OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant::IDX_WEIGHT;
@@ -121,7 +120,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends UnitTest
         $dataJustLoaded = $oEcpm->preloadZonesAvailableImpressionsForAgency(123);
         $this->assertEqual($aZonesExpectedContracts, $oEcpm->aZonesAvailableImpressions);
         $this->assertTrue($dataJustLoaded);
-        
+
         $dataJustLoaded = $oEcpm->preloadZonesAvailableImpressionsForAgency(152);
         $this->assertEqual($aZonesExpectedContracts, $oEcpm->aZonesAvailableImpressions);
         $this->assertFalse($dataJustLoaded);
@@ -150,7 +149,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends UnitTest
 
         $oEcpm->preloadCampaignsDeliveredImpressionsForAgency(123);
         $this->assertEqual($aCampaignsImpressions, $oEcpm->aCampaignsDeliveredImpressions);
-        
+
         // preload another agency and check that array is unchanged
         $oEcpm->preloadCampaignsDeliveredImpressionsForAgency(255);
         $this->assertEqual($aCampaignsImpressions, $oEcpm->aCampaignsDeliveredImpressions);

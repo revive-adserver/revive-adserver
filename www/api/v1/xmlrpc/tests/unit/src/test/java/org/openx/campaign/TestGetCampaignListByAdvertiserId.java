@@ -21,8 +21,6 @@ import org.openx.utils.TextUtils;
 
 /**
  * Verify Get Campaign List By Advertiser Id method
- *
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 
 public class TestGetCampaignListByAdvertiserId extends CampaignTestCase {

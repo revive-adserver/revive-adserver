@@ -14,7 +14,6 @@ require_once MAX_PATH . '/lib/OX/Admin/UI/Storage.php';
 
 /**
  * @package OX_Admin_UI
- * @author Bernard Lange <bernard@openx.org>
  */
 class OX_Admin_UI_SessionStorage
     implements OX_Admin_UI_Storage

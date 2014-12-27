@@ -23,8 +23,6 @@ import org.openx.utils.TextUtils;
 
 /**
  * Verify Add Publisher method
- *
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 @SuppressWarnings("unchecked")
 public class TestAddPublisher extends PublisherTestCase {

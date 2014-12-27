@@ -13,7 +13,6 @@
 /**
  * @package    OpenXPlugin
  * @subpackage InvocationTags
- * @author     Radek Maciaszek <radek@m3.net>
  *
  */
 

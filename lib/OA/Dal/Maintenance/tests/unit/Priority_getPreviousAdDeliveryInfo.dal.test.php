@@ -21,8 +21,6 @@ require_once MAX_PATH . '/lib/OX/Maintenance/Priority/Zone.php';
  *
  * @package    OpenXDal
  * @subpackage TestSuite
- * @author     Monique Szpak <monique.szpak@openx.org>
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTestCase
 {

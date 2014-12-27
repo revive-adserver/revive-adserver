@@ -15,7 +15,6 @@
  *
  * @package    OpenXPlugin
  * @subpackage InvocationTags
- * @author     Radek Maciaszek <radek@m3.net>
  */
 class Plugins_InvocationTagsOptions
 {
@@ -50,7 +49,7 @@ class Plugins_InvocationTagsOptions
             'charset'           => '',
         );
     }
-    
+
     /**
      * Return name of plugin
      *

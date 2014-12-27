@@ -59,7 +59,6 @@ function logSQL($oDbh, $scope, $message, $context)
  * The core OpenX class, providing handy methods that are useful everywhere!
  *
  * @package    OpenX
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA
 {

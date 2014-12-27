@@ -12,9 +12,6 @@
 
 /**
  * @package    OpenXDll
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
- *
- *
  */
 
 require_once MAX_PATH . '/lib/pear/Date.php';

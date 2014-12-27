@@ -19,8 +19,6 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonEntity.php';
  *
  * @package    OpenXAdmin
  * @subpackage StatisticsDelivery
- * @author     Matteo Beccati <matteo@beccati.com>
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_Admin_Statistics_Delivery_Controller_GlobalAdvertiser extends OA_Admin_Statistics_Delivery_CommonEntity
 {
@@ -113,7 +111,7 @@ class OA_Admin_Statistics_Delivery_Controller_GlobalAdvertiser extends OA_Admin_
         // Summarise the values into a the totals array, & format
         $this->_summariseTotalsAndFormat($this->aEntitiesData);
 
-        
+
         $this->showHideLevels = array();
         switch ($this->startLevel)
         {

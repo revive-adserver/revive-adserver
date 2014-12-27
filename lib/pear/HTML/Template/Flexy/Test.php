@@ -17,12 +17,9 @@
 // | Authors:  nobody <nobody@localhost>                                  |
 // +----------------------------------------------------------------------+
 //
-// $Id$
-//
-//  This is a temporary file - it includes some of the 
+// This is a temporary file - it includes some of the
 // Code that will have to go in the Engine eventually..
 // Used to test parsing and generation.
-//
 
 //ini_set('include_path', ini_get('include_path').realpath(dirname(__FILE__) . '/../../..'));
 require_once 'Gtk/VarDump.php';
@@ -31,7 +28,7 @@ require_once 'HTML/Template/Flexy.php';
 require_once 'HTML/Template/Flexy/Compiler.php';
 
 // this is the main runable...
- 
+
 class HTML_Template_Flexy_Test {
 
 
@@ -40,30 +37,30 @@ class HTML_Template_Flexy_Test {
         $GLOBALS['_HTML_TEMPLATE_FLEXY']['currentOptions'] = array(
             'compileDir' => dirname(__FILE__),
             'locale' => 'en',
-          
-        
+
+
         );
-            
+
         $this->parseArgs();
         $this->parse();
-        
+
     }
-    
-    
-    
+
+
+
     function parseArgs() {
         // mapp of keys to values..
-      
-        
+
+
         $args = Console_Getopt::ReadPHPArgV();
         $vals = Console_Getopt::getopt($args,'');
         //print_r($vals);
         $files = $vals[1];
-        
+
         if (!$files) {
             $this->error(0,"No Files supplied");
         }
-        
+
         foreach($files as $file) {
             $realpath = realpath($file);
             if (!$realpath) {
@@ -71,17 +68,17 @@ class HTML_Template_Flexy_Test {
             }
             $this->files[] = $realpath;
         }
-        
-        
+
+
     }
-    
+
     var $files; // array of files to compile
     var $quickform;
-    
+
     function parse() {
         foreach($this->files as $file) {
             $flexy = new HTML_Template_Flexy(array(
-                    'compileToString'=>true,  
+                    'compileToString'=>true,
                     'valid_functions' => 'include'
             ));
             $compiler =  HTML_Template_Flexy_Compiler::factory($flexy->options);
@@ -89,25 +86,25 @@ class HTML_Template_Flexy_Test {
             echo $result;
             print_r(array_unique($GLOBALS['_HTML_TEMPLATE_FLEXY_TOKEN']['gettextStrings']));
             print_r($flexy->elements);
-            
+
         }
-        
-        
-        
-        
-        
+
+
+
+
+
     }
-       
+
     function error($id,$msg) {
         echo "ERROR $id : $msg\n";
         exit(255);
     }
-      
+
     function debug($id,$msg) {
         echo "Debug Message ($id) : $msg\n";
     }
-    
-    
+
+
 }
 
 

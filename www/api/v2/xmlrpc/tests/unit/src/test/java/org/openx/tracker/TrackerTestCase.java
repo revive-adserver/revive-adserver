@@ -21,8 +21,6 @@ import org.openx.config.GlobalSettings;
 
 /**
  * Base class for all tracker web service tests
- *
- * @author     David Keen <david.keen@openx.org>
  */
 public class TrackerTestCase extends CampaignTestCase {
 

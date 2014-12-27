@@ -15,11 +15,8 @@
 // +----------------------------------------------------------------------+
 // | Author:  Alan Knowles <alan@akbkhome.com>
 // +----------------------------------------------------------------------+
-//
-// $Id$
-//
 
-// since this version doesnt use overload, 
+// since this version doesnt use overload,
 // and I assume anyone using custom generators should add this..
 
 define('DB_DATAOBJECT_NO_OVERLOAD',1);
@@ -56,4 +53,4 @@ DB_DataObject::debugLevel(isset($options['debug']) ? $options['debug'] : 1);
 
 $generator = new DB_DataObject_Generator;
 $generator->start();
- 
+

@@ -18,7 +18,6 @@
  * The idea of this class was taken from: http://sourceforge.net/projects/phpduploc
  *
  * @package    Max
- * @author     Radek Maciaszek <radek@m3.net>
  */
 class MAX_FileScanner
 {

@@ -18,8 +18,6 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  *
  * @package    OpenXAdmin
  * @subpackage TestSuite
- * @author     Scott Switzer <scott@switzer.org>
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class Test_OA_Admin_DaySpan extends UnitTestCase
 {

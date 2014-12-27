@@ -19,8 +19,6 @@ import org.openx.utils.TextUtils;
 
 /**
  * Verify Agency Advertiser Statistics method
- *
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class TestAgencyAdvertiserStatistics extends AgencyTestCase {
 	private Integer agencyId;

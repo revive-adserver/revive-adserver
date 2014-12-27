@@ -19,7 +19,6 @@ require_once MAX_PATH . '/lib/util/file/file.php';
  *
  * @package    changes
  * @subpackage TestSuite
- * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  */
 class ConfigMigrationTest extends UnitTestCase
 {

@@ -19,7 +19,6 @@ require_once MAX_PATH . '/lib/OA/DB/XmlCache.php';
  *
  * @package    OpenXDB
  * @subpackage TestSuite
- * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
 class Test_OA_DB_XmlCache extends UnitTestCase
 {

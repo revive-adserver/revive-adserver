@@ -16,8 +16,6 @@
 // | Authors: Baba Buehler <baba@babaz.com>                               |
 // |          Pierre-Alain Joye <pajoye@php.net>                          |
 // +----------------------------------------------------------------------+
-//
-// $Id$
 
 /**@#+
  * Include supporting classes

@@ -13,7 +13,6 @@
 /**
  * @package    MaxDelivery
  * @subpackage querystring
- * @author     Chris Nutting <chris@m3.net>
  */
 
 /**
@@ -119,7 +118,7 @@ function MAX_querystringGetDestinationUrl($adId = null)
     }
     $aVariables = array();
     $aValidVariables = array_values($conf['var']);
-    
+
     // See if any plugin-components have added items to the click url...
     $componentParams =  OX_Delivery_Common_hook('addUrlParams', array(array('bannerid' => $adId)));
     if (!empty($componentParams) && is_array($componentParams)) {
@@ -131,7 +130,7 @@ function MAX_querystringGetDestinationUrl($adId = null)
             }
         }
     }
-    
+
     // We also need to ensure that any variables already present in the dest are not duplicated...
     $destParams = parse_url($dest);
     if (!empty($destParams['query'])) {

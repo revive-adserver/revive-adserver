@@ -1,6 +1,4 @@
 <?php
-    // $Id$
-    
     require_once(dirname(__FILE__) . '/../parser.php');
     Mock::generate('SimpleHtmlSaxParser');
     Mock::generate('SimpleSaxListener');

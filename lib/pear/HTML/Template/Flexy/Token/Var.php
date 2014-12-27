@@ -15,18 +15,13 @@
 // +----------------------------------------------------------------------+
 // | Authors:  Alan Knowles <alan@akbkhome>                               |
 // +----------------------------------------------------------------------+
-//
-// $Id$
-//
- 
+
 /**
 * Class to handle variable output
-*  *
-*
 */
 
-class HTML_Template_Flexy_Token_Var extends HTML_Template_Flexy_Token { 
-    
+class HTML_Template_Flexy_Token_Var extends HTML_Template_Flexy_Token {
+
     /**
     * variable modifier (h = raw, u = urlencode, none = htmlspecialchars)
     *
@@ -40,14 +35,13 @@ class HTML_Template_Flexy_Token_Var extends HTML_Template_Flexy_Token {
     */
     function setValue($value) {
         // comes in as raw {xxxx}, {xxxx:h} or {xxx.yyyy:h}
-       
+
         if (strpos($value,":")) {
             list($value,$this->modifier) = explode(':',$value);
         }
         $this->value = $value;
     }
-     
+
 
 }
- 
- 
+

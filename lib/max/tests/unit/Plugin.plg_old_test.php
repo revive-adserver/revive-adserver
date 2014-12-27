@@ -58,8 +58,6 @@ class TestErrorHandler {
  *
  * @package    OpenXPlugin
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew@m3.net>
- * @author     Radek Maciaszek <radek@m3.net>
  */
 class TestOfMAX_Plugin extends UnitTestCase {
 

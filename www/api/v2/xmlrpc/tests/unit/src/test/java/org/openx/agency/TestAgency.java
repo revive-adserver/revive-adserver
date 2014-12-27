@@ -14,9 +14,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 /**
- * Run all Agency cervice tests
- *
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
+ * Run all Agency service tests
  */
 public class TestAgency {
 

@@ -15,19 +15,15 @@
 // +----------------------------------------------------------------------+
 // | Authors:  Alan Knowles <alan@akbkhome>                               |
 // +----------------------------------------------------------------------+
-//
-// $Id$
-//
- 
+
 /**
 * Class to handle End statements (eg. close brakets)
 *
 *
 */
-class HTML_Template_Flexy_Token_End extends HTML_Template_Flexy_Token { 
-    
+class HTML_Template_Flexy_Token_End extends HTML_Template_Flexy_Token {
+
 
 }
 
- 
- 
+

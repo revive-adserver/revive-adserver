@@ -17,7 +17,6 @@
  * @package    Zend_Uri
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
  */
 
 
@@ -535,7 +534,7 @@ class Zend_Uri_Http extends Zend_Uri
     public function setQuery($query)
     {
         $oldQuery = $this->_query;
-        
+
         // If query is empty, set an empty string
         if (empty($query)) {
             $this->_query = '';
@@ -545,13 +544,13 @@ class Zend_Uri_Http extends Zend_Uri
         // If query is an array, make a string out of it
         if (is_array($query)) {
             $query = http_build_query($query, '', '&');
-        
+
         // If it is a string, make sure it is valid. If not parse and encode it
         } else {
             $query = (string) $query;
             if (! $this->validateQuery($query)) {
                 parse_str($query, $query_array);
-                $query = http_build_query($query_array, '', '&');   
+                $query = http_build_query($query_array, '', '&');
             }
         }
 
@@ -560,9 +559,9 @@ class Zend_Uri_Http extends Zend_Uri
 	    require_once 'Zend/Uri/Exception.php';
             throw new Zend_Uri_Exception("'$query' is not a valid query string");
         }
-        
+
         $this->_query = $query;
-        
+
         return $oldQuery;
     }
 

@@ -17,7 +17,6 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task.php';
  *
  * @package    OpenXMaintenance
  * @subpackage TestSuite
- * @author     Demian Turner <demian@m3.net>
  */
 class Test_OA_Maintenance_Priority_AdServer_Task extends UnitTestCase
 {

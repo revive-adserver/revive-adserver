@@ -19,7 +19,6 @@ require_once dirname(dirname(dirname(__FILE__))) . '/Time/Date.delivery.php';
  *
  * @package    OpenXPlugin
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew@m3.net>
  */
 class Plugins_TestOfPlugins_DeliveryLimitations_Time_Date extends UnitTestCase
 {

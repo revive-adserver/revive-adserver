@@ -21,8 +21,6 @@ require_once LIB_PATH . '/Extension/deliveryLimitations/DeliveryLimitations.php'
  *
  * @package    OpenXPlugin
  * @subpackage DeliveryLimitations
- * @author     Andrew Hill <andrew@m3.net>
- * @author     Chris Nutting <chris@m3.net>
  */
 class Plugins_DeliveryLimitations_Geo_Postalcode extends Plugins_DeliveryLimitations
 {

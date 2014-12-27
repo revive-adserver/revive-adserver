@@ -12,8 +12,6 @@
 
 /**
  * @package    OpenX
- * @author     Heiko Weber <heiko@wecos.de>
- *
  */
 
 // Base class BaseLogonService

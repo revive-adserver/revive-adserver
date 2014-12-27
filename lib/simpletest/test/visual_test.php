@@ -1,6 +1,4 @@
 <?php
-    // $Id$
-
     // NOTE:
     // Some of these tests are designed to fail! Do not be alarmed.
     //                         ----------------
@@ -259,7 +257,7 @@
             $this->assertEqual($text . $text, $text . "a" . $text);        // Fail.
         }
 	}
-	
+
 	class VisualTestOfErrors extends UnitTestCase {
 
         function testDumping() {
@@ -489,52 +487,52 @@
             print " -&gt; " . htmlentities(serialize($payload)) . "<br />\n";
         }
     }
-    
+
     class TestOfSkippingNoMatterWhat extends UnitTestCase {
-        
+
         function skip() {
             $this->skipIf(true, 'Always skipped -> %s');
         }
-        
+
         function testFail() {
             $this->fail('This really shouldn\'t have happened');
         }
     }
-    
+
     class TestOfSkippingOrElse extends UnitTestCase {
-        
+
         function skip() {
             $this->skipUnless(false, 'Always skipped -> %s');
         }
-        
+
         function testFail() {
             $this->fail('This really shouldn\'t have happened');
         }
     }
-    
+
     class TestOfSkippingTwiceOver extends UnitTestCase {
-        
+
         function skip() {
             $this->skipIf(true, 'First reason -> %s');
             $this->skipIf(true, 'Second reason -> %s');
         }
-        
+
         function testFail() {
             $this->fail('This really shouldn\'t have happened');
         }
     }
-    
+
     class TestThatShouldNotBeSkipped extends UnitTestCase {
-        
+
         function skip() {
             $this->skipIf(false);
             $this->skipUnless(true);
         }
-        
+
         function testFail() {
             $this->fail('We should see this message');
         }
-        
+
         function testPass() {
             $this->pass('We should see this message');
         }

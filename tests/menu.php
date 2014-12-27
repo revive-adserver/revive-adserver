@@ -15,7 +15,6 @@
  *
  * @package    OpenX
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 
 require_once 'init.php';

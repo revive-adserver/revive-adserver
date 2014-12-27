@@ -20,8 +20,6 @@ import org.openx.utils.TextUtils;
 
 /**
  * Verify Campaign Publisher Statistics method
- *
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class TestCampaignPublisherStatistics extends CampaignTestCase {
 	private Integer campaignId;

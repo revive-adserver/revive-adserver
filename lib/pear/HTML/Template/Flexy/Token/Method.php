@@ -15,16 +15,12 @@
 // +----------------------------------------------------------------------+
 // | Authors:  Alan Knowles <alan@akbkhome>                               |
 // +----------------------------------------------------------------------+
-//
-// $Id$
-//
- /**
+
+/**
 * Class to handle method calls
-*  *
-*
 */
 
-class HTML_Template_Flexy_Token_Method extends HTML_Template_Flexy_Token { 
+class HTML_Template_Flexy_Token_Method extends HTML_Template_Flexy_Token {
     /**
     * variable modifier (h = raw, u = urlencode, none = htmlspecialchars)
     * TODO
@@ -52,10 +48,10 @@ class HTML_Template_Flexy_Token_Method extends HTML_Template_Flexy_Token {
     * @access public
     */
     var $isNegative = '';
- 
+
     /**
     * arguments, either variables or literals eg. #xxxxx yyyy#
-    * 
+    *
     * @var array
     * @access public
     */
@@ -64,7 +60,7 @@ class HTML_Template_Flexy_Token_Method extends HTML_Template_Flexy_Token {
     * setvalue - at present array method, args (need to add modifier)
     * @see parent::setValue()
     */
-    
+
     function setValue($value) {
         // var_dump($value);
         $method = $value[0];
@@ -77,19 +73,18 @@ class HTML_Template_Flexy_Token_Method extends HTML_Template_Flexy_Token {
                 $method = substr($value[0],3);
             }
         }
-        
+
         if (strpos($method,":")) {
             list($method,$this->modifier) = explode(':',$method);
         }
         $this->method = $method;
-        
+
         $this->args = $value[1];
         // modifier TODO!
-        
+
     }
-  
+
 }
 
 
- 
-   
+

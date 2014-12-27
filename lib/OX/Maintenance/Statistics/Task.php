@@ -22,7 +22,6 @@ require_once LIB_PATH . '/Dal/Maintenance/Statistics/Factory.php';
  * @abstract
  * @package    OpenXMaintenance
  * @subpackage Statistics
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OX_Maintenance_Statistics_Task extends OA_Task
 {

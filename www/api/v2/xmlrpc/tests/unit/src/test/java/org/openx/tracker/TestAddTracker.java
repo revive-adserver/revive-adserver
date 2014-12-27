@@ -17,10 +17,6 @@ import org.apache.xmlrpc.XmlRpcException;
 import org.openx.utils.ErrorMessage;
 import org.openx.utils.TextUtils;
 
-/**
- *
- * @author David Keen <david.keen@openx.org>
- */
 public class TestAddTracker extends TrackerTestCase {
 
     private void executeAddTrackerWithError(Object[] params, String errorMsg)

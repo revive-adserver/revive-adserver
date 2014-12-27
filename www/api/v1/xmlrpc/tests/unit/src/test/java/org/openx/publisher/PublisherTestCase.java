@@ -21,9 +21,7 @@ import org.openx.banner.BannerTestCase;
 import org.openx.config.GlobalSettings;
 
 /**
- * Base class for all publiser web service tests
- *
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
+ * Base class for all publisher web service tests
  */
 public class PublisherTestCase extends BannerTestCase {
 	protected static final String GET_PUBLISHER_LIST_BY_AGENCY_ID_METHOD = "getPublisherListByAgencyId";

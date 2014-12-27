@@ -15,9 +15,8 @@ require_once MAX_PATH .'/lib/OA/Admin/UI/component/Form.php';
 /**
  * @package OX_Admin_UI
  * @subpackage Install
- * @author Bernard Lange <bernard@openx.org> 
  */
-class OX_Admin_UI_Install_BaseForm 
+class OX_Admin_UI_Install_BaseForm
     extends OA_Admin_UI_Component_Form
 {
     /**
@@ -25,7 +24,7 @@ class OX_Admin_UI_Install_BaseForm
      *
      * @var OX_Translation
      */
-    protected $oTranslation;    
+    protected $oTranslation;
 
     /**
      * Builds Database details form.
@@ -35,22 +34,22 @@ class OX_Admin_UI_Install_BaseForm
     {
         parent::__construct($formName, $method, $action, '', $attributes, true);
         $this->forceClientValidation(true);
-        $this->oTranslation = $oTranslation; 
+        $this->oTranslation = $oTranslation;
     }
-    
-    
+
+
     protected function getRequiredFieldMessage($fieldLabel)
     {
         return $this->oTranslation->translate('XRequiredField', array($fieldLabel));
     }
-    
-    
+
+
     protected function addRequiredRule($fieldName, $fieldLabel)
     {
         $this->addRule($fieldName, $this->getRequiredFieldMessage($fieldLabel), 'required');
     }
-    
-    
+
+
 }
 
 ?>

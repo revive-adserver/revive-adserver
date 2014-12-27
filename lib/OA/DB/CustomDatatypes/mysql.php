@@ -21,7 +21,6 @@
  * whenever creating a PEAR::MDB2 connection to the database.
  *
  * @package    OpenXDal
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 
 /**

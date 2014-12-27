@@ -17,7 +17,6 @@ require_once MAX_PATH . '/lib/OA/Creative/File.php';
  *
  * @package    OpenX
  * @subpackage TestSuite
- * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
 class Test_OA_Creative_File extends UnitTestCase
 {

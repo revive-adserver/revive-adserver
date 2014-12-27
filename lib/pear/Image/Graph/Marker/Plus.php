@@ -24,7 +24,6 @@
  * @author     Jesper Veggerby <pear.nosey@veggerby.dk>
  * @copyright  Copyright (C) 2003, 2004 Jesper Veggerby Hansen
  * @license    http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/Image_Graph
  */
 
@@ -47,14 +46,14 @@ require_once 'Image/Graph/Marker.php';
  */
 class Image_Graph_Marker_Plus extends Image_Graph_Marker
 {
-	
+
 	/**
 	 * The thickness of the plus in pixels (thickness is actually double this)
 	 * @var int
 	 * @access private
 	 */
 	var $_thickness = 2;
-	
+
     /**
      * Draw the marker on the canvas
      *

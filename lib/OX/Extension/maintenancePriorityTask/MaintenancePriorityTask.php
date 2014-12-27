@@ -18,7 +18,6 @@ require_once MAX_PATH . '/lib/OA/Task/Runner.php';
  *
  * @package    OpenXPlugin
  * @subpackage MaintenancePriorityTask
- * @author     David Keen <david.keen@openx.org>
  * @abstract
  */
 abstract class Plugins_MaintenancePriorityTask extends OX_Component

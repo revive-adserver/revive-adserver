@@ -26,8 +26,6 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Priority/DeliveryLimitation/Common.
  *
  * @package    OpenXPlugin
  * @subpackage DeliveryLimitations
- * @author     Andrew Hill <andrew@m3.net>
- * @author     Chris Nutting <chris@m3.net>
  */
 class Plugins_DeliveryLimitations_Time_Date extends Plugins_DeliveryLimitations
 {

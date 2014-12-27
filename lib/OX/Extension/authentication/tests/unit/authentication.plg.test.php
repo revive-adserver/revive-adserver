@@ -18,7 +18,6 @@ require_once MAX_PATH . '/lib/OA/Dll/User.php';
  *
  * @package    OpenXPlugin
  * @subpackage TestSuite
- * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  */
 class Test_Authentication extends UnitTestCase
 {

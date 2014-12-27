@@ -17,8 +17,6 @@ import org.openx.utils.TextUtils;
 
 /**
  * Verify Link Campaign method
- *
- * @author     Pawel Dachterski <pawel.dachterski@openx.org>
  */
 public class TestZoneLinkCampaign extends ZoneTestCase {
 

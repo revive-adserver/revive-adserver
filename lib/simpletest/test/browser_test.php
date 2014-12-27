@@ -1,6 +1,4 @@
 <?php
-    // $Id$
-
     require_once(dirname(__FILE__) . '/../browser.php');
     require_once(dirname(__FILE__) . '/../user_agent.php');
     require_once(dirname(__FILE__) . '/../http.php');

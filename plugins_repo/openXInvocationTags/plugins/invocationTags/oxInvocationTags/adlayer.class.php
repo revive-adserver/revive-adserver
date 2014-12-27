@@ -13,8 +13,6 @@
 /**
  * @package    OpenXPlugin
  * @subpackage InvocationTags
- * @author     Radek Maciaszek <radek@m3.net>
- *
  */
 
 define('PLUGINS_INVOCATIONS_TAGS_ADLAYER_DEFAULT_LAYERSTYLE', 'geocities');

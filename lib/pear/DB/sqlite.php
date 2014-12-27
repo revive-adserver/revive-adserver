@@ -21,7 +21,6 @@
  * @author     Daniel Convissor <danielc@php.net>
  * @copyright  1997-2005 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0 3.0
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/DB
  */
 
@@ -176,12 +175,12 @@ class DB_sqlite extends DB_common
      * Example of connecting to a database in read-only mode:
      * <code>
      * require_once 'DB.php';
-     * 
+     *
      * $dsn = 'sqlite:///path/and/name/of/db/file?mode=0400';
      * $options = array(
      *     'portability' => DB_PORTABILITY_ALL,
      * );
-     * 
+     *
      * $db =& DB::connect($dsn, $options);
      * if (PEAR::isError($db)) {
      *     die($db->getMessage());

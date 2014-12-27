@@ -17,13 +17,12 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/ECPMCommon.p
  * within High Priority (by default) Campaigns.  This task
  * no longer calculates priorities, as prioritization will
  * be performed on demand at serve time.
- * 
+ *
  * For more information on details of eCPM algorithm see the
  * ad prioritisation algorithm.
  *
  * @package    OpenXMaintenance
  * @subpackage Priority
- * @author     Radek Maciaszek <radek@urbantrip.com>
  */
 class OA_Maintenance_Priority_AdServer_Task_ECPMforContract extends OA_Maintenance_Priority_AdServer_Task_ECPMCommon
 {

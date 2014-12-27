@@ -12,7 +12,6 @@
 
 /**
  * @package    OpenXDll
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *
  */
 

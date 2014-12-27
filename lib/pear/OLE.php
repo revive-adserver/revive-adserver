@@ -16,8 +16,6 @@
 // | Author: Xavier Noguer <xnoguer@php.net>                              |
 // | Based on OLE::Storage_Lite by Kawai, Takanori                        |
 // +----------------------------------------------------------------------+
-//
-// $Id$
 
 
 /**
@@ -148,7 +146,7 @@ class OLE extends PEAR
             fseek($this->_file_handle, $pointer);
             $pps_wk = fread($this->_file_handle, OLE_PPS_SIZE);
             if (strlen($pps_wk) != OLE_PPS_SIZE) {
-                break; // Excel likes to add a trailing byte sometimes 
+                break; // Excel likes to add a trailing byte sometimes
                 //return $this->raiseError("PPS at $pointer seems too short: ".strlen($pps_wk));
             }
             $name_length = unpack("c", substr($pps_wk, 64, 2)); // FIXME (2 bytes??)
@@ -185,7 +183,7 @@ class OLE extends PEAR
             $pointer += OLE_PPS_SIZE;
         }
     }
- 
+
     /**
     * It checks whether the PPS tree is complete (all PPS's read)
     * starting with the given PPS (not necessarily root)
@@ -215,7 +213,7 @@ class OLE extends PEAR
         return true;
     }
 
-    /** 
+    /**
     * Checks whether a PPS is a File PPS or not.
     * If there is no PPS for the index given, it will return false.
     *
@@ -231,7 +229,7 @@ class OLE extends PEAR
         return false;
     }
 
-    /** 
+    /**
     * Checks whether a PPS is a Root PPS or not.
     * If there is no PPS for the index given, it will return false.
     *
@@ -247,7 +245,7 @@ class OLE extends PEAR
         return false;
     }
 
-    /** 
+    /**
     * Gives the total number of PPS's found in the OLE container.
     *
     * @access public
@@ -279,7 +277,7 @@ class OLE extends PEAR
         fseek($this->_file_handle, $this->_list[$index]->_data + $position);
         return fread($this->_file_handle, $length);
     }
-    
+
     /**
     * Gets the data length from a PPS
     * If there is no PPS for the index given, it will return 0.
@@ -319,7 +317,7 @@ class OLE extends PEAR
     *
     * @access public
     * @static
-    * @param integer $date A timestamp 
+    * @param integer $date A timestamp
     * @return string The string for the OLE container
     */
     function LocalDate2OLE($date = null)
@@ -398,10 +396,10 @@ class OLE extends PEAR
         $big_date = ($high_part*$factor) + $low_part;
         // translate to seconds
         $big_date /= 10000000;
-        
+
         // days from 1-1-1601 until the beggining of UNIX era
         $days = 134774;
-        
+
         // translate to seconds from beggining of UNIX era
         $big_date -= $days*24*3600;
         return floor($big_date);

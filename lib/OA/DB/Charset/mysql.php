@@ -19,7 +19,6 @@ require_once MAX_PATH . '/lib/OA/DB/Charset.php';
  *
  * @package    OpenXDB
  * @subpackage Charset
- * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
 class OA_DB_Charset_mysql extends OA_DB_Charset
 {

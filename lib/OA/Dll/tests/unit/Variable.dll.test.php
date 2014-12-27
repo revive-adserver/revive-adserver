@@ -21,8 +21,6 @@ require_once MAX_PATH . '/lib/OA/Dll/tests/util/DllUnitTestCase.php';
  *
  * @package    OpenXDll
  * @subpackage TestSuite
- * @author     David Keen <david.keen@openx.org>
- *
  */
 
 
@@ -165,7 +163,7 @@ class OA_Dll_VariableTest extends DllUnitTestCase {
 
         // Create  tracker
         $trackerId = DataGenerator::generateOne('trackers');
-        
+
         // Link the tracker to the campaign
         $doCampaignsTrackers = OA_Dal::factoryDO('campaigns_trackers');
         $doCampaignsTrackers->campaignid = $campaignId;

@@ -17,7 +17,6 @@
  * @abstract
  * @package    OpenX
  * @subpackage Tasks
- * @author     Demian Turner <demian@m3.net>
  */
 class OA_Task
 {

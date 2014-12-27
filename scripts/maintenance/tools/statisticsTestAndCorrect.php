@@ -14,7 +14,6 @@
 /**
  * @package    OpenXMaintenance
  * @subpackage Tools
- * @author     Andrew Hill <andrew.hill@openx.org>
  *
  * A script that can be run to correct issues with statistics.
  *

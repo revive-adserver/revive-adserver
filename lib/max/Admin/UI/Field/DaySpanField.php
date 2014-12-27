@@ -14,7 +14,6 @@
  * A view field for the OA_Admin_DaySpan object.
  *
  * @package    Max
- * @author     Scott Switzer <scott@switzer.org>
  */
 require_once MAX_PATH . '/lib/max/Admin/UI/Field.php';
 

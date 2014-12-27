@@ -12,11 +12,6 @@
 
 /**
  * OpenX Schema Management Utility
- *
- * @author     Monique Szpak <monique.szpak@openx.org>
- *
- * $Id$
- *
  */
 require_once MAX_PATH . '/lib/OA/Upgrade/Upgrade.php';
 require_once(MAX_PATH.'/lib/OA/Upgrade/UpgradeAuditor.php');

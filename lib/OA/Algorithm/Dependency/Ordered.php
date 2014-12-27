@@ -24,7 +24,6 @@
  * Ported from CPAN:
  * http://search.cpan.org/~adamk/Algorithm-Dependency-1.106/lib/Algorithm/Dependency/Ordered.pm
  *
- * @author Radek Maciaszek <radek.maciaszek@openx.org>
  */
 
 require_once MAX_PATH . '/lib/OA/Algorithm/Dependency.php';

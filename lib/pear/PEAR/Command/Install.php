@@ -16,7 +16,6 @@
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 0.1
  */
@@ -542,7 +541,7 @@ Run post-installation scripts in package <package>, if any exist.
                 $this->ui->outputData('using package root: ' . $options['packagingroot']);
             }
         }
- 
+
         $abstractpackages = array();
         $otherpackages = array();
         // parse params
@@ -564,7 +563,7 @@ Run post-installation scripts in package <package>, if any exist.
                     continue;
                 }
                 if ($reg->packageExists($pf->getPackage(), $pf->getChannel()) &&
-                      version_compare($pf->getVersion(), 
+                      version_compare($pf->getVersion(),
                       $reg->packageInfo($pf->getPackage(), 'version', $pf->getChannel()),
                       '<=')) {
                     if ($this->config->get('verbose')) {
@@ -609,7 +608,7 @@ Run post-installation scripts in package <package>, if any exist.
                     }
                 }
             }
-            $abstractpackages = 
+            $abstractpackages =
                 array_map(array($reg, 'parsedPackageNameToString'), $abstractpackages);
         }
 
@@ -1120,7 +1119,7 @@ Run post-installation scripts in package <package>, if any exist.
                 if ($dorest) {
                     $rest = &$this->config->getREST('1.0', array());
                     $installed = array_flip($reg->listPackages($channel));
-                    $latest = $rest->listLatestUpgrades($base, 
+                    $latest = $rest->listLatestUpgrades($base,
                         $this->config->get('preferred_state', null, $channel), $installed,
                         $channel, $reg);
                 } else {

@@ -21,8 +21,6 @@ import org.openx.utils.TextUtils;
 
 /**
  * Verify Get Advertiser List By Agency Id method
- *
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class TestGetAdvertiserListByAgencyId extends AdvertiserTestCase {
 	/**

@@ -18,7 +18,6 @@ require_once MAX_PATH . '/lib/OA.php';
  *
  * @package    OpenXDal
  * @subpackage MaintenanceStatistics
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OX_Dal_Maintenance_Statistics_Factory
 {

@@ -19,7 +19,6 @@ require_once dirname(dirname(dirname(__FILE__))) . '/Site/Referingpage.delivery.
  *
  * @package    OpenXPlugin
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew@m3.net>
  */
 class Plugins_TestOfPlugins_DeliveryLimitations_Site_Referingpage extends UnitTestCase
 {

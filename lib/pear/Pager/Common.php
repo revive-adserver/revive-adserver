@@ -33,7 +33,6 @@
  * @author     Richard Heyes <richard@phpguru.org>
  * @copyright  2003-2006 Lorenzo Alberton, Richard Heyes
  * @license    http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/Pager
  */
 
@@ -128,7 +127,7 @@ class Pager_Common
      * @access private
      */
     var $_fileName    = CURRENT_FILENAME;
-    
+
     /**
      * @var boolean If false, don't override the fileName option. Use at your own risk.
      * @access private
@@ -146,7 +145,7 @@ class Pager_Common
      * @access private
      */
     var $_httpMethod  = 'GET';
-    
+
     /**
      * @var string specifies which HTML form to use
      * @access private
@@ -176,7 +175,7 @@ class Pager_Common
      * @access private
      */
     var $_extraVars   = array();
-    
+
     /**
      * @var array URL vars to ignore
      * @access private
@@ -188,7 +187,7 @@ class Pager_Common
      * @access private
      */
     var $_expanded    = true;
-    
+
     /**
      * @var boolean TRUE => show accesskey attribute on <a> tags
      * @access private
@@ -418,7 +417,7 @@ class Pager_Common
      * @access public
      */
     var $range = array();
-    
+
     /**
      * @var array list of available options (safety check)
      * @access private
@@ -476,7 +475,7 @@ class Pager_Common
 
     // }}}
     // {{{ build()
-    
+
     /**
      * Generate or refresh the links and paged data after a call to setOptions()
      *
@@ -815,7 +814,7 @@ class Pager_Common
         } else {
             $str = 'var form = document.createElement("form"); var input = ""; ';
         }
-        
+
         // We /shouldn't/ need to escape the URL ...
         $str .= sprintf('form.action = "%s"; ', htmlentities($formAction));
         $str .= sprintf('form.method = "%s"; ', $this->_httpMethod);
@@ -826,7 +825,7 @@ class Pager_Common
         if (empty($this->_formID)) {
             $str .= 'document.getElementsByTagName("body")[0].appendChild(form);';
         }
-        
+
         $str .= 'form.submit(); return false;';
         return $str;
     }
@@ -835,7 +834,7 @@ class Pager_Common
     // {{{ _generateFormOnClickHelper
 
     /**
-     * This is used by _generateFormOnClick(). 
+     * This is used by _generateFormOnClick().
      * Recursively processes the arrays, objects, and literal values.
      *
      * @param data Data that should be rendered
@@ -912,7 +911,7 @@ class Pager_Common
 
     // }}}
     // {{{ _recursive_stripslashes()
-    
+
     /**
      * Helper method
      * @param mixed $var
@@ -1121,7 +1120,7 @@ class Pager_Common
         }
         return htmlentities($this->_url . $href);
     }
-    
+
     // }}}
     // {{{ getPerPageSelectBox()
 
@@ -1241,7 +1240,7 @@ class Pager_Common
 
     // }}}
     // {{{ _http_build_query_wrapper()
-    
+
     /**
      * This is a slightly modified version of the http_build_query() function;
      * it heavily borrows code from PHP_Compat's http_build_query().
@@ -1323,7 +1322,7 @@ class Pager_Common
      * @return boolean
      * @access private
      */
-    
+
     function _isEncoded($string)
     {
         $hexchar = '&#[\dA-Fx]{2,};';
@@ -1440,7 +1439,7 @@ class Pager_Common
 
     // }}}
     // {{{ getOption()
-    
+
     /**
      * Return the current value of a given option
      *

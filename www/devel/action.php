@@ -14,9 +14,7 @@
  *
  * @package    Max
  * @subpackage SimulationSuite
- * @author
  */
-
 
 function checkPermissions($aFiles)
 {

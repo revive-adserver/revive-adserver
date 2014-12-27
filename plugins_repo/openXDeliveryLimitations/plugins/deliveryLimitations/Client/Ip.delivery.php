@@ -13,8 +13,6 @@
 /**
  * @package    OpenXPlugin
  * @subpackage DeliveryLimitations
- * @author     Chris Nutting <chris@m3.net>
- * @author     Andrzej Swedrzynski <andrzej.swedrzynski@m3.net>
  */
 
 require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
@@ -39,10 +37,10 @@ function MAX_checkClient_Ip($limitation, $op, $aParams = array())
 
     if ($limitation == '')
 		return (true);
-	
+
 	if (!strpos($limitation, '/')) {
 		$net = explode('.', $limitation);
-		
+
 		for ($i=0;$i<sizeof($net);$i++) {
 			if ($net[$i] == '*') {
 				$net[$i] = 0;
@@ -60,10 +58,10 @@ function MAX_checkClient_Ip($limitation, $op, $aParams = array())
 		$mask 	= explode('.', $mask);
 		$pmask 	= pack('C4', $mask[0], $mask[1], $mask[2], $mask[3]);
 	}
-	
+
 	$ip 	= explode('.', $ip);
 	$phost 	= pack('C4', $ip[0], $ip[1], $ip[2], $ip[3]);
-	
+
 	$expression = ($limitation == "*" || ($phost & $pmask) == $pnet);
 	$op   = $op == '==';
 	return ($expression == $op);

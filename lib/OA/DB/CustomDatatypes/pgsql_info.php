@@ -15,7 +15,6 @@
  * exist in the main custom datatype file.
  *
  * @package    OpenXDal
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 
 /**

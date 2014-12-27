@@ -22,7 +22,6 @@ Language_Loader::load('settings');
  *
  * @package    OpenXPlugin
  * @subpackage Authentication
- * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  */
 class Plugins_Authentication extends OX_Component
 {

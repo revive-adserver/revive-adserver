@@ -13,9 +13,6 @@ package org.openx.utils;
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
- */
 public class DateUtils {
 
 	public static final Date MIN_DATE_VALUE;

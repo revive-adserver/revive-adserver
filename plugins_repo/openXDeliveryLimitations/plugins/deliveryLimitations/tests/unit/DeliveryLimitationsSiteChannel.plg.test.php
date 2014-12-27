@@ -19,7 +19,6 @@ require_once dirname(dirname(dirname(__FILE__))) . '/Site/Channel.delivery.php';
  *
  * @package    OpenXPlugin
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew@m3.net>
  */
 class Plugins_TestOfPlugins_DeliveryLimitations_Site_Channel extends UnitTestCase
 {

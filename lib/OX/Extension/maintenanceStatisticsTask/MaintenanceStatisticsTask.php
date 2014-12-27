@@ -18,7 +18,6 @@ require_once MAX_PATH . '/lib/OA/Task/Runner.php';
  *
  * @package    OpenXPlugin
  * @subpackage MaintenaceStatisticsTask
- * @author     Lukasz Wikierski <lukasz.wikierski@openx.org>
  * @abstract
  */
 abstract class Plugins_MaintenanceStatisticsTask extends OX_Component
@@ -30,11 +29,11 @@ abstract class Plugins_MaintenanceStatisticsTask extends OX_Component
     }
 
     /**
-     * Method returns OX_Maintenance_Statistics_Task 
+     * Method returns OX_Maintenance_Statistics_Task
      * to run in the Maintenance Statistics Engine
      * Implements hook 'addMaintenanceStatisticsTask'
-     * 
-     * @abstract 
+     *
+     * @abstract
      * @return OX_Maintenance_Statistics_Task
      */
     abstract function addMaintenanceStatisticsTask();

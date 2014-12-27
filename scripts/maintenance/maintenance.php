@@ -17,7 +17,6 @@
  *
  * @package    OpenXMaintenance
  * @subpackage Tools
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 
 // Set the current path

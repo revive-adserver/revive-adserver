@@ -14,7 +14,6 @@
 /**
  * @package    OpenXMaintenance
  * @subpackage Tools
- * @author     Chris Nutting <chris.nutting>
  *
  * A script that can be run to execute the stats rollup code indepenent of the core
  * maintenance script.

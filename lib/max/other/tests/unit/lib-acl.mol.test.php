@@ -20,7 +20,6 @@ require_once LIB_PATH . '/Plugin/PluginManager.php';
  *
  * @package    OpenXPlugin
  * @subpackage TestSuite
- * @author     Andrzej Swedrzynski <andrzej.swedrzynski@m3.net>
  */
 class LibAclTest extends DalUnitTestCase
 {

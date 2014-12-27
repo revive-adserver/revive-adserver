@@ -25,7 +25,6 @@
  * @author     Jesper Veggerby <pear.nosey@veggerby.dk>
  * @copyright  Copyright (C) 2003, 2004 Jesper Veggerby Hansen
  * @license    http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version    CVS: $Id$
  * @link       http://pear.php.net/pepr/pepr-proposal-show.php?id=212
  */
 
@@ -49,7 +48,7 @@ if (!defined('IMAGE_CANVAS_SYSTEM_FONT_PATH')) {
 
 /**
  *  Class for handling different output formats
- * 
+ *
  * @category   Images
  * @package    Image_Canvas
  * @author     Jesper Veggerby <pear.nosey@veggerby.dk>
@@ -165,7 +164,7 @@ class Image_Canvas
         if (isset($params['height'])) {
             $this->_height = $params['height'];
         }
-        
+
         $this->setDefaultFont($this->_defaultFont);
     }
 
@@ -306,7 +305,7 @@ class Image_Canvas
         if (!(isset($this->_font['angle'])) || ($this->_font['angle'] === false)) {
             $this->_font['angle'] = 0;
         }
-        
+
         if (isset($this->_font['angle'])) {
             if ((($this->_font['angle'] > 45) && ($this->_font['angle'] < 135)) ||
                (($this->_font['angle'] > 225) && ($this->_font['angle'] < 315))
@@ -314,7 +313,7 @@ class Image_Canvas
                 $this->_font['vertical'] = true;
             }
         }
-        
+
         if ((!isset($this->_font['file'])) && (isset($this->_font['name']))) {
             include_once 'Image/Canvas/Tool.php';
             $this->_font['file'] = Image_Canvas_Tool::fontMap($this->_font['name']);
@@ -356,17 +355,17 @@ class Image_Canvas
         $this->_polygon = array();
         $this->_font = $this->_defaultFont;
     }
-    
+
     /**
      * Reset the canvas.
      *
      * Includes fillstyle, linestyle, thickness and polygon
      */
-    function reset() 
+    function reset()
     {
         $this->_reset();
     }
-    
+
     /**
      * Draw a line end
      *
@@ -377,8 +376,8 @@ class Image_Canvas
      * 'angle': int [optional] The angle with which to draw the end
      * @param array $params Parameter array
      */
-    function drawEnd($params) 
-    {        
+    function drawEnd($params)
+    {
     }
 
     /**
@@ -406,29 +405,29 @@ class Image_Canvas
             $angle = Image_Canvas_Tool::getAngle($x1, $y1, $x0, $y0);
             $this->drawEnd(
                 array(
-                    'end' => $params['end0'], 
-                    'x' => $params['x0'], 
-                    'y' => $params['y0'], 
+                    'end' => $params['end0'],
+                    'x' => $params['x0'],
+                    'y' => $params['y0'],
                     'angle' => $angle,
                     'color' => (isset($params['color0']) ? $params['color0'] : false),
                     'size' => $params['size0']
                 )
             );
-        }    
+        }
         if (isset($params['end1'])) {
             $angle = Image_Canvas_Tool::getAngle($x0, $y0, $x1, $y1);
             //print "<pre>"; var_dump($params, $angle); print "</pre>";
             $this->drawEnd(
                 array(
-                    'end' => $params['end1'], 
-                    'x' => $params['x1'], 
-                    'y' => $params['y1'], 
+                    'end' => $params['end1'],
+                    'x' => $params['x1'],
+                    'y' => $params['y1'],
                     'angle' => $angle,
                     'color' => (isset($params['color1']) ? $params['color1'] : false),
                     'size' => $params['size1']
                 )
             );
-        }    
+        }
         $this->_reset();
     }
 
@@ -597,20 +596,20 @@ class Image_Canvas
     function image($params)
     {
     }
-    
+
     /**
      * Set clipping to occur
-     * 
+     *
      * Parameter array:
-     * 
+     *
      * 'x0': int X point of Upper-left corner
      * 'y0': int X point of Upper-left corner
      * 'x1': int X point of lower-right corner
      * 'y1': int Y point of lower-right corner
      */
-    function setClipping($params = false) 
+    function setClipping($params = false)
     {
-    }       
+    }
 
     /**
      * Start a group.
@@ -630,7 +629,7 @@ class Image_Canvas
      */
     function endGroup()
     {
-    }   
+    }
 
     /**
      * Output the result of the canvas to the browser
@@ -662,10 +661,10 @@ class Image_Canvas
 
     /**
      * Get a canvas specific HTML tag.
-     * 
-     * This method implicitly saves the canvas to the filename in the 
+     *
+     * This method implicitly saves the canvas to the filename in the
      * filesystem path specified and parses it as URL specified by URL path
-     * 
+     *
      * Parameter array:
      * 'filename': string
      * 'filepath': string Path to the file on the file system. Remember the final slash
@@ -673,7 +672,7 @@ class Image_Canvas
      */
     function toHtml($params)
     {
-        $this->save(array('filename' => $params['filepath'] . $params['filename']));        
+        $this->save(array('filename' => $params['filepath'] . $params['filename']));
     }
 
     /**
@@ -688,14 +687,14 @@ class Image_Canvas
      * 'pdf': output in PDF format (using PDFlib)
      *
      * 'svg': output in SVG format
-     * 
+     *
      * 'imagemap': output as a html image map
      *
      * An example of usage:
-     * 
+     *
      * <code>
      * <?php
-     * $Canvas =& Image_Graph::factory('png', 
+     * $Canvas =& Image_Graph::factory('png',
      *     array('width' => 800, 'height' => 600, 'antialias' => 'native')
      * );
      * ?>
@@ -709,21 +708,21 @@ class Image_Canvas
     function &factory($canvas, $params)
     {
         $canvas = strtoupper($canvas);
-        
+
         if (($canvas == 'PNG') || ($canvas == 'GD')) {
             $canvas = 'GD_PNG';
         }
         if (($canvas == 'JPG') || ($canvas == 'JPEG')) {
             $canvas = 'GD_JPG';
         }
-        
+
         if ($canvas == 'IMAGEMAP') {
             $canvas = 'ImageMap';
         }
 
         $class = 'Image_Canvas_'. $canvas;
         include_once 'Image/Canvas/'. str_replace('_', '/', $canvas) . '.php';
-        
+
         $obj = new $class($params);
         return $obj;
     }

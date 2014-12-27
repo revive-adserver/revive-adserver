@@ -13,9 +13,6 @@
 /**
  * @package    OpenXPlugin
  * @subpackage InvocationTags
- * @author     Radek Maciaszek <radek@m3.net>
- * @author     Andrew Hill <andrew@m3.net>
- *
  */
 
 require_once LIB_PATH . '/Extension/invocationTags/InvocationTags.php';
@@ -97,9 +94,9 @@ class Plugins_InvocationTags_OxInvocationTags_xmlrpc extends Plugins_InvocationT
     {
         $aComments = array(
             'Cache Buster Comment' => '',
-            'Third Party Comment'  => '', 
+            'Third Party Comment'  => '',
             'SSL Delivery Comment' => '',
-            'SSL Backup Comment'   => '', 
+            'SSL Backup Comment'   => '',
             'Comment'              => '',
             );
         parent::prepareCommonInvocationData($aComments);
@@ -141,7 +138,7 @@ class Plugins_InvocationTags_OxInvocationTags_xmlrpc extends Plugins_InvocationT
 
                 $buffer .= "<"."?php\n /* " . str_replace(array("\n", '/*', '*/'), array('', '', ''), $mi->buffer);
                 if (!isset($mi->comments) || ($mi->comments == "1")) {
-                    $buffer .= "\n  *"; 
+                    $buffer .= "\n  *";
                     $buffer .= $this->translate("
   * As the PHP script below tries to set cookies, it must be called
   * before any output is sent to the user's browser. Once the script

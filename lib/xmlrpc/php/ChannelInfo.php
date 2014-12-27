@@ -12,10 +12,8 @@
 
 /**
  * @package    OpenXDll
- * @author     Heiko Weber <heiko@wecos.de>
  *
  * This file describes the ChannelInfo class.
- *
  */
 
 // Require the base info class.

@@ -17,7 +17,6 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Status.php';
  *
  * @package    OpenXMaintenance
  * @subpackage TestSuite
- * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
 class Test_OA_Maintenenace_Status extends UnitTestCase
 {

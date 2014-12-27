@@ -17,7 +17,6 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  *
  * @package    OpenX
  * @subpackage Utils
- * @author     Bernard Lange <bernard.lange@openx.org>
  */
 class OX_Util_Utils
 {

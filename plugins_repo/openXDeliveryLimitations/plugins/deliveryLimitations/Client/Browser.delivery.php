@@ -13,8 +13,6 @@
 /**
  * @package    OpenXPlugin
  * @subpackage DeliveryLimitations
- * @author     Chris Nutting <chris.nutting@openx.org>
- * @author     Andrzej Swedrzynski <andrzej.swedrzynski@openx.org>
  */
 
 require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';

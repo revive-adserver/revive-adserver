@@ -13,8 +13,6 @@
 /**
  * @package    OpenXPlugin
  * @subpackage DeliveryLimitations
- * @author     Chris Nutting <chris.nutting@openx.org>
- * @author     Matteo Beccati <matteo.beccati@openx.org>
  *
  * @todo       The $this->translate calls below won't pull into the .pot files correctly...
  *             we need to look into how best to do these kinds of bulk translates

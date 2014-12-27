@@ -14,8 +14,6 @@
  *
  * @package    OpenXPlugin
  * @subpackage Plugins_BannerTypes
- * @author     Monique Szpak <monique.szpak@openx.org>
- * @author     Chris Nutting <chris.nutting@openx.org>
  */
 function Plugin_BannerTypeText_oxText_genericText_delivery(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $richMedia=true, $loc, $referer)
 {

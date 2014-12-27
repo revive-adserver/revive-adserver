@@ -13,10 +13,6 @@
 /**
  * OpenX Schema Management Utility
  *
- * @author     Monique Szpak <monique.szpak@openx.org>
- *
- * $Id$
- *
  */
 
 define('UPGRADE_ACTION_UPGRADE_SUCCEEDED',                      1);

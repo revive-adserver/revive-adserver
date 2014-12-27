@@ -13,10 +13,6 @@
 /**
  * OpenX Upgrade Audit Class
  *
- * @author     Matthieu Aubry <matthieu.aubry@openx.org>
- *
- * $Id$
- *
  */
 
 class OA_BaseUpgradeAuditor

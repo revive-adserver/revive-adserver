@@ -16,15 +16,13 @@
 // | Authors:  Alan Knowles <alan@akbkhome>                               |
 // +----------------------------------------------------------------------+
 //
-// $Id$
-//
 //  This is the master Token file for The New Token driver Engine.
 //  All the Token output, and building routines are in here.
 //
 //  Note overriden methods are not documented unless they differ majorly from
 //  The parent.
 //
-$GLOBALS['_HTML_TEMPLATE_FLEXY_TOKEN']['base'] = 0; 
+$GLOBALS['_HTML_TEMPLATE_FLEXY_TOKEN']['base'] = 0;
 $GLOBALS['_HTML_TEMPLATE_FLEXY_TOKEN']['state'] = 0;
 $GLOBALS['_HTML_TEMPLATE_FLEXY_TOKEN']['statevars'] = array();
 $GLOBALS['_HTML_TEMPLATE_FLEXY_TOKEN']['activeForm'] = '';
@@ -40,7 +38,7 @@ $GLOBALS['_HTML_TEMPLATE_FLEXY_TOKEN']['flexyIgnore'] = false;
 */
 
 class HTML_Template_Flexy_Token {
-    
+
     /**
     * the token type (Depreciated when we have classes for all tokens
     *
@@ -63,13 +61,13 @@ class HTML_Template_Flexy_Token {
     */
     var $line;
     /**
-    * the character Position 
+    * the character Position
     *
     * @var int
     * @access public
     */
     var $charPos;
-    
+
 
     /**
     * factory a Token
@@ -79,44 +77,44 @@ class HTML_Template_Flexy_Token {
     * @param   string      Token type
     * @param   mixed       Initialization settings for token
     * @param   int   line that the token is defined.
-    * 
+    *
     *
     * @return   object    Created Object
     * @access   public
     */
-  
+
     function factory($token,$value,$line,$charPos=0) {
         // try not to reload the same class to often
         static $loaded = array();
-        
-        
+
+
         $c = 'HTML_Template_Flexy_Token_'.$token;
-        
+
         if (!class_exists($c) && !isset($loaded[$token])) {
             // make sure parse errors are picked up - no  @ here..
             if (file_exists(dirname(__FILE__)."/Token/{$token}.php")) {
                 require_once 'HTML/Template/Flexy/Token/'.$token.'.php';
             }
             $loaded[$token] = true;
-        } 
-            
+        }
+
         $t = new HTML_Template_Flexy_Token;
-        
+
         if (class_exists($c)) {
             $t = new $c;
         }
         $t->token = $token;
         $t->charPos = $charPos;
-        
+
         if ($t->setValue($value) === false) {
             // kick back error conditions..
             return false;
         }
         $t->line = $line;
-        
+
         return $t;
     }
-    
+
     /**
     * Standard Value iterpretor
     *
@@ -125,24 +123,24 @@ class HTML_Template_Flexy_Token {
     * @return   none
     * @access   public
     */
-  
+
     function setValue($value) {
         $this->value = $value;
     }
 
-    
+
     /**
     * compile to String (vistor method) replaces toString
     *
     * @return   string   HTML
     * @access   public
     */
-    
+
     function compile(&$compiler) {
         return $compiler->toString($this);
     }
-    
-     
+
+
     /**
     * compile children (visitor approach).
     *
@@ -150,7 +148,7 @@ class HTML_Template_Flexy_Token {
     * @access   public
     */
     function compileChildren( &$compiler) {
-         
+
         if (!$this->children) {
             return '';
         }
@@ -172,67 +170,67 @@ class HTML_Template_Flexy_Token {
         }
         return $ret;
     }
-    
-    
 
-    
+
+
+
     /* ======================================================= */
-    /* Token Managmenet = parse and store all the tokens in 
+    /* Token Managmenet = parse and store all the tokens in
      * an associative array and tree.
      */
-   
+
     /**
     * Run a Tokenizer and Store its results
     * It should build a DOM Tree of the HTML
-    * 
+    *
     * @param   object    Tokenizer to run.. - Theoretically other Tokenizers could be done for email,rtf etc.
     *
     * @access   public
     * @return   base token (really a dummy token, which contains the tree)
     * @static
     */
-  
-    function buildTokens($tokenizer) 
+
+    function buildTokens($tokenizer)
     {
-    
+
         global $_HTML_TEMPLATE_FLEXY_TOKEN;
-        
+
         // first record is a filler - to stick all the children on !
         // reset my globals..
         $_HTML_TEMPLATE_FLEXY_TOKEN['base'] = 0;
-        
+
         $_HTML_TEMPLATE_FLEXY_TOKEN['statevars'] = array();
         $_HTML_TEMPLATE_FLEXY_TOKEN['state'] = 0;
-        
+
         $_HTML_TEMPLATE_FLEXY_TOKEN['flexyIgnore'] = false;
         if (@$GLOBALS['_HTML_TEMPLATE_FLEXY']['currentOptions']['flexyIgnore']) {
             $_HTML_TEMPLATE_FLEXY_TOKEN['flexyIgnore'] = true;
         }
         $_HTML_TEMPLATE_FLEXY_TOKEN['activeFormId'] = 0;
         $_HTML_TEMPLATE_FLEXY_TOKEN['activeForm'] = '';
-        
+
         $_HTML_TEMPLATE_FLEXY_TOKEN['tokens'] = array(new HTML_Template_Flexy_Token);
         $_HTML_TEMPLATE_FLEXY_TOKEN['tokens'][0]->id =0;
         $_HTML_TEMPLATE_FLEXY_TOKEN['gettextStrings'] = array();
         $i=1;
-        
-        
+
+
         // initialize state - this trys to make sure that
         // you dont do to many elses etc.
-       
+
         //echo "RUNNING TOKENIZER";
         // step one just tokenize it.
-        while ($t = $tokenizer->yylex()) {  
-            
+        while ($t = $tokenizer->yylex()) {
+
             if ($t == HTML_TEMPLATE_FLEXY_TOKEN_ERROR) {
                 //echo "ERROR";
-                
+
                 //print_r($tokenizer);
                 $err = "<PRE>" . $tokenizer->error . "\n" .
-                    htmlspecialchars(substr($tokenizer->yy_buffer,0,$tokenizer->yy_buffer_end)) . 
-                    "<font color='red'>". htmlspecialchars(substr($tokenizer->yy_buffer,$tokenizer->yy_buffer_end,100)) . 
+                    htmlspecialchars(substr($tokenizer->yy_buffer,0,$tokenizer->yy_buffer_end)) .
+                    "<font color='red'>". htmlspecialchars(substr($tokenizer->yy_buffer,$tokenizer->yy_buffer_end,100)) .
                     ".......</font></PRE>";
-                    
+
                 return HTML_Template_Flexy::raiseError('HTML_Template_Flexy::Syntax error in ".
                     "Template line:'. $tokenizer->yyline .
                     $err
@@ -247,57 +245,57 @@ class HTML_Template_Flexy_Token {
                         HTML_TEMPLATE_FLEXY_ERROR_SYNTAX,HTML_TEMPLATE_FLEXY_ERROR_RETURN
                     );
                 }
-                
+
                 if ($GLOBALS['_HTML_TEMPLATE_FLEXY']['currentOptions']['allowPHP'] === 'delete') {
                     continue;
                 }
-            
+
             }
             $i++;
             $_HTML_TEMPLATE_FLEXY_TOKEN['tokens'][$i] = $tokenizer->value;
             $_HTML_TEMPLATE_FLEXY_TOKEN['tokens'][$i]->id = $i;
-            
-            // this whole children thing needs rethinking 
+
+            // this whole children thing needs rethinking
             // - I think the body of the page should be wrapped: ..
             //  ?php if (!$this->bodyOnly) { .. <HTML> .... <BODY....>  ?php } ?
-            // 
+            //
             // old values alias to new ones..
             if (isset($_HTML_TEMPLATE_FLEXY_TOKEN['tokens'][$i]->ucAttributes['FLEXYSTART'])) {
                 unset($_HTML_TEMPLATE_FLEXY_TOKEN['tokens'][$i]->ucAttributes['FLEXYSTART']);
                 $_HTML_TEMPLATE_FLEXY_TOKEN['tokens'][$i]->ucAttributes['FLEXY:START'] = true;
             }
-            
+
             if (isset($_HTML_TEMPLATE_FLEXY_TOKEN['tokens'][$i]->ucAttributes['FLEXYSTARTCHILDREN'])) {
                 unset($_HTML_TEMPLATE_FLEXY_TOKEN['tokens'][$i]->ucAttributes['FLEXYSTARTCHILDREN']);
                 $_HTML_TEMPLATE_FLEXY_TOKEN['tokens'][$i]->ucAttributes['FLEXY:STARTCHILDREN'] = true;
             }
-            
+
             if (isset($_HTML_TEMPLATE_FLEXY_TOKEN['tokens'][$i]->ucAttributes['FLEXY:START'])) {
                 $_HTML_TEMPLATE_FLEXY_TOKEN['base'] = $i;
                 unset($_HTML_TEMPLATE_FLEXY_TOKEN['tokens'][$i]->ucAttributes['FLEXY:START']);
             }
-            
+
             if (isset($_HTML_TEMPLATE_FLEXY_TOKEN['tokens'][$i]->ucAttributes['FLEXY:STARTCHILDREN'])) {
                 $_HTML_TEMPLATE_FLEXY_TOKEN['base'] = $i;
             }
-            
-            
+
+
             //print_r($_HTML_TEMPLATE_FLEXY_TOKEN['tokens'][$i]);
-             
+
         }
         //echo "BUILT TOKENS";
-        
+
         $res = &$_HTML_TEMPLATE_FLEXY_TOKEN['tokens'];
-       
+
         // DEBUG DUMPTING : foreach($res as $k) {  $k->dump(); }
-        
-        
+
+
         $stack = array();
         $total = $i +1;
-        
+
         // merge strings and entities - blanking out empty text.
-        
-  
+
+
         for($i=1;$i<$total;$i++) {
             if (!isset($res[$i]) || !is_a($res[$i],'HTML_Template_Flexy_Token_Text')) {
                 continue;
@@ -311,9 +309,9 @@ class HTML_Template_Flexy_Token {
                 }
                 $i++;
             }
-        }  
+        }
         // connect open  and close tags.
-        
+
         // this is done by having a stack for each of the tag types..
         // then removing it when it finds the closing one
         // eg.
@@ -325,7 +323,7 @@ class HTML_Template_Flexy_Token {
         //echo '<PRE>' . htmlspecialchars(print_R($res,true));//exit;
         //echo '<PRE>';
         for($i=1;$i<$total;$i++) {
-            
+
             if (empty($res[$i]->tag)) {
                 continue;
             }
@@ -350,10 +348,10 @@ class HTML_Template_Flexy_Token {
                         // got the matching closer..
                         // echo "MATCH: {$i}:{$tok->tag}({$tok->line}) to  {$stack[$s]}:$tag<BR>";
                         $tok->close = &$_HTML_TEMPLATE_FLEXY_TOKEN['tokens'][$i];
-                        
+
                         array_splice($stack,$s);
                         //print_R($stack);
-                         
+
                         break;
                     }
                 }
@@ -361,46 +359,46 @@ class HTML_Template_Flexy_Token {
             }
             $stack[] = $i;
             // tag with no closer (or unmatched in stack..)
-        } 
-      
-                
+        }
+
+
         // create a dummy close for the end
         $i = $total;
         $_HTML_TEMPLATE_FLEXY_TOKEN['tokens'][$i] = new HTML_Template_Flexy_Token;
         $_HTML_TEMPLATE_FLEXY_TOKEN['tokens'][$i]->id = $total;
         $_HTML_TEMPLATE_FLEXY_TOKEN['tokens'][0]->close = &$_HTML_TEMPLATE_FLEXY_TOKEN['tokens'][$total];
-        
+
         // now is it possible to connect children...
-        // now we need to GLOBALIZE!! - 
-        
-        
+        // now we need to GLOBALIZE!! -
+
+
         $_HTML_TEMPLATE_FLEXY_TOKEN['tokens'] = $res;
-        
+
         HTML_Template_Flexy_Token::buildChildren(0);
         //new Gtk_VarDump($_HTML_TEMPLATE_FLEXY_TOKEN['tokens'][0]);
-        //echo '<PRE>';print_R($_HTML_TEMPLATE_FLEXY_TOKEN['tokens'][$_HTML_TEMPLATE_FLEXY_TOKEN['base']]  ); 
+        //echo '<PRE>';print_R($_HTML_TEMPLATE_FLEXY_TOKEN['tokens'][$_HTML_TEMPLATE_FLEXY_TOKEN['base']]  );
         return $_HTML_TEMPLATE_FLEXY_TOKEN['tokens'][$_HTML_TEMPLATE_FLEXY_TOKEN['base']];
     }
     /**
     * Matching closing tag for a Token
     *
     * @var object|none  optional closing tag
-    * @access public 
+    * @access public
     */
-    
-  
+
+
     var $close;
-           
+
     /**
-    * array of children to each object. 
+    * array of children to each object.
     *
     * @var array
     * @access public|private
     */
-    
-  
+
+
     var $children = array();
-    
+
     /**
     * Build the child array for each element.
     * RECURSIVE FUNCTION!!!!
@@ -409,27 +407,27 @@ class HTML_Template_Flexy_Token {
     * @access   public
     * @static
     */
-    function buildChildren($id) 
+    function buildChildren($id)
     {
         global $_HTML_TEMPLATE_FLEXY_TOKEN;
-        
+
         $base = &$_HTML_TEMPLATE_FLEXY_TOKEN['tokens'][$id];
         $base->children = array();
         $start = $base->id +1;
         $end = $base->close->id;
-        
+
         for ($i=$start; $i<$end; $i++) {
             //echo "{$base->id}:{$base->tag} ADDING {$i}{$_HTML_TEMPLATE_FLEXY_TOKEN['tokens'][$i]->tag}<BR>";
             //if ($base->id == 1176) {
             //    echo "<PRE>";print_r($_HTML_TEMPLATE_FLEXY_TOKEN['tokens'][$i]);
             // }
-         
+
             $base->children[] = &$_HTML_TEMPLATE_FLEXY_TOKEN['tokens'][$i];
-            
-            if (isset($_HTML_TEMPLATE_FLEXY_TOKEN['tokens'][$i]) && 
+
+            if (isset($_HTML_TEMPLATE_FLEXY_TOKEN['tokens'][$i]) &&
                 is_object($_HTML_TEMPLATE_FLEXY_TOKEN['tokens'][$i]->close)) {
-            
-                // if the close id is greater than my id - ignore it! - 
+
+                // if the close id is greater than my id - ignore it! -
                 if ($_HTML_TEMPLATE_FLEXY_TOKEN['tokens'][$i]->close->id > $end) {
                     continue;
                 }
@@ -438,9 +436,9 @@ class HTML_Template_Flexy_Token {
             }
         }
     }
-            
-            
-            
+
+
+
     /**
     * Flag to ignore children - Used to block output for select/text area etc.
     * may not be required as I moved the Tag parsing into the toString ph
@@ -448,33 +446,33 @@ class HTML_Template_Flexy_Token {
     * @var boolean ingore children
     * @access public
     */
-    
-  
+
+
     var $ignoreChildren = false;
-    
-    
-    
-     
+
+
+
+
     /* ======================================================== */
-    /* variable STATE management 
+    /* variable STATE management
     *
     * raw variables are assumed to be $this->, unless defined by foreach..
     * it also monitors syntax - eg. end without an if/foreach etc.
     */
- 
-    
+
+
     /**
     * tell the generator you are entering a block
     *
     * @access   public
     */
-    function pushState() 
+    function pushState()
     {
         global $_HTML_TEMPLATE_FLEXY_TOKEN;
-        
+
         $_HTML_TEMPLATE_FLEXY_TOKEN['state']++;
         $s = $_HTML_TEMPLATE_FLEXY_TOKEN['state'];
-        
+
         $_HTML_TEMPLATE_FLEXY_TOKEN['statevars'][$s] = array(); // initialize statevars
     }
     /**
@@ -483,10 +481,10 @@ class HTML_Template_Flexy_Token {
     * @return  boolean  parse error - out of bounds
     * @access   public
     */
-    function pullState() 
+    function pullState()
     {
         global $_HTML_TEMPLATE_FLEXY_TOKEN;
-        
+
         $s = $_HTML_TEMPLATE_FLEXY_TOKEN['state'];
         $_HTML_TEMPLATE_FLEXY_TOKEN['statevars'][$s] = array(); // initialize statevars
         $_HTML_TEMPLATE_FLEXY_TOKEN['state']--;
@@ -499,10 +497,10 @@ class HTML_Template_Flexy_Token {
     * get the real variable name formated x.y.z => $this->x->y->z
     * if  a variable is in the stack it return $x->y->z
     *
-    * @return  string PHP variable 
+    * @return  string PHP variable
     * @access   public
     */
-    
+
     function toVar($s) {
         // wrap [] with quotes.
         $s = str_replace('[',"['",$s);
@@ -513,17 +511,17 @@ class HTML_Template_Flexy_Token {
         $s = str_replace('%5D',"']",$s);
         // strip the quotes if it's only numbers..
         $s = preg_replace("/'([-]?[0-9]+)'/", "\\1",$s);
-        
+
         $parts = explode(".",$s);
-        
-        
+
+
         $ret =  $this->findVar($parts[0]);
         if (is_a($ret,'PEAR_Error')) {
             return $ret;
         }
-        
+
         array_shift($parts);
-        
+
         if (!count($parts)) {
             return $ret;
         }
@@ -537,14 +535,14 @@ class HTML_Template_Flexy_Token {
     * this relates to flexy
     * t relates to the object being parsed.
     *
-    * @return  string PHP variable 
+    * @return  string PHP variable
     * @access   public
     */
-    
-    function findVar($string) 
+
+    function findVar($string)
     {
         global $_HTML_TEMPLATE_FLEXY_TOKEN;
-    
+
         if (!$string || $string == 't') {
             return '$t';
         }
@@ -555,7 +553,7 @@ class HTML_Template_Flexy_Token {
         if (@$GLOBALS['_HTML_TEMPLATE_FLEXY']['currentOptions']['globals'] &&
             preg_match('/^(_POST|_GET|_REQUEST|_SESSION|_COOKIE|GLOBALS)\[/',$string)) {
             return '$'.$string;
-        } 
+        }
         if (!@$GLOBALS['_HTML_TEMPLATE_FLEXY']['currentOptions']['privates'] &&
                 ($string{0} == '_')) {
                 return HTML_Template_Flexy::raiseError('HTML_Template_Flexy::Attempt to access private variable:'.
@@ -563,13 +561,13 @@ class HTML_Template_Flexy_Token {
                     ", Use options[privates] to allow this."
                    , HTML_TEMPLATE_FLEXY_ERROR_SYNTAX ,HTML_TEMPLATE_FLEXY_ERROR_RETURN);
         }
-        
+
         $lookup = $string;
         if ($p = strpos($string,'[')) {
             $lookup = substr($string,0,$p);
         }
-        
-        
+
+
         for ($s = $_HTML_TEMPLATE_FLEXY_TOKEN['state']; $s > 0; $s--) {
             if (in_array($lookup , $_HTML_TEMPLATE_FLEXY_TOKEN['statevars'][$s])) {
                 return '$'.$string;
@@ -580,31 +578,31 @@ class HTML_Template_Flexy_Token {
     /**
     * add a variable to the stack.
     *
-    * @param  string PHP variable 
+    * @param  string PHP variable
     * @access   public
     */
-    
-    function pushVar($string) 
+
+    function pushVar($string)
     {
         global $_HTML_TEMPLATE_FLEXY_TOKEN;
         $s = $_HTML_TEMPLATE_FLEXY_TOKEN['state'];
         $_HTML_TEMPLATE_FLEXY_TOKEN['statevars'][$s][] = $string;
     }
-    
+
      /**
     * dump to text ATM
     *
-    * 
+    *
     * @access   public
     */
-    
+
     function dump() {
         echo "{$this->token}/" . (isset($this->tag) ? "<{$this->tag}>" : '') . ": {$this->value}\n";
     }
-    
-    
-    
-    
+
+
+
+
 }
- 
-  
+
+

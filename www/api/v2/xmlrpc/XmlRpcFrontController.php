@@ -33,7 +33,6 @@ require_once 'ZoneXmlRpcService.php';
  * This class delegates to the existing XML-RPC service classes.
  *
  * @package OpenX
- * @author David Keen <david.keen@openx.org>
  */
 class XmlRpcFrontController
 {

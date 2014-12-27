@@ -24,7 +24,6 @@
  * @author     Jesper Veggerby <pear.nosey@veggerby.dk>
  * @copyright  Copyright (C) 2003, 2004 Jesper Veggerby Hansen
  * @license    http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/Image_Graph
  */
 
@@ -86,10 +85,10 @@ class Image_Graph_Plot_Area extends Image_Graph_Plot
         if (parent::_done() === false) {
             return false;
         }
-        
+
         $this->_canvas->startGroup(get_class($this) . '_' . $this->_title);
 
-        $this->_clip(true);        
+        $this->_clip(true);
 
         $base = array();
         if ($this->_multiType == 'stacked') {
@@ -103,13 +102,13 @@ class Image_Graph_Plot_Area extends Image_Graph_Plot
             $base[] = $this->_pointY($point);
             $first = $this->_pointX($point);
             $base[] = $first;
-    
+
             $last = $dataset->last();
             $point = array ('X' => $last['X'], 'Y' => '#min_pos#');
             $base[] = array();
             $base[] = $this->_pointY($point);
             $base[] = $this->_pointX($point);
-                    
+
             $current = array();
         }
 
@@ -183,7 +182,7 @@ class Image_Graph_Plot_Area extends Image_Graph_Plot
         unset($keys);
         $this->_drawMarker();
         $this->_clip(false);
-                
+
         $this->_canvas->endGroup();
 
         return true;

@@ -21,8 +21,6 @@ import org.openx.config.GlobalSettings;
 
 /**
  * Base class for all advertiser web service tests
- *
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class AdvertiserTestCase extends AgencyTestCase {
 	protected static final String TEST_DATA_PREFIX = "test";

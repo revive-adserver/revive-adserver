@@ -15,7 +15,6 @@
  *
  * @package    OpenXPlugin
  * @subpackage DeliveryCacheStorage
- * @author     Lukasz Wikierski <lukasz.wikierski@openx.org>
  */
 
 /**
@@ -24,7 +23,7 @@
  * @param string $filename The name of file where cache entry is stored
  * @return mixed False on error, or the cache content
  */
-function Plugin_deliveryCacheStore_oxMemcached_oxMemcached_Delivery_cacheRetrieve($filename) 
+function Plugin_deliveryCacheStore_oxMemcached_oxMemcached_Delivery_cacheRetrieve($filename)
 {
     $oMemcache = _oxMemcached_getMemcache();
     if ($oMemcache == false) {
@@ -32,7 +31,7 @@ function Plugin_deliveryCacheStore_oxMemcached_oxMemcached_Delivery_cacheRetriev
     }
     // Get serialized cache
     // @ - to catch "memcached errno=10054: An existing connection was forcibly closed by the remote host", when one of servers is down
-    $serializedCacheVar = @$oMemcache->get($filename); 
+    $serializedCacheVar = @$oMemcache->get($filename);
     if ($serializedCacheVar === false) {
         return false;
     }
@@ -47,28 +46,28 @@ function Plugin_deliveryCacheStore_oxMemcached_oxMemcached_Delivery_cacheRetriev
  * @return bool True if the entry was succesfully stored
  */
 function Plugin_deliveryCacheStore_oxMemcached_oxMemcached_Delivery_cacheStore($filename, $cache_contents)
-{    
+{
     $oMemcache = _oxMemcached_getMemcache();
     if ($oMemcache == false) {
         return false;
     }
-    
+
     $expiryTime = 0;
     if (!empty($cache_contents['cache_expire'])) {
         $expiryTime = $cache_contents['cache_expire'];
     } else if (is_numeric($GLOBALS['_MAX']['CONF']['oxMemcached']['memcachedExpireTime'])) {
         $expiryTime = $GLOBALS['_MAX']['CONF']['oxMemcached']['memcachedExpireTime'];
     }
-    $serializedCacheExport = serialize($cache_contents); 
+    $serializedCacheExport = serialize($cache_contents);
 
     // Store serialized cache
     // @ - to catch "memcached errno=10054: An existing connection was forcibly closed by the remote host", when one of servers is down
     $result = @$oMemcache->replace($filename, $serializedCacheExport, false, $expiryTime);
     if ($result !== true) {
         // Memcache set/replece can return null on error, so ensure, that for all errors results if false
-        // @ - to catch "memcached errno=10054: An existing connection was forcibly closed by the remote host", when one of servers is down  
+        // @ - to catch "memcached errno=10054: An existing connection was forcibly closed by the remote host", when one of servers is down
         if (@$oMemcache->set($filename, $serializedCacheExport, false, $expiryTime) !== true) {
-            return false; 
+            return false;
         }
     }
     return true;
@@ -77,7 +76,7 @@ function Plugin_deliveryCacheStore_oxMemcached_oxMemcached_Delivery_cacheStore($
 /**
  * Return current Memcache instance
  *
- * @return Memcache 
+ * @return Memcache
  */
 function _oxMemcached_getMemcache(){
     if (!isset($GLOBALS['OA_Delivery_Cache']['MemcachedObject'])) {
@@ -89,7 +88,7 @@ function _oxMemcached_getMemcache(){
 /**
  * Function to initialize Memcache connection
  * Memcache function is stored in $GLOBALS['OA_Delivery_Cache']['MemcachedObject']
- * 
+ *
  * @return Memcache|bool Memcache object or false on errors
  */
 function _oxMemcached_MemcachedInit() {
@@ -97,8 +96,8 @@ function _oxMemcached_MemcachedInit() {
     if (!class_exists('Memcache')){
         return false;
     }
-    $oMemcache = new Memcache(); 
-    
+    $oMemcache = new Memcache();
+
     $aServers = (explode(',', $GLOBALS['_MAX']['CONF']['oxMemcached']['memcachedServers']));
     $serversAdded = false;
     foreach ($aServers as $server) {

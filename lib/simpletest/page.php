@@ -3,7 +3,6 @@
      *	Base include file for SimpleTest
      *	@package	SimpleTest
      *	@subpackage	WebTester
-     *	@version	$Id$
      */
 
     /**#@+
@@ -128,7 +127,7 @@
         function SimplePageBuilder() {
             $this->SimpleSaxListener();
         }
-        
+
         /**
          *    Frees up any references so as to allow the PHP garbage
          *    collection from unset() to work.
@@ -177,7 +176,7 @@
             $parser = new SimpleHtmlSaxParser($listener);
             return $parser;
         }
-        
+
         /**
          *    Start of element event. Opens a new tag.
          *    @param string $name         Element name.

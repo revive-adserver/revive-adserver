@@ -23,7 +23,6 @@
  * @author     Jesper Veggerby <pear.nosey@veggerby.dk>
  * @copyright  Copyright (C) 2003, 2004 Jesper Veggerby Hansen
  * @license    http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/Image_Graph
  */
 
@@ -124,11 +123,11 @@ class Image_Graph_Element extends Image_Graph_Common
 
     /**
      * Default font options
-     * 
+     *
      * This option is included for performance reasons. The value is calculated
      * before output and reused in default cases to avoid unnecessary recursive
      * calls.
-     * 
+     *
      * @var array
      * @access private
      */
@@ -384,13 +383,13 @@ class Image_Graph_Element extends Image_Graph_Common
         if (($options === false) && ($this->_defaultFontOptions !== false)) {
             return $this->_defaultFontOptions;
         }
-        
+
         if ($options === false) {
         	$saveDefault = true;
         } else {
         	$saveDefault = false;
         }
-        
+
         if ($options === false) {
             $options = $this->_fontOptions;
         } else {
@@ -407,11 +406,11 @@ class Image_Graph_Element extends Image_Graph_Common
             $result['size'] += $result['size_rel'];
             unset($result['size_rel']);
         }
-        
+
         if ($saveDefault) {
         	$this->_defaultFontOptions = $result;
         }
-        
+
         return $result;
     }
 
@@ -468,7 +467,7 @@ class Image_Graph_Element extends Image_Graph_Common
 
     /**
      * Clip the canvas to the coordinates of the element
-     * 
+     *
      * @param $enable bool Whether clipping should be enabled or disabled
      * @access protected
      */
@@ -501,7 +500,7 @@ class Image_Graph_Element extends Image_Graph_Common
         if ($left === false) {
             $left = $this->_left;
         }
-        
+
         if ($top === false) {
             $top = $this->_top;
         }
@@ -509,15 +508,15 @@ class Image_Graph_Element extends Image_Graph_Common
         if ($right === false) {
             $right = $this->_right;
         }
-        
+
         if ($bottom === false) {
             $bottom = $this->_bottom;
         }
-        
+
         $this->_left = min($left, $right);
         $this->_top = min($top, $bottom);
         $this->_right = max($left, $right);
-        $this->_bottom = max($top, $bottom);        
+        $this->_bottom = max($top, $bottom);
     }
 
     /**
@@ -569,10 +568,10 @@ class Image_Graph_Element extends Image_Graph_Common
     {
         if (is_array($padding)) {
             $this->_padding = array();
-            $this->_padding['left'] = (isset($padding['left']) ? $padding['left'] : 0);         
-            $this->_padding['top'] = (isset($padding['top']) ? $padding['top'] : 0);         
-            $this->_padding['right'] = (isset($padding['right']) ? $padding['right'] : 0);         
-            $this->_padding['bottom'] = (isset($padding['bottom']) ? $padding['bottom'] : 0);         
+            $this->_padding['left'] = (isset($padding['left']) ? $padding['left'] : 0);
+            $this->_padding['top'] = (isset($padding['top']) ? $padding['top'] : 0);
+            $this->_padding['right'] = (isset($padding['right']) ? $padding['right'] : 0);
+            $this->_padding['bottom'] = (isset($padding['bottom']) ? $padding['bottom'] : 0);
         }
         else {
             $this->_padding = array(
@@ -672,23 +671,23 @@ class Image_Graph_Element extends Image_Graph_Common
 
     /**
      * Draws a shadow 'around' the element
-     * 
+     *
      * Not implemented yet.
      *
      * @access private
      */
     function _displayShadow()
-    {        
+    {
         if (is_array($this->_shadow)) {
             $this->_canvas->startGroup(get_class($this) . '_shadow');
-            $this->_canvas->setFillColor($this->_shadow['color']);        
+            $this->_canvas->setFillColor($this->_shadow['color']);
             $this->_canvas->addVertex(array('x' => $this->_right + 1, 'y' => $this->_top + $this->_shadow['size']));
             $this->_canvas->addVertex(array('x' => $this->_right + $this->_shadow['size'], 'y' => $this->_top + $this->_shadow['size']));
             $this->_canvas->addVertex(array('x' => $this->_right + $this->_shadow['size'], 'y' => $this->_bottom + $this->_shadow['size']));
             $this->_canvas->addVertex(array('x' => $this->_left + $this->_shadow['size'], 'y' => $this->_bottom + $this->_shadow['size']));
             $this->_canvas->addVertex(array('x' => $this->_left + $this->_shadow['size'], 'y' => $this->_bottom + 1));
             $this->_canvas->addVertex(array('x' => $this->_right + 1, 'y' => $this->_bottom + 1));
-            $this->_canvas->polygon(array('connect' => true));            
+            $this->_canvas->polygon(array('connect' => true));
             $this->_canvas->endGroup();
         }
     }
@@ -712,12 +711,12 @@ class Image_Graph_Element extends Image_Graph_Common
         if ($alignment === false) {
             $alignment = IMAGE_GRAPH_ALIGN_LEFT + IMAGE_GRAPH_ALIGN_TOP;
         }
-        
-        $align = array();      
-        
+
+        $align = array();
+
         if (($alignment & IMAGE_GRAPH_ALIGN_TOP) != 0) {
         	$align['vertical'] = 'top';
-        } else if (($alignment & IMAGE_GRAPH_ALIGN_BOTTOM) != 0) {       
+        } else if (($alignment & IMAGE_GRAPH_ALIGN_BOTTOM) != 0) {
         	$align['vertical'] = 'bottom';
         } else {
         	$align['vertical'] = 'center';
@@ -725,7 +724,7 @@ class Image_Graph_Element extends Image_Graph_Common
 
         if (($alignment & IMAGE_GRAPH_ALIGN_LEFT) != 0) {
         	$align['horizontal'] = 'left';
-        } else if (($alignment & IMAGE_GRAPH_ALIGN_RIGHT) != 0) {       
+        } else if (($alignment & IMAGE_GRAPH_ALIGN_RIGHT) != 0) {
         	$align['horizontal'] = 'right';
         } else {
         	$align['horizontal'] = 'center';
@@ -751,7 +750,7 @@ class Image_Graph_Element extends Image_Graph_Common
         }
 
         $result = parent::_done();
-        
+
         if ($this->_shadow !== false) {
             $this->_displayShadow();
         }

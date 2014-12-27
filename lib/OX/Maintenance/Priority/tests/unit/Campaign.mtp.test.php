@@ -17,7 +17,6 @@ require_once MAX_PATH . '/lib/OX/Maintenance/Priority/Campaign.php';
  *
  * @package    OpenXMaintenance
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class Test_OX_Maintenance_Priority_Campaign extends UnitTestCase
 {

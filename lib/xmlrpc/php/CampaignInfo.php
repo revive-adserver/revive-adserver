@@ -12,10 +12,8 @@
 
 /**
  * @package    OpenXDll
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *
  * This file describes the CampaignInfo class.
- *
  */
 
 // Require the base info class.

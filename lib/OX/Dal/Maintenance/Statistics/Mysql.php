@@ -22,7 +22,6 @@ require_once OX_PATH . '/lib/pear/Date.php';
  *
  * @package    OpenXDal
  * @subpackage MaintenanceStatistics
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OX_Dal_Maintenance_Statistics_Mysql extends OX_Dal_Maintenance_Statistics
 {

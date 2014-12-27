@@ -14,8 +14,6 @@
  *
  * @package    OpenXPlugin
  * @subpackage Plugins_BannerTypes
- * @author     Monique Szpak <monique.szpak@openx.org>
- * @author     Chris Nutting <chris.nutting@openx.org>
  * @abstract
  *
  * This function generates the code to show a "text" ad

@@ -12,7 +12,6 @@
 
 /**
  * @package    OpenadsDll
- * @author     Alexander J. Tarachanowicz II <aj.tarachanowicz@openads.org>
  */
 
 // Require the following classes:

@@ -29,7 +29,6 @@ require_once LIB_PATH . '/Plugin/Component.php';
  * @abstract
  * @package    OpenXPlugin
  * @subpackage DeliveryLimitations
- * @author     Chris Nutting <chris@m3.net>
  */
 class Plugins_DeliveryLimitations extends OX_Component
 {

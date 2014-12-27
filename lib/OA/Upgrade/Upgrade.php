@@ -63,7 +63,6 @@ require_once MAX_PATH . '/lib/OA/Preferences.php';
 /**
  * @package    OpenXUpgrade Class
  *
- * @author     Monique Szpak <monique.szpak@openx.org>
  */
 class OA_Upgrade
 {

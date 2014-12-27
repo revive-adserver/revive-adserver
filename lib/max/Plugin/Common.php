@@ -17,7 +17,6 @@ require_once MAX_PATH . '/lib/max/Plugin.php';
  * interface for plugin classes.
  *
  * @package    OpenXPlugin
- * @author     Radek Maciaszek <radek@m3.net>
  * @abstract
  */
 class MAX_Plugin_Common
@@ -117,7 +116,7 @@ class MAX_Plugin_Common
     {
         return MAX_Plugin::cleanPluginCache($this->module, $this->package, $this-> name, $mode);
     }
-    
+
     /**
      * Translates string using module/package translation file
      *

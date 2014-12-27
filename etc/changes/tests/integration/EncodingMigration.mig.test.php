@@ -18,7 +18,6 @@ require_once MAX_PATH . '/etc/changes/tests/unit/MigrationTest.php';
  *
  * @package    OpenX Upgrade
  * @subpackage TestSuite
- * @author     Monique Szpak <monique.szpak@openx.org>
  */
 class Test_EncodingMigration extends MigrationTest
 {

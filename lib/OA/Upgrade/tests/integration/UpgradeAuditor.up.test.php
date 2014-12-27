@@ -23,7 +23,6 @@ Mock::generate('OA_UpgradeAuditor');
  *
  * @package    OpenX Upgrade
  * @subpackage TestSuite
- * @author     Monique Szpak <monique.szpak@openx.org>
  */
 class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
 {

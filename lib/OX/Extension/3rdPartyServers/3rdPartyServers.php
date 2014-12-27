@@ -17,10 +17,9 @@ require_once LIB_PATH . '/Plugin/Component.php';
  *
  * @package    OpenXPlugin
  * @subpackage 3rdPartyServers
- * @author     Radek Maciaszek <radek@m3.net>
  * @abstract
  */
-class Plugins_3rdPartyServers extends OX_Component 
+class Plugins_3rdPartyServers extends OX_Component
 {
 
     /**

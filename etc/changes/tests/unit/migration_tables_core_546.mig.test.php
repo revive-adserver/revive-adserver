@@ -22,7 +22,6 @@ require_once(MAX_PATH. '/lib/OA/Upgrade/Configuration.php');
  *
  * @package    changes
  * @subpackage TestSuite
- * @author     Miguel Correa <miguel.correa@openx.org>
  */
 class Migration_546Test extends MigrationTest
 {

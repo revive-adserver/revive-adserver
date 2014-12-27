@@ -18,7 +18,6 @@ require_once OX_PATH . '/lib/OX.php';
  * A class for managing easy redirecton in the administration interface.
  *
  * @package    OpenX
- * @author     Andrew Hill <andrew.hill@openx.net>
  * @static
  */
 class OX_Admin_Redirect

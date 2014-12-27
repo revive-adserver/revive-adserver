@@ -1,11 +1,10 @@
 <?php
-    // $Id$
     if (! defined('TEST')) {
         define('TEST', __FILE__);
     }
     require_once(dirname(__FILE__) . '/test_groups.php');
     require_once(dirname(__FILE__) . '/../reporter.php');
-    
+
     if (TEST == __FILE__) {
         $test = new UnitTests();
         if (SimpleReporter::inCli()) {

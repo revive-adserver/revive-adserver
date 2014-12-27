@@ -24,7 +24,6 @@
  * @author     Jesper Veggerby <pear.nosey@veggerby.dk>
  * @copyright  Copyright (C) 2003, 2004 Jesper Veggerby Hansen
  * @license    http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/Image_Graph
  * @since      File available since Release 0.3.0dev2
  */
@@ -103,7 +102,7 @@ class Image_Graph_Plot_Band extends Image_Graph_Plot
 
         $this->_canvas->startGroup(get_class($this) . '_' . $this->_title);
 
-        $this->_clip(true);        
+        $this->_clip(true);
 
 
         $keys = array_keys($this->_dataset);
@@ -115,55 +114,55 @@ class Image_Graph_Plot_Band extends Image_Graph_Plot
             while ($data = $dataset->_next()) {
                 if ($this->_parent->_horizontal) {
                     $point['X'] = $data['X'];
-    
+
                     $point['Y'] = $data['Y']['high'];
                     $y = $this->_pointY($point);
                     $x_high = $this->_pointX($point);
-    
+
                     $point['Y'] = $data['Y']['low'];
                     $x_low = $this->_pointX($point);
-       
+
                     $data = array('X' => $x_high, 'Y' => $y);
                     if (isset($point['data'])) {
                         $data['data'] = $point['data'];
                     } else {
                         $data['data'] = array();
-                    }             
+                    }
                     $upperBand[] = $data;
-                    
+
                     $data = array('X' => $x_low, 'Y' => $y);
                     if (isset($point['data'])) {
                         $data['data'] = $point['data'];
                     } else {
                         $data['data'] = array();
-                    }              
+                    }
                     $lowerBand[] = $data;
                 }
                 else {
                     $point['X'] = $data['X'];
                     $y = $data['Y'];
-    
+
                     $point['Y'] = $data['Y']['high'];
                     $x = $this->_pointX($point);
                     $y_high = $this->_pointY($point);
-    
+
                     $point['Y'] = $data['Y']['low'];
                     $y_low = $this->_pointY($point);
-       
+
                     $data = array('X' => $x, 'Y' => $y_high);
                     if (isset($point['data'])) {
                         $data['data'] = $point['data'];
                     } else {
                         $data['data'] = array();
-                    }             
+                    }
                     $upperBand[] = $data;
-                    
+
                     $data = array('X' => $x, 'Y' => $y_low);
                     if (isset($point['data'])) {
                         $data['data'] = $point['data'];
                     } else {
                         $data['data'] = array();
-                    }              
+                    }
                     $lowerBand[] = $data;
                 }
             }
@@ -177,7 +176,7 @@ class Image_Graph_Plot_Band extends Image_Graph_Plot
                 );
             }
             foreach ($upperBand as $point) {
-                $this->_canvas->addVertex(                
+                $this->_canvas->addVertex(
                     $this->_mergeData(
                         $point['data'],
                         array('x' => $point['X'], 'y' => $point['Y'])
@@ -193,7 +192,7 @@ class Image_Graph_Plot_Band extends Image_Graph_Plot
         }
         unset($keys);
         $this->_drawMarker();
-        $this->_clip(false);        
+        $this->_clip(false);
 
         $this->_canvas->endGroup();
 

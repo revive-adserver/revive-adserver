@@ -1,20 +1,19 @@
 <?php
-    // $Id$
     require_once(dirname(__FILE__) . '/../compatibility.php');
-    
+
     class ComparisonClass {
     }
-    
+
     class ComparisonSubclass extends ComparisonClass {
     }
-    
+
     if (version_compare(phpversion(), '5') >= 0) {
         eval('interface ComparisonInterface { }');
         eval('class ComparisonClassWithInterface implements ComparisonInterface { }');
     }
-    
+
     class TestOfCompatibility extends UnitTestCase {
-        
+
         function testIsA() {
             $this->assertTrue(SimpleTestCompatibility::isA(
                     new ComparisonClass(),
@@ -26,19 +25,19 @@
                     new ComparisonSubclass(),
                     'ComparisonClass'));
         }
-        
+
         function testIdentityOfNumericStrings() {
             $numericString1 = "123";
             $numericString2 = "00123";
             $this->assertNotIdentical($numericString1, $numericString2);
         }
-        
+
         function testIdentityOfObjects() {
             $object1 = new ComparisonClass();
             $object2 = new ComparisonClass();
             $this->assertIdentical($object1, $object2);
         }
-        
+
         function testReferences () {
             $thing = "Hello";
             $thing_reference = &$thing;
@@ -53,7 +52,7 @@
                     $thing,
                     $thing_copy));
         }
-        
+
         function testObjectReferences () {
             $object = new ComparisonClass();
             $object_reference = &$object;
@@ -78,12 +77,12 @@
                         $object_assignment));
             }
         }
-        
+
         function testInteraceComparison() {
             if (version_compare(phpversion(), '5', '<')) {
                 return;
             }
-            
+
             $object = new ComparisonClassWithInterface();
             $this->assertFalse(SimpleTestCompatibility::isA(
                     new ComparisonClass(),

@@ -15,7 +15,6 @@
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 1.4.0a1
  */
@@ -151,7 +150,7 @@ class PEAR_Task_Postinstallscript extends PEAR_Task_Common
                         return array(PEAR_TASK_ERROR_INVALID, 'Post-install script "' .
                             $fileXml['name'] . '" ' . $tasksNamespace .
                             'paramgroup> id "' . $param[$tasksNamespace . 'id'] .
-                            '" must have a ' . $tasksNamespace . 
+                            '" must have a ' . $tasksNamespace .
                             'conditiontype> tag containing either "=", ' .
                             '"!=", or "preg_match"');
                     }

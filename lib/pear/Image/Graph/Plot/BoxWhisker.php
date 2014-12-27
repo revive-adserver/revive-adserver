@@ -24,7 +24,6 @@
  * @author     Jesper Veggerby <pear.nosey@veggerby.dk>
  * @copyright  Copyright (C) 2003, 2004 Jesper Veggerby Hansen
  * @license    http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/Image_Graph
  * @since      File available since Release 0.3.0dev2
  */
@@ -177,7 +176,7 @@ class Image_Graph_Plot_BoxWhisker extends Image_Graph_Plot
         $r = 2;//round(abs($x1 - $x0) / 13);
         $this->_drawBoxWhiskerV($x, $w, $r, $y1, $y1 - 2 * $h, $y1 - 4 * $h, $y0 + 3 * $h, $y0);
     }
-    
+
     /**
      * Sets the whisker circle size
      *
@@ -206,7 +205,7 @@ class Image_Graph_Plot_BoxWhisker extends Image_Graph_Plot
 
         $this->_canvas->startGroup(get_class($this) . '_' . $this->_title);
 
-        $this->_clip(true);        
+        $this->_clip(true);
 
         if ($this->_multiType == 'stacked100pct') {
             $total = $this->_getTotals();
@@ -217,7 +216,7 @@ class Image_Graph_Plot_BoxWhisker extends Image_Graph_Plot
 
         if ($this->_whiskerSize !== false) {
             $r = $this->_whiskerSize;
-        } else {            
+        } else {
             $r = min(5, $width / 10);
         }
 
@@ -229,57 +228,57 @@ class Image_Graph_Plot_BoxWhisker extends Image_Graph_Plot
                 if ($this->_parent->_horizontal) {
                     $point['X'] = $data['X'];
                     $y = $data['Y'];
-    
+
                     $min = min($y);
                     $max = max($y);
                     $q1 = $dataset->_median($y, 'first');
                     $med = $dataset->_median($y, 'second');
                     $q3 = $dataset->_median($y, 'third');
-    
+
                     $point['Y'] = $min;
                     $y = $this->_pointY($point);
                     $x_min = $this->_pointX($point);
-    
+
                     $point['Y'] = $max;
                     $x_max = $this->_pointX($point);
-    
+
                     $point['Y'] = $q1;
                     $x_q1 = $this->_pointX($point);
-    
+
                     $point['Y'] = $med;
                     $x_med = $this->_pointX($point);
-    
+
                     $point['Y'] = $q3;
                     $x_q3 = $this->_pointX($point);
-    
+
                     $this->_drawBoxWhiskerH($y, $width, $r, $x_min, $x_q1, $x_med, $x_q3, $x_max, $key);
                 }
                 else {
                     $point['X'] = $data['X'];
                     $y = $data['Y'];
-    
+
                     $min = min($y);
                     $max = max($y);
                     $q1 = $dataset->_median($y, 'first');
                     $med = $dataset->_median($y, 'second');
                     $q3 = $dataset->_median($y, 'third');
-    
+
                     $point['Y'] = $min;
                     $x = $this->_pointX($point);
                     $y_min = $this->_pointY($point);
-    
+
                     $point['Y'] = $max;
                     $y_max = $this->_pointY($point);
-    
+
                     $point['Y'] = $q1;
                     $y_q1 = $this->_pointY($point);
-    
+
                     $point['Y'] = $med;
                     $y_med = $this->_pointY($point);
-    
+
                     $point['Y'] = $q3;
                     $y_q3 = $this->_pointY($point);
-    
+
                     $this->_drawBoxWhiskerV($x, $width, $r, $y_min, $y_q1, $y_med, $y_q3, $y_max, $key);
                 }
             }
@@ -287,7 +286,7 @@ class Image_Graph_Plot_BoxWhisker extends Image_Graph_Plot
         unset($keys);
         $this->_drawMarker();
 
-        $this->_clip(false);        
+        $this->_clip(false);
 
         $this->_canvas->endGroup();
         return true;

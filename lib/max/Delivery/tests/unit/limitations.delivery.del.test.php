@@ -17,8 +17,6 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
  *
  * @package    MaxDelivery
  * @subpackage TestSuite
- * @author Andrzej Swedrzynski <andrzej.swedrzynski@m3.net>
- *
  */
 class Test_DeliveryLimitations_Delivery extends UnitTestCase
 {

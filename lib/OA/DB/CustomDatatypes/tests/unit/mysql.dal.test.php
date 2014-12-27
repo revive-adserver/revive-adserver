@@ -19,7 +19,6 @@ require_once MAX_PATH . '/lib/OA/DB.php';
  *
  * @package    OpenXDB
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class Test_OA_DB_CustomDatatypes_mysql extends UnitTestCase
 {

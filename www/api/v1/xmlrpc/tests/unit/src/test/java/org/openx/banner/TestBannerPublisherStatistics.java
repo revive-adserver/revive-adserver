@@ -20,8 +20,6 @@ import org.openx.utils.TextUtils;
 
 /**
  * Verify Banner Publisher Statistics method
- *
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class TestBannerPublisherStatistics extends BannerTestCase {
 	private Integer bannerId = null;

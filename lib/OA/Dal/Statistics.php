@@ -12,8 +12,6 @@
 
 /**
  * @package    OpenX
- * @author     Ivan Klishch <iklishch@lohika.com>
- *
  */
 
 
@@ -26,7 +24,7 @@ class OA_Dal_Statistics extends OA_Dal
 {
     /**
      * Get SQL where for statistics methods.
-     * 
+     *
      *  @access public
      *
      * @param Date   $oStartDate

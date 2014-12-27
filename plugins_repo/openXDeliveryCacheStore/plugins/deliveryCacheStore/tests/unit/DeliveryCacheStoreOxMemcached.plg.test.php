@@ -30,7 +30,6 @@ require_once dirname(dirname(dirname(__FILE__))) . '/oxMemcached/oxMemcached.cla
  *
  * @package    OpenXPlugin
  * @subpackage TestSuite
- * @author     Lukasz Wikierski <lukasz.wikierski@openx.org>
  */
 class Plugins_TestOfPlugins_DeliveryCacheStore_oxMemcached_oxMemcached extends UnitTestCase
 {

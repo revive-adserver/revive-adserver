@@ -14,7 +14,6 @@
  * A class to deal with the conwersion between difrent number formats
  *
  * @package    OpenXAdmin
- * @author     Lukasz Wikierski <lukasz.wikierski@openx.org>
  */
 class OA_Admin_NumberFormat {
 

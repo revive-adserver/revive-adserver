@@ -24,7 +24,6 @@
  * @author     Jesper Veggerby <pear.nosey@veggerby.dk>
  * @copyright  Copyright (C) 2003, 2004 Jesper Veggerby Hansen
  * @license    http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/Image_Graph
  */
 
@@ -54,7 +53,7 @@ class Image_Graph_Marker_Cross extends Image_Graph_Marker
 	 * @access private
 	 */
 	var $_thickness = 2;
-	
+
     /**
      * Draw the marker on the canvas
      *
@@ -68,24 +67,24 @@ class Image_Graph_Marker_Cross extends Image_Graph_Marker
     	if ($this->_thickness > 0) {
 	    	$this->_getLineStyle();
 	        $this->_getFillStyle();
-	        
+
 	        $d1 = round(0.7071067 * $this->_size); // cos/sin(45 de>)
 	        $d2 = round(0.7071067 * $this->_thickness); // cos/sin(45 deg)
-	        
-	        $this->_canvas->addVertex(array('x' => $x - $d1 - $d2, 'y' => $y - $d1 + $d2)); 
-	        $this->_canvas->addVertex(array('x' => $x - $d1 + $d2, 'y' => $y - $d1 - $d2)); 
-	        $this->_canvas->addVertex(array('x' => $x, 'y' => $y - 2 * $d2)); 
-	        $this->_canvas->addVertex(array('x' => $x + $d1 - $d2, 'y' => $y - $d1 - $d2)); 
-	        $this->_canvas->addVertex(array('x' => $x + $d1 + $d2, 'y' => $y - $d1 + $d2)); 
-	        $this->_canvas->addVertex(array('x' => $x + 2 * $d2, 'y' => $y)); 
-	        $this->_canvas->addVertex(array('x' => $x + $d1 + $d2, 'y' => $y + $d1 - $d2)); 
-	        $this->_canvas->addVertex(array('x' => $x + $d1 - $d2, 'y' => $y + $d1 + $d2)); 
-	        $this->_canvas->addVertex(array('x' => $x, 'y' => $y + 2 * $d2)); 
-	        $this->_canvas->addVertex(array('x' => $x - $d1 + $d2, 'y' => $y + $d1 + $d2)); 
-	        $this->_canvas->addVertex(array('x' => $x - $d1 - $d2, 'y' => $y + $d1 - $d2)); 
-	        $this->_canvas->addVertex(array('x' => $x - 2 * $d2, 'y' => $y)); 
+
+	        $this->_canvas->addVertex(array('x' => $x - $d1 - $d2, 'y' => $y - $d1 + $d2));
+	        $this->_canvas->addVertex(array('x' => $x - $d1 + $d2, 'y' => $y - $d1 - $d2));
+	        $this->_canvas->addVertex(array('x' => $x, 'y' => $y - 2 * $d2));
+	        $this->_canvas->addVertex(array('x' => $x + $d1 - $d2, 'y' => $y - $d1 - $d2));
+	        $this->_canvas->addVertex(array('x' => $x + $d1 + $d2, 'y' => $y - $d1 + $d2));
+	        $this->_canvas->addVertex(array('x' => $x + 2 * $d2, 'y' => $y));
+	        $this->_canvas->addVertex(array('x' => $x + $d1 + $d2, 'y' => $y + $d1 - $d2));
+	        $this->_canvas->addVertex(array('x' => $x + $d1 - $d2, 'y' => $y + $d1 + $d2));
+	        $this->_canvas->addVertex(array('x' => $x, 'y' => $y + 2 * $d2));
+	        $this->_canvas->addVertex(array('x' => $x - $d1 + $d2, 'y' => $y + $d1 + $d2));
+	        $this->_canvas->addVertex(array('x' => $x - $d1 - $d2, 'y' => $y + $d1 - $d2));
+	        $this->_canvas->addVertex(array('x' => $x - 2 * $d2, 'y' => $y));
 	        $this->_canvas->polygon(array('connect' => true));
-    	} else {        
+    	} else {
 	        $this->_getLineStyle();
 	        $this->_canvas->line(
 	        	array(
@@ -95,7 +94,7 @@ class Image_Graph_Marker_Cross extends Image_Graph_Marker
 	            	'y1' => $y + $this->_size
 	            )
 	        );
-	
+
 	        $this->_getLineStyle();
 	        $this->_canvas->line(
 	        	array(

@@ -19,7 +19,6 @@ require_once 'MDB2.php';
  *
  * @package    OpenXDB
  * @subpackage Distributed
- * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
 class OA_DB_Distributed extends OA_DB
 {

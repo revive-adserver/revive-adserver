@@ -39,8 +39,6 @@ require_once OX_PATH . '/lib/pear/Date.php';
  * A library class for providing common maintenance process methods.
  *
  * @package    OpenXMaintenance
- * @author     Andrew Hill <andrew.hill@opends.org>
- * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
 class OX_Maintenance
 {

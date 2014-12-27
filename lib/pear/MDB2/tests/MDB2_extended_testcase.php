@@ -41,8 +41,6 @@
 // | Authors: Paul Cooper <pgc@ucecom.com>                                |
 // |          Lorenzo Alberton <l dot alberton at quipo dot it>           |
 // +----------------------------------------------------------------------+
-//
-// $Id$
 
 require_once 'MDB2_testcase.php';
 
@@ -159,7 +157,7 @@ class MDB2_Extended_TestCase extends MDB2_TestCase
         }
         $this->assertTrue(array_key_exists($data['user_id'], $result), 'Unexpected returned key');
         $this->assertEquals($data['user_name'], $result[$data['user_id']], 'Unexpected returned value');
-        
+
         //test getAssoc() without query parameters
         $query = 'SELECT user_id, user_name FROM users WHERE user_id=1234';
         $result = $this->db->getAssoc($query, array('integer', 'text'));

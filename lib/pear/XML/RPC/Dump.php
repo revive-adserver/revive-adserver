@@ -11,7 +11,6 @@
  * @category   Web Services
  * @package    XML_RPC
  * @author     Christian Weiske <cweiske@php.net>
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/XML_RPC
  */
 

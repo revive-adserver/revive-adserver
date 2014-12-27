@@ -14,7 +14,6 @@
  *
  * @package    OpenXPlugin
  * @subpackage Plugins_BannerTypes
- * @author     Monique Szpak <monique.szpak@openx.org>
  *
  * @param array   $aBanner      The ad-array for the ad to render code for
  * @param int     $zoneId       The zone ID of the zone used to select this ad (if zone-selected)

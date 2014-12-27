@@ -18,9 +18,7 @@ import org.openx.utils.ErrorMessage;
 import org.openx.utils.TextUtils;
 
 /**
- * Verify Get dvertiser method
- *
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
+ * Verify Get advertiser method
  */
 public class TestGetAdvertiser extends AdvertiserTestCase {
 

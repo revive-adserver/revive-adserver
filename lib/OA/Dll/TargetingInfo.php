@@ -12,7 +12,6 @@
 
 /**
  * @package    OpenXDll
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *
  */
 
@@ -28,34 +27,34 @@ class OA_Dll_TargetingInfo extends OA_Info
 {
     /**
      * 99% will be "and" or "or", but that's not enforced
-     * 
+     *
      * @var string
      */
     public $logical;
-    
+
     /**
      * This is the plugin-component identifier
-     * 
+     *
      * @var string
      */
     public $type;
-    
+
     /**
-     * String showing the operation to be applied (e.g.: '==', '!=', '>=', 
+     * String showing the operation to be applied (e.g.: '==', '!=', '>=',
      * 'ne')
-     * 
+     *
      * @var string
      */
     public $comparison;
-    
+
     /**
      * The exact structure varies from component to component
-     * 
+     *
      * @var string
      */
     public $data;
-    
-    
+
+
     function getFieldsTypes()
     {
         return array(

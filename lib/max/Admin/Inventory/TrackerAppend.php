@@ -25,7 +25,6 @@ require_once OX_PATH . '/lib/pear/HTML/Template/Flexy.php';
  * A class for determining the available geotargeting modes.
  *
  * @package    Max
- * @author     Matteo Beccati <matteo@beccati.com>
  */
 class MAX_Admin_Inventory_TrackerAppend
 {
@@ -150,7 +149,7 @@ class MAX_Admin_Inventory_TrackerAppend
             // Queue confirmation message
             $doTrackers = OA_Dal::factoryDO('trackers');
             $doTrackers->get($this->tracker_id);
-  
+
             $translation = new OX_Translation();
             $translated_message = $translation->translate ( $GLOBALS['strTrackerAppendHasBeenUpdated'], array(
                 MAX::constructURL(MAX_URL_ADMIN, "tracker-edit.php?clientid=".$this->advertiser_id."&trackerid=".$this->tracker_id),

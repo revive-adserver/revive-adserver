@@ -15,20 +15,14 @@
 // +----------------------------------------------------------------------+
 // | Authors:  Alan Knowles <alan@akbkhome>                               |
 // +----------------------------------------------------------------------+
-//
-// $Id$
-//
- 
+
 /**
-* Class to handle Processing Directives = <?xml or <?php
-* 
-*
-*/
+ * Class to handle Processing Directives = <?xml or <?php
+ */
 class HTML_Template_Flexy_Token_Processing extends HTML_Template_Flexy_Token {
-   
+
 
 }
 
 
- 
- 
+

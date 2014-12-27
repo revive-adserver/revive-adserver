@@ -18,8 +18,6 @@
 // |          Robin Ericsson <robin.ericsson@profecta.se>                 |
 // +----------------------------------------------------------------------+
 //
-// $Id$
-//
 // Numbers_Words class extension to spell numbers in Swedish language.
 //
 

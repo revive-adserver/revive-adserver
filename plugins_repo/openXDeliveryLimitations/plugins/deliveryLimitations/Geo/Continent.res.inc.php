@@ -15,8 +15,6 @@ require_once dirname(__FILE__) . '/data/res-continent.inc.php';
 /**
  * @package    OpenXPlugin
  * @subpackage DeliveryLimitations
- * @author     Chris Nutting <chris.nutting@openx.org>
- * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
 if (!isset($GLOBALS['_MAX']['_GEOCACHE']['continent'])) {
     global $OA_Geo_continent, $OA_Geo_cont_name;

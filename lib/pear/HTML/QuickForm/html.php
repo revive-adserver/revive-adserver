@@ -3,7 +3,7 @@
 
 /**
  * A pseudo-element used for adding raw HTML to form
- * 
+ *
  * PHP versions 4 and 5
  *
  * LICENSE: This source file is subject to version 3.01 of the PHP license
@@ -17,7 +17,6 @@
  * @author      Alexey Borzov <avb@php.net>
  * @copyright   2001-2007 The PHP Group
  * @license     http://www.php.net/license/3_01.txt PHP License 3.01
- * @version     CVS: $Id$
  * @link        http://pear.php.net/package/HTML_QuickForm
  */
 
@@ -28,7 +27,7 @@ require_once 'HTML/QuickForm/static.php';
 
 /**
  * A pseudo-element used for adding raw HTML to form
- * 
+ *
  * Intended for use with the default renderer only, template-based
  * ones may (and probably will) completely ignore this
  *
@@ -45,7 +44,7 @@ class HTML_QuickForm_html extends HTML_QuickForm_static
 
    /**
     * Class constructor
-    * 
+    *
     * @param string $text   raw HTML to add
     * @access public
     * @return void
@@ -64,7 +63,7 @@ class HTML_QuickForm_html extends HTML_QuickForm_static
     *
     * @param HTML_QuickForm_Renderer    renderer object (only works with Default renderer!)
     * @access public
-    * @return void 
+    * @return void
     */
     function accept(&$renderer)
     {

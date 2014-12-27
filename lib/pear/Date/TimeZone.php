@@ -18,10 +18,7 @@
 // |                                                                      |
 // +----------------------------------------------------------------------+
 //
-// $Id$
-//
 // Date_TimeZone Class
-//
 
 /**
  * TimeZone representation class, along with time zone information data.

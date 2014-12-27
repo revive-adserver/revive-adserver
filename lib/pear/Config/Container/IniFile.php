@@ -14,8 +14,6 @@
 // +----------------------------------------------------------------------+
 // | Authors: Bertrand Mansion <bmansion@mamasam.com>                     |
 // +----------------------------------------------------------------------+
-//
-// $Id$
 
 /**
 * Config parser for PHP .ini files
@@ -128,7 +126,7 @@ class Config_Container_IniFile {
                           strpos($content, '(') !== false ||
                           strpos($content, ')') !== false ||
                           $content === 'none') {
-                    $content = '"'.addslashes($content).'"';          
+                    $content = '"'.addslashes($content).'"';
                 }
                 if ($count > 1) {
                     // multiple values for a directive are separated by a comma

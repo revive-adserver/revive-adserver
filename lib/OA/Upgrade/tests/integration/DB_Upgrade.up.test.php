@@ -22,7 +22,6 @@ require_once MAX_PATH.'/lib/OA/Upgrade/Migration.php';
  *
  * @package    OpenX Upgrade
  * @subpackage TestSuite
- * @author     Monique Szpak <monique.szpak@openx.org>
  */
 class Test_DB_Upgrade extends UnitTestCase
 {

@@ -24,7 +24,6 @@ require_once OX_PATH . '/lib/OX.php';
  *
  * @static
  * @package    OpenXMaintenance
- * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
 class OA_Maintenance_Auto
 {

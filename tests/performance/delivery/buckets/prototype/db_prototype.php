@@ -16,9 +16,7 @@
  *
  * @package    OpenXDal
  * @subpackage Delivery
- * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  */
-
 
 // default buckets to log data into
 // (use of globals instead of constants as they are faster in php)

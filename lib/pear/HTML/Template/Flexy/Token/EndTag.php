@@ -15,15 +15,12 @@
 // +----------------------------------------------------------------------+
 // | Authors:  Alan Knowles <alan@akbkhome>                               |
 // +----------------------------------------------------------------------+
-//
-// $Id$
-//
- 
+
 /**
 * The closing HTML Tag = eg. /Table or /Body etc.
 *
-* @abstract 
-* This just extends the generic HTML tag 
+* @abstract
+* This just extends the generic HTML tag
 *
 */
 
@@ -32,4 +29,3 @@ require_once 'HTML/Template/Flexy/Token/Tag.php';
 
 class HTML_Template_Flexy_Token_EndTag extends HTML_Template_Flexy_Token_Tag { }
 
-  

@@ -16,10 +16,6 @@ require_once MAX_PATH . '/www/api/v2/common/BaseVariableService.php';
 require_once MAX_PATH . '/www/api/v2/common/XmlRpcUtils.php';
 require_once MAX_PATH . '/lib/OA/Dll/Variable.php';
 
-/**
- *
- * @author David Keen <david.keen@openx.org>
- */
 class VariableXmlRpcService extends BaseVariableService
 {
     /**

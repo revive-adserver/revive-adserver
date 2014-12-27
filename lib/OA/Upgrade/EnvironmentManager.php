@@ -13,8 +13,6 @@
 /**
  * OpenXUpgrade Class
  *
- * @author     Monique Szpak <monique.szpak@openx.org>
- *
  */
 define('OA_ENV_ERROR_PHP_NOERROR',                    1);
 define('OA_ENV_ERROR_PHP_VERSION',                   -1);

@@ -27,7 +27,6 @@ require_once OX_PATH . '/lib/pear/Date.php';
  * alerts.
  *
  * @package    OpenX
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_Email
 {

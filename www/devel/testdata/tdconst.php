@@ -13,7 +13,6 @@
 /**
  * @package    Devel Utils
  * @subpackage Test Data
- * @author
  */
 
 if (!defined('TD_PATH')) {

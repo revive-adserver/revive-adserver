@@ -18,7 +18,6 @@ require_once MAX_PATH . '/etc/changes/tests/unit/MigrationTest.php';
  *
  * @package    changes
  * @subpackage TestSuite
- * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
 class Migration_531Test extends MigrationTest
 {

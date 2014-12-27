@@ -17,8 +17,6 @@
 // |         Tomas V.V.Cox <cox@idecnet.com>                              |
 // |         Stephan Schmidt <schst@php-tools.net>                        |
 // +----------------------------------------------------------------------+
-//
-// $Id$
 
 /**
  * XML Parser class.

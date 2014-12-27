@@ -1,6 +1,4 @@
 <?php
-// $Id$
-
 require_once(dirname(__FILE__) . '/../collector.php');
 Mock::generate('TestSuite');
 

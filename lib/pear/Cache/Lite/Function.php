@@ -11,11 +11,10 @@
 * Technical choices are described in the 'docs/technical' file
 *
 * @package Cache_Lite
-* @version $Id$
 * @author Sebastian BERGMANN <sb@sebastian-bergmann.de>
 * @author Fabien MARTY <fab@php.net>
 */
- 
+
 require_once('Cache/Lite.php');
 
 define('CACHE_LITE_FUNCTION_ERROR', 'Function call returned an error');
@@ -24,16 +23,16 @@ class Cache_Lite_Function extends Cache_Lite
 {
 
     // --- Private properties ---
-    
+
     /**
     * Default cache group for function caching
     *
     * @var string $_defaultGroup
     */
     var $_defaultGroup = 'Cache_Lite_Function';
-    
+
     // --- Public methods ----
-    
+
     /**
     * Constructor
     *
@@ -56,12 +55,12 @@ class Cache_Lite_Function extends Cache_Lite
         }
         $this->Cache_Lite($options);
     }
-    
+
     /**
     * Calls a cacheable function or method (or not if there is already a cache for it)
     *
     * Arguments of this method are read with func_get_args. So it doesn't appear
-    * in the function definition. Synopsis : 
+    * in the function definition. Synopsis :
     * call('functionName', $arg1, $arg2, ...)
     * (arg1, arg2... are arguments of 'functionName')
     *
@@ -111,13 +110,13 @@ class Cache_Lite_Function extends Cache_Lite
                 $output = $array['output'];
                 $result = $array['result'];
             }
-            
+
             $this->save(serialize($array), $id, $this->_defaultGroup);
         }
         echo($output);
         return $result;
     }
-    
+
 }
 
 ?>

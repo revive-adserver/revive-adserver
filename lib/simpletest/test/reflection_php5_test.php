@@ -1,6 +1,4 @@
 <?php
-    // $Id$
-
     abstract class AnyOldClass {
         function aMethod() { }
     }
@@ -37,7 +35,7 @@
 	class AnyOldTypeHintedClass implements AnyOldArgumentInterface {
 		function aMethod(AnyOldInterface $argument) { }
 	}
-    
+
     class AnyOldOverloadedClass {
         function __isset($key) { }
         function __unset($key) { }
@@ -90,7 +88,7 @@
             $reflection = new SimpleReflection('AnyDescendentInterface');
             $this->assertIdentical($reflection->getMethods(), array('aMethod'));
         }
-        
+
         function testCanSeparateInterfaceMethodsFromOthers() {
             $reflection = new SimpleReflection('AnyOldImplementation');
             $this->assertIdentical($reflection->getMethods(), array('aMethod', 'extraMethod'));
@@ -152,7 +150,7 @@
 			    $this->assertEqual('function aMethod(AnyOldInterface $argument)', $function);
     	    }
 		}
-        
+
         function testIssetFunctionSignature() {
             $reflection = new SimpleReflection('AnyOldOverloadedClass');
             $function = $reflection->getSignature('__isset');
@@ -162,7 +160,7 @@
                 $this->assertEqual('function __isset()', $function);
             }
         }
-        
+
         function testUnsetFunctionSignature() {
             $reflection = new SimpleReflection('AnyOldOverloadedClass');
             $function = $reflection->getSignature('__unset');

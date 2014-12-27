@@ -18,8 +18,6 @@
 // |          Andrey Demenev <demenev@on-line.jar.ru>                     |
 // +----------------------------------------------------------------------+
 //
-// $Id$
-//
 // Numbers_Words class extension to spell numbers in Russian language.
 //
 

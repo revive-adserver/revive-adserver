@@ -15,8 +15,6 @@
 // +----------------------------------------------------------------------+
 // | Author: Piotr Klaban <makler@man.torun.pl>                           |
 // +----------------------------------------------------------------------+
-//
-// $Id$
 
 /**
  * Exchange rate driver - National Bank of Poland
@@ -56,7 +54,7 @@ class Services_ExchangeRates_Rates_NBP extends Services_ExchangeRates_Common {
     * @var string
     */
     var $feedXMLUrl;
-    
+
    /**
     * URL of HTML page where the XML feed URL is given
     * @var string
@@ -82,7 +80,7 @@ class Services_ExchangeRates_Rates_NBP extends Services_ExchangeRates_Common {
     * @link http://www.nbp.pl/Kursy/KursyA.html Polish HTML version (with link to XML)
     *
     * @param int Length of time to cache (in seconds)
-    * @return array 
+    * @return array
     */
     function retrieve($cacheLength, $cacheDir) {
 
@@ -119,8 +117,8 @@ class Services_ExchangeRates_Rates_NBP extends Services_ExchangeRates_Common {
                 $return['date'] = $rateinfo->content;
             }
         }
-        
-        return $return; 
+
+        return $return;
 
     }
 

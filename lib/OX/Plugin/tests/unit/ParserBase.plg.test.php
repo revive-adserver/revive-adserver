@@ -16,7 +16,6 @@ require_once LIB_PATH.'/Plugin/ParserBase.php';
  * A class for testing the OX_ParserBase class.
  *
  * @package Plugins
- * @author  Monique Szpak <monique.szpak@openx.org>
  * @subpackage TestSuite
  */
 class Test_OX_ParserBase extends UnitTestCase
@@ -226,7 +225,7 @@ class Test_OX_ParserBase extends UnitTestCase
 
             $this->assertEqual(strlen($aPlugin['uninstall']['prescript']),5497);
             $this->assertEqual(strlen($aPlugin['uninstall']['postscript']),5497);
-            
+
             $this->assertIsA($aPlugin['allfiles'], 'array');
             $this->assertEqual(count($aPlugin['allfiles']), 5);
             $this->assertEqual(strlen($aPlugin['allfiles'][0]['name']), 5653);
@@ -234,9 +233,9 @@ class Test_OX_ParserBase extends UnitTestCase
             $this->assertEqual(strlen($aPlugin['allfiles'][2]['name']), 5489);
             $this->assertEqual(strlen($aPlugin['allfiles'][3]['name']), 5497);
             $this->assertEqual(strlen($aPlugin['allfiles'][4]['name']), 5497);
-        }        
+        }
     }
-    
+
     function _assertStructure($aPlugin)
     {
         $this->assertTrue(array_key_exists('name', $aPlugin),'array key not found [name]');

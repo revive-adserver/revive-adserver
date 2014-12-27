@@ -1,6 +1,4 @@
 <?php
-    // $Id$
-
     class AnyOldThing {
         function aMethod() {
         }

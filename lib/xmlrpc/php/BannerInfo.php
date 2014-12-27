@@ -12,10 +12,8 @@
 
 /**
  * @package    OpenXDll
- * @author     Ivan Klishch <iklishch@lohika.com>
  *
  * This file describes the BannerInfo class.
- *
  */
 
 // Require the base info class.
@@ -200,7 +198,7 @@ class OA_Dll_BannerInfo extends OA_Info
      * @var string $alt
      */
     var $alt;
-    
+
     /**
      * This field provides the filename of the banner.
      *

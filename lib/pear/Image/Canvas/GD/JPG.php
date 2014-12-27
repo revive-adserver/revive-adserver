@@ -25,7 +25,6 @@
  * @author     Jesper Veggerby <pear.nosey@veggerby.dk>
  * @copyright  Copyright (C) 2003, 2004 Jesper Veggerby Hansen
  * @license    http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version    CVS: $Id$
  * @link       http://pear.php.net/pepr/pepr-proposal-show.php?id=212
  */
 
@@ -36,7 +35,7 @@ require_once 'Image/Canvas/GD.php';
 
 /**
  * JPEG Canvas class.
- * 
+ *
  * @category   Images
  * @package    Image_Canvas
  * @author     Jesper Veggerby <pear.nosey@veggerby.dk>
@@ -47,20 +46,20 @@ require_once 'Image/Canvas/GD.php';
  */
 class Image_Canvas_GD_JPG extends Image_Canvas_GD
 {
-    
+
     /**
      * The JPEG quality
      * @var int
      * @access private
      */
     var $_quality = 75;
-    
+
     /**
      * Create the JPEG canvas
-     * 
+     *
      * Additional parameters other than those available for common {@link
      * Image_Graph_Canvas_GD} class are:
-     * 
+     *
      * 'quality' The JPEG quality in as a percentage value from 0 (lowest
      * quality, smallest file) to 100 (highest quality, biggest file)
      *
@@ -69,10 +68,10 @@ class Image_Canvas_GD_JPG extends Image_Canvas_GD
     function Image_Canvas_GD_JPG($param)
     {
         parent::Image_Canvas_GD($param);
-        
+
         if (isset($param['quality'])) {
             $this->_quality = max(0, min(100, $param['quality']));
-        } 
+        }
 
         $this->rectangle(
                 array(

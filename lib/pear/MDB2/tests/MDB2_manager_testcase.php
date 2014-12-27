@@ -41,8 +41,6 @@
 // | Authors: Paul Cooper <pgc@ucecom.com>                                |
 // |          Lorenzo Alberton <l dot alberton at quipo dot it>           |
 // +----------------------------------------------------------------------+
-//
-// $Id$
 
 require_once 'MDB2_testcase.php';
 

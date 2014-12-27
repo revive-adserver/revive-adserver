@@ -24,10 +24,9 @@
  * @author     Jesper Veggerby <pear.nosey@veggerby.dk>
  * @copyright  Copyright (C) 2003, 2004 Jesper Veggerby Hansen
  * @license    http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/Image_Graph
  */
- 
+
 /**
  * Include file Image/Graph/Grid.php
  */
@@ -65,7 +64,7 @@ class Image_Graph_Grid_Bars extends Image_Graph_Grid
         if (!$this->_primaryAxis) {
             return false;
         }
-        
+
         $this->_canvas->startGroup(get_class($this));
 
         $i = 0;
@@ -106,9 +105,9 @@ class Image_Graph_Grid_Bars extends Image_Graph_Grid
             $i = 1 - $i;
             $previousValue = $value;
         }
-        
+
         $this->_canvas->endGroup();
-        
+
         return true;
     }
 

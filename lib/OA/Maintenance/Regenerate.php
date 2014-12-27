@@ -19,8 +19,6 @@ require_once OX_PATH . '/lib/pear/Date.php';
  * A class that implements function used in Regenerate Ad Server Statistics script
  *
  * @package    OpenXMaintenance
- * @author     Andrew Hill <andrew.hill@openx.org>
- * @author     Lukasz Wikierski <lukasz.wikierski@openx.org>
  */
 class OA_Maintenance_Regenerate
 {

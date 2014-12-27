@@ -14,8 +14,6 @@
 // | Author: Ulf Wendel <ulf.wendel@phpdoc.de>                            |
 // |         Pierre-Alain Joye <pajoye@php.net>                           |
 // +----------------------------------------------------------------------+
-//
-// $Id$
 
 require_once "PEAR.php";
 

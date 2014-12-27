@@ -19,7 +19,6 @@ require_once LIB_PATH . '/Plugin/Component.php';
  *
  * @package    OpenXExtension
  * @subpackage DeliveryLog
- * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  */
 abstract class Plugins_DeliveryLog extends OX_Component
 {

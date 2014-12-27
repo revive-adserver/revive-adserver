@@ -13,7 +13,6 @@
 /**
  * @package    Max
  * @subpackage TestSuite
- * @author     Radek Maciaszek <radek@m3.net>
  */
 
     require_once MAX_PATH . '/lib/max/FileScanner.php';
@@ -21,16 +20,16 @@
     define('MAX_FILE_TEST_DIR', MAX_PATH.'/lib/max/Plugins/tests/testdir');
 
     class TestOfFileScanner extends UnitTestCase {
-        
+
         function TestOfFileScanner() {
             $this->UnitTestCase('FileScanner test');
         }
 
         function testFileScanner() {
             $fs = new MAX_FileScanner();
-            
+
             $this->assertIdentical($fs->getFileExtension('test.php'), 'php');
-            
+
             $fs->addFileTypes(array('php','inc'));
             $this->assertIdentical($fs->isAllowedFile('test.php'), TRUE);
             $this->assertIdentical($fs->isAllowedFile('test.inc'), TRUE);
@@ -57,13 +56,13 @@
                         MAX_FILE_TEST_DIR.'/translation.php',
                     )
                 );
-            
+
             $fs->reset();
             $fs->addDir(MAX_FILE_TEST_DIR, $recursive = true);
-            $this->assertIdentical($fs->getAllFiles(), 
+            $this->assertIdentical($fs->getAllFiles(),
                     array(
-                        MAX_FILE_TEST_DIR.'/subdir/test2.plugin.php', 
-                        MAX_FILE_TEST_DIR.'/test.inc', 
+                        MAX_FILE_TEST_DIR.'/subdir/test2.plugin.php',
+                        MAX_FILE_TEST_DIR.'/test.inc',
                         MAX_FILE_TEST_DIR.'/test.plugin.php',
                         MAX_FILE_TEST_DIR.'/translation.php',
                     )

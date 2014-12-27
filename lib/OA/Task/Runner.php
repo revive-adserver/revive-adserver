@@ -18,8 +18,6 @@ require_once MAX_PATH . '/lib/OA/Task.php';
  *
  * @package    OpenX
  * @subpackage Tasks
- * @author     Demian Turner <demian@m3.net>
- * @author     James Floyd <james@m3.net>
  */
 class OA_Task_Runner
 {
@@ -44,7 +42,7 @@ class OA_Task_Runner
         // Remove tasks from the queue and unset them when done to prevent
         // useless memory consumption
         while ($oTask = array_shift($this->aTasks)) {
-            OA::debug('Task begin: ' . get_class($oTask), PEAR_LOG_INFO); 
+            OA::debug('Task begin: ' . get_class($oTask), PEAR_LOG_INFO);
             $oTask->run();
             OA::debug('Task complete: ' . get_class($oTask), PEAR_LOG_INFO);
             unset($oTask);
@@ -68,7 +66,7 @@ class OA_Task_Runner
     function addTask($oTask, $className = null, $order = self::TASK_ORDER_AFTER)
     {
         if (!is_null($className)) {
-            
+
             // Try to locate the task supplied
             foreach ($this->aTasks as $key => $oExistingTask) {
                 if (is_a($oExistingTask, $className)) {
@@ -85,7 +83,7 @@ class OA_Task_Runner
                         // Replace the specified task
                         $this->aTasks[$key] = $oTask;
                     } else if ($order == self::TASK_ORDER_BEFORE) {
-                        
+
                         // Insert the new task before this item
                         $this->aTasks = array_merge(
                             array_slice($this->aTasks, 0, $key),

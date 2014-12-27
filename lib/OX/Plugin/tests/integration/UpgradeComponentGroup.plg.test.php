@@ -16,7 +16,6 @@ require_once LIB_PATH.'/Plugin/UpgradeComponentGroup.php';
  * A class for testing the Test_OX_Plugin_UpgradeComponentGroup class.
  *
  * @package Plugins
- * @author  Monique Szpak <monique.szpak@openx.org>
  * @subpackage TestSuite
  */
 class Test_OX_Plugin_UpgradeComponentGroup extends UnitTestCase

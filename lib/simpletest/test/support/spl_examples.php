@@ -1,6 +1,4 @@
 <?php
-    // $Id$
-
     class IteratorImplementation implements Iterator {
         function current() { }
         function next() { }

@@ -28,7 +28,6 @@ require_once MAX_PATH . '/lib/OX/Maintenance/Priority/Zone.php';
  *
  * @package    OpenXMaintenance
  * @subpackage Priority
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_Maintenance_Priority_AdServer_Task
 {

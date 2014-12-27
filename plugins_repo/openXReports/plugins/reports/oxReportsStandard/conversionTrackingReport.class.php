@@ -105,8 +105,6 @@ require_once LIB_PATH . '/Extension/reports/ReportsScope.php';
  *
  * @package    OpenXPlugin
  * @subpackage Reports
- * @author     Andrew Hill <andrew.hill@openx.org>
- * @author     Scott Switzer <scott@switzer.org>
  */
 class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins_ReportsScope
 {

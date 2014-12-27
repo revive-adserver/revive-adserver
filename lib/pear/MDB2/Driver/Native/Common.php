@@ -41,9 +41,6 @@
 // +----------------------------------------------------------------------+
 // | Author: Lukas Smith <smith@pooteeweet.org>                           |
 // +----------------------------------------------------------------------+
-//
-// $Id$
-//
 
 /**
  * Base class for the natuve modules that is extended by each MDB2 driver

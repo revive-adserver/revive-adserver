@@ -20,7 +20,6 @@ require_once LIB_PATH . '/Maintenance/Statistics/Task/ManageConversions.php';
  *
  * @package    OpenXMaintenance
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class Test_OX_Maintenance_Statistics_Task_ManageConversions extends UnitTestCase
 {

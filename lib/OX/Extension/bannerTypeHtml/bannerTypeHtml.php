@@ -17,7 +17,6 @@ require_once LIB_PATH . '/Plugin/Component.php';
  *
  * @package    OpenXPlugin
  * @subpackage Plugins_BannerTypes
- * @author     Monique Szpak <monique.szpak@openx.org>
  * @abstract
  */
 class Plugins_BannerTypeHTML extends OX_Component

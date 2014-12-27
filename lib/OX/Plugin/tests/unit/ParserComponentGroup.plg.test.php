@@ -16,7 +16,6 @@ require_once LIB_PATH . '/Plugin/ParserComponentGroup.php';
  * A class for testing the OX_ParserComponentGroup class.
  *
  * @package Plugins
- * @author  Monique Szpak <monique.szpak@openx.org>
  * @subpackage TestSuite
  */
 class Test_OX_ParserComponentGroup extends UnitTestCase
@@ -77,7 +76,7 @@ class Test_OX_ParserComponentGroup extends UnitTestCase
             $aPlugin = $oParser->aPlugin;
 
             $this->_assertStructure($aPlugin);
-            
+
             $this->assertEqual($aPlugin['version'], '0.0.1-test-RC1');
             $this->assertEqual(count($aPlugin['install']['navigation'][OA_ACCOUNT_ADMIN][0]),4);
             $this->assertEqual($aPlugin['install']['navigation'][OA_ACCOUNT_ADMIN][0]['insertafter'],'main-menu');

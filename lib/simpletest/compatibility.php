@@ -2,7 +2,6 @@
     /**
      *	base include file for SimpleTest
      *	@package	SimpleTest
-     *	@version	$Id$
      */
 
     /**

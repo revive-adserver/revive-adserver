@@ -16,7 +16,6 @@
  *
  * @package    MaxDelivery
  * @subpackage limitations
- * @author     Andrzej Swedrzynski <andrzej.swedrzynski@m3.net>
  * @todo Move all the functions used by delivery part of delivery limitation
  * plugins from here to limitations.php. Move other functions to relevant
  * files, possibly creating a few libraries on the way.
@@ -85,8 +84,6 @@ function MAX_limitationsMatchString(
  * @return boolean True if the parameters fulfill the limitations, false
  *                 otherwise.
  *
- * @author Mohammed El-Hakim
- * @author     Chris Nutting <chris.nutting@openx.org>
  */
 function MAX_limitationMatchNumeric(
     $paramName, $limitation, $op, $aParams = array(), $namespace = 'CLIENT')
@@ -297,7 +294,6 @@ function MAX_limitationsIsOperatorPositive($op)
  *
  * @param DeliveryLimitationPlugin $oPlugin
  * @return array Array associating operators with their localized names.
- * @author By Mohammed El-Hakim
  */
 function MAX_limitationsGetAOperationsForNumeric($oPlugin)
 {

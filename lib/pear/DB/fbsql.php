@@ -20,7 +20,6 @@
  * @author     Daniel Convissor <danielc@php.net>
  * @copyright  1997-2005 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/DB
  */
 
@@ -737,7 +736,7 @@ class DB_fbsql extends DB_common
                        . ' "table_type" = \'VIEW\''
                        . ' AND "schema_name" = current_schema';
             case 'users':
-                return 'SELECT "user_name" from information_schema.users'; 
+                return 'SELECT "user_name" from information_schema.users';
             case 'functions':
                 return 'SELECT "routine_name" FROM'
                        . ' information_schema.psm_routines'

@@ -40,8 +40,6 @@ define('MAX_PLUGINS_PATH', '/plugins/');
  *
  * @static
  * @package    OpenXPlugin
- * @author     Andrew Hill <andrew@openx.org>
- * @author     Radek Maciaszek <radek@openx.org>
  */
 class MAX_Plugin
 {

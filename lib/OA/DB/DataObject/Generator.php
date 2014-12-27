@@ -18,8 +18,6 @@ require_once MAX_PATH.'/lib/OA/DB/Table/Core.php';
  * Extending standard PEAR DB_DataObject Generator tool
  *
  * @package    OpenXDB
- * @author     Monique Szpak <monique.szpak@openx.org>
- * @author     Lukasz Wikierski <lukasz.wikierski@openx.org>
  */
 class OA_DB_DataObject_Generator extends DB_DataObject_Generator
 {

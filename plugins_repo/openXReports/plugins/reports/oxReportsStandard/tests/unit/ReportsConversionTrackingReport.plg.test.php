@@ -18,7 +18,6 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
  *
  * @package    OpenXPlugin
  * @subpackage TestSuite
- * @author     Łukasz Wikierski <lukasz.wikierski@openx.org>
  */
 class Plugins_TestOfPlugins_Reports_oxStandard_ConversionTrackingReport extends UnitTestCase
 {

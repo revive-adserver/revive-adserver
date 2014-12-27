@@ -13,7 +13,6 @@
 /**
  * @package OX_Admin_UI
  * @subpackage Install
- * @author Bernard Lange <bernard@openx.org>
  */
 class OX_Admin_UI_Install_SystemCheckModelBuilder
 {

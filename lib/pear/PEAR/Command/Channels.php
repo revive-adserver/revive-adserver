@@ -18,7 +18,6 @@
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 1.4.0a1
  */
@@ -154,7 +153,7 @@ Initialize a Channel from its server and creates the local channel.xml.
     // }}}
 
     // {{{ doList()
-    
+
     function _sortChannels($a, $b)
     {
         return strnatcasecmp($a->getName(), $b->getName());
@@ -181,7 +180,7 @@ Initialize a Channel from its server and creates the local channel.xml.
         $this->ui->outputData($data, $command);
         return true;
     }
-    
+
     function doUpdateAll($command, $options, $params)
     {
         $reg = &$this->config->getRegistry();
@@ -204,7 +203,7 @@ Initialize a Channel from its server and creates the local channel.xml.
         }
         return $success;
     }
-    
+
     function doInfo($command, $options, $params)
     {
         if (sizeof($params) != 1) {
@@ -307,7 +306,7 @@ Initialize a Channel from its server and creates the local channel.xml.
                     }
                     foreach ($funcs as $protocol) {
                         $data['data'][] = array('rest', $protocol['attribs']['type'],
-                            $protocol['_content']); 
+                            $protocol['_content']);
                     }
                 }
             } else {
@@ -355,7 +354,7 @@ Initialize a Channel from its server and creates the local channel.xml.
                             }
                             foreach ($funcs as $protocol) {
                                 $data['data'][] = array('rest', $protocol['attribs']['type'],
-                                    $protocol['_content']); 
+                                    $protocol['_content']);
                             }
                         }
                     } else {
@@ -372,7 +371,7 @@ Initialize a Channel from its server and creates the local channel.xml.
     }
 
     // }}}
-    
+
     function doDelete($command, $options, $params)
     {
         if (sizeof($params) != 1) {
@@ -422,13 +421,13 @@ Initialize a Channel from its server and creates the local channel.xml.
                 PEAR::staticPopErrorHandling();
                 if (PEAR::isError($err)) {
                     return $this->raiseError('channel-add: temp_dir does not exist: "' .
-                        $tmpdir . 
+                        $tmpdir .
                         '" - You can change this location with "pear config-set temp_dir"');
                 }
             }
             if (!is_writable($tmpdir)) {
                 return $this->raiseError('channel-add: temp_dir is not writable: "' .
-                    $tmpdir . 
+                    $tmpdir .
                     '" - You can change this location with "pear config-set temp_dir"');
             }
             PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
@@ -504,13 +503,13 @@ Initialize a Channel from its server and creates the local channel.xml.
             PEAR::staticPopErrorHandling();
             if (PEAR::isError($err)) {
                 return $this->raiseError('channel-add: temp_dir does not exist: "' .
-                    $tmpdir . 
+                    $tmpdir .
                     '" - You can change this location with "pear config-set temp_dir"');
             }
         }
         if (!is_writable($tmpdir)) {
             return $this->raiseError('channel-add: temp_dir is not writable: "' .
-                $tmpdir . 
+                $tmpdir .
                 '" - You can change this location with "pear config-set temp_dir"');
         }
         $reg = &$this->config->getRegistry();

@@ -15,8 +15,6 @@ import junit.framework.TestSuite;
 
 /**
  * Run all Banner service tests
- *
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class TestBanner {
 

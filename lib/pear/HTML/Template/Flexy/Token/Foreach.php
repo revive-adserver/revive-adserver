@@ -15,19 +15,16 @@
 // +----------------------------------------------------------------------+
 // | Authors:  Alan Knowles <alan@akbkhome>                               |
 // +----------------------------------------------------------------------+
-//
-// $Id$
-//
- 
+
 /**
 * Class to handle foreach statements
 *
 *
 */
 class HTML_Template_Flexy_Token_Foreach extends HTML_Template_Flexy_Token {
-    
+
     /**
-    * variable to loop on. 
+    * variable to loop on.
     *
     * @var string
     * @access public
@@ -46,13 +43,13 @@ class HTML_Template_Flexy_Token_Foreach extends HTML_Template_Flexy_Token {
     * @var string
     * @access public
     */
-    var $value  = ''; 
-    
+    var $value  = '';
+
     /**
     * Setvalue - a array of all three (last one optional)
     * @see parent::setValue()
     */
-  
+
     function setValue($value) {
         $this->loopOn=$value[0];
         if (!isset($value[1]) || !strlen(trim($value[1]))) {
@@ -62,11 +59,10 @@ class HTML_Template_Flexy_Token_Foreach extends HTML_Template_Flexy_Token {
         $this->key=$value[1];
         $this->value=@$value[2];
     }
-     
+
 
 }
 
- 
- 
-   
- 
+
+
+

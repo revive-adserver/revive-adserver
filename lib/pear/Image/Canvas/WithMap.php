@@ -25,13 +25,12 @@
  * @author     Jesper Veggerby <pear.nosey@veggerby.dk>
  * @copyright  Copyright (C) 2003, 2004 Jesper Veggerby Hansen
  * @license    http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version    CVS: $Id$
  * @link       http://pear.php.net/pepr/pepr-proposal-show.php?id=212
  */
 
 /**
  *  Class for handling different output formats including a HTML image map
- * 
+ *
  * @category   Images
  * @package    Image_Canvas
  * @author     Jesper Veggerby <pear.nosey@veggerby.dk>
@@ -64,7 +63,7 @@ class Image_Canvas_WithMap extends Image_Canvas
      * 'left' The left offset of the graph on the canvas
      *
      * 'top' The top offset of the graph on the canvas
-     * 
+     *
      * 'usemap' Initialize an image map
      *
      * @param array $params Parameter array
@@ -73,7 +72,7 @@ class Image_Canvas_WithMap extends Image_Canvas
     function Image_Canvas_WithMap($params)
     {
         parent::Image_Canvas($params);
-                
+
         if ((isset($params['usemap'])) && ($params['usemap'] === true)) {
             $this->_imageMap =& Image_Canvas::factory(
                 'ImageMap',
@@ -175,7 +174,7 @@ class Image_Canvas_WithMap extends Image_Canvas
     {
         if (isset($this->_imageMap)) {
             $this->_imageMap->rectangle($params);
-        }        
+        }
         parent::rectangle($params);
     }
 
@@ -195,7 +194,7 @@ class Image_Canvas_WithMap extends Image_Canvas
     {
         if (isset($this->_imageMap)) {
             $this->_imageMap->ellipse($params);
-        }        
+        }
         parent::ellipse($params);
     }
 
@@ -219,7 +218,7 @@ class Image_Canvas_WithMap extends Image_Canvas
     {
         if (isset($this->_imageMap)) {
             $this->_imageMap->pieslice($params);
-        }        
+        }
         parent::pieslice($params);
     }
 

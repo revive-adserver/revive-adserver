@@ -25,7 +25,6 @@ require_once LIB_PATH . '/Maintenance/Statistics.php';
  *
  * @package    OpenXMaintenance
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class Test_Priority extends UnitTestCase
 {

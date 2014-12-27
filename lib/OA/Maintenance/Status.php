@@ -17,7 +17,6 @@ require_once LIB_PATH . '/Maintenance.php';
  * A class for providing information about maintenance status
  *
  * @package    OpenXMaintenance
- * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
 class OA_Maintenance_Status
 {

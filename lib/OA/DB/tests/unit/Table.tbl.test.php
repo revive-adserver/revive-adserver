@@ -19,7 +19,6 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  *
  * @package    OpenXDB
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class Test_OA_DB_Table extends UnitTestCase
 {

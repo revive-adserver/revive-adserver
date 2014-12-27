@@ -12,7 +12,6 @@
 
 /**
  * @package    OpenXDll
- * @author     David Keen <david.keen@openx.org>
  *
  */
 

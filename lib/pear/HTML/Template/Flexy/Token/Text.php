@@ -15,22 +15,16 @@
 // +----------------------------------------------------------------------+
 // | Authors:  Alan Knowles <alan@akbkhome>                               |
 // +----------------------------------------------------------------------+
-//
-// $Id$
-//
- 
- 
+
 /**
 * Class that represents a text string node.
-* 
-*
 */
 
 class HTML_Template_Flexy_Token_Text extends HTML_Template_Flexy_Token {
-     
-     
+
+
     /**
-    * Simple check to see if this piece of text is a word 
+    * Simple check to see if this piece of text is a word
     * so that gettext and the merging tricks dont try
     * - merge white space with a flexy tag
     * - gettext doesnt translate &nbsp; etc.
@@ -47,8 +41,8 @@ class HTML_Template_Flexy_Token_Text extends HTML_Template_Flexy_Token {
         }
         return  preg_match('/[a-z]/i',$this->value);
     }
-     
+
 }
 
 
-  
+

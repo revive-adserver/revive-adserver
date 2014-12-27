@@ -21,7 +21,6 @@ $GLOBALS['_MAX']['FILES'][$file] = true;
 /**
  * @package    MaxDelivery
  * @subpackage remotehost
- * @author     Andrew Hill <andrew@m3.net>
  *
  * A file to contain delivery engine functions related to obtaining data
  * about the remote viewer.

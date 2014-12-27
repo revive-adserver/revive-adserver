@@ -24,8 +24,6 @@ require_once LIB_PATH . '/Extension/deliveryLimitations/DeliveryLimitationsComma
  *
  * @package    OpenXPlugin
  * @subpackage DeliveryLimitations
- * @author     Andrew Hill <andrew@m3.net>
- * @author     Chris Nutting <chris@m3.net>
  *
  * @TODO overlap() methods now checks only if there is an overlap of channel ids.
  * Id does not check if contents of different channels overlap.

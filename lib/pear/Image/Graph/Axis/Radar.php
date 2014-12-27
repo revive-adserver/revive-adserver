@@ -24,10 +24,9 @@
  * @author     Jesper Veggerby <pear.nosey@veggerby.dk>
  * @copyright  Copyright (C) 2003, 2004 Jesper Veggerby Hansen
  * @license    http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/Image_Graph
  */
- 
+
 /**
  * Include file Image/Graph/Axis/Category.php
  */
@@ -101,8 +100,8 @@ class Image_Graph_Axis_Radar extends Image_Graph_Axis_Category
             $this->_delta = false;
         } else {
             $this->_delta = 360 / ($this->_getMaximum() - $this->_getMinimum());
-        }                
-    }    
+        }
+    }
 
     /**
      * Get the pixel position represented by a value on the canvas

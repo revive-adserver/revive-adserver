@@ -22,8 +22,6 @@ import org.openx.utils.TextUtils;
 
 /**
  * Verify Link Banner method
- *
- * @author     Pawel Dachterski <pawel.dachterski@openx.org>
  */
 public class TestZoneLinkBanner extends ZoneTestCase {
 

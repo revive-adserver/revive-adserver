@@ -13,7 +13,6 @@
 /**
  * @package    MaxDelivery
  * @subpackage XMLRPC
- * @author     Chris Nutting <chris@m3.net>
  */
 
 require_once MAX_PATH . '/lib/Max.php';

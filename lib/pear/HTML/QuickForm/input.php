@@ -3,7 +3,7 @@
 
 /**
  * Base class for <input /> form elements
- * 
+ *
  * PHP versions 4 and 5
  *
  * LICENSE: This source file is subject to version 3.01 of the PHP license
@@ -18,18 +18,17 @@
  * @author      Bertrand Mansion <bmansion@mamasam.com>
  * @copyright   2001-2007 The PHP Group
  * @license     http://www.php.net/license/3_01.txt PHP License 3.01
- * @version     CVS: $Id$
  * @link        http://pear.php.net/package/HTML_QuickForm
  */
 
 /**
  * Base class for form elements
- */ 
+ */
 require_once 'HTML/QuickForm/element.php';
 
 /**
  * Base class for <input /> form elements
- * 
+ *
  * @category    HTML
  * @package     HTML_QuickForm
  * @author      Adam Daniel <adaniel1@eesus.jnj.com>
@@ -44,7 +43,7 @@ class HTML_QuickForm_input extends HTML_QuickForm_element
 
     /**
      * Class constructor
-     * 
+     *
      * @param    string     Input field name attribute
      * @param    mixed      Label(s) for the input field
      * @param    mixed      Either a typical HTML attribute string or an associative array
@@ -73,13 +72,13 @@ class HTML_QuickForm_input extends HTML_QuickForm_element
         $this->_type = $type;
         $this->updateAttributes(array('type'=>$type));
     } // end func setType
-    
+
     // }}}
     // {{{ setName()
 
     /**
      * Sets the input field name
-     * 
+     *
      * @param     string    $name   Input field name attribute
      * @since     1.0
      * @access    public
@@ -89,13 +88,13 @@ class HTML_QuickForm_input extends HTML_QuickForm_element
     {
         $this->updateAttributes(array('name'=>$name));
     } //end func setName
-    
+
     // }}}
     // {{{ getName()
 
     /**
      * Returns the element name
-     * 
+     *
      * @since     1.0
      * @access    public
      * @return    string
@@ -104,7 +103,7 @@ class HTML_QuickForm_input extends HTML_QuickForm_element
     {
         return $this->getAttribute('name');
     } //end func getName
-    
+
     // }}}
     // {{{ setValue()
 
@@ -135,13 +134,13 @@ class HTML_QuickForm_input extends HTML_QuickForm_element
     {
         return $this->getAttribute('value');
     } // end func getValue
-    
+
     // }}}
     // {{{ toHtml()
 
     /**
      * Returns the input field in HTML
-     * 
+     *
      * @since     1.0
      * @access    public
      * @return    string
@@ -167,7 +166,7 @@ class HTML_QuickForm_input extends HTML_QuickForm_element
      * @since     1.0
      * @access    public
      * @return    void
-     * @throws    
+     * @throws
      */
     function onQuickFormEvent($event, $arg, &$caller)
     {
@@ -203,7 +202,7 @@ class HTML_QuickForm_input extends HTML_QuickForm_element
             return parent::exportValue($submitValues, $assoc);
         }
     }
-    
+
     // }}}
 } // end class HTML_QuickForm_element
 ?>

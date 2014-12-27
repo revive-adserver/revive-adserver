@@ -18,7 +18,6 @@ require_once MAX_PATH . '/lib/OX/Upgrade/InstallConfig.php';
  *
  * @package    OpenX
  * @subpackage TestSuite
- * @author     Lukasz Wikierski <lukasz.wikierski@openx.org>
  */
 class OX_Upgrade_InstallConfigTest extends UnitTestCase
 {

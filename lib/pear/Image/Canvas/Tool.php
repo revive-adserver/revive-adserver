@@ -25,15 +25,14 @@
  * @author     Jesper Veggerby <pear.nosey@veggerby.dk>
  * @copyright  Copyright (C) 2003, 2004 Jesper Veggerby Hansen
  * @license    http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version    CVS: $Id$
  * @link       http://pear.php.net/pepr/pepr-proposal-show.php?id=212
  */
 
 /**
  * This class contains a set of tool-functions.
- * 
+ *
  * These functions are all to be called statically
- * 
+ *
  * @category   Images
  * @package    Image_Canvas
  * @author     Jesper Veggerby <pear.nosey@veggerby.dk>
@@ -70,7 +69,7 @@ class Image_Canvas_Tool
     function fontMap($name, $type = '.ttf')
     {
         static $_fontMap;
-        
+
         if (!is_array($_fontMap)) {
             if (file_exists($fontmap = (dirname(__FILE__) . '/Fonts/fontmap.txt'))) {
                 $file = file($fontmap);
@@ -87,9 +86,9 @@ class Image_Canvas_Tool
                 }
             }
         }
-        
+
         $type = strtolower($type);
-        
+
         if ((isset($_fontMap[$name])) && (isset($_fontMap[$name][$type]))) {
             $filename = $_fontMap[$name][$type];
         } else {
@@ -110,11 +109,11 @@ class Image_Canvas_Tool
         } elseif (substr($name, 0, 1) !== '/') {
             // leave it to the library to find the font
             $result = $name;
-        } 
-        
-        return str_replace('\\', '/', $result); 
+        }
+
+        return str_replace('\\', '/', $result);
     }
-    
+
     /**
      * Return the average of 2 points
      *
@@ -187,10 +186,10 @@ class Image_Canvas_Tool
             3 * (1 - $t) * pow($t, 2) * $p3 +
             pow($t, 3) * $p4;
     }
-    
+
     /**
      * Gets the angle / slope of a line relative to horizontal (left -> right)
-     * 
+     *
      * @param double $x0 The starting x point
      * @param double $y0 The starting y point
      * @param double $x1 The ending x point
@@ -200,7 +199,7 @@ class Image_Canvas_Tool
      */
     function getAngle($x0, $y0, $x1, $y1)
     {
-        
+
         $dx = ($x1 - $x0);
         $dy = ($y1 - $y0);
         $l = sqrt($dx * $dx + $dy * $dy);
@@ -209,7 +208,7 @@ class Image_Canvas_Tool
             $v = 180 - $v;
         }
         return $v;
-        
+
     }
 
 }

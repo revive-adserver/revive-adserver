@@ -17,7 +17,6 @@ require_once OX_PATH . '/lib/pear/PEAR.php';
  * The core OpenX class, providing handy methods that are useful everywhere!
  *
  * @package    OpenX
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OX
 {

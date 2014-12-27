@@ -41,9 +41,6 @@
 // +----------------------------------------------------------------------+
 // | Author: Lukas Smith <smith@pooteeweet.org>                           |
 // +----------------------------------------------------------------------+
-//
-// $Id$
-//
 
 require_once 'MDB2/Driver/Manager/Common.php';
 
@@ -1039,12 +1036,12 @@ class MDB2_Driver_Manager_mysqli extends MDB2_Driver_Manager_Common
         }
         return $result;
     }
-    
+
     /**
      * New OPENX method to check database name according to specifications:
      *  Mysql specification: http://dev.mysql.com/doc/refman/5.0/en/identifiers.html
      *
-     * @param string $name database name to check  
+     * @param string $name database name to check
      * @return true in name is correct and PEAR error on failure
      */
     function validateDatabaseName($name)

@@ -14,8 +14,6 @@
 // +---------------------------------------------------------------------+
 // | Author: Bertrand Mansion <bmansion@mamasam.com>                     |
 // +---------------------------------------------------------------------+
-//
-// $Id$
 
 require_once 'Config.php';
 
@@ -57,7 +55,7 @@ class Config_Container {
     * @var  object
     */
     var $parent;
-    
+
     /**
     * Array of attributes for this item
     * @var  array
@@ -108,7 +106,7 @@ class Config_Container {
         $result =& $this->addItem($item, $where, $target);
         return $result;
     } // end func &createItem
-    
+
     /**
     * Adds an item to this item.
     * @param  object   $item      a container object
@@ -200,7 +198,7 @@ class Config_Container {
     * Adds a section to this item.
     *
     * This is a helper method that calls createItem
-    * If the section already exists, it won't create a new one. 
+    * If the section already exists, it won't create a new one.
     * It will return reference to existing item.
     *
     * @param  string    $name           Name of new section
@@ -299,7 +297,7 @@ class Config_Container {
 
     /**
     * Finds a node using XPATH like format.
-    * 
+    *
     * The search format is an array:
     * array(item1, item2, item3, ...)
     *
@@ -308,9 +306,9 @@ class Config_Container {
     * item = array('string', array('name' => 'xyz'))
     * will match the container name 'string' whose attribute name is equal to "xyz"
     * For example : <string name="xyz">
-    * 
+    *
     * @param    mixed   Search path and attributes
-    * 
+    *
     * @return   mixed   Config_Container object, array of Config_Container objects or false on failure.
     * @access   public
     */
@@ -343,10 +341,10 @@ class Config_Container {
 
     /**
     * Return a child directive's content.
-    * 
+    *
     * This method can use two different search approach, depending on
     * the parameter it is given. If the parameter is an array, it will use
-    * the {@link Config_Container::searchPath()} method. If it is a string, 
+    * the {@link Config_Container::searchPath()} method. If it is a string,
     * it will use the {@link Config_Container::getItem()} method.
     *
     * Example:
@@ -369,7 +367,7 @@ class Config_Container {
     * @param    mixed   Search path and attributes or a directive name
     * @param    int     Index of the item in the returned directive list.
     *                   Eventually used if args is a string.
-    * 
+    *
     * @return   mixed   Content of directive or false if not found.
     * @access   public
     */
@@ -401,7 +399,7 @@ class Config_Container {
         $count = 0;
         if (isset($name) && isset($type)) {
             for ($i = 0, $children = count($this->children); $i < $children; $i++) {
-                if ($this->children[$i]->name == $name && 
+                if ($this->children[$i]->name == $name &&
                     $this->children[$i]->type == $type) {
                     $count++;
                 }
@@ -535,7 +533,7 @@ class Config_Container {
     {
         $this->content = $content;
     } // end func setContent
-    
+
     /**
     * Get this item's content.
     * @return string    item's content
@@ -595,7 +593,7 @@ class Config_Container {
     {
         return $this->attributes;
     } // end func getAttributes
-    
+
     /**
     * Get one attribute value of this item
     * @param  string   $attribute        Attribute key
@@ -719,10 +717,10 @@ class Config_Container {
         }
         return $array;
     } // end func toArray
-    
+
     /**
     * Writes the configuration to a file
-    * 
+    *
     * @param  mixed  $datasrc        Info on datasource such as path to the configuraton file or dsn...
     * @param  string $configType     Type of configuration
     * @param  array  $options        Options for writer

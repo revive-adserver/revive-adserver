@@ -15,8 +15,6 @@
 // +----------------------------------------------------------------------+
 // | Author: Marshall Roch <marshall@exclupen.com>                        |
 // +----------------------------------------------------------------------+
-//
-// $Id$
 
 /**
  *
@@ -25,7 +23,7 @@
  * @license http://www.php.net/license/2_02.txt PHP License 2.0
  * @package Services_ExchangeRates
  */
- 
+
 /**
  * Include common functions to handle cache and fetch the file from the server
  */
@@ -34,7 +32,7 @@ require_once 'Services/ExchangeRates/Common.php';
 /**
  * United Nations country codes driver
  *
- * Retrieves the ISO 3166 country codes in XML format from the United 
+ * Retrieves the ISO 3166 country codes in XML format from the United
  * Nations Economic Commission for Europe.  This file is cached for 1 month
  * by default, since it hardly ever changes.
  *
@@ -48,19 +46,19 @@ class Services_ExchangeRates_Countries_UN extends Services_ExchangeRates_Common 
     * @var string
     */
     var $feedUrl = 'http://www.unece.org/etrades/unedocs/repository/codelists/xml/CountryCodeList.xml';
-      
+
    /**
     * Retrieves currency codes and their associated names (e.g. USD => US Dollar)
     * from the UN or the cache.  The default cache length is 1 month.
     *
     * @param int Optionally override default 1 month cache length (in seconds)
     * @return array Array of currency codes to currency names
-    */   
+    */
     function retrieve($cacheLength, $cacheDir) {
-        
+
         // retrieve the feed from the server or cache
         $root = $this->retrieveXML($this->feedUrl, $cacheLength, $cacheDir);
-    
+
         foreach($root->children as $curr) {
             // Filter out blank or unwanted elements
             if ($curr->name == "Country") {
@@ -69,8 +67,8 @@ class Services_ExchangeRates_Countries_UN extends Services_ExchangeRates_Common 
             }
         }
 
-        return $countries; 
-        
+        return $countries;
+
     }
 
 }

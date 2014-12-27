@@ -18,11 +18,10 @@ require_once MAX_PATH . '/lib/OX/Upgrade/PostUpgradeTask/Controller.php';
  *
  * @package    OpenX
  * @subpackage TestSuite
- * @author     Lukasz Wikierski <lukasz.wikierski@openx.org>
  */
-class OX_Upgrade_PostUpgradeTask_ControllerTest extends UnitTestCase 
+class OX_Upgrade_PostUpgradeTask_ControllerTest extends UnitTestCase
 {
-    
+
     function testgetTasksUrls()
     {
         Mock::generatePartial(
@@ -30,12 +29,12 @@ class OX_Upgrade_PostUpgradeTask_ControllerTest extends UnitTestCase
             'OA_UpgradeMock',
             array('getPostUpgradeTasks')
         );
-        
+
         $baseInstallUrl = 'my base url';
         $oUpgrade = new OA_UpgradeMock($this);
         $oUpgrade->setReturnValue('getPostUpgradeTasks', array('task_1', 'task_2'));
-        $GLOBALS['strPostInstallTaskRunning'] = 'Running task'; 
-        
+        $GLOBALS['strPostInstallTaskRunning'] = 'Running task';
+
         $result = OX_Upgrade_PostUpgradeTask_Controller::getTasksUrls($baseInstallUrl, $oUpgrade);
         $expected = array(
             array('id' => 'task:task_1', 'name' => 'Running task: task_1', 'url' => $baseInstallUrl.'install-runtask.php?task=task_1'),

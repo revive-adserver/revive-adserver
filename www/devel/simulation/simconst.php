@@ -13,7 +13,6 @@
 /**
  * @package    Max
  * @subpackage SimulationSuite
- * @author
  */
 
 if (!defined('SIM_PATH')) {

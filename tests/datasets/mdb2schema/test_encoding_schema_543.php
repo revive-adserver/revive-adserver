@@ -14,8 +14,6 @@
  *
  * @abstract A class for generating/loading a dataset for encoding testing
  * @package Test Classes
- * @author Chris Nutting <chris.nutting@openx.org>
- *
  */
 
 require_once MAX_PATH . '/tests/testClasses/OATestData_MDB2Schema.php';

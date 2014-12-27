@@ -19,7 +19,6 @@ require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
  * @package    MaxDal
  * @subpackage TestSuite
  *
- * @author     Lukasz Wikierski <lukasz.wikierski@openx.org>
  */
 class DataObjects_AccoutnsTest extends DalUnitTestCase
 {
@@ -45,16 +44,16 @@ class DataObjects_AccoutnsTest extends DalUnitTestCase
         $doAgency = OA_Dal::factoryDO('agency');
         $agencyId = DataGenerator::generateOne($doAgency);
         $managerAccountId = DataGenerator::getReferenceId('accounts');
-        
+
         $doAgency = OA_Dal::factoryDO('agency');
         $doAgency->get($agencyId);
         $managerAccountId = $doAgency->account_id;
-        
+
         // Create admin account
         $doAccounts = OA_Dal::factoryDO('accounts');
         $doAccounts->account_type = OA_ACCOUNT_ADMIN;
         $adminAccountId = DataGenerator::generateOne($doAccounts);
-        
+
         // Create user linked to admin account
         // Default account for this user is set to manager account
         $doUsers = OA_Dal::factoryDO('users');
@@ -78,25 +77,25 @@ class DataObjects_AccoutnsTest extends DalUnitTestCase
         $doAgency->agencyid = $agencyId;
         $doAgency->onDeleteCascade = false; // Disable cascade delete
         $doAgency->delete();
-        
+
         $doAccounts = OA_Dal::factoryDO('accounts');
         $doAccounts->get($managerAccountId);
         // Relink / Delete users here
-        $doAccounts->_relinkOrDeleteUsers(); 
-        
+        $doAccounts->_relinkOrDeleteUsers();
+
         // Test: admin user exists, linked to admin account
         $doUsers = OA_Dal::factoryDO('users');
         $doUsers->user_id = $adminUserID;
         $doUsers->find();
         $this->assertTrue($doUsers->fetch());
         $this->assertEqual($doUsers->default_account_id, $adminAccountId);
-        
+
         // Test: manager users is deleted
         $doUsers = OA_Dal::factoryDO('users');
         $doUsers->user_id = $managerUserID;
         $doUsers->find();
         $this->assertFalse($doUsers->fetch());
-        
+
     }
 
 }

@@ -13,7 +13,6 @@
 /**
  * @package    MaxDelivery
  * @subpackage cookie
- * @author     Chris Nutting <chris@m3.net>
  */
 
 $file = '/lib/max/Delivery/cookie.php';

@@ -14,8 +14,6 @@
 // +----------------------------------------------------------------------+
 // | Author: Bertrand Mansion <bmansion@mamasam.com>                      |
 // +----------------------------------------------------------------------+
-//
-// $Id$
 
 /**
 * Simple config parser for apache httpd.conf files
@@ -65,7 +63,7 @@ class Config_Container_Apache {
         $sections[0] =& $obj->container;
         foreach ($lines as $line) {
             $n++;
-            if (!preg_match('/^\s*#/', $line) && 
+            if (!preg_match('/^\s*#/', $line) &&
                  preg_match('/^\s*(.*)\s+\\\$/', $line, $match)) {
                 // directive on more than one line
                 $lastline .= $match[1].' ';

@@ -19,8 +19,6 @@ require_once 'Image/Graph.php';
  *
  * @package    OpenXAdmin
  * @subpackage StatisticsDelivery
- * @author     Matteo Beccati <matteo@beccati.com>
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_Flexy
 {
@@ -87,12 +85,12 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
         $aPlugins['affiliates'] = new OA_StatisticsFieldsDelivery_Affiliates();
         $this->aPlugins = $aPlugins;
     }
-    
-    
+
+
     /**
      * Add a plugin in the list of registered stats plugin
      */
-    function addPlugin($pluginName, $plugin) 
+    function addPlugin($pluginName, $plugin)
     {
         $this->aPlugins[$pluginName] = $plugin;
     }

@@ -16,7 +16,6 @@ require_once MAX_PATH . '/lib/max/Admin/Languages.php';
  * MAX_Plugin_Translation - plugin translation system.
  *
  * @package    OpenXPlugin
- * @author     Radek Maciaszek <radek@m3.net>
  */
 class MAX_Plugin_Translation
 {

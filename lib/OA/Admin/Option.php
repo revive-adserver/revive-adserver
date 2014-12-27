@@ -20,7 +20,6 @@ require_once(MAX_PATH.'/lib/OA/Cache.php');
  * A class to deal with the display of settings and preferences
  *
  * @package    OpenXAdmin
- * @author     Miguel Correa <miguel.correa@openx.org>
  */
 class OA_Admin_Option
 {

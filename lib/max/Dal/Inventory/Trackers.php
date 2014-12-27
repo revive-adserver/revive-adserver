@@ -17,7 +17,6 @@ require_once MAX_PATH.'/lib/max/Dal/Common.php';
  *
  * @package OpenXDal
  * @since Openads v2.3.22-alpha - Apr 13, 2006
- * @version $Id$
  */
 
 class MAX_Dal_Inventory_Trackers extends MAX_Dal_Common

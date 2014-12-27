@@ -12,7 +12,6 @@
 
 /**
  * @package    OpenXDll
- * @author     Ivan Klishch <iklishch@lohika.com>
  *
  */
 
@@ -200,21 +199,21 @@ class OA_Dll_BannerInfo extends OA_Info
      * @var string $alt
      */
     var $alt;
-    
+
     /**
      * This field provides the filename of the banner.
      *
      * @var string $filename
      */
     var $filename;
-    
+
     /**
      * This field provides appended code for this banner.
      *
      * @var string $append
      */
     var $append;
-    
+
     /**
      * This field provides the filename of the banner.
      *

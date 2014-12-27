@@ -3,7 +3,7 @@
 
 /**
  * A pseudo-element used for adding headers to form
- * 
+ *
  * PHP versions 4 and 5
  *
  * LICENSE: This source file is subject to version 3.01 of the PHP license
@@ -17,17 +17,16 @@
  * @author      Alexey Borzov <avb@php.net>
  * @copyright   2001-2007 The PHP Group
  * @license     http://www.php.net/license/3_01.txt PHP License 3.01
- * @version     CVS: $Id$
  * @link        http://pear.php.net/package/HTML_QuickForm
  */
 
 /**
  * HTML class for static data
- */ 
+ */
 require_once 'HTML/QuickForm/static.php';
 
 /**
- * A pseudo-element used for adding headers to form  
+ * A pseudo-element used for adding headers to form
  *
  * @category    HTML
  * @package     HTML_QuickForm
@@ -41,7 +40,7 @@ class HTML_QuickForm_header extends HTML_QuickForm_static
 
    /**
     * Class constructor
-    * 
+    *
     * @param string $elementName    Header name
     * @param string $text           Header text
     * @access public
@@ -61,7 +60,7 @@ class HTML_QuickForm_header extends HTML_QuickForm_static
     *
     * @param HTML_QuickForm_Renderer    renderer object
     * @access public
-    * @return void 
+    * @return void
     */
     function accept(&$renderer)
     {

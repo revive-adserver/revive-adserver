@@ -2,14 +2,12 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v2.4                                                              |
-| ============                                                              |
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
-|   Translation :  Adel Shia Ali  http://MasterDesign.ir                    |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
-$Id$
 */
 
 /**

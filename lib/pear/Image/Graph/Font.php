@@ -24,7 +24,6 @@
  * @author     Jesper Veggerby <pear.nosey@veggerby.dk>
  * @copyright  Copyright (C) 2003, 2004 Jesper Veggerby Hansen
  * @license    http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/Image_Graph
  */
 
@@ -69,7 +68,7 @@ class Image_Graph_Font extends Image_Graph_Common
      * @access private
      */
     var $_size = 11;
-    
+
     /**
      * The color of the font
      * @var Color
@@ -122,7 +121,7 @@ class Image_Graph_Font extends Image_Graph_Common
     {
         $this->_size = $size;
     }
-    
+
     /**
      * Get the font 'array'
      *
@@ -134,11 +133,11 @@ class Image_Graph_Font extends Image_Graph_Common
         if ($options === false) {
             $options = array();
         }
-        
+
         if ($this->_name !== false) {
         	$options['name'] = $this->_name;
         }
-        
+
         if (!isset($options['color'])) {
             $options['color'] = $this->_color;
         }

@@ -19,8 +19,6 @@ require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
  *
  * @package    OpenXDal
  * @subpackage TestSuite
- * @author     Monique Szpak <monique.szpak@openx.org>
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class Test_OA_Dal_Maintenance_Priority_getActiveZones extends UnitTestCase
 {
@@ -40,14 +38,14 @@ class Test_OA_Dal_Maintenance_Priority_getActiveZones extends UnitTestCase
     {
         $oDal = new OA_Dal_Maintenance_Priority();
 
-        
+
         // Add campaign
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->campaignname = 'Active Campaign';
         $doCampaigns->status = OA_ENTITY_STATUS_RUNNING;
         $doCampaigns->priority = 9;
         $idCampaign = DataGenerator::generateOne($doCampaigns);
-        
+
         // Test with no zones in the system
         $aResult = $oDal->getActiveZones();
         $this->assertTrue(is_array($aResult));

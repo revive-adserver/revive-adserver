@@ -18,7 +18,6 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  *
  * @static
  * @package    OpenX
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OX_OperationInterval
 {

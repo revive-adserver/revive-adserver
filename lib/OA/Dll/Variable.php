@@ -12,8 +12,6 @@
 
 /**
  * @package    OpenXDll
- * @author     David Keen <david.keen@openx.org>
- *
  */
 
 require_once MAX_PATH . '/lib/OA/Dll.php';
@@ -161,7 +159,7 @@ class OA_Dll_Variable extends OA_Dll
                 // Modify
                 $doVariable->get($oVariableInfo->variableId);
                 $doVariable->setFrom($aVariableData);
-    
+
                 // Set the variableCode based on tracker variable method
                 $doVariable->setCode($doTracker->variablemethod);
                 $doVariable->update();

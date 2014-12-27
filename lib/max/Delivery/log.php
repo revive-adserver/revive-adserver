@@ -20,8 +20,6 @@ $GLOBALS['_MAX']['FILES'][$file] = true;
 
 /**
  * @package    MaxDelivery
- * @author     Andrew Hill <andrew@m3.net>
- * @author     Chris Nutting <chris@m3.net>
  *
  * A file to contain delivery engine functions related to logging of raw
  * data to the database.
@@ -71,7 +69,7 @@ function MAX_Delivery_log_logAdClick($adId, $zoneId)
 {
     // Only log clicks if click logging is enabled
     if (empty($GLOBALS['_MAX']['CONF']['logging']['adClicks'])) { return true; }
-    
+
     // Call all registered plugins that use the "logClick" hook
     OX_Delivery_Common_hook('logClick', array($adId, $zoneId, _viewersHostOkayToLog($adId, $zoneId)));
 }
@@ -89,7 +87,7 @@ function MAX_Delivery_log_logConversion($trackerId, $aConversion)
 {
     // Only log conversions if logging of tracker impressions logging is enabled
     if (empty($GLOBALS['_MAX']['CONF']['logging']['trackerImpressions'])) { return true; }
-    
+
     // Prepare the raw database IP address, depending on if OpenX is running
     // with multiple delivery servers, or just a single server
     $aConf = $GLOBALS['_MAX']['CONF'];
@@ -241,7 +239,7 @@ function _viewersHostOkayToLog($adId=0, $zoneId=0, $trackerId=0)
         }
     }
     if ($okToLog) OX_Delivery_logMessage('viewer\'s host is OK to log', 7);
-    
+
     $result = OX_Delivery_Common_Hook('filterEvent', array($adId, $zoneId, $trackerId));
     if (!empty($result) && is_array($result)) {
         foreach ($result as $pci => $value) {
@@ -359,7 +357,7 @@ function MAX_Delivery_log_setLastAction($index, $aAdIds, $aZoneIds, $aSetLastSee
     $aConf = $GLOBALS['_MAX']['CONF'];
     if (!empty($aSetLastSeen[$index])) {
         $cookieData = MAX_commonCompressInt(MAX_commonGetTimeNow()) . "-" . $aZoneIds[$index];
-        
+
         // See if any plugin-components have added items to the conversion cookie...
         $conversionParams =  OX_Delivery_Common_hook('addConversionParams', array(&$index, &$aAdIds, &$aZoneIds, &$aSetLastSeen, &$action, &$cookieData));
         if (!empty($conversionParams) && is_array($conversionParams)) {

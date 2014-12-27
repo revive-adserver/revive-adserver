@@ -12,10 +12,8 @@
 
 /**
  * @package    OpenX
- * @author     Ivan Klishch <iklishch@lohika.com>
  *
  * The banner XML-RPC service enables XML-RPC communication with the banner object.
- *
  */
 
 // Require the initialisation file.

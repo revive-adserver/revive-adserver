@@ -15,8 +15,6 @@
  * preparing the timezone configuration value.
  *
  * @package    OpenXAdmin
- * @author     Alexander J. Tarachanowicz II <aj@seagullproject.org>
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
  class OX_Admin_Timezones
  {

@@ -13,7 +13,6 @@
 /**
  * @package    MaxDelivery
  * @subpackage TestSuite Data
- * @author     Monique Szpak <monique@m3.net>
  */
 
 $conf = $GLOBALS['_MAX']['CONF'];

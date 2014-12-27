@@ -15,8 +15,6 @@ import junit.framework.TestSuite;
 
 /**
  * Run all Campaign service tests
- *
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class TestCampaign {
 

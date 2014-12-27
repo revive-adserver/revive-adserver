@@ -18,7 +18,6 @@ require_once LIB_PATH . '/Extension/deliveryLimitations/DeliveryLimitationsComma
  *
  * @package    OpenXPlugin
  * @subpackage TestSuite
- * @author     Andrzej Swedrzynski <andrzej.swedrzynski@m3.net>
  */
 class Plugins_DeliveryLimitations_ArrayData_Test extends UnitTestCase
 {

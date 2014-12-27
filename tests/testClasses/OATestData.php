@@ -17,9 +17,7 @@ require_once MAX_PATH . '/lib/OA/Dll.php';
  *
  * @abstract A base class for generating OpenX test data using DataObjects
  * @package Test Classes
- * @author     Monique Szpak <monique.szpak@openx.org>
  * @todo more _insert methods
- *
  */
 class OA_Test_Data
 {

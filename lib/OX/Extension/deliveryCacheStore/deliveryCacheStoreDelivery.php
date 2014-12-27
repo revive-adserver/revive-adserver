@@ -14,7 +14,6 @@
  *
  * @package    OpenXPlugin
  * @subpackage DeliveryCacheStore
- * @author     Lukasz Wikierski <lukasz.wikierski@openx.org> 
  */
 
 /**
@@ -23,7 +22,7 @@
  * @param string $filename The name of file where cache entry is stored
  * @return mixed False on error, or array the cache content
  */
-function Plugin_deliveryCacheStore_Delivery_cacheRetrieve($filename) 
+function Plugin_deliveryCacheStore_Delivery_cacheRetrieve($filename)
 {
     // Return false as there is no delivery cache store plugin
     return false;

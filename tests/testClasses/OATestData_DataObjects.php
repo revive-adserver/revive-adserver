@@ -17,9 +17,7 @@ require_once MAX_PATH . '/tests/testClasses/OATestData.php';
  *
  * @abstract A base class for generating test data using DataObjects
  * @package Test Classes
- * @author Monique Szpak <monique.szpak@openads.org>
  * @todo more _insert methods
- *
  */
 class OA_Test_Data_DataObjects extends OA_Test_Data
 {

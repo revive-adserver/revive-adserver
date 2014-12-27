@@ -15,8 +15,6 @@
  *
  * @package    OpenXExtension
  * @subpackage DeliveryLog
- * @author     Andrew Hill <andrew.hill@openx.org>
- * @author     David Keen <david.keen@openx.org>
  */
 class OX_Extension_DeliveryLog_BucketProcessingStrategyFactory
 {

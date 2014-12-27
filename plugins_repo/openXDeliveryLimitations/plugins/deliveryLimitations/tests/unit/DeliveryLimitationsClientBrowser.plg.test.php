@@ -20,7 +20,6 @@ require_once dirname(dirname(dirname(dirname(__FILE__)))).'/etc/Client/etc/posts
  *
  * @package    OpenXPlugin
  * @subpackage TestSuite
- * @author     Andrzej Swedrzynski <andrzej.swedrzynski@m3.net>
  */
 class Plugins_TestOfPlugins_DeliveryLimitations_Client_Browser extends UnitTestCase
 {

@@ -17,7 +17,6 @@
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 0.1
  */
@@ -148,7 +147,7 @@ class PEAR_Packager extends PEAR_Common
             }
             $dest_package = basename($tgzfile);
             $pkgdir = dirname($pkgfile);
-    
+
             // TAR the Package -------------------------------------------
             $this->log(1, "Package $dest_package done");
             if (file_exists("$pkgdir/CVS/Root")) {
@@ -167,7 +166,7 @@ class PEAR_Packager extends PEAR_Common
             }
             $dest_package = basename($tgzfile);
             $pkgdir = dirname($pkgfile);
-    
+
             // TAR the Package -------------------------------------------
             $this->log(1, "Package $dest_package done");
             if (file_exists("$pkgdir/CVS/Root")) {

@@ -17,8 +17,6 @@ require_once 'DB/DataObject.php';
  * The common Data Abstraction Layer (DAL) class.
  *
  * @package    OpenXDal
- * @author     Radek Maciaszek <radek.maciaszek@openx.org>
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_Dal
 {
@@ -411,11 +409,11 @@ class OA_Dal
         if (!$fp) {
             return MAX::raiseError('Error creating the tmp file '.$filePath.' containing the batch INSERTs.', PEAR_ERROR_RETURN);
         }
-        
-        // ensure that when maintenance is run in crontab, as root eg. 
+
+        // ensure that when maintenance is run in crontab, as root eg.
         // the file can still be overwritten by maintenance ran from the UI
         @chmod($filePath, 0777);
-        
+
         foreach ($aValues as $aRow) {
             // Stringify row
             $row = '';
@@ -454,9 +452,9 @@ class OA_Dal
         	$fieldList
         ";
         $result = $oDbh->exec($query);
-        
+
         @unlink($filePath);
-        
+
         // Enable error handler again
         OX::enableErrorHandling();
 
@@ -487,7 +485,7 @@ class OA_Dal
 
         // we start by manually deleting conflicting unique rows
         foreach ($aValues as $aRow) {
-            // because Postgresql doesn't have the REPLACE keyword, 
+            // because Postgresql doesn't have the REPLACE keyword,
             // we manually delete the rows with the primary key first
             if($replace) {
                 $where = '';

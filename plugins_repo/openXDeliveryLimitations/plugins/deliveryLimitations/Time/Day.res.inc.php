@@ -13,7 +13,6 @@
 /**
  * @package    OpenXPlugin
  * @subpackage DeliveryLimitations
- * @author     Chris Nutting <chris@m3.net>
  */
 
 $res = array('Su','Mo','Tu','We','Th','Fr','Sa');

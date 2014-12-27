@@ -14,13 +14,12 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
 
 /**
- * A class for testing the getZonesAllocationsForEcpmRemnantByAgency() 
+ * A class for testing the getZonesAllocationsForEcpmRemnantByAgency()
  * methods of the non-DB specific
  * OA_Dal_Maintenance_Priority class.
  *
  * @package    OpenXDal
  * @subpackage TestSuite
- * @author     Radek Maciaszek <radek@urbantrip.com>
  */
 class Test_OA_Dal_Maintenance_Priority_getZonesAllocationsByAgency extends UnitTestCase
 {

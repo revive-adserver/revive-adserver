@@ -21,8 +21,6 @@ require_once MAX_PATH . '/lib/OA/Dll/tests/util/DllUnitTestCase.php';
  *
  * @package    OpenXDll
  * @subpackage TestSuite
- * @author     Matteo Beccati <matteo.beccati@openx.org>
- *
  */
 
 
@@ -296,7 +294,7 @@ class OA_Dll_UserTest extends DllUnitTestCase
         $this->assertTrue((!$dllUserPartialMock->linkUserToAdvertiserAccount($userId, 9999) &&
             $dllUserPartialMock->getLastError() == OA_Dll_User::ERROR_UNKNOWN_ACC_ID),
             $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_UNKNOWN_ACC_ID));
-        
+
         // Create advertiser
         $advertiserId = DataGenerator::generateOne('clients');
         $doAdvertiser = OA_Dal::staticGetDO('clients', $advertiserId);
@@ -304,11 +302,11 @@ class OA_Dll_UserTest extends DllUnitTestCase
         $aAdvertiserPermissions = array(OA_PERM_SUPER_ACCOUNT, OA_PERM_BANNER_EDIT,
             OA_PERM_BANNER_DEACTIVATE, OA_PERM_BANNER_ACTIVATE, OA_PERM_USER_LOG_ACCESS);
 
-        // Invalid user 
+        // Invalid user
         $this->assertTrue((!$dllUserPartialMock->linkUserToAdvertiserAccount(9999, $advertiserAccountId) &&
             $dllUserPartialMock->getLastError() == OA_Dll_User::ERROR_UNKNOWN_USER_ID),
             $this->_getMethodShouldReturnError(OA_Dll_User::ERROR_UNKNOWN_USER_ID));
-        
+
         // linkUserToAdvertiserAccount
         $this->assertTrue($dllUserPartialMock->linkUserToAdvertiserAccount(
             $userId, $advertiserAccountId, $aAdvertiserPermissions));

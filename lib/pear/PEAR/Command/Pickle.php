@@ -15,7 +15,6 @@
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  2005-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 1.4.1
  */
@@ -306,7 +305,7 @@ generate both package.xml.
         $contents = $pf2->getContents();
         $release = $pf2->getReleases();
         if (isset($releases[0])) {
-            return $this->raiseError('Cannot safely process "' . $packagexml . '" contains ' 
+            return $this->raiseError('Cannot safely process "' . $packagexml . '" contains '
             . 'multiple extsrcrelease/zendextsrcrelease tags.  Using a PEAR_PackageFileManager-based script ' .
             'or the convert command is an option');
         }
@@ -317,7 +316,7 @@ generate both package.xml.
             }
         }
         if (isset($release['filelist']['ignore'])) {
-            return $this->raiseError('Cannot safely process "' . $packagexml . '" contains ' 
+            return $this->raiseError('Cannot safely process "' . $packagexml . '" contains '
             . 'ignore tags.  Using a PEAR_PackageFileManager-based script or the convert' .
             ' command is an option');
         }

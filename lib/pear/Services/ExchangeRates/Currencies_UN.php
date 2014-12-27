@@ -15,16 +15,14 @@
 // +----------------------------------------------------------------------+
 // | Author: Marshall Roch <marshall@exclupen.com>                        |
 // +----------------------------------------------------------------------+
-//
-// $Id$
 
 /**
  * Currency code driver - United Nations Economic Commision for Europe
  *
- * Retrieves the ISO 4217 currency codes in XML format from the United 
+ * Retrieves the ISO 4217 currency codes in XML format from the United
  * Nations Economic Commission for Europe.  This file is cached for 4 weeks
- * by default, since it hardly ever changes.  In the event that a new 
- * currency is added and there is a known exchange rate for that currency, 
+ * by default, since it hardly ever changes.  In the event that a new
+ * currency is added and there is a known exchange rate for that currency,
  * it will be automatically added to the list.
  *
  * @author Marshall Roch <marshall@exclupen.com>
@@ -32,7 +30,7 @@
  * @license http://www.php.net/license/2_02.txt PHP License 2.0
  * @package Services_ExchangeRates
  */
- 
+
 /**
  * Include common functions to handle cache and fetch the file from the server
  */
@@ -52,7 +50,7 @@ class Services_ExchangeRates_Currencies_UN extends Services_ExchangeRates_Common
     * @var string
     */
     var $feedUrl = 'http://www.unece.org/etrades/unedocs/repository/codelists/xml/CurrencyCodeList.xml';
-      
+
    /**
     * Retrieves currency codes and their associated names (e.g. USD => US Dollar)
     * from the UN or the cache.  The default cache length is 1 month.
@@ -71,10 +69,10 @@ class Services_ExchangeRates_Currencies_UN extends Services_ExchangeRates_Common
     * @return array Array of currency codes to exchange rates
     */
     function retrieve($cacheLength, $cacheDir) {
-    
+
         // retrieve the feed from the server or cache
         $root = $this->retrieveXML($this->feedUrl, $cacheLength, $cacheDir);
-    
+
         foreach($root->children as $curr) {
             // Filter out blank or unwanted elements
             if ($curr->name == "Currency") {
@@ -82,7 +80,7 @@ class Services_ExchangeRates_Currencies_UN extends Services_ExchangeRates_Common
                 $currencies[$curr->children[1]->content] = $curr->children[3]->content;
             }
         }
-        
+
         return $currencies;
 
     }

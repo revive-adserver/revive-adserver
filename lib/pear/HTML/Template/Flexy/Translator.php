@@ -15,15 +15,11 @@
 // +----------------------------------------------------------------------+
 // | Authors:  nobody <nobody@localhost>                                  |
 // +----------------------------------------------------------------------+
-//
-// $Id$
-//
 //  Controller Type Class providing translation faciliites
-//
-   
+
 /*
 
-usage : 
+usage :
 
 $t = new HTML_Template_Flexy_Translator(array(
     'baseLang'      => 'en',
@@ -38,18 +34,18 @@ $t->outputDefautTemplate();
 */
 
 class HTML_Template_Flexy_Translator {
-    
+
     /**
     * Options for Translator tool.
     *
     * @var array
-    * @access public 
+    * @access public
     */
     var $options = array(
         'baseLang'          => 'en',            // the language the templates are in.
         'targetLangs'       => array('fr'),     // the language the templates are being translated to.
         'templateDir'       => '',              // these are read from global config if not set.
-        'compileDir'        => '',        
+        'compileDir'        => '',
         'url_rewrite'       => '',              // for image rewriting.. -- needs better thinking through!
         'appURL'            => '',              // url to translation too : eg. /admin/translator.php
     );
@@ -57,7 +53,7 @@ class HTML_Template_Flexy_Translator {
     * app URL (copied from above)
     *
     * @var string
-    * @access public 
+    * @access public
     */
     var $appURL;
     var $languages = array();
@@ -65,36 +61,36 @@ class HTML_Template_Flexy_Translator {
     * Array of templates and the words found in each one.
     *
     * @var array
-    * @access public 
+    * @access public
     */
-    var $words= array();   
+    var $words= array();
     /**
     * Array of objects with name, md5's, has it been set, the translation etc.
     *
     * @var array
-    * @access public 
+    * @access public
     */
     var $status = array();
     /**
     * The current language
     *
     * @var array
-    * @access public 
+    * @access public
     */
     var $translate = ''; // language being displayed /edited.
-    
-    
+
+
     /**
     * constructor
     *
     * Just set options (no checking done)
-    * 
-    * 
+    *
+    *
     * @param   array   see options array in file.
     * @return   none
     * @access   public
     */
-  
+
     function HTML_Template_Flexy_Translator($options= array()) {
         foreach($options as $k=>$v) {
             $this->options[$k]  = $v;
@@ -115,28 +111,28 @@ class HTML_Template_Flexy_Translator {
         $this->appURL = $this->options['appURL'];
         $this->languages = $this->options['targetLangs'];
     }
-    
-    
+
+
     /**
-    * process the input 
+    * process the input
     *
-    * 
+    *
     * @param   array   $_GET; (translate = en)
     * @param   array   $_POST; (translate = en, en[{md5}] = translation)
-    
+
     * @return   none
     * @access   public
     */
-    
-    
+
+
     function process($get,$post) {
         //DB_DataObject::debugLevel(1);
-        
-        $displayLang = isset($get['translate']) ? $get['translate'] : 
+
+        $displayLang = isset($get['translate']) ? $get['translate'] :
             (isset($post['translate']) ? $post['translate'] : false);
-            
+
         if ($displayLang === false) {
-          
+
             return;
         }
         require_once 'Translation2/Admin.php';
@@ -145,32 +141,32 @@ class HTML_Template_Flexy_Translator {
         foreach($this->options['targetLangs'] as $l) {
             $trd->createNewLang(array('lang_id'=>$l));
         }
-        
+
         // back to parent if no language selected..
-        
+
         if (!in_array($displayLang, $this->options['targetLangs'] )) {
             require_once 'PEAR.php';
             return PEAR::raiseError('Unknown Language :' .$displayLang);
         }
-        
+
         $this->translate = $displayLang;
-        
-        
+
+
         if (isset($post['_apply'])) {
             $this->clearTemplateCache($displayLang);
-             
+
         }
         $t = explode(' ',microtime()); $start= $t[0] + $t[1];
-     
+
         require_once 'Translation2.php';
         $tr = new Translation2('dataobjectsimple','translations');
         $tr->setLang($displayLang);
-        
+
         //$suggestions = new Translation2('dataobjectsimple','translations');
         //$suggestions->setLang($displayLang);
-        
+
         $this->compileAll();
-        
+
         //$tr->setPageID('test.html');
         // delete them after we have compiled them!!
         if (isset($post['_apply'])) {
@@ -179,46 +175,46 @@ class HTML_Template_Flexy_Translator {
         //DB_DataObject::debugLevel(1);
         $this->loadTranslations();
         $this->loadTranslations($displayLang);
-        
+
         $all = array();
         foreach($this->words as $page=>$words) {
             $status[$page] = array();
             $tr->setPageID($page);
             // pages....
-            
+
             foreach ($words as $word) {
-            
-                if (!trim(strlen($word))) { 
+
+                if (!trim(strlen($word))) {
                     continue;
                 }
-                
+
                 $md5 = md5($page.':'.$word);
-                
+
                 //$value = $tr->get($word);
                 $value = $this->getTranslation($page,$word,$displayLang);
                 // we posted something..
                 if (isset($post[$displayLang][$md5])) {
                     $nval = get_magic_quotes_gpc() ? stripslashes($post[$displayLang][$md5]) : $post[$displayLang][$md5];
-                    
+
                     if ($value != $nval) {
-                    
+
                         $trd->add($word,$page,array($displayLang=>$nval));
                         $value = $nval;
                     }
                 }
-                
+
                 if ($value == '') {
                     // try the old gettext...
                     if (isset($old[addslashes($word)])) {
                         $trd->add($word,$page,array($displayLang=>$old[addslashes($word)]));
                         $value = $old[addslashes($word)];
                     }
-                
-                
+
+
                 }
-                
+
                 $add = new StdClass;
-                 
+
                 $add->from = $word;
                 $add->to   = $value;
                 if (!$add->to || ($add->from == $add->to)) {
@@ -233,26 +229,26 @@ class HTML_Template_Flexy_Translator {
                 $add->md5 = $md5;
                 $add->short = (bool) (strlen($add->from) < 30);
                 $status[$page][] = $add;
-            
-                 
+
+
             }
-            
+
         }
         $t = explode(' ',microtime()); $total= $t[0] + $t[1] -  $start;
         //printf("Built All in %0.2fs<BR>",$total);
         $this->status = $status;
-          
-             
-    
+
+
+
     }
     var $translations = array();
     var $translationMap = array();
-   
+
     /**
     * LoadTranslations - load all the translations from the database
     * into $this->translations[{lang}][{id}] = $translation;
     *
-    * 
+    *
     * @param   string       Language
     * @access   public
     */
@@ -267,10 +263,10 @@ class HTML_Template_Flexy_Translator {
                 $this->translationMap[$d->page][$d->translation] = $d->string_id;
             }
             // suggestions:?
-            
+
         }
     }
-    
+
     function getSuggestions($string,$lang) {
         $ids = array();
         //echo '<PRE>';print_r($this->translationMap);
@@ -280,7 +276,7 @@ class HTML_Template_Flexy_Translator {
             }
         }
         //echo '<PRE>';print_r(array($string,$lang,$ids,$this->translations[$lang]));
-        
+
         //exit;
         if (!$ids) {
             return array();
@@ -294,16 +290,16 @@ class HTML_Template_Flexy_Translator {
        // echo '<PRE>';print_r($ret);
         return $ret;
     }
-    
+
     function getTranslation($page,$word,$lang)
     {
-        
+
         if (!isset($this->translationMap[$page][$word])) {
             //echo "No string id for $page : $word\n";
             return false;
         }
         if (!isset($this->translations[$lang][$this->translationMap[$page][$word]])) {
-        
+
             return false;
         }
         return $this->translations[$lang][$this->translationMap[$page][$word]];
@@ -311,7 +307,7 @@ class HTML_Template_Flexy_Translator {
     /**
     * compile all the templates in a specified folder.
     *
-    * 
+    *
     * @param   string   subdirectory of templateDir or empty
     * @return   none
     * @access   public
@@ -319,7 +315,7 @@ class HTML_Template_Flexy_Translator {
 
     function compileAll($d='') {
         set_time_limit(0); // this could take quite a while!!!
-        
+
         $words = array();
         $dname = $d ? $this->options['templateDir'] .'/'.$d  : $this->options['templateDir'];
         //echo "Open $dname<BR>";
@@ -330,25 +326,25 @@ class HTML_Template_Flexy_Translator {
         $o['locale'] = 'en';
         while (($name = readdir($dh)) !== false) {
             $fname = $d ? $d .'/'. $name : $name;
-            
+
             if ($name{0} == '.') {
                 continue;
             }
-            
+
             if (is_dir($this->options['templateDir'] . '/'. $fname)) {
                 $this->compileAll($fname);
                 continue;
             }
-                
-                
+
+
             if (!preg_match('/\.html$/',$name)) {
                 continue;
             }
-            
-            $oo = $o;// $oo['debug'] = 1; 
+
+            $oo = $o;// $oo['debug'] = 1;
             $x = new HTML_Template_Flexy( $oo );
             $r = $x->compile($fname);
-            
+
             //printf(" %0.3fs : $fname<BR>", $time);
             if (is_a($r,'PEAR_Error')) {
                 echo "compile failed on $fname<BR>";
@@ -360,7 +356,7 @@ class HTML_Template_Flexy_Translator {
                 array();
         }
         //echo '<PRE>';print_R($words);exit;
-        
+
         ksort($this->words);
     }
 
@@ -368,24 +364,24 @@ class HTML_Template_Flexy_Translator {
     /**
     * delete all the compiled templates in  a specified language
     *
-    * 
+    *
     * @param   string   language
     * @param   string   subdirectory of templateDir or empty
     * @return   none
     * @access   public
     */
     function clearTemplateCache($lang='en',$d = '') {
-        
+
         $dname = $d ? $this->options['templateDir'] .'/'.$d  : $this->options['templateDir'];
-       
+
         $dh = opendir($dname);
         while (($name = readdir($dh)) !== false) {
             $fname = $d ? $d .'/'. $name : $name;
-            
+
             if ($name{0} == '.') {
                 continue;
             }
-            
+
             if (is_dir($this->options['templateDir'] . '/'. $fname)) {
                 $this->clearTemplateCache($lang,$fname);
                 continue;
@@ -393,9 +389,9 @@ class HTML_Template_Flexy_Translator {
             if (!preg_match('/\.html$/',$name)) {
                 continue;
             }
-      
+
             $file = "{$this->options['compileDir']}/{$fname}.{$lang}.php";
-            
+
             if (file_exists($file)) {
                // echo "DELETE $file?";
                 unlink($file);
@@ -405,7 +401,7 @@ class HTML_Template_Flexy_Translator {
     }
    /**
     * output the default template with the editing facilities.
-    * 
+    *
     * @return   none
     * @access   public
     */
@@ -418,7 +414,7 @@ class HTML_Template_Flexy_Translator {
         $x->compile('translator.html');
         $x->outputObject($this);
     }
-        
-      
+
+
 
 }

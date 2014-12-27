@@ -12,11 +12,6 @@
 
 /**
  * OpenX Schema Management Utility
- *
- * @author     Monique Szpak <monique.szpak@openx.org>
- *
- * $Id$
- *
  */
 
 function onclickUpOrDown($param)

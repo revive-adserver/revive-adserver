@@ -18,8 +18,6 @@ require_once MAX_PATH . '/lib/OA/Dal/Statistics/tests/util/DalStatisticsUnitTest
  *
  * @package    OpenXDal
  * @subpackage TestSuite
- * @author     Ivan Klishch <iklishch@lohika.com>
- *
  */
 
 

@@ -18,7 +18,6 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/ECPMCommon.p
  *
  * @package    OpenXMaintenance
  * @subpackage TestSuite
- * @author     Radek Maciaszek <radek@urbantrip.com>
  */
 class Test_OA_Maintenance_Priority_AdServer_Task_ECPMforContract extends UnitTestCase
 {

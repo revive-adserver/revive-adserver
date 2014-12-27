@@ -27,7 +27,6 @@ require_once MAX_PATH . '/lib/max/Admin/UI/Field/ZoneScopeField.php';
  * Report field factory class for Openads
  *
  * @package    Max
- * @author     Scott Switzer <scott@switzer.org>
  */
 class FieldFactory
 {

@@ -40,7 +40,6 @@ define('BASE_FACTOR', 10);
  *
  * @package    OpenXMaintenance
  * @subpackage Priority
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Maintenance_Priority_AdServer_Task
 {
@@ -381,10 +380,10 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
         $result = $this->initialPriorities($oZone);
         // Adjust each creative's priority value based on past data
         foreach ($oZone->aAdverts as $oAdvert) {
-            // Because of the simple model we use, forecast = previous OI delivered impressions, 
+            // Because of the simple model we use, forecast = previous OI delivered impressions,
             // we can write the simple:
             $pastActualImpressions = $oZone->availableImpressions;
-            
+
             // which is then used to process the priority factor
             list($factor, $limited, $fraction, $to_be_delivered) =
                 $this->_getPriorityAdjustment($oAdvert,

@@ -18,7 +18,6 @@ require_once MAX_PATH.'/lib/OA/Dal/DataGenerator.php';
  *
  * @package    OpenX Upgrade
  * @subpackage TestSuite
- * @author     Monique Szpak <monique.szpak@openx.org>
  */
 class Test_VersionController extends UnitTestCase
 {

@@ -28,8 +28,6 @@ require_once MAX_PATH . '/lib/max/Delivery/cache.php';
  *
  * @package    MaxDelivery
  * @subpackage TestSuite
- * @author     Lukasz Wikierski <lukasz.wikierski@openx.org>
- *
  */
 class Test_DeliveryCache extends UnitTestCase
 {

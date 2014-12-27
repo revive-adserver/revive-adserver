@@ -15,7 +15,6 @@
  *
  * @package    Max
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew@m3.net>
  */
 class TestFiles
 {

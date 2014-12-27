@@ -12,11 +12,6 @@
 
 /**
  * OpenX jQuery ajax functions
- *
- * @author     Bernard Lange <bernard.lange@openx.org>
- *
- * $Id$
- *
  */
 
 require_once '../../../../init.php';
