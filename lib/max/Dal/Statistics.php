@@ -24,7 +24,6 @@ require_once OX_PATH . '/lib/pear/Date.php';
  * statistics data from the database.
  *
  * @package    MaxDal
- * @author     Andrew Hill <andrew@m3.net>
  */
 class MAX_Dal_Statistics extends MAX_Dal_Common
 {

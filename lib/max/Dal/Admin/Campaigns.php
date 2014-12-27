@@ -24,7 +24,6 @@ require_once OX_PATH . '/lib/pear/Date.php';
  * The Entity Service class for the "campaigns" table.
  *
  * @package    MaxDal
- * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  */
 class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
 {

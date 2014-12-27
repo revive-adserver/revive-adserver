@@ -27,7 +27,6 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Common.php';
  *
  * @abstract
  * @package    Max
- * @author     Scott Switzer <scott@switzer.org>
  */
 class Admin_UI_Field
 {

@@ -14,7 +14,6 @@
  * A view field for a dropdown (HTML SELECT).
  *
  * @package    Max
- * @author     Scott Switzer <scott@switzer.org>
  */
 require_once MAX_PATH . '/lib/max/Admin/UI/Field.php';
 

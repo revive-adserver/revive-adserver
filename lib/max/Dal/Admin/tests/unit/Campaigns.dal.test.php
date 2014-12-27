@@ -19,7 +19,6 @@ require_once MAX_PATH . '/lib/max/Dal/Admin/Campaigns.php';
  *
  * @package    MaxDal
  * @subpackage TestSuite
- * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  */
 class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
 {
@@ -59,13 +58,13 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $doCampaigns->campaignname = 'market campaign';
         $doCampaigns->type = DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN;
         $marketCampaignId= DataGenerator::generateOne($doCampaigns);
-        
+
         // Call method
         $aCampaigns = $this->oDalCampaigns->getAllCampaigns('name', 'up');
 
         // Test same number of campaigns are returned.
         $this->assertEqual(count($aCampaigns), $numCampaigns);
-        
+
         // Call method with market campaigns
         $aIncludeSystemTypes = array(
             DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN,
@@ -76,7 +75,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         reset($aCampaigns);
         $aCampaign = current($aCampaigns);
         $this->assertEqual($aCampaign['campaignname'], 'market campaign');
-        
+
         // reverse order
         $aCampaigns = $this->oDalCampaigns->getAllCampaigns('name', 'down', $aIncludeSystemTypes);
         $this->assertEqual(count($aCampaigns), $numCampaigns+1);
