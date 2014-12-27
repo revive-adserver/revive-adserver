@@ -24,7 +24,6 @@
  * @author     Jesper Veggerby <pear.nosey@veggerby.dk>
  * @copyright  Copyright (C) 2003, 2004 Jesper Veggerby Hansen
  * @license    http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/Image_Graph
  */
 
@@ -35,7 +34,7 @@ require_once 'Image/Graph/Layout.php';
 
 /**
  * Title
- * 
+ *
  * @category   Images
  * @package    Image_Graph
  * @subpackage Text
@@ -120,7 +119,7 @@ class Image_Graph_Title extends Image_Graph_Layout
     {
         if ($this->_defaultFontOptions !== false) {
             $this->_canvas->setFont($this->_defaultFontOptions);
-        } else {        
+        } else {
             $this->_canvas->setFont($this->_getFont());
         }
 
@@ -136,7 +135,7 @@ class Image_Graph_Title extends Image_Graph_Layout
     {
         $this->_alignment = $alignment & 0x7;
     }
-    
+
     /**
      * Output the text
      *
@@ -147,11 +146,11 @@ class Image_Graph_Title extends Image_Graph_Layout
     {
         if ($this->_defaultFontOptions !== false) {
             $this->_canvas->setFont($this->_defaultFontOptions);
-        } else {        
+        } else {
             $this->_canvas->setFont($this->_getFont());
         }
 
-        if (is_a($this->_parent, 'Image_Graph_Plotarea')) {            
+        if (is_a($this->_parent, 'Image_Graph_Plotarea')) {
             $this->_setCoords(
                 $this->_parent->_left,
                 $this->_parent->_top,
@@ -170,7 +169,7 @@ class Image_Graph_Title extends Image_Graph_Layout
         if (parent::_done() === false) {
             return false;
         }
-            
+
         if ($this->_alignment == IMAGE_GRAPH_ALIGN_CENTER_X) {
             $x = ($this->_left + $this->_right) / 2;
         } elseif ($this->_alignment == IMAGE_GRAPH_ALIGN_LEFT) {

@@ -24,7 +24,6 @@
  * @author     Jesper Veggerby <pear.nosey@veggerby.dk>
  * @copyright  Copyright (C) 2003, 2004 Jesper Veggerby Hansen
  * @license    http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/Image_Graph
  */
 
@@ -168,34 +167,34 @@ class Image_Graph_Plot extends Image_Graph_Plotarea_Element
     {
         $this->_title = $title;
     }
-    
+
     /**
      * Parses the URL mapping data in the point and adds it to the parameter array used by
      * Image_Canvas
-     * 
+     *
      * @param array $point The data point (from the dataset)
      * @param array $canvasData The The for the canvas method
      * @return array The union of the canvas data points and the appropriate points for the dataset
-     * @access private 
+     * @access private
      */
     function _mergeData($point, $canvasData)
-    {       
+    {
         if (isset($point['data'])) {
             if (isset($point['data']['url'])) {
                 $canvasData['url'] = $point['data']['url'];
             }
             if (isset($point['data']['target'])) {
-                $canvasData['target'] = $point['data']['target']; 
+                $canvasData['target'] = $point['data']['target'];
             }
             if (isset($point['data']['alt'])) {
-                $canvasData['alt'] = $point['data']['alt']; 
+                $canvasData['alt'] = $point['data']['alt'];
             }
             if (isset($point['data']['htmltags'])) {
-                $canvasData['htmltags'] = $point['data']['htmltags']; 
+                $canvasData['htmltags'] = $point['data']['htmltags'];
             }
         }
-        
-        return $canvasData;        
+
+        return $canvasData;
     }
 
     /**
@@ -326,30 +325,30 @@ class Image_Graph_Plot extends Image_Graph_Plotarea_Element
             if ((isset($point['AX'])) && ($point['AX'] > 0)) {
                 $point['ANGLE'] = pi() - $point['ANGLE'];
             }
-            
-            if ($this->_parent->_horizontal) {                
+
+            if ($this->_parent->_horizontal) {
                 $point['MARKER_Y1'] = $this->_pointY($point) -
                     (isset($totals['WIDTH']) ? $totals['WIDTH'] : 0);
-    
+
                 $point['MARKER_Y2'] = $this->_pointY($point) +
                     (isset($totals['WIDTH']) ? $totals['WIDTH'] : 0);
-    
+
                 $point['COLUMN_WIDTH'] = abs($point['MARKER_Y2'] -
                     $point['MARKER_Y1']) / count($this->_dataset);
-    
+
                 $point['MARKER_Y'] = $point['MARKER_Y1'] +
                     ((isset($totals['NUMBER']) ? $totals['NUMBER'] : 0) + 0.5) *
                     $point['COLUMN_WIDTH'];
-    
+
                 $point['MARKER_X'] = $this->_pointX($point);
-    
+
                 if ($this->_multiType == 'stacked') {
                     $point['MARKER_Y'] =
                         ($point['MARKER_Y1'] + $point['MARKER_Y2']) / 2;
-    
+
                     $P1 = array('Y' => $totals['SUM_Y'][$x]);
                     $P2 = array('Y' => $totals['SUM_Y'][$x] + $point['Y']);
-    
+
                     $point['MARKER_X'] =
                         ($this->_pointX($P1) + $this->_pointX($P2)) / 2;
                 } elseif ($this->_multiType == 'stacked100pct') {
@@ -357,15 +356,15 @@ class Image_Graph_Plot extends Image_Graph_Plotarea_Element
                     if ($totals['TOTAL_Y'][$x] != 0) {
                         $point['MARKER_Y'] =
                             ($point['MARKER_Y1'] + $point['MARKER_Y2']) / 2;
-    
+
                         $P1 = array(
                             'Y' => 100 * $totals['SUM_Y'][$x] / $totals['TOTAL_Y'][$x]
                         );
-    
+
                         $P2 = array(
                             'Y' => 100 * ($totals['SUM_Y'][$x] + $point['Y']) / $totals['TOTAL_Y'][$x]
                         );
-    
+
                         $point['MARKER_X'] =
                             ($this->_pointX($P1) + $this->_pointX($P2)) / 2;
                     } else {
@@ -376,26 +375,26 @@ class Image_Graph_Plot extends Image_Graph_Plotarea_Element
             else {
                 $point['MARKER_X1'] = $this->_pointX($point) -
                     (isset($totals['WIDTH']) ? $totals['WIDTH'] : 0);
-    
+
                 $point['MARKER_X2'] = $this->_pointX($point) +
                     (isset($totals['WIDTH']) ? $totals['WIDTH'] : 0);
-    
+
                 $point['COLUMN_WIDTH'] = abs($point['MARKER_X2'] -
                     $point['MARKER_X1']) / count($this->_dataset);
-    
+
                 $point['MARKER_X'] = $point['MARKER_X1'] +
                     ((isset($totals['NUMBER']) ? $totals['NUMBER'] : 0) + 0.5) *
                     $point['COLUMN_WIDTH'];
-    
+
                 $point['MARKER_Y'] = $this->_pointY($point);
-    
+
                 if ($this->_multiType == 'stacked') {
                     $point['MARKER_X'] =
                         ($point['MARKER_X1'] + $point['MARKER_X2']) / 2;
-    
+
                     $P1 = array('Y' => $totals['SUM_Y'][$x]);
                     $P2 = array('Y' => $totals['SUM_Y'][$x] + $point['Y']);
-    
+
                     $point['MARKER_Y'] =
                         ($this->_pointY($P1) + $this->_pointY($P2)) / 2;
                 } elseif ($this->_multiType == 'stacked100pct') {
@@ -403,15 +402,15 @@ class Image_Graph_Plot extends Image_Graph_Plotarea_Element
                     if ($totals['TOTAL_Y'][$x] != 0) {
                         $point['MARKER_X'] =
                             ($point['MARKER_X1'] + $point['MARKER_X2']) / 2;
-    
+
                         $P1 = array(
                             'Y' => 100 * $totals['SUM_Y'][$x] / $totals['TOTAL_Y'][$x]
                         );
-    
+
                         $P2 = array(
                             'Y' => 100 * ($totals['SUM_Y'][$x] + $point['Y']) / $totals['TOTAL_Y'][$x]
                         );
-    
+
                         $point['MARKER_Y'] =
                             ($this->_pointY($P1) + $this->_pointY($P2)) / 2;
                     } else {
@@ -429,10 +428,10 @@ class Image_Graph_Plot extends Image_Graph_Plotarea_Element
      * @access private
      */
     function _drawMarker()
-    {        
+    {
         if (($this->_marker) && (is_array($this->_dataset))) {
             $this->_canvas->startGroup(get_class($this) . '_marker');
-            
+
             $totals = $this->_getTotals();
             $totals['WIDTH'] = $this->width() / ($this->_maximumX() + 2) / 2;
 
@@ -483,7 +482,7 @@ class Image_Graph_Plot extends Image_Graph_Plotarea_Element
             }
             unset($keys);
             $this->_canvas->endGroup();
-        }              
+        }
     }
 
     /**
@@ -704,7 +703,7 @@ class Image_Graph_Plot extends Image_Graph_Plotarea_Element
             $dataset->_reset();
             while ($point = $dataset->_next()) {
                 $x = $point['X'];
-                
+
                 if (is_numeric($point['Y'])) {
                     $total['ALL_SUM_Y'] += $point['Y'];
                     if (isset($total['TOTAL_Y'][$x])) {
@@ -713,7 +712,7 @@ class Image_Graph_Plot extends Image_Graph_Plotarea_Element
                         $total['TOTAL_Y'][$x] = $point['Y'];
                     }
                 }
-                
+
                 if (is_numeric($point['X'])) {
                     if (isset($total['TOTAL_X'][$x])) {
                         $total['TOTAL_X'][$x] += $point['X'];
@@ -818,7 +817,7 @@ class Image_Graph_Plot extends Image_Graph_Plotarea_Element
         }
         unset($keys);
     }
-    
+
 }
 
 ?>

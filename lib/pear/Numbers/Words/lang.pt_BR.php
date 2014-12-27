@@ -17,8 +17,6 @@
 // | Authors: Marcelo Subtil Marcal <jason@conectiva.com.br>, Mario H.C.T. <mariolinux@mitus.com.br>
 // +----------------------------------------------------------------------+
 //
-// $Id$
-//
 // Numbers_Words class extension to spell numbers in Brazilian Portuguese language.
 //
 

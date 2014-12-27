@@ -1,7 +1,5 @@
 <?php
 /*******************************************************************************
-	$Id$
-    
     phpSniff: HTTP_USER_AGENT Client Sniffer for PHP
 	Copyright (C) 2001 Roger Raymond ~ epsilon7@users.sourceforge.net
 

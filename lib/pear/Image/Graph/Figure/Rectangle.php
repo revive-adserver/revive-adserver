@@ -24,7 +24,6 @@
  * @author     Jesper Veggerby <pear.nosey@veggerby.dk>
  * @copyright  Copyright (C) 2003, 2004 Jesper Veggerby Hansen
  * @license    http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/Image_Graph
  */
 
@@ -75,7 +74,7 @@ class Image_Graph_Figure_Rectangle extends Image_Graph_Element
         }
 
         $this->_canvas->startGroup(get_class($this));
-        
+
         $this->_getFillStyle();
         $this->_getLineStyle();
         $this->_canvas->rectangle(
@@ -86,9 +85,9 @@ class Image_Graph_Figure_Rectangle extends Image_Graph_Element
             	'y1' => $this->_bottom
             )
         );
-        
+
         $this->_canvas->endGroup();
-        
+
         return true;
     }
 

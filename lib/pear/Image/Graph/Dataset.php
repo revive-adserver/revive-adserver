@@ -24,7 +24,6 @@
  * @author     Jesper Veggerby <pear.nosey@veggerby.dk>
  * @copyright  Copyright (C) 2003, 2004 Jesper Veggerby Hansen
  * @license    http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/Image_Graph
  */
 
@@ -117,13 +116,13 @@ class Image_Graph_Dataset
      * $ID can contain either the ID of the point, i.e. 'DK', 123, 'George', etc. or it can contain
      * values used for creation of the HTML image map. This is achieved using is an an associated array
      * with the following values:
-     * 
+     *
      * 'url' The URL to create the link to
-     * 
+     *
      * 'alt' [optional] The alt text on the link
-     * 
+     *
      * 'target' [optional] The target of the link
-     * 
+     *
      * 'htmltags' [optional] An associated array with html tags (tag as key), fx. 'onMouseOver' => 'history.go(-1);', 'id' => 'thelink'
      *
      * @param int $x The X value to add
@@ -209,7 +208,7 @@ class Image_Graph_Dataset
     {
         return false;
     }
-    
+
     /**
      * Gets point data from the dataset
      *
@@ -282,7 +281,7 @@ class Image_Graph_Dataset
     {
         return array('X' => $this->maximumX(), 'Y' => $this->maximumY());
     }
-    
+
     /**
      * The minimum X value
      *

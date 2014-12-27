@@ -23,13 +23,12 @@
  * @author     Jesper Veggerby <pear.nosey@veggerby.dk>
  * @copyright  Copyright (C) 2003, 2004 Jesper Veggerby Hansen
  * @license    http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/Image_Graph
  */
 
 /**
  * This class contains a set of tool-functions.
- * 
+ *
  * These functions are all to be called statically
  *
  * @category   Images
@@ -115,7 +114,7 @@ class Image_Graph_Tool
             3 * (1 - $t) * pow($t, 2) * $p3 +
             pow($t, 3) * $p4;
     }
-    
+
     /**
      * For a given point (x,y) return a point rotated by a given angle aroung the center (xy,yc)
      *
@@ -140,7 +139,7 @@ class Image_Graph_Tool
 
     /**
      * If a number is close 0 zero (i.e. 0 within $decimal decimals) it is rounded down to zero
-     * 
+     *
      * @param double $value The value to round
      * @param int $decimal The number of decimals
      * @return double The value or zero if "close enough" to zero
@@ -155,10 +154,10 @@ class Image_Graph_Tool
             return $value;
         }
     }
-    
+
     /**
      * Calculate the dimensions and center point (of gravity) for an arc
-     * 
+     *
      * @param int $v1 The angle at which the arc starts
      * @param int $v2 The angle at which the arc ends
      * @return array An array with the dimensions in a fraction of a circle width radius 1 'rx', 'ry' and the
@@ -166,30 +165,30 @@ class Image_Graph_Tool
      * @static
      */
     function calculateArcDimensionAndCenter($v1, $v2)
-    { 
+    {
         // $v2 always larger than $v1
-        $r1x = Image_Graph_Tool::close2zero(cos(deg2rad($v1)), 3); 
+        $r1x = Image_Graph_Tool::close2zero(cos(deg2rad($v1)), 3);
         $r2x = Image_Graph_Tool::close2zero(cos(deg2rad($v2)), 3);
-        
+
         $r1y = Image_Graph_Tool::close2zero(sin(deg2rad($v1)), 3);
         $r2y = Image_Graph_Tool::close2zero(sin(deg2rad($v2)), 3);
-    
+
         // $rx = how many percent of the x-diameter of the entire ellipse does the arc x-diameter occupy: 1 entire width, 0 no width
         // $cx = at what percentage of the diameter does the center lie
-        
+
         // if the arc passes through 0/360 degrees the "highest" of r1x and r2x is replaced by 1!
         if ((($v1 <= 0) && ($v2 >= 0)) || (($v1 <= 360) && ($v2 >= 360))) {
             $r1x = min($r1x, $r2x);
             $r2x = 1;
-        } 
-        
+        }
+
         // if the arc passes through 180 degrees the "lowest" of r1x and r2x is replaced by -1!
         if ((($v1 <= 180) && ($v2 >= 180)) || (($v1 <= 540) && ($v2 >= 540))) {
             $r1x = max($r1x, $r2x);
             $r2x = -1;
         }
-        
-        if ($r1x >= 0) { // start between [270; 360] or [0; 90]        
+
+        if ($r1x >= 0) { // start between [270; 360] or [0; 90]
             if ($r2x >= 0) {
                 $rx = max($r1x, $r2x) / 2;
                 $cx = 0; // center lies 0 percent along this "vector"
@@ -209,23 +208,23 @@ class Image_Graph_Tool
                 $cx = abs($r1x / 2) / $rx;
             }
         }
-        
+
         // $ry = how many percent of the y-diameter of the entire ellipse does the arc y-diameter occupy: 1 entire, 0 none
         // $cy = at what percentage of the y-diameter does the center lie
-    
+
         // if the arc passes through 90 degrees the "lowest" of r1x and r2x is replaced by -1!
         if ((($v1 <= 90) && ($v2 >= 90)) || (($v1 <= 450) && ($v2 >= 450))) {
             $r1y = min($r1y, $r2y);
             $r2y = 1;
         }
-        
+
         // if the arc passes through 270 degrees the "highest" of r1y and r2y is replaced by -1!
         if ((($v1 <= 270) && ($v2 >= 270)) || (($v1 <= 630) && ($v2 >= 630))) {
             $r1y = max($r1y, $r2y);
             $r2y = -1;
-        } 
-            
-        if ($r1y >= 0) { // start between [0; 180]        
+        }
+
+        if ($r1y >= 0) { // start between [0; 180]
             if ($r2y >= 0) {
                 $ry = max($r1y, $r2y) / 2;
                 $cy = 0; // center lies 0 percent along this "vector"
@@ -245,7 +244,7 @@ class Image_Graph_Tool
                 $cy = abs($r1y / 2) / $ry;
             }
         }
-        
+
         return array(
             'rx' => $rx,
             'cx' => $cx,
@@ -253,21 +252,21 @@ class Image_Graph_Tool
             'cy' => $cy
         );
     }
-    
+
     /**
      * Calculate linear regression on a dataset
      * @param array $data The data to calculate regression upon
      * @return array The slope and intersection of the "best-fit" line
      * @static
-     */    
+     */
     function calculateLinearRegression(&$data)
     {
-        $sumX = 0; 
+        $sumX = 0;
         $sumY = 0;
         foreach ($data as $point) {
             $sumX += $point['X'];
             $sumY += $point['Y'];
-        }        
+        }
         $meanX = $sumX / count($data);
         $meanY = $sumY / count($data);
 
@@ -278,14 +277,14 @@ class Image_Graph_Tool
             $sumXX += ($point['X'] - $meanX) * ($point['X'] - $meanX);
             $sumYY += ($point['Y'] - $meanY) * ($point['Y'] - $meanY);
             $sumXY += ($point['X'] - $meanX) * ($point['Y'] - $meanY);
-        }        
+        }
 
         $result = array();
         $result['slope'] = ($sumXY / $sumXX);
         $result['intersection'] = $meanY - ($result['slope'] * $meanX);
         return $result;
     }
-    
+
 }
 
 ?>
