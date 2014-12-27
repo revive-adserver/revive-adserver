@@ -17,7 +17,6 @@ require_once MAX_PATH.'/lib/OA/Upgrade/EnvironmentManager.php';
  *
  * @package    OpenX Upgrade
  * @subpackage TestSuite
- * @author     Monique Szpak <monique.szpak@openx.org>
  */
 class Test_OA_Environment_Manager extends UnitTestCase
 {

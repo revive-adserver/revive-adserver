@@ -27,7 +27,6 @@ class OA_UpgradeRollbackTest extends OA_Upgrade {
  *
  * @package    OpenX Upgrade
  * @subpackage TestSuite
- * @author     Monique Szpak <monique.szpak@openx.org>
  */
 class Test_OA_Upgrade extends UnitTestCase
 {
@@ -512,15 +511,15 @@ class Test_OA_Upgrade extends UnitTestCase
         $oUpgrade->addPostUpgradeTask('Test_2');
         $oUpgrade->addPostUpgradeTask('Test_3');
         $this->assertTrue($oUpgrade->_writePostUpgradeTasksFile());
-        
+
         $result = $oUpgrade->getPostUpgradeTasks();
         $this->assertEqual($result, array('Test_1', 'Test_2', 'Test_3'));
-        
+
         // clean upgrade file
         $this->assertTrue($oUpgrade->pickupPostUpgradeTasksFile());
     }
-    
-    
+
+
     function testRunPostUpgradeTask()
     {
         $oUpgrade = new OA_Upgrade();
@@ -530,8 +529,8 @@ class Test_OA_Upgrade extends UnitTestCase
             $mockLogger = 'OA_UpgradeLoggerMock'.rand(),
             array('logError', 'logOnly')
         );
-        
-        
+
+
         $file = $oUpgrade->upgradePath.'tasks/openads_upgrade_task_Test_1.php';
         $oLogger1 = new $mockLogger();
         $oLogger1->expectOnce('logError', array('Error from Test_1'));
@@ -545,9 +544,9 @@ class Test_OA_Upgrade extends UnitTestCase
             'task' => 'Test_1',
             'file' => $file,
             'result' => 'Result from Test_1',
-            'errors' => array('Error from Test_1')); 
+            'errors' => array('Error from Test_1'));
         $this->assertEqual($result, $expected);
-        
+
         $file = $oUpgrade->upgradePath.'tasks/openads_upgrade_task_Test_2.php';
         $oLogger2 = new $mockLogger();
         $oLogger2->expectNever('logError');
@@ -561,9 +560,9 @@ class Test_OA_Upgrade extends UnitTestCase
             'task' => 'Test_2',
             'file' => $file,
             'result' => 'Result from Test_2',
-            'errors' => array()); 
+            'errors' => array());
         $this->assertEqual($result, $expected);
-        
+
         $file = $oUpgrade->upgradePath.'tasks/openads_upgrade_task_Test_3.php';
         $oLogger3 = new $mockLogger();
         $oLogger3->expectOnce('logError', array('Error from Test_3'));
@@ -576,7 +575,7 @@ class Test_OA_Upgrade extends UnitTestCase
             'task' => 'Test_3',
             'file' => $oUpgrade->upgradePath.'tasks/openads_upgrade_task_Test_3.php',
             'result' => null,
-            'errors' => array('Error from Test_3')); 
+            'errors' => array('Error from Test_3'));
         $this->assertEqual($result, $expected);
     }
 
@@ -729,11 +728,11 @@ class Test_OA_Upgrade extends UnitTestCase
     {
 
     }
-    
+
     function testPutAdmin()
     {
         $oUpgrade  = new OA_Upgrade();
-        
+
         // Prepare test data
         $aAdmin = array(
             'email'    => 'email@test.org',
@@ -741,10 +740,10 @@ class Test_OA_Upgrade extends UnitTestCase
             'pword'    => 'testpass',
             'language' => 'es',
         );
-        $aPrefs = array( 
+        $aPrefs = array(
             'timezone' => 'Europe/Madrid'
         );
-        
+
         // there shouldn't be admin account
         $adminAccountId = OA_Dal_ApplicationVariables::get('admin_account_id');
         $this->assertNull($adminAccountId);
@@ -752,16 +751,16 @@ class Test_OA_Upgrade extends UnitTestCase
         // create admin
         $result = $oUpgrade->putAdmin($aAdmin, $aPrefs);
         $this->assertTrue($result);
-        
+
         // admin account is set
         $adminAccountId = OA_Dal_ApplicationVariables::get('admin_account_id');
         $this->assertNotNull($adminAccountId);
-        
+
         $doAccount = OA_Dal::factoryDO('accounts');
         $doAccount->get($adminAccountId);
         $this->assertEqual($doAccount->account_type, OA_ACCOUNT_ADMIN);
         $this->assertEqual($doAccount->account_name, 'Administrator account');
-        
+
         // user exists
         $doUser =  OA_Dal::factoryDO('users');
         $doUserAssoc = OA_Dal::factoryDO('account_user_assoc');
@@ -773,8 +772,8 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->assertEqual($doUser->email_address, $aAdmin['email']);
         $this->assertEqual($doUser->username, $aAdmin['name']);
         $this->assertEqual($doUser->password, md5($aAdmin['pword']));
-        $this->assertEqual($doUser->language, $aAdmin['language']); 
-        
+        $this->assertEqual($doUser->language, $aAdmin['language']);
+
         // agency was created
         $doAgency = OA_Dal::factoryDO('agency');
         $doAccount = OA_Dal::factoryDO('accounts');
@@ -785,8 +784,8 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->assertEqual($doAgency->name, 'Default manager');
         $this->assertEqual($doAgency->email, $aAdmin['email']);
         $this->assertEqual($doAgency->active, 1);
-        
-        // Default preferences + custom timezone are set 
+
+        // Default preferences + custom timezone are set
         $oPreferences = new OA_Preferences();
         $aDefPrefs = $oPreferences->getPreferenceDefaults();
         $aExpected = array();
@@ -796,22 +795,22 @@ class Test_OA_Upgrade extends UnitTestCase
         }
         $aExpected['timezone'] = $aPrefs['timezone'];
         $aExpected['language'] = 'en'; //added by get admin account preferences
-        
+
         $aAdminPreferences = OA_Preferences::loadAdminAccountPreferences(true);
         $this->assertEqual($aExpected, $aAdminPreferences);
-        
+
         // trunkate tables
         DataGenerator::cleanUp(array('account_preference_assoc', 'preferences',
             'account_user_assoc', 'users', 'agency', 'accounts'));
         // remove admin_account_id from application variables
         OA_Dal_ApplicationVariables::delete('admin_account_id');
     }
-    
-    
+
+
     function test_rollbackPutAdmin()
-    {        
+    {
         $oUpgrade  = new OA_UpgradeRollbackTest();
-        
+
         // Call putAdmin method
         $aAdmin = array(
             'email'    => 'email@test.org',
@@ -819,14 +818,14 @@ class Test_OA_Upgrade extends UnitTestCase
             'pword'    => 'testpass',
             'language' => 'es',
         );
-        $aPrefs = array( 
+        $aPrefs = array(
             'timezone' => 'Europe/Madrid'
         );
         $oUpgrade->putAdmin($aAdmin, $aPrefs);
-        
+
         // call rollback method
         $oUpgrade->_rollbackPutAdmin();
-        
+
         // check tables
         $doPreferencesAssoc = OA_Dal::factoryDO('account_preference_assoc');
         $this->assertEqual($doPreferencesAssoc->getAll(), array());
@@ -843,8 +842,8 @@ class Test_OA_Upgrade extends UnitTestCase
         // admin_account_id in appliation variables should be deleted
         $this->assertNull(OA_Dal_ApplicationVariables::get('admin_account_id'));
     }
-    
-    
+
+
     function testCanUpgradeOrInstall()
     {
         // run once upgrade or install
@@ -856,7 +855,7 @@ class Test_OA_Upgrade extends UnitTestCase
         $oUpgrade->oLogger->logClear();
         $oUpgrade->aPackageList = array();
         $oUpgrade->existing_installation_status = 235234;
-        
+
         // run another one and check values
         $this->assertEqual($oUpgrade->canUpgradeOrInstall(), $firstResult);
         $this->assertEqual($oUpgrade->existing_installation_status, $existing_installation_status);

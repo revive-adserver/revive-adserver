@@ -15,26 +15,25 @@ require_once MAX_PATH . '/lib/OA/Upgrade/UpgradePluginImport.php';
 /**
  * @package OX_Admin_UI
  * @subpackage Install
- * @author Bernard Lange <bernard@openx.org> 
  */
 class OX_Admin_UI_Install_InstallUtils
 {
     public static $INSTALLER_SESSION_ID = 'ox_install_session_id';
-    
-    
+
+
     /**
      * Returns session storage associated with the installer.
      * This session storage is then used by wizard to store installer data
      * between the steps.
-     * 
+     *
      * @return OX_Admin_UI_SessionStorage session storage of installer
      */
     public static function getSessionStorage()
     {
         return new OX_Admin_UI_SessionStorage(self::$INSTALLER_SESSION_ID);
     }
-    
-    
+
+
     /**
      * Return an array of supported DB types
      *
@@ -51,7 +50,7 @@ class OX_Admin_UI_Install_InstallUtils
         if (extension_loaded('pgsql')) {
             $aTypes['pgsql'] = 'PostgreSQL';
         }
-        
+
         return $aTypes;
     }
 
@@ -93,8 +92,8 @@ class OX_Admin_UI_Install_InstallUtils
         }
         return true;
     }
-    
-    
+
+
     /**
      * Checks if upgrader discovered schema which is old and stores stats
      * in server time rather than UTC.
@@ -104,7 +103,7 @@ class OX_Admin_UI_Install_InstallUtils
     public static function hasZoneError($oUpgrader)
     {
         $tzoneErr = false;
-        
+
         if ($oUpgrader->canUpgradeOrInstall()) {
             // Timezone support check
             if ($oUpgrader->existing_installation_status != OA_STATUS_NOT_INSTALLED) {
@@ -117,18 +116,18 @@ class OX_Admin_UI_Install_InstallUtils
 
         return $tzoneErr;
     }
-    
-    
+
+
     /**
-     * Checks if plugins path can be verified before upgrading. If path to previous 
+     * Checks if plugins path can be verified before upgrading. If path to previous
      * installation is not correct try to guess one.
-     * 
+     *
      * List of plugins is determined by looking into config section in the loaded
      * config file. (more precisely $GLOBALS['_MAX']['CONF']['plugins'])
-     * 
+     *
      * Return values is an two element array: ('verified' => boolean, 'path' => string).
      * If verified is true, 'path' will be empty.
-     * 
+     *
      * @return array an array of two elements ('verified' => boolean, 'path' => string).
      */
     public static function checkPluginsVerified()
@@ -154,26 +153,26 @@ class OX_Admin_UI_Install_InstallUtils
 
         return array('verified' => $verified, 'path' => $prevPath);
     }
-    
-    
+
+
     /**
      * Attempts import of plugins from previous installation path.
      * List of plugins is determined by looking into config section in the loaded
      * config file. (more precisely $GLOBALS['_MAX']['CONF']['plugins'])
-     *  
+     *
      * Copies plugin related artifacts using OX_UpgradePluginImport->import(..) function.
      * Also copies data objects.
-     * 
-     * '$path' param is considered the source path. MAX path is 
+     *
+     * '$path' param is considered the source path. MAX path is
      * considered the target path.
-     *  
-     * @param $path an absolute path to previous OpenX installation 
+     *
+     * @param $path an absolute path to previous OpenX installation
      * @return boolean false if import failed, true otherwise
      */
     public static function importPlugins($path)
     {
         $success = true;
-        
+
         // Prevent directory traversal and other nasty tricks:
         $path = str_replace("\\", '/', $path);
         $path = rtrim(str_replace("\0", '', $path), '/');
@@ -198,15 +197,15 @@ class OX_Admin_UI_Install_InstallUtils
                 $success = false;
             }
         }
-        
+
         return $success;
     }
-    
-    
+
+
     /**
      * Processes upgrader messages and identfies their type (it's by prefix unfortunately...)
      * returns an array with errors under 'error' index, warnings under 'warning'
-     * and other under 'info'; 
+     * and other under 'info';
      *
      * @param unknown_type $aUpgraderMessages
      */
@@ -230,8 +229,8 @@ class OX_Admin_UI_Install_InstallUtils
             else {
                 $aInfos[$key] = $message;
             }
-        }        
-        
+        }
+
         return array('error' => $aErrors, 'warning' => $aWarnings, 'info' => $aInfos);
     }
 }

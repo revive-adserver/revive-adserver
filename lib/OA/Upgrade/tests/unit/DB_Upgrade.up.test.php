@@ -21,7 +21,6 @@ require_once(MAX_PATH.'/lib/OA/Upgrade/DB_UpgradeAuditor.php');
  *
  * @package    OpenX Upgrade
  * @subpackage TestSuite
- * @author     Monique Szpak <monique.szpak@openx.org>
  */
 class Test_DB_Upgrade extends UnitTestCase
 {

@@ -12,9 +12,8 @@
 
 /**
  * Defines objects which allow to persist key value pairs.
- * 
+ *
  * @package OX_Admin_UI
- * @author Bernard Lange <bernard@openx.org> 
  */
 interface OX_Admin_UI_Storage
 {
@@ -25,8 +24,8 @@ interface OX_Admin_UI_Storage
      * @return mixed value of the property
      */
     public function get($propertyName);
-    
-    
+
+
     /**
      * Sets the value of the given property in the storage.
      *

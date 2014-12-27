@@ -12,10 +12,9 @@
 
 /**
  * A holder class for install status based on the results returned by OA_Upgrade
- * 
+ *
  * @package OX_Admin_UI
  * @subpackage Install
- * @author Bernard Lange <bernard@openx.org> 
  */
 class OX_Admin_UI_Install_InstallStatus
 {
@@ -23,20 +22,20 @@ class OX_Admin_UI_Install_InstallStatus
      * @var boolean
      */
     private $isRecovery = false;
-    
+
     /**
      * @var boolean
      */
     private $isInstall = false;
-    
+
     /**
      * @var boolean
      */
     private $isUpgrade = false;
-    
+
     /**
      * @var boolean
-     */    
+     */
     private $isUpToDate = false;
 
 
@@ -47,9 +46,9 @@ class OX_Admin_UI_Install_InstallStatus
         }
         else {
             if ($oUpgrader->isFreshInstall()) {
-                $this->isInstall = true;    
+                $this->isInstall = true;
             }
-            else {        
+            else {
                 PEAR::pushErrorHandling ( null );
                 $oUpgrader->canUpgradeOrInstall();
                 PEAR::popErrorHandling ();
@@ -60,10 +59,10 @@ class OX_Admin_UI_Install_InstallStatus
                     $this->isUpgrade = true;
                 }
             }
-        }        
+        }
     }
-    
-    
+
+
     /**
      * @return boolean
      */

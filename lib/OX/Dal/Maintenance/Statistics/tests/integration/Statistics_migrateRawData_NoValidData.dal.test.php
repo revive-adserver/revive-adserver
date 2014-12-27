@@ -19,7 +19,6 @@ require_once LIB_PATH . '/Dal/Maintenance/Statistics/Factory.php';
  *
  * @package    OpenXDal
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew.hill@openx.org>
  */
 class Test_OX_Dal_Maintenance_Statistics_migrateRawData_NoValidData extends UnitTestCase
 {

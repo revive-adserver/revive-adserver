@@ -17,7 +17,6 @@ require_once MAX_PATH . '/lib/OX/Admin/Timezones.php';
  *
  * @package    OpenXAdmin
  * @subpackage TestSuite
- * @author     Alexander J. Tarachanowicz II <aj@seagullproject.org>
  */
 class Test_OX_Admin_Timezones extends UnitTestCase
 {
