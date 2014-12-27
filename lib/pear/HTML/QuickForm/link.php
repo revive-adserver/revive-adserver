@@ -3,7 +3,7 @@
 
 /**
  * HTML class for a link type field
- * 
+ *
  * PHP versions 4 and 5
  *
  * LICENSE: This source file is subject to version 3.01 of the PHP license
@@ -18,18 +18,17 @@
  * @author      Bertrand Mansion <bmansion@mamasam.com>
  * @copyright   2001-2007 The PHP Group
  * @license     http://www.php.net/license/3_01.txt PHP License 3.01
- * @version     CVS: $Id$
  * @link        http://pear.php.net/package/HTML_QuickForm
  */
 
 /**
  * HTML class for static data
- */ 
+ */
 require_once 'HTML/QuickForm/static.php';
 
 /**
  * HTML class for a link type field
- * 
+ *
  * @category    HTML
  * @package     HTML_QuickForm
  * @author      Adam Daniel <adaniel1@eesus.jnj.com>
@@ -51,19 +50,19 @@ class HTML_QuickForm_link extends HTML_QuickForm_static
 
     // }}}
     // {{{ constructor
-    
+
     /**
      * Class constructor
-     * 
+     *
      * @param     string    $elementLabel   (optional)Link label
      * @param     string    $href           (optional)Link href
      * @param     string    $text           (optional)Link display text
-     * @param     mixed     $attributes     (optional)Either a typical HTML attribute string 
+     * @param     mixed     $attributes     (optional)Either a typical HTML attribute string
      *                                      or an associative array
      * @since     1.0
      * @access    public
      * @return    void
-     * @throws    
+     * @throws
      */
     function HTML_QuickForm_link($elementName=null, $elementLabel=null, $href=null, $text=null, $attributes=null)
     {
@@ -73,34 +72,34 @@ class HTML_QuickForm_link extends HTML_QuickForm_static
         $this->setHref($href);
         $this->_text = $text;
     } //end constructor
-    
+
     // }}}
     // {{{ setName()
 
     /**
      * Sets the input field name
-     * 
+     *
      * @param     string    $name   Input field name attribute
      * @since     1.0
      * @access    public
      * @return    void
-     * @throws    
+     * @throws
      */
     function setName($name)
     {
         $this->updateAttributes(array('name'=>$name));
     } //end func setName
-    
+
     // }}}
     // {{{ getName()
 
     /**
      * Returns the element name
-     * 
+     *
      * @since     1.0
      * @access    public
      * @return    string
-     * @throws    
+     * @throws
      */
     function getName()
     {
@@ -112,18 +111,18 @@ class HTML_QuickForm_link extends HTML_QuickForm_static
 
     /**
      * Sets value for textarea element
-     * 
+     *
      * @param     string    $value  Value for password element
      * @since     1.0
      * @access    public
      * @return    void
-     * @throws    
+     * @throws
      */
     function setValue($value)
     {
         return;
     } //end func setValue
-    
+
     // }}}
     // {{{ getValue()
 
@@ -133,14 +132,14 @@ class HTML_QuickForm_link extends HTML_QuickForm_static
      * @since     1.0
      * @access    public
      * @return    void
-     * @throws    
+     * @throws
      */
     function getValue()
     {
         return;
     } // end func getValue
 
-    
+
     // }}}
     // {{{ setHref()
 
@@ -151,7 +150,7 @@ class HTML_QuickForm_link extends HTML_QuickForm_static
      * @since     1.0
      * @access    public
      * @return    void
-     * @throws    
+     * @throws
      */
     function setHref($href)
     {
@@ -163,11 +162,11 @@ class HTML_QuickForm_link extends HTML_QuickForm_static
 
     /**
      * Returns the textarea element in HTML
-     * 
+     *
      * @since     1.0
      * @access    public
      * @return    string
-     * @throws    
+     * @throws
      */
     function toHtml()
     {
@@ -177,17 +176,17 @@ class HTML_QuickForm_link extends HTML_QuickForm_static
         $html .= "</a>";
         return $html;
     } //end func toHtml
-    
+
     // }}}
     // {{{ getFrozenHtml()
 
     /**
      * Returns the value of field without HTML tags (in this case, value is changed to a mask)
-     * 
+     *
      * @since     1.0
      * @access    public
      * @return    string
-     * @throws    
+     * @throws
      */
     function getFrozenHtml()
     {

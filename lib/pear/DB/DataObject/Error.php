@@ -18,14 +18,13 @@
  * @author     Alan Knowles <alan@akbkhome.com>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/DB_DataObject
  */
-  
- 
+
+
 class DB_DataObject_Error extends PEAR_Error
 {
-    
+
     /**
      * DB_DataObject_Error constructor.
      *
@@ -42,12 +41,12 @@ class DB_DataObject_Error extends PEAR_Error
               $level = E_USER_NOTICE)
     {
         $this->PEAR_Error('DB_DataObject Error: ' . $message, $code, $mode, $level);
-        
+
     }
-    
-    
+
+
     // todo : - support code -> message handling, and translated error messages...
-    
-    
-    
+
+
+
 }

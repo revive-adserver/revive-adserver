@@ -2,9 +2,9 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * A static renderer for HTML_QuickForm compatible 
+ * A static renderer for HTML_QuickForm compatible
  * with HTML_Template_IT and HTML_Template_Sigma.
- * 
+ *
  * PHP versions 4 and 5
  *
  * LICENSE: This source file is subject to version 3.01 of the PHP license
@@ -18,7 +18,6 @@
  * @author      Bertrand Mansion <bmansion@mamasam.com>
  * @copyright   2001-2007 The PHP Group
  * @license     http://www.php.net/license/3_01.txt PHP License 3.01
- * @version     CVS: $Id$
  * @link        http://pear.php.net/package/HTML_QuickForm
  */
 
@@ -28,13 +27,13 @@
 require_once 'HTML/QuickForm/Renderer.php';
 
 /**
- * A static renderer for HTML_QuickForm compatible 
+ * A static renderer for HTML_QuickForm compatible
  * with HTML_Template_IT and HTML_Template_Sigma.
  *
  * As opposed to the dynamic renderer, this renderer needs
  * every elements and labels in the form to be specified by
  * placeholders at the position you want them to be displayed.
- * 
+ *
  * @category    HTML
  * @package     HTML_QuickForm
  * @author      Bertrand Mansion <bmansion@mamasam.com>
@@ -101,7 +100,7 @@ class HTML_QuickForm_Renderer_ITStatic extends HTML_QuickForm_Renderer
     var $_error = '<font color="red">{error}</font><br />{html}';
 
    /**
-    * Collected HTML for hidden elements, if needed  
+    * Collected HTML for hidden elements, if needed
     * @var string
     */
     var $_hidden = '';
@@ -139,7 +138,7 @@ class HTML_QuickForm_Renderer_ITStatic extends HTML_QuickForm_Renderer
 
    /**
     * Called when visiting a form, after processing all form elements
-    * 
+    *
     * @param    HTML_QuickForm  form object being visited
     * @access   public
     * @return   void
@@ -264,7 +263,7 @@ class HTML_QuickForm_Renderer_ITStatic extends HTML_QuickForm_Renderer
 
    /**
     * Called when visiting a hidden element
-    * 
+    *
     * @param    HTML_QuickForm_element  hidden element being visited
     * @access   public
     * @return   void

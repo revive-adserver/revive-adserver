@@ -6,9 +6,8 @@
      * @author Travis Swicegood <development@domain51.com>
      * @package SimpleTest
      * @subpackage UnitTester
-     * @version $Id$
      */
-    
+
     /**
      * The basic collector for {@link GroupTest}
      *
@@ -17,7 +16,7 @@
      * @subpackage UnitTester
      */
     class SimpleCollector {
-    
+
         /**
          * Strips off any kind of slash at the end so as to normalise the path.
          * @param string $path    Path to normalise.
@@ -32,7 +31,7 @@
                 return $path;
             }
         }
-    
+
         /**
          * Scans the directory and adds what it can.
          * @param object $test    Group test with {@link GroupTest::addTestFile()} method.
@@ -48,7 +47,7 @@
                 closedir($handle);
             }
         }
-    
+
         /**
          * This method determines what should be done with a given file and adds
          * it via {@link GroupTest::addTestFile()} if necessary.
@@ -68,7 +67,7 @@
             }
         }
     }
-    
+
     /**
      * An extension to {@link SimpleCollector} that only adds files matching a
      * given pattern.
@@ -79,7 +78,7 @@
      */
     class SimplePatternCollector extends SimpleCollector {
         var $_pattern;
-    
+
         /**
          *
          * @param string $pattern   Perl compatible regex to test name against
@@ -89,7 +88,7 @@
         function SimplePatternCollector($pattern = '/php$/i') {
             $this->_pattern = $pattern;
         }
-    
+
         /**
          * Attempts to add files that match a given pattern.
          *

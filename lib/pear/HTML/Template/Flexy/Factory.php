@@ -16,10 +16,7 @@
 // | Authors:  nobody <nobody@localhost>                                  |
 // +----------------------------------------------------------------------+
 //
-// $Id$
-//
 //  Factory tools for managing groups of HTML_Elements
-//
 
 require_once 'HTML/Template/Flexy/Element.php';
 
@@ -29,24 +26,24 @@ class HTML_Template_Flexy_Factory {
     /**
     * fromArray - builds a set of elements from a key=>value array (eg. DO->toArray())
     * the second parameter is an optional HTML_Element array to merge it into.
-    * 
-    * 
-    * @param   array   key(tag name) => value   
+    *
+    *
+    * @param   array   key(tag name) => value
     * @param   optional array   key(tag name) => HTML_Element
     *
     * @return   array    Array of HTML_Elements
     * @access   public
     */
-  
-    function fromArray($ar,$ret=array()) 
+
+    function fromArray($ar,$ret=array())
     {
-        
+
         foreach($ar as $k=>$v) {
             if (is_array($v)) {
                 $ret = HTML_Template_Flexy_Factory::fromArrayPrefixed($k,$v,$ret);
             }
-            
-            
+
+
             if (!isset($ret[$k])) {
                 $ret[$k] = new HTML_Template_Flexy_Element();
             }
@@ -54,21 +51,21 @@ class HTML_Template_Flexy_Factory {
         }
         return $ret;
     }
-    
+
     /**
     * fromArrayPrefixed - takes a multi dimensional array, and builds the 'xxx[sss][xx]' => value
-    * 
-    * @param   array   key(tag name) => value   
-    * @param   array   key(tag name) => value   
+    *
+    * @param   array   key(tag name) => value
+    * @param   array   key(tag name) => value
     * @param   optional array   key(tag name) => HTML_Element
     *
     * @return   array    Array of HTML_Elements
     * @access   public
     */
-  
-    function fromArrayPrefixed($prefix, $ar,$ret=array()) 
+
+    function fromArrayPrefixed($prefix, $ar,$ret=array())
     {
-      
+
         foreach($ar as $k=>$v) {
             if (is_array($v)) {
                 $ret = HTML_Template_Flexy_Factory::fromArrayPrefixed($prefix.'['.$k.']',$v,$ret);
@@ -77,36 +74,36 @@ class HTML_Template_Flexy_Factory {
                 }
                 $ret[$prefix.'['.$k.'][]']->setValue($v);
             }
-            
+
             if (!isset($ret[$prefix.'['.$k.']'])) {
                 $ret[$prefix.'['.$k.']'] = new HTML_Template_Flexy_Element();
             }
             $ret[$prefix.'['.$k.']']->setValue($v);
-            
-            
-            
+
+
+
         }
         return $ret;
     }
-    
-    
+
+
     /**
     * setErrors - sets the suffix of an element to a value..
-    *  
+    *
     * HTML_Element_Factory::setErrors($elements,array('name','not long enough'));
     *
-    * @depreciated  - this is really outside the scope of Factory - it should be 
+    * @depreciated  - this is really outside the scope of Factory - it should be
     *                   seperated into a rendering toolkit of some kind.
- 
+
     * @param   array    of HTML_Element's
     * @param    array   key(tag name) => error
     * @param    string sprintf error format..
     *
-    * @return   array    Array of HTML_Elements 
+    * @return   array    Array of HTML_Elements
     * @access   public
     */
-  
-    function &setErrors(&$ret,$set,$format='<span class="error">%s</span>') 
+
+    function &setErrors(&$ret,$set,$format='<span class="error">%s</span>')
     {
         if (empty($ret) || !is_array($ret)) {
             $ret = array();
@@ -114,7 +111,7 @@ class HTML_Template_Flexy_Factory {
         // check what you send this.. !!!
         if (!is_array($set)) {
             return HTML_Template_Flexy::raiseError(
-                'invalid arguments "$set" (should be an array) sent to HTML_Template_Flexy_Factory::setErrors', 
+                'invalid arguments "$set" (should be an array) sent to HTML_Template_Flexy_Factory::setErrors',
                 0, HTML_TEMPLATE_FLEXY_ERROR_DIE);
         }
         foreach($set as $k=>$v) {
@@ -128,16 +125,16 @@ class HTML_Template_Flexy_Factory {
         }
         return $ret;
     }
-    
-    
+
+
     /**
     * setRequired - sets the prefix of an element to a value..
-    *  
+    *
     * HTML_Element_Factory::setRequired($elements,array('name',true));
     *
-    * @depreciated  - this is really outside the scope of Factory - it should be 
+    * @depreciated  - this is really outside the scope of Factory - it should be
     *               seperated into a rendering toolkit
-    * 
+    *
     * @param    array   of HTML_Element's
     * @param    array  key(tag name) => error
     * @param    string sprintf error format..
@@ -146,11 +143,11 @@ class HTML_Template_Flexy_Factory {
     * @return   array    Array of HTML_Elements
     * @access   public
     */
-  
-    function &setRequired(&$ret,$set,$format='<span class="required">*</span>') 
+
+    function &setRequired(&$ret,$set,$format='<span class="required">*</span>')
     {
-        
-        
+
+
         if (empty($ret) || !is_array($ret)) {
             $ret = array();
         }
@@ -165,18 +162,18 @@ class HTML_Template_Flexy_Factory {
         }
         return $ret;
     }
-    
-    
+
+
     /**
     * freeze - freeze's an element. - just copies the value to the override.
     * this probably needs more thought.. - it would probably need to merge
     * the full tag info with types, to be usefull..
-    *  
+    *
     * $ar = HTML_Element_Factory::freeze($ar);
     *
-    * @depreciated  - this is really outside the scope of Factory - it should be 
+    * @depreciated  - this is really outside the scope of Factory - it should be
     *               seperated into a rendering toolkit
-    * 
+    *
     *
     * @param   array   (return by referencekey(tag name) => HTML_Element
     *
@@ -184,11 +181,11 @@ class HTML_Template_Flexy_Factory {
     * @access   public
     */
     function freeze(&$array) {
-    
+
         foreach($array as $k=>$v) {
             $array[$k]->override = $array[$k]->value;
         }
     }
-    
+
 
 }

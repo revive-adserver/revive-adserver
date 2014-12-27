@@ -3,7 +3,7 @@
 
 /**
  * Rule to compare two form fields
- * 
+ *
  * PHP versions 4 and 5
  *
  * LICENSE: This source file is subject to version 3.01 of the PHP license
@@ -17,21 +17,20 @@
  * @author      Alexey Borzov <avb@php.net>
  * @copyright   2001-2007 The PHP Group
  * @license     http://www.php.net/license/3_01.txt PHP License 3.01
- * @version     CVS: $Id$
  * @link        http://pear.php.net/package/HTML_QuickForm
  */
 
 /**
- * Abstract base class for QuickForm validation rules 
+ * Abstract base class for QuickForm validation rules
  */
 require_once 'HTML/QuickForm/Rule.php';
 
 /**
  * Rule to compare two form fields
- * 
- * The most common usage for this is to ensure that the password 
+ *
+ * The most common usage for this is to ensure that the password
  * confirmation field matches the password field
- * 
+ *
  * @category    HTML
  * @package     HTML_QuickForm
  * @author      Alexey Borzov <avb@php.net>
@@ -59,7 +58,7 @@ class HTML_QuickForm_Rule_Compare extends HTML_QuickForm_Rule
 
    /**
     * Returns the operator to use for comparing the values
-    * 
+    *
     * @access private
     * @param  string     operator name
     * @return string     operator to use for validation
@@ -86,7 +85,7 @@ class HTML_QuickForm_Rule_Compare extends HTML_QuickForm_Rule
         } else {
             $compareFn = create_function('$a, $b', 'return strval($a) ' . $operator . ' strval($b);');
         }
-        
+
         return $compareFn($values[0], $values[1]);
     }
 

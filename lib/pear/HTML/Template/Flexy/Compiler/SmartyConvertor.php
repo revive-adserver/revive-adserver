@@ -16,8 +16,6 @@
 // | Authors:  Alan Knowles <alan@akbkhome.com>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id$
-//
 //  Smarty Conversion compiler
 //  takes a smarty template, and converts it to a flexy one.
 //  then does a standard flexy compile.
@@ -38,13 +36,13 @@ a simple script: 'convertsmarty.php'
                     'nonHTML'       => false,  // dont parse HTML tags (eg. email templates)
                     'allowPHP'      => false,   // allow PHP in template
                     'compiler'      => 'SmartyConvertor', // which compiler to use.
-                    'compileToString' => true,    // returns the converted template (rather than actually 
+                    'compileToString' => true,    // returns the converted template (rather than actually
                                                    // converting to PHP.
                     'filters'       => array(),    // used by regex compiler..
                     'numberFormat'  => ",2,'.',','",  // default number format  = eg. 1,200.00 ( {xxx:n} )
                     'flexyIgnore'   => 0        // turn on/off the tag to element code
                 ));
-    
+
     echo $x->compile(basename($file));
 
 then run it at the command line:
@@ -57,48 +55,46 @@ require_once 'HTML/Template/Flexy/Compiler.php';
 /**
 * The Smarty Converter implementation.
 * designed primarily to be used as above, to convert from one to another.
-* however it could be used inline to convert simple smarty templates into 
+* however it could be used inline to convert simple smarty templates into
 * flexy ones - then compile them on the fly.
-*
-* @version    $Id$
 */
 class HTML_Template_Flexy_Compiler_SmartyConvertor extends HTML_Template_Flexy_Compiler {
-    
+
     /**
     * compile implementation
     *
     * see HTML_Template_Flexy_Compiler::compile()
-    * 
+    *
     * @param   object    The core flexy object.
     * @param   string    optionally a string to compile.
     *
     * @return   true | string   string when compiling to String.
     * @access   public
     */
-  
-    function compile(&$flexy,$string=false) 
+
+    function compile(&$flexy,$string=false)
     {
         $data = $string;
         if ($string === false) {
             $data = file_get_contents($flexy->currentTemplate);
         }
-        
-        
-        
+
+
+
         $data = $this->convertToFlexy($data);
-        
+
         if ($flexy->options['compileToString']) {
             return $data;
         }
-        
+
         require_once 'HTML/Template/Flexy/Compiler/Standard.php';
         $flexyCompiler = new HTML_Template_Flexy_Compiler_Standard;
         $flexyCompiler->compile($flexy,$data);
         return true;
     }
-    
-    
-    
+
+
+
     /**
     * The core work of parsing a smarty template and converting it into flexy.
     *
@@ -108,35 +104,35 @@ class HTML_Template_Flexy_Compiler_SmartyConvertor extends HTML_Template_Flexy_C
     * @access   public|private
     * @see      see also methods.....
     */
-    function convertToFlexy($data) 
+    function convertToFlexy($data)
     {
-    
+
         $leftq = preg_quote('{', '!');
         $rightq = preg_quote('}', '!');
-         
+
         preg_match_all("!" . $leftq . "\s*(.*?)\s*" . $rightq . "!s", $data, $matches);
         $tags = $matches[1];
         // find all the tags/text...
         $text = preg_split("!" . $leftq . ".*?" . $rightq . "!s", $data);
-        
+
         $max_text = count($text);
         $max_tags = count($tags);
-        
+
         for ($i = 0 ; $i < $max_tags ; $i++) {
             $compiled_tags[] = $this->_compileTag($tags[$i]);
         }
         // error handling for closing tags.
-        
-         
+
+
         $data = '';
         for ($i = 0; $i < $max_tags; $i++) {
             $data .= $text[$i].$compiled_tags[$i];
         }
         $data .= $text[$i];
         return $data;
-    
+
     }
-    
+
     /**
     * stack for conditional and closers.
     *
@@ -146,9 +142,9 @@ class HTML_Template_Flexy_Compiler_SmartyConvertor extends HTML_Template_Flexy_C
     var $stack = array(
             'if' => 0,
         );
-    
-    
-    
+
+
+
     /**
     * compile a smarty { tag } into a flexy one.
     *
@@ -157,14 +153,14 @@ class HTML_Template_Flexy_Compiler_SmartyConvertor extends HTML_Template_Flexy_C
     * @return   string      the converted version
     * @access   private
     */
-    function _compileTag($str) 
+    function _compileTag($str)
     {
         // skip comments
         if (($str{0} == '*') && (substr($str,-1,1) == '*')) {
             return '';
         }
-        
-        
+
+
         switch($str{0}) {
             case '$':
                 // its a var
@@ -176,14 +172,14 @@ class HTML_Template_Flexy_Compiler_SmartyConvertor extends HTML_Template_Flexy_C
                 // wtf does this do
                 return "<!-- what is this? $str -->";
         }
-                
-            
-        
-        
-        
-        
+
+
+
+
+
+
         // this is where it gets messy
-        // this is very slow - but what the hell 
+        // this is very slow - but what the hell
         //   - its only done once
         //   - its alot more readable than a long regext.
         //   - it doesnt infringe on copyright...
@@ -192,19 +188,19 @@ class HTML_Template_Flexy_Compiler_SmartyConvertor extends HTML_Template_Flexy_C
                 // convert to $t->TemplateConfigLoad()
                 $args = $this->convertAttributesToKeyVal(substr($str,strpos( $str,' ')));
                 return '{plugin(#smartyConfigLoad#,#'.$args['file'].'#,#'.$args['section'].'#)}';
-            
+
             case (preg_match('/^include\s/', $str)):
                 // convert to $t->TemplateConfigLoad()
                 $args = $this->convertAttributesToKeyVal(substr($str,strpos( $str,' ')));
-             
+
                 return '{plugin(#smartyInclude#,#'.$args['file'].'#)}';
-           
+
             case ($str == 'ldelim'):
                 return '{';
             case ($str == 'rdelim'):
                 return '}';
-                
-                
+
+
             case (preg_match('/^if \$(\S+)$/', $str,$matches)):
             case (preg_match('/^if \$(\S+)\seq\s""$/', $str,$matches)):
                 // simple if variable..
@@ -212,7 +208,7 @@ class HTML_Template_Flexy_Compiler_SmartyConvertor extends HTML_Template_Flexy_C
                 $this->stack['if']++;
                 $var =  $this->_convertVar('$'.$matches[1]);
                 return '{if:'.substr($var,1);
-                
+
             case (preg_match('/^if #(\S+)#$/', $str,$matches)):
             case (preg_match('/^if #(\S+)#\sne\s""$/', $str,$matches)):
                 // simple if variable..
@@ -220,7 +216,7 @@ class HTML_Template_Flexy_Compiler_SmartyConvertor extends HTML_Template_Flexy_C
                 $this->stack['if']++;
                 $var =  $this->_convertConfigVar('#'.$matches[1].'#');
                 return '{if:'.substr($var,1);
-            
+
             // negative matches
             case (preg_match('/^if\s!\s\$(\S+)$/', $str,$matches)):
             case (preg_match('/^if \$(\S+)\seq\s""$/', $str,$matches)):
@@ -229,31 +225,31 @@ class HTML_Template_Flexy_Compiler_SmartyConvertor extends HTML_Template_Flexy_C
                 $this->stack['if']++;
                 $var =  $this->_convertVar('$'.$matches[1]);
                 return '{if:!'.substr($var,1);
-                
+
              case ($str == 'else'):
                 if (!$this->stack['if']) {
                     break;
                 }
                 return '{else:}';
-                
-                
+
+
             case ($str == '/if'):
                 if (!$this->stack['if']) {
                     break;
                 }
                 $this->stack['if']--;
                 return '{end:}';
-            
-            
+
+
         }
-        
+
         return "<!--   UNSUPPORTED TAG: $str FOUND -->";
-                
-        
-    
-    
+
+
+
+
     }
-    
+
     /**
     * convert a smarty var into a flexy one.
     *
@@ -262,19 +258,19 @@ class HTML_Template_Flexy_Compiler_SmartyConvertor extends HTML_Template_Flexy_C
     * @return   string      a flexy version of it.
     * @access   private
     */
-  
-    function _convertVar($str) 
+
+    function _convertVar($str)
     {
         // look for modfiers first.
         $mods = explode('|', $str);
         $var = array_shift($mods);
         $var = substr($var,1); // strip $
-        
+
         // various formats :
         // aaaa.bbbb.cccc => aaaa[bbbb][cccc]
         // aaaa[bbbb] => aaa[bbbb]
         // aaaa->bbbb => aaaa.bbbb
-        
+
         $bits = explode('.',$var);
         $var = array_shift($bits);
         foreach($bits as $k) {
@@ -283,7 +279,7 @@ class HTML_Template_Flexy_Compiler_SmartyConvertor extends HTML_Template_Flexy_C
         $bits = explode('->',$var);
         $var = implode('.',$bits);
         $mods = implode('|',$mods);
-        
+
         if (strlen($mods)) {
             return '{plugin(#smartyModifiers#,'.$var.',#'.$mods.'#):h}';
         }
@@ -298,7 +294,7 @@ class HTML_Template_Flexy_Compiler_SmartyConvertor extends HTML_Template_Flexy_C
     * @return   array      key value array
     * @access   private
     */
-    function convertAttributesToKeyVal($str) 
+    function convertAttributesToKeyVal($str)
     {
         $atts = explode(' ', $str);
         $ret = array();
@@ -308,7 +304,7 @@ class HTML_Template_Flexy_Compiler_SmartyConvertor extends HTML_Template_Flexy_C
             if (count($bits) != 2) {
                 continue;
             }
-            $ret[$bits[0]] = ($bits[1]{0} == '"') ? substr($bits[1],1,-1) : $bits[1]; 
+            $ret[$bits[0]] = ($bits[1]{0} == '"') ? substr($bits[1],1,-1) : $bits[1];
         }
         return $ret;
     }
@@ -320,8 +316,8 @@ class HTML_Template_Flexy_Compiler_SmartyConvertor extends HTML_Template_Flexy_C
     * @return   string      a flexy version of it.
     * @access   private
     */
-  
-    function _convertConfigVar($str) 
+
+    function _convertConfigVar($str)
     {
         $mods = explode('|', $str);
         $var = array_shift($mods);

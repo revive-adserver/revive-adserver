@@ -3,7 +3,6 @@
      *	Base include file for SimpleTest
      *	@package	SimpleTest
      *	@subpackage	WebTester
-     *	@version	$Id$
      */
 
     /**#@+
@@ -220,7 +219,7 @@
         function useFrames() {
             $this->_ignore_frames = false;
         }
-        
+
         /**
          *    Switches off cookie sending and recieving.
          *    @access public
@@ -228,7 +227,7 @@
         function ignoreCookies() {
             $this->_user_agent->ignoreCookies();
         }
-        
+
         /**
          *    Switches back on the cookie sending and recieving.
          *    @access public
@@ -257,7 +256,7 @@
             }
             return $frameset;
         }
-        
+
         /**
          *    Assembles the parsing machinery and actually parses
          *    a single page. Frees all of the builder memory and so
@@ -894,7 +893,7 @@
                     $form->submitButton(new SimpleById($id), $additional));
             return ($success ? $this->getContent() : $success);
         }
-        
+
         /**
          *    Tests to see if a submit button exists with this
          *    label.
@@ -973,7 +972,7 @@
                     $form->submitImage(new SimpleById($id), $x, $y, $additional));
             return ($success ? $this->getContent() : $success);
         }
-        
+
         /**
          *    Tests to see if an image exists with this
          *    title or alt text.
@@ -1041,7 +1040,7 @@
             $this->_load($url, new SimpleGetEncoding());
             return $this->getContent();
         }
-        
+
         /**
          *    Finds a link by id attribute.
          *    @param string $id        ID attribute value.
