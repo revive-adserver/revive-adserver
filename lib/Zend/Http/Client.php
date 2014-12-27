@@ -16,7 +16,6 @@
  * @category   Zend
  * @package    Zend_Http
  * @subpackage Client
- * @version    $Id$
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -336,7 +335,7 @@ class Zend_Http_Client
                 require_once 'Zend/Http/Client/Exception.php';
                 throw new Zend_Http_Client_Exception("{$name} is not a valid HTTP header name");
             }
-            
+
             $normalized_name = strtolower($name);
 
             // If $value is null or false, unset the header
@@ -879,7 +878,7 @@ class Zend_Http_Client
         		$headers[] = 'Accept-encoding: identity';
         	}
         }
-        
+
         // Set the content-type header
         if ($this->method == self::POST &&
            (! isset($this->headers['content-type']) && isset($this->enctype))) {
