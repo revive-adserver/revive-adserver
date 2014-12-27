@@ -20,10 +20,6 @@ import org.openx.config.GlobalSettings;
 import org.openx.utils.ErrorMessage;
 import org.openx.utils.TextUtils;
 
-/**
- *
- * @author     David Keen <david.keen@openx.org>
- */
 public class TestLinkUserToManager extends UserTestCase {
 
     protected Integer managerId = null;

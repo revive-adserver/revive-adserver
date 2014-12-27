@@ -16,8 +16,6 @@ import java.util.ResourceBundle;
 /**
  *
  * TODO: Refactor for API v2.
- *
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class GlobalSettings {
 

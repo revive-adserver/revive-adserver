@@ -19,8 +19,6 @@ import org.openx.utils.TextUtils;
 
 /**
  * Verify Get Campaign method
- *
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class TestGetCampaign extends CampaignTestCase {
 

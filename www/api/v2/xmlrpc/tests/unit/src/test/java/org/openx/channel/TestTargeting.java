@@ -16,10 +16,6 @@ import java.util.Map;
 import org.apache.xmlrpc.XmlRpcException;
 import org.openx.utils.ErrorMessage;
 
-/**
- *
- * @author David Keen <david.keen@openx.org>
- */
 public class TestTargeting extends ChannelTestCase {
 
     public void testGetAndSetTargetingWithEmptyArrays()

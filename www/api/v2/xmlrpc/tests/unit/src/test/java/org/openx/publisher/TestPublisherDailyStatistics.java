@@ -19,8 +19,6 @@ import org.openx.utils.TextUtils;
 
 /**
  * Verify Publisher Daily Statistics method
- *
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 
 public class TestPublisherDailyStatistics extends PublisherTestCase {

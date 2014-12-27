@@ -13,10 +13,6 @@ package org.openx.tracker;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-/**
- *
- * @author David Keen <david.keen@openx.org>
- */
 public class TestTracker {
 
     public static Test suite() {

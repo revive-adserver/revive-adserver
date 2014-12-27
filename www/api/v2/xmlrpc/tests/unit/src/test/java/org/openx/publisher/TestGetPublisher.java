@@ -19,8 +19,6 @@ import org.openx.utils.TextUtils;
 
 /**
  * Verify Get Publisher method
- *
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class TestGetPublisher extends PublisherTestCase {
 

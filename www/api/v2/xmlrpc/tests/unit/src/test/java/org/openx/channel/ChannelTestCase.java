@@ -22,9 +22,6 @@ import org.openx.publisher.PublisherTestCase;
 
 /**
  * Base class for all channel web service tests
- *
- * @author Andriy Petlyovanyy <apetlyovanyy@lohika.com>
- * @author David Keen <david.keen@openx.org>
  */
 public class ChannelTestCase extends PublisherTestCase {
 
