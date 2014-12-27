@@ -65,8 +65,7 @@ foreach ($aLayer as $layer) {
                         $layerDisplayName = $GLOBALS['_MAX']['TEST'][$GLOBALS['_MAX']['TEST']['groups'][$counter] . '_layers'][$subLayer][0];
                     }
                 }
-                preg_match('/^([^\.]+)/', $fileName, $aMatches);
-                $testDisplayName = ucfirst(strtolower($layer)) . '.' . $layerDisplayName . '.' . $aMatches[1];
+                $testDisplayName = "{$dirName}/tests/{$layer}/{$fileName}";
                 $oReporter->paintMethodStart($testDisplayName);
 
                 // Restore conf file to make sure each test runs with a clean one
@@ -87,7 +86,7 @@ foreach ($aLayer as $layer) {
                         $oReporter->paintFail($message);
                         break;
                 }
-                $oReporter->paintMethodEnd($fileName);
+                $oReporter->paintMethodEnd($testDisplayName);
                 $oReporter->paintCaseEnd("File $fileName");
             }
             $oReporter->paintGroupEnd("Directory $dirName");

@@ -568,6 +568,7 @@ class XML_RPC_Server
         $XML_RPC_xh[$parser]['method'] = '';
         $XML_RPC_xh[$parser]['stack'] = array();
         $XML_RPC_xh[$parser]['valuestack'] = array();
+        $XML_RPC_xh[$parser]['max_data_len'] = strlen($data) * 2;
 
         $plist = '';
 

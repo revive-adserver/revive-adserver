@@ -4,13 +4,13 @@
 <plugin>
     <name>Site</name>
     <displayName>Site Delivery Limitation Plugin</displayName>
-    <creationDate>2014-06-23</creationDate>
+    <creationDate>2014-12-02</creationDate>
     <author>Revive Adserver</author>
     <authorEmail>revive@revive-adserver.com</authorEmail>
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>GNU Gneral Public License v2</license>
     <description>Plugin that provides the ability to target delivery of ads by site.</description>
-    <version>1.2.3</version>
+    <version>1.3.0</version>
     <oxversion>2.7.30-beta-rc11</oxversion>
     <extends>deliveryLimitations</extends>
 
