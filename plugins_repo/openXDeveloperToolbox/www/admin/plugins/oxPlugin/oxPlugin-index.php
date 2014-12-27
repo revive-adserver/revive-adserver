@@ -12,11 +12,6 @@
 
 /**
  * OpenX Plugin Builder
- *
- * @author     Monique Szpak <monique.szpak@openx.org>
- *
- * $Id$
- *
  */
 
 require_once('oxPlugin-common.php');

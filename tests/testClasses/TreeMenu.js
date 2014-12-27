@@ -31,8 +31,6 @@
 // | Author: Richard Heyes <richard@phpguru.org>                           |
 // |         Harald Radi <harald.radi@nme.at>                              |
 // +-----------------------------------------------------------------------+
-//
-// $Id$
 
 /**
 * Function to create copies of objects which are

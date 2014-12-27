@@ -12,11 +12,6 @@
 
 /**
  * OpenX Developer Toolbox
- *
- * @author     Monique Szpak <monique.szpak@openx.org>
- *
- * $Id$
- *
  */
 
 
