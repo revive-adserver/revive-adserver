@@ -37,8 +37,6 @@ function test_MAX_cacheGetAd ($ad_id) {
  *
  * @package    MaxDelivery
  * @subpackage TestSuite
- * @author
- *
  */
 class Test_DeliveryAdSelect extends UnitTestCase {
 
@@ -172,7 +170,7 @@ class Test_DeliveryAdSelect extends UnitTestCase {
                 // when the banner is a companion banner, subsequent calls should try to show banners from the same campaign
                 // here we set the campaign that was served as companion to a non existing campaign ID, to ensure
                 // that when companion = true, no banner is served
-                array('==' => 'companionid:148000') 
+                array('==' => 'companionid:148000')
                 );
 
         // companion disabled, banners are served as usual

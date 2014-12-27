@@ -12,10 +12,7 @@
 
 /**
  * @package    OpenXDll
- * @author     Ivan Klishch <iklishch@lohika.com>
- *
  */
-
 
 // Required permission class
 require_once MAX_PATH . '/lib/OA/Permission.php';

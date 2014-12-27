@@ -15,8 +15,6 @@ require_once MAX_PATH . '/lib/max/Admin/Languages.php';
 /**
  * @package    MaxUI
  * @subpackage Language
- * @author     Andrew Hill <andrew.hill@openx.org>
- * @author     Lukasz Wikierski <lukasz.wikierski@openx.org>
  */
 
 /**
@@ -58,7 +56,7 @@ class Language_Loader {
         // Load the language from preferences, if possible, otherwise load
         // the global preference, if possible
         // If language preference is set, do not load language from config file (common bug here is to check if prefereced language is 'en'!)
-        if (!empty($lang) 
+        if (!empty($lang)
             && file_exists(MAX_PATH . '/lib/max/language/' . $lang . '/' . $section . '.lang.php'))
         {
             // Now check if is need to load language (english is loaded)
@@ -74,7 +72,7 @@ class Language_Loader {
                     $confMaxLanguage = $oLang->aLanguageMap[$confMaxLanguage];
                 }
             }
-            
+
             if (!empty($confMaxLanguage) && $confMaxLanguage != 'en'
                 && file_exists(MAX_PATH . '/lib/max/language/' . $confMaxLanguage . '/' . $section . '.lang.php'))
             {

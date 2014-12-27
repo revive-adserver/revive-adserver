@@ -16,7 +16,6 @@
  * to be easily used as replacements for classes during testing.
  *
  * @package    OpenX
- * @author     Andrew Hill <andrew.hill@openx.org>
   */
 class OA_ServiceLocator
 {

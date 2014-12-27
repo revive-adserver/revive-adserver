@@ -13,7 +13,6 @@
 /**
  * @package    MaxDal
  * @subpackage TestSuite
- * @author     Demian Turner <demian@m3.net>
  */
 
 require_once MAX_PATH . '/lib/max/Admin_DA.php';

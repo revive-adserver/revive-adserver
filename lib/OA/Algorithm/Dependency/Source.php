@@ -19,7 +19,6 @@
  * Based on CPAN module:
  * http://search.cpan.org/~adamk/Algorithm-Dependency-1.106/lib/Algorithm/Dependency/Source.pm
  *
- * @author Radek Maciaszek <radek.maciaszek@openx.org>
  */
 
 require_once MAX_PATH . '/lib/OA/Algorithm/Dependency/Item.php';

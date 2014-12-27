@@ -12,7 +12,6 @@
 
 /**
  * @package    OpenXDll
- * @author     Ivan Klishch <iklishch@lohika.com>
  *
  */
 

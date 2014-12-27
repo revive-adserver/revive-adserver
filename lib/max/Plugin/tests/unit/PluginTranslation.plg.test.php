@@ -13,7 +13,6 @@
 /**
  * @package    Max
  * @subpackage TestSuite
- * @author     Radek Maciaszek <radek@m3.net>
  */
 
     require_once(MAX_PATH . '/lib/max/Plugin/Translation.php');

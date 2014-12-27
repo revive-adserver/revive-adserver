@@ -18,7 +18,6 @@
  *
  * @TODO Add a description of use and basic use cases here.
  *
- * @author Radek Maciaszek <radek.maciaszek@openx.org>
  */
 
 class OA_Algorithm_Dependency
