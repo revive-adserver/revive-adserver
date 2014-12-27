@@ -15,7 +15,6 @@
  *
  * @package    MaxUI
  * @subpackage Language
- * @author     Andrew Hill <andrew@m3.net>
  */
 class MAX_Admin_Languages
 {

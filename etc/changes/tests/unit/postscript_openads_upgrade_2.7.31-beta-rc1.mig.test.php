@@ -18,7 +18,6 @@ require_once MAX_PATH . '/etc/changes/tests/unit/MigrationTest.php';
  *
  * @package    changes
  * @subpackage TestSuite
- * @author     Chris Nutting <chris.nutting@openx.org>
  */
 class Migration_postscript_2_7_31_beta_RC1Test extends MigrationTest
 {
@@ -33,7 +32,7 @@ class Migration_postscript_2_7_31_beta_RC1Test extends MigrationTest
     	// prepare data
         $oUpgrade  = new OA_Upgrade();
         $oUpgrade->oConfiguration = new OA_Upgrade_Config();
-        
+
         Mock::generatePartial(
             'OA_UpgradePostscript_2_7_31_beta_rc1',
             $mockName = 'OA_UpgradePostscript_2_7_31_beta_rc1'.rand(),

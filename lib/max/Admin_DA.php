@@ -16,7 +16,6 @@ require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 
 /**
  * @package    MaxDal
- * @author     Scott Switzer <scott@m3.net>
  */
 
 $GLOBALS['_MAX']['Admin_DA']['cacheGroups'] = array(

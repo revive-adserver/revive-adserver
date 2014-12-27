@@ -21,7 +21,6 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
  *
  * @package    changes
  * @subpackage TestSuite
- * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
 class Migration_postscript_2_8_2_RC8Test extends MigrationTest
 {

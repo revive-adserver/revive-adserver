@@ -17,7 +17,6 @@ if(!isset($GLOBALS['_MAX']['FILES']['/lib/max/Delivery/common.php'])) {
 
 /**
  * @package    MaxDal
- * @author     Scott Switzer <scott@m3.net>
  */
 class SqlBuilder
 {

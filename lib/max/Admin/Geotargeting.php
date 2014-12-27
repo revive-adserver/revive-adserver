@@ -17,7 +17,6 @@ require_once MAX_PATH . '/lib/max/language/Loader.php';
  * A class for determining the available geotargeting modes.
  *
  * @package    Max
- * @author     Andrew Hill <andrew@m3.net>
  * @static
  */
 class MAX_Admin_Geotargeting
@@ -31,7 +30,7 @@ class MAX_Admin_Geotargeting
     function AvailableGeotargetingModes()
     {
         Language_Loader::load('default');
-        
+
         $plugins = &MAX_Plugin::getPlugins('geotargeting');
         $modes['none'] = $GLOBALS['strNone'];
         $pluginModes = MAX_Plugin::callOnPlugins($plugins, 'getModuleInfo');
@@ -40,7 +39,7 @@ class MAX_Admin_Geotargeting
         }
         return $modes;
     }
-    
+
 }
 
 ?>
