@@ -24,7 +24,6 @@
  * @author     Jesper Veggerby <pear.nosey@veggerby.dk>
  * @copyright  Copyright (C) 2003, 2004 Jesper Veggerby Hansen
  * @license    http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/Image_Graph
  */
 
@@ -108,7 +107,7 @@ class Image_Graph_Plot_Step extends Image_Graph_Plot
 
         $this->_canvas->startGroup(get_class($this) . '_' . $this->_title);
         $this->_clip(true);
-        
+
         if ($this->_multiType == 'stacked100pct') {
             $total = $this->_getTotals();
         }
@@ -129,10 +128,10 @@ class Image_Graph_Plot_Step extends Image_Graph_Plot
 
         $point = array ('X' => $first['X'], 'Y' => '#min_pos#');
         $firstY = $this->_pointY($point) + ($this->_parent->_horizontal ? $width : 0);
-        $base[] = $firstY; 
+        $base[] = $firstY;
         $firstX = $this->_pointX($point) - ($this->_parent->_horizontal ? 0 : $width);
         $base[] = $firstX;
-        
+
         $point = array ('X' => $last['X'], 'Y' => '#min_pos#');
         $base[] = $this->_pointY($point) - ($this->_parent->_horizontal ? $width : 0);
         $base[] = $this->_pointX($point) + ($this->_parent->_horizontal ? 0 : $width);
@@ -173,7 +172,7 @@ class Image_Graph_Plot_Step extends Image_Graph_Plot
                     $y0 = $this->_pointY($point);
                     $last = $x1 = $this->_pointX($point) + $width;
                     $y1 = $this->_pointY($point);
-                }            
+                }
                 $polygon[] = $x0; $base[] = $y0;
                 $polygon[] = $y0; $base[] = $x0;
                 $polygon[] = $x1; $base[] = $y1;

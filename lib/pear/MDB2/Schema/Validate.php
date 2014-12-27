@@ -42,9 +42,6 @@
 // | Author: Christian Dickmann <dickmann@php.net>                        |
 // | Author: Igor Feghali <ifeghali@php.net>                              |
 // +----------------------------------------------------------------------+
-//
-// $Id$
-//
 
 /**
  * Validates an XML schema file

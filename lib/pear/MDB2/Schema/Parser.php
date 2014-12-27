@@ -41,9 +41,6 @@
 // +----------------------------------------------------------------------+
 // | Author: Christian Dickmann <dickmann@php.net>                        |
 // +----------------------------------------------------------------------+
-//
-// $Id$
-//
 
 require_once 'XML/Parser.php';
 require_once 'MDB2/Schema/Validate.php';

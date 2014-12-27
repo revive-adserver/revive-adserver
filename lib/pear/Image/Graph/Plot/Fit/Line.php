@@ -24,7 +24,6 @@
  * @author     Jesper Veggerby <pear.nosey@veggerby.dk>
  * @copyright  Copyright (C) 2003, 2004 Jesper Veggerby Hansen
  * @license    http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/Image_Graph
  */
 
@@ -70,7 +69,7 @@ class Image_Graph_Plot_Fit_Line extends Image_Graph_Plot
         $this->_canvas->addVertex(array('x' => $x1, 'y' => $y - $dy));
         $this->_canvas->polygon(array('connect' => false));
     }
-    
+
     /**
      * Output the plot
      *
@@ -110,7 +109,7 @@ class Image_Graph_Plot_Fit_Line extends Image_Graph_Plot
         }
         $this->_clip(false);
         $this->_canvas->endGroup();
-        
+
         return true;
     }
 }

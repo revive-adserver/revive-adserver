@@ -24,7 +24,6 @@
  * @author     Jesper Veggerby <pear.nosey@veggerby.dk>
  * @copyright  Copyright (C) 2003, 2004 Jesper Veggerby Hansen
  * @license    http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/Image_Graph
  */
 
@@ -149,7 +148,7 @@ class Image_Graph_Marker_Value extends Image_Graph_Marker
             }
             else {
                 $value = 0;
-            }            
+            }
             break;
 
         case IMAGE_GRAPH_POINT_ID:
@@ -186,7 +185,7 @@ class Image_Graph_Marker_Value extends Image_Graph_Marker
 
         if ($this->_defaultFontOptions !== false) {
             $this->_canvas->setFont($this->_defaultFontOptions);
-        } else {        
+        } else {
             $this->_canvas->setFont($this->_getFont());
         }
 

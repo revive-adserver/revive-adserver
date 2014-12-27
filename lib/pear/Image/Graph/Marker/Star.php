@@ -24,7 +24,6 @@
  * @author     Jesper Veggerby <pear.nosey@veggerby.dk>
  * @copyright  Copyright (C) 2003, 2004 Jesper Veggerby Hansen
  * @license    http://www.gnu.org/copyleft/lesser.html  LGPL License 2.1
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/Image_Graph
  */
 
@@ -63,11 +62,11 @@ class Image_Graph_Marker_Star extends Image_Graph_Marker
     {
         $this->_getFillStyle();
         $this->_getLineStyle();
-        
+
         $d = $this->_size / 5;
         $x = round($x);
         $y = round($y);
-        
+
         $this->_canvas->addVertex(array('x' => $x, 'y' => $y - $this->_size));
         $this->_canvas->addVertex(array('x' => $x + round($d), 'y' => $y - round($d)));
         $this->_canvas->addVertex(array('x' => $x + $this->_size, 'y' => $y - round($d)));
@@ -79,7 +78,7 @@ class Image_Graph_Marker_Star extends Image_Graph_Marker
         $this->_canvas->addVertex(array('x' => $x - $this->_size, 'y' => $y - round($d)));
 		$this->_canvas->addVertex(array('x' => $x - round($d), 'y' => $y - round($d)));
         $this->_canvas->polygon(array('connect' => true));
-        
+
         parent::_drawMarker($x, $y, $values);
     }
 

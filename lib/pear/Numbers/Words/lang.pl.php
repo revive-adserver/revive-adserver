@@ -17,8 +17,6 @@
 // | Authors: Piotr Klaban <makler@man.torun.pl>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id$
-//
 // Numbers_Words class extension to spell numbers in Polish.
 //
 

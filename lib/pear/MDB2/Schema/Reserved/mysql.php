@@ -43,7 +43,6 @@
 // | Author: David Coallier <davidc@php.net>                              |
 // +----------------------------------------------------------------------+
 //
-// $Id$
 // }}}
 // {{{ $GLOBALS['_MDB2_Schema_Reserved']['mysql']
 /**
