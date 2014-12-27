@@ -19,8 +19,6 @@ import org.openx.utils.TextUtils;
 
 /**
  * Verify Agency Daily Statistics method
- *
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class TestAgencyDailyStatistics extends AgencyTestCase {
 	private Integer agencyId;

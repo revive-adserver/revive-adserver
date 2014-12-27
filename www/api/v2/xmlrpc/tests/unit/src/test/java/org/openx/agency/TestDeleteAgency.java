@@ -18,8 +18,6 @@ import org.openx.utils.TextUtils;
 
 /**
  * Verify Delete Agency method
- *
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class TestDeleteAgency extends AgencyTestCase {
 

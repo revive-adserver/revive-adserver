@@ -24,8 +24,6 @@ import org.openx.zone.TestZone;
 
 /**
  * Run all tests
- *
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class AllTests {
 

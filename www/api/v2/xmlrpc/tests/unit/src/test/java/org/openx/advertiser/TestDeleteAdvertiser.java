@@ -18,8 +18,6 @@ import org.openx.utils.TextUtils;
 
 /**
  * Verify Delete Advertiser method
- *
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class TestDeleteAdvertiser extends AdvertiserTestCase {
 	/**

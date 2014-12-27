@@ -20,8 +20,6 @@ import org.openx.utils.TextUtils;
 
 /**
  * Verify Advertiser Publisher Statistics method
- *
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class TestAdvertiserPublisherStatistics extends AdvertiserTestCase {
 	private Integer advertiserId;

@@ -24,8 +24,6 @@ import org.openx.utils.DateUtils;
 
 /**
  * Base class for all campaign web service tests
- *
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class CampaignTestCase extends AdvertiserTestCase {
 	protected static final String GET_CAMPAIGN_LIST_BY_ADVERTISER_ID_METHOD = "ox.getCampaignListByAdvertiserId";

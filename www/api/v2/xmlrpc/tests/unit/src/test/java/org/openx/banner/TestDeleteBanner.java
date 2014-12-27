@@ -18,8 +18,6 @@ import org.openx.utils.TextUtils;
 
 /**
  * Verify Delete Banner method
- *
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  */
 public class TestDeleteBanner extends BannerTestCase {
 	/**
