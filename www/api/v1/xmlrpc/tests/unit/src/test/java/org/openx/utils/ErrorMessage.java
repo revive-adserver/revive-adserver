@@ -12,9 +12,6 @@ package org.openx.utils;
 
 import java.text.MessageFormat;
 
-/**
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
- */
 public class ErrorMessage {
 	public static final String ACCESS_FORBIDDEN = "Access forbidden";
 

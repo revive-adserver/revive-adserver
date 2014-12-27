@@ -10,9 +10,6 @@
 
 package org.openx.utils;
 
-/**
- * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
- */
 public class TextUtils {
 	public static final String BAD_PASSWORD = "pass\\word";
 	public static final Integer NOT_STRING = 10;

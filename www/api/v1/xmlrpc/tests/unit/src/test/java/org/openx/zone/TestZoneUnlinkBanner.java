@@ -17,8 +17,6 @@ import org.openx.utils.TextUtils;
 
 /**
  * Verify Unlink Banner method
- *
- * @author     Pawel Dachterski <pawel.dachterski@openx.org>
  */
 public class TestZoneUnlinkBanner extends ZoneTestCase {
 

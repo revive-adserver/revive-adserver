@@ -22,8 +22,6 @@ import org.openx.config.GlobalSettings;
 
 /**
  * Base class for all User web service tests
- *
- * @author Pawel Dachterski <pawel.dachterski@openx.org>
  */
 public class UserTestCase extends WebServiceTestCase {
 	protected static final String ADD_USER_METHOD = "addUser";
