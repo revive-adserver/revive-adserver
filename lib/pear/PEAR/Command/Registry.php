@@ -16,7 +16,6 @@
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 0.1
  */
@@ -160,7 +159,7 @@ installed package.'
         $this->ui->outputData($data, $command);
         return true;
     }
-    
+
     function doListAll($command, $options, $params)
     {
         $reg = &$this->config->getRegistry();
@@ -190,7 +189,7 @@ installed package.'
         }
         return true;
     }
-    
+
     function doFileList($command, $options, $params)
     {
         if (count($params) != 1) {

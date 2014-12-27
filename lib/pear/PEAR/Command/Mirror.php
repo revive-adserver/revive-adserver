@@ -15,7 +15,6 @@
  * @author     Alexander Merz <alexmerz@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 1.2.0
  */
@@ -98,7 +97,7 @@ packages within preferred_state ({config preferred_state}) will be downloaded'
     * @param array $options the command options before the command
     * @param array $params the stuff after the command name
     * @return bool true if succesful
-    * @throw PEAR_Error 
+    * @throw PEAR_Error
     */
     function doDownloadAll($command, $options, $params)
     {
@@ -136,7 +135,7 @@ packages within preferred_state ({config preferred_state}) will be downloaded'
             $this->config->get('preferred_state'));
         $this->ui->outputData('Gathering release information, please wait...');
         /**
-         * Error handling not necessary, because already done by 
+         * Error handling not necessary, because already done by
          * the download command
          */
         PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);

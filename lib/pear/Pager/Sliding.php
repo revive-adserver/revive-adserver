@@ -32,7 +32,6 @@
  * @author     Lorenzo Alberton <l dot alberton at quipo dot it>
  * @copyright  2003-2006 Lorenzo Alberton
  * @license    http://www.debian.org/misc/bsd.license  BSD License (3 Clause)
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/Pager
  */
 
@@ -242,7 +241,7 @@ class Pager_Sliding extends Pager_Common
         if (!empty($url)) {
             $this->_path = $url;
         }
-        
+
         //If there's only one page, don't display links
         if ($this->_clearIfVoid && ($this->_totalPages < 2)) {
             return '';
@@ -258,7 +257,7 @@ class Pager_Sliding extends Pager_Common
                 }
                 for ($i = $this->_currentPage - $this->_delta - $expansion_before; $expansion_before; $expansion_before--, $i++) {
                     $print_separator_flag = ($i != $this->_currentPage + $this->_delta); // && ($i != $this->_totalPages - 1)
-                    
+
                     $this->range[$i] = false;
                     $this->_linkData[$this->_urlVar] = $i;
                     $links .= $this->_renderLink($this->_altPage.' '.$i, $i)

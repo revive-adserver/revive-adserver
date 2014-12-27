@@ -15,7 +15,6 @@
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 1.4.0a12
  */
@@ -269,13 +268,13 @@ class PEAR_REST_10
         if (!$found) {
             $release = $info['r'][0];
         }
-        $pinfo = $this->_rest->retrieveCacheFirst($base . 'p/' . strtolower($package) . '/' . 
+        $pinfo = $this->_rest->retrieveCacheFirst($base . 'p/' . strtolower($package) . '/' .
             'info.xml');
         if (PEAR::isError($pinfo)) {
             return PEAR::raiseError('Package "' . $package .
                 '" does not have REST info xml available');
         }
-        $releaseinfo = $this->_rest->retrieveCacheFirst($base . 'r/' . strtolower($package) . '/' . 
+        $releaseinfo = $this->_rest->retrieveCacheFirst($base . 'r/' . strtolower($package) . '/' .
             $release['v'] . '.xml');
         if (PEAR::isError($releaseinfo)) {
             return PEAR::raiseError('Package "' . $package . '" Version "' . $release['v'] .
@@ -336,7 +335,7 @@ class PEAR_REST_10
             $deprecated = false;
         }
         if ($found) {
-            return 
+            return
                 array('version' => $releaseinfo['v'],
                       'info' => $packagexml,
                       'package' => $releaseinfo['p']['_content'],
@@ -581,7 +580,7 @@ class PEAR_REST_10
             if (!$found) {
                 continue;
             }
-            $relinfo = $this->_rest->retrieveCacheFirst($base . 'r/' . strtolower($package) . '/' . 
+            $relinfo = $this->_rest->retrieveCacheFirst($base . 'r/' . strtolower($package) . '/' .
                 $release['v'] . '.xml');
             if (PEAR::isError($relinfo)) {
                 return $relinfo;

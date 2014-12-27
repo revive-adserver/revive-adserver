@@ -17,7 +17,6 @@
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 0.1
  */
@@ -191,7 +190,7 @@ parameter.
         if (PEAR::isError($parsed)) {
             return $this->raiseError('Invalid package name "' . $package . '"');
         }
-        
+
         $channel = $parsed['channel'];
         $this->config->set('default_channel', $channel);
         $chan = $reg->getChannel($channel);
@@ -437,7 +436,7 @@ parameter.
             $available = $rest->listAll($base, false, false, $package, $summary);
         } else {
             $r = &$this->config->getRemote();
-            $available = $r->call('package.search', $package, $summary, true, 
+            $available = $r->call('package.search', $package, $summary, true,
                 $this->config->get('preferred_state') == 'stable', true);
         }
         if (PEAR::isError($available)) {

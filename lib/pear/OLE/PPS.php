@@ -16,9 +16,6 @@
 // | Author: Xavier Noguer <xnoguer@php.net>                              |
 // | Based on OLE::Storage_Lite by Kawai, Takanori                        |
 // +----------------------------------------------------------------------+
-//
-// $Id$
-
 
 require_once('PEAR.php');
 require_once('OLE.php');
@@ -43,31 +40,31 @@ class OLE_PPS extends PEAR
     * @var string
     */
     var $Name;
- 
+
     /**
     * The PPS type. Dir, Root or File
     * @var integer
     */
     var $Type;
- 
+
     /**
     * The index of the previous PPS
     * @var integer
     */
     var $PrevPps;
- 
+
     /**
     * The index of the next PPS
     * @var integer
     */
     var $NextPps;
- 
+
     /**
     * The index of it's first child if this is a Dir or Root PPS
     * @var integer
     */
     var $DirPps;
- 
+
     /**
     * A timestamp
     * @var integer
@@ -185,7 +182,7 @@ class OLE_PPS extends PEAR
               . "\x00\x00\x00\x00"                  // 100
               . OLE::LocalDate2OLE($this->Time1st)       // 108
               . OLE::LocalDate2OLE($this->Time2nd)       // 116
-              . pack("V", isset($this->_StartBlock)? 
+              . pack("V", isset($this->_StartBlock)?
                         $this->_StartBlock:0)        // 120
               . pack("V", $this->Size)               // 124
               . pack("V", 0);                        // 128
@@ -198,10 +195,10 @@ class OLE_PPS extends PEAR
     *
     * @access private
     * @param array &$pps_array Reference to the array of PPS's for the whole OLE
-    *                          container 
+    *                          container
     * @return integer          The index for this PPS
     */
-    function _savePpsSetPnt(&$pps_array) 
+    function _savePpsSetPnt(&$pps_array)
     {
         $pps_array[count($pps_array)] = &$this;
         $this->No = count($pps_array) - 1;

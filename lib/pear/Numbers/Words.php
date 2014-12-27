@@ -15,9 +15,6 @@
 // +----------------------------------------------------------------------+
 // | Authors: Piotr Klaban <makler@man.torun.pl>                          |
 // +----------------------------------------------------------------------+
-//
-// $Id$
-//
 
 /**
  * The Numbers_Words class provides method to convert arabic numerals to
@@ -79,7 +76,7 @@ class Numbers_Words
     // {{{ toCurrency()
     /**
      * Converts a currency value to word representation (1.02 => one dollar two cents)
-     * If the number has not any fraction part, the "cents" number is omitted. 
+     * If the number has not any fraction part, the "cents" number is omitted.
      *
      * @param  float   $num   A float/integer/string number representing currency value
      *

@@ -15,7 +15,6 @@
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id$
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 1.4.0a8
  */
@@ -108,7 +107,7 @@ class PEAR_PackageFile_v2_rw extends PEAR_PackageFile_v2
         $this->_isValid = 0;
         if (!isset($this->_packageInfo['uri'])) {
             // ensure that the uri tag is set up in the right location
-            $this->_packageInfo = $this->_insertBefore($this->_packageInfo, 
+            $this->_packageInfo = $this->_insertBefore($this->_packageInfo,
                 array('extends', 'summary', 'description', 'lead',
                 'developer', 'contributor', 'helper', 'date', 'time', 'version',
                 'stability', 'license', 'notes', 'contents', 'compatible',
@@ -458,7 +457,7 @@ class PEAR_PackageFile_v2_rw extends PEAR_PackageFile_v2
                     'bundle', 'changelog'), array(), 'contents');
         }
         if ($this->getPackageType() != 'bundle') {
-            $this->_packageInfo['contents'] = 
+            $this->_packageInfo['contents'] =
                 array('dir' => array('attribs' => array('name' => '/')));
             if ($baseinstall) {
                 $this->_packageInfo['contents']['dir']['attribs']['baseinstalldir'] = $baseinstall;
@@ -1546,7 +1545,7 @@ class PEAR_PackageFile_v2_rw extends PEAR_PackageFile_v2
     function generateChangeLogEntry($notes = false)
     {
         return array(
-            'version' => 
+            'version' =>
                 array(
                     'release' => $this->getVersion('release'),
                     'api' => $this->getVersion('api'),
