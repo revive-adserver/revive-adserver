@@ -1,5 +1,4 @@
 <?php
-    // $Id$
     if (function_exists('spl_classes')) {
         include(dirname(__FILE__) . '/support/spl_examples.php');
     }
@@ -88,7 +87,7 @@
             $hinter = new WithHint();
             $hinter->hinted($mock);
         }
-        
+
         function testNoSpuriousWarningsWhenSkippingDefaultedParameter() {
             $mock = new MockImplementsDummy();
             $mock->extraMethod();

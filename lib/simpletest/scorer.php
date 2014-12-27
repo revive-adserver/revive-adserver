@@ -3,7 +3,6 @@
      *	base include file for SimpleTest
      *	@package	SimpleTest
      *	@subpackage	UnitTester
-     *	@version	$Id$
      */
 
     /**#@+*/
@@ -166,7 +165,7 @@
         function paintException($exception) {
             $this->_exceptions++;
         }
-		
+
 		/**
 		 *    Prints the message for skipping tests.
          *    @param string $message    Text of skip condition.
@@ -253,7 +252,7 @@
             $this->_size = null;
             $this->_progress = 0;
         }
-        
+
         /**
          *    Gets the formatter for variables and other small
          *    generic data items.
@@ -469,7 +468,7 @@
         function &createInvoker(&$invoker) {
             return $this->_reporter->createInvoker($invoker);
         }
-        
+
         /**
          *    Gets the formatter for variables and other small
          *    generic data items.
@@ -571,7 +570,7 @@
         function paintException($exception) {
             $this->_reporter->paintException($exception);
         }
-		
+
 		/**
 		 *    Prints the message for skipping tests.
          *    @param string $message    Text of skip condition.
@@ -689,7 +688,7 @@
             }
             return $invoker;
         }
-        
+
         /**
          *    Gets the formatter for variables and other small
          *    generic data items.
@@ -800,7 +799,7 @@
                 $this->_reporters[$i]->paintError($message);
             }
         }
-		
+
         /**
          *    Chains to the wrapped reporter.
          *    @param Exception $exception    Exception to display.

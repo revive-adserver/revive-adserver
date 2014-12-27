@@ -19,8 +19,6 @@
  * than modifying calendar.js itself).
  */
 
-// $Id$
-
 /**
  *  This function "patches" an input field (or other element) to use a calendar
  *  widget for date selection.
@@ -156,11 +154,11 @@ Calendar.setup = function (params) {
 	   //this can lead to some weird results - calendar showing up on clicking enter on any field
 	   if (event && event.target && this.name) {
 	       if (event.target.name != this.name) {
-	           alert('badTarget: ' + event.target.name + ' vs ' + this.name); 
+	           alert('badTarget: ' + event.target.name + ' vs ' + this.name);
 	           return false;
-	       } 
+	       }
 	   }
-	
+
 		var dateEl = params.inputField || params.displayArea;
 		var dateFmt = params.inputField ? params.ifFormat : params.daFormat;
 		var mustCreate = false;

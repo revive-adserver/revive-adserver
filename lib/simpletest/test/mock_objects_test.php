@@ -1,5 +1,4 @@
 <?php
-    // $Id$
     require_once(dirname(__FILE__) . '/../expectation.php');
 
     class TestOfAnythingExpectation extends UnitTestCase {
@@ -400,11 +399,11 @@
         function skip() {
             $this->skipIf(version_compare(phpversion(), '5', '<='), 'Overloading not tested for PHP 4');
         }
-        
+
         function testCanMockTheThingAtAll() {
             $mock = new MockClassWithSpecialMethods();
         }
-        
+
         function testReturnFromSpecialAccessor() {
             $mock = new MockClassWithSpecialMethods();
             $mock->setReturnValue('__get', '1st Return', array('first'));
@@ -412,32 +411,32 @@
             $this->assertEqual($mock->first, '1st Return');
             $this->assertEqual($mock->second, '2nd Return');
         }
-        
+
         function testcanExpectTheSettingOfValue() {
             $mock = new MockClassWithSpecialMethods();
             $mock->expectOnce('__set', array('a', 'A'));
             $mock->a = 'A';
         }
-        
+
         function testCanSimulateAnOverloadmethod() {
             $mock = new MockClassWithSpecialMethods();
             $mock->expectOnce('__call', array('amOverloaded', array('A')));
             $mock->setReturnValue('__call', 'aaa');
             $this->assertIdentical($mock->amOverloaded('A'), 'aaa');
         }
-        
+
         function testCanEmulateIsset() {
             $mock = new MockClassWithSpecialMethods();
             $mock->setReturnValue('__isset', true);
             $this->assertIdentical(isset($mock->a), true);
         }
-        
+
         function testCanExpectUnset() {
             $mock = new MockClassWithSpecialMethods();
             $mock->expectOnce('__unset', array('a'));
             unset($mock->a);
         }
-        
+
         function testToStringMagic() {
             $mock = new MockClassWithSpecialMethods();
             $mock->expectOnce('__toString');

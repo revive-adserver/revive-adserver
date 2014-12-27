@@ -1,6 +1,4 @@
 <?php
-    // $Id$
-
     require_once(dirname(__FILE__) . '/../tag.php');
     require_once(dirname(__FILE__) . '/../page.php');
     require_once(dirname(__FILE__) . '/../frames.php');

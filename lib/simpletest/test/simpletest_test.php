@@ -1,5 +1,4 @@
 <?php
-    // $Id$
     require_once(dirname(__FILE__) . '/../simpletest.php');
 
     SimpleTest::ignore('ShouldNeverBeRunEither');

@@ -3,7 +3,6 @@
      *	Base include file for SimpleTest
      *	@package	SimpleTest
      *	@subpackage	WebTester
-     *	@version	$Id$
      */
 
     /**#@+
@@ -14,11 +13,11 @@
     require_once(dirname(__FILE__) . '/encoding.php');
     require_once(dirname(__FILE__) . '/authentication.php');
     /**#@-*/
-   
+
     if (! defined('DEFAULT_MAX_REDIRECTS')) {
         define('DEFAULT_MAX_REDIRECTS', 3);
     }
-    
+
     if (! defined('DEFAULT_CONNECTION_TIMEOUT')) {
         define('DEFAULT_CONNECTION_TIMEOUT', 15);
     }
@@ -39,7 +38,7 @@
         var $_proxy_password = false;
         var $_connection_timeout = DEFAULT_CONNECTION_TIMEOUT;
         var $_additional_headers = array();
-        
+
         /**
          *    Starts with no cookies, realms or proxies.
          *    @access public
@@ -48,7 +47,7 @@
             $this->_cookie_jar = new SimpleCookieJar();
             $this->_authenticator = new SimpleAuthenticator();
         }
-        
+
         /**
          *    Removes expired and temporary cookies as if
          *    the browser was closed and re-opened. Authorisation
@@ -62,7 +61,7 @@
             $this->_cookie_jar->restartSession($date);
             $this->_authenticator->restartSession();
         }
-        
+
         /**
          *    Adds a header to every fetch.
          *    @param string $header       Header line to add to every
@@ -72,7 +71,7 @@
         function addHeader($header) {
             $this->_additional_headers[] = $header;
         }
-        
+
         /**
          *    Ages the cookies by the specified time.
          *    @param integer $interval    Amount in seconds.
@@ -81,7 +80,7 @@
         function ageCookies($interval) {
             $this->_cookie_jar->agePrematurely($interval);
         }
-        
+
         /**
          *    Sets an additional cookie. If a cookie has
          *    the same name and path it is replaced.
@@ -95,7 +94,7 @@
         function setCookie($name, $value, $host = false, $path = '/', $expiry = false) {
             $this->_cookie_jar->setCookie($name, $value, $host, $path, $expiry);
         }
-        
+
         /**
          *    Reads the most specific cookie value from the
          *    browser cookies.
@@ -109,7 +108,7 @@
         function getCookieValue($host, $path, $name) {
             return $this->_cookie_jar->getCookieValue($host, $path, $name);
         }
-        
+
         /**
          *    Reads the current cookies within the base URL.
          *    @param string $name     Key of cookie to find.
@@ -124,7 +123,7 @@
             }
             return $this->getCookieValue($base->getHost(), $base->getPath(), $name);
         }
-        
+
         /**
          *    Switches off cookie sending and recieving.
          *    @access public
@@ -132,7 +131,7 @@
         function ignoreCookies() {
             $this->_cookies_enabled = false;
         }
-        
+
         /**
          *    Switches back on the cookie sending and recieving.
          *    @access public
@@ -140,7 +139,7 @@
         function useCookies() {
             $this->_cookies_enabled = true;
         }
-        
+
         /**
          *    Sets the socket timeout for opening a connection.
          *    @param integer $timeout      Maximum time in seconds.
@@ -149,7 +148,7 @@
         function setConnectionTimeout($timeout) {
             $this->_connection_timeout = $timeout;
         }
-        
+
         /**
          *    Sets the maximum number of redirects before
          *    a page will be loaded anyway.
@@ -159,7 +158,7 @@
         function setMaximumRedirects($max) {
             $this->_max_redirects = $max;
         }
-        
+
         /**
          *    Sets proxy to use on all requests for when
          *    testing from behind a firewall. Set URL
@@ -181,7 +180,7 @@
             $this->_proxy_username = $username;
             $this->_proxy_password = $password;
         }
-        
+
         /**
          *    Test to see if the redirect limit is passed.
          *    @param integer $redirects        Count so far.
@@ -191,7 +190,7 @@
         function _isTooManyRedirects($redirects) {
             return ($redirects > $this->_max_redirects);
         }
-        
+
         /**
          *    Sets the identity for the current realm.
          *    @param string $host        Host to which realm applies.
@@ -203,7 +202,7 @@
         function setIdentity($host, $realm, $username, $password) {
             $this->_authenticator->setIdentityForRealm($host, $realm, $username, $password);
         }
-        
+
         /**
          *    Fetches a URL as a response object. Will keep trying if redirected.
          *    It will also collect authentication realm information.
@@ -228,7 +227,7 @@
             }
             return $response;
         }
-        
+
         /**
          *    Fetches the page until no longer redirected or
          *    until the redirect limit runs out.
@@ -257,7 +256,7 @@
             } while (! $this->_isTooManyRedirects(++$redirects));
             return $response;
         }
-        
+
         /**
          *    Actually make the web request.
          *    @param SimpleUrl $url                   Target to fetch.
@@ -270,7 +269,7 @@
             $response = &$request->fetch($this->_connection_timeout);
             return $response;
         }
-        
+
         /**
          *    Creates a full page request.
          *    @param SimpleUrl $url                 Target to fetch as url object.
@@ -287,7 +286,7 @@
             $this->_authenticator->addHeaders($request, $url);
             return $request;
         }
-        
+
         /**
          *    Builds the appropriate HTTP request object.
          *    @param SimpleUrl $url                  Target to fetch as url object.
@@ -299,7 +298,7 @@
             $request = new SimpleHttpRequest($this->_createRoute($url), $encoding);
             return $request;
         }
-        
+
         /**
          *    Sets up either a direct route or via a proxy.
          *    @param SimpleUrl $url   Target to fetch as url object.
@@ -318,7 +317,7 @@
             }
             return $route;
         }
-        
+
         /**
          *    Adds additional manual headers.
          *    @param SimpleHttpRequest $request    Outgoing request.

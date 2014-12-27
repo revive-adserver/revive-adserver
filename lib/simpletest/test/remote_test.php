@@ -1,5 +1,4 @@
 <?php
-    // $Id$
     require_once('../remote.php');
     require_once('../reporter.php');
 

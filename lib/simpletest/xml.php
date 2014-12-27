@@ -3,7 +3,6 @@
      *	base include file for SimpleTest
      *	@package	SimpleTest
      *	@subpackage	UnitTester
-     *	@version	$Id$
      */
 
     /**#@+
@@ -58,7 +57,7 @@
         	$string = str_replace(
                     array('&', '<', '>', '"', '\''),
                     array('&amp;', '&lt;', '&gt;', '&quot;', '&apos;'),
-                    $text); 
+                    $text);
             return preg_replace('/[^(\x20-\x7F)\r\n\t]/','?', $string);
         }
 
