@@ -13,10 +13,6 @@
 /**
 * OpenX Schema Management Utility
 *
-* @author     Monique Szpak <monique.szpak@openx.org>
-*
-* $Id$
-*
 */
 
 require_once MAX_PATH . '/lib/OA/DB/XmlCache.php';

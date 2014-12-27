@@ -12,7 +12,6 @@
 
 /**
  * @package    OpenXDll
- * @author     Matteo Beccati <matteo.beccati@openx.org>
  *
  */
 
@@ -287,15 +286,15 @@ class OA_Dll_User extends OA_Dll
         return true;
     }
 
-    /** 
+    /**
      * This method returns a list of users.
      *
      * @access public
      *
      * @param array &$aUserList
-     *  
+     *
      * @return boolean
-     */ 
+     */
     function getUserList(&$aUserList)
     {
         if (!$this->checkPermissions(OA_ACCOUNT_ADMIN)) {
@@ -461,7 +460,7 @@ class OA_Dll_User extends OA_Dll
                 return false;
             }
         }
-        
+
         return true;
     }
 

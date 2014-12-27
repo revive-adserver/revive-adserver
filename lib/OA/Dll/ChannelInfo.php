@@ -12,7 +12,6 @@
 
 /**
  * @package    OpenXDll
- * @author     Heiko Weber <heiko@wecos.de>
  *
  * This file describes the ChannelInfo class.
  *
@@ -79,13 +78,13 @@ class OA_Dll_ChannelInfo extends OA_Info
         if (empty($this->agencyId)) {
             $this->agencyId = OA_Permission::getAgencyId();
         }
-        
+
         if (empty($this->websiteId)) {
             // Set it to 'global'
             $this->websiteId = 0;
         }
     }
-    
+
     function getFieldsTypes()
     {
         return array(

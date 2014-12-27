@@ -12,7 +12,6 @@
 
 /**
  * @package    OpenXDll
- * @author     David Keen <david.keen@openx.org>
  *
  */
 
@@ -21,7 +20,7 @@ require_once MAX_PATH . '/lib/max/Dal/DataObjects/Trackers.php';
 
 class OA_Dll_TrackerInfo extends OA_Info
 {
-    
+
 
     // Required fields
     public $trackerId;
@@ -39,7 +38,7 @@ class OA_Dll_TrackerInfo extends OA_Info
      * This method sets default values for optional fields when adding a new tracker.
      *
      */
-    public function setDefaultForAdd() 
+    public function setDefaultForAdd()
     {
         if (empty($this->description)) {
             $this->description = '';
@@ -50,7 +49,7 @@ class OA_Dll_TrackerInfo extends OA_Info
         if (empty($this->status)) {
             $this->status = isset($pref['tracker_default_status']) ? (int) $pref['tracker_default_status'] : MAX_CONNECTION_STATUS_APPROVED;
         }
-        
+
         if (empty($this->type)) {
             $this->type = isset($pref['tracker_default_type']) ? (int) $pref['tracker_default_type'] : MAX_CONNECTION_TYPE_SALE;
         }

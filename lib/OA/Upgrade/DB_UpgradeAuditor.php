@@ -13,10 +13,6 @@
 /**
  * OpenX Schema Management Utility
  *
- * @author     Monique Szpak <monique.szpak@openx.org>
- *
- * $Id$
- *
  */
 
 define('DB_UPGRADE_TIMING_CONSTRUCTIVE_DEFAULT',                   0);
