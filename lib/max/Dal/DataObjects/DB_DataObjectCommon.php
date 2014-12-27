@@ -32,8 +32,6 @@ define('OX_DATAOBJECT_NULL', 'NULL');
  * This class extends the PEAR::DB_DataObjects class, and adds extra functionality!
  *
  * @package    DataObjects
- * @author     David Keen <david.keen@openx.org>
- * @author     Radek Maciaszek <radek.maciaszek@openx.org>
  */
 class DB_DataObjectCommon extends DB_DataObject
 {

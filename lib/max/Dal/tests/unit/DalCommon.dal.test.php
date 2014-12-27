@@ -15,7 +15,6 @@
  *
  * @package    MaxDal
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew@m3.net>
  *
  * @TODO No tests written yet...
  */

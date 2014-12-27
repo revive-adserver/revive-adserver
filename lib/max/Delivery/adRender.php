@@ -13,7 +13,6 @@
 /**
  * @package    MaxDelivery
  * @subpackage ad
- * @author     Chris Nutting <chris@m3.net>
  *
  * This library contains the functions to select and generate the HTML for an ad
  *

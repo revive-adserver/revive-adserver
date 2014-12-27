@@ -23,8 +23,6 @@ Mock::generate('TargetingStatistics');
  *
  * @package    MaxDal
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew@m3.net>
- * @author     Robert Hunter <roh@m3.net>
  *
  */
 class Dal_TestOfDalAdmin extends UnitTestCase

@@ -13,7 +13,6 @@
 /**
  * @package    MaxDal
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew@m3.net>
  */
 
 define('DATA_AGENCY', 'INSERT INTO
@@ -27,7 +26,7 @@ define('DATA_AGENCY', 'INSERT INTO
         permissions,
         language,
         logout_url,
-        active  
+        active
     )
     VALUES (
         1,

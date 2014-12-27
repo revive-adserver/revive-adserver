@@ -173,14 +173,14 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $agencyId = DataGenerator::getReferenceId('agency');
         $doCampaign = OA_Dal::factoryDO('campaigns');
         $doCampaign->campaignname = 'foomarket';
-        $doCampaign->type = DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN; 
+        $doCampaign->type = DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN;
         $aData = array(
             'reportlastdate' => array('2007-04-03 18:39:45'),
             'agency' => $agencyId
         );
         $dg->setData('clients', $aData);
         $dg->generate($doCampaign, 1, true);
-        
+
 
         // Search for the campaign
         $expected = 0;
@@ -194,9 +194,9 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $rsCampaigns->find();
         $actual = $rsCampaigns->getRowCount();
         $this->assertEqual($actual, $expected);
-        
+
         $expected = 2;
-        $rsCampaigns = $this->oDalCampaigns->getCampaignAndClientByKeyword('foo', 
+        $rsCampaigns = $this->oDalCampaigns->getCampaignAndClientByKeyword('foo',
                             null, array(DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN));
         $rsCampaigns->find();
         $actual = $rsCampaigns->getRowCount();
@@ -223,7 +223,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $doClients->agencyid = 2;
         $doClients->type = DataObjects_Clients::ADVERTISER_TYPE_MARKET;
         $clientId2 = DataGenerator::generateOne($doClients);
-        
+
         $doCampaign = OA_Dal::factoryDO('campaigns');
         $doCampaign->clientid = $clientId1;
         $doCampaign->type = DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT;
@@ -244,28 +244,28 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $doCampaign->type = DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_ZONE_OPTIN;
         $doCampaign->campaignname = 'Adv2 Campaign 3';
         $campaign4 = DataGenerator::generateOne($doCampaign);
-        
+
         $result = $this->oDalCampaigns->getClientCampaigns($campaign1);
         $this->assertEqual(count($result),1);
         $this->assertIsA($result[$campaign1],'array');
         $this->assertEqual($result[$campaign1]['name'], 'Adv1 Campaign 1');
-        $result = $this->oDalCampaigns->getClientCampaigns($campaign1, 'name', '', 
+        $result = $this->oDalCampaigns->getClientCampaigns($campaign1, 'name', '',
                         array(DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN));
         $this->assertEqual(count($result),1);
-        
+
         $result = $this->oDalCampaigns->getClientCampaigns($campaign2);
         $this->assertEqual(count($result),0);
-        
-        $aIncludeSystemTypes = array(DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN); 
+
+        $aIncludeSystemTypes = array(DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN);
         $result = $this->oDalCampaigns->getClientCampaigns($campaign2, 'name', 'up', $aIncludeSystemTypes);
         $this->assertEqual(count($result),1);
         $this->assertEqual($result[$campaign2]['name'], 'Adv2 Campaign 1');
-        
+
         $aIncludeSystemTypes = array(
             DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN,
             DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CONTRACT,
             DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_ZONE_OPTIN,
-        ); 
+        );
         $result = $this->oDalCampaigns->getClientCampaigns($campaign2, 'name', 'up', $aIncludeSystemTypes);
         $this->assertEqual(count($result),3);
         reset($result);
@@ -275,7 +275,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $this->assertEqual($campaignId, $campaign3);
         list($campaignId, $campaign) = each($result);
         $this->assertEqual($campaignId, $campaign4);
-        
+
         $result = $this->oDalCampaigns->getClientCampaigns($campaign2, 'name', 'down', $aIncludeSystemTypes);
         $this->assertEqual(count($result),3);
         list($campaignId, $campaign) = each($result);
@@ -285,7 +285,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         list($campaignId, $campaign) = each($result);
         $this->assertEqual($campaignId, $campaign2);
     }
-    
+
     /**
      * A method to test the getDaysLeftString() method.
      */
@@ -991,7 +991,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $doCampaigns->campaignname = 'market campaign';
         $doCampaigns->type = DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN;
         $marketCampaignId= DataGenerator::generateOne($doCampaigns);
-        
+
         // Take test data
         $aCampaigns = $this->oDalCampaigns->getAllCampaignsUnderAgency($agencyId2,'name','up');
         $this->assertEqual(count($aCampaigns), $numCampaigns2);
@@ -999,7 +999,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         ksort($aCampaigns);
         sort($aCampaigns2);
         $this->assertEqual(array_keys($aCampaigns), array_values($aCampaigns2));
-        
+
         $aIncludeSystemTypes = array(
             DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN,
         );

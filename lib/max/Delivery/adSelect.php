@@ -13,7 +13,6 @@
 /**
  * @package    MaxDelivery
  * @subpackage adSelect
- * @author     Chris Nutting <chris@m3.net>
  *
  * This library contains the functions to select an ad either by zone or direct selection
  * and generate the HTML for an ad

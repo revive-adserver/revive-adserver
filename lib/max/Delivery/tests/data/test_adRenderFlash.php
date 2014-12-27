@@ -13,7 +13,6 @@
 /**
  * @package    MaxDelivery
  * @subpackage TestSuite Data
- * @author     Monique Szpak <monique@m3.net>
  */
 
 $zoneId		=	0;

@@ -20,7 +20,6 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  *
  * @package    MaxDal
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew@m3.net>
  */
 class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
 {

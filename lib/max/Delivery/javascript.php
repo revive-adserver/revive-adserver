@@ -13,8 +13,6 @@
 /**
  * @package OpenXDelivery
  * @subpackage Javascript
- * @author chris@m3.net
- *
  */
 
 /**

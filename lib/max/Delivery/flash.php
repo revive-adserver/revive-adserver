@@ -13,7 +13,6 @@
 /**
  * @package    MaxDelivery
  * @subpackage flash
- * @author     Chris Nutting <chris@m3.net>
  */
 
 /**
@@ -39,7 +38,7 @@ function MAX_flashGetFlashObjectExternal()
 function MAX_flashGetFlashObjectInline()
 {
     $conf = $GLOBALS['_MAX']['CONF'];
-    
+
     // If a full URL is specified for the flashObject code
     if (substr($conf['file']['flash'], 0, 4) == 'http') {
         // Try to find the local copy (faster)

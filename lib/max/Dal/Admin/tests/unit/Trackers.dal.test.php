@@ -19,7 +19,6 @@ require_once MAX_PATH . '/lib/max/Dal/Admin/Trackers.php';
  *
  * @package    MaxDal
  * @subpackage TestSuite
- * @author     David Keen <david.keen@openx.org>
  */
 class MAX_Dal_Admin_TrackersTest extends DalUnitTestCase
 {

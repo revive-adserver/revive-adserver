@@ -21,7 +21,6 @@ $GLOBALS['_MAX']['FILES'][$file] = true;
 /**
  * @package    MaxDelivery
  * @subpackage image
- * @author     Matteo Beccati <matteo.beccati@openx.org>
  *
  * This library defines functions that need to be available to
  * the ai delivery script
