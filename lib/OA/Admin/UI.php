@@ -166,7 +166,7 @@ class OA_Admin_UI
         global $conf, $phpAds_CharSet, $phpAds_breadcrumbs_extra;
         $conf = $GLOBALS['_MAX']['CONF'];
 
-        $ID = $this->getId($ID);
+        $ID = $this->getID($ID);
         $this->setCurrentId($ID);
 
         if (!defined('phpAds_installing')) {
