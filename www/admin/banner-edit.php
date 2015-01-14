@@ -191,8 +191,7 @@ if ($ext_bannertype)
 }
 if ((!$ext_bannertype) && $type && (!in_array($type, array('sql','web','url','html','txt'))))
 {
-    list($extension, $group, $plugin) = explode('.',$type);
-    $oComponent = &OX_Component::factoryByComponentIdentifier($extension, $group, $plugin);
+    $oComponent = OX_Component::factoryByComponentIdentifier($type);
     $formDisabled = (!$oComponent || !$oComponent->enabled);
     if ($oComponent)
     {
