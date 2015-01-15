@@ -1,6 +1,8 @@
 # Revive Adserver
 #### The open source ad server formerly known as OpenX Source
 
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/revive-adserver/revive-adserver?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 **Revive Adserver is an open source ad serving tool** that enables publishers to:
 
 * Serve ads on their websites;
