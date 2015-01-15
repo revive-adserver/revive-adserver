@@ -146,7 +146,7 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
     } elseif (strpos($what, 'bannerid:') === 0) {
         $originalBannerId = intval(substr($what,9));
     }
-    $userid = MAX_cookieGetUniqueViewerID();
+    $userid = MAX_cookieGetUniqueViewerId();
     MAX_cookieAdd($conf['var']['viewerId'], $userid, _getTimeYearFromNow());
     $outputbuffer = '';
     // Set flag
