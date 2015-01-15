@@ -1275,7 +1275,6 @@ class Admin_DA
         // the zone. Then links all those ads to the zone if they are not linked already.
         $azParams = Admin_DA::getLinkedAdParams($aVariables['zone_id']);
         $azParams['placement_id'] = $aVariables['placement_id'];
-        $azParams['market_ads_include'] = true;
         $azAds = Admin_DA::getAds($azParams);
         $azLinkedAds = Admin_DA::getAdZones(array('zone_id' => $aVariables['zone_id']), false, 'ad_id');
         foreach ($azAds as $adId => $azAd) {
