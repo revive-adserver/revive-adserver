@@ -25,9 +25,9 @@ class Test_Max_Delivery_Log_A extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Test_Max_Delivery_Log_A()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     /**

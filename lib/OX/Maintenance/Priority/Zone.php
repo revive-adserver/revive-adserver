@@ -35,7 +35,7 @@ class OX_Maintenance_Priority_Zone
      * @param array $aZone associative array of values to be assigned to
      *              object, array keys reflect database field names
      */
-    function OX_Maintenance_Priority_Zone($aZone = array())
+    function __construct($aZone = array())
     {
         $this->id = (int)$aZone['zoneid'];
     }

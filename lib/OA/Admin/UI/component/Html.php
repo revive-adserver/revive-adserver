@@ -35,9 +35,9 @@ class OA_Admin_UI_Component_Html extends HTML_QuickForm_static
     * @access public
     * @return void
     */
-    function OA_Admin_UI_Component_Html($name = null, $text = null)
+    function __construct($name = null, $text = null)
     {
-        $this->HTML_QuickForm_static($name, null, $text);
+        parent::__construct($name, null, $text);
         $this->_type = 'html';
     }
 

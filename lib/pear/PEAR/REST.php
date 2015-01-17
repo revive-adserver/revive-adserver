@@ -41,7 +41,7 @@ class PEAR_REST
 {
     var $config;
     var $_options;
-    function PEAR_REST(&$config, $options = array())
+    function __construct(&$config, $options = array())
     {
         $this->config = &$config;
         $this->_options = $options;

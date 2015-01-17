@@ -57,21 +57,6 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
     }
 
     /**
-     * PHP4-style constructor
-     *
-     * @param array $aParams An array of parameters. The array should
-     *                       be indexed by the name of object variables,
-     *                       with the values that those variables should
-     *                       be set to. For example, the parameter:
-     *                       $aParams = array('foo' => 'bar')
-     *                       would result in $this->foo = bar.
-     */
-    function OA_Admin_Statistics_Delivery_Common($aParams)
-    {
-        $this->__construct($aParams);
-    }
-
-    /**
      * A private method that can be inherited and used by children classes to
      * load the required plugins during instantiation.
      *

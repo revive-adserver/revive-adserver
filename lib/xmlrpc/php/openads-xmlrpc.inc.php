@@ -54,16 +54,6 @@ class OA_XmlRpc
     }
 
     /**
-     * PHP4 style constructor
-     *
-     * @see OA_XmlRpc::__construct
-     */
-    function OA_XmlRpc($host, $path, $port = 0, $ssl = false, $timeout = 15)
-    {
-        $this->__construct($host, $path, $port, $ssl, $timeout);
-    }
-
-    /**
      * This method retrieves a banner from a remote OpenX installation using XML-RPC.
      *
      * @param string $what       The "what" parameter, see docs for more info

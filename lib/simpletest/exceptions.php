@@ -24,8 +24,8 @@
          *    Stores the invoker to be wrapped.
          *    @param SimpleInvoker $invoker   Test method runner.
          */
-        function SimpleExceptionTrappingInvoker($invoker) {
-            $this->SimpleInvokerDecorator($invoker);
+        function __construct($invoker) {
+            parent::__construct($invoker);
         }
 
         /**

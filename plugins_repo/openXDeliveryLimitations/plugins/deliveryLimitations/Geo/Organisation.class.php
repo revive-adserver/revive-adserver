@@ -25,9 +25,9 @@ require_once LIB_PATH . '/Extension/deliveryLimitations/DeliveryLimitations.php'
 class Plugins_DeliveryLimitations_Geo_Organisation extends Plugins_DeliveryLimitations
 {
 
-    function Plugins_DeliveryLimitations_Geo_Organisation()
+    function __construct()
     {
-        $this->Plugins_DeliveryLimitations();
+        parent::__construct();
         $this->columnName = 'geo_organisation';
         $this->nameEnglish = 'Geo - ISP/Organisation';
     }

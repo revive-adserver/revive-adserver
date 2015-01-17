@@ -2,7 +2,7 @@
 
 class x_axis_labels
 {
-	function x_axis_labels(){}
+	function __construct(){}
 	
 	function set_steps( $steps )
 	{

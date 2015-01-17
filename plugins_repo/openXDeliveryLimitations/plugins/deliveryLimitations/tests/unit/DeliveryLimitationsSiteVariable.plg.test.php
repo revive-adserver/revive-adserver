@@ -35,9 +35,9 @@ class Plugins_TestOfPlugins_Delivery_Site_Variable extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Plugins_TestOfPlugins_Delivery_Site_Variable()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     /**

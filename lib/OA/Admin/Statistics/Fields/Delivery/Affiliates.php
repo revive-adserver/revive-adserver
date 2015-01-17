@@ -24,7 +24,7 @@ class OA_StatisticsFieldsDelivery_Affiliates extends OA_StatisticsFieldsDelivery
     /**
      * Constructor
      */
-    function OA_StatisticsFieldsDelivery_Affiliates()
+    function __construct()
     {
 
         $aConf = $GLOBALS['_MAX']['CONF'];

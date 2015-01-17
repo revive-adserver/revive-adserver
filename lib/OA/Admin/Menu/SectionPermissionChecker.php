@@ -23,7 +23,7 @@ class OA_Admin_SectionPermissionChecker
 {
     var $aPermissions; //list of permissions user must have for the checker to be satisfied (only on of the list is required)
 
-    function OA_Admin_SectionPermissionChecker($aPermissions = array())
+    function __construct($aPermissions = array())
     {
         if (!is_array($aPermissions)) {
             $aPermissions = array($aPermissions);

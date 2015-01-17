@@ -85,7 +85,7 @@
          *  See {@link http://us4.php.net/manual/en/reference.pcre.pattern.syntax.php PHP's PCRE}
          *  for full documentation of valid pattern.s
          */
-        function SimplePatternCollector($pattern = '/php$/i') {
+        function __construct($pattern = '/php$/i') {
             $this->_pattern = $pattern;
         }
 

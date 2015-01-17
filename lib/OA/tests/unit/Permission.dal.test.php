@@ -28,9 +28,9 @@ class Test_OA_Permission extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Test_OA_Permission()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     function setUp()

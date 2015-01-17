@@ -37,7 +37,7 @@ class OA_PermanentCache
      *
      * @return OA_PermanentCache
      */
-    function OA_PermanentCache($cachePath = null)
+    function __construct($cachePath = null)
     {
         $this->cachePath = is_null($cachePath) ? MAX_PATH . '/etc/permanentcache/' : $cachePath;
         if (substr($cachePath, -1) != '/') {

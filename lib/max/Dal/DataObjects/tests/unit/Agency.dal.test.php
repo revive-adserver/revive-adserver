@@ -25,7 +25,7 @@ class DataObjects_AgencyTest extends DalUnitTestCase
     /**
      * The constructor method.
      */
-    function DataObjects_AgencyTest()
+    function __construct()
     {
         $this->UnitTestCase();
     }

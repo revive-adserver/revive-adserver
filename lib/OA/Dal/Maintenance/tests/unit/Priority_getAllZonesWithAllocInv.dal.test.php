@@ -25,9 +25,9 @@ class Test_OA_Dal_Maintenance_Priority_getAllZonesWithAllocInv extends UnitTestC
     /**
      * The constructor method.
      */
-    function Test_OA_Dal_Maintenance_Priority_getAllZonesWithAllocInv()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     /**

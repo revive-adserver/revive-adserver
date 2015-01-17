@@ -44,9 +44,9 @@ class OA_UpgradePackageParser extends XML_Parser
 //        parent::XML_Parser('ISO-8859-1');
 //    }
 
-    function OA_UpgradePackageParser()
+    function __construct()
     {
-        parent::XML_Parser('ISO-8859-1');
+        parent::__construct('ISO-8859-1');
         //$this->__construct();
     }
 

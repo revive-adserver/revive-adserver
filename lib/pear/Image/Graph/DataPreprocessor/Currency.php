@@ -55,7 +55,7 @@ class Image_Graph_DataPreprocessor_Currency extends Image_Graph_DataPreprocessor
      *
      * @param string $currencySymbol The symbol representing the currency
      */
-    function Image_Graph_DataPreprocessor_Currency($currencySymbol)
+    function __construct($currencySymbol)
     {
         parent::__construct("$currencySymbol %0.2f");
     }

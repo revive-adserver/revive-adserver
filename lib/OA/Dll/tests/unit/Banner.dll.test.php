@@ -47,7 +47,7 @@ class OA_Dll_BannerTest extends DllUnitTestCase
     /**
      * The constructor method.
      */
-    function OA_Dll_BannerTest()
+    function __construct()
     {
         $this->UnitTestCase();
         Mock::generatePartial(

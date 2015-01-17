@@ -49,7 +49,7 @@ class Config_Container_PHPArray {
     * @access public
     * @param    string  $options    Options to be used by renderer
     */
-    function Config_Container_PHPArray($options = array())
+    function __construct($options = array())
     {
         foreach ($options as $key => $value) {
             $this->options[$key] = $value;

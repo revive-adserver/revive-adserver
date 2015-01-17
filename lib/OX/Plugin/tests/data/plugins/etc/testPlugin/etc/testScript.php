@@ -15,7 +15,7 @@ $className = 'OX_testScript';
 
 class OX_testScript
 {
-    function OX_testScript()
+    function __construct()
     {
 
     }

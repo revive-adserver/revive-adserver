@@ -26,9 +26,9 @@ class Test_OA_DB_Table extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Test_OA_DB_Table()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
 
         // Mock the OA_DB class
         Mock::generate('OA_DB');

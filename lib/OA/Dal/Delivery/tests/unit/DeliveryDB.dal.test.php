@@ -32,9 +32,9 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
     var $prefix;
     var $aIds;
 
-    function Test_OA_Dal_DeliveryDB()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
         $this->oDbh = OA_DB::singleton();
         $this->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
         $this->aIds = TestEnv::loadData('delivery_001','mdb2schema');

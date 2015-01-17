@@ -34,7 +34,7 @@ class MAX_ErrorHandler
      * @access  public
      * @return  void
      */
-    function MAX_ErrorHandler()
+    function __construct()
     {
         //  first dimension elements are PHP error types
         //  2nd dimension elements are roughly PEAR Log's equivalents

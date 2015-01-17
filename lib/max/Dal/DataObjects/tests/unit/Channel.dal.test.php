@@ -25,7 +25,7 @@ class DataObjects_ChannelTest extends DalUnitTestCase
     /**
      * The constructor method.
      */
-    function DataObjects_ChannelTest()
+    function __construct()
     {
         $this->UnitTestCase();
     }

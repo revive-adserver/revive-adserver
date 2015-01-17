@@ -8,7 +8,7 @@ class ofc_menu_item
 	 * js function takes one parameter, the chart ID. See ofc_menu_item_camera for
 	 * some example code.
 	 */
-	function ofc_menu_item($text, $javascript_function_name)
+	function __construct($text, $javascript_function_name)
 	{
 		$this->type = "text";
 		$this->text = $text;
@@ -32,7 +32,7 @@ class ofc_menu_item_camera
 	 *
 	 * to make a menu item call this: ofc_menu_item_camera('Save chart', 'save_image');
 	 */
-	function ofc_menu_item_camera($text, $javascript_function_name)
+	function __construct($text, $javascript_function_name)
 	{
 		$this->type = "camera-icon";
 		$this->text = $text;
@@ -43,7 +43,7 @@ class ofc_menu_item_camera
 
 class ofc_menu
 {
-	function ofc_menu($colour, $outline_colour)
+	function __construct($colour, $outline_colour)
 	{
 		$this->colour = $colour;
 		$this->outline_colour = $outline_colour;

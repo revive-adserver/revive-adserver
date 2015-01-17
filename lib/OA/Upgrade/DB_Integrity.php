@@ -29,7 +29,7 @@ class OA_DB_Integrity
     var $version;
     //var $OK = true;
 
-    function OA_DB_Integrity()
+    function __construct()
     {
 
     }

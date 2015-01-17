@@ -108,7 +108,7 @@ class Image_Graph_Common
     /**
      * Constructor [Image_Graph_Common]
      */
-    function Image_Graph_Common()
+    function __construct()
     {
     }
 

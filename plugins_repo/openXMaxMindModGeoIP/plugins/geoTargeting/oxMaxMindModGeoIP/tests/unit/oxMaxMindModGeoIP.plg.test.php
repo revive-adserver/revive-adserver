@@ -26,7 +26,7 @@ class Delivery_TestOfPlugins_Geotargeting_ModGeoIP_ModGeoIP extends UnitTestCase
      */
     function Delivery_TestOfPlugins_Geotargeting_ModGeoIP_ModGeoIPP()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     /**

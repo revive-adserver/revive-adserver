@@ -25,9 +25,9 @@ class Test_OA_Cache extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Test_OA_Cache()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     function setup()

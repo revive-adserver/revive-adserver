@@ -220,9 +220,9 @@ class DB_mysqli extends DB_common
      *
      * @return void
      */
-    function DB_mysqli()
+    function __construct()
     {
-        $this->DB_common();
+        parent::__construct();
     }
 
     // }}}

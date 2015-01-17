@@ -48,7 +48,7 @@
          *                            the class name is used.
          *    @access public
          */
-        function SimpleTestCase($label = false) {
+        function __construct($label = false) {
             if ($label) {
                 $this->_label = $label;
             }
@@ -381,7 +381,7 @@
          *                            of the test.
          *    @access public
          */
-        function TestSuite($label = false) {
+        function __construct($label = false) {
             $this->_label = $label ? $label : get_class($this);
             $this->_test_cases = array();
             $this->_old_track_errors = ini_get('track_errors');
@@ -633,7 +633,7 @@
          *                            of the test.
          *    @access public
          */
-        function BadTestSuite($label, $error) {
+        function __construct($label, $error) {
             $this->_label = $label;
             $this->_error = $error;
         }

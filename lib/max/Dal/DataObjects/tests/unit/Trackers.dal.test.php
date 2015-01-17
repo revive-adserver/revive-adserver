@@ -24,7 +24,7 @@ class DataObjects_TrackersTest extends DalUnitTestCase
     /**
      * The constructor method.
      */
-    function DataObjects_TrackersTest()
+    function __construct()
     {
         $this->UnitTestCase();
     }

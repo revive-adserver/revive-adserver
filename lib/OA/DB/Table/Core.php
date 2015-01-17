@@ -24,9 +24,9 @@ class OA_DB_Table_Core extends OA_DB_Table
     /**
      * The class constructor method.
      */
-    function OA_DB_Table_Core()
+    function __construct()
     {
-        parent::OA_DB_Table();
+        parent::__construct();
     }
 
     /**

@@ -30,9 +30,9 @@ class Test_OX_PluginManager extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Test_OX_PluginManager()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     function setUp()

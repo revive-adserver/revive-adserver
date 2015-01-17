@@ -28,9 +28,9 @@ class Test_OA_Maintenance extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Test_OA_Maintenance()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     /**

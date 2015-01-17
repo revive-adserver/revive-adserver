@@ -32,9 +32,9 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPMforContract extends UnitTes
     /**
      * The constructor method.
      */
-    function Test_OA_Maintenance_Priority_AdServer_Task_ECPMforContract()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
         Mock::generate(
             'OA_Dal_Maintenance_Priority',
             $this->mockDal = 'MockOA_Dal_Maintenance_Priority'.rand()

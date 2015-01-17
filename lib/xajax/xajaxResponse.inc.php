@@ -102,7 +102,7 @@ class xajaxResponse
 	 *                converted to HTML entities
 	 *
 	 */
-	function xajaxResponse($sEncoding=XAJAX_DEFAULT_CHAR_ENCODING, $bOutputEntities=false)
+	function __construct($sEncoding=XAJAX_DEFAULT_CHAR_ENCODING, $bOutputEntities=false)
 	{
 		$this->setCharEncoding($sEncoding);
 		$this->bOutputEntities = $bOutputEntities;

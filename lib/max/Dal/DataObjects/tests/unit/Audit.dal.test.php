@@ -22,7 +22,7 @@ require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
  */
 class DataObjects_AuditTest extends DalUnitTestCase
 {
-    function DataObjects_AuditTest()
+    function __construct()
     {
         $this->UnitTestCase();
         DataGenerator::cleanUp();

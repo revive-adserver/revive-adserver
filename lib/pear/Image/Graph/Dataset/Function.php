@@ -67,7 +67,7 @@ class Image_Graph_Dataset_Function extends Image_Graph_Dataset
      * parameter function like fx sin(x) or cos(x)
      * @param int $points The number of points to create
      */
-    function Image_Graph_Dataset_Function($minimumX, $maximumX, $function, $points)
+    function __construct($minimumX, $maximumX, $function, $points)
     {
         parent::__construct();
         $this->_minimumX = $minimumX;

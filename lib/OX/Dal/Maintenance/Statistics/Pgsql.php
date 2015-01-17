@@ -31,10 +31,10 @@ class OX_Dal_Maintenance_Statistics_Pgsql extends OX_Dal_Maintenance_Statistics
      *
      * @return OX_Dal_Maintenance_Statistics_Pgsql
      */
-    function OX_Dal_Maintenance_Statistics_Pgsql()
+    function __construct()
     {
         $this->timestampCastString = '::timestamp';
-        parent::OX_Dal_Maintenance_Statistics();
+        parent::__construct();
     }
 
     /**

@@ -52,7 +52,7 @@ class Image_Graph_Grid_Lines extends Image_Graph_Grid
     /**
      * GridLines [Constructor]
      */
-    function Image_Graph_Grid_Lines()
+    function __construct()
     {
         parent::__construct();
         $this->_lineStyle = 'lightgrey';

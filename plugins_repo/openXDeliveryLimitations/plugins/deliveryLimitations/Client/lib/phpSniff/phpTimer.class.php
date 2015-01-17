@@ -21,7 +21,7 @@
 if(!defined('_PHP_TIMER_INCLUDED')) define('_PHP_TIMER_INCLUDED',1);
 class phpTimer {
 
-function phpTimer () 
+function __construct () 
 {	$this->_version = '0.1';
     $this->_enabled = true;
 }

@@ -30,7 +30,7 @@ class OA_phpAdsNew
     var $engine     = '';
     var $version    = '';
 
-    function OA_phpAdsNew()
+    function __construct()
     {
 
     }

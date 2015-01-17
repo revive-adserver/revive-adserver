@@ -29,9 +29,9 @@ class OA_DB_XmlCache extends OA_PermanentCache
      *
      * @return OA_DB_XmlCache
      */
-    function OA_DB_XmlCache()
+    function __construct()
     {
-        parent::OA_PermanentCache(MAX_PATH . '/etc/xmlcache/');
+        parent::__construct(MAX_PATH . '/etc/xmlcache/');
     }
 }
 

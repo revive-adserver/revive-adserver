@@ -57,7 +57,7 @@ class OLE extends PEAR
     * Remember to use ampersand when creating an OLE object ($my_ole = new OLE();)
     * @access public
     */
-    function OLE()
+    function __construct()
     {
         $this->_list = array();
     }

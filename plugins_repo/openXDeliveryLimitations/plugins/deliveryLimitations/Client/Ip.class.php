@@ -30,7 +30,7 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
  */
 class Plugins_DeliveryLimitations_Client_Ip extends Plugins_DeliveryLimitations
 {
-    function Plugins_DeliveryLimitations_Client_Ip()
+    function __construct()
     {
         $this->aOperations = array(
             '==' => $GLOBALS['strEqualTo'],

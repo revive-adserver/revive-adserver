@@ -24,9 +24,9 @@ class Test_OA_ConfParse extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Test_OA_ConfParse()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     /**

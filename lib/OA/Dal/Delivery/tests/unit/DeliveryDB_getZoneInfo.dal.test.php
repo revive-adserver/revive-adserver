@@ -26,9 +26,9 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
     var $oDbh;
     var $prefix;
 
-    function Test_OA_Dal_DeliveryDB_getZoneInfo()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
         $this->oDbh = OA_DB::singleton();
         $this->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
 

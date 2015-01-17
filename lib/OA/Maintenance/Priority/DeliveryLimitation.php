@@ -95,7 +95,7 @@ class OA_Maintenance_Priority_DeliveryLimitation
      *                                    )
      * @return OA_Maintenance_Priority_DeliveryLimitation
      */
-    function OA_Maintenance_Priority_DeliveryLimitation($aDeliveryLimitations)
+    function __construct($aDeliveryLimitations)
     {
         // If there are delivery limitations...
         if (is_array($aDeliveryLimitations) && (!empty($aDeliveryLimitations))) {

@@ -28,7 +28,7 @@ class Test_DeliveryCommon extends UnitTestCase
      */
     function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     function setUp()

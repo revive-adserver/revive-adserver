@@ -2,7 +2,7 @@
 
 class hbar_value
 {
-	function hbar_value( $left, $right=null )
+	function __construct( $left, $right=null )
 	{
 		if( isset( $right ) )
 		{
@@ -26,7 +26,7 @@ class hbar_value
 
 class hbar
 {
-	function hbar( $colour )
+	function __construct( $colour )
 	{
 		$this->type      = "hbar";
 		$this->values    = array();

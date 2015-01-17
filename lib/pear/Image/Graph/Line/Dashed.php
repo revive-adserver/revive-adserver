@@ -56,7 +56,7 @@ class Image_Graph_Line_Dashed extends Image_Graph_Line_Formatted
      * @param mixed $color1 The color for the 'dashes'
      * @param mixed $color2 The color for the 'spaces'
      */
-    function Image_Graph_Line_Dashed($color1, $color2)
+    function __construct($color1, $color2)
     {
         parent::__construct(
             array(

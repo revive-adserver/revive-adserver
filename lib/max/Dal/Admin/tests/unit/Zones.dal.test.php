@@ -96,7 +96,7 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
     /**
      * The constructor method.
      */
-    function MAX_Dal_Admin_ZonesTest()
+    function __construct()
     {
         $this->UnitTestCase();
         Mock::generatePartial(

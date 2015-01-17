@@ -24,7 +24,7 @@ class SimonScenario extends SimulationScenario
     /**
      * The constructor method.
      */
-    function SimonScenario()
+    function __construct()
     {
         $this->init("SimonScenario");
     }

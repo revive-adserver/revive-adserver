@@ -23,7 +23,7 @@ class TwoChannels extends SimulationScenario
     /**
      * The constructor method.
      */
-    function TwoChannels()
+    function __construct()
     {
         $this->init("TwoChannels");
         $this->setDateTime($GLOBALS['_MAX']['CONF']['sim']['starthour'], $GLOBALS['_MAX']['CONF']['sim']['startday']);

@@ -24,7 +24,7 @@ class ChannelTarget extends SimulationScenario
     /**
      * The constructor method.
      */
-    function ChannelTarget()
+    function __construct()
     {
         $this->init("ChannelTarget");
     }

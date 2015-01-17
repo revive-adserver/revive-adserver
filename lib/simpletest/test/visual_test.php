@@ -18,7 +18,7 @@
     class TestDisplayClass {
         var $_a;
 
-        function TestDisplayClass($a) {
+        function __construct($a) {
             $this->_a = $a;
         }
     }
@@ -325,7 +325,7 @@
     }
 
     class Dummy {
-        function Dummy() {
+        function __construct() {
         }
 
         function a() {

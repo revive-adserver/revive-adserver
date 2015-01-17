@@ -52,7 +52,7 @@ class HTML_QuickForm_password extends HTML_QuickForm_input
      * @return    void
      * @throws
      */
-    function HTML_QuickForm_password($elementName=null, $elementLabel=null, $attributes=null)
+    function __construct($elementName=null, $elementLabel=null, $attributes=null)
     {
         HTML_QuickForm_input::HTML_QuickForm_input($elementName, $elementLabel, $attributes);
         $this->setType('password');

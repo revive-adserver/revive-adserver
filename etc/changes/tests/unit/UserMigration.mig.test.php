@@ -289,7 +289,7 @@ require_once MAX_PATH . '/lib/OA/Upgrade/Upgrade.php';
         )
     );
 
-    function Test_Migration_546()
+    function __construct()
     {
         // Ensure that the old preference table conf entry exists
         $GLOBALS['_MAX']['CONF']['table']['preference'] = 'preference';

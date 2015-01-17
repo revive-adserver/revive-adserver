@@ -24,9 +24,9 @@ class Test_OA_Maintenance_Priority_Ad extends UnitTestCase
     /**
      * The class constructor method.
      */
-    function  Test_OA_Maintenance_Priority_Ad()
+    function  __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
         Mock::generate('OA_Dal_Maintenance_Priority');
         Mock::generatePartial('OA_Maintenance_Priority_Ad', 'MockPartialOA_Maintenance_Priority_Ad', array('_abort'));
     }

@@ -42,7 +42,7 @@ class OA_Cache
      * @param string $cacheDir // can be used to read cache backups from different directory
      * @return OA_Cache
      */
-    function OA_Cache($id, $group, $lifeTime = null, $cacheDir = null)
+    function __construct($id, $group, $lifeTime = null, $cacheDir = null)
     {
         if (!isset($cacheDir)) {
             $cacheDir = MAX_PATH . '/var/cache/';

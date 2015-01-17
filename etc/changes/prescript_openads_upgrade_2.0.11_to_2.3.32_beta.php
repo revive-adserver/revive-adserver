@@ -17,7 +17,7 @@ class OA_UpgradePrescript_2_0_11
 {
     var $oUpgrade;
 
-    function OA_UpgradePrescript_2_0_11()
+    function __construct()
     {
 
     }

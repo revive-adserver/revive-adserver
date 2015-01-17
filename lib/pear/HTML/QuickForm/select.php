@@ -74,7 +74,7 @@ class HTML_QuickForm_select extends HTML_QuickForm_element {
      * @access    public
      * @return    void
      */
-    function HTML_QuickForm_select($elementName=null, $elementLabel=null, $options=null, $attributes=null)
+    function __construct($elementName=null, $elementLabel=null, $options=null, $attributes=null)
     {
         HTML_QuickForm_element::HTML_QuickForm_element($elementName, $elementLabel, $attributes);
         $this->_persistantFreeze = true;

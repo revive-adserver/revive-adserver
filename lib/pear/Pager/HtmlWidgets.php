@@ -45,7 +45,7 @@ class Pager_HtmlWidgets
 
     // {{{ constructor
 
-    function Pager_HtmlWidgets(&$pager)
+    function __construct(&$pager)
     {
         $this->pager =& $pager;
     }

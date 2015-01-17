@@ -113,7 +113,7 @@ class Image_Graph_Plot extends Image_Graph_Plotarea_Element
      * @param string $title The title of the plot (used for legends,
      *   {@link Image_Graph_Legend})
      */
-    function Image_Graph_Plot(& $dataset, $multiType = 'normal', $title = '')
+    function __construct(& $dataset, $multiType = 'normal', $title = '')
     {
         if (!is_a($dataset, 'Image_Graph_Dataset')) {
             if (is_array($dataset)) {

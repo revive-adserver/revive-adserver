@@ -28,7 +28,7 @@
          *    the test message.
          *    @param string $message    Customised message on failure.
          */
-        function SimpleExpectation($message = '%s') {
+        function __construct($message = '%s') {
             $this->_message = $message;
         }
 
@@ -196,8 +196,8 @@
          *    @param string $message     Customised message on failure.
          *    @access public
          */
-        function EqualExpectation($value, $message = '%s') {
-            $this->SimpleExpectation($message);
+        function __construct($value, $message = '%s') {
+            parent::__construct($message);
             $this->_value = $value;
         }
 
@@ -251,8 +251,8 @@
          *    @param string $message    Customised message on failure.
          *    @access public
          */
-        function NotEqualExpectation($value, $message = '%s') {
-            $this->EqualExpectation($value, $message);
+        function __construct($value, $message = '%s') {
+            parent::__construct($value, $message);
         }
 
         /**
@@ -303,8 +303,8 @@
          *    @param string $message     Customised message on failure.
          *    @access public
          */
-        function WithinMarginExpectation($value, $margin, $message = '%s') {
-            $this->SimpleExpectation($message);
+        function __construct($value, $margin, $message = '%s') {
+            parent::__construct($message);
             $this->_upper = $value + $margin;
             $this->_lower = $value - $margin;
         }
@@ -376,8 +376,8 @@
          *    @param string $message     Customised message on failure.
          *    @access public
          */
-        function OutsideMarginExpectation($value, $margin, $message = '%s') {
-            $this->WithinMarginExpectation($value, $margin, $message);
+        function __construct($value, $margin, $message = '%s') {
+            parent::__construct($value, $margin, $message);
         }
 
         /**
@@ -420,8 +420,8 @@
          *    @param string $message    Customised message on failure.
          *    @access public
          */
-        function IdenticalExpectation($value, $message = '%s') {
-            $this->EqualExpectation($value, $message);
+        function __construct($value, $message = '%s') {
+            parent::__construct($value, $message);
         }
 
         /**
@@ -468,8 +468,8 @@
          *    @param string $message     Customised message on failure.
          *    @access public
          */
-        function NotIdenticalExpectation($value, $message = '%s') {
-            $this->IdenticalExpectation($value, $message);
+        function __construct($value, $message = '%s') {
+            parent::__construct($value, $message);
         }
 
         /**
@@ -515,8 +515,8 @@
          *    @param string $message    Customised message on failure.
          *    @access public
          */
-        function PatternExpectation($pattern, $message = '%s') {
-            $this->SimpleExpectation($message);
+        function __construct($pattern, $message = '%s') {
+            parent::__construct($message);
             $this->_pattern = $pattern;
         }
 
@@ -598,8 +598,8 @@
          *    @param string $message    Customised message on failure.
          *    @access public
          */
-        function NoPatternExpectation($pattern, $message = '%s') {
-            $this->PatternExpectation($pattern, $message);
+        function __construct($pattern, $message = '%s') {
+            parent::__construct($pattern, $message);
         }
 
         /**
@@ -654,8 +654,8 @@
          *    @param string $message    Customised message on failure.
          *    @access public
          */
-        function IsAExpectation($type, $message = '%s') {
-            $this->SimpleExpectation($message);
+        function __construct($type, $message = '%s') {
+            parent::__construct($message);
             $this->_type = $type;
         }
 
@@ -731,8 +731,8 @@
          *    @param string $message    Customised message on failure.
          *    @access public
          */
-        function NotAExpectation($type, $message = '%s') {
-            $this->IsAExpectation($type, $message);
+        function __construct($type, $message = '%s') {
+            parent::__construct($type, $message);
         }
 
         /**
@@ -775,8 +775,8 @@
          *    @access public
          *    @return void
          */
-        function MethodExistsExpectation($method, $message = '%s') {
-            $this->SimpleExpectation($message);
+        function __construct($method, $message = '%s') {
+            parent::__construct($message);
             $this->_method = &$method;
         }
 

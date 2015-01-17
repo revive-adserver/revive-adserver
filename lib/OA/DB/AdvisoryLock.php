@@ -59,7 +59,7 @@ class OA_DB_AdvisoryLock
      *
      * @return OA_DB_AdvisoryLock
      */
-    function OA_DB_AdvisoryLock()
+    function __construct()
     {
         $this->oDbh =& OA_DB::singleton();
     }

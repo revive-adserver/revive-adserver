@@ -56,7 +56,7 @@ class PearConnection {
     * @param object Connection Configuration information
 	* @access private
 	*/
-	function PearConnection(&$config) {
+	function __construct(&$config) {
 	    $this->config =& $config;
 	}
 
@@ -326,7 +326,7 @@ class PearRecord extends DataSpace {
 	* Construct a record
 	* @param PearConnection
 	*/
-	function PearRecord(& $Connection) {
+	function __construct(& $Connection) {
 		$this->Connection = & $Connection;
 	}
 
@@ -494,7 +494,7 @@ class PearRecordSet extends PearRecord {
 	* @param string SQL SELECT, SHOW, DESCRIBE, or EXPLAIN statement
 	* @access public
 	*/
-	function PearRecordSet($Connection, $Query_String) {
+	function __construct($Connection, $Query_String) {
 		$this->Connection = $Connection;
 		$this->Query = $Query_String;
 	}

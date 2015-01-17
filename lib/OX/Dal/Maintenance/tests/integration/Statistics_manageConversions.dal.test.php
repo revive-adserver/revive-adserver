@@ -26,9 +26,9 @@ class Test_OX_Dal_Maintenance_Statistics_manageConversions extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Test_OX_Dal_Maintenance_Statistics_manageConversions()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     /**

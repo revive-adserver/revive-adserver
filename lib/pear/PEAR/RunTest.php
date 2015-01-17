@@ -76,7 +76,7 @@ class PEAR_RunTest
      * An object that supports the PEAR_Common->log() signature, or null
      * @param PEAR_Common|null
      */
-    function PEAR_RunTest($logger = null, $options = array())
+    function __construct($logger = null, $options = array())
     {
         $this->ini_overwrites[] = 'error_reporting=' . E_ALL;
         if (is_null($logger)) {

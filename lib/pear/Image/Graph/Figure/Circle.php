@@ -54,7 +54,7 @@ class Image_Graph_Figure_Circle extends Image_Graph_Figure_Ellipse
      * @param int $y The center pixel of the circle on the canvas
      * @param int $radius The radius in pixels of the circle
      */
-    function Image_Graph_Figure_Circle($x, $y, $radius)
+    function __construct($x, $y, $radius)
     {
         parent::__construct($x, $y, $radius, $radius);
     }

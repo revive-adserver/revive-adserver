@@ -198,7 +198,7 @@ class PEAR_ChannelFile {
      */
     var $_isValid = false;
 
-    function PEAR_ChannelFile()
+    function __construct()
     {
         $this->_stack = new PEAR_ErrorStack('PEAR_ChannelFile');
         $this->_stack->setErrorMessageTemplate($this->_getErrorMessage());

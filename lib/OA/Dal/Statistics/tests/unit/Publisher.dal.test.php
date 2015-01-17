@@ -33,7 +33,7 @@ class OA_Dal_Statistics_PublisherTest extends DalStatisticsUnitTestCase
     /**
      * The constructor method.
      */
-    function OA_Dal_Statistics_PublisherTest()
+    function __construct()
     {
         $this->UnitTestCase();
     }

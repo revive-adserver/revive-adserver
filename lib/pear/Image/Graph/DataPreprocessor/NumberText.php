@@ -64,7 +64,7 @@ class Image_Graph_DataPreprocessor_NumberText extends Image_Graph_DataPreprocess
      *
      * @param string $langugage The language identifier for the language.
      */
-    function Image_Graph_DataPreprocessor_NumberText($language = 'en_US')
+    function __construct($language = 'en_US')
     {
         parent::__construct();
         $this->_language = $language;

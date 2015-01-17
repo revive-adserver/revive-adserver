@@ -4,7 +4,7 @@ include_once 'ofc_bar_base.php';
 
 class bar_3d_value
 {
-	function bar_3d_value( $top )
+	function __construct( $top )
 	{
 		$this->top = $top;
 	}

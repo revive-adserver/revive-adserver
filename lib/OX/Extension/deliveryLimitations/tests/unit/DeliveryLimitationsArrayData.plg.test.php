@@ -23,7 +23,7 @@ class Plugins_DeliveryLimitations_ArrayData_Test extends UnitTestCase
 {
      function Plugins_DeliveryLimitations_TestCase()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     function test_preCompile()

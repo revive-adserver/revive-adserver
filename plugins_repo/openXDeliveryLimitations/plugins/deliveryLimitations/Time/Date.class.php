@@ -29,7 +29,7 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Priority/DeliveryLimitation/Common.
  */
 class Plugins_DeliveryLimitations_Time_Date extends Plugins_DeliveryLimitations
 {
-    function Plugins_DeliveryLimitations_Time_Date()
+    function __construct()
     {
         $this->aOperations = array(
             '==' => $GLOBALS['strEqualTo'],

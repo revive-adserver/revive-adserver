@@ -66,7 +66,7 @@ class Image_Graph_Marker_Pointing_Angular extends Image_Graph_Marker_Pointing
      * @param Marker $markerEnd The ending marker that represents 'the head of
      * the pin'
      */
-    function Image_Graph_Marker_Pointing_Angular($radius, & $markerEnd)
+    function __construct($radius, & $markerEnd)
     {
         parent::__construct(0, 0, $markerEnd);
         $this->_radius = $radius;

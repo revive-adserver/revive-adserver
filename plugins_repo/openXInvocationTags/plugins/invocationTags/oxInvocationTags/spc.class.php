@@ -60,7 +60,7 @@ class Plugins_InvocationTags_OxInvocationTags_Spc extends Plugins_InvocationTags
      * Constructor
      *
      */
-    function Plugins_InvocationTags_OxInvocationTags_Spc()
+    function __construct()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $this->publisherPlugin = true;

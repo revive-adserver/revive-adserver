@@ -35,9 +35,9 @@ class Test_DB_Upgrade extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Test_DB_Upgrade()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
 
         $this->aChangesVars['version']       = '2';
         $this->aChangesVars['name']          = 'changes_test';

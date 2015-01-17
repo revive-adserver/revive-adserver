@@ -15,7 +15,7 @@ $className = 'prescript_tables_core_2';
 class prescript_tables_core_2
 {
 
-    function prescript_tables_core_2()
+    function __construct()
     {
 
     }

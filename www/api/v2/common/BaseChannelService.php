@@ -34,7 +34,7 @@ class BaseChannelService
      * This method initialises Service implementation object field.
      *
      */
-    function BaseChannelService()
+    function __construct()
     {
         $this->_oChannelServiceImp = new ChannelServiceImpl();
     }

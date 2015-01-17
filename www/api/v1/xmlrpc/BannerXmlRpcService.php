@@ -42,9 +42,9 @@ class BannerXmlRpcService extends BaseBannerService
      * initialise the service
      *
      */
-    function BannerXmlRpcService()
+    function __construct()
     {
-        $this->BaseBannerService();
+        parent::__construct();
     }
 
     /**

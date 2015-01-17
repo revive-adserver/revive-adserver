@@ -37,9 +37,9 @@ class OA_Dashboard_Widget_Feed extends OA_Dashboard_Widget
      * @param int $posts
      * @return OA_Dashboard_Widget_Feed
      */
-    function OA_Dashboard_Widget_Feed($aParams, $title, $url, $posts = 6, $siteTitle = null, $siteUrl = null)
+    function __construct($aParams, $title, $url, $posts = 6, $siteTitle = null, $siteUrl = null)
     {
-        parent::OA_Dashboard_Widget($aParams);
+        parent::__construct($aParams);
 
         $this->title = $title;
         $this->url   = $url;

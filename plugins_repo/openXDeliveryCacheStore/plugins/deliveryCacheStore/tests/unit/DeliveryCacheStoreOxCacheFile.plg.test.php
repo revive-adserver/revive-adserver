@@ -29,7 +29,7 @@ class Plugins_TestOfPlugins_DeliveryCacheStore_oxCacheFile_oxCacheFile extends U
      */
     function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     /**

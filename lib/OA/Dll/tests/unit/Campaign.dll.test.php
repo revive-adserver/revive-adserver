@@ -40,7 +40,7 @@ class OA_Dll_CampaignTest extends DllUnitTestCase
     /**
      * The constructor method.
      */
-    function OA_Dll_CampaignTest()
+    function __construct()
     {
         $this->UnitTestCase();
         Mock::generatePartial(

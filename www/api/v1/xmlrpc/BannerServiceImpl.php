@@ -37,9 +37,9 @@ class BannerServiceImpl extends BaseServiceImpl
      *
      * The BannerServiceImpl method is the constructor for the BannerServiceImpl class.
      */
-    function BannerServiceImpl()
+    function __construct()
     {
-        $this->BaseServiceImpl();
+        parent::__construct();
         $this->_dllBanner = new OA_Dll_Banner();
     }
 

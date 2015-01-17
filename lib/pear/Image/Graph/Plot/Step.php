@@ -84,7 +84,7 @@ class Image_Graph_Plot_Step extends Image_Graph_Plot
      * @param string $title The title of the plot (used for legends,
      *   {@link Image_Graph_Legend})
      */
-    function Image_Graph_Plot_Step(& $dataset, $multiType = 'stacked', $title = '')
+    function __construct(& $dataset, $multiType = 'stacked', $title = '')
     {
         $multiType = strtolower($multiType);
         if (($multiType != 'stacked') && ($multiType != 'stacked100pct')) {

@@ -26,7 +26,7 @@ class Test_DeliveryLimitations_Delivery extends UnitTestCase
      */
     function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     function test_MAX_limitationsMatchArray()

@@ -36,7 +36,7 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
     /**
      * The constructor method.
      */
-    function OA_Dll_AgencyTest()
+    function __construct()
     {
         $this->UnitTestCase();
         Mock::generatePartial(

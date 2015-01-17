@@ -38,7 +38,7 @@ class RV_Sync
      * @param array $conf array, if null reads the global variable
      * @param array $pref array, if null reads the global variable
      */
-    function RV_Sync($conf = null, $pref = null)
+    function __construct($conf = null, $pref = null)
     {
         $this->aConf = is_null($conf) ? $GLOBALS['_MAX']['CONF'] : $conf;
         $this->aPref = is_null($pref) ? $GLOBALS['_MAX']['PREF'] : $pref;

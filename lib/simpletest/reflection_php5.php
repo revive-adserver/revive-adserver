@@ -18,7 +18,7 @@
          *    @param string $interface    Class or interface
          *                                to inspect.
          */
-        function SimpleReflection($interface) {
+        function __construct($interface) {
             $this->_interface = $interface;
         }
 

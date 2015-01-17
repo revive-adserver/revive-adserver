@@ -55,7 +55,7 @@ class Image_Graph_Dataset_Sequential extends Image_Graph_Dataset_Trivial
     /**
      * Image_Graph_SequentialDataset [Constructor]
      */
-    function Image_Graph_Dataset_Sequential($dataArray = false)
+    function __construct($dataArray = false)
     {
         parent::__construct();
         if (is_array($dataArray)) {

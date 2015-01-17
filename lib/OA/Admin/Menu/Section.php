@@ -104,7 +104,7 @@ class OA_Admin_Menu_Section
      * @param boolean $affixed whether section should be shown affixed to sibling sections only when it's active
      * @return OA_Admin_Menu_Section
      */
-    function OA_Admin_Menu_Section($id, $nameKey, $link, $exclusive = false, $helpLink = null, $aAccountPermissions = array(), $rank = 1, $affixed = false, $groupName = null)
+    function __construct($id, $nameKey, $link, $exclusive = false, $helpLink = null, $aAccountPermissions = array(), $rank = 1, $affixed = false, $groupName = null)
     {
         $this->id = $id;
         $this->setNameKey($nameKey);

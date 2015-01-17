@@ -47,7 +47,7 @@ class Log_observer
      *
      * @access public
      */
-    function Log_observer($priority = PEAR_LOG_INFO)
+    function __construct($priority = PEAR_LOG_INFO)
     {
         $this->_id = md5(microtime());
         $this->_priority = $priority;

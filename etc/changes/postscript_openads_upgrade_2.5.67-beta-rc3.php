@@ -67,7 +67,7 @@ class OA_UpgradePostscript_2_5_67
                             'Zone'=>'zones',
                             );
 
-    function OA_UpgradePostscript_2_5_67()
+    function __construct()
     {
 
     }

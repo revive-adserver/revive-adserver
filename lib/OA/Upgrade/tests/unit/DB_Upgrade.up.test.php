@@ -27,9 +27,9 @@ class Test_DB_Upgrade extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Test_DB_Upgrade()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     function test_prepPreScript()

@@ -16,7 +16,7 @@ $className = 'OX_postscript_testPlugin';
 class OX_postscript_testPlugin
 {
 
-    function OX_postscript_testPlugin()
+    function __construct()
     {
 
     }

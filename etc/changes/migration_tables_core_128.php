@@ -16,7 +16,7 @@ require_once(MAX_PATH.'/etc/changes/tools/DeliveryLimitationsMigration_128_324.p
 class Migration_128 extends Migration
 {
 
-    function Migration_128()
+    function __construct()
     {
         //$this->__construct();
 

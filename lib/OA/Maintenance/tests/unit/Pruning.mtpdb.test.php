@@ -33,9 +33,9 @@ class Test_Priority extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Test_Priority()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     /**

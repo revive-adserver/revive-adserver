@@ -28,9 +28,9 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Client_Browser extends UnitTestC
     /**
      * The constructor method.
      */
-    function Plugins_TestOfPlugins_DeliveryLimitations_Client_Browser()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
 

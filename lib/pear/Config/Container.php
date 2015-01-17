@@ -80,7 +80,7 @@ class Config_Container {
     * @param  string  $content    Content of container object
     * @param  array   $attributes Array of attributes for container object
     */
-    function Config_Container($type = 'section', $name = '', $content = '', $attributes = null)
+    function __construct($type = 'section', $name = '', $content = '', $attributes = null)
     {
         $this->type       = $type;
         $this->name       = $name;

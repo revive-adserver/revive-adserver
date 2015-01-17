@@ -32,7 +32,7 @@ class Migration_605 extends Migration
         'ypn'           => '3rdPartyServers:ox3rdPartyServers:ypn',
     );
 
-    function Migration_605()
+    function __construct()
     {
         //$this->__construct();
 

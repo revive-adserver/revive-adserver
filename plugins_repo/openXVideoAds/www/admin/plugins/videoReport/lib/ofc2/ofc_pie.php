@@ -2,7 +2,7 @@
 
 class pie_value
 {
-	function pie_value( $value, $label )
+	function __construct( $value, $label )
 	{
 		$this->value = $value;
 		$this->label = $label;
@@ -58,7 +58,7 @@ class base_pie_animation{}
  */
 class pie_fade extends base_pie_animation
 {
-	function pie_fade()
+	function __construct()
 	{
 		$this->type="fade";
 	}
@@ -72,7 +72,7 @@ class pie_bounce extends base_pie_animation
 	/**
 	 * @param $distance as integer, distance to bounce in pixels
 	 */
-	function pie_bounce( $distance )
+	function __construct( $distance )
 	{
 		$this->type="bounce";
 		$this->distance = $distance;
@@ -84,7 +84,7 @@ class pie_bounce extends base_pie_animation
  */
 class pie
 {
-	function pie()
+	function __construct()
 	{
 		$this->type      		= 'pie';
 	}

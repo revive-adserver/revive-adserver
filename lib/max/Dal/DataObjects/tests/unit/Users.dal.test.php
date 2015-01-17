@@ -27,7 +27,7 @@ class DataObjects_UsersTest extends DalUnitTestCase
     /**
      * The constructor method.
      */
-    function DataObjects_UsersTest()
+    function __construct()
     {
         $this->UnitTestCase();
     }

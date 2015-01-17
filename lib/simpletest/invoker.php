@@ -33,7 +33,7 @@
          *    Stashes the test case for later.
          *    @param SimpleTestCase $test_case  Test case to run.
          */
-        function SimpleInvoker(&$test_case) {
+        function __construct(&$test_case) {
             $this->_test_case = &$test_case;
         }
 
@@ -92,7 +92,7 @@
          *    Stores the invoker to wrap.
          *    @param SimpleInvoker $invoker  Test method runner.
          */
-        function SimpleInvokerDecorator(&$invoker) {
+        function __construct(&$invoker) {
             $this->_invoker = &$invoker;
         }
 

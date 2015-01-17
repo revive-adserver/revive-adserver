@@ -44,7 +44,7 @@ class OA_Environment_Manager
 
     var $aInfo = array();
 
-    function OA_Environment_Manager()
+    function __construct()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         global $installing;

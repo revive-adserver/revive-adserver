@@ -20,7 +20,7 @@ class DBC_ConnectionConfiguration {
 
     var $driver_name;
 
-    function DBC_ConnectionConfiguration($driver_name) {
+    function __construct($driver_name) {
         $this->driver_name = $driver_name;
     }
 

@@ -172,7 +172,7 @@ class xajax
 	 * @param string  defaults to XAJAX_DEFAULT_CHAR_ENCODING defined above
 	 * @param boolean defaults to false
 	 */
-	function xajax($sRequestURI="",$sWrapperPrefix="xajax_",$sEncoding=XAJAX_DEFAULT_CHAR_ENCODING,$bDebug=false)
+	function __construct($sRequestURI="",$sWrapperPrefix="xajax_",$sEncoding=XAJAX_DEFAULT_CHAR_ENCODING,$bDebug=false)
 	{
 		$this->aFunctions = array();
 		$this->aObjects = array();

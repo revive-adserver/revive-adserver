@@ -19,9 +19,9 @@ class Test_OA_BaseUpgradeAuditor extends UnitTestCase
 {
     var $aAuditParams = array();
 
-	function Test_OA_BaseUpgradeAuditor()
+	function __construct()
 	{
-		$this->UnitTestCase();
+		parent::__construct();
 	}
 
 	function _getFieldDefinitionArray($id)

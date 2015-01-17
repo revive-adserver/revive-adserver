@@ -7,8 +7,8 @@
     require_once(dirname(__FILE__) . '/../extensions/phpunit_test_case.php');
 
     class UnitTests extends TestSuite {
-        function UnitTests() {
-            $this->TestSuite('Unit tests');
+        function __construct() {
+            parent::__construct('Unit tests');
             $path = dirname(__FILE__);
             $this->addTestFile($path . '/errors_test.php');
             if (version_compare(phpversion(), '5') >= 0) {
@@ -55,8 +55,8 @@
     // SimpleTest::useProxy('http://my-proxy', 'optional username', 'optional password');
 
     class AllTests extends TestSuite {
-        function AllTests() {
-            $this->TestSuite('All tests for SimpleTest ' . SimpleTest::getVersion());
+        function __construct() {
+            parent::__construct('All tests for SimpleTest ' . SimpleTest::getVersion());
             $this->addTestCase(new UnitTests());
             $this->addTestFile(dirname(__FILE__) . '/shell_test.php');
             $this->addTestFile(dirname(__FILE__) . '/live_test.php');

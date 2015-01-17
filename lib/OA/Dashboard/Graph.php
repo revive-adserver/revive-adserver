@@ -33,9 +33,9 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
      * @param array $aParams The parameters array, usually $_REQUEST
      * @return OA_Dashboard_Widget_Feed
      */
-    function OA_Dashboard_Widget_Graph($aParams)
+    function __construct($aParams)
     {
-        parent::OA_Dashboard_Widget($aParams);
+        parent::__construct($aParams);
 
         $this->oTrans = new OX_Translation();
 

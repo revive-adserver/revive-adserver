@@ -132,7 +132,7 @@ class EncodingMigration extends Migration
         ),
     );
 
-    function EncodingMigration()
+    function __construct()
     {
     }
 

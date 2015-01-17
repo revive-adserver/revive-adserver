@@ -23,7 +23,7 @@ class FourCampaigns extends SimulationScenario
     /**
      * The constructor method.
      */
-    function FourCampaigns()
+    function __construct()
     {
         $this->init("FourCampaigns");
         $this->setDateTime($GLOBALS['_MAX']['CONF']['sim']['starthour'], $GLOBALS['_MAX']['CONF']['sim']['startday']);

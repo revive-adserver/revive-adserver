@@ -23,7 +23,7 @@ require_once LIB_PATH . '/Plugin/PluginManager.php';
  */
 class LibAclTest extends DalUnitTestCase
 {
-    function LibAclTest()
+    function __construct()
     {
         $this->UnitTestCase();
 

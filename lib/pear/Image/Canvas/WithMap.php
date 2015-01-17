@@ -69,9 +69,9 @@ class Image_Canvas_WithMap extends Image_Canvas
      * @param array $params Parameter array
      * @abstract
      */
-    function Image_Canvas_WithMap($params)
+    function __construct($params)
     {
-        parent::Image_Canvas($params);
+        parent::__construct($params);
 
         if ((isset($params['usemap'])) && ($params['usemap'] === true)) {
             $this->_imageMap =& Image_Canvas::factory(

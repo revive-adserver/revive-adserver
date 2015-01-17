@@ -36,7 +36,7 @@ class OA_UpgradePostscript_2_7_26_beta_rc5
     var $tblAccountPreferenceAssoc;
     var $tblPreferences;
 
-    function OA_UpgradePostscript_2_7_26_beta_rc5()
+    function __construct()
     {
 
     }

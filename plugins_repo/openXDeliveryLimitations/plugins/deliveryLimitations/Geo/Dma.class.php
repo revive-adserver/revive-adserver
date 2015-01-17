@@ -29,7 +29,7 @@ require_once LIB_PATH . '/Extension/deliveryLimitations/DeliveryLimitationsComma
 class Plugins_DeliveryLimitations_Geo_Dma extends Plugins_DeliveryLimitations_CommaSeparatedData
 {
 
-    function Plugins_DeliveryLimitations_Geo_Dma()
+    function __construct()
     {
         $this->Plugins_DeliveryLimitations_ArrayData();
         $this->nameEnglish = 'GEO - Designated Market Area';

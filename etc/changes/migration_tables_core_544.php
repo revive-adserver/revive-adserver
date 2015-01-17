@@ -18,7 +18,7 @@ require_once(MAX_PATH.'/lib/OA/Dal/ApplicationVariables.php');
 class Migration_544 extends Migration
 {
 
-    function Migration_544()
+    function __construct()
     {
         //$this->__construct();
 

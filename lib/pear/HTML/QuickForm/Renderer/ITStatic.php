@@ -111,9 +111,9 @@ class HTML_QuickForm_Renderer_ITStatic extends HTML_QuickForm_Renderer
     *
     * @param HTML_Template_IT|HTML_Template_Sigma   Template object to use
     */
-    function HTML_QuickForm_Renderer_ITStatic(&$tpl)
+    function __construct(&$tpl)
     {
-        $this->HTML_QuickForm_Renderer();
+        parent::__construct();
         $this->_tpl =& $tpl;
     } // end constructor
 

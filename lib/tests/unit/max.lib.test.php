@@ -26,9 +26,9 @@ class test_MAX extends UnitTestCase
     /**
      * The constructor method.
      */
-    function test_MAX()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     function setUp()

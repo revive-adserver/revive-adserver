@@ -15,7 +15,7 @@ $className = 'prescript_tables_testplugin_002';
 class prescript_tables_testplugin_002
 {
 
-    function prescript_tables_testplugin_002()
+    function __construct()
     {
 
     }

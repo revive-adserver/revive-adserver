@@ -16,7 +16,7 @@ require_once(MAX_PATH . '/lib/OA/DB/Sql.php');
 
 class prescript_tables_core_399
 {
-    function prescript_tables_core_399()
+    function __construct()
     {
 
     }

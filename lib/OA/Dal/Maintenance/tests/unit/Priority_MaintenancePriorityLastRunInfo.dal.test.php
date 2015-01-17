@@ -27,9 +27,9 @@ class Test_OA_Dal_Maintenance_Priority_SetMaintenancePriorityLastRunInfo extends
     /**
      * The constructor method.
      */
-    function Test_OA_Dal_Maintenance_Priority_SetMaintenancePriorityLastRunInfo()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     /**

@@ -37,9 +37,9 @@ class AgencyServiceImpl extends BaseServiceImpl
      *
      * The AgencyServiceImpl method is the constructor for the AgencyServiceImpl class.
      */
-    function AgencyServiceImpl()
+    function __construct()
     {
-        $this->BaseServiceImpl();
+        parent::__construct();
         $this->_dllAgency = new OA_Dll_Agency();
     }
 

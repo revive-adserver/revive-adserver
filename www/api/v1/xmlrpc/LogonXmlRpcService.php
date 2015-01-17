@@ -39,9 +39,9 @@ class LogonXmlRpcService extends BaseLogonService
      * initialise the service.
      *
      */
-    function LogonXmlRpcService()
+    function __construct()
     {
-        $this->BaseLogonService();
+        parent::__construct();
     }
 
     /**

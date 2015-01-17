@@ -351,7 +351,7 @@ class PEAR_PackageFile_v1
      * @param bool determines whether to return a PEAR_Error object, or use the PEAR_ErrorStack
      * @param string Name of Error Stack class to use.
      */
-    function PEAR_PackageFile_v1()
+    function __construct()
     {
         $this->_stack = new PEAR_ErrorStack('PEAR_PackageFile_v1');
         $this->_stack->setErrorMessageTemplate($this->_getErrorMessage());

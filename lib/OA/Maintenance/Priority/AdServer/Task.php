@@ -36,7 +36,7 @@ class OA_Maintenance_Priority_AdServer_Task extends OA_Task
     /**
      * The class constructor, to be used by classes implementing this class.
      */
-    function OA_Maintenance_Priority_AdServer_Task()
+    function __construct()
     {
         $this->oDal =& $this->_getDal();
     }

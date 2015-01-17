@@ -35,7 +35,7 @@ class OA_UpgradePostscript_2_8_1_rc10
     var $prefix;
     var $tblPreferences;
 
-    function OA_UpgradePostscript_2_8_1_rc10()
+    function __construct()
     {
 
     }

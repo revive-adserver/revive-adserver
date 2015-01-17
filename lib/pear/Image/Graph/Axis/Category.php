@@ -62,7 +62,7 @@ class Image_Graph_Axis_Category extends Image_Graph_Axis
      *
      * @param int $type The type (direction) of the Axis
      */
-    function Image_Graph_Axis_Category($type = IMAGE_GRAPH_AXIS_X)
+    function __construct($type = IMAGE_GRAPH_AXIS_X)
     {
         parent::__construct($type);
         $this->_labels = array();

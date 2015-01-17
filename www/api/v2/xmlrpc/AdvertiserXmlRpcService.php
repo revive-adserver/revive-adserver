@@ -42,9 +42,9 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
      * to initialise the service.
      *
      */
-    function AdvertiserXmlRpcService()
+    function __construct()
     {
-        $this->BaseAdvertiserService();
+        parent::__construct();
     }
 
     /**

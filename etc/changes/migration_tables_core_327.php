@@ -15,7 +15,7 @@ require_once(MAX_PATH.'/lib/OA/Upgrade/Migration.php');
 class Migration_327 extends Migration
 {
 
-    function Migration_327()
+    function __construct()
     {
         //$this->__construct();
 
@@ -301,7 +301,7 @@ class ZoneAdObjectHandler
     var $aAdObjectIds;
     var $prefix;
 
-    function ZoneAdObjectHandler($prefix, $zone_id, $sIdList, $adObjectType)
+    function __construct($prefix, $zone_id, $sIdList, $adObjectType)
     {
         $this->zone_id = $zone_id;
         $this->aAdObjectIds = OA_upgrade_getAdObjectIds($sIdList, $adObjectType);
@@ -342,9 +342,9 @@ class ZoneAdObjectHandler
 
 class ZoneBannerHandler extends ZoneAdObjectHandler
 {
-    function ZoneBannerHandler($prefix, $zone_id, $sIdList)
+    function __construct($prefix, $zone_id, $sIdList)
     {
-        $this->ZoneAdObjectHandler($prefix, $zone_id, $sIdList, 'bannerid');
+        parent::__construct($prefix, $zone_id, $sIdList, 'bannerid');
     }
 
 
@@ -361,9 +361,9 @@ class ZoneBannerHandler extends ZoneAdObjectHandler
 
 class ZoneCampaignHandler extends ZoneAdObjectHandler
 {
-    function ZoneCampaignHandler($prefix, $zone_id, $sIdList)
+    function __construct($prefix, $zone_id, $sIdList)
     {
-        $this->ZoneAdObjectHandler($prefix, $zone_id, $sIdList, 'campaignid');
+        parent::__construct($prefix, $zone_id, $sIdList, 'campaignid');
     }
 
 

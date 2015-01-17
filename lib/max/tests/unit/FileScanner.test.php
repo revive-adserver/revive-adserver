@@ -21,8 +21,8 @@
 
     class TestOfFileScanner extends UnitTestCase {
 
-        function TestOfFileScanner() {
-            $this->UnitTestCase('FileScanner test');
+        function __construct() {
+            parent::__construct('FileScanner test');
         }
 
         function testFileScanner() {

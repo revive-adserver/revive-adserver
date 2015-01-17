@@ -23,7 +23,7 @@ class OA_BaseUpgradeAuditor
 
     var $logTable   = '';
 
-	function OA_BaseUpgradeAuditor()
+	function __construct()
 	{
 	}
 

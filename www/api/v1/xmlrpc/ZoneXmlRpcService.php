@@ -42,9 +42,9 @@ class ZoneXmlRpcService extends BaseZoneService
      * to initialise the service.
      *
      */
-    function ZoneXmlRpcService()
+    function __construct()
     {
-        $this->BaseZoneService();
+        parent::__construct();
     }
 
     /**

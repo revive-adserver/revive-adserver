@@ -32,9 +32,9 @@ class OX_Maintenance_Statistics_Task_DeDuplicateConversions extends OX_Maintenan
      *
      * @return OX_Maintenance_Statistics_Task_DeDuplicateConversions
      */
-    function OX_Maintenance_Statistics_Task_DeDuplicateConversions()
+    function __construct()
     {
-        parent::OX_Maintenance_Statistics_Task();
+        parent::__construct();
     }
 
     /**

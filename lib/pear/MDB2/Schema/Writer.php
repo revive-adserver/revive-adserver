@@ -66,11 +66,6 @@ class MDB2_Schema_Writer
         $this->valid_types = $valid_types;
     }
 
-    function MDB2_Schema_Writer($valid_types = array())
-    {
-        $this->__construct($valid_types);
-    }
-
     // }}}
     // {{{ raiseError()
 

@@ -2,7 +2,7 @@
 
 class line_base
 {
-	function line_base()
+	function __construct()
 	{
 		$this->type      = "line";
 		$this->text      = "Page views";

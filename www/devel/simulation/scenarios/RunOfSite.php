@@ -24,7 +24,7 @@ class RunOfSite extends SimulationScenario
     /**
      * The constructor method.
      */
-    function RunOfSite()
+    function __construct()
     {
         $this->init("RunOfSite");
     }

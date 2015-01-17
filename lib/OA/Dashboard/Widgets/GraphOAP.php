@@ -19,9 +19,9 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Factory.php';
  */
 class OA_Dashboard_Widget_GraphOAP extends OA_Dashboard_Widget_Graph
 {
-    function OA_Dashboard_Widget_GraphOAP($aParams)
+    function __construct($aParams)
     {
-        parent::OA_Dashboard_Widget_Graph($aParams);
+        parent::__construct($aParams);
 
         $this->oTpl->setCacheLifetime(new Date_Span('0-3-0-0'));
 

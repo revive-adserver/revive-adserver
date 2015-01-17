@@ -25,9 +25,9 @@ class Test_OA_Task_Runner extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Test_OA_Task_Runner()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     /**

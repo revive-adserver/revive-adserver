@@ -29,7 +29,7 @@ class OA_Test_Data_MDB2Schema extends OA_Test_Data
     /**
      * The constructor method.
      */
-    function OA_Test_Data_MDB2Schema()
+    function __construct()
     {
 
     }

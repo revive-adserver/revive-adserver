@@ -15,7 +15,7 @@ require_once MAX_PATH.'/lib/OA/Dal.php';
 
 class Migration_609 extends Migration
 {
-    function Migration_609()
+    function __construct()
     {
         //$this->__construct();
 

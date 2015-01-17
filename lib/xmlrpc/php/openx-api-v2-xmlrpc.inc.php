@@ -73,7 +73,7 @@ class OA_Api_Xmlrpc
      * @param bool   $ssl       Set to true to connect using an SSL connection.
      * @param int    $timeout   The timeout period to wait for a response.
      */
-    function OA_Api_Xmlrpc($host, $basepath, $username, $password, $port = 0, $ssl = false, $timeout = 15)
+    function __construct($host, $basepath, $username, $password, $port = 0, $ssl = false, $timeout = 15)
     {
         $this->host = $host;
         $this->basepath = $basepath;

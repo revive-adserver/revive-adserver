@@ -42,9 +42,9 @@ class UserXmlRpcService extends BaseUserService
      * to initialise the service.
      *
      */
-    function UserXmlRpcService()
+    function __construct()
     {
-        $this->BaseUserService();
+        parent::__construct();
     }
 
     /**

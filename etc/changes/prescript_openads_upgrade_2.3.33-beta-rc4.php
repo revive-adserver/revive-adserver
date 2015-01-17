@@ -22,7 +22,7 @@ class OA_UpgradePrescript_2_3_33
     var $oSchema;
     var $oConfigMigration;
 
-    function OA_UpgradePrescript_2_3_33()
+    function __construct()
     {
         $this->oConfigMigration = new ConfigMigration();
     }

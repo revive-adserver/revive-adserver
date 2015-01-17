@@ -26,9 +26,9 @@ class Test_OX_Dal_Maintenance_Statistics_summariseBucketsAggregate extends UnitT
     /**
      * The constructor method.
      */
-    function Test_OX_Dal_Maintenance_Statistics_summariseBucketsAggregate()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     /**

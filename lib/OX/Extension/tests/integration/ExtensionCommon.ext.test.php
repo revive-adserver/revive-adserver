@@ -16,7 +16,7 @@ require_once(LIB_PATH.'/Extension/ExtensionCommon.php');
 class Test_OX_ExtensionCommon extends UnitTestCase
 {
 
-    function Test_OX_ExtensionCommon()
+    function __construct()
     {
 
     }

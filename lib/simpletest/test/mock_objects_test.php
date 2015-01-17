@@ -137,7 +137,7 @@
     }
 
     class Dummy {
-        function Dummy() {
+        function __construct() {
         }
 
         function aMethod() {
@@ -154,8 +154,8 @@
     Stub::generate('Dummy', 'StubDummyWithExtraMethods', array('extraMethod'));
 
     class SpecialSimpleStub extends SimpleMock {
-        function SpecialSimpleStub() {
-            $this->SimpleMock();
+        function __construct() {
+            parent::__construct();
         }
     }
     SimpleTest::setMockBaseClass('SpecialSimpleStub');
@@ -669,7 +669,7 @@
     }
 
     class ConstructorSuperClass {
-        function ConstructorSuperClass() { }
+        function __construct() { }
     }
 
     class ConstructorSubClass extends ConstructorSuperClass {

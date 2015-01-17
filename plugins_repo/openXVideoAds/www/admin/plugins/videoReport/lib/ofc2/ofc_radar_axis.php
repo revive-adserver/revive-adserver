@@ -2,7 +2,7 @@
 
 class radar_axis
 {
-	function radar_axis( $max )
+	function __construct( $max )
 	{
 		$this->set_max( $max );
 	}

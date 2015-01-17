@@ -25,9 +25,9 @@ class Test_OA_Preferences extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Test_OA_Preferences()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     function tearDown()

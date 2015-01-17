@@ -76,9 +76,9 @@ class Archive_Tar extends PEAR
     *                   boolean value 'true' means 'gz'.
     * @access public
     */
-    function Archive_Tar($p_tarname, $p_compress = null)
+    function __construct($p_tarname, $p_compress = null)
     {
-        $this->PEAR();
+        parent::__construct();
         $this->_compress = false;
         $this->_compress_type = 'none';
         if (($p_compress === null) || ($p_compress == '')) {

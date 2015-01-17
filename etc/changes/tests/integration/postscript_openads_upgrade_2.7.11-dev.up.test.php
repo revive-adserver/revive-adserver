@@ -24,7 +24,7 @@ class Test_postscript_2_7_11_dev extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Test_postscript_2_7_11_dev()
+    function __construct()
     {
     }
 

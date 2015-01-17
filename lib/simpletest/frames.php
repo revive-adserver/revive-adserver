@@ -31,7 +31,7 @@
          *    browser to fetch the sub frames recursively.
          *    @param SimplePage $page        Frameset page.
          */
-        function SimpleFrameset(&$page) {
+        function __construct(&$page) {
             $this->_frameset = &$page;
             $this->_frames = array();
             $this->_focus = false;

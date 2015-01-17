@@ -24,9 +24,9 @@ class Test_OA_phpAdsNew extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Test_OA_phpAdsNew()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     function test_init()

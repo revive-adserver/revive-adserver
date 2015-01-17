@@ -34,7 +34,7 @@ class Plugins_DeliveryLimitations_Site_Channel extends Plugins_DeliveryLimitatio
     var $agencyid;
     var $defaultComparison = '=~';
 
-    function Plugins_DeliveryLimitations_Site_Channel()
+    function __construct()
     {
         $this->Plugins_DeliveryLimitations_ArrayData();
         $this->nameEnglish = 'Site - Channel';

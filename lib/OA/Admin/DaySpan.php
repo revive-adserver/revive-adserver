@@ -50,7 +50,7 @@ class OA_Admin_DaySpan
      * See the {@link OA_Admin_DaySpan::setSpanPresetValue()} method
      * for the pre-defined values.
      */
-    function OA_Admin_DaySpan($presetValue = 'today')
+    function __construct($presetValue = 'today')
     {
         $this->oNowDate = new Date();
         $this->setSpanPresetValue($presetValue);

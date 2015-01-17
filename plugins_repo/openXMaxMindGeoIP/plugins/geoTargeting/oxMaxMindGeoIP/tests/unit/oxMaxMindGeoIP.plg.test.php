@@ -29,9 +29,9 @@ class Delivery_TestOfOxMaxMindGeoIP extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Delivery_TestOfOxMaxMindGeoIP()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     function setUp()

@@ -16,7 +16,7 @@ Class Test_OA_Admin_Settings extends UnitTestCase
 {
     var $basePath;
 
-    function Test_OA_Admin_Settings()
+    function __construct()
     {
         $this->basePath = MAX_PATH . '/var/cache';
     }

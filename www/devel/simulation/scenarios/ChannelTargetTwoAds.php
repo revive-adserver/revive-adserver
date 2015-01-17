@@ -24,7 +24,7 @@ class ChannelTargetTwoAds extends SimulationScenario
     /**
      * The constructor method.
      */
-    function ChannelTargetTwoAds()
+    function __construct()
     {
         $this->init("ChannelTargetTwoAds");
     }

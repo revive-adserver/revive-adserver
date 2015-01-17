@@ -4,7 +4,7 @@ include_once 'ofc_bar_base.php';
 
 class tooltip
 {
-	function tooltip(){}
+	function __construct(){}
 	
 	/**
 	 * @param $shadow as boolean. Enable drop shadow.

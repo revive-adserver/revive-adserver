@@ -27,9 +27,9 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
     /**
      * The constructor method.
      */
-    function Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     /**

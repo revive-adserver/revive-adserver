@@ -28,7 +28,7 @@
          *    @param string $dry_command   Script for dry run.
          *    @access public
          */
-        function DetachedTestCase($command, $dry_command = false) {
+        function __construct($command, $dry_command = false) {
             $this->_command = $command;
             $this->_dry_command = $dry_command ? $dry_command : $command;
             $this->_size = false;

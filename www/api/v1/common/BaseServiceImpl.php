@@ -37,7 +37,7 @@ class BaseServiceImpl extends  OA_BaseObjectWithErrors
      * Constructor
      *
      */
-    function BaseServiceImpl()
+    function __construct()
     {
         $this->BaseObjectWithErrors();
 

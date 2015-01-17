@@ -26,9 +26,9 @@ class Test_OA_Dal_DeliveryDB_Image extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Test_OA_Dal_DeliveryDB_Image()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
 
         // Make sure we don't get a Status: header, but a HTTP/1.0 instead
         $GLOBALS['_MAX']['CONF']['delivery']['cgiForceStatusHeader'] = false;

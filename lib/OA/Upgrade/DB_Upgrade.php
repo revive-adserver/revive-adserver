@@ -99,7 +99,7 @@ class OA_DB_Upgrade
      * php4 class constructor
      *
      */
-    function OA_DB_Upgrade($oLogger='')
+    function __construct($oLogger='')
     {
         //this->__construct();
         $this->path_changes = MAX_PATH.'/etc/changes/';

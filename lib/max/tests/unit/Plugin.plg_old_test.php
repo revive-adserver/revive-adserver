@@ -66,8 +66,8 @@ class TestOfMAX_Plugin extends UnitTestCase {
      *
      * @return TestOfMAX_Plugin
      */
-    function TestOfMAX_Plugin() {
-        $this->UnitTestCase();
+    function __construct() {
+        parent::__construct();
     }
 
     /**

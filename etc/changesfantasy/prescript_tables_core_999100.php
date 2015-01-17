@@ -14,7 +14,7 @@ require_once MAX_PATH.'/etc/changesfantasy/script_tables_core_parent.php';
 
 class prescript_tables_core_999100 extends script_tables_core_parent
 {
-    function prescript_tables_core_999100()
+    function __construct()
     {
     }
 

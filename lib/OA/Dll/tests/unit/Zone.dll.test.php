@@ -42,7 +42,7 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
     /**
      * The constructor method.
      */
-    function OA_Dll_ZoneTest()
+    function __construct()
     {
         $this->UnitTestCase();
         Mock::generatePartial(

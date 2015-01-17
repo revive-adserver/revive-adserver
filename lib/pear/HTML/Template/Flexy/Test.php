@@ -32,7 +32,7 @@ require_once 'HTML/Template/Flexy/Compiler.php';
 class HTML_Template_Flexy_Test {
 
 
-    function HTML_Template_Flexy_Test () {
+    function __construct () {
         // for testing!
         $GLOBALS['_HTML_TEMPLATE_FLEXY']['currentOptions'] = array(
             'compileDir' => dirname(__FILE__),

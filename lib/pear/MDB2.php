@@ -953,10 +953,10 @@ class MDB2_Error extends PEAR_Error
      * @param   int     what error level to use for $mode & PEAR_ERROR_TRIGGER
      * @param   smixed   additional debug info, such as the last query
      */
-    function MDB2_Error($code = MDB2_ERROR, $mode = PEAR_ERROR_RETURN,
+    function __construct($code = MDB2_ERROR, $mode = PEAR_ERROR_RETURN,
               $level = E_USER_NOTICE, $debuginfo = null)
     {
-        $this->PEAR_Error('MDB2 Error: '.MDB2::errorMessage($code), $code,
+        parent::__construct('MDB2 Error: '.MDB2::errorMessage($code), $code,
             $mode, $level, $debuginfo);
     }
 
@@ -3427,17 +3427,6 @@ class MDB2_Result_Common extends MDB2_Result
     }
 
     // }}}
-    // {{{ function MDB2_Result_Common(&$db, &$result, $limit = 0, $offset = 0)
-
-    /**
-     * PHP 4 Constructor
-     */
-    function MDB2_Result_Common($db, $result, $limit = 0, $offset = 0)
-    {
-        $this->__construct($db, $result, $limit, $offset);
-    }
-
-    // }}}
     // {{{ function setResultTypes($types)
 
     /**
@@ -3901,19 +3890,6 @@ class MDB2_Row
     }
 
     // }}}
-    // {{{ function MDB2_Row(&$row)
-
-    /**
-     * PHP 4 Constructor
-     *
-     * @param   resource    row data as array
-     */
-    function MDB2_Row(&$row)
-    {
-        $this->__construct($row);
-    }
-
-    // }}}
 }
 
 // }}}
@@ -3957,17 +3933,6 @@ class MDB2_Statement_Common
         $this->limit = $limit;
         $this->is_manip = $is_manip;
         $this->offset = $offset;
-    }
-
-    // }}}
-    // {{{ function MDB2_Statement_Common(&$db, &$statement, $positions, $query, $types, $result_types, $is_manip = false, $limit = null, $offset = null)
-
-    /**
-     * PHP 4 Constructor
-     */
-    function MDB2_Statement_Common(&$db, &$statement, $positions, $query, $types, $result_types, $is_manip = false, $limit = null, $offset = null)
-    {
-        $this->__construct($db, $statement, $positions, $query, $types, $result_types, $is_manip, $limit, $offset);
     }
 
     // }}}
@@ -4237,17 +4202,6 @@ class MDB2_Module_Common
     function __construct($db_index)
     {
         $this->db_index = $db_index;
-    }
-
-    // }}}
-    // {{{ function MDB2_Module_Common($db_index)
-
-    /**
-     * PHP 4 Constructor
-     */
-    function MDB2_Module_Common($db_index)
-    {
-        $this->__construct($db_index);
     }
 
     // }}}

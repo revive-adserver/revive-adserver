@@ -19,7 +19,7 @@ class graffiti
 	var $html;
 	var $isValid = false;
 	
-	function graffiti($sHandle, $sWords)
+	function __construct($sHandle, $sWords)
 	{
 		if (trim($sHandle) == "" || trim($sWords) == "")
 		{

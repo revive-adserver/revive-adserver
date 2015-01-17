@@ -63,7 +63,7 @@ class Image_Graph_Line_Formatted extends Image_Graph_Line_Solid
      *
      * @param array $style The style of the line
      */
-    function Image_Graph_Line_Formatted($style)
+    function __construct($style)
     {
         parent::__construct(reset($style));
         $this->_style = $style;

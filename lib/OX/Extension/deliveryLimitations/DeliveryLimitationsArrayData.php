@@ -31,9 +31,9 @@ class Plugins_DeliveryLimitations_ArrayData extends Plugins_DeliveryLimitations
     // The character/string to delimit the data
     var $delimiter = ',';
 
-    function Plugins_DeliveryLimitations_ArrayData()
+    function __construct()
     {
-        $this->Plugins_DeliveryLimitations();
+        parent::__construct();
         $this->aOperations = array(
             '=~' => MAX_Plugin_Translation::translate('Is any of', $this->extension, $this->group),
             '!~' => MAX_Plugin_Translation::translate('Is not any of', $this->extension, $this->group));

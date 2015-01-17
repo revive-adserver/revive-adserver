@@ -14,7 +14,7 @@ class OA_Admin_Section_Type_Filter
 {
   var $oCurrentSection;
 
-  function OA_Admin_Section_Type_Filter($oCurrentSection)
+  function __construct($oCurrentSection)
   {
   	$this->oCurrentSection = $oCurrentSection;
   }

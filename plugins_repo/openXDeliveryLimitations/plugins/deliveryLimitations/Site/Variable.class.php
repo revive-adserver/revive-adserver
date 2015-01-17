@@ -25,7 +25,7 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
  */
 class Plugins_DeliveryLimitations_Site_Variable extends Plugins_DeliveryLimitations_CommaSeparatedData
 {
-    function Plugins_DeliveryLimitations_Site_Variable()
+    function __construct()
     {
         $this->delimiter = '|';
         $this->aOperations = MAX_limitationsGetAOperationsForString($this) + MAX_limitationsGetAOperationsForNumeric($this);

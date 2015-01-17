@@ -54,7 +54,7 @@ class MDB2_Validate_TestCase extends PHPUnit_TestCase {
     var $schema;
 
     function MDB2_Validate_Test($name) {
-        $this->PHPUnit_TestCase($name);
+        parent::__construct($name);
     }
 
     function setUp() {

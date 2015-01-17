@@ -20,7 +20,7 @@ define('GEOCONFIG_PATH', MAX_PATH . '/var/plugins/config/geotargeting');
 class Migration_308 extends Migration
 {
 
-    function Migration_308()
+    function __construct()
     {
         //$this->__construct();
 

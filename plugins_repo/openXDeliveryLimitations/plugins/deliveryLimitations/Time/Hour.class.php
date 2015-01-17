@@ -36,7 +36,7 @@ class Plugins_DeliveryLimitations_Time_Hour extends Plugins_DeliveryLimitations_
      *
      * @return Plugins_DeliveryLimitations_Time_Hour
      */
-    function Plugins_DeliveryLimitations_Time_Hour()
+    function __construct()
     {
         $this->Plugins_DeliveryLimitations_Time_Base(0, 23);
 

@@ -28,9 +28,9 @@ class OA_Dashboard_Widget_Audit extends OA_Dashboard_Widget
      * @param array $aParams The parameters array, usually $_REQUEST
      * @return OA_Dashboard_Widget_BlogFeed
      */
-    function OA_Dashboard_Widget_Audit($aParams)
+    function __construct($aParams)
     {
-        parent::OA_Dashboard_Widget($aParams);
+        parent::__construct($aParams);
 
         $aConf = $GLOBALS['_MAX']['CONF'];
 

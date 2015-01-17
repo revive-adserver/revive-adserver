@@ -24,9 +24,9 @@ class Test_OA_Dal_Maintenance_Priority_AdImpressions extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Test_OA_Dal_Maintenance_Priority_AdImpressions()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     /**

@@ -44,7 +44,7 @@ class PEAR_Installer_Role_Common
     /**
      * @param PEAR_Config
      */
-    function PEAR_Installer_Role_Common(&$config)
+    function __construct(&$config)
     {
         $this->config = $config;
     }

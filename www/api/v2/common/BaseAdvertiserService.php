@@ -34,7 +34,7 @@ class BaseAdvertiserService
      * This method initialises Service implementation object field.
      *
      */
-    function BaseAdvertiserService()
+    function __construct()
     {
         $this->_oAdvertiserServiceImp = new AdvertiserServiceImpl();
     }

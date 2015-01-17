@@ -2,7 +2,7 @@
 
 class y_axis_labels
 {
-	function y_axis_labels()
+	function __construct()
 	{	
 	}
 	
@@ -14,7 +14,7 @@ class y_axis_labels
 
 class y_axis_base
 {
-	function y_axis_base(){}
+	function __construct(){}
 	
 	/**
 	 * @param $s as integer, thickness of the Y axis line

@@ -115,7 +115,7 @@ class OLE_PPS extends PEAR
     * @param integer $time_2nd A timestamp
     * @param array   $children Array containing children PPS for this PPS
     */
-    function OLE_PPS($No, $name, $type, $prev, $next, $dir, $time_1st, $time_2nd, $data, $children)
+    function __construct($No, $name, $type, $prev, $next, $dir, $time_1st, $time_2nd, $data, $children)
     {
         $this->No      = $No;
         $this->Name    = $name;

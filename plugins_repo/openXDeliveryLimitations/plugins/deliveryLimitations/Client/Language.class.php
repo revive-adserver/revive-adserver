@@ -28,7 +28,7 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
  */
 class Plugins_DeliveryLimitations_Client_Language extends Plugins_DeliveryLimitations_CommaSeparatedData
 {
-    function Plugins_DeliveryLimitations_Client_Language()
+    function __construct()
     {
         $this->Plugins_DeliveryLimitations_ArrayData();
         $this->nameEnglish = 'Client - Language';

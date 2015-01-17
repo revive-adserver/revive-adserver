@@ -26,9 +26,9 @@ class Test_OA_Upgrade extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Test_OA_Upgrade()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
         $this->prefix  = $GLOBALS['_MAX']['CONF']['table']['prefix'];
     }
 

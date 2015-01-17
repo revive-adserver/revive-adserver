@@ -134,7 +134,7 @@ class PEAR_PackageFile_v2
     /**
      * The constructor merely sets up the private error stack
      */
-    function PEAR_PackageFile_v2()
+    function __construct()
     {
         $this->_stack = new PEAR_ErrorStack('PEAR_PackageFile_v2', false, null);
         $this->_isValid = false;

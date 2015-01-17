@@ -33,9 +33,9 @@ class MAX_Dal_Statistics extends MAX_Dal_Common
      *
      * @return MAX_Dal_Statistics
      */
-    function MAX_Dal_Statistics()
+    function __construct()
     {
-        parent::MAX_Dal_Common();
+        parent::__construct();
     }
 
     /**

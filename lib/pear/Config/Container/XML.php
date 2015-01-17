@@ -79,7 +79,7 @@ class Config_Container_XML extends XML_Parser
     *                               useAttr     : whether to use the attributes
     *                               isFile      : whether the given content is a file or an XML string
     */
-    function Config_Container_XML($options = array())
+    function __construct($options = array())
     {
         foreach ($options as $key => $value) {
             $this->options[$key] = $value;
@@ -98,7 +98,7 @@ class Config_Container_XML extends XML_Parser
     {
         $this->folding = false;
         $this->cdata = null;
-        $this->XML_Parser($this->options['encoding'], 'event');
+        parent::__construct($this->options['encoding'], 'event');
         $this->containers[0] =& $obj->container;
         if (is_string($datasrc)) {
             if ($this->options['isFile']) {

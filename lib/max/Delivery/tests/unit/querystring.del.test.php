@@ -26,7 +26,7 @@ class Test_DeliveryQuerystring extends UnitTestCase
      */
     function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     /** TODO: test breaking on zoneid assert, chris to check function

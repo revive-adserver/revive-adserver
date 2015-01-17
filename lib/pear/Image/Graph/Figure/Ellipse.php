@@ -55,7 +55,7 @@ class Image_Graph_Figure_Ellipse extends Image_Graph_Element
      * @param int $radiusX The width in pixels of the box on the canvas
      * @param int $radiusY The height in pixels of the box on the canvas
      */
-    function Image_Graph_Figure_Ellipse($x, $y, $radiusX, $radiusY)
+    function __construct($x, $y, $radiusX, $radiusY)
     {
         parent::__construct();
         $this->_setCoords($x - $radiusX, $y - $radiusY, $x + $radiusX, $y + $radiusY);

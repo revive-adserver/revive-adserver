@@ -23,9 +23,9 @@ require_once MAX_PATH . '/lib/OA/Algorithm/Dependency/Source/HoA.php';
 class Test_OA_Algorithm_Dependency extends UnitTestCase
 {
 
-    function Test_OA_Algorithm_Dependency()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     function testDependcy()

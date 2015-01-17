@@ -30,9 +30,9 @@ class Test_OA_DB_CustomDatatypes_pgsql extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Test_OA_DB_CustomDatatypes_pgsql()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
         $this->db =& OA_DB::singleton();
         $this->db->loadModule('Datatype', null, true);
     }

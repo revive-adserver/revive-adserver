@@ -29,7 +29,7 @@ class Test_DeliveryLimitations extends UnitTestCase
      */
     function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     /**

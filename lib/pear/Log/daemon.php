@@ -64,7 +64,7 @@ class Log_daemon extends Log
      * @param int    $maxLevel Maximum level at which to log.
      * @access public
      */
-    function Log_daemon($name, $ident = '', $conf = array(),
+    function __construct($name, $ident = '', $conf = array(),
                         $level = PEAR_LOG_DEBUG)
     {
         /* Ensure we have a valid integer value for $name. */

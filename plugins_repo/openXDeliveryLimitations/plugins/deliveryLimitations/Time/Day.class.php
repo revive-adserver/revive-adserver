@@ -36,7 +36,7 @@ class Plugins_DeliveryLimitations_Time_Day extends Plugins_DeliveryLimitations_A
      *
      * @return Plugins_DeliveryLimitations_Time_Day
      */
-    function Plugins_DeliveryLimitations_Time_Day()
+    function __construct()
     {
         $this->Plugins_DeliveryLimitations_Time_Base(0, 6);
 

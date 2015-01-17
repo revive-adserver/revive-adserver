@@ -24,9 +24,9 @@ class Test_OX_Translation extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Test_OX_Translation()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     /**

@@ -366,14 +366,14 @@ class Spreadsheet_Excel_Writer_Worksheet extends Spreadsheet_Excel_Writer_BIFFwr
     * @param mixed   &$parser      The formula parser created for the Workbook
     * @access private
     */
-    function Spreadsheet_Excel_Writer_Worksheet($BIFF_version, $name,
+    function __construct($BIFF_version, $name,
                                                 $index, &$activesheet,
                                                 &$firstsheet, &$str_total,
                                                 &$str_unique, &$str_table,
                                                 &$url_format, &$parser)
     {
         // It needs to call its parent's constructor explicitly
-        $this->Spreadsheet_Excel_Writer_BIFFwriter();
+        parent::__construct();
         $this->_BIFF_version   = $BIFF_version;
         $rowmax                = 65536; // 16384 in Excel 5
         $colmax                = 256;

@@ -88,7 +88,7 @@ class HTML_QuickForm_element extends HTML_Common
      * @access    public
      * @return    void
      */
-    function HTML_QuickForm_element($elementName=null, $elementLabel=null, $attributes=null)
+    function __construct($elementName=null, $elementLabel=null, $attributes=null)
     {
         HTML_Common::HTML_Common($attributes);
         if (isset($elementName)) {

@@ -39,7 +39,7 @@ class ChannelServiceImpl extends BaseServiceImpl
      */
     function __construct()
     {
-        $this->BaseServiceImpl();
+        parent::__construct();
         $this->_dllChannel = new OA_Dll_Channel();
     }
 

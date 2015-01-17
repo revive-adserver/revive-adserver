@@ -27,7 +27,7 @@
          *    Starts the test run with no results.
          *    @access public
          */
-        function SimpleScorer() {
+        function __construct() {
             $this->_passes = 0;
             $this->_fails = 0;
             $this->_exceptions = 0;
@@ -246,8 +246,8 @@
          *    Starts the display with no results in.
          *    @access public
          */
-        function SimpleReporter() {
-            $this->SimpleScorer();
+        function __construct() {
+            parent::__construct();
             $this->_test_stack = array();
             $this->_size = null;
             $this->_progress = 0;
@@ -421,7 +421,7 @@
          *    Mediates between the reporter and the test case.
          *    @param SimpleScorer $reporter       Reporter to receive events.
          */
-        function SimpleReporterDecorator(&$reporter) {
+        function __construct(&$reporter) {
             $this->_reporter = &$reporter;
         }
 

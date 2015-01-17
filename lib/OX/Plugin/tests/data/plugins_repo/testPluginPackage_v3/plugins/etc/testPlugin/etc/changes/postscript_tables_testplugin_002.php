@@ -15,7 +15,7 @@ $className = 'postscript_tables_testplugin_002';
 class postscript_tables_testplugin_002
 {
 
-    function postscript_tables_testplugin_002()
+    function __construct()
     {
 
     }

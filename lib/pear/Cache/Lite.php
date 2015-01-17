@@ -261,7 +261,7 @@ class Cache_Lite
     * @param array $options options
     * @access public
     */
-    function Cache_Lite($options = array(NULL))
+    function __construct($options = array(NULL))
     {
         $availableOptions = array('hashedDirectoryUmask', 'hashedDirectoryLevel', 'automaticCleaningFactor', 'automaticSerialization', 'fileNameProtection', 'memoryCaching', 'onlyMemoryCaching', 'memoryCachingLimit', 'cacheDir', 'caching', 'lifeTime', 'fileLocking', 'writeControl', 'readControl', 'readControlType', 'pearErrorMode');
         foreach($options as $key => $value) {

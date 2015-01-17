@@ -64,7 +64,7 @@ class Log_console extends Log
      * @param int    $level    Log messages up to and including this level.
      * @access public
      */
-    function Log_console($name, $ident = '', $conf = array(),
+    function __construct($name, $ident = '', $conf = array(),
                          $level = PEAR_LOG_DEBUG)
     {
         $this->_id = md5(microtime());
