@@ -24,7 +24,7 @@ class DataObjects_AuditTest extends DalUnitTestCase
 {
     function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
         DataGenerator::cleanUp();
     }
 

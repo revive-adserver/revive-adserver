@@ -28,7 +28,7 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
      */
     function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     function setUp()

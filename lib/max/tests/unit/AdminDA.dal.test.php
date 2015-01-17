@@ -55,7 +55,7 @@ class Admin_DaTest extends DalUnitTestCase
 
     function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
         $this->dbh =& OA_DB::singleton();
     }
 

@@ -25,7 +25,7 @@ class LibAclTest extends DalUnitTestCase
 {
     function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
 
         OA_DB::createFunctions();
     }

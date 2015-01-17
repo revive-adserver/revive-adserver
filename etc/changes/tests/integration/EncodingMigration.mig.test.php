@@ -26,7 +26,7 @@ class Test_EncodingMigration extends MigrationTest
      */
     function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     /**

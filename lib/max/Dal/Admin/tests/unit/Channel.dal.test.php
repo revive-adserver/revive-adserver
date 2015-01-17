@@ -29,7 +29,7 @@ class MAX_Dal_Admin_ChannelTest extends DalUnitTestCase
      */
     function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     function setUp()

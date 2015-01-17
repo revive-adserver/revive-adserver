@@ -49,7 +49,7 @@ class OA_Dll_BannerTest extends DllUnitTestCase
      */
     function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
         Mock::generatePartial(
             'OA_Dll_Banner',
             'PartialMockOA_Dll_Banner',

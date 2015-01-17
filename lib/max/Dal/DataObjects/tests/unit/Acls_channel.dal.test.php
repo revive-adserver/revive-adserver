@@ -27,7 +27,7 @@ class DataObjects_Acls_channelTest extends DalUnitTestCase
      */
     function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     function tearDown()

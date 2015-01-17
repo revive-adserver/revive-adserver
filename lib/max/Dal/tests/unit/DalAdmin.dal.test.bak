@@ -32,7 +32,7 @@ class Dal_TestOfDalAdmin extends UnitTestCase
      */
     function Dal_TestOfDalAdmin()
     {
-        $this->UnitTestCase();
+        parent::__construct();
         $this->oDalAdmin = null;
     }
 

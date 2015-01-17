@@ -31,7 +31,7 @@ class Migration_tables_core_326Test extends MigrationTest
      */
     function Test_DB_Upgrade()
     {
-        $this->UnitTestCase();
+        parent::__construct();
 
         $this->path   = MAX_PATH.'/etc/changes/';
         $this->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];

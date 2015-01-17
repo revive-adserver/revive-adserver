@@ -1018,9 +1018,6 @@
             	$implements = 'implements ' . implode(', ', $interfaces);
             }
             $code = "class " . $this->_mock_class . " extends " . $this->_mock_base . " $implements {\n";
-            $code .= "    function " . $this->_mock_class . "() {\n";
-            $code .= "        \$this->" . $this->_mock_base . "();\n";
-            $code .= "    }\n";
             $code .= $this->_createHandlerCode($methods);
             $code .= "}\n";
             return $code;

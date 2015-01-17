@@ -35,7 +35,7 @@ class OA_Dal_Statistics_PublisherTest extends DalStatisticsUnitTestCase
      */
     function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     function setUp()

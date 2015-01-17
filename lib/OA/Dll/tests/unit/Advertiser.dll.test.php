@@ -42,13 +42,13 @@ class OA_Dll_AdvertiserTest extends DllUnitTestCase
      */
     function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
         Mock::generatePartial(
             'OA_Dll_Agency',
             'PartialMockOA_Dll_Agency_AdvertiserTest',
             array('checkPermissions')
         );
-        $this->UnitTestCase();
+        parent::__construct();
         Mock::generatePartial(
             'OA_Dll_Advertiser',
             'PartialMockOA_Dll_Advertiser_AdvertiserTest',
