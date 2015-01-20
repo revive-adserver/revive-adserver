@@ -217,7 +217,7 @@ function MAX_layerGetHtml($output, $uniqid)
 	$layer_height = $output['height'] + 2 + ($closebutton == 't' ? 11 : 0) + $padding*2;
 
 	// Create imagepath
-	$imagepath = 'http://' . $conf['webpath']['images'] . '/layerstyles/simple/';
+	$imagepath = _adRenderBuildImageUrlPrefix() . '/layerstyles/simple/';
 
 	// return HTML code
 	return '

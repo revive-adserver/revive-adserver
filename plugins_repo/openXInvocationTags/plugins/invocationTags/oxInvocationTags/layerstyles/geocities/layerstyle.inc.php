@@ -205,7 +205,7 @@ function MAX_layerGetHtml($output, $uniqid)
 	$layer_height = $output['height'] + 30 + $padding*2;
 
 	// Create imagepath
-	$imagepath = 'http://' . $conf['webpath']['images'] . '/layerstyles/geocities/';
+	$imagepath = _adRenderBuildImageUrlPrefix() . '/layerstyles/geocities/';
 
 	// return HTML code
 	return '
