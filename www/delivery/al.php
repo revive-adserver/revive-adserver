@@ -4311,9 +4311,11 @@ return '"'.$string.'"';
 
 MAX_commonSetNoCacheHeaders();
 MAX_commonRegisterGlobalsArray(array('layerstyle'));
-if (!isset($layerstyle) || empty($layerstyle)) $layerstyle = 'geocities';
-if (file_exists(MAX_PATH . $conf['pluginPaths']['plugins'] . 'invocationTags/oxInvocationTags/layerstyles/'.$layerstyle.'/layerstyle.inc.php')) {
-include MAX_PATH . $conf['pluginPaths']['plugins'] . 'invocationTags/oxInvocationTags/layerstyles/'.$layerstyle.'/layerstyle.inc.php';
+if (!isset($layerstyle) || empty($layerstyle)) {
+$layerstyle = 'geocities';
+}
+if (file_exists(MAX_PATH . $conf['pluginPaths']['plugins'] . 'invocationTags/oxInvocationTags/layerstyles/' . $layerstyle . '/layerstyle.inc.php')) {
+include MAX_PATH . $conf['pluginPaths']['plugins'] . 'invocationTags/oxInvocationTags/layerstyles/' . $layerstyle . '/layerstyle.inc.php';
 } else {
 echo '// Cannot load required layerstyle file. Check if openXInvocationTags plugin is installed';
 exit(1);
@@ -4330,10 +4332,11 @@ MAX_commonSendContentTypeHeader("application/x-javascript", $charset);
 if ($limitations['compatible']) {
 $output = MAX_adSelect($what, $campaignid, $target, $source, $withtext, $charset, $context, $limitations['richmedia'], $GLOBALS['ct0'], $GLOBALS['loc'], $GLOBALS['referer']);
 MAX_cookieFlush();
-if (empty($output['html'])) {
+$uniqid = substr(md5(uniqid('', 1)), 0, 8);
+if (empty($output['bannerid'])) {
+echo MAX_javascriptToHTML($output['html'], "MAX_{$uniqid}");
 exit;
 }
-$uniqid = substr(md5(uniqid('', 1)), 0, 8);
 if (!empty($block) && !empty($output['bannerid'])) {
 $output['context'][] = array('!=' => 'bannerid:' . $output['bannerid']);
 }
@@ -4353,7 +4356,7 @@ $context[] = $contextArray;
 if ($output['contenttype'] == 'swf') {
 echo MAX_flashGetFlashObjectInline();
 }
-$output['html'] .= (!empty($context)) ? "<script type='text/javascript'>document.context='".MAX_commonPackContext($context)."'; </script>" : '';
+$output['html'] .= (!empty($context)) ? "<script type='text/javascript'>document.context='" . MAX_commonPackContext($context) . "'; </script>" : '';
 echo MAX_javascriptToHTML(MAX_layerGetHtml($output, $uniqid), "MAX_{$uniqid}");
 MAX_layerPutJs($output, $uniqid);
 ob_flush();
