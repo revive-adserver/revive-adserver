@@ -32,7 +32,10 @@ What's New in Revive Adserver 3.1.1
  Bug Fixes
  ---------
 
- * None
+ * Fixed issue with interstitial images (e.g. close.gif) always using http://
+   even when the request came via https.
+ * Fixed issue with interstitial layers showing even when no matching banner
+   was found, since the introduction of blank logging.
 
  Non-Backwards Compatible Changes
  --------------------------------
