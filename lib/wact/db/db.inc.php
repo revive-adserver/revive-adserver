@@ -59,12 +59,12 @@ class DBC {
     * @return Connection reference
     * @access public
     */
-    function &getCurrentConnection() {
+    function getCurrentConnection() {
         if (!isset($GLOBALS['DatabaseConnectionObj'])) {
             $driver = 'mdb2'; // should we always use mdb2?
             require_once(MAX_PATH . '/lib/wact/db/drivers/'. $driver .'.inc.php');
             $driverClass = $driver . 'Connection';
-            $GLOBALS['DatabaseConnectionObj'] =&
+            $GLOBALS['DatabaseConnectionObj'] =
                 new $driverClass(new DBC_ConnectionConfiguration($driver));
         }
         return $GLOBALS['DatabaseConnectionObj'];
@@ -94,8 +94,8 @@ class DBC {
     * @return MySqlRecord reference
     * @access public
     */
-    function &NewRecord($DataSpace = NULL) {
-        $connection =& DBC::getCurrentConnection();
+    function NewRecord($DataSpace = NULL) {
+        $connection = DBC::getCurrentConnection();
         return $connection->NewRecord($DataSpace);
     }
 
@@ -108,8 +108,8 @@ class DBC {
     * @return MySqlRecordSet reference
     * @access public
     */
-    function &NewRecordSet($query, $filter = NULL) {
-        $connection =& DBC::getCurrentConnection();
+    function NewRecordSet($query, $filter = NULL) {
+        $connection = DBC::getCurrentConnection();
         return $connection->NewRecordSet($query, $filter);
     }
 
@@ -123,8 +123,8 @@ class DBC {
     * @return MySqlRecordSet reference
     * @access public
     */
-    function &NewPagedRecordSet($query, &$pager, $filter = NULL) {
-        $connection =& DBC::getCurrentConnection();
+    function NewPagedRecordSet($query, &$pager, $filter = NULL) {
+        $connection = DBC::getCurrentConnection();
         return $connection->NewPagedRecordSet($query, $pager, $filter);
     }
 
@@ -135,7 +135,7 @@ class DBC {
 	* @access public
 	*/
     function getOneColumnArray($query) {
-        $connection =& DBC::getCurrentConnection();
+        $connection = DBC::getCurrentConnection();
         return $connection->getOneColumnArray($query);
     }
 
@@ -146,7 +146,7 @@ class DBC {
 	* @access public
 	*/
     function getTwoColumnArray($query) {
-        $connection =& DBC::getCurrentConnection();
+        $connection = DBC::getCurrentConnection();
         return $connection->getTwoColumnArray($query);
     }
 
@@ -155,8 +155,8 @@ class DBC {
 	* @param string SQL Query
 	* @access public
 	*/
-    function &FindRecord($query) {
-        $connection =& DBC::getCurrentConnection();
+    function FindRecord($query) {
+        $connection = DBC::getCurrentConnection();
         return $connection->FindRecord($query);
     }
 
@@ -167,7 +167,7 @@ class DBC {
 	* @access public
 	*/
     function getOneValue($query) {
-        $connection =& DBC::getCurrentConnection();
+        $connection = DBC::getCurrentConnection();
         return $connection->getOneValue($query);
     }
 
@@ -178,7 +178,7 @@ class DBC {
 	* @access public
 	*/
     function execute($query) {
-        $connection =& DBC::getCurrentConnection();
+        $connection = DBC::getCurrentConnection();
         return $connection->execute($query);
     }
 
@@ -191,7 +191,7 @@ class DBC {
 	* @access public
 	*/
     function makeLiteral($value, $type = NULL) {
-        $connection =& DBC::getCurrentConnection();
+        $connection = DBC::getCurrentConnection();
         return $connection->makeLiteral($value, $type);
     }
 }
