@@ -116,8 +116,6 @@ if ( !empty($format) && $format == 'vast'){
         $output = MAX_adSelect($what, $clientid, $target, $source, $withtext, $charset, $context, true, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
 
         ###START_STRIP_DELIVERY
-        OX_Delivery_logMessage('$block='.$block, 7);
-        //OX_Delivery_logMessage(print_r($output, true), 7);
         OX_Delivery_logMessage('output bannerid='.(empty($output['bannerid']) ? ' NO BANNERID' : $output['bannerid']), 7);
         ###END_STRIP_DELIVERY
 
