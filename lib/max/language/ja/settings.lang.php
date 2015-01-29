@@ -32,24 +32,24 @@ $GLOBALS['strBtnGoBack']                    		= "« 戻る";
 $GLOBALS['strBtnAgree']                     		= "承認する »";
 $GLOBALS['strBtnDontAgree']                 		= "« 承認しない";
 $GLOBALS['strBtnRetry']                     		= "再試行する";
-$GLOBALS['strUpdateDatabaseError']          		= "不明なエラーにより、データベース更新は成功しませんでした。潜在的な問題を引き続き修正するには、<b>更新を再実行する</b>をクリックしてください。不明なエラーが ".MAX_PRODUCT_NAME." の機能に影響しないと確信する場合のみ、<b>警告を無視する</b>をクリックしてください。重大問題を引き起こすかもしれないので、不明なエラーを無視することは推奨しません！";
-$GLOBALS['strAlreadyInstalled']             		= "". MAX_PRODUCT_NAME ." は既にインストールされています。設定したい場合は<a href='account-index.php'>設定インターフェース</a>に行ってください";
+$GLOBALS['strUpdateDatabaseError']          		= "不明なエラーにより、データベース更新は成功しませんでした。潜在的な問題を引き続き修正するには、<b>更新を再実行する</b>をクリックしてください。不明なエラーが {$PRODUCT_NAME} の機能に影響しないと確信する場合のみ、<b>警告を無視する</b>をクリックしてください。重大問題を引き起こすかもしれないので、不明なエラーを無視することは推奨しません！";
+$GLOBALS['strAlreadyInstalled']             		= "{$PRODUCT_NAME} は既にインストールされています。設定したい場合は<a href='account-index.php'>設定インターフェース</a>に行ってください";
 $GLOBALS['strCouldNotConnectToDB']          		= "データベースに接続できませんでした。データベース設定を再確認してください。";
 $GLOBALS['strCreateTableTestFailed']        		= "指定されたユーザーは、データベースの作成もしくは更新権限がありません。データベース管理者に連絡してください。";
 $GLOBALS['strUpdateTableTestFailed']        		= "指定されたユーザーは、データベースの更新権限を持っていません。データベース管理者に連絡してください。";
 $GLOBALS['strTablePrefixInvalid']           		= "指定したテーブルプリフィックスには、無効な文字が含まれています。";
-$GLOBALS['strTableInUse']                   		= "指定したデータベースは、".MAX_PRODUCT_NAME."で既に使用されています。異なるテーブルプリフィックスを使用するか、アップグレードするか、アップグレード手順を記載したUPGRADE.txtを読んでください。";
+$GLOBALS['strTableInUse']                   		= "指定したデータベースは、{$PRODUCT_NAME}で既に使用されています。異なるテーブルプリフィックスを使用するか、アップグレードするか、アップグレード手順を記載したUPGRADE.txtを読んでください。";
 $GLOBALS['strNoVersionInfo']                		= "指定したデータベースバージョンは選択できません！";
 $GLOBALS['strInvalidVersionInfo']           		= "指定したデータベースのバージョンが特定できません！";
-$GLOBALS['strInvalidMySqlVersion']          		= "" . MAX_PRODUCT_NAME."を正しく機能するには、MySQL 4.0以上が必要です。異なるデータベースサーバを選択してください。";
+$GLOBALS['strInvalidMySqlVersion']          		= "{$PRODUCT_NAME}を正しく機能するには、MySQL 4.0以上が必要です。異なるデータベースサーバを選択してください。";
 $GLOBALS['strTableWrongType']               		= "選択したテーブルタイプは、".phpAds_dbmsname."のインストールでサポートされていません。";
 $GLOBALS['strMayNotFunction']               		= "継続するには、潜在的な問題を修正してください:";
-$GLOBALS['strFixProblemsBefore']            		= "" . MAX_PRODUCT_NAME."をインストールする前に、次の項目を修正してください。このエラーメッセージについて何か疑問がある場合は、ダウンロードパッケージ中の<i>管理者ガイド(Administrator's Guide)</i>を読んでください。";
-$GLOBALS['strFixProblemsAfter']             		= "前述の問題を修正できない場合、サーバの管理者に連絡して、".MAX_PRODUCT_NAME."のインストールで発生した問題点を伝えてください。サーバ管理者から適切な解決方法を教えてもらえるかもしれません。";
+$GLOBALS['strFixProblemsBefore']            		= "{$PRODUCT_NAME}をインストールする前に、次の項目を修正してください。このエラーメッセージについて何か疑問がある場合は、ダウンロードパッケージ中の<i>管理者ガイド(Administrator's Guide)</i>を読んでください。";
+$GLOBALS['strFixProblemsAfter']             		= "前述の問題を修正できない場合、サーバの管理者に連絡して、{$PRODUCT_NAME}のインストールで発生した問題点を伝えてください。サーバ管理者から適切な解決方法を教えてもらえるかもしれません。";
 $GLOBALS['strIgnoreWarnings']               		= "警告を無視する";
 $GLOBALS['strFixErrorsBeforeContinuing']    		= "継続するにはすべてのエラー内容を修正してください。";
-$GLOBALS['strWarningDBavailable']           		= "使用中のPHPバージョンは、".$phpAds_dbmsname." データベースサーバへの接続をサポートしていません。次に進む前に、PHPの".$phpAds_dbmsname." 拡張を有効にしてください。";
-$GLOBALS['strWarningPHPversion']            		= "" . MAX_PRODUCT_NAME."が正常に機能するには、PHP4.3.6以上が必要です。現在バージョンは、{php_version} です。";
+$GLOBALS['strWarningDBavailable']           		= "使用中のPHPバージョンは、{$phpAds_dbmsname} データベースサーバへの接続をサポートしていません。次に進む前に、PHPの{$phpAds_dbmsname} 拡張を有効にしてください。";
+$GLOBALS['strWarningPHPversion']            		= "{$PRODUCT_NAME}が正常に機能するには、PHP4.3.6以上が必要です。現在バージョンは、{php_version} です。";
 $GLOBALS['strWarningRegisterGlobals']       		= "PHPの設定値[register_globals]を'on'にしてください";
 $GLOBALS['strWarningMagicQuotesGPC']        		= "PHPの設定値[magic_quotes_gpc]を'on'にしてください";
 $GLOBALS['strWarningRegisterArgcArv']       		= "PHPの設定値[register_argc_argv]を'on'にしてください";
@@ -57,7 +57,7 @@ $GLOBALS['strWarningMagicQuotesRuntime']    		= "PHPの設定値[magic_quotes_ru
 $GLOBALS['strWarningFileUploads']           		= "PHPの設定値[file_uploads]を'on'にしてください";
 $GLOBALS['strWarningTrackVars']             		= "PHPの設定値[track_vars]を'on'にしてください";
 $GLOBALS['strWarningPREG']                  		= "使用中のPHPバージョンは、Perl互換正規表現(PREG)をサポートしていません。継続するには PREG拡張を有効にしてください。";
-$GLOBALS['strConfigLockedDetected']         		= "" . MAX_PRODUCT_NAME."は、<b>max.conf.ini</b>に対する書き込み権限がないことを検出しました。'var'ディレクトリに対する書き込み権限が設定されるまで、継続できません。書き込み権限の変更方法がわからない場合、提供したドキュメントを読んでください。";
+$GLOBALS['strConfigLockedDetected']         		= "{$PRODUCT_NAME}は、<b>max.conf.ini</b>に対する書き込み権限がないことを検出しました。'var'ディレクトリに対する書き込み権限が設定されるまで、継続できません。書き込み権限の変更方法がわからない場合、提供したドキュメントを読んでください。";
 $GLOBALS['strCantUpdateDB']                 		= "データベース更新ができません。 このまま継続すると、すべての既存のバナー、統計、および広告主は削除される可能性があります。";
 $GLOBALS['strIgnoreErrors']                 		= "警告を無視する";
 $GLOBALS['strRetryUpdate']                  		= "更新を再実行する";
@@ -65,23 +65,27 @@ $GLOBALS['strTableNames']                   		= "テーブル名";
 $GLOBALS['strTablesPrefix']                 		= "テーブルプリフィックス";
 $GLOBALS['strTablesType']                   		= "テーブルタイプ";
 
-$GLOBALS['strInstallWelcome']               		= "ようこそ ". MAX_PRODUCT_NAME ."へ";
-$GLOBALS['strInstallMessage']               		= "" . MAX_PRODUCT_NAME."を使用するには、システム設定とデータベースの作成が必要です。<br />継続するには、<b>進む</b> をクリックしてください。";
-$GLOBALS['strInstallIntro']                 		= "当製品を選んでいただき、ありがとうございます。\n<p>このウィザードでは広告サーバのインストール及びアップグレードについて説明いたします。</p><p>インストール手順に関しては、<a href='". OX_PRODUCT_DOCSURL ."/wizard/qsg-install' target='_blank'>クイックスタートガイド</a>をご覧ください。その他、設定など詳細に関しましては<a href='". OX_PRODUCT_DOCSURL ."/wizard/admin-guide' target='_blank'>管理者ガイド</a>をご覧ください。";
+$GLOBALS['strInstallWelcome']               		= "ようこそ {$PRODUCT_NAME}へ";
+$GLOBALS['strInstallMessage']               		= "{$PRODUCT_NAME}を使用するには、システム設定とデータベースの作成が必要です。<br />継続するには、<b>進む</b> をクリックしてください。";
+$GLOBALS['strInstallIntro']                 		= "当製品を選んでいただき、ありがとうございます。
+<p>このウィザードでは広告サーバのインストール及びアップグレードについて説明いたします。</p><p>インストール手順に関しては、<a href='{$PRODUCT_DOCSURL}/wizard/qsg-install' target='_blank'>クイックスタートガイド</a>をご覧ください。その他、設定など詳細に関しましては<a href='{$PRODUCT_DOCSURL}/wizard/admin-guide' target='_blank'>管理者ガイド</a>をご覧ください。";
 $GLOBALS['strRecoveryRequiredTitle']    			= "前回のアップデートでエラーが発生";
-$GLOBALS['strRecoveryRequired']         			= "前回のアップデートプロセスでエラーが発生しています。". MAX_PRODUCT_NAME ." は、アップデートプロセスの回復を試みます。以下の\'復旧する\'ボタンをクリックしてください。";
+$GLOBALS['strRecoveryRequired']         			= "前回のアップデートプロセスでエラーが発生しています。{$PRODUCT_NAME} は、アップデートプロセスの回復を試みます。以下の\'復旧する\'ボタンをクリックしてください。";
 $GLOBALS['strTermsTitle']               			= "使用方法及び個人情報保護について";
-$GLOBALS['strTermsIntro']               			= "". MAX_PRODUCT_NAME ."はオープンソースプロジェクトとして、GNUライセンスの元に運営されています。インストールを続けるには、以下の文書内容を確認し、承認して下さい。";
+$GLOBALS['strTermsIntro']               			= "{$PRODUCT_NAME}はオープンソースプロジェクトとして、GNUライセンスの元に運営されています。インストールを続けるには、以下の文書内容を確認し、承認して下さい。";
 $GLOBALS['strPolicyTitle']               			= "プライバシーポリシー";
 $GLOBALS['strPolicyIntro']               			= "インストールを継続するには、以下の文書内容を承諾してください。";
 $GLOBALS['strDbSetupTitle']               			= "データベースの設定";
 $GLOBALS['strDbSetupIntro']               			= "データベースの接続情報を入力してくださいこの点に関してわからない場合は、サーバの管理者に問い合わせてください。<p>次のステップではデータベースを設定します。次へボタンを押して続けて下さい。</p>";
 $GLOBALS['strDbUpgradeIntro']             			= "以下の接続情報を検知しました。この情報が正しいかどうか確認してください。<p>次のステップではデータベースを設定します。次へボタンを押して続けて下さい。</p>";
-$GLOBALS['strOaUpToDate']               			= "あなたの". MAX_PRODUCT_NAME ."は最新です！次へボタンを押して、". MAX_PRODUCT_NAME ."の管理画面へと進んでください。";
+$GLOBALS['strOaUpToDate']               			= "あなたの{$PRODUCT_NAME}は最新です！次へボタンを押して、{$PRODUCT_NAME}の管理画面へと進んでください。";
 $GLOBALS['strOaUpToDateCantRemove']     			= "警告:アップデートファイルが、varディレクトリに残っています。十分な権限がないため、アップデートファイルを削除できませんでした。このファイルを自分自身の手で削除してください。";
 $GLOBALS['strRemoveUpgradeFile']            		= "varディレクトリ内にあるUPGRADEファイルを削除してください。";
-$GLOBALS['strInstallSuccess']               		= "\'次へ'ボタンを押して、アドサーバーへログインしてください。	<p><strong>次にやることは？</strong></p>	<div class='psub'>	  <p><b></b><br>	    最新の情報を入手するために、<a href='". OX_PRODUCT_DOCSURL ."/wizard/join' target='_blank'>". MAX_PRODUCT_NAME ." メーリングリスト</a>に参加して下さい。 	  </p>	  <p><b>初めてのキャンペーンの作り方</b><br>	    <a href='". OX_PRODUCT_DOCSURL ."/wizard/qsg-firstcampaign' target='_blank'>クイックスタートガイド</a>を参照してください。	  </p>	</div>	<p><strong>インストール手順（補足）</strong></p>	<div class='psub'>	  <p><b>設定ファイルのロック</b><br>	    設定内容の書き換えを防ぐために、とても大切なことです。  <a href='". OX_PRODUCT_DOCSURL ."/wizard/lock-config' target='_blank'>詳細はこちら</a>.	  </p>	  <p><b>定期メンテナンス方法</b><br>	    ベストな配信状態、正確なレポートを作成するために、定期メンテナンスは必要です。  <a href='". OX_PRODUCT_DOCSURL ."/wizard/setup-cron' target='_blank'>詳細はこちら</a>	  </p>	  <p><b>設定をレビューする</b><br>	     ". MAX_PRODUCT_NAME ." を使う前に、設定内容を再確認することをお勧めします。	  </p>	</div>";
-$GLOBALS['strInstallNotSuccessful']         		= "<b>". MAX_PRODUCT_NAME ."のインストールに失敗しました。</b><br /><br />いくつかの項目が完了しませんでした。\nもしこの問題が一時的なものであれば、<b>こちら</b>をクリックして、\n最初に戻ってください。 エラー内容の詳細及び解決策を知りたい場合は、\nドキュメントの確認をして下さい";
+$GLOBALS['strInstallSuccess']               		= "\'次へ'ボタンを押して、アドサーバーへログインしてください。	<p><strong>次にやることは？</strong></p>	<div class='psub'>	  <p><b></b><br>	    最新の情報を入手するために、<a href='{$PRODUCT_DOCSURL}/wizard/join' target='_blank'>{$PRODUCT_NAME} メーリングリスト</a>に参加して下さい。 	  </p>	  <p><b>初めてのキャンペーンの作り方</b><br>	    <a href='{$PRODUCT_DOCSURL}/wizard/qsg-firstcampaign' target='_blank'>クイックスタートガイド</a>を参照してください。	  </p>	</div>	<p><strong>インストール手順（補足）</strong></p>	<div class='psub'>	  <p><b>設定ファイルのロック</b><br>	    設定内容の書き換えを防ぐために、とても大切なことです。  <a href='{$PRODUCT_DOCSURL}/wizard/lock-config' target='_blank'>詳細はこちら</a>.	  </p>	  <p><b>定期メンテナンス方法</b><br>	    ベストな配信状態、正確なレポートを作成するために、定期メンテナンスは必要です。  <a href='{$PRODUCT_DOCSURL}/wizard/setup-cron' target='_blank'>詳細はこちら</a>	  </p>	  <p><b>設定をレビューする</b><br>	     {$PRODUCT_NAME} を使う前に、設定内容を再確認することをお勧めします。	  </p>	</div>";
+$GLOBALS['strInstallNotSuccessful']         		= "<b>{$PRODUCT_NAME}のインストールに失敗しました。</b><br /><br />いくつかの項目が完了しませんでした。
+もしこの問題が一時的なものであれば、<b>こちら</b>をクリックして、
+最初に戻ってください。 エラー内容の詳細及び解決策を知りたい場合は、
+ドキュメントの確認をして下さい";
 
 $GLOBALS['strSystemCheck']                  		= "システムチェック";
 $GLOBALS['strSystemCheckIntro']             		= "インストレーションウィザードはあなたのサーバの設定を確認しています。	<p>ハイライトされている箇所を確認し、最後まで完了して下さい。</p>";
@@ -98,7 +102,7 @@ $GLOBALS['strErrorWritePermissions']        		= "ファイルのパーミッシ�
 $GLOBALS['strErrorFixPermissionsCommand']   		= "<i>chmod a+w %s</i>";
 $GLOBALS['strErrorFixPermissionsRCommand']          = "<i>chmod -R a+w %s</i>";
 $GLOBALS['strErrorWritePermissionsWin']     		= "ファイルのパーミッションエラーが検出されました。継続するには、指定ファイルのパーミッションを変更してください。";
-$GLOBALS['strCheckDocumentation']           		= "詳細な情報に関しては、 <a href='". OX_PRODUCT_DOCSURL ."'>". MAX_PRODUCT_NAME ." こちら</a>をご覧下さい。";
+$GLOBALS['strCheckDocumentation']           		= "詳細な情報に関しては、 <a href='{$PRODUCT_DOCSURL}'>{$PRODUCT_NAME} こちら</a>をご覧下さい。";
 
 $GLOBALS['strAdminUrlPrefix']               		= "管理者画面URL";
 $GLOBALS['strDeliveryUrlPrefix']            		= "配信エンジンURL";
@@ -158,7 +162,7 @@ $GLOBALS['strTimezoneGuessedValue']                  = "サーバのタイムゾ
 $GLOBALS['strTimezoneSeeDocs']                       = "PHPでタイムゾーンを設定するには%DOCS% を参照してください。";
 $GLOBALS['strTimezoneDocumentation']                 = "ドキュメント";
 $GLOBALS['strLoginSettingsTitle']                    = "管理者ログイン画面";
-$GLOBALS['strLoginSettingsIntro']                    = "アップデートプロセスを継続するには ". MAX_PRODUCT_NAME ." 管理者ログイン画面にログインしてください。";
+$GLOBALS['strLoginSettingsIntro']                    = "アップデートプロセスを継続するには {$PRODUCT_NAME} 管理者ログイン画面にログインしてください。";
 $GLOBALS['strAdminSettingsTitle']                    = "管理者アカウントの作成";
 $GLOBALS['strAdminSettingsIntro']                    = "管理者アカウントを作成するためにフォームの入力を完了してください。";
 $GLOBALS['strConfigSettingsIntro']                   = "下記設定内容を確認してください。もし明確でない場合は、デフォルトのままにしておいて下さい。";
@@ -180,7 +184,7 @@ $GLOBALS['strDatabaseOptimalisations']               = 'データベース最適
 $GLOBALS['strPersistentConnections']                 = '持続的にデータベースに接続する';
 $GLOBALS['strCantConnectToDb']                       = 'データベースに接続できません';
 $GLOBALS['strDemoDataInstall']                       = 'デモデータをインストールする';
-$GLOBALS['strDemoDataIntro']                         = '設定のサンプルデータを". '.MAX_PRODUCT_NAME.' ."にインストールすることができます。通常使用されるキャンペーン及びバナーも設定できるので、インストールすることを薦めます。';
+$GLOBALS['strDemoDataIntro']                         = "設定のサンプルデータを {$PRODUCT_NAME} にインストールすることができます。通常使用されるキャンペーン及びバナーも設定できるので、インストールすることを薦めます。";
 
 // Email Settings
 $GLOBALS['strEmailSettings']                         = 'Eメール設定';
@@ -224,7 +228,7 @@ $GLOBALS['strDebugPassword']                         = 'mCal, SQLサーバのパ
 
 // Delivery Settings
 $GLOBALS['strDeliverySettings']                      = '配信設定';
-$GLOBALS['strWebPath']                               = "" . MAX_PRODUCT_NAME . 'へのアクセスパス';
+$GLOBALS['strWebPath']                               = "{$PRODUCT_NAME}" . 'へのアクセスパス';
 $GLOBALS['strWebPathSimple']                         = 'Webパス';
 $GLOBALS['strDeliveryPath']                          = '配信パス';
 $GLOBALS['strImagePath']                             = '画像パス';
@@ -405,7 +409,7 @@ $GLOBALS['strDefaultImpConWindow']                   = 'デフォルトの広告
 $GLOBALS['strDefaultImpConWindowError']              = 'デフォルトの広告インプレッション接続ウィンドウは、正数を入力してください';
 $GLOBALS['strDefaultCliConWindow']                   = 'デフォルトの広告クリックウィンドウ（秒）';
 $GLOBALS['strDefaultCliConWindowError']              = 'デフォルトの広告クリックウィンドウは、正数を入力してください';
-$GLOBALS['strAdminEmailHeaders']                     = '". '.MAX_PRODUCT_NAME.' ."が送るメールのヘッダに以下の情報を付与する';
+$GLOBALS['strAdminEmailHeaders']                     = "{$PRODUCT_NAME} が送るメールのヘッダに以下の情報を付与する";
 $GLOBALS['strWarnLimit']                             = 'インプレッションの残数がここで指定する数値を下回った場合、警告Eメールを送信する';
 $GLOBALS['strWarnLimitErr']                          = '残数は正数を入力してください';
 $GLOBALS['strWarnLimitDays']                         = '表示日数の残数がここで指定する数値を下回った場合、警告Eメールを送信する';
@@ -475,7 +479,7 @@ $GLOBALS['strTimeZone']                     = "タイムゾーン";
 
 
 // Note: New translations not found in original lang files but found in CSV
-$GLOBALS['strWebPath'] = "". MAX_PRODUCT_NAME ." サーバアクセスパス'";
+$GLOBALS['strWebPath'] = "{$PRODUCT_NAME} サーバアクセスパス'";
 $GLOBALS['strAuditTrailSettings'] = "追跡記録ログ";
 $GLOBALS['strDbNameHint'] = "もしない場合、データベースが自動で作成されます。";
 $GLOBALS['strProductionSystem'] = "プロダクションシステム";

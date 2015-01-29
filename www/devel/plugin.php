@@ -26,7 +26,7 @@ if (array_key_exists('btn_create',$_POST) && array_key_exists('name',$_POST))
     }
     $aPluginValues = $_POST;
     $aPluginValues['date'] = date('Y-d-m');
-    $aPluginValues['oxversion'] = OA_VERSION;
+    $aPluginValues['oxversion'] = VERSION;
     $aGroupValues = $aPluginValues['group'];
     unset($aPluginValues['group']);
 

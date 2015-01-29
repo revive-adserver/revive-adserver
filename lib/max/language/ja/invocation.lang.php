@@ -129,7 +129,8 @@ $GLOBALS['strNonImgWarning']        				= "警告：このタグは非画像バ�
 $GLOBALS['strUnknHtmlWarning']      				= "警告：このバナーは未知のHTML広告フォーマットです。";
 
 // sql/web banner-type warning for clickonly zone invocation
-$GLOBALS['strWebBannerWarning']     				= "警告：指定したバナーはダウンロード可能となっていません。正しいURLを入力してください。\n<br /> 1) バナーがダウンロード可能かテストしてください:";
+$GLOBALS['strWebBannerWarning']     				= "警告：指定したバナーはダウンロード可能となっていません。正しいURLを入力してください。
+<br /> 1) バナーがダウンロード可能かテストしてください:";
 $GLOBALS['strDwnldWebBanner']       				= "ここを右クリックして、保存先URLを選んでください：";
 $GLOBALS['strWebBannerWarning2']    				= "<br /> 2) Webサイト上の正しいバナーURLを入力してください：";
 

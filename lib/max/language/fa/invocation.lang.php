@@ -136,7 +136,8 @@ $GLOBALS['strNonImgWarning']        = "Warning: This tag will not work because t
 $GLOBALS['strUnknHtmlWarning']      = "Warning: This banner is an unkown HTML ad format.";
 
 // sql/web banner-type warning for clickonly zone invocation
-$GLOBALS['strWebBannerWarning']     = "Warning: This banner must be downloaded and you must notify us the correct URL for the banner.\n<br /> 1) Download the banner:";
+$GLOBALS['strWebBannerWarning']     = "Warning: This banner must be downloaded and you must notify us the correct URL for the banner.
+<br /> 1) Download the banner:";
 $GLOBALS['strDwnldWebBanner']       = "Right-click here and choose Save Target As";
 $GLOBALS['strWebBannerWarning2']    = "<br /> 2) Upload the banner to your webserver and write its location here: ";
 

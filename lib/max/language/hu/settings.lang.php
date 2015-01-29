@@ -22,27 +22,27 @@ $GLOBALS['strOtherSettings']			= "Egyéb beállítások";
 $GLOBALS['strWarning']				= "Figyelmeztetés";
 $GLOBALS['strFatalError']			= "Végzetes hiba történt";
 $GLOBALS['strUpdateError']			= "Hiba történt frissítés közben";
-$GLOBALS['strUpdateDatabaseError']	= "Ismeretlen okból kifolyólag az adatbázis szerkezet frissítése nem sikerült. Végrehajtásának javasolt módja a <b>Frissítés újrapróbálására</b> kattintás, amivel megpróbálhatja kijavítani e lehetséges problémákat. Ha ön biztos abban, hogy ezek a hibák nincsenek kihatással a ".MAX_PRODUCT_NAME." működésére, akkor a <b>Hibák kihagyása</b> választásával folytathatja. Ezeknek a hibáknak a figyelmen kívül hagyása komoly problémákat okozhat, és nem ajánlott!";
-$GLOBALS['strAlreadyInstalled']			= "Már telepítette a ".MAX_PRODUCT_NAME."-t erre a rendszerre. Ha be szeretné állítani, akkor váltson át a <a href='settings-index.php'>beállítások kezelőfelületre</a>";
+$GLOBALS['strUpdateDatabaseError']	= "Ismeretlen okból kifolyólag az adatbázis szerkezet frissítése nem sikerült. Végrehajtásának javasolt módja a <b>Frissítés újrapróbálására</b> kattintás, amivel megpróbálhatja kijavítani e lehetséges problémákat. Ha ön biztos abban, hogy ezek a hibák nincsenek kihatással a {$PRODUCT_NAME} működésére, akkor a <b>Hibák kihagyása</b> választásával folytathatja. Ezeknek a hibáknak a figyelmen kívül hagyása komoly problémákat okozhat, és nem ajánlott!";
+$GLOBALS['strAlreadyInstalled']			= "Már telepítette a {$PRODUCT_NAME}-t erre a rendszerre. Ha be szeretné állítani, akkor váltson át a <a href='settings-index.php'>beállítások kezelőfelületre</a>";
 $GLOBALS['strCouldNotConnectToDB']		= "Nem lehet kapcsolódni az adatbázishoz, ellenőrizze ismét az ön által megadott beállításokat";
 $GLOBALS['strCreateTableTestFailed']		= "Az ön által megadott felhasználónak nincs joga létrehozni vagy frissíteni az adatbázis szerkezetet. Vegye fel a kapcsolatot az adatbázis adminisztrátorával.";
 $GLOBALS['strUpdateTableTestFailed']		= "Az ön által megadott felhasználónak nincs joga frissíteni az adatbázis szerkezetet. Vegye fel a kapcsolatot az adatbázis adminisztrátorával.";
 $GLOBALS['strTablePrefixInvalid']		= "A tábla előtag érvénytelen karaktert tartalmaz";
-$GLOBALS['strTableInUse']			= "Az ön által megadott adatbázis már létezik a ".MAX_PRODUCT_NAME." számára. Használjon másik tábla előtagot, vagy olvassa el a kézikönyvben a frissítésre vonatkozó utasításokat.";
-$GLOBALS['strTableWrongType']		= "A ".$phpAds_dbmsname." telepítés nem támogatja az ön által kiválasztott táblatípust.";
+$GLOBALS['strTableInUse']			= "Az ön által megadott adatbázis már létezik a {$PRODUCT_NAME} számára. Használjon másik tábla előtagot, vagy olvassa el a kézikönyvben a frissítésre vonatkozó utasításokat.";
+$GLOBALS['strTableWrongType']		= "A {$phpAds_dbmsname} telepítés nem támogatja az ön által kiválasztott táblatípust.";
 $GLOBALS['strMayNotFunction']			= "Folytatás előtt javítsa ki ezeket a lehetséges hibákat:";
-$GLOBALS['strFixProblemsBefore']		= "Javítsa ki a következő objektumo(ka)t a ".MAX_PRODUCT_NAME." telepítése előtt. Ha kérdése van ezzel a hibaüzenettel kapcsolatban, akkor tanulmányozza az <i>Administrator guide</i> kézikönyvet, mely része az ön által letöltött csomagnak.";
-$GLOBALS['strFixProblemsAfter']			= "Ha nem tudja kijavítani a fenti problémákat, akkor vegye fel a kapcsolatot annak a kiszolgálónak az adminisztrátorával, melyre a ".MAX_PRODUCT_NAME."-t próbálja telepíteni. A kiszolgáló adminisztrátora biztosan tud segíteni önnek.";
+$GLOBALS['strFixProblemsBefore']		= "Javítsa ki a következő objektumo(ka)t a {$PRODUCT_NAME} telepítése előtt. Ha kérdése van ezzel a hibaüzenettel kapcsolatban, akkor tanulmányozza az <i>Administrator guide</i> kézikönyvet, mely része az ön által letöltött csomagnak.";
+$GLOBALS['strFixProblemsAfter']			= "Ha nem tudja kijavítani a fenti problémákat, akkor vegye fel a kapcsolatot annak a kiszolgálónak az adminisztrátorával, melyre a {$PRODUCT_NAME}-t próbálja telepíteni. A kiszolgáló adminisztrátora biztosan tud segíteni önnek.";
 $GLOBALS['strIgnoreWarnings']			= "Figyelmeztetések mellőzése";
-$GLOBALS['strWarningDBavailable']		= "Az ön által használt PHP-változat nem támogatja a kapcsolódást a ".$phpAds_dbmsname." adatbázis kiszolgálóhoz. Engedélyezze a PHP ".$phpAds_dbmsname." bővítményt, mielőtt folytatná.";
-$GLOBALS['strWarningPHPversion']		= "A ".MAX_PRODUCT_NAME." megfelelő működéséhez PHP 4.0 vagy újabb szükséges. Ön jelenleg a {php_version}-s verziót használja.";
+$GLOBALS['strWarningDBavailable']		= "Az ön által használt PHP-változat nem támogatja a kapcsolódást a {$phpAds_dbmsname} adatbázis kiszolgálóhoz. Engedélyezze a PHP {$phpAds_dbmsname} bővítményt, mielőtt folytatná.";
+$GLOBALS['strWarningPHPversion']		= "A {$PRODUCT_NAME} megfelelő működéséhez PHP 4.0 vagy újabb szükséges. Ön jelenleg a {php_version}-s verziót használja.";
 $GLOBALS['strWarningRegisterGlobals']		= "A register_globals PHP konfigurációs változónak engedélyezettnek kell lennie.";
 $GLOBALS['strWarningMagicQuotesGPC']		= "A magic_quotes_gpc PHP konfigurációs változónak engedélyezettnek kell lennie.";
 $GLOBALS['strWarningMagicQuotesRuntime']	= "A magic_quotes_runtime PHP konfigurációs változónak letiltottnak kell lennie.";
 $GLOBALS['strWarningFileUploads']		= "A file_uploads  PHP konfigurációs változónak engedélyezettnek kell lennie.";
 $GLOBALS['strWarningTrackVars']			= "A track_vars PHP konfigurációs változónak engedélyezettnek kell lennie.";
 $GLOBALS['strWarningPREG']				= "Az ön által használt PHP-verzió nem rendelkezik PERL kompatibilis reguláris kifejezés támogatással. Engedélyezze a PREG kiterjesztést, mielőtt folytatná.";
-$GLOBALS['strConfigLockedDetected']		="A ".MAX_PRODUCT_NAME." megállapította, hogy a kiszolgáló nem tud írni a <b>config.inc.php</b> fájlba. Csak a fájl engedélyeinek módosítása után folytathatja. Olvassa el a hozzá adott dokumentációban, ha nem tudja, hogyan kell.";
+$GLOBALS['strConfigLockedDetected']		="A {$PRODUCT_NAME} megállapította, hogy a kiszolgáló nem tud írni a <b>config.inc.php</b> fájlba. Csak a fájl engedélyeinek módosítása után folytathatja. Olvassa el a hozzá adott dokumentációban, ha nem tudja, hogyan kell.";
 $GLOBALS['strCantUpdateDB']  			= "Az adatbázis jelenleg nem frissíthető. Ha a folytatás mellett dönt, akkor valamennyi reklám, statisztika és hirdető törlésre kerül.";
 $GLOBALS['strIgnoreErrors']			= "Hibák kihagyása";
 $GLOBALS['strRetryUpdate']			= "Frissítés ismétlése";
@@ -50,11 +50,21 @@ $GLOBALS['strTableNames']			= "Táblanevek";
 $GLOBALS['strTablesPrefix']			= "Táblanevek előtagja";
 $GLOBALS['strTablesType']			= "Tábla típusa";
 
-$GLOBALS['strInstallWelcome']			= "Üdvözli a ".MAX_PRODUCT_NAME."";
-$GLOBALS['strInstallMessage']			= "Mielőtt használatba venné, végezze el a ".MAX_PRODUCT_NAME." beállítását, és <br>hozza létre az adatbázist. A <b>Tovább</b> gombbal folytathatja.";
-$GLOBALS['strInstallSuccess']			= "<b>A ".MAX_PRODUCT_NAME." telepítése ezzel befejeződött.</b><br><br>A ".MAX_PRODUCT_NAME." megfelelő működéséhez ellenőrizze\n               a karbantartás fájl óránkénti futtatásának végrehajtását. A dokumentációban több információt talál erről a témáról.\n						   <br><br>A <b>Tovább</b> gomb megnyomásával töltheti be Beállítások lapot, ahol elvégezheti\n							 a testreszabást. Miután elkészült, ne feledje el lezárni a config.inc.php fájlt, mert így\n							 megelőzheti a biztonsági sértéseket.";
-$GLOBALS['strUpdateSuccess']			= "<b>A ".MAX_PRODUCT_NAME." frissítése sikerült.</b><br><br>A ".MAX_PRODUCT_NAME." megfelelő működése céljából ellenőrizze\n               azt is, hogy fut-e óránként a karbantartás fájl (előtte ez napontára volt állítva). A dokumentációban több információt talál erről a témáról.\n						   <br><br>A <b>Tovább</b> megnyomásával válthat át az adminisztrátor kezelőfelületre. Ne feledje el lezárni a config.inc.php fájlt, mert így\n							 megelőzheti a biztonsági sértéseket.";
-$GLOBALS['strInstallNotSuccessful']		= "<b>A ".MAX_PRODUCT_NAME." telepítése nem sikerült.</b><br><br>A telepítési folyamat részét nem lehetett befejezni.\n						   Ezek a problémák valószínűleg csak ideiglenesek, ebben az esetben nyugodtan nyomja meg a <b>Tovább</b>t,\n							 és térjen vissza a telepítési folyamat első lépéséhez. Ha többet szeretni tudni arról, hogy mit jelent az alábbi\n							 hibaüzenet, és hogyan háríthatja el, akkor nézzen utána a dokumentációban.";
+$GLOBALS['strInstallWelcome']			= "Üdvözli a {$PRODUCT_NAME}";
+$GLOBALS['strInstallMessage']			= "Mielőtt használatba venné, végezze el a {$PRODUCT_NAME} beállítását, és <br>hozza létre az adatbázist. A <b>Tovább</b> gombbal folytathatja.";
+$GLOBALS['strInstallSuccess']			= "<b>A {$PRODUCT_NAME} telepítése ezzel befejeződött.</b><br><br>A {$PRODUCT_NAME} megfelelő működéséhez ellenőrizze
+               a karbantartás fájl óránkénti futtatásának végrehajtását. A dokumentációban több információt talál erről a témáról.
+						   <br><br>A <b>Tovább</b> gomb megnyomásával töltheti be Beállítások lapot, ahol elvégezheti
+							 a testreszabást. Miután elkészült, ne feledje el lezárni a config.inc.php fájlt, mert így
+							 megelőzheti a biztonsági sértéseket.";
+$GLOBALS['strUpdateSuccess']			= "<b>A {$PRODUCT_NAME} frissítése sikerült.</b><br><br>A {$PRODUCT_NAME} megfelelő működése céljából ellenőrizze
+               azt is, hogy fut-e óránként a karbantartás fájl (előtte ez napontára volt állítva). A dokumentációban több információt talál erről a témáról.
+						   <br><br>A <b>Tovább</b> megnyomásával válthat át az adminisztrátor kezelőfelületre. Ne feledje el lezárni a config.inc.php fájlt, mert így
+							 megelőzheti a biztonsági sértéseket.";
+$GLOBALS['strInstallNotSuccessful']		= "<b>A {$PRODUCT_NAME} telepítése nem sikerült.</b><br><br>A telepítési folyamat részét nem lehetett befejezni.
+						   Ezek a problémák valószínűleg csak ideiglenesek, ebben az esetben nyugodtan nyomja meg a <b>Tovább</b>t,
+							 és térjen vissza a telepítési folyamat első lépéséhez. Ha többet szeretni tudni arról, hogy mit jelent az alábbi
+							 hibaüzenet, és hogyan háríthatja el, akkor nézzen utána a dokumentációban.";
 $GLOBALS['strErrorOccured']			= "A következő hiba történt:";
 $GLOBALS['strErrorInstallDatabase']		= "Nem lehet létrehozni az adatbázis szerkezetet.";
 $GLOBALS['strErrorInstallConfig']		= "Nem lehet frissíteni a konfigurációs fájlt vagy az adatbázist.";
@@ -232,7 +242,7 @@ $GLOBALS['strBlockAdclicks']			= "Nincs kattintás naplózás, ha a látogató m
 
 $GLOBALS['strPreventLogging']			= "Banner naplózás blokkolásának beállításai";
 $GLOBALS['strEmailWarnings']			= "Email Figyelmeztetések";
-$GLOBALS['strAdminEmailHeaders']		= "A következő fejlécek hozzáadása a ".MAX_PRODUCT_NAME." által küldött elektronikus üzenethez";
+$GLOBALS['strAdminEmailHeaders']		= "A következő fejlécek hozzáadása a {$PRODUCT_NAME} által küldött elektronikus üzenethez";
 $GLOBALS['strWarnLimit']				= "Figyelmeztetés küldése ha a hátrelévő megtekintések száma kevesebb mint";
 $GLOBALS['strWarnLimitErr']				= "Figyelmeztetési határ csak pozitív egész lehet";
 $GLOBALS['strWarnAdmin']				= "Figyelmeztetés küldése az adminisztrátornak ha a kampány hamarosan lejár";
@@ -339,17 +349,17 @@ $GLOBALS['strBtnRetry'] = "Újrapróbál";
 $GLOBALS['strFixErrorsBeforeContinuing'] = "Kérjük javítson ki minden hibát a folytatás előtt!";
 $GLOBALS['strWarningRegisterArgcArv'] = "A register_argc_argv PHP konfigurációs változót be kell kapcsolni hogy a parancssorból el lehessen végezni a karbantartást.";
 $GLOBALS['strRecoveryRequiredTitle'] = "Az előző újraépítési kísérlete során hiba történt";
-$GLOBALS['strRecoveryRequired'] = "Az előző frissítés során hiba történt és az ". MAX_PRODUCT_NAME ."nek most meg kell próbálnia visszaállítani a frissítés előtti állapotot. Kattintson a Visszaállítás gombra!";
+$GLOBALS['strRecoveryRequired'] = "Az előző frissítés során hiba történt és az {$PRODUCT_NAME}nek most meg kell próbálnia visszaállítani a frissítés előtti állapotot. Kattintson a Visszaállítás gombra!";
 $GLOBALS['strDbSetupTitle'] = "Adatbázis beállítások";
-$GLOBALS['strOaUpToDate'] = "Az ". MAX_PRODUCT_NAME ." adatbázis és fájlstruktúra a lehető legfrissebb verziót használja, így nincs szükség újraépítésre. Kérjük kattintson a Folytatásra, hogy az ". MAX_PRODUCT_NAME ." adminisztrációs felületre irányíthassuk!";
+$GLOBALS['strOaUpToDate'] = "Az {$PRODUCT_NAME} adatbázis és fájlstruktúra a lehető legfrissebb verziót használja, így nincs szükség újraépítésre. Kérjük kattintson a Folytatásra, hogy az {$PRODUCT_NAME} adminisztrációs felületre irányíthassuk!";
 $GLOBALS['strOaUpToDateCantRemove'] = "Figyelmeztetés: Az UPGRADE fájl még mindig a var könyvtárban van. Nem sikerült automatikusan eltávolítani a fájlt, mert a fájlra vonatkozó engedélyezések nem tették lehetővé. Kérjük törölje a fájlt manuálisan!";
 $GLOBALS['strRemoveUpgradeFile'] = "Az UPGRADE fájlt el kell távolítania a var könyvtárból!";
 $GLOBALS['strSystemCheck'] = "Rendszer ellenőrzés";
-$GLOBALS['strDbSuccessIntro'] = "Az ". MAX_PRODUCT_NAME ." adatbázis frissítése megtörtént. Kérjük kattintson a 'Folytatás' gombra az ". MAX_PRODUCT_NAME ." Adminisztrátor és Kiszolgálás beállításainak megtekintéséhez.";
+$GLOBALS['strDbSuccessIntro'] = "Az {$PRODUCT_NAME} adatbázis frissítése megtörtént. Kérjük kattintson a 'Folytatás' gombra az {$PRODUCT_NAME} Adminisztrátor és Kiszolgálás beállításainak megtekintéséhez.";
 $GLOBALS['strErrorWritePermissions'] = "Fájl engedélyezési hibákat észleltünk, amiket meg kell oldani a folytatás előtt.<br />A hibák kijavításához Linux rendszeren a következő parancs(ok) beírását érdemes megpróbálni:";
 $GLOBALS['strErrorFixPermissionsCommand'] = "<i>chmod a+w %s</i>";
 $GLOBALS['strErrorWritePermissionsWin'] = "Fájl engedélyezési hibákat észleltünk, amiket meg kell oldani a folytatás előtt.";
-$GLOBALS['strCheckDocumentation'] = "További segítséghez kérjük nézze meg az <a href='http://". OX_PRODUCT_DOCSURL ."'>". MAX_PRODUCT_NAME ." dokumentációt</a>.";
+$GLOBALS['strCheckDocumentation'] = "További segítséghez kérjük nézze meg az <a href='http://{$PRODUCT_DOCSURL}'>{$PRODUCT_NAME} dokumentációt</a>.";
 $GLOBALS['strAdminUrlPrefix'] = "Az Adminisztrációs Felület URL-je";
 $GLOBALS['strDeliveryUrlPrefix'] = "A Kiszolgáló Motor URL-je";
 $GLOBALS['strDeliveryUrlPrefixSSL'] = "A Kiszoláló Motor URL-je (SSL)";
@@ -367,11 +377,11 @@ $GLOBALS['strTimezoneGuessedValue'] = "A szerver időzónája nincs megfelelően
 $GLOBALS['strTimezoneSeeDocs'] = "Ennek a PHP változónak a beállításáról további információt találsz itt: %DOCS%";
 $GLOBALS['strTimezoneDocumentation'] = "dokumentáció";
 $GLOBALS['strLoginSettingsTitle'] = "Adminisztrátori belépés";
-$GLOBALS['strLoginSettingsIntro'] = "Kérjük addja meg az ". MAX_PRODUCT_NAME ." adminisztrátor felhasználó belépési adatait a frissítés folytatásához!  Adminisztrátor felhasználóként kell belépnie a frissítés végrehajtásához.";
+$GLOBALS['strLoginSettingsIntro'] = "Kérjük addja meg az {$PRODUCT_NAME} adminisztrátor felhasználó belépési adatait a frissítés folytatásához!  Adminisztrátor felhasználóként kell belépnie a frissítés végrehajtásához.";
 $GLOBALS['strEnableAutoMaintenance'] = "Automatikusan fusson le a karbantartó eljárás a kiszolgáláskor, ha nincs beállítva a karbantartás ütemterve. ";
 $GLOBALS['strDbType'] = "Adatbázis típusa";
 $GLOBALS['strDemoDataInstall'] = "Demo adatok telepítése";
-$GLOBALS['strDemoDataIntro'] = "Alapértelmezett adatokkal lehet feltölteni az ". MAX_PRODUCT_NAME ." adatbázisát, hogy segítse az online hirdetések kiszolgálásának megkezdését. A legelterjedtebb banner típusok és néhány kezdeti kampány kerül ezzel betöltésre és előre beállításra. Használata erősen ajánlott az új telepítésekhez.";
+$GLOBALS['strDemoDataIntro'] = "Alapértelmezett adatokkal lehet feltölteni az {$PRODUCT_NAME} adatbázisát, hogy segítse az online hirdetések kiszolgálásának megkezdését. A legelterjedtebb banner típusok és néhány kezdeti kampány kerül ezzel betöltésre és előre beállításra. Használata erősen ajánlott az új telepítésekhez.";
 $GLOBALS['strDebug'] = "Hibakereső naplózázás beállításai";
 $GLOBALS['strProduction'] = "Publikus szerver";
 $GLOBALS['strEnableDebug'] = "Hibakereső naplózás engedélyezése";
@@ -395,7 +405,7 @@ $GLOBALS['strPEAR_LOG_EMERG'] = "PEAR_LOG_EMERG - Minimális információ";
 $GLOBALS['strDebugIdent'] = "Azonosító sztring hibakeresése";
 $GLOBALS['strDebugUsername'] = "mCal, SQL szerver felhasználóinév";
 $GLOBALS['strDebugPassword'] = "mCal, SQL szerver jelszó";
-$GLOBALS['strWebPath'] = "". MAX_PRODUCT_NAME ." Szerver hozzáférési utak";
+$GLOBALS['strWebPath'] = "{$PRODUCT_NAME} Szerver hozzáférési utak";
 $GLOBALS['strWebPathSimple'] = "Webes elérési út";
 $GLOBALS['strDeliveryPath'] = "Kézbesítés elérési útja";
 $GLOBALS['strImagePath'] = "Képek elérési útja";

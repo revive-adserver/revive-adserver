@@ -13,6 +13,7 @@
 define('SMARTY_DIR', MAX_PATH . '/lib/smarty/');
 
 require_once MAX_PATH . '/lib/smarty/Smarty.class.php';
+require_once MAX_PATH . '/lib/smarty/plugins/modifier.escape.php';
 require_once MAX_PATH . '/lib/OA/Dll.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
 require_once MAX_PATH . '/lib/OX/Translation.php';
@@ -204,11 +205,19 @@ class OA_Admin_Template extends Smarty
             } else {
                 $aValues = array();
             }
-            return $oTrans->translate($aParams['str'], $aValues);
-        } else
-        if (!empty($aParams['key'])) {
-            return $oTrans->translate($aParams['key']);
+            $t = $oTrans->translate($aParams['str'], $aValues);
+        } elseif (!empty($aParams['key'])) {
+            $t = $oTrans->translate($aParams['key']);
         }
+
+        if (isset($t)) {
+            if (empty($aParams['escape'])) {
+                return $t;
+            }
+            
+            return smarty_modifier_escape($t, $aParams['escape']);
+        }
+
         // If nothing found in global scope, return the value unchanged
         if (!empty($aParams['str'])) {
             return $aParams['str'];
@@ -216,6 +225,7 @@ class OA_Admin_Template extends Smarty
         if (!empty($aParams['key'])) {
             return $aParams['key'];
         }
+
         $smarty->trigger_error("t: missing 'str' or 'key' parameters: ".$aParams['str']);
     }
 

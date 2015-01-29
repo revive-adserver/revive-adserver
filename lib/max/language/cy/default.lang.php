@@ -243,8 +243,20 @@ $GLOBALS['strOptimise'] = "Optimeiddio";
 $GLOBALS['strAnonymous'] = "Cuddio hysbysebwr a gwefannau'r ymgyrch hwn.";
 $GLOBALS['strTargetPerDay'] = "y diwrnod.";
 $GLOBALS['strPriorityAutoTargeting'] = "Awtomatig - Dosbarthu y rhestren sy'n weddill yn gydradd dros y nifer o ddiwrnodau sy'n weddill.";
-$GLOBALS['strCampaignWarningRemnantNoWeight'] = "Mae blaenoriaeth yr ymgyrch wedi ei osod i isel, \nond mae'r pwysau wedi ei osod i sero neu nid yw wedi cael \nei nodi. Bydd hyn yn achosi bod eich ymgyrch yn \ncael ei ddad-ysgogi ac ni fydd y baneri yn cael eu trosglwyddo \nnes bod y pwysau yn cael ei newid i rif dilys. \n\nYdych chi'n siwr eich bod am barhau?";
-$GLOBALS['strCampaignWarningNoTarget'] = "Mae blaenoriaeth yr ymgyrch wedi ei osod i uchel, \nond nid yw'r nifer darged o Argraffiadau wedi cael ei nodi.\nBydd hyn yn achosi bod eich ymgyrch yn cael ei ddad-ysgogi \nac ni fydd y baneri yn cael eu trosglwyddo nes bod rhif targed \ndilys o Argraffiadau wedi cael ei osod. \n\nYdych chi'n siwr eich bod am barhau?";
+$GLOBALS['strCampaignWarningRemnantNoWeight'] = "Mae blaenoriaeth yr ymgyrch wedi ei osod i isel,
+ond mae'r pwysau wedi ei osod i sero neu nid yw wedi cael
+ei nodi. Bydd hyn yn achosi bod eich ymgyrch yn
+cael ei ddad-ysgogi ac ni fydd y baneri yn cael eu trosglwyddo
+nes bod y pwysau yn cael ei newid i rif dilys.
+
+Ydych chi'n siwr eich bod am barhau?";
+$GLOBALS['strCampaignWarningNoTarget'] = "Mae blaenoriaeth yr ymgyrch wedi ei osod i uchel,
+ond nid yw'r nifer darged o Argraffiadau wedi cael ei nodi.
+Bydd hyn yn achosi bod eich ymgyrch yn cael ei ddad-ysgogi
+ac ni fydd y baneri yn cael eu trosglwyddo nes bod rhif targed
+dilys o Argraffiadau wedi cael ei osod.
+
+Ydych chi'n siwr eich bod am barhau?";
 $GLOBALS['strTrackerOverview'] = "Trosolwg Traciwr";
 $GLOBALS['strAddTracker'] = "Ychwanegu traciwr newydd";
 $GLOBALS['strAddTracker_Key'] = "Ychwanegu traciwr <u>n</u>ewydd";
@@ -403,7 +415,11 @@ $GLOBALS['strTotalZones'] = "Cyfanswm ardaloedd";
 $GLOBALS['strCostInfo'] = "Cost Cyfryngau";
 $GLOBALS['strTechnologyCost'] = "Cost Technoleg";
 $GLOBALS['strInactiveZonesHidden'] = "ardal(oedd) anweithredol wedi cuddio";
-$GLOBALS['strWarnChangeZoneType'] = "Bydd newid math yr ardal i testun neu ebost yn dad-gysylltu pob baner/ymgyrch oherwydd cyfyngderau'r mathau yma o ardaloedd\n<ul>\n<li>Gall ardaloedd testun gysylltu i hysbysebion testun yn unig</li>\n<li>Gall ymgyrchoedd ardal ebost ddim ond gael un faner weithredol ar y tro</li>\n</ul>";
+$GLOBALS['strWarnChangeZoneType'] = "Bydd newid math yr ardal i testun neu ebost yn dad-gysylltu pob baner/ymgyrch oherwydd cyfyngderau'r mathau yma o ardaloedd
+<ul>
+<li>Gall ardaloedd testun gysylltu i hysbysebion testun yn unig</li>
+<li>Gall ymgyrchoedd ardal ebost ddim ond gael un faner weithredol ar y tro</li>
+</ul>";
 $GLOBALS['strWarnChangeZoneSize'] = "Bydd newid maint yr ardal yn dad-gysylltu unrhyw faneri sydd ddim o'r maint newydd, ac yn ychwanegu unrhyw faneri o ymgyrchoedd cysylltiedig sydd o'r maint newydd";
 $GLOBALS['strAdvanced'] = "Uwch";
 $GLOBALS['strChainSettings'] = "Gosodiadau cadwyn";
@@ -511,14 +527,17 @@ $GLOBALS['strDatesConflict'] = "dyddiadau'n gwrthdaro gyda:";
 $GLOBALS['strEmailNoDates'] = "Rhaid i ymgyrchoedd ardal ebost gael dyddiad cychwyn a gorffen";
 $GLOBALS['strSirMadam'] = "Syr/Madam";
 $GLOBALS['strMailSubject'] = "Adroddiad Hysbysebwr";
-$GLOBALS['strMailHeader'] = "Annwyl{contact},\n";
+$GLOBALS['strMailHeader'] = "Annwyl{contact},";
 $GLOBALS['strMailBannerStats'] = "Isod byddwch yn darganfod ystadegau baner ar gyfer {clientname}:";
 $GLOBALS['strMailBannerActivatedSubject'] = "Ymgyrch wedi ysgogi";
 $GLOBALS['strMailBannerDeactivatedSubject'] = "Ymgyrch wedi dad-ysgogi";
-$GLOBALS['strMailBannerActivated'] = "Mae eich ymgyrch a ddangosir isod wedi cael ei ysgogi achos\nbod y dyddiad ysgogi ymgyrch wedi cael ei gyrraedd.";
+$GLOBALS['strMailBannerActivated'] = "Mae eich ymgyrch a ddangosir isod wedi cael ei ysgogi achos
+bod y dyddiad ysgogi ymgyrch wedi cael ei gyrraedd.";
 $GLOBALS['strMailBannerDeactivated'] = "Mae eich ymgyrch a ddangosir isod wedi cael ei ddad-ysgogi achos";
-$GLOBALS['strMailFooter'] = "Cofion,\n{adminfullname}";
-$GLOBALS['strMailNothingLeft'] = "Os hoffech chi barhau i hysbysebu ar ein gwefan, cysylltwch â ni.\nByddwn yn falch o glywed gennych.";
+$GLOBALS['strMailFooter'] = "Cofion,
+{adminfullname}";
+$GLOBALS['strMailNothingLeft'] = "Os hoffech chi barhau i hysbysebu ar ein gwefan, cysylltwch â ni.
+Byddwn yn falch o glywed gennych.";
 $GLOBALS['strClientDeactivated'] = "Nid yw'r ymgyrch yn weithredol ar hyn o bryd oherwydd";
 $GLOBALS['strBeforeActivate'] = "nad yw'r dyddiad ysgogi wedi cyrraedd eto";
 $GLOBALS['strAfterExpire'] = "nad yw'r dyddiad gorffen weddi cyrraedd";
@@ -636,7 +655,7 @@ $GLOBALS['strHiddenWebsite'] = "Gwefan";
 $GLOBALS['strYouHaveNoCampaigns'] = "Hysbysebwyr a Ymgyrchoedd";
 $GLOBALS['strSyncSettings'] = "Gosodiadau Cydamseru";
 $GLOBALS['strNoAdminInteface'] = "Mae'r sgrin weinyddu wedi cael ei diffodd ar gyfer gwaith cynnal a chadw. Ni fydd hyn yn effeithio ar drosglwyddiad eich ymgyrchoedd.";
-$GLOBALS['strEnableCookies'] = "Rhaid i chi alluogi cwcis cyn bod modd i chi ddefnyddio ". MAX_PRODUCT_NAME ."";
+$GLOBALS['strEnableCookies'] = "Rhaid i chi alluogi cwcis cyn bod modd i chi ddefnyddio {$PRODUCT_NAME}";
 $GLOBALS['strHideInactiveOverview'] = "Cuddio eitemau anweithredol a bob tudalen trosolwg";
 $GLOBALS['strHiddenPublisher'] = "Gwefan";
 $GLOBALS['strDefaultConversionRules'] = "Rhagosodiad rheolau trawsnewidiad";

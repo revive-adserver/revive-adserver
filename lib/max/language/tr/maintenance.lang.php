@@ -20,7 +20,7 @@ $GLOBALS['strHighPriorityCampaigns']		= "Yüksek öncelikli kampanyalar";
 $GLOBALS['strAdViewsAssigned']			= "Belirlenen görünme";
 $GLOBALS['strLowPriorityCampaigns']		= "Düşük öncelikli kampanyalar";
 $GLOBALS['strPredictedAdViews']			= "Önceden belirtilmiş Görünme";
-$GLOBALS['strPriorityDaysRunning']		= "There are currently {days} days worth of statistics available from where ".MAX_PRODUCT_NAME." can base its daily prediction on. ";
+$GLOBALS['strPriorityDaysRunning']		= "There are currently {days} days worth of statistics available from where {$PRODUCT_NAME} can base its daily prediction on. ";
 $GLOBALS['strPriorityBasedLastWeek']		= "Bu tahmin bu hafta ve geçen haftanın istatistiklerinden hazırlanmıştır. ";
 $GLOBALS['strPriorityBasedLastDays']		= "Bu tahmin son iki günün istatistiklerinden hazırlanmıştır. ";
 $GLOBALS['strPriorityBasedYesterday']		= "Bu tahmin dünün istatistiklerinden hazırlanmıştır. ";
@@ -31,24 +31,28 @@ $GLOBALS['strPriorityNotEnoughAdViews']		= "Bugün toplanan görüntilenmeler y�
 
 // Banner cache
 $GLOBALS['strRebuildBannerCache']		= "Banner hafızasını tekrar oluştur";
-$GLOBALS['strBannerCacheExplaination']		= "\n	Banner hafızası bannerı göstermek için HTML kodlarını içerir. Banner hafızası kullanmanız bannerın her gösteriminde yeniden HTML\n	kodu üretmeyeceğinden dolayı görüntülenmesini hızlandırır. Çünkü banner hafızası ".MAX_PRODUCT_NAME." programının direk adresini(URL)\n	ve bannerı bünyesinde bulundurur.\n";
+$GLOBALS['strBannerCacheExplaination']		= "	Banner hafızası bannerı göstermek için HTML kodlarını içerir. Banner hafızası kullanmanız bannerın her gösteriminde yeniden HTML
+	kodu üretmeyeceğinden dolayı görüntülenmesini hızlandırır. Çünkü banner hafızası {$PRODUCT_NAME} programının direk adresini(URL)
+	ve bannerı bünyesinde bulundurur.";
 
 
 // Zone cache
 $GLOBALS['strZoneCache']			= "Alan Hafızası";
 $GLOBALS['strAge']				= "Yaş";
 $GLOBALS['strRebuildZoneCache']			= "Alan Hafızasını tekrar oluştur";
-$GLOBALS['strZoneCacheExplaination']		= "\n	Alan hafızası o alana ait bannerların hızlı açılmasını sağlar. Alan hafızası üzerinde bulunan tüm bannerların kodlarını içermektedir.\n	Hafıza alan güncelleştirildiğinde veya banner eklendiğinde değişmektedir, bu yüzden hafıza geçerliliğini kaybeder.\n	Bu yüzden hafıza her {seconds} dakikada tekrar oluşturulmaktadır, ama bu hafıza elle de yapılabilmektedir.\n";
+$GLOBALS['strZoneCacheExplaination']		= "	Alan hafızası o alana ait bannerların hızlı açılmasını sağlar. Alan hafızası üzerinde bulunan tüm bannerların kodlarını içermektedir.
+	Hafıza alan güncelleştirildiğinde veya banner eklendiğinde değişmektedir, bu yüzden hafıza geçerliliğini kaybeder.
+	Bu yüzden hafıza her {seconds} dakikada tekrar oluşturulmaktadır, ama bu hafıza elle de yapılabilmektedir.";
 
 
 // Storage
 $GLOBALS['strStorage']				= "Depolama";
 $GLOBALS['strMoveToDirectory']			= "Veritabanında depolanan resimleri bir dizine taşı";
-$GLOBALS['strStorageExplaination']		= "\n";
+$GLOBALS['strStorageExplaination']		= "";
 
 
 // Storage
-$GLOBALS['strStatisticsExplaination']		= "\n";
+$GLOBALS['strStatisticsExplaination']		= "";
 
 
 // Product Updates
@@ -57,18 +61,21 @@ $GLOBALS['strAvailableUpdates']			= "Mevcut ürün güncellemeleri";
 $GLOBALS['strDownloadZip']			= "İndir (.zip)";
 $GLOBALS['strDownloadGZip']			= "İndir (.tar.gz)";
 
-$GLOBALS['strUpdateAlert']			= MAX_PRODUCT_NAME." programının yeni sürümü bulunmaktadır.                 \\n\\nBu güncelleme ile ilgili daha\\nfazla bilgi ister misiniz?";
-$GLOBALS['strUpdateAlertSecurity']		= MAX_PRODUCT_NAME." programının yeni sürümü bulunmaktadır.                 \\n\\nBu güncellemeyi yapmanız \\ntavsiye ediliyor, çünklü bu sürüm \\ngüvenlik problemlerinin onarılmış halini içeriyor.";
+$GLOBALS['strUpdateAlert']			= "{$PRODUCT_NAME} programının yeni sürümü bulunmaktadır.                 \\n\\nBu güncelleme ile ilgili daha\\nfazla bilgi ister misiniz?";
+$GLOBALS['strUpdateAlertSecurity']		= "{$PRODUCT_NAME} programının yeni sürümü bulunmaktadır.                 \\n\\nBu güncellemeyi yapmanız \\ntavsiye ediliyor, çünklü bu sürüm \\ngüvenlik problemlerinin onarılmış halini içeriyor.";
 
-$GLOBALS['strUpdateServerDown']			= "\n";
+$GLOBALS['strUpdateServerDown']			= "";
 
 $GLOBALS['strNoNewVersionAvailable']		=
-	MAX_PRODUCT_NAME." sürümünüz güncellenmiş. şu anda mevcut bir güncelleme bulunmuyor.
-";
+	"{$PRODUCT_NAME} sürümünüz güncellenmiş. şu anda mevcut bir güncelleme bulunmuyor.";
 
-$GLOBALS['strNewVersionAvailable']		= "\n	<b>".MAX_PRODUCT_NAME." yeni sürümü bulunmaktadır.</b><br> Bu güncellemeyi yüklemenizi tavsiye ederiz.\n	Çünkü bu sürüm bazı problemleri çözebilir ve yeni özellikler ekleyebilir. Daha fazla bilgi için\n	aşağıdaki dosyada bulunan dökümanları okuyunuz.\n";
+$GLOBALS['strNewVersionAvailable']		= "	<b>{$PRODUCT_NAME} yeni sürümü bulunmaktadır.</b><br> Bu güncellemeyi yüklemenizi tavsiye ederiz.
+	Çünkü bu sürüm bazı problemleri çözebilir ve yeni özellikler ekleyebilir. Daha fazla bilgi için
+	aşağıdaki dosyada bulunan dökümanları okuyunuz.";
 
-$GLOBALS['strSecurityUpdate']			= "\n	<b>Bu güncellemeyi yüklemeniz şiddetle tavsiye ediliyor. Çünkü bu sürüm bazı güvenlik açıklarını onarıyor.\n	.</b> Kullanmış olduğunuz ".MAX_PRODUCT_NAME." sürümü bazı saldırılara açık olabilir. Daha fazla bilgi için\n	aşağıdaki dosyada bulunan dökümanları okuyunuz.\n";
+$GLOBALS['strSecurityUpdate']			= "	<b>Bu güncellemeyi yüklemeniz şiddetle tavsiye ediliyor. Çünkü bu sürüm bazı güvenlik açıklarını onarıyor.
+	.</b> Kullanmış olduğunuz {$PRODUCT_NAME} sürümü bazı saldırılara açık olabilir. Daha fazla bilgi için
+	aşağıdaki dosyada bulunan dökümanları okuyunuz.";
 
 
 // Stats conversion
@@ -80,11 +87,19 @@ $GLOBALS['strConvertAdClicks']			= "Tıklanma dönüştürlüyor...";
 $GLOBALS['strConvertNothing']			= "Hiçbir şey dönüştürülmedi...";
 $GLOBALS['strConvertFinished']			= "Bitti...";
 
-$GLOBALS['strConvertExplaination']		= "\n	Şu anda istatistiklerinizi depolamak için yoğunlaştırılmış biçimi kullanıyorsunuz. Ama <br>\n	hala gereksiz içerikli istatistikleriniz bulunmakta. Bu gereksiz içerikli istatistikleriniz<br>\n	yoğunlaştırılmış istatistiklere dönüştürülmeden bu sayfaları göremezsiniz. <br>\n	İstatistiklerinizi dönüstürmden veritabanınızı yedekleyiniz ! <br>\n	Gereksiz içerikli istatistiklerinizi yoğunlaştırılmış istatistik biçimine dönüştürmek istermisiniz?<br>\n";
+$GLOBALS['strConvertExplaination']		= "	Şu anda istatistiklerinizi depolamak için yoğunlaştırılmış biçimi kullanıyorsunuz. Ama <br>
+	hala gereksiz içerikli istatistikleriniz bulunmakta. Bu gereksiz içerikli istatistikleriniz<br>
+	yoğunlaştırılmış istatistiklere dönüştürülmeden bu sayfaları göremezsiniz. <br>
+	İstatistiklerinizi dönüstürmden veritabanınızı yedekleyiniz ! <br>
+	Gereksiz içerikli istatistiklerinizi yoğunlaştırılmış istatistik biçimine dönüştürmek istermisiniz?<br>";
 
-$GLOBALS['strConvertingExplaination']		= "\n	Kalan tüm gereksiz içerikli istatistikleriniz yoğunlaştırılmış istatistiklere çevrildi.<br>\n	Tüm kayıtların dönüştürülmesi biraz süre alacaktır. İBu süre içerisinde lütfen başka sayfaları\n	gezmeyiniz. İşlem sonunda size veritabanı üzerinde yapılan değişikler ile ilgili rapor sunulacaktır.\n";
+$GLOBALS['strConvertingExplaination']		= "	Kalan tüm gereksiz içerikli istatistikleriniz yoğunlaştırılmış istatistiklere çevrildi.<br>
+	Tüm kayıtların dönüştürülmesi biraz süre alacaktır. İBu süre içerisinde lütfen başka sayfaları
+	gezmeyiniz. İşlem sonunda size veritabanı üzerinde yapılan değişikler ile ilgili rapor sunulacaktır.";
 
-$GLOBALS['strConvertFinishedExplaination']  	= "\n	Yoğunlaştırılmış istatistiklere dönüştürme işlemi başarıyla gerçekleştirildi, <br>\n	şu anda veriler tekrar kullanılabilir halde. Aşağıda veritabanında yapılan tüm<br>\n	değişiklikleri görebilirsiniz.<br>\n";
+$GLOBALS['strConvertFinishedExplaination']  	= "	Yoğunlaştırılmış istatistiklere dönüştürme işlemi başarıyla gerçekleştirildi, <br>
+	şu anda veriler tekrar kullanılabilir halde. Aşağıda veritabanında yapılan tüm<br>
+	değişiklikleri görebilirsiniz.<br>";
 
 
 

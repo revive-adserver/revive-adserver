@@ -1119,7 +1119,7 @@ class OX_Plugin_ComponentGroupManager
 
     function _checkOpenXCompatibility($name, $minVersion)
     {
-        return version_compare(OA_VERSION, $minVersion, '>=');
+        return version_compare(VERSION, $minVersion, '>=');
     }
 
     function _checkSystemEnvironment($name, $aPhp)

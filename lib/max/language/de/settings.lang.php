@@ -31,30 +31,30 @@ $GLOBALS['strBtnGoBack']                    = "« zurück";
 $GLOBALS['strBtnAgree']                     = "Ich stimme zu »";
 $GLOBALS['strBtnDontAgree']                 = "« Ich widerspreche";
 $GLOBALS['strBtnRetry']                     = "Erneut versuchen";
-$GLOBALS['strUpdateDatabaseError']	= "Aus unbekannten Gründen war die Aktualisierung der Datenbankstruktur nicht erfolgreich. Es wird empfohlen, zu versuchen, mit <b>Wiederhole Update</b> das Problem zu beheben. Sollte der Fehler - Ihrer Meinung nach - die Funktionalitä von ".MAX_PRODUCT_NAME." nicht berühren, können Sie durch <b>Fehler ignorieren</b> fortfahren. Das Ignorieren des Fehlers wird nicht empfohlen!";
-$GLOBALS['strAlreadyInstalled']			= "". MAX_PRODUCT_NAME ." ist auf Ihrem System bereits installiert. Wenn Sie es konfigurieren möchten, wechseln Sie zu den <a href='account-index.php'>Einstellungen</a>.";
+$GLOBALS['strUpdateDatabaseError']	= "Aus unbekannten Gründen war die Aktualisierung der Datenbankstruktur nicht erfolgreich. Es wird empfohlen, zu versuchen, mit <b>Wiederhole Update</b> das Problem zu beheben. Sollte der Fehler - Ihrer Meinung nach - die Funktionalitä von {$PRODUCT_NAME} nicht berühren, können Sie durch <b>Fehler ignorieren</b> fortfahren. Das Ignorieren des Fehlers wird nicht empfohlen!";
+$GLOBALS['strAlreadyInstalled']			= "{$PRODUCT_NAME} ist auf Ihrem System bereits installiert. Wenn Sie es konfigurieren möchten, wechseln Sie zu den <a href='account-index.php'>Einstellungen</a>.";
 $GLOBALS['strCouldNotConnectToDB']		= "Verbindung zur Datenbank war nicht möglich. Bitte vorgenommene Einstellung prüfen.";
 $GLOBALS['strCreateTableTestFailed']		= "Der von Ihnen angegebene Nutzer hat nicht die notwendigen Zugriffsrechte, um die Datenbankstruktur anlegen zu können. Wenden Sie sich an den Systemverwalter.";
 $GLOBALS['strUpdateTableTestFailed']		= " Der von Ihnen angegebene Nutzer hat nicht die notwendigen Zugriffsrechte, um die Datenbank zu aktualisieren. Wenden Sie sich an den Systemverwalter.";
 $GLOBALS['strTablePrefixInvalid']		= "Ungültiges Vorzeichen (Präfix) im Tabellennamen";
-$GLOBALS['strTableInUse']			= "Die genannte Datenbank wird bereits von ".MAX_PRODUCT_NAME.", genutzt. Verwenden Sie einen anderes Präfix oder lesen Sie im Handbuch die Hinweise für ein Upgrade.";
+$GLOBALS['strTableInUse']			= "Die genannte Datenbank wird bereits von {$PRODUCT_NAME}, genutzt. Verwenden Sie einen anderes Präfix oder lesen Sie im Handbuch die Hinweise für ein Upgrade.";
 $GLOBALS['strNoVersionInfo']                = "Konnte Datenbankversion nicht rausfinden.";
 $GLOBALS['strInvalidVersionInfo']           = "Konnte Datenbankversion nicht rausfinden.";
-$GLOBALS['strInvalidMySqlVersion']          = "" . MAX_PRODUCT_NAME." benötigt MySQL 4.0 oder höher, um korrekt zu arbeiten. Bitte wählen Sie einen anderen Datenbankserver.";
-$GLOBALS['strTableWrongType']		= "Der gewählte Tabellentype wird bei der Installation von ".$phpAds_dbmsname." nicht unterstützt";
+$GLOBALS['strInvalidMySqlVersion']          = "{$PRODUCT_NAME} benötigt MySQL 4.0 oder höher, um korrekt zu arbeiten. Bitte wählen Sie einen anderen Datenbankserver.";
+$GLOBALS['strTableWrongType']		= "Der gewählte Tabellentype wird bei der Installation von {$phpAds_dbmsname} nicht unterstützt";
 $GLOBALS['strMayNotFunction']			= "Folgende Probleme sind zu beheben, um fortzufahren";
-$GLOBALS['strFixProblemsBefore']		= "Folgende Teile müssen korrigiert werden, bevor der Installationsprozeß von ".MAX_PRODUCT_NAME." fortgesetzt werden kann. Informationen über Fehlermeldungen finden sich im Handbuch.";
+$GLOBALS['strFixProblemsBefore']		= "Folgende Teile müssen korrigiert werden, bevor der Installationsprozeß von {$PRODUCT_NAME} fortgesetzt werden kann. Informationen über Fehlermeldungen finden sich im Handbuch.";
 $GLOBALS['strFixProblemsAfter']			= "Sollten Sie die oben aufgeführten Fehler nicht selbst heben können, nehmen Sie Kontakt mit der Systemadministration Ihres Servers auf. Diese wird Ihnen weiterhelfen können.";
 $GLOBALS['strIgnoreWarnings']			= "Ignoriere Warnungen";
-$GLOBALS['strWarningDBavailable']		= "Die eingesetzte PHP-Version unterstützt nicht die Verbindung zum ".$phpAds_dbmsname." Datenbankserver. Die PHP- ".$phpAds_dbmsname."-Erweiterung wird benötigt.";
-$GLOBALS['strWarningPHPversion']		= "". MAX_PRODUCT_NAME ." benötigt mindestens PHP 5.1.4. Der Server verwendet aktuell {php_version}.";
+$GLOBALS['strWarningDBavailable']		= "Die eingesetzte PHP-Version unterstützt nicht die Verbindung zum {$phpAds_dbmsname} Datenbankserver. Die PHP- {$phpAds_dbmsname}-Erweiterung wird benötigt.";
+$GLOBALS['strWarningPHPversion']		= "{$PRODUCT_NAME} benötigt mindestens PHP 5.1.4. Der Server verwendet aktuell {php_version}.";
 $GLOBALS['strWarningRegisterGlobals']		= "Die PHP-Konfigurationsvaribable <i>register_globals</i> muß gesetzt werden.";
 $GLOBALS['strWarningMagicQuotesGPC']		= " Die PHP-Konfigurationsvaribable <i> magic_quotes_gpc</i> muß gesetzt werden.";
 $GLOBALS['strWarningMagicQuotesRuntime']	= " Die PHP-Konfigurationsvaribable <i> magic_quotes_runtime</i> muß deaktiviert werden.";
 $GLOBALS['strWarningFileUploads']		= " Die PHP-Konfigurationsvaribable <i> file_uploads</i> muß gesetzt werden.";
 $GLOBALS['strWarningTrackVars']			= " Die PHP-Konfigurationsvaribable <i> track_vars</i> muß gesetzt werden.";
 $GLOBALS['strWarningPREG']				= "Die verwendete PHP-Version unterstützt nicht PERL-kompatible Ausdrücke. Um fortfahren zu können wird die PHP-Erweiterung <i>PREG</i> benötigt.";
-$GLOBALS['strConfigLockedDetected']		= "" . MAX_PRODUCT_NAME." hat erkannt, daß die Datei <b>config.inc.php</b> schreibgeschützt ist.<br /> Die Installation kann aber ohne Schreibberechtigung nicht fortgesetzt werden. <br />Weitere Informationen finden sich im Handbuch.";
+$GLOBALS['strConfigLockedDetected']		= "{$PRODUCT_NAME} hat erkannt, daß die Datei <b>config.inc.php</b> schreibgeschützt ist.<br /> Die Installation kann aber ohne Schreibberechtigung nicht fortgesetzt werden. <br />Weitere Informationen finden sich im Handbuch.";
 
 $GLOBALS['strCantUpdateDB']  			= "Ein Update der Datenbank ist derzeit nicht möglich. Wenn Sie die Installation fortsetzen, werden alle existierende Banner, Statistiken und Werbetreibenden gelöscht. ";
 $GLOBALS['strIgnoreErrors']			= "Fehler ignorieren";
@@ -62,35 +62,35 @@ $GLOBALS['strRetryUpdate']			= "Wiederhole Update";
 $GLOBALS['strTableNames']			= "Tabellenname";
 $GLOBALS['strTablesPrefix']			= "Präfix zum Tabellenname";
 $GLOBALS['strTablesType']			= "Tabellentype";
-$GLOBALS['strInstallWelcome']			= "Willkommen bei ".MAX_PRODUCT_NAME;
-$GLOBALS['strInstallMessage']			= "Bevor ".MAX_PRODUCT_NAME." genutzt werden kann, müssen die Einstellungen konfiguriert  <br /> sowie die Datenbank geschaffen (create) werden. Drücken Sie <b>Weiter</b> , um fortzufahren.";
+$GLOBALS['strInstallWelcome']			= "Willkommen bei {$PRODUCT_NAME}";
+$GLOBALS['strInstallMessage']			= "Bevor {$PRODUCT_NAME} genutzt werden kann, müssen die Einstellungen konfiguriert  <br /> sowie die Datenbank geschaffen (create) werden. Drücken Sie <b>Weiter</b> , um fortzufahren.";
 
-$GLOBALS['strInstallIntro']                 = "Vielen Dank das Sie <a href='http://".MAX_PRODUCT_URL."' target='_blank'><strong>".MAX_PRODUCT_NAME."</strong></a> gewählt haben<p>Dieser Assistent wird Sie durch den Installations oder Upgradevorgang des ".MAX_PRODUCT_NAME." AdServers führen.</p><p>Zu Ihrer Unterstützung bei der Installation haben wir eine an <a href='". OX_PRODUCT_DOCSURL ."/wizard/qsg-install' target='_blank'>Kurzanleitung für die Installation</a> erstellt. Diese Anleitung erklärt die wichtigsten Schritte während der Installation. Ausführlichere Informationen und weitere Konfigurationsdetails über ".MAX_PRODUCT_NAME." finden Sie auf im <a href='". OX_PRODUCT_DOCSURL ."/wizard/admin-guide' target='_blank'>Administrator Leitfaden</a>.";
+$GLOBALS['strInstallIntro']                 = "Vielen Dank das Sie <a href='http://{$PRODUCT_URL}' target='_blank'><strong>{$PRODUCT_NAME}</strong></a> gewählt haben<p>Dieser Assistent wird Sie durch den Installations oder Upgradevorgang des {$PRODUCT_NAME} AdServers führen.</p><p>Zu Ihrer Unterstützung bei der Installation haben wir eine an <a href='{$PRODUCT_DOCSURL}/wizard/qsg-install' target='_blank'>Kurzanleitung für die Installation</a> erstellt. Diese Anleitung erklärt die wichtigsten Schritte während der Installation. Ausführlichere Informationen und weitere Konfigurationsdetails über {$PRODUCT_NAME} finden Sie auf im <a href='{$PRODUCT_DOCSURL}/wizard/admin-guide' target='_blank'>Administrator Leitfaden</a>.";
 $GLOBALS['strTermsTitle']               = "Nutzungsbedingungen, Datenschutzerklärung";
-$GLOBALS['strTermsIntro']               = "".MAX_PRODUCT_NAME." wird unter der Open Source Lizenz 'GNU General Public License' vertrieben. Sie sollten das folgende Dokument lesen und müssen die Bedingungen akzeptieren, bevor Sie mit der Installation fortfahren können.";
+$GLOBALS['strTermsIntro']               = "{$PRODUCT_NAME} wird unter der Open Source Lizenz 'GNU General Public License' vertrieben. Sie sollten das folgende Dokument lesen und müssen die Bedingungen akzeptieren, bevor Sie mit der Installation fortfahren können.";
 $GLOBALS['strPolicyTitle']               = "Datenschutzerklärung";
 $GLOBALS['strPolicyIntro']               = "Bitte lesen und akzeptieren Sie die folgenden Bedingungen um mit der Installation fortzufahren.";
 $GLOBALS['strDbSetupTitle']               = "Datenbankeinstellungen";
 $GLOBALS['strDbSetupIntro']               = "Bitte tragen Sie die Zugangsdetails für Ihre Datenbank ein. Bitten Sie Ihren Systemadministrator um Unterstützung wenn Sie sich nicht sicher sind.<p>Im nächsten Schritt wird Ihre Datenbank eingerichtet. Klicken Sie auf 'Fortsetzen' um hiermit zu beginnen.</p>";
-$GLOBALS['strDbUpgradeIntro']             = "Unten finden Sie die ermittelten Datenbank-Informationen für Ihre Installation von ".MAX_PRODUCT_NAME.". Bitte überprüfen Sie die Angaben auf Richtigkeit.<p>Der nächste Schritt wird die Datenbank aktualisieren. Klicken Sie auf 'Fortsetzen' um hiermit zu beginnen.</p>";
+$GLOBALS['strDbUpgradeIntro']             = "Unten finden Sie die ermittelten Datenbank-Informationen für Ihre Installation von {$PRODUCT_NAME}. Bitte überprüfen Sie die Angaben auf Richtigkeit.<p>Der nächste Schritt wird die Datenbank aktualisieren. Klicken Sie auf 'Fortsetzen' um hiermit zu beginnen.</p>";
 
-$GLOBALS['strOaUpToDate']               = "Ihre ". MAX_PRODUCT_NAME ." Datenbank und Verzeichnisstruktur ist auf dem neusten Stand, für diese Daten ist kein Upgradevorgang nötig. Bitte klicken Sie auf Fortsetzen um zur Administrationsseite von ". MAX_PRODUCT_NAME ." zu gelangen.";
+$GLOBALS['strOaUpToDate']               = "Ihre {$PRODUCT_NAME} Datenbank und Verzeichnisstruktur ist auf dem neusten Stand, für diese Daten ist kein Upgradevorgang nötig. Bitte klicken Sie auf Fortsetzen um zur Administrationsseite von {$PRODUCT_NAME} zu gelangen.";
 $GLOBALS['strOaUpToDateCantRemove']     = "Warnung: Es fehlen die nötigen Rechte an der Datei UPGRADE um diese aus dem Openads-'var'-Verzeichnis zu entfernen. Bitte löschen Sie die Datei manuell.";
 $GLOBALS['strRemoveUpgradeFile']               = "Sie müssen die Datei UPGRADE aus dem var-Verzeichnis löschen.";
 
 
 $GLOBALS['strInstallSuccess']			=
-"Mit einem Klick auf 'Fortsetzen' werden Sie in den AdServer eingeloggt.<p><strong>Was sollten Sie als nächstes tun?</strong></p><div class='psub'><p><b>Registrieren Sie sich für Produktupgrades</b><br><a href='". OX_PRODUCT_DOCSURL ."/wizard/join' target='_blank'>Tragen Sie sich in die ". MAX_PRODUCT_NAME ." e-Mail-Verteiler ein.</a> um über Produktupgrades, Sicherheitshinweise und neue Produktankündigungen informiert zu werden.</p><p><b>Liefern Sie Ihre erste Kampagne aus</b><br>Lesen Sie unsere <a href='". OX_PRODUCT_DOCSURL ."/wizard/qsg-firstcampaign' target='_blank'>Kurzanleitung zur Einrichtung einer ersten Werbekampagne</a></p></div><p><strong>Weitere (optionale) Schritte</strong></p><div class='psub'><p><b>Entfernen Sie den Schreibschutz der Konfigurationsdatei</b><br>Sie erhöhen die Sicherheit Ihres AdServers und verhindern ungewollte Modifikationen an den Einstellungen. <a href='". OX_PRODUCT_DOCSURL ."/wizard/lock-config' target='_blank'>Lesen Sie mehr ...</a></p><p><b>Einrichtung eines regelmäßigen Wartungslaufes</b><br>Der Wartungslauf ist erforderlich um zeitnahe Statistiken und die bestmögliche Ausführungsgeschwindigkeit des AdServers zu erhalten. <a href='". OX_PRODUCT_DOCSURL ."/wizard/setup-cron' target='_blank'>Lesen Sie mehr ...</a></p><p><b>Überprüfen Sie die Konfigurationseinstellungen</b><br>Bevor Sie ". MAX_PRODUCT_NAME ." in Betrieb nehmen, sollten Sie die Konfiguration unter dem Tab 'Einstellungen' überprüfen.</p></div>";
+"Mit einem Klick auf 'Fortsetzen' werden Sie in den AdServer eingeloggt.<p><strong>Was sollten Sie als nächstes tun?</strong></p><div class='psub'><p><b>Registrieren Sie sich für Produktupgrades</b><br><a href='{$PRODUCT_DOCSURL}/wizard/join' target='_blank'>Tragen Sie sich in die {$PRODUCT_NAME} e-Mail-Verteiler ein.</a> um über Produktupgrades, Sicherheitshinweise und neue Produktankündigungen informiert zu werden.</p><p><b>Liefern Sie Ihre erste Kampagne aus</b><br>Lesen Sie unsere <a href='{$PRODUCT_DOCSURL}/wizard/qsg-firstcampaign' target='_blank'>Kurzanleitung zur Einrichtung einer ersten Werbekampagne</a></p></div><p><strong>Weitere (optionale) Schritte</strong></p><div class='psub'><p><b>Entfernen Sie den Schreibschutz der Konfigurationsdatei</b><br>Sie erhöhen die Sicherheit Ihres AdServers und verhindern ungewollte Modifikationen an den Einstellungen. <a href='{$PRODUCT_DOCSURL}/wizard/lock-config' target='_blank'>Lesen Sie mehr ...</a></p><p><b>Einrichtung eines regelmäßigen Wartungslaufes</b><br>Der Wartungslauf ist erforderlich um zeitnahe Statistiken und die bestmögliche Ausführungsgeschwindigkeit des AdServers zu erhalten. <a href='{$PRODUCT_DOCSURL}/wizard/setup-cron' target='_blank'>Lesen Sie mehr ...</a></p><p><b>Überprüfen Sie die Konfigurationseinstellungen</b><br>Bevor Sie {$PRODUCT_NAME} in Betrieb nehmen, sollten Sie die Konfiguration unter dem Tab 'Einstellungen' überprüfen.</p></div>";
 
-$GLOBALS['strInstallNotSuccessful']		= "Die Installation von ". MAX_PRODUCT_NAME ."  war nicht erfolgreich. Einige Teilschritte der Installationprozedur konnten nicht ausgeführt werden. Es ist durchaus möglich, das dieses Problem nur vorübergehend besteht und eine Wiederholung der Installation vom ersten Installationschritt durch einen Klick auf 'Weiter' zum Erfolg führt. Mehr über die untenstehende Fehlermeldung erfahren Sie aus der Dokumentation.";
+$GLOBALS['strInstallNotSuccessful']		= "Die Installation von {$PRODUCT_NAME}  war nicht erfolgreich. Einige Teilschritte der Installationprozedur konnten nicht ausgeführt werden. Es ist durchaus möglich, das dieses Problem nur vorübergehend besteht und eine Wiederholung der Installation vom ersten Installationschritt durch einen Klick auf 'Weiter' zum Erfolg führt. Mehr über die untenstehende Fehlermeldung erfahren Sie aus der Dokumentation.";
 $GLOBALS['strSystemCheck']                  = "Systemüberprüfung";
 $GLOBALS['strSystemCheckIntro']             = "Der Installations-Assistent überprüft die Einstellungen Ihres Webservers um sicherzustellen, dass die Installation erfolgreich fortgesetzt werden kann.<p>Bitte überprüfen Sie alle markieren Probleme um die Installation fortzusetzen.</p>";
-$GLOBALS['strDbSuccessIntro']               = "Die ".MAX_PRODUCT_NAME." Datenbank ist erstellt worden. Bitte klicken Sie auf 'Fortsetzen' um mit der Konfiguration der Einstellungen von ".MAX_PRODUCT_NAME." zum Administrator und der Auslieferung zu beginnen.";
+$GLOBALS['strDbSuccessIntro']               = "Die {$PRODUCT_NAME} Datenbank ist erstellt worden. Bitte klicken Sie auf 'Fortsetzen' um mit der Konfiguration der Einstellungen von {$PRODUCT_NAME} zum Administrator und der Auslieferung zu beginnen.";
 $GLOBALS['strDbSuccessIntroUpgrade']        = "Ihr System wurde erfolgreich aktualisiert. Die folgenden Seiten unterstützen Sie dabei, zusätzliche Einstellungen Ihres AdServers zu überprüfen.";
 $GLOBALS['strErrorOccured']			= "Der folgende Fehler ist aufgetreten:";
 $GLOBALS['strErrorInstallDatabase']		= "Die Datenbankstruktur konnte nicht angelegt werden.";
 $GLOBALS['strErrorInstallPrefs']            = "Die Benutzereinstellungen für den Administrator konnten nicht in die Datenbank geschrieben werden.";
-$GLOBALS['strErrorInstallVersion']          = "Die " . MAX_PRODUCT_NAME . " Versionsnummer konnte nicht in die Datenbank geschrieben werden.";
+$GLOBALS['strErrorInstallVersion']          = "Die {$PRODUCT_NAME} Versionsnummer konnte nicht in die Datenbank geschrieben werden.";
 $GLOBALS['strErrorUpgrade'] = 'Das Upgrade der Datenbank der bestehenden Installation ist fehlgeschlagen.';
 $GLOBALS['strErrorInstallDbConnect']		= "Eine Verbindung zur Datenbank konnte nicht geöffnet werden.";
 $GLOBALS['strErrorWritePermissions']        = "Nicht ausreichende Datei- und Verzeichnisrechte erkannt, Sie müssen dies beheben bevor die Installation fortgesetzt werden kann.<br />Um diese Rechte auf einem Linux System zu gewähren, tippen Sie den/die folgenden Befehle auf einer Shell:";
@@ -107,8 +107,10 @@ $GLOBALS['strImagesUrlPrefixSSL']           = "URL des Verzeichnisses in dem die
 $GLOBALS['strInvalidUserPwd']			= "Fehlerhafter Benutzername oder Passwort";
 
 $GLOBALS['strUpgrade']				= "Programmaktualisierung (Upgrade)";
-$GLOBALS['strSystemUpToDate']		= "Das System ist bereits aktuell. Eine Aktualisierung (Upgrade) ist nicht notwendig. <br />\nDrücken Sie <b>Weiter</b>, um zur Startseite zu gelangen.";
-$GLOBALS['strSystemNeedsUpgrade']		= "Die Datenbankstruktur und die Konfigurationsdateien sollten aktualisiert werden. Drücken Sie <b>Weiter</b> für den Start des Aktualisierungslaufes.\n <br /><br />Abhängig von der derzeitig genutzten Version und der Anzahl der vorhandenen Statistiken kann dieser Prozeß Ihre Datenbank stark belasten. Das Upgrade kann einige Minuten dauern.";
+$GLOBALS['strSystemUpToDate']		= "Das System ist bereits aktuell. Eine Aktualisierung (Upgrade) ist nicht notwendig. <br />
+Drücken Sie <b>Weiter</b>, um zur Startseite zu gelangen.";
+$GLOBALS['strSystemNeedsUpgrade']		= "Die Datenbankstruktur und die Konfigurationsdateien sollten aktualisiert werden. Drücken Sie <b>Weiter</b> für den Start des Aktualisierungslaufes.
+ <br /><br />Abhängig von der derzeitig genutzten Version und der Anzahl der vorhandenen Statistiken kann dieser Prozeß Ihre Datenbank stark belasten. Das Upgrade kann einige Minuten dauern.";
 $GLOBALS['strSystemUpgradeBusy']		= "Aktualisierung des Systems läuft. Bitte warten ...";
 $GLOBALS['strSystemRebuildingCache']		= "Cache wird neu erstellt. Bitte warten ...";
 $GLOBALS['strServiceUnavalable']		= "Dieser Service ist zur Zeit nicht erreichbar. System wird aktualisiert...";
@@ -158,7 +160,7 @@ $GLOBALS['strTimezoneGuessedValue']                  = "Die Server-Zeitzone für
 $GLOBALS['strTimezoneSeeDocs']                       = "Für Informationen über diese PHP Variable sehen Sie bitte unter %DOCS% nach.";
 $GLOBALS['strTimezoneDocumentation']                 = "Dokumentation";
 $GLOBALS['strLoginSettingsTitle']                    = "Administrator Anmeldung";
-$GLOBALS['strLoginSettingsIntro']                    = "Bitte verwenden Sie Ihre ".MAX_PRODUCT_NAME." Administrator-Zugangsdaten in den entsprechenden Feldern. Sie müssen sich als Administrator einloggen um den Upgradevorgang fortzusetzen.";
+$GLOBALS['strLoginSettingsIntro']                    = "Bitte verwenden Sie Ihre {$PRODUCT_NAME} Administrator-Zugangsdaten in den entsprechenden Feldern. Sie müssen sich als Administrator einloggen um den Upgradevorgang fortzusetzen.";
 $GLOBALS['strAdminSettingsTitle']                    = "Anlegen des Administrations-Zugangs";
 $GLOBALS['strAdminSettingsIntro']                    = "Bitte füllen Sie die Eingabefelder aus um den Administrator-Zugang für diesen AdServer anzulegen.";
 $GLOBALS['strConfigSettingsIntro']                    = "Bitte überprüfen Sie die unten stehenden Einstellungen und nehmen Sie ggf. die nötigen Änderungen vor. Wenn Sie sich nicht sicher sind, verwenden Sie die vorgegebenen Werte.";
@@ -194,7 +196,7 @@ $GLOBALS['strDatabaseOptimalisations']		= "Einstellungen zur Datenbank-Optimieru
 $GLOBALS['strPersistentConnections']		= "Dauerhafte (persistente) Verbindung zur Datenbank";
 $GLOBALS['strCantConnectToDb']		= "Verbindung zur Datenbank nicht möglich";
 $GLOBALS['strDemoDataInstall']                       = 'Einrichten von Beispieldaten';
-$GLOBALS['strDemoDataIntro']                         = 'Um Ihnen zu zeigen wie Kampagnen, Banner und Zonen in ".'.MAX_PRODUCT_NAME.'." organisiert werden, können bei der Installation einige Beispieldaten eingerichtet werden. Wenn Sie ".'.MAX_PRODUCT_NAME.'." das erste mal nutzen, empfehlen wir Ihnen diese Daten einzurichten. ';
+$GLOBALS['strDemoDataIntro']                         = "Um Ihnen zu zeigen wie Kampagnen, Banner und Zonen in {$PRODUCT_NAME} organisiert werden, können bei der Installation einige Beispieldaten eingerichtet werden. Wenn Sie {$PRODUCT_NAME} das erste mal nutzen, empfehlen wir Ihnen diese Daten einzurichten. ";
 
 // Debug Logging Settings
 $GLOBALS['strDebugSettings']                         = 'Debug-Logging';
@@ -224,7 +226,7 @@ $GLOBALS['strDebugPassword']                         = 'mCal, SQL-Server Paßwor
 
 // Delivery Settings
 $GLOBALS['strDeliverySettings']			= "Einstellungen für Bannerauslieferung";
-$GLOBALS['strWebPath']                               = 'Übersicht ".'.MAX_PRODUCT_NAME.'." Server-Pfade';
+$GLOBALS['strWebPath']                               = "Übersicht {$PRODUCT_NAME} Server-Pfade";
 $GLOBALS['strWebPathSimple']                         = 'Web-Pfad';
 $GLOBALS['strDeliveryPath']                          = 'Auslieferungs-Pfad';
 $GLOBALS['strImagePath']                             = 'Banner-Pfad';
@@ -399,7 +401,7 @@ $GLOBALS['strDefaultImpConWindowError']              = 'Wenn gesetzt, muß der V
 $GLOBALS['strDefaultCliConWindow']                   = 'Vorgabewert (in Sekunden) für das Zeitfenster von Ad Klicks bei der Neuanlage von Trackern';
 $GLOBALS['strDefaultCliConWindowError']              = 'Wenn gesetzt, muß der Vorgabewert für das Zeitfenster der Tracker Ad Klicks eine positive ganze Zahl sein';
 $GLOBALS['strEmailWarnings']			= "Warnungen per E-Mail";
-$GLOBALS['strAdminEmailHeaders']		= "Alle e-Mails, die von ". MAX_PRODUCT_NAME ." gesendet werden, erhalten die folgenden Header hinzugefügt";
+$GLOBALS['strAdminEmailHeaders']		= "Alle e-Mails, die von {$PRODUCT_NAME} gesendet werden, erhalten die folgenden Header hinzugefügt";
 $GLOBALS['strWarnLimit']				= "Warnung per E-Mail bei Unterschreiten der definierten Untergrenze";
 $GLOBALS['strWarnLimitErr']				= "Warnlimit muß eine positive Ganzzahl sein";
 $GLOBALS['strWarnLimitDays']                         = 'Sende eine Warnung wenn weniger Tage verblieben sind als hier angegeben.';
@@ -472,9 +474,9 @@ $GLOBALS['strBtnStartAgain'] = "Das Upgrade erneut starten »";
 $GLOBALS['strFixErrorsBeforeContinuing'] = "Vor dem Fortsetzen bitte alle Fehler beheben.";
 $GLOBALS['strWarningRegisterArgcArv'] = "Um das Maintenance-Wartungsscript von der Shell aufzurufen muß die PHP Konfigurationseinstellung 'register_argc_argv' auf 'On' gesetzt werden.";
 $GLOBALS['strRecoveryRequiredTitle'] = "Der vorige Upgrade-Versuch hat Fehler hinterlassen.";
-$GLOBALS['strRecoveryRequired'] = "Bei der vorigen Upgrade-Prozedur sind Fehler aufgetreten. ".MAX_PRODUCT_NAME." wird versuchen den Zustand vor dem Upgrade wieder herzustellen. Bitte klicken Sie auf Wiederherstellen.";
+$GLOBALS['strRecoveryRequired'] = "Bei der vorigen Upgrade-Prozedur sind Fehler aufgetreten. {$PRODUCT_NAME} wird versuchen den Zustand vor dem Upgrade wieder herzustellen. Bitte klicken Sie auf Wiederherstellen.";
 $GLOBALS['strErrorWritePermissionsWin'] = "Nicht ausreichende Datei- und Verzeichnisrechte erkannt, Sie müssen dies beheben bevor die Installation fortgesetzt werden kann.";
-$GLOBALS['strCheckDocumentation'] = "Wenn Sie mehr Hilfe benötigen, besuchen Sie bitte die <a href='". OX_PRODUCT_DOCSURL ."'>".MAX_PRODUCT_NAME." Online-Dokumentation</a>.";
+$GLOBALS['strCheckDocumentation'] = "Wenn Sie mehr Hilfe benötigen, besuchen Sie bitte die <a href='{$PRODUCT_DOCSURL}'>{$PRODUCT_NAME} Online-Dokumentation</a>.";
 $GLOBALS['strEnableQmailPatch'] = "Kopfzeile auch für qmail lesbar machen";
 $GLOBALS['strNovice'] = "Löschvorgänge im Admin-Bereich nur mit Sicherheitsbestätigung";
 $GLOBALS['strEmailSettings'] = "Einstellungen E-Mail";

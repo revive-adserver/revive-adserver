@@ -55,8 +55,7 @@ $GLOBALS['strUserlog'] = array (
 	phpAds_actionDeactiveCampaign			=> "Campaign {id} deactivated",
 	phpAds_actionPriorityCalculation		=> "Priority recalculated",
 	phpAds_actionPublisherReportMailed 		=> "Report for website {id} send by email",
-	phpAds_actionWarningMailed				=> "Deactivation warning for campaign {id} send by email"
-);
+	phpAds_actionWarningMailed				=> "Deactivation warning for campaign {id} send by email");
 $GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "Activation notification for campaign {id} send by email";
 
 ?>

@@ -21,30 +21,35 @@ $GLOBALS['strOtherSettings']			= "Diğer Ayarlar";
 
 $GLOBALS['strWarning']				= "Uyarı";
 $GLOBALS['strFatalError']			= "Tehlikeli hata oluştu";
-$GLOBALS['strAlreadyInstalled']			= MAX_PRODUCT_NAME." programı bu sistemde zaten kurulu. Ayarları düzenlemek istiyorsanız <a href='settings-index.php'>ayarlar bölümüne</a> gidiniz";
+$GLOBALS['strAlreadyInstalled']			= "{$PRODUCT_NAME} programı bu sistemde zaten kurulu. Ayarları düzenlemek istiyorsanız <a href='settings-index.php'>ayarlar bölümüne</a> gidiniz";
 $GLOBALS['strCouldNotConnectToDB']		= "Veritabanına bağlanılamadı, lütfen belirtmiş olduğunuz ayarları kontrol ediniz";
 $GLOBALS['strCreateTableTestFailed']		= "Belirtmiş olduğunuz kullanıcı veritabanı yapısına ekleme yapma iznine sahip değil, veritabanı yöneticinizle irtibata geçiniz.";
 $GLOBALS['strUpdateTableTestFailed']		= "Belirtmiş olduğunuz kullanıcı veritabanı yapısını değiştirme iznine sahip değil, veritabanı yöneticinizle irtibata geçiniz.";
 $GLOBALS['strTablePrefixInvalid']		= "Tablo önadları geçersiz karakter içeriyor";
-$GLOBALS['strTableInUse']			= "Belirtmiş olduğunuz önadlar ".MAX_PRODUCT_NAME." programı tarafından kullanılıyor, lütfen farklı önad tanımlayın, veya klavuzu okuyunuz.";
+$GLOBALS['strTableInUse']			= "Belirtmiş olduğunuz önadlar {$PRODUCT_NAME} programı tarafından kullanılıyor, lütfen farklı önad tanımlayın, veya klavuzu okuyunuz.";
 $GLOBALS['strMayNotFunction']			= "Devam etmeden önce aşağıdaki problemleri düzeltiniz:";
 $GLOBALS['strIgnoreWarnings']			= "Hataları yoksay";
-$GLOBALS['strWarningPHPversion']		= MAX_PRODUCT_NAME." programı PHP 4.0 ve üzeri sürümleri daha iyi çalışması için destekler. şu anda PHPnin {php_version} sürümünü kullanıyorsunuz.";
+$GLOBALS['strWarningPHPversion']		= "{$PRODUCT_NAME} programı PHP 4.0 ve üzeri sürümleri daha iyi çalışması için destekler. şu anda PHPnin {php_version} sürümünü kullanıyorsunuz.";
 $GLOBALS['strWarningRegisterGlobals']		= "PHP ayarlarındaki register_globals değişkeni <b>on</b> olmalıdır.";
 $GLOBALS['strWarningMagicQuotesGPC']		= "PHP ayarlarındaki magic_quotes_gpc değişkeni <b>on</b> olmalıdır.";
 $GLOBALS['strWarningMagicQuotesRuntime']	= "PHP ayarlarındaki magic_quotes_runtime değişkeni <b>off</b> olmalıdır.";
 $GLOBALS['strWarningFileUploads']		= "PHP ayarlarındaki file_uploads değişkeni <b>on</b> olmalıdır.";
-$GLOBALS['strConfigLockedDetected']		= MAX_PRODUCT_NAME." programı <b>config.inc.php</b> dosyasının güncellenemediğini tespit etti.<br> Dosyanın izinlerini değiştirmeden kurulum işlemini gerçekleştiremezsiniz. <br>Bunun nasıl yapılacağını bilmiyorsanız lütfen klavuzu okuyunuz.";
+$GLOBALS['strConfigLockedDetected']		= "{$PRODUCT_NAME} programı <b>config.inc.php</b> dosyasının güncellenemediğini tespit etti.<br> Dosyanın izinlerini değiştirmeden kurulum işlemini gerçekleştiremezsiniz. <br>Bunun nasıl yapılacağını bilmiyorsanız lütfen klavuzu okuyunuz.";
 $GLOBALS['strCantUpdateDB']  			= "Şu anda veritabanını güncelleme izni yok. Eğer devam etmek istiyorsanız, tüm bannerlar, istatistikler ve reklamlarsilinecek.";
 $GLOBALS['strTableNames']			= "Tablo isimleri";
 $GLOBALS['strTablesPrefix']			= "Tablo isim önadları";
 $GLOBALS['strTablesType']			= "Tablo tipleri";
 
-$GLOBALS['strInstallWelcome']			= "Hoşgeldiniz ".MAX_PRODUCT_NAME;
-$GLOBALS['strInstallMessage']			= MAX_PRODUCT_NAME." programı kullnmaya başlamadan önce ayarlanması ve <br> veritabanının oluşturulması gerekiyor. Devam etmek için <b>İlerleye</b> tıklayınyz.";
-$GLOBALS['strInstallSuccess']			= "<b>".MAX_PRODUCT_NAME." kurulumu tamamlandı.</b><br><br>".MAX_PRODUCT_NAME." programının düzgün çalışması için bakım programının\n						   her saat çalışması gerekmektedir. Bu konuyla ilgili detaylı bilgiyi dökümanlarda bulabilirsiniz.\n						   <br><br>Ayarlama sayfasına gitmek için <b>İleri</b>yi tıklayınız. <br>\n						   Lütfen işlemlerinizi bitirdikten sonra config.inc.php dosyasının değişiklik iznini kilitleyiniz.";
-$GLOBALS['strUpdateSuccess']			= "<b> ".MAX_PRODUCT_NAME." güncellemeleri başarıyla yüklendi.</b><br><br>".MAX_PRODUCT_NAME." programının düzenli olarak çalışması için\n						   her saat bakım programını çalıştırınız (Daha önceki sürümlerde bu günde bir defa idi). Bu konuyla ilgili detaylı bilgiyi dökümanlarda bulabilirsiniz.\n						   <br><br>Yönetici paneline gitmek için <b>İleri</b>yi tıklayınız. Lütfen işlemlerinizi bitirdikten sonra config.inc.php dosyasının değişiklik iznini kilitleyiniz.";
-$GLOBALS['strInstallNotSuccessful']		= "<b>". MAX_PRODUCT_NAME ." kurulumu gerçekleştirilemedi.</b><br /><br />Kurulum sürecinin bazı bölümleri çalışamadı.\n";
+$GLOBALS['strInstallWelcome']			= "Hoşgeldiniz {$PRODUCT_NAME}";
+$GLOBALS['strInstallMessage']			= "{$PRODUCT_NAME} programı kullnmaya başlamadan önce ayarlanması ve <br> veritabanının oluşturulması gerekiyor. Devam etmek için <b>İlerleye</b> tıklayınyz.";
+$GLOBALS['strInstallSuccess']			= "<b>{$PRODUCT_NAME} kurulumu tamamlandı.</b><br><br>{$PRODUCT_NAME} programının düzgün çalışması için bakım programının
+						   her saat çalışması gerekmektedir. Bu konuyla ilgili detaylı bilgiyi dökümanlarda bulabilirsiniz.
+						   <br><br>Ayarlama sayfasına gitmek için <b>İleri</b>yi tıklayınız. <br>
+						   Lütfen işlemlerinizi bitirdikten sonra config.inc.php dosyasının değişiklik iznini kilitleyiniz.";
+$GLOBALS['strUpdateSuccess']			= "<b> {$PRODUCT_NAME} güncellemeleri başarıyla yüklendi.</b><br><br>{$PRODUCT_NAME} programının düzenli olarak çalışması için
+						   her saat bakım programını çalıştırınız (Daha önceki sürümlerde bu günde bir defa idi). Bu konuyla ilgili detaylı bilgiyi dökümanlarda bulabilirsiniz.
+						   <br><br>Yönetici paneline gitmek için <b>İleri</b>yi tıklayınız. Lütfen işlemlerinizi bitirdikten sonra config.inc.php dosyasının değişiklik iznini kilitleyiniz.";
+$GLOBALS['strInstallNotSuccessful']		= "<b>{$PRODUCT_NAME} kurulumu gerçekleştirilemedi.</b><br /><br />Kurulum sürecinin bazı bölümleri çalışamadı.";
 $GLOBALS['strErrorOccured']			= "Aşağıdaki hatalar oluştu:";
 $GLOBALS['strErrorInstallDatabase']		= "Veritabanı yapısı oluşturulamıyor.";
 $GLOBALS['strErrorInstallConfig']		= "Ayar dosyası veya veritabanı düzenlenemiyor.";

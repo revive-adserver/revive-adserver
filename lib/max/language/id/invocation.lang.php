@@ -128,7 +128,8 @@ $GLOBALS['strNonImgWarning']        			= "Perhatian: Banner ini tidak dapat difu
 $GLOBALS['strUnknHtmlWarning']      			= "Perhatian: Banner ini adalah dalam format HTML yang tidak dikenal.";
 
 // sql/web banner-type warning for clickonly zone invocation
-$GLOBALS['strWebBannerWarning']     			= "Perhatian: Banner ini harus di-download dan Anda perlu beritahukan kepada kami tentang URL yang diminta untuk banner ini.\n<br /> 1) Download the banner:";
+$GLOBALS['strWebBannerWarning']     			= "Perhatian: Banner ini harus di-download dan Anda perlu beritahukan kepada kami tentang URL yang diminta untuk banner ini.
+<br /> 1) Download the banner:";
 $GLOBALS['strDwnldWebBanner']       			= "Klik kanan disini dan kemudian pilihlah Save Target As";
 $GLOBALS['strWebBannerWarning2']    			= "<br /> 2) Silakan Upload banner ke Webserver Anda and tuliskan lokasinya disini: ";
 

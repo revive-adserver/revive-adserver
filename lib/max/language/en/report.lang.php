@@ -1,14 +1,14 @@
 <?php
 
 /*
-+---------------------------------------------------------------------------+
-| Revive Adserver                                                           |
-| http://www.revive-adserver.com                                            |
-|                                                                           |
-| Copyright: See the COPYRIGHT.txt file.                                    |
-| License: GPLv2 or later, see the LICENSE.txt file.                        |
-+---------------------------------------------------------------------------+
-*/
+  +---------------------------------------------------------------------------+
+  | Revive Adserver                                                           |
+  | http://www.revive-adserver.com                                            |
+  |                                                                           |
+  | Copyright: See the COPYRIGHT.txt file.                                    |
+  | License: GPLv2 or later, see the LICENSE.txt file.                        |
+  +---------------------------------------------------------------------------+
+ */
 
 $GLOBALS['strAdvertiserCampaignHistoryReport'] = 'Campaign History Report';
 $GLOBALS['strAdvertiserCampaignHistoryDescription'] = 'A daily breakdown of all activity for a specific campaign';
@@ -63,14 +63,12 @@ $GLOBALS['strAgencyCampaignDeliveryDescription'] = "Trafficking report which sho
 $GLOBALS['strAgencyCampaignUnderdeliveryReport'] = 'Campaign Underdelivery Report';
 $GLOBALS['strAgencyCampaignUnderdeliveryDescription'] = 'Trafficking report which shows campaign activity for campaigns that did not meet targets for a given day.';
 $GLOBALS['strAgencyHistoryReport'] = 'Overall History Report';
-$GLOBALS['strAgencyHistoryDescription']  = 'Overall advertising history, broken down by day.';
+$GLOBALS['strAgencyHistoryDescription'] = 'Overall advertising history, broken down by day.';
 
-$GLOBALS['strCampaignPredictedFullDeliveryMessage']  = 'On track';
+$GLOBALS['strCampaignPredictedFullDeliveryMessage'] = 'On track';
 
-$GLOBALS['strStatsAnalysisReport']  = 'Stats Analysis Report';
+$GLOBALS['strStatsAnalysisReport'] = 'Stats Analysis Report';
 
 // Error messages
 $GLOBALS['strReportErrorMissingSheets'] = "No worksheet was selected for report";
-$GLOBALS['strReportErrorUnknownCode']   = "Unknown error code #";
-
-?>
+$GLOBALS['strReportErrorUnknownCode'] = "Unknown error code #";

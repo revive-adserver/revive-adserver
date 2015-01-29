@@ -126,7 +126,7 @@ $GLOBALS['strAuthentification'] 		= "Hitelesítés";
 $GLOBALS['strWelcomeTo']			= "Üdvözli az";
 $GLOBALS['strEnterUsername']			= "Adja meg felhasználónevét és jelszavát";
 $GLOBALS['strEnterBoth']			= "Felhasználói nevét és jelszavát is adja meg";
-$GLOBALS['strEnableCookies']			= "". MAX_PRODUCT_NAME ." használatához engedélyezni kell a cookie-kat.";
+$GLOBALS['strEnableCookies']			= "{$PRODUCT_NAME} használatához engedélyezni kell a cookie-kat.";
 $GLOBALS['strLogin'] 				= "Login név (FTP felhasználó)";
 $GLOBALS['strLogout'] 				= "Kilépés";
 $GLOBALS['strUsername'] 			= "Felhasználónév";
@@ -260,8 +260,20 @@ $GLOBALS['strLowPriority']			= "A reklám megjelenítése alacsony prioritással
 $GLOBALS['strTargetLimitAdviews']		= "A reklámletöltések számának korlátozása:";
 $GLOBALS['strTargetPerDay']			= "naponta.";
 $GLOBALS['strPriorityAutoTargeting']		= "A maradék reklámletöltések egyenletes elosztása a maradék napok számán túl. A reklámletöltések célzott száma minden napnak megfelelően kerül beállításra.";
-$GLOBALS['strCampaignWarningNoWeight'] = "A kampány prioritását alacsonyra állította, \nviszont a fontosságát vagy nullára állította, vagy nem \nadta meg. Ez a kampány deaktiválását \neredményezi, és a reklámok továbbítására nem kerül sor \na fontosság érvényes számra váltásáig. \n\nBiztos, hogy folytatja?";
-$GLOBALS['strCampaignWarningNoTarget'] = "A kampány prioritását magasra állította, \nviszont nem adta meg a reklámletöltések célzott számát. \nEz a kampány deaktiválását eredményezi, és \na reklámok továbbítására nem kerül sor a reklámletöltések \ncélzott számának megadásáig. \n\nBiztos, hogy folytatja?";
+$GLOBALS['strCampaignWarningNoWeight'] = "A kampány prioritását alacsonyra állította,
+viszont a fontosságát vagy nullára állította, vagy nem
+adta meg. Ez a kampány deaktiválását
+eredményezi, és a reklámok továbbítására nem kerül sor
+a fontosság érvényes számra váltásáig.
+
+Biztos, hogy folytatja?";
+$GLOBALS['strCampaignWarningNoTarget'] = "A kampány prioritását magasra állította,
+viszont nem adta meg a reklámletöltések célzott számát.
+Ez a kampány deaktiválását eredményezi, és
+a reklámok továbbítására nem kerül sor a reklámletöltések
+célzott számának megadásáig.
+
+Biztos, hogy folytatja?";
 
 
 
@@ -548,29 +560,32 @@ $GLOBALS['strErrorStoreLocal']			= "Hiba történt a reklám helyi könyvtárba 
 $GLOBALS['strErrorStoreFTP']			= "Hiba történt a reklám FTP-kiszolgálóra történő feltöltésekor. Ez azért történhetett, mert a kiszolgáló nem elérhető, vagy hiba van az FTP-kiszolgáló beállításaiban";
 $GLOBALS['strErrorDBPlain']				= "Hiba történt az adatbázishoz történő hozzáféréskor";
 $GLOBALS['strErrorDBSerious']			= "Komoly probléma állapítható meg az adatbázissal kapcsolatban";
-$GLOBALS['strErrorDBNoDataPlain']		= "A ".MAX_PRODUCT_NAME." adatbázissal kapcsolatos probléma miatt nem lehet adatokat kikeresni vagy tárolni. ";
-$GLOBALS['strErrorDBNoDataSerious']		= "Az adatbázissal kapcsolatos komoly probléma miatt a ".MAX_PRODUCT_NAME." nem tudott adatokat kikeresni";
+$GLOBALS['strErrorDBNoDataPlain']		= "A {$PRODUCT_NAME} adatbázissal kapcsolatos probléma miatt nem lehet adatokat kikeresni vagy tárolni. ";
+$GLOBALS['strErrorDBNoDataSerious']		= "Az adatbázissal kapcsolatos komoly probléma miatt a {$PRODUCT_NAME} nem tudott adatokat kikeresni";
 $GLOBALS['strErrorDBCorrupt']			= "Valószínűleg sérült az adatbázis tábla, ezért javításra szorul. A sérült táblákkal kapcsolatban további részleteket olvashat az <i>Administrator guide</i> <i>Troubleshooting</i> fejezetében.";
 $GLOBALS['strErrorDBContact']			= "Vegye fel a kapcsolatot a kiszolgáló adminisztrátorával, és értesítse őt a problémáról.";
-$GLOBALS['strErrorDBSubmitBug']			= "Ha ez a probléma megismételhető, akkor lehet, hogy a ".MAX_PRODUCT_NAME." hibája okozta. Jelentse a következő adatokat a ".MAX_PRODUCT_NAME." fejlesztőinek. Amennyire csak lehet, próbálja meg pontosan ismertetni azokat a műveleteket, melyek ezt a hibát okozták.";
-$GLOBALS['strMaintenanceNotActive']		= "Az utóbbi 24 órában nem történt meg a karbantartás parancsfájl futtatása. \\nA ".MAX_PRODUCT_NAME." megfelelő működéséhez óránként futtatás szükséges. \\n\\nAz Administrator guide kézikönyvben részletes tájékoztatót olvashat \\na karbantartás parancsfájl beállításáról.";
+$GLOBALS['strErrorDBSubmitBug']			= "Ha ez a probléma megismételhető, akkor lehet, hogy a {$PRODUCT_NAME} hibája okozta. Jelentse a következő adatokat a {$PRODUCT_NAME} fejlesztőinek. Amennyire csak lehet, próbálja meg pontosan ismertetni azokat a műveleteket, melyek ezt a hibát okozták.";
+$GLOBALS['strMaintenanceNotActive']		= "Az utóbbi 24 órában nem történt meg a karbantartás parancsfájl futtatása. \\nA {$PRODUCT_NAME} megfelelő működéséhez óránként futtatás szükséges. \\n\\nAz Administrator guide kézikönyvben részletes tájékoztatót olvashat \\na karbantartás parancsfájl beállításáról.";
 
 // E-mail
 $GLOBALS['strMailSubject'] 			= "Hirdetési jelentés";
 $GLOBALS['strAdReportSent']			= "A hirdetési jelentés elküldve";
 $GLOBALS['strMailSubjectDeleted'] 		= "Deaktivált reklámok";
-$GLOBALS['strMailHeader'] 			= "Tisztelt {contact}!\n";
+$GLOBALS['strMailHeader'] 			= "Tisztelt {contact}!";
 $GLOBALS['strMailBannerStats'] 			= "Kérem, tekintse át az alábbiakban a {clientname} reklámstatisztikáját:";
-$GLOBALS['strMailFooter'] 			= "Üdvözlettel:\n   {adminfullname}";
+$GLOBALS['strMailFooter'] 			= "Üdvözlettel:
+   {adminfullname}";
 $GLOBALS['strMailClientDeactivated'] 		= "A következő reklámok törlésre kerültek, mert";
-$GLOBALS['strMailNothingLeft'] 			= "Ha szeretné weblapunkon folytatni a hirdetést, nyugodtan vegye fel velünk a kapcsolatot.\nSzívesen állunk rendelkezésére.";
+$GLOBALS['strMailNothingLeft'] 			= "Ha szeretné weblapunkon folytatni a hirdetést, nyugodtan vegye fel velünk a kapcsolatot.
+Szívesen állunk rendelkezésére.";
 $GLOBALS['strClientDeactivated']		= "A kampány jelenleg nem aktív, mert";
 $GLOBALS['strBeforeActivate']			= "még nem érkezett el az aktiválás dátuma";
 $GLOBALS['strAfterExpire']			= "már elérkezett a lejárat dátuma";
 $GLOBALS['strNoMoreClicks']			= "már nincs több kattintás";
 $GLOBALS['strNoMoreViews']			= "már nincs több reklámletöltés";
 $GLOBALS['strWeightIsNull']			= "fontosságát nullára állította";
-$GLOBALS['strWarnClientTxt']			= "A maradék kattintások vagy a reklámletöltések átlépték a (limit) korlátozást. \nA reklámok letiltásra kerülnek, mert nem maradt már kattintás vagy letöltés. ";
+$GLOBALS['strWarnClientTxt']			= "A maradék kattintások vagy a reklámletöltések átlépték a (limit) korlátozást.
+A reklámok letiltásra kerülnek, mert nem maradt már kattintás vagy letöltés. ";
 $GLOBALS['strViewsClicksLow']			= "A reklámletöltések/kattintások száma alacsony";
 $GLOBALS['strNoViewLoggedInInterval']   	= "Egy reklámletöltés sem került naplózásra a jelentés időtartama alatt";
 $GLOBALS['strNoClickLoggedInInterval']  	= "Egy kattintás sem került naplózásra a jelentés időtartama alatt";

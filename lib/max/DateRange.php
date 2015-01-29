@@ -187,7 +187,7 @@ class DateRange
                 $this->_end = null;
                 break;
             default:
-                trigger_error(MAX_PRODUCT_NAME." encountered date range description that it didn't recognise: '$specifier'");
+                trigger_error(PRODUCT_NAME." encountered date range description that it didn't recognise: '$specifier'");
                 break;
         }
     }
@@ -298,7 +298,7 @@ class DateRange
 
         if ($preset_string == 'specific') {
             if (!($start_string && $end_string)) {
-                trigger_error(MAX_PRODUCT_NAME." was asked to generate a date range but wasn't given dates.");
+                trigger_error(PRODUCT_NAME." was asked to generate a date range but wasn't given dates.");
             }
             $this->setDateRangeByNaturalHumanStrings($start_string, $end_string);
         } else {

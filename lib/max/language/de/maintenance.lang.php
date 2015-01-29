@@ -32,23 +32,24 @@ $GLOBALS['strPriorityNotEnoughAdViews']		= "Es ist ungewiß, ob ausreichend AdVi
 
 // Banner cache
 $GLOBALS['strRebuildBannerCache']		= "Bannercache erneuern";
-$GLOBALS['strBannerCacheExplaination']		= "Im Bannercache werden Kopien der HTML-Codes, die für die Bannerdarstellung notwendig sind, vorgehalten. Dies beschleunigt die Bannerauslieferung, da der HTML-Code nicht jedesmal neu generiert werden. Da im Cache die URL als Direktadressierung, verknüpft mit dem Standort von ".MAX_PRODUCT_NAME." nebst dem Banner vorliegt, muß der Bannercache aktualisiert werden, wenn <ul><li>Sie Ihre Version von OpenX aktualisieren</li><li>Sie den Server wechseln</li></ul>";
+$GLOBALS['strBannerCacheExplaination']		= "Im Bannercache werden Kopien der HTML-Codes, die für die Bannerdarstellung notwendig sind, vorgehalten. Dies beschleunigt die Bannerauslieferung, da der HTML-Code nicht jedesmal neu generiert werden. Da im Cache die URL als Direktadressierung, verknüpft mit dem Standort von {$PRODUCT_NAME} nebst dem Banner vorliegt, muß der Bannercache aktualisiert werden, wenn <ul><li>Sie Ihre Version von OpenX aktualisieren</li><li>Sie den Server wechseln</li></ul>";
 
 
 // Cache
 $GLOBALS['strCache']			= "Cache für Bannerauslieferung";
 $GLOBALS['strAge']				= "Alter";
 $GLOBALS['strRebuildDeliveryCache']			= "Cache wird erneuert";
-$GLOBALS['strDeliveryCacheExplaination']		= "\n	Der Cache für die Bannerauslieferung wird zur Beschleunigung der Bannerauslieferung benötigt. Im Cache sind Kopien von jedem Banner, der mit der Zone verbunden (verlinkt) ist. Dadurch, das die aktuellen Banner im Cache vorgehalten sind,  wird eine Reihe von Datenbankabfragen gespart. Der Cache wird jedesmal bei Änderungen der Zone oder dem verknüpften Banner erneuert. Um dennoch einer Überalterung vorzubeugen, wird der Cache stündlich automatisch erneuert. Der Vorgang kann zusätzlich manuell angestoßen werden.";
-$GLOBALS['strDeliveryCacheSharedMem']		= "\n	Der gemeinsam genutzte Speicher wird vom Cache für Bannerauslieferung benutzt.";
-$GLOBALS['strDeliveryCacheDatabase']		= "\n	Die Datenbank wird zur Zeit vom Cache für Bannerauslieferung benutzt.";
-$GLOBALS['strDeliveryCacheFiles']		= "\n	Der Cache für Bannerauslieferung wird zur Zeit in mehrere Dateien gespeichert.";
+$GLOBALS['strDeliveryCacheExplaination']		= "	Der Cache für die Bannerauslieferung wird zur Beschleunigung der Bannerauslieferung benötigt. Im Cache sind Kopien von jedem Banner, der mit der Zone verbunden (verlinkt) ist. Dadurch, das die aktuellen Banner im Cache vorgehalten sind,  wird eine Reihe von Datenbankabfragen gespart. Der Cache wird jedesmal bei Änderungen der Zone oder dem verknüpften Banner erneuert. Um dennoch einer Überalterung vorzubeugen, wird der Cache stündlich automatisch erneuert. Der Vorgang kann zusätzlich manuell angestoßen werden.";
+$GLOBALS['strDeliveryCacheSharedMem']		= "	Der gemeinsam genutzte Speicher wird vom Cache für Bannerauslieferung benutzt.";
+$GLOBALS['strDeliveryCacheDatabase']		= "	Die Datenbank wird zur Zeit vom Cache für Bannerauslieferung benutzt.";
+$GLOBALS['strDeliveryCacheFiles']		= "	Der Cache für Bannerauslieferung wird zur Zeit in mehrere Dateien gespeichert.";
 
 
 // Storage
 $GLOBALS['strStorage']				= "Speicherung";
 $GLOBALS['strMoveToDirectory']		= "Bilder aus der Datenbank in ein Verzeichnis verschieben ";
-$GLOBALS['strStorageExplaination']		= "\n	Bilddateien für lokale Banner werden in der Datenbank oder in einem lokalen Verzeichnis gespeichert.\n	Das Speichern in einem lokalen Verzeichnis anstelle in der Datenbank vermindert die Ladezeit.";
+$GLOBALS['strStorageExplaination']		= "	Bilddateien für lokale Banner werden in der Datenbank oder in einem lokalen Verzeichnis gespeichert.
+	Das Speichern in einem lokalen Verzeichnis anstelle in der Datenbank vermindert die Ladezeit.";
 
 
 // Storage
@@ -61,21 +62,35 @@ $GLOBALS['strAvailableUpdates']			= "Vorhandene Updates";
 $GLOBALS['strDownloadZip']			= "Download (.zip)";
 $GLOBALS['strDownloadGZip']			= "Download (.tar.gz)";
 
-$GLOBALS['strUpdateAlert']		= "Eine neue Version von ".MAX_PRODUCT_NAME." ist verfügbar.                 \n\nWünschen Sie weitere Informationen über dieses Update?";
-$GLOBALS['strUpdateAlertSecurity']	= "Eine neue Version von ".MAX_PRODUCT_NAME." ist verfügbar.                 \n\n\nEine kurzfristige Aktualisierung  Ihres Systems \n\nwird empfohlen, da in der neuen Version eine oder \n\nmehrere sicherheitsrelevante Probleme überarbeitet wurden.";
+$GLOBALS['strUpdateAlert']		= "Eine neue Version von {$PRODUCT_NAME} ist verfügbar.
 
-$GLOBALS['strUpdateServerDown']			= "\n    Aus unbekannten Gründen ist es nicht möglich, nach Informationen <br />\n	zu neuen Updates zu prüfen. Versuchen Sie es später noch einmal.\n";
-
-$GLOBALS['strNoNewVersionAvailable']		= "\n	Ihre Version von ".MAX_PRODUCT_NAME." ist aktuell. Es sind keine Updates verfügbar.\n";
-
-$GLOBALS['strNewVersionAvailable']		= "\n	<b>Eine neue Version von ".MAX_PRODUCT_NAME." ist verfügbar. </b><br />Eine kurzfristige Aktualisierung Ihres Systems wird empfohlen,\n 	da in der neuen Version eine oder mehrere sicherheitsrelevante Probleme überarbeitet wurden. Zusätzlich wurden neue Leistungsmerkmale integriert. Weiterführende Information\n 	finden Sie in den unten stehenden Dokumenten.";
-
-$GLOBALS['strSecurityUpdate']			= "\n	<b>Die schnellstmögliche Durchführung dieses Updates wird empfohlen, da eine Reihe von Sicherheitsproblemen behoben wurden.</b>\n	Ihre Version von ".MAX_PRODUCT_NAME." ist gegen illegale Angriffe möglicherweise nicht ausreichend gesichert. Ausführlichere Informationen\n 	finden Sie in den unten stehenden Dokumenten.";
+Wünschen Sie weitere Informationen über dieses Update?";
+$GLOBALS['strUpdateAlertSecurity']	= "Eine neue Version von {$PRODUCT_NAME} ist verfügbar.
 
 
-$GLOBALS['strNotAbleToCheck']			= "\n	Auf Ihrem Server ist die XML-Erweiterung nicht verfügbar. ".MAX_PRODUCT_NAME." kann nicht prüfen, ob eine neuere Version verfügbar ist.";
+Eine kurzfristige Aktualisierung  Ihres Systems
 
-$GLOBALS['strForUpdatesLookOnWebsite']	= "\n	Informationen über neue Versionen .befinden sich auf unserer Webseite.";
+wird empfohlen, da in der neuen Version eine oder
+
+mehrere sicherheitsrelevante Probleme überarbeitet wurden.";
+
+$GLOBALS['strUpdateServerDown']			= "    Aus unbekannten Gründen ist es nicht möglich, nach Informationen <br />
+	zu neuen Updates zu prüfen. Versuchen Sie es später noch einmal.";
+
+$GLOBALS['strNoNewVersionAvailable']		= "	Ihre Version von {$PRODUCT_NAME} ist aktuell. Es sind keine Updates verfügbar.";
+
+$GLOBALS['strNewVersionAvailable']		= "	<b>Eine neue Version von {$PRODUCT_NAME} ist verfügbar. </b><br />Eine kurzfristige Aktualisierung Ihres Systems wird empfohlen,
+ 	da in der neuen Version eine oder mehrere sicherheitsrelevante Probleme überarbeitet wurden. Zusätzlich wurden neue Leistungsmerkmale integriert. Weiterführende Information
+ 	finden Sie in den unten stehenden Dokumenten.";
+
+$GLOBALS['strSecurityUpdate']			= "	<b>Die schnellstmögliche Durchführung dieses Updates wird empfohlen, da eine Reihe von Sicherheitsproblemen behoben wurden.</b>
+	Ihre Version von {$PRODUCT_NAME} ist gegen illegale Angriffe möglicherweise nicht ausreichend gesichert. Ausführlichere Informationen
+ 	finden Sie in den unten stehenden Dokumenten.";
+
+
+$GLOBALS['strNotAbleToCheck']			= "	Auf Ihrem Server ist die XML-Erweiterung nicht verfügbar. {$PRODUCT_NAME} kann nicht prüfen, ob eine neuere Version verfügbar ist.";
+
+$GLOBALS['strForUpdatesLookOnWebsite']	= "	Informationen über neue Versionen .befinden sich auf unserer Webseite.";
 
 $GLOBALS['strClickToVisitWebsite']		= "Zu unserer Webseite ";
 
@@ -96,11 +111,19 @@ $GLOBALS['strConvertNothing']			= "Nichts zu konvertieren...";
 $GLOBALS['strConvertFinished']			= "Fertig...";
 
 
-$GLOBALS['strConvertExplaination']		= "\n	Für die statistische Auswertung verwenden Sie kompakte Darstellung. Es liegen <br />\n	noch ältere Statistiken in detailliertem Format vor. Solange diese detaillierten Statistiken <br />\n	nicht in das kompakte Format konvertiert sind, können sie auf dieser Seite nicht angezeigt<br />\n	werden. Eine Sicherung der Datenbank vor dem Konvertierungslauf wird empfohlen!  <br />\n	Wollen Sie die detaillierten Statistiken in das kompakte Format umwandeln? <br />\n";
+$GLOBALS['strConvertExplaination']		= "	Für die statistische Auswertung verwenden Sie kompakte Darstellung. Es liegen <br />
+	noch ältere Statistiken in detailliertem Format vor. Solange diese detaillierten Statistiken <br />
+	nicht in das kompakte Format konvertiert sind, können sie auf dieser Seite nicht angezeigt<br />
+	werden. Eine Sicherung der Datenbank vor dem Konvertierungslauf wird empfohlen!  <br />
+	Wollen Sie die detaillierten Statistiken in das kompakte Format umwandeln? <br />";
 
-$GLOBALS['strConvertingExplaination']		= "\n	Alle verbliebene Statistiken im detaillierten Format werden in das kompakte umgewandelt. <br />\n	Die Dauer des Vorganges ist abhängig von der Anzahl protokollierten Vorgänge. Es kann <br />\n	einige Minuten dauern. Bitte warten Sie bis zum Ende des Konvertierungslauf, bevor Sie <br />\n	andere Seiten aufrufen. Unten wird ein Protokoll der vorgenommenen Datenbankmodifikationen angezeigt. <br />\n";
+$GLOBALS['strConvertingExplaination']		= "	Alle verbliebene Statistiken im detaillierten Format werden in das kompakte umgewandelt. <br />
+	Die Dauer des Vorganges ist abhängig von der Anzahl protokollierten Vorgänge. Es kann <br />
+	einige Minuten dauern. Bitte warten Sie bis zum Ende des Konvertierungslauf, bevor Sie <br />
+	andere Seiten aufrufen. Unten wird ein Protokoll der vorgenommenen Datenbankmodifikationen angezeigt. <br />";
 
-$GLOBALS['strConvertFinishedExplaination']  	= "\n	Der Konvertierungslauf war erfolgreich.  Die Daten stehen nun wieder zur\n	Verfügung. Nachfolgend ist ein Protokoll aller vorgenommenen Datenbankmodifikationen.<br />\n";
+$GLOBALS['strConvertFinishedExplaination']  	= "	Der Konvertierungslauf war erfolgreich.  Die Daten stehen nun wieder zur
+	Verfügung. Nachfolgend ist ein Protokoll aller vorgenommenen Datenbankmodifikationen.<br />";
 
 
 
@@ -112,17 +135,17 @@ $GLOBALS['strBannerCacheDifferencesFound'] = "Die Banner-Cache Überprüfung hat
 $GLOBALS['strBannerCacheRebuildButton'] = "Erneuern";
 $GLOBALS['strBannerCacheFixed'] = "Die Aktualisierung wurde erfolgreich abgeschlossen.";
 $GLOBALS['strEncoding'] = "Kodierung";
-$GLOBALS['strEncodingExplaination'] = "". MAX_PRODUCT_NAME ." speichert jetzt alle Daten im UTF-8 Format. Wenn möglich wurden Ihre Daten automatisch in diese Kodierung überführt.<br />Sie können diesen Übersetzer verwenden, wenn Sie nach dem Update fehlerhafte Zeichen finden und Sie die verwendete Kodierung kennen, um die Zeichen in UTF-8 umzuwandeln.";
+$GLOBALS['strEncodingExplaination'] = "{$PRODUCT_NAME} speichert jetzt alle Daten im UTF-8 Format. Wenn möglich wurden Ihre Daten automatisch in diese Kodierung überführt.<br />Sie können diesen Übersetzer verwenden, wenn Sie nach dem Update fehlerhafte Zeichen finden und Sie die verwendete Kodierung kennen, um die Zeichen in UTF-8 umzuwandeln.";
 $GLOBALS['strEncodingConvertFrom'] = "Umwandeln aus der Kodierung:";
 $GLOBALS['strEncodingConvert'] = "Konvertieren";
 $GLOBALS['strEncodingConvertTest'] = "Konversion prüfen";
 $GLOBALS['strConvertThese'] = "Die folgenden Daten werden verändert wenn Sie fortfahren";
 $GLOBALS['strAppendCodes'] = "Code-Anhang";
 $GLOBALS['strScheduledMaintenanceHasntRun'] = "<b>Der regelmäßige Wartungslauf ist in der vergangenen Stunde nicht gelaufen, d.h. Sie haben ihn noch nicht richtig eingerichtet.</b>";
-$GLOBALS['strAutoMantenaceEnabledAndHasntRun'] = "Der automatische Wartungslauf ist aktiviert, wurde aber noch nicht ausgeführt. Der automatische Wartungslauf wird ausgeführt wenn ". MAX_PRODUCT_NAME ." Werbemittel ausliefert. Für die bestmögliche Ausführungsgeschwindigkeit sollten Sie den <a href='". OX_PRODUCT_DOCSURL ."/maintenance' target='_blank'>regelmäßigen Wartungslauf einrichten</a>.";
-$GLOBALS['strAutoMantenaceDisabledAndHasntRun'] = "Der automatische Wartungslauf ist im Moment deaktiviert, wenn ". MAX_PRODUCT_NAME ." Werbemittel ausliefert, wird kein automatischer Wartungslauf ausgeführt wird. Um die bestmögliche Ausführungsgeschwindigkeit zu erreichen sollten Sie den <a href='". OX_PRODUCT_DOCSURL ."/maintenance' target='_blank'>regelmäßigen Wartungslauf</a> einrichten. Wenn Sie den <a href='". OX_PRODUCT_DOCSURL ."/maintenance' target='_blank'>regelmäßigen Wartungslauf</a> nicht einrichten möchten, <i>müssen</i> Sie den <a href='account-settings-maintenance.php'>automatischen Wartungslauf einrichten</a> um sicherzustellen das ". MAX_PRODUCT_NAME ." korrekt arbeitet.";
-$GLOBALS['strAutoMantenaceEnabledAndRunning'] = "Der automatische Wartungslauf ist aktiviert und wird nach Bedarf ausgeführt wenn ". MAX_PRODUCT_NAME ." Werbemittel ausliefert. Für die bestmögliche Ausführungsgeschwindigkeit sollten Sie den <a href='". OX_PRODUCT_DOCSURL ."/maintenance' target='_blank'>regelmäßigen Wartungslauf einrichten</a>.";
-$GLOBALS['strAutoMantenaceDisabledAndRunning'] = "Der automatische Wartungslauf wurde jedoch vor kurzem deaktiviert. Um sicherzustellen das ". MAX_PRODUCT_NAME ." korrekt arbeitet, müssen Sie entweder den <a href='". OX_PRODUCT_DOCSURL ."/maintenance' target='_blank'>regelmäßigen Wartungslauf</a> einrichten, oder den <a href='account-settings-maintenance.php'>automatischen Wartungslauf wieder aktivieren</a>.<br><br>Die die bestmögliche Ausführungsgeschwindigkeit sollten Sie den <a href='". OX_PRODUCT_DOCSURL ."/maintenance' target='_blank'>regelmäßigen Wartungslauf</a> einrichten.";
+$GLOBALS['strAutoMantenaceEnabledAndHasntRun'] = "Der automatische Wartungslauf ist aktiviert, wurde aber noch nicht ausgeführt. Der automatische Wartungslauf wird ausgeführt wenn {$PRODUCT_NAME} Werbemittel ausliefert. Für die bestmögliche Ausführungsgeschwindigkeit sollten Sie den <a href='{$PRODUCT_DOCSURL}/maintenance' target='_blank'>regelmäßigen Wartungslauf einrichten</a>.";
+$GLOBALS['strAutoMantenaceDisabledAndHasntRun'] = "Der automatische Wartungslauf ist im Moment deaktiviert, wenn {$PRODUCT_NAME} Werbemittel ausliefert, wird kein automatischer Wartungslauf ausgeführt wird. Um die bestmögliche Ausführungsgeschwindigkeit zu erreichen sollten Sie den <a href='{$PRODUCT_DOCSURL}/maintenance' target='_blank'>regelmäßigen Wartungslauf</a> einrichten. Wenn Sie den <a href='{$PRODUCT_DOCSURL}/maintenance' target='_blank'>regelmäßigen Wartungslauf</a> nicht einrichten möchten, <i>müssen</i> Sie den <a href='account-settings-maintenance.php'>automatischen Wartungslauf einrichten</a> um sicherzustellen das {$PRODUCT_NAME} korrekt arbeitet.";
+$GLOBALS['strAutoMantenaceEnabledAndRunning'] = "Der automatische Wartungslauf ist aktiviert und wird nach Bedarf ausgeführt wenn {$PRODUCT_NAME} Werbemittel ausliefert. Für die bestmögliche Ausführungsgeschwindigkeit sollten Sie den <a href='{$PRODUCT_DOCSURL}/maintenance' target='_blank'>regelmäßigen Wartungslauf einrichten</a>.";
+$GLOBALS['strAutoMantenaceDisabledAndRunning'] = "Der automatische Wartungslauf wurde jedoch vor kurzem deaktiviert. Um sicherzustellen das {$PRODUCT_NAME} korrekt arbeitet, müssen Sie entweder den <a href='{$PRODUCT_DOCSURL}/maintenance' target='_blank'>regelmäßigen Wartungslauf</a> einrichten, oder den <a href='account-settings-maintenance.php'>automatischen Wartungslauf wieder aktivieren</a>.<br><br>Die die bestmögliche Ausführungsgeschwindigkeit sollten Sie den <a href='{$PRODUCT_DOCSURL}/maintenance' target='_blank'>regelmäßigen Wartungslauf</a> einrichten.";
 $GLOBALS['strScheduledMantenaceRunning'] = "<b>Der regelmäßige Wartungslauf ist korrekt eingerichtet.</b>";
 $GLOBALS['strAutomaticMaintenanceHasRun'] = "<b>Der automatische Wartungslauf läuft korrekt.</b>";
 $GLOBALS['strAutoMantenaceEnabled'] = "Der automatische Wartungslauf ist jedoch immer noch aktiviert. Für eine bestmögliche Ausführungsgeschwindigkeit sollten Sie den <a href='account-settings-maintenance.php'>automatischen Wartungslauf deaktivieren</a>.";
@@ -131,10 +154,10 @@ $GLOBALS['strAutoMaintenanceEnabled'] = "Der automatische Wartungslauf ist aktiv
 $GLOBALS['strCheckACLs'] = "ACLs überprüfen";
 $GLOBALS['strScheduledMaintenance'] = "Der regelmäßige Wartungslauf scheint korrekt eingerichtet zu sein.";
 $GLOBALS['strAutoMaintenanceEnabledNotTriggered'] = "Der automatische Wartungslauf ist aktiviert, aber noch nicht ausgeführt worden. Bitte beachten Sie, das der automatische Wartungslauf nur durch die Auslieferung von Werbemitteln ausgeführt wird.";
-$GLOBALS['strAutoMaintenanceBestPerformance'] = "Für eine bestmögliche Ausführungsgeschwindigkeit ist es ratsam den <a href='". OX_PRODUCT_DOCSURL ."/maintenance.html' target='_blank'>regelmäßigen Wartungslauf einzurichten</a>.";
+$GLOBALS['strAutoMaintenanceBestPerformance'] = "Für eine bestmögliche Ausführungsgeschwindigkeit ist es ratsam den <a href='{$PRODUCT_DOCSURL}/maintenance.html' target='_blank'>regelmäßigen Wartungslauf einzurichten</a>.";
 $GLOBALS['strAutoMaintenanceEnabledWilltTrigger'] = "Der automatische Wartungslauf ist aktiviert und wird den Wartungslauf jede Stunde einmal starten.";
-$GLOBALS['strAutoMaintenanceDisabledMaintenanceRan'] = "Auch der automatische Wartungslauf ist deaktiviert, vor kurzem ist jedoch ein Wartungslauf ausgeführt worden. Um sicherzustellen das ". MAX_PRODUCT_NAME ." korrekt arbeitet sollten Sie entweder den <a href='http://". OX_PRODUCT_DOCSURL ."/maintenance.html' target='_blank'>regelmäßigen Wartungslauf</a> einrichten oder den <a href='settings-admin.php'>automatischen Wartungslauf aktivieren</a>.";
-$GLOBALS['strAutoMaintenanceDisabledNotTriggered'] = "Auch der automatische Wartungslauf ist deaktiviert, so daß wenn ". MAX_PRODUCT_NAME ." Werbemittel ausliefert kein Wartungslauf ausgeführt wird. Wenn Sie nicht vorhaben den <a href='http://". OX_PRODUCT_DOCSURL ."/maintenance.html' target='_blank'>regelmäßigen Wartungslauf</a> einzurichten, müssen Sie den <a href='settings-admin.php'>automatischen Wartungslauf aktivieren</a> um sicherzustellen das ". MAX_PRODUCT_NAME ." korrekt arbeitet.";
+$GLOBALS['strAutoMaintenanceDisabledMaintenanceRan'] = "Auch der automatische Wartungslauf ist deaktiviert, vor kurzem ist jedoch ein Wartungslauf ausgeführt worden. Um sicherzustellen das {$PRODUCT_NAME} korrekt arbeitet sollten Sie entweder den <a href='http://{$PRODUCT_DOCSURL}/maintenance.html' target='_blank'>regelmäßigen Wartungslauf</a> einrichten oder den <a href='settings-admin.php'>automatischen Wartungslauf aktivieren</a>.";
+$GLOBALS['strAutoMaintenanceDisabledNotTriggered'] = "Auch der automatische Wartungslauf ist deaktiviert, so daß wenn {$PRODUCT_NAME} Werbemittel ausliefert kein Wartungslauf ausgeführt wird. Wenn Sie nicht vorhaben den <a href='http://{$PRODUCT_DOCSURL}/maintenance.html' target='_blank'>regelmäßigen Wartungslauf</a> einzurichten, müssen Sie den <a href='settings-admin.php'>automatischen Wartungslauf aktivieren</a> um sicherzustellen das {$PRODUCT_NAME} korrekt arbeitet.";
 $GLOBALS['strAllBannerChannelCompiled'] = "Alle Auslieferungsbeschränkungen der Banner und Gruppen wurden neu übersetzt.";
 $GLOBALS['strBannerChannelResult'] = "Hier die Ergebnisse der Übersetzung und Überprüfung der Auslieferungsbeschränkungen der Banner und Gruppen";
 $GLOBALS['strChannelCompiledLimitationsValid'] = "Alle Auslieferungsbeschränkungen der Gruppen ist gültig.";
@@ -157,6 +180,6 @@ $GLOBALS['strMenus'] = "Menüs";
 $GLOBALS['strMenusPrecis'] = "Den Menü-Cache wiederaufbauen";
 $GLOBALS['strMenusCachedOk'] = "Der Menü-Cache wurde wiederaufgebaut";
 $GLOBALS['strMenusCachedErr'] = "Fehler beim Wiederaufbau des Menü-Caches";
-$GLOBALS['strServerCommunicationError'] = "<b>Die Kommunikation mit dem Updateserver wurde mit einem Timeout beendet. ".MAX_PRODUCT_NAME." kann zu diesem Zeitpunkt nicht feststellen ob eine neuere Version verfügbar ist. Bitte versuchen Sie es später noch einmal.</b>";
+$GLOBALS['strServerCommunicationError'] = "<b>Die Kommunikation mit dem Updateserver wurde mit einem Timeout beendet. {$PRODUCT_NAME} kann zu diesem Zeitpunkt nicht feststellen ob eine neuere Version verfügbar ist. Bitte versuchen Sie es später noch einmal.</b>";
 $GLOBALS['strCheckForUpdatesDisabled'] = "<b>Die Prüfung auf Updates ist ausgeschaltet. Bitte aktivieren Sie die Prüfung auf der <a href='account-settings-update.php'>Update Einstellungsseite</a>.</b>";
 ?>

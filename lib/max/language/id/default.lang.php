@@ -156,7 +156,7 @@ $GLOBALS['strAuthentification'] 					= "Autentifikasi";
 $GLOBALS['strWelcomeTo']							= "Selamat Datang di";
 $GLOBALS['strEnterUsername']						= "Silakan masukan Nama dan Kata Sandi Anda untuk Login";
 $GLOBALS['strEnterBoth']							= "Silakan masukan Nama <i>dan</i> Kata Sandi";
-$GLOBALS['strEnableCookies']						= "Anda perlu aktifkan Cookies sebelum mengunakan ".MAX_PRODUCT_NAME;
+$GLOBALS['strEnableCookies']						= "Anda perlu aktifkan Cookies sebelum mengunakan {$PRODUCT_NAME}";
 $GLOBALS['strLogin'] 								= "Login";
 $GLOBALS['strLogout'] 								= "Logout";
 $GLOBALS['strUsername'] 							= "Nama Pengguna";
@@ -365,8 +365,19 @@ $GLOBALS['strHighPriority']							= "Tampilkan banner dengan prioritas yang ting
 $GLOBALS['strLowPriority']							= "Tampilkan banner dengan prioritas yang rendah dalam kampanye ini.<br /> Kampanye ini digunakan untuk menampilkan sisa dari AdViews yang tidak digunakan oleh kampanye dengan prioritas tinggi.";
 $GLOBALS['strTargetPerDay']							= "per hari.";
 $GLOBALS['strPriorityAutoTargeting']				= "Membagikan sisa AdViews pada hari-hari yang tertinggal. Jumlah AdViews akan diset sesuai hari yang tersisa.";
-$GLOBALS['strCampaignWarningNoWeight'] 				= "Prioritas dari kampanye ini distel pada posisi yang rendah, \ntetapi berbobot nol atau tidak \nditentukan. Hal ini mengakibatkan deaktivasi \nkampanye tersebut dan tidak ada banner yang disampaikan \nsampai bobotnya distel pada angka yang berlaku. \n\nApakah Anda yakin untuk melanjut?";
-$GLOBALS['strCampaignWarningNoTarget'] 				= "Prioritas dari kampanye ini distel pada posisi yang terlalu tinggi, \ntetapi jumlah target dari AdViews tidak ditentukan. \nHal ini mengakibatkan deaktivasi kampanye tersebut dan tidak ada banner yang disampaikan \nsampai jumlah target AdViews yang berlaku ditentukan. \n\nApakah Anda yakin untuk melanjut?";
+$GLOBALS['strCampaignWarningNoWeight'] 				= "Prioritas dari kampanye ini distel pada posisi yang rendah,
+tetapi berbobot nol atau tidak
+ditentukan. Hal ini mengakibatkan deaktivasi
+kampanye tersebut dan tidak ada banner yang disampaikan
+sampai bobotnya distel pada angka yang berlaku.
+
+Apakah Anda yakin untuk melanjut?";
+$GLOBALS['strCampaignWarningNoTarget'] 				= "Prioritas dari kampanye ini distel pada posisi yang terlalu tinggi,
+tetapi jumlah target dari AdViews tidak ditentukan.
+Hal ini mengakibatkan deaktivasi kampanye tersebut dan tidak ada banner yang disampaikan
+sampai jumlah target AdViews yang berlaku ditentukan.
+
+Apakah Anda yakin untuk melanjut?";
 
 // Tracker
 $GLOBALS['strTracker']                    			= "Pelacak";
@@ -474,7 +485,7 @@ $GLOBALS['strSwfTransparency']						= "Background transparan (hanya Flash)";
 $GLOBALS['strCheckSWF']								= "Periksa hard-coded links dalam file Flash";
 $GLOBALS['strConvertSWFLinks']						= "Menukarkan links dari Flash";
 $GLOBALS['strHardcodedLinks']						= "Hard-coded links";
-$GLOBALS['strConvertSWF']							= "<br />File Flash yang di-upload berisi URL yang hard-coded. ". MAX_PRODUCT_NAME ." tidak bisa mencatat jumlah AdClicks untuk banner tersebut sampai hard-coded URL dirubah. Dibawah ini terdaftar seluruh URL yang berada dalam file Flash tersebut. Bila Anda ingin merubah URL silakan klik <b>Convert</b>, bilak tidak klik <b>Cancel</b>.<br /><br />Perhatian: Bila Anda klik<b>Convert</b> file Flash yang baru di-upload akan dirubah secara fisik. <br />Mohon simpan backup dari file asli. Dengan versi apapun banner tersebut dibuat, file yang didapatkan akan membutuhkan Player Flash 4 (atau versi lebih tinggi) untuk ditampilkan secara benar.<br /><br />";
+$GLOBALS['strConvertSWF']							= "<br />File Flash yang di-upload berisi URL yang hard-coded. {$PRODUCT_NAME} tidak bisa mencatat jumlah AdClicks untuk banner tersebut sampai hard-coded URL dirubah. Dibawah ini terdaftar seluruh URL yang berada dalam file Flash tersebut. Bila Anda ingin merubah URL silakan klik <b>Convert</b>, bilak tidak klik <b>Cancel</b>.<br /><br />Perhatian: Bila Anda klik<b>Convert</b> file Flash yang baru di-upload akan dirubah secara fisik. <br />Mohon simpan backup dari file asli. Dengan versi apapun banner tersebut dibuat, file yang didapatkan akan membutuhkan Player Flash 4 (atau versi lebih tinggi) untuk ditampilkan secara benar.<br /><br />";
 $GLOBALS['strCompressSWF']							= "Kompres file SWF untuk meng-download lebih cepat (Player Flash 6 dibutuhkan)";
 $GLOBALS['strOverwriteSource']						= "Timpah parameter induk";
 $GLOBALS['strLinkToShort']            				= "Perhatian: Hard-coded URLs terdeteksi - Bagaimanapun juga, URL yang bersangkutan terlalu pendek untuk dimonifikasi secara otomatis";
@@ -837,7 +848,11 @@ $GLOBALS['strErrorDBNoDataSerious']					= "Sehubungan ada masalah yang serius pa
 $GLOBALS['strErrorDBCorrupt']						= "Tabel pada database rupanya rusak dan perlu perbaikan. Untuk informasi lebih lanjut tentang caranya memperbaiki tabel yang rusak mohon baca BAB <i>Troubleshooting</i> pada <i>Administrator Guide</i>.";
 $GLOBALS['strErrorDBContact']						= "Mohon hubungi Administrator dari server ini dan beritahukan masalah ini.";
 $GLOBALS['strErrorDBSubmitBug']						= "Bila masalah ini bisa diulang-ulang, ada kemungkinan hal ini disebabkan oleh sebuah bug pada . Mohon laporkan informasi berikut ini kepada pencipta dari program . Mohon berikan deskripsi tentang sejarah masalah ini secara rinci.";
-$GLOBALS['strMaintenanceNotActive']					= "Skript Pemeliharaan <i>(Maintenance)</i> tidak dijalankan dalam waktu 24 jam terakhir. \nUntuk menjaminkan  berfungsi semestinya, skript Pemeliharaan perlu dijalankan \setiap jam. \n\nMohon belajari <i>Administrator Guide</i> untuk informasi lebih lanjut \ntentang caranya untuk mengkonfigurasi skript Pemeliharaan.";
+$GLOBALS['strMaintenanceNotActive']					= "Skript Pemeliharaan <i>(Maintenance)</i> tidak dijalankan dalam waktu 24 jam terakhir.
+Untuk menjaminkan  berfungsi semestinya, skript Pemeliharaan perlu dijalankan \setiap jam.
+
+Mohon belajari <i>Administrator Guide</i> untuk informasi lebih lanjut
+tentang caranya untuk mengkonfigurasi skript Pemeliharaan.";
 $GLOBALS['strErrorBadUserType']               = "The system was unable to determine your account user type!";
 $GLOBALS['strErrorLinkingBanner']             = "It was not possible to link this banner to this zone because:";
 $GLOBALS['strUnableToLinkBanner']               	= "Gagal menghubungkan banner: ";
@@ -850,15 +865,18 @@ $GLOBALS['strEmailNoDates']                   = 'Email zone campaigns must have 
 $GLOBALS['strSirMadam']                         	= "Ibu/Bpk";
 $GLOBALS['strMailSubject']                      	= "Laporan untuk Pemasang Iklan";
 $GLOBALS['strAdReportSent']                     	= "Laporan untuk Pemasang Iklan telah dikirim";
-$GLOBALS['strMailHeader']                       	= "Dengan Hormat {contact},\n";
+$GLOBALS['strMailHeader']                       	= "Dengan Hormat {contact},";
 $GLOBALS['strMailBannerStats']                  	= "Bersama E-mail ini kami kirimkan data statistik dari iklan banner untuk {clientname}:";
 $GLOBALS['strMailBannerActivatedSubject']       	= "Kampanye diaktifkan";
 $GLOBALS['strMailBannerDeactivatedSubject']     	= "Kampanye dihentikan";
-$GLOBALS['strMailBannerActivated']              	= "Kampanye Anda yang dibawah ini telah diaktifkan sehubungan \ntanggal aktivasi telah sampai.";
+$GLOBALS['strMailBannerActivated']              	= "Kampanye Anda yang dibawah ini telah diaktifkan sehubungan
+tanggal aktivasi telah sampai.";
 $GLOBALS['strMailBannerDeactivated']            	= "Kampanye yang dibawah ini telah dihentikan berdasarkan";
-$GLOBALS['strMailFooter']                       	= "Hormat Kami,\n   {adminfullname}";
+$GLOBALS['strMailFooter']                       	= "Hormat Kami,
+   {adminfullname}";
 $GLOBALS['strMailClientDeactivated']            	= "Kampanye-kampanya berikut ini telah dihentikan berdasarkan";
-$GLOBALS['strMailNothingLeft']                  	= "Jika Anda ingin melanjutkan pemasangan iklan di Website kami silakan hubungi kami.\nKami menunggu kabar dari Anda.";
+$GLOBALS['strMailNothingLeft']                  	= "Jika Anda ingin melanjutkan pemasangan iklan di Website kami silakan hubungi kami.
+Kami menunggu kabar dari Anda.";
 $GLOBALS['strClientDeactivated']                	= "Kampanye ini pada saat sekarang tidak aktif sehubungan";
 $GLOBALS['strBeforeActivate']                   	= "tanggal aktivasi belum tercapai";
 $GLOBALS['strAfterExpire']                      	= "waktu habisnya sudah tercapai";
@@ -867,7 +885,8 @@ $GLOBALS['strNoMoreClicks']                     	= "tidak ada AdKlik yang tertin
 $GLOBALS['strNoMoreConversions']                	= "there are no Sales remaining";
 $GLOBALS['strWeightIsNull']                     	= "bobotnya ditetapkan pada angka nol";
 $GLOBALS['strTargetIsNull']                     	= "targetnya ditetapkan pada angka nol";
-$GLOBALS['strWarnClientTxt']                    	= "Impresi, Adklik atau konversi yang tertinggal untuk banner Anda menuju kebawah {limit}. \nBanner Anda akan dihentikan tampilannya bilamana tidak ada impresi, AdKlik atau konversi yang tersisa. ";
+$GLOBALS['strWarnClientTxt']                    	= "Impresi, Adklik atau konversi yang tertinggal untuk banner Anda menuju kebawah {limit}.
+Banner Anda akan dihentikan tampilannya bilamana tidak ada impresi, AdKlik atau konversi yang tersisa. ";
 $GLOBALS['strImpressionsClicksConversionsLow']  	= "Impresi/Adklik/konversi sudah hampir habis";
 $GLOBALS['strNoViewLoggedInInterval']           	= "Tidak ada impresi yang tercatat pada jangka waktu laporan ini";
 $GLOBALS['strNoClickLoggedInInterval']          	= "Tidak ada AdKlik yang tercatat pada jangka waktu laporan ini";
@@ -880,7 +899,8 @@ $GLOBALS['strYourCampaign']                     	= "Kampanye Anda";
 $GLOBALS['strTheCampiaignBelongingTo']          	= "Kampanye ini dimiliki oleh";
 $GLOBALS['strImpendingCampaignExpiryDateBody']  	= "{clientname} dibawah ini akan berakhir pada tanggal {date}.";
 $GLOBALS['strImpendingCampaignExpiryImpsBody']  	= "{clientname} dibawah ini impresinya yang tersisa lebih kurang dari {limit}.";
-$GLOBALS['strImpendingCampaignExpiryBody']      	= "Maka dengan itu kampanye tersebut akan dihentikan dan\n banner-banner berikut ini akan dilumpuhkan secara otomatis:";
+$GLOBALS['strImpendingCampaignExpiryBody']      	= "Maka dengan itu kampanye tersebut akan dihentikan dan
+ banner-banner berikut ini akan dilumpuhkan secara otomatis:";
 
 // Priority
 $GLOBALS['strPriority']								= "Prioritas";
@@ -1026,7 +1046,13 @@ $GLOBALS['keyPrevious']		= 'p';
 // Note: New translations not found in original lang files but found in CSV
 $GLOBALS['strStartOver'] = "Mulai dari semula";
 $GLOBALS['strCollectedLast7Days'] = "7 hari terakhir";
-$GLOBALS['strCampaignWarningRemnantNoWeight'] = "Prioritas dari kampanye ini distel pada posisi yang rendah, \ntetapi berbobot nol atau tidak \nditentukan. Hal ini mengakibatkan deaktivasi \nkampanye tersebut dan tidak ada banner yang disampaikan \nsampai bobotnya distel pada angka yang berlaku. \n\nApakah Anda yakin untuk melanjut?";
+$GLOBALS['strCampaignWarningRemnantNoWeight'] = "Prioritas dari kampanye ini distel pada posisi yang rendah,
+tetapi berbobot nol atau tidak
+ditentukan. Hal ini mengakibatkan deaktivasi
+kampanye tersebut dan tidak ada banner yang disampaikan
+sampai bobotnya distel pada angka yang berlaku.
+
+Apakah Anda yakin untuk melanjut?";
 $GLOBALS['strConversionType'] = "Jenis konversi";
 $GLOBALS['strGreaterThan'] = "lebih besar daripada";
 $GLOBALS['strLessThan'] = "lebih kecil daripada";

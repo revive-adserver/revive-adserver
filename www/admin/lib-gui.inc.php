@@ -315,7 +315,7 @@ function phpAds_sqlDie()
     }
     if ($corrupt) {
         $title    = $GLOBALS['strErrorDBSerious'];
-        $message  = $GLOBALS['strErrorDBNoDataSerious'];
+        $message  = sprintf($GLOBALS['strErrorDBNoDataSerious'], PRODUCT_NAME);
         if (OA_Auth::isLoggedIn() && OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
             $message .= " (".$error.").<br><br>".$GLOBALS['strErrorDBCorrupt'];
         } else {
@@ -323,7 +323,7 @@ function phpAds_sqlDie()
         }
     } else {
         $title    = $GLOBALS['strErrorDBPlain'];
-        $message  = $GLOBALS['strErrorDBNoDataPlain'];
+        $message  = sprintf($GLOBALS['strErrorDBNoDataPlain'], PRODUCT_NAME);
         if ((OA_Auth::isLoggedIn() && (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER))) || defined('phpAds_installing')) {
 
             // Get the DB server version
@@ -332,10 +332,10 @@ function phpAds_sqlDie()
             $aVersion = $connectionId->getServerVersion();
             $dbVersion = $aVersion['major'] . '.' . $aVersion['minor'] . '.' . $aVersion['patch'] . '-' . $aVersion['extra'];
 
-            $message .= $GLOBALS['strErrorDBSubmitBug'];
+            $message .= sprintf($GLOBALS['strErrorDBSubmitBug'], PRODUCT_NAME);
             $last_query = $phpAds_last_query;
             $message .= "<br><br><table cellpadding='0' cellspacing='0' border='0'>";
-            $message .= "<tr><td valign='top' nowrap><b>Version:</b>&nbsp;&nbsp;&nbsp;</td><td>".htmlspecialchars(MAX_PRODUCT_NAME)." v".htmlspecialchars(OA_VERSION)."</td></tr>";
+            $message .= "<tr><td valign='top' nowrap><b>Version:</b>&nbsp;&nbsp;&nbsp;</td><td>".htmlspecialchars(PRODUCT_NAME)." v".htmlspecialchars(VERSION)."</td></tr>";
             $message .= "<tr><td valien='top' nowrap><b>PHP/DB:</b></td><td>PHP ".phpversion()." / ".$dbmsName." " . $dbVersion . "</td></tr>";
             $message .= "<tr><td valign='top' nowrap><b>Page:</b></td><td>".htmlspecialchars($_SERVER['PHP_SELF'])."</td></tr>";
             $message .= "<tr><td valign='top' nowrap><b>Error:</b></td><td>".htmlspecialchars($error)."</td></tr>";

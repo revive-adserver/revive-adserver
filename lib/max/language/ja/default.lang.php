@@ -185,7 +185,7 @@ $GLOBALS['strAuthentification'] 				= "ユーザ認証";
 $GLOBALS['strWelcomeTo']						= "ようこそ！";
 $GLOBALS['strEnterUsername']					= "ユーザー名とパスワードを入力してログインしてください。";
 $GLOBALS['strEnterBoth']						= "ユーザー名とパスワードの両方を入力してください";
-$GLOBALS['strEnableCookies']					= "". MAX_PRODUCT_NAME ."を使うには、クッキーを有効にして下さい。";
+$GLOBALS['strEnableCookies']					= "{$PRODUCT_NAME}を使うには、クッキーを有効にして下さい。";
 $GLOBALS['strSessionIDNotMatch']        		= "セッションエラーが発生しましｓた。再度ログインしてください";
 $GLOBALS['strLogin'] 							= "ログイン";
 $GLOBALS['strLogout'] 							= "ログアウト";
@@ -398,8 +398,18 @@ $GLOBALS['strHighPriority']						= "高優先<br />高優先に割り当てら�
 $GLOBALS['strLowPriority']						= "低優先<br />高優先に割り当てられていない時間帯にビューリクエスト数を均等に割り当てます。";
 $GLOBALS['strTargetPerDay']						= "／日";
 $GLOBALS['strPriorityAutoTargeting']			= "均等割当<br />毎日のビューリクエスト目標数をキャンペーン日数で均等に割り当てます。";
-$GLOBALS['strCampaignWarningNoWeight'] 			= "優先度が'低'に設定されていますが、\nウェイトがゼロか未設定です。\nこのため、ウェイトが設定されるまでキャンペーンは無効で、\nバナーは配信されません。\n\n本当に継続しますか？";
-$GLOBALS['strCampaignWarningNoTarget'] 			= "優先度が'高'に設定されていますが、\n目標ビュー数が未設定です。\nこのため、目標ビュー数が設定されるまでキャンペーンは無効で、\nバナーは配信されません。\n\n本当に継続しますか？";
+$GLOBALS['strCampaignWarningNoWeight'] 			= "優先度が'低'に設定されていますが、
+ウェイトがゼロか未設定です。
+このため、ウェイトが設定されるまでキャンペーンは無効で、
+バナーは配信されません。
+
+本当に継続しますか？";
+$GLOBALS['strCampaignWarningNoTarget'] 			= "優先度が'高'に設定されていますが、
+目標ビュー数が未設定です。
+このため、目標ビュー数が設定されるまでキャンペーンは無効で、
+バナーは配信されません。
+
+本当に継続しますか？";
 $GLOBALS['strCampaignStatusRunning']       		= "配信中";
 $GLOBALS['strCampaignStatusPaused']        		= "中断中";
 $GLOBALS['strCampaignStatusAwaiting']      		= "待機中";
@@ -546,7 +556,7 @@ $GLOBALS['strSwfTransparency']					= "背景の透過を許可する";
 $GLOBALS['strCheckSWF']							= "Flashファイル内でハードコーデッドリンクを使うにはチェックしてください";
 $GLOBALS['strConvertSWFLinks']					= "Flashリンクに変換";
 $GLOBALS['strHardcodedLinks']					= "ハードコーデッドリンク";
-$GLOBALS['strConvertSWF']						= "<br />アップロードされたFlashファイルにはハードコデッドURLが含まれています。". MAX_PRODUCT_NAME ." は、ハードコデッドURLを変換するまで、クリック数をカウントできません。Flashファイル内のハードコーデッドURL一覧は以下のとおりです。ハードコーデッドURLを変換するには、<b>変換する</b>をクリックしてください。変換しない場合、<b>キャンセル</b>をクリックしてください。<br /><br />以下のことに留意してください: <b>変換する</b>をクリックすると、アップロードしたFlashファイルは別なファイルに変換されます。<br />オリジナルファイルをバックアップしておいてください。オリジナルバナーのバージョンにかかわらず、変換後のFlashファイルを正しく表示するには、Flash4プレーヤー(以降)が必要です。<br /><br />";
+$GLOBALS['strConvertSWF']						= "<br />アップロードされたFlashファイルにはハードコデッドURLが含まれています。{$PRODUCT_NAME} は、ハードコデッドURLを変換するまで、クリック数をカウントできません。Flashファイル内のハードコーデッドURL一覧は以下のとおりです。ハードコーデッドURLを変換するには、<b>変換する</b>をクリックしてください。変換しない場合、<b>キャンセル</b>をクリックしてください。<br /><br />以下のことに留意してください: <b>変換する</b>をクリックすると、アップロードしたFlashファイルは別なファイルに変換されます。<br />オリジナルファイルをバックアップしておいてください。オリジナルバナーのバージョンにかかわらず、変換後のFlashファイルを正しく表示するには、Flash4プレーヤー(以降)が必要です。<br /><br />";
 $GLOBALS['strCompressSWF']						= "ダウンロード時間を短くするため、Flashファイルを圧縮する(Flash6プレーヤー以降が必要)";
 $GLOBALS['strOverwriteSource']					= "ソースパラメータを上書きする";
 $GLOBALS['strLinkToShort']            			= "警告：ハードコーデッドURLを検出しましたが、そのURLは自動修正するには短すぎます。";
@@ -913,12 +923,16 @@ $GLOBALS['strErrorStoreLocal']					= "ローカルディレクトリにバナー
 $GLOBALS['strErrorStoreFTP']					= "FTPサーバにバナーをアップロードする際、エラーが発生しました。サーバが動作中でないか、FTPサーバの設定ミスが原因です。";
 $GLOBALS['strErrorDBPlain']						= "データベースにアクセス中にエラーが発生しました。";
 $GLOBALS['strErrorDBSerious']					= "データベースに致命的な問題を検出しました。";
-$GLOBALS['strErrorDBNoDataPlain']				= "データベースに関連する問題のため、". MAX_PRODUCT_NAME ." はデータの検索と保存ができません。";
-$GLOBALS['strErrorDBNoDataSerious']				= "データベースに関連する致命的な問題のため、". MAX_PRODUCT_NAME ." データの検索ができません。";
+$GLOBALS['strErrorDBNoDataPlain']				= "データベースに関連する問題のため、{$PRODUCT_NAME} はデータの検索と保存ができません。";
+$GLOBALS['strErrorDBNoDataSerious']				= "データベースに関連する致命的な問題のため、{$PRODUCT_NAME} データの検索ができません。";
 $GLOBALS['strErrorDBCorrupt']					= "データベーステーブルがおそらく破損しており、修復する必要があります。破損したテーブルの詳しい修復方法は、<i>管理者ガイド</i>の<i>トラブルシューティング</i>を読んでください。";
 $GLOBALS['strErrorDBContact']					= "このサーバのシステム管理者に連絡して、問題を報告してください。";
-$GLOBALS['strErrorDBSubmitBug']					= "この問題が何度も繰り返し発生する場合、". MAX_PRODUCT_NAME ." のバグであると思われます。以下の情報を". MAX_PRODUCT_NAME ." の開発者に報告してください。その際、できるだけ明確にエラー直前の動作を記述してください。";
-$GLOBALS['strMaintenanceNotActive']				= "24時間以内にメンテナンススクリプトが実行されていません。\n正確な動作のために". MAX_PRODUCT_NAME ." は1時間毎の動作が必要です。\n\nメンテナンススクリプトの設定方法については、\n管理者ガイドを読んでください。";
+$GLOBALS['strErrorDBSubmitBug']					= "この問題が何度も繰り返し発生する場合、{$PRODUCT_NAME} のバグであると思われます。以下の情報を{$PRODUCT_NAME} の開発者に報告してください。その際、できるだけ明確にエラー直前の動作を記述してください。";
+$GLOBALS['strMaintenanceNotActive']				= "24時間以内にメンテナンススクリプトが実行されていません。
+正確な動作のために{$PRODUCT_NAME} は1時間毎の動作が必要です。
+
+メンテナンススクリプトの設定方法については、
+管理者ガイドを読んでください。";
 $GLOBALS['strErrorBadUserType']         		= "システムは、あなたのユーザタイプを決定できませんでした！";
 $GLOBALS['strErrorLinkingBanner']       		= "バナーとゾーンをリンク中にエラーが発生しました:";
 $GLOBALS['strUnableToLinkBanner']       		= "リンクできません：";
@@ -934,15 +948,17 @@ $GLOBALS['strWarningInaccurateReport']          = "統計データが非UTCタ�
 $GLOBALS['strSirMadam']                         = "様";
 $GLOBALS['strMailSubject'] 						= "レポートの送信";
 $GLOBALS['strAdReportSent']						= "広告主にレポートを送信しました";
-$GLOBALS['strMailHeader'] 						= "{contact} 様\n";
+$GLOBALS['strMailHeader'] 						= "{contact} 様";
 $GLOBALS['strMailBannerStats'] 					= "{clientname}に関するバナー統計は次のとおりです:";
 $GLOBALS['strMailBannerActivatedSubject']       = "キャンペーン開始";
 $GLOBALS['strMailBannerDeactivatedSubject']     = "キャンペーン停止";
 $GLOBALS['strMailBannerActivated']              = "以下のキャンペーンが有効になりました。";
 $GLOBALS['strMailBannerDeactivated']            = "以下のキャンペーンが停止しました。";
-$GLOBALS['strMailFooter'] 						= "どうぞ、よろしくお願いいたします。\n   報告者：{adminfullname}";
+$GLOBALS['strMailFooter'] 						= "どうぞ、よろしくお願いいたします。
+   報告者：{adminfullname}";
 $GLOBALS['strMailClientDeactivated']			= "次のバナーは無効でした：";
-$GLOBALS['strMailNothingLeft'] 					= "今後の広告出稿にご不明な点があれば、どうぞお気軽にお問い合わせください。\nご連絡をお待ちしています。";
+$GLOBALS['strMailNothingLeft'] 					= "今後の広告出稿にご不明な点があれば、どうぞお気軽にお問い合わせください。
+ご連絡をお待ちしています。";
 $GLOBALS['strClientDeactivated']				= "次のキャンペーンは、アクティブではありません。";
 $GLOBALS['strBeforeActivate']					= "開始前キャンペーン　　　　：";
 $GLOBALS['strAfterExpire']						= "終了済キャンペーン　　　　：";
@@ -951,7 +967,8 @@ $GLOBALS['strNoMoreClicks']						= "残クリック数＝ゼロ　　　　：";
 $GLOBALS['strNoMoreConversions']            	= "残コンバージョン数＝ゼロ　：";
 $GLOBALS['strWeightIsNull']						= "ウェイト設定＝ゼロ　　　　：";
 $GLOBALS['strTargetIsNull']                     = "ターゲット設定＝ゼロ　　　：";
-$GLOBALS['strWarnClientTxt']					= "残数が{limit}以下のインプレッション、クリック、コンバージョン：\n各々の残数が、ゼロになるとバナーは表示されません。";
+$GLOBALS['strWarnClientTxt']					= "残数が{limit}以下のインプレッション、クリック、コンバージョン：
+各々の残数が、ゼロになるとバナーは表示されません。";
 $GLOBALS['strImpressionsClicksConversionsLow']  = "インプレッション、クリック、コンバージョンが残り少ないもの";
 $GLOBALS['strNoViewLoggedInInterval']   		= "インプレッション数＝ゼロ　：";
 $GLOBALS['strNoClickLoggedInInterval']  		= "クリック数＝ゼロ　　　　　：";
@@ -964,7 +981,8 @@ $GLOBALS['strYourCampaign']                     = "対象キャンペーン";
 $GLOBALS['strTheCampiaignBelongingTo']          = "キャンペーンリンク先";
 $GLOBALS['strImpendingCampaignExpiryDateBody']  = "以下の{clientname}は、{date}に終了しました。";
 $GLOBALS['strImpendingCampaignExpiryImpsBody']  = "以下の{clientname}の 残りインプレッションは、{limit}です。";
-$GLOBALS['strImpendingCampaignExpiryBody']      = "このキャンペーンはまもなく終了します。\nまた、次のバナーも同様に失効します。";
+$GLOBALS['strImpendingCampaignExpiryBody']      = "このキャンペーンはまもなく終了します。
+また、次のバナーも同様に失効します。";
 
 // Priority
 $GLOBALS['strPriority']							= "優先度";
@@ -1120,12 +1138,12 @@ $GLOBALS['strAuditNoData']            			= "指定期間内のユーザ活動記
 $GLOBALS['strAuditTrail']             			= "追跡記録";
 $GLOBALS['strAuditTrailSetup']          		= "本日の追跡記録を設定する";
 $GLOBALS['strAuditTrailGoTo']           		= "追跡記録ページに移動する";
-$GLOBALS['strAuditTrailNotEnabled']     		= "<li>追跡記録機能は、誰がいつ何をしたかを記録するものです。</li><li>興味がある場合は、 <a href='". OX_PRODUCT_DOCSURL ."/settings/auditTrail' class='site-link' target='help' >追跡記録機能について documentation</a>を参照してください</li>";
+$GLOBALS['strAuditTrailNotEnabled']     		= "<li>追跡記録機能は、誰がいつ何をしたかを記録するものです。</li><li>興味がある場合は、 <a href='{$PRODUCT_DOCSURL}/settings/auditTrail' class='site-link' target='help' >追跡記録機能について documentation</a>を参照してください</li>";
 
 // Widget - Campaign
 $GLOBALS['strCampaignGoTo']             		= 'キャンペーンのページに飛ぶ';
 $GLOBALS['strCampaignSetUp']            		= '本日のキャンペーンを設定する';
-$GLOBALS['strCampaignNoRecords']        		= '<li>キャンペーンは複数のバナーを一括して管理することができる機能です。</li><li>使い方に関しては、<a class=\'site-link\' target=\'help\' href=\'\". '.OX_PRODUCT_DOCSURL.' .\"/inventory/advertisersAndCampaigns/campaigns\'>キャンペーンについて</a>を参照してください</li>';
+$GLOBALS['strCampaignNoRecords']        		= "<li>キャンペーンは複数のバナーを一括して管理することができる機能です。</li><li>使い方に関しては、<a class=\'site-link\' target=\'help\' href='{$PRODUCT_DOCSURL}/inventory/advertisersAndCampaigns/campaigns\'>キャンペーンについて</a>を参照してください</li>";
 $GLOBALS['strCampaignNoRecordsAdmin']   		= '<li>このキャンペーンには活動記録がありません</li>';
 
 $GLOBALS['strCampaignNoDataTimeSpan']    		= '選択した期間内において、開始されるキャンペーンもしくは終了するキャンペーンはありません。';
@@ -1160,7 +1178,12 @@ $GLOBALS['keyLinkUser']        			= 'u';
 
 // Note: New translations not found in original lang files but found in CSV
 $GLOBALS['strHideParentAdvertisers'] = "親キャンペーンの非表示";
-$GLOBALS['strCampaignWarningRemnantNoWeight'] = "優先度が'低'に設定されていますが、\nウェイトがゼロか未設定です。\nこのため、ウェイトが設定されるまでキャンペーンは無効で、\nバナーは配信されません。\n\n本当に継続しますか？";
+$GLOBALS['strCampaignWarningRemnantNoWeight'] = "優先度が'低'に設定されていますが、
+ウェイトがゼロか未設定です。
+このため、ウェイトが設定されるまでキャンペーンは無効で、
+バナーは配信されません。
+
+本当に継続しますか？";
 $GLOBALS['strConversionType'] = "コンバージョンタイプ";
 $GLOBALS['strAdvertiserSignup'] = "広告主サインアップ";
 $GLOBALS['strContactName'] = "コンタクト名";
@@ -1356,7 +1379,7 @@ $GLOBALS['strNoBannersAddAdvertiser'] = "Webサイトが存在しません。広
 $GLOBALS['strConfirmDeleteBanners'] = "このバナーを本当に削除しますか?";
 $GLOBALS['strConfirmDeleteAffiliates'] = "このWebサイトを本当に削除しますか?";
 $GLOBALS['strConfirmDeleteZones'] = "このゾーンを本当に削除しますか?";
-$GLOBALS['strErrorCantConnectToDatabase'] = "重大なエラーが発生しました。".MAX_PRODUCT_NAME."はデータベースに接続できません。このため、管理者インタフェースにアクセスできません。バナー配信に影響があるかもしれません。想定される理由は次のとおりです:<ul><li>データベースサーバが一時的に利用できない状態になっている</li><li>データベースサーバのホスト名やIPアドレスが変更された</li><li>データベース接続用ユーザ名とパスワードが間違っている</li><li>PHPがMySQL拡張プラグインをロードしていない</li></ul>";
+$GLOBALS['strErrorCantConnectToDatabase'] = "重大なエラーが発生しました。{$PRODUCT_NAME}はデータベースに接続できません。このため、管理者インタフェースにアクセスできません。バナー配信に影響があるかもしれません。想定される理由は次のとおりです:<ul><li>データベースサーバが一時的に利用できない状態になっている</li><li>データベースサーバのホスト名やIPアドレスが変更された</li><li>データベース接続用ユーザ名とパスワードが間違っている</li><li>PHPがMySQL拡張プラグインをロードしていない</li></ul>";
 $GLOBALS['strActualImpressions'] = "インプレッション数";
 $GLOBALS['strID_short'] = "ID";
 $GLOBALS['strRequests_short'] = "収益";
@@ -1390,7 +1413,7 @@ $GLOBALS['strHide'] = "隠す:";
 $GLOBALS['strShow'] = "表示する:";
 $GLOBALS['strAdminNovice'] = "管理者が削除する際に確認画面を表示する";
 $GLOBALS['strTimezoneInformation'] = "タイムゾーン（変更すると、統計情報に影響が出ます）";
-$GLOBALS['strBannerSettings'] = "".MAX_PRODUCT_NAME." バナー設定";
+$GLOBALS['strBannerSettings'] = "{$PRODUCT_NAME} バナー設定";
 $GLOBALS['strDebugSettings'] = "ログを検査する";
 $GLOBALS['strCacheFiles'] = "ファイル";
 $GLOBALS['strDeliveryBanner'] = "共通バナー配信設定";

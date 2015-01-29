@@ -22,26 +22,26 @@
     <h2>
     <?php
         require_once 'init.php';
-        preg_match('/^(\d+\.\d+)/', OA_VERSION, $aMatches);
-        echo MAX_PRODUCT_NAME . ' ' . $aMatches[1];
+        preg_match('/^(\d+\.\d+)/', VERSION, $aMatches);
+        echo PRODUCT_NAME . ' ' . $aMatches[1];
     ?>
     Testing Suite
     </h2>
     <p>
       In order to run tests, please copy the test.conf.php file in the
-      <?php echo MAX_PRODUCT_NAME; ?> /etc directory into the
-      <?php echo MAX_PRODUCT_NAME; ?> /var directory, and edit the file,
+      <?php echo PRODUCT_NAME; ?> /etc directory into the
+      <?php echo PRODUCT_NAME; ?> /var directory, and edit the file,
       so that it contains your database server details, and your webpath
       access details.
     </p>
     <p>
       Please also ensure that the web server user has permission to write
-      to the <?php echo MAX_PRODUCT_NAME; ?> /var and
-      <?php echo MAX_PRODUCT_NAME; ?> /var/plugins directories.
+      to the <?php echo PRODUCT_NAME; ?> /var and
+      <?php echo PRODUCT_NAME; ?> /var/plugins directories.
     </p>
     <p>
       You will also need to give your web server user permission to write
-      to the <?php echo MAX_PRODUCT_NAME; ?> /tests/results directory if
+      to the <?php echo PRODUCT_NAME; ?> /tests/results directory if
       you want to run the visualisation tests.
     </p>
     <hr />
@@ -50,7 +50,7 @@
       <a href="http://phpunit.de/" target="_blank">PHPUnit</a> be installed via PEAR
       (i.e. PHPUnit 3.0 for use with PHP5), and each test may require additional
       configuration to run. See the appropriate PEAR library directory inside the
-      <?php echo MAX_PRODUCT_NAME; ?> install for details.
+      <?php echo PRODUCT_NAME; ?> install for details.
     </p>
     <p>
       The Pear 'tests' directories should be writeable.

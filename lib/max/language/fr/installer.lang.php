@@ -16,6 +16,6 @@ $GLOBALS['strUpgradeCompleted'] = "Mise à jour terminée";
 $GLOBALS['strPluginsDefault'] = "Plugins OpenX";
 $GLOBALS['strPostUpgradeTasks'] = "Actions après mises à jour d'OpenX";
 $GLOBALS['strInstallComplete'] = "Votre installation d'OpenX est terminée";
-$GLOBALS['strUnableCreateConfFile'] = "Nous ne pouvons pas créer votre fichier de configuration. Veuillez vérifier les permissions du dossier var ". MAX_PRODUCT_NAME .".";
-$GLOBALS['strUnableUpdateConfFile'] = "Nous ne pouvons pas créer votre fichier de configuration. Veuillez vérifier les permissions du dossier var ". MAX_PRODUCT_NAME .", et vérifiez aussi les permissions du précédent fichier de configuration d'installation que vous avez copié dans ce dosier.";
+$GLOBALS['strUnableCreateConfFile'] = "Nous ne pouvons pas créer votre fichier de configuration. Veuillez vérifier les permissions du dossier var {$PRODUCT_NAME}.";
+$GLOBALS['strUnableUpdateConfFile'] = "Nous ne pouvons pas créer votre fichier de configuration. Veuillez vérifier les permissions du dossier var {$PRODUCT_NAME}, et vérifiez aussi les permissions du précédent fichier de configuration d'installation que vous avez copié dans ce dosier.";
 ?>

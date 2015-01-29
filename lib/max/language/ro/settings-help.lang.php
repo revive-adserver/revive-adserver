@@ -11,10 +11,12 @@
 */
 
 // Note: New translations not found in original lang files but found in CSV
-$GLOBALS['phpAds_hlp_company_name'] = "Acest nume este folosit în e-mail-ul trimis de ". MAX_PRODUCT_NAME .".";
-$GLOBALS['phpAds_hlp_warn_client'] = "". MAX_PRODUCT_NAME ." poate trimite un e-mail advertiser-ului dacă una din campaniile sale are doar un";
-$GLOBALS['phpAds_hlp_qmail_patch'] = "Unele versiuni de qmail sunt afectate de un bug, din cauza căruia e-mail-urile trimise de \n". MAX_PRODUCT_NAME ." afişează header-ele în interiorul conţinutului e-mail-ului. Dacă activezi \n această opţiune, ". MAX_PRODUCT_NAME ." va trimite e-mail-ul într-un format compatibil qmail.";
-$GLOBALS['phpAds_hlp_warn_limit'] = "Limita la care ". MAX_PRODUCT_NAME ." va începe să trimită e-mail-uri de atenţionare. Aceasta este 100";
+$GLOBALS['phpAds_hlp_company_name'] = "Acest nume este folosit în e-mail-ul trimis de {$PRODUCT_NAME}.";
+$GLOBALS['phpAds_hlp_warn_client'] = "{$PRODUCT_NAME} poate trimite un e-mail advertiser-ului dacă una din campaniile sale are doar un";
+$GLOBALS['phpAds_hlp_qmail_patch'] = "Unele versiuni de qmail sunt afectate de un bug, din cauza căruia e-mail-urile trimise de
+{$PRODUCT_NAME} afişează header-ele în interiorul conţinutului e-mail-ului. Dacă activezi
+ această opţiune, {$PRODUCT_NAME} va trimite e-mail-ul într-un format compatibil qmail.";
+$GLOBALS['phpAds_hlp_warn_limit'] = "Limita la care {$PRODUCT_NAME} va începe să trimită e-mail-uri de atenţionare. Aceasta este 100";
 $GLOBALS['phpAds_hlp_admin_email'] = "Adresa de e-mail a adiministratorului. Aceasta este utilizată ca adresă de expediere când";
 $GLOBALS['phpAds_hlp_admin_novice'] = "Dacă doreşti să primeşti o atenţionare înainte de a şterge advertiserii, campaniile, bannere-ele, website-urile şi zonele; setează aceasta opţiune cu valoarea adevărat.";
 $GLOBALS['phpAds_hlp_gui_show_campaign_info'] = "Daca este activată aceasta opţiune vor fi afişate informaţii suplimentare despre fiecare campanie pe pagina de <i>Campanii</i>. Informaţiile suplimentare includ numărul de Vizualizări rămase, numărul de Click-uri rămase, numărul de Conversii rămase, data activării, data expirării şi setări de prioritate.";

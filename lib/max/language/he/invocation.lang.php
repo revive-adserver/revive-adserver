@@ -120,7 +120,6 @@ $GLOBALS['strAdLayerStyleName']	= array(
 	'geocities'		=> "סטייל Geocities",
 	'simple'		=> "פשוט",
 	'cursor'		=> "תחת העכבר",
-	'floater'		=> "מצוף"
-);
+	'floater'		=> "מצוף");
 
 ?>

@@ -32,7 +32,7 @@ $GLOBALS['strBtnGoBack']                    = "« Go Back";
 $GLOBALS['strBtnAgree']                     = "I Agree »";
 $GLOBALS['strBtnDontAgree']                 = "« I Disagree";
 $GLOBALS['strBtnRetry']                     = "Retry";
-$GLOBALS['strUpdateDatabaseError']          = "Due to unknown reasons the update of the database structure wasn't succesful. The recommended way to proceed is to click <b>Retry updating</b> to try to correct these potential problems. If you are sure these errors won't affect the functionality of ".MAX_PRODUCT_NAME." you can click <b>Ignore errors</b> to continue. Ignoring these errors may cause serious problems and is not recommended!";
+$GLOBALS['strUpdateDatabaseError']          = "Due to unknown reasons the update of the database structure wasn't succesful. The recommended way to proceed is to click <b>Retry updating</b> to try to correct these potential problems. If you are sure these errors won't affect the functionality of {$PRODUCT_NAME} you can click <b>Ignore errors</b> to continue. Ignoring these errors may cause serious problems and is not recommended!";
 $GLOBALS['strAlreadyInstalled']             = "" . PRODUCT_NAME." is already installed on this system. If you want to configure it go to the <a href='account-index.php'>settings interface</a>";
 $GLOBALS['strCouldNotConnectToDB']          = "Could not connect to database, please recheck the settings you specified";
 $GLOBALS['strCreateTableTestFailed']        = "The user you specified doesn't have permission to create or update the database structure, please contact the database administrator.";
@@ -44,8 +44,8 @@ $GLOBALS['strInvalidVersionInfo']           = "Unable to determine the database 
 $GLOBALS['strInvalidMySqlVersion']          = "" . PRODUCT_NAME." requires MySQL 4.0 or higher to function correctly. Please select a different database server.";
 $GLOBALS['strTableWrongType']               = "The table type you selected isn't supported by your installation of ".phpAds_dbmsname;
 $GLOBALS['strMayNotFunction']               = "Before you continue, please correct these potential problems:";
-$GLOBALS['strFixProblemsBefore']            = "The following item(s) need to be corrected before you can install ".MAX_PRODUCT_NAME.". If you have any questions about this error message, please read the <i>Administrator Guide</i>, which is part of the package you downloaded.";
-$GLOBALS['strFixProblemsAfter']             = "If you are not able to correct the problems listed above, please contact the administrator of the server you are trying to install ".MAX_PRODUCT_NAME." on. The administrator of the server may be able to help you.";
+$GLOBALS['strFixProblemsBefore']            = "The following item(s) need to be corrected before you can install {$PRODUCT_NAME}. If you have any questions about this error message, please read the <i>Administrator Guide</i>, which is part of the package you downloaded.";
+$GLOBALS['strFixProblemsAfter']             = "If you are not able to correct the problems listed above, please contact the administrator of the server you are trying to install {$PRODUCT_NAME} on. The administrator of the server may be able to help you.";
 $GLOBALS['strIgnoreWarnings']               = "Ignore warnings";
 $GLOBALS['strWarningDBavailable']           = "The version of PHP you are using doesn't have support for connecting to a ".phpAds_dbmsname." database server. You need to enable the PHP ".phpAds_dbmsname." extension before you can proceed.";
 $GLOBALS['strWarningPHPversion']            = "" . PRODUCT_NAME." requires PHP 5.1.4 or higher to function correctly. You are currently using {php_version}.";
@@ -75,8 +75,7 @@ $GLOBALS['strRemoveUpgradeFile']               = "You must remove the UPGRADE fi
 $GLOBALS['strInstallSuccess']               = "Clicking 'Continue' will log you in to your ad server.
 <p><strong>What next?</strong></p>
 <div class='psub'>";
-$GLOBALS['strInstallSuccess2'] ="
-  <p><b>Serving your first ad campaign</b><br>
+$GLOBALS['strInstallSuccess2'] ="  <p><b>Serving your first ad campaign</b><br>
     Use our <a href='".PRODUCT_DOCSURL."/user/quickStartGuide' target='_blank'>quick start guide to start serving your first ad campaign</a>.
   </p>
 </div>
@@ -89,19 +88,19 @@ $GLOBALS['strInstallSuccess2'] ="
     A maintenance script is recommended to ensure timely reporting and the best possible ad delivery performance.  <a href='".PRODUCT_DOCSURL."/admin/maintenance' target='_blank'>Find out more</a>
   </p>
   <p><b>Review your system configuration settings</b><br>
-    Before you start using ".MAX_PRODUCT_NAME." we suggest you review your settings within the 'Settings' tab.
+    Before you start using {$PRODUCT_NAME} we suggest you review your settings within the 'Settings' tab.
   </p>
 </div>";
-$GLOBALS['strInstallNotSuccessful']         = "<b>The installation of ".MAX_PRODUCT_NAME." was not succesful</b><br /><br />Some portions of the install process could not be completed.
+$GLOBALS['strInstallNotSuccessful']         = "<b>The installation of {$PRODUCT_NAME} was not succesful</b><br /><br />Some portions of the install process could not be completed.
                                                 It is possible these problems are only temporarily, in that case you can simply click <b>Proceed</b> and return to the
                                                 first step of the install process. If you want to know more on what the error message below means, and how to solve it,
                                                 please consult the supplied documentation.";
-$GLOBALS['strDbSuccessIntro']               = "The " . MAX_PRODUCT_NAME . " database has now been created. Please click the 'Continue' button to proceed with configuring " . MAX_PRODUCT_NAME . " Administrator and Delivery settings.";
+$GLOBALS['strDbSuccessIntro']               = "The {$PRODUCT_NAME} database has now been created. Please click the 'Continue' button to proceed with configuring {$PRODUCT_NAME} Administrator and Delivery settings.";
 $GLOBALS['strDbSuccessIntroUpgrade']        = "Your system has been successfully upgraded.  The remaining screens will help you update the configuration of your new ad server.";
 $GLOBALS['strErrorOccured']                 = "The following error occured:";
 $GLOBALS['strErrorInstallDatabase']         = "The database structure could not be created.";
 $GLOBALS['strErrorInstallPrefs']            = "The administrator user preferences could not be written to the database.";
-$GLOBALS['strErrorInstallVersion']          = "The " . MAX_PRODUCT_NAME . " version number could not be written to the database.";
+$GLOBALS['strErrorInstallVersion']          = "The {$PRODUCT_NAME} version number could not be written to the database.";
 $GLOBALS['strErrorUpgrade']                 = 'The existing installation\'s database could not be upgraded.';
 $GLOBALS['strErrorInstallDbConnect']        = "It was not possible to open a connection to the database.";
 
@@ -113,7 +112,7 @@ $GLOBALS['strDirNotWriteableError']         = "Directory must be writeable";
 
 $GLOBALS['strErrorWritePermissionsWin']     = "File permission errors have been detected, and must be fixed before you can continue.";
 $GLOBALS['strCheckDocumentation']           = "For more help, please see the <a href=\"".PRODUCT_DOCSURL."\">" . PRODUCT_NAME . " documentation</a>.";
-$GLOBALS['strSystemCheckBadPHPConfig']      = "Your current PHP configuration does not meet requirements of " . MAX_PRODUCT_NAME . ". To resolve the problems, please modify settings in your 'php.ini' file.";
+$GLOBALS['strSystemCheckBadPHPConfig']      = "Your current PHP configuration does not meet requirements of {$PRODUCT_NAME}. To resolve the problems, please modify settings in your 'php.ini' file.";
 
 $GLOBALS['strAdminUrlPrefix']               = "Admin Interface URL";
 $GLOBALS['strDeliveryUrlPrefix']            = "Delivery Engine URL";
@@ -198,7 +197,7 @@ $GLOBALS['strPersistentConnections']                 = "Use Persistent Connectio
 $GLOBALS['strCantConnectToDb']                       = "Can't Connect to Database";
 $GLOBALS['strCantConnectToDbDelivery']               = 'Can\'t Connect to Database for Delivery';
 $GLOBALS['strDemoDataInstall']                       = "Install Demo Data";
-$GLOBALS['strDemoDataIntro']                         = "Default setup data can be loaded into ". MAX_PRODUCT_NAME ." to help you get started serving online advertising. The most common banner types, as well as some initial campaigns can be loaded and pre-configured. This is highly recommended for new installations.";
+$GLOBALS['strDemoDataIntro']                         = "Default setup data can be loaded into {$PRODUCT_NAME} to help you get started serving online advertising. The most common banner types, as well as some initial campaigns can be loaded and pre-configured. This is highly recommended for new installations.";
 
 
 
@@ -247,7 +246,7 @@ $GLOBALS['strProductionSystem']                      = "Production System";
 
 // Delivery Settings
 $GLOBALS['strDeliverySettings']                      = "Delivery Settings";
-$GLOBALS['strWebPath']                               =  MAX_PRODUCT_NAME ." Server Access Paths";
+$GLOBALS['strWebPath']                               =  "{$PRODUCT_NAME} Server Access Paths";
 $GLOBALS['strWebPathSimple']                         = "Web path";
 $GLOBALS['strDeliveryPath']                          = "Delivery path";
 $GLOBALS['strImagePath']                             = "Images path";
@@ -440,7 +439,7 @@ $GLOBALS['strDefaultImpConWindow']                   = "Default Ad Impression Co
 $GLOBALS['strDefaultImpConWindowError']              = "If set, the Default Ad Impression Connection Window must be a positive integer";
 $GLOBALS['strDefaultCliConWindow']                   = "Default Ad Click Connection Window (seconds)";
 $GLOBALS['strDefaultCliConWindowError']              = "If set, the Default Ad Click Connection Window must be a positive integer";
-$GLOBALS['strAdminEmailHeaders']                     = "Add the following headers to each email message sent by ". MAX_PRODUCT_NAME;
+$GLOBALS['strAdminEmailHeaders']                     = "Add the following headers to each email message sent by {$PRODUCT_NAME}";
 $GLOBALS['strWarnLimit']                             = "如果剩余投放量低于";
 $GLOBALS['strWarnLimitErr']                          = "投放量必须是正整数";
 $GLOBALS['strWarnLimitDays']                         = "如果剩余天数少于";

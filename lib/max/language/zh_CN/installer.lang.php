@@ -29,8 +29,7 @@ $GLOBALS['strSystemCheckIntro']                = "The install wizard perfomed a 
                                                  <br>Please check any highlighted issues to complete the installation process.";
 $GLOBALS['strFixErrorsBeforeContinuing']        = "Configuration of your webserver does not meet the requirements of the " . PRODUCT_NAME . ".
                                                   <br>In order to proceed with installation, please fix all errors.
-                                                   For help, please see our <a href='".PRODUCT_DOCSURL."'>documentation</a> and <a href='http://"
-                                                   .PRODUCT_DOCSURL."/faq'>FAQs</a>";
+                                                   For help, please see our <a href='".PRODUCT_DOCSURL."'>documentation</a> and <a href='http://"                                                   .PRODUCT_DOCSURL."/faq'>FAQs</a>";
                                                   
 $GLOBALS['strAppCheckErrors']                   = "Errors were found when detecing previous installations of " . PRODUCT_NAME;
 $GLOBALS['strAppCheckDbIntegrityError']        = "We have detected integrity issues with your database. This means that the layout of your database 

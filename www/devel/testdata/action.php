@@ -58,11 +58,11 @@ function doUpgrade($dbname)
     $oUpgrader->oDBUpgrader->doBackups = false;
     if ($oUpgrader->upgrade())
     {
-        $aMessages[] = 'Your database has successfully been upgraded to version '.OA_VERSION;
+        $aMessages[] = 'Your database has successfully been upgraded to version '.VERSION;
     }
     else
     {
-        $aMessages[] = 'Your database has NOT been upgraded to version '.OA_VERSION;
+        $aMessages[] = 'Your database has NOT been upgraded to version '.VERSION;
     }
     return $aMessages;
 }

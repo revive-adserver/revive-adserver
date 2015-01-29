@@ -433,9 +433,9 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
         if ($doApplication_variable->getRowCount() > 0) {
 
             // The "mse_process_raw" application variable flag has been set
-            $message = "- The " . MAX_PRODUCT_NAME . " maintenance process has detected that it is running immediately after";
+            $message = "- The " . PRODUCT_NAME . " maintenance process has detected that it is running immediately after";
             OA::debug($message, PEAR_LOG_INFO);
-            $message = "  an upgrade from " . MAX_PRODUCT_NAME . " with version less than 2.8. As a result, there may be old";
+            $message = "  an upgrade from " . PRODUCT_NAME . " with version less than 2.8. As a result, there may be old";
             OA::debug($message, PEAR_LOG_INFO);
             $message = "  format raw data logged that needs to be processed. This data will now be processed...";
             OA::debug($message, PEAR_LOG_INFO);

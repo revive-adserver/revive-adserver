@@ -16,6 +16,6 @@ $GLOBALS['strUpgradeCompleted'] = "Posodobitev končana";
 $GLOBALS['strPluginsDefault'] = "OpenX vtičniki";
 $GLOBALS['strPostUpgradeTasks'] = "OpenX poposodobitvene naloge";
 $GLOBALS['strInstallComplete'] = "Vaša OpenX namestitev je zdaj zaključena.";
-$GLOBALS['strUnableCreateConfFile'] = "Vaša konfiguracijska datoteka ni bila ustvarjena. Prosimo, preverite dovoljenja ". MAX_PRODUCT_NAME ." v var mapi.";
-$GLOBALS['strUnableUpdateConfFile'] = "Vaša konfiguracijska datoteka ni bila posodobljena. Prosimo, preverite dovoljenja ". MAX_PRODUCT_NAME ." v var mapi, kakor tudi dovoljenja prejšnje namestitve konfiguracijske datoteke, ki ste jo kopirali v to mapo.";
+$GLOBALS['strUnableCreateConfFile'] = "Vaša konfiguracijska datoteka ni bila ustvarjena. Prosimo, preverite dovoljenja {$PRODUCT_NAME} v var mapi.";
+$GLOBALS['strUnableUpdateConfFile'] = "Vaša konfiguracijska datoteka ni bila posodobljena. Prosimo, preverite dovoljenja {$PRODUCT_NAME} v var mapi, kakor tudi dovoljenja prejšnje namestitve konfiguracijske datoteke, ki ste jo kopirali v to mapo.";
 ?>

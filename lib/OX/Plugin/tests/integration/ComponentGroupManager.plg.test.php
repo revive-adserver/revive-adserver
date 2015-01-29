@@ -52,7 +52,7 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
         $aPass[] = '2.5.50-dev';
         $aPass[] = '2.5.50-beta-rc1';
         $aPass[] = '2.5.50';
-        $aPass[] = OA_VERSION;
+        $aPass[] = VERSION;
         foreach ($aPass as $k => $version)
         {
             $this->assertTrue($oPluginManager->_checkOpenXCompatibility('testPlugin', $version));

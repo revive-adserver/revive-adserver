@@ -97,7 +97,7 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true, 
         if (file_exists($defaultConfig)) {
             return parse_ini_file($defaultConfig, $sections);
         } else {
-            echo MAX_PRODUCT_NAME . " could not read the default configuration file for the {$pluginType} plugin";
+            echo PRODUCT_NAME . " could not read the default configuration file for the {$pluginType} plugin";
             exit(1);
         }
     }
@@ -149,7 +149,7 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true, 
         {
             return parseIniFile($configPath, $configFile, $sections, '.ini');
         }
-        echo MAX_PRODUCT_NAME . " has been installed, but no configuration file ".$configPath . '/' . $host . $configFile . '.conf.php'." was found.\n";
+        echo PRODUCT_NAME . " has been installed, but no configuration file ".$configPath . '/' . $host . $configFile . '.conf.php'." was found.\n";
         exit(1);
     }
     // Revive Adserver hasn't been installed, so use the distribution .ini file

@@ -130,7 +130,8 @@ $GLOBALS['strNonImgWarning']        = "Warnung: Dieser Ad-Tag wird nicht ausgeli
 $GLOBALS['strUnknHtmlWarning']      = "Warnung: Dieses Werbemittel verwendet ein unbekanntes HTML-Ad Format.";
 
 // sql/web banner-type warning for clickonly zone invocation
-$GLOBALS['strWebBannerWarning']     = "Warnung: Dieses Werbemittel muß heruntergeladen werden und Sie müssen uns die korrekte Klick-URL für dieses Werbemittel senden.\n<br /> 1) Banner-Download:";
+$GLOBALS['strWebBannerWarning']     = "Warnung: Dieses Werbemittel muß heruntergeladen werden und Sie müssen uns die korrekte Klick-URL für dieses Werbemittel senden.
+<br /> 1) Banner-Download:";
 $GLOBALS['strDwnldWebBanner']       = "Mit der rechten Maustaste klicken und Ziel speichern als auswählen";
 $GLOBALS['strWebBannerWarning2']    = "<br /> 2) Laden Sie das Banner auf Ihren Web-Server und geben Sie die URL hier an: ";
 

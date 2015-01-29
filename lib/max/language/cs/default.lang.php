@@ -141,7 +141,7 @@ $GLOBALS['strAuthentification']			= "Autentifikace";
 $GLOBALS['strWelcomeTo']			= "Vítejte do";
 $GLOBALS['strEnterUsername']			= "Pro přihlásení zadejte vaše uživatelské jméno a heslo";
 $GLOBALS['strEnterBoth']			= "Prosím zadejte vaše jméno i heslo";
-$GLOBALS['strEnableCookies']			= "Musíte povolit cookees než budete moci používat ".MAX_PRODUCT_NAME;
+$GLOBALS['strEnableCookies']			= "Musíte povolit cookees než budete moci používat {$PRODUCT_NAME}";
 $GLOBALS['strLogin']				= "Přihlásit";
 $GLOBALS['strLogout']				= "Odhlásit";
 $GLOBALS['strUsername']				= "Jméno";
@@ -306,8 +306,20 @@ $GLOBALS['strLowPriority']			= "Zobrazit bannery této kampaně s nízkou priori
 $GLOBALS['strTargetLimitAdviews']		= "Omezit počet AdViews na";
 $GLOBALS['strTargetPerDay']			= "za den.";
 $GLOBALS['strPriorityAutoTargeting']		= "Distribuovat zbývající počet AdViews rovnoměrně na zbývající dny. Zbývající počet AdViews bude vypočítán přiměřeně každý den.";
-$GLOBALS['strCampaignWarningNoWeight']		= "Priorita této kampaně byla nastavena na nízkou, \nale váha byla nastavena na nulu nebo nebyla \nzadána. Takto bude kampaň okamžitě \ndeaktivována a její bannery nebudou doručeny \ndokud její váha nebude nastavena na platné číslo. \n\nJste si jist že chcete pokračovat?";
-$GLOBALS['strCampaignWarningNoTarget']		= "Priorita této kampaně byla nastavena na vysokou, \nale cílový počet AdViews nebyl zadán. \nTakto bude kampaň okamžitě deaktivována a\njejí bannery nebudou doručeny dokdu nebude \nnastaven platný počet AdViews. \n\nJste si jist že chcete pokračovat?";
+$GLOBALS['strCampaignWarningNoWeight']		= "Priorita této kampaně byla nastavena na nízkou,
+ale váha byla nastavena na nulu nebo nebyla
+zadána. Takto bude kampaň okamžitě
+deaktivována a její bannery nebudou doručeny
+dokud její váha nebude nastavena na platné číslo.
+
+Jste si jist že chcete pokračovat?";
+$GLOBALS['strCampaignWarningNoTarget']		= "Priorita této kampaně byla nastavena na vysokou,
+ale cílový počet AdViews nebyl zadán.
+Takto bude kampaň okamžitě deaktivována a
+její bannery nebudou doručeny dokdu nebude
+nastaven platný počet AdViews.
+
+Jste si jist že chcete pokračovat?";
 
 
 // Tracker
@@ -652,23 +664,30 @@ $GLOBALS['strErrorStoreLocal']			= "Nastala chyba při pokusu o uložení banner
 $GLOBALS['strErrorStoreFTP']			= "Nastala chyba při pokusu o nahrání banneru na FTP server. Toto může být způsobeno nedostupností serveru nebo špatnou konfigurací nastavení FTP serveru";
 $GLOBALS['strErrorDBPlain']			= "Nastala chyba při přístupu do databáze";
 $GLOBALS['strErrorDBSerious']			= "Byl zjištěn závažný problém při přístupu do databáze";
-$GLOBALS['strErrorDBNoDataPlain']		= "Vzhledem k promlémům s databází, ". MAX_PRODUCT_NAME ." nemůže načíst ani ukládat data.";
-$GLOBALS['strErrorDBNoDataSerious']		= "Vzhledem k závažným promlémům s databází, ". MAX_PRODUCT_NAME ." nemůže načíst data";
+$GLOBALS['strErrorDBNoDataPlain']		= "Vzhledem k promlémům s databází, {$PRODUCT_NAME} nemůže načíst ani ukládat data.";
+$GLOBALS['strErrorDBNoDataSerious']		= "Vzhledem k závažným promlémům s databází, {$PRODUCT_NAME} nemůže načíst data";
 $GLOBALS['strErrorDBCorrupt']			= "Databázová tabulka je pravděpodobně poškozena a potřebuje opravit. Pro více informací o opravování poškozených tabulek prosím čtěte kapitolu <i>Troubleshooting</i> v příručce <i>Administrator guide</i>.";
 $GLOBALS['strErrorDBContact']			= "Prosím kontaktujte správce tohoto serveru a oznamte jemu nebo jí tento problém.";
-$GLOBALS['strErrorDBSubmitBug']			= "Pokud je tento problém reprodukovatelný, může být způsoben chybou v ". MAX_PRODUCT_NAME .". Prosím poskytněte následující informace tvůrcům ". MAX_PRODUCT_NAME .". Také se pokuste popsat kroky které vedly k této chybě jak nejpřesněji je to jen možné.";
-$GLOBALS['strMaintenanceNotActive']		= "Skript pro správu systému nebyl spuštěn v průběhu posledních 24 hodin. \nAby mohl ". MAX_PRODUCT_NAME ." korektně fungovat je nutné aby běžel každou \nhodinu. \n\nProsím přečtěte si příručku Administrators guide pro informace \no konfiguraci skriptu pro správu systému.";
+$GLOBALS['strErrorDBSubmitBug']			= "Pokud je tento problém reprodukovatelný, může být způsoben chybou v {$PRODUCT_NAME}. Prosím poskytněte následující informace tvůrcům {$PRODUCT_NAME}. Také se pokuste popsat kroky které vedly k této chybě jak nejpřesněji je to jen možné.";
+$GLOBALS['strMaintenanceNotActive']		= "Skript pro správu systému nebyl spuštěn v průběhu posledních 24 hodin.
+Aby mohl {$PRODUCT_NAME} korektně fungovat je nutné aby běžel každou
+hodinu.
+
+Prosím přečtěte si příručku Administrators guide pro informace
+o konfiguraci skriptu pro správu systému.";
 $GLOBALS['strErrorBadUserType']			= "Systém nedokázal určit druh vaeho uivatelského účtu!";
 
 // E-mail
 $GLOBALS['strMailSubject']			= "Prehled inzerenta";
 $GLOBALS['strAdReportSent']			= "Přehled inzerenta odeslán";
 $GLOBALS['strMailSubjectDeleted']		= "Deaktivované bannery";
-$GLOBALS['strMailHeader']			= "Vazeny {contact},\n";
+$GLOBALS['strMailHeader']			= "Vazeny {contact},";
 $GLOBALS['strMailBannerStats']			= "Nize najdete statistiky banneru pro {clientname}:";
-$GLOBALS['strMailFooter']			= "S pozdravem,\n   {adminfullname}";
+$GLOBALS['strMailFooter']			= "S pozdravem,
+   {adminfullname}";
 $GLOBALS['strMailClientDeactivated']		= "Nasledujici bannery byly vypnute z duvodu";
-$GLOBALS['strMailNothingLeft']			= "Pokud chcete i nadale inzerovat na nasich strankach nevahejte nas kontaktovat.\nRadi vas uslysime.";
+$GLOBALS['strMailNothingLeft']			= "Pokud chcete i nadale inzerovat na nasich strankach nevahejte nas kontaktovat.
+Radi vas uslysime.";
 $GLOBALS['strClientDeactivated']		= "Tato kampan neni v tuto chvili aktivni z duvodu";
 $GLOBALS['strBeforeActivate']			= "datum aktivace zatim nenastalo";
 $GLOBALS['strAfterExpire']			= "nastalo datum deaktivace";
@@ -676,7 +695,8 @@ $GLOBALS['strNoMoreClicks']			= "nezbyvaji jiz zadna kliknuti";
 $GLOBALS['strNoMoreViews']			= "nezbyvaji jiz zadna zobrazeni";
 $GLOBALS['strNoMoreConversions']		= "nezbyvaji jiz zadne prodeje";
 $GLOBALS['strWeightIsNull']			= "jeji vaha je nastavena na nulu";
-$GLOBALS['strWarnClientTxt']			= "Zbyvajici kliknuti nebo zobrazeni pro vase bannery se blizi k {limit}. \nVaše bannery budou vypnuté až nezbydou žádné AdClicks nebo AdViews. ";
+$GLOBALS['strWarnClientTxt']			= "Zbyvajici kliknuti nebo zobrazeni pro vase bannery se blizi k {limit}.
+Vaše bannery budou vypnuté až nezbydou žádné AdClicks nebo AdViews. ";
 $GLOBALS['strViewsClicksLow']			= "Nizky pocet zobrazeni/kliknuti";
 $GLOBALS['strNoViewLoggedInInterval']		= "Zadna zobrazeni nebyla za obdobi tohoto prehledu zaznamenana";
 $GLOBALS['strNoClickLoggedInInterval']		= "Zadna kliknuti nebyla za obdobi tohoto prehledu zaznamenana";
@@ -768,7 +788,13 @@ $GLOBALS['strBreakdownByHour'] = "Hodina";
 $GLOBALS['strHiddenAdvertiser'] = "Inzerent";
 $GLOBALS['strHiddenTracker'] = "Sledovač";
 $GLOBALS['strHiddenZone'] = "Zóna";
-$GLOBALS['strCampaignWarningRemnantNoWeight'] = "Priorita této kampaně byla nastavena na nízkou, \nale váha byla nastavena na nulu nebo nebyla \nzadána. Takto bude kampaň okamžitě \ndeaktivována a její bannery nebudou doručeny \ndokud její váha nebude nastavena na platné číslo. \n\nJste si jist že chcete pokračovat?";
+$GLOBALS['strCampaignWarningRemnantNoWeight'] = "Priorita této kampaně byla nastavena na nízkou,
+ale váha byla nastavena na nulu nebo nebyla
+zadána. Takto bude kampaň okamžitě
+deaktivována a její bannery nebudou doručeny
+dokud její váha nebude nastavena na platné číslo.
+
+Jste si jist že chcete pokračovat?";
 $GLOBALS['strChannelLimitations'] = "Nastavení doručování";
 $GLOBALS['strGreaterThan'] = "je později než";
 $GLOBALS['strWeekDays'] = "V pracovní den";

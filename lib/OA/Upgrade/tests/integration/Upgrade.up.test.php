@@ -472,9 +472,9 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->_deleteTestAppVarRecordAllNames('oa_version');
 
         // testing installation is up to date, no upgrade required
-        $this->_createTestAppVarRecord('oa_version',OA_VERSION);
+        $this->_createTestAppVarRecord('oa_version',VERSION);
         $this->assertFalse($oUpgrade->detectOpenads(true),'openads not detected: found application version '.$oUpgrade->versionInitialApplication);
-        $this->assertEqual($oUpgrade->versionInitialApplication,OA_VERSION,'wrong initial application version expected '.OA_VERSION.' got '.$oUpgrade->versionInitialApplication);
+        $this->assertEqual($oUpgrade->versionInitialApplication,VERSION,'wrong initial application version expected '.VERSION.' got '.$oUpgrade->versionInitialApplication);
         $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_CURRENT_VERSION,'wrong upgrade status code, expected '.OA_STATUS_CURRENT_VERSION.' got '.$oUpgrade->existing_installation_status);
         $this->assertEqual($oUpgrade->aPackageList[0], '', 'wrong package file assigned');
         $this->_deleteTestAppVarRecordAllNames('oa_version');
@@ -617,11 +617,11 @@ class Test_OA_Upgrade extends UnitTestCase
             }
             else
             {
-                $this->assertEqual($aRec['upgrade_name'],'openads_version_stamp_'.OA_VERSION, 'wrong package name for version stamp');
+                $this->assertEqual($aRec['upgrade_name'],'openads_version_stamp_'.VERSION, 'wrong package name for version stamp');
             }
         }
         // the application variable should match the code version stamp
-        $this->assertEqual($oUpgrade->versionInitialApplication,OA_VERSION,'wrong initial application version: '.$oUpgrade->versionInitialApplication);
+        $this->assertEqual($oUpgrade->versionInitialApplication,VERSION,'wrong initial application version: '.$oUpgrade->versionInitialApplication);
 //        $this->_deleteTestAppVarRecordAllNames('oa_version');
 
         $oUpgrade->oConfiguration->tally();
@@ -793,7 +793,7 @@ class Test_OA_Upgrade extends UnitTestCase
         $fp = fopen(MAX_PATH.'/var/RECOVER','a');
         if (is_resource($fp))
         {
-            $line = '13/openads_version_stamp_'.OA_VERSION.'/2007-07-02 03:32:39;';
+            $line = '13/openads_version_stamp_'.VERSION.'/2007-07-02 03:32:39;';
             fwrite($fp, $line);
         }
     }

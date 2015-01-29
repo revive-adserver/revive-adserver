@@ -11,5 +11,5 @@
 */
 
 // Note: New translations not found in original lang files but found in CSV
-$GLOBALS['phpAds_hlp_company_name'] = "هذا الإسم يستخدم في الرسائل المرسلة بواسطة ". MAX_PRODUCT_NAME .".";
+$GLOBALS['phpAds_hlp_company_name'] = "هذا الإسم يستخدم في الرسائل المرسلة بواسطة {$PRODUCT_NAME}.";
 ?>

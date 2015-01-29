@@ -423,9 +423,9 @@ class OA_Environment_Manager
         // Test the original memory_limit
         if (!$this->checkOriginalMemory()) {
             $this->aInfo['PHP']['warning']['memory_limit'] =
-                MAX_PRODUCT_NAME . " requires a minimum of " . (OX_getMemoryLimitSizeInBytes() / 1048576) . " MB to run successfully, although " .
+                PRODUCT_NAME . " requires a minimum of " . (OX_getMemoryLimitSizeInBytes() / 1048576) . " MB to run successfully, although " .
                 "some parts of the application will increase this limitation if required. The current 'memory_limit' value is set to " .
-                ($this->aInfo['PHP']['actual']['original_memory_limit'] / 1048576) . " MB, so " . MAX_PRODUCT_NAME . " has automatically increased " .
+                ($this->aInfo['PHP']['actual']['original_memory_limit'] / 1048576) . " MB, so " . PRODUCT_NAME . " has automatically increased " .
                 "this limit. If possible, please increase the 'memory_limit' value in your server's php.ini file to a minimum of " .
                 (OX_getMemoryLimitSizeInBytes() / 1048576) . " MB before continuing.";
         }

@@ -228,7 +228,7 @@ $GLOBALS['strAuthentification']         = "身份验证";
 $GLOBALS['strWelcomeTo']                = "欢迎使用";
 $GLOBALS['strEnterUsername']            = "请输入您的用户名和密码";
 $GLOBALS['strEnterBoth']                = "Please enter both your username and password";
-$GLOBALS['strEnableCookies']            = "You need to enable cookies before you can use ".MAX_PRODUCT_NAME;
+$GLOBALS['strEnableCookies']            = "You need to enable cookies before you can use {$PRODUCT_NAME}";
 $GLOBALS['strSessionIDNotMatch']        = "Session cookie error, please log in again";
 $GLOBALS['strLogin']                    = "登录";
 $GLOBALS['strLogout']                   = "注销";
@@ -422,8 +422,7 @@ $GLOBALS['strRemaining']                    = "Remaining";
 $GLOBALS['strCompanionPositioning']         = "尝试在同一页面集中投放该项目的素材";
 $GLOBALS['strSelectUnselectAll']            = "全选";
 $GLOBALS['strConfirmOverwrite']             = "Saving these changes will overwrite any individual banner-zone links. Are you sure?";
-$GLOBALS['strCampaignsOfAdvertiser']        = "属于"; //this is added between page name and advertiser name eg. 'Campaigns of Advertiser 1'
-$GLOBALS['strShowCappedNoCookie']           = "对不支持 cookie 的用户忽略投放控制";
+$GLOBALS['strCampaignsOfAdvertiser']        = "属于"; //this is added between page name and advertiser name eg. 'Campaigns of Advertiser 1'$GLOBALS['strShowCappedNoCookie']           = "对不支持 cookie 的用户忽略投放控制";
 
 // Campaign-zone linking page
 $GLOBALS['strCalculatedForAllCampaigns']    = "所有项目";
@@ -470,14 +469,31 @@ $GLOBALS['strCampaignWeight']              = "权重";
 $GLOBALS['strTargetLimitAdImpressions'] = "Target Limit Ad Impressions";
 $GLOBALS['strOptimise']                    = "Optimise delivery of this campaign.";
 $GLOBALS['strAnonymous']                = "隐藏该项目的客户以及该项目关联的媒体";
-$GLOBALS['strHighPriority']                = "Show banners in this campaign with high priority.<br />If you use this option ".MAX_PRODUCT_NAME." will try to distribute the number of Impressions evenly over the course of the day.";
+$GLOBALS['strHighPriority']                = "Show banners in this campaign with high priority.<br />If you use this option {$PRODUCT_NAME} will try to distribute the number of Impressions evenly over the course of the day.";
 $GLOBALS['strLowPriority']                = "Show banner in this campaign with low priority.<br /> This campaign is used to show the left over Impressions which aren't used by high priority campaigns.";
 $GLOBALS['strTargetPerDay']                = " / 天";
 $GLOBALS['strTargetLimitImpressionsTo']   = "Limit impressions to";
 $GLOBALS['strPriorityAutoTargeting']      = "Automatic - Distribute the remaining inventory evenly over the remaining number of days.";
-$GLOBALS['strCampaignWarningRemnantNoWeight']   = "The type of this campaign has been set to Remnant, \nbut the weight is set to zero or it has not been \nspecified. This will cause the campaign to be \ndeactivated and its banners won't be delivered \nuntil the weight has been set to a valid number. \n\nAre you sure you want to continue?";
-$GLOBALS['strCampaignWarningEcpmNoRevenue']   = "This campaign uses eCPM optimisation \nbut the 'revenue' is set to zero or it has not been specified. \nThis will cause the campaign to be deactivated \nand its banners won't be delivered until the \nrevenue has been set to a valid number. \n\nAre you sure you want to continue?";
-$GLOBALS['strCampaignWarningNoTarget']     = "The type of this campaign has been set to Contract, \nbut Limit per day is not specified. \nThis will cause the campaign to be deactivated and \nits banners won't be delivered until a valid Limit per day has been set. \n\nAre you sure you want to continue?";
+$GLOBALS['strCampaignWarningRemnantNoWeight']   = "The type of this campaign has been set to Remnant,
+but the weight is set to zero or it has not been
+specified. This will cause the campaign to be
+deactivated and its banners won't be delivered
+until the weight has been set to a valid number.
+
+Are you sure you want to continue?";
+$GLOBALS['strCampaignWarningEcpmNoRevenue']   = "This campaign uses eCPM optimisation
+but the 'revenue' is set to zero or it has not been specified.
+This will cause the campaign to be deactivated
+and its banners won't be delivered until the
+revenue has been set to a valid number.
+
+Are you sure you want to continue?";
+$GLOBALS['strCampaignWarningNoTarget']     = "The type of this campaign has been set to Contract,
+but Limit per day is not specified.
+This will cause the campaign to be deactivated and
+its banners won't be delivered until a valid Limit per day has been set.
+
+Are you sure you want to continue?";
 $GLOBALS['strCampaignStatusPending']       = "Pending";
 $GLOBALS['strCampaignStatusInactive']      = "已停用";
 $GLOBALS['strCampaignStatusRunning']       = "正在投放";
@@ -620,7 +636,6 @@ $GLOBALS['strSubmitAnyway']       		     = "Submit Anyway";
 $GLOBALS['strOverallBanners']                = "banner(s)";
 $GLOBALS['strBannersOfCampaign']             = "属于"; //this is added between page name and campaign name eg. 'Banners in coca cola campaign'
 
-
 // Banner Preferences
 $GLOBALS['strBannerPreferences']                     = "素材";
 $GLOBALS['strCampaignPreferences']                   = "项目";
@@ -673,7 +688,7 @@ $GLOBALS['strBannerAppendHTML']        = "在素材后附加 HTML 代码";
 $GLOBALS['strCheckSWF']                = "Check for hard-coded links inside the Flash file";
 $GLOBALS['strConvertSWFLinks']        = "Convert Flash links";
 $GLOBALS['strHardcodedLinks']        = "Hard-coded links";
-$GLOBALS['strConvertSWF']            = "<br />The Flash file you just uploaded contains hard-coded urls. ".MAX_PRODUCT_NAME." won't be able to track the number of Clicks for this banner unless you convert these hard-coded urls. Below you will find a list of all urls inside the Flash file. If you want to convert the urls, simply click <b>Convert</b>, otherwise click <b>Cancel</b>.<br /><br />Please note: if you click <b>Convert</b> the Flash file you just uploaded will be physically altered. <br />Please keep a backup of the original file. Regardless of in which version this banner was created, the resulting file will need the Flash 4 player (or higher) to display correctly.<br /><br />";
+$GLOBALS['strConvertSWF']            = "<br />The Flash file you just uploaded contains hard-coded urls. {$PRODUCT_NAME} won't be able to track the number of Clicks for this banner unless you convert these hard-coded urls. Below you will find a list of all urls inside the Flash file. If you want to convert the urls, simply click <b>Convert</b>, otherwise click <b>Cancel</b>.<br /><br />Please note: if you click <b>Convert</b> the Flash file you just uploaded will be physically altered. <br />Please keep a backup of the original file. Regardless of in which version this banner was created, the resulting file will need the Flash 4 player (or higher) to display correctly.<br /><br />";
 $GLOBALS['strCompressSWF']            = "Compress SWF file for faster downloading (Flash 6 player required)";
 $GLOBALS['strOverwriteSource']        = "Overwrite source parameter";
 $GLOBALS['strLinkToShort']            = "Warning: Hard-coded URLs detected - However the URL it too short to be automatically modified";
@@ -863,8 +878,7 @@ $GLOBALS['strWarnChangeZoneSize']           = 'Changing the zone size will unlin
 $GLOBALS['strWarnChangeBannerSize']         = 'Changing the banner size will unlink this banner from any zones that are not the new size, and if this banner\'s <strong>campaign</strong> is linked to a zone of the new size, this banner will be automatically linked';
 $GLOBALS['strWarnBannerReadonly']           = 'This banner is read-only because an extension has been disabled.  Contact your Administrator for more information.';
 $GLOBALS['strInventoryForecasting']         = 'Inventory Forecasting';
-$GLOBALS['strZonesOfWebsite']               = '属于'; //this is added between page name and website name eg. 'Zones in www.example.com'
-$GLOBALS['strBackToZones']                  = "返回版位列表";
+$GLOBALS['strZonesOfWebsite']               = '属于'; //this is added between page name and website name eg. 'Zones in www.example.com'$GLOBALS['strBackToZones']                  = "返回版位列表";
 
 $GLOBALS['strIab']['IAB_FullBanner(468x60)']         = "IAB 标准全尺寸旗标（468 x 60）";
 $GLOBALS['strIab']['IAB_Skyscraper(120x600)']        = "IAB 标准摩天大楼（120 x 600）";
@@ -1064,22 +1078,19 @@ $GLOBALS['strAutoDetect']                   = "自动检测";
 $GLOBALS['strCacheBusterComment']       = "  * Replace all instances of {random} with
   * a generated random number (or timestamp).
   *";
-$GLOBALS['strSSLBackupComment']         = "
-  * 本代码适用于非 SSL 页面。如果需要放置在 SSL 页面中，请将
+$GLOBALS['strSSLBackupComment']         = "  * 本代码适用于非 SSL 页面。如果需要放置在 SSL 页面中，请将
   *   “http://%s/...”
   * 替换为
   *   “https://%s/...”
   *";
 
-$GLOBALS['strSSLDeliveryComment']       = "
-  * 本代码适用于非 SSL 页面。如果需要放置在 SSL 页面中，请将
+$GLOBALS['strSSLDeliveryComment']       = "  * 本代码适用于非 SSL 页面。如果需要放置在 SSL 页面中，请将
   *   “http://%s/...”
   * 替换为
   *   “https://%s/...”
   *";
 
-$GLOBALS['strThirdPartyComment']        = "
-  * Don't forget to replace the '{clickurl}' text with
+$GLOBALS['strThirdPartyComment']        = "  * Don't forget to replace the '{clickurl}' text with
   * the click tracking URL if this ad is to be delivered through a 3rd
   * party (non-Max) adserver.
   *";
@@ -1114,12 +1125,12 @@ $GLOBALS['strErrorStoreLocal']                  = "保存图片时发生错误�
 $GLOBALS['strErrorStoreFTP']                    = "向 FTP 服务器上传图片时发生错误。请检查 FTP 服务器配置，并确保 FTP 服务器正常工作。";
 $GLOBALS['strErrorDBPlain']                     = "访问数据库时发生错误。";
 $GLOBALS['strErrorDBSerious']                   = "检测到数据库存在严重问题。";
-$GLOBALS['strErrorDBNoDataPlain']               = "数据库异常，".MAX_PRODUCT_NAME." 无法存取数据。";
-$GLOBALS['strErrorDBNoDataSerious']             = "数据库异常，".MAX_PRODUCT_NAME." 无法读取数据。";
+$GLOBALS['strErrorDBNoDataPlain']               = "数据库异常，{$PRODUCT_NAME} 无法存取数据。";
+$GLOBALS['strErrorDBNoDataSerious']             = "数据库异常，{$PRODUCT_NAME} 无法读取数据。";
 $GLOBALS['strErrorDBCorrupt']                   = "数据表异常，请参考 <i>Administrator guide</i> 中的 <i>Troubleshooting</i> 章节尝试修复。";
 $GLOBALS['strErrorDBContact']                   = "请联系系统管理员。";
-$GLOBALS['strErrorDBSubmitBug']                 = "If this problem is reproducable it might be caused by a bug in ".MAX_PRODUCT_NAME.". Please report the following information to the creators of ".MAX_PRODUCT_NAME.". Also try to describe the actions that led to this error as clearly as possible.";
-$GLOBALS['strMaintenanceNotActive']             = "距离上次运行维护任务已经超过 24 小时。\\n为保证 ".MAX_PRODUCT_NAME." 正常工作，维护任务运行的间隔不应该超过 1 小时。\\n\\n请参考管理员手册配置维护任务。";
+$GLOBALS['strErrorDBSubmitBug']                 = "If this problem is reproducable it might be caused by a bug in {$PRODUCT_NAME}. Please report the following information to the creators of {$PRODUCT_NAME}. Also try to describe the actions that led to this error as clearly as possible.";
+$GLOBALS['strMaintenanceNotActive']             = "距离上次运行维护任务已经超过 24 小时。\\n为保证 {$PRODUCT_NAME} 正常工作，维护任务运行的间隔不应该超过 1 小时。\\n\\n请参考管理员手册配置维护任务。";
 $GLOBALS['strErrorBadUserType']                 = "系统无法检测您的账户类型。";
 $GLOBALS['strErrorLinkingBanner']               = "将素材关联到该版位时发生错误：";
 $GLOBALS['strUnableToLinkBanner']               = "无法关联该素材：";
@@ -1155,15 +1166,18 @@ $GLOBALS['strInvalidWebsiteURL']                = "媒体 URL 格式无效。";
 $GLOBALS['strSirMadam']                         = "先生／女士";
 $GLOBALS['strMailSubject']                      = "项目报表";
 $GLOBALS['strAdReportSent']                     = "Advertiser report sent";
-$GLOBALS['strMailHeader']                       = "Dear {contact},\n";
+$GLOBALS['strMailHeader']                       = "Dear {contact},";
 $GLOBALS['strMailBannerStats']                  = "Below you will find the banner statistics for {clientname}:";
 $GLOBALS['strMailBannerActivatedSubject']       = "Campaign activated";
 $GLOBALS['strMailBannerDeactivatedSubject']     = "Campaign deactivated";
-$GLOBALS['strMailBannerActivated']              = "Your campaign shown below has been activated because\nthe campaign activation date has been reached.";
+$GLOBALS['strMailBannerActivated']              = "Your campaign shown below has been activated because
+the campaign activation date has been reached.";
 $GLOBALS['strMailBannerDeactivated']            = "Your campaign shown below has been deactivated because";
-$GLOBALS['strMailFooter']                       = "Regards,\n   {adminfullname}";
+$GLOBALS['strMailFooter']                       = "Regards,
+   {adminfullname}";
 $GLOBALS['strMailClientDeactivated']            = "The following banners have been disabled because";
-$GLOBALS['strMailNothingLeft']                  = "If you would like to continue advertising on our website, please feel free to contact us.\nWe'd be glad to hear from you.";
+$GLOBALS['strMailNothingLeft']                  = "If you would like to continue advertising on our website, please feel free to contact us.
+We'd be glad to hear from you.";
 $GLOBALS['strClientDeactivated']                = "该项目已被停用";
 $GLOBALS['strBeforeActivate']                   = "还没到项目启用日期";
 $GLOBALS['strAfterExpire']                      = "已过了项目停用日期";
@@ -1186,7 +1200,8 @@ $GLOBALS['strYourCampaign']                     = "Your campaign";
 $GLOBALS['strTheCampiaignBelongingTo']          = "The campaign belonging to";
 $GLOBALS['strImpendingCampaignExpiryDateBody']  = "{clientname} shown below is due to end on {date}.";
 $GLOBALS['strImpendingCampaignExpiryImpsBody']  = "{clientname} shown below has less than {limit} impressions remaining.";
-$GLOBALS['strImpendingCampaignExpiryBody']      = "As a result, the campaign will soon be automatically disabled, and the\nfollowing banners in the campaign will also be disabled:";
+$GLOBALS['strImpendingCampaignExpiryBody']      = "As a result, the campaign will soon be automatically disabled, and the
+following banners in the campaign will also be disabled:";
 
 // Priority
 $GLOBALS['strPriority']                         = "优先级";
@@ -1344,7 +1359,6 @@ $GLOBALS['strConfirmDeleteChannel']       = "您真的要删除该频道吗？";
 $GLOBALS['strConfirmDeleteChannels']      = "您真的要删除所有选中的频道吗？";
 $GLOBALS['strModifychannel']              = "Edit targeting channel";
 $GLOBALS['strChannelsOfWebsite']          = '属于'; //this is added between page name and website name eg. 'Targeting channels in www.example.com'
-
 // Tracker Variables
 $GLOBALS['strVariableName']             = "变量名";
 $GLOBALS['strVariableDescription']     = "详细描述";
@@ -1437,7 +1451,7 @@ $GLOBALS['strAuditNoData']            = "No user activity has been recorded duri
 $GLOBALS['strAuditTrail']             = "日志";
 $GLOBALS['strAuditTrailSetup']          = "Setup the Audit Trail today";
 $GLOBALS['strAuditTrailGoTo']           = "转到日志列表";
-$GLOBALS['strAuditTrailNotEnabled']     = "<li>Audit Trail allows you to see who did what and when. Or to put it another way, it keeps track of system changes within " . MAX_PRODUCT_NAME ."</li>
+$GLOBALS['strAuditTrailNotEnabled']     = "<li>Audit Trail allows you to see who did what and when. Or to put it another way, it keeps track of system changes within {$PRODUCT_NAME}</li>
         <li>You are seeing this message, because you have not activated the Audit Trail</li>
         <li>Interested in learning more? Read the <a href='".PRODUCT_DOCSURL."/admin/settings/auditTrail' class='site-link' target='help' >Audit Trail documentation</a></li>";
 
@@ -1446,14 +1460,12 @@ $GLOBALS['strCampaignGoTo']             = "转到项目列表";
 $GLOBALS['strCampaignSetUp']            = "Set up a Campaign today";
 $GLOBALS['strCampaignNoRecords']        = "<li>Campaigns let you group together any number of banner ads, of any size, that share common advertising requirements</li>
         <li>Save time by grouping banners within a campaign and no longer define delivery settings for each ad separately</li>
-        <li>Check out the <a class='site-link' target='help' href='".PRODUCT_DOCSURL."/user/inventory/advertisersAndCampaigns/campaigns'>Campaign documentation</a>!</li>
-";
+        <li>Check out the <a class='site-link' target='help' href='".PRODUCT_DOCSURL."/user/inventory/advertisersAndCampaigns/campaigns'>Campaign documentation</a>!</li>";
 $GLOBALS['strCampaignNoRecordsAdmin']   = "<li>There is no campaign activity to display.</li>";
 
 $GLOBALS['strCampaignNoDataTimeSpan']    = "No campaigns have started or finished during the timeframe you have selected";
 $GLOBALS['strCampaignAuditNotActivated'] = "<li>In order to view campaigns which have started or finished during the timeframe you have selected, the Audit Trail must be activated</li>
-        <li>You are seeing this message because you didn't activate the Audit Trail</li>
-";
+        <li>You are seeing this message because you didn't activate the Audit Trail</li>";
 $GLOBALS['strCampaignAuditTrailSetup']   = "Activate Audit Trail to start viewing Campaigns";
 
 $GLOBALS['strUnsavedChanges']       = "该页面上有尚未保存的更新，请在编辑完成后按“保存”按钮";

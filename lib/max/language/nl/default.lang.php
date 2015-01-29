@@ -121,7 +121,7 @@ $GLOBALS['strAuthentification'] 			= "Authenticatie";
 $GLOBALS['strWelcomeTo']				= "Welkom bij";
 $GLOBALS['strEnterUsername']				= "Vul uw gebruikersnaam en wachtwoord in om uw te kunnen aanmelden";
 $GLOBALS['strEnterBoth']				= "Vul zowel uw gebruikersnaam als  uw wachtwoord in";
-$GLOBALS['strEnableCookies']				= "Je moet cookies accepteren voor het gebruik van  ". MAX_PRODUCT_NAME ."";
+$GLOBALS['strEnableCookies']				= "Je moet cookies accepteren voor het gebruik van  {$PRODUCT_NAME}";
 $GLOBALS['strLogin'] 					= "Aanmelden";
 $GLOBALS['strLogout'] 					= "Afmelden";
 $GLOBALS['strUsername'] 				= "Gebruikersnaam";
@@ -248,13 +248,26 @@ $GLOBALS['strActivationDate']				= "Activeringsdatum";
 $GLOBALS['strImpressionsPurchased'] 				= "Gekochte AdViews";
 $GLOBALS['strClicksPurchased'] 				= "Gekochte AdClicks";
 $GLOBALS['strCampaignWeight']				= "Campagne gewicht";
-$GLOBALS['strHighPriority']				= "Toon de banners in deze campagne met hoge prioriteit.<br />Indien u deze optie gebruikt zal ".MAX_PRODUCT_NAME." proberen om het aantal AdViews gelijkmatig over de dag de verspreiden.";
+$GLOBALS['strHighPriority']				= "Toon de banners in deze campagne met hoge prioriteit.<br />Indien u deze optie gebruikt zal {$PRODUCT_NAME} proberen om het aantal AdViews gelijkmatig over de dag de verspreiden.";
 $GLOBALS['strLowPriority']				= "Toon de banners in deze campagne met lage prioriteit.<br />Deze campagne wordt gebruikt om de overgebleven AdViews te tonen, welke niet gebruikt worden door hoge prioriteit campagnes.";
 $GLOBALS['strTargetLimitAdviews']			= "Limiteer het aantal AdViews tot";
 $GLOBALS['strTargetPerDay']				= "per dag.";
-$GLOBALS['strPriorityAutoTargeting']			= "Gekochte AdViews en vervaldatum zijn ingesteld.\n De limiet wordt elke dag bijgesteld.";
-$GLOBALS['strCampaignWarningNoWeight'] 			= "De prioriteit van deze campagne is laag, \nterwijl het gewicht op nul is gezet of niet \ngespecificeerd is. Dit zal er voor zorgen dat de campagne \ngedeactiveerd wordt en de banners zullen niet getoond \nworden totdat het gewicht aangepast is. \n\nWeet u zeker dat u door wilt gaan?";
-$GLOBALS['strCampaignWarningNoTarget'] 			= "De prioriteit van deze campagne is hoog, \nmaar u heeft het aantal AdViews niet gelimiteerd tot een. \nbepaald aantal. Dit zal er voor zorgen dat de campagne \n gedeactiveerd wordt en de banner zullen niet getoond \nworden totdat u het aantal AdViews gelimiteerd heeft \n\nWeet u zeker dat u door wilt gaan?";
+$GLOBALS['strPriorityAutoTargeting']			= "Gekochte AdViews en vervaldatum zijn ingesteld.
+ De limiet wordt elke dag bijgesteld.";
+$GLOBALS['strCampaignWarningNoWeight'] 			= "De prioriteit van deze campagne is laag,
+terwijl het gewicht op nul is gezet of niet
+gespecificeerd is. Dit zal er voor zorgen dat de campagne
+gedeactiveerd wordt en de banners zullen niet getoond
+worden totdat het gewicht aangepast is.
+
+Weet u zeker dat u door wilt gaan?";
+$GLOBALS['strCampaignWarningNoTarget'] 			= "De prioriteit van deze campagne is hoog,
+maar u heeft het aantal AdViews niet gelimiteerd tot een.
+bepaald aantal. Dit zal er voor zorgen dat de campagne
+ gedeactiveerd wordt en de banner zullen niet getoond
+worden totdat u het aantal AdViews gelimiteerd heeft
+
+Weet u zeker dat u door wilt gaan?";
 
 
 
@@ -315,7 +328,7 @@ $GLOBALS['strBannerWeight']				= "Banner gewicht";
 $GLOBALS['strCheckSWF']					= "Controleer op vaste links in het Flash bestand";
 $GLOBALS['strHardcodedLinks']				= "Vaste links";
 $GLOBALS['strConvertSWFLinks']				= "Converteer Flash links";
-$GLOBALS['strConvertSWF']				= "<br />Het Flash bestand dat u zojuist upgeload heeft bevat vaste links. Pas als deze vaste links geconverteerd zijn zal ". MAX_PRODUCT_NAME ." AdClicks kunnen volgen voor deze banner. Hieronder vindt u een lijst met alle links welke in het Flash bestand aanwezig zijn. Indien u de links wilt converteren, klik dan op <b>Converteer</b>, klik anders op <b>Annuleer</b>.<br /><br />Notitie: Als u klikt op <b>Converteer</b> zal het Flash bestand welke u zojuist geupload heeft veranderd worden. <br />Bewaar het orginele bestand goed. Ongeacht in welke versie de banner gemaakt is, het geconverteerde bestand zal alleen goed te zien zijn met de Flash 4 player (of hoger).<br /><br />";
+$GLOBALS['strConvertSWF']				= "<br />Het Flash bestand dat u zojuist upgeload heeft bevat vaste links. Pas als deze vaste links geconverteerd zijn zal {$PRODUCT_NAME} AdClicks kunnen volgen voor deze banner. Hieronder vindt u een lijst met alle links welke in het Flash bestand aanwezig zijn. Indien u de links wilt converteren, klik dan op <b>Converteer</b>, klik anders op <b>Annuleer</b>.<br /><br />Notitie: Als u klikt op <b>Converteer</b> zal het Flash bestand welke u zojuist geupload heeft veranderd worden. <br />Bewaar het orginele bestand goed. Ongeacht in welke versie de banner gemaakt is, het geconverteerde bestand zal alleen goed te zien zijn met de Flash 4 player (of hoger).<br /><br />";
 $GLOBALS['strCompressSWF']				= "Comprimeer SWF bestand voor versneld downloaden (Flash 6 speler verplicht)";
 $GLOBALS['strOverwriteSource']				= "Overschrijft de bron parameter";
 
@@ -539,21 +552,27 @@ $GLOBALS['strErrorStoreLocal']				= "Er is een fout opgetreden tijdens het bewar
 $GLOBALS['strErrorStoreFTP']				= "Er is een fout opgetreden tijdens het overzenden van de banner naar de FTP server. De server is niet bereikbaar, of er is een fout gemaakt tijdens het invullen van de gegevens van de FTP server";
 $GLOBALS['strErrorDBPlain']				= "Er is een probleem opgetreden tijdens het benaderen van de database";
 $GLOBALS['strErrorDBSerious']				= "Er is een ernstig probleem met de database opgetreden";
-$GLOBALS['strErrorDBNoDataPlain']			= "Wegens het probleem kon ". MAX_PRODUCT_NAME ." geen gegevens ophalen of versturen. ";
-$GLOBALS['strErrorDBNoDataSerious']			= "Wegens het ernstige problem kon ". MAX_PRODUCT_NAME ."  geen gegevens ophalen";
+$GLOBALS['strErrorDBNoDataPlain']			= "Wegens het probleem kon {$PRODUCT_NAME} geen gegevens ophalen of versturen. ";
+$GLOBALS['strErrorDBNoDataSerious']			= "Wegens het ernstige problem kon {$PRODUCT_NAME}  geen gegevens ophalen";
 $GLOBALS['strErrorDBCorrupt']				= "De database tabel is waarschijnlijk beschadigd en moet gerepareerd worden. Voor meer informatie over het repareren van beschadigde tabellen lees het hoofdstuk <i>Troubleshooting</i> van de <i>Administrator guide</i>.";
 $GLOBALS['strErrorDBContact']				= "Neem a.u.b. contact op met de beheerder van deze server en breng hem op de hoogte van uw probleem.";
-$GLOBALS['strErrorDBSubmitBug']				= "Indien dit probleem te reproduceren is, dan is het mogelijk dat het veroorzaakt wordt door een fout in ". MAX_PRODUCT_NAME .". Reporteer de volgende gegevens aan de makers van ". MAX_PRODUCT_NAME .". Probeer tevens de actie die deze fout tot gevolg hebben zo duidelijk mogelijk te omschrijven.";
-$GLOBALS['strMaintenanceNotActive']			= "Het onderhoudsscript heeft niet gedraaid in de laatste 24 uur. \nHet script moet elk uur gedraaid worden ander zal ". MAX_PRODUCT_NAME ." niet \ncorrect functioneren.\n\nLees a.u.b. de Administrator guide voor meer informatie \n over het instellen van het onderhoudsscript.";
+$GLOBALS['strErrorDBSubmitBug']				= "Indien dit probleem te reproduceren is, dan is het mogelijk dat het veroorzaakt wordt door een fout in {$PRODUCT_NAME}. Reporteer de volgende gegevens aan de makers van {$PRODUCT_NAME}. Probeer tevens de actie die deze fout tot gevolg hebben zo duidelijk mogelijk te omschrijven.";
+$GLOBALS['strMaintenanceNotActive']			= "Het onderhoudsscript heeft niet gedraaid in de laatste 24 uur.
+Het script moet elk uur gedraaid worden ander zal {$PRODUCT_NAME} niet
+correct functioneren.
+
+Lees a.u.b. de Administrator guide voor meer informatie
+ over het instellen van het onderhoudsscript.";
 
 
 // E-mail
 $GLOBALS['strMailSubject'] 				= "Advertentierapport";
 $GLOBALS['strAdReportSent']				= "Advertentierapport verzonden";
 $GLOBALS['strMailSubjectDeleted'] 			= "Gedeactiveerde banners";
-$GLOBALS['strMailHeader'] 				= "Geachte {contact},\n";
+$GLOBALS['strMailHeader'] 				= "Geachte {contact},";
 $GLOBALS['strMailBannerStats'] 				= "Bijgevoegd vind u de banner-statistieken van {clientname}:";
-$GLOBALS['strMailFooter'] 				= "Met vriendelijke groet,\n    {adminfullname}";
+$GLOBALS['strMailFooter'] 				= "Met vriendelijke groet,
+    {adminfullname}";
 $GLOBALS['strMailClientDeactivated'] 			= "Uw banner zijn gedeactiveerd omdat";
 $GLOBALS['strMailNothingLeft'] 				= "Indien u verder wilt adverteren op onze website, neem dan gerust contact met ons op. We horen graag van u.";
 $GLOBALS['strClientDeactivated']			= "Deze campagne is momenteel niet actief omdat";
@@ -694,7 +713,13 @@ $GLOBALS['strClicksBooked'] = "Geboekte kliks";
 $GLOBALS['strConversionsBooked'] = "geboekte conversies";
 $GLOBALS['strOptimise'] = "Optimaliseer ";
 $GLOBALS['strAnonymous'] = "Verberg de adverteerder en websites van deze campagne";
-$GLOBALS['strCampaignWarningRemnantNoWeight'] = "De prioriteit van deze campagne is laag, \nterwijl het gewicht op nul is gezet of niet \ngespecificeerd is. Dit zal er voor zorgen dat de campagne \ngedeactiveerd wordt en de banners zullen niet getoond \nworden totdat het gewicht aangepast is. \n\nWeet u zeker dat u door wilt gaan?";
+$GLOBALS['strCampaignWarningRemnantNoWeight'] = "De prioriteit van deze campagne is laag,
+terwijl het gewicht op nul is gezet of niet
+gespecificeerd is. Dit zal er voor zorgen dat de campagne
+gedeactiveerd wordt en de banners zullen niet getoond
+worden totdat het gewicht aangepast is.
+
+Weet u zeker dat u door wilt gaan?";
 $GLOBALS['strTrackerOverview'] = "Banner overzicht";
 $GLOBALS['strAddTracker'] = "Voeg nieuwe banner toe";
 $GLOBALS['strAddTracker_Key'] = "<u>V</u>oeg een banner toe";

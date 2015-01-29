@@ -128,7 +128,7 @@ $GLOBALS['strAuthentification'] 		= "אימות";
 $GLOBALS['strWelcomeTo']			= "ברוכיא הבאיא ל";
 $GLOBALS['strEnterUsername']			= "נא להכניס שא וסיסמא כדי להיכנס";
 $GLOBALS['strEnterBoth']			= "אנא הזן את שא המשתמש והסיסמם";
-$GLOBALS['strEnableCookies']			= "עליך לאפשר קוקיס (cookies) לפני השימוש ב-".MAX_PRODUCT_NAME;
+$GLOBALS['strEnableCookies']			= "עליך לאפשר קוקיס (cookies) לפני השימוש ב-{$PRODUCT_NAME}";
 $GLOBALS['strLogin'] 				= "התחבר";
 $GLOBALS['strLogout'] 				= "התנתק";
 $GLOBALS['strUsername'] 			= "שא משתמש";
@@ -249,8 +249,18 @@ $GLOBALS['strLowPriority']			= "הצג באנריא מקמפיין זה בקדי
 $GLOBALS['strTargetLimitAdviews']		= "הגבל את מספר החשיפות ל";
 $GLOBALS['strTargetPerDay']			= "ליוא.";
 $GLOBALS['strPriorityAutoTargeting']		= "פזר את שארית החשיפות בצורה שווה במשך הימיא שנותרו. מספר החשיפות הנדרשות יעודכן בהתאא בכל יוא.";
-$GLOBALS['strCampaignWarningNoWeight'] = "הקדימות של קמפיין זה נקבע לנמוכה, \nאך המשקל נקבע לאפס או שלא נקבע כלל. \nזה יגרוא לקמפיין להיות לא פעיל \nוהבאנריא שלו לא יונפקו\nעד אשר המשקל ייקבע לערך תקף. \n\nהאא אתה רוצה להשמיך";
-$GLOBALS['strCampaignWarningNoTarget'] = "הקדימות של קמפיין זה נקבעה כגבוהה,\nאך מספר המטרה של חשיפות לא נקבע.\n זה יגרוא לקמפיין להיות לא פעיל\nובאנריא לא יונפקו עד שמספר מטרה תקף ייקבע.\n האפ אתה בטוח רושצה להשמיך";
+$GLOBALS['strCampaignWarningNoWeight'] = "הקדימות של קמפיין זה נקבע לנמוכה,
+אך המשקל נקבע לאפס או שלא נקבע כלל.
+זה יגרוא לקמפיין להיות לא פעיל
+והבאנריא שלו לא יונפקו
+עד אשר המשקל ייקבע לערך תקף.
+
+האא אתה רוצה להשמיך";
+$GLOBALS['strCampaignWarningNoTarget'] = "הקדימות של קמפיין זה נקבעה כגבוהה,
+אך מספר המטרה של חשיפות לא נקבע.
+ זה יגרוא לקמפיין להיות לא פעיל
+ובאנריא לא יונפקו עד שמספר מטרה תקף ייקבע.
+ האפ אתה בטוח רושצה להשמיך";
 
 
 
@@ -556,12 +566,12 @@ $GLOBALS['strErrorStoreLocal']			= "ארעה שגיאה בעת הנסיון לש
 $GLOBALS['strErrorStoreFTP']			= "ארעה שגיאה בעת נסיון להעלות את הבאנר לשרת FTP. אפשר שהשרת לא זמין, או קונפיגורציה שגויה של קביעות שרת ה-FTP";
 $GLOBALS['strErrorDBPlain']				= "ארעה שגיאה בגישה לבסיס הנתונים";
 $GLOBALS['strErrorDBSerious']			= "ארעה שגיאה חמורה בבסיס הנתונים";
-$GLOBALS['strErrorDBNoDataPlain']		= "עקב בעיה בבבסיס הנתוניא ".MAX_PRODUCT_NAME." לא יכלה להשיג מידע. ";
-$GLOBALS['strErrorDBNoDataSerious']		= "עקב בעיה חמורה בבסיס הנתוניא, ".MAX_PRODUCT_NAME." לא יכלה להשיג מידע.";
+$GLOBALS['strErrorDBNoDataPlain']		= "עקב בעיה בבבסיס הנתוניא {$PRODUCT_NAME} לא יכלה להשיג מידע. ";
+$GLOBALS['strErrorDBNoDataSerious']		= "עקב בעיה חמורה בבסיס הנתוניא, {$PRODUCT_NAME} לא יכלה להשיג מידע.";
 $GLOBALS['strErrorDBCorrupt']			= "טבלאות בסיס הנתוניא כנראה קרסו ודורשות תיקון. מידע נוסף בדבר תיקון טבלאות שקרסו ניתן למצוא בפרק <i>Troubleshooting</i> של ה<i>Administrator guide</i>.";
 $GLOBALS['strErrorDBContact']			= "אנא צור קשר עא האחראי של שרת זה והודיע לו לגבי הבעיה.";
-$GLOBALS['strErrorDBSubmitBug']			= "אא הבעיה נשנית, אפשר שמדובר בבאג ב-".MAX_PRODUCT_NAME.". אנא דווח את המידע הבא ליוצריא של ".MAX_PRODUCT_NAME.". כמו כן נסה לתאר בצורה ברורה ככל האפשר את הפעולות שהובילו לקריסה זו.";
-$GLOBALS['strMaintenanceNotActive']		= "תסריט התחזוקה לא רץ ב-24 השעות האחרונות. \\nכדי ש".MAX_PRODUCT_NAME." תוכל לתפקד נכונה, הוא צריך לרוץ\\nכל שעה. \\n\\nאנא קרא את מדריך האחראי (Administrator guide) למידע נוסף עבור\\nהגדרות התחזוקה.";
+$GLOBALS['strErrorDBSubmitBug']			= "אא הבעיה נשנית, אפשר שמדובר בבאג ב-{$PRODUCT_NAME}. אנא דווח את המידע הבא ליוצריא של {$PRODUCT_NAME}. כמו כן נסה לתאר בצורה ברורה ככל האפשר את הפעולות שהובילו לקריסה זו.";
+$GLOBALS['strMaintenanceNotActive']		= "תסריט התחזוקה לא רץ ב-24 השעות האחרונות. \\nכדי ש{$PRODUCT_NAME} תוכל לתפקד נכונה, הוא צריך לרוץ\\nכל שעה. \\n\\nאנא קרא את מדריך האחראי (Administrator guide) למידע נוסף עבור\\nהגדרות התחזוקה.";
 
 
 
@@ -570,18 +580,21 @@ $GLOBALS['strMaintenanceNotActive']		= "תסריט התחזוקה לא רץ ב-2
 $GLOBALS['strMailSubject'] 			= "דוח מפרסם";
 $GLOBALS['strAdReportSent']			= "נשלח דוח מפרסם";
 $GLOBALS['strMailSubjectDeleted'] 		= "באנריא שהושתקו";
-$GLOBALS['strMailHeader'] 			= "{contact} היקר,\n";
+$GLOBALS['strMailHeader'] 			= "{contact} היקר,";
 $GLOBALS['strMailBannerStats'] 			= "בהמשך תמצא את הסטטיסטיקה עבור הבאנריא של {clientname}:";
-$GLOBALS['strMailFooter'] 			= "ברגשי כבוד,\n   {adminfullname}";
+$GLOBALS['strMailFooter'] 			= "ברגשי כבוד,
+   {adminfullname}";
 $GLOBALS['strMailClientDeactivated'] 		= "הבאנריא הבאיא נפסלו/שותקו עקב";
-$GLOBALS['strMailNothingLeft'] 			= "אא אתה רוצה להמשיך לפרסא באתר שלנו, אנא צור עמנו קשר.\nנשמח לשמוע ממך.";
+$GLOBALS['strMailNothingLeft'] 			= "אא אתה רוצה להמשיך לפרסא באתר שלנו, אנא צור עמנו קשר.
+נשמח לשמוע ממך.";
 $GLOBALS['strClientDeactivated']		= "קמפיין זה אינו פעילה כעת משוא ש";
 $GLOBALS['strBeforeActivate']			= "תאריך ההתחלה עדיין לא הגיעt";
 $GLOBALS['strAfterExpire']			= "תאריך התפוגה הגיע.";
 $GLOBALS['strNoMoreClicks']			= "לא נותרו הקלקות";
 $GLOBALS['strNoMoreViews']			= "לא נותרו חשיפות";
 $GLOBALS['strWeightIsNull']			= "משקלו נקבע לאפס";
-$GLOBALS['strWarnClientTxt']			= "כמות החשיפות או הקלקות שנותרה לבאנריא שלך מתחילה להגיע אל מתחת ל{limit}. \nהבאנריא שלך יופסקו כאשר תושג כמות החשיפה או ההקלקה.";
+$GLOBALS['strWarnClientTxt']			= "כמות החשיפות או הקלקות שנותרה לבאנריא שלך מתחילה להגיע אל מתחת ל{limit}.
+הבאנריא שלך יופסקו כאשר תושג כמות החשיפה או ההקלקה.";
 $GLOBALS['strViewsClicksLow']			= "מספר חשיפות/הקלקות נמוך";
 $GLOBALS['strNoViewLoggedInInterval']   	= "לא נרשמו חשיפות לאורך תקופת דוח זה.";
 $GLOBALS['strNoClickLoggedInInterval']  	= "לא נרשמו הקלקות לאורך תקופת דוח זה.";

@@ -250,8 +250,20 @@ $GLOBALS['strOptimise'] = "Optimiziraj";
 $GLOBALS['strAnonymous'] = "Skrij oglaševalca in spletne strani te kampanje";
 $GLOBALS['strTargetPerDay'] = "na dan.";
 $GLOBALS['strPriorityAutoTargeting'] = "Samodejno - Enakomerno razporedi preostanek inventarja preko naslednjih dni.";
-$GLOBALS['strCampaignWarningRemnantNoWeight'] = "Tip te kampanje je bil nastavljen na Preostalo, \nvendar je postavka nastavljena na nič ali pa ni specificirana.\nKampanja bo zaradi tega deaktivirana \nin pasice ne bodo dostavljene,\ndokler postavke ne spremenite v veljaven element. \n\nSte prepričani, da želite nadaljevati?";
-$GLOBALS['strCampaignWarningNoTarget'] = "Tip te kampanje je bil nastavljen na Pogodbeno, \nvendar ni nastavljena dnevna omejitev. \nZaradi tega bo kampanja deaktivirana, \npasice pa ne bodo prikazane, dokler ne nastavite \ndnevne omejitve. \n\nSte prepričani, da želite nadaljevati?";
+$GLOBALS['strCampaignWarningRemnantNoWeight'] = "Tip te kampanje je bil nastavljen na Preostalo,
+vendar je postavka nastavljena na nič ali pa ni specificirana.
+Kampanja bo zaradi tega deaktivirana
+in pasice ne bodo dostavljene,
+dokler postavke ne spremenite v veljaven element.
+
+Ste prepričani, da želite nadaljevati?";
+$GLOBALS['strCampaignWarningNoTarget'] = "Tip te kampanje je bil nastavljen na Pogodbeno,
+vendar ni nastavljena dnevna omejitev.
+Zaradi tega bo kampanja deaktivirana,
+pasice pa ne bodo prikazane, dokler ne nastavite
+dnevne omejitve.
+
+Ste prepričani, da želite nadaljevati?";
 $GLOBALS['strTrackerOverview'] = "Pregled sledilnika";
 $GLOBALS['strAddTracker'] = "Dodaj nov sledilnik";
 $GLOBALS['strAddTracker_Key'] = "Dodaj <u>n</u>ov sledilnik";
@@ -324,7 +336,7 @@ $GLOBALS['strSwfTransparency'] = "Dovoli prozorno ozadje";
 $GLOBALS['strCheckSWF'] = "Preveri za hard-code povezave v FLASH datoteki";
 $GLOBALS['strConvertSWFLinks'] = "Pretvori FLASH povezave";
 $GLOBALS['strHardcodedLinks'] = "Implementirane povezave (hard-coded links)";
-$GLOBALS['strConvertSWF'] = "<br />Ta FLASH datoteka vsebuje implementirane povezave. ". MAX_PRODUCT_NAME ." ne bo mogel slediti številom klikov za to pasico, razen če pretvorite implementirane povezave. Spodaj boste našli spisek vseh povezav znotraj pasice. Če želite pretvoriti povezave, kliknite <b>Pretvori</b>, v nasprotnem primeru pa <b>Prekliči</b>.<br /><br />OPOMBA: s klikom na <b>Pretvori</b> bo FLASH datoteka fizično spremenjena. <br />Zato imejte ustvarjeno varnostno kopijo te datoteke. Za pravilen prikaz nove datoteke boste potrebovali predvajalnik FLASH 4 (ali višji).<br /><br />";
+$GLOBALS['strConvertSWF'] = "<br />Ta FLASH datoteka vsebuje implementirane povezave. {$PRODUCT_NAME} ne bo mogel slediti številom klikov za to pasico, razen če pretvorite implementirane povezave. Spodaj boste našli spisek vseh povezav znotraj pasice. Če želite pretvoriti povezave, kliknite <b>Pretvori</b>, v nasprotnem primeru pa <b>Prekliči</b>.<br /><br />OPOMBA: s klikom na <b>Pretvori</b> bo FLASH datoteka fizično spremenjena. <br />Zato imejte ustvarjeno varnostno kopijo te datoteke. Za pravilen prikaz nove datoteke boste potrebovali predvajalnik FLASH 4 (ali višji).<br /><br />";
 $GLOBALS['strCompressSWF'] = "Stisni SWF datoteko za hitrejši prenos (zahtevan Flash player 6)";
 $GLOBALS['strOverwriteSource'] = "Prepiši izvirni parameter";
 $GLOBALS['strModifyBannerAcl'] = "Možnosti dostave";
@@ -420,7 +432,11 @@ $GLOBALS['strTotalZones'] = "Vseh področij";
 $GLOBALS['strCostInfo'] = "Strošek medija";
 $GLOBALS['strTechnologyCost'] = "Strošek tehnologije";
 $GLOBALS['strInactiveZonesHidden'] = "skrita neaktivna področja";
-$GLOBALS['strWarnChangeZoneType'] = "Spreminjanje tipa področja v besedilno ali e-poštno bo odstranilo vse povezave pasic/kampanj zaradi omejitev teh tipov področij\n<ul>\n<li>Besedilna področja so lahko v povezavi z samo besedilnimi oglasi</li>\n<li>E-poštne področne kampanje imajo naenkrat lahko samo eno aktivno pasico</li>\n</ul>";
+$GLOBALS['strWarnChangeZoneType'] = "Spreminjanje tipa področja v besedilno ali e-poštno bo odstranilo vse povezave pasic/kampanj zaradi omejitev teh tipov področij
+<ul>
+<li>Besedilna področja so lahko v povezavi z samo besedilnimi oglasi</li>
+<li>E-poštne področne kampanje imajo naenkrat lahko samo eno aktivno pasico</li>
+</ul>";
 $GLOBALS['strWarnChangeZoneSize'] = "Spreminjanje področja bo odstranilo vse povezave pasic, ki niso nove velikosti, in bo dodalo pasice iz povezujočih kampanj, ki so nove velikosti";
 $GLOBALS['strAdvanced'] = "Napredno";
 $GLOBALS['strChainSettings'] = "Verižne nastavitve";
@@ -524,12 +540,17 @@ $GLOBALS['strErrorUploadBasedir'] = "Ne morem dostopati do želene datoteke, ver
 $GLOBALS['strErrorUploadUnknown'] = "Ne morem dostopati do želene datoteke zaradi neznane napake. Prosimo, preverite vašo PHP konfiguracijo.";
 $GLOBALS['strErrorDBPlain'] = "Prišlo je do napake pri dostopanju do podatkovne baze.";
 $GLOBALS['strErrorDBSerious'] = "Odkrit je bil resen problem pri podatkovni bazi.";
-$GLOBALS['strErrorDBNoDataPlain'] = "Zaradi problema z podatkovno bazo, ". MAX_PRODUCT_NAME ." ni mogel pridobiti ali shraniti podatkov.";
-$GLOBALS['strErrorDBNoDataSerious'] = "Zaradi resnega problema z podatkovno bazo, ". MAX_PRODUCT_NAME ." ni mogel pridobiti podatkov.";
+$GLOBALS['strErrorDBNoDataPlain'] = "Zaradi problema z podatkovno bazo, {$PRODUCT_NAME} ni mogel pridobiti ali shraniti podatkov.";
+$GLOBALS['strErrorDBNoDataSerious'] = "Zaradi resnega problema z podatkovno bazo, {$PRODUCT_NAME} ni mogel pridobiti podatkov.";
 $GLOBALS['strErrorDBCorrupt'] = "Podatkovna baza je najverjetneje pokvarjena in potrebuje popravilo. Za več informacij o popravilu baz si prosimo preberite poglavje <i>Tehnične motnje</i> v <i>Administratorskem vodiču</i>.";
 $GLOBALS['strErrorDBContact'] = "Prosimo, obvestite administratorja o problemu na tej strani.";
-$GLOBALS['strErrorDBSubmitBug'] = "Če se je ta problem znova pojavil, je to mogoče zaradi hrošča v ". MAX_PRODUCT_NAME .". Prosimo, posredujte to informacijo ustvarjalcem ". MAX_PRODUCT_NAME .". Opišite tudi postopek, ki je vodil do te napake.";
-$GLOBALS['strMaintenanceNotActive'] = "Vzdrževalna skripta ni bila zagnana v zadnjih 24-ih urah. \nDa bi ". MAX_PRODUCT_NAME ." deloval pravilno, jo je potrebno zagnati \nvsako uro. \n\nProsimo, preberite si Administratorski vodič za več informacij \no nastavitvi vzdrževalne skripte.";
+$GLOBALS['strErrorDBSubmitBug'] = "Če se je ta problem znova pojavil, je to mogoče zaradi hrošča v {$PRODUCT_NAME}. Prosimo, posredujte to informacijo ustvarjalcem {$PRODUCT_NAME}. Opišite tudi postopek, ki je vodil do te napake.";
+$GLOBALS['strMaintenanceNotActive'] = "Vzdrževalna skripta ni bila zagnana v zadnjih 24-ih urah.
+Da bi {$PRODUCT_NAME} deloval pravilno, jo je potrebno zagnati
+vsako uro.
+
+Prosimo, preberite si Administratorski vodič za več informacij
+o nastavitvi vzdrževalne skripte.";
 $GLOBALS['strErrorLinkingBanner'] = "Povezava pasice s tem področjem je bila neizvedljiva zaradi:";
 $GLOBALS['strUnableToLinkBanner'] = "Ne morem vzpostaviti povezave s to pasico:";
 $GLOBALS['strErrorEditingCampaign'] = "Prišlo je do napake pri posodabljanju kampanje:";
@@ -538,14 +559,17 @@ $GLOBALS['strDatesConflict'] = "datumi so v navzkrižju z:";
 $GLOBALS['strEmailNoDates'] = "E-poštne področne kampanje morajo imeti začetni in zaključni datum";
 $GLOBALS['strSirMadam'] = "Gospod/Gospa";
 $GLOBALS['strMailSubject'] = "Poročilo oglaševalca";
-$GLOBALS['strMailHeader'] = "Spoštovani/a {contact},\n";
+$GLOBALS['strMailHeader'] = "Spoštovani/a {contact},";
 $GLOBALS['strMailBannerStats'] = "Spodaj boste našli statistične podatke o pasici za {clientname}:";
 $GLOBALS['strMailBannerActivatedSubject'] = "Kampanja aktivirana";
 $GLOBALS['strMailBannerDeactivatedSubject'] = "Kampanja deaktivirana";
-$GLOBALS['strMailBannerActivated'] = "Vaša kampanja (prikazana spodaj), je bila aktivirana,\nker je bil dosežen aktivacijski datum.";
+$GLOBALS['strMailBannerActivated'] = "Vaša kampanja (prikazana spodaj), je bila aktivirana,
+ker je bil dosežen aktivacijski datum.";
 $GLOBALS['strMailBannerDeactivated'] = "Vaša kampanja (prikazana spodaj) je bila deaktivirana zaradi";
-$GLOBALS['strMailFooter'] = "Prijeten dan še naprej,\n   {adminfullname}";
-$GLOBALS['strMailNothingLeft'] = "Če bi v prihodnje želeli še oglaševati na naši strani, nas kontaktirajte.\nZ veseljem se Vam bomo oglasili.";
+$GLOBALS['strMailFooter'] = "Prijeten dan še naprej,
+   {adminfullname}";
+$GLOBALS['strMailNothingLeft'] = "Če bi v prihodnje želeli še oglaševati na naši strani, nas kontaktirajte.
+Z veseljem se Vam bomo oglasili.";
 $GLOBALS['strClientDeactivated'] = "Ta kampanja trenutno ni aktivna, ker";
 $GLOBALS['strBeforeActivate'] = "aktivacijski datum še ni bil dosežen";
 $GLOBALS['strAfterExpire'] = "datum izteka roka je bil dosežen";
@@ -554,7 +578,8 @@ $GLOBALS['strNoMoreClicks'] = "na voljo ni več klikov";
 $GLOBALS['strNoMoreConversions'] = "no voljo ni več prometa";
 $GLOBALS['strWeightIsNull'] = "vrednost je nastavljena na nič";
 $GLOBALS['strTargetIsNull'] = "dnevna omejitev je nastavljena na nič - navesti morate datum zaključka in omejitev ali nastaviti dnevno omejitev";
-$GLOBALS['strWarnClientTxt'] = "Ogledi, kliki ali pretvorbe pri vaši pasici počasi dosegajo raven {limit}. \nVaše pasice bodo izklopljene, ko ne bo na voljo več učinkov, klikov ali pretvorb.";
+$GLOBALS['strWarnClientTxt'] = "Ogledi, kliki ali pretvorbe pri vaši pasici počasi dosegajo raven {limit}.
+Vaše pasice bodo izklopljene, ko ne bo na voljo več učinkov, klikov ali pretvorb.";
 $GLOBALS['strImpressionsClicksConversionsLow'] = "Ogledi/Kliki/Pretvorbe dosegajo nizko raven";
 $GLOBALS['strNoViewLoggedInInterval'] = "Zabeleženih je bilo 0 ogledov med trajanjem tega poročila";
 $GLOBALS['strNoClickLoggedInInterval'] = "Zabeleženih je bilo 0 klikov med trajanjem tega poročila";
@@ -567,7 +592,8 @@ $GLOBALS['strYourCampaign'] = "Vaša kampanja";
 $GLOBALS['strTheCampiaignBelongingTo'] = "Kampanja pripada";
 $GLOBALS['strImpendingCampaignExpiryDateBody'] = "{clientname} prikazan spodaj se približuje zaključku na dan {date}.";
 $GLOBALS['strImpendingCampaignExpiryImpsBody'] = "{clientname} prikazan spodaj ima manj kot {limit} učinkov še na voljo.";
-$GLOBALS['strImpendingCampaignExpiryBody'] = "Kot posledica bo kampanja kmalu samodejno izklopljena, \nvključno z naslednjimi pasicami:";
+$GLOBALS['strImpendingCampaignExpiryBody'] = "Kot posledica bo kampanja kmalu samodejno izklopljena,
+vključno z naslednjimi pasicami:";
 $GLOBALS['strSourceEdit'] = "Uredi vire";
 $GLOBALS['strGeneralSettings'] = "Splošne nastavitve";
 $GLOBALS['strMainSettings'] = "Glavne nastavitve";
@@ -736,7 +762,7 @@ $GLOBALS['strWarnChangeBannerSize'] = "Spreminjanje vrednosti pasice bo prekinil
 $GLOBALS['strAuditNoData'] = "Nobena uporabniško dejanje ni bilo zabeleženo med časovnim okvirjem, ki ste ga izbrali.";
 $GLOBALS['strCampaignGoTo'] = "Pojdite na stran kampanje";
 $GLOBALS['strCampaignSetUp'] = "Ustvari novo kampanjo danes";
-$GLOBALS['strCampaignNoRecords'] = "<li>Kampanje vam omogočajo razvrščanje poljubno število oglasnih pasic različnih velikosti skupaj, ki imajo skupne oglaševalske zahteve.</li> <li>Prihranite čas pri razvrščanju pasic v kampanji, kajti ni vam potrebno več nastavljati dostavnih lastnosti za posamezen oglas.</li><li>Preglejte <a class='site-link' target='help' href='". OX_PRODUCT_DOCSURL ."/inventory/advertisersAndCampaigns/campaigns'>Campaign documentation</a>!</li>";
+$GLOBALS['strCampaignNoRecords'] = "<li>Kampanje vam omogočajo razvrščanje poljubno število oglasnih pasic različnih velikosti skupaj, ki imajo skupne oglaševalske zahteve.</li> <li>Prihranite čas pri razvrščanju pasic v kampanji, kajti ni vam potrebno več nastavljati dostavnih lastnosti za posamezen oglas.</li><li>Preglejte <a class='site-link' target='help' href='{$PRODUCT_DOCSURL}/inventory/advertisersAndCampaigns/campaigns'>Campaign documentation</a>!</li>";
 $GLOBALS['strAffiliateOverview'] = "Pregled spletne strani";
 $GLOBALS['strAddAffiliate'] = "Ustvari spletno stran";
 $GLOBALS['strPublisherReports'] = "Poročilo spletne strani";
@@ -745,7 +771,7 @@ $GLOBALS['strCampaignNoDataTimeSpan'] = "Nobena kampanja se ni začela ali konč
 $GLOBALS['strCampaignAuditNotActivated'] = "<li>Če bi želeli pregledati katere kampanje so se začele in končale v časovnem okvirju, ki ste ga določili, mora biti omogočena Pregledna pot</li>	        <li>To sporočilo vidite zato, ker nimate omogočene Pregledne poti</li>";
 $GLOBALS['strAuditTrailSetup'] = "Nastavite Pregledno pot danes";
 $GLOBALS['strAuditTrailGoTo'] = "Pojdite na stran Pregledne poti";
-$GLOBALS['strAuditTrailNotEnabled'] = "<li>Pregledna pot vam omogoča vpogled v to, kaj je kdo naredil in kdaj. Skratka, beleži vse sistemske spremembe ". MAX_PRODUCT_NAME ."</li><li>To sporočilo vidite zato, ker nimate omogočene Pregledne poti</li><li>Želite vedeti več? Preberite <a href='". OX_PRODUCT_DOCSURL ."/settings/auditTrail' class='site-link' target='help' >Dokumentacija Pregledne poti</a></li>";
+$GLOBALS['strAuditTrailNotEnabled'] = "<li>Pregledna pot vam omogoča vpogled v to, kaj je kdo naredil in kdaj. Skratka, beleži vse sistemske spremembe {$PRODUCT_NAME}</li><li>To sporočilo vidite zato, ker nimate omogočene Pregledne poti</li><li>Želite vedeti več? Preberite <a href='{$PRODUCT_DOCSURL}/settings/auditTrail' class='site-link' target='help' >Dokumentacija Pregledne poti</a></li>";
 $GLOBALS['strNoAdminInterface'] = "Administratorski vmesnik je bil izklopljen zaradi vzdrževalnih del. To ne vpliva na dostavo vaših kampanj.";
 $GLOBALS['strAdminAccess'] = "Administratorski dostop";
 $GLOBALS['strOverallAdvertisers'] = "oglaševalec(ci)";
@@ -1180,7 +1206,7 @@ $GLOBALS['str_pt_PT'] = "Portugalska portugalščina";
 $GLOBALS['str_sq'] = "Albanščina";
 $GLOBALS['strSyncSettings'] = "Usklajevalne nastavitve";
 $GLOBALS['strNoAdminInteface'] = "Administratorski vmesnik je bil izklopljen zaradi vzdrževalnih del. To ne vpliva na dostavo vaših kampanj.";
-$GLOBALS['strEnableCookies'] = "Imeti morate omogočene piškotke, če želite uporabljati ". MAX_PRODUCT_NAME ."";
+$GLOBALS['strEnableCookies'] = "Imeti morate omogočene piškotke, če želite uporabljati {$PRODUCT_NAME}";
 $GLOBALS['strHideInactiveOverview'] = "Skrij neaktivne postavke pri vseh preglednih straneh";
 $GLOBALS['strHiddenPublisher'] = "Spletna stran";
 $GLOBALS['strDefaultConversionRules'] = "Privzeta pravila pri pretvorbi";
@@ -1212,7 +1238,7 @@ $GLOBALS['strVariableHiddenTo'] = "Spremenljivka skrita v";
 $GLOBALS['strHide'] = "Skrij:";
 $GLOBALS['strShow'] = "Prikaži:";
 $GLOBALS['strAdLayerStyleName']['floater'] = "Plovnik (floater)";
-$GLOBALS['strInstallWelcome'] = "Dobrodošli v ". MAX_PRODUCT_NAME ."";
+$GLOBALS['strInstallWelcome'] = "Dobrodošli v {$PRODUCT_NAME}";
 $GLOBALS['strAdminNovice'] = "Zaradi varnostnih razlogov potrebujejo izbrisalna dejanja administratorja potrditev";
 $GLOBALS['strTimezoneInformation'] = "Informacije o časovnih področjih (spreminjanje bo vplivalo na statistične podatke)";
 $GLOBALS['strBannerSettings'] = "Nastavitve pasice";
@@ -1231,7 +1257,7 @@ $GLOBALS['strMaintenanceCompactStats'] = "Izbriši nepredelano statistiko po pro
 $GLOBALS['strMaintenanceCompactStatsGrace'] = "Podpri razdobje pred izbrisom predelane statistike (v sekundah)";
 $GLOBALS['strWarnCompactStatsGrace'] = "Vrednost mora biti nastavljena na pozitivno številko";
 $GLOBALS['strEmailWarnings'] = "E-poštna opozorila";
-$GLOBALS['strAdminEmailHeaders'] = "Dodaj naslednje glave (headers) v vsako e-poštno sporočilo, ki ga pošilja ". MAX_PRODUCT_NAME ."";
+$GLOBALS['strAdminEmailHeaders'] = "Dodaj naslednje glave (headers) v vsako e-poštno sporočilo, ki ga pošilja {$PRODUCT_NAME}";
 $GLOBALS['strAdLayerStyleName']['simple'] = "Preprost";
 $GLOBALS['strAdLayerStyleName']['cursor'] = "Drsnik";
 $GLOBALS['strIn'] = "v";
@@ -1304,6 +1330,6 @@ $GLOBALS['str_TechnologyCost'] = "Strošek tehnologije";
 $GLOBALS['strAllCampaignsHaveBeenDeleted'] = "Vse kampanje tega oglaševalca so bile izbrisane";
 $GLOBALS['strAllBannersHaveBeenDeleted'] = "Vse pasice te kampanje so bile izbrisane";
 $GLOBALS['strBlockAdClicksWindow'] = "Okno beleženja blokiranih klikov (sekunde)";
-$GLOBALS['strDBCreatedSuccessful'] = "Vaša podatkovna baza je bila uspešno ustvarjena za ". MAX_PRODUCT_NAME ."";
-$GLOBALS['strUpgradeComplete'] = "Čestitamo, končali ste z posodabljanjem ". MAX_PRODUCT_NAME ."";
+$GLOBALS['strDBCreatedSuccessful'] = "Vaša podatkovna baza je bila uspešno ustvarjena za {$PRODUCT_NAME}";
+$GLOBALS['strUpgradeComplete'] = "Čestitamo, končali ste z posodabljanjem {$PRODUCT_NAME}";
 ?>

@@ -248,8 +248,18 @@ $GLOBALS['strOptimise'] = "Optimizează";
 $GLOBALS['strAnonymous'] = "Ascunde advertiser-ul şi site-urile pentru această campanie";
 $GLOBALS['strTargetPerDay'] = "pe zi.";
 $GLOBALS['strPriorityAutoTargeting'] = "Automat - Distribuie restul de inventar în mod egal pe numărul de zile rămase.";
-$GLOBALS['strCampaignWarningRemnantNoWeight'] = "Tipul acestei campanii a fost setată pe modul Exclusiv\ndar importanţa este setată pe zero sau nu a fost\nspecificată. Acest lucru va duce la\ndezactivarea campaniei, iar bannerele acesteia\nnu vor fi afişate până când importanţa nu este setată.\nEşti sigur că vrei să continui?";
-$GLOBALS['strCampaignWarningNoTarget'] = "Prioritatea acestei campanii a fost setată pe modul Mare\ndar numărul dorit de Vizualizări nu a fost specificat.\nAcest lucru va duce la dezactivarea campaniei\niar banner-ele sale nu vor fi afişate până când un număr dorit valid\nde Vizualizări nu a fost setat.\nEşti sigur că vrei sa continui?";
+$GLOBALS['strCampaignWarningRemnantNoWeight'] = "Tipul acestei campanii a fost setată pe modul Exclusiv
+dar importanţa este setată pe zero sau nu a fost
+specificată. Acest lucru va duce la
+dezactivarea campaniei, iar bannerele acesteia
+nu vor fi afişate până când importanţa nu este setată.
+Eşti sigur că vrei să continui?";
+$GLOBALS['strCampaignWarningNoTarget'] = "Prioritatea acestei campanii a fost setată pe modul Mare
+dar numărul dorit de Vizualizări nu a fost specificat.
+Acest lucru va duce la dezactivarea campaniei
+iar banner-ele sale nu vor fi afişate până când un număr dorit valid
+de Vizualizări nu a fost setat.
+Eşti sigur că vrei sa continui?";
 $GLOBALS['strTrackerOverview'] = "Vizualizare Contor";
 $GLOBALS['strAddTracker'] = "Adaugă contor nou";
 $GLOBALS['strAddTracker_Key'] = "Adaugă contor <u>n</u>ou";
@@ -317,7 +327,7 @@ $GLOBALS['strSwfTransparency'] = "Permite fundal transparent";
 $GLOBALS['strCheckSWF'] = "Caută link-urile ascunse din interiorul fişierelor Flash";
 $GLOBALS['strConvertSWFLinks'] = "Converteşte link-urile Flash";
 $GLOBALS['strHardcodedLinks'] = "Link-uri Codate-Puternic";
-$GLOBALS['strConvertSWF'] = "<br />Fisierul Flash pe care tocmai l-aţi încărcat conţine url-uri codate puternic. ". MAX_PRODUCT_NAME ." nu va putea să contorizeze numărul click-urilor pentru acest banner decât dacă converteşti aceste link-uri codate-puternic. Mai jos vei găsi o listă cu toate url-urile din interiorul fişierului Flash. Dacă vrei să converteşti url-urile, fă click pe <b>Converteşte</b>, altfel fă click pe <b>Anulare</b>.<br /><br />Observaţie: dacă faci click pe <b>Converteşte</b> fişierul Flash pe care tocmai l-ai încărcat va fi modificat fizic. <br />Te rugăm să păstrezi o copie de siguranţă al fişierului original. Indiferent de versiunea cu ajutorul căreia a fost creat acest banner, fişierul rezultat va avea nevoie de player-ul Flash 4 (sau mai nou) pentru afişarea corectă.<br /><br />";
+$GLOBALS['strConvertSWF'] = "<br />Fisierul Flash pe care tocmai l-aţi încărcat conţine url-uri codate puternic. {$PRODUCT_NAME} nu va putea să contorizeze numărul click-urilor pentru acest banner decât dacă converteşti aceste link-uri codate-puternic. Mai jos vei găsi o listă cu toate url-urile din interiorul fişierului Flash. Dacă vrei să converteşti url-urile, fă click pe <b>Converteşte</b>, altfel fă click pe <b>Anulare</b>.<br /><br />Observaţie: dacă faci click pe <b>Converteşte</b> fişierul Flash pe care tocmai l-ai încărcat va fi modificat fizic. <br />Te rugăm să păstrezi o copie de siguranţă al fişierului original. Indiferent de versiunea cu ajutorul căreia a fost creat acest banner, fişierul rezultat va avea nevoie de player-ul Flash 4 (sau mai nou) pentru afişarea corectă.<br /><br />";
 $GLOBALS['strCompressSWF'] = "Compresează fişierul SWF pentru descărcare mai rapidă (necesită Flash Player 6)";
 $GLOBALS['strOverwriteSource'] = "Înlocuieşte parametrul sursă";
 $GLOBALS['strModifyBannerAcl'] = "Opţiuni livrare";
@@ -412,7 +422,11 @@ $GLOBALS['strTotalZones'] = "Total zone";
 $GLOBALS['strCostInfo'] = "Cost Media";
 $GLOBALS['strTechnologyCost'] = "Cost Tehnologie";
 $GLOBALS['strInactiveZonesHidden'] = "zone inactive ascunse";
-$GLOBALS['strWarnChangeZoneType'] = "Schimbând tipul zonei la text sau email va duce la dezasocierea tuturor bannerelor/campaniilor din cauza restricţiilor acestor tipuri de zonă\n<ul>\n<li>Zonele text pot fi asociate doar reclamelor de tip text</li>\n<li>Campaniile zonei email pot avea doar un banner activ la un moment dat</li>\n</ul>";
+$GLOBALS['strWarnChangeZoneType'] = "Schimbând tipul zonei la text sau email va duce la dezasocierea tuturor bannerelor/campaniilor din cauza restricţiilor acestor tipuri de zonă
+<ul>
+<li>Zonele text pot fi asociate doar reclamelor de tip text</li>
+<li>Campaniile zonei email pot avea doar un banner activ la un moment dat</li>
+</ul>";
 $GLOBALS['strWarnChangeZoneSize'] = "Schimbând dimensiunea zonei va duce la dezasocierea oricarui banner ce nu corespunde noii dimensiuni, şi va adăuga oricare banner din campaniile asociate care au dimensiunea nouă";
 $GLOBALS['strAdvanced'] = "Avansat";
 $GLOBALS['strChainSettings'] = "Setări lanţ";
@@ -515,12 +529,17 @@ $GLOBALS['strErrorUploadBasedir'] = "Nu pot accesa fişierul încărcat, probabi
 $GLOBALS['strErrorUploadUnknown'] = "Nu pot accesa fişierul încărcat, din cauza unui motiv necunoscut. Te rugăm să verifici configurarea PHP";
 $GLOBALS['strErrorDBPlain'] = "A intervenit o eroare în timpul accesării bazei de date";
 $GLOBALS['strErrorDBSerious'] = "A fost detectată o problemă gravă a bazei de date";
-$GLOBALS['strErrorDBNoDataPlain'] = "Din cauza unei probleme a bazei de date, ". MAX_PRODUCT_NAME ." nu a putut extrage sau stoca datele.";
-$GLOBALS['strErrorDBNoDataSerious'] = "Din cauza unei probleme grave a bazei de date, ". MAX_PRODUCT_NAME ." nu a putut extrage datele";
+$GLOBALS['strErrorDBNoDataPlain'] = "Din cauza unei probleme a bazei de date, {$PRODUCT_NAME} nu a putut extrage sau stoca datele.";
+$GLOBALS['strErrorDBNoDataSerious'] = "Din cauza unei probleme grave a bazei de date, {$PRODUCT_NAME} nu a putut extrage datele";
 $GLOBALS['strErrorDBCorrupt'] = "Tabela din baza de date este posibil să fie coruptă şi are nevoie de reparaţii. Pentru mai multe informaţii despre repararea tabelelor corupte te rugăm să citeşti capitolul <i>Troubleshooting</i> din <i>Administrator guide</i>.";
 $GLOBALS['strErrorDBContact'] = "Te rugăm să contactezi administratorul acestui server şi să-i aduci la cunoştinţă această problemă.";
-$GLOBALS['strErrorDBSubmitBug'] = "Daca această problemă poate fi reprodusă poate fi cauzată de un bug al ". MAX_PRODUCT_NAME .". Te rugăm să raportezi aceste informaţii dezvoltatorilor ". MAX_PRODUCT_NAME .". De asemenea încearcă să descrii acţiunile care au determinat apariţia acestei erori cât mai detaliat cu putinţă.";
-$GLOBALS['strMaintenanceNotActive'] = "Scriptul de întreţinere nu a fost executat în ultimele 24 de ore. \nPentru funcţionarea corectă a ". MAX_PRODUCT_NAME ." acestra trebuie să se execute\n în fiecare oră.\n\nTe rugăm să citeşti Ghidul administratorului pentru mai multe informaţii \ndespre configurarea scriptului de întreţinere.";
+$GLOBALS['strErrorDBSubmitBug'] = "Daca această problemă poate fi reprodusă poate fi cauzată de un bug al {$PRODUCT_NAME}. Te rugăm să raportezi aceste informaţii dezvoltatorilor {$PRODUCT_NAME}. De asemenea încearcă să descrii acţiunile care au determinat apariţia acestei erori cât mai detaliat cu putinţă.";
+$GLOBALS['strMaintenanceNotActive'] = "Scriptul de întreţinere nu a fost executat în ultimele 24 de ore.
+Pentru funcţionarea corectă a {$PRODUCT_NAME} acestra trebuie să se execute
+ în fiecare oră.
+
+Te rugăm să citeşti Ghidul administratorului pentru mai multe informaţii
+despre configurarea scriptului de întreţinere.";
 $GLOBALS['strErrorLinkingBanner'] = "Nu a fost posibilă asocierea banner-ului cu această zonă deoarece:";
 $GLOBALS['strUnableToLinkBanner'] = "Nu se poate asocia acest banner:_";
 $GLOBALS['strErrorEditingCampaign'] = "Eroare la actualizarea campaniei:";
@@ -529,13 +548,15 @@ $GLOBALS['strDatesConflict'] = "datele intră în conflict cu:";
 $GLOBALS['strEmailNoDates'] = "Campaniile zonei email trebuie să aibă o dată de început şi o dată de sfârşit";
 $GLOBALS['strSirMadam'] = "Domnul/Doamna";
 $GLOBALS['strMailSubject'] = "Raport advertiser";
-$GLOBALS['strMailHeader'] = "Stimate {contact},\n";
+$GLOBALS['strMailHeader'] = "Stimate {contact},";
 $GLOBALS['strMailBannerStats'] = "Mai jos vei găsi statisticile banner-ului pentru {clientname}:";
 $GLOBALS['strMailBannerActivatedSubject'] = "Campanie activată";
 $GLOBALS['strMailBannerDeactivatedSubject'] = "Campanie dezactivată";
-$GLOBALS['strMailBannerActivated'] = "Campania de mai jos a fost activată pentru că\ndata de activare a campaniei a fost atinsă.";
+$GLOBALS['strMailBannerActivated'] = "Campania de mai jos a fost activată pentru că
+data de activare a campaniei a fost atinsă.";
 $GLOBALS['strMailBannerDeactivated'] = "Campania de mai jos a fost dezactivată deoarece";
-$GLOBALS['strMailFooter'] = "Cu respect,\n    {adminfullname}";
+$GLOBALS['strMailFooter'] = "Cu respect,
+    {adminfullname}";
 $GLOBALS['strMailNothingLeft'] = "Dacă doreşti să continui publicitatea pe website-ul nostru, te rugăm să ne contactezi. Am fi încântaţi să auzim ştiri din partea dvs.";
 $GLOBALS['strClientDeactivated'] = "Această nu este activă momentan deoarece";
 $GLOBALS['strBeforeActivate'] = "data activării nu a fost atinsă încă";
@@ -544,7 +565,8 @@ $GLOBALS['strNoMoreImpressions'] = "nu au mai rămas Vizualizări";
 $GLOBALS['strNoMoreClicks'] = "nu au mai rămas Click-uri";
 $GLOBALS['strNoMoreConversions'] = "nu au mai rămas Vânzări";
 $GLOBALS['strWeightIsNull'] = "importanţa sa este setată pe zero";
-$GLOBALS['strWarnClientTxt'] = "Vizualizările, Click-urile sau Conversiile rămase pentru banner-ele tale scad sub {limit}. \nBanner-ele tale vor fi dezactivate când nu vor mai rămâne Vizualizări, Click-uri sau Conversii._";
+$GLOBALS['strWarnClientTxt'] = "Vizualizările, Click-urile sau Conversiile rămase pentru banner-ele tale scad sub {limit}.
+Banner-ele tale vor fi dezactivate când nu vor mai rămâne Vizualizări, Click-uri sau Conversii._";
 $GLOBALS['strImpressionsClicksConversionsLow'] = "Vizualizările/Click-urile/Conversiile sunt scăzute";
 $GLOBALS['strNoViewLoggedInInterval'] = "Nici o Vizualizare nu a fost înregistrată în timpul efectuării acestui raport";
 $GLOBALS['strNoClickLoggedInInterval'] = "Nici un Click nu a fost înregistrat în timpul efectuării acestui raport";
@@ -557,7 +579,8 @@ $GLOBALS['strYourCampaign'] = "Campania ta";
 $GLOBALS['strTheCampiaignBelongingTo'] = "Campania îi aparţine lui";
 $GLOBALS['strImpendingCampaignExpiryDateBody'] = "{clientname} de mai jos are termenul de sfârşit pe {date}. ";
 $GLOBALS['strImpendingCampaignExpiryImpsBody'] = "{clientname} de mai jos are mai puţin de {limit} vizualizări rămase. ";
-$GLOBALS['strImpendingCampaignExpiryBody'] = "Drept rezultat, campania va fi dezactivată automat în curând, şi\nurmătoarele bannere din campanie vor fi deasemenea dezactivate:";
+$GLOBALS['strImpendingCampaignExpiryBody'] = "Drept rezultat, campania va fi dezactivată automat în curând, şi
+următoarele bannere din campanie vor fi deasemenea dezactivate:";
 $GLOBALS['strSourceEdit'] = "Editează Sursele";
 $GLOBALS['strGeneralSettings'] = "Setări Generale";
 $GLOBALS['strMainSettings'] = "Setări Principale";
@@ -726,7 +749,7 @@ $GLOBALS['strWarnChangeBannerSize'] = "Modificând dimensiunea banner-ului, va d
 $GLOBALS['strAuditNoData'] = "Nu a fost înregistrată nici o activitate a utilizatorului în intervalul de timp pe care l-ai ales.";
 $GLOBALS['strCampaignGoTo'] = "Du-te la pagina de Campanii";
 $GLOBALS['strCampaignSetUp'] = "Setează o Campanie astăzi";
-$GLOBALS['strCampaignNoRecords'] = "<li>Campaniile îţi permit să grupezi orice număr de reclame, de orice mărime, ce împart necesităţi comune de promovare</li><li>Câştigă timp prin gruparea banner-elor dintr-o campanie fără a mai defini setări de livrare separat pentru fiecare reclamă</li><li>Citeşte <a class='site-link' target='help' href='". OX_PRODUCT_DOCSURL ."/inventory/advertisersAndCampaigns/campaigns'>documentaţia pentru Campanie</a>!</li>";
+$GLOBALS['strCampaignNoRecords'] = "<li>Campaniile îţi permit să grupezi orice număr de reclame, de orice mărime, ce împart necesităţi comune de promovare</li><li>Câştigă timp prin gruparea banner-elor dintr-o campanie fără a mai defini setări de livrare separat pentru fiecare reclamă</li><li>Citeşte <a class='site-link' target='help' href='{$PRODUCT_DOCSURL}/inventory/advertisersAndCampaigns/campaigns'>documentaţia pentru Campanie</a>!</li>";
 $GLOBALS['strAffiliateOverview'] = "Vizualizare website";
 $GLOBALS['strAddAffiliate'] = "Creează website";
 $GLOBALS['strPublisherReports'] = "Rapoarte website";
@@ -735,7 +758,7 @@ $GLOBALS['strCampaignNoDataTimeSpan'] = "Nici o campanie nu a început sau s-a t
 $GLOBALS['strCampaignAuditNotActivated'] = "<li>Pentru a vizualiza campaniile care au început sau s-au sfârşit în intervalul de timp pe care l-ai ales, Urmărirea Bilanţului trebuie să fie activată</li>	 <li>Acest mesaj îţi este afişat deoarece nu ai activat Urmărirea Bilanţului</li>";
 $GLOBALS['strAuditTrailSetup'] = "Setează astăzi Urmărirea Bilanţului";
 $GLOBALS['strAuditTrailGoTo'] = "Du-te la pagina de Urmărire a Bilanţului";
-$GLOBALS['strAuditTrailNotEnabled'] = "<li>Urmărirea Bilanţului îţi permite să vizualizezi cine a făcut ce şi când. Sau cu alte cuvinte, înregistrează schimbările aduse către ". MAX_PRODUCT_NAME ."</li><li>Acest mesaj îţi este afişat deoarece nu ai activat Urmărirea Bilanţului</li><li>Eşti interesat să înveţi mai multe? Citeşte <a href='". OX_PRODUCT_DOCSURL ."/settings/auditTrail' class='site-link' target='help' >documentaţia pentru Urmărirea Bilanţului</a></li>";
+$GLOBALS['strAuditTrailNotEnabled'] = "<li>Urmărirea Bilanţului îţi permite să vizualizezi cine a făcut ce şi când. Sau cu alte cuvinte, înregistrează schimbările aduse către {$PRODUCT_NAME}</li><li>Acest mesaj îţi este afişat deoarece nu ai activat Urmărirea Bilanţului</li><li>Eşti interesat să înveţi mai multe? Citeşte <a href='{$PRODUCT_DOCSURL}/settings/auditTrail' class='site-link' target='help' >documentaţia pentru Urmărirea Bilanţului</a></li>";
 $GLOBALS['strNoAdminInterface'] = "Panoul administratorului a fost oprit pentru întreţinere. Acest lucru nu afectează distribuţia reclamelor tale.";
 $GLOBALS['strAdminAccess'] = "Acces Administrator";
 $GLOBALS['strOverallAdvertisers'] = "advertiser(i)";
@@ -988,7 +1011,7 @@ $GLOBALS['strHiddenWebsite'] = "Website";
 $GLOBALS['strYouHaveNoCampaigns'] = "Advertiseri & Campanii";
 $GLOBALS['strSyncSettings'] = "Setări Sincronizare";
 $GLOBALS['strNoAdminInteface'] = "Panoul administratorului a fost oprit pentru întreţinere. Acest lucru nu afectează distribuţia reclamelor tale.";
-$GLOBALS['strEnableCookies'] = "Mai întâi trebuie să activezi cookies înainte de a utiliza ". MAX_PRODUCT_NAME ."";
+$GLOBALS['strEnableCookies'] = "Mai întâi trebuie să activezi cookies înainte de a utiliza {$PRODUCT_NAME}";
 $GLOBALS['strHideInactiveOverview'] = "Ascunde itemii inactivi de pe toate paginile de vizualizare";
 $GLOBALS['strHiddenPublisher'] = "Website";
 $GLOBALS['strDefaultConversionRules'] = "Reguli implicite de conversie";
@@ -1020,7 +1043,7 @@ $GLOBALS['strVariableHiddenTo'] = "Variabilă ascunsă pentru";
 $GLOBALS['strHide'] = "Ascunde:";
 $GLOBALS['strShow'] = "Afişează:";
 $GLOBALS['strAdLayerStyleName']['floater'] = "Plutitor";
-$GLOBALS['strInstallWelcome'] = "Bine ai venit - ". MAX_PRODUCT_NAME ."";
+$GLOBALS['strInstallWelcome'] = "Bine ai venit - {$PRODUCT_NAME}";
 $GLOBALS['strAdminNovice'] = "Acţiunile de ştergere ale administratorului au nevoie de confirmare pentru siguranţă";
 $GLOBALS['strTimezoneInformation'] = "Informaţii despre Fusul Orar (Modificarea fusului orar va afecta statisticile)";
 $GLOBALS['strBannerSettings'] = "Setări Banner";
@@ -1039,7 +1062,7 @@ $GLOBALS['strMaintenanceCompactStats'] = "Şterge statisticile brute după proce
 $GLOBALS['strMaintenanceCompactStatsGrace'] = "Perioadă de graţie înainte de a şterge statisticile procesate (secunde)";
 $GLOBALS['strWarnCompactStatsGrace'] = "Perioada de Graţie a Statisticilor Compacte trebuie să fie un număr întreg pozitiv";
 $GLOBALS['strEmailWarnings'] = "Atenţionări E-mail";
-$GLOBALS['strAdminEmailHeaders'] = "Adaugă următoarele headere fiecărui mesaj e-mail trimis de ". MAX_PRODUCT_NAME ." ";
+$GLOBALS['strAdminEmailHeaders'] = "Adaugă următoarele headere fiecărui mesaj e-mail trimis de {$PRODUCT_NAME} ";
 $GLOBALS['strAdLayerStyleName']['simple'] = "Simplu";
 $GLOBALS['strAdLayerStyleName']['cursor'] = "Cursor";
 $GLOBALS['strIn'] = "în";

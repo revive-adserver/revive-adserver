@@ -119,7 +119,7 @@ $GLOBALS['strAuthentification'] 		= "Kimlik Doğrulama";
 $GLOBALS['strWelcomeTo']			= "Hoşgeldiniz ";
 $GLOBALS['strEnterUsername']			= "Giriş yapabilmek için kullanıcı adınızı ve parolanızı giriniz";
 $GLOBALS['strEnterBoth']			= "Lütfen kullanıcı adınızı ve parolanızı birlikte giriniz";
-$GLOBALS['strEnableCookies']			= MAX_PRODUCT_NAME." programını çalıştırmak için lütfen cookie özelliğini açınız";
+$GLOBALS['strEnableCookies']			= "{$PRODUCT_NAME} programını çalıştırmak için lütfen cookie özelliğini açınız";
 $GLOBALS['strLogin'] 				= "Giriş";
 $GLOBALS['strLogout'] 				= "Çıkış";
 $GLOBALS['strUsername'] 			= "Kullanıcı Adı";
@@ -302,7 +302,7 @@ $GLOBALS['strBannerWeight']			= "Banner ağırlığı";
 // Banner (swf)
 $GLOBALS['strCheckSWF']				= "Flash dosyaları içerisindeki sabit URL bağlantıları denetle";
 $GLOBALS['strConvertSWFLinks']			= "Flash linklerini dönüştür";
-$GLOBALS['strConvertSWF']			= "<br />Yüklediğiniz flash banner dosyası elle girilmiş sabit bağlantılar içeriyor. ". MAX_PRODUCT_NAME .", banner içindeki bu bağlantıları dönüştürmediğiniz sürece tıklama rakibi yapamayacaktır. Aşağıda Flash dosyası içindeki bağlantıları bulabilirsiniz. Bağlantı URL'lerini değiştirmek için, <b>Dönüştür</b>'e, aksi takdirde <b>iptal</b>'e tıklayınız.<br /><br />Dikkat edin: Eğer <b>dönüştür</b>'e tıklarsanız yüklediğiniz Flash dosyası fiziksel olarak değiştirilecektir.<br /> Lütfen özgün dosyanın bir yedeğini saklayınız. Dosyanın özgün hali hangi versiyonla yaratılmış olursa olsun, sonuçta yaratılacak dosyanın doğru şekilde görüntülenmesi için Flash 4 Player (veya üstü) gerekecektir.<br /><br />";
+$GLOBALS['strConvertSWF']			= "<br />Yüklediğiniz flash banner dosyası elle girilmiş sabit bağlantılar içeriyor. {$PRODUCT_NAME}, banner içindeki bu bağlantıları dönüştürmediğiniz sürece tıklama rakibi yapamayacaktır. Aşağıda Flash dosyası içindeki bağlantıları bulabilirsiniz. Bağlantı URL'lerini değiştirmek için, <b>Dönüştür</b>'e, aksi takdirde <b>iptal</b>'e tıklayınız.<br /><br />Dikkat edin: Eğer <b>dönüştür</b>'e tıklarsanız yüklediğiniz Flash dosyası fiziksel olarak değiştirilecektir.<br /> Lütfen özgün dosyanın bir yedeğini saklayınız. Dosyanın özgün hali hangi versiyonla yaratılmış olursa olsun, sonuçta yaratılacak dosyanın doğru şekilde görüntülenmesi için Flash 4 Player (veya üstü) gerekecektir.<br /><br />";
 $GLOBALS['strCompressSWF']			= "Daha hızlı yüklenmesi için SWF dosyasını sıkıştır (Flash 6 player gerekli)";
 
 
@@ -497,17 +497,20 @@ $GLOBALS['strErrorStoreFTP']			= "Banner FTP sunucuya gönderilirken hata oluı�
 $GLOBALS['strMailSubject'] 			= "Reklamveren raporu";
 $GLOBALS['strAdReportSent']			= "Reklamcı Raporu Gönderildi";
 $GLOBALS['strMailSubjectDeleted'] 		= "Pasif Bannerlar";
-$GLOBALS['strMailHeader'] 			= "Sayın {contact},\n";
+$GLOBALS['strMailHeader'] 			= "Sayın {contact},";
 $GLOBALS['strMailBannerStats'] 			= "{clientname} için banner istatistiklerini aşağıda bulacaksınız:";
-$GLOBALS['strMailFooter'] 			= "Saygılar,\n   {adminfullname}";
+$GLOBALS['strMailFooter'] 			= "Saygılar,
+   {adminfullname}";
 $GLOBALS['strMailClientDeactivated'] 		= "Aşağıdaki bannerlar kapatıldı çünkü";
-$GLOBALS['strMailNothingLeft'] 			= "Sitemizde reklam yayınlamaya devam etmek istiyorsanız, lütfen bizimle iletişime geçin.\nİletişime geçmeniz bizi memnun eder.";
+$GLOBALS['strMailNothingLeft'] 			= "Sitemizde reklam yayınlamaya devam etmek istiyorsanız, lütfen bizimle iletişime geçin.
+İletişime geçmeniz bizi memnun eder.";
 $GLOBALS['strClientDeactivated']		= "Bu kampanya şu anda aktif değil, çünkü";
 $GLOBALS['strBeforeActivate']			= "aktivasyon tarihine henüz ulaşılmadı";
 $GLOBALS['strAfterExpire']			= "sona erme tarihine ulaşıldı";
 $GLOBALS['strNoMoreClicks']			= "tıklama kalmadı";
 $GLOBALS['strNoMoreViews']			= "görünütülenme kredisi kalmadı";
-$GLOBALS['strWarnClientTxt']			= "Bannerlarınız için kalan Gösterim, Tıklama veya Dönüşüm sayıları {limit} altına düşüyor. \nGösterim, Tıklama veya Dönüşümü biten bannerlarınız pasifleştirilecektir. ";
+$GLOBALS['strWarnClientTxt']			= "Bannerlarınız için kalan Gösterim, Tıklama veya Dönüşüm sayıları {limit} altına düşüyor.
+Gösterim, Tıklama veya Dönüşümü biten bannerlarınız pasifleştirilecektir. ";
 $GLOBALS['strImpressionsClicksLow']		=
 $GLOBALS['strViewsClicksLow']			= "Gösterim/Tıklanama Kredisi az Kaldı";
 $GLOBALS['strNoViewLoggedInInterval']   	= "Bu rapor süresince gösterim kaydedilmedi";
@@ -617,8 +620,20 @@ $GLOBALS['strClicksBooked'] = "Ayırtılmış Tıklamalar";
 $GLOBALS['strConversionsBooked'] = "Ayırtılmış Dönüşümler";
 $GLOBALS['strOptimise'] = "Optimize et";
 $GLOBALS['strAnonymous'] = "Bu kampanyanın reklamverenini ve web sitesini gizle ";
-$GLOBALS['strCampaignWarningRemnantNoWeight'] = "Bu kampanyanın önceliği düşük olarak ayarlanmış,\nancak ağırlığı 0 ya da ayarlanmamış.\nBu durum, kampanya ağırlığına geçerli bir değer verilene kadar kampanyanın etkinliğinin kaldırılmasına\nve bağlı bannerların gösteriminin durdurulmasına \nneden olacak.\n\nDevam etmek istediğinize emin misiniz?";
-$GLOBALS['strCampaignWarningNoTarget'] = "Bu kampanyanın önceliği yüksek olarak ayarlanmış,\nancak hedeflenen gösterim sayısı belirlenmemiş.\nBu durum, geçerli bir hedef gösterim sayısı verilene kadar kampanyanın etkinliğinin kaldırılmasına\nve bağlı bannerların gösteriminin durdurulmasına \nneden olacak.\n\nDevam etmek istediğinize emin misiniz?";
+$GLOBALS['strCampaignWarningRemnantNoWeight'] = "Bu kampanyanın önceliği düşük olarak ayarlanmış,
+ancak ağırlığı 0 ya da ayarlanmamış.
+Bu durum, kampanya ağırlığına geçerli bir değer verilene kadar kampanyanın etkinliğinin kaldırılmasına
+ve bağlı bannerların gösteriminin durdurulmasına
+neden olacak.
+
+Devam etmek istediğinize emin misiniz?";
+$GLOBALS['strCampaignWarningNoTarget'] = "Bu kampanyanın önceliği yüksek olarak ayarlanmış,
+ancak hedeflenen gösterim sayısı belirlenmemiş.
+Bu durum, geçerli bir hedef gösterim sayısı verilene kadar kampanyanın etkinliğinin kaldırılmasına
+ve bağlı bannerların gösteriminin durdurulmasına
+neden olacak.
+
+Devam etmek istediğinize emin misiniz?";
 $GLOBALS['strTrackerOverview'] = "İzleyici Genel Görünümü";
 $GLOBALS['strAddTracker'] = "Yeni bir izleyici ekle";
 $GLOBALS['strAddTracker_Key'] = "Ye<u>n</u>i bir izleyici ekle";
@@ -700,7 +715,11 @@ $GLOBALS['strTotalZones'] = "Tüm alanlar";
 $GLOBALS['strCostInfo'] = "Medya maliyeti";
 $GLOBALS['strTechnologyCost'] = "Teknoloji maliyeti";
 $GLOBALS['strInactiveZonesHidden'] = "etkin olmayan alan(lar) gizlendi";
-$GLOBALS['strWarnChangeZoneType'] = "Alan tipini metin ya da eposta'ya çevirmek, bu alan tiplerindeki kısıtlamalardan dolayı bağlantılı tüm banner/kampanyaların bağını keser\n<ul>\n<li>Metin alanları sadece metin reklamlara bağlanabilir</li>\n<li>Eposta alanı kampanyalarında aynı anda sadece bir aktif banner olabilir</li>\n</ul>";
+$GLOBALS['strWarnChangeZoneType'] = "Alan tipini metin ya da eposta'ya çevirmek, bu alan tiplerindeki kısıtlamalardan dolayı bağlantılı tüm banner/kampanyaların bağını keser
+<ul>
+<li>Metin alanları sadece metin reklamlara bağlanabilir</li>
+<li>Eposta alanı kampanyalarında aynı anda sadece bir aktif banner olabilir</li>
+</ul>";
 $GLOBALS['strWarnChangeZoneSize'] = "Alan ölçüsünü değiştirmek, yeni ölçüde olmayan bannerların alanla bağını keser ve bağlantılı kampanyalarda yer alan yeni ölçüdeki tüm bannerları alanla bağlantılandırır";
 $GLOBALS['strZoneForecasting'] = "Alan Tahmini ayarları";
 $GLOBALS['strZoneAppendNoBanner'] = "Banner gösterilemese bile ekle";
@@ -753,12 +772,17 @@ $GLOBALS['strBackToTheList'] = "Rapor listesine geri dön";
 $GLOBALS['strLogErrorConversions'] = "[phpAds] Veritabanından dönüşümleri alırken bir hata oluştu.";
 $GLOBALS['strErrorDBPlain'] = "Veritabanına erişilirken bir hata oluştu";
 $GLOBALS['strErrorDBSerious'] = "Veritabanıyla ilgili ciddi bir problem tespit edildi";
-$GLOBALS['strErrorDBNoDataPlain'] = "Veritabanındaki bir problemden dolayı ". MAX_PRODUCT_NAME ." veriyi alamadı veya kaydedemedi";
-$GLOBALS['strErrorDBNoDataSerious'] = "Veritabanındaki bir problemden dolayı ". MAX_PRODUCT_NAME ." veriye erişemedi";
+$GLOBALS['strErrorDBNoDataPlain'] = "Veritabanındaki bir problemden dolayı {$PRODUCT_NAME} veriyi alamadı veya kaydedemedi";
+$GLOBALS['strErrorDBNoDataSerious'] = "Veritabanındaki bir problemden dolayı {$PRODUCT_NAME} veriye erişemedi";
 $GLOBALS['strErrorDBCorrupt'] = "Veritabanı tablosu muhtemelen bozuk ve onarılması gerekiyor. Bozulmuş tabloların onarımı hakkında daha fazla bilgi için lütfen <i>Yönetici klavuzu</i>'nun <i>Sorun Çözme</i> bölümünü okuyun.";
 $GLOBALS['strErrorDBContact'] = "Lütfen bu sunucunun yöneticisiyle iletişime geçin ve problem hakkında bilgilendirin.";
-$GLOBALS['strErrorDBSubmitBug'] = "Eğer problem yeniden oluşturulabiliyorsa, bu durum ". MAX_PRODUCT_NAME ." içindeki bir bug'dan kaynaklanıyor olabilir. Lütfen aşağıdaki bilgileri ". MAX_PRODUCT_NAME ." üreticilerine ulaştırın. Beraberinde hatanın oluşmasıyla sonuçlanan işlemlerinizi olabildiğince açık bir şekilde açıklamaya çalışın.";
-$GLOBALS['strMaintenanceNotActive'] = "Bakım rutini son 24 saat içinde çalıştırılmadı. \n". MAX_PRODUCT_NAME ." ürününün doğru çalışması için bakım rutininin \n her saat çalışması gerekir. \n\nBakım rutini ayarları hakkında daha fazla bilgi için lütfen \nYönetici kılavuzunu okuyunuz.";
+$GLOBALS['strErrorDBSubmitBug'] = "Eğer problem yeniden oluşturulabiliyorsa, bu durum {$PRODUCT_NAME} içindeki bir bug'dan kaynaklanıyor olabilir. Lütfen aşağıdaki bilgileri {$PRODUCT_NAME} üreticilerine ulaştırın. Beraberinde hatanın oluşmasıyla sonuçlanan işlemlerinizi olabildiğince açık bir şekilde açıklamaya çalışın.";
+$GLOBALS['strMaintenanceNotActive'] = "Bakım rutini son 24 saat içinde çalıştırılmadı.
+{$PRODUCT_NAME} ürününün doğru çalışması için bakım rutininin
+ her saat çalışması gerekir.
+
+Bakım rutini ayarları hakkında daha fazla bilgi için lütfen
+Yönetici kılavuzunu okuyunuz.";
 $GLOBALS['strErrorLinkingBanner'] = "Belirtilen nedenle banner bu alana bağlanamadı:";
 $GLOBALS['strUnableToLinkBanner'] = "Bu banner bağlanamıyor: _";
 $GLOBALS['strErrorEditingCampaign'] = "Kampanya güncellenirken hata:";
@@ -780,7 +804,8 @@ $GLOBALS['strYourCampaign'] = "Kampanyanız";
 $GLOBALS['strTheCampiaignBelongingTo'] = "{clientname} reklamverenine ait aşağıdaki kampanya";
 $GLOBALS['strImpendingCampaignExpiryDateBody'] = "{date} tarihinde bitiyor.";
 $GLOBALS['strImpendingCampaignExpiryImpsBody'] = "Aşağıda gösterilen {clientname} {limit} değerinden az gösterim hakkına sahip.";
-$GLOBALS['strImpendingCampaignExpiryBody'] = "Sonuç olarak kampanya yakında otomatik olarak pasifleştirilecek ve \nbelirtilen bannerlar da beraberinde pasif olacak.";
+$GLOBALS['strImpendingCampaignExpiryBody'] = "Sonuç olarak kampanya yakında otomatik olarak pasifleştirilecek ve
+belirtilen bannerlar da beraberinde pasif olacak.";
 $GLOBALS['strSourceEdit'] = "Kaynakları Düzenle";
 $GLOBALS['strViewPastUpdates'] = "Eski Güncelleme ve Yedekleri Yönet";
 $GLOBALS['strAgencyManagement'] = "Hesap Yönetimi";
@@ -912,7 +937,7 @@ $GLOBALS['strSite'] = "Boyut";
 $GLOBALS['strHiddenWebsite'] = "Web sitesi";
 $GLOBALS['strYouHaveNoCampaigns'] = "Reklamverenler ve Kampanyalar";
 $GLOBALS['strSyncSettings'] = "Senkronizasyon Ayarları";
-$GLOBALS['strEnableCookies'] = "". MAX_PRODUCT_NAME ." kullanmaya başlamadan önce tarayıcı (browser) ayarlarınızı çerezleri (cookie) kabul edecek şekilde değiştirmelisiniz.";
+$GLOBALS['strEnableCookies'] = "{$PRODUCT_NAME} kullanmaya başlamadan önce tarayıcı (browser) ayarlarınızı çerezleri (cookie) kabul edecek şekilde değiştirmelisiniz.";
 $GLOBALS['strHideInactiveOverview'] = "Etkin olmayan öğeleri tüm genel bakış sayfalarında gizle";
 $GLOBALS['strHiddenPublisher'] = "Web sitesi";
 $GLOBALS['strDefaultConversionRules'] = "Varsayılan dönüştürme kuralları";

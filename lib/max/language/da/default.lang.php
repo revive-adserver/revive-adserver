@@ -241,8 +241,19 @@ $GLOBALS['strOptimise'] = "Optimere";
 $GLOBALS['strAnonymous'] = "Skjul annoncør og webside af denne kampagne";
 $GLOBALS['strTargetPerDay'] = "per dag.";
 $GLOBALS['strPriorityAutoTargeting'] = "Automatisk - fordel de resterende inventory jævnt over de resterende antal dage.";
-$GLOBALS['strCampaignWarningRemnantNoWeight'] = "Prioriteringen af denne kampagne er sat til lav,\nmen vægten er sat til nul eller den ikke er \n specificeret. Dette vil betyde at kampagnen er \n deaktiveret og dens banner vil ikke blive levert \n indtil vægten er sat til valid nummer. \n \n Er du sikker på at du vil fortsætte?";
-$GLOBALS['strCampaignWarningNoTarget'] = "Prioriteringen af denne kampagne er sat til høj,\nmen ønsket antal impressions er ikke specificeret. Dette vil betyde at kampagnen er \n deaktiveret og dens banner vil ikke blive levert \n indtil vægten er sat til valid nummer. \n \n Er du sikker på at du vil fortsætte?";
+$GLOBALS['strCampaignWarningRemnantNoWeight'] = "Prioriteringen af denne kampagne er sat til lav,
+men vægten er sat til nul eller den ikke er
+ specificeret. Dette vil betyde at kampagnen er
+ deaktiveret og dens banner vil ikke blive levert
+ indtil vægten er sat til valid nummer.
+
+ Er du sikker på at du vil fortsætte?";
+$GLOBALS['strCampaignWarningNoTarget'] = "Prioriteringen af denne kampagne er sat til høj,
+men ønsket antal impressions er ikke specificeret. Dette vil betyde at kampagnen er
+ deaktiveret og dens banner vil ikke blive levert
+ indtil vægten er sat til valid nummer.
+
+ Er du sikker på at du vil fortsætte?";
 $GLOBALS['strTrackerOverview'] = "Tracker oversigt";
 $GLOBALS['strAddTracker'] = "Tilføj ny tracker";
 $GLOBALS['strAddTracker_Key'] = "Tilføj <u>n</u>y tracker";
@@ -305,7 +316,7 @@ $GLOBALS['strGeneric'] = "Generisk";
 $GLOBALS['strCheckSWF'] = "Tjek for hard-coded links inde i Flash filen";
 $GLOBALS['strConvertSWFLinks'] = "Konverter Flash links";
 $GLOBALS['strHardcodedLinks'] = "Hard-coded links";
-$GLOBALS['strConvertSWF'] = "<br /> Flash filen du netop har uploaded indeholder hard-coded urls. ". MAX_PRODUCT_NAME ." vil ikke har mulighed for at spore antal klik på denne banner, med mindre du konverter disse hard-coded urls. Herunder vil du finde en list over all urls som er i Flash filen. Hvis du ønsker ad konvertere urls, skal du blot klikke <b>Konverter</b>, eller klik <b>Fortryk</b>.<br /><br />Venligst vær opmærksom på hvis du klikker<b>Konvertere</b> Flash filen som du ntop har uploaded vil blive fysisk ændres. <br /> Venligst behold en back-up af den originale fil. Uanset in hvilken version denne banner er lavet, den endelige fil vil være kræve en Flash 4 afspiller (eller højere) for at blive vist korrekt. <br /><br />";
+$GLOBALS['strConvertSWF'] = "<br /> Flash filen du netop har uploaded indeholder hard-coded urls. {$PRODUCT_NAME} vil ikke har mulighed for at spore antal klik på denne banner, med mindre du konverter disse hard-coded urls. Herunder vil du finde en list over all urls som er i Flash filen. Hvis du ønsker ad konvertere urls, skal du blot klikke <b>Konverter</b>, eller klik <b>Fortryk</b>.<br /><br />Venligst vær opmærksom på hvis du klikker<b>Konvertere</b> Flash filen som du ntop har uploaded vil blive fysisk ændres. <br /> Venligst behold en back-up af den originale fil. Uanset in hvilken version denne banner er lavet, den endelige fil vil være kræve en Flash 4 afspiller (eller højere) for at blive vist korrekt. <br /><br />";
 $GLOBALS['strCompressSWF'] = "KOmprimer SWF filen for hurtigere downloading (Dette kræver en Flash 6 afspiller)";
 $GLOBALS['strOverwriteSource'] = "Overskriv kilde parameter";
 $GLOBALS['strModifyBannerAcl'] = "Leverings optioner";
@@ -397,7 +408,11 @@ $GLOBALS['strTotalZones'] = "Total zoner";
 $GLOBALS['strCostInfo'] = "Media omkostning";
 $GLOBALS['strTechnologyCost'] = "Teknologi omkostning";
 $GLOBALS['strInactiveZonesHidden'] = "inaktive zone(r) er skjult";
-$GLOBALS['strWarnChangeZoneType'] = "Ved at skifte zone type til tekst eller email vil fjerne all links til bannere/kampagner på grund af restriktioner på disse zoner\n<ul>\n<li>Tekst zoner kan kun linkes til tekst reklamer</li>\n<li>Email zoner kan kun have en aktic banner på samme tid</li>\n</ul>";
+$GLOBALS['strWarnChangeZoneType'] = "Ved at skifte zone type til tekst eller email vil fjerne all links til bannere/kampagner på grund af restriktioner på disse zoner
+<ul>
+<li>Tekst zoner kan kun linkes til tekst reklamer</li>
+<li>Email zoner kan kun have en aktic banner på samme tid</li>
+</ul>";
 $GLOBALS['strWarnChangeZoneSize'] = "Skifte zone størrelse vil fjerne link til all bannnere som ikke er i den nye størrelse, og vil tilføje enhver banner fra tilsvarend kampagner som har den nye størrelse";
 $GLOBALS['strAdvanced'] = "Avanceret";
 $GLOBALS['strChainSettings'] = "Kæde opsætning";
@@ -500,12 +515,17 @@ $GLOBALS['strErrorUploadBasedir'] = "Der kunne ikke oprettes adgang til uploaded
 $GLOBALS['strErrorUploadUnknown'] = "Der kunne ikke oprettes adgang til uploadede fil, sandsynligvis på grund af en ukendt fejl. Venligst tjek din PHP konfiguration.";
 $GLOBALS['strErrorDBPlain'] = "Der opstod en fejl under adgangsforsøget til databasen.";
 $GLOBALS['strErrorDBSerious'] = "Der er detekteret et avorligt problem med databasen.";
-$GLOBALS['strErrorDBNoDataPlain'] = "På grund af et problem med databasen ". MAX_PRODUCT_NAME ."  kunne data hverken hentes eller gemmes.";
-$GLOBALS['strErrorDBNoDataSerious'] = "På grund af et alvorligt problem med databasen, ". MAX_PRODUCT_NAME ." kunne data ikke hentes";
+$GLOBALS['strErrorDBNoDataPlain'] = "På grund af et problem med databasen {$PRODUCT_NAME}  kunne data hverken hentes eller gemmes.";
+$GLOBALS['strErrorDBNoDataSerious'] = "På grund af et alvorligt problem med databasen, {$PRODUCT_NAME} kunne data ikke hentes";
 $GLOBALS['strErrorDBCorrupt'] = "Database tabellen er sandsynligvis fejlbehæftet og behøver at blive repareret. For yderligere information om at reparere fejlbehæftede tabeller, venligst læs kapitlet <i>Troubleshooting</i> i <i>Administrator guide</i>.";
 $GLOBALS['strErrorDBContact'] = "Venligst kontakt administratoren af denne server og meddel ham eller hende om dette problem.";
-$GLOBALS['strErrorDBSubmitBug'] = "Hvis det er muligt at genskabe et problem er det måske opstået ved en bug i ". MAX_PRODUCT_NAME .". Venligst rapporter den følgende information til personen som har lavet ". MAX_PRODUCT_NAME .". Forsøg også at beskrive så tydeligt som muligt hvilke handlinger som har forårsaget at denne fejl opstod.";
-$GLOBALS['strMaintenanceNotActive'] = "Vedligeholdelses skripten er ikke blevet kørt de seneste 24 timer. \n For at ". MAX_PRODUCT_NAME ." skal fungere korrekt er det nødvendig at køre hver \nhver time. \n\nVenligst læs Administrator guiden for mere information \nomkring konfigurering af vedligeholdelses skriptet.";
+$GLOBALS['strErrorDBSubmitBug'] = "Hvis det er muligt at genskabe et problem er det måske opstået ved en bug i {$PRODUCT_NAME}. Venligst rapporter den følgende information til personen som har lavet {$PRODUCT_NAME}. Forsøg også at beskrive så tydeligt som muligt hvilke handlinger som har forårsaget at denne fejl opstod.";
+$GLOBALS['strMaintenanceNotActive'] = "Vedligeholdelses skripten er ikke blevet kørt de seneste 24 timer.
+ For at {$PRODUCT_NAME} skal fungere korrekt er det nødvendig at køre hver
+hver time.
+
+Venligst læs Administrator guiden for mere information
+omkring konfigurering af vedligeholdelses skriptet.";
 $GLOBALS['strErrorLinkingBanner'] = "Det var ikke muligt at linke banner til denne zone fordi:";
 $GLOBALS['strUnableToLinkBanner'] = "Kan ikke linke denne banner:_";
 $GLOBALS['strErrorEditingCampaign'] = "Fejl ved opdatering af kampagne:";
@@ -514,14 +534,17 @@ $GLOBALS['strDatesConflict'] = "datoer konflikter med:";
 $GLOBALS['strEmailNoDates'] = "Email zone kampagne må have en start og slut dato";
 $GLOBALS['strSirMadam'] = "Hr/Fru";
 $GLOBALS['strMailSubject'] = "Annoncør rapport";
-$GLOBALS['strMailHeader'] = "Kære {contact},\n";
+$GLOBALS['strMailHeader'] = "Kære {contact},";
 $GLOBALS['strMailBannerStats'] = "Nedenfor vil få finde banner statistik for {clientname}:";
 $GLOBALS['strMailBannerActivatedSubject'] = "Kampagne aktiveret";
 $GLOBALS['strMailBannerDeactivatedSubject'] = "Kampagne deaktiveret";
-$GLOBALS['strMailBannerActivated'] = "Din kampagne som er vist nedenfor er blevet aktiveret fordi\n kampagnens aktiverings dato er nået.";
+$GLOBALS['strMailBannerActivated'] = "Din kampagne som er vist nedenfor er blevet aktiveret fordi
+ kampagnens aktiverings dato er nået.";
 $GLOBALS['strMailBannerDeactivated'] = "Din kampagne som er vist nedenfor er deaktiveret fordi";
-$GLOBALS['strMailFooter'] = "Med venlig hilsen,\n{adminfullname}";
-$GLOBALS['strMailNothingLeft'] = "Hvis du vil fortsætte at reklamere på vores webside, venligst kontakt os.\nVi ser frem til at høre fra dig.";
+$GLOBALS['strMailFooter'] = "Med venlig hilsen,
+{adminfullname}";
+$GLOBALS['strMailNothingLeft'] = "Hvis du vil fortsætte at reklamere på vores webside, venligst kontakt os.
+Vi ser frem til at høre fra dig.";
 $GLOBALS['strClientDeactivated'] = "Kampagnen er for øjeblikket ikke aktiv fordi";
 $GLOBALS['strBeforeActivate'] = "aktiverings datoen er endu ikke opnået";
 $GLOBALS['strAfterExpire'] = "udløbsdatoen er opnået";
@@ -529,7 +552,8 @@ $GLOBALS['strNoMoreImpressions'] = "der er ikke nogle Impressions tilbage";
 $GLOBALS['strNoMoreClicks'] = "der er ikke nogle klik's tilbage";
 $GLOBALS['strNoMoreConversions'] = "der er ikke noglet salg tilbage";
 $GLOBALS['strWeightIsNull'] = "vægten er sat til nul";
-$GLOBALS['strWarnClientTxt'] = "Impressions, Klik eller Conversions som er tilbage på dine bannere er på vej til at kommer under {limit}. \nDine bannere vil blive deaktiveret når der ikke er flere Impressions, Klik eller Conversions tilbage. ";
+$GLOBALS['strWarnClientTxt'] = "Impressions, Klik eller Conversions som er tilbage på dine bannere er på vej til at kommer under {limit}.
+Dine bannere vil blive deaktiveret når der ikke er flere Impressions, Klik eller Conversions tilbage. ";
 $GLOBALS['strImpressionsClicksConversionsLow'] = "Impressions/Klik/Conversions niveau er lav";
 $GLOBALS['strNoViewLoggedInInterval'] = "Der blev ikke logget nogle Impressions i tidsrummet under denne rapport";
 $GLOBALS['strNoClickLoggedInInterval'] = "Der blev ikke logget nogle Kliks i tidsrummet under denne rapport";
@@ -542,7 +566,8 @@ $GLOBALS['strYourCampaign'] = "Din kampagne";
 $GLOBALS['strTheCampiaignBelongingTo'] = "Kampagnen som hører til";
 $GLOBALS['strImpendingCampaignExpiryDateBody'] = "{clientname} vist nedenfor er sat til at slutte på {date}.";
 $GLOBALS['strImpendingCampaignExpiryImpsBody'] = "{clientname} vist nedenfor har mindre end {limit} impressions tilbage.";
-$GLOBALS['strImpendingCampaignExpiryBody'] = "Som et resultat vil kampagnen automatisk blive stoppet, og de \n følgende bannere i kampagnen vil også blive stoppet:";
+$GLOBALS['strImpendingCampaignExpiryBody'] = "Som et resultat vil kampagnen automatisk blive stoppet, og de
+ følgende bannere i kampagnen vil også blive stoppet:";
 $GLOBALS['strSourceEdit'] = "Rediger kilde";
 $GLOBALS['strGeneralSettings'] = "Generel opsætninger";
 $GLOBALS['strMainSettings'] = "Hoved opsætninger";
@@ -793,7 +818,7 @@ $GLOBALS['strHiddenWebsite'] = "Webside";
 $GLOBALS['strYouHaveNoCampaigns'] = "Annoncører & Kampagne";
 $GLOBALS['strSyncSettings'] = "Synkroniserings Indstillinger";
 $GLOBALS['strNoAdminInteface'] = "Administrators skærmbillede er slukket på grund af vedligeholdelse. Dette påvirker ikke leveringen af din kampagne.";
-$GLOBALS['strEnableCookies'] = "Det er nødvendigt at du tillader cookies før du kan bruge ". MAX_PRODUCT_NAME ."";
+$GLOBALS['strEnableCookies'] = "Det er nødvendigt at du tillader cookies før du kan bruge {$PRODUCT_NAME}";
 $GLOBALS['strHideInactiveOverview'] = "Skjul inaktive dele fra all oversigts sider";
 $GLOBALS['strHiddenPublisher'] = "Webside";
 $GLOBALS['strDefaultConversionRules'] = "Normal conversions regler";
@@ -807,7 +832,7 @@ $GLOBALS['strKeywordStatistics'] = "Nøgleord statistik";
 $GLOBALS['strSettings'] = "Opsætninger";
 $GLOBALS['strNoWebsites'] = "Alle websider";
 $GLOBALS['strSomeWebsites'] = "Alle websider";
-$GLOBALS['strInstallWelcome'] = "Velkommen til ". MAX_PRODUCT_NAME ."";
+$GLOBALS['strInstallWelcome'] = "Velkommen til {$PRODUCT_NAME}";
 $GLOBALS['strAdminNovice'] = "Admin's slette handlinger behøver af sikkerhedsmæssige grunde en bekræftelse";
 $GLOBALS['strTimezoneInformation'] = "Tidszone informatione (modificering af tidszone vil påvirke statistikken)";
 $GLOBALS['strBannerSettings'] = "Banner settings";

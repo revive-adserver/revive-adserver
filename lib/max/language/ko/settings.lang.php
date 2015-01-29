@@ -21,31 +21,41 @@ $GLOBALS['strOtherSettings']			= "기타 설정";
 
 $GLOBALS['strWarning']				= "경고";
 $GLOBALS['strFatalError']			= "치명�?�?� 오류가 발�?했습니다.";
-$GLOBALS['strAlreadyInstalled']			= MAX_PRODUCT_NAME."�?� �?�미 시스템�? 설치�?�어 있습니다. 설정�?� 하려면 <a href='settings-index.php'>설정 �?�터페�?�스</a>를 사용하십시오.";
+$GLOBALS['strAlreadyInstalled']			= "{$PRODUCT_NAME}�?� �?�미 시스템�? 설치�?�어 있습니다. 설정�?� 하려면 <a href='settings-index.php'>설정 �?�터페�?�스</a>를 사용하십시오.";
 $GLOBALS['strCouldNotConnectToDB']		= "�?��?�터베�?�스�? 연결할 수 없습니다. 입력한 설정�?� 맞는지 다시 확�?�하십시오.";
 $GLOBALS['strCreateTableTestFailed']		= "입력�?� 사용�?는 �?��?�터베�?�스 구조를 �?성하거나 업�?��?�트할 수 있는 권한�?� 없습니다. �?��?�터베�?�스 관리�?�?게 문�?�하십시오.";
 $GLOBALS['strUpdateTableTestFailed']		= "입력�?� 사용�?는 �?��?�터베�?�스 구조를 업�?��?�트할 수 있는 권한�?� 없습니다. �?��?�터베�?�스 관리�?�?게 문�?�하십시오..";
 $GLOBALS['strTablePrefixInvalid']		= "테�?�블 접�?어로 사용할 수 없는 문�?가 있습니다.";
-$GLOBALS['strTableInUse']			= "지정�?� �?��?�터베�?�스는 �?�미".MAX_PRODUCT_NAME."�?서 사용하고 있습니다. 다른 테�?�블 접�?어를 사용하거나 업그레�?�드 지침서를 참고하십시오.";
+$GLOBALS['strTableInUse']			= "지정�?� �?��?�터베�?�스는 �?�미{$PRODUCT_NAME}�?서 사용하고 있습니다. 다른 테�?�블 접�?어를 사용하거나 업그레�?�드 지침서를 참고하십시오.";
 $GLOBALS['strMayNotFunction']			= "계�? 진행하기 전�? 문제를 수정하십시오. 문제를 수정하지 않고 진행하면 문제가 발�?할 수 있습니다:";
 $GLOBALS['strIgnoreWarnings']			= "경고 무시";
-$GLOBALS['strWarningDBavailable']		= "현재 사용중�?� PHP는 ".$phpAds_dbmsname." 연결�?� 지�?하지 않습니다. PHP ".$phpAds_dbmsname." 확장�?� 설치한 다�?��? 계�? 진행하십시오.";
-$GLOBALS['strWarningPHPversion']		= MAX_PRODUCT_NAME." requires PHP 4.0 or higher to function correctly. You are currently using {php_version}.";
+$GLOBALS['strWarningDBavailable']		= "현재 사용중�?� PHP는 {$phpAds_dbmsname} 연결�?� 지�?하지 않습니다. PHP {$phpAds_dbmsname} 확장�?� 설치한 다�?��? 계�? 진행하십시오.";
+$GLOBALS['strWarningPHPversion']		= "{$PRODUCT_NAME} requires PHP 4.0 or higher to function correctly. You are currently using {php_version}.";
 $GLOBALS['strWarningRegisterGlobals']		= "PHP 설정 변수 register_globals를 설정해야 합니다.";
 $GLOBALS['strWarningMagicQuotesGPC']		= "PHP 설정 변수 magic_quotes_gpc를 설정해야 합니다.";
 $GLOBALS['strWarningMagicQuotesRuntime']	= "PHP 설정 변수 magic_quotes_runtime�?� 제거해야합니다.";
 $GLOBALS['strWarningFileUploads']		= "PHP 설정 변수 file_uploads를 설정해야 합니다.";
-$GLOBALS['strConfigLockedDetected']		= MAX_PRODUCT_NAME." has detected that your <b>config.inc.php</b> file is not writeable by the server.<br> You can't proceed until you change permissions on the file. <br>Read the supplied documentation if you don't know how to do that.";
+$GLOBALS['strConfigLockedDetected']		= "{$PRODUCT_NAME} has detected that your <b>config.inc.php</b> file is not writeable by the server.<br> You can't proceed until you change permissions on the file. <br>Read the supplied documentation if you don't know how to do that.";
 $GLOBALS['strCantUpdateDB']  			= "현재 �?��?�터베�?�스를 갱신할 수 없습니다. 계�? 진행하면 기존�? 설정한 배너, 통계, 광고주가 모�? 삭제�?�니다.";
 $GLOBALS['strTableNames']			= "테�?�블 �?�름";
 $GLOBALS['strTablesPrefix']			= "테�?�블 접�?어";
 $GLOBALS['strTablesType']			= "테�?�블 종류";
 
-$GLOBALS['strInstallWelcome']			= "환�?합니다. ".MAX_PRODUCT_NAME;
-$GLOBALS['strInstallMessage']			= "Before you can use ".MAX_PRODUCT_NAME." it needs to be configured and <br> the database needs to be created. Click <b>Proceed</b> to continue.";
-$GLOBALS['strInstallSuccess']			= "<b>The installation of ".MAX_PRODUCT_NAME." is now complete.</b><br><br>In order for ".MAX_PRODUCT_NAME." to function correctly you also need\n						   to make sure the maintenance file is run every hour. More information about this subject can be found in the documentation.\n						   <br><br>Click <b>Proceed</b> to go the configuration page, where you can\n						   set up more settings. Please do not forget to lock the config.inc.php file when you are finished to prevent security\n						   breaches.";
-$GLOBALS['strUpdateSuccess']			= "<b>The upgrade of ".MAX_PRODUCT_NAME." was succesfull.</b><br><br>In order for ".MAX_PRODUCT_NAME." to function correctly you also need\n						   to make sure the maintenance file is run every hour (previously this was every day). More information about this subject can be found in the documentation.\n						   <br><br>Click <b>Proceed</b> to go to the administration interface. Please do not forget to lock the config.inc.php file\n						   to prevent security breaches.";
-$GLOBALS['strInstallNotSuccessful']		= "<b>The installation of ".MAX_PRODUCT_NAME." was not succesful</b><br><br>Some portions of the install process could not be completed.\n						   It is possible these problems are only temporarily, in that case you can simply click <b>Proceed</b> and return to the\n						   first step of the install process. If you want to know more on what the error message below means, and how to solve it,\n						   please consult the supplied documentation.";
+$GLOBALS['strInstallWelcome']			= "환�?합니다. {$PRODUCT_NAME}";
+$GLOBALS['strInstallMessage']			= "Before you can use {$PRODUCT_NAME} it needs to be configured and <br> the database needs to be created. Click <b>Proceed</b> to continue.";
+$GLOBALS['strInstallSuccess']			= "<b>The installation of {$PRODUCT_NAME} is now complete.</b><br><br>In order for {$PRODUCT_NAME} to function correctly you also need
+						   to make sure the maintenance file is run every hour. More information about this subject can be found in the documentation.
+						   <br><br>Click <b>Proceed</b> to go the configuration page, where you can
+						   set up more settings. Please do not forget to lock the config.inc.php file when you are finished to prevent security
+						   breaches.";
+$GLOBALS['strUpdateSuccess']			= "<b>The upgrade of {$PRODUCT_NAME} was succesfull.</b><br><br>In order for {$PRODUCT_NAME} to function correctly you also need
+						   to make sure the maintenance file is run every hour (previously this was every day). More information about this subject can be found in the documentation.
+						   <br><br>Click <b>Proceed</b> to go to the administration interface. Please do not forget to lock the config.inc.php file
+						   to prevent security breaches.";
+$GLOBALS['strInstallNotSuccessful']		= "<b>The installation of {$PRODUCT_NAME} was not succesful</b><br><br>Some portions of the install process could not be completed.
+						   It is possible these problems are only temporarily, in that case you can simply click <b>Proceed</b> and return to the
+						   first step of the install process. If you want to know more on what the error message below means, and how to solve it,
+						   please consult the supplied documentation.";
 $GLOBALS['strErrorOccured']			= "다�?� 오류가 발�?했습니다:";
 $GLOBALS['strErrorInstallDatabase']		= "�?��?�터베�?�스 구조가 �?성�?�지 않았습니다.";
 $GLOBALS['strErrorInstallConfig']		= "설정 파�?� �?는 �?��?�터베�?�스를 업�?��?�트할 수 없습니다.";
@@ -85,8 +95,10 @@ $GLOBALS['strDayFullNames'][4] = "목요�?�";
 $GLOBALS['strDayFullNames'][5] = "금요�?�";
 $GLOBALS['strDayFullNames'][6] = "토요�?�";
 
-$GLOBALS['strEditConfigNotPossible']   		= "보안�? 설정 파�?��?� 잠겨있기 때문�?� 설정�?� 변경할 수 없습니다. \n설정�?� 변경하려면 config.inc.php 파�?��?� 잠금�?� 해제하십시오.\n";
-$GLOBALS['strEditConfigPossible']		= "설정 파�?��?� 잠겨있지 않기 때문�? 모든 설정�?� 편집하는 것�?� 가능하지만, �?�로�?�해 보안 문제가 발�?할 수 있습니다.\n시스템�?� 안전하게 하려면 config.inc.php 파�?��? 잠금�?� 설정해야 합니다.\n";
+$GLOBALS['strEditConfigNotPossible']   		= "보안�? 설정 파�?��?� 잠겨있기 때문�?� 설정�?� 변경할 수 없습니다.
+설정�?� 변경하려면 config.inc.php 파�?��?� 잠금�?� 해제하십시오.";
+$GLOBALS['strEditConfigPossible']		= "설정 파�?��?� 잠겨있지 않기 때문�? 모든 설정�?� 편집하는 것�?� 가능하지만, �?�로�?�해 보안 문제가 발�?할 수 있습니다.
+시스템�?� 안전하게 하려면 config.inc.php 파�?��? 잠금�?� 설정해야 합니다.";
 
 
 

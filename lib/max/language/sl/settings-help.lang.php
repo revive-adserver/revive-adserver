@@ -11,10 +11,12 @@
 */
 
 // Note: New translations not found in original lang files but found in CSV
-$GLOBALS['phpAds_hlp_company_name'] = "Ime je uporabljeno v e-pošti, ki ga pošilja ". MAX_PRODUCT_NAME ."";
-$GLOBALS['phpAds_hlp_warn_client'] = "". MAX_PRODUCT_NAME ." lahko pošlje e-pošto oglaševalcu, če ima njegova kampanja samo še";
-$GLOBALS['phpAds_hlp_qmail_patch'] = "Nekatere različice qmaila vsebujejo hrošče, zaradi katerih poslana e-pošta \n". MAX_PRODUCT_NAME ." prikaže glave (headerje) v telesu sporočila . Če boste omogočili \nto nastavitev, bo ". MAX_PRODUCT_NAME ." poslal e-pošto v qmail združljivem formatu.";
-$GLOBALS['phpAds_hlp_warn_limit'] = "Omejitev, po kateri ". MAX_PRODUCT_NAME ." začne pošiljati opozorilno e-pošto. Nastavljeno je na 100";
+$GLOBALS['phpAds_hlp_company_name'] = "Ime je uporabljeno v e-pošti, ki ga pošilja {$PRODUCT_NAME}";
+$GLOBALS['phpAds_hlp_warn_client'] = "{$PRODUCT_NAME} lahko pošlje e-pošto oglaševalcu, če ima njegova kampanja samo še";
+$GLOBALS['phpAds_hlp_qmail_patch'] = "Nekatere različice qmaila vsebujejo hrošče, zaradi katerih poslana e-pošta
+{$PRODUCT_NAME} prikaže glave (headerje) v telesu sporočila . Če boste omogočili
+to nastavitev, bo {$PRODUCT_NAME} poslal e-pošto v qmail združljivem formatu.";
+$GLOBALS['phpAds_hlp_warn_limit'] = "Omejitev, po kateri {$PRODUCT_NAME} začne pošiljati opozorilno e-pošto. Nastavljeno je na 100";
 $GLOBALS['phpAds_hlp_admin_email'] = "Administratorjev e-poštni naslov, ki se uporabi kot izhodni naslov ko";
 $GLOBALS['phpAds_hlp_admin_novice'] = "Če želite prejeti opozorilo pred izbrisom oglaševalca, kampanje, pasice, spletne strani ali področja, nastavite to možnost na pozitivno vrednost.";
 $GLOBALS['phpAds_hlp_gui_show_campaign_info'] = "Če je ta možnost omogočena, bodo na strani <i>Kampanje</i> prikazane dodatne informacije. Te vključujejo število preostalih ogledov oglasa, število preostalih klikov oglasa, število preostalih pretvorb oglasa, datum aktivacije in izteka in nastavitve prioritete.";

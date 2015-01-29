@@ -205,7 +205,7 @@
 {if $maintenanceAlert}
 <script type='text/javascript'>
 <!--
-    alert('{t str=MaintenanceNotActive}');
+    alert('{t str=MaintenanceNotActive escape=javascript}');
     location.replace('{$adminWebPath}maintenance-maintenance.php');
 //-->
 </script>

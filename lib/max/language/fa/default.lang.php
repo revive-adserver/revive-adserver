@@ -165,7 +165,7 @@ $GLOBALS['strAuthentification']         = "اجازه کاربری";
 $GLOBALS['strWelcomeTo']                = "خوش آمدید به ";
 $GLOBALS['strEnterUsername']            = "کلمه کاربری و رمز خود را برای ورود وارد کنید";
 $GLOBALS['strEnterBoth']                = "لط�?ا کلمه کاربری و رمز ورود را وارد کنید";
-$GLOBALS['strEnableCookies']			= "قبل از است�?اده شما باید کوکی ها را �?عال کنید ".MAX_PRODUCT_NAME;
+$GLOBALS['strEnableCookies']			= "قبل از است�?اده شما باید کوکی ها را �?عال کنید {$PRODUCT_NAME}";
 $GLOBALS['strLogin']                    = "ورود به سیستم";
 $GLOBALS['strLogout']                   = "خروج";
 $GLOBALS['strUsername']                 = "نام کاربری";
@@ -371,8 +371,20 @@ $GLOBALS['strHighPriority']			= "نمایش بنر ها در این campaign ب�
 $GLOBALS['strLowPriority']			= "نمایش بنر در این campaign با حق تقدم و اولویت بسیار پایین.<br> این campaign برای بنرهایی است�?اده می شود که دارای اولویت پایینی می باشند.";
 $GLOBALS['strTargetPerDay']                = "در هر روز .";
 $GLOBALS['strPriorityAutoTargeting']    = "با گذشت هر روز موجودی را به صورت اتوماتیک اعلام کند";
-$GLOBALS['strCampaignWarningNoWeight']     = "The priority of this campaign has been set to low, \nbut the weight is set to zero or it has not been \nspecified. This will cause the campaign to be \ndeactivated and its banners won't be delivered \nuntil the weight has been set to a valid number. \n\nAre you sure you want to continue?";
-$GLOBALS['strCampaignWarningNoTarget']     = "The priority of this campaign has been set to high, \nbut the target number of Impressions are not specified. \nThis will cause the campaign to be deactivated and \nits banners won't be delivered until a valid target \nnumber of Impressions has been set. \n\nAre you sure you want to continue?";
+$GLOBALS['strCampaignWarningNoWeight']     = "The priority of this campaign has been set to low,
+but the weight is set to zero or it has not been
+specified. This will cause the campaign to be
+deactivated and its banners won't be delivered
+until the weight has been set to a valid number.
+
+Are you sure you want to continue?";
+$GLOBALS['strCampaignWarningNoTarget']     = "The priority of this campaign has been set to high,
+but the target number of Impressions are not specified.
+This will cause the campaign to be deactivated and
+its banners won't be delivered until a valid target
+number of Impressions has been set.
+
+Are you sure you want to continue?";
 
 // Tracker
 $GLOBALS['strTracker']                    = "تراکر";
@@ -836,7 +848,9 @@ $GLOBALS['strErrorDBNoDataSerious']		= "به خاطر یک مشکل با بان�
 $GLOBALS['strErrorDBCorrupt']			= "جداول بانک اطلاعاتی احتمالا خراب شده اند و نیاز به تعمیر دارند. برای اطلاعات بیشتر راهنمای برنامه را مطالعه نمایید.";
 $GLOBALS['strErrorDBContact']			= "با مدیریت سرور تماس بگیرید و این مشکل را حل نمایید.";
 $GLOBALS['strErrorDBSubmitBug']			= "اگر این مشکل قابل پردازش مجدد باشد باعث ایجاد یک خطا در.می شود. لط�?ا اطلاعات زیر را به نویسنده برنامه گزارش دهید. همچنین سعی کنید که اعمالی را که باعث ایجاد این خطا شده اند برای نوسنده برنامه تشریح نمایید.";
-$GLOBALS['strMaintenanceNotActive']		= "این برنامه هر 24 ساعت برای تگهداری قابل اجرا نمی باشد. \nبرای اطلاعات بیشتر \n برای پیکربندی نگهداری اسکریپت.";
+$GLOBALS['strMaintenanceNotActive']		= "این برنامه هر 24 ساعت برای تگهداری قابل اجرا نمی باشد.
+برای اطلاعات بیشتر
+ برای پیکربندی نگهداری اسکریپت.";
 $GLOBALS['strErrorBadUserType']                 = "The system was unable to determine your account user type!";
 $GLOBALS['strErrorLinkingBanner']               = "It was not possible to link this banner to this zone because:";
 $GLOBALS['strUnableToLinkBanner']               = "Cannot link this banner: ";
@@ -849,15 +863,18 @@ $GLOBALS['strEmailNoDates']                     = 'Email zone campaigns must hav
 $GLOBALS['strSirMadam']                         = "آقا/خانوم";
 $GLOBALS['strMailSubject']                      = "گزارش آگهی دهندگان";
 $GLOBALS['strAdReportSent']                     = "ارسال گزارش آگهی دهندگان";
-$GLOBALS['strMailHeader']                       = "دوست عزیز {contact},\n";
+$GLOBALS['strMailHeader']                       = "دوست عزیز {contact},";
 $GLOBALS['strMailBannerStats']                  = "در زیر آمار بنر ها برای {clientname}آورده شده است:";
 $GLOBALS['strMailBannerActivatedSubject']       = "Campaign {id} �?عال شده است";
 $GLOBALS['strMailBannerDeactivatedSubject']     = "Campaign {id} �?عال شده است";
-$GLOBALS['strMailBannerActivated']              = "Your campaign shown below has been activated because\nthe campaign activation date has been reached.";
+$GLOBALS['strMailBannerActivated']              = "Your campaign shown below has been activated because
+the campaign activation date has been reached.";
 $GLOBALS['strMailBannerDeactivated']            = "Your campaign shown below has been deactivated because";
-$GLOBALS['strMailFooter'] 			= "با احترام �?راوان,\n   {adminfullname}";
+$GLOBALS['strMailFooter'] 			= "با احترام �?راوان,
+   {adminfullname}";
 $GLOBALS['strMailClientDeactivated'] 		= "بنر های زیر غیر �?عال شده اند زیرا";
-$GLOBALS['strMailNothingLeft'] 			= "اگر شما دوست دارید که تبلیغات را در سایت ما ادامه دهید, با ما تماس بگیرید.\nما خوشحال خواهیم شد.";
+$GLOBALS['strMailNothingLeft'] 			= "اگر شما دوست دارید که تبلیغات را در سایت ما ادامه دهید, با ما تماس بگیرید.
+ما خوشحال خواهیم شد.";
 $GLOBALS['strClientDeactivated']		= "این  در حال حاضر �?عال نمی باشد زیرا";
 $GLOBALS['strBeforeActivate']			= "تاریخ �?عال سازی هنوز �?را نرسیده است";
 $GLOBALS['strAfterExpire']			= "تاریخ انقضاء �?رارسیده است";
@@ -866,7 +883,8 @@ $GLOBALS['strNoMoreClicks']                     = "there are no Clicks remaining
 $GLOBALS['strNoMoreConversions']                = "there are no Sales remaining";
 $GLOBALS['strWeightIsNull']                     = "its weight is set to zero";
 $GLOBALS['strTargetIsNull']                     = "its target is set to zero";
-$GLOBALS['strWarnClientTxt']                    = "The Impressions, Clicks, or Conversions left for your banners are getting below {limit}. \nYour banners will be disabled when there are no Impressions, Clicks, or Conversions left. ";
+$GLOBALS['strWarnClientTxt']                    = "The Impressions, Clicks, or Conversions left for your banners are getting below {limit}.
+Your banners will be disabled when there are no Impressions, Clicks, or Conversions left. ";
 $GLOBALS['strImpressionsClicksConversionsLow']  = "Impressions/Clicks/Conversions are low";
 $GLOBALS['strNoViewLoggedInInterval']   	= "هیچ مشاهده تبلیغاتی در طول این گزارش ثبت نشده است";
 $GLOBALS['strNoClickLoggedInInterval']  	= "هیچ کلیک تبلیغاتی در طول این گزارش ثبت نشده است";
@@ -879,7 +897,8 @@ $GLOBALS['strYourCampaign']                     = "Your campaign";
 $GLOBALS['strTheCampiaignBelongingTo']          = "The campaign belonging to";
 $GLOBALS['strImpendingCampaignExpiryDateBody']  = "{clientname} shown below is due to end on {date}.";
 $GLOBALS['strImpendingCampaignExpiryImpsBody']  = "{clientname} shown below has less than {limit} impressions remaining.";
-$GLOBALS['strImpendingCampaignExpiryBody']      = "As a result, the campaign will soon be automatically disabled, and the\nfollowing banners in the campaign will also be disabled:";
+$GLOBALS['strImpendingCampaignExpiryBody']      = "As a result, the campaign will soon be automatically disabled, and the
+following banners in the campaign will also be disabled:";
 
 // Priority
 $GLOBALS['strPriority']                         = "اولویت";
@@ -1054,7 +1073,7 @@ $GLOBALS['strClicks_short'] = "کلیک ها";
 $GLOBALS['strCTR_short'] = "CTR";
 $GLOBALS['strConfirmDeleteChannels'] = "آیا شما واقعا میخواهید این بنر را حذ�? کنید.";
 $GLOBALS['strHiddenWebsite'] = "ناشر";
-$GLOBALS['strEnableCookies'] = "شما باید cookies را قبل از است�?اده �?عال کنید " .  MAX_PRODUCT_NAME . "";
+$GLOBALS['strEnableCookies'] = "شما باید cookies را قبل از است�?اده �?عال کنید {$PRODUCT_NAME}";
 $GLOBALS['strHideInactiveOverview'] = "غیر�?عال مخ�?ی";
 $GLOBALS['strNoWebsites'] = "همه ناشرین";
 $GLOBALS['strSomeWebsites'] = "همه ناشرین";

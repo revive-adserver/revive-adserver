@@ -11,10 +11,12 @@
 */
 
 // Note: New translations not found in original lang files but found in CSV
-$GLOBALS['phpAds_hlp_company_name'] = "Este nome é usado em e-mails enviados pelo ". MAX_PRODUCT_NAME .".";
-$GLOBALS['phpAds_hlp_warn_client'] = "". MAX_PRODUCT_NAME ." pode enviar e-mail ao anunciante apenas se uma de suas campanhas possui um";
-$GLOBALS['phpAds_hlp_qmail_patch'] = "Algumas versões do qmail possuem um bug, que causa e-mails enviados pelo \n                ". MAX_PRODUCT_NAME ." a mostrar cabeçalhos dentro do corpo do e-mail. Se você habilitar \n                esta configuração, ". MAX_PRODUCT_NAME ." irá enviar e-mails com um formato compatível com o qmail.";
-$GLOBALS['phpAds_hlp_warn_limit'] = "O limite no qual ". MAX_PRODUCT_NAME ." inicia o envio de e-mails. Atualmente 100";
+$GLOBALS['phpAds_hlp_company_name'] = "Este nome é usado em e-mails enviados pelo {$PRODUCT_NAME}.";
+$GLOBALS['phpAds_hlp_warn_client'] = "{$PRODUCT_NAME} pode enviar e-mail ao anunciante apenas se uma de suas campanhas possui um";
+$GLOBALS['phpAds_hlp_qmail_patch'] = "Algumas versões do qmail possuem um bug, que causa e-mails enviados pelo
+                {$PRODUCT_NAME} a mostrar cabeçalhos dentro do corpo do e-mail. Se você habilitar
+                esta configuração, {$PRODUCT_NAME} irá enviar e-mails com um formato compatível com o qmail.";
+$GLOBALS['phpAds_hlp_warn_limit'] = "O limite no qual {$PRODUCT_NAME} inicia o envio de e-mails. Atualmente 100";
 $GLOBALS['phpAds_hlp_admin_email'] = "E-mail do administrador. Utilizado como o endereço de remetente quando";
 $GLOBALS['phpAds_hlp_admin_novice'] = "Se deseja receber um alerta antes de reover anunciantes, campanhas, banners, sites e zonas; selecione esta opção";
 $GLOBALS['phpAds_hlp_gui_show_campaign_info'] = "Se esta opção estiver habilitada informações extras sobre cada campanha será apresentada na página de <i>Campanhas</i>. A informação extra inclui o numero de Visualizações do anúncio restantes, o numero de cliques restantes, o numero de conversões restantes, a data de ativação, a de vencimento e as configurações de prioridade.";

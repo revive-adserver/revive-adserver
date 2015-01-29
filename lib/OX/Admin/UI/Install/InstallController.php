@@ -189,19 +189,19 @@ class OX_Admin_UI_Install_InstallController
 
         if ($oStatus->isRecovery()) {
             $pageTitle = $this->oTranslation->translate('InstallStatusRecovery',
-                array(OA_VERSION));
+                array(VERSION));
         }
         else if ($oStatus->isInstall()) {
             $pageTitle = $this->oTranslation->translate('InstallStatusInstall',
-                array(OA_VERSION));
+                array(VERSION));
         }
         else if ($oStatus->isUpgrade()) {
             $pageTitle = $this->oTranslation->translate('InstallStatusUpgrade',
-                array(OA_VERSION));
+                array(VERSION));
         }
         else if ($oStatus->isUpToDate()) {
             $pageTitle = $this->oTranslation->translate('InstallStatusUpToDate',
-                array(OA_VERSION));
+                array(VERSION));
         }
         $this->setModelProperty('pageHeader', new OA_Admin_UI_Model_PageHeaderModel($pageTitle));
 
@@ -288,7 +288,7 @@ class OX_Admin_UI_Install_InstallController
         $this->setModelProperty('isUpgrade', $this->getInstallStatus()->isUpgrade());
         $this->setModelProperty('oWizard', $oWizard);
         $this->setModelProperty('loaderMessage', $GLOBALS['strSyscheckProgressMessage']);
-        $this->setModelProperty('oxVersion', OA_VERSION);
+        $this->setModelProperty('oxVersion', VERSION);
         $this->setModelProperty('LICENSE', file_get_contents(RV_PATH . '/LICENSE.txt'));
     }
 

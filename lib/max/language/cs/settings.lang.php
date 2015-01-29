@@ -22,27 +22,27 @@ $GLOBALS['strOtherSettings']			= "Ostatni nastaveni";
 $GLOBALS['strWarning']				= "Upozornění";
 $GLOBALS['strFatalError']			= "Nastala fatalni chyba";
 $GLOBALS['strUpdateError']			= "Nastala chyba pri aktualizaci";
-$GLOBALS['strUpdateDatabaseError']	= "Z neznameho duvodu nebyla aktualizace databazove struktury uspesna. Doporucovany postup je kliknout na <b>Zopakuj aktualizaci</b> k zopakovani pokusu o aktualizaci a napravu problemu. Pokud jste si jist ze tyto chyby nenarusi funkcnost ".MAX_PRODUCT_NAME." muzete kliknout na <b>Ignorovat chyby</b> a pokracovat. Ignorovani techto chyb muze zpusobit zavazne problemy a neni doporucovane!";
-$GLOBALS['strAlreadyInstalled']			= MAX_PRODUCT_NAME." je jiz instalovan. Pokud ho chcete konfigurovat bezte na <a href='settings-index.php'>rozhrani nastaveni</a>";
-$GLOBALS['strCouldNotConnectToDB']		= "Nemohu se pripojit k databazi, prosim zkontrolujte zadane udaje. Take zkontrolujte zda databaze zadaneho jmena existuje na serveru. ".MAX_PRODUCT_NAME." pro vas tuto databazi nezalozi, musite ji rucne vytvorit pred zapocetim instalace.";
+$GLOBALS['strUpdateDatabaseError']	= "Z neznameho duvodu nebyla aktualizace databazove struktury uspesna. Doporucovany postup je kliknout na <b>Zopakuj aktualizaci</b> k zopakovani pokusu o aktualizaci a napravu problemu. Pokud jste si jist ze tyto chyby nenarusi funkcnost {$PRODUCT_NAME} muzete kliknout na <b>Ignorovat chyby</b> a pokracovat. Ignorovani techto chyb muze zpusobit zavazne problemy a neni doporucovane!";
+$GLOBALS['strAlreadyInstalled']			= "{$PRODUCT_NAME} je jiz instalovan. Pokud ho chcete konfigurovat bezte na <a href='settings-index.php'>rozhrani nastaveni</a>";
+$GLOBALS['strCouldNotConnectToDB']		= "Nemohu se pripojit k databazi, prosim zkontrolujte zadane udaje. Take zkontrolujte zda databaze zadaneho jmena existuje na serveru. {$PRODUCT_NAME} pro vas tuto databazi nezalozi, musite ji rucne vytvorit pred zapocetim instalace.";
 $GLOBALS['strCreateTableTestFailed']		= "The user you specified doesn't have permission to create or update the database structure, please contact the database administrator.";
 $GLOBALS['strUpdateTableTestFailed']		= "The user you specified doesn't have permission to update the database structure, please contact the database administrator.";
 $GLOBALS['strTablePrefixInvalid']		= "Table prefix contains invalid characters";
-$GLOBALS['strTableInUse']			= "The database which you specified is already used for ".MAX_PRODUCT_NAME.", please use a different table prefix, or read the manual for upgrading instructions.";
-$GLOBALS['strTableWrongType']		= "The table type you selected isn't supported by your installation of ".$phpAds_dbmsname;
+$GLOBALS['strTableInUse']			= "The database which you specified is already used for {$PRODUCT_NAME}, please use a different table prefix, or read the manual for upgrading instructions.";
+$GLOBALS['strTableWrongType']		= "The table type you selected isn't supported by your installation of {$phpAds_dbmsname}";
 $GLOBALS['strMayNotFunction']			= "Before you continue, please correct these potential problems:";
-$GLOBALS['strFixProblemsBefore']		= "The following item(s) need to be corrected before you can install ".MAX_PRODUCT_NAME.". If you have any questions about this error message, please read the <i>Administrator guide</i>, which is part of the package you downloaded.";
-$GLOBALS['strFixProblemsAfter']			= "If you are not able to correct the problems listed above, please contact the administrator of the server you are trying to install ".MAX_PRODUCT_NAME." on. The administrator of the server may be able to help you.";
+$GLOBALS['strFixProblemsBefore']		= "The following item(s) need to be corrected before you can install {$PRODUCT_NAME}. If you have any questions about this error message, please read the <i>Administrator guide</i>, which is part of the package you downloaded.";
+$GLOBALS['strFixProblemsAfter']			= "If you are not able to correct the problems listed above, please contact the administrator of the server you are trying to install {$PRODUCT_NAME} on. The administrator of the server may be able to help you.";
 $GLOBALS['strIgnoreWarnings']			= "Ignorovat upozorneni";
-$GLOBALS['strWarningDBavailable']		= "The version of PHP you are using doesn't have support for connecting to a ".$phpAds_dbmsname." database server. You need to enable the PHP ".$phpAds_dbmsname." extension before you can proceed.";
-$GLOBALS['strWarningPHPversion']		= MAX_PRODUCT_NAME." requires PHP 4.0.3 or higher to function correctly. You are currently using {php_version}.";
+$GLOBALS['strWarningDBavailable']		= "The version of PHP you are using doesn't have support for connecting to a {$phpAds_dbmsname} database server. You need to enable the PHP {$phpAds_dbmsname} extension before you can proceed.";
+$GLOBALS['strWarningPHPversion']		= "{$PRODUCT_NAME} requires PHP 4.0.3 or higher to function correctly. You are currently using {php_version}.";
 $GLOBALS['strWarningRegisterGlobals']		= "The PHP configuration variable register_globals needs to be turned on.";
 $GLOBALS['strWarningMagicQuotesGPC']		= "The PHP configuration variable magic_quotes_gpc needs to be turned on.";
 $GLOBALS['strWarningMagicQuotesRuntime']	= "The PHP configuration variable magic_quotes_runtime needs to be turned off.";
 $GLOBALS['strWarningFileUploads']		= "The PHP configuration variable file_uploads needs to be turned on.";
 $GLOBALS['strWarningTrackVars']			= "The PHP configuration variable track_vars needs to be turned on.";
 $GLOBALS['strWarningPREG']				= "The version of PHP you are using doesn't have support for PERL compatible regular expressions. You need to enable the PREG extension before you can proceed.";
-$GLOBALS['strConfigLockedDetected']		= MAX_PRODUCT_NAME." has detected that your <b>config.inc.php</b> file is not writeable by the server. You can't proceed until you change permissions on the file. Read the supplied documentation if you don't know how to do that.";
+$GLOBALS['strConfigLockedDetected']		= "{$PRODUCT_NAME} has detected that your <b>config.inc.php</b> file is not writeable by the server. You can't proceed until you change permissions on the file. Read the supplied documentation if you don't know how to do that.";
 $GLOBALS['strCantUpdateDB']  			= "It is currently not possible to update the database. If you decide to proceed, all existing banners, statistics and advertisers will be deleted.";
 $GLOBALS['strIgnoreErrors']			= "Ignorovat chyby";
 $GLOBALS['strRetryUpdate']			= "Zopakovat aktualizaci";
@@ -50,11 +50,21 @@ $GLOBALS['strTableNames']			= "Nazvy tabulek";
 $GLOBALS['strTablesPrefix']			= "Prefix nazvu tabulek";
 $GLOBALS['strTablesType']			= "Typ tabulky";
 
-$GLOBALS['strInstallWelcome']			= "Welcome to ".MAX_PRODUCT_NAME;
-$GLOBALS['strInstallMessage']			= "Before you can use ".MAX_PRODUCT_NAME." it needs to be configured and <br> the database needs to be created. Click <b>Proceed</b> to continue.";
-$GLOBALS['strInstallSuccess']			= "<b>The installation of ".MAX_PRODUCT_NAME." is now complete.</b><br><br>In order for ".MAX_PRODUCT_NAME." to function correctly you also need\n						   to make sure the maintenance file is run every hour. More information about this subject can be found in the documentation.\n						   <br><br>Click <b>Proceed</b> to go the configuration page, where you can\n						   set up more settings. Please do not forget to lock the config.inc.php file when you are finished to prevent security\n						   breaches.";
-$GLOBALS['strUpdateSuccess']			= "<b>The upgrade of ".MAX_PRODUCT_NAME." was succesful.</b><br><br>In order for ".MAX_PRODUCT_NAME." to function correctly you also need\n						   to make sure the maintenance file is run every hour (previously this was every day). More information about this subject can be found in the documentation.\n						   <br><br>Click <b>Proceed</b> to go to the administration interface. Please do not forget to lock the config.inc.php file\n						   to prevent security breaches.";
-$GLOBALS['strInstallNotSuccessful']		= "<b>The installation of ".MAX_PRODUCT_NAME." was not succesful</b><br><br>Some portions of the install process could not be completed.\n						   It is possible these problems are only temporarily, in that case you can simply click <b>Proceed</b> and return to the\n						   first step of the install process. If you want to know more on what the error message below means, and how to solve it,\n						   please consult the supplied documentation.";
+$GLOBALS['strInstallWelcome']			= "Welcome to {$PRODUCT_NAME}";
+$GLOBALS['strInstallMessage']			= "Before you can use {$PRODUCT_NAME} it needs to be configured and <br> the database needs to be created. Click <b>Proceed</b> to continue.";
+$GLOBALS['strInstallSuccess']			= "<b>The installation of {$PRODUCT_NAME} is now complete.</b><br><br>In order for {$PRODUCT_NAME} to function correctly you also need
+						   to make sure the maintenance file is run every hour. More information about this subject can be found in the documentation.
+						   <br><br>Click <b>Proceed</b> to go the configuration page, where you can
+						   set up more settings. Please do not forget to lock the config.inc.php file when you are finished to prevent security
+						   breaches.";
+$GLOBALS['strUpdateSuccess']			= "<b>The upgrade of {$PRODUCT_NAME} was succesful.</b><br><br>In order for {$PRODUCT_NAME} to function correctly you also need
+						   to make sure the maintenance file is run every hour (previously this was every day). More information about this subject can be found in the documentation.
+						   <br><br>Click <b>Proceed</b> to go to the administration interface. Please do not forget to lock the config.inc.php file
+						   to prevent security breaches.";
+$GLOBALS['strInstallNotSuccessful']		= "<b>The installation of {$PRODUCT_NAME} was not succesful</b><br><br>Some portions of the install process could not be completed.
+						   It is possible these problems are only temporarily, in that case you can simply click <b>Proceed</b> and return to the
+						   first step of the install process. If you want to know more on what the error message below means, and how to solve it,
+						   please consult the supplied documentation.";
 $GLOBALS['strErrorOccured']			= "Nastala tato chyba:";
 $GLOBALS['strErrorInstallDatabase']		= "Databázová struktura nemohla být vytvořena.";
 $GLOBALS['strErrorUpgrade'] 			= "Databáze současné instalace nemohla být aktualizována";
@@ -238,7 +248,7 @@ $GLOBALS['strBlockAdConversions']		= "Nelogovat prodeje pokud návštěvník nav
 
 $GLOBALS['strPreventLogging']			= "Zamezit logování";
 $GLOBALS['strEmailWarnings']			= "E-mailová upozornění";
-$GLOBALS['strAdminEmailHeaders']		= "Přidej následujíc hlavičku ke každé správě poslané ".MAX_PRODUCT_NAME;
+$GLOBALS['strAdminEmailHeaders']		= "Přidej následujíc hlavičku ke každé správě poslané {$PRODUCT_NAME}";
 $GLOBALS['strWarnLimit']				= "Poslat upozornění když počet zbývajících impresí je nižší než zde uvedený";
 $GLOBALS['strWarnLimitErr']				= "Limit pro upozornění by mělo být kladné číslo";
 $GLOBALS['strWarnAdmin']				= "Poslat upozornění správci kdykoliv je kampaň téměř vyčerpána";

@@ -898,7 +898,7 @@ class Admin_DA
         }
 
         if (empty($campaignVariables['activate_time']) && empty($campaignVariables['expire_time'])) {
-            return PEAR::raiseError($GLOBALS['strEmailNoDates'], MAX_ERROR_EMAILNODATES);
+            return PEAR::raiseError(sprintf($GLOBALS['strEmailNoDates'], PRODUCT_NAME), MAX_ERROR_EMAILNODATES);
         }
         $campaignStart = new Date($campaignVariables['activate_time']);
         $campaignStart->setTZbyID('UTC');

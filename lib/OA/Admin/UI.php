@@ -173,7 +173,7 @@ class OA_Admin_UI
             OX_Admin_UI_Hooks::beforePageHeader($ID, $this->getLinkParams(), $oHeaderModel);
         }
 
-        $pageTitle = !empty($conf['ui']['applicationName']) ? $conf['ui']['applicationName'] : MAX_PRODUCT_NAME;
+        $pageTitle = !empty($conf['ui']['applicationName']) ? $conf['ui']['applicationName'] : PRODUCT_NAME;
         $aMainNav        = array();
         $aLeftMenuNav    = array();
         $aLeftMenuSubNav = array();
@@ -372,8 +372,8 @@ class OA_Admin_UI
     function _assignLayout($pageTitle)
     {
         $this->oTpl->assign('pageTitle', $pageTitle);
-        $this->oTpl->assign('metaGenerator', MAX_PRODUCT_NAME.' v'.OA_VERSION.' - http://'.MAX_PRODUCT_URL);
-        $this->oTpl->assign('oxpVersion', OA_VERSION);
+        $this->oTpl->assign('metaGenerator', PRODUCT_NAME.' v'.VERSION.' - http://'.PRODUCT_URL);
+        $this->oTpl->assign('oxpVersion', VERSION);
     }
 
 
@@ -415,7 +415,7 @@ class OA_Admin_UI
         {
             $this->oTpl->assign('customBranding', true);
         }
-        $this->oTpl->assign('productName', MAX_PRODUCT_NAME);
+        $this->oTpl->assign('productName', PRODUCT_NAME);
     }
 
 

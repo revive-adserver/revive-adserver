@@ -270,7 +270,7 @@ class OA_Admin_UI_UserAccess
     {
         $name = ($isSso) ? $GLOBALS['strLinkUserHelpEmail']
             : $GLOBALS['strLinkUserHelpUser'];
-        return str_replace('%s', $name, $GLOBALS['strLinkUserHelp']);
+        return sprintf($GLOBALS['strLinkUserHelp'], $name, $GLOBALS['strLinkUser']);
     }
 
     /**

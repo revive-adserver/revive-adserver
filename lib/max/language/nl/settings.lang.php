@@ -22,27 +22,27 @@ $GLOBALS['strOtherSettings']			= "Andere instellingen";
 $GLOBALS['strWarning']				= "Waarschuwing";
 $GLOBALS['strFatalError']			= "Er is een fout opgetreden";
 $GLOBALS['strUpdateError']			= "Er is een fout opgetreden tijdens het bijwerken";
-$GLOBALS['strUpdateDatabaseError']		= "Wegens een onbekende reden is het aanpassen van de database structuur niet gelukt. Het is aan te raden om te klikken op <b>Probeer opnieuw</b> om te proberen om deze fouten te herstellen. Indien u er zeker van bent dat deze fouten het functioneren van ".MAX_PRODUCT_NAME." niet in gevaar brengen kunt op de knop <b>Negeer foutmeldingen</b> klikken. Het negeren van deze foutmelding kan ernstige problemen veroorzaken en is niet aan te raden!";
-$GLOBALS['strAlreadyInstalled']			= MAX_PRODUCT_NAME." is reeds geinstalleerd op dit systeem. Indien u het systeem verder wilt configureren ga dan naar de <a href='settings-index.php'>instellingen</a>";
+$GLOBALS['strUpdateDatabaseError']		= "Wegens een onbekende reden is het aanpassen van de database structuur niet gelukt. Het is aan te raden om te klikken op <b>Probeer opnieuw</b> om te proberen om deze fouten te herstellen. Indien u er zeker van bent dat deze fouten het functioneren van {$PRODUCT_NAME} niet in gevaar brengen kunt op de knop <b>Negeer foutmeldingen</b> klikken. Het negeren van deze foutmelding kan ernstige problemen veroorzaken en is niet aan te raden!";
+$GLOBALS['strAlreadyInstalled']			= "{$PRODUCT_NAME} is reeds geinstalleerd op dit systeem. Indien u het systeem verder wilt configureren ga dan naar de <a href='settings-index.php'>instellingen</a>";
 $GLOBALS['strCouldNotConnectToDB']		= "Er kon geen connectie opgebouwd worden met de database, controleer a.u.b. de door u opgegeven instellingen";
 $GLOBALS['strCreateTableTestFailed']		= "De gebruiker die u heeft opgegeven heeft geen toestemming om de database aan te maken of te wijzigen, neem a.u.b. contact op met de beheerder van de database.";
 $GLOBALS['strUpdateTableTestFailed']		= "De gebruiker die u heeft opgegeven heeft geen toestemming om de database structuur te wijzigen, neem a.u.b. contact op met de beheerder van de database.";
 $GLOBALS['strTablePrefixInvalid']		= "De tabelnaam voorvoegsel bevat illegale tekens";
-$GLOBALS['strTableInUse']			= "De database welke u opgegeven heeft is al ingebruik door ".MAX_PRODUCT_NAME.". Gebruik een ander tabelnaam voorvoegsel of lees de documentatie voor instructies om te upgraden.";
-$GLOBALS['strTableWrongType']			= "Het tabel type dat u geselecteerd heeft wordt niet ondersteund door uw ".$phpAds_dbmsname." installatie";
+$GLOBALS['strTableInUse']			= "De database welke u opgegeven heeft is al ingebruik door {$PRODUCT_NAME}. Gebruik een ander tabelnaam voorvoegsel of lees de documentatie voor instructies om te upgraden.";
+$GLOBALS['strTableWrongType']			= "Het tabel type dat u geselecteerd heeft wordt niet ondersteund door uw {$phpAds_dbmsname} installatie";
 $GLOBALS['strMayNotFunction']			= "Voor dat uw verder gaat, corrigeer a.u.b. de volgende problemen:";
-$GLOBALS['strFixProblemsBefore']		= "De volgende item(s) dienen gecorrigeerd te worden voordat u ".MAX_PRODUCT_NAME." kan installeren. Indien u vragen heeft over deze foutmelding, lees dan eerst de <i>Administrator guide</i>, welke u kunt vinden in het bestand dat u gedownload heeft.";
+$GLOBALS['strFixProblemsBefore']		= "De volgende item(s) dienen gecorrigeerd te worden voordat u {$PRODUCT_NAME} kan installeren. Indien u vragen heeft over deze foutmelding, lees dan eerst de <i>Administrator guide</i>, welke u kunt vinden in het bestand dat u gedownload heeft.";
 $GLOBALS['strFixProblemsAfter']			= "Indien u de volgende items niet zelf kan corrigeren neem dan contact op met de beheerder van deze server. De beheerder van de server kan u wellicht verder helpen.";
 $GLOBALS['strIgnoreWarnings']			= "Negeer waarschuwingen";
-$GLOBALS['strWarningPHPversion']		= MAX_PRODUCT_NAME." heeft minimaal PHP 4.0 nodig om te functioneren. U gebruik momenteel versie {php_version}.";
-$GLOBALS['strWarningDBavailable']		= "De versie van PHP welke u gebruikt heeft geen ondersteuning voor connecties met een ".$phpAds_dbmsname." database server. U dient de PHP ".$phpAds_dbmsname." extentie te installeren voordat u verder kunt gaan.";
+$GLOBALS['strWarningPHPversion']		= "{$PRODUCT_NAME} heeft minimaal PHP 4.0 nodig om te functioneren. U gebruik momenteel versie {php_version}.";
+$GLOBALS['strWarningDBavailable']		= "De versie van PHP welke u gebruikt heeft geen ondersteuning voor connecties met een {$phpAds_dbmsname} database server. U dient de PHP {$phpAds_dbmsname} extentie te installeren voordat u verder kunt gaan.";
 $GLOBALS['strWarningRegisterGlobals']		= "De PHP instelling register_globals moet aan staan.";
 $GLOBALS['strWarningMagicQuotesGPC']		= "De PHP instelling magic_quotes_gpc moet aan staan.";
 $GLOBALS['strWarningMagicQuotesRuntime']	= "De PHP instelling magic_quotes_runtime moet uit staan.";
 $GLOBALS['strWarningFileUploads']		= "De PHP instelling file_uploads moet aan staan.";
 $GLOBALS['strWarningTrackVars']			= "De PHP instelling track_vars moet aan staan.";
 $GLOBALS['strWarningPREG']			= "De versie van PHP die u gebruikt heeft geen ondersteuning voor PERL compatible reguliere expressies. U dient de PREG extentie te installeren voordat u verder kunt gaan.";
-$GLOBALS['strConfigLockedDetected']		= MAX_PRODUCT_NAME." heeft gedetecteerd dat uw <b>config.inc.php</b> bestand niet beschrijfbaar is door de server. U kunt niet verder gaan tot u de bestands permissies gewijzigd heeft. Raadpleeg de bijgevoegde documentatie indien u niet weet hoe u dit kunt doen.";
+$GLOBALS['strConfigLockedDetected']		= "{$PRODUCT_NAME} heeft gedetecteerd dat uw <b>config.inc.php</b> bestand niet beschrijfbaar is door de server. U kunt niet verder gaan tot u de bestands permissies gewijzigd heeft. Raadpleeg de bijgevoegde documentatie indien u niet weet hoe u dit kunt doen.";
 $GLOBALS['strCantUpdateDB']  			= "Het is momenteel nog niet mogelijk om de database bij te werken. Indien u beslist om door te gaan worden alle bestaande banners, statistieken and klanten verwijderd.";
 $GLOBALS['strIgnoreErrors']			= "Negeer foutmeldingen";
 $GLOBALS['strRetryUpdate']			= "Probeer opnieuw";
@@ -50,18 +50,28 @@ $GLOBALS['strTableNames']			= "Tabelnamen";
 $GLOBALS['strTablesPrefix']			= "Tabelnaam voorvoegsel";
 $GLOBALS['strTablesType']			= "Tabeltype";
 
-$GLOBALS['strInstallWelcome']			= "Welkom op ". MAX_PRODUCT_NAME ."";
-$GLOBALS['strInstallMessage']			= "Voordat u ".MAX_PRODUCT_NAME." kunt gebruiken moet het eerst geconfigureerd <br /> worden, tevens moet de database aangemaakt worden. Klik op <b>Verder</b> om door te gaan.";
-$GLOBALS['strInstallSuccess']			= "<b>De installatie van ".MAX_PRODUCT_NAME." is nu compleet.</b><br /><br />Om goed te functioneren moet de onderhouds bestand elk uur\n						   gedraaid worden. Meer informatie over dit onderwerp kunt u vinden in de documentatie.\n						   <br /><br />Klik op <b>Verder</b> om door te gaan naar de configuratie pagina, waar u nog meer\n						   items kunt instellen. Vergeet a.u.b. niet de permissies van het config.inc.php bestand weer terug te zetten, omdat dit\n						   potentiele veiligheid problemen kan veroorzaken.";
-$GLOBALS['strUpdateSuccess']			= "<b>Het bijwerken van ".MAX_PRODUCT_NAME." is succesvol afgerond.</b><br /><br />Om goed te functioneren moet de maintenance functie elk uur gedraaid\n						   worden (voorheen was dit elke dag). Meer informatie over dit onderwerp kunt u vinden in de documentatie.\n						   <br /><br />Klik op <b>Verder ></b> om naar de administratie interface te gaan. Vergeet a.u.b. niet de permissies van het config.inc.php bestand weer terug te zetten, omdat dit\n						   potentiele veiligheid problemen kan veroorzaken.";
-$GLOBALS['strInstallNotSuccessful']		= "<b>De installatie van ". MAX_PRODUCT_NAME ." was niet succesvol</b><br /><br />Sommige onderdelen van het installatie proces konden niet succesvol afgesloten worden.\nHet is mogelijk dat deze problemen slechts tijdelijk zijn, in dat geval kunt u op <b>Verder</b> klikken en opnieuw\nbeginnen met de installatie. Indien u meer wilt weten over de foutmeldingen die hieronder vermeld staan, raadpleeg dan de \nbijgesloten documentatie.";
+$GLOBALS['strInstallWelcome']			= "Welkom op {$PRODUCT_NAME}";
+$GLOBALS['strInstallMessage']			= "Voordat u {$PRODUCT_NAME} kunt gebruiken moet het eerst geconfigureerd <br /> worden, tevens moet de database aangemaakt worden. Klik op <b>Verder</b> om door te gaan.";
+$GLOBALS['strInstallSuccess']			= "<b>De installatie van {$PRODUCT_NAME} is nu compleet.</b><br /><br />Om goed te functioneren moet de onderhouds bestand elk uur
+						   gedraaid worden. Meer informatie over dit onderwerp kunt u vinden in de documentatie.
+						   <br /><br />Klik op <b>Verder</b> om door te gaan naar de configuratie pagina, waar u nog meer
+						   items kunt instellen. Vergeet a.u.b. niet de permissies van het config.inc.php bestand weer terug te zetten, omdat dit
+						   potentiele veiligheid problemen kan veroorzaken.";
+$GLOBALS['strUpdateSuccess']			= "<b>Het bijwerken van {$PRODUCT_NAME} is succesvol afgerond.</b><br /><br />Om goed te functioneren moet de maintenance functie elk uur gedraaid
+						   worden (voorheen was dit elke dag). Meer informatie over dit onderwerp kunt u vinden in de documentatie.
+						   <br /><br />Klik op <b>Verder ></b> om naar de administratie interface te gaan. Vergeet a.u.b. niet de permissies van het config.inc.php bestand weer terug te zetten, omdat dit
+						   potentiele veiligheid problemen kan veroorzaken.";
+$GLOBALS['strInstallNotSuccessful']		= "<b>De installatie van {$PRODUCT_NAME} was niet succesvol</b><br /><br />Sommige onderdelen van het installatie proces konden niet succesvol afgesloten worden.
+Het is mogelijk dat deze problemen slechts tijdelijk zijn, in dat geval kunt u op <b>Verder</b> klikken en opnieuw
+beginnen met de installatie. Indien u meer wilt weten over de foutmeldingen die hieronder vermeld staan, raadpleeg dan de
+bijgesloten documentatie.";
 $GLOBALS['strErrorOccured']			= "De volgende fouten zijn opgetreden:";
 $GLOBALS['strErrorInstallDatabase']		= "De database kon niet worden aangemaakt.";
 $GLOBALS['strErrorUpgrade'] = 'The existing installation\'s database could not be upgraded.';
 $GLOBALS['strErrorInstallConfig']		= "Het configuratie bestand kont niet worden bijgewerkt.";
 $GLOBALS['strErrorInstallDbConnect']		= "Het was niet mogelijk om een connectie te openen met de database.";
 
-$GLOBALS['strUrlPrefix']			= "Locatie van ".MAX_PRODUCT_NAME."";
+$GLOBALS['strUrlPrefix']			= "Locatie van {$PRODUCT_NAME}";
 
 $GLOBALS['strProceed']				= "Ga verder >";
 $GLOBALS['strInvalidUserPwd']			= "Ongeldige gebruikersnaam of wachtwoord";
@@ -228,7 +238,7 @@ $GLOBALS['strBlockAdviews']				= "Sla geen AdViews op als de gebruiker dezelfde 
 $GLOBALS['strBlockAdclicks']			= "Sla geen AdClicks op als de gebruiker al eerder op dezelfde banner geklikt heeft binnen het gespecificeerde aantal seconden";
 
 $GLOBALS['strEmailWarnings']			= "Waarschuwingen per email";
-$GLOBALS['strAdminEmailHeaders']		= "Voeg de volgende header toe aan elke e-mail bericht verzonden door ". MAX_PRODUCT_NAME ."";
+$GLOBALS['strAdminEmailHeaders']		= "Voeg de volgende header toe aan elke e-mail bericht verzonden door {$PRODUCT_NAME}";
 $GLOBALS['strWarnLimit']			= "Stuur een waarschuwing als de resterende impressies minder zijn dan hier gespecificeerd";
 $GLOBALS['strWarnLimitErr']			= "Waarschuwings limiet moet een positief nummer zijn";
 $GLOBALS['strWarnAdmin']			= "Stuur een waarschuwing naar de beheerder wanneer er voor een campagne bijna geen impressies meer over zijn";
@@ -330,23 +340,23 @@ $GLOBALS['strBtnContinue'] = "Ga verder »";
 $GLOBALS['strBtnGoBack'] = "« Ga terug";
 $GLOBALS['strBtnAgree'] = "Ik ga akkoord »";
 $GLOBALS['strBtnDontAgree'] = "« Ik ga niet akkoord";
-$GLOBALS['strInstallIntro'] = "Dank om te kiezen voor <a href='http://". MAX_PRODUCT_URL ."' target='_blank'><strong>". MAX_PRODUCT_NAME ."</strong></a><p>Deze wizard zal je gidsen door het installatie proces / upgrade van de ". MAX_PRODUCT_NAME ." advertentie server.</p><p>Om je te helpen doorheen het installatie proces hebben we een <a href='http://". OX_PRODUCT_DOCSURL ."/wizard/qsg-install' target='_blank'>Snelle startgids voor installatie</a> gemaakt om doorheen het proces te geraken om alles werkend te krijgen. Voor een meer gedetailleerde gids om alles te installeren en in te stellen van ". MAX_PRODUCT_NAME ." bezoek de <a href='http://". OX_PRODUCT_DOCSURL ."/wizard/admin-guide'target='_blank'>Administrator gids</a>.";
+$GLOBALS['strInstallIntro'] = "Dank om te kiezen voor <a href='http://{$PRODUCT_URL}' target='_blank'><strong>{$PRODUCT_NAME}</strong></a><p>Deze wizard zal je gidsen door het installatie proces / upgrade van de {$PRODUCT_NAME} advertentie server.</p><p>Om je te helpen doorheen het installatie proces hebben we een <a href='http://{$PRODUCT_DOCSURL}/wizard/qsg-install' target='_blank'>Snelle startgids voor installatie</a> gemaakt om doorheen het proces te geraken om alles werkend te krijgen. Voor een meer gedetailleerde gids om alles te installeren en in te stellen van {$PRODUCT_NAME} bezoek de <a href='http://{$PRODUCT_DOCSURL}/wizard/admin-guide'target='_blank'>Administrator gids</a>.";
 $GLOBALS['strTermsTitle'] = "Gebruikovereenkomst, privacy beleid";
-$GLOBALS['strTermsIntro'] = "". MAX_PRODUCT_NAME ." s vrij verschenen onder een Open Source licentie, de GNU generale publieke licentie. Gelieve volgende documentatie na te kijken en goed te keuren om verder te gaan met de installatie.";
+$GLOBALS['strTermsIntro'] = "{$PRODUCT_NAME} s vrij verschenen onder een Open Source licentie, de GNU generale publieke licentie. Gelieve volgende documentatie na te kijken en goed te keuren om verder te gaan met de installatie.";
 $GLOBALS['strPolicyTitle'] = "Privacy beleid";
 $GLOBALS['strPolicyIntro'] = "Gelieve volgende documenten na te kijken en goed te keuren om verder te gaan met installatie";
 $GLOBALS['strDbSetupTitle'] = "Database instellingen";
 $GLOBALS['strDbSetupIntro'] = "Gelieve de details in te geven om een connectie aan te maken met jouw database. Indien u niet zeker bent over deze details, gelieve uw systeem administrator te contacteren. <p>De volgende stap zal uw database aanmaken . Druk op 'Ga verder' om verder te gaan.</p>";
-$GLOBALS['strDbUpgradeIntro'] = "Onderdaan vind u de gevonden database detials van uw installatie van ". MAX_PRODUCT_NAME .".Gelieve deze te te kijken om er zeker van te zijn dat ze juist zijn.<p>De volgende stap zal uw database bijwerken. Klik op 'Ga verder' om uw systeem bij te werken.</p>";
-$GLOBALS['strOaUpToDate'] = "Jouw ". MAX_PRODUCT_NAME ." database en bestandstructuur gebruiken beide de meest recente versie en moeten daardoor niet worden bijgewerkt op dit ogenblik. Gelieve op ga verder te drukken om verder te gaan naar het ". MAX_PRODUCT_NAME ." administratie paneel.";
+$GLOBALS['strDbUpgradeIntro'] = "Onderdaan vind u de gevonden database detials van uw installatie van {$PRODUCT_NAME}.Gelieve deze te te kijken om er zeker van te zijn dat ze juist zijn.<p>De volgende stap zal uw database bijwerken. Klik op 'Ga verder' om uw systeem bij te werken.</p>";
+$GLOBALS['strOaUpToDate'] = "Jouw {$PRODUCT_NAME} database en bestandstructuur gebruiken beide de meest recente versie en moeten daardoor niet worden bijgewerkt op dit ogenblik. Gelieve op ga verder te drukken om verder te gaan naar het {$PRODUCT_NAME} administratie paneel.";
 $GLOBALS['strOaUpToDateCantRemove'] = "Waarschuwing: het UPGRADE bestand is nog steeds te vinden in jouw var map. We kunnen dit bestand niet verwijderen omwille van ontbrekende rechten. Gelieve dit bestand zelf te verwijderen. ";
 $GLOBALS['strRemoveUpgradeFile'] = "Je moet het UPGRADE bestand verwijderen in de map var";
 $GLOBALS['strSystemCheckIntro'] = "De installatie wizard is uw webserver instellingen aan het controleren om er zeker van te zijn dat de installatie succesvol kan verlopen.	<p>Gelieve de aangeduide zaken na te kijken om het installatieproces af te ronden.</p>";
-$GLOBALS['strDbSuccessIntro'] = "De ". MAX_PRODUCT_NAME ." database is nu aangemaakt. Gelieve op de  'ga verder' knop te drukken om verder te gaan met het instellen van ". MAX_PRODUCT_NAME ." administrator en aanlever instellingen.";
+$GLOBALS['strDbSuccessIntro'] = "De {$PRODUCT_NAME} database is nu aangemaakt. Gelieve op de  'ga verder' knop te drukken om verder te gaan met het instellen van {$PRODUCT_NAME} administrator en aanlever instellingen.";
 $GLOBALS['strDbSuccessIntroUpgrade'] = "Uw systeem is met succes bijgewerkt. De volgende schermen zullen je helpen met het updaten van de configuratie van uw nieuwe advertentie server.";
 $GLOBALS['strErrorWritePermissions'] = "Bestandsrechten errors zijn gedetecteerd, en moeten worden opgelost om te kunnen verdergaan.<br />Om de errors onder Linux op te lossen, probeer eens volgende commando(s) in te geven:";
 $GLOBALS['strErrorWritePermissionsWin'] = "Bestandsrechten errors zijn gedetecteerd, en moeten worden opgelost om te kunnen verdergaan.";
-$GLOBALS['strCheckDocumentation'] = "Voor meer hulp, gelieve de <a href='http://". OX_PRODUCT_DOCSURL ."'>". MAX_PRODUCT_NAME ." documentatie na te kijken</a>.";
+$GLOBALS['strCheckDocumentation'] = "Voor meer hulp, gelieve de <a href='http://{$PRODUCT_DOCSURL}'>{$PRODUCT_NAME} documentatie na te kijken</a>.";
 $GLOBALS['strAdminUrlPrefix'] = "Admin interface URL";
 $GLOBALS['strDeliveryUrlPrefix'] = "Bezorger";
 $GLOBALS['strDeliveryUrlPrefixSSL'] = "Bezorger";
@@ -357,7 +367,7 @@ $GLOBALS['strTimezoneGuessedValue'] = "De tijdzone van de server is niet correct
 $GLOBALS['strTimezoneSeeDocs'] = "Gelieve de  %DOCS% na te kijken over de instellingen van deze variabele voor PHP in te stellen.";
 $GLOBALS['strTimezoneDocumentation'] = "documentatie";
 $GLOBALS['strLoginSettingsTitle'] = "Administrator login";
-$GLOBALS['strLoginSettingsIntro'] = "Om verder te kunnen gaan met het upgrade proces, gelieve uw ". MAX_PRODUCT_NAME ." administrator gebruiker login details in te geven. U moet inloggen als de administrator gebruiker om verder te kunnen gaan met het upgrade proces. ";
+$GLOBALS['strLoginSettingsIntro'] = "Om verder te kunnen gaan met het upgrade proces, gelieve uw {$PRODUCT_NAME} administrator gebruiker login details in te geven. U moet inloggen als de administrator gebruiker om verder te kunnen gaan met het upgrade proces. ";
 $GLOBALS['strAdminSettingsTitle'] = "Maak een administrator account";
 $GLOBALS['strAdminSettingsIntro'] = "Gelieve de velden te vervolledigen om jouw ad server administrator account aan te maken ";
 $GLOBALS['strDbType'] = "Database naam";
@@ -392,7 +402,7 @@ $GLOBALS['strGuiHeaderTextColor'] = "Kleur van headertekst";
 $GLOBALS['strColorError'] = "Gelieve kleuren in het RGB formaat in te geven, zoals '0066CC'";
 $GLOBALS['strReportsInterface'] = "Raporteer interface";
 $GLOBALS['strEmailSettings'] = "Hoofd instellingen";
-$GLOBALS['strAlreadyInstalled'] = "". MAX_PRODUCT_NAME ." is alreeds geïnstalleerd op dit systeem. Als je dit wilt configureren ga dan naar de  <a href='account-index.php'>instellingen interface</a>.";
+$GLOBALS['strAlreadyInstalled'] = "{$PRODUCT_NAME} is alreeds geïnstalleerd op dit systeem. Als je dit wilt configureren ga dan naar de  <a href='account-index.php'>instellingen interface</a>.";
 $GLOBALS['strInvocationDefaults'] = "aanroep standaards";
 $GLOBALS['strBannerDelivery'] = "Banner afleveringsinstellingen";
 $GLOBALS['strDashboardSettings'] = "Dashboard instellingen";

@@ -27,7 +27,6 @@ $GLOBALS['strUserlog'] = array (
 	phpAds_actionDeactiveCampaign			=> "קמפיין {id} שותק",
 	phpAds_actionActiveCampaign				=> "קמפיין{id} הופעל",
 		phpAds_actionAutoClean					=> "ניקוי אוטומטי של בסיס הנתונים"
-
 );
 
 ?>

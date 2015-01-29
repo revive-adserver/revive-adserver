@@ -116,8 +116,7 @@ $GLOBALS['strAdLayerStyleName']	= array(
 	'geocities'		=> "Geocities",
 	'simple'		=> "Simple",
 	'cursor'		=> "Cursor",
-	'floater'		=> "Floater"
-);
+	'floater'		=> "Floater");
 
 // Support for 3rd party server clicktracking
 $GLOBALS['str3rdPartyTrack']		 = "支持第三方点击率统计工具";

@@ -232,8 +232,20 @@ $GLOBALS['strOptimise'] = "Optimizuoti";
 $GLOBALS['strAnonymous'] = "Slėpti šios kampanijos internetinius puslapius ir reklamos skleidėjus.";
 $GLOBALS['strTargetPerDay'] = "per dieną.";
 $GLOBALS['strPriorityAutoTargeting'] = "Automatiškai - Lygiai paskirstyti turimą inventorių atitinkamam dienų skaičiui.";
-$GLOBALS['strCampaignWarningRemnantNoWeight'] = "Šiai kompanijai nustatyta žema pirmenybė \nbet nustatytas svoris lygus arba jis nebuvo \nnustatytas iš viso. Tai priverčia kampanija būti \n išformuotair jos baneriai nebus pristatyti \ntol kol jos svoris bus nustatytas kaip tinkamas dydis. \n\nAr esate tikri, kad norite tęsti?";
-$GLOBALS['strCampaignWarningNoTarget'] = "Šiai kampanijai parinktas aukšto lygio prioritetas, \ntačiau tikslus spaudinių skaičius nėra nurodytas. \nTai priverčia kampaniją būti deaktyvuotai ir \njos baneriai nebus pristatyti tol, kol tinkamas \nspaudinių skaičius nebus parinktas. \n\nAr esate įsitikines, kad norite tęsti?";
+$GLOBALS['strCampaignWarningRemnantNoWeight'] = "Šiai kompanijai nustatyta žema pirmenybė
+bet nustatytas svoris lygus arba jis nebuvo
+nustatytas iš viso. Tai priverčia kampanija būti
+ išformuotair jos baneriai nebus pristatyti
+tol kol jos svoris bus nustatytas kaip tinkamas dydis.
+
+Ar esate tikri, kad norite tęsti?";
+$GLOBALS['strCampaignWarningNoTarget'] = "Šiai kampanijai parinktas aukšto lygio prioritetas,
+tačiau tikslus spaudinių skaičius nėra nurodytas.
+Tai priverčia kampaniją būti deaktyvuotai ir
+jos baneriai nebus pristatyti tol, kol tinkamas
+spaudinių skaičius nebus parinktas.
+
+Ar esate įsitikines, kad norite tęsti?";
 $GLOBALS['strAddTracker'] = "Pridėti naują agentą";
 $GLOBALS['strAddTracker_Key'] = "Pridėti <u>n</u>aują agentą";
 $GLOBALS['strConfirmDeleteAllTrackers'] = "Ar tikrai norite ištrinti visus agentus, kurie priklauso šiam reklamuotojui?";
@@ -373,7 +385,10 @@ $GLOBALS['strTotalZones'] = "Viso zonų";
 $GLOBALS['strCostInfo'] = "Žiniasklaidos kaina";
 $GLOBALS['strTechnologyCost'] = "Technologijų kaina";
 $GLOBALS['strInactiveZonesHidden'] = "neaktyvios zonos palsėptos";
-$GLOBALS['strWarnChangeZoneType'] = "Keičiant zonos tipą į tekstinį ar elektroninį paštą atsies visus banerius/kampanijas dėl šių zonos tipų pažeidimų                                                 <ul>\n                                                    <li>Tekstinės zonos gali būti priskirtos tik teksto ads</li>\n                                                    <li>Elektroninio pašto zonos gali turėti tik vieną aktyvų banerį vienu metu</li>\n                                                </ul>";
+$GLOBALS['strWarnChangeZoneType'] = "Keičiant zonos tipą į tekstinį ar elektroninį paštą atsies visus banerius/kampanijas dėl šių zonos tipų pažeidimų                                                 <ul>
+                                                    <li>Tekstinės zonos gali būti priskirtos tik teksto ads</li>
+                                                    <li>Elektroninio pašto zonos gali turėti tik vieną aktyvų banerį vienu metu</li>
+                                                </ul>";
 $GLOBALS['strWarnChangeZoneSize'] = "Zonos pakeitimas  gali lemti tai, kad baneriai, kurie nėra naujojo dydžio bus nebesusieti su zona, ir gali pridėti kampanijų banerius, kurie atitinka šį dydį";
 $GLOBALS['strAdvanced'] = "Papildomi nustatymai";
 $GLOBALS['strChainSettings'] = "Grandinės nustatymai";
@@ -481,14 +496,17 @@ $GLOBALS['strDatesConflict'] = "datos prieštarauja su:";
 $GLOBALS['strEmailNoDates'] = "Elektroninio pašto zonos privalo turėti pradžią ir pabaigą";
 $GLOBALS['strSirMadam'] = "Pone/Madam";
 $GLOBALS['strMailSubject'] = "Reklamos skleidėjo ataskaita";
-$GLOBALS['strMailHeader'] = "Brangus {contact},\n";
+$GLOBALS['strMailHeader'] = "Brangus {contact},";
 $GLOBALS['strMailBannerStats'] = "Žemiau rasite banerio statistiką, skirtą {klientvardas}: ";
 $GLOBALS['strMailBannerActivatedSubject'] = "Kampanija aktyvuota";
 $GLOBALS['strMailBannerDeactivatedSubject'] = "Kampanija deaktyvuota";
-$GLOBALS['strMailBannerActivated'] = "Jūsų kampanija, rodoma žemiau, buvo aktyvuota, nes\natėjo kampanijos aktyvavimo data.";
+$GLOBALS['strMailBannerActivated'] = "Jūsų kampanija, rodoma žemiau, buvo aktyvuota, nes
+atėjo kampanijos aktyvavimo data.";
 $GLOBALS['strMailBannerDeactivated'] = "Jūsų kampanija, rodoma žemiau, buvo deaktyvuota, nes";
-$GLOBALS['strMailFooter'] = "Pagarbiai,\n   {administartoriauspilnasvardas}";
-$GLOBALS['strMailNothingLeft'] = "Jei ir toliau nori reklamuotis savo puslapyje, prašome susisiekti su mumis. \nMes su nekantrumu laukiame žinių iš Jūsų.";
+$GLOBALS['strMailFooter'] = "Pagarbiai,
+   {administartoriauspilnasvardas}";
+$GLOBALS['strMailNothingLeft'] = "Jei ir toliau nori reklamuotis savo puslapyje, prašome susisiekti su mumis.
+Mes su nekantrumu laukiame žinių iš Jūsų.";
 $GLOBALS['strClientDeactivated'] = "Ši kampanija šiuo metu neaktyvi, nes";
 $GLOBALS['strBeforeActivate'] = "aktyvacijos data dar neatėjo";
 $GLOBALS['strAfterExpire'] = "atėjo galiojimo pasibaigimo data";
@@ -496,7 +514,8 @@ $GLOBALS['strNoMoreImpressions'] = "nėra likusių spaudinių";
 $GLOBALS['strNoMoreClicks'] = "nėra likusių paspaudimų";
 $GLOBALS['strNoMoreConversions'] = "nėra likusių išpardavimų";
 $GLOBALS['strWeightIsNull'] = "nustatytas nulinis svoris";
-$GLOBALS['strWarnClientTxt'] = "Spauda, paspaudimai ir konvertavimas palikti jūsų baneriams mažėja ir baigia pasiekti {limit} limito ribą. \nJūsų banerių veiksnumas bus apribotas jei neliks spaudos, paspaudimų ar konvertavimo.";
+$GLOBALS['strWarnClientTxt'] = "Spauda, paspaudimai ir konvertavimas palikti jūsų baneriams mažėja ir baigia pasiekti {limit} limito ribą.
+Jūsų banerių veiksnumas bus apribotas jei neliks spaudos, paspaudimų ar konvertavimo.";
 $GLOBALS['strImpressionsClicksConversionsLow'] = "Spauda, paspaudimai ir konvertavimas yra žemi";
 $GLOBALS['strNoViewLoggedInInterval'] = "Jokių spaudinių nerasta per šios ataskaitos trukmę (laiką)";
 $GLOBALS['strNoClickLoggedInInterval'] = "Jokių paspaudimų nerasta per šios ataskaitos trukmę (laiką)";
@@ -509,7 +528,8 @@ $GLOBALS['strYourCampaign'] = "Jūsų kampanija";
 $GLOBALS['strTheCampiaignBelongingTo'] = "Kampanija priklauso";
 $GLOBALS['strImpendingCampaignExpiryDateBody'] = "{klientovardas} rodomas žemiau baigiasi {data}.";
 $GLOBALS['strImpendingCampaignExpiryImpsBody'] = "{klientovardas} rodomas žemiau turi spaudos limitą, kurios dydis yra {limitodydis}.";
-$GLOBALS['strImpendingCampaignExpiryBody'] = "Kaip pasekmė, kampanijai bus automatiškai apriboti tam tikri veiksmai, ir\nkampanijos baneriai taip pat bus apriboti: ";
+$GLOBALS['strImpendingCampaignExpiryBody'] = "Kaip pasekmė, kampanijai bus automatiškai apriboti tam tikri veiksmai, ir
+kampanijos baneriai taip pat bus apriboti: ";
 $GLOBALS['strSourceEdit'] = "Koreguoti šaltinius";
 $GLOBALS['strGeneralSettings'] = "Bendri nustatymai";
 $GLOBALS['strMainSettings'] = "Pagrindiniai nustatymai";

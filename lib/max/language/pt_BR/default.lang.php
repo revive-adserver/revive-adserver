@@ -116,7 +116,7 @@ $GLOBALS['strAuthentification'] 	= "Autenticação";
 $GLOBALS['strWelcomeTo']			= "Bem vindo a";
 $GLOBALS['strEnterUsername']		= "Entre com seu nome de usuário e senha para se logar";
 $GLOBALS['strEnterBoth']			= "Por favor digite ambos seu nome de usuário e senha";
-$GLOBALS['strEnableCookies']		= "Vocï¿œ tem de ter os <i>cookies</i> activos para usar ".MAX_PRODUCT_NAME;
+$GLOBALS['strEnableCookies']		= "Vocï¿œ tem de ter os <i>cookies</i> activos para usar {$PRODUCT_NAME}";
 $GLOBALS['strLogin'] 				= "Login ";
 $GLOBALS['strLogout'] 				= "Sair";
 $GLOBALS['strUsername'] 			= "Nome de usuário";
@@ -230,7 +230,7 @@ $GLOBALS['strActivationDate']			= "Data de início";
 $GLOBALS['strImpressionsPurchased'] 			= $GLOBALS['strImpressions']." restantes";
 $GLOBALS['strClicksPurchased'] 			= $GLOBALS['strClicks']." restantes";
 $GLOBALS['strCampaignWeight']			= "Definir o peso da campanha";
-$GLOBALS['strHighPriority']				= "Mostrar anï¿œncios desta campanha com alta prioridade.<br />Se usar esta opï¿œï¿œo ".MAX_PRODUCT_NAME." tentarï¿œ distribuir igualmente o nï¿œmero de ".$GLOBALS['strImpressions']." durante o decurso do dia.";
+$GLOBALS['strHighPriority']				= "Mostrar anï¿œncios desta campanha com alta prioridade.<br />Se usar esta opï¿œï¿œo {$PRODUCT_NAME} tentarï¿œ distribuir igualmente o nï¿œmero de ".$GLOBALS['strImpressions']." durante o decurso do dia.";
 $GLOBALS['strLowPriority']				= "Mostrar anï¿œncios desta campanha com baixa prioridade.<br />Esta campanha serï¿œ usada para ocupar as sobras de ".$GLOBALS['strImpressions']." deixadas pelas campanha prioritï¿œrias.";
 $GLOBALS['strTargetLimitAdviews']		= "Limitar o nï¿œmero de ".$GLOBALS['strImpressions']." a ";
 $GLOBALS['strTargetPerDay']				= "por dia.";
@@ -286,7 +286,7 @@ $GLOBALS['strBannerWeight']		= "Peso do banner";
 // Banner (swf)
 $GLOBALS['strCheckSWF']			= "Verificar por link codificados dentro do arquivo Flash";
 $GLOBALS['strConvertSWFLinks']	= "Converter links do Flash";
-$GLOBALS['strConvertSWF']		= "<br />O arquivo flash enviado possui links definidos dentro do código fonte. ".MAX_PRODUCT_NAME." não poderá rastrear o número de cliques para este banner caso estes links não sejam convertidos. Abaixo você verá uma lista de todos links encontrados no arquivo. Se desejar converter os links, clique em <b>Converter</b>, caso contrário clique em <b>Cancelar</b>.<br /><br />Atenção: caso clique em <b>Converter</b> o arquivo enviado será fisicamente alterado. <br />Por favor mantenha um backup do arquivo original. Independentemente da versão em que este arquivo foi criado, o arquivo final necessitará do Flash Player 4 (ou maior) para ser corretamente apresentado.<br /><br />";
+$GLOBALS['strConvertSWF']		= "<br />O arquivo flash enviado possui links definidos dentro do código fonte. {$PRODUCT_NAME} não poderá rastrear o número de cliques para este banner caso estes links não sejam convertidos. Abaixo você verá uma lista de todos links encontrados no arquivo. Se desejar converter os links, clique em <b>Converter</b>, caso contrário clique em <b>Cancelar</b>.<br /><br />Atenção: caso clique em <b>Converter</b> o arquivo enviado será fisicamente alterado. <br />Por favor mantenha um backup do arquivo original. Independentemente da versão em que este arquivo foi criado, o arquivo final necessitará do Flash Player 4 (ou maior) para ser corretamente apresentado.<br /><br />";
 $GLOBALS['strCompressSWF']		= "Comprimir arquivo SWF para download mais rápido(Flash Player 6 necessário)";
 
 // Banner (network)
@@ -466,17 +466,20 @@ $GLOBALS['strErrorStoreFTP']		= "Um erro ocorreu ao tentar importar o ficheiro p
 $GLOBALS['strMailSubject'] 				= "Relatório de Anunciante";
 $GLOBALS['strAdReportSent']				= "Relatï¿œrio de Anunciante enviado";
 $GLOBALS['strMailSubjectDeleted'] 		= "Anï¿œncios desactivados";
-$GLOBALS['strMailHeader'] 				= "Caro(a) {contact},\n";
+$GLOBALS['strMailHeader'] 				= "Caro(a) {contact},";
 $GLOBALS['strMailBannerStats'] 			= "Abaixo poderá ver as estatísticas de banners para {clientname}:";
-$GLOBALS['strMailFooter'] 				= "Atenciosamente,\n   {adminfullname}";
+$GLOBALS['strMailFooter'] 				= "Atenciosamente,
+   {adminfullname}";
 $GLOBALS['strMailClientDeactivated']	= "Os seguintes anï¿œncios foram desactivados porque";
-$GLOBALS['strMailNothingLeft'] 			= "Se deseja continuar anunciando em nosso site, sinta-se a vontade em nos contactar.\nEstaremos felizes em lhe receber.";
+$GLOBALS['strMailNothingLeft'] 			= "Se deseja continuar anunciando em nosso site, sinta-se a vontade em nos contactar.
+Estaremos felizes em lhe receber.";
 $GLOBALS['strClientDeactivated']		= "Esta campanha não esta ativa porque";
 $GLOBALS['strBeforeActivate']			= "a data de ativação ainda não foi alcançada";
 $GLOBALS['strAfterExpire']				= "a data de vencimento foi alcançada";
 $GLOBALS['strNoMoreClicks']				= "não há mais Cliques restantes";
 $GLOBALS['strNoMoreViews']				= "nï¿œo tem mais Visualizaï¿œï¿œes adquiridas";
-$GLOBALS['strWarnClientTxt']			= "As Impressões, Cliques, ou conversões restantes para este banner estão chegando ao fim {limit}.\nSeu banner será desativado quando não houver nenhuma restante. ";
+$GLOBALS['strWarnClientTxt']			= "As Impressões, Cliques, ou conversões restantes para este banner estão chegando ao fim {limit}.
+Seu banner será desativado quando não houver nenhuma restante. ";
 $GLOBALS['strImpressionsClicksLow']			= "Visualizacoes/Cliques estï¿œo baixos";
 $GLOBALS['strNoViewLoggedInInterval']   = "Nenhum Impressão foi registrada durante o período deste relatório";
 $GLOBALS['strNoClickLoggedInInterval']  = "Nenhum Clique foi registrada durante o período deste relatório";
@@ -585,8 +588,19 @@ $GLOBALS['strImpressionsBooked'] = "Impressões contratadas";
 $GLOBALS['strClicksBooked'] = "Cliques contratados";
 $GLOBALS['strConversionsBooked'] = "Conversões contratadas";
 $GLOBALS['strOptimise'] = "Otimizar";
-$GLOBALS['strCampaignWarningNoWeight'] = "A prioridade desta campanha foi configurada para baixa, \nmas seu peso configurado para zero ou não informado.\nIsto causará a campanha a ser desativada e seus banners\nnão serão entregues até o peso  ser alterado para um número\nválido.\n\nDeseja continuar?";
-$GLOBALS['strCampaignWarningNoTarget'] = "A prioridade desta campanha foi configurada para alta,\nmas o número alvejado de impressões não foi especificado\nIsto causará a campanha a ser desativada e seus banners não\nserão entregues até que um número válido seja cadastrado.\n\nDeseja continuar?";
+$GLOBALS['strCampaignWarningNoWeight'] = "A prioridade desta campanha foi configurada para baixa,
+mas seu peso configurado para zero ou não informado.
+Isto causará a campanha a ser desativada e seus banners
+não serão entregues até o peso  ser alterado para um número
+válido.
+
+Deseja continuar?";
+$GLOBALS['strCampaignWarningNoTarget'] = "A prioridade desta campanha foi configurada para alta,
+mas o número alvejado de impressões não foi especificado
+Isto causará a campanha a ser desativada e seus banners não
+serão entregues até que um número válido seja cadastrado.
+
+Deseja continuar?";
 $GLOBALS['strTracker'] = "Rastreador";
 $GLOBALS['strTrackerOverview'] = "Visão geral do rastreador";
 $GLOBALS['strAddTracker'] = "Adicionar no rastreador";
@@ -664,7 +678,11 @@ $GLOBALS['strTotalZones'] = "Total de Zonas";
 $GLOBALS['strCostInfo'] = "Custo da mídia";
 $GLOBALS['strTechnologyCost'] = "Custo da tecnologia";
 $GLOBALS['strInactiveZonesHidden'] = "zona(s) inativa(s) oculta(s)";
-$GLOBALS['strWarnChangeZoneType'] = "Alterar o tipo de zona para texto ou e-mail irá remover vinculo com todos banners/campanhas devido a restrições destes tipos de zonas\n                                                <ul>\n                                                    <li>Zonas de texto podem te apenas anúncios de texto</li>\n                                                    <li>Zonas de E-mail podem ter apenas um banner ativo por vez</li>\n                                                </ul>";
+$GLOBALS['strWarnChangeZoneType'] = "Alterar o tipo de zona para texto ou e-mail irá remover vinculo com todos banners/campanhas devido a restrições destes tipos de zonas
+                                                <ul>
+                                                    <li>Zonas de texto podem te apenas anúncios de texto</li>
+                                                    <li>Zonas de E-mail podem ter apenas um banner ativo por vez</li>
+                                                </ul>";
 $GLOBALS['strWarnChangeZoneSize'] = "Alterar o tamanho da zona irá remover vínculos de banners incompatíveis com o novo tamanho, e irá adicionar qualquer banner de campanhas vinculadas que seja compatível";
 $GLOBALS['strZoneForecasting'] = "Configurações de Previsão da Zona";
 $GLOBALS['strZoneAppendNoBanner'] = "Anexar mesmo que nenhum banner seja apresentado";
@@ -721,12 +739,17 @@ $GLOBALS['strBackToTheList'] = "Voltar para lista de relatórios";
 $GLOBALS['strLogErrorConversions'] = "[phpAds] Um erro ocorreu enquanto pegava conversões da base de dados.";
 $GLOBALS['strErrorDBPlain'] = "Um erro ocorreu ao acessar a base de dados";
 $GLOBALS['strErrorDBSerious'] = "Um grave problema foi detectado com a base de dados";
-$GLOBALS['strErrorDBNoDataPlain'] = "Devido a um problema na base de dados, ". MAX_PRODUCT_NAME ."  não pode resgatar ou armazenar os dados.";
-$GLOBALS['strErrorDBNoDataSerious'] = "Devido a um grave problema na base de dados, ". MAX_PRODUCT_NAME ." não pode resgatar dados";
+$GLOBALS['strErrorDBNoDataPlain'] = "Devido a um problema na base de dados, {$PRODUCT_NAME}  não pode resgatar ou armazenar os dados.";
+$GLOBALS['strErrorDBNoDataSerious'] = "Devido a um grave problema na base de dados, {$PRODUCT_NAME} não pode resgatar dados";
 $GLOBALS['strErrorDBCorrupt'] = "A tabela da base de dados pode estar corrompida e necessita de reparos. Para mais informações sobre tabelas corrompidas leia o capitulo <i>Troubleshooting</i> do <i>Guia do Administrador</i>.";
 $GLOBALS['strErrorDBContact'] = "Por favor notifique o administrador deste sistema sobre este problema.";
-$GLOBALS['strErrorDBSubmitBug'] = "Se este erro pode ser reproduzido ele pode ser causado por um bug no ".MAX_PRODUCT_NAME.". Por favor envie os seguintes dados aos desenvolvedores do ".MAX_PRODUCT_NAME.". Tente também descrever as ações que levaram a este erro de forma clara.";
-$GLOBALS['strMaintenanceNotActive'] = "O script de manutenção não foi executado nas últimas 24 horas. \nPara que ".MAX_PRODUCT_NAME." funcione corretamente ele precisa ser executado \na cada hora. \n\nPor favor leia o Guia do Administrador para mais informações sobre \nconfigurar o script de manutenção.";
+$GLOBALS['strErrorDBSubmitBug'] = "Se este erro pode ser reproduzido ele pode ser causado por um bug no {$PRODUCT_NAME}. Por favor envie os seguintes dados aos desenvolvedores do {$PRODUCT_NAME}. Tente também descrever as ações que levaram a este erro de forma clara.";
+$GLOBALS['strMaintenanceNotActive'] = "O script de manutenção não foi executado nas últimas 24 horas.
+Para que {$PRODUCT_NAME} funcione corretamente ele precisa ser executado
+a cada hora.
+
+Por favor leia o Guia do Administrador para mais informações sobre
+configurar o script de manutenção.";
 $GLOBALS['strErrorLinkingBanner'] = "Não foi possível vincular este banner a esta zona pois:";
 $GLOBALS['strUnableToLinkBanner'] = "Impossível vincular este banner:";
 $GLOBALS['strErrorEditingCampaign'] = "Erro ao atualizar a campanha:";
@@ -736,7 +759,8 @@ $GLOBALS['strEmailNoDates'] = "Campanhas de zonas de E-mail devem ter uma data d
 $GLOBALS['strSirMadam'] = "Sr./Sra.";
 $GLOBALS['strMailBannerActivatedSubject'] = "Campanha ativada";
 $GLOBALS['strMailBannerDeactivatedSubject'] = "Campanha desativada";
-$GLOBALS['strMailBannerActivated'] = "A sua campanha demonstrada abaixo foi ativada pois \na data de ativação foi alcançada.";
+$GLOBALS['strMailBannerActivated'] = "A sua campanha demonstrada abaixo foi ativada pois
+a data de ativação foi alcançada.";
 $GLOBALS['strMailBannerDeactivated'] = "A sua campanha demonstrada abaixo foi desativada porque";
 $GLOBALS['strNoMoreImpressions'] = "não há mais Impressões restantes";
 $GLOBALS['strNoMoreConversions'] = "não há mais Vendas restantes";
@@ -749,7 +773,8 @@ $GLOBALS['strYourCampaign'] = "Sua campanha";
 $GLOBALS['strTheCampiaignBelongingTo'] = "A campanha pertencente a";
 $GLOBALS['strImpendingCampaignExpiryDateBody'] = "{clientname} apresentada abaixo vencerá dia {date}.";
 $GLOBALS['strImpendingCampaignExpiryImpsBody'] = "{clientname} apresenta abaixo tem menos de {limit} impressões restantes.";
-$GLOBALS['strImpendingCampaignExpiryBody'] = "Por conseqüência, a campanha será em breve automaticamente desabilitada e \nos seguintes banners também:";
+$GLOBALS['strImpendingCampaignExpiryBody'] = "Por conseqüência, a campanha será em breve automaticamente desabilitada e
+os seguintes banners também:";
 $GLOBALS['strSourceEdit'] = "Editar fontes";
 $GLOBALS['strCheckForUpdates'] = "Procurar atualizações";
 $GLOBALS['strViewPastUpdates'] = "Gerenciar Atualizações anteriores e backups";
@@ -894,8 +919,8 @@ $GLOBALS['strLanguageTimezone'] = "Idiomas e Fusos Horários";
 $GLOBALS['strLanguageTimezonePreferences'] = "Preferências de Idiomas e Fusos Horários";
 $GLOBALS['strUserInterfacePreferences'] = "Preferências da Interface de usuários";
 $GLOBALS['strInvocationPreferences'] = "Preferências de inserção";
-$GLOBALS['strAlreadyInstalled'] = "". MAX_PRODUCT_NAME ." já esta instalado neste sistema. Se você deseja configurá-lo acesse a <a href='account-index.php'>interface de configuração</a>.";
-$GLOBALS['strAdminEmailHeaders'] = "Adicionar os seguintes cabeçalhos nos e-mails enviados pelo ". MAX_PRODUCT_NAME ."";
+$GLOBALS['strAlreadyInstalled'] = "{$PRODUCT_NAME} já esta instalado neste sistema. Se você deseja configurá-lo acesse a <a href='account-index.php'>interface de configuração</a>.";
+$GLOBALS['strAdminEmailHeaders'] = "Adicionar os seguintes cabeçalhos nos e-mails enviados pelo {$PRODUCT_NAME}";
 $GLOBALS['strEmailAddressFrom'] = "Endereço de remetente de relatórios";
 $GLOBALS['strUserProperties'] = "Dados do usuário";
 $GLOBALS['strBack'] = "Voltar";
@@ -924,12 +949,14 @@ $GLOBALS['strLinkUserHelp'] = "Para adicionar um <b>usuário existente</b>, digi
 $GLOBALS['strAuditNoData'] = "Nenhuma atividade dos usuários registrada do período escolhido.";
 $GLOBALS['strCampaignGoTo'] = "Ir para página de campanhas";
 $GLOBALS['strCampaignSetUp'] = "Configurar uma campanha hoje";
-$GLOBALS['strCampaignNoRecords'] = "<li>Campanhas permitem agrupar qualquer número de banner de diversos tamanhos que possuam necessidades de publicação em comum</li><li>Economize tempo agrupando banners dentro de campanhas e não defina mais configurações de entrega uma a uma</li><li>Verifique a <a class='site-link' target='help' href='". OX_PRODUCT_DOCSURL ."/inventory/advertisersAndCampaigns/campaigns'>Documentação de Campanhas</a>!</li>";
+$GLOBALS['strCampaignNoRecords'] = "<li>Campanhas permitem agrupar qualquer número de banner de diversos tamanhos que possuam necessidades de publicação em comum</li><li>Economize tempo agrupando banners dentro de campanhas e não defina mais configurações de entrega uma a uma</li><li>Verifique a <a class='site-link' target='help' href='{$PRODUCT_DOCSURL}/inventory/advertisersAndCampaigns/campaigns'>Documentação de Campanhas</a>!</li>";
 $GLOBALS['strCampaignNoDataTimeSpan'] = "Nenhuma campanha começou ou terminou no prazo escolhido";
 $GLOBALS['strCampaignAuditNotActivated'] = "<li>Para visualizar campanhas que iniciaram ou terminam durante o período que escolheu, o Rastro de Auditoria deve estar ativado</li>	        <li>Você esta vendo esta mensagem pois o Rastro de Auditoria esta desativado</li>";
 $GLOBALS['strAuditTrailSetup'] = "Configurar o Rastreamento de Auditoria hoje";
 $GLOBALS['strAuditTrailGoTo'] = "Ir para log de Auditoria";
-$GLOBALS['strAuditTrailNotEnabled'] = "<li>O Log de Auditoria permite verificar quem fez o que e quando. Ou, em outras palavras, ele aompanha todas mudanças de sistema do ". MAX_PRODUCT_NAME ."</li> \n<li>Você esta vendo esta mensagem porque ativou o Log de Auditoria</li> \n<li>Quer saber mais detalhes? Leia a <a href='". OX_PRODUCT_DOCSURL ."/settings/auditTrail' class='site-link' target='help' >Documentação de Log de Auditoria</a></li>";
+$GLOBALS['strAuditTrailNotEnabled'] = "<li>O Log de Auditoria permite verificar quem fez o que e quando. Ou, em outras palavras, ele aompanha todas mudanças de sistema do {$PRODUCT_NAME}</li>
+<li>Você esta vendo esta mensagem porque ativou o Log de Auditoria</li>
+<li>Quer saber mais detalhes? Leia a <a href='{$PRODUCT_DOCSURL}/settings/auditTrail' class='site-link' target='help' >Documentação de Log de Auditoria</a></li>";
 $GLOBALS['strAdminAccess'] = "Acesso de administrador";
 $GLOBALS['strOverallAdvertisers'] = "anunciante(s)";
 $GLOBALS['strAdvertiserSignup'] = "Inscrição de anunciante";
@@ -954,7 +981,12 @@ $GLOBALS['strFor'] = "para";
 $GLOBALS['strDayFullNames'][6] = "Sábado";
 $GLOBALS['strAddClient_Key'] = "Adicionar <u>n</u>ovo anunciante";
 $GLOBALS['strAnonymous'] = "Esconder o anunciante e o site desta campanha";
-$GLOBALS['strCampaignWarningRemnantNoWeight'] = "O tipo desta campanha foi setado para exclusiva, mas seu\npeso foi definido como zero ou não definido. Isto desativará\na campanha e seus banners não serão apresentados até que\no pese seja alterado para um número válido.\n\nDeseja continuar?";
+$GLOBALS['strCampaignWarningRemnantNoWeight'] = "O tipo desta campanha foi setado para exclusiva, mas seu
+peso foi definido como zero ou não definido. Isto desativará
+a campanha e seus banners não serão apresentados até que
+o pese seja alterado para um número válido.
+
+Deseja continuar?";
 $GLOBALS['strConversionType'] = "Tipo de conversão";
 $GLOBALS['strAddNewAffiliate_Key'] = "Adicionar <u>n</u>ovo site";
 $GLOBALS['strTotalAffiliates'] = "Total de sites";
@@ -1221,7 +1253,7 @@ $GLOBALS['strUpdateSettings'] = "Configurações de Atualização";
 $GLOBALS['strSite'] = "Tamanho";
 $GLOBALS['strHiddenWebsite'] = "Site";
 $GLOBALS['strYouHaveNoCampaigns'] = "Anunciantes e campanhas";
-$GLOBALS['strEnableCookies'] = "Você precisa habilitar \"cookies\" em seu navegador para utilizar ". MAX_PRODUCT_NAME ."";
+$GLOBALS['strEnableCookies'] = "Você precisa habilitar \"cookies\" em seu navegador para utilizar {$PRODUCT_NAME}";
 $GLOBALS['strHideInactiveOverview'] = "Ocultar itens inativos de todas páginas de dados gerais";
 $GLOBALS['strHiddenPublisher'] = "Site";
 $GLOBALS['strAppendNewTag'] = "Anexar nova tag";
@@ -1243,7 +1275,7 @@ $GLOBALS['strSomeWebsites'] = "Alguns sites";
 $GLOBALS['strVariableHiddenTo'] = "Variável oculta à";
 $GLOBALS['strHide'] = "Ocultar:";
 $GLOBALS['strShow'] = "Mostrar:";
-$GLOBALS['strInstallWelcome'] = "Bemvindo ao ". MAX_PRODUCT_NAME ."";
+$GLOBALS['strInstallWelcome'] = "Bemvindo ao {$PRODUCT_NAME}";
 $GLOBALS['strAdminNovice'] = "Ações de remoção do Administrador precisam de confirmação por segurança";
 $GLOBALS['strTimezoneInformation'] = "Informação de Fuso horário (Alterar o fuso irá afetar as estatísticas)";
 $GLOBALS['strBannerSettings'] = "Configurações de banner";

@@ -39,24 +39,24 @@ $GLOBALS['strBtnGoBack']                    = "« بازگشت";
 $GLOBALS['strBtnAgree']                     = "من موا�?قم »";
 $GLOBALS['strBtnDontAgree']                 = "« من موا�?ق نیستم";
 $GLOBALS['strBtnRetry']                     = "مجدد";
-$GLOBALS['strUpdateDatabaseError']	= "به دلایل ناشناخته ساختار بانک اطلاعاتی بروزرسانی نشد. برای پردازش دوباره توصیه میشود که <b>تلاش دوباره</b> برای ر�?ع این مشکل انجام دهید.اگر شما می دانید که این خطا از وظای�? و توابع".MAX_PRODUCT_NAME." می باشد شما می توانید بر روی <b>نادیده گر�?تن خطا</b>برای ادامه کلیک نمایید. نادیده گر�?تن این خطاها ممکن است بعدا باعث مشکلات جدی در بانک اطلاعات و نحوه کارکرد سیستم برنامه شود!";
-$GLOBALS['strAlreadyInstalled']			= MAX_PRODUCT_NAME." قبلا بر روی این سیستم نصب شده است. اگر می خواهید برنامه را پیکر بندی نمایید بر روی گزینه <a href='settings-index.php'>تنظیمات</a> کلیک نمایید";
-$GLOBALS['strCouldNotConnectToDB']		= "قادر به اتصال به بانک اطلاعاتی نیستیم, تنظیماتی را که تعییر کرده اید رادوباره چک نمایید. همچنین مطمئن شوید که بانک اطلاعاتی با این نامی که مشخص کرده اید بر روی سرور شما موحود باشد. ".MAX_PRODUCT_NAME." یک بانک اطلاعاتی را برای شما ایجاد نکرده است, شما باید این بانک اطلاعاتی را قبل از شروع نصب ایجاد نماییید.";
+$GLOBALS['strUpdateDatabaseError']	= "به دلایل ناشناخته ساختار بانک اطلاعاتی بروزرسانی نشد. برای پردازش دوباره توصیه میشود که <b>تلاش دوباره</b> برای ر�?ع این مشکل انجام دهید.اگر شما می دانید که این خطا از وظای�? و توابع{$PRODUCT_NAME} می باشد شما می توانید بر روی <b>نادیده گر�?تن خطا</b>برای ادامه کلیک نمایید. نادیده گر�?تن این خطاها ممکن است بعدا باعث مشکلات جدی در بانک اطلاعات و نحوه کارکرد سیستم برنامه شود!";
+$GLOBALS['strAlreadyInstalled']			= "{$PRODUCT_NAME} قبلا بر روی این سیستم نصب شده است. اگر می خواهید برنامه را پیکر بندی نمایید بر روی گزینه <a href='settings-index.php'>تنظیمات</a> کلیک نمایید";
+$GLOBALS['strCouldNotConnectToDB']		= "قادر به اتصال به بانک اطلاعاتی نیستیم, تنظیماتی را که تعییر کرده اید رادوباره چک نمایید. همچنین مطمئن شوید که بانک اطلاعاتی با این نامی که مشخص کرده اید بر روی سرور شما موحود باشد. {$PRODUCT_NAME} یک بانک اطلاعاتی را برای شما ایجاد نکرده است, شما باید این بانک اطلاعاتی را قبل از شروع نصب ایجاد نماییید.";
 $GLOBALS['strCreateTableTestFailed']		= "کاربری که شما مشخص کرده اید دسترسی کا�?ی برای ایجاد و بروزرسانی بانک اطلاعاتی را ندارد,با مدیریت بانک اطلاعاتی خود تماس بگیرید.";
 $GLOBALS['strUpdateTableTestFailed']		= "کاربری که شما مشخص کرده اید دسترسی کا�?ی برای ایجاد و بروزرسانی بانک اطلاعاتی را ندارد,با مدیریت بانک اطلاعاتی خود تماس بگیرید.";
 $GLOBALS['strTablePrefixInvalid']		= "پیشوند جدول ها دارای کاراکتر غیر مجاز می باشد";
-$GLOBALS['strTableInUse']			= "بانک اطلاعاتی تعیین شده قبلا برای ".MAX_PRODUCT_NAME." ایجاد شده و مورد است�?اده است, لط�?ا یک پیشوند مت�?اوت را برای جدول ها انتخاب نمایید, یا راهنما را برای انجام پردازش های بروزرسانی مطالعه نمایید.";
+$GLOBALS['strTableInUse']			= "بانک اطلاعاتی تعیین شده قبلا برای {$PRODUCT_NAME} ایجاد شده و مورد است�?اده است, لط�?ا یک پیشوند مت�?اوت را برای جدول ها انتخاب نمایید, یا راهنما را برای انجام پردازش های بروزرسانی مطالعه نمایید.";
 $GLOBALS['strNoVersionInfo']                = "Unable to select the database version";
 $GLOBALS['strInvalidVersionInfo']           = "Unable to determine the database version";
-$GLOBALS['strInvalidMySqlVersion']          = "" . MAX_PRODUCT_NAME." requires MySQL 4.0 or higher to function correctly. Please select a different database server.";
-$GLOBALS['strTableWrongType']		= "نوع جدول انتخاب شده توسط برنامه نصب کننده ".$phpAds_dbmsname." پشتیبانی نمی شود";
+$GLOBALS['strInvalidMySqlVersion']          = "{$PRODUCT_NAME} requires MySQL 4.0 or higher to function correctly. Please select a different database server.";
+$GLOBALS['strTableWrongType']		= "نوع جدول انتخاب شده توسط برنامه نصب کننده {$phpAds_dbmsname} پشتیبانی نمی شود";
 $GLOBALS['strMayNotFunction']			= "قبل از ادامه این مشکل جدی را اصلاح نمایید:";
-$GLOBALS['strFixProblemsBefore']		= "قبل از ادامه نصب".MAX_PRODUCT_NAME."باید گزینه های زیر را اصلاح نمایید. اگر شما سوالی در مورد این پیام های خطا دارید, راهنمای مدیریت را که با بسته برنامه دانلود کرده اید را مطالعه �?رمایید.";
-$GLOBALS['strFixProblemsAfter']			= "اگر شما قادر به اصلاح خطاهای لیست شده در بالا نیستید, با مدیریت سروری که شما می خواهید برنامه ".MAX_PRODUCT_NAME." را روی آن نصب کنید تماس بگیرید. مدیریت سرور ممکن است که بتواند شما را یاری نماید.";
+$GLOBALS['strFixProblemsBefore']		= "قبل از ادامه نصب{$PRODUCT_NAME}باید گزینه های زیر را اصلاح نمایید. اگر شما سوالی در مورد این پیام های خطا دارید, راهنمای مدیریت را که با بسته برنامه دانلود کرده اید را مطالعه �?رمایید.";
+$GLOBALS['strFixProblemsAfter']			= "اگر شما قادر به اصلاح خطاهای لیست شده در بالا نیستید, با مدیریت سروری که شما می خواهید برنامه {$PRODUCT_NAME} را روی آن نصب کنید تماس بگیرید. مدیریت سرور ممکن است که بتواند شما را یاری نماید.";
 $GLOBALS['strIgnoreWarnings']			= "نادیده گر�?تن هشدارها";
 $GLOBALS['strFixErrorsBeforeContinuing']    = "Please fix all errors before continuing.";
-$GLOBALS['strWarningDBavailable']		= "نسخه PHP  سرور شما از بانک اطلاعاتی ".$phpAds_dbmsname." پشتیبانی نمی کند. شما نیاز دارید که PHP ".$phpAds_dbmsname."را برای پردازش های بعدی �?عال نمایید.";
-$GLOBALS['strWarningPHPversion']		= MAX_PRODUCT_NAME." نیازمند نسخه PHP 4.0.3 یا بالاتر برای اجرای توابع به صورت صحیح می باشد. شما در حال حاضر است�?اده می کنید از نسخه {php_version}.";
+$GLOBALS['strWarningDBavailable']		= "نسخه PHP  سرور شما از بانک اطلاعاتی {$phpAds_dbmsname} پشتیبانی نمی کند. شما نیاز دارید که PHP {$phpAds_dbmsname}را برای پردازش های بعدی �?عال نمایید.";
+$GLOBALS['strWarningPHPversion']		= "{$PRODUCT_NAME} نیازمند نسخه PHP 4.0.3 یا بالاتر برای اجرای توابع به صورت صحیح می باشد. شما در حال حاضر است�?اده می کنید از نسخه {php_version}.";
 $GLOBALS['strWarningRegisterGlobals']		= "گزینه register_globals در پیکربندی PHP نیاز دارد که بر روی گزینه on تنظیم شود.";
 $GLOBALS['strWarningRegisterArgcArv']       = "The PHP configuration variable register_argc_argv needs to be turned on to run maintenance from the command line.";
 $GLOBALS['strWarningMagicQuotesGPC']		= "متغیر magic_quotes_gpc در پیکر بندی PHP باید بر روی گزینه on تنظیم شود.";
@@ -64,7 +64,7 @@ $GLOBALS['strWarningMagicQuotesRuntime']	= "گزینه magic_quotes_runtime در
 $GLOBALS['strWarningFileUploads']		= "متغیر file_uploads در پیکربندیPHP نیاز دارد که بر روی گزینه on تنظیم شود.";
 $GLOBALS['strWarningTrackVars']			= "متغیر track_vars در پیکربندیPHP  نیاز دارد که بر روی گزینه on تنظیم شود.";
 $GLOBALS['strWarningPREG']				= "نسخه PHP شما برای پشتیبانی از عبارت منطقی PERL همسازی ندارد. شما نیاز به �?عال کردن PREG extension قبل از ادامه پردازش دارید.";
-$GLOBALS['strConfigLockedDetected']		= MAX_PRODUCT_NAME." شناسایی کرده که �?ایل <b>config.inc.php</b> برای سرور قابل نوشتن نمی باشد. شما باید سطح دسترسی به این �?ایل را تغییر دهید.اگر منظور این پیام را نمی �?همید راهنما و مستندات برنامه را مطالعه �?رمایید.";
+$GLOBALS['strConfigLockedDetected']		= "{$PRODUCT_NAME} شناسایی کرده که �?ایل <b>config.inc.php</b> برای سرور قابل نوشتن نمی باشد. شما باید سطح دسترسی به این �?ایل را تغییر دهید.اگر منظور این پیام را نمی �?همید راهنما و مستندات برنامه را مطالعه �?رمایید.";
 $GLOBALS['strCantUpdateDB']  			= "در حال حاضر امکان بروزرسانی بانک اطلاعاتی وجود ندارد. اگر شما تصمیم جدی به این کار دارید کلیه اطلاعات بانک اطلاعاتی شما از بین خواهد ر�?ت.";
 $GLOBALS['strIgnoreErrors']			= "نادیده گر�?تن خطاها";
 $GLOBALS['strRetryUpdate']			= "تلاش برای بروزرسانی";
@@ -72,32 +72,48 @@ $GLOBALS['strTableNames']			= "نام های جدول";
 $GLOBALS['strTablesPrefix']			= "پیشوند نام جدولها";
 $GLOBALS['strTablesType']			= "نوع جدول";
 
-$GLOBALS['strInstallWelcome']               = "خوش آمدید به ".MAX_PRODUCT_NAME;
-$GLOBALS['strInstallMessage']               = "Before you can use ".MAX_PRODUCT_NAME." it needs to be configured and <br /> the database needs to be created. Click <b>Proceed</b> to continue.";
-$GLOBALS['strInstallIntro']                 = "Welcome to <a href='http://".MAX_PRODUCT_URL."' target='_blank'><strong>".MAX_PRODUCT_NAME."</strong></a>! You will soon become part of the web's largest ad-space community.\n<p>We try very hard to make this installation or upgrade process as simple as possible. Please follow the instructions on the screen, and if you need more help, please reference the <a href='http://".MAX_PRODUCT_DOCSURL."' target='_blank'><strong>documentation</strong></a>.</p>\n<p>If you still have questions after reading the documentation, visit the <a href='http://".MAX_PRODUCT_URL."/support/overview.html' target='_blank'><strong>support</strong></a> section of our website and the Openads <a href='http://".MAX_PRODUCT_FORUMURL."' target='_blank'><strong>community forum</strong></a>.</p>\n<p>Thank you for choosing Openads.</p>";
+$GLOBALS['strInstallWelcome']               = "خوش آمدید به {$PRODUCT_NAME}";
+$GLOBALS['strInstallMessage']               = "Before you can use {$PRODUCT_NAME} it needs to be configured and <br /> the database needs to be created. Click <b>Proceed</b> to continue.";
+$GLOBALS['strInstallIntro']                 = "Welcome to <a href='http://{$PRODUCT_URL}' target='_blank'><strong>{$PRODUCT_NAME}</strong></a>! You will soon become part of the web's largest ad-space community.
+<p>We try very hard to make this installation or upgrade process as simple as possible. Please follow the instructions on the screen, and if you need more help, please reference the <a href='http://{$PRODUCT_DOCSURL}' target='_blank'><strong>documentation</strong></a>.</p>
+<p>If you still have questions after reading the documentation, visit the <a href='http://{$PRODUCT_URL}/support/overview.html' target='_blank'><strong>support</strong></a> section of our website and the Openads <a href='http://".MAX_PRODUCT_FORUMURL."' target='_blank'><strong>community forum</strong></a>.</p>
+<p>Thank you for choosing Openads.</p>";
 $GLOBALS['strRecoveryRequiredTitle']    = "Your previous upgrade attempt encountered an error";
 $GLOBALS['strRecoveryRequired']         = "There was an error while processing your previous upgrade and Openads must attempt to recover the upgrade process. Please click the Recover button below.";
 $GLOBALS['strTermsTitle']               = "License information";
-$GLOBALS['strTermsIntro']               = "" . MAX_PRODUCT_NAME . " is a free and open source adserver, distributed under the GPL license. Please review this license, and agree to its terms to continue installation.";
+$GLOBALS['strTermsIntro']               = "{$PRODUCT_NAME} is a free and open source adserver, distributed under the GPL license. Please review this license, and agree to its terms to continue installation.";
 $GLOBALS['strPolicyTitle']               = "Privacy and Data Usage Policy";
 $GLOBALS['strPolicyIntro']               = "Please review the Privacy and Data Usage Policy before agreeing to continue the installation.";
 $GLOBALS['strDbSetupTitle']               = "تنظیمات دیتابیس";
-$GLOBALS['strDbSetupIntro']               = "" . MAX_PRODUCT_NAME . " uses a MySQL database to store all of its data.  Please fill in the address of your server, as well as the database name, username and password.  If you do not know which information you should provide here, please contact the administrator of your server.";
-$GLOBALS['strDbUpgradeIntro']             = "Below are the detected database details for your installation of " . MAX_PRODUCT_NAME . ". Please check to make sure that these details are correct. When you click continue, " . MAX_PRODUCT_NAME . " will proceed with performing upgrade tasks on your data. Please make sure that you have a proper backup of your data before continuing.";
+$GLOBALS['strDbSetupIntro']               = "{$PRODUCT_NAME} uses a MySQL database to store all of its data.  Please fill in the address of your server, as well as the database name, username and password.  If you do not know which information you should provide here, please contact the administrator of your server.";
+$GLOBALS['strDbUpgradeIntro']             = "Below are the detected database details for your installation of {$PRODUCT_NAME}. Please check to make sure that these details are correct. When you click continue, {$PRODUCT_NAME} will proceed with performing upgrade tasks on your data. Please make sure that you have a proper backup of your data before continuing.";
 
 $GLOBALS['strOaUpToDate']               = "Your Openads database and file structure are both using the most recent version and therefore no upgrade is required at this time. Please click Continue to proceed to the Openads administration panel.";
 $GLOBALS['strOaUpToDateCantRemove']     = "Warning: the UPGRADE file is still present inside of your var folder. We are unable to remove this file because of insufficient permissions. Please delete this file yourself.";
 $GLOBALS['strRemoveUpgradeFile']               = "You must remove the UPGRADE file from the var folder.";
-$GLOBALS['strInstallSuccess']               = "<strong>Congratulations! You have finished installing Openads</strong>\n<p>Welcome to the Openads community! To get the most out of Openads, there are two last steps you should perform.</p>\n\n<p><strong>Maintenance</strong><br>\nOpenads is configured to automatically run some maintenance tasks every hour as long as ads are being served. To speed up ad delivery, you can set this up by automatically calling a maintenance file every hour (e.g a cron job). This is not required, but is highly recommended. For more information about this, please reference the <a href='http://".MAX_PRODUCT_DOCSURL."' target='_blank'><strong>documentation</strong></a>.</p>\n\n<p><strong>Security</strong><br>\nThe Openads installation needs the configuration file to be writable by the server. After making your configuration changes, it is highly recommended to enable read-only access to this file, to provide higher security. For more information, please reference the <a href='http://".MAX_PRODUCT_DOCSURL."' target='_blank'><strong>documentation</strong></a>.</p>\n\n<p>You are now ready to start using Openads. Clicking continue will take you to your newly installed/upgraded version.</p>\n<p>Before you start using Openads we suggest you take some time to review your configuration settings found within the \"Settings\" tab.";
-$GLOBALS['strInstallNotSuccessful']         = "<b>The installation of ".MAX_PRODUCT_NAME." was not succesful</b><br /><br />Some portions of the install process could not be completed.\n                                                It is possible these problems are only temporarily, in that case you can simply click <b>Proceed</b> and return to the\n                                                first step of the install process. If you want to know more on what the error message below means, and how to solve it,\n                                                please consult the supplied documentation.";
+$GLOBALS['strInstallSuccess']               = "<strong>Congratulations! You have finished installing Openads</strong>
+<p>Welcome to the Openads community! To get the most out of Openads, there are two last steps you should perform.</p>
+
+<p><strong>Maintenance</strong><br>
+Openads is configured to automatically run some maintenance tasks every hour as long as ads are being served. To speed up ad delivery, you can set this up by automatically calling a maintenance file every hour (e.g a cron job). This is not required, but is highly recommended. For more information about this, please reference the <a href='http://{$PRODUCT_DOCSURL}' target='_blank'><strong>documentation</strong></a>.</p>
+
+<p><strong>Security</strong><br>
+The Openads installation needs the configuration file to be writable by the server. After making your configuration changes, it is highly recommended to enable read-only access to this file, to provide higher security. For more information, please reference the <a href='http://{$PRODUCT_DOCSURL}' target='_blank'><strong>documentation</strong></a>.</p>
+
+<p>You are now ready to start using Openads. Clicking continue will take you to your newly installed/upgraded version.</p>
+<p>Before you start using Openads we suggest you take some time to review your configuration settings found within the \"Settings\" tab.";
+$GLOBALS['strInstallNotSuccessful']         = "<b>The installation of {$PRODUCT_NAME} was not succesful</b><br /><br />Some portions of the install process could not be completed.
+                                                It is possible these problems are only temporarily, in that case you can simply click <b>Proceed</b> and return to the
+                                                first step of the install process. If you want to know more on what the error message below means, and how to solve it,
+                                                please consult the supplied documentation.";
 $GLOBALS['strSystemCheck']                  = "چک کردن سیستم";
-$GLOBALS['strSystemCheckIntro']             = "" . MAX_PRODUCT_NAME . " has certain requirements which will now be checked. We will warn you if any settings need to be changed.";
-$GLOBALS['strDbSuccessIntro']               = "The " . MAX_PRODUCT_NAME . " database has now been created. Please click the 'Continue' button to proceed with configuring Openads Administrator and Delivery settings.";
-$GLOBALS['strDbSuccessIntroUpgrade']        = "The " . MAX_PRODUCT_NAME . " database has now been updated.  Please click the 'Continue' button to proceed with reviewing the " . MAX_PRODUCT_NAME . " Administrator and Delivery settings.";
+$GLOBALS['strSystemCheckIntro']             = "{$PRODUCT_NAME} has certain requirements which will now be checked. We will warn you if any settings need to be changed.";
+$GLOBALS['strDbSuccessIntro']               = "The {$PRODUCT_NAME} database has now been created. Please click the 'Continue' button to proceed with configuring Openads Administrator and Delivery settings.";
+$GLOBALS['strDbSuccessIntroUpgrade']        = "The {$PRODUCT_NAME} database has now been updated.  Please click the 'Continue' button to proceed with reviewing the {$PRODUCT_NAME} Administrator and Delivery settings.";
 $GLOBALS['strErrorOccured']                 = "The following error occurred:";
 $GLOBALS['strErrorInstallDatabase']         = "The database structure could not be created.";
 $GLOBALS['strErrorInstallPrefs']            = "The administrator user preferences could not be written to the database.";
-$GLOBALS['strErrorInstallVersion']          = "The " . MAX_PRODUCT_NAME . " version number could not be written to the database.";
+$GLOBALS['strErrorInstallVersion']          = "The {$PRODUCT_NAME} version number could not be written to the database.";
 $GLOBALS['strErrorUpgrade']                 = 'The existing installation\'s database could not be upgraded.';
 $GLOBALS['strErrorInstallDbConnect']        = "It was not possible to open a connection to the database.";
 
@@ -105,7 +121,7 @@ $GLOBALS['strErrorWritePermissions']        = "File permission errors have been 
 $GLOBALS['strErrorFixPermissionsCommand']   = "<i>chmod a+w %s</i>";
 $GLOBALS['strErrorFixPermissionsRCommand']  = "<i>chmod -R a+w %s</i>";
 $GLOBALS['strErrorWritePermissionsWin']     = "File permission errors have been detected, and must be fixed before you can continue.";
-$GLOBALS['strCheckDocumentation']           = "For more help, please see the <a href=\"http://".MAX_PRODUCT_DOCSURL."\">Openads documentation</a>.";
+$GLOBALS['strCheckDocumentation']           = "For more help, please see the <a href=\"http://{$PRODUCT_DOCSURL}\">Openads documentation</a>.";
 
 $GLOBALS['strAdminUrlPrefix']               = "آدرس ورود به مدیریت";
 $GLOBALS['strDeliveryUrlPrefix']            = "آدرس خروجی";
@@ -128,8 +144,10 @@ $GLOBALS['strServiceUnavalable']            = "The service is temporarily unavai
 
 // Global
 $GLOBALS['strChooseSection']                         = 'انتخاب بخش';
-$GLOBALS['strEditConfigNotPossible']   		= "امکان ویرایش تنظیمات وجود ندارد زیرا �?ایل پیکریندی به دلایل امنیتی ق�?ل شده است. \nاگر مایل به ایجاد تغییرات هستید باید �?ایل config.inc.php را ازحالت ق�?ل درآورید.\n";
-$GLOBALS['strEditConfigPossible']		= "ممکن است که تمام تنظیمات پیکر بندی ویرایش شود.زیرا �?ایل پیکربندی ق�?ل نشده است.و این می تواند باعث ایجاد سوراخ امنیتی برای هکران شود. \nاگر مایلید که انتیت سیستم بالا برود باید �?ایل config.inc.php را ق�?ل کنید.\n";
+$GLOBALS['strEditConfigNotPossible']   		= "امکان ویرایش تنظیمات وجود ندارد زیرا �?ایل پیکریندی به دلایل امنیتی ق�?ل شده است.
+اگر مایل به ایجاد تغییرات هستید باید �?ایل config.inc.php را ازحالت ق�?ل درآورید.";
+$GLOBALS['strEditConfigPossible']		= "ممکن است که تمام تنظیمات پیکر بندی ویرایش شود.زیرا �?ایل پیکربندی ق�?ل نشده است.و این می تواند باعث ایجاد سوراخ امنیتی برای هکران شود.
+اگر مایلید که انتیت سیستم بالا برود باید �?ایل config.inc.php را ق�?ل کنید.";
 $GLOBALS['strUnableToWriteConfig']                   = 'Unable to write changes to the config file';
 $GLOBALS['strUnableToWritePrefs']                    = 'Unable to commit preferences to the database';
 $GLOBALS['strImageDirLockedDetected']	             = "The supplied <b>Images Folder</b> is not writeable by the server. <br>You can't proceed until you either change permissions of the folder or create the folder.";
@@ -166,10 +184,10 @@ $GLOBALS['strTimezoneGuessedValue']                  = "Server timezone not corr
 $GLOBALS['strTimezoneSeeDocs']                       = "Please see the %DOCS% about setting this variable for PHP.";
 $GLOBALS['strTimezoneDocumentation']                 = "مدارک";
 $GLOBALS['strLoginSettingsTitle']                    = "ورود مدیریت";
-$GLOBALS['strLoginSettingsIntro']                    = "In order to continue with the upgrade process, please enter your " . MAX_PRODUCT_NAME . " administrator user login details.  You must login as the admnistrator user to continue with the upgrade process.";
+$GLOBALS['strLoginSettingsIntro']                    = "In order to continue with the upgrade process, please enter your {$PRODUCT_NAME} administrator user login details.  You must login as the admnistrator user to continue with the upgrade process.";
 $GLOBALS['strAdminSettingsTitle']                    = "اکانت مدیریت شما";
-$GLOBALS['strAdminSettingsIntro']                    = "The administrator account is used to login to the " . MAX_PRODUCT_NAME . " interface and manage inventory, view statistics, and create tags. Please fill in the username, password, and email address of the administrator.";
-$GLOBALS['strConfigSettingsIntro']                    = "Please review the following configuration settings. It is very important that you carefully review these settings as they are vital to the performance and usage of " . MAX_PRODUCT_NAME;
+$GLOBALS['strAdminSettingsIntro']                    = "The administrator account is used to login to the {$PRODUCT_NAME} interface and manage inventory, view statistics, and create tags. Please fill in the username, password, and email address of the administrator.";
+$GLOBALS['strConfigSettingsIntro']                    = "Please review the following configuration settings. It is very important that you carefully review these settings as they are vital to the performance and usage of {$PRODUCT_NAME}";
 
 $GLOBALS['strEnableAutoMaintenance']	             = "نگهداری به صورت اتوماتیک تا زمان تحویل ";
 
@@ -202,7 +220,6 @@ $GLOBALS['strDatabaseOptimalisations']               = 'تنظیمات آپشن�
 $GLOBALS['strPersistentConnections']                 = 'نسبت مانده مصر�?';
 $GLOBALS['strCantConnectToDb']                       = 'Can\'t Connect to Database';
 $GLOBALS['strDemoDataInstall']                       = 'نصب اطلاعات پیش �?رض';
-$GLOBALS['strDemoDataIntro']                         = 'Default setup data can be loaded into ' . MAX_PRODUCT_NAME . ' to help you get started serving online advertising. The most common banner types, as well as some initial campaigns can be loaded and pre-configured. This is highly recommended for new installations.';
 
 // Debug Logging Settings
 $GLOBALS['strDebugSettings']                         = 'ر�?ع اشکال ورود';
@@ -409,7 +426,7 @@ $GLOBALS['strDefaultImpConWindowError']              = 'If set, the Default Ad I
 $GLOBALS['strDefaultCliConWindow']                   = 'Default Ad Click Connection Window (seconds)';
 $GLOBALS['strDefaultCliConWindowError']              = 'If set, the Default Ad Click Connection Window must be a positive integer';
 $GLOBALS['strEmailWarnings']                         = 'E-mail Warnings';
-$GLOBALS['strAdminEmailHeaders']                     = 'Add the following headers to each e-mail message sent by ' . MAX_PRODUCT_NAME;
+$GLOBALS['strAdminEmailHeaders']                     = "Add the following headers to each e-mail message sent by {$PRODUCT_NAME}";
 $GLOBALS['strWarnLimit']                             = 'Send a warning when the number of impressions left are less than specified here';
 $GLOBALS['strWarnLimitErr']                          = 'Warn Limit must be a positive integer';
 $GLOBALS['strWarnLimitDays']                         = 'Send a warning when the days left are less than specified here';
