@@ -1,0 +1,33 @@
+base_path: .
+base_url: https://api.crowdin.com
+preserve_hierarchy: true
+
+files:
+    -
+        source: '/lib/max/language/en/*.lang.php'
+        translation: '/lib/max/language/%two_letters_code%/%original_file_name%'
+        languages_mapping:
+            two_letters_code:
+                'es-ES': es
+                'ru-UA': uk
+                'sv-SE': sv
+                'pt-BR': pt_BR
+                'pt-PT': pt_PT
+                'zh-CN': zh_CN
+                'zh-TW': zh_TW
+        ignore:
+            - /**/index*
+            - /**/timezone*
+    -
+        source: '/plugins_repo/**/en.po'
+        translation: '/%original_path%/%two_letters_code%.po'
+        languages_mapping:
+            two_letters_code:
+                'es-ES': es
+                'ru-UA': uk
+                'sv-SE': sv
+                'pt-BR': pt_BR
+                'pt-PT': pt_PT
+                'zh-CN': zh_CN
+                'zh-TW': zh_TW
+
