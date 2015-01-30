@@ -1,14 +1,14 @@
 <?php
 
 /*
-+---------------------------------------------------------------------------+
-| Revive Adserver                                                           |
-| http://www.revive-adserver.com                                            |
-|                                                                           |
-| Copyright: See the COPYRIGHT.txt file.                                    |
-| License: GPLv2 or later, see the LICENSE.txt file.                        |
-+---------------------------------------------------------------------------+
-*/
+  +---------------------------------------------------------------------------+
+  | Revive Adserver                                                           |
+  | http://www.revive-adserver.com                                            |
+  |                                                                           |
+  | Copyright: See the COPYRIGHT.txt file.                                    |
+  | License: GPLv2 or later, see the LICENSE.txt file.                        |
+  +---------------------------------------------------------------------------+
+ */
 
 $GLOBALS['strAdvertiserCampaignHistoryReport'] = 'Bericht über den Verlauf einer Kampagne';
 $GLOBALS['strAdvertiserCampaignHistoryDescription'] = 'Leistung einer ausgewählten Kampagne aufgeschlüsselt nach Tagen.';
@@ -59,17 +59,16 @@ $GLOBALS['strPublisherConversionTrackingAnalysisReport'] = 'Konversionen Trackin
 $GLOBALS['strPublisherConversionTrackingAnalysisDescription'] = 'Dieser Bericht zeigt Details über alle Konversionen und Tracker für eine bestimmte Webseite auf';
 
 $GLOBALS['strAgencyCampaignDeliveryReport'] = 'Kampagnen Auslieferungsbericht';
-$GLOBALS['strAgencyCampaignDeliveryDescription'] = 'Der Bericht zeigt die gesamte Kampagnenleistung eines bestimmten Tages mit der Angabe wie gut die Ziele erreicht wurden';
+$GLOBALS['strAgencyCampaignDeliveryDescription'] = "Der Bericht zeigt die gesamte Kampagnenleistung eines bestimmten Tages mit der Angabe wie gut die Ziele erreicht wurden";
 $GLOBALS['strAgencyCampaignUnderdeliveryReport'] = 'Kampagnen Unterlieferungsbericht';
 $GLOBALS['strAgencyCampaignUnderdeliveryDescription'] = 'Der Bericht zeigt alle Kampagnen eines bestimmten Tages, die unterliefert haben.';
 $GLOBALS['strAgencyHistoryReport'] = 'Globaler Verlaufsbericht';
-$GLOBALS['strAgencyHistoryDescription']  = 'Die gesamte Werbeleistung heruntergebrochen auf den einzelnen Tag';
-$GLOBALS['strCampaignPredictedFullDeliveryMessage']  = 'Ziel wird wahrscheinlich erreicht';
-$GLOBALS['strStatsAnalysisReport']  = 'Statistik Bericht';
+$GLOBALS['strAgencyHistoryDescription'] = 'Die gesamte Werbeleistung heruntergebrochen auf den einzelnen Tag';
 
+$GLOBALS['strCampaignPredictedFullDeliveryMessage'] = 'Ziel wird wahrscheinlich erreicht';
 
+$GLOBALS['strStatsAnalysisReport'] = 'Statistik Bericht';
 
-// Note: New translations not found in original lang files but found in CSV
+// Error messages
 $GLOBALS['strReportErrorMissingSheets'] = "Für diesen Bericht wurde kein Arbeitsblatt ausgewählt";
 $GLOBALS['strReportErrorUnknownCode'] = "Unbekannter Fehler Nr. #";
-?>

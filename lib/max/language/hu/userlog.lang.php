@@ -1,37 +1,33 @@
 <?php
 
 /*
-+---------------------------------------------------------------------------+
-| Revive Adserver                                                           |
-| http://www.revive-adserver.com                                            |
-|                                                                           |
-| Copyright: See the COPYRIGHT.txt file.                                    |
-| License: GPLv2 or later, see the LICENSE.txt file.                        |
-+---------------------------------------------------------------------------+
-*/
+  +---------------------------------------------------------------------------+
+  | Revive Adserver                                                           |
+  | http://www.revive-adserver.com                                            |
+  |                                                                           |
+  | Copyright: See the COPYRIGHT.txt file.                                    |
+  | License: GPLv2 or later, see the LICENSE.txt file.                        |
+  +---------------------------------------------------------------------------+
+ */
 
 // Set translation strings
 
-$GLOBALS['strDeliveryEngine']				= "Kiszolgáló motor";
-$GLOBALS['strMaintenance']					= "Karbantartás";
-$GLOBALS['strAdministrator']				= "Adminisztrátor";
+$GLOBALS['strDeliveryEngine'] = "Kiszolgáló motor";
+$GLOBALS['strMaintenance'] = "Karbantartás";
+$GLOBALS['strAdministrator'] = "Adminisztrátor";
 
-
-$GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Jelentés küldése (id) hirdető részére e-mailben";
-$GLOBALS['strUserlog'][phpAds_actionPublisherReportMailed] = "Jelentés küldése (id) kiadó részére e-mailben";
-$GLOBALS['strUserlog'][phpAds_actionWarningMailed] = "{id} kampány inaktiválásra való figyelmeztetés küldése emailben";
-$GLOBALS['strUserlog'][phpAds_actionDeactivationMailed] = "{id} kampány inaktiválásra való figyelmeztetés küldése emailben";
-$GLOBALS['strUserlog'][phpAds_actionPriorityCalculation] = "Prioritás újraszámolva";
-$GLOBALS['strUserlog'][phpAds_actionPriorityAutoTargeting] = "Kampány célok újraszámolva";
-$GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "A(z) {id} kampány deaktiválva";
-$GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "A(z) {id} kampány aktiválva";
-$GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Adatbázis automatikus tisztítása";
-
-
-
-
-// Note: New translations not found in original lang files but found in CSV
-$GLOBALS['strAdvertiser'] = "Hirdető";
+// Audit
 $GLOBALS['strDeleted'] = "Töröl";
-$GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "{id} kampány inaktiválásra való figyelmeztetés küldése emailben";
-?>
+$GLOBALS['strAdvertiser'] = "Hirdető";
+
+$GLOBALS['strUserlog'] = array();
+$GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Adatbázis automatikus tisztítása";
+$GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Adatbázis automatikus tisztítása";
+$GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Adatbázis automatikus tisztítása";
+$GLOBALS['strUserlog'][phpAds_actionBatchStatistics] = "Adatbázis automatikus tisztítása";
+$GLOBALS['strUserlog'][phpAds_actionDeactivationMailed] = "Adatbázis automatikus tisztítása";
+$GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "Adatbázis automatikus tisztítása";
+$GLOBALS['strUserlog'][phpAds_actionPriorityCalculation] = "Adatbázis automatikus tisztítása";
+$GLOBALS['strUserlog'][phpAds_actionPublisherReportMailed] = "Adatbázis automatikus tisztítása";
+$GLOBALS['strUserlog'][phpAds_actionWarningMailed] = "Adatbázis automatikus tisztítása";
+$GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "Adatbázis automatikus tisztítása";

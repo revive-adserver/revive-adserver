@@ -10,6 +10,24 @@
 +---------------------------------------------------------------------------+
 */
 
-// Note: New translations not found in original lang files but found in CSV
-$GLOBALS['strContinue'] = "Continuă »";
-?>
+/** status messages **/
+
+/** welcome step **/
+
+/** check step **/
+
+
+
+/** admin login step **/
+
+/** database step **/
+
+
+/** config step **/
+
+/** jobs step **/
+
+
+/** finish step **/
+
+$GLOBALS['strContinue']                         = "Continuă »";

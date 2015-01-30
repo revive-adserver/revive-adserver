@@ -1,39 +1,33 @@
 <?php
 
 /*
-+---------------------------------------------------------------------------+
-| Revive Adserver                                                           |
-| http://www.revive-adserver.com                                            |
-|                                                                           |
-| Copyright: See the COPYRIGHT.txt file.                                    |
-| License: GPLv2 or later, see the LICENSE.txt file.                        |
-+---------------------------------------------------------------------------+
-*/
+  +---------------------------------------------------------------------------+
+  | Revive Adserver                                                           |
+  | http://www.revive-adserver.com                                            |
+  |                                                                           |
+  | Copyright: See the COPYRIGHT.txt file.                                    |
+  | License: GPLv2 or later, see the LICENSE.txt file.                        |
+  +---------------------------------------------------------------------------+
+ */
 
 // Set translation strings
 
-$GLOBALS['strDeliveryEngine']				= "Doručovací engine";
-$GLOBALS['strMaintenance']					= "Správa";
-$GLOBALS['strAdministrator']				= "Administrátor";
+$GLOBALS['strDeliveryEngine'] = "Doručovací engine";
+$GLOBALS['strMaintenance'] = "Správa";
+$GLOBALS['strAdministrator'] = "Administrátor";
 
-
-$GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Přehled pro inzerenta {id} odeslán e-mailem";
-$GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Kampaň {id} aktivována";
-$GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Automatické čištění databáze";
-$GLOBALS['strUserlog'][phpAds_actionBatchStatistics] = "Statistiky vykompilovány";
-$GLOBALS['strUserlog'][phpAds_actionDeactivationMailed] = "Upozornění na deaktivaci kampaně {id} odesláno e-mailem";
-$GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "Kampaň {id} deaktivována";
-$GLOBALS['strUserlog'][phpAds_actionInventoryCalculation] = "Vytvořen plán doručování";
-$GLOBALS['strUserlog'][phpAds_actionPriorityCalculation] = "Priorita přepočítána";
-$GLOBALS['strUserlog'][phpAds_actionPublisherReportMailed] = "Přehled pro vydavatele {id} odeslán e-mailem";
-$GLOBALS['strUserlog'][phpAds_actionWarningMailed] = "Výstraha na deaktivaci kampaně {id} odesláno e-mailem";
-
-
-
-
-// Note: New translations not found in original lang files but found in CSV
-$GLOBALS['strAdvertiser'] = "Inzerent";
-$GLOBALS['strPublisher'] = "Website";
+// Audit
 $GLOBALS['strDeleted'] = "Smazat";
-$GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "Upozornění na deaktivaci kampaně {id} odesláno e-mailem";
-?>
+$GLOBALS['strAdvertiser'] = "Inzerent";
+
+$GLOBALS['strUserlog'] = array();
+$GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Výstraha na deaktivaci kampaně {id} odesláno e-mailem";
+$GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Výstraha na deaktivaci kampaně {id} odesláno e-mailem";
+$GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Výstraha na deaktivaci kampaně {id} odesláno e-mailem";
+$GLOBALS['strUserlog'][phpAds_actionBatchStatistics] = "Výstraha na deaktivaci kampaně {id} odesláno e-mailem";
+$GLOBALS['strUserlog'][phpAds_actionDeactivationMailed] = "Výstraha na deaktivaci kampaně {id} odesláno e-mailem";
+$GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "Výstraha na deaktivaci kampaně {id} odesláno e-mailem";
+$GLOBALS['strUserlog'][phpAds_actionPriorityCalculation] = "Výstraha na deaktivaci kampaně {id} odesláno e-mailem";
+$GLOBALS['strUserlog'][phpAds_actionPublisherReportMailed] = "Výstraha na deaktivaci kampaně {id} odesláno e-mailem";
+$GLOBALS['strUserlog'][phpAds_actionWarningMailed] = "Výstraha na deaktivaci kampaně {id} odesláno e-mailem";
+$GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "Výstraha na deaktivaci kampaně {id} odesláno e-mailem";

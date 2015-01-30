@@ -13,6 +13,5 @@
 // Meta information
 $translation_readable   = "Russian";
 $translation_maintainer	= "Michael Bravo";
-$translation_contact	= "";
 
 ?>

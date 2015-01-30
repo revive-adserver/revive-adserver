@@ -1,20 +1,31 @@
 <?php
 
 /*
-+---------------------------------------------------------------------------+
-| Revive Adserver                                                           |
-| http://www.revive-adserver.com                                            |
-|                                                                           |
-| Copyright: See the COPYRIGHT.txt file.                                    |
-| License: GPLv2 or later, see the LICENSE.txt file.                        |
-+---------------------------------------------------------------------------+
-*/
+  +---------------------------------------------------------------------------+
+  | Revive Adserver                                                           |
+  | http://www.revive-adserver.com                                            |
+  |                                                                           |
+  | Copyright: See the COPYRIGHT.txt file.                                    |
+  | License: GPLv2 or later, see the LICENSE.txt file.                        |
+  +---------------------------------------------------------------------------+
+ */
 
-// Note: New translations not found in original lang files but found in CSV
+// Set text direction and characterset
+
+
+// Date & time configuration
+
+// Formats used by PEAR Spreadsheet_Excel_Writer packate
+
+/* ------------------------------------------------------- */
+/* Translations                                          */
+/* ------------------------------------------------------- */
+
 $GLOBALS['strHelp'] = "Nápoveda";
 $GLOBALS['strStartOver'] = "Začni znova";
 $GLOBALS['strNavigation'] = "Navigácia";
 $GLOBALS['strShortcuts'] = "Skratky";
+$GLOBALS['strActions'] = "Akcia";
 $GLOBALS['strAdminstration'] = "Inventár";
 $GLOBALS['strMaintenance'] = "Údržba";
 $GLOBALS['strProbability'] = "Pravdepodobnosť";
@@ -25,14 +36,12 @@ $GLOBALS['strLoginInformation'] = "Prihlasovacie údaje";
 $GLOBALS['strLogoutURL'] = "Presmerovanie na URL po odhlásení.<br />Prázdna hodnota pre východzie nastavenie.";
 $GLOBALS['strOverview'] = "Prehľad";
 $GLOBALS['strSearch'] = "Vyhľadávanie";
-$GLOBALS['strPreferences'] = "Nastavenia";
 $GLOBALS['strDetails'] = "Detaily";
 $GLOBALS['strCompact'] = "Zjednodušiť";
 $GLOBALS['strUser'] = "Užívateľ";
 $GLOBALS['strEdit'] = "Upraviť";
 $GLOBALS['strCreate'] = "Vytvoriť";
 $GLOBALS['strDuplicate'] = "Duplikovať";
-$GLOBALS['strStatusDuplicate'] = "Duplikovať";
 $GLOBALS['strMoveTo'] = "Presunúť do";
 $GLOBALS['strDelete'] = "Zmazať";
 $GLOBALS['strActivate'] = "Aktivovať";
@@ -64,16 +73,14 @@ $GLOBALS['strTo'] = "do";
 $GLOBALS['strLinkedTo'] = "nalinkované do";
 $GLOBALS['strDaysLeft'] = "Dní dozadu";
 $GLOBALS['strCheckAllNone'] = "Označiť všetko / nič";
-$GLOBALS['strKiloByte'] = "KB";
 $GLOBALS['strExpandAll'] = "Rozbaliť všetko";
 $GLOBALS['strCollapseAll'] = "Zabaliť všetko";
 $GLOBALS['strShowAll'] = "Ukázať všetko";
+$GLOBALS['strNoAdminInterface'] = "Administrátorská časť je aktuálne vypnutá z dôvodu údržby.Tento stav nijako neovplyvňuje zobrazovanie Vašich kampaní.";
 $GLOBALS['strFieldContainsErrors'] = "Nasledovné položky obsahujú chyby:";
 $GLOBALS['strFieldFixBeforeContinue1'] = "Predtým, ako budete pokračovat, musíte";
 $GLOBALS['strFieldFixBeforeContinue2'] = "opraviť tieto chyby.";
-$GLOBALS['strDelimiter'] = "Delimiter";
 $GLOBALS['strMiscellaneous'] = "Rôzne";
-$GLOBALS['strPriorityOptimisation'] = "Rôzne";
 $GLOBALS['strCollectedAllStats'] = "Všetky štatistiky";
 $GLOBALS['strCollectedToday'] = "Dnes";
 $GLOBALS['strCollectedYesterday'] = "Včera";
@@ -83,15 +90,22 @@ $GLOBALS['strCollectedThisMonth'] = "Tento mesiac";
 $GLOBALS['strCollectedLastMonth'] = "Posledný mesiac";
 $GLOBALS['strCollectedLast7Days'] = "Posledných 7 dní";
 $GLOBALS['strCollectedSpecificDates'] = "Špecifické dátumy";
-$GLOBALS['strAdmin'] = "Admin";
 $GLOBALS['strWarning'] = "Upozornenie";
 $GLOBALS['strNotice'] = "Poznámka";
+
+// Dashboard
+// Dashboard Errors
+
+// Priority
 $GLOBALS['strPriority'] = "Priorita";
 $GLOBALS['strPriorityLevel'] = "Level priority";
 $GLOBALS['strPriorityTargeting'] = "Distribúcia";
+$GLOBALS['strPriorityOptimisation'] = "Rôzne"; // Er, what?
 $GLOBALS['strLimitations'] = "Obmedzenia";
 $GLOBALS['strNoLimitations'] = "Bez obmedzení";
 $GLOBALS['strCapping'] = "Obmedzenie zobrazovania reklamného formátu";
+
+// Properties
 $GLOBALS['strName'] = "Názov";
 $GLOBALS['strSize'] = "Veľkosť";
 $GLOBALS['strWidth'] = "Šírka";
@@ -99,19 +113,23 @@ $GLOBALS['strHeight'] = "Výška";
 $GLOBALS['strTarget'] = "Cieľ";
 $GLOBALS['strLanguage'] = "Jazyk";
 $GLOBALS['strDescription'] = "Popis";
-$GLOBALS['strVariableDescription'] = "Popis";
 $GLOBALS['strVariables'] = "Premenné";
-$GLOBALS['strStatsVariables'] = "Premenné";
-$GLOBALS['strID'] = "ID";
 $GLOBALS['strComments'] = "Komentáre";
+
+// User access
+$GLOBALS['strLinkUserHelpUser'] = "užívateľské meno";
+
+// Login & Permissions
 $GLOBALS['strAuthentification'] = "Prihlásenie";
 $GLOBALS['strWelcomeTo'] = "Vitajte v";
 $GLOBALS['strEnterUsername'] = "Zadajte Vaše užívateľské meno a heslo pre prihlásenie";
 $GLOBALS['strEnterBoth'] = "Prosím vložte užívateľské meno a heslo";
+$GLOBALS['strEnableCookies'] = "Skôr ako začnete používať {$PRODUCT_NAME} musíte mať povolené COOKIES";
 $GLOBALS['strLogin'] = "Prihlásiť";
 $GLOBALS['strLogout'] = "Odhlásiť";
 $GLOBALS['strUsername'] = "Užívateľské meno";
 $GLOBALS['strPassword'] = "Heslo";
+$GLOBALS['strPasswordRepeat'] = "Opakujte heslo";
 $GLOBALS['strAccessDenied'] = "Prístup zamietnutý";
 $GLOBALS['strUsernameOrPasswordWrong'] = "Nesprávne užívateľské meno a/alebo heslo. Skúste to prosím ešte raz.";
 $GLOBALS['strPasswordWrong'] = "Heslo nie je správne.";
@@ -122,12 +140,12 @@ $GLOBALS['strNotSamePasswords'] = "2 heslá, ktoré ste vyplnili, nie sú rovnak
 $GLOBALS['strRepeatPassword'] = "Opakujte heslo";
 $GLOBALS['strOldPassword'] = "Staré heslo";
 $GLOBALS['strNewPassword'] = "Nové heslo";
+
+// General advertising
 $GLOBALS['strRequests'] = "Požiadavky";
 $GLOBALS['strImpressions'] = "Impresií";
 $GLOBALS['strClicks'] = "Kliknutia";
 $GLOBALS['strConversions'] = "Konverzie";
-$GLOBALS['strCTRShort'] = "CTR";
-$GLOBALS['strCNVRShort'] = "SR";
 $GLOBALS['strCTR'] = "CTR";
 $GLOBALS['strCNVR'] = "Celkový predaj";
 $GLOBALS['strTotalClicks'] = "Celkový počet kliknutí";
@@ -137,38 +155,42 @@ $GLOBALS['strClickCredits'] = "Kredity za kliknutia";
 $GLOBALS['strDateTime'] = "Dátum Čas";
 $GLOBALS['strTrackerID'] = "ID trackeru";
 $GLOBALS['strTrackerName'] = "Názov trackeru";
+$GLOBALS['strCampaigns'] = "Kampaň";
 $GLOBALS['strCampaignID'] = "ID kampane";
 $GLOBALS['strCampaignName'] = "Názov kampane";
 $GLOBALS['strCountry'] = "Krajina";
 $GLOBALS['strStatsAction'] = "Akcia";
-$GLOBALS['strAction'] = "Akcia";
 $GLOBALS['strWindowDelay'] = "Oneskorenie okna";
-$GLOBALS['strFinanceCPM'] = "CPM";
-$GLOBALS['strFinanceCPC'] = "CPC";
-$GLOBALS['strFinanceCPA'] = "CPA";
+$GLOBALS['strStatsVariables'] = "Premenné";
+
+// Finance
 $GLOBALS['strFinanceMT'] = "Mesačný nájom";
+
+// Time and date related
 $GLOBALS['strDate'] = "Dátum";
 $GLOBALS['strDay'] = "Deň";
-$GLOBALS['strBreakdownByDay'] = "Deň";
 $GLOBALS['strDays'] = "Dni";
 $GLOBALS['strWeek'] = "Týždeň";
-$GLOBALS['strBreakdownByWeek'] = "Týždeň";
 $GLOBALS['strWeeks'] = "Týždne";
 $GLOBALS['strSingleMonth'] = "Mesiac";
-$GLOBALS['strBreakdownByMonth'] = "Mesiac";
 $GLOBALS['strMonths'] = "Mesiace";
 $GLOBALS['strDayOfWeek'] = "Deň v týždni";
-$GLOBALS['strBreakdownByDow'] = "Deň v týždni";
-$GLOBALS['strMonth'][11] = "December";
-$GLOBALS['strDayFullNames'][6] = "Sobota";
-$GLOBALS['strDayShortCuts'][6] = "So";
+
+$GLOBALS['strMonth'] = array();
+
+$GLOBALS['strDayFullNames'] = array();
+$GLOBALS['strDayFullNames'][6] = 'Sobota';
+
+$GLOBALS['strDayShortCuts'] = array();
+$GLOBALS['strDayShortCuts'][6] = 'So';
+
 $GLOBALS['strHour'] = "Hodina";
-$GLOBALS['strBreakdownByHour'] = "Hodina";
 $GLOBALS['strSeconds'] = "sekundy";
 $GLOBALS['strMinutes'] = "minúty";
 $GLOBALS['strHours'] = "hodiny";
+
+// Advertiser
 $GLOBALS['strClient'] = "Inzerent";
-$GLOBALS['strHiddenAdvertiser'] = "Inzerent";
 $GLOBALS['strClients'] = "Inzerenti";
 $GLOBALS['strClientsAndCampaigns'] = "Inzerenti a Kampane";
 $GLOBALS['strAddClient'] = "Pridať nového inzerenta";
@@ -177,10 +199,17 @@ $GLOBALS['strTotalClients'] = "Celkový počet inzerentov";
 $GLOBALS['strClientProperties'] = "Charaktreistika inzerenta";
 $GLOBALS['strClientHistory'] = "História inzerenta";
 $GLOBALS['strNoClients'] = "Aktuálne nemáte vytvorených žiadnych zadávateľov reklamy. Pre vytvorenie kapmane, vytvorte najskôr <a href='advertiser-edit.php'>nového zadávateľa</a> reklamy.";
+$GLOBALS['strNoClientsForBanners'] = "Aktuálne nemáte vytvorených žiadnych zadávateľov reklamy. Pre vytvorenie kapmane, vytvorte najskôr <a href='advertiser-edit.php'>nového zadávateľa</a> reklamy.";
 $GLOBALS['strConfirmDeleteClient'] = "Naozaj chcete zmazať inzerenta?";
+$GLOBALS['strConfirmDeleteClients'] = "Naozaj chcete zmazať inzerenta?";
+$GLOBALS['strSite'] = "Veľkosť";
 $GLOBALS['strHideInactive'] = "Skryť neaktívne";
 $GLOBALS['strHideInactiveAdvertisers'] = "Skryť neaktívnych inzerentov";
 $GLOBALS['strInactiveAdvertisersHidden'] = "Neaktívny inzerent(i) skrytý";
+$GLOBALS['strOverallAdvertisers'] = "Inzerenti";
+$GLOBALS['strAdvertiserCampaigns'] = "Inzerenti a Kampane";
+
+// Advertisers properties
 $GLOBALS['strContact'] = "Kontakt";
 $GLOBALS['strEMail'] = "E-mail";
 $GLOBALS['strChars'] = "znaky";
@@ -188,14 +217,15 @@ $GLOBALS['strSendAdvertisingReport'] = "E-mail správa o doručení";
 $GLOBALS['strNoDaysBetweenReports'] = "Počet dní medzi správami o doručení";
 $GLOBALS['strSendDeactivationWarning'] = "E-mail keď je kampaň automaticky aktivovaná/deaktivovaná";
 $GLOBALS['strAllowClientModifyInfo'] = "Povoliť tomuto užívateľovi modifikovať svoje vlastné nastavenia";
-$GLOBALS['strAllowAffiliateModifyInfo'] = "Povoliť tomuto užívateľovi modifikovať svoje vlastné nastavenia";
 $GLOBALS['strAllowClientModifyBanner'] = "Povoliť tomuto užívateľovi modifikovať svoje vlastné banery";
 $GLOBALS['strAllowClientDisableBanner'] = "Povoliť tomuto užívateľovi deaktivovať svoje vlastné banery";
 $GLOBALS['strAllowClientActivateBanner'] = "Povoliť tomuto užívateľovi aktivovať svoje vlastné banery";
 $GLOBALS['strAllowClientViewTargetingStats'] = "Povoliť tomuto užívateľovi zobraziť cielené štatistické údaje";
 $GLOBALS['strCsvImportConversions'] = "Povoliť tomuto užívateľovi importovať offline konverzie";
+
+// Campaign
 $GLOBALS['strCampaign'] = "Kampaň";
-$GLOBALS['strHiddenCampaign'] = "Kampaň";
+$GLOBALS['strCampaigns'] = "Kampaň";
 $GLOBALS['strTotalCampaigns'] = "Celkový počet kampaní";
 $GLOBALS['strActiveCampaigns'] = "Aktívne kampane";
 $GLOBALS['strAddCampaign'] = "Pridať novú kampaň";
@@ -208,6 +238,7 @@ $GLOBALS['strCampaignOverview'] = "Prehľad kampane";
 $GLOBALS['strCampaignHistory'] = "História kampane";
 $GLOBALS['strConfirmDeleteAllCampaigns'] = "Naozaj chcete zmazať všetky kampane, ktoré vlastní tento inzerent?";
 $GLOBALS['strConfirmDeleteCampaign'] = "Naozaj chcete zmazať túto kampaň?";
+$GLOBALS['strConfirmDeleteCampaigns'] = "Naozaj chcete zmazať túto kampaň?";
 $GLOBALS['strShowParentAdvertisers'] = "Ukázať nadradených inzerentov";
 $GLOBALS['strHideParentAdvertisers'] = "Skryť nadradených inzerentov";
 $GLOBALS['strHideInactiveCampaigns'] = "Skryť neaktívne kampane";
@@ -215,14 +246,17 @@ $GLOBALS['strInactiveCampaignsHidden'] = "Neaktívne kampane skryté";
 $GLOBALS['strContractDetails'] = "Kontaktné údaje";
 $GLOBALS['strInventoryDetails'] = "Údaje o inventári";
 $GLOBALS['strPriorityInformation'] = "Priorita v náväznosti na iné kampane";
+$GLOBALS['strHiddenCampaign'] = "Kampaň";
 $GLOBALS['strHiddenAd'] = "Reklama";
-$GLOBALS['strHiddenTracker'] = "Tracker";
-$GLOBALS['strTracker'] = "Tracker";
-$GLOBALS['strAffiliate'] = "Webstránka";
-$GLOBALS['strWebsite'] = "Webstránka";
+$GLOBALS['strHiddenAdvertiser'] = "Inzerent";
+$GLOBALS['strHiddenWebsite'] = "Webstránka";
 $GLOBALS['strHiddenZone'] = "Oblasť";
-$GLOBALS['strZone'] = "Oblasť";
 $GLOBALS['strSelectUnselectAll'] = "Označiť/Odznačiť všetko";
+
+// Campaign-zone linking page
+
+
+// Campaign properties
 $GLOBALS['strLow'] = "Nízka";
 $GLOBALS['strHigh'] = "Vysoká";
 $GLOBALS['strExpirationDateComment'] = "Kampaň sa skončí na konci tohto dňa";
@@ -231,41 +265,128 @@ $GLOBALS['strRevenueInfo'] = "Informácie o výnose";
 $GLOBALS['strImpressionsBooked'] = "Objednané zobrazenia";
 $GLOBALS['strClicksBooked'] = "Objednané kliknutia";
 $GLOBALS['strConversionsBooked'] = "Objednané konverzie";
+$GLOBALS['strCampaignStatusInactive'] = "aktívne";
+$GLOBALS['strCampaignStatusDeleted'] = "Zmazať";
+$GLOBALS['strCampaignType'] = "Názov kampane";
+$GLOBALS['strContract'] = "Kontakt";
+$GLOBALS['strStandardContract'] = "Kontakt";
+
+// Tracker
+$GLOBALS['strTrackers'] = "Tracker";
 $GLOBALS['strConfirmDeleteAllTrackers'] = "Naozaj chcete zmazať všetky kampane, ktoré vlastní tento inzerent?";
+$GLOBALS['strConfirmDeleteTrackers'] = "Naozaj chcete zmazať inzerenta?";
 $GLOBALS['strConfirmDeleteTracker'] = "Naozaj chcete zmazať inzerenta?";
 $GLOBALS['strClick'] = "Kliknutia";
+$GLOBALS['strImpression'] = "Impresie, Zobrazenia";
+
+
+
+// Banners (General)
 $GLOBALS['strTotalBanners'] = "Celkový počet banerov";
+$GLOBALS['strNoBannersAddAdvertiser'] = "Aktuálne nemáte vytvorených žiadnych zadávateľov reklamy. Pre vytvorenie kapmane, vytvorte najskôr <a href='affiliate-edit.php'>nového zadávateľa</a> reklamy.";
 $GLOBALS['strConfirmDeleteBanner'] = "Naozaj chcete zmazať túto kampaň?";
+$GLOBALS['strConfirmDeleteBanners'] = "Naozaj chcete zmazať túto kampaň?";
 $GLOBALS['strInactiveBannersHidden'] = "Neaktívny inzerent(i) skrytý";
+
+// Banner (Properties)
 $GLOBALS['strWeight'] = "Výška";
+
+// Banner (advanced)
+
+// Banner (swf)
+
+// Banner (network)
+
+// Banner (AdSense)
+
+// Display limitations
+$GLOBALS['strNoLimitations'] = "Bez obmedzení";
+
+
+$GLOBALS['strCappingBanner'] = array();
+
+$GLOBALS['strCappingCampaign'] = array();
+
+$GLOBALS['strCappingZone'] = array();
+
+// Website
+$GLOBALS['strAffiliate'] = "Webstránka";
 $GLOBALS['strAffiliates'] = "Webstránka";
 $GLOBALS['strNoAffiliates'] = "Aktuálne nemáte vytvorených žiadnych zadávateľov reklamy. Pre vytvorenie kapmane, vytvorte najskôr <a href='affiliate-edit.php'>nového zadávateľa</a> reklamy.";
 $GLOBALS['strConfirmDeleteAffiliate'] = "Naozaj chcete zmazať inzerenta?";
+$GLOBALS['strConfirmDeleteAffiliates'] = "Naozaj chcete zmazať inzerenta?";
 $GLOBALS['strAffiliateInvocation'] = "Zobrazovací kód";
 $GLOBALS['strInactiveAffiliatesHidden'] = "Neaktívny inzerent(i) skrytý";
+
+// Website (properties)
+$GLOBALS['strWebsite'] = "Webstránka";
+$GLOBALS['strAllowAffiliateModifyInfo'] = "Povoliť tomuto užívateľovi modifikovať svoje vlastné nastavenia";
 $GLOBALS['strAllowAffiliateModifyZones'] = "Povoliť tomuto užívateľovi modifikovať svoje vlastné banery";
 $GLOBALS['strAllowAffiliateZoneStats'] = "Povoliť tomuto užívateľovi zobraziť cielené štatistické údaje";
+
+// Website (properties - payment information)
+$GLOBALS['strCountry'] = "Krajina";
+
+// Website (properties - other information)
+
+// Zone
+$GLOBALS['strZone'] = "Oblasť";
 $GLOBALS['strZones'] = "Oblasť";
+$GLOBALS['strNoZonesAddWebsite'] = "Aktuálne nemáte vytvorených žiadnych zadávateľov reklamy. Pre vytvorenie kapmane, vytvorte najskôr <a href='affiliate-edit.php'>nového zadávateľa</a> reklamy.";
 $GLOBALS['strConfirmDeleteZone'] = "Naozaj chcete zmazať túto kampaň?";
+$GLOBALS['strConfirmDeleteZones'] = "Naozaj chcete zmazať túto kampaň?";
 $GLOBALS['strInactiveZonesHidden'] = "Neaktívny inzerent(i) skrytý";
+
+
+// Advanced zone settings
+
+// Zone probability
+
+// Linked banners/campaigns/trackers
+$GLOBALS['strStatusDuplicate'] = "Duplikovať";
 $GLOBALS['strConnTypeSale'] = "Uložiť";
+
+// Statistics
 $GLOBALS['strDailyStats'] = "Všetky štatistiky";
-$GLOBALS['strAllAdvertisers'] = "Celkový počet inzerentov";
-$GLOBALS['strAgency'] = "Konto";
-$GLOBALS['strNoAgencies'] = "Momentálne nie sú definovaní žiadni inzerenti";
-$GLOBALS['strConfirmDeleteAgency'] = "Naozaj chcete zmazať túto kampaň?";
-$GLOBALS['strInactiveAgenciesHidden'] = "Neaktívny inzerent(i) skrytý";
-$GLOBALS['strConfirmDeleteChannel'] = "Naozaj chcete zmazať túto kampaň?";
-$GLOBALS['strTrackerType'] = "Názov trackeru";
-$GLOBALS['strNoAdminInterface'] = "Administrátorská časť je aktuálne vypnutá z dôvodu údržby.Tento stav nijako neovplyvňuje zobrazovanie Vašich kampaní.";
-$GLOBALS['strOverallAdvertisers'] = "Inzerenti";
-$GLOBALS['strImpression'] = "Impresie, Zobrazenia";
-$GLOBALS['strLinkUserHelpUser'] = "užívateľské meno";
-$GLOBALS['strPasswordRepeat'] = "Opakujte heslo";
-$GLOBALS['strCampaigns'] = "Kampaň";
-$GLOBALS['strCampaignStatusDeleted'] = "Zmazať";
-$GLOBALS['strTrackers'] = "Tracker";
+$GLOBALS['strBreakdownByDay'] = "Deň";
+$GLOBALS['strBreakdownByWeek'] = "Týždeň";
+$GLOBALS['strBreakdownByMonth'] = "Mesiac";
+$GLOBALS['strBreakdownByDow'] = "Deň v týždni";
+$GLOBALS['strBreakdownByHour'] = "Hodina";
+
+// Hosts
+
+// Expiration
 $GLOBALS['strCampaignStop'] = "História kampane";
+
+// Reports
+$GLOBALS['strLimitations'] = "Obmedzenia";
+
+// Admin_UI_Fields
+$GLOBALS['strAllAdvertisers'] = "Celkový počet inzerentov";
+
+// Userlog
+$GLOBALS['strAction'] = "Akcia";
+
+// Code generation
+
+
+// Errors
+
+//Validation
+
+
+// Email
+
+// Priority
+$GLOBALS['strPriority'] = "Priorita";
+
+// Preferences
+$GLOBALS['strPreferences'] = "Nastavenia";
+
+
+// Statistics columns
+// Long names
 $GLOBALS['strERPM'] = "CPM";
 $GLOBALS['strERPC'] = "CPC";
 $GLOBALS['strERPS'] = "CPM";
@@ -278,18 +399,10 @@ $GLOBALS['strECPS'] = "CPM";
 $GLOBALS['strEPPM'] = "CPM";
 $GLOBALS['strEPPC'] = "CPC";
 $GLOBALS['strEPPS'] = "CPM";
-$GLOBALS['strAgencies'] = "Konto";
-$GLOBALS['strAccount'] = "Konto";
 $GLOBALS['strImpressionSR'] = "Impresie, Zobrazenia";
-$GLOBALS['strActions'] = "Akcia";
-$GLOBALS['strFinanceCTR'] = "CTR";
-$GLOBALS['strNoClientsForBanners'] = "Aktuálne nemáte vytvorených žiadnych zadávateľov reklamy. Pre vytvorenie kapmane, vytvorte najskôr <a href='advertiser-edit.php'>nového zadávateľa</a> reklamy.";
-$GLOBALS['strAdvertiserCampaigns'] = "Inzerenti a Kampane";
-$GLOBALS['strCampaignStatusInactive'] = "aktívne";
-$GLOBALS['strCampaignType'] = "Názov kampane";
-$GLOBALS['strContract'] = "Kontakt";
-$GLOBALS['strStandardContract'] = "Kontakt";
-$GLOBALS['strNoZonesAddWebsite'] = "Aktuálne nemáte vytvorených žiadnych zadávateľov reklamy. Pre vytvorenie kapmane, vytvorte najskôr <a href='affiliate-edit.php'>nového zadávateľa</a> reklamy.";
+$GLOBALS['strActualImpressions'] = "Impresií";
+
+// Short names
 $GLOBALS['strERPM_short'] = "CPM";
 $GLOBALS['strERPC_short'] = "CPC";
 $GLOBALS['strERPS_short'] = "CPM";
@@ -302,36 +415,70 @@ $GLOBALS['strECPS_short'] = "CPM";
 $GLOBALS['strEPPM_short'] = "CPM";
 $GLOBALS['strEPPC_short'] = "CPC";
 $GLOBALS['strEPPS_short'] = "CPM";
-$GLOBALS['strConfirmDeleteClients'] = "Naozaj chcete zmazať inzerenta?";
-$GLOBALS['strConfirmDeleteCampaigns'] = "Naozaj chcete zmazať túto kampaň?";
-$GLOBALS['strConfirmDeleteTrackers'] = "Naozaj chcete zmazať inzerenta?";
-$GLOBALS['strNoBannersAddAdvertiser'] = "Aktuálne nemáte vytvorených žiadnych zadávateľov reklamy. Pre vytvorenie kapmane, vytvorte najskôr <a href='affiliate-edit.php'>nového zadávateľa</a> reklamy.";
-$GLOBALS['strConfirmDeleteBanners'] = "Naozaj chcete zmazať túto kampaň?";
-$GLOBALS['strConfirmDeleteAffiliates'] = "Naozaj chcete zmazať inzerenta?";
-$GLOBALS['strConfirmDeleteZones'] = "Naozaj chcete zmazať túto kampaň?";
-$GLOBALS['strActualImpressions'] = "Impresií";
-$GLOBALS['strID_short'] = "ID";
 $GLOBALS['strClicks_short'] = "Kliknutia";
-$GLOBALS['strCTR_short'] = "CTR";
+
+// Global Settings
+
+
+// Product Updates
+
+// Agency
+$GLOBALS['strAgency'] = "Konto";
+$GLOBALS['strAgencies'] = "Konto";
+$GLOBALS['strNoAgencies'] = "Momentálne nie sú definovaní žiadni inzerenti";
+$GLOBALS['strConfirmDeleteAgency'] = "Naozaj chcete zmazať túto kampaň?";
+$GLOBALS['strInactiveAgenciesHidden'] = "Neaktívny inzerent(i) skrytý";
+
+// Channels
 $GLOBALS['strNoChannelsAddWebsite'] = "Aktuálne nemáte vytvorených žiadnych zadávateľov reklamy. Pre vytvorenie kapmane, vytvorte najskôr <a href='affiliate-edit.php'>nového zadávateľa</a> reklamy.";
+
+$GLOBALS['strConfirmDeleteChannel'] = "Naozaj chcete zmazať túto kampaň?";
 $GLOBALS['strConfirmDeleteChannels'] = "Naozaj chcete zmazať túto kampaň?";
-$GLOBALS['strSite'] = "Veľkosť";
-$GLOBALS['strHiddenWebsite'] = "Webstránka";
+$GLOBALS['strVariableDescription'] = "Popis";
+$GLOBALS['strTrackerType'] = "Názov trackeru";
+
+
+// Upload conversions
 $GLOBALS['strYouHaveNoCampaigns'] = "Inzerenti a Kampane";
-$GLOBALS['strSyncSettings'] = "Nastavenia synchronizácie";
-$GLOBALS['strNoAdminInteface'] = "Administrátorská časť je aktuálne vypnutá z dôvodu údržby.Tento stav nijako neovplyvňuje zobrazovanie Vašich kampaní.";
-$GLOBALS['strEnableCookies'] = "Skôr ako začnete používať {$PRODUCT_NAME} musíte mať povolené COOKIES";
-$GLOBALS['strHideInactiveOverview'] = "Skryť neaktívne položky zo všetkých náhľadov stránok";
-$GLOBALS['strHiddenPublisher'] = "Webstránka";
-$GLOBALS['strClick-ThroughRatio'] = "Miera preklikov";
-$GLOBALS['strImpressionSRShort'] = "Impresie, Zobrazenia";
-$GLOBALS['strClicksShort'] = "Kliknutia";
-$GLOBALS['strImpressionsShort'] = "Zobrazenia";
-$GLOBALS['strVariable'] = "Premenné";
-$GLOBALS['strPreference'] = "Nastavenie";
-$GLOBALS['str_ID'] = "ID";
-$GLOBALS['str_Requests'] = "Požiadavky";
-$GLOBALS['str_Impressions'] = "Impresií";
-$GLOBALS['str_Clicks'] = "Kliknutia";
-$GLOBALS['str_CTR'] = "CTR";
+
+
+// Password recovery
+
+// Audit
+$GLOBALS['strAccount'] = "Konto";
+
+
+// Widget - Audit
+
+// Widget - Campaign
+
+
+
+//confirmation messages
+
+
+
+
+
+
+
+
+
+
+
+/* ------------------------------------------------------- */
+/* Keyboard shortcut assignments                           */
+/* ------------------------------------------------------- */
+
+// Reserved keys
+// Do not change these unless absolutely needed
+
+// Other keys
+// Please make sure you underline the key you
+// used in the string in default.lang.php
+
+/* ------------------------------------------------------- */
+/* Languages Names                                       */
+/* ------------------------------------------------------- */
+
 ?>

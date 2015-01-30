@@ -1,16 +1,68 @@
 <?php
 
 /*
-+---------------------------------------------------------------------------+
-| Revive Adserver                                                           |
-| http://www.revive-adserver.com                                            |
-|                                                                           |
-| Copyright: See the COPYRIGHT.txt file.                                    |
-| License: GPLv2 or later, see the LICENSE.txt file.                        |
-+---------------------------------------------------------------------------+
-*/
+  +---------------------------------------------------------------------------+
+  | Revive Adserver                                                           |
+  | http://www.revive-adserver.com                                            |
+  |                                                                           |
+  | Copyright: See the COPYRIGHT.txt file.                                    |
+  | License: GPLv2 or later, see the LICENSE.txt file.                        |
+  +---------------------------------------------------------------------------+
+ */
 
-// Note: New translations not found in original lang files but found in CSV
-$GLOBALS['strDeliveryLimitations'] = "Cyfyngiadau Trosglwyddo";
+// Main strings
+
+// Maintenance
+
+
+
+
+
+
+
+
+
+// Priority
+
+
+// Banner cache
+
+// Cache
+
+
+// Storage
+
+// Encoding
 $GLOBALS['strEncodingConvert'] = "Trosi";
-?>
+
+
+// Storage
+
+
+// Product Updates
+
+
+
+
+
+
+
+
+
+
+
+
+// Stats conversion
+
+
+
+
+//  Maintenace
+
+//  Deliver Limitations
+$GLOBALS['strDeliveryLimitations'] = "Cyfyngiadau Trosglwyddo";
+
+
+//  Append codes
+
+

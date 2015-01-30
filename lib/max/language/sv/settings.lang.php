@@ -1,47 +1,92 @@
 <?php
 
 /*
-+---------------------------------------------------------------------------+
-| Revive Adserver                                                           |
-| http://www.revive-adserver.com                                            |
-|                                                                           |
-| Copyright: See the COPYRIGHT.txt file.                                    |
-| License: GPLv2 or later, see the LICENSE.txt file.                        |
-+---------------------------------------------------------------------------+
-*/
+  +---------------------------------------------------------------------------+
+  | Revive Adserver                                                           |
+  | http://www.revive-adserver.com                                            |
+  |                                                                           |
+  | Copyright: See the COPYRIGHT.txt file.                                    |
+  | License: GPLv2 or later, see the LICENSE.txt file.                        |
+  +---------------------------------------------------------------------------+
+ */
 
-// Note: New translations not found in original lang files but found in CSV
-$GLOBALS['strInventory'] = "Lager";
-$GLOBALS['strBasicInformation'] = "Grundläggande Information";
-$GLOBALS['strWarning'] = "Varning";
-$GLOBALS['strTypeFTPUsername'] = "Logga in";
-$GLOBALS['strTypeFTPPassword'] = "Lösenord";
-$GLOBALS['strHideInactive'] = "Dölj inaktiva";
-$GLOBALS['strHasTaxID'] = "Skatte-ID";
-$GLOBALS['strStatisticsDefaults'] = "Statistik";
-$GLOBALS['strGeneralSettings'] = "Allmänna inställningar";
-$GLOBALS['strAdminSettings'] = "Administrativa inställningar";
-$GLOBALS['strAdministratorSettings'] = "Administrativa inställningar";
-$GLOBALS['strChooseSection'] = "Välj sektion";
+// Installer translation strings
 $GLOBALS['strInstall'] = "Installera";
-$GLOBALS['strLanguageSelection'] = "Val av språk";
 $GLOBALS['strDatabaseSettings'] = "Inställningar för databas";
+$GLOBALS['strAdminSettings'] = "Administrativa inställningar";
 $GLOBALS['strAdminAccount'] = "Administratörens konto";
 $GLOBALS['strAdvancedSettings'] = "Avancerade inställningar";
-$GLOBALS['strSpecifySyncSettings'] = "Inställningar av synkroniseringar";
-$GLOBALS['strDbSetupTitle'] = "Inställningar för databas";
+$GLOBALS['strWarning'] = "Varning";
+
+
+
+
+
+
 $GLOBALS['strDeliveryUrlPrefix'] = "Visningsmotor";
 $GLOBALS['strDeliveryUrlPrefixSSL'] = "Visningsmotor";
-$GLOBALS['strDeliveryPath'] = "Leveransminne";
-$GLOBALS['strDeliverySslPath'] = "Leveransminne";
-$GLOBALS['strModesOfPayment'] = "Betalsätt";
-$GLOBALS['strHelpFiles'] = "Hjälpfil";
-$GLOBALS['strEmailSettings'] = "Huvudsakliga inställningar";
+
+
+
+/* ------------------------------------------------------- */
+/* Configuration translations                            */
+/* ------------------------------------------------------- */
+
+// Global
+$GLOBALS['strChooseSection'] = "Välj sektion";
+$GLOBALS['strEditConfigNotPossible'] = "It is not possible to edit all settings because the configuration file is locked for security reasons. " .
+    "If you want to make changes, you may need to unlock the configuration file for this installation first.";
+$GLOBALS['strEditConfigPossible'] = "It is possible to edit all settings because the configuration file is not locked, but this could lead to security issues. " .
+    "If you want to secure your system, you need to lock the configuration file for this installation.";
+
+// Configuration Settings
+
+// Administrator Settings
+$GLOBALS['strAdministratorSettings'] = "Administrativa inställningar";
+$GLOBALS['strBasicInformation'] = "Grundläggande Information";
 $GLOBALS['strAdminCheckEveryLogin'] = "Varje inloggning";
 $GLOBALS['strAdminCheckDaily'] = "Dagligen";
 $GLOBALS['strAdminCheckWeekly'] = "Veckovis";
 $GLOBALS['strAdminCheckMonthly'] = "Månadsvis";
 $GLOBALS['strAdminCheckNever'] = "Aldrig";
+
+
+// Database Settings
+$GLOBALS['strDatabaseSettings'] = "Inställningar för databas";
+
+
+
+// Email Settings
+$GLOBALS['strEmailSettings'] = "Huvudsakliga inställningar";
+
+// Audit Trail Settings
+
+// Debug Logging Settings
+
+// Delivery Settings
+$GLOBALS['strWebPath'] = "$PRODUCT_NAME Server Access Paths";
+$GLOBALS['strDeliveryPath'] = "Leveransminne";
+$GLOBALS['strDeliverySslPath'] = "Leveransminne";
+$GLOBALS['strTypeFTPUsername'] = "Logga in";
+$GLOBALS['strTypeFTPPassword'] = "Lösenord";
+
+
+
+
+// General Settings
+
+// Geotargeting Settings
+
+// Interface Settings
+$GLOBALS['strInventory'] = "Lager";
+$GLOBALS['strHideInactive'] = "Dölj inaktiva";
+$GLOBALS['strStatisticsDefaults'] = "Statistik";
+
+$GLOBALS['strModesOfPayment'] = "Betalsätt";
+$GLOBALS['strHelpFiles'] = "Hjälpfil";
+$GLOBALS['strHasTaxID'] = "Skatte-ID";
+
+// CSV Import Settings
 $GLOBALS['strChooseAdvertiser'] = "Välj Annonsör";
 $GLOBALS['strChooseCampaign'] = "Välj Kampanj";
 $GLOBALS['strChooseCampaignBanner'] = "Välj Annons";
@@ -55,4 +100,35 @@ $GLOBALS['strIncludeOSInfo'] = "Inkludera OS information";
 $GLOBALS['strIncludeSampleRow'] = "Inkludera exempel rad";
 $GLOBALS['strCSVTemplateAdvanced'] = "Avancerad Template";
 $GLOBALS['strCSVTemplateIncVariables'] = "Inkludera Spårarvariabler";
-?>
+
+/**
+ * @todo remove strBannerSettings if banner is only configurable as a preference
+ *       rename // Banner Settings to  // Banner Preferences
+ */
+// Invocation Settings
+
+// Banner Delivery Settings
+
+// Banner Logging Settings
+
+// Banner Storage Settings
+
+// Campaign ECPM settings
+
+// Statistics & Maintenance Settings
+
+// UI Settings
+$GLOBALS['strGeneralSettings'] = "Allmänna inställningar";
+
+
+
+
+// Regenerate Platfor Hash script
+
+// Plugin Settings
+
+/* ------------------------------------------------------- */
+/* Unknown (unused?) translations                        */
+/* ------------------------------------------------------- */
+
+

@@ -1,39 +1,75 @@
 <?php
 
 /*
-+---------------------------------------------------------------------------+
-| Revive Adserver                                                           |
-| http://www.revive-adserver.com                                            |
-|                                                                           |
-| Copyright: See the COPYRIGHT.txt file.                                    |
-| License: GPLv2 or later, see the LICENSE.txt file.                        |
-+---------------------------------------------------------------------------+
-*/
+  +---------------------------------------------------------------------------+
+  | Revive Adserver                                                           |
+  | http://www.revive-adserver.com                                            |
+  |                                                                           |
+  | Copyright: See the COPYRIGHT.txt file.                                    |
+  | License: GPLv2 or later, see the LICENSE.txt file.                        |
+  +---------------------------------------------------------------------------+
+ */
 
-// Note: New translations not found in original lang files but found in CSV
-$GLOBALS['strWarning'] = "Varning";
-$GLOBALS['strInvocationCampaignID'] = "Kampanj";
-$GLOBALS['strPause'] = "Pause";
-$GLOBALS['strInvocationSource'] = "Källa";
+// Other
 $GLOBALS['strCopyToClipboard'] = "Kopiera till klippbordet";
 $GLOBALS['strCopy'] = "kopiera";
-$GLOBALS['strAbbrPixels'] = "px";
+$GLOBALS['strChooseTypeOfInvocation'] = "Vänligen välj typ av bannerpublicering";
+$GLOBALS['strChooseTypeOfBannerInvocation'] = "Vänligen välj typ av bannerpublicering";
+
+// Measures
 $GLOBALS['strAbbrSeconds'] = "sek";
+
+// Common Invocation Parameters
 $GLOBALS['strInvocationWhat'] = "Val av banner";
+$GLOBALS['strInvocationCampaignID'] = "Kampanj";
 $GLOBALS['strInvocationTarget'] = "Målram";
+$GLOBALS['strInvocationSource'] = "Källa";
 $GLOBALS['strInvocationWithText'] = "Visa text nedanför banner";
 $GLOBALS['strInvocationDontShowAgain'] = "Visa inte banner igen på samma sida";
 $GLOBALS['strInvocationDontShowAgainCampaign'] = "Visa inte en banner från samma kampanj igen på samma sida";
 $GLOBALS['strInvocationTemplate'] = "Lagra bannern inuti en variabel så att den kan användas i en mall";
-$GLOBALS['strInvocationBannerID'] = "Banner ID";
 $GLOBALS['strInvocationComments'] = "Inkludera kommentarer";
+
+// Iframe
 $GLOBALS['strIFrameRefreshAfter'] = "Förnya efter";
 $GLOBALS['strIframeResizeToBanner'] = "Omvandla iframe till bannerns dimensioner";
 $GLOBALS['strIframeMakeTransparent'] = "Gör iframe transparent";
 $GLOBALS['strIframeIncludeNetscape4'] = "Inkludera Netscape 4 kompatibel ilayer";
+
+
+// PopUp
+
+
+// XML-RPC
+
+
+// AdLayer
 $GLOBALS['strAdLayerStyle'] = "Stil";
+
+
+
+
+
+
+
+
+
+$GLOBALS['strAdLayerStyleName'] = array();
+
+// Support for 3rd party server clicktracking
 $GLOBALS['str3rdPartyTrack'] = "Stöd klickspårning från 3:e parts server ";
+
+// Support for cachebusting code
 $GLOBALS['strCacheBuster'] = "Infoga Cache-Busting code";
-$GLOBALS['strChooseTypeOfInvocation'] = "Vänligen välj typ av bannerpublicering";
-$GLOBALS['strChooseTypeOfBannerInvocation'] = "Vänligen välj typ av bannerpublicering";
-?>
+
+// Non-Img creatives Warning for zone image-only invocation
+
+// unkown HTML tag type Warning for zone invocation
+
+// sql/web banner-type warning for clickonly zone invocation
+
+// IMG invocation selected for tracker with appended code
+$GLOBALS['strWarning'] = "Varning";
+
+// Local Invocation
+

@@ -10,12 +10,29 @@
 +---------------------------------------------------------------------------+
 */
 
-// Note: New translations not found in original lang files but found in CSV
-$GLOBALS['strContinue'] = "Nadaljuj";
-$GLOBALS['strUpgradeCompleted'] = "Posodobitev končana";
-$GLOBALS['strPluginsDefault'] = "OpenX vtičniki";
-$GLOBALS['strPostUpgradeTasks'] = "OpenX poposodobitvene naloge";
-$GLOBALS['strInstallComplete'] = "Vaša OpenX namestitev je zdaj zaključena.";
-$GLOBALS['strUnableCreateConfFile'] = "Vaša konfiguracijska datoteka ni bila ustvarjena. Prosimo, preverite dovoljenja {$PRODUCT_NAME} v var mapi.";
-$GLOBALS['strUnableUpdateConfFile'] = "Vaša konfiguracijska datoteka ni bila posodobljena. Prosimo, preverite dovoljenja {$PRODUCT_NAME} v var mapi, kakor tudi dovoljenja prejšnje namestitve konfiguracijske datoteke, ki ste jo kopirali v to mapo.";
-?>
+/** status messages **/
+
+/** welcome step **/
+
+/** check step **/
+
+
+
+/** admin login step **/
+
+/** database step **/
+
+
+/** config step **/
+
+/** jobs step **/
+
+
+/** finish step **/
+
+$GLOBALS['strContinue']                         = "Nadaljuj";
+$GLOBALS['strPluginsDefault']                   = "OpenX vtičniki";
+$GLOBALS['strPostUpgradeTasks']                 = "OpenX poposodobitvene naloge";
+$GLOBALS['strInstallComplete']                  = "Vaša OpenX namestitev je zdaj zaključena.";
+$GLOBALS['strUnableCreateConfFile']             = "Vaša konfiguracijska datoteka ni bila ustvarjena. Prosimo, preverite dovoljenja {$PRODUCT_NAME} v var mapi.";
+$GLOBALS['strUnableUpdateConfFile']             = "Vaša konfiguracijska datoteka ni bila posodobljena. Prosimo, preverite dovoljenja {$PRODUCT_NAME} v var mapi, kakor tudi dovoljenja prejšnje namestitve konfiguracijske datoteke, ki ste jo kopirali v to mapo.";

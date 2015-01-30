@@ -13,6 +13,5 @@
 // Meta information
 $translation_readable   = "Português";
 $translation_maintainer	= "Lopo de Almeida";
-$translation_contact	= "";
 
 ?>
