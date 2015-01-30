@@ -148,7 +148,7 @@ class OA_Email
         }
 
         // Prepare the final email - add the greeting to the advertiser
-        $email = "$strMailHeader\n";
+        $email = "$strMailHeader\n\n";
         if (!empty($aUser['contact_name'])) {
             $greetingTo = $aUser['contact_name'];
         } else if (!empty($aAdvertiser['contact'])) {
@@ -697,7 +697,7 @@ class OA_Email
             return false;
         }
 
-        $email = "$strMailHeader\n";
+        $email = "$strMailHeader\n\n";
         // Set the correct greeting, start with username, then advertiser contact/name,
         // then admin name/company, fallback to generic
         if (!empty($aUser['contact_name'])) {
@@ -890,7 +890,7 @@ class OA_Email
         $emailBody = $this->_prepareCampaignActivatedDeactivatedEmailBody($aCampaign);
 
         // Prepare the final email - add the greeting to the advertiser
-        $email = "$strMailHeader\n";
+        $email = "$strMailHeader\n\n";
         if (!empty($aUser['contact_name'])) {
             $greetingTo = $aUser['contact_name'];
         } else if (!empty($aAdvertiser['contact'])) {
