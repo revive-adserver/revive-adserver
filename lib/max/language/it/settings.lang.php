@@ -96,6 +96,7 @@ $GLOBALS['strAdminEmail'] = "Indirizzo email dell'Amministratore";
 $GLOBALS['strAdministratorEmail'] = "Indirizzo email dell'Amministratore";
 $GLOBALS['strCompanyName'] = "Società";
 $GLOBALS['strAdminCheckUpdates'] = "Controlla aggiornamenti disponibili";
+$GLOBALS['strAdminShareStack'] = "Condividi informazioni tecniche con il team di {$PRODUCT_NAME} per aiutarli nelle fasi di sviluppo e test.";
 $GLOBALS['strAdminCheckEveryLogin'] = "Ad ogni login";
 $GLOBALS['strAdminCheckDaily'] = "Una volta al giorno";
 $GLOBALS['strAdminCheckWeekly'] = "Una volta alla settimana";
@@ -103,6 +104,7 @@ $GLOBALS['strAdminCheckMonthly'] = "Una volta al mese";
 $GLOBALS['strAdminCheckNever'] = "Non controllare";
 $GLOBALS['strNovice'] = "Per sicurezza, le cancellazioni richiedono la conferma";
 $GLOBALS['strUserlogEmail'] = "Registra tutte le email in uscita";
+$GLOBALS['strEnableDashboard'] = "Abilita dashboard";
 $GLOBALS['strEnableDashboardSyncNotice'] = "Per favore abilita <a href='account-settings-update.php'>Controllo aggiornamenti</a> se vuoi usare la bacheca.";
 $GLOBALS['strTimezone'] = "Fuso orario";
 $GLOBALS['strTimezoneEstimated'] = "Fuso orario stimato";
@@ -210,8 +212,11 @@ $GLOBALS['strDeliveryFilenamesXMLRPC'] = "Invocazione XML RPC";
 $GLOBALS['strDeliveryFilenamesLocal'] = "Invocazione Locale";
 $GLOBALS['strDeliveryFilenamesFrontController'] = "Controllo Front";
 $GLOBALS['strDeliveryFilenamesFlash'] = "Inclusione Flash (può essere un URL assoluto)";
-$GLOBALS['strDeliveryCaching'] = "Impostazioni cache per la consegna dei Banner";
+$GLOBALS['strDeliveryFilenamesSinglePageCall'] = "Single Page Call";
+$GLOBALS['strDeliveryFilenamesSinglePageCallJS'] = "Single Page Call (JavaScript)";
+$GLOBALS['strDeliveryCaching'] = "Impostazioni cache per la consegna dei banner";
 $GLOBALS['strDeliveryCacheLimit'] = "Intervallo di tempo fra due aggiornamenti della cache (in secondi)";
+$GLOBALS['strDeliveryCacheStore'] = "Tipo di cache per la consegna dei banner";
 
 
 $GLOBALS['strOrigin'] = "Utilizza il server di origine remoto";
@@ -222,7 +227,8 @@ $GLOBALS['strOriginScript'] = "File di script per il database di origine";
 $GLOBALS['strOriginTimeout'] = "Timeout origine (in secondi)";
 $GLOBALS['strOriginProtocol'] = "Protocollo del server di origine";
 
-$GLOBALS['strDeliveryAcls'] = "Valuta le limitazioni nella consegna dei banner durante la consegna";
+$GLOBALS['strDeliveryAcls'] = "Valuta le limitazioni di consegna dei banner durante la consegna";
+$GLOBALS['strDeliveryAclsDirectSelection'] = "Valuta le limitazioni di consegna durante la \"selezione diretta\"";
 $GLOBALS['strDeliveryObfuscate'] = "Offusca il canale durante la consegna delle inserzioni";
 $GLOBALS['strDeliveryExecPhp'] = "Permetti di eseguire codice PHP all'interno delle inserzioni<br />(Attenzione: Potrebbe introdurre rischi di sicurezza)";
 $GLOBALS['strDeliveryCtDelimiter'] = "Delimitatore tracciamento click di terze parti";
@@ -268,6 +274,7 @@ $GLOBALS['strShowBannerPreview'] = "Mostra anteprima nella parte superiore delle
 $GLOBALS['strHideInactive'] = "Nascondi inattivi";
 $GLOBALS['strGUIShowMatchingBanners'] = "Mostra banner corrispondenti nella pagina <i>Banner collegati</i>";
 $GLOBALS['strGUIShowParentCampaigns'] = "Mostra campagne nella pagina <i>Banner collegati</i>";
+$GLOBALS['strShowEntityId'] = "Mostra ID numerici delle entità";
 $GLOBALS['strGUIAnonymousCampaignsByDefault'] = "Assegna in modo predefinito le campagne a Anonymous";
 $GLOBALS['strStatisticsDefaults'] = "Statistiche";
 $GLOBALS['strBeginOfWeek'] = "Primo giorno della settimana";
@@ -319,6 +326,9 @@ $GLOBALS['strEnforceUserAgents'] = "Logga <strong>soltanto</strong> le statistic
 $GLOBALS['strBannerStorage'] = "Impostazioni di memorizzazione banner";
 
 // Campaign ECPM settings
+$GLOBALS['strEnableECPM'] = "Utilizza priorità ottimizzate per eCPM per le campagne remnant";
+$GLOBALS['strEnableContractECPM'] = "Utilizza priorità ottimizzate per eCPM per le campagne a contratto";
+$GLOBALS['strEnableECPMfromRemnant'] = "(Se la funzionalità viene abilitata, tutte le campagne remnant verranno disabilitate e dovranno essere riabilitate manualmente)";
 
 // Statistics & Maintenance Settings
 $GLOBALS['strMaintenanceSettings'] = "Impostazioni di manutenzione";
@@ -333,6 +343,7 @@ $GLOBALS['strMaintenanceOI'] = "Intervallo delle operazioni di manutenzione (in 
 $GLOBALS['strMaintenanceOIError'] = "L'intervallo delle operazioni non è valido - consulta la documentazione per conoscere i valori validi";
 $GLOBALS['strPrioritySettings'] = "Impostazioni Priorità";
 $GLOBALS['strPriorityInstantUpdate'] = "Aggiorna immediatamente le priorità a seguito di un cambiamento effettuato da interfaccia grafica";
+$GLOBALS['strPriorityIntentionalOverdelivery'] = "Prova intenzionalmente a consegnare più del dovuto (over-delivery) le campagne a contratto";
 $GLOBALS['strDefaultImpConWindow'] = "Finestra di connessione Ad Impression predefinita (secondi)";
 $GLOBALS['strDefaultImpConWindowError'] = "Se impostato, il valore predefinito della Finestra di connessione Ad Impression deve essere un intero positivo";
 $GLOBALS['strDefaultCliConWindow'] = "Valore predefinito della Finestra di connessione Ad Click (in secondi)";
@@ -362,7 +373,7 @@ $GLOBALS['strDefaultTrackerType'] = "Tipo di tracker predefinito";
 $GLOBALS['strSSLSettings'] = "Impostazioni SSL";
 $GLOBALS['requireSSL'] = "Forza accesso SSL nell`interfaccia utente";
 $GLOBALS['sslPort'] = "Porta SSL usata dal Web Server";
-$GLOBALS['strDashboardSettings'] = "Impostazioni Bacheca";
+$GLOBALS['strDashboardSettings'] = "Impostazioni Dashboard";
 
 $GLOBALS['strMyLogo'] = "Nome del file per logo personalizzato";
 $GLOBALS['strMyLogoError'] = "Il file per il logo non esiste nella cartella admin/images";
@@ -370,6 +381,7 @@ $GLOBALS['strGuiHeaderForegroundColor'] = "Colore in primo piano dell'intestazio
 $GLOBALS['strGuiHeaderBackgroundColor'] = "Colore di sfondo dell'intestazione";
 $GLOBALS['strGuiActiveTabColor'] = "Colore del tab attivo";
 $GLOBALS['strGuiHeaderTextColor'] = "Colore del testo nell'intestazione";
+$GLOBALS['strGuiSupportLink'] = "URL personalizzato per il link di Supporto in alto";
 $GLOBALS['strColorError'] = "Inserisci i colori in un formato RGB, come '0066CC'";
 
 $GLOBALS['strGzipContentCompression'] = "Utilizza la compressione GZIP per i contenuti";
@@ -385,6 +397,7 @@ $GLOBALS['strPublisherAgreementText'] = "Testo per il login (tag HTML consentiti
 // Regenerate Platfor Hash script
 
 // Plugin Settings
+$GLOBALS['strPluginSettings'] = "Impostazioni del plugin";
 
 /* ------------------------------------------------------- */
 /* Unknown (unused?) translations                        */

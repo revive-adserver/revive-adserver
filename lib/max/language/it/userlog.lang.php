@@ -19,6 +19,7 @@ $GLOBALS['strAdministrator'] = "Amministratore";
 // Audit
 $GLOBALS['strDebugLog'] = "Log di debug";
 $GLOBALS['strEvent'] = "Evento";
+$GLOBALS['strTimestamp'] = "Data e ora";
 $GLOBALS['strDeleted'] = "cancellato";
 $GLOBALS['strInserted'] = "inserito";
 $GLOBALS['strUpdated'] = "aggiornato";
@@ -29,6 +30,7 @@ $GLOBALS['strFilters'] = "Filtri";
 $GLOBALS['strAdvertiser'] = "Inserzionista";
 $GLOBALS['strPublisher'] = "Sito";
 $GLOBALS['strType'] = "Tipo";
+$GLOBALS['strAction'] = "Azione";
 $GLOBALS['strParameter'] = "Parametro";
 $GLOBALS['strValue'] = "Valore";
 $GLOBALS['strDetailedView'] = "Visualizzazione dettagliata";

@@ -60,8 +60,9 @@ $GLOBALS['strOverview'] = "Descrizione";
 $GLOBALS['strSearch'] = "<u>C</u>erca";
 $GLOBALS['strHistory'] = "Storico";
 $GLOBALS['strDetails'] = "Dettagli";
-$GLOBALS['strUpdateSettings'] = "Aggiorna impostazioni";
+$GLOBALS['strUpdateSettings'] = "Impostazioni aggiornamenti";
 $GLOBALS['strCheckForUpdates'] = "Controlla aggiornamenti";
+$GLOBALS['strWhenCheckingForUpdates'] = "Durante la ricerca degli aggiornamenti";
 $GLOBALS['strCompact'] = "Compatte";
 $GLOBALS['strVerbose'] = "Complete";
 $GLOBALS['strUser'] = "Utente";
@@ -158,10 +159,12 @@ $GLOBALS['strTarget'] = "Frame destinazione";
 $GLOBALS['strLanguage'] = "Lingua";
 $GLOBALS['strDescription'] = "Descrizione";
 $GLOBALS['strVariables'] = "Variabili";
+$GLOBALS['strID'] = "ID";
 $GLOBALS['strComments'] = "Commenti";
 
 // User access
 $GLOBALS['strWorkingAs'] = "Lavora come";
+$GLOBALS['strWorkingAs_Key'] = "<u>L</u>avorando come";
 $GLOBALS['strWorkingAs'] = "Lavora come";
 $GLOBALS['strSwitchTo'] = "Passa a";
 $GLOBALS['strWorkingFor'] = "%s per...";
@@ -285,6 +288,7 @@ $GLOBALS['strMonth'][10] = "Novembre";
 $GLOBALS['strMonth'][11] = "Dicembre";
 
 $GLOBALS['strDayFullNames'] = array();
+$GLOBALS['strDayFullNames'][0] = 'Domenica';
 
 $GLOBALS['strDayShortCuts'] = array();
 $GLOBALS['strDayShortCuts'][0] = 'Do';
@@ -375,6 +379,7 @@ $GLOBALS['strInactiveCampaignsHidden'] = "campagne inattive nascoste";
 $GLOBALS['strContractDetails'] = "Dettagli contratto";
 $GLOBALS['strInventoryDetails'] = "Dettagli inventario";
 $GLOBALS['strPriorityInformation'] = "Priorità in relazione ad altre campagne";
+$GLOBALS['strECPMInformation'] = "Prioritizzazione eCPM";
 $GLOBALS['strHiddenCampaign'] = "Campagna";
 $GLOBALS['strHiddenAd'] = "Inserzione";
 $GLOBALS['strHiddenAdvertiser'] = "Inserzionista";
@@ -521,6 +526,9 @@ $GLOBALS['strWarningMissingOpening'] = "apertura tag \"<\"";
 $GLOBALS['strSubmitAnyway'] = "Invia comunque";
 $GLOBALS['strOverallBanners'] = "Banner";
 $GLOBALS['strBannerPreferences'] = "Preferenze banner";
+$GLOBALS['strCampaignPreferences'] = "Preferenze campagne";
+$GLOBALS['strDefaultBanners'] = "Banner predefinito";
+$GLOBALS['strDefaultBannerUrl'] = "URL dell'immagine predefinita";
 $GLOBALS['strDefaultBannerDestination'] = "URL di destinazione predefinito";
 
 // Banner (Properties)
@@ -832,6 +840,7 @@ $GLOBALS['strCampaignStop'] = "Termina campagna";
 
 // Reports
 $GLOBALS['strReports'] = "Rapporti";
+$GLOBALS['strAdvancedReports'] = "Report avanzati";
 $GLOBALS['strPublisherReports'] = "Rapporti Editore";
 $GLOBALS['strSelectReport'] = "Seleziona il rapporto che vuoi generare";
 $GLOBALS['strStartDate'] = "Data Inzio";
@@ -970,6 +979,7 @@ $GLOBALS['strReenterNewPassword'] = "Ripeti la nuova password";
 $GLOBALS['strNameLanguage'] = "Nome e lingua";
 $GLOBALS['strAccountPreferences'] = "Preferenze account";
 $GLOBALS['strCampaignEmailReportsPreferences'] = "Preferenze rapporti email della campagna";
+$GLOBALS['strTimezonePreferences'] = "Preferenze fuso orario";
 $GLOBALS['strAdminEmailWarnings'] = "Email di notifica amministratore";
 $GLOBALS['strAgencyEmailWarnings'] = "Email di notifica agenzia";
 $GLOBALS['strAdveEmailWarnings'] = "Email di notifica inserzionista";
@@ -992,9 +1002,18 @@ $GLOBALS['strColumnRank'] = "Colonna Rank";
 $GLOBALS['strRevenue'] = "Entrate";
 $GLOBALS['strNumberOfItems'] = "Numero di oggetti";
 $GLOBALS['strRevenueCPC'] = "Ricavo Cost Per Click (CPC)";
+$GLOBALS['strERPM'] = "ERPM";
+$GLOBALS['strERPC'] = "ERPC";
+$GLOBALS['strERPS'] = "ERPS";
+$GLOBALS['strEIPM'] = "EIPM";
+$GLOBALS['strEIPC'] = "EIPC";
+$GLOBALS['strEIPS'] = "EIPS";
 $GLOBALS['strECPM'] = "ECPM";
+$GLOBALS['strECPC'] = "ECPC";
+$GLOBALS['strECPS'] = "ECPS";
 $GLOBALS['strPendingConversions'] = "Conversioni in attesa";
 $GLOBALS['strImpressionSR'] = "Visualizzazione SR";
+$GLOBALS['strClickSR'] = "Click SR";
 $GLOBALS['strActualImpressions'] = "Impressioni";
 
 // Short names
@@ -1006,11 +1025,14 @@ $GLOBALS['strClicks_short'] = "Click";
 $GLOBALS['strPendingConversions_short'] = "Conv. in attesa";
 
 // Global Settings
+$GLOBALS['strConfiguration'] = "Configurazione";
 $GLOBALS['strGlobalSettings'] = "Impostazioni globali";
 $GLOBALS['strGeneralSettings'] = "Impostazioni generali";
 $GLOBALS['strMainSettings'] = "Impostazioni principali";
 $GLOBALS['strAdminSettings'] = "Impostazioni amministratore";
+$GLOBALS['strPlugins'] = "Plugin";
 
+$GLOBALS['strChooseSection'] = 'Scegli sezione';
 
 // Product Updates
 $GLOBALS['strProductUpdates'] = "Ricerca aggiornamenti";
@@ -1154,6 +1176,7 @@ $GLOBALS['strDeliveryLimitationsInputErrors'] = "Alcune limitazioni di distribuz
 
 
 
+$GLOBALS['strUserPreferencesUpdated'] = "Le preferenze di <b>%s</b> sono state aggiornate";
 
 
 /* ------------------------------------------------------- */
@@ -1169,6 +1192,7 @@ $GLOBALS['strDeliveryLimitationsInputErrors'] = "Alcune limitazioni di distribuz
 $GLOBALS['keySearch'] = "c";
 $GLOBALS['keyCollapseAll'] = "h";
 $GLOBALS['keyNext'] = "s";
+$GLOBALS['keyWorkingAs'] = "l";
 
 /* ------------------------------------------------------- */
 /* Languages Names                                       */
