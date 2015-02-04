@@ -210,7 +210,8 @@ function RV_checkSystemInitialRequirements(&$aErrors){
         'file_exists',
         'ini_set',
         'parse_ini_file',
-        'version_compare'
+        'version_compare',
+        'set_include_path',
     );
 
     // Prepare error strings, in the simplest possible way
