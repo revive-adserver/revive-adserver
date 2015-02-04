@@ -24,7 +24,6 @@ require_once 'memory.php';
  */
 function RV_initialSystemCheck()
 {
-    $errorUrl = 'http://www.openx.org/help/2.8/pre-init-error/';
     $installed = OX_checkSystemInstalled();
     $aErrors = array();
     $erorCode = RV_checkSystemInitialRequirements($aErrors);
@@ -286,6 +285,9 @@ function RV_checkSystemInitialRequirements(&$aErrors){
     $aNeededFunctions = array_intersect($aDisabledFunctions, $aRequiredFunctions);
     if (count($aNeededFunctions) > 0) {
         $isSystemOK = false;
+        if ($return === true) {
+            $return = -3;
+        }
         foreach ($aNeededFunctions as $functionName) {
             $aErrors[] = $errorString1 . $functionName . $errorString2;
         }
