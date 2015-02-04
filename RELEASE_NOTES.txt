@@ -36,6 +36,9 @@ What's New in Revive Adserver 3.1.1
    even when the request came via https.
  * Fixed issue with interstitial layers showing even when no matching banner
    was found, since the introduction of blank logging.
+ * Fixed issue that prevented the error message screen to be displayed when
+   trying to install or run Revive Adserver with some required functions
+   disabled via php.ini.
 
  Non-Backwards Compatible Changes
  --------------------------------
