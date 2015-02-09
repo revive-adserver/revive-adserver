@@ -619,12 +619,12 @@ function buildMiscFormSection(&$form, $campaign, $newCampaign)
  * Correction revenue from other formats (23234,34 or 23 234,34 or 23.234,34)
  * to format acceptable by is_numeric (23234.34)
  *
- * @param array $aFields  Array of exported form fields
- * @param array $errors  Array of pear errors
- * @param String $field  Numeric field which will be checked and converted
- * @param String $errrorString     Error string used in case format of the field is not correct
+ * @param array  $aFields     Array of exported form fields
+ * @param array  $errors      Array of pear errors
+ * @param string $field       Numeric field which will be checked and converted
+ * @param string $errorString Error string used in case format of the field is not correct
  */
-function correctAdnCheckNumericFormField($aFields, $errors, $field, $errrorString)
+function correctAdnCheckNumericFormField(&$aFields, $errors, $field, $errorString)
 {
     $corrected = OA_Admin_NumberFormat::unformatNumber ( $aFields[$field] );
     if ($corrected !== false) {
@@ -633,7 +633,7 @@ function correctAdnCheckNumericFormField($aFields, $errors, $field, $errrorStrin
     if (! empty ( $aFields[$field] ) && ! (is_numeric ( $aFields[$field] ))) {
         // Suppress PEAR error handling to show this error only on top of HTML form
         PEAR::pushErrorHandling ( null );
-        $errors [] = PEAR::raiseError ( $GLOBALS [$errrorString] );
+        $errors [] = PEAR::raiseError ( $GLOBALS [$errorString] );
         PEAR::popErrorHandling ();
     }
 }
