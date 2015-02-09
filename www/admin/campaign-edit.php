@@ -624,7 +624,7 @@ function buildMiscFormSection(&$form, $campaign, $newCampaign)
  * @param String $field  Numeric field which will be checked and converted
  * @param String $errrorString     Error string used in case format of the field is not correct
  */
-function correctAdnCheckNumericFormField($aFields, $errors, $field, $errrorString)
+function correctAdnCheckNumericFormField(&$aFields, $errors, $field, $errrorString)
 {
     $corrected = OA_Admin_NumberFormat::unformatNumber ( $aFields[$field] );
     if ($corrected !== false) {
