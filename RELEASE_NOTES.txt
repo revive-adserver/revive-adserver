@@ -39,6 +39,8 @@ What's New in Revive Adserver 3.1.1
  * Fixed issue that prevented the error message screen to be displayed when
    trying to install or run Revive Adserver with some required functions
    disabled via php.ini.
+ * Fixed issue causing campaign revenue to be improperly parsed when using
+   a number format different than nnnn.nn.
 
  Non-Backwards Compatible Changes
  --------------------------------
