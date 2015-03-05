@@ -3362,17 +3362,6 @@
           }
       }
 
-      // ----- Look for extract by ereg rule
-      else if (   (isset($p_options[PCLZIP_OPT_BY_EREG]))
-               && ($p_options[PCLZIP_OPT_BY_EREG] != "")) {
-          //--(MAGIC-PclTrace)--//PclTraceFctMessage(__FILE__, __LINE__, 3, "Extract by ereg '".$p_options[PCLZIP_OPT_BY_EREG]."'");
-
-          if (ereg($p_options[PCLZIP_OPT_BY_EREG], $v_header['stored_filename'])) {
-              //--(MAGIC-PclTrace)--//PclTraceFctMessage(__FILE__, __LINE__, 3, "Filename match the regular expression");
-              $v_extract = true;
-          }
-      }
-
       // ----- Look for extract by preg rule
       else if (   (isset($p_options[PCLZIP_OPT_BY_PREG]))
                && ($p_options[PCLZIP_OPT_BY_PREG] != "")) {
@@ -4804,15 +4793,6 @@
                   //--(MAGIC-PclTrace)--//PclTraceFctMessage(__FILE__, __LINE__, 3, "The file is the right one.");
                   $v_found = true;
               }
-          }
-      }
-
-      // ----- Look for extract by ereg rule
-      else if (   (isset($p_options[PCLZIP_OPT_BY_EREG]))
-               && ($p_options[PCLZIP_OPT_BY_EREG] != "")) {
-          //--(MAGIC-PclTrace)--//PclTraceFctMessage(__FILE__, __LINE__, 3, "Extract by ereg '".$p_options[PCLZIP_OPT_BY_EREG]."'");
-
-              trigger_error("PCLZIP_OPT_BY_EREG not supported anyomre", E_USER_ERROR);
           }
       }
 
