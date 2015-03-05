@@ -488,7 +488,7 @@ class DB_DataObjectCommon extends DB_DataObject
             return null;
         }
         $regs = null;
-        if (ereg("^(.*) \([0-9]+\)$", $this->$columnName, $regs)) {
+        if (preg_match("/^(.*) \([0-9]+\)$/D", $this->$columnName, $regs)) {
             $basename = $regs[1];
         } else {
             $basename = $this->$columnName;

@@ -72,7 +72,7 @@
         function testFileMaskAndSubdir() {
             $fs = new MAX_FileScanner();
             $fs->addFileTypes(array('php', 'inc'));
-            $fs->setFileMask('^.*/([a-zA-Z0-9\-_]*)\.plugin\.php$');
+            $fs->setFileMask('#^.*/([a-zA-Z0-9\-_]*)\.plugin\.php$#');
             $fs->addDir(MAX_FILE_TEST_DIR);
             $this->assertIdentical($fs->getAllFiles(), array(MAX_FILE_TEST_DIR.'/test.plugin.php'));
         }

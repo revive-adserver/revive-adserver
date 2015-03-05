@@ -23,7 +23,7 @@ function phpAds_GDImageFormat()
 	global $phpAds_GDImageFormat;
 
 	// Determine php version
-	$phpversion = ereg_replace ("([^0-9])", "", phpversion());
+	$phpversion = preg_replace ("/([^0-9])/D", "", phpversion());
 	$phpversion = $phpversion / pow (10, strlen($phpversion) - 1);
 
 	if ($phpversion >= 4.02 || ($phpversion >= 3.018 && $phpversion < 4.0))

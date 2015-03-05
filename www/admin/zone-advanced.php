@@ -73,7 +73,7 @@ else {
     $aZone['appendtype'] = phpAds_ZoneAppendRaw;
 }
 //extract chainzone
-if (ereg("^zone:([0-9]+)$", $aZone['chain'], $regs)) {
+if (preg_match("/^zone:([0-9]+)$/D", $aZone['chain'], $regs)) {
     $aZone['chainzone'] = $regs[1];
 }
 else {

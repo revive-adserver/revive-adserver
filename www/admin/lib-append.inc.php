@@ -31,7 +31,7 @@ function phpAds_ParseAppendCode ($append)
 		array()
 	);
 
-	if (ereg("ad(popup|layer)\.php\?([^'\"]+)['\"]", $append, $match))
+	if (preg_match("/ad(popup|layer)\.php\?([^'\"]+)['\"]/D", $append, $match))
 	{
 		if (!empty($match[2]))
 		{
@@ -39,7 +39,7 @@ function phpAds_ParseAppendCode ($append)
 
 			$append = str_replace('&amp;', '&', $match[2]);
 
-			if (ereg('[\?\&]?what=zone:([0-9]+)(&|$)', $append, $match))
+			if (preg_match('/[\?\&]?what=zone:([0-9]+)(&|$)/D', $append, $match))
 			{
 				$ret[0]['zoneid'] = $match[1];
 

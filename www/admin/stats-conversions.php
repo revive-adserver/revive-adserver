@@ -471,7 +471,7 @@ if (!empty($aConversions)) {
 
     echo "<form id='setPager' method='get' action='stats.php?".htmlentities($_SERVER['QUERY_STRING'])."'>";
 
-    $getValues = split('&', $_SERVER['QUERY_STRING']);
+    $getValues = preg_split('/&/D', $_SERVER['QUERY_STRING']);
     foreach ($getValues as $record) {
         $filed = explode('=', $record);
         if ($filed[0] != 'setPerPage' && $filed[0] != 'pageID') {

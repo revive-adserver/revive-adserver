@@ -443,7 +443,7 @@ function phpAds_FTPUniqueName($conn_id, $path, $name)
 	if (@ftp_size($conn_id, $base.".".$extension) < 1) {
 		return ($base.".".$extension);
 	} else {
-		if (eregi("^(.*)_([0-9]+)$", $base, $matches)) {
+		if (preg_match("/^(.*)_([0-9]+)$/Di", $base, $matches)) {
 			$base = $matches[1];
 			$i = $matches[2];
 		} else {

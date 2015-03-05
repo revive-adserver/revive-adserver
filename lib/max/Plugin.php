@@ -26,7 +26,6 @@ define('MAX_PLUGINS_VAR_WRITE_MODE', 0755);
  * The default file mask for plugins.
  */
 define('MAX_PLUGINS_EXTENSION', '.plugin.php');
-define('MAX_PLUGINS_EXTENSION_ESC', '\.plugin\.php');
 define('MAX_PLUGINS_PATH', '/plugins/');
 
 /**
@@ -255,7 +254,7 @@ class MAX_Plugin
     function _getPluginsFilesFromDirectory($directory, $recursive = 1)
     {
         if (is_readable($directory)) {
-            $fileMask = MAX_Plugin::_getFileMask();
+            $fileMask = self::_getFileMask();
             $oFileScanner = new MAX_FileScanner();
             $oFileScanner->addFileTypes(array('php','inc'));
             $oFileScanner->setFileMask($fileMask);
@@ -266,9 +265,13 @@ class MAX_Plugin
         }
     }
 
-    function _getFileMask()
+    static function _getFileMask()
     {
-        return '^.*' . MAX_PLUGINS_PATH . '/?([a-zA-Z0-9\-_]*)/?([a-zA-Z0-9\-_]*)?/([a-zA-Z0-9\-_]*)'.MAX_PLUGINS_EXTENSION_ESC.'$';
+        return '#^.*'.
+            preg_quote(MAX_PLUGINS_PATH, '#').
+            '/?([a-zA-Z0-9\-_]*)/?([a-zA-Z0-9\-_]*)?/([a-zA-Z0-9\-_]*)'.
+            preg_quote(MAX_PLUGINS_EXTENSION, '#').
+            '$#';
     }
 
     /**
@@ -516,7 +519,11 @@ class MAX_Plugin
         }
         $conf = parse_ini_file($configFileName, $processSections);
         if (isset($conf['realConfig'])) {
-            if (ereg('.*\/(.*)\.plugin\.conf\.php', $configFileName, $match = null)) {
+<<<<<<< HEAD
+            if (preg_match('#.*\/(.*)\.plugin\.conf\.php#D', $configFileName, $match = null)) {
+=======
+            if (preg_match('#.*\/(.*)\.plugin\.conf\.php#', $configFileName, $match = null)) {
+>>>>>>> feb8800... First round of ereg->preg
                 $configFileName = str_replace($match[1], $conf['realConfig'], $configFileName);
                 return MAX_Plugin::getConfigByFileName($configFileName, $processSections, $raiseErrors);
             } else {

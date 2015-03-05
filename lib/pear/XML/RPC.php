@@ -1572,7 +1572,7 @@ class XML_RPC_Message extends XML_RPC_Base
                 $r = new XML_RPC_Response($v);
             }
         }
-        $r->hdrs = split("\r?\n", $XML_RPC_xh[$parser]['ha'][1]);
+        $r->hdrs = preg_split("/\r?\n/D", $XML_RPC_xh[$parser]['ha'][1]);
         return $r;
     }
 }

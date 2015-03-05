@@ -675,7 +675,7 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled=false)
     $aVariables['alt_imageurl']    = !empty($aFields['alt_imageurl']) ? $aFields['alt_imageurl'] : '';
 
     if (isset($aFields['keyword']) && $aFields['keyword'] != '') {
-        $keywordArray = split('[ ,]+', $aFields['keyword']);
+        $keywordArray = preg_split('/[ ,]+/D', $aFields['keyword']);
         $aVariables['keyword'] = implode(' ', $keywordArray);
     } else {
         $aVariables['keyword'] = '';

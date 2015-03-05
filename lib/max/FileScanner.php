@@ -197,7 +197,7 @@ class MAX_FileScanner
         // Check if file name is allowed
         if (!empty($this->_allowedFileMask)) {
         	$matches = null;
-            if (!ereg($this->_allowedFileMask, $fileName, $matches)) {
+            if (!preg_match($this->_allowedFileMask, $fileName, $matches)) {
                 return false;
             } else {
                 $this->_lastMatch = $matches;
@@ -250,7 +250,7 @@ class MAX_FileScanner
     	    $matches = $this->_lastMatch;
     	} else {
     		$matches = null;
-    	    ereg($this->_allowedFileMask, $fileName, $matches);
+    	    preg_match($this->_allowedFileMask, $fileName, $matches);
     	}
 	    if (is_array($matches) && count($matches) == 4) {
             $key = $matches[2].':'.$matches[3];
