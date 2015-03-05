@@ -519,11 +519,7 @@ class MAX_Plugin
         }
         $conf = parse_ini_file($configFileName, $processSections);
         if (isset($conf['realConfig'])) {
-<<<<<<< HEAD
             if (preg_match('#.*\/(.*)\.plugin\.conf\.php#D', $configFileName, $match = null)) {
-=======
-            if (preg_match('#.*\/(.*)\.plugin\.conf\.php#', $configFileName, $match = null)) {
->>>>>>> feb8800... First round of ereg->preg
                 $configFileName = str_replace($match[1], $conf['realConfig'], $configFileName);
                 return MAX_Plugin::getConfigByFileName($configFileName, $processSections, $raiseErrors);
             } else {
