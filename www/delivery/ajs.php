@@ -3743,6 +3743,11 @@ $outputbuffer = $g_prepend . $g_append;
 $output = array('html' => $outputbuffer, 'bannerid' => '' );
 }
 }
+
+if (isset($row['advertiser_limitation']) && $row['advertiser_limitation'] == '1') {
+    $output['limitClientId'] = $row['client_id'];
+}
+
 OX_Delivery_Common_hook('postAdSelect', array(&$output));
 return $output;
 }
@@ -4363,4 +4368,11 @@ $varprefix = $GLOBALS['_MAX']['CONF']['var']['prefix'];
 echo "\nif (document.{$varprefix}used) document.{$varprefix}used += 'campaignid:".$output['campaignid'].",';\n";
 echo "\nif (document.MAX_used) document.MAX_used += 'campaignid:".$output['campaignid'].",';\n";
 echo "\nif (document.phpAds_used) document.phpAds_used += 'campaignid:".$output['campaignid'].",';\n";
+}
+
+if (!empty($output['limitClientId'])) {
+$varprefix = $GLOBALS['_MAX']['CONF']['var']['prefix'];
+echo "\nif (document.{$varprefix}used) document.{$varprefix}used += 'clientid:".$output['limitClientId'].",';\n";
+echo "\nif (document.MAX_used) document.MAX_used += 'clientid:".$output['limitClientId'].",';\n";
+echo "\nif (document.phpAds_used) document.phpAds_used += 'clientid:".$output['limitClientId'].",';\n";
 }
