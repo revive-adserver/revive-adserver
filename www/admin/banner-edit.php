@@ -513,26 +513,8 @@ function buildBannerForm($type, $aBanner, &$oComponent=null, $formDisabled=false
     }
 
     //html & text banners
-    if ($oComponent)
-    {
+    if ($oComponent) {
         $oComponent->buildForm($form, $aBanner);
-        if ($type == 'html') {
-            if ($aBanner['bannerid'] == '') {
-                // Remove the deprecated "url" and "target" form elements; these
-                // are not required for new HTML banners
-                $form->removeElement('header_b_links');
-                $form->removeElement('url');
-                $form->removeElement('target');
-            } else {
-                // Remove the deprecated "url" and "target" form elements from
-                // the existing HTML banner only if BOTH are unset
-                if ($aBanner['url'] == '' && $aBanner['target'] == '' ) {
-                    $form->removeElement('header_b_links');
-                    $form->removeElement('url');
-                    $form->removeElement('target');
-                }
-            }
-        }
     }
 
     $translation = new OX_Translation();

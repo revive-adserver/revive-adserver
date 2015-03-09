@@ -41,6 +41,8 @@ What's New in Revive Adserver 3.1.1
    disabled via php.ini.
  * Fixed issue causing campaign revenue to be improperly parsed when using
    a number format different than nnnn.nn.
+ * Fixed a problem with the destination URL not being available for new overlay
+   video ads, and potentially other HTML-based custom banner types.
 
  Non-Backwards Compatible Changes
  --------------------------------
