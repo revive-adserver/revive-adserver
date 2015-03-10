@@ -584,8 +584,7 @@ $GLOBALS['strLinkCampaignsByDefault']     = "Link newly created campaigns by def
 $GLOBALS['strNoLinkedTrackersDropdown']   = "-- No linked tracker --";
 $GLOBALS['strPerSingleImpression']        = "per single impression";
 $GLOBALS['strBackToTrackers']             = "Back to trackers";
-
-
+$GLOBALS['strIPAddress']                  = "IP Address";
 
 // Banners (General)
 $GLOBALS['strBanner']                        = "Banner";

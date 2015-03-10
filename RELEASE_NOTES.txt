@@ -50,6 +50,8 @@ What's New in Revive Adserver 3.2.0
 
  * Fixed the size of the search popup window under Chrome.
 
+ * Fixed missing translation string from statistics screens for conversions.
+
  Non-Backwards Compatible Changes
  --------------------------------
 
