@@ -401,7 +401,7 @@ if (!empty($aConversions)) {
                         <tr valign='top'>
                             <td width='40%'>
                                 <table border='0' cellspacing='0' cellpadding='0'>
-                                    <tr><th scope='row' style='text-align: $phpAds_TextAlignLeft'>IP Address:</th><td style='padding-left: 8px'>{$conversion['tracker_ip_address']}</td></tr>
+                                    <tr><th scope='row' style='text-align: $phpAds_TextAlignLeft'>{$GLOBALS['strClientIP']}:</th><td style='padding-left: 8px'>{$conversion['tracker_ip_address']}</td></tr>
                                     <tr><th scope='row' style='text-align: $phpAds_TextAlignLeft'>{$GLOBALS['strCountry']}:</th><td style='padding-left: 8px'>{$conversion['tracker_country']}</td></tr>
                                     <tr><th scope='row' style='text-align: $phpAds_TextAlignLeft'>{$GLOBALS['strStatsAction']}:</th><td style='padding-left: 8px'>{$action}</td></tr>
                                     <tr><th scope='row' style='text-align: $phpAds_TextAlignLeft'>{$GLOBALS['strConnectionType']}:</th><td style='padding-left: 8px'>{$connectionType}</td></tr>
