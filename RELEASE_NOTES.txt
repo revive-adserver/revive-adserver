@@ -27,7 +27,7 @@ What's New in Revive Adserver 3.2.0
  New Features
  ------------
 
- * None
+ * Added new help dialogue for companion positioning option.
 
  Bug Fixes
  ---------

@@ -606,12 +606,15 @@ function buildMiscFormSection(&$form, $campaign, $newCampaign)
     $form->addDecorator ( 'h_misc', 'tag', array ('attributes' => array ('id' => 'sect_misc', 'class' => $newCampaign ? 'hide' : '' ) ) );
 
     //priority misc
-    $miscG['anonymous'] = $form->createElement('advcheckbox', 'anonymous', null, $GLOBALS['strAnonymous'], null, array("f", "t" ));
-    $miscG['companion'] = $form->createElement('checkbox', 'companion', null, $GLOBALS['strCompanionPositioning']);
-    $form->addGroup($miscG, 'misc_g', $GLOBALS['strMiscellaneous'], "<BR>");
+    $miscA['anonymous'] = $form->createElement('advcheckbox', 'anonymous', null, $GLOBALS['strAnonymous'], null, array("f", "t" ));
+    $form->addGroup($miscA, 'misc_a', $GLOBALS['strMiscellaneous'], "<br />");
 
-    $commentsG ['comments']  = $form->createElement ( 'textarea', 'comments', null);
-    $form->addGroup ( $commentsG, 'comments_g', $GLOBALS['strComments'], "<BR>" );
+    $miscG['companion'] = $form->createElement('checkbox', 'companion', null, $GLOBALS['strCompanionPositioning']);
+    $miscG['info'] = $form->createElement('custom', 'companion-positioning');
+    $form->addGroup($miscG, 'misc_g', $GLOBALS['strMiscellaneous'], "");
+
+    $commentsG['comments']  = $form->createElement ( 'textarea', 'comments', null);
+    $form->addGroup($commentsG, 'comments_g', $GLOBALS['strComments'], "");
 }
 
 /**
