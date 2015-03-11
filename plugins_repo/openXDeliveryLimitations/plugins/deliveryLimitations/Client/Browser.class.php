@@ -32,7 +32,7 @@ class Plugins_DeliveryLimitations_Client_Browser extends Plugins_DeliveryLimitat
 {
     function __construct()
     {
-        $this->Plugins_DeliveryLimitations_ArrayData();
+        parent::__construct();
         $phpSniff = new phpSniff('', false);
         $this->setAValues($phpSniff->_browsers);
         $this->nameEnglish = 'Client - Browser';

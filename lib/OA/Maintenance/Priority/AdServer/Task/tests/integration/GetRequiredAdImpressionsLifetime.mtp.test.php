@@ -227,7 +227,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
             array('setSummaryStatisticsToDate')
         );
         $oCampaign = new MockPartialOX_Maintenance_Priority_Campaign_GetRequiredAdImpressions($this);
-        $oCampaign->OX_Maintenance_Priority_Campaign(array('placement_id' => 1));
+        $oCampaign->__construct(array('placement_id' => 1));
 
         // Manually set the remaining inventory that would normally be
         // set by the mocked setSummaryStatisticsToDate() method above
@@ -559,7 +559,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
                 )
             )
         );
-        $oAd->OA_Maintenance_Priority_Ad($aParam);
+        $oAd->__construct($aParam);
         $totalRequiredAdImpressions = 120;
         $oDate = new Date('2006-02-15 12:07:01');
         $oCampaignExpiryDate = new Date('2006-12-15 23:59:59');
@@ -592,7 +592,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
                 )
             )
         );
-        $oAd->OA_Maintenance_Priority_Ad($aParam);
+        $oAd->__construct($aParam);
         $totalRequiredAdImpressions = 110;
         $oDate = new Date('2006-02-15 12:07:01');
         $oCampaignExpiryDate = new Date('2006-02-15 23:59:59');
@@ -630,7 +630,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
                 )
             )
         );
-        $oAd->OA_Maintenance_Priority_Ad($aParam);
+        $oAd->__construct($aParam);
         $totalRequiredAdImpressions = 110;
         $oDate = new Date('2006-02-15 12:07:01');
         $oCampaignExpiryDate = new Date('2006-02-15 23:59:59');
@@ -674,7 +674,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
                 )
             )
         );
-        $oAd->OA_Maintenance_Priority_Ad($aParam);
+        $oAd->__construct($aParam);
         $totalRequiredAdImpressions = 110;
         $oDate = new Date('2006-02-15 12:07:01');
         $oCampaignExpiryDate = new Date('2006-02-15 23:59:59');
@@ -740,7 +740,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
                 )
             )
         );
-        $oAd->OA_Maintenance_Priority_Ad($aParam);
+        $oAd->__construct($aParam);
         $totalRequiredAdImpressions = 110;
         $oDate = new Date('2006-02-15 12:07:01');
         $oCampaignExpiryDate = new Date('2006-02-15 23:59:59');

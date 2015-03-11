@@ -30,7 +30,7 @@ class Plugins_DeliveryLimitations_Client_Language extends Plugins_DeliveryLimita
 {
     function __construct()
     {
-        $this->Plugins_DeliveryLimitations_ArrayData();
+        parent::__construct();
         $this->nameEnglish = 'Client - Language';
     }
 

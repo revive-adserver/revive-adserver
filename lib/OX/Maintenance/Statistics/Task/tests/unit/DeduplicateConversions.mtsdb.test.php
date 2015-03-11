@@ -69,7 +69,7 @@ class Test_OX_Maintenance_Statistics_Task_DeduplicateConversions extends UnitTes
         $oDal = new $mockClassName($this);
         $oDal->expectNever('deduplicateConversions');
         $oDal->expectNever('rejectEmptyVarConversions');
-        $oDal->OX_Dal_Maintenance_Statistics();
+        $oDal->__construct();
         $oServiceLocator->register('OX_Dal_Maintenance_Statistics', $oDal);
 
         // Set the controlling class' status and test
@@ -106,7 +106,7 @@ class Test_OX_Maintenance_Statistics_Task_DeduplicateConversions extends UnitTes
                 new Date('2008-09-08 17:59:59')
             )
         );
-        $oDal->OX_Dal_Maintenance_Statistics();
+        $oDal->__construct();
         $oServiceLocator->register('OX_Dal_Maintenance_Statistics', $oDal);
 
         // Set the controlling class' status and test

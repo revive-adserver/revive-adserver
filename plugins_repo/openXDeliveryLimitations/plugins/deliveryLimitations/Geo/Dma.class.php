@@ -31,7 +31,7 @@ class Plugins_DeliveryLimitations_Geo_Dma extends Plugins_DeliveryLimitations_Co
 
     function __construct()
     {
-        $this->Plugins_DeliveryLimitations_ArrayData();
+        parent::__construct();
         $this->nameEnglish = 'GEO - Designated Market Area';
     }
 

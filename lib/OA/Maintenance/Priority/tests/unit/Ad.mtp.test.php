@@ -66,13 +66,13 @@ class Test_OA_Maintenance_Priority_Ad extends UnitTestCase
         $aParams = 'foo';
         $oMaxEntityAd = new MockPartialOA_Maintenance_Priority_Ad($this);
         $oMaxEntityAd->expectCallCount('_abort', 1);
-        $oMaxEntityAd->OA_Maintenance_Priority_Ad($aParams);
+        $oMaxEntityAd->__construct($aParams);
         $oMaxEntityAd->tally();
 
         $aParams = array();
         $oMaxEntityAd = new MockPartialOA_Maintenance_Priority_Ad($this);
         $oMaxEntityAd->expectCallCount('_abort', 1);
-        $oMaxEntityAd->OA_Maintenance_Priority_Ad($aParams);
+        $oMaxEntityAd->__construct($aParams);
         $oMaxEntityAd->tally();
 
         $aParams = array(
@@ -80,7 +80,7 @@ class Test_OA_Maintenance_Priority_Ad extends UnitTestCase
         );
         $oMaxEntityAd = new MockPartialOA_Maintenance_Priority_Ad($this);
         $oMaxEntityAd->expectCallCount('_abort', 1);
-        $oMaxEntityAd->OA_Maintenance_Priority_Ad($aParams);
+        $oMaxEntityAd->__construct($aParams);
         $oMaxEntityAd->tally();
 
         $aParams = array(
@@ -90,7 +90,7 @@ class Test_OA_Maintenance_Priority_Ad extends UnitTestCase
         );
         $oMaxEntityAd = new MockPartialOA_Maintenance_Priority_Ad($this);
         $oMaxEntityAd->expectCallCount('_abort', 1);
-        $oMaxEntityAd->OA_Maintenance_Priority_Ad($aParams);
+        $oMaxEntityAd->__construct($aParams);
         $oMaxEntityAd->tally();
 
         $aParams = array(
@@ -101,7 +101,7 @@ class Test_OA_Maintenance_Priority_Ad extends UnitTestCase
         );
         $oMaxEntityAd = new MockPartialOA_Maintenance_Priority_Ad($this);
         $oMaxEntityAd->expectCallCount('_abort', 1);
-        $oMaxEntityAd->OA_Maintenance_Priority_Ad($aParams);
+        $oMaxEntityAd->__construct($aParams);
         $oMaxEntityAd->tally();
 
         $aParams = array(
@@ -111,7 +111,7 @@ class Test_OA_Maintenance_Priority_Ad extends UnitTestCase
         );
         $oMaxEntityAd = new MockPartialOA_Maintenance_Priority_Ad($this);
         $oMaxEntityAd->expectCallCount('_abort', 1);
-        $oMaxEntityAd->OA_Maintenance_Priority_Ad($aParams);
+        $oMaxEntityAd->__construct($aParams);
         $oMaxEntityAd->tally();
 
         $aParams = array(
@@ -121,7 +121,7 @@ class Test_OA_Maintenance_Priority_Ad extends UnitTestCase
         );
         $oMaxEntityAd = new MockPartialOA_Maintenance_Priority_Ad($this);
         $oMaxEntityAd->expectCallCount('_abort', 1);
-        $oMaxEntityAd->OA_Maintenance_Priority_Ad($aParams);
+        $oMaxEntityAd->__construct($aParams);
         $oMaxEntityAd->tally();
 
         $aParams = array(
@@ -131,7 +131,7 @@ class Test_OA_Maintenance_Priority_Ad extends UnitTestCase
         );
         $oMaxEntityAd = new MockPartialOA_Maintenance_Priority_Ad($this);
         $oMaxEntityAd->expectCallCount('_abort', 1);
-        $oMaxEntityAd->OA_Maintenance_Priority_Ad($aParams);
+        $oMaxEntityAd->__construct($aParams);
         $oMaxEntityAd->tally();
 
         $aParams = array(
@@ -142,7 +142,7 @@ class Test_OA_Maintenance_Priority_Ad extends UnitTestCase
         );
         $oMaxEntityAd = new MockPartialOA_Maintenance_Priority_Ad($this);
         $oMaxEntityAd->expectCallCount('_abort', 1);
-        $oMaxEntityAd->OA_Maintenance_Priority_Ad($aParams);
+        $oMaxEntityAd->__construct($aParams);
         $oMaxEntityAd->tally();
 
         // Test 2

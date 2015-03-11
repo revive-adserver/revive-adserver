@@ -75,25 +75,25 @@ class Test_OX_Maintenance_Priority_Campaign extends UnitTestCase
         $aParams = 'foo';
         $oCampaign = new MockPartialOX_Maintenance_Priority_Campaign($this);
         $oCampaign->expectCallCount('_abort', 1);
-        $oCampaign->OX_Maintenance_Priority_Campaign($aParams);
+        $oCampaign->__construct($aParams);
         $oCampaign->tally();
 
         $aParams = array();
         $oCampaign = new MockPartialOX_Maintenance_Priority_Campaign($this);
         $oCampaign->expectCallCount('_abort', 1);
-        $oCampaign->OX_Maintenance_Priority_Campaign($aParams);
+        $oCampaign->__construct($aParams);
         $oCampaign->tally();
 
         $aParams = array('campaign_id' => 'foo');
         $oCampaign = new MockPartialOX_Maintenance_Priority_Campaign($this);
         $oCampaign->expectCallCount('_abort', 1);
-        $oCampaign->OX_Maintenance_Priority_Campaign($aParams);
+        $oCampaign->__construct($aParams);
         $oCampaign->tally();
 
         $aParams = array('priority' => 5);
         $oCampaign = new MockPartialOX_Maintenance_Priority_Campaign($this);
         $oCampaign->expectCallCount('_abort', 1);
-        $oCampaign->OX_Maintenance_Priority_Campaign($aParams);
+        $oCampaign->__construct($aParams);
         $oCampaign->tally();
 
         // Test 2

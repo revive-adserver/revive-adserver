@@ -33,7 +33,7 @@ class Plugins_DeliveryLimitations_Geo_Latlong extends Plugins_DeliveryLimitation
 {
     function __construct()
     {
-        $this->Plugins_DeliveryLimitations_ArrayData();
+        parent::__construct();
         $this->nameEnglish = 'Geo - Latitude/Longitude';
     }
 

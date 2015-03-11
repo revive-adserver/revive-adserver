@@ -132,7 +132,7 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
 
                 // Create the OX_Maintenance_Statistics_Task_SetUpdateRequirements
                 // object and run the task
-                $oSetUpdateRequirements->OX_Maintenance_Statistics_Task_SetUpdateRequirements($this);
+                $oSetUpdateRequirements->__construct($this);
                 $oSetUpdateRequirements->run();
 
                 // Test the results of the task run
@@ -195,7 +195,7 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
 
                 // Create the OX_Maintenance_Statistics_Task_SetUpdateRequirements
                 // object and run the task
-                $oSetUpdateRequirements->OX_Maintenance_Statistics_Task_SetUpdateRequirements($this);
+                $oSetUpdateRequirements->__construct($this);
                 $oSetUpdateRequirements->run();
 
                 // Test the results of the task run
@@ -282,7 +282,7 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
 
                 // Create the OX_Maintenance_Statistics_Task_SetUpdateRequirements
                 // object and run the task
-                $oSetUpdateRequirements->OX_Maintenance_Statistics_Task_SetUpdateRequirements($this);
+                $oSetUpdateRequirements->__construct($this);
                 $oSetUpdateRequirements->run();
 
                 // Test the results of the task run
@@ -364,7 +364,7 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
 
                 // Create the OX_Maintenance_Statistics_Task_SetUpdateRequirements
                 // object and run the task
-                $oSetUpdateRequirements->OX_Maintenance_Statistics_Task_SetUpdateRequirements($this);
+                $oSetUpdateRequirements->__construct($this);
                 $oSetUpdateRequirements->run();
 
                 // Test the results of the task run

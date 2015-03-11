@@ -42,7 +42,7 @@ class Plugins_DeliveryLimitations_AbstractTimePlugin extends Plugins_DeliveryLim
      */
     function Plugins_DeliveryLimitations_Time_Base($min, $max)
     {
-        $this->Plugins_DeliveryLimitations_ArrayData();
+        parent::__construct();
         $this->setAValues(range($min, $max));
     }
 

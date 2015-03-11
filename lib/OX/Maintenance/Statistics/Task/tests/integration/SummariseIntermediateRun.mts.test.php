@@ -74,7 +74,7 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
         $oDal->expectNever('migrateRawImpressions');
         $oDal->expectNever('migrateRawClicks');
 
-        $oDal->OX_Dal_Maintenance_Statistics();
+        $oDal->__construct();
 
         $oServiceLocator->register('OX_Dal_Maintenance_Statistics', $oDal);
         $oSummariseIntermediate = new OX_Maintenance_Statistics_Task_MigrateBucketData();
@@ -119,7 +119,7 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
         $oDal->expectNever('migrateRawImpressions');
         $oDal->expectNever('migrateRawClicks');
 
-        $oDal->OX_Dal_Maintenance_Statistics();
+        $oDal->__construct();
 
         $oServiceLocator->register('OX_Dal_Maintenance_Statistics', $oDal);
         $oSummariseIntermediate = new OX_Maintenance_Statistics_Task_MigrateBucketData();
@@ -222,7 +222,7 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
         $oDal->expectNever('migrateRawImpressions');
         $oDal->expectNever('migrateRawClicks');
 
-        $oDal->OX_Dal_Maintenance_Statistics();
+        $oDal->__construct();
 
         $oServiceLocator->register('OX_Dal_Maintenance_Statistics', $oDal);
         $oSummariseIntermediate = new OX_Maintenance_Statistics_Task_MigrateBucketData();
@@ -350,7 +350,7 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
             )
         );
 
-        $oDal->OX_Dal_Maintenance_Statistics();
+        $oDal->__construct();
 
         $oServiceLocator->register('OX_Dal_Maintenance_Statistics', $oDal);
         $oSummariseIntermediate = new OX_Maintenance_Statistics_Task_MigrateBucketData();
@@ -578,7 +578,7 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
         $oDal->expectNever('migrateRawImpressions');
         $oDal->expectNever('migrateRawClicks');
 
-        $oDal->OX_Dal_Maintenance_Statistics();
+        $oDal->__construct();
 
         $oServiceLocator->register('OX_Dal_Maintenance_Statistics', $oDal);
         $oSummariseIntermediate = new OX_Maintenance_Statistics_Task_MigrateBucketData();
@@ -887,7 +887,7 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
             )
         );
 
-        $oDal->OX_Dal_Maintenance_Statistics();
+        $oDal->__construct();
 
         $oServiceLocator->register('OX_Dal_Maintenance_Statistics', $oDal);
         $oSummariseIntermediate = new OX_Maintenance_Statistics_Task_MigrateBucketData();

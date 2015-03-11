@@ -32,7 +32,7 @@ class Plugins_DeliveryLimitations_Geo_Continent extends Plugins_DeliveryLimitati
 {
     function __construct()
     {
-        $this->Plugins_DeliveryLimitations_ArrayData();
+        parent::__construct();
         $this->nameEnglish = 'Geo - Continent';
     }
 
