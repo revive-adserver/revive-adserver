@@ -2103,30 +2103,30 @@ so that's why we do the following, i am not sure if that is standard SQL and abs
             $bytesSent = $bytesSent[0]['Value'];
         }
         if ($text==='START') {
-            $startTime = split(' ', microtime());
+            $startTime = preg_split('/ /D', microtime());
             $this->_logData['startTime'] = $startTime[1] + $startTime[0];
         }
         if ($text==='start query') {
             $this->_logData['startBytesSent'] = $bytesSent;
-            $startTime = split(' ', microtime());
+            $startTime = preg_split('/ /D', microtime());
             $this->_logData['startQueryTime'] = $startTime[1] + $startTime[0];
             return;
         }
         if ($text==='end query') {
             $text .= ' result size: '.((int)$bytesSent-(int)$this->_logData['startBytesSent']).' bytes';
-            $endTime = split(' ', microtime());
+            $endTime = preg_split('/ /D', microtime());
             $endTime = $endTime[1] + $endTime[0];
             $text .= ', took: '.(($endTime - $this->_logData['startQueryTime'])).' seconds';
         }
         if (strpos($text, 'query built')===0) {
-            $endTime = split(' ', microtime());
+            $endTime = preg_split('/ /D', microtime());
             $endTime = $endTime[1] + $endTime[0];
             $this->writeLog('query building took: '.(($endTime - $this->_logData['startTime'])).' seconds');
         }
         $this->_logObject->log($text);
 
         if (strpos($text, 'end query')===0) {
-            $endTime = split(' ', microtime());
+            $endTime = preg_split('/ /D', microtime());
             $endTime = $endTime[1] + $endTime[0];
             $text = 'time over all: '.(($endTime - $this->_logData['startTime'])).' seconds';
             $this->_logObject->log($text);

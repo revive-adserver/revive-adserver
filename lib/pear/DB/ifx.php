@@ -533,7 +533,7 @@ class DB_ifx extends DB_common
      */
     function errorCode($nativecode)
     {
-        if (ereg('SQLCODE=(.*)]', $nativecode, $match)) {
+        if (preg_match('/SQLCODE=(.*)]/D', $nativecode, $match)) {
             $code = $match[1];
             if (isset($this->errorcode_map[$code])) {
                 return $this->errorcode_map[$code];

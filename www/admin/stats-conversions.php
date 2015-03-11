@@ -401,7 +401,7 @@ if (!empty($aConversions)) {
                         <tr valign='top'>
                             <td width='40%'>
                                 <table border='0' cellspacing='0' cellpadding='0'>
-                                    <tr><th scope='row' style='text-align: $phpAds_TextAlignLeft'>IP Address:</th><td style='padding-left: 8px'>{$conversion['tracker_ip_address']}</td></tr>
+                                    <tr><th scope='row' style='text-align: $phpAds_TextAlignLeft'>{$GLOBALS['strIPAddress']}:</th><td style='padding-left: 8px'>{$conversion['tracker_ip_address']}</td></tr>
                                     <tr><th scope='row' style='text-align: $phpAds_TextAlignLeft'>{$GLOBALS['strCountry']}:</th><td style='padding-left: 8px'>{$conversion['tracker_country']}</td></tr>
                                     <tr><th scope='row' style='text-align: $phpAds_TextAlignLeft'>{$GLOBALS['strStatsAction']}:</th><td style='padding-left: 8px'>{$action}</td></tr>
                                     <tr><th scope='row' style='text-align: $phpAds_TextAlignLeft'>{$GLOBALS['strConnectionType']}:</th><td style='padding-left: 8px'>{$connectionType}</td></tr>
@@ -471,7 +471,7 @@ if (!empty($aConversions)) {
 
     echo "<form id='setPager' method='get' action='stats.php?".htmlentities($_SERVER['QUERY_STRING'])."'>";
 
-    $getValues = split('&', $_SERVER['QUERY_STRING']);
+    $getValues = preg_split('/&/D', $_SERVER['QUERY_STRING']);
     foreach ($getValues as $record) {
         $filed = explode('=', $record);
         if ($filed[0] != 'setPerPage' && $filed[0] != 'pageID') {

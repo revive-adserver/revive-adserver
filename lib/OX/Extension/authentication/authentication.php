@@ -309,8 +309,8 @@ class Plugins_Authentication extends OX_Component
      */
     function isValidEmail($email)
     {
-        return eregi("^[a-zA-Z0-9]+[_a-zA-Z0-9-]*(\.[_a-z0-9-]+)*@[a-z??????0-9]+"
-                ."(-[a-z??????0-9]+)*(\.[a-z??????0-9-]+)*(\.[a-z]{2,6})$", $email);
+        return preg_match("#^[a-zA-Z0-9]+[_a-zA-Z0-9-]*(\.[_a-z0-9-]+)*@[a-z??????0-9]+"
+                ."(-[a-z??????0-9]+)*(\.[a-z??????0-9-]+)*(\.[a-z]{2,6})$#Di", $email);
     }
 
     function saveUser($userid, $login, $password, $contactName,

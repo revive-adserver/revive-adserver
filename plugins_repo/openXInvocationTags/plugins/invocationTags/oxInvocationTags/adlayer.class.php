@@ -221,7 +221,7 @@ class Plugins_InvocationTags_OxInvocationTags_adlayer extends Plugins_Invocation
         while ($stylefile = readdir($stylesdir)) {
             if (is_dir($layerStylesFolder.'/'.$stylefile) &&
                 file_exists($layerStylesFolder.'/'.$stylefile.'/invocation.inc.php')) {
-                if (ereg('^[^.]', $stylefile)) {
+                if (preg_match('/^[^.]/D', $stylefile)) {
                     $layerstyles[$stylefile] = isset($GLOBALS['strAdLayerStyleName'][$stylefile]) ?
                         $GLOBALS['strAdLayerStyleName'][$stylefile] :
                         str_replace("- ", "-",

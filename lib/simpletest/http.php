@@ -315,7 +315,7 @@
             $this->_cookies = array();
             $this->_authentication = false;
             $this->_realm = false;
-            foreach (split("\r\n", $headers) as $header_line) {
+            foreach (preg_split("/\r\n/D", $headers) as $header_line) {
                 $this->_parseHeaderLine($header_line);
             }
         }
@@ -456,7 +456,7 @@
          *    @access private
          */
         function _parseCookie($cookie_line) {
-            $parts = split(";", $cookie_line);
+            $parts = preg_split("/;/D", $cookie_line);
             $cookie = array();
             preg_match('/\s*(.*?)\s*=(.*)/', array_shift($parts), $cookie);
             foreach ($parts as $part) {
@@ -520,7 +520,7 @@
                 $this->_setError('Could not split headers from content');
                 $this->_headers = new SimpleHttpHeaders($raw);
             } else {
-                list($headers, $this->_content) = split("\r\n\r\n", $raw, 2);
+                list($headers, $this->_content) = preg_split("/\r\n\r\n/D", $raw, 2);
                 $this->_headers = new SimpleHttpHeaders($headers);
             }
         }

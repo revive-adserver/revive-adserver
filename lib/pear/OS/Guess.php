@@ -127,7 +127,7 @@ class OS_Guess
         if ($uname === null) {
             $uname = php_uname();
         }
-        $parts = split('[[:space:]]+', trim($uname));
+        $parts = preg_split('/[[:space:]]+/D', trim($uname));
         $n = count($parts);
 
         $release = $machine = $cpu = '';
@@ -157,7 +157,7 @@ class OS_Guess
             case 'Linux' :
                 $extra = $this->_detectGlibcVersion();
                 // use only the first two digits from the kernel version
-                $release = ereg_replace('^([[:digit:]]+\.[[:digit:]]+).*', '\1', $parts[2]);
+                $release = preg_replace('/^([[:digit:]]+\.[[:digit:]]+).*/D', '\1', $parts[2]);
                 break;
             case 'Mac' :
                 $sysname = 'darwin';
@@ -175,10 +175,10 @@ class OS_Guess
                         $cpu = 'powerpc';
                     }
                 }
-                $release = ereg_replace('^([[:digit:]]+\.[[:digit:]]+).*', '\1', $parts[2]);
+                $release = preg_replace('/^([[:digit:]]+\.[[:digit:]]+).*/D', '\1', $parts[2]);
                 break;
             default:
-                $release = ereg_replace('-.*', '', $parts[2]);
+                $release = preg_replace('/-.*/D', '', $parts[2]);
                 break;
         }
 
@@ -257,7 +257,7 @@ class OS_Guess
         } // features.h
         if (!($major && $minor) && @is_link('/lib/libc.so.6')) {
             // Let's try reading the libc.so.6 symlink
-            if (ereg('^libc-(.*)\.so$', basename(readlink('/lib/libc.so.6')), $matches)) {
+            if (preg_match('/^libc-(.*)\.so$/D', basename(readlink('/lib/libc.so.6')), $matches)) {
                 list($major, $minor) = explode('.', $matches[1]);
             }
         }

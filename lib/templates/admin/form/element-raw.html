@@ -8,7 +8,8 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
--->*}
+-->
+*}
 
 {if $elem.type == 'text' || $elem.type == 'password' || $elem.type == 'submit' || !$elem.type}
   {if $elem.prefix}<span class="affix prefix">{$elem.prefix}</span>{/if}<input {oa_form_input_attributes elem=$elem parent=$parent} />{if $elem.suffix}<span class="affix suffix">{$elem.suffix}</span>{/if}

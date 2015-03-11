@@ -295,7 +295,7 @@ function phpAds_sqlDie()
         }
         if ($errornumber == 1016 || $errornumber == 1030) {
             // Probably corrupted table, do additional check
-            eregi ("[0-9]+", $error, $matches);
+            preg_match ("/[0-9]+/Di", $error, $matches);
             if ($matches[0] == 126 || $matches[0] == 127 ||
             $matches[0] == 132 || $matches[0] == 134 ||
             $matches[0] == 135 || $matches[0] == 136 ||
