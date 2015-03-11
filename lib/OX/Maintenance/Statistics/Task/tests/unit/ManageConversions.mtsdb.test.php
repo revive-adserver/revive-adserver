@@ -62,7 +62,7 @@ class Test_OX_Maintenance_Statistics_Task_ManageConversions extends UnitTestCase
         Mock::generate('OX_Dal_Maintenance_Statistics');
         $oDal = new MockOX_Dal_Maintenance_Statistics($this);
         $oDal->expectNever('manageConversions');
-        $oDal->OX_Dal_Maintenance_Statistics();
+        $oDal->__construct();
         $oServiceLocator->register('OX_Dal_Maintenance_Statistics', $oDal);
 
         // Set the controlling class' status and test
@@ -92,7 +92,7 @@ class Test_OX_Maintenance_Statistics_Task_ManageConversions extends UnitTestCase
                 new Date('2008-09-08 17:59:59')
             )
         );
-        $oDal->OX_Dal_Maintenance_Statistics();
+        $oDal->__construct();
         $oServiceLocator->register('OX_Dal_Maintenance_Statistics', $oDal);
 
         // Set the controlling class' status and test
