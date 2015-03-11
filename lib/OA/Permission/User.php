@@ -36,7 +36,7 @@ class OA_Permission_User
      * @param DataObjects_Users $doUsers
      * @return OA_Permission_User
      */
-    function OA_Permission_User($doUsers, $skipDatabaseAccess = false)
+    function __construct($doUsers, $skipDatabaseAccess = false)
     {
         if (!is_a($doUsers, 'DataObjects_Users')) {
             MAX::raiseError('doUser not a DataObjects_Users');

@@ -77,7 +77,7 @@ class Image_Graph_Layout_Matrix extends Image_Graph_Layout
      *   be filled with newly created Image_Graph_Plotares objects, or they will
      *   be added manually
      */
-    function Image_Graph_Layout_Matrix($rows, $cols, $autoCreate = true)
+    function __construct($rows, $cols, $autoCreate = true)
     {
         parent::__construct();
 

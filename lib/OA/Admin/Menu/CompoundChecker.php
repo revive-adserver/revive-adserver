@@ -23,7 +23,7 @@ class OA_Admin_Menu_Compound_Checker
     var $aCheckers;
     var $mode;
 
-    function OA_Admin_Menu_Compound_Checker($aCheckers = array(), $mode = 'AND')
+    function __construct($aCheckers = array(), $mode = 'AND')
     {
         $this->aCheckers = $aCheckers;
         $this->mode = $mode;

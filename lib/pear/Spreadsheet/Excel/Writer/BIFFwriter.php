@@ -89,7 +89,7 @@ class Spreadsheet_Excel_Writer_BIFFwriter extends PEAR
     *
     * @access public
     */
-    function Spreadsheet_Excel_Writer_BIFFwriter()
+    function __construct()
     {
         $this->_byte_order = '';
         $this->_data       = '';

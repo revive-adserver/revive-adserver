@@ -20,9 +20,9 @@ class Test_OX_PluginManager extends UnitTestCase
     var $testpathPackages       = '/lib/OX/Plugin/tests/data/plugins/etc/';
     var $testpathPluginsAdmin   = '/lib/OX/Plugin/tests/data/www/admin/plugins/';
 
-    function Test_OX_PluginManager()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     function test_matchPackageFilename()

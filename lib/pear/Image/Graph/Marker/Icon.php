@@ -75,7 +75,7 @@ class Image_Graph_Marker_Icon extends Image_Graph_Marker
      * @param int $width The 'new' width of the icon if it is to be resized
      * @param int $height The 'new' height of the icon if it is to be resized
      */
-    function Image_Graph_Marker_Icon($filename, $width = 0, $height = 0)
+    function __construct($filename, $width = 0, $height = 0)
     {
         parent::__construct();
         $this->_filename = $filename;

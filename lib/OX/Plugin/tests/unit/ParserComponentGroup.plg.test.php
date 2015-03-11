@@ -24,9 +24,9 @@ class Test_OX_ParserComponentGroup extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Test_OX_ParserComponentGroup()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     function test_ParseEmpty()

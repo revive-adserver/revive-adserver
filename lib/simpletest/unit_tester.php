@@ -28,11 +28,11 @@
          *                             the class name if none specified.
          *    @access public
          */
-        function UnitTestCase($label = false) {
+        function __construct($label = false) {
             if (! $label) {
                 $label = get_class($this);
             }
-            $this->SimpleTestCase($label);
+            parent::__construct($label);
         }
 
         /**

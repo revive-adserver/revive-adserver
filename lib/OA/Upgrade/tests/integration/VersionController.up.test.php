@@ -25,9 +25,9 @@ class Test_VersionController extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Test_VersionController()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     function test_constructor()

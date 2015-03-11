@@ -33,9 +33,9 @@ class OA_Dll_AuditTest extends DllUnitTestCase
     /**
      * The constructor method.
      */
-    function OA_Dll_AuditTest()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
         Mock::generatePartial(
             'OA_Dll_Audit',
             'PartialMockOA_Dll_Audit',

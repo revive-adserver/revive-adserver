@@ -32,9 +32,9 @@ class MAX_Dal_Admin_Data_intermediate_adTest extends DalUnitTestCase
     /**
      * The constructor method.
      */
-    function MAX_Dal_Admin_Data_intermediate_adTest()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     function setUp()

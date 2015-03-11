@@ -30,7 +30,7 @@ require_once dirname(__FILE__) . '/lib/phpSniff/phpSniff.class.php';
  */
 class Plugins_DeliveryLimitations_Client_Browser extends Plugins_DeliveryLimitations_CommaSeparatedData
 {
-    function Plugins_DeliveryLimitations_Client_Browser()
+    function __construct()
     {
         $this->Plugins_DeliveryLimitations_ArrayData();
         $phpSniff = new phpSniff('', false);

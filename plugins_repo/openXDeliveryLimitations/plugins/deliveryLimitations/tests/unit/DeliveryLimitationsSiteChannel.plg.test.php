@@ -34,9 +34,9 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Site_Channel extends UnitTestCas
         TestEnv::restoreConfig();
     }
 
-    function Plugins_TestOfPlugins_DeliveryLimitations_Site_Channel()
+    function __construct()
  	    {
- 	        $this->UnitTestCase();
+ 	        parent::__construct();
  	        //TestEnv::restoreEnv();
  	        $this->aIds = TestEnv::loadData('delivery_001','mdb2schema');
  	    }

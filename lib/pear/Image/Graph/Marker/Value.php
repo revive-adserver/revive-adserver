@@ -68,7 +68,7 @@ class Image_Graph_Marker_Value extends Image_Graph_Marker
      * @param int $useValue Defines which value to use from the dataset, i.e. the
      *   X or Y value
      */
-    function Image_Graph_Marker_Value($useValue = IMAGE_GRAPH_VALUE_X)
+    function __construct($useValue = IMAGE_GRAPH_VALUE_X)
     {
         parent::__construct();
         $this->_padding = array('left' => 2, 'top' => 2, 'right' => 2, 'bottom' => 2);

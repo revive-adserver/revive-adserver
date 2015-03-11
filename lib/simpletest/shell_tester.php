@@ -23,7 +23,7 @@
          *    Executes the shell comand and stashes the output.
          *    @access public
          */
-        function SimpleShell() {
+        function __construct() {
             $this->_output = false;
         }
 
@@ -79,8 +79,8 @@
          *                             the class name if none specified.
          *    @access public
          */
-        function ShellTestCase($label = false) {
-            $this->SimpleTestCase($label);
+        function __construct($label = false) {
+            parent::__construct($label);
             $this->_current_shell = &$this->_createShell();
             $this->_last_status = false;
             $this->_last_command = '';

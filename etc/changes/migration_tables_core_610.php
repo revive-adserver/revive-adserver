@@ -5,7 +5,7 @@ require_once(MAX_PATH.'/lib/OA/Upgrade/Migration.php');
 class Migration_610 extends Migration
 {
 
-    function Migration_610()
+    function __construct()
     {
         //$this->__construct();
 

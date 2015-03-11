@@ -35,7 +35,7 @@
          *    @param SimpleTag $tag        Form tag to read.
          *    @param SimpleUrl $url        Location of holding page.
          */
-        function SimpleForm($tag, $url) {
+        function __construct($tag, $url) {
             $this->_method = $tag->getAttribute('method');
             $this->_action = $this->_createAction($tag->getAttribute('action'), $url);
             $this->_encoding = $this->_setEncodingClass($tag);

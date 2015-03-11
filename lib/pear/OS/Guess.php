@@ -104,7 +104,7 @@ class OS_Guess
     var $release;
     var $extra;
 
-    function OS_Guess($uname = null)
+    function __construct($uname = null)
     {
         list($this->sysname,
              $this->release,

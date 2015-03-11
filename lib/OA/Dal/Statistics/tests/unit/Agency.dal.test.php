@@ -33,9 +33,9 @@ class OA_Dal_Statistics_AgencyTest extends DalStatisticsUnitTestCase
     /**
      * The constructor method.
      */
-    function OA_Dal_Statistics_AgencyTest()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     function setUp()

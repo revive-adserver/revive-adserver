@@ -16,7 +16,7 @@ class OA_UpgradePostscript
 {
     var $oUpgrade;
 
-    function OA_UpgradePostscript()
+    function __construct()
     {
 
     }

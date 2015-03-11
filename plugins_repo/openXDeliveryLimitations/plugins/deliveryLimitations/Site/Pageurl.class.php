@@ -27,9 +27,9 @@ class Plugins_DeliveryLimitations_Site_Pageurl extends Plugins_DeliveryLimitatio
 {
     var $defaultComparison = '=~';
 
-    function Plugins_DeliveryLimitations_Site_Pageurl()
+    function __construct()
     {
-        $this->Plugins_DeliveryLimitations();
+        parent::__construct();
 
         $aConf = $GLOBALS['_MAX']['CONF'];
         if ($aConf['database']['type'] == 'mysql') {

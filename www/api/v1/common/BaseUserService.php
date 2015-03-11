@@ -33,7 +33,7 @@ class BaseUserService
      * This method initialises Service implementation object field.
      *
      */
-    function BaseUserService()
+    function __construct()
     {
         $this->_oUserServiceImp = new UserServiceImpl();
     }

@@ -25,9 +25,9 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Common extends UnitTestCas
     /**
      * The constructor method.
      */
-    function Test_OA_Maintenance_Priority_DeliveryLimitation_Common()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     /**

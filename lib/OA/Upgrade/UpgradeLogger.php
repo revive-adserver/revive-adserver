@@ -39,7 +39,7 @@ class OA_UpgradeLogger
      *
      * @return boolean
      */
-    function OA_UpgradeLogger()
+    function __construct()
     {
         //this->__construct();
         $this->logFile = MAX_PATH."/var/install.log";

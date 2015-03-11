@@ -34,9 +34,9 @@ class OX_Maintenance_Statistics_Task_SummariseFinal extends OX_Maintenance_Stati
      *
      * @return OX_Maintenance_Statistics_Task_SummariseFinal
      */
-    function OX_Maintenance_Statistics_Task_SummariseFinal()
+    function __construct()
     {
-        parent::OX_Maintenance_Statistics_Task();
+        parent::__construct();
     }
 
     /**

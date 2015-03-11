@@ -29,7 +29,7 @@ class MDB2_Schema_Changeset_Writer extends MDB2_Schema_Writer
 
     // }}}
     // {{{ MDB2_Schema_Changeset_Writer()
-    function MDB2_Schema_Changeset_Writer($valid_types = array())
+    function __construct($valid_types = array())
     {
         $this->__construct($valid_types);
     }

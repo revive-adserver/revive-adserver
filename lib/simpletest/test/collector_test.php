@@ -3,8 +3,8 @@ require_once(dirname(__FILE__) . '/../collector.php');
 Mock::generate('TestSuite');
 
 class PathEqualExpectation extends EqualExpectation {
-	function PathEqualExpectation($value, $message = '%s') {
-    	$this->EqualExpectation($v = str_replace("\\", '/', $value), $message);
+	function __construct($value, $message = '%s') {
+    	parent::__construct($v = str_replace("\\", '/', $value), $message);
 	}
 
     function test($compare) {

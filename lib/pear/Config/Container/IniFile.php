@@ -39,7 +39,7 @@ class Config_Container_IniFile {
     * @access public
     * @param    string  $options    (optional)Options to be used by renderer
     */
-    function Config_Container_IniFile($options = array())
+    function __construct($options = array())
     {
         $this->options = $options;
     } // end constructor

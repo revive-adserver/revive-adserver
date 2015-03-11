@@ -29,7 +29,7 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData_locateComponents ext
      */
     function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     /**

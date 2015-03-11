@@ -45,21 +45,6 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserZoneHistory extends OA_A
     }
 
     /**
-     * PHP4-style constructor
-     *
-     * @param array $aParams An array of parameters. The array should
-     *                       be indexed by the name of object variables,
-     *                       with the values that those variables should
-     *                       be set to. For example, the parameter:
-     *                       $aParams = array('foo' => 'bar')
-     *                       would result in $this->foo = bar.
-     */
-    function OA_Admin_Statistics_Delivery_Controller_AdvertiserZoneHistory($aParams)
-    {
-        $this->__construct($aParams);
-    }
-
-    /**
      * The final "child" implementation of the parental abstract method.
      *
      * @see OA_Admin_Statistics_Common::start()

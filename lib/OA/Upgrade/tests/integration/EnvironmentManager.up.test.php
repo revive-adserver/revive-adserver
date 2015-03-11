@@ -24,9 +24,9 @@ class Test_OA_Environment_Manager extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Test_OA_Environment_Manager()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     function test_getFilePermissionErrors()

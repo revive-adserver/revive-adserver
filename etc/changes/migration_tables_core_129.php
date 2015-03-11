@@ -17,7 +17,7 @@ require_once(MAX_PATH.'/lib/OA/DB/Sql.php');
 class Migration_129 extends Migration
 {
 
-    function Migration_129()
+    function __construct()
     {
         //$this->__construct();
 

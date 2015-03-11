@@ -27,9 +27,9 @@ class Test_OX_Maintenance_Statistics_Task_ManageConversions extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Test_OX_Maintenance_Statistics_Task_ManageConversions()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     /**

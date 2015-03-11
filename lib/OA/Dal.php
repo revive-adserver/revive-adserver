@@ -32,7 +32,7 @@ class OA_Dal
     /**
      * The constructor method.
      */
-    function OA_Dal()
+    function __construct()
     {
         $this->oDbh =& $this->_getDbh();
     }

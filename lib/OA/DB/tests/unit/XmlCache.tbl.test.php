@@ -29,9 +29,9 @@ class Test_OA_DB_XmlCache extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Test_OA_DB_XmlCache()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
 
         $this->oDbh    = OA_DB::singleton();
         $this->oCache  = new OA_DB_XmlCache();

@@ -85,7 +85,7 @@ class Image_Graph_Marker_Pointing extends Image_Graph_Marker
      * @param Marker $markerEnd The ending marker that represents 'the head of
      *   the pin'
      */
-    function Image_Graph_Marker_Pointing($deltaX, $deltaY, & $markerEnd)
+    function __construct($deltaX, $deltaY, & $markerEnd)
     {
         parent::__construct();
         $this->_deltaX = $deltaX;

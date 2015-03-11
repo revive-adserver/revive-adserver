@@ -226,7 +226,7 @@ class Migration_546 extends Migration
      */
     var $aDefaultPreferences;
 
-    function Migration_546()
+    function __construct()
     {
 		$this->aTaskList_destructive[] = 'beforeRemoveTable__preference';
 		$this->aTaskList_destructive[] = 'afterRemoveTable__preference';

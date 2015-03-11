@@ -33,9 +33,9 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
     /**
      * The constructor method.
      */
-    function OA_Dal_Statistics_ZoneTest()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     function setUp()

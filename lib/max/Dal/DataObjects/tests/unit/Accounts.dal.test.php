@@ -25,9 +25,9 @@ class DataObjects_AccoutnsTest extends DalUnitTestCase
     /**
      * The constructor method.
      */
-    function DataObjects_AccoutnsTest()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     function tearDown()

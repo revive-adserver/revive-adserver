@@ -34,9 +34,9 @@ class OX_Maintenance_Statistics_Task_LogCompletion extends OX_Maintenance_Statis
      *
      * @return OX_Maintenance_Statistics_Task_LogCompletion
      */
-    function OX_Maintenance_Statistics_Task_LogCompletion()
+    function __construct()
     {
-        parent::OX_Maintenance_Statistics_Task();
+        parent::__construct();
     }
 
     /**

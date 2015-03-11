@@ -16,7 +16,7 @@ require_once(LIB_PATH.'/Extension/admin.php');
 class Test_OX_Extension_admin extends UnitTestCase
 {
 
-    function Test_OX_Extension_admin()
+    function __construct()
     {
 
     }

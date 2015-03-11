@@ -28,9 +28,9 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
     /**
      * The constructor method.
      */
-    function Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetime()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
         Mock::generate('MAX_Dal_Entities');
         Mock::generate('OA_Dal_Maintenance_Priority');
         Mock::generate('OA_DB_Table_Priority');

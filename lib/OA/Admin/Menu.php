@@ -66,7 +66,7 @@ class OA_Admin_Menu
         return $oMenu;
     }
 
-    function OA_Admin_Menu()
+    function __construct()
     {
         $this->ROOT_SECTION_ID = 'root';
         $this->rootSection = new OA_Admin_Menu_Section($this->ROOT_SECTION_ID, 'root', '', '');

@@ -16,7 +16,7 @@ $className = 'postscript_install_testPlugin';
 class postscript_install_testPlugin
 {
 
-    function postscript_install_testPlugin()
+    function __construct()
     {
 
     }

@@ -34,9 +34,9 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
     /**
      * The constructor method.
      */
-    function Test_OX_Dal_Maintenance_Statistics_deduplicateConversions()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
 
         // Prepare the MSE DAL for use in the tests
         $oFactory = new OX_Dal_Maintenance_Statistics_Factory();

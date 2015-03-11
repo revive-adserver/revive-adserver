@@ -23,9 +23,9 @@ class Test_OA_Admin_BannerCache extends UnitTestCase
 {
     var $aBanners;
 
-    function Test_OA_Admin_BannerCache()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     function test_getBannerCache()

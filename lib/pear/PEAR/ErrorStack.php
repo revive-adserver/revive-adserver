@@ -228,7 +228,7 @@ class PEAR_ErrorStack {
      *                 defaults to {@link getFileLine()}
      * @param boolean  $throwPEAR_Error
      */
-    function PEAR_ErrorStack($package, $msgCallback = false, $contextCallback = false,
+    function __construct($package, $msgCallback = false, $contextCallback = false,
                          $throwPEAR_Error = false)
     {
         $this->_package = $package;

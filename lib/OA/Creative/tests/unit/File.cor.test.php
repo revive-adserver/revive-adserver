@@ -26,7 +26,7 @@ class Test_OA_Creative_File extends UnitTestCase
     var $imgSwf;
     var $tempFiles;
 
-    function Test_OA_Creative_File()
+    function __construct()
     {
         $this->imgGif  = "GIF89a\001\0\001\0\200\0\0\377\377\377\0\0\0!\371\004\0\0\0\0\0,\0\0\0\0\001\0\001\0\0\002\002D\001\0;";
         $this->imgPng  = "\211PNG\r\n\032\n\0\0\0\rIHDR\0\0\0\001\0\0\0\001\\b\003\0\0\001_\314\004-\0\0\0\031tEXtSoftware\0Adobe ImageReadyq\311e<\0\0\0\006PLTE\377\377\377\0\0\0U\302\323~\0\0\0\001tRNS\0@\346\330f\0\0\0\nIDATx\332c`\0\0\0\002\0\001\345'\336\374\0\0\0\0IEND\256B`\202";
@@ -36,7 +36,7 @@ class Test_OA_Creative_File extends UnitTestCase
 
         $this->tempFiles = array();
 
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     function TearDown()

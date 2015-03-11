@@ -45,7 +45,7 @@ class Test_DeliveryAdSelect extends UnitTestCase {
      */
     function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     function tearDown()

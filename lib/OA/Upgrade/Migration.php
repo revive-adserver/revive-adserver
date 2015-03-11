@@ -51,7 +51,7 @@ class Migration
 
     var $prefix;
 
-    function Migration()
+    function __construct()
     {
         $this->_setupSQLStatements();
         //$this->__construct();

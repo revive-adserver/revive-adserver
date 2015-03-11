@@ -28,9 +28,9 @@ class LogonServiceImpl extends BaseServiceImpl
      * The LogonServiceImpl constructor calls the base constructor for the class.
      *
      */
-    function LogonServiceImpl()
+    function __construct()
     {
-        $this->BaseServiceImpl();
+        parent::__construct();
     }
 
     /**

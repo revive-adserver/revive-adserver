@@ -167,9 +167,9 @@ class HTML_QuickForm_Renderer_Array extends HTML_QuickForm_Renderer
     * @param  bool    true: render an array of labels to many labels, $key 0 to 'label' and the oterh to "label_$key"
     * @access public
     */
-    function HTML_QuickForm_Renderer_Array($collectHidden = false, $staticLabels = false)
+    function __construct($collectHidden = false, $staticLabels = false)
     {
-        $this->HTML_QuickForm_Renderer();
+        parent::__construct();
         $this->_collectHidden = $collectHidden;
         $this->_staticLabels  = $staticLabels;
     } // end constructor

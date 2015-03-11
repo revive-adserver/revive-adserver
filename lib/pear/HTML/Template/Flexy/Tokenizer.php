@@ -197,7 +197,7 @@ class HTML_Template_Flexy_Tokenizer
     var $yy_at_bol;
     var $yy_lexical_state;
 
-    function HTML_Template_Flexy_Tokenizer($data)
+    function __construct($data)
     {
         $this->yy_buffer = $data;
         $this->yy_buffer_read = strlen($data);

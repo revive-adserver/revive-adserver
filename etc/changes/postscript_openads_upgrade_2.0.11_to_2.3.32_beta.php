@@ -17,7 +17,7 @@ class OA_UpgradePostscript_2_0_11
 {
     var $oUpgrade;
 
-    function OA_UpgradePostscript_2_0_11()
+    function __construct()
     {
 
     }

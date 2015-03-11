@@ -2,7 +2,7 @@
 
 class shape_point
 {
-	function shape_point( $x, $y )
+	function __construct( $x, $y )
 	{
 		$this->x = $x;
 		$this->y = $y;
@@ -11,7 +11,7 @@ class shape_point
 
 class shape
 {
-	function shape( $colour )
+	function __construct( $colour )
 	{
 		$this->type		= "shape";
 		$this->colour	= $colour;

@@ -26,9 +26,9 @@ class OA_Admin_UI_Component_ArrayRenderer
     private $_form;
 
 
-    function OA_Admin_UI_Component_ArrayRenderer($collectHidden = false, $staticLabels = false)
+    function __construct($collectHidden = false, $staticLabels = false)
     {
-        parent::HTML_QuickForm_Renderer_Array($collectHidden, $staticLabels);
+        parent::__construct($collectHidden, $staticLabels);
         $this->_groupStack = array();
     }
 

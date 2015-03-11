@@ -147,11 +147,6 @@ class OA_Upgrade
         $this->aDsn['table']['prefix']      = 'rv_';
     }
 
-    function OA_Upgrade()
-    {
-        $this->__construct();
-    }
-
     /**
      * initialise a database connection
      * hook up the various components with a db object

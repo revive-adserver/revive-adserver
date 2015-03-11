@@ -28,9 +28,9 @@ class Test_OA_Dal_Maintenance_Priority_getCampaigns extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Test_OA_Dal_Maintenance_Priority_getCampaigns()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     /**

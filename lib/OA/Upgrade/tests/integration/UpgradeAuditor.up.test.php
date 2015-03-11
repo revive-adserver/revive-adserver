@@ -33,9 +33,9 @@ class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
     /**
      * The constructor method.
      */
-    function Test_OA_UpgradeAuditor()
+    function __construct()
     {
-        $this->Test_OA_BaseUpgradeAuditor();
+        parent::__construct();
         $this->path = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
 
         Mock::generatePartial(

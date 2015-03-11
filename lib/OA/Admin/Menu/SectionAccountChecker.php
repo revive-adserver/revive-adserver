@@ -22,7 +22,7 @@ class OA_Admin_SectionAccountChecker
 {
     var $aAccountTypes; //list of account types accepted by this acceptor
 
-    function OA_Admin_SectionAccountChecker($aAccountTypes = array())
+    function __construct($aAccountTypes = array())
     {
         if (!is_array($aAccountTypes)) {
             $aAccountTypes = array($aAccountTypes);

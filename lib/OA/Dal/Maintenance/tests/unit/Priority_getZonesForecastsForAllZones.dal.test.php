@@ -27,9 +27,9 @@ class Test_OA_Dal_Maintenance_Priority_getZonesForecastsForAllZones extends Unit
     /**
      * The constructor method.
      */
-    function Test_OA_Dal_Maintenance_Priority_getZonesForecastsForAllZones()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
 

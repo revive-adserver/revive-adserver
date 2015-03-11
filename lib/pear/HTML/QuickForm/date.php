@@ -277,7 +277,7 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
     * @param    array   Options to control the element's display
     * @param    mixed   Either a typical HTML attribute string or an associative array
     */
-    function HTML_QuickForm_date($elementName = null, $elementLabel = null, $options = array(), $attributes = null)
+    function __construct($elementName = null, $elementLabel = null, $options = array(), $attributes = null)
     {
         $this->HTML_QuickForm_element($elementName, $elementLabel, $attributes);
         $this->_persistantFreeze = true;

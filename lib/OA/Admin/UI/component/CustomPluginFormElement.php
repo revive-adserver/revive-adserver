@@ -32,7 +32,7 @@ class OA_Admin_UI_Component_CustomPluginFormElement
     * @param mixed $elementName    custom element name or if its array then first element
     * is element name and the second one is template name
     */
-    function OA_Admin_UI_Component_CustomPluginFormElement($elementName = null, $pluginName = null, $elementLabel = null, $vars = null, $visible = true)
+    function __construct($elementName = null, $pluginName = null, $elementLabel = null, $vars = null, $visible = true)
     {
         if (is_array($elementName)) {
             $name = $elementName[0];
@@ -43,7 +43,7 @@ class OA_Admin_UI_Component_CustomPluginFormElement
             $templateId = $elementName;
         }
         
-        $this->HTML_QuickForm_static($name, $elementLabel);
+        parent::__construct($name, $elementLabel);
         $this->_type = 'plugin-custom';
         $this->pluginName = $pluginName;
         $this->templateId = $templateId; 

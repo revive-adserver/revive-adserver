@@ -26,9 +26,9 @@ class OA_Admin_UI_Component_FormControls
     * 
     * @param string $elementName    Header name
     */
-    function OA_Admin_UI_Component_FormControls($elementName = null, $text = null)
+    function __construct($elementName = null, $text = null)
     {
-        $this->HTML_QuickForm_static($elementName, null, $text);
+        parent::__construct($elementName, null, $text);
         $this->_type = 'controls';
     }
 

@@ -41,7 +41,7 @@ class OA_Test_Data
     /**
      * The constructor method.
      */
-    function OA_Test_Data()
+    function __construct()
     {
     }
 

@@ -37,9 +37,9 @@ class ZoneServiceImpl extends BaseServiceImpl
      *
      * The ZoneServiceImpl method is the constructor for the ZoneServiceImpl class.
      */
-    function ZoneServiceImpl()
+    function __construct()
     {
-        $this->BaseServiceImpl();
+        parent::__construct();
         $this->_dllZone = new OA_Dll_Zone();
     }
 

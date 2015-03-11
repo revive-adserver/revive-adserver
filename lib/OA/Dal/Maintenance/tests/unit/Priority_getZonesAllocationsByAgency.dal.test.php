@@ -28,9 +28,9 @@ class Test_OA_Dal_Maintenance_Priority_getZonesAllocationsByAgency extends UnitT
     /**
      * The constructor method.
      */
-    function Test_OA_Dal_Maintenance_Priority_getZonesAllocationsByAgency()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     /**

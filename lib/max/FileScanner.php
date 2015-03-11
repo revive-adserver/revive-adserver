@@ -31,7 +31,7 @@ class MAX_FileScanner
 	/**
 	 * Constructor
 	 */
-	function MAX_FileScanner()
+	function __construct()
 	{
 		$this->_allowedFileTypes = array();
 		$this->_allowedFileMask = null; // eg: '^([a-zA-Z0-9\-]*)\.plugin\.php$'

@@ -23,9 +23,9 @@ class LibGeometryTest extends UnitTestCase
      /**
      * The constructor method.
      */
-    function LibGeometryTest()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
 

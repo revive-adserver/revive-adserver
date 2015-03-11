@@ -16,7 +16,7 @@ class script_tables_core_parent
     var $oDbh;
     var $className;
 
-    function script_tables_core_parent()
+    function __construct()
     {
     }
 

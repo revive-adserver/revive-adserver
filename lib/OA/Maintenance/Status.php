@@ -25,7 +25,7 @@ class OA_Maintenance_Status
     var $isScheduledMaintenanceRunning = false;
     var $isAutoMaintenanceRunning      = false;
 
-    function OA_Maintenance_Status()
+    function __construct()
     {
         // Check auto-maintenance settings
         $aConf = $GLOBALS['_MAX']['CONF'];

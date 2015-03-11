@@ -43,7 +43,7 @@
          *    Starts with no cookies, realms or proxies.
          *    @access public
          */
-        function SimpleUserAgent() {
+        function __construct() {
             $this->_cookie_jar = new SimpleCookieJar();
             $this->_authenticator = new SimpleAuthenticator();
         }

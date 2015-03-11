@@ -43,9 +43,9 @@ class CampaignXmlRpcService extends BaseCampaignService
      * to initialise the service.
      *
      */
-    function CampaignXmlRpcService()
+    function __construct()
     {
-        $this->BaseCampaignService();
+        parent::__construct();
     }
 
     /**

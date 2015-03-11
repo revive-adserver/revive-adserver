@@ -34,7 +34,7 @@ class OA_Admin_PasswordRecovery
     /**
      * PHP4-style constructor
      */
-    function OA_Admin_PasswordRecovery()
+    function __construct()
     {
         $this->_useDefaultDal();
     }

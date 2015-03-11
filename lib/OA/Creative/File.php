@@ -27,7 +27,7 @@ class OA_Creative_File extends OA_Creative
      * @param string $fileName
      * @return OA_Creative_File
      */
-    function OA_Creative_File($fileName)
+    function __construct($fileName)
     {
         $this->fileName = $fileName;
     }

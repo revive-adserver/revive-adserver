@@ -78,14 +78,6 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
     }
 
     /**
-     * PHP4-style constructor
-     */
-    function OA_Admin_Statistics_Delivery_CommonEntity($params)
-    {
-        $this->__construct($params);
-    }
-
-    /**
      * The final "child" implementation of the parental abstract method,
      * to test if the appropriate data array is empty, or not.
      *

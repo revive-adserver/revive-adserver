@@ -16,7 +16,7 @@ $className = 'prescript_upgrade_testPlugin_0_0_2_beta_rc1';
 class prescript_upgrade_testPlugin_0_0_2_beta_rc1
 {
 
-    function prescript_upgrade_testPlugin_0_0_2_beta_rc1()
+    function __construct()
     {
 
     }

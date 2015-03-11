@@ -67,7 +67,7 @@ class Image_Graph_Layout extends Image_Graph_Plotarea_Element
     /**
      * Image_Graph_Layout [Constructor]
      */
-    function Image_Graph_Layout()
+    function __construct()
     {
         parent::__construct();
         $this->_padding = array('left' => 2, 'top' => 2, 'right' => 2, 'bottom' => 2);

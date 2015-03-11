@@ -2,7 +2,7 @@
 
 class line_style
 {
-	function line_style($on, $off)
+	function __construct($on, $off)
 	{
 		$this->style	= "dash";
 		$this->on		= $on;

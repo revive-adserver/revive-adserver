@@ -96,7 +96,7 @@ class XML_Tree_Node {
      * @param  array     attributes      Attribute-hash for the node
      */
 
-    function XML_Tree_Node($name, $content = '', $attributes = array(), $lineno = null, $use_cdata_section = null)
+    function __construct($name, $content = '', $attributes = array(), $lineno = null, $use_cdata_section = null)
     {
         $check_name = XML_Tree::isValidName($name, 'element');
         if (PEAR::isError($check_name)) {

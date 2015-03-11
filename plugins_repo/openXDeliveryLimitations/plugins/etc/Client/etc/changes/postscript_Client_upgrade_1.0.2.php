@@ -20,7 +20,7 @@ $className = 'Client_UpgradePostscript_1_0_2';
  */
 class Client_UpgradePostscript_1_0_2
 {
-    function Client_UpgradePostscript_1_0_2()
+    function __construct()
     {
 
     }

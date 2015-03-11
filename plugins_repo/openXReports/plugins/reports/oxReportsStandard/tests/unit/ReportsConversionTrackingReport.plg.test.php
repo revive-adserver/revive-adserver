@@ -29,9 +29,9 @@ class Plugins_TestOfPlugins_Reports_oxStandard_ConversionTrackingReport extends 
     /**
      * The constructor method.
      */
-    function Plugins_TestOfPlugins_Reports_oxStandard_ConversionTrackingReport()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     function setUp()

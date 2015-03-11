@@ -26,9 +26,9 @@ class Test_OA_DB extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Test_OA_DB()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     /**

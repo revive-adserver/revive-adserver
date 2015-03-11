@@ -43,7 +43,7 @@ class PEAR_REST_11
      */
     var $_rest;
 
-    function PEAR_REST_11($config, $options = array())
+    function __construct($config, $options = array())
     {
         $this->_rest = new PEAR_REST($config, $options);
     }

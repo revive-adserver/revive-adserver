@@ -16,7 +16,7 @@ $className = 'postscript_upgrade_testPlugin_0_0_2';
 class postscript_upgrade_testPlugin_0_0_2
 {
 
-    function postscript_upgrade_testPlugin_0_0_2()
+    function __construct()
     {
 
     }

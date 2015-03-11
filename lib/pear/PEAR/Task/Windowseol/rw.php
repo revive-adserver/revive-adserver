@@ -35,7 +35,7 @@ require_once 'PEAR/Task/Windowseol.php';
  */
 class PEAR_Task_Windowseol_rw extends PEAR_Task_Windowseol
 {
-    function PEAR_Task_Windowseol_rw(&$pkg, &$config, &$logger, $fileXml)
+    function __construct(&$pkg, &$config, &$logger, $fileXml)
     {
         parent::PEAR_Task_Common($config, $logger, PEAR_TASK_PACKAGE);
         $this->_contents = $fileXml;

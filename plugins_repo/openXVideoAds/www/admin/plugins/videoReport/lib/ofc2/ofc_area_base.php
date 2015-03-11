@@ -5,7 +5,7 @@
  */
 class area extends line
 {
-	function area()
+	function __construct()
 	{
 		$this->type      = "area";
 	}

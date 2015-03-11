@@ -25,7 +25,7 @@ class OA_Permission_SystemUser extends OA_Permission_User
      *
      * @return OA_Permission_User
      */
-    function OA_Permission_SystemUser($userName)
+    function __construct($userName)
     {
         // Store user information as array
         $this->aUser = array(

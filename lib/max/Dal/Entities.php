@@ -28,9 +28,9 @@ class MAX_Dal_Entities extends MAX_Dal_Common
      *
      * @return MAX_Dal_Entities
      */
-    function MAX_Dal_Entities()
+    function __construct()
     {
-        parent::MAX_Dal_Common();
+        parent::__construct();
     }
 
     /*========== METHODS FOR DEALING WITH ADS ===============*/

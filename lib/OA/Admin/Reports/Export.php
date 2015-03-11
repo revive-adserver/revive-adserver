@@ -38,7 +38,7 @@ class OA_Admin_Reports_Export extends Plugins_ReportsScope
      * @param OA_Admin_Statistics_Common $oStatsController
      * @return OA_Admin_Reports_Export
      */
-    function OA_Admin_Reports_Export($oStatsController)
+    function __construct($oStatsController)
     {
         $this->oStatsController = $oStatsController;
         // Set the Excel Report writer

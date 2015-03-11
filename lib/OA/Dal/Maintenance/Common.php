@@ -29,9 +29,9 @@ class OA_Dal_Maintenance_Common extends MAX_Dal_Common
     /**
      * The class constructor method.
      */
-    function OA_Dal_Maintenance_Common()
+    function __construct()
     {
-        parent::MAX_Dal_Common();
+        parent::__construct();
     }
 
     /**

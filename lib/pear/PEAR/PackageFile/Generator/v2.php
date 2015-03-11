@@ -103,7 +103,7 @@ http://pear.php.net/dtd/package-2.0.xsd',
     /**
      * @param PEAR_PackageFile_v2
      */
-    function PEAR_PackageFile_Generator_v2(&$packagefile)
+    function __construct(&$packagefile)
     {
         $this->_packagefile = &$packagefile;
     }

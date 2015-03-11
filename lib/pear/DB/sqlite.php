@@ -155,9 +155,9 @@ class DB_sqlite extends DB_common
      *
      * @return void
      */
-    function DB_sqlite()
+    function __construct()
     {
-        $this->DB_common();
+        parent::__construct();
     }
 
     // }}}

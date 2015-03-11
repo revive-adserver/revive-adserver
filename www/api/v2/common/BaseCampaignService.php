@@ -34,7 +34,7 @@ class BaseCampaignService
      * This method initialises Service implementation object field.
      *
      */
-    function BaseCampaignService()
+    function __construct()
     {
         $this->_oCampaignServiceImp = new CampaignServiceImpl();
     }

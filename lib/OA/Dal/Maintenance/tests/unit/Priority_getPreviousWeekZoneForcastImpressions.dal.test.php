@@ -25,9 +25,9 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousWeekZoneForcastImpressions ext
     /**
      * The constructor method.
      */
-    function Test_OA_Dal_Maintenance_Priority_getPreviousWeekZoneForcastImpressions()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     /**

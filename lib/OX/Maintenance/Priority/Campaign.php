@@ -194,7 +194,7 @@ class OX_Maintenance_Priority_Campaign
      *      'target_conversion' or 'conversion_target_daily' -> The daily conversion target
      *      'priority'                                       -> The placement priority
      */
-    function OX_Maintenance_Priority_Campaign($aParams)
+    function __construct($aParams)
     {
         // Convert "old" input value names to "new", if required
         foreach ($this->aNewOldTypes as $newName => $oldName) {

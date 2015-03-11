@@ -69,7 +69,7 @@ class MAX_Dal_Common
     /**
      * The class constructor method.
      */
-    function MAX_Dal_Common()
+    function __construct()
     {
         $this->conf = $GLOBALS['_MAX']['CONF'];
         $this->prefix = $this->getTablePrefix();

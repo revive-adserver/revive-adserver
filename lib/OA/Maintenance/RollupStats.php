@@ -29,9 +29,9 @@ class OA_Maintenance_RollupStats extends MAX_Dal_Common
     /**
      * The class constructor method.
      */
-    function OA_Maintenance_RollupStats()
+    function __construct()
     {
-        parent::MAX_Dal_Common();
+        parent::__construct();
     }
 
     function run($oDate)

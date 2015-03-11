@@ -49,7 +49,7 @@ class MDB2Connection {
 	* @param object Connection Configuration information
 	* @access private
 	*/
-	function MDB2Connection(&$config) {
+	function __construct(&$config) {
 		$this->config =& $config;
 	}
 
@@ -324,7 +324,7 @@ class MDB2Record extends DataSpace {
 	* @param MDB2Connection
 	* @access protected
 	*/
-	function MDB2Record(& $Connection) {
+	function __construct(& $Connection) {
 		$this->Connection = & $Connection;
 	}
 
@@ -491,7 +491,7 @@ class MDB2RecordSet extends MDB2Record {
 	* @param string SQL SELECT, SHOW, DESCRIBE, or EXPLAIN statement
 	* @access public
 	*/
-	function MDB2RecordSet($Connection, $Query_String) {
+	function __construct($Connection, $Query_String) {
 		$this->Connection = $Connection;
 		$this->Query = $Query_String;
 	}

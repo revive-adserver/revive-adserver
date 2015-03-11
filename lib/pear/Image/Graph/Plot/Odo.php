@@ -170,7 +170,7 @@ class Image_Graph_Plot_Odo extends Image_Graph_Plot
      *   plot or an array of datasets
      *   {@link Image_Graph_Legend}
      */
-    function Image_Graph_Plot_Odo(&$dataset)
+    function __construct(&$dataset)
     {
         parent::__construct($dataset);
         

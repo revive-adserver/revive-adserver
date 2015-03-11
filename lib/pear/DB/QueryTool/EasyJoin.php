@@ -68,7 +68,7 @@ class DB_QueryTool_EasyJoin extends DB_QueryTool_Query
      */
     function __construct($dsn=false, $options=array())
     {
-        parent::DB_QueryTool_Query($dsn, $options);
+        parent::__construct($dsn, $options);
     }
 
     // }}}

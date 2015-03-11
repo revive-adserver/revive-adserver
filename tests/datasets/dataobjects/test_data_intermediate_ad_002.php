@@ -22,7 +22,7 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/ECPMforRemna
 class OA_Test_Data_data_intermediate_ad_002 extends OA_Test_Data_DataObjects
 {
 
-    function OA_Test_Data_data_intermediate_ad_002()
+    function __construct()
     {
     }
 

@@ -26,7 +26,7 @@ class OA_UpgradePostscript_2_5_67_RC8
      */
     var $oDbh;
 
-    function OA_UpgradePostscript_2_5_67_RC8()
+    function __construct()
     {
 
     }

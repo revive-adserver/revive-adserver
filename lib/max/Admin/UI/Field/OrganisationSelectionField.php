@@ -23,7 +23,7 @@ class Admin_UI_OrganisationSelectionField extends Admin_UI_Field
      * @param array $aFieldSelectionNames A list of the predefined 'friendly' selections.
      * @param string $fieldSelectionDefault The default selection.
      */
-    function Admin_UI_OrganisationSelectionField($name = 'OrganisationSelectionField', $defaultAdvertiser = 'all', $defaultPublisher = 'all', $filterBy = FILTER_NONE)
+    function __construct($name = 'OrganisationSelectionField', $defaultAdvertiser = 'all', $defaultPublisher = 'all', $filterBy = FILTER_NONE)
     {
         parent::__construct();
         $this->_name = $name;

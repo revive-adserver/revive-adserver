@@ -41,7 +41,7 @@ class OA_Admin_Template extends Smarty
      */
     var $_tabIndex = 0;
 
-    function OA_Admin_Template($templateName)
+    function __construct($templateName)
     {
         $this->init($templateName);
     }

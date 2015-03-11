@@ -25,9 +25,9 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Test_OA_Maintenance_Priority_DeliveryLimitation()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
         Mock::generatePartial(
             'OA_Maintenance_Priority_DeliveryLimitation',
             'Partial_MockOA_Maintenance_Priority_DeliveryLimitation',

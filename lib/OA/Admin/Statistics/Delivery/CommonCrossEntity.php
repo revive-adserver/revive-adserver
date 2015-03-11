@@ -37,14 +37,6 @@ class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics
     }
 
     /**
-     * PHP4-style constructor
-     */
-    function OA_Admin_Statistics_Delivery_CommonCrossEntity($params)
-    {
-        $this->__construct($params);
-    }
-
-    /**
      * Merge aggregate stats with entity properties (name, children, etc)
      *
      * The overridden method also takes care to remove inactive entities

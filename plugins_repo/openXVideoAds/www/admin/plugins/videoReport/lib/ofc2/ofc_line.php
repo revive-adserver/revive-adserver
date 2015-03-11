@@ -2,7 +2,7 @@
 
 class line
 {
-	function line()
+	function __construct()
 	{
 		$this->type      = "line";
 		$this->values    = array();

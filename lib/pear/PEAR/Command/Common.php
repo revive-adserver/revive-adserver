@@ -91,9 +91,9 @@ class PEAR_Command_Common extends PEAR
      *
      * @access public
      */
-    function PEAR_Command_Common(&$ui, &$config)
+    function __construct(&$ui, &$config)
     {
-        parent::PEAR();
+        parent::__construct();
         $this->config = &$config;
         $this->ui = &$ui;
     }

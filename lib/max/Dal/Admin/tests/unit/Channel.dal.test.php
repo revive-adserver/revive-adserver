@@ -27,9 +27,9 @@ class MAX_Dal_Admin_ChannelTest extends DalUnitTestCase
     /**
      * The constructor method.
      */
-    function MAX_Dal_Admin_ChannelTest()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     function setUp()

@@ -15,7 +15,7 @@ $className = 'postscript_tables_core_2';
 class postscript_tables_core_2
 {
 
-    function postscript_tables_core_2()
+    function __construct()
     {
 
     }

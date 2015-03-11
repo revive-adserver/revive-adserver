@@ -41,7 +41,7 @@ class OA_Test_Data_DataObjects extends OA_Test_Data
     /**
      * The constructor method.
      */
-    function OA_Test_Data_DataObjects()
+    function __construct()
     {
     }
 

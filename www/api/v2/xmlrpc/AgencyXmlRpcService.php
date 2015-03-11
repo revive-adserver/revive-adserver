@@ -42,9 +42,9 @@ class AgencyXmlRpcService extends BaseAgencyService
      * initialise the service
      *
      */
-    function AgencyXmlRpcService()
+    function __construct()
     {
-        $this->BaseAgencyService();
+        parent::__construct();
     }
 
     /**

@@ -24,7 +24,7 @@ class OA_Version_Controller
 
     var $versionTablename;
 
-    function OA_Version_Controller()
+    function __construct()
     {
 
     }

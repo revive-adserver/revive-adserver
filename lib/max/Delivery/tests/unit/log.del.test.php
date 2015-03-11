@@ -27,7 +27,7 @@ class Test_DeliveryLog extends UnitTestCase
      */
     function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     /**

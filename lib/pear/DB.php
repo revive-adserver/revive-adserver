@@ -879,11 +879,11 @@ class DB_Error extends PEAR_Error
      *
      * @see PEAR_Error
      */
-    function DB_Error($code = DB_ERROR, $mode = PEAR_ERROR_RETURN,
+    function __construct($code = DB_ERROR, $mode = PEAR_ERROR_RETURN,
                       $level = E_USER_NOTICE, $debuginfo = null)
     {
         if (is_int($code)) {
-            $this->PEAR_Error('DB Error: ' . DB::errorMessage($code), $code,
+            parent::__construct('DB Error: ' . DB::errorMessage($code), $code,
                               $mode, $level, $debuginfo);
         } else {
             $this->PEAR_Error("DB Error: $code", DB_ERROR,
@@ -1015,7 +1015,7 @@ class DB_result
      *
      * @return void
      */
-    function DB_result(&$dbh, $result, $options = array())
+    function __construct(&$dbh, $result, $options = array())
     {
         $this->autofree    = $dbh->options['autofree'];
         $this->dbh         = &$dbh;
@@ -1365,7 +1365,7 @@ class DB_row
      *
      * @return void
      */
-    function DB_row(&$arr)
+    function __construct(&$arr)
     {
         foreach ($arr as $key => $value) {
             $this->$key = &$arr[$key];

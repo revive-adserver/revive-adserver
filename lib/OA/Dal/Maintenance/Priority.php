@@ -53,9 +53,9 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     /**
      * The class constructor method.
      */
-    function OA_Dal_Maintenance_Priority()
+    function __construct()
     {
-        parent::OA_Dal_Maintenance_Common();
+        parent::__construct();
     }
 
     /**

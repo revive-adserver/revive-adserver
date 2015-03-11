@@ -16,7 +16,7 @@ $className = 'OA_UpgradePostscript_2_1_29';
 class OA_UpgradePostscript_2_1_29
 {
 
-    function OA_UpgradePostscript_2_1_29()
+    function __construct()
     {
 
     }

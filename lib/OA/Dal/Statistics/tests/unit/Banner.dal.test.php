@@ -33,9 +33,9 @@ class OA_Dal_Statistics_BannerTest extends DalStatisticsUnitTestCase
     /**
      * The constructor method.
      */
-    function OA_Dal_Statistics_bannerTest()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     function setUp()

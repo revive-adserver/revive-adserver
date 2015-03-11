@@ -19,9 +19,9 @@ class MaxGroupTest extends GroupTest
      *
      * @param string $label
      */
-    function MaxGroupTest($label)
+    function __construct($label)
     {
-        parent::GroupTest($label);
+        parent::__construct($label);
     }
 
     function _addFilesInFolders($test_folders)

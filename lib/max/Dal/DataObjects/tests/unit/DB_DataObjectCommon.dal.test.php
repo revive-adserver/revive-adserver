@@ -26,9 +26,9 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
     /**
      * The constructor method.
      */
-    function DB_DataObjectCommonTest()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     function setUp()

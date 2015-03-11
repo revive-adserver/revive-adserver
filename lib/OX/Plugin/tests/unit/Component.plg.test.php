@@ -65,9 +65,9 @@ class Test_OX_Component extends UnitTestCase {
      *
      * @return Test_OX_Component
      */
-    function Test_OX_Component()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     function test_isGroupInstalled()

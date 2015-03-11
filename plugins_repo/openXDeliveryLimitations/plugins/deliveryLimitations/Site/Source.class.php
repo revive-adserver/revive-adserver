@@ -26,9 +26,9 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 class Plugins_DeliveryLimitations_Site_Source extends Plugins_DeliveryLimitations
 {
 
-    function Plugins_DeliveryLimitations_Site_Source()
+    function __construct()
     {
-        parent::Plugins_DeliveryLimitations();
+        parent::__construct();
         $this->columnName = 'channel';
         $this->nameEnglish = 'Site - Source';
     }

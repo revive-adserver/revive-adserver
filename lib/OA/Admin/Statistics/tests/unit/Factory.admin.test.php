@@ -71,9 +71,9 @@ class Test_OA_Admin_Statistics_Factory extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Test_OA_Admin_Statistics_Factory()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     function test_getControllerClass()

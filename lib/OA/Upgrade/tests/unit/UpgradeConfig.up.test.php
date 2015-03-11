@@ -23,9 +23,9 @@ class Test_OA_Upgrade_Config extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Test_OA_Upgrade_Config()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     function test_constructor()

@@ -25,9 +25,9 @@ class Test_OA_Dal extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Test_OA_Dal()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     /**

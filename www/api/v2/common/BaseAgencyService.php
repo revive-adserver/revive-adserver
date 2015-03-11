@@ -34,7 +34,7 @@ class BaseAgencyService
      * This method initialises Service implementation object field.
      *
      */
-    function BaseAgencyService()
+    function __construct()
     {
         $this->_oAgencyServiceImp = new AgencyServiceImpl();
     }

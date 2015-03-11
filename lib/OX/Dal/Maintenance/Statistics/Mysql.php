@@ -40,9 +40,9 @@ class OX_Dal_Maintenance_Statistics_Mysql extends OX_Dal_Maintenance_Statistics
      *
      * @uses OX_Dal_Maintenance_Statistics::OX_Dal_Maintenance_Statistics()
      */
-    function OX_Dal_Maintenance_Statistics_Mysql()
+    function __construct()
     {
-        parent::OX_Dal_Maintenance_Statistics();
+        parent::__construct();
         // Store the original MySQL sort_buffer_size value
         $query = "SHOW SESSION VARIABLES like 'sort_buffer_size'";
         $rc = $this->oDbh->query($query);

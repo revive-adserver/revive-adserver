@@ -20,7 +20,7 @@ require_once MAX_PATH . '/tests/testClasses/OATestData_DataObjects.php';
 class OA_Test_Data_data_intermediate_ad_001 extends OA_Test_Data_DataObjects
 {
 
-    function OA_Test_Data_data_intermediate_ad_001()
+    function __construct()
     {
     }
 

@@ -52,7 +52,7 @@ class DB_QueryTool extends DB_QueryTool_EasyJoin
      * @param mixed $dsn DSN string, DSN array or DB object
      * @param array $options
      */
-    function DB_QueryTool($dsn=false, $options=array())
+    function __construct($dsn=false, $options=array())
     {
         parent::__construct($dsn, $options);
     }

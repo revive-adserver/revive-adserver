@@ -25,9 +25,9 @@ class Test_OA_Dal_Maintenance_Priority_getCampaignDeliveryToDate extends UnitTes
     /**
      * The constructor method.
      */
-    function Test_OA_Dal_Maintenance_Priority_getCampaignDeliveryToDate()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
 

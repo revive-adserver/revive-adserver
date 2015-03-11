@@ -25,9 +25,9 @@ class OA_Admin_UI_Component_FormBreak
     * 
     * @param string $elementName    Header name
     */
-    function OA_Admin_UI_Component_FormBreak($elementName = null, $text = null)
+    function __construct($elementName = null, $text = null)
     {
-        $this->HTML_QuickForm_static($elementName, null, $text);
+        parent::__construct($elementName, null, $text);
         $this->_type = 'break';
     }
 

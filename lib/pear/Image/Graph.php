@@ -130,7 +130,7 @@ class Image_Graph extends Image_Graph_Element
      *   created with a transparent background (fx for PNG's - note: transparent
      *   PNG's is not supported by Internet Explorer!)
      */
-    function Image_Graph($params, $height = false, $createTransparent = false)
+    function __construct($params, $height = false, $createTransparent = false)
     {
         parent::__construct();
 

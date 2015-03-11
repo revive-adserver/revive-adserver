@@ -36,9 +36,9 @@ class Test_Migration extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Test_Migration()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     function setUp()

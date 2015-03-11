@@ -26,9 +26,9 @@ class Test_OX_Dal_Maintenance_Statistics_summariseBucketsRawSupplementary extend
     /**
      * The constructor method.
      */
-    function Test_OX_Dal_Maintenance_Statistics_summariseBucketsRawSupplementary()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     /**

@@ -73,7 +73,7 @@ class Structures_Graph {
     * @param    boolean    Set to true if the graph is directed. Set to false if it is not directed. (Optional, defaults to true)
     * @access	public
     */
-    function Structures_Graph($directed = true) {
+    function __construct($directed = true) {
         $this->_directed = $directed;
     }
     /* }}} */

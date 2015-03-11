@@ -33,9 +33,9 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
     /**
      * The constructor method.
      */
-    function OA_Dal_Statistics_CampaignTest()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     function setUp()

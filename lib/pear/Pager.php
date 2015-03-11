@@ -137,7 +137,7 @@ class Pager
      *                          their values.
      * @access public
      */
-    function Pager($options = array())
+    function __construct($options = array())
     {
         //this check evaluates to true on 5.0.0RC-dev,
         //so i'm using another one, for now...

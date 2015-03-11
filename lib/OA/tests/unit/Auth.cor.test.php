@@ -22,9 +22,9 @@ require_once MAX_PATH . '/lib/OA/Auth.php';
 class Test_OA_Auth extends UnitTestCase
 {
 
-    function Test_OA_Auth()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     /**

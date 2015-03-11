@@ -21,7 +21,7 @@ define('GEOCONFIG_PATH', MAX_PATH . '/var/plugins/config/geotargeting');
 class Migration_108 extends Migration
 {
 
-    function Migration_108()
+    function __construct()
     {
 		$this->aTaskList_constructive[] = 'beforeAddTable__application_variable';
 		$this->aTaskList_constructive[] = 'afterAddTable__application_variable';

@@ -31,9 +31,9 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Test_OX_Dal_Maintenance_Statistics_manageCampaigns()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
         $this->doCampaigns =  OA_Dal::factoryDO('campaigns');
         $this->doClients   =  OA_Dal::factoryDO('clients');
         $this->doBanners   =  OA_Dal::factoryDO('banners');

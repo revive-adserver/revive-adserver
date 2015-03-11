@@ -52,9 +52,9 @@ class Image_Canvas_GD_PNG extends Image_Canvas_GD
      *
      * @param array $param Parameter array
      */
-    function Image_Canvas_GD_PNG($param)
+    function __construct($param)
     {
-        parent::Image_Canvas_GD($param);
+        parent::__construct($param);
 
         if ((isset($param['transparent'])) && ($param['transparent']) &&
             ($this->_gd2)

@@ -26,9 +26,9 @@ class DataObjects_BannersTest extends DalUnitTestCase
     /**
      * The constructor method.
      */
-    function DataObjects_BannersTest()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     function tearDown()

@@ -31,9 +31,9 @@ class Test_OA_Api_XmlRpc_User extends Test_OA_Api_XmlRpc
      */
     var $accountId;
 
-    function Test_OA_Api_XmlRpc_User()
+    function __construct()
     {
-        parent::Test_OA_Api_XmlRpc(false);
+        parent::__construct(false);
     }
 
     function setUp()

@@ -28,9 +28,9 @@ class Test_OA_Dal_Maintenance_Priority_getEcpmAgenciesIds extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Test_OA_Dal_Maintenance_Priority_getEcpmAgenciesIds()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     /**

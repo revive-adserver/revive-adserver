@@ -17,11 +17,11 @@ class OA_Admin_UI_Audit_DaySpanField extends Admin_UI_DaySpanField
 {
     var $oTrans;
 
-    function OA_Admin_UI_Audit_DaySpanField($name = 'AuditDaySpanField',
+    function __construct($name = 'AuditDaySpanField',
                          $fieldSelectionDefault = 'all_events',
                          $aFieldSelectionNames = null)
     {
-        parent::Admin_UI_DaySpanField($name, $fieldSelectionDefault, $aFieldSelectionNames);
+        parent::__construct($name, $fieldSelectionDefault, $aFieldSelectionNames);
         $this->oTrans = new OX_Translation();
     }
 

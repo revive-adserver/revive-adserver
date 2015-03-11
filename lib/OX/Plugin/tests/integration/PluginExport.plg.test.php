@@ -30,9 +30,9 @@ class Test_OX_PluginExport extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Test_OX_PluginExport()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     function tearDown()

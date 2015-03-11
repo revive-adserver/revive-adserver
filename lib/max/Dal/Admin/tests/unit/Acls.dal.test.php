@@ -31,9 +31,9 @@ class MAX_Dal_Admin_AclsTest extends DalUnitTestCase
     /**
      * The constructor method.
      */
-    function MAX_Dal_Admin_AclsTest()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     function setUp()

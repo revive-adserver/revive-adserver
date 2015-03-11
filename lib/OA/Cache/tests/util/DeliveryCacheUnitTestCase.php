@@ -24,9 +24,9 @@ class DeliveryCacheUnitTestCase extends UnitTestCase
     /**
      * The constructor method.
      */
-    function DeliveryCacheUnitTestCase()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     /**

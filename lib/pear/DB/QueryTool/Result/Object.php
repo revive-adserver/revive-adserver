@@ -41,7 +41,7 @@ class DB_QueryTool_Result_Row
 	 * create object properties from the array
 	 * @param array
 	 */
-	function DB_QueryTool_Result_Row($arr)
+	function __construct($arr)
 	{
         foreach ($arr as $key => $value) {
 		    $this->$key = $value;

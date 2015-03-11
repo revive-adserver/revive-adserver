@@ -19,7 +19,7 @@ class OA_UpgradePostscript_2_7_30_beta_rc4
 {
     var $oUpgrade;
 
-    function OA_UpgradePostscript_2_7_30_beta_rc4()
+    function __construct()
     {
 
     }

@@ -14,7 +14,7 @@ require_once MAX_PATH . '/lib/OA/Admin/UI.php';
 
 class OA_Admin_UI_Search extends OA_Admin_UI
 {
-    function OA_Admin_UI_Search()
+    function __construct()
     {
         $this->oTpl = new OA_Admin_Template('layout/search.html');
     }

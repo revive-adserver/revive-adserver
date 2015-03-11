@@ -203,7 +203,7 @@ class XML_Parser extends PEAR
      */
     function __construct($srcenc = null, $mode = 'event', $tgtenc = null)
     {
-        $this->PEAR('XML_Parser_Error');
+        parent::__construct('XML_Parser_Error');
 
         $this->mode   = $mode;
         $this->srcenc = $srcenc;
@@ -687,7 +687,7 @@ class XML_Parser_Error extends PEAR_Error
     * @param    integer             error handling
     * @param    integer             error level
     */
-    function XML_Parser_Error($msgorparser = 'unknown error', $code = 0, $mode = PEAR_ERROR_RETURN, $level = E_USER_NOTICE)
+    function __construct($msgorparser = 'unknown error', $code = 0, $mode = PEAR_ERROR_RETURN, $level = E_USER_NOTICE)
     {
         if (is_resource($msgorparser)) {
             $code = xml_get_error_code($msgorparser);
@@ -696,7 +696,7 @@ class XML_Parser_Error extends PEAR_Error
                                    xml_get_current_line_number($msgorparser),
                                    xml_get_current_column_number($msgorparser));
         }
-        $this->PEAR_Error($msgorparser, $code, $mode, $level);
+        parent::__construct($msgorparser, $code, $mode, $level);
     }
     // }}}
 }

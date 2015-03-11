@@ -41,7 +41,7 @@ class OA_Plugin_Template
      */
     var $_tabIndex = 0;
 
-    function OA_Plugin_Template($templateName, $adminGroupName)
+    function __construct($templateName, $adminGroupName)
     {
         $this->init($templateName, $adminGroupName);
     }

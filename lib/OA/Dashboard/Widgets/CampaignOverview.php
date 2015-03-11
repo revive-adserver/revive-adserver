@@ -31,9 +31,9 @@ class OA_Dashboard_Widget_CampaignOverview extends OA_Dashboard_Widget
      * @param array $aParams The parameters array, usually $_REQUEST
      * @return OA_Dashboard_Widget_Campaign_Overview
      */
-    function OA_Dashboard_Widget_CampaignOverview($aParams)
+    function __construct($aParams)
     {
-        parent::OA_Dashboard_Widget($aParams);
+        parent::__construct($aParams);
         $this->oTpl = new OA_Admin_Template('dashboard/campaign-overview.html');
     }
 

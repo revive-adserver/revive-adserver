@@ -29,9 +29,9 @@ class Test_OX_Maintenance_Statistics_Task_DeduplicateConversions extends UnitTes
     /**
      * The constructor method.
      */
-    function Test_OX_Maintenance_Statistics_Task_DeduplicateConversions()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     /**

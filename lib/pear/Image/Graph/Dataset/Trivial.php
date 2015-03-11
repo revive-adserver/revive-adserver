@@ -69,7 +69,7 @@ class Image_Graph_Dataset_Trivial extends Image_Graph_Dataset
      *
      * @param array $dataArray An associated array with values to the dataset
      */
-    function Image_Graph_Dataset_Trivial($dataArray = false)
+    function __construct($dataArray = false)
     {
         parent::__construct();
         $this->_data = array ();

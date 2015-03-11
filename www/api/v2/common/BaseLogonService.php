@@ -35,7 +35,7 @@ class BaseLogonService
      * This method initialises Service implementation object field.
      *
      */
-    function BaseLogonService()
+    function __construct()
     {
         $this->logonServiceImp = new LogonServiceImpl();
     }

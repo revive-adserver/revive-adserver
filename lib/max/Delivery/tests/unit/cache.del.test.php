@@ -45,7 +45,7 @@ class Test_DeliveryCache extends UnitTestCase
      */
     function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
         $this->oDeliveryCacheStore = &OX_Component::factoryByComponentIdentifier($GLOBALS['_MAX']['CONF']['delivery']['cacheStorePlugin']);
     }
 

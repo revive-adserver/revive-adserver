@@ -45,11 +45,11 @@ class MAX_TestData_XML_Parser extends XML_Parser
    *
    * @param string $outputMode
    */
-  function MAX_TestData_XML_Parser($outputMode = 'text')
+  function __construct($outputMode = 'text')
   {
     $conf = $GLOBALS['_MAX']['CONF'];
 
-    parent::XML_Parser();
+    parent::__construct();
 
     // The configuration file holds all the defined table names.
     // HACK: The parser currently gets very confused when it encounters 'category' fields

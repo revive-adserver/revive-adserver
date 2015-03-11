@@ -16,7 +16,7 @@ $className = 'prescript_install_testPlugin';
 class prescript_install_testPlugin
 {
 
-    function prescript_install_testPlugin()
+    function __construct()
     {
 
     }

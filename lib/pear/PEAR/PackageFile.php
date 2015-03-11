@@ -69,7 +69,7 @@ class PEAR_PackageFile
      * @param   string @tmpdir Optional temporary directory for uncompressing
      *          files
      */
-    function PEAR_PackageFile(&$config, $debug = false, $tmpdir = false)
+    function __construct(&$config, $debug = false, $tmpdir = false)
     {
         $this->_config = $config;
         $this->_debug = $debug;

@@ -10,10 +10,10 @@ class bar_sketch extends bar_base
 	 * @param $fun_factor as integer, range 0 to 10. 0,1 and 2 are pretty boring.
 	 * 4 to 6 is a bit fun, 7 and above is lots of fun. 
 	 */
-	function bar_sketch( $colour, $outline_colour, $fun_factor )
+	function __construct( $colour, $outline_colour, $fun_factor )
 	{
 		$this->type      = "bar_sketch";
-		parent::bar_base();
+		parent::__construct();
 		
 		$this->set_colour( $colour );
 		$this->set_outline_colour( $outline_colour );

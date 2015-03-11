@@ -30,9 +30,9 @@ class Test_OA_OperationIntveral extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Test_OA_OperationIntveral()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     /**

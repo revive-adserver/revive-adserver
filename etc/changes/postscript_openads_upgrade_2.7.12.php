@@ -34,7 +34,7 @@ class OA_UpgradePostscript_2_7_12_dev
     var $prefix;
     var $tblCampaigns;
 
-    function OA_UpgradePostscript_2_7_12_dev()
+    function __construct()
     {
 
     }

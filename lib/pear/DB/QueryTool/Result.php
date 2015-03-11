@@ -77,7 +77,7 @@ class DB_QueryTool_Result
      * @author     Wolfram Kriesing <wolfram@kriesing.de>
      * @param      array   the data returned by the result
      */
-    function DB_QueryTool_Result($data)
+    function __construct($data)
     {
         if (!count($data)) {
             $this->_count = 0;

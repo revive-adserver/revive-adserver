@@ -41,9 +41,9 @@ class Test_OX_Dal_Maintenance_Statistics_migrateRawData_NoValidData extends Unit
     /**
      * The constructor method.
      */
-    function Test_OX_Dal_Maintenance_Statistics_migrateRawData_NoValidData()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
 
         // Prepare the database connection for use in the tests
         $this->oDbh = OA_DB::singleton();

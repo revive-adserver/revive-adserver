@@ -58,9 +58,9 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
     /**
      * The class constructor method.
      */
-    function OX_Dal_Maintenance_Statistics()
+    function __construct()
     {
-        parent::MAX_Dal_Common();
+        parent::__construct();
     }
 
     /**

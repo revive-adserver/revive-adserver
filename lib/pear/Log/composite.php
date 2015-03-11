@@ -42,7 +42,7 @@ class Log_composite extends Log
      *
      * @access public
      */
-    function Log_composite($name, $ident = '', $conf = array(),
+    function __construct($name, $ident = '', $conf = array(),
                            $level = PEAR_LOG_DEBUG)
     {
         $this->_ident = $ident;

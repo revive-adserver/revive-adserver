@@ -16,7 +16,7 @@ require_once(MAX_PATH.'/lib/OA/Dll.php');
 class Migration_540 extends Migration
 {
 
-    function Migration_540()
+    function __construct()
     {
         //$this->__construct();
 

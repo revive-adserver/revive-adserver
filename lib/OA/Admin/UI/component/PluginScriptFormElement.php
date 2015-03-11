@@ -24,9 +24,9 @@ class OA_Admin_UI_Component_PluginScriptFormElement
     * 
     * @param string $elementName    custom element name
     */
-    function OA_Admin_UI_Component_PluginScriptFormElement($elementName = null, $pluginName = null, $vars = null)
+    function __construct($elementName = null, $pluginName = null, $vars = null)
     {
-        parent::OA_Admin_UI_Component_CustomPluginFormElement($elementName, $pluginName, null, $vars);
+        parent::__construct($elementName, $pluginName, null, $vars);
         $this->_type = 'plugin-script';
     } 
 } 

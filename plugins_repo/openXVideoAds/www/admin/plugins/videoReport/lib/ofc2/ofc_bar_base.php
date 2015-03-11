@@ -4,7 +4,7 @@
 
 class bar_base
 {
-	function bar_base(){}
+	function __construct(){}
 
 	/**
 	 * @param $text as string the key text

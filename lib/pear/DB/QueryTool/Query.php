@@ -248,7 +248,7 @@ class DB_QueryTool_Query
      * @param mixed $dsn DSN string, DSN array or DB object
      * @param array $options
      */
-    function DB_QueryTool_Query($dsn=false, $options=array())
+    function __construct($dsn=false, $options=array())
     {
         //$this->__construct($dsn, $options);
         if (!isset($options['autoConnect'])) {

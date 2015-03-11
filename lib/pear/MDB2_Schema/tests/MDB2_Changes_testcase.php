@@ -56,7 +56,7 @@ class MDB2_Changes_TestCase extends PHPUnit_TestCase {
     var $aSchemas;
 
     function MDB2_Changes_Test($name) {
-        $this->PHPUnit_TestCase($name);
+        parent::__construct($name);
     }
 
     function setUp() {

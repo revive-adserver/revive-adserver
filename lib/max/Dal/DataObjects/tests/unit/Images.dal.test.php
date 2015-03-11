@@ -25,9 +25,9 @@ class DataObjects_ImagesTest extends DalUnitTestCase
     /**
      * The constructor method.
      */
-    function DataObjects_ImagesTest()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     function tearDown()

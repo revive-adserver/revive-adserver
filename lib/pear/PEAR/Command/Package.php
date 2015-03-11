@@ -259,9 +259,9 @@ used for automated conversion or learning the format.
      *
      * @access public
      */
-    function PEAR_Command_Package(&$ui, &$config)
+    function __construct(&$ui, &$config)
     {
-        parent::PEAR_Command_Common($ui, $config);
+        parent::__construct($ui, $config);
     }
 
     // }}}

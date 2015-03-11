@@ -95,7 +95,7 @@ class Log_file extends Log
      * @param int    $level    Log messages up to and including this level.
      * @access public
      */
-    function Log_file($name, $ident = '', $conf = array(),
+    function __construct($name, $ident = '', $conf = array(),
                       $level = PEAR_LOG_DEBUG)
     {
         $this->_id = md5(microtime());

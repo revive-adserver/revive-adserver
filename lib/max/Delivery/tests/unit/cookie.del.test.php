@@ -26,7 +26,7 @@ class Test_DeliveryCookie extends UnitTestCase
      */
     function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     /**

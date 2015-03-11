@@ -44,9 +44,9 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
      *
      * @return OX_Maintenance_Statistics_Task_MigrateBucketData
      */
-    function OX_Maintenance_Statistics_Task_MigrateBucketData()
+    function __construct()
     {
-        parent::OX_Maintenance_Statistics_Task();
+        parent::__construct();
 
         // Locate all plugins (packages) that have been installed
         $oPluginManager = new OX_PluginManager();

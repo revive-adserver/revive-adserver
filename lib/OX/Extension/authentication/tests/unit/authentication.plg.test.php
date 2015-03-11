@@ -26,9 +26,9 @@ class Test_Authentication extends UnitTestCase
      */
     var $oPlugin;
 
-    function Test_Authentication()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     function setUp()

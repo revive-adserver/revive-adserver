@@ -89,7 +89,7 @@ class Image_Graph_Dataset_VectorFunction extends Image_Graph_Dataset
      *   parameter function like fx sin(x) or cos(x)
      * @param int $points The number of points to create
      */
-    function Image_Graph_Dataset_VectorFunction($minimumT, $maximumT, $functionX, $functionY, $points)
+    function __construct($minimumT, $maximumT, $functionX, $functionY, $points)
     {
         parent::__construct();
         $this->_minimumT = $minimumT;

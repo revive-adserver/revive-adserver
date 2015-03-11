@@ -52,14 +52,6 @@ class MAX_Admin_Inventory_TrackerAppend
         $this->showReminder  = false;
     }
 
-    /**
-     * PHP4-style constructor
-     */
-    function MAX_Admin_Inventory_TrackerAppend()
-    {
-        $this->__construct();
-    }
-
     function _useDefaultDal()
     {
         $oServiceLocator =& OA_ServiceLocator::instance();

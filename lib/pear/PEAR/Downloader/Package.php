@@ -128,7 +128,7 @@ class PEAR_Downloader_Package
     /**
      * @param PEAR_Downloader
      */
-    function PEAR_Downloader_Package(&$downloader)
+    function __construct(&$downloader)
     {
         $this->_downloader = &$downloader;
         $this->_config = &$this->_downloader->config;

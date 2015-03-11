@@ -21,7 +21,7 @@ class Plugins_InvocationTagsOptions
     var $maxInvocation;
 
     var $defaultValues = array();
-    function Plugins_InvocationTagsOptions()
+    function __construct()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $this->defaultValues = array(

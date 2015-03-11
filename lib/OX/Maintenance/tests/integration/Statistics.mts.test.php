@@ -26,9 +26,9 @@ class Test_OX_Maintenance_Statistics extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Test_OX_Maintenance_Statistics()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     /**

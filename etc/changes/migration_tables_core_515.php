@@ -15,7 +15,7 @@ require_once(MAX_PATH.'/lib/OA/Upgrade/Migration.php');
 class Migration_515 extends Migration
 {
 
-    function Migration_515()
+    function __construct()
     {
 		$this->aTaskList_constructive[] = 'beforeAlterField__preference__gui_invocation_3rdparty_default';
 		$this->aTaskList_constructive[] = 'afterAlterField__preference__gui_invocation_3rdparty_default';

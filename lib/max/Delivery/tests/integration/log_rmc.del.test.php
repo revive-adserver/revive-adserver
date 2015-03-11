@@ -26,9 +26,9 @@ class Test_Max_Delivery_Log_RMC extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Test_Max_Delivery_Log_RMC()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     /**

@@ -52,7 +52,7 @@ class Plugins_DeliveryLimitations extends OX_Component
      */
     var $aOperations;
 
-    function Plugins_DeliveryLimitations()
+    function __construct()
     {
         $this->aOperations = MAX_limitationsGetAOperationsForString($this);
     }

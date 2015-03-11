@@ -234,7 +234,7 @@ class Log
      * Abstract implementation of the log() method.
      * @since Log 1.0
      */
-    function log($message, $priority = null)
+    function __construct($message, $priority = null)
     {
         return false;
     }

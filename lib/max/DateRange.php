@@ -33,7 +33,7 @@ class DateRange
      *
      * @param Date now
      */
-    function DateRange($now = null)
+    function __construct($now = null)
     {
         if (is_null($now)) {
             // default to the current datetime

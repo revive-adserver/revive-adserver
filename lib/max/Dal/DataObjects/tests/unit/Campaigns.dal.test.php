@@ -25,9 +25,9 @@ class DataObjects_CampaignsTest extends DalUnitTestCase
     /**
      * The constructor method.
      */
-    function DataObjects_CampaignsTest()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     function tearDown()

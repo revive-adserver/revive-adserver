@@ -301,7 +301,7 @@ class phpSniff
      *  @return object phpSniff object
      */
     
-    function phpSniff($UA='',$settings = true)
+    function __construct($UA='',$settings = true)
     {   //  populate the HTTP_USER_AGENT string
         //  20020425 :: rraymond
         //      routine for easier configuration of the client at runtime

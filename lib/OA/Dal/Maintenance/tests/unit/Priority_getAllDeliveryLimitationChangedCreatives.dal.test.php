@@ -25,9 +25,9 @@ class Test_OA_Dal_Maintenance_Priority_getAllDeliveryLimitationChangedCreatives 
     /**
      * The constructor method.
      */
-    function Test_OA_Dal_Maintenance_Priority_getAllDeliveryLimitationChangedCreatives()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
 

@@ -45,7 +45,7 @@ class OA_Admin_Option
      *                           on if the options are to be displayed in the Settings,
      *                           Account Preferences or User Preferences section.
      */
-    function OA_Admin_Option($optionType)
+    function __construct($optionType)
     {
         // Load the required language files
         Language_Loader::load('default');

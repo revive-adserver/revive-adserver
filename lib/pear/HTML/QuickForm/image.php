@@ -51,7 +51,7 @@ class HTML_QuickForm_image extends HTML_QuickForm_input
      * @access    public
      * @return    void
      */
-    function HTML_QuickForm_image($elementName=null, $src='', $attributes=null)
+    function __construct($elementName=null, $src='', $attributes=null)
     {
         HTML_QuickForm_input::HTML_QuickForm_input($elementName, null, $attributes);
         $this->setType('image');

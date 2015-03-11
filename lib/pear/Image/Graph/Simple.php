@@ -51,7 +51,7 @@ class Image_Graph_Simple extends Image_Graph
      * @param int $width The width of the graph in pixels
      * @param int $height The height of the graph in pixels
      */
-    function Image_Graph_Simple($width, $height, $plotType, $data, $title, $lineColor = 'black', $fillColor = 'white', $font = false)
+    function __construct($width, $height, $plotType, $data, $title, $lineColor = 'black', $fillColor = 'white', $font = false)
     {
         parent::__construct($width, $height);
 

@@ -45,7 +45,7 @@ class OX_Translation
      * @param string $transPath The (optional) path to look for .mo translation resources
      * @return OX_Translation
      */
-    function OX_Translation($transPath = null)
+    function __construct($transPath = null)
     {
         if (isset($GLOBALS['_MAX']['PREF']['language'])) {
             $this->locale = $GLOBALS['_MAX']['PREF']['language'];

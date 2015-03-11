@@ -34,9 +34,9 @@ class Test_OA_Email extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Test_OA_Email()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
 
     }
 

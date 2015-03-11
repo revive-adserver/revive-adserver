@@ -182,16 +182,6 @@ class Openads_Schema_Manager
         //$this->aXMLRPCServer = array('path'=>'/upms/xmlrpc.php', 'host'=>'localhost','port'=>'80');
     }
 
-    /**
-     * php4 class constructor
-     *
-     * @param string The XML schema file we are working on
-     */
-    function Openads_Schema_Manager($schema_file = 'tables_core.xml')
-    {
-        $this->__construct($schema_file);
-    }
-
     function createNew($name)
     {
         $this->aDump_options['custom_tags']['version']  = '000';

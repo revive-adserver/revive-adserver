@@ -46,7 +46,7 @@ class OX_Maintenance
     var $aConf;
     var $aPref;
 
-    function OX_Maintenance()
+    function __construct()
     {
         $this->aConf = $GLOBALS['_MAX']['CONF'];
 

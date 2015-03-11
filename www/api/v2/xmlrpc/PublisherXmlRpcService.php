@@ -43,9 +43,9 @@ class PublisherXmlRpcService extends BasePublisherService
      * to initialise the service.
      *
      */
-    function PublisherXmlRpcService()
+    function __construct()
     {
-        $this->BasePublisherService();
+        parent::__construct();
     }
 
     /**

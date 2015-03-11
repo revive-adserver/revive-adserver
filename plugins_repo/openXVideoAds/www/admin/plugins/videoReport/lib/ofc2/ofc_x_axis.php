@@ -2,7 +2,7 @@
 
 class x_axis
 {
-	function x_axis(){}
+	function __construct(){}
 
 	/**
 	 * @param $stroke as integer, with of the line and ticks

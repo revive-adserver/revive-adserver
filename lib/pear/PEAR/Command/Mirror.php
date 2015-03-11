@@ -71,9 +71,9 @@ packages within preferred_state ({config preferred_state}) will be downloaded'
      * @param object PEAR_Frontend a reference to an frontend
      * @param object PEAR_Config a reference to the configuration data
      */
-    function PEAR_Command_Mirror(&$ui, &$config)
+    function __construct(&$ui, &$config)
     {
-        parent::PEAR_Command_Common($ui, $config);
+        parent::__construct($ui, $config);
     }
 
     // }}}

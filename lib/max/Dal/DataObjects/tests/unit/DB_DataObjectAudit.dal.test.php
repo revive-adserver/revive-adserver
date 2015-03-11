@@ -31,9 +31,9 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
     /**
      * The constructor method.
      */
-    function DB_DataObjectAuditTest()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
         $this->_setUpUser();
     }
 

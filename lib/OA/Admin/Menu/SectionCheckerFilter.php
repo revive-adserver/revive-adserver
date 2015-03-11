@@ -16,7 +16,7 @@
  */
 class OA_Admin_SectionCheckerFilter
 {
-    function OA_Admin_SectionCheckerFilter()
+    function __construct()
     {
     }
 

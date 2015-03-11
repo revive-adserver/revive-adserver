@@ -17,7 +17,7 @@ class MDBC_ConnectionConfiguration {
 
     var $config_name;
     
-    function MDBC_ConnectionConfiguration($config_name) {
+    function __construct($config_name) {
         $this->config_name = $config_name;
     }
 

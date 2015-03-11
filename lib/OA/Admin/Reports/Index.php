@@ -38,7 +38,7 @@ class OA_Admin_Reports_Index
      *
      * @return OA_Admin_Reports_Index
      */
-    function OA_Admin_Reports_Index()
+    function __construct()
     {
         $this->oFieldFactory = new FieldFactory();
         $this->tabindex = 1;

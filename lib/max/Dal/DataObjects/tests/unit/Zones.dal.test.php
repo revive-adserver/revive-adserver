@@ -25,9 +25,9 @@ class DataObjects_ZonesTest extends DalUnitTestCase
     /**
      * The constructor method.
      */
-    function DataObjects_ZonesTest()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     function tearDown()

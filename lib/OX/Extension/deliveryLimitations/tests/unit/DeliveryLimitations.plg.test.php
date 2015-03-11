@@ -31,7 +31,7 @@ class Plugins_DeliveryLimitations_Test extends UnitTestCase
 {
      function Plugins_DeliveryLimitations_TestCase()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     function testCompile()

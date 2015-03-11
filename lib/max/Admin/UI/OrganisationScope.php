@@ -32,7 +32,7 @@ class Admin_UI_OrganisationScope
     /**
      * PHP4 constructor
      */
-    function Admin_UI_OrganisationScope()
+    function __construct()
     {
         $this->_publisherId = OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) ? OA_Permission::getEntityId() : false;
         $this->_advertiserId = OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER) ? OA_Permission::getEntityId() : false;

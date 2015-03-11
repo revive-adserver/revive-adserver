@@ -29,7 +29,7 @@ class OA_Creative
      * @param string $fileName
      * @return OA_Creative
      */
-    function OA_Creative($contentType, $width = 0, $height = 0, $content = '')
+    function __construct($contentType, $width = 0, $height = 0, $content = '')
     {
         $this->contentType = $contentType;
         $this->width       = $contentType;

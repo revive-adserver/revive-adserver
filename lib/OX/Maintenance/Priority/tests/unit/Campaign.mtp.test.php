@@ -24,9 +24,9 @@ class Test_OX_Maintenance_Priority_Campaign extends UnitTestCase
     /**
      * The class constructor method.
      */
-    function  Test_OX_Maintenance_Priority_Campaign()
+    function  __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
         Mock::generate('MAX_Dal_Entities');
         Mock::generate('OA_Dal_Maintenance_Priority');
         Mock::generatePartial(

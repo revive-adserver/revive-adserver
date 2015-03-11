@@ -24,9 +24,9 @@ class Test_RV_Sync extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Test_RV_Sync()
+    function __construct()
     {
-        $this->UnitTestCase();
+        parent::__construct();
     }
 
     /**

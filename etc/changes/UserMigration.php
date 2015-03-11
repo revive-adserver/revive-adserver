@@ -45,7 +45,7 @@ class UserMigration extends Migration
 
     var $aLanguageByAgency = array();
 
-    function UserMigration()
+    function __construct()
     {
         // We will need the admin and per-agency languages to assign the correct "Default" languages to advertiser and websites
         if (!$this->init(OA_DB::singleton()))
