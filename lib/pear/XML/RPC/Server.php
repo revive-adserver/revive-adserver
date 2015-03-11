@@ -373,7 +373,7 @@ class XML_RPC_Server
 
         if ($XML_RPC_Server_debuginfo != '') {
             return "<!-- PEAR XML_RPC SERVER DEBUG INFO:\n\n"
-                   . $GLOBALS['XML_RPC_func_ereg_replace']('--', '- - ', $XML_RPC_Server_debuginfo)
+                   . str_replace('--', '- - ', $XML_RPC_Server_debuginfo)
                    . "-->\n";
         } else {
             return '';
@@ -430,9 +430,9 @@ class XML_RPC_Server
          * that someone composed a single header with multiple lines, which
          * the RFCs allow.
          */
-        $this->server_headers = $GLOBALS['XML_RPC_func_ereg_replace']("[\r\n]+[ \t]+",
+        $this->server_headers = preg_replace("/[\r\n]+[ \t]+/",
                                 ' ', trim($this->server_headers));
-        $headers = $GLOBALS['XML_RPC_func_split']("[\r\n]+", $this->server_headers);
+        $headers = preg_split("/[\r\n]+/", $this->server_headers);
         foreach ($headers as $header)
         {
             header($header);
