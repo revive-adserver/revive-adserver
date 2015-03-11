@@ -391,8 +391,6 @@ $GLOBALS['strView'] = "Vaizdas";
 $GLOBALS['strImpression'] = "Įspūdis";
 $GLOBALS['strLinkCampaignsByDefault'] = "Sujungti naujai sukurtas kampanijas";
 
-
-
 // Banners (General)
 $GLOBALS['strBanner'] = "Baneris";
 $GLOBALS['strBanners'] = "Baneriai";

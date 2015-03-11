@@ -250,8 +250,6 @@ $GLOBALS['strUniqueWindow'] = "Μοναδικό παράθυρο";
 $GLOBALS['strView'] = "Προβολή";
 $GLOBALS['strImpression'] = "Εντυπώσεις";
 
-
-
 // Banners (General)
 $GLOBALS['strAddBanner'] = "Προσθήκη νέου banner";
 $GLOBALS['strAddBanner_Key'] = "Προσθήκη <u>ν</u>έου banner";

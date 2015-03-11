@@ -388,8 +388,6 @@ $GLOBALS['strTrackerImprConversions'] = "اثر تغییرات";
 $GLOBALS['strTrackerClickConversions'] = "کلیک تغییرات";
 $GLOBALS['strLinkCampaignsByDefault'] = "آخرین پیوندی که توسط داخلی ساخته شده به صورت پیش �?رض باشد";
 
-
-
 // Banners (General)
 $GLOBALS['strBanner'] = "بنر";
 $GLOBALS['strBanners'] = "بنرها";

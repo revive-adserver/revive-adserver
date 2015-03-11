@@ -107,6 +107,7 @@ $GLOBALS['strAdd'] = "Aggiungi";
 $GLOBALS['strLinkedTo'] = "collegato a";
 $GLOBALS['strDaysLeft'] = "Giorni mancanti";
 $GLOBALS['strCheckAllNone'] = "Seleziona tutti / nessuno";
+$GLOBALS['strKiloByte'] = "KB";
 $GLOBALS['strExpandAll'] = "<u>E</u>spandi tutti";
 $GLOBALS['strCollapseAll'] = "<u>C</u>hiudi tutti";
 $GLOBALS['strShowAll'] = "Mostra tutto";
@@ -155,6 +156,7 @@ $GLOBALS['strName'] = "Nome";
 $GLOBALS['strSize'] = "Dimensioni";
 $GLOBALS['strWidth'] = "Larghezza";
 $GLOBALS['strHeight'] = "Altezza";
+$GLOBALS['strURL2'] = "URL";
 $GLOBALS['strTarget'] = "Frame destinazione";
 $GLOBALS['strLanguage'] = "Lingua";
 $GLOBALS['strDescription'] = "Descrizione";
@@ -209,6 +211,7 @@ $GLOBALS['strSessionIDNotMatch'] = "Errore nel cookie di sessione, per favore en
 $GLOBALS['strLogin'] = "Nome utente";
 $GLOBALS['strLogout'] = "Esci";
 $GLOBALS['strUsername'] = "Nome utente";
+$GLOBALS['strPassword'] = "Password";
 $GLOBALS['strPasswordRepeat'] = "Ripeti la password";
 $GLOBALS['strAccessDenied'] = "Accesso negato";
 $GLOBALS['strUsernameOrPasswordWrong'] = "Nome utente o password non corretti. Inserire nuovamente le proprie credenziali.";
@@ -231,8 +234,10 @@ $GLOBALS['strRequests'] = "Richieste";
 $GLOBALS['strImpressions'] = "Impressioni";
 $GLOBALS['strClicks'] = "Click";
 $GLOBALS['strConversions'] = "Conversioni";
+$GLOBALS['strCTRShort'] = "CTR";
 $GLOBALS['strCTR'] = "CTR";
 $GLOBALS['strCNVR'] = "Proporzione vendita";
+$GLOBALS['strCPCShort'] = "CPC";
 $GLOBALS['strTotalViews'] = "Visualizzazioni totali";
 $GLOBALS['strTotalClicks'] = "Click totali";
 $GLOBALS['strTotalConversions'] = "Conversioni totali";
@@ -253,7 +258,11 @@ $GLOBALS['strWindowDelay'] = "Ritardo finestra";
 $GLOBALS['strStatsVariables'] = "Variabili";
 
 // Finance
+$GLOBALS['strFinanceCPM'] = "CPM";
+$GLOBALS['strFinanceCPC'] = "CPC";
+$GLOBALS['strFinanceCPA'] = "CPA";
 $GLOBALS['strFinanceMT'] = "Occupazione Mensile";
+$GLOBALS['strFinanceCTR'] = "CTR";
 $GLOBALS['strPercentRevenueSplit'] = "% divisione ricavi";
 $GLOBALS['strPercentBasketValue'] = "% Valore del cesto";
 $GLOBALS['strAmountPerItem'] = "Ammontare per oggetto";
@@ -289,6 +298,12 @@ $GLOBALS['strMonth'][11] = "Dicembre";
 
 $GLOBALS['strDayFullNames'] = array();
 $GLOBALS['strDayFullNames'][0] = 'Domenica';
+$GLOBALS['strDayFullNames'][1] = 'Lunedì';
+$GLOBALS['strDayFullNames'][2] = 'Martedì';
+$GLOBALS['strDayFullNames'][3] = 'Mercoledì';
+$GLOBALS['strDayFullNames'][4] = 'Giovedì';
+$GLOBALS['strDayFullNames'][5] = 'Venerdì';
+$GLOBALS['strDayFullNames'][6] = 'Sabato';
 
 $GLOBALS['strDayShortCuts'] = array();
 $GLOBALS['strDayShortCuts'][0] = 'Do';
@@ -389,6 +404,9 @@ $GLOBALS['strCompanionPositioning'] = "Posizionamento del companion";
 $GLOBALS['strSelectUnselectAll'] = "Seleziona / Deseleziona tutti";
 
 // Campaign-zone linking page
+$GLOBALS['strZonesLinked'] = "zona/e collegate";
+$GLOBALS['strZonesUnlinked'] = "zona/e scollegate";
+$GLOBALS['strZonesSearch'] = "Cerca";
 
 
 // Campaign properties
@@ -485,10 +503,10 @@ $GLOBALS['strImpression'] = "Impressione";
 $GLOBALS['strConversionType'] = "Tipo di conversione";
 $GLOBALS['strLinkCampaignsByDefault'] = "Collega automaticamente le nuove campagne appena create";
 $GLOBALS['strPerSingleImpression'] = "per singola impressione";
-
-
+$GLOBALS['strIPAddress'] = "Indirizzo IP";
 
 // Banners (General)
+$GLOBALS['strBanner'] = "Banner";
 $GLOBALS['strBanners'] = "Banner";
 $GLOBALS['strAddBanner'] = "Aggiungi nuovo banner";
 $GLOBALS['strAddBanner_Key'] = "Aggiungi <u>n</u>uovo banner";
@@ -718,6 +736,23 @@ $GLOBALS['strWarnChangeZoneSize'] = 'Cambiando la dimensione della zona si perde
 $GLOBALS['strWarnChangeBannerSize'] = 'Cambiando la dimensione del banner tutti i banner che non sono della nuova dimensione verranno scollegati dalle relative zone, e se la campagna di questo banner è collegato ad una zona della nuova dimensione, questo banner sarà collegato automaticamente';
 $GLOBALS['strInventoryForecasting'] = 'Previsione inventario';
 
+$GLOBALS['strIab']['IAB_FullBanner(468x60)'] = "IAB Full Banner (468 x 60)";
+$GLOBALS['strIab']['IAB_Skyscraper(120x600)'] = "IAB Skyscraper (120 x 600)";
+$GLOBALS['strIab']['IAB_Leaderboard(728x90)'] = "IAB Leaderboard (728 x 90)";
+$GLOBALS['strIab']['IAB_Button1(120x90)'] = "IAB Button 1 (120 x 90)";
+$GLOBALS['strIab']['IAB_Button2(120x60)'] = "IAB Button 2 (120 x 60)";
+$GLOBALS['strIab']['IAB_HalfBanner(234x60)'] = "IAB Half Banner (234 x 60)";
+$GLOBALS['strIab']['IAB_MicroBar(88x31)'] = "IAB Micro Bar (88 x 31)";
+$GLOBALS['strIab']['IAB_SquareButton(125x125)'] = "IAB Square Button (125 x 125)";
+$GLOBALS['strIab']['IAB_Rectangle(180x150)*'] = "IAB Rectangle (180 x 150)";
+$GLOBALS['strIab']['IAB_SquarePop-up(250x250)'] = "IAB Square Pop-up (250 x 250)";
+$GLOBALS['strIab']['IAB_VerticalBanner(120x240)'] = "IAB Vertical Banner (120 x 240)";
+$GLOBALS['strIab']['IAB_MediumRectangle(300x250)*'] = "IAB Medium Rectangle (300 x 250)";
+$GLOBALS['strIab']['IAB_LargeRectangle(336x280)'] = "IAB Large Rectangle (336 x 280)";
+$GLOBALS['strIab']['IAB_VerticalRectangle(240x400)'] = "IAB Vertical Rectangle (240 x 400)";
+$GLOBALS['strIab']['IAB_WideSkyscraper(160x600)*'] = "IAB Wide Skyscraper (160 x 600)";
+$GLOBALS['strIab']['IAB_Pop-Under(720x300)'] = "IAB Pop-Under (720 x 300)";
+$GLOBALS['strIab']['IAB_3:1Rectangle(300x100)'] = "IAB 3:1 Rectangle (300 x 100)";
 
 // Advanced zone settings
 $GLOBALS['strAdvanced'] = "Avanzate";
@@ -1057,6 +1092,8 @@ $GLOBALS['aProductStatus']['UPGRADE_FAILED'] = "Aggiornamento fallito";
 
 // Agency
 $GLOBALS['strAgencyManagement'] = "Gestione account";
+$GLOBALS['strAgency'] = "Account";
+$GLOBALS['strAgencies'] = "Account";
 $GLOBALS['strAddAgency'] = "Aggiungi un nuovo account";
 $GLOBALS['strAddAgency_Key'] = "Aggiungi un <u>n</u>uovo account";
 $GLOBALS['strTotalAgencies'] = "Account totali";

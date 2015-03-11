@@ -379,8 +379,6 @@ $GLOBALS['strImpression'] = "Gösterimler";
 $GLOBALS['strConversionType'] = "Dönüşüm tipi";
 $GLOBALS['strLinkCampaignsByDefault'] = "Yeni yaratılan kampanyaları doğrudan bağla";
 
-
-
 // Banners (General)
 $GLOBALS['strBanners'] = "Bannerlar";
 $GLOBALS['strAddBanner'] = "Yeni banner ekle";

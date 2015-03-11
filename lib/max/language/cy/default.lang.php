@@ -335,8 +335,6 @@ $GLOBALS['strImpression'] = "Argraffiadau";
 $GLOBALS['strConversionType'] = "Math trawsnewidiad";
 $GLOBALS['strLinkCampaignsByDefault'] = "Cysylltwch ymgyrchoedd newydd yn ddiofyn";
 
-
-
 // Banners (General)
 $GLOBALS['strBanner'] = "Baner";
 $GLOBALS['strBanners'] = "Baneri";

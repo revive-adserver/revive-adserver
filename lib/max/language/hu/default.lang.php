@@ -311,8 +311,6 @@ $GLOBALS['strCampaignType'] = "Kampány név";
 $GLOBALS['strClick'] = "Kattintás";
 $GLOBALS['strImpression'] = "Megjelenés";
 
-
-
 // Banners (General)
 $GLOBALS['strBanner'] = "Reklám";
 $GLOBALS['strBanners'] = "Reklámok";

@@ -319,8 +319,6 @@ $GLOBALS['strLinkedTrackers'] = "Свързани тракери";
 $GLOBALS['strClick'] = "Кликове";
 $GLOBALS['strImpression'] = "Импресия";
 
-
-
 // Banners (General)
 $GLOBALS['strAddBanner_Key'] = "Добави <u>н</u>ов тракер";
 $GLOBALS['strDeleteAllBanners'] = "Изтрий всички тракери";

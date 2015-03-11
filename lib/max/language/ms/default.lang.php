@@ -111,8 +111,6 @@ $GLOBALS['strCampaignStatusDeleted'] = "Padam";
 
 // Tracker
 
-
-
 // Banners (General)
 $GLOBALS['strTypeHtmlAllow'] = "Benarkan banner HTML";
 $GLOBALS['strTypeTxtAllow'] = "Benarkan Iklan Teks";

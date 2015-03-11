@@ -355,8 +355,6 @@ $GLOBALS['strTrackerClickConnections'] = "Spojení kliknutí";
 $GLOBALS['strTrackerImprConversions'] = "Prodejních zobrazení";
 $GLOBALS['strTrackerClickConversions'] = "Prodejních kliknutí";
 
-
-
 // Banners (General)
 $GLOBALS['strBanners'] = "Bannery";
 $GLOBALS['strBannerFilter'] = "Filtr bannerů";

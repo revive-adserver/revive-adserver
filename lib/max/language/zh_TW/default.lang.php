@@ -369,8 +369,6 @@ $GLOBALS['strView'] = "瀏覽";
 $GLOBALS['strImpression'] = "曝光量";
 $GLOBALS['strConversionType'] = "轉化類型";
 
-
-
 // Banners (General)
 $GLOBALS['strBanner'] = "廣告";
 $GLOBALS['strBanners'] = "廣告";

@@ -373,8 +373,6 @@ $GLOBALS['strView'] = "Oversigt";
 $GLOBALS['strImpression'] = "Visninger";
 $GLOBALS['strLinkCampaignsByDefault'] = "Link de ny oprettede kampagner som udgangspunkt";
 
-
-
 // Banners (General)
 $GLOBALS['strBanners'] = "Banner";
 $GLOBALS['strAddBanner'] = "Tilføj ny banner";

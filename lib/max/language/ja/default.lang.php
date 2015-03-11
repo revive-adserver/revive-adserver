@@ -513,8 +513,6 @@ $GLOBALS['strConversionType'] = "コンバージョンタイプ";
 $GLOBALS['strLinkCampaignsByDefault'] = "デフォルトで新規キャンペーンにリンクする";
 $GLOBALS['strPerSingleImpression'] = "/１インプレッション";
 
-
-
 // Banners (General)
 $GLOBALS['strBanner'] = "バナー";
 $GLOBALS['strBanners'] = "バナー";

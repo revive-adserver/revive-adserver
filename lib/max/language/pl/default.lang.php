@@ -468,8 +468,6 @@ $GLOBALS['strConversionType'] = "Typ konwersji";
 $GLOBALS['strLinkCampaignsByDefault'] = "Podłącz nowo utworzone kampanie w ramach ustawień domyślnych";
 $GLOBALS['strPerSingleImpression'] = "na pojedynczą odsłonę";
 
-
-
 // Banners (General)
 $GLOBALS['strBanner'] = "Baner";
 $GLOBALS['strBanners'] = "Banery";

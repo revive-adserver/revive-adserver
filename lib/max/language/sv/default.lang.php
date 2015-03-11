@@ -340,8 +340,6 @@ $GLOBALS['strImpression'] = "Visningar";
 $GLOBALS['strConversionType'] = "Konversionstyp";
 $GLOBALS['strLinkCampaignsByDefault'] = "Länka nyskapade kampanjer som standard";
 
-
-
 // Banners (General)
 $GLOBALS['strBanner'] = "Annons";
 $GLOBALS['strAddBanner'] = "Lägg till ny annons";

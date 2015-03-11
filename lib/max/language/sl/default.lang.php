@@ -508,8 +508,6 @@ $GLOBALS['strNoLinkedTrackersDropdown'] = "\\-- ni povezanega sledilnika --";
 $GLOBALS['strPerSingleImpression'] = "na posamezen učinek";
 $GLOBALS['strBackToTrackers'] = "Nazaj k sledilnikom";
 
-
-
 // Banners (General)
 $GLOBALS['strBanner'] = "Pasica";
 $GLOBALS['strBanners'] = "Pasice";

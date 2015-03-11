@@ -327,8 +327,6 @@ $GLOBALS['strImpression'] = "Показів";
 $GLOBALS['strConversionType'] = "Тип конверсії";
 $GLOBALS['strLinkCampaignsByDefault'] = "За умовчанням пов'язувати з новими кампаніями";
 
-
-
 // Banners (General)
 $GLOBALS['strBanner'] = "Банер";
 $GLOBALS['strBanners'] = "Банери";

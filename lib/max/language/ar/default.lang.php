@@ -365,8 +365,6 @@ $GLOBALS['strImpression'] = "مرات الظهور";
 $GLOBALS['strConversionType'] = "نوع التحويل";
 $GLOBALS['strLinkCampaignsByDefault'] = "ربط الحملات الاعلانية الجديدة افتراضياً";
 
-
-
 // Banners (General)
 $GLOBALS['strBanner'] = "بنر";
 $GLOBALS['strBanners'] = "بنرات";

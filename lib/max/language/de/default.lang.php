@@ -544,8 +544,6 @@ $GLOBALS['strNoLinkedTrackersDropdown'] = "\\-- Keine verlinkten Tracker --";
 $GLOBALS['strPerSingleImpression'] = "pro einzelne Impression";
 $GLOBALS['strBackToTrackers'] = "Zurück zu den Trackern";
 
-
-
 // Banners (General)
 $GLOBALS['strBanners'] = "Banner";
 $GLOBALS['strBannerFilter'] = "Werbemittelfilter";

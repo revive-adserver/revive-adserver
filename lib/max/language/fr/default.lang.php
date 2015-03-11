@@ -507,8 +507,6 @@ $GLOBALS['strNoLinkedTrackersDropdown'] = "\\-- Pas de traceur de lien --";
 $GLOBALS['strPerSingleImpression'] = "par impression unique";
 $GLOBALS['strBackToTrackers'] = "Retour aux traceurs";
 
-
-
 // Banners (General)
 $GLOBALS['strBanner'] = "Bannière";
 $GLOBALS['strBanners'] = "Bannières";

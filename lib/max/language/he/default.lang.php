@@ -242,8 +242,6 @@ $GLOBALS['strCampaignWarningNoTarget'] = "הקדימות של קמפיין זה 
 
 // Tracker
 
-
-
 // Banners (General)
 $GLOBALS['strBanner'] = "באנר";
 $GLOBALS['strBanners'] = "באנרים";

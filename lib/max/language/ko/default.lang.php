@@ -272,8 +272,6 @@ $GLOBALS['strDeleteAllTrackers'] = "모든 배너 삭제";
 $GLOBALS['strTrackerProperties'] = "배너 등�? 정보";
 $GLOBALS['strTrackerOverview'] = "배너 목�?";
 
-
-
 // Banners (General)
 $GLOBALS['strBanner'] = "배너";
 $GLOBALS['strBanners'] = "배너";

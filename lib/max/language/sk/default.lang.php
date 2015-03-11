@@ -279,8 +279,6 @@ $GLOBALS['strConfirmDeleteTracker'] = "Naozaj chcete zmazať inzerenta?";
 $GLOBALS['strClick'] = "Kliknutia";
 $GLOBALS['strImpression'] = "Impresie, Zobrazenia";
 
-
-
 // Banners (General)
 $GLOBALS['strTotalBanners'] = "Celkový počet banerov";
 $GLOBALS['strNoBannersAddAdvertiser'] = "Aktuálne nemáte vytvorených žiadnych zadávateľov reklamy. Pre vytvorenie kapmane, vytvorte najskôr <a href='affiliate-edit.php'>nového zadávateľa</a> reklamy.";

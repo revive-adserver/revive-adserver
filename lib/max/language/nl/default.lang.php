@@ -403,8 +403,6 @@ $GLOBALS['strClick'] = "AdClicks";
 $GLOBALS['strView'] = "Bekijk";
 $GLOBALS['strImpression'] = "AdViews";
 
-
-
 // Banners (General)
 $GLOBALS['strAddBanner'] = "Voeg een banner toe";
 $GLOBALS['strAddBanner_Key'] = "<u>V</u>oeg een banner toe";

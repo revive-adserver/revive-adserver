@@ -476,8 +476,6 @@ $GLOBALS['strConversionType'] = "Tipo de conversão";
 $GLOBALS['strLinkCampaignsByDefault'] = "vincular campanhas novas por padrão";
 $GLOBALS['strPerSingleImpression'] = "por cada impressão";
 
-
-
 // Banners (General)
 $GLOBALS['strAddBanner'] = "Adicionar novo banner";
 $GLOBALS['strAddBanner_Key'] = "Adicionar <u>n</u>ovo banner";

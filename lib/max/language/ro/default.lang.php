@@ -443,8 +443,6 @@ $GLOBALS['strConversionType'] = "Tip Conversie";
 $GLOBALS['strLinkCampaignsByDefault'] = "Asociază campaniile noi în mod implicit";
 $GLOBALS['strPerSingleImpression'] = "pe o singură vizualizare";
 
-
-
 // Banners (General)
 $GLOBALS['strBanners'] = "Bannere";
 $GLOBALS['strAddBanner'] = "Adaugă banner nou";

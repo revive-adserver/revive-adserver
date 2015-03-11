@@ -409,8 +409,6 @@ $GLOBALS['strTrackerClickConversions'] = "Konversi Klik";
 $GLOBALS['strConversionType'] = "Jenis konversi";
 $GLOBALS['strLinkCampaignsByDefault'] = "Hubungkan kampanye baru secara Default";
 
-
-
 // Banners (General)
 $GLOBALS['strBanners'] = "Banner";
 $GLOBALS['strBannerFilter'] = "Saringan Banner";
