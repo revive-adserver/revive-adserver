@@ -100,6 +100,8 @@ $GLOBALS['strAvg'] = "Med.";
 $GLOBALS['strAverage'] = "Media";
 $GLOBALS['strOverall'] = "Totale";
 $GLOBALS['strTotal'] = "Totale";
+$GLOBALS['strUnfilteredTotal'] = "Totale (non filtrato)";
+$GLOBALS['strFilteredTotal'] = "Totale (filtrato)";
 $GLOBALS['strActive'] = "attiva";
 $GLOBALS['strFrom'] = "Da";
 $GLOBALS['strTo'] = "a";
@@ -128,12 +130,17 @@ $GLOBALS['strCollectedThisMonth'] = "Questo mese";
 $GLOBALS['strCollectedLastMonth'] = "Scorso mese";
 $GLOBALS['strCollectedLast7Days'] = "Ultimi 7 giorni";
 $GLOBALS['strCollectedSpecificDates'] = "Date specifiche";
+$GLOBALS['strDifference'] = "Differenza (%)";
+$GLOBALS['strPercentageOfTotal'] = "% Totale";
 $GLOBALS['strValue'] = "Valore";
 $GLOBALS['strAdmin'] = "Amministratore";
+$GLOBALS['strWarning'] = "Attenzione";
 $GLOBALS['strNotice'] = "Notifica";
 $GLOBALS['strRequiredField'] = "Campo obbligatorio";
+$GLOBALS['strCloseWindow'] = "Chiudi finestra";
 
 // Dashboard
+$GLOBALS['strDashboardCantBeDisplayed'] = "La dashboard non può essere visualizzata";
 $GLOBALS['strChoosenDisableHomePage'] = "Hai scelto di disabilitare la tua pagina iniziale.";
 $GLOBALS['strAccessHomePage'] = "Accedi alla tua pagina iniziale";
 $GLOBALS['strEditSyncSettings'] = "e modifica le tue impostazioni di sincronizzazione";
@@ -147,9 +154,15 @@ $GLOBALS['strPriority'] = "Priorità";
 $GLOBALS['strPriorityLevel'] = "Livello di priorità";
 $GLOBALS['strPriorityTargeting'] = "Distribuzione";
 $GLOBALS['strPriorityOptimisation'] = "Varie"; // Er, what?
+$GLOBALS['strOverrideAds'] = "Banner provenienti da campagne \"Override\"";
+$GLOBALS['strHighAds'] = "Banner provenienti da campagne a contratto";
+$GLOBALS['strECPMAds'] = "Banner provenienti da campagne eCPM";
+$GLOBALS['strLowAds'] = "Banner provenienti da campagne Remnant";
 $GLOBALS['strLimitations'] = "Limitazioni";
 $GLOBALS['strNoLimitations'] = "Nessuna limitazione";
 $GLOBALS['strCapping'] = "Capping";
+$GLOBALS['strCapped'] = "Delivery capping attivo";
+$GLOBALS['strNoCapping'] = "Nessun delivery capping";
 
 // Properties
 $GLOBALS['strName'] = "Nome";
@@ -398,8 +411,10 @@ $GLOBALS['strECPMInformation'] = "Prioritizzazione eCPM";
 $GLOBALS['strHiddenCampaign'] = "Campagna";
 $GLOBALS['strHiddenAd'] = "Inserzione";
 $GLOBALS['strHiddenAdvertiser'] = "Inserzionista";
+$GLOBALS['strHiddenTracker'] = "Tracker";
 $GLOBALS['strHiddenWebsite'] = "Sito";
 $GLOBALS['strHiddenZone'] = "Zona";
+$GLOBALS['strRemaining'] = "Rimanenti";
 $GLOBALS['strCompanionPositioning'] = "Posizionamento del companion";
 $GLOBALS['strSelectUnselectAll'] = "Seleziona / Deseleziona tutti";
 
@@ -407,6 +422,8 @@ $GLOBALS['strSelectUnselectAll'] = "Seleziona / Deseleziona tutti";
 $GLOBALS['strZonesLinked'] = "zona/e collegate";
 $GLOBALS['strZonesUnlinked'] = "zona/e scollegate";
 $GLOBALS['strZonesSearch'] = "Cerca";
+$GLOBALS['strEditZone'] = "Modifica zona";
+$GLOBALS['strEditWebsite'] = "Modificare sito web";
 
 
 // Campaign properties
@@ -480,6 +497,7 @@ $GLOBALS['strContract'] = "Contatto";
 $GLOBALS['strStandardContract'] = "Contatto";
 
 // Tracker
+$GLOBALS['strTracker'] = "Tracker";
 $GLOBALS['strTrackers'] = "Tracker";
 $GLOBALS['strTrackerOverview'] = "Informazioni Tracker";
 $GLOBALS['strTrackerPreferences'] = "Preferenze tracker";
@@ -498,6 +516,7 @@ $GLOBALS['strStatus'] = "Stato";
 $GLOBALS['strLinkedTrackers'] = "Tracker collegati";
 $GLOBALS['strConversionWindow'] = "Finestra di conversione";
 $GLOBALS['strUniqueWindow'] = "Finestra unica";
+$GLOBALS['strClick'] = "Click";
 $GLOBALS['strView'] = "Impressione";
 $GLOBALS['strImpression'] = "Impressione";
 $GLOBALS['strConversionType'] = "Tipo di conversione";

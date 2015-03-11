@@ -93,6 +93,8 @@ $GLOBALS['strStatisticsExplaination'] = "	Hai abilitato il <i>formato compatto</
 // Product Updates
 $GLOBALS['strSearchingUpdates'] = "Ricerca aggiornamenti in corso. Attendere prego...";
 $GLOBALS['strAvailableUpdates'] = "Aggiornamenti disponibili";
+$GLOBALS['strDownloadZip'] = "Scarica (.zip)";
+$GLOBALS['strDownloadGZip'] = "Scarica (.tar.gz)";
 
 $GLOBALS['strUpdateAlert'] = "E` disponibile una nuova versione di {$PRODUCT_NAME}.
 
@@ -108,7 +110,9 @@ $GLOBALS['strUpdateServerDown'] = "    Per motivi sconosciuti non è possibile s
 
 $GLOBALS['strNoNewVersionAvailable'] = "	La tua versione di {$PRODUCT_NAME} è aggiornata. Non ci sono aggiornamenti disponibili.";
 
+$GLOBALS['strServerCommunicationError'] = "    <b>La comunicazione con il server di aggiornamento non è riuscita, quindi al momento {$PRODUCT_NAME} non è in grado di verificare se è disponibile una nuova versione. Riprova più tardi.</b>";
 
+$GLOBALS['strCheckForUpdatesDisabled'] = "    <b>Il controllo degli aggiornamenti è disattivato. Si prega di abilitarlo nelle <a href='account-settings-update.php'>impostazioni di aggiornamento</a>.</b>";
 
 $GLOBALS['strNewVersionAvailable'] = "	<b>È disponibile una nuova versione di {$PRODUCT_NAME}.</b><br /> È consigliato effettuare l\\'aggiornamento,
 	poiché potrebbe correggere alcuni porblemi esistenti e aggiungerà nuove potenzialità. Per maggiori
@@ -136,6 +140,7 @@ $GLOBALS['strConvertingStats'] = "Conversione statistiche...";
 $GLOBALS['strConvertStats'] = "Converti statistiche";
 $GLOBALS['strConvertAdViews'] = "Visualizzazioni convertite,";
 $GLOBALS['strConvertAdClicks'] = "Click convertiti...";
+$GLOBALS['strConvertAdConversions'] = "Conversioni convertite...";
 $GLOBALS['strConvertNothing'] = "Niente da convertire...";
 $GLOBALS['strConvertFinished'] = "Operazione terminata...";
 
@@ -166,6 +171,7 @@ $GLOBALS['strAutoMaintenanceDisabledMaintenanceRan'] = "Anche la manutenzione au
 $GLOBALS['strAutoMaintenanceDisabledNotTriggered'] = "Anche la manutenzione automatica è stata disabilitata, quindi quando {$PRODUCT_NAME} spedisce banner, la manutenzione non viene eseguita. Se non intendi pianificare alcuna <a href='http://{$PRODUCT_DOCSURL}/maintenance.html' target='_blank'>manutenzione programmata</a>, devi <a href='settings-admin.php'>abilitare la manutenzione automatica</a> per assicurarti che {$PRODUCT_NAME} funzioni correttamente.";
 
 //  Deliver Limitations
+$GLOBALS['strDeliveryLimitations'] = "Limitazioni di consegna";
 $GLOBALS['strAllBannerChannelCompiled'] = "Sono stati ricompilati tutti i valori compilati di limitazioni banner / canale.";
 $GLOBALS['strBannerChannelResult'] = "Seguono i risultati della validazione delle limitazioni banner/canale";
 $GLOBALS['strChannelCompiledLimitationsValid'] = "Tutte le limitazioni compilate del canale sono valide";
@@ -185,4 +191,11 @@ $GLOBALS['strAppendCodesResult'] = "Ecco i risultati di convalida dei codici acc
 $GLOBALS['strAppendCodesValid'] = "Tutti i codici accodati sono validi";
 $GLOBALS['strRepairAppenedCodes'] = "Sono state trovate alcune inconsistenze, puoi ripararle usando il bottone seguente. Ricompilerai i codici accodati per ogni tracker del sistema";
 
+$GLOBALS['strPlugins'] = "Plugin";
+$GLOBALS['strPluginsPrecis'] = "Diagnostica e ripara i problemi con i plugin di {$PRODUCT_NAME}";
+$GLOBALS['strPluginsOk'] = "Nessun problema riscontrato";
 
+$GLOBALS['strMenus'] = "Menu";
+$GLOBALS['strMenusPrecis'] = "Ricostruisci la cache dei menu";
+$GLOBALS['strMenusCachedOk'] = "La cache dei menù è stata ricostruita";
+$GLOBALS['strMenusCachedErr'] = "Errori durante la ricostruzione della cache dei menù";
