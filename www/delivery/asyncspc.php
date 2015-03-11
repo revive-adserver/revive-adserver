@@ -4283,45 +4283,72 @@ return file_get_contents(MAX_PATH . '/www/delivery/' . $conf['file']['flash']);
 }
 
 
-MAX_commonSendContentTypeHeader('text/html');
-MAX_commonRegisterGlobalsArray(array('timeout'));
-$timeout = !empty($timeout) ? $timeout : 0;
-if ($zoneid > 0) {
-$aZone = MAX_cacheGetZoneInfo($zoneid);
-} else {
-$aZone = array();
-$aZone['zoneid'] = $zoneid;
-$aZone['append'] = '';
-$aZone['prepend'] = '';
+function MAX_javascriptToHTML($string, $varName, $output = true, $localScope = true)
+{
+$jsLines = array();
+$search[] = "\\"; $replace[] = "\\\\";
+$search[] = "\r"; $replace[] = '';
+$search[] = '"'; $replace[] = '\"';
+$search[] = "'"; $replace[] = "\\'";
+$search[] = '<'; $replace[] = '<"+"';
+$string = str_replace($search, $replace, $string);
+$lines = explode("\n", $string);
+foreach ($lines AS $line) {
+if(trim($line) != '') {
+$jsLines[] = $varName . ' += "' . trim($line) . '\n";';
 }
-$aBanner = MAX_cacheGetAd($bannerid);
-$prepend = !empty($aZone['prepend']) ? $aZone['prepend'] : '';
-$html = MAX_adRender($aBanner, $zoneid, $source, $target, $ct0, $withtext);
-$append = !empty($aZone['append']) ? $aZone['append'] : '';
-$title = !empty($aBanner['alt']) ? $aBanner['alt'] : 'Advertisement';
-echo "
-<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
-<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
-<head>
-<title>$title</title>";
-if ($timeout > 0) {
-$timeoutMs = $timeout * 1000;
-echo "
-<script type='text/javascript'>
-<!--// <![CDATA[
-  window.setTimeout(\"window.close()\",$timeoutMs);
-// ]]> -->
-</script>";
 }
-if ($aBanner['contenttype'] == 'swf') {
-echo MAX_flashGetFlashObjectExternal();
+$buffer = (($localScope) ? 'var ' : '') . $varName ." = '';\n";
+$buffer .= implode("\n", $jsLines);
+if ($output == true) {
+$buffer .= "\ndocument.write({$varName});\n";
 }
-echo "
-<style type='text/css'>
-body {margin:0; height:100%; width:100%}
-</style>
-</head>
-<body>
-{$prepend}{$html}{$append}
-</body>
-</html>";
+return $buffer;
+}
+function MAX_javascriptEncodeJsonField($string)
+{
+$string = addcslashes($string, "\\/\"\n\r\t");
+$string = str_replace("\x08", "\\b", $string);
+$string = str_replace("\x0C", "\\f", $string);
+return '"'.$string.'"';
+}
+
+MAX_commonSetNoCacheHeaders();
+MAX_commonRegisterGlobalsArray(array('zones' ,'source', 'block', 'blockcampaign', 'exclude', 'mmm_fo', 'q', 'prefix'));
+$source = MAX_commonDeriveSource($source);
+$spc_output = array();
+if(!empty($zones)) {
+$zones = explode('|', $zones);
+foreach ($zones as $id => $thisZoneid) {
+$zonename = $prefix.$id;
+unset($GLOBALS['_MAX']['deliveryData']);
+$what = 'zone:'.$thisZoneid;
+$output = MAX_adSelect($what, $clientid, $target, $source, $withtext, $charset, $context, true, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
+$spc_output[$zonename] = array(
+'html' => $output['html'],
+'width' => isset($output['width']) ? $output['width'] : 0,
+'height' => isset($output['height']) ? $output['height'] : 0,
+'iframeFriendly' => isset($output['iframeFriendly']) ? $output['iframeFriendly'] : false,
+);
+if (!empty($block) && !empty($output['bannerid'])) {
+$output['context'][] = array('!=' => 'bannerid:' . $output['bannerid']);
+}
+if (!empty($blockcampaign) && !empty($output['campaignid'])) {
+$output['context'][] = array('!=' => 'campaignid:' . $output['campaignid']);
+}
+if (!empty($output['context'])) {
+foreach ($output['context'] as $id => $contextArray) {
+if (!in_array($contextArray, $context)) {
+$context[] = $contextArray;
+}
+}
+}
+}
+}
+MAX_cookieFlush();
+if (!empty($_SERVER['HTTP_ORIGIN']) && preg_match('#https?://#', $_SERVER['HTTP_ORIGIN'])) {
+header("Access-Control-Allow-Origin: ".$_SERVER['HTTP_ORIGIN']);
+header("Access-Control-Allow-Credentials: true");
+}
+header("Content-Type: application/json");
+echo json_encode($spc_output);

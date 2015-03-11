@@ -706,6 +706,7 @@ $GLOBALS['strURLBanner'] = "Link an external banner";
 $GLOBALS['strHTMLBanner'] = "Create an HTML banner";
 $GLOBALS['strTextBanner'] = "Create a Text banner";
 $GLOBALS['strAlterHTML'] = "Alter HTML to enable click tracking for:";
+$GLOBALS['strIframeFriendly'] = "This banner can be safely displayed inside an iframe (e.g. is not expandable)";
 $GLOBALS['strUploadOrKeep'] = "Do you wish to keep your <br />existing image, or do you <br />want to upload another?";
 $GLOBALS['strUploadOrKeepAlt'] = "Do you wish to keep your <br />existing backup image, or do you <br />want to upload another?";
 $GLOBALS['strNewBannerFile'] = "Select the image you want <br />to use for this banner<br /><br />";

@@ -76,6 +76,8 @@ class Plugins_BannerTypeHTML extends OX_Component
         $htmlG['select'] = HTML_QuickForm::createElement('select', 'adserver', $GLOBALS['strAlterHTML'], $adPluginsList, $aSelectAttributes);
         $form->addGroup($htmlG, 'html_banner_g', null, array("<br>", ""), false);
 
+        $form->addElement('advcheckbox', 'iframe_friendly', $GLOBALS['strIframeFriendly']);
+
         if ($row['bannerid'] && ($row['url'] || $row['target'])) {
             // The "url" and "target" elements remain as part of the form definition
             // for HTML banners only for existing banners that have either
@@ -110,12 +112,12 @@ class Plugins_BannerTypeHTML extends OX_Component
             'height' => array($heightRequiredRule, $numericRule)));
     }
 
-    function preprocessForm($insert, $bannerid, $aFields)
+    function preprocessForm($insert, $bannerid, &$aFields, &$aVariables)
     {
         return true;
     }
 
-    function processForm($insert, $bannerid, $aFields)
+    function processForm($insert, $bannerid, &$aFields, &$aVariables)
     {
         return true;
     }

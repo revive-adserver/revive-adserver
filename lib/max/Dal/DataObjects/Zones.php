@@ -49,7 +49,7 @@ class DataObjects_Zones extends DB_DataObjectCommon
     public $updated;                         // DATETIME() => openads_datetime => 142 
     public $block;                           // INT(11) => openads_int => 129 
     public $capping;                         // INT(11) => openads_int => 129 
-    public $session_capping;                 // INT(11) => openads_int => 129
+    public $session_capping;                 // INT(11) => openads_int => 129 
     public $what;                            // TEXT() => openads_text => 162 
     public $rate;                            // DECIMAL(19,2) => openads_decimal => 1 
     public $pricing;                         // VARCHAR(50) => openads_varchar => 130 
@@ -79,11 +79,9 @@ class DataObjects_Zones extends DB_DataObjectCommon
                 'block' => 0,
                 'capping' => 0,
                 'session_capping' => 0,
-                'show_capped_no_cookie' => 1,
                 'what' => '',
                 'pricing' => 'CPM',
                 'show_capped_no_cookie' => 0,
-                'ext_adselection' => '',
                 );
 
     /* the code above is auto generated do not remove the tag below */

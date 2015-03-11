@@ -84,6 +84,8 @@ images                              =
 imagesSSL                           =
 
 [file]
+asyncjs                             = asyncjs.php
+asyncspc                            = asyncspc.php
 click                               = ck.php
 conversionvars                      = tv.php
 content                             = ac.php
@@ -372,6 +374,7 @@ lastClick           = OXLCA         ; Used to track the last time an ad was clic
 blockLoggingClick   = OXBLC         ; Used to log the last time an ad was clicked
 fallBack            = oxfb          ; Used to flag if this impression was from a rich-media fallback creative
 trace               = OXTR          ; Used to trigger delivery engine tracing code (if enabled)
+product             = revive        ; Used in async tags as prefix, etc
 
 ;------------------------------------------------------------------------------------------;
 ; Load Balancing / Distributed Statistics                                                  ;

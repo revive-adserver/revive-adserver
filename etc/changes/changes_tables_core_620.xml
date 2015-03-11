@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>620</version>
+  <comments>Added iframe_friendly</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>620</version>
+      <change>
+        <table>
+          <name>banners</name>
+          <add>
+            <field>
+              <name>iframe_friendly</name>
+              <type>openads_tinyint</type>
+              <length>1</length>
+              <notnull>1</notnull>
+              <default>1</default>
+              <was>iframe_friendly</was>
+            </field>
+          </add>
+        </table>
+      </change>
+    </changeset>
+  </constructive>
+  <destructive>
+    <changeset>
+      <name>openads</name>
+      <version>620</version>
+    </changeset>
+  </destructive>
+</instructionset>

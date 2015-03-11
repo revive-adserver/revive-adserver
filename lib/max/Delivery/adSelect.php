@@ -249,7 +249,8 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
             'bannerContent' => $row['bannerContent'],
             'clickwindow'   => $row['clickwindow'],
             'aRow'          => $row,
-            'context'       => _adSelectBuildContext($row, $context)
+            'context'       => _adSelectBuildContext($row, $context),
+            'iframeFriendly' => (bool)$row['iframe_friendly'],
         );
         // Init block/capping fields to avoid notices below
         $row += array(

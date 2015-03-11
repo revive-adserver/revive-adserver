@@ -77,12 +77,14 @@ class Plugins_BannerTypeText extends OX_Component
 
     }
 
-    function preprocessForm($insert, $bannerid, $aFields)
+    function preprocessForm($insert, $bannerid, &$aFields, &$aVariables)
     {
+        $aFields['iframe_friendly'] = false;
+        
         return true;
     }
 
-    function processForm($insert, $bannerid, $aFields)
+    function processForm($insert, $bannerid, &$aFields, &$aVariables)
     {
         return true;
     }

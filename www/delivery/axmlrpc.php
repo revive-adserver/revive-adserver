@@ -925,6 +925,7 @@ $query = "
             d.parameters AS parameters,
             d.transparent AS transparent,
             d.ext_bannertype AS ext_bannertype,
+            d.iframe_friendly AS iframe_friendly,
             az.priority AS priority,
             az.priority_factor AS priority_factor,
             az.to_be_delivered AS to_be_delivered,
@@ -1205,6 +1206,7 @@ $query = "
         d.parameters AS parameters,
         d.transparent AS transparent,
         d.ext_bannertype AS ext_bannertype,
+        d.iframe_friendly AS iframe_friendly,
         c.campaignid AS campaign_id,
         c.block AS block_campaign,
         c.capping AS cap_campaign,
@@ -1415,6 +1417,7 @@ $aColumns = array(
 'd.parameters AS parameters',
 'd.transparent AS transparent',
 'd.ext_bannertype AS ext_bannertype',
+'d.iframe_friendly AS iframe_friendly',
 'az.priority AS priority',
 'az.priority_factor AS priority_factor',
 'az.to_be_delivered AS to_be_delivered',
@@ -3827,7 +3830,8 @@ $output = array(
 'bannerContent' => $row['bannerContent'],
 'clickwindow' => $row['clickwindow'],
 'aRow' => $row,
-'context' => _adSelectBuildContext($row, $context)
+'context' => _adSelectBuildContext($row, $context),
+'iframeFriendly' => (bool)$row['iframe_friendly'],
 );
 $row += array(
 'block_ad' => 0,

@@ -28,6 +28,7 @@ What's New in Revive Adserver 3.2.0
  ------------
 
  * Added new help dialogue for companion positioning option.
+ * Added new javascript based asynchronous tags.
 
  Bug Fixes
  ---------
@@ -55,7 +56,10 @@ What's New in Revive Adserver 3.2.0
  Non-Backwards Compatible Changes
  --------------------------------
 
- * None
+ * The signatures of bannerTypeHtml/Text's preprocessForm() and processForm()
+   methods has been updated to what was actually used when invoking them.
+   Albeit unlinkely, this might clash with the definition used in some custom
+   plugins.
 
 
 System Requirements

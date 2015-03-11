@@ -4,14 +4,14 @@
 <plugin>
     <name>oxInvocationTags</name>
     <displayName>Invocation Tags Plugin</displayName>
-    <creationDate>2015-01-20</creationDate>
+    <creationDate>2015-02-26</creationDate>
     <author>Revive Adserver</author>
     <authorEmail>revive@revive-adserver.com</authorEmail>
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>GNU Gneral Public License v2</license>
     <description>Plugin that provides invocation tags for displaying banners on websites.</description>
-    <version>1.3.1</version>
-    <oxversion>2.7.30-beta-rc11</oxversion>
+    <version>1.4.0</version>
+    <oxversion>3.2.0-beta-rc1</oxversion>
     <extends>invocationTags</extends>
 
     <install>
@@ -21,6 +21,7 @@
             <file path="{MODULEPATH}invocationTags/oxInvocationTags/">adlayer.class.php</file>
             <file path="{MODULEPATH}invocationTags/oxInvocationTags/">adview.class.php</file>
             <file path="{MODULEPATH}invocationTags/oxInvocationTags/">adviewnocookies.class.php</file>
+            <file path="{MODULEPATH}invocationTags/oxInvocationTags/">async.class.php</file>
             <file path="{MODULEPATH}invocationTags/oxInvocationTags/">local.class.php</file>
             <file path="{MODULEPATH}invocationTags/oxInvocationTags/">popup.class.php</file>
             <file path="{MODULEPATH}invocationTags/oxInvocationTags/">spc.class.php</file>

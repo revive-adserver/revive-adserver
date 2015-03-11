@@ -175,6 +175,8 @@ else {
     $aBanner['keyword']      = '';
     $aBanner["weight"]       = $pref['default_banner_weight'];
 
+    $aBanner['iframe_friendly'] = true;
+
     $aBanner['hardcoded_links'] = array();
     $aBanner['hardcoded_targets'] = array();
 }
@@ -637,6 +639,7 @@ function processForm($bannerid, $form, &$oComponent, $formDisabled=false)
     $aVariables['storagetype']     = $aFields['type'];
     $aVariables['ext_bannertype']  = $aFields['ext_bannertype'];
     $aVariables['comments']        = $aFields['comments'];
+    $aVariables['iframe_friendly'] = $aFields['iframe_friendly'] ? 1 : 0;
 
     $aVariables['filename']        = !empty($aBanner['filename']) ? $aBanner['filename'] : '';
     $aVariables['contenttype']     = !empty($aBanner['contenttype']) ? $aBanner['contenttype'] : '';
