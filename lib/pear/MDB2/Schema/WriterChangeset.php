@@ -28,13 +28,6 @@ class MDB2_Schema_Changeset_Writer extends MDB2_Schema_Writer
     var $buffer = '';
 
     // }}}
-    // {{{ MDB2_Schema_Changeset_Writer()
-    function __construct($valid_types = array())
-    {
-        $this->__construct($valid_types);
-    }
-
-    // }}}
     // {{{ dumpChanges()
     /**
      * dump a set of changes to file
