@@ -25,18 +25,13 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
 {
 
     /**
-     * The constructor method.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * A method to test the main run() method.
      */
     function testRun()
     {
+        $oDbh = OA_DB::singleton();
+        $timestampCastString = $oDbh->dbsyntax == 'pgsql' ? '::timestamp' : '';
+
         $aConf =& $GLOBALS['_MAX']['CONF'];
         $aConf['maintenance']['operationInterval'] = 60;
         $oServiceLocator =& OA_ServiceLocator::instance();
@@ -210,10 +205,10 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                 array(
                     'operation_interval'    => '60',
                     'operation_interval_id' => OX_OperationInterval::convertDateToOperationIntervalID($oStartDate),
-                    'interval_start'        => "'2008-08-28 08:00:00'",
-                    'interval_end'          => "'2008-08-28 08:59:59'",
+                    'interval_start'        => "'2008-08-28 08:00:00'{$timestampCastString}",
+                    'interval_end'          => "'2008-08-28 08:59:59'{$timestampCastString}",
                     'creative_id'           => 0,
-                    'updated'               => "'2008-08-28 09:01:00'"
+                    'updated'               => "'2008-08-28 09:01:00'{$timestampCastString}"
                 )
             )
         );
@@ -318,10 +313,10 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                 array(
                     'operation_interval'    => '60',
                     'operation_interval_id' => OX_OperationInterval::convertDateToOperationIntervalID($oStartDate),
-                    'interval_start'        => "'2008-08-28 08:00:00'",
-                    'interval_end'          => "'2008-08-28 08:59:59'",
+                    'interval_start'        => "'2008-08-28 08:00:00'{$timestampCastString}",
+                    'interval_end'          => "'2008-08-28 08:59:59'{$timestampCastString}",
                     'creative_id'           => 0,
-                    'updated'               => "'2008-08-28 09:01:00'"
+                    'updated'               => "'2008-08-28 09:01:00'{$timestampCastString}"
                 )
             )
         );
@@ -518,10 +513,10 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                 array(
                     'operation_interval'    => '60',
                     'operation_interval_id' => OX_OperationInterval::convertDateToOperationIntervalID($oStartDate),
-                    'interval_start'        => "'2008-08-28 08:00:00'",
-                    'interval_end'          => "'2008-08-28 08:59:59'",
+                    'interval_start'        => "'2008-08-28 08:00:00'{$timestampCastString}",
+                    'interval_end'          => "'2008-08-28 08:59:59'{$timestampCastString}",
                     'creative_id'           => 0,
-                    'updated'               => "'2008-08-28 11:01:00'"
+                    'updated'               => "'2008-08-28 11:01:00'{$timestampCastString}"
                 )
             )
         );
@@ -542,10 +537,10 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                 array(
                     'operation_interval'    => '60',
                     'operation_interval_id' => OX_OperationInterval::convertDateToOperationIntervalID($oStartDate),
-                    'interval_start'        => "'2008-08-28 09:00:00'",
-                    'interval_end'          => "'2008-08-28 09:59:59'",
+                    'interval_start'        => "'2008-08-28 09:00:00'{$timestampCastString}",
+                    'interval_end'          => "'2008-08-28 09:59:59'{$timestampCastString}",
                     'creative_id'           => 0,
-                    'updated'               => "'2008-08-28 11:01:00'"
+                    'updated'               => "'2008-08-28 11:01:00'{$timestampCastString}"
                 )
             )
         );
@@ -566,10 +561,10 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                 array(
                     'operation_interval'    => '60',
                     'operation_interval_id' => OX_OperationInterval::convertDateToOperationIntervalID($oStartDate),
-                    'interval_start'        => "'2008-08-28 10:00:00'",
-                    'interval_end'          => "'2008-08-28 10:59:59'",
+                    'interval_start'        => "'2008-08-28 10:00:00'{$timestampCastString}",
+                    'interval_end'          => "'2008-08-28 10:59:59'{$timestampCastString}",
                     'creative_id'           => 0,
-                    'updated'               => "'2008-08-28 11:01:00'"
+                    'updated'               => "'2008-08-28 11:01:00'{$timestampCastString}"
                 )
             )
         );
@@ -744,10 +739,10 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                 array(
                     'operation_interval'    => '60',
                     'operation_interval_id' => OX_OperationInterval::convertDateToOperationIntervalID($oStartDate),
-                    'interval_start'        => "'2008-08-28 08:00:00'",
-                    'interval_end'          => "'2008-08-28 08:59:59'",
+                    'interval_start'        => "'2008-08-28 08:00:00'{$timestampCastString}",
+                    'interval_end'          => "'2008-08-28 08:59:59'{$timestampCastString}",
                     'creative_id'           => 0,
-                    'updated'               => "'2008-08-28 11:01:00'"
+                    'updated'               => "'2008-08-28 11:01:00'{$timestampCastString}"
                 )
             )
         );
@@ -768,10 +763,10 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                 array(
                     'operation_interval'    => '60',
                     'operation_interval_id' => OX_OperationInterval::convertDateToOperationIntervalID($oStartDate),
-                    'interval_start'        => "'2008-08-28 09:00:00'",
-                    'interval_end'          => "'2008-08-28 09:59:59'",
+                    'interval_start'        => "'2008-08-28 09:00:00'{$timestampCastString}",
+                    'interval_end'          => "'2008-08-28 09:59:59'{$timestampCastString}",
                     'creative_id'           => 0,
-                    'updated'               => "'2008-08-28 11:01:00'"
+                    'updated'               => "'2008-08-28 11:01:00'{$timestampCastString}"
                 )
             )
         );
@@ -792,10 +787,10 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
                 array(
                     'operation_interval'    => '60',
                     'operation_interval_id' => OX_OperationInterval::convertDateToOperationIntervalID($oStartDate),
-                    'interval_start'        => "'2008-08-28 10:00:00'",
-                    'interval_end'          => "'2008-08-28 10:59:59'",
+                    'interval_start'        => "'2008-08-28 10:00:00'{$timestampCastString}",
+                    'interval_end'          => "'2008-08-28 10:59:59'{$timestampCastString}",
                     'creative_id'           => 0,
-                    'updated'               => "'2008-08-28 11:01:00'"
+                    'updated'               => "'2008-08-28 11:01:00'{$timestampCastString}"
                 )
             )
         );
