@@ -132,6 +132,9 @@ $GLOBALS['strQmailPatch'] = "parche qmail";
 $GLOBALS['strAuditTrailSettings'] = "Log Audit";
 
 // Debug Logging Settings
+$GLOBALS['strDebugTypeFile'] = "Archivo";
+$GLOBALS['strDebugTypeSql'] = "Base de datos SQL";
+$GLOBALS['strDebugTypeSyslog'] = "Syslog";
 $GLOBALS['strProductionSystem'] = "Sistema de Producción";
 
 // Delivery Settings
@@ -148,6 +151,7 @@ $GLOBALS['strTypeFTPPassword'] = "Contraseña";
 $GLOBALS['strTypeFTPErrorUpload'] = "No se pudo subir el archivo al Servidor FTP, verífique que el directorio en el servidor tiene los permisos correctos";
 
 
+$GLOBALS['strOriginTypeXMLRPC'] = "XMLRPC";
 
 $GLOBALS['strGlobalDefaultBannerUrl'] = "URL de la imagen del banner global por defecto";
 $GLOBALS['strP3PSettings'] = "Políticas de Privacidad P3P";
@@ -179,6 +183,9 @@ $GLOBALS['strDefaultCampaignWeight'] = "Peso predeterminado de la campaña";
 $GLOBALS['strDefaultBannerWErr'] = "El peso predetermindado del banner debe ser un número entero positivo";
 $GLOBALS['strDefaultCampaignWErr'] = "El peso predeterminado de la campaña debe ser un número entero positivo";
 
+$GLOBALS['strCurrencies'] = "Monedas";
+$GLOBALS['strCategories'] = "Categorías";
+$GLOBALS['strHelpFiles'] = "Archivos de ayuda";
 
 // CSV Import Settings
 $GLOBALS['strDefaultConversionStatus'] = "Reglas de conversión por defecto";
@@ -209,6 +216,7 @@ $GLOBALS['strEnforceUserAgents'] = "<b>Sólo</b> loguear estadísticas de client
 // Statistics & Maintenance Settings
 $GLOBALS['strConversionTracking'] = "Configuración de Conversion Tracking";
 $GLOBALS['strEnableConversionTracking'] = "Habilitar Conversion Tracking";
+$GLOBALS['strPrioritySettings'] = "Configuración de la prioridad";
 $GLOBALS['strAdminEmailHeaders'] = "Añadir las siguientes cabeceras a cada e-mail enviado por {$PRODUCT_NAME}";
 $GLOBALS['strWarnLimit'] = "Enviar un aviso cuando el número de impresiones restantes sea menos que el especificado aquí";
 $GLOBALS['strWarnLimitErr'] = "El límite de aviso debe ser un entero positivo";
@@ -221,6 +229,7 @@ $GLOBALS['strGeneralSettings'] = "Configuración General";
 $GLOBALS['strAppName'] = "Nombre de la aplicación";
 $GLOBALS['strMyHeader'] = "Ubicación del archivo header";
 $GLOBALS['strMyFooter'] = "Ubicación del archivo footer";
+$GLOBALS['strSSLSettings'] = "Configuración de SSL";
 $GLOBALS['strDashboardSettings'] = "Configuración del Tablero";
 
 
@@ -229,6 +238,7 @@ $GLOBALS['strClientInterface'] = "Interfaz del anunciante";
 $GLOBALS['strClientWelcomeEnabled'] = "Habilitar mensaje de bienvenida para el anunciante";
 $GLOBALS['strClientWelcomeText'] = "Texto de bienvenida<br />(código HTML permitido)";
 
+$GLOBALS['strPublisherInterface'] = "Interfaz Web";
 
 // Regenerate Platfor Hash script
 
