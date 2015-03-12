@@ -16,7 +16,7 @@
 // Date & time configuration
 $GLOBALS['date_format'] = "%d/%m/%Y";
 $GLOBALS['month_format'] = "%m/%Y";
-$GLOBALS['day_format'] = "%d/%m";
+$GLOBALS['day_format'] = "%m/%d";
 $GLOBALS['week_format'] = "%W/%Y";
 $GLOBALS['weekiso_format'] = "%V/%G";
 
@@ -31,7 +31,7 @@ $GLOBALS['strHelp'] = "Ayuda";
 $GLOBALS['strStartOver'] = "Comenzar de nuevo";
 $GLOBALS['strNavigation'] = "Navegación";
 $GLOBALS['strShortcuts'] = "Atajos";
-$GLOBALS['strActions'] = "Acción";
+$GLOBALS['strActions'] = "Acciones";
 $GLOBALS['strAdminstration'] = "Inventario";
 $GLOBALS['strMaintenance'] = "Mantenimiento";
 $GLOBALS['strProbability'] = "Probabilidad";
@@ -194,6 +194,9 @@ $GLOBALS['strNotAdmin'] = "Puede que no tenga suficientes privilegios; si conoce
 $GLOBALS['strDuplicateClientName'] = "El nombre de usuario que ha facilitado ya existe, por favor use un nombre de usuario diferente.";
 $GLOBALS['strDuplicateAgencyName'] = "El nombre de usuario que ha facilitado ya existe, por favor use un nombre de usuario diferente.";
 $GLOBALS['strInvalidEmail'] = "El formato de esta dirección de e-mail no es válido, por favor introduzca una dirección de e-mail válida.";
+$GLOBALS['strRepeatPassword'] = "Repetir contraseña";
+$GLOBALS['strOldPassword'] = "Contraseña antigua";
+$GLOBALS['strNewPassword'] = "Nueva contraseña";
 $GLOBALS['strDeadLink'] = "Su enlace es inválido.";
 $GLOBALS['strNoPlacement'] = "La campaña seleccionada no existe. Intente con este <a href='{link}'>enlace</a> en lugar del otro";
 $GLOBALS['strNoAdvertiser'] = "El anunciante seleccionado no existe. Intente con este <a href='{link}'>enlace</a> en lugar del otro";
@@ -259,6 +262,13 @@ $GLOBALS['strMonth'][10] = "Noviembre";
 $GLOBALS['strMonth'][11] = "Diciembre";
 
 $GLOBALS['strDayFullNames'] = array();
+$GLOBALS['strDayFullNames'][0] = 'Domingo';
+$GLOBALS['strDayFullNames'][1] = 'Lunes';
+$GLOBALS['strDayFullNames'][2] = 'Martes';
+$GLOBALS['strDayFullNames'][3] = 'Miercoles';
+$GLOBALS['strDayFullNames'][4] = 'Jueves';
+$GLOBALS['strDayFullNames'][5] = 'Viernes';
+$GLOBALS['strDayFullNames'][6] = 'Sábado';
 
 $GLOBALS['strDayShortCuts'] = array();
 $GLOBALS['strDayShortCuts'][0] = 'Do';
@@ -353,10 +363,17 @@ $GLOBALS['strHiddenAd'] = "Anuncio";
 $GLOBALS['strHiddenAdvertiser'] = "Anunciante";
 $GLOBALS['strHiddenWebsite'] = "Página web";
 $GLOBALS['strHiddenZone'] = "Zona";
+$GLOBALS['strRemaining'] = "Restante";
 $GLOBALS['strCompanionPositioning'] = "Mostrar compañeros (No mostrar banners de esta campaña junto a banners de otras campañas)";
 $GLOBALS['strSelectUnselectAll'] = "Seleccionar / Deseleccionar todo";
 
 // Campaign-zone linking page
+$GLOBALS['strAvailable'] = "Disponible";
+$GLOBALS['strShowing'] = "Mostrando";
+$GLOBALS['strAllCategories'] = "todas las categorías";
+$GLOBALS['strUncategorized'] = "Sin categoría";
+$GLOBALS['strEditZone'] = "Editar zona";
+$GLOBALS['strEditWebsite'] = "Editar página web";
 
 
 // Campaign properties
@@ -431,8 +448,10 @@ $GLOBALS['strReasonBadUrl'] = "URL de destino inapropiada";
 $GLOBALS['strReasonBreakTerms'] = "Página web no cumple de términos y condiciones";
 $GLOBALS['strChangeStatus'] = "Cambiar estado";
 $GLOBALS['strCampaignType'] = "Nombre de la Campaña";
+$GLOBALS['strType'] = "Tipo";
 $GLOBALS['strContract'] = "Contacto";
 $GLOBALS['strStandardContract'] = "Contacto";
+$GLOBALS['strLimit'] = "Límite";
 
 // Tracker
 $GLOBALS['strTrackers'] = "Seguidores";
@@ -495,8 +514,10 @@ $GLOBALS['strWarningMissing'] = "Aviso, probablemente falta";
 $GLOBALS['strWarningMissingClosing'] = " tag de cierre \">\"";
 $GLOBALS['strWarningMissingOpening'] = " tag de apertura \"<\"";
 $GLOBALS['strSubmitAnyway'] = "Enviar de todas maneras";
+$GLOBALS['strOverallBanners'] = "banner(s)";
 $GLOBALS['strBannersOfCampaign'] = "en"; //this is added between page name and campaign name eg. 'Banners in coca cola campaign'// Banner Preferences
 $GLOBALS['strBannerPreferences'] = "Preferencias de banner";
+$GLOBALS['strCampaignPreferences'] = "Preferencias de campaña";
 $GLOBALS['strDefaultBannerDestination'] = "URL de destino predeterminada";
 
 // Banner (Properties)
@@ -512,13 +533,16 @@ $GLOBALS['strNewBannerFile'] = "Seleccione la imagen que quiere <br />usar para 
 $GLOBALS['strNewBannerFileAlt'] = "Seleccione la imagen de reserva que <br />quiere usar en el caso de que los navegadores </br /> no soporten multimedia";
 $GLOBALS['strNewBannerURL'] = "URL de la imagen (incluir http://)";
 $GLOBALS['strURL'] = "URL de destino (incluir http://)";
+$GLOBALS['strHTML'] = "HTML";
 $GLOBALS['strKeyword'] = "Palabras clave";
 $GLOBALS['strTextBelow'] = "Texto posterior a la imagen";
 $GLOBALS['strWeight'] = "Peso";
 $GLOBALS['strAlt'] = "Texto alternativo";
 $GLOBALS['strStatusText'] = "Texto de barra de estado";
 $GLOBALS['strBannerWeight'] = "Peso del banner";
+$GLOBALS['strBannerType'] = "Tipo de anuncio";
 $GLOBALS['strAdserverTypeGeneric'] = "Banner HTML genérico";
+$GLOBALS['strDoNotAlterHtml'] = "No alterar HTML";
 $GLOBALS['strGenericOutputAdServer'] = "Genérico";
 $GLOBALS['strSwfTransparency'] = "Permitir fondo transparente";
 
@@ -536,6 +560,7 @@ $GLOBALS['strOverwriteSource'] = "Sobreescribir parámetro de origen";
 $GLOBALS['strBannerNetwork'] = "plantilla HTML";
 $GLOBALS['strChooseNetwork'] = "Elija la plantilla que quiera usar";
 $GLOBALS['strMoreInformation'] = "Mas información...";
+$GLOBALS['strRichMedia'] = "Richmedia";
 $GLOBALS['strTrackAdClicks'] = "Rastrear Clicks";
 
 // Banner (AdSense)
@@ -569,7 +594,19 @@ $GLOBALS['strUserAgent'] = "Browser";
 $GLOBALS['strDomain'] = "Dominio";
 $GLOBALS['strClientIP'] = "IP del Cliente";
 $GLOBALS['strSource'] = "Origen";
+$GLOBALS['strOS'] = "Sistema Operativo";
+$GLOBALS['strCountryCode'] = "Código del país (ISO 3166)";
+$GLOBALS['strCountryName'] = "Nombre del país";
+$GLOBALS['strRegion'] = "Código de región (ISO-3166-2 o FIPS 10-4)";
 $GLOBALS['strCity'] = "Ciudad";
+$GLOBALS['strPostalCode'] = "U.S. / Canada ZIP/código postal";
+$GLOBALS['strLatitude'] = "Latitud";
+$GLOBALS['strLongitude'] = "Longitud";
+$GLOBALS['strDMA'] = "Código DMA de Estados Unidos";
+$GLOBALS['strArea'] = "Código de area de prefijo de Estados Unidos";
+$GLOBALS['strOrg'] = "Nombre de la organización";
+$GLOBALS['strIsp'] = "Nombre del ISP";
+$GLOBALS['strNetspeed'] = "Velocidad de conexión a Internet";
 $GLOBALS['strDeliveryLimitations'] = "Limitaciones de entrega";
 
 $GLOBALS['strDeliveryCapping'] = "Límite de entrega por visitante";
@@ -632,6 +669,7 @@ $GLOBALS['strPostcode'] = "Código postal";
 $GLOBALS['strCity'] = "Ciudad";
 $GLOBALS['strCountry'] = "País";
 $GLOBALS['strPhone'] = "Teléfono";
+$GLOBALS['strFax'] = "Fax";
 $GLOBALS['strAccountContact'] = "Contacto de cuenta";
 $GLOBALS['strPayeeName'] = "Nombre del Beneficiario";
 $GLOBALS['strTaxID'] = "ID del Impuesto";
@@ -644,6 +682,8 @@ $GLOBALS['strOtherInformation'] = "Otra información";
 $GLOBALS['strUniqueUsersMonth'] = "Usuarios únicos/mes";
 $GLOBALS['strUniqueViewsMonth'] = "Vistas únicas/mes";
 $GLOBALS['strCategory'] = "Categoría";
+$GLOBALS['strPrimaryCategory'] = "Categoría principal";
+$GLOBALS['strSecondaryCategory'] = "Categoría secundaria";
 $GLOBALS['strHelpFile'] = "Archivo de ayuda";
 $GLOBALS['strWebsiteZones'] = "Páginas web y Zonas";
 
@@ -953,6 +993,7 @@ $GLOBALS['strReenterNewPassword'] = "Confirme la nueva contraseña";
 $GLOBALS['strNameLanguage'] = "Nombre e Idioma";
 $GLOBALS['strAccountPreferences'] = "Preferencias de cuenta";
 $GLOBALS['strCampaignEmailReportsPreferences'] = "Preferencias de informes de campaña por e-mail";
+$GLOBALS['strTimezonePreferences'] = "Preferencias de zona horaria";
 $GLOBALS['strAdminEmailWarnings'] = "Avisos e-mail de administrador";
 $GLOBALS['strAgencyEmailWarnings'] = "Avisos e-mail de agencia";
 $GLOBALS['strAdveEmailWarnings'] = "Avisos e-mail de anunciante";
@@ -1060,6 +1101,7 @@ $GLOBALS['strGeneric'] = "Genérico";
 $GLOBALS['strBasketValue'] = "Valor de cesta";
 $GLOBALS['strNumItems'] = "Número de elementos";
 $GLOBALS['strVariableIsUnique'] = "De-duplicar conversiones?";
+$GLOBALS['strJavascript'] = "Javascript";
 $GLOBALS['strNumber'] = "Número";
 $GLOBALS['strString'] = "Cadena de caracteres (string)";
 $GLOBALS['strTrackFollowingVars'] = "Controlar la siguiente variable";
@@ -1078,6 +1120,7 @@ $GLOBALS['strVariableCode'] = "Código Javascript de tracking";
 
 // Upload conversions
 $GLOBALS['strYouHaveNoCampaigns'] = "Anunciantes & Campañas";
+$GLOBALS['strDuplicatedValue'] = "Valor duplicado!";
 
 
 // Password recovery
@@ -1104,6 +1147,7 @@ $GLOBALS['strBinaryData'] = "Datos binarios";
 $GLOBALS['strAuditTrailDisabled'] = "Audit Trail ha sido deshabilitado por el administrador. No son grabados y mostrados más eventos en la lista de Audit Trail";
 $GLOBALS['strAccount'] = "Cuenta";
 $GLOBALS['strAccountUserAssociation'] = "Asociación de Cuenta de Usuario";
+$GLOBALS['strEvent'] = "Evento";
 $GLOBALS['strImage'] = "Imagen";
 $GLOBALS['strCampaignZoneAssociation'] = "Asociación de Zona de Campaña";
 $GLOBALS['strAccountPreferenceAssociation'] = "Asociación de Preferencias de Cuenta";
@@ -1218,14 +1262,20 @@ $GLOBALS['str_it'] = "Italiano";
 $GLOBALS['str_ja'] = "Japonés";
 $GLOBALS['str_ko'] = "Coreano";
 $GLOBALS['str_lt'] = "Lituano";
+$GLOBALS['str_ms'] = "Malayo";
 $GLOBALS['str_nb'] = "Bokmal Noruego";
 $GLOBALS['str_nl'] = "Holandés";
 $GLOBALS['str_pl'] = "Polaco";
+$GLOBALS['str_pt_BR'] = "Brasil Portugués";
+$GLOBALS['str_pt_PT'] = "Portugués Portugal";
 $GLOBALS['str_ro'] = "Rumano";
 $GLOBALS['str_ru'] = "Ruso";
 $GLOBALS['str_sk'] = "Eslovaco";
 $GLOBALS['str_sl'] = "Esloveno";
+$GLOBALS['str_sq'] = "Albanés";
 $GLOBALS['str_sv'] = "Sueco";
 $GLOBALS['str_tr'] = "Turco";
 $GLOBALS['str_uk'] = "Ucraniano";
+$GLOBALS['str_zh_CN'] = "Chino simplificado";
+$GLOBALS['str_zh_TW'] = "Chino tradicional";
 ?>
