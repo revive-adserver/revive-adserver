@@ -13,48 +13,59 @@
 // Other
 $GLOBALS['strCopyToClipboard'] = "Kopieer naar klembord";
 $GLOBALS['strCopy'] = "Kopieer";
-$GLOBALS['strChooseTypeOfInvocation'] = "Kies het type banner invocatie";
+$GLOBALS['strChooseTypeOfInvocation'] = "Kies het type aanroep alstublieft";
 $GLOBALS['strChooseTypeOfBannerInvocation'] = "Kies het type banner invocatie";
 
 // Measures
+$GLOBALS['strAbbrPixels'] = "px";
+$GLOBALS['strAbbrSeconds'] = "sec";
 
 // Common Invocation Parameters
 $GLOBALS['strInvocationWhat'] = "Banner selectie";
-$GLOBALS['strInvocationClientID'] = "Adverteerder of campagne";
+$GLOBALS['strInvocationPreview'] = "Voorbeeld van de banner";
+$GLOBALS['strInvocationClientID'] = "Adverteerder";
 $GLOBALS['strInvocationCampaignID'] = "Campagne";
 $GLOBALS['strInvocationTarget'] = "Doel frame";
 $GLOBALS['strInvocationSource'] = "Bron";
-$GLOBALS['strInvocationWithText'] = "Toon text";
+$GLOBALS['strInvocationWithText'] = "Toon tekst onder banner";
 $GLOBALS['strInvocationDontShowAgain'] = "Toon deze banner niet nog eens op dezelfde pagina";
 $GLOBALS['strInvocationDontShowAgainCampaign'] = "Toon niet nog eens een banner van dezelfde campagne op dezelfde pagina";
 $GLOBALS['strInvocationTemplate'] = "Sla de banner op in een variable welke gebruikt van worden in een sjabloon";
+$GLOBALS['strInvocationBannerID'] = "Banner ID";
+$GLOBALS['strInvocationComments'] = "Commentaar opnemen";
 
 // Iframe
 $GLOBALS['strIFrameRefreshAfter'] = "Ververs na";
-$GLOBALS['strIframeResizeToBanner'] = "Pas de groote van iframe aan de banner";
+$GLOBALS['strIframeResizeToBanner'] = "Het formaat van iframe wijzigen op basis van banner afmetingen";
 $GLOBALS['strIframeMakeTransparent'] = "Maak de iframe transparant";
 $GLOBALS['strIframeIncludeNetscape4'] = "Voeg Netscape 4 compatible ilayer toe";
+$GLOBALS['strIframeGoogleClickTracking'] = "Programmacode opnemen om Google AdSense kliks te tellen";
 
 
 // PopUp
+$GLOBALS['strPopUpStyle'] = "Pop-up type";
+$GLOBALS['strPopUpStylePopUp'] = "Pop-up";
+$GLOBALS['strPopUpStylePopUnder'] = "Pop-under";
 $GLOBALS['strPopUpCreateInstance'] = "Moment waarop de pop-up getoond wordt";
-$GLOBALS['strPopUpImmediately'] = "Direct";
+$GLOBALS['strPopUpImmediately'] = "Onmiddellijk";
 $GLOBALS['strPopUpOnClose'] = "Na het sluiten van de pagina";
 $GLOBALS['strPopUpAfterSec'] = "Na";
 $GLOBALS['strAutoCloseAfter'] = "Sluit automatisch na";
 $GLOBALS['strPopUpTop'] = "Begin positie (boven)";
 $GLOBALS['strPopUpLeft'] = "Begin positie (links)";
-$GLOBALS['strWindowOptions'] = "Window opties";
+$GLOBALS['strWindowOptions'] = "Vensteropties";
 $GLOBALS['strShowToolbars'] = "Werkbalken";
-$GLOBALS['strShowLocation'] = "Locatiebalk";
+$GLOBALS['strShowLocation'] = "Locatie";
 $GLOBALS['strShowMenubar'] = "Menubalk";
-$GLOBALS['strShowStatus'] = "Statusbalk";
-$GLOBALS['strWindowResizable'] = "Aanpassen grootte";
+$GLOBALS['strShowStatus'] = "Status";
+$GLOBALS['strWindowResizable'] = "Grootte aanpasbaar";
 $GLOBALS['strShowScrollbars'] = "Schuifbalken";
 
 
 // XML-RPC
 $GLOBALS['strXmlRpcLanguage'] = "Scripttaal";
+$GLOBALS['strXmlRpcProtocol'] = "Gebruik Https om contact te maken met XML-RPC Server";
+$GLOBALS['strXmlRpcTimeout'] = "XML-RPC Timeout (seconden)";
 
 
 // AdLayer
@@ -102,20 +113,26 @@ $GLOBALS['strHideTransparancy'] = "Transparantie van de verborgen banner";
 
 
 $GLOBALS['strAdLayerStyleName'] = array();
+$GLOBALS['strAdLayerStyleName']['geocities'] = "Geocities";
 $GLOBALS['strAdLayerStyleName']['simple'] = "Simpel";
 $GLOBALS['strAdLayerStyleName']['cursor'] = "Muiscursor";
+$GLOBALS['strAdLayerStyleName']['floater'] = "Floater";
 
 // Support for 3rd party server clicktracking
 
 // Support for cachebusting code
+$GLOBALS['strCacheBuster'] = "Cache-Busting code invoegen";
 
 // Non-Img creatives Warning for zone image-only invocation
+$GLOBALS['strNonImgWarningZone'] = "Waarschuwing: Er zijn banners aan deze zone gekoppeld die geen afbeeldingen zijn. Deze banners zal niet worden vertoond met behulp van deze tag.";
+$GLOBALS['strNonImgWarning'] = "Waarschuwing: Deze tag zal niet werken omdat deze banner geen afbeelding is.";
 
 // unkown HTML tag type Warning for zone invocation
 
 // sql/web banner-type warning for clickonly zone invocation
 
 // IMG invocation selected for tracker with appended code
+$GLOBALS['strWarning'] = "Waarschuwing";
 
 // Local Invocation
 
