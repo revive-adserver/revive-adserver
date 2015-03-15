@@ -33,7 +33,7 @@ class Plugins_BannerTypeHTML_oxHtml_genericHtml extends Plugins_BannerTypeHTML
         return $this->translate("Generic HTML Banner");
     }
 
-    function buildForm(&$form, $row)
+    function buildForm(&$form, &$row)
     {
         parent::buildForm($form, $row);
     }

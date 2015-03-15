@@ -30,7 +30,7 @@ class DataObjects_Data_bkt_c extends DB_DataObjectCommon
     public $count;                           // INTEGER(11) => openads_int => 1
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Data_bkt_c',$k,$v); }
+    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Data_bkt_c',$k,$v); }
 
     var $defaultValues = array(
                 'interval_start' => '',

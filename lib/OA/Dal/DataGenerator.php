@@ -187,7 +187,7 @@ class DataGenerator
         DataGenerator::getReferenceId();
         // Clean up the auditing account ownership cache
         $doAccounts = OA_Dal::factoryDO('accounts');
-        $doAccounts->getOwningAccountIds(null, null, true);
+        $doAccounts->getOwningAccountIds(true);
     }
 
     /**

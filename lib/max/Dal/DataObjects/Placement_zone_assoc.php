@@ -21,12 +21,12 @@ class DataObjects_Placement_zone_assoc extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'placement_zone_assoc';            // table name
-    public $placement_zone_assoc_id;         // MEDIUMINT(9) => openads_mediumint => 129 
-    public $zone_id;                         // MEDIUMINT(9) => openads_mediumint => 1 
-    public $placement_id;                    // MEDIUMINT(9) => openads_mediumint => 1 
+    public $placement_zone_assoc_id;         // MEDIUMINT(9) => openads_mediumint => 129
+    public $zone_id;                         // MEDIUMINT(9) => openads_mediumint => 1
+    public $placement_id;                    // MEDIUMINT(9) => openads_mediumint => 1
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Placement_zone_assoc',$k,$v); }
+    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Placement_zone_assoc',$k,$v); }
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
@@ -70,7 +70,7 @@ class DataObjects_Placement_zone_assoc extends DB_DataObjectCommon
      *                      that needs to be able to see the audit trail
      *                      entry, if such an account exists.
      */
-    function getOwningAccountIds()
+    public function getOwningAccountIds($resetCache = false)
     {
         // Placement/zone associations are a special case, as both the
         // advertiser and the website accounts should be able to see
@@ -81,14 +81,14 @@ class DataObjects_Placement_zone_assoc extends DB_DataObjectCommon
             // Placement/zone assocs don't have an account_id, get it from
             // the parent campaign (stored in the "campaigns" table) using
             // the "placement_id" key
-            $aAdvertiserAccountIds = parent::getOwningAccountIds('campaigns', 'placement_id');
+            $aAdvertiserAccountIds = $this->_getOwningAccountIds('campaigns', 'placement_id');
         }
         $aWebsiteAccountIds = array();
         if (!empty($this->zone_id)) {
             // Placement/zone assocs don't have an account_id, get it from
             // the parent zone (stored in the "zones" table) using
             // the "zone_id" key
-            $aWebsiteAccountIds = parent::getOwningAccountIds('zones', 'zone_id');
+            $aWebsiteAccountIds = $this->_getOwningAccountIds('zones', 'zone_id');
         }
         // Check that the manager account IDs match from the two results
         if (isset($aAdvertiserAccountIds[OA_ACCOUNT_MANAGER]) && isset($aWebsiteAccountIds[OA_ACCOUNT_MANAGER])) {

@@ -22,12 +22,12 @@ class DataObjects_Preferences extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'preferences';                     // table name
-    public $preference_id;                   // MEDIUMINT(9) => openads_mediumint => 129 
-    public $preference_name;                 // VARCHAR(64) => openads_varchar => 130 
-    public $account_type;                    // VARCHAR(16) => openads_varchar => 130 
+    public $preference_id;                   // MEDIUMINT(9) => openads_mediumint => 129
+    public $preference_name;                 // VARCHAR(64) => openads_varchar => 130
+    public $account_type;                    // VARCHAR(16) => openads_varchar => 130
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Preferences',$k,$v); }
+    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Preferences',$k,$v); }
 
     var $defaultValues = array(
                 'preference_name' => '',
@@ -76,7 +76,7 @@ class DataObjects_Preferences extends DB_DataObjectCommon
      *                      that needs to be able to see the audit trail
      *                      entry, if such an account exists.
      */
-    function getOwningAccountIds()
+    public function getOwningAccountIds($resetCache = false)
     {
         // Special case - return the admin account ID only,
         // as changes to the types of preferences in the

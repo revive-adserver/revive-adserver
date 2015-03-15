@@ -31,7 +31,7 @@ class DataObjects_Data_bkt_a_var extends DB_DataObjectCommon
     public $date_time;                       // DATETIME() => openads_datetime => 142
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Data_bkt_a_var',$k,$v); }
+    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Data_bkt_a_var',$k,$v); }
 
     var $defaultValues = array(
                 'server_ip' => '',

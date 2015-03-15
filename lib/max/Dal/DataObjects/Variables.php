@@ -24,21 +24,21 @@ class DataObjects_Variables extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'variables';                       // table name
-    public $variableid;                      // MEDIUMINT(9) => openads_mediumint => 129 
-    public $trackerid;                       // MEDIUMINT(9) => openads_mediumint => 129 
-    public $name;                            // VARCHAR(250) => openads_varchar => 130 
-    public $description;                     // VARCHAR(250) => openads_varchar => 2 
-    public $datatype;                        // ENUM('numeric','string','date') => openads_enum => 130 
-    public $purpose;                         // ENUM('basket_value','num_items','post_code') => openads_enum => 2 
-    public $reject_if_empty;                 // SMALLINT(1) => openads_smallint => 145 
-    public $is_unique;                       // INT(11) => openads_int => 129 
-    public $unique_window;                   // INT(11) => openads_int => 129 
-    public $variablecode;                    // VARCHAR(255) => openads_varchar => 130 
-    public $hidden;                          // ENUM('t','f') => openads_enum => 130 
-    public $updated;                         // DATETIME() => openads_datetime => 142 
+    public $variableid;                      // MEDIUMINT(9) => openads_mediumint => 129
+    public $trackerid;                       // MEDIUMINT(9) => openads_mediumint => 129
+    public $name;                            // VARCHAR(250) => openads_varchar => 130
+    public $description;                     // VARCHAR(250) => openads_varchar => 2
+    public $datatype;                        // ENUM('numeric','string','date') => openads_enum => 130
+    public $purpose;                         // ENUM('basket_value','num_items','post_code') => openads_enum => 2
+    public $reject_if_empty;                 // SMALLINT(1) => openads_smallint => 145
+    public $is_unique;                       // INT(11) => openads_int => 129
+    public $unique_window;                   // INT(11) => openads_int => 129
+    public $variablecode;                    // VARCHAR(255) => openads_varchar => 130
+    public $hidden;                          // ENUM('t','f') => openads_enum => 130
+    public $updated;                         // DATETIME() => openads_datetime => 142
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Variables',$k,$v); }
+    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Variables',$k,$v); }
 
     var $defaultValues = array(
                 'trackerid' => 0,
@@ -94,12 +94,12 @@ class DataObjects_Variables extends DB_DataObjectCommon
      *                      that needs to be able to see the audit trail
      *                      entry, if such an account exists.
      */
-    function getOwningAccountIds()
+    public function getOwningAccountIds($resetCache = false)
     {
         // Variables don't have an account_id, get it from the
         // parent tracker (stored in the "trackers" table) using
         // the "trackerid" key
-        return parent::getOwningAccountIds('trackers', 'trackerid');
+        return $this->_getOwningAccountIds('trackers', 'trackerid');
     }
 
     /**

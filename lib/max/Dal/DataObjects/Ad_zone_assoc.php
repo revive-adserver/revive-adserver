@@ -21,16 +21,16 @@ class DataObjects_Ad_zone_assoc extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'ad_zone_assoc';                   // table name
-    public $ad_zone_assoc_id;                // MEDIUMINT(9) => openads_mediumint => 129 
-    public $zone_id;                         // MEDIUMINT(9) => openads_mediumint => 1 
-    public $ad_id;                           // MEDIUMINT(9) => openads_mediumint => 1 
-    public $priority;                        // DOUBLE() => openads_double => 1 
-    public $link_type;                       // SMALLINT(6) => openads_smallint => 129 
-    public $priority_factor;                 // DOUBLE() => openads_double => 1 
-    public $to_be_delivered;                 // TINYINT(1) => openads_tinyint => 145 
+    public $ad_zone_assoc_id;                // MEDIUMINT(9) => openads_mediumint => 129
+    public $zone_id;                         // MEDIUMINT(9) => openads_mediumint => 1
+    public $ad_id;                           // MEDIUMINT(9) => openads_mediumint => 1
+    public $priority;                        // DOUBLE() => openads_double => 1
+    public $link_type;                       // SMALLINT(6) => openads_smallint => 129
+    public $priority_factor;                 // DOUBLE() => openads_double => 1
+    public $to_be_delivered;                 // TINYINT(1) => openads_tinyint => 145
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Ad_zone_assoc',$k,$v); }
+    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Ad_zone_assoc',$k,$v); }
 
     var $defaultValues = array(
                 'priority' => 0,
@@ -81,7 +81,7 @@ class DataObjects_Ad_zone_assoc extends DB_DataObjectCommon
      *                      that needs to be able to see the audit trail
      *                      entry, if such an account exists.
      */
-    function getOwningAccountIds()
+    public function getOwningAccountIds($resetCache = false)
     {
         // Ad/zone associations are a special case, as both the
         // advertiser and the website accounts should be able to see
@@ -92,14 +92,14 @@ class DataObjects_Ad_zone_assoc extends DB_DataObjectCommon
             // Ad/zone assocs don't have an account_id, get it from
             // the parent banner (stored in the "banners" table) using
             // the "ad_id" key
-            $aAdvertiserAccountIds = parent::getOwningAccountIds('banners', 'ad_id');
+            $aAdvertiserAccountIds = $this->_getOwningAccountIds('banners', 'ad_id');
         }
         $aWebsiteAccountIds = array();
         if (!empty($this->zone_id)) {
             // Ad/zone assocs don't have an account_id, get it from
             // the parent zone (stored in the "zones" table) using
             // the "zone_id" key
-            $aWebsiteAccountIds = parent::getOwningAccountIds('zones', 'zone_id');
+            $aWebsiteAccountIds = $this->_getOwningAccountIds('zones', 'zone_id');
         }
         // Check that the manager account IDs match from the two results
         if (isset($aAdvertiserAccountIds[OA_ACCOUNT_MANAGER]) && isset($aWebsiteAccountIds[OA_ACCOUNT_MANAGER])) {

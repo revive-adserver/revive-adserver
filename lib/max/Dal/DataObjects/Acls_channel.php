@@ -29,7 +29,7 @@ class DataObjects_Acls_channel extends DB_DataObjectCommon
     public $executionorder;                  // INT(10) => openads_int => 129 
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Acls_channel',$k,$v); }
+    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Acls_channel',$k,$v); }
 
     var $defaultValues = array(
                 'channelid' => 0,

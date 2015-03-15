@@ -180,7 +180,7 @@ class XML_RSS extends XML_Parser
         $this->setInput($handle);
 
         if ($handle == '') {
-            $this->raiseError('No input passed.');
+            $this->customRaiseError('No input passed.');
         }
     }
 

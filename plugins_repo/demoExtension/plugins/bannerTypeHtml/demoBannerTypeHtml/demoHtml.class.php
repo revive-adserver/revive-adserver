@@ -36,12 +36,12 @@ class Plugins_BannerTypeHTML_demoBannerTypeHtml_demoHtml extends Plugins_BannerT
     /**
      * Append type-specific form elements to the base form
      *
-     * @param object form
-     * @param integer bannerId
+     * @param object $form
+     * @param array $row
      */
-    function buildForm(&$form, $bannerId)
+    function buildForm(&$form, &$row)
     {
-        parent::buildForm($form, $bannerId);
+        parent::buildForm($form, $row);
         $form->addElement('text', 'demofield', 'Demo Field');
         $form->addRule("demofield", $this->translate('Please enter http://www.openx.org'), 'regex', '/^http:\/\/www\.openx\.org$/');
 
@@ -87,7 +87,7 @@ class Plugins_BannerTypeHTML_demoBannerTypeHtml_demoHtml extends Plugins_BannerT
      * @param array $aFields
      * @return boolean
      */
-    function processForm($insert, $bannerid, $aFields)
+    function processForm($insert, $bannerid, &$aFields, &$aVariables)
     {
         /**
          * Uncomment the following lines IF

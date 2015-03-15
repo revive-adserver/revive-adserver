@@ -22,7 +22,7 @@ class OX_Extension_admin extends OX_Extension_Common
 
     }
 
-    function runTasksOnDemand()
+    function runTasksOnDemand($task='')
     {
         $this->_cacheAllMenus();
     }

@@ -38,7 +38,7 @@ class DataObjects_Channel extends DB_DataObjectCommon
     public $acls_updated;                    // DATETIME() => openads_datetime => 142
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Channel',$k,$v); }
+    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Channel',$k,$v); }
 
     var $defaultValues = array(
                 'agencyid' => 0,
@@ -166,7 +166,7 @@ class DataObjects_Channel extends DB_DataObjectCommon
      *                      that needs to be able to see the audit trail
      *                      entry, if such an account exists.
      */
-    function getOwningAccountIds()
+    public function getOwningAccountIds($resetCache = false)
     {
         // A channel can be "owned" by a manager account, or
         // by an advertiser account
@@ -175,13 +175,13 @@ class DataObjects_Channel extends DB_DataObjectCommon
             // channels don't have an account_id, so get it from the
             // parent advertiser account (stored in the "affiliates"
             // table) using the "affiliateid" key
-            return parent::getOwningAccountIds('affiliates', 'affiliateid');
+            return $this->_getOwningAccountIds('affiliates', 'affiliateid');
         }
         // The channel is owned by a manager account, but
         // channels don't have an account_id, so get it from the
         // parent manager account (stored in the "agency" table) using
         // the "agencyid" key
-        return parent::getOwningAccountIds('agency', 'agencyid');
+        return $this->_getOwningAccountIds('agency', 'agencyid');
     }
 
     /**

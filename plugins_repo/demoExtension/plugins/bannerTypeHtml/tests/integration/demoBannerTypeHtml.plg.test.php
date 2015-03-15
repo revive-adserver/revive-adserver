@@ -50,6 +50,8 @@ class Plugins_TestOfPlugins_demoBannerTypeHtml extends UnitTestCase
         $oDG->setData('banners', array('ext_bannertype' => array($oComponent->getComponentIdentifier())));
         $aIds = $oDG->generate($doBanners, 5, false);
 
+        $aFields = $aVariables = array();
+
         // test the processForm method
         // this method joins the banners and banners_demo tables
         // by creating a banners_demo record where
@@ -57,7 +59,7 @@ class Plugins_TestOfPlugins_demoBannerTypeHtml extends UnitTestCase
         foreach ($aIds as $i => $bannerId)
         {
             $aFields['description'] = 'description_'.$bannerId;
-            $this->assertTrue($oComponent->processForm(true, $bannerId, $aFields));
+            $this->assertTrue($oComponent->processForm(true, $bannerId, $aFields, $aVariables));
             $doBannersDemo = OA_Dal::factoryDO('banners_demo');
             $doBannersDemo->banners_demo_id = $bannerId;
             $this->assertTrue($doBannersDemo->find(true));

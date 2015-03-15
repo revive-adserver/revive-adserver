@@ -54,7 +54,7 @@ class OX_Extension_Delivery extends OX_Extension_Common
      *
      * @return boolean
      */
-    function runTasksOnDemand()
+    function runTasksOnDemand($task='')
     {
         return $this->_cacheDeliveryHooks();
     }

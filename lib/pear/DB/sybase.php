@@ -17,7 +17,7 @@
  * @category   Database
  * @package    DB
  * @author     Sterling Hughes <sterling@php.net>
- * @author     Antônio Carlos Venâncio Júnior <floripa@php.net>
+ * @author     Antï¿½nio Carlos Venï¿½ncio Jï¿½nior <floripa@php.net>
  * @author     Daniel Convissor <danielc@php.net>
  * @copyright  1997-2005 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
@@ -41,7 +41,7 @@ require_once 'DB/common.php';
  * @category   Database
  * @package    DB
  * @author     Sterling Hughes <sterling@php.net>
- * @author     Antônio Carlos Venâncio Júnior <floripa@php.net>
+ * @author     Antï¿½nio Carlos Venï¿½ncio Jï¿½nior <floripa@php.net>
  * @author     Daniel Convissor <danielc@php.net>
  * @copyright  1997-2005 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
@@ -173,7 +173,7 @@ class DB_sybase extends DB_common
         if (!PEAR::loadExtension('sybase') &&
             !PEAR::loadExtension('sybase_ct'))
         {
-            return $this->raiseError(DB_ERROR_EXTENSION_NOT_FOUND);
+            return $this->customRaiseError(DB_ERROR_EXTENSION_NOT_FOUND);
         }
 
         $this->dsn = $dsn;
@@ -195,20 +195,20 @@ class DB_sybase extends DB_common
                                                    $dsn['charset'],
                                                    $dsn['appname']);
         } else {
-            return $this->raiseError(DB_ERROR_CONNECT_FAILED,
+            return $this->customRaiseError(DB_ERROR_CONNECT_FAILED,
                                      null, null, null,
                                      'The DSN did not contain a username.');
         }
 
         if (!$this->connection) {
-            return $this->raiseError(DB_ERROR_CONNECT_FAILED,
+            return $this->customRaiseError(DB_ERROR_CONNECT_FAILED,
                                      null, null, null,
                                      @sybase_get_last_message());
         }
 
         if ($dsn['database']) {
             if (!@sybase_select_db($dsn['database'], $this->connection)) {
-                return $this->raiseError(DB_ERROR_NODBSELECTED,
+                return $this->customRaiseError(DB_ERROR_NODBSELECTED,
                                          null, null, null,
                                          @sybase_get_last_message());
             }
@@ -475,7 +475,7 @@ class DB_sybase extends DB_common
                 $repeat = 1;
                 $result = $this->createSequence($seq_name);
                 if (DB::isError($result)) {
-                    return $this->raiseError($result);
+                    return $this->customRaiseError($result);
                 }
             } elseif (!DB::isError($result)) {
                 $result =& $this->query("SELECT @@IDENTITY FROM $seqname");
@@ -485,7 +485,7 @@ class DB_sybase extends DB_common
             }
         } while ($repeat);
         if (DB::isError($result)) {
-            return $this->raiseError($result);
+            return $this->customRaiseError($result);
         }
         $result = $result->fetchRow(DB_FETCHMODE_ORDERED);
         return $result[0];
@@ -613,7 +613,7 @@ class DB_sybase extends DB_common
         if ($errno === null) {
             $errno = $this->errorCode($native);
         }
-        return $this->raiseError($errno, null, null, null, $native);
+        return $this->customRaiseError($errno, null, null, null, $native);
     }
 
     // }}}

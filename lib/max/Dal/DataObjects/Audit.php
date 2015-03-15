@@ -41,7 +41,7 @@ class DataObjects_Audit extends DB_DataObjectCommon
     public $website_account_id;              // MEDIUMINT(9) => openads_mediumint => 1 
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Audit',$k,$v); }
+    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Audit',$k,$v); }
 
     var $defaultValues = array(
                 'context' => '',

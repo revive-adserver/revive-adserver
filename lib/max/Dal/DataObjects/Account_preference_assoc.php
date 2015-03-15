@@ -21,12 +21,12 @@ class DataObjects_Account_preference_assoc extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'account_preference_assoc';        // table name
-    public $account_id;                      // MEDIUMINT(9) => openads_mediumint => 129 
-    public $preference_id;                   // MEDIUMINT(9) => openads_mediumint => 129 
-    public $value;                           // TEXT() => openads_text => 162 
+    public $account_id;                      // MEDIUMINT(9) => openads_mediumint => 129
+    public $preference_id;                   // MEDIUMINT(9) => openads_mediumint => 129
+    public $value;                           // TEXT() => openads_text => 162
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Account_preference_assoc',$k,$v); }
+    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Account_preference_assoc',$k,$v); }
 
     var $defaultValues = array(
                 'value' => '',

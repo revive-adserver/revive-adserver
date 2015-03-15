@@ -97,7 +97,7 @@ class Pager_HtmlWidgets
         }
 
         if (!strstr($optionText, '%d')) {
-            return $this->pager->raiseError(
+            return $this->pager->customRaiseError(
                 $this->pager->errorMessage(ERROR_PAGER_INVALID_PLACEHOLDER),
                 ERROR_PAGER_INVALID_PLACEHOLDER
             );
@@ -171,7 +171,7 @@ class Pager_HtmlWidgets
         }
 
         if (!strstr($optionText, '%d')) {
-            return $this->pager->raiseError(
+            return $this->pager->customRaiseError(
                 $this->pager->errorMessage(ERROR_PAGER_INVALID_PLACEHOLDER),
                 ERROR_PAGER_INVALID_PLACEHOLDER
             );

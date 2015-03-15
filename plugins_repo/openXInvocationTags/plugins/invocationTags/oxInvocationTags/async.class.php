@@ -54,7 +54,7 @@ class Plugins_InvocationTags_OxInvocationTags_async extends Plugins_InvocationTa
      *
      * @return boolean  True - allowed, false - not allowed
      */
-    function isAllowed($extra)
+    function isAllowed($extra = null)
     {
         return true;
         $isAllowed = parent::isAllowed($extra);

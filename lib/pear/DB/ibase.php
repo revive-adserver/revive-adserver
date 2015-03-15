@@ -213,7 +213,7 @@ class DB_ibase extends DB_common
     function connect($dsn, $persistent = false)
     {
         if (!PEAR::loadExtension('interbase')) {
-            return $this->raiseError(DB_ERROR_EXTENSION_NOT_FOUND);
+            return $this->customRaiseError(DB_ERROR_EXTENSION_NOT_FOUND);
         }
 
         $this->dsn = $dsn;
@@ -548,7 +548,7 @@ class DB_ibase extends DB_common
 
         $types =& $this->prepare_types[(int)$stmt];
         if (count($types) != count($data)) {
-            $tmp =& $this->raiseError(DB_ERROR_MISMATCH);
+            $tmp =& $this->customRaiseError(DB_ERROR_MISMATCH);
             return $tmp;
         }
 
@@ -567,7 +567,7 @@ class DB_ibase extends DB_common
             } elseif ($types[$i] == DB_PARAM_OPAQUE) {
                 $fp = @fopen($data[$key], 'rb');
                 if (!$fp) {
-                    $tmp =& $this->raiseError(DB_ERROR_ACCESS_VIOLATION);
+                    $tmp =& $this->customRaiseError(DB_ERROR_ACCESS_VIOLATION);
                     return $tmp;
                 }
                 $data[$key] = fread($fp, filesize($data[$key]));
@@ -712,7 +712,7 @@ class DB_ibase extends DB_common
             }
         } while ($repeat);
         if (DB::isError($result)) {
-            return $this->raiseError($result);
+            return $this->customRaiseError($result);
         }
         $arr = $result->fetchRow(DB_FETCHMODE_ORDERED);
         $result->free();
@@ -855,7 +855,7 @@ class DB_ibase extends DB_common
         if ($errno === null) {
             $errno = $this->errorCode($this->errorNative());
         }
-        $tmp =& $this->raiseError($errno, null, null, null, @ibase_errmsg());
+        $tmp =& $this->customRaiseError($errno, null, null, null, @ibase_errmsg());
         return $tmp;
     }
 

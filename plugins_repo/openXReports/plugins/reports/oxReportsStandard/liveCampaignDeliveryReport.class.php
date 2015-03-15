@@ -107,7 +107,7 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
      * @param OA_Admin_DaySpan       $oDaySpan The OA_Admin_DaySpan object for the report.
      * @param OA_Admin_Reports_Scope $oScope   ???
      */
-    function execute($oDaySpan, $oScope)
+    function execute($oDaySpan = null, $oScope = null)
     {
         // Save the scope for use later
         $this->_oScope = $oScope;

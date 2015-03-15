@@ -18,7 +18,7 @@ require_once MAX_PATH . '/lib/OA/Creative/File.php';
  */
 class OA_Creative_File_RichMedia extends OA_Creative_File
 {
-    function readCreativeDetails($fileName)
+    function readCreativeDetails($fileName, $aTypes = null)
     {
         return true;
     }

@@ -31,7 +31,7 @@ class DataObjects_Accounts extends DB_DataObjectCommon
     public $account_name;                    // VARCHAR(255) => openads_varchar => 2 
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Accounts',$k,$v); }
+    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Accounts',$k,$v); }
 
     var $defaultValues = array(
                 'account_type' => '',

@@ -39,7 +39,7 @@ class Plugins_DeliveryLimitations_Geo_Netspeed extends Plugins_DeliveryLimitatio
      *
      * @return boolean
      */
-    function isAllowed()
+    function isAllowed($page = false)
     {
         return ((isset($GLOBALS['_MAX']['GEO_DATA']['netspeed']))
             || $GLOBALS['_MAX']['CONF']['geotargeting']['showUnavailable']);

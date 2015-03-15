@@ -15,14 +15,14 @@
  */
 require_once 'DB_DataObjectCommon.php';
 
-class DataObjects_Testplugin_table extends DB_DataObjectCommon 
+class DataObjects_Testplugin_table extends DB_DataObjectCommon
 {
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'testplugin_table';                // table name
     public $testplugin_id;                   // int(10)  not_null primary_key unsigned auto_increment
-    public $testplugin_desc;                 // string(128)  
+    public $testplugin_desc;                 // string(128)
     public $updated;                         // datetime(19)  binary
     public $test_newfield;                   // int(4)  not_null
 

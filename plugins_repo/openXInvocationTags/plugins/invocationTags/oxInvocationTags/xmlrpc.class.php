@@ -53,7 +53,7 @@ class Plugins_InvocationTags_OxInvocationTags_xmlrpc extends Plugins_InvocationT
      *
      * @return boolean  True - allowed, false - not allowed
      */
-    function isAllowed($extra)
+    function isAllowed($extra = null)
     {
         $isAllowed = parent::isAllowed($extra);
         return $isAllowed;

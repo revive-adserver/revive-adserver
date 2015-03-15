@@ -21,13 +21,13 @@ class DataObjects_Campaigns_trackers extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'campaigns_trackers';              // table name
-    public $campaign_trackerid;              // MEDIUMINT(9) => openads_mediumint => 129 
-    public $campaignid;                      // MEDIUMINT(9) => openads_mediumint => 129 
-    public $trackerid;                       // MEDIUMINT(9) => openads_mediumint => 129 
-    public $status;                          // SMALLINT(1) => openads_smallint => 145 
+    public $campaign_trackerid;              // MEDIUMINT(9) => openads_mediumint => 129
+    public $campaignid;                      // MEDIUMINT(9) => openads_mediumint => 129
+    public $trackerid;                       // MEDIUMINT(9) => openads_mediumint => 129
+    public $status;                          // SMALLINT(1) => openads_smallint => 145
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Campaigns_trackers',$k,$v); }
+    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Campaigns_trackers',$k,$v); }
 
     var $defaultValues = array(
                 'campaignid' => 0,
@@ -77,13 +77,13 @@ class DataObjects_Campaigns_trackers extends DB_DataObjectCommon
      *                      that needs to be able to see the audit trail
      *                      entry, if such an account exists.
      */
-    function getOwningAccountIds()
+    public function getOwningAccountIds($resetCache = false)
     {
         // Campaign trackers don't have an account_id, get it from
         // the parent tracker (stored in the "trackers" table) using
         // the "trackerid" key -- note, this could equally be done
         // via the parent campaign, but the end result is the same
-        return parent::getOwningAccountIds('trackers', 'trackerid');
+        return $this->_getOwningAccountIds('trackers', 'trackerid');
     }
 
     /**

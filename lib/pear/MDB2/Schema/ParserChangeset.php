@@ -73,7 +73,7 @@ class MDB2_Changeset_Parser extends XML_Parser
 //        $this->val = new MDB2_Schema_Validate($fail_on_invalid_names, $valid_types, $force_defaults);
     }
 
-    function startHandler($xp, $element, $attribs)
+    function startHandler($xp, $element, &$attribs)
     {
         if (strtolower($element) == 'variable') {
             $this->var_mode = true;
@@ -435,7 +435,7 @@ class MDB2_Changeset_Parser extends XML_Parser
         $this->element = implode('-', $this->elements);
     }
 
-    function &raiseError($msg = null, $xmlecode = 0, $xp = null, $ecode = MDB2_SCHEMA_ERROR_PARSE)
+    function &customRaiseError($msg = null, $xmlecode = 0, $xp = null, $ecode = MDB2_SCHEMA_ERROR_PARSE)
     {
         if (is_null($this->error)) {
             $error = '';
@@ -467,7 +467,7 @@ class MDB2_Changeset_Parser extends XML_Parser
     {
         if ($this->var_mode == true) {
             if (!isset($this->variables[$data])) {
-                $this->raiseError('variable "'.$data.'" not found', null, $xp);
+                $this->customRaiseError('variable "'.$data.'" not found', null, $xp);
                 return;
             }
             $data = $this->variables[$data];

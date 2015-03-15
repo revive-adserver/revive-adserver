@@ -243,7 +243,7 @@
          *    @param mixed $payload      Message or object.
          *    @access public
          */
-        function paintSignal($type, &$payload) {
+        function paintSignal($type, $payload) {
             parent::paintSignal($type, $payload);
             print $this->_getIndent(1);
             print "<" . $this->_namespace . "signal type=\"$type\">";

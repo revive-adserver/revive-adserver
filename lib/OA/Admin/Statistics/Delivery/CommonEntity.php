@@ -231,7 +231,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
 
             // Merge plugin additional data
             foreach ($this->aPlugins as $oPlugin) {
-                $oPlugin->mergeData($aRows, $this->aEmptyRow, 'getEntitiesStats', $aParams + $this->aDates);
+                $oPlugin->mergeData($aRows, 'getEntitiesStats', $aParams + $this->aDates, $this->aEmptyRow);
             }
 
             $this->data = array(

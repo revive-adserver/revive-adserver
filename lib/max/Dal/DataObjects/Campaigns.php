@@ -80,7 +80,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
     public $show_capped_no_cookie;           // TINYINT(4) => openads_tinyint => 129
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Campaigns',$k,$v); }
+    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Campaigns',$k,$v); }
 
     var $defaultValues = array(
                 'campaignname' => '',
@@ -435,12 +435,12 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
      *                      that needs to be able to see the audit trail
      *                      entry, if such an account exists.
      */
-    function getOwningAccountIds()
+    public function getOwningAccountIds($resetCache = false)
     {
         // Campaigns don't have an account_id, get it from the parent
         // advertiser account (stored in the "clients" table) using
         // the "clientid" key
-        return parent::getOwningAccountIds('clients', 'clientid');
+        return $this->_getOwningAccountIds('clients', 'clientid');
     }
 
    /**

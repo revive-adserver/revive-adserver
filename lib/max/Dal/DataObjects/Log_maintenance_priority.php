@@ -30,7 +30,7 @@ class DataObjects_Log_maintenance_priority extends DB_DataObjectCommon
     public $updated_to;                      // DATETIME() => openads_datetime => 14 
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Log_maintenance_priority',$k,$v); }
+    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Log_maintenance_priority',$k,$v); }
 
     var $defaultValues = array(
                 'start_run' => '%NO_DATE_TIME%',

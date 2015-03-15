@@ -22,15 +22,15 @@ class DataObjects_Acls extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'acls';                            // table name
-    public $bannerid;                        // MEDIUMINT(9) => openads_mediumint => 129 
-    public $logical;                         // VARCHAR(3) => openads_varchar => 130 
-    public $type;                            // VARCHAR(255) => openads_varchar => 130 
-    public $comparison;                      // CHAR(2) => openads_char => 130 
-    public $data;                            // TEXT() => openads_text => 162 
-    public $executionorder;                  // INT(10) => openads_int => 129 
+    public $bannerid;                        // MEDIUMINT(9) => openads_mediumint => 129
+    public $logical;                         // VARCHAR(3) => openads_varchar => 130
+    public $type;                            // VARCHAR(255) => openads_varchar => 130
+    public $comparison;                      // CHAR(2) => openads_char => 130
+    public $data;                            // TEXT() => openads_text => 162
+    public $executionorder;                  // INT(10) => openads_int => 129
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Acls',$k,$v); }
+    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Acls',$k,$v); }
 
     var $defaultValues = array(
                 'bannerid' => 0,
@@ -92,12 +92,12 @@ class DataObjects_Acls extends DB_DataObjectCommon
      *                      that needs to be able to see the audit trail
      *                      entry, if such an account exists.
      */
-    function getOwningAccountIds()
+    public function getOwningAccountIds($resetCache = false)
     {
         // Delivery limitations don't have an account_id, get it from
         // the parent banner (stored in the "banners" table) using
         // the "bannerid" key
-        return parent::getOwningAccountIds('banners', 'bannerid');
+        return $this->_getOwningAccountIds('banners', 'bannerid', $resetCache);
     }
 
     /**

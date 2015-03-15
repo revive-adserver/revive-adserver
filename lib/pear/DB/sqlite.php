@@ -195,7 +195,7 @@ class DB_sqlite extends DB_common
     function connect($dsn, $persistent = false)
     {
         if (!PEAR::loadExtension('sqlite')) {
-            return $this->raiseError(DB_ERROR_EXTENSION_NOT_FOUND);
+            return $this->customRaiseError(DB_ERROR_EXTENSION_NOT_FOUND);
         }
 
         $this->dsn = $dsn;
@@ -239,7 +239,7 @@ class DB_sqlite extends DB_common
         $php_errormsg = '';
 
         if (!$this->connection = @$connect_function($dsn['database'])) {
-            return $this->raiseError(DB_ERROR_NODBSELECTED,
+            return $this->customRaiseError(DB_ERROR_NODBSELECTED,
                                      null, null, null,
                                      $php_errormsg);
         }
@@ -549,14 +549,14 @@ class DB_sqlite extends DB_common
             {
                 $result = $this->createSequence($seq_name);
                 if (DB::isError($result)) {
-                    return $this->raiseError($result);
+                    return $this->customRaiseError($result);
                 } else {
                     $repeat = 1;
                 }
             }
         } while ($repeat);
 
-        return $this->raiseError($result);
+        return $this->customRaiseError($result);
     }
 
     // }}}
@@ -694,7 +694,7 @@ class DB_sqlite extends DB_common
         $errorcode = @sqlite_last_error($this->connection);
         $userinfo = "$errorcode ** $this->last_query";
 
-        return $this->raiseError($errno, null, null, $userinfo, $native);
+        return $this->customRaiseError($errno, null, null, $userinfo, $native);
     }
 
     // }}}
@@ -779,7 +779,7 @@ class DB_sqlite extends DB_common
             $got_string = true;
         } else {
             $this->last_query = '';
-            return $this->raiseError(DB_ERROR_NOT_CAPABLE, null, null, null,
+            return $this->customRaiseError(DB_ERROR_NOT_CAPABLE, null, null, null,
                                      'This DBMS can not obtain tableInfo' .
                                      ' from result sets');
         }
@@ -858,7 +858,7 @@ class DB_sqlite extends DB_common
     function getSpecialQuery($type, $args = array())
     {
         if (!is_array($args)) {
-            return $this->raiseError('no key specified', null, null, null,
+            return $this->customRaiseError('no key specified', null, null, null,
                                      'Argument has to be an array.');
         }
 

@@ -53,7 +53,7 @@ class Plugins_InvocationTags_OxInvocationTags_adframe extends Plugins_Invocation
      *
      * @return boolean  True - allowed, false - not allowed
      */
-    function isAllowed($extra)
+    function isAllowed($extra = null)
     {
         $isAllowed = parent::isAllowed($extra);
         if ((is_array($extra) && $extra['delivery'] == phpAds_ZoneText)) {

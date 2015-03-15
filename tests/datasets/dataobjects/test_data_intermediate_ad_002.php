@@ -22,15 +22,11 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/ECPMforRemna
 class OA_Test_Data_data_intermediate_ad_002 extends OA_Test_Data_DataObjects
 {
 
-    function __construct()
-    {
-    }
-
     /**
      * method for extending OA_Test_Data_DataObject
      */
 
-    function generateTestData()
+    function generateTestData($linkAdZone=false)
     {
         if (!parent::init())
         {

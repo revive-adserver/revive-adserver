@@ -853,7 +853,7 @@ class DB_DataObject_Generator extends DB_DataObject
         // simple creation tools ! (static stuff!)
         $body .= "{$n}";
         $body .= "    /* Static get */{$n}";
-        $body .= "    function staticGet(\$k,\$v=NULL) { return DB_DataObject::staticGet('{$this->classname}',\$k,\$v); }{$n}";
+        $body .= "    function staticGet(\$k,\$v=NULL) { return DB_DataObject::staticGetFromClassName('{$this->classname}',\$k,\$v); }{$n}";
 
         // generate getter and setter methods
         $body .= $this->_generateGetters($input);

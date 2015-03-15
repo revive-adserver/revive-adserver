@@ -166,7 +166,7 @@ class Plugins_Reports_OxReportsStandard_CampaignAnalysisReport extends Plugins_R
      * @param integer          $placementId The ID of the placement the report is for.
      * @param array            $aSheets     An array of sheets that should be in the report.
      */
-    function execute($oDaySpan, $placementId, $aSheets)
+    function execute($oDaySpan = null, $placementId = null, $aSheets = null)
     {
     	$checkResult = $this->_checkParameters($oDaySpan, $placementId, $aSheets);
     	if ($checkResult !== true) {

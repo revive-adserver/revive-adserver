@@ -21,12 +21,12 @@ class DataObjects_Account_user_assoc extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'account_user_assoc';              // table name
-    public $account_id;                      // MEDIUMINT(9) => openads_mediumint => 129 
-    public $user_id;                         // MEDIUMINT(9) => openads_mediumint => 129 
-    public $linked;                          // DATETIME() => openads_datetime => 142 
+    public $account_id;                      // MEDIUMINT(9) => openads_mediumint => 129
+    public $user_id;                         // MEDIUMINT(9) => openads_mediumint => 129
+    public $linked;                          // DATETIME() => openads_datetime => 142
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Account_user_assoc',$k,$v); }
+    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Account_user_assoc',$k,$v); }
 
     var $defaultValues = array(
                 'linked' => '%NO_DATE_TIME%',

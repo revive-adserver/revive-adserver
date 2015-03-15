@@ -21,9 +21,9 @@ class DataObjects_Testplugin_table extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'testplugin_table';                // table name
-    public $testplugin_id;                   // INT(10) => openads_int => 129 
-    public $testplugin_desc;                 // VARCHAR(128) => openads_varchar => 2 
-    public $updated;                         // DATETIME() => openads_datetime => 14 
+    public $testplugin_id;                   // INT(10) => openads_int => 129
+    public $testplugin_desc;                 // VARCHAR(128) => openads_varchar => 2
+    public $updated;                         // DATETIME() => openads_datetime => 14
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Testplugin_table',$k,$v); }

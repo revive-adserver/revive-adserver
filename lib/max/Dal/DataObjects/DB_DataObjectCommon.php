@@ -1304,17 +1304,9 @@ class DB_DataObjectCommon extends DB_DataObject
      * instead related to the type of entity, and where in the account
      * heirrachy the entity is located.
      *
-     * Works by locating the "account_id" column in this DB_DataObject,
-     * and converting this into the array of owning account IDs.
-     *
-     * @param string $parentTable The name of another table to look in
-     *                            for the "account_id" column, if this
-     *                            DB_DataObject does not have such a column.
-     * @param string $parentKey Name of the key that relates this
-     *                          DB_DataObject and the parent entity in
-     *                          $parentTable.
      * @param boolean $resetCache When true, reset the internal cache and
      *                            return null.
+     *
      * @return array An array containing up to three indexes:
      *                  - "OA_ACCOUNT_ADMIN" or "OA_ACCOUNT_MANAGER":
      *                      Contains the account ID of the manager account
@@ -1331,7 +1323,34 @@ class DB_DataObjectCommon extends DB_DataObject
      *                      that needs to be able to see the audit trail
      *                      entry, if such an account exists.
      */
-    function getOwningAccountIds($parentTable = null, $parentKeyName = null, $resetCache = false)
+    public function getOwningAccountIds($resetCache = false)
+    {
+        return $this->_getOwningAccountIds(null, null, $resetCache);
+    }
+
+    /**
+     * The underlying private method to getOwningAccountIdsreturn an array of account IDs of the account(s) that
+     * should "own" any audit trail entries for this entity type; these
+     * are NOT related to the account ID of the currently active account
+     * (which is performing some kind of action on the entity), but is
+     * instead related to the type of entity, and where in the account
+     * heirrachy the entity is located.
+     *
+     * Works by locating the "account_id" column in this DB_DataObject,
+     * and converting this into the array of owning account IDs.
+     *
+     * @param string $parentTable The name of another table to look in
+     *                            for the "account_id" column, if this
+     *                            DB_DataObject does not have such a column.
+     * @param string $parentKey Name of the key that relates this
+     *                          DB_DataObject and the parent entity in
+     *                          $parentTable.
+     * @param boolean $resetCache When true, reset the internal cache and
+     *                            return null.
+     *
+     * @see DB_DataObjectCommon::getOwningAccountIds()
+     */
+    protected function _getOwningAccountIds($parentTable = null, $parentKeyName = null, $resetCache = false)
     {
         // Use a static cache to store previously calculated owning
         // account IDs
@@ -1463,7 +1482,7 @@ class DB_DataObjectCommon extends DB_DataObject
      * @return array An array with the same format as the return array of the
      *               DB_DataObjectCommon::getOwningAccountIds() method.
      */
-    function _getOwningAccountIdsByAccountId($accountId)
+    protected function _getOwningAccountIdsByAccountId($accountId)
     {
         // Get the type of the "owning" account
         $accountType = OA_Permission::getAccountTypeByAccountId($accountId);

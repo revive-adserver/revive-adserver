@@ -27,7 +27,7 @@ class DataObjects_Banners_ox_adsense extends DB_DataObjectCommon
     public $gas_ad_subtype;                  // string(32)  not_null
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Ox_banners_ox_adsense',$k,$v); }
+    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Ox_banners_ox_adsense',$k,$v); }
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
@@ -43,7 +43,7 @@ class DataObjects_Banners_ox_adsense extends DB_DataObjectCommon
      *                 "account_id" column of the audit trail
      *                 database table.
      */
-    function getOwningAccountIds()
+    public function getOwningAccountIds($resetCache = false)
     {
         $accountType = OA_Permission::getAccountType(false);
         switch ($accountType)
@@ -63,7 +63,7 @@ class DataObjects_Banners_ox_adsense extends DB_DataObjectCommon
                 $parentKeyName = 'agencyid';
                 break;
         }
-        return parent::getOwningAccountIds($parentTable, $parentKeyName);
+        return $this->_getOwningAccountIds($parentTable, $parentKeyName);
     }
 
     function _auditEnabled()

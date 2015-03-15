@@ -21,26 +21,26 @@ class DataObjects_Affiliates_extra extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'affiliates_extra';                // table name
-    public $affiliateid;                     // MEDIUMINT(9) => openads_mediumint => 129 
-    public $address;                         // TEXT() => openads_text => 34 
-    public $city;                            // VARCHAR(255) => openads_varchar => 2 
-    public $postcode;                        // VARCHAR(64) => openads_varchar => 2 
-    public $country;                         // VARCHAR(255) => openads_varchar => 2 
-    public $phone;                           // VARCHAR(64) => openads_varchar => 2 
-    public $fax;                             // VARCHAR(64) => openads_varchar => 2 
-    public $account_contact;                 // VARCHAR(255) => openads_varchar => 2 
-    public $payee_name;                      // VARCHAR(255) => openads_varchar => 2 
-    public $tax_id;                          // VARCHAR(64) => openads_varchar => 2 
-    public $mode_of_payment;                 // VARCHAR(64) => openads_varchar => 2 
-    public $currency;                        // VARCHAR(64) => openads_varchar => 2 
-    public $unique_users;                    // INT(11) => openads_int => 1 
-    public $unique_views;                    // INT(11) => openads_int => 1 
-    public $page_rank;                       // INT(11) => openads_int => 1 
-    public $category;                        // VARCHAR(255) => openads_varchar => 2 
-    public $help_file;                       // VARCHAR(255) => openads_varchar => 2 
+    public $affiliateid;                     // MEDIUMINT(9) => openads_mediumint => 129
+    public $address;                         // TEXT() => openads_text => 34
+    public $city;                            // VARCHAR(255) => openads_varchar => 2
+    public $postcode;                        // VARCHAR(64) => openads_varchar => 2
+    public $country;                         // VARCHAR(255) => openads_varchar => 2
+    public $phone;                           // VARCHAR(64) => openads_varchar => 2
+    public $fax;                             // VARCHAR(64) => openads_varchar => 2
+    public $account_contact;                 // VARCHAR(255) => openads_varchar => 2
+    public $payee_name;                      // VARCHAR(255) => openads_varchar => 2
+    public $tax_id;                          // VARCHAR(64) => openads_varchar => 2
+    public $mode_of_payment;                 // VARCHAR(64) => openads_varchar => 2
+    public $currency;                        // VARCHAR(64) => openads_varchar => 2
+    public $unique_users;                    // INT(11) => openads_int => 1
+    public $unique_views;                    // INT(11) => openads_int => 1
+    public $page_rank;                       // INT(11) => openads_int => 1
+    public $category;                        // VARCHAR(255) => openads_varchar => 2
+    public $help_file;                       // VARCHAR(255) => openads_varchar => 2
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Affiliates_extra',$k,$v); }
+    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Affiliates_extra',$k,$v); }
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
@@ -94,12 +94,12 @@ class DataObjects_Affiliates_extra extends DB_DataObjectCommon
      *                      that needs to be able to see the audit trail
      *                      entry, if such an account exists.
      */
-    function getOwningAccountIds()
+    public function getOwningAccountIds($resetCache = false)
     {
         // Extra "affiliate" info doesn't have an account_id, get it
         // from the parent advertiser account (stored in the "affiliates"
         // table) using the "affiliateid" key
-        return parent::getOwningAccountIds('affiliates', 'affiliateid');
+        return $this->_getOwningAccountIds('affiliates', 'affiliateid');
     }
 
     /**

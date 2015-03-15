@@ -201,7 +201,7 @@ class DB_dbase extends DB_common
     function connect($dsn, $persistent = false)
     {
         if (!PEAR::loadExtension('dbase')) {
-            return $this->raiseError(DB_ERROR_EXTENSION_NOT_FOUND);
+            return $this->customRaiseError(DB_ERROR_EXTENSION_NOT_FOUND);
         }
 
         $this->dsn = $dsn;
@@ -219,7 +219,7 @@ class DB_dbase extends DB_common
         if (!file_exists($dsn['database'])) {
             $this->dsn['mode'] = 2;
             if (empty($dsn['fields']) || !is_array($dsn['fields'])) {
-                return $this->raiseError(DB_ERROR_CONNECT_FAILED,
+                return $this->customRaiseError(DB_ERROR_CONNECT_FAILED,
                                          null, null, null,
                                          'the dbase file does not exist and '
                                          . 'it could not be created because '
@@ -229,7 +229,7 @@ class DB_dbase extends DB_common
             $this->connection = @dbase_create($dsn['database'],
                                               $dsn['fields']);
             if (!$this->connection) {
-                return $this->raiseError(DB_ERROR_CONNECT_FAILED,
+                return $this->customRaiseError(DB_ERROR_CONNECT_FAILED,
                                          null, null, null,
                                          'the dbase file does not exist and '
                                          . 'the attempt to create it failed: '
@@ -242,7 +242,7 @@ class DB_dbase extends DB_common
             $this->connection = @dbase_open($dsn['database'],
                                             $this->dsn['mode']);
             if (!$this->connection) {
-                return $this->raiseError(DB_ERROR_CONNECT_FAILED,
+                return $this->customRaiseError(DB_ERROR_CONNECT_FAILED,
                                          null, null, null,
                                          $php_errormsg);
             }
@@ -423,7 +423,7 @@ class DB_dbase extends DB_common
         if (function_exists('dbase_get_header_info')) {
             $id = @dbase_get_header_info($this->connection);
             if (!$id && $php_errormsg) {
-                return $this->raiseError(DB_ERROR,
+                return $this->customRaiseError(DB_ERROR,
                                          null, null, null,
                                          $php_errormsg);
             }
@@ -435,7 +435,7 @@ class DB_dbase extends DB_common
              */
             $db = @fopen($this->dsn['database'], 'r');
             if (!$db) {
-                return $this->raiseError(DB_ERROR_CONNECT_FAILED,
+                return $this->customRaiseError(DB_ERROR_CONNECT_FAILED,
                                          null, null, null,
                                          $php_errormsg);
             }

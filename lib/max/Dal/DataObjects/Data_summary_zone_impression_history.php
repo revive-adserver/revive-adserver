@@ -32,7 +32,7 @@ class DataObjects_Data_summary_zone_impression_history extends DB_DataObjectComm
     public $est;                             // SMALLINT(6) => openads_smallint => 1 
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Data_summary_zone_impression_history',$k,$v); }
+    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Data_summary_zone_impression_history',$k,$v); }
 
     var $defaultValues = array(
                 'interval_start' => '%NO_DATE_TIME%',

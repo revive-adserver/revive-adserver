@@ -42,7 +42,7 @@ class Plugins_DeliveryLimitations_Geo_Country extends Plugins_DeliveryLimitation
      *
      * @return boolean
      */
-    function isAllowed()
+    function isAllowed($page = false)
     {
         return ((isset($GLOBALS['_MAX']['GEO_DATA']['country_code']))
             || $GLOBALS['_MAX']['CONF']['geotargeting']['showUnavailable']);
