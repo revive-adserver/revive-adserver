@@ -30,7 +30,7 @@ $GLOBALS['strInvocationSource'] = "Bron";
 $GLOBALS['strInvocationWithText'] = "Toon tekst onder banner";
 $GLOBALS['strInvocationDontShowAgain'] = "Toon deze banner niet nog eens op dezelfde pagina";
 $GLOBALS['strInvocationDontShowAgainCampaign'] = "Toon niet nog eens een banner van dezelfde campagne op dezelfde pagina";
-$GLOBALS['strInvocationTemplate'] = "Sla de banner op in een variable welke gebruikt van worden in een sjabloon";
+$GLOBALS['strInvocationTemplate'] = "Sla de banner op in een variable welke gebruikt kan worden in een sjabloon";
 $GLOBALS['strInvocationBannerID'] = "Banner ID";
 $GLOBALS['strInvocationComments'] = "Commentaar opnemen";
 
@@ -72,12 +72,12 @@ $GLOBALS['strXmlRpcTimeout'] = "XML-RPC Timeout (seconden)";
 $GLOBALS['strAdLayerStyle'] = "Layer stijl";
 
 $GLOBALS['strAlignment'] = "Uitlijning";
-$GLOBALS['strHAlignment'] = "Horizontaal uitlijnen";
+$GLOBALS['strHAlignment'] = "Horizontale uitlijning";
 $GLOBALS['strLeft'] = "Links";
 $GLOBALS['strCenter'] = "Centreer";
 $GLOBALS['strRight'] = "Rechts";
 
-$GLOBALS['strVAlignment'] = "Verticaal uitlijnen";
+$GLOBALS['strVAlignment'] = "Verticale uitlijning";
 $GLOBALS['strTop'] = "Boven";
 $GLOBALS['strMiddle'] = "Midden";
 $GLOBALS['strBottom'] = "Onder";
@@ -119,6 +119,7 @@ $GLOBALS['strAdLayerStyleName']['cursor'] = "Muiscursor";
 $GLOBALS['strAdLayerStyleName']['floater'] = "Floater";
 
 // Support for 3rd party server clicktracking
+$GLOBALS['str3rdPartyTrack'] = "3de partij Server Clicktracking ondersteuning";
 
 // Support for cachebusting code
 $GLOBALS['strCacheBuster'] = "Cache-Busting code invoegen";
@@ -128,11 +129,19 @@ $GLOBALS['strNonImgWarningZone'] = "Waarschuwing: Er zijn banners aan deze zone 
 $GLOBALS['strNonImgWarning'] = "Waarschuwing: Deze tag zal niet werken omdat deze banner geen afbeelding is.";
 
 // unkown HTML tag type Warning for zone invocation
+$GLOBALS['strUnknHtmlWarning'] = "Waarschuwing: Deze banner is een onbekende HTML advertentie-indeling.";
 
 // sql/web banner-type warning for clickonly zone invocation
+$GLOBALS['strWebBannerWarning'] = "Waarschuwing: Deze banner moet worden gedownload en u moet ons de juiste URL voor de banner aangeven. < br /> 1) de banner downloaden:";
+$GLOBALS['strDwnldWebBanner'] = "Klik hier met de rechtermuisknop op en kies Doel opslaan als";
+$GLOBALS['strWebBannerWarning2'] = "<br /> 2) de banner uploaden naar uw webserver en voer de locatie hier in: ";
 
 // IMG invocation selected for tracker with appended code
 $GLOBALS['strWarning'] = "Waarschuwing";
+$GLOBALS['strImgWithAppendWarning'] = "Deze tracker code heeft toegevoegde code, toegevoegde code zal <strong>alleen</strong> werken met JavaScript-tags";
 
 // Local Invocation
+$GLOBALS['strWarningLocalInvocation'] = "<span class='tab-s'> <strong>Waarschuwing:</strong> Local Mode invocation werkt alleen als de site die de code aanroept op dezelfde fysieke computer staat als de adserver</span> <br / > Controleer of de opgegeven MAX_PATH gedefinieerd in de code hieronder verwijst naar de basis directory van uw installatie van Revive Adserver <br / > en dat u een configuratiebestand heeft voor het domein van de site die de advertenties tonen (in MAX_PATH/var)";
 
+$GLOBALS['strIABNoteLocalInvocation'] = "<b>Opmerking:</b> Impressie gegevens gegenereerd op basis van Local Mode Invocation tags zijn niet compatibel met IAB richtlijnen voor metingen van advertentie impressies.";
+$GLOBALS['strIABNoteXMLRPCInvocation'] = "<b>Opmerking:</b> Impressie gegevens gegenereerd met behulp van XML-RPC aanroepen tags zijn niet compatibel met IAB richtlijnen voor metingen van advertentie impressies.";

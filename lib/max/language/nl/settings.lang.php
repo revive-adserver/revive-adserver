@@ -24,7 +24,7 @@ $GLOBALS['strTablesType'] = "Tabeltype";
 
 
 
-$GLOBALS['strOaUpToDate'] = "Jouw {$PRODUCT_NAME} database en bestandstructuur gebruiken beide de meest recente versie en moeten daardoor niet worden bijgewerkt op dit ogenblik. Gelieve op ga verder te drukken om verder te gaan naar het {$PRODUCT_NAME} administratie paneel.";
+$GLOBALS['strOaUpToDate'] = "Uw {$PRODUCT_NAME} database en bestandstructuur gebruiken beide de meest recente versie en hoeven daarom niet te worden bijgewerkt op dit ogenblik. Gelieve op ga verder te drukken om verder te gaan naar het administratie paneel.";
 $GLOBALS['strOaUpToDateCantRemove'] = "Waarschuwing: het UPGRADE bestand is nog steeds te vinden in jouw var map. We kunnen dit bestand niet verwijderen omwille van ontbrekende rechten. Gelieve dit bestand zelf te verwijderen. ";
 $GLOBALS['strRemoveUpgradeFile'] = "Je moet het UPGRADE bestand verwijderen in de map var";
 $GLOBALS['strInstallSuccess'] = "<b>De installatie van {$PRODUCT_NAME} is nu compleet.</b><br /><br />Om goed te functioneren moet de onderhouds bestand elk uur
