@@ -12,8 +12,8 @@
 
 // Set text direction and characterset
 $GLOBALS['phpAds_TextDirection'] = "ltr";
-$GLOBALS['phpAds_TextAlignRight'] = "rechts";
-$GLOBALS['phpAds_TextAlignLeft'] = "links";
+$GLOBALS['phpAds_TextAlignRight'] = "right";
+$GLOBALS['phpAds_TextAlignLeft'] = "left";
 $GLOBALS['phpAds_CharSet'] = "UTF-8";
 
 $GLOBALS['phpAds_DecimalPoint'] = ",";
