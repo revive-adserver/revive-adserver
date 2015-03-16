@@ -4,12 +4,12 @@
 <plugin>
     <name>demoXajax</name>
     <creationDate>2008-07-18</creationDate>
-    <author>Monique Szpak</author>
-    <authorEmail>monique.szpak@openx.org</authorEmail>
-    <authorUrl>http://www.openx.org</authorUrl>
+    <author>Revive Adserver</author>
+    <authorEmail>noreply@revive-adserver.com</authorEmail>
+    <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>license.txt</license>
     <description>xAjax Demo</description>
-    <version>0.0.2</version>
+    <version>0.0.3</version>
     <oxversion>2.7.30-beta-rc11</oxversion>
     <extends>admin</extends>
 

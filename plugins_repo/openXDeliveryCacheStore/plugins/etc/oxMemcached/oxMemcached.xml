@@ -10,7 +10,7 @@
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>GNU Gneral Public License v2</license>
     <description>Plugin that provides memcached-based banner delivery caching.</description>
-    <version>1.1.1</version>
+    <version>1.1.2</version>
     <oxversion>2.7.30-beta-rc11</oxversion>
     <extends>deliveryCacheStore</extends>
 
@@ -23,6 +23,8 @@
 
             <file path="{PLUGINPATH}oxMemcached/_lang/">en.mo</file>
             <file path="{PLUGINPATH}oxMemcached/_lang/po/">en.po</file>
+            <file path="{PLUGINPATH}oxMemcached/_lang/">nl.mo</file>
+            <file path="{PLUGINPATH}oxMemcached/_lang/po/">nl.po</file>
 
         </files>
 

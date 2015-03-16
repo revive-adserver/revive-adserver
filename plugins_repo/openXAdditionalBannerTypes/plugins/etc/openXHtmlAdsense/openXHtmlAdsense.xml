@@ -8,8 +8,8 @@
     <authorEmail>revive@revive-adserver.com</authorEmail>
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>GNU GPL v2</license>
-    <description>AdSense HTML Banner Type plugin for OpenX</description>
-    <version>1.1.0</version>
+    <description>AdSense HTML Banner Type plugin for Revive Adserver</description>
+    <version>1.1.1</version>
     <oxversion>2.7.30-beta-rc11</oxversion>
     <extends>bannerTypeHtml</extends>
 
@@ -19,6 +19,8 @@
 
             <file path="{GROUPPATH}/_lang/">en.mo</file>
             <file path="{GROUPPATH}/_lang/po/">en.po</file>
+            <file path="{GROUPPATH}/_lang/">nl.mo</file>
+            <file path="{GROUPPATH}/_lang/po/">nl.po</file>
         </files>
 
         <schema>

@@ -4,12 +4,12 @@
 <plugin>
     <name>demoExtension</name>
     <creationDate>2008-06-30</creationDate>
-    <author>OpenX</author>
-    <authorEmail>plugins@openx.org</authorEmail>
-    <authorUrl>http://www.openx.org</authorUrl>
+    <author>Revive Adserver</author>
+    <authorEmail>noreply@revive-adserver.com</authorEmail>
+    <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>license.txt</license>
-    <description>Demo Extension for OpenX</description>
-    <version>0.0.3</version>
+    <description>Demo Extension for Revive Adserver</description>
+    <version>0.0.4</version>
     <type>extension</type>
 
     <install>

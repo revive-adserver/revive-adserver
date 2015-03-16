@@ -10,7 +10,7 @@
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>GNU Gneral Public License v2</license>
     <description>Plugin that provides access to MaxMind GeoIP Geotargeting data for use in banner targeting.</description>
-    <version>1.3.0</version>
+    <version>1.3.1</version>
     <oxversion>2.7.30-beta-rc11</oxversion>
     <extends>geoTargeting</extends>
 
@@ -49,8 +49,10 @@
             <file path="{MODULEPATH}geoTargeting/oxMaxMindGeoIP/data/">GeoIP.dat</file>
 
             <file path="{GROUPPATH}/_lang/">en.mo</file>
+            <file path="{GROUPPATH}/_lang/">nl.mo</file>
             <file path="{GROUPPATH}/_lang/">zh_CN.mo</file>
             <file path="{GROUPPATH}/_lang/po/">en.po</file>
+            <file path="{GROUPPATH}/_lang/po/">nl.po</file>
             <file path="{GROUPPATH}/_lang/po/">zh_CN.po</file>
 
             <!--file path="{MODULEPATH}geoTargeting/oxMaxMindGeoIP/_lang">en.mo</file-->
