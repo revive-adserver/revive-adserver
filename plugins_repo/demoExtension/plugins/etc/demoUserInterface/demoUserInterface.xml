@@ -4,12 +4,12 @@
 <plugin>
     <name>demoUserInterface</name>
     <creationDate>2008-05-30</creationDate>
-    <author>Monique Szpak</author>
-    <authorEmail>monique.szpak@openx.org</authorEmail>
-    <authorUrl>http://www.openx.org</authorUrl>
+    <author>Revive Adserver</author>
+    <authorEmail>noreply@revive-adserver.com</authorEmail>
+    <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>license.txt</license>
-    <description>Demo User Interface Plugin for OpenX</description>
-    <version>0.0.2</version>
+    <description>Demo User Interface Plugin for Revive Adserver</description>
+    <version>0.0.3</version>
     <oxversion>2.7.30-beta-rc11</oxversion>
     <extends>admin</extends>
 

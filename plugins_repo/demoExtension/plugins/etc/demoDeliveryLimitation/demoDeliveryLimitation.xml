@@ -4,12 +4,12 @@
 <plugin>
     <name>demoDeliveryLimitation</name>
     <creationDate>2008-05-30</creationDate>
-    <author>Monique Szpak</author>
-    <authorEmail>monique.szpak@openx.org</authorEmail>
-    <authorUrl>http://www.openx.org</authorUrl>
+    <author>Revive Adserver</author>
+    <authorEmail>noreply@revive-adserver.com</authorEmail>
+    <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>license.txt</license>
-    <description>Demo Delivery Limitiation for OpenX</description>
-    <version>1.0.1</version>
+    <description>Demo Delivery Limitiation for Revive Adserver</description>
+    <version>1.0.2</version>
     <oxversion>2.7.30-beta-rc11</oxversion>
     <extends>deliveryLimitations</extends>
 
@@ -20,6 +20,8 @@
 
             <file path="{GROUPPATH}/_lang/">en.mo</file>
             <file path="{GROUPPATH}/_lang/po/">en.po</file>
+            <file path="{GROUPPATH}/_lang/">nl.mo</file>
+            <file path="{GROUPPATH}/_lang/po/">nl.po</file>
         </files>
     </install>
 
