@@ -12,14 +12,26 @@
 
 // Main strings
 $GLOBALS['strChooseSection'] = "Kies sectie";
+$GLOBALS['strAppendCodes'] = "Codes toevoegen";
 
 // Maintenance
+$GLOBALS['strScheduledMaintenanceHasntRun'] = "<b>Gepland onderhoud is in het afgelopen uur niet uitgevoerd. Dit kan betekenen dat u het niet correct hebt ingesteld.</b>";
+
+$GLOBALS['strAutoMantenaceEnabledAndHasntRun'] = "	Automatisch onderhoud is ingeschakeld, maar het is nog niet geactiveerd. Automatisch onderhoud wordt alleen geactiveerd als {$PRODUCT_NAME} banners vertoond.
+    Voor de beste prestaties, kunt u beter <a href='{$PRODUCT_DOCSURL}/admin/maintenance' target='_blank'>gepland onderhoud</a> instellen.";
+
+$GLOBALS['strAutoMantenaceDisabledAndHasntRun'] = "	Automatisch onderhoud is momenteel uitgeschakeld, dus als {$PRODUCT_NAME} banners vertoond, zal automatisch onderhoud niet worden geactiveerd.
+	Voor de beste prestaties, zou u <a href='{$PRODUCT_DOCSURL}/admin/maintenance' target='_blank'>gepland onderhoud</a> moeten inschakelen.
+    Als u echter <a href='{$PRODUCT_DOCSURL}/admin/maintenance' target='_blank'>gepland onderhoud</a> niet inschakelt,
+    dan <i>must</i> u <a href='account-settings-maintenance.php'>automatisch onderhoud inschakelen</a> om er voor te zorgen dat {$PRODUCT_NAME} goed werkt.";
+
+$GLOBALS['strAutoMantenaceEnabledAndRunning'] = "	Automatisch onderhoud is ingeschakeld en zal worden geactiveerd, indien nodig, wanneer {$PRODUCT_NAME} banners vertoond.
+	Voor de beste prestaties, zou u <a href='{$PRODUCT_DOCSURL}/admin/maintenance' target='_blank'>gepland onderhoud</a> moeten inschakelen.";
 
 
+$GLOBALS['strScheduledMantenaceRunning'] = "<b>Gepland onderhoud wordt correct uitgevoerd.</b>";
 
-
-
-
+$GLOBALS['strAutomaticMaintenanceHasRun'] = "<b>Automatisch onderhoud wordt correct uitgevoerd.</b>";
 
 
 
@@ -41,8 +53,11 @@ $GLOBALS['strPriorityNotEnoughAdViews'] = "Het is niet zeker dat er vandaag geno
 // Banner cache
 $GLOBALS['strCheckBannerCache'] = "Controleer banner cache";
 $GLOBALS['strRebuildBannerCache'] = "Banner cache opnieuw aanmaken";
-$GLOBALS['strBannerCacheErrorsFound'] = "De database banner chase controle heeft geen fouten gevonden. De banners zullen niet werken totdat je ze manueel gerepareerd hebt.";
+$GLOBALS['strBannerCacheErrorsFound'] = "De database banner chase controle heeft enkele fouten gevonden. De banners zullen niet werken totdat u ze handmatig gerepareerd hebt.";
 $GLOBALS['strBannerCacheOK'] = "Er zijn geen fouten gevonden. De database banner cache is up to date";
+$GLOBALS['strBannerCacheDifferencesFound'] = "De controle van de database banner cache heeft opgeleverd dat de cache niet up to date is, en opnieuw moet worden opgebouwd. Click hier om de cache automatisch bij te werken.";
+$GLOBALS['strBannerCacheFixed'] = "De banner cache in de database is met succes opnieuw opgebouwd. De database cache is nu bijgewerkt.";
+$GLOBALS['strBannerCacheRebuildButton'] = "Opnieuw opbouwen";
 $GLOBALS['strRebuildDeliveryCache'] = "Leveringscache opnieuw aanmaken";
 $GLOBALS['strBannerCacheExplaination'] = "De banner cache bevat een kopie van de HTML code welke gebruikt wordt om de banner tonen. Door het gebruik van de banner cache wordt<br />
 de banner sneller afgeleverd omdat de HTML code niet elke keer opnieuw gegenereerd te worden. Omdat de banner cache vast URLs bevat
@@ -61,13 +76,15 @@ $GLOBALS['strDeliveryCacheFiles'] = "	Momenteel wordt de cache opgeslagen in bes
 
 
 // Storage
-$GLOBALS['strStorage'] = "Opslag methoden";
+$GLOBALS['strStorage'] = "Opslag";
 $GLOBALS['strMoveToDirectory'] = "Verplaats afbeeldingen van de database naar een directory";
 $GLOBALS['strStorageExplaination'] = "	De afbeeldingen welke gebruikt worden door lokale banners worden, of in de database, of in een directory opgeslagen.
 	Indien de afbeeldingen in een directory worden opgeslagen wordt de database minder belast.";
 
 // Encoding
+$GLOBALS['strEncoding'] = "Codering";
 $GLOBALS['strEncodingConvert'] = "Converteer";
+$GLOBALS['strConvertThese'] = "De volgende gegevens zullen worden gewijzigd als u doorgaat";
 
 
 // Storage
@@ -81,10 +98,7 @@ $GLOBALS['strAvailableUpdates'] = "Beschikbare update";
 $GLOBALS['strDownloadZip'] = "Downloaden (.zip)";
 $GLOBALS['strDownloadGZip'] = "Downloaden (.tar.gz)";
 
-$GLOBALS['strUpdateAlert'] = "A nieuwe versie van {$PRODUCT_NAME} is beschikbaar.
-
-Wilt u meer informatie over deze
-update?";
+$GLOBALS['strUpdateAlert'] = "A nieuwe versie van {$PRODUCT_NAME} is beschikbaar.\\n\\nWilt u meer informatie \\nover deze update?";
 $GLOBALS['strUpdateAlertSecurity'] = "A nieuwe versie van {$PRODUCT_NAME} is beschikbaar.
 
 Het wordt aangeraden om uw versie
@@ -97,7 +111,10 @@ $GLOBALS['strUpdateServerDown'] = "    Vanwege een onbekende reden is het moment
 
 $GLOBALS['strNoNewVersionAvailable'] = "	Uw versie van {$PRODUCT_NAME} is up-to-date. Er zijn momenteel geen nieuwere versies beschikbaar.";
 
+$GLOBALS['strServerCommunicationError'] = "    <b>De communicatie met de update server is niet gelukt, daarom kan {$PRODUCT_NAME} niet controleren of er nu een nieuwere versie beschikbaar is. Probeer het later nogmaals.</b>";
 
+$GLOBALS['strCheckForUpdatesDisabled'] = "    <b>De controle op updates is uitgeschakeld. Schakel het svp in via het 
+    <a href='account-settings-update.php'>Instellingen aanpassen</a> scherm.</b>";
 
 $GLOBALS['strNewVersionAvailable'] = "	<b>Een nieuwe versie van {$PRODUCT_NAME} is beschikbaar.</b><br /> Het wordt aangeraden om de nieuwe
 	versie te installeren omdat deze update bestaande problemen mogelijk zal oplossen. Voor meer informatie
@@ -144,11 +161,29 @@ $GLOBALS['strConvertFinishedExplaination'] = "	De conversie van de uitgebreide s
 	met alle veranderingen welke gemaakt zijn in de database.<br />";
 
 //  Maintenace
+$GLOBALS['strAutoMaintenanceDisabled'] = "Automatisch onderhoud is uitgeschakeld.";
+$GLOBALS['strAutoMaintenanceEnabled'] = "Automatisch onderhoud is ingeschakeld. Voor de beste prestaties is het aan te bevelen om <a href='settings-admin.php'>automatisch onderhoud uit te schakelen</a>.";
+$GLOBALS['strScheduledMaintenance'] = "Gepland onderhoud lijkt correct worden uitgevoerd.";
+$GLOBALS['strScheduledMaintenanceNotRun'] = "Gepland onderhoud is in het afgelopen uur niet uitgevoerd. Dit kan betekenen dat u het niet correct hebt ingesteld.";
+$GLOBALS['strAutoMaintenanceEnabledNotTriggered'] = "Automatisch onderhoud is ingeschakeld, maar nog niet geactiveerd. Denk er om dat automatisch onderhoud alleen wordt geactiveerd als Openads banners vertoond.";
+$GLOBALS['strAutoMaintenanceEnabledWilltTrigger'] = "Automatisch onderhoud is ingeschakeld en zal elk uur het onderhoudsproces activeren.";
 
 //  Deliver Limitations
+$GLOBALS['strAllBannerChannelCompiled'] = "Alle gecompileerde banner/channel limitations zijn opnieuw gecompileerd";
+$GLOBALS['strBannerChannelResult'] = "Dit zijn de uitkomsten van de validatie van de gecompileerde banner/channel limitations";
+$GLOBALS['strChannelCompiledLimitationsValid'] = "Alle gecompileerde channel limitations zijn valide";
+$GLOBALS['strBannerCompiledLimitationsValid'] = "Alle gecompileerde banner limitations zijn valide";
 $GLOBALS['strErrorsFound'] = "Fouten gevonden";
+$GLOBALS['strRepairCompiledLimitations'] = "Er zijn enkele inconsistenties aangetroffen (zie boven), u kunt deze herstellen met behulp van de onderstaande button, dit zal de gecompileerde limitations voor elke banner/channel in het systeem opnieuw compileren<br />";
+$GLOBALS['strRecompile'] = "Opnieuw compileren";
 
 
 //  Append codes
 
+$GLOBALS['strPlugins'] = "Plugins";
+$GLOBALS['strPluginsPrecis'] = "Diagnosticeren en herstellen van problemen met {$PRODUCT_NAME} plugins";
+$GLOBALS['strPluginsOk'] = "Geen problemen gevonden";
 
+$GLOBALS['strMenus'] = "Menu's";
+$GLOBALS['strMenusPrecis'] = "Wederopbouw van de menu-cache";
+$GLOBALS['strMenusCachedOk'] = "Menu cache is opnieuw opgebouwd";
