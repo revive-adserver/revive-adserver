@@ -61,7 +61,7 @@ What's New in Revive Adserver 3.2.0
 
  * The signatures of bannerTypeHtml/Text's preprocessForm() and processForm()
    methods has been updated to what was actually used when invoking them.
-   Albeit unlinkely, this might clash with the definition used in some custom
+   Albeit unlikely, this might clash with the definition used in some custom
    plugins.
 
 
