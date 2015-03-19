@@ -27,9 +27,9 @@ What's New in Revive Adserver 3.2.0
  New Features
  ------------
 
- * Added new help dialogue for companion positioning option.
+ * Added new Javascript based asynchronous tags.
 
- * Added new javascript based asynchronous tags.
+ * Added new help dialogue for companion positioning option.
 
  * Integrated (most) translations with Crowdin.
 
