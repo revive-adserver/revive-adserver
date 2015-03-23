@@ -12,8 +12,6 @@
 
 // Set text direction and characterset
 $GLOBALS['phpAds_TextDirection'] = "ltr";
-$GLOBALS['phpAds_TextAlignRight'] = "right";
-$GLOBALS['phpAds_TextAlignLeft'] = "left";
 $GLOBALS['phpAds_CharSet'] = "UTF-8";
 
 $GLOBALS['phpAds_DecimalPoint'] = ",";
@@ -81,7 +79,7 @@ $GLOBALS['strSaveChanges'] = "Bewaar veranderingen";
 $GLOBALS['strUp'] = "Omhoog";
 $GLOBALS['strDown'] = "Omlaag";
 $GLOBALS['strSave'] = "Bewaren";
-$GLOBALS['strCancel'] = "Annuleer";
+$GLOBALS['strCancel'] = "Annuleren";
 $GLOBALS['strBack'] = "Terug";
 $GLOBALS['strPrevious'] = "Vorige";
 $GLOBALS['strPrevious_Key'] = "Vo<u>r</u>ige";
@@ -90,11 +88,11 @@ $GLOBALS['strNext_Key'] = "Vol<u>g</u>ende";
 $GLOBALS['strYes'] = "Ja";
 $GLOBALS['strNo'] = "Nee";
 $GLOBALS['strNone'] = "Geen";
-$GLOBALS['strCustom'] = "Anders";
+$GLOBALS['strCustom'] = "Custom";
 $GLOBALS['strDefault'] = "Standaard";
 $GLOBALS['strOther'] = "Andere";
 $GLOBALS['strUnknown'] = "Onbekend";
-$GLOBALS['strUnlimited'] = "Onbegrensd";
+$GLOBALS['strUnlimited'] = "Onbeperkt";
 $GLOBALS['strUntitled'] = "Naamloos";
 $GLOBALS['strAll'] = "alle";
 $GLOBALS['strAvg'] = "Gem.";
@@ -109,14 +107,14 @@ $GLOBALS['strActive'] = "actief";
 $GLOBALS['strFrom'] = "Van";
 $GLOBALS['strTo'] = "tot";
 $GLOBALS['strAdd'] = "Toevoegen";
-$GLOBALS['strLinkedTo'] = "gelinkt naar";
-$GLOBALS['strDaysLeft'] = "Dagen te gaan";
+$GLOBALS['strLinkedTo'] = "gekoppeld aan";
+$GLOBALS['strDaysLeft'] = "Dagen resterend";
 $GLOBALS['strCheckAllNone'] = "Selecteer alle / geen";
 $GLOBALS['strKiloByte'] = "KB";
 $GLOBALS['strExpandAll'] = "Alles <u>u</u>itklappen";
 $GLOBALS['strCollapseAll'] = "Alles <u>i</u>nklappen";
 $GLOBALS['strShowAll'] = "Toon alles";
-$GLOBALS['strNoAdminInterface'] = "Deze dienst is momenteel niet beschikbaar...";
+$GLOBALS['strNoAdminInterface'] = "Het admin-scherm is voor onderhoud uitgeschakeld.  Dit heeft geen invloed op de uitlevering van uw campagnes.";
 $GLOBALS['strFilterBySource'] = "filter op bron";
 $GLOBALS['strFieldStartDateBeforeEnd'] = "'Vanaf' datum moet eerder zijn dan 'Tot' datum";
 $GLOBALS['strFieldContainsErrors'] = "De volgende velden bevatten fouten:";
@@ -128,17 +126,17 @@ $GLOBALS['strCollectedAllStats'] = "Alle statistieken";
 $GLOBALS['strCollectedToday'] = "Vandaag";
 $GLOBALS['strCollectedYesterday'] = "Gisteren";
 $GLOBALS['strCollectedThisWeek'] = "Deze week";
-$GLOBALS['strCollectedLastWeek'] = "Afgelopen week";
+$GLOBALS['strCollectedLastWeek'] = "Vorige week";
 $GLOBALS['strCollectedThisMonth'] = "Deze maand";
-$GLOBALS['strCollectedLastMonth'] = "Afgelopen maand";
+$GLOBALS['strCollectedLastMonth'] = "Vorige maand";
 $GLOBALS['strCollectedLast7Days'] = "Afgelopen 7 dagen";
-$GLOBALS['strCollectedSpecificDates'] = "specifieke data";
+$GLOBALS['strCollectedSpecificDates'] = "Specifieke datums";
 $GLOBALS['strDifference'] = "Verschil (%)";
 $GLOBALS['strPercentageOfTotal'] = "% Totaal";
 $GLOBALS['strValue'] = "Waarde";
-$GLOBALS['strAdmin'] = "admin";
+$GLOBALS['strAdmin'] = "Beheerder";
 $GLOBALS['strWarning'] = "Waarschuwing";
-$GLOBALS['strNotice'] = "Notitie";
+$GLOBALS['strNotice'] = "Melding";
 $GLOBALS['strRequiredField'] = "Verplicht veld";
 $GLOBALS['strCloseWindow'] = "Venster sluiten";
 
@@ -151,12 +149,12 @@ $GLOBALS['strAccessHomePage'] = "Klik hier voor toegang tot uw beginpagina";
 $GLOBALS['strEditSyncSettings'] = "en bewerk uw synchronisatie-instellingen";
 // Dashboard Errors
 $GLOBALS['strDashboardErrorCode'] = "code";
-$GLOBALS['strDashboardSystemMessage'] = "Systeem bericht";
+$GLOBALS['strDashboardSystemMessage'] = "Systeemmelding";
 $GLOBALS['strDashboardErrorHelp'] = "Als deze fout vaker voorkomt, beschrijf dan alstublieft uw probleem in detail en plaats het op <a href='http://forum.revive-adserver.com/'> forum.revive-adserver.com/</a>.";
 
 // Priority
 $GLOBALS['strPriority'] = "Prioriteit";
-$GLOBALS['strPriorityLevel'] = "Prioriteitslevel ";
+$GLOBALS['strPriorityLevel'] = "Prioriteitsniveau";
 $GLOBALS['strPriorityTargeting'] = "Distributie ";
 $GLOBALS['strPriorityOptimisation'] = "Diversen"; // Er, what?
 $GLOBALS['strHighAds'] = "Contract campagne advertenties";
@@ -171,35 +169,38 @@ $GLOBALS['strName'] = "Naam";
 $GLOBALS['strSize'] = "Afmetingen";
 $GLOBALS['strWidth'] = "Breedte";
 $GLOBALS['strHeight'] = "Hoogte";
-$GLOBALS['strURL2'] = "Url";
+$GLOBALS['strURL2'] = "URL";
 $GLOBALS['strTarget'] = "Doel";
 $GLOBALS['strLanguage'] = "Taal";
 $GLOBALS['strDescription'] = "Beschrijving";
-$GLOBALS['strVariables'] = "Variabele";
+$GLOBALS['strVariables'] = "Variabelen";
 $GLOBALS['strID'] = "ID";
-$GLOBALS['strComments'] = "Reacties";
+$GLOBALS['strComments'] = "Notities";
 
 // User access
 $GLOBALS['strWorkingAs'] = "Aan het werken als";
-$GLOBALS['strWorkingAs_Key'] = "<u>W</u> erken als";
+$GLOBALS['strWorkingAs_Key'] = "<u>W</u>erken als";
 $GLOBALS['strWorkingAs'] = "Aan het werken als";
-$GLOBALS['strSwitchTo'] = "Ga naar";
+$GLOBALS['strSwitchTo'] = "Overschakelen naar";
 $GLOBALS['strWorkingFor'] = "%s voor...";
 $GLOBALS['strNoAccountWithXInNameFound'] = "Geen accounts met \"%s\" in de naam gevonden";
 $GLOBALS['strRecentlyUsed'] = "Recent gebruikt";
 $GLOBALS['strLinkUser'] = "Voeg gebruiker toe";
 $GLOBALS['strLinkUser_Key'] = "Voeg <u>G</u>ebruiker toe";
-$GLOBALS['strUsernameToLink'] = "gebruikersnaam van toegevoegde gebruiker";
-$GLOBALS['strEmailToLink'] = "e-mail van toegevoegde gebruiker";
-$GLOBALS['strNewUserWillBeCreated'] = "Nieuwe gebruiker wordt aangemaakt";
-$GLOBALS['strErrorWhileCreatingUser'] = "Error tijdens creatie gebruiker: %s";
+$GLOBALS['strUsernameToLink'] = "Gebruikersnaam van toe te voegen gebruiker";
+$GLOBALS['strEmailToLink'] = "E-mail van toe te voegen gebruiker";
+$GLOBALS['strNewUserWillBeCreated'] = "Nieuwe gebruiker zal worden aangemaakt";
+$GLOBALS['strToLinkProvideEmail'] = "Om een gebruiker toe te voegen, voer het e-mail adres van de gebruiker in";
+$GLOBALS['strToLinkProvideUsername'] = "Om een gebruiker toe te voegen, voer de gebruikersnaam in";
+$GLOBALS['strErrorWhileCreatingUser'] = "Error tijdens aanmaken gebruiker: %s";
 $GLOBALS['strUserLinkedToAccount'] = "Gebruiker is toegevoegd aan account";
-$GLOBALS['strUserAccountUpdated'] = "Gebruikersaccount geupdate";
-$GLOBALS['strUserUnlinkedFromAccount'] = "Gebruiker is verwijder van het account";
+$GLOBALS['strUserAccountUpdated'] = "Gebruikersaccount bijgewerkt";
+$GLOBALS['strUserUnlinkedFromAccount'] = "Gebruiker is verwijderd uit het account";
 $GLOBALS['strUserWasDeleted'] = "Gebruiker is verwijderd";
+$GLOBALS['strCantDeleteOneAdminUser'] = "U kunt deze gebruiker niet verwijderen. Ten minste één gebruiker moet verbonden zijn met het system administrator account.";
 $GLOBALS['strLinkUserHelpUser'] = "gebruikersnaam";
 $GLOBALS['strLinkUserHelpEmail'] = "E-mail adres";
-$GLOBALS['strLastLoggedIn'] = "Laatst aangemeld";
+$GLOBALS['strLastLoggedIn'] = "Laatst ingelogd";
 $GLOBALS['strDateLinked'] = "Datum gekoppeld";
 $GLOBALS['strUnlink'] = "Verwijder";
 $GLOBALS['strUnlinkAndDelete'] = "Verwijder en verwijder gebruiker";
@@ -209,51 +210,52 @@ $GLOBALS['strUnlinkUserConfirmBody'] = "Weet u zeker dat u deze gebruiker wilt v
 // Login & Permissions
 $GLOBALS['strUserAccess'] = "Gebruikerstoegang";
 $GLOBALS['strAdminAccess'] = "Beheerderstoegang";
-$GLOBALS['strUserProperties'] = "Gebruiker eigenschappen";
+$GLOBALS['strUserProperties'] = "Gebruikerseigenschappen";
 $GLOBALS['strLinkNewUser'] = "Link nieuwe gebruiker";
 $GLOBALS['strPermissions'] = "Permissies ";
 $GLOBALS['strAuthentification'] = "Authenticatie";
 $GLOBALS['strWelcomeTo'] = "Welkom bij";
-$GLOBALS['strEnterUsername'] = "Vul uw gebruikersnaam en wachtwoord in om uw te kunnen aanmelden";
-$GLOBALS['strEnterBoth'] = "Vul zowel uw gebruikersnaam als  uw wachtwoord in";
-$GLOBALS['strEnableCookies'] = "Je moet cookies accepteren voor het gebruik van  {$PRODUCT_NAME}";
+$GLOBALS['strEnterUsername'] = "Voer uw gebruikersnaam en wachtwoord om in te loggen";
+$GLOBALS['strEnterBoth'] = "Vul zowel uw gebruikersnaam als uw wachtwoord in";
+$GLOBALS['strEnableCookies'] = "U dient cookies te accepteren voor het gebruik van {$PRODUCT_NAME}";
 $GLOBALS['strSessionIDNotMatch'] = "Cookie error voor deze sessie, gelieve nogmaals in te loggen";
-$GLOBALS['strLogin'] = "Aanmelden";
-$GLOBALS['strLogout'] = "Afmelden";
+$GLOBALS['strLogin'] = "Inloggen";
+$GLOBALS['strLogout'] = "Uitloggen";
 $GLOBALS['strUsername'] = "Gebruikersnaam";
 $GLOBALS['strPassword'] = "Wachtwoord";
 $GLOBALS['strPasswordRepeat'] = "Herhaal het wachtwoord";
 $GLOBALS['strAccessDenied'] = "Toegang geweigerd";
-$GLOBALS['strUsernameOrPasswordWrong'] = "De gebruikersnaam en/of wachtwoord zijn niet juist. Gelieve opnieuw te proberen";
+$GLOBALS['strUsernameOrPasswordWrong'] = "De gebruikersnaam en/of het wachtwoord zijn niet juist. Probeer het alstublieft opnieuw.";
 $GLOBALS['strPasswordWrong'] = "Het wachtwoord is niet correct";
 $GLOBALS['strParametersWrong'] = "De parameters die u hebt opgegeven zijn niet correct";
-$GLOBALS['strNotAdmin'] = "U heeft waarschijnlijk niet genoeg privileges";
-$GLOBALS['strDuplicateClientName'] = "De gebruikersnaam die u wenst is al reeds in gebruik, gelieve een andere gebruikersnaam te gebruiken";
-$GLOBALS['strDuplicateAgencyName'] = "De gebruikersnaam die u wenst is al reeds in gebruik, gelieve een andere gebruikersnaam te gebruiken";
+$GLOBALS['strNotAdmin'] = "Uw account beschikt niet over de vereiste toestemming om deze functie te gebruiken, U kunt inloggen op een andere account om dit te gebruiken.";
+$GLOBALS['strDuplicateClientName'] = "De gebruikersnaam die u wenst is al in gebruik, gelieve een andere gebruikersnaam te gebruiken.";
+$GLOBALS['strDuplicateAgencyName'] = "De gebruikersnaam die u wenst is al in gebruik, gelieve een andere gebruikersnaam te gebruiken.";
 $GLOBALS['strInvalidPassword'] = "Het nieuwe wachtwoord is niet geldig, voer een ander wachtwoord in.";
+$GLOBALS['strInvalidEmail'] = "Het e-mail adres is niet correct opgemaakt, voer svp een juist e-mailadres in.";
 $GLOBALS['strNotSamePasswords'] = "De twee wachtwoorden die u ingevoerd heeft zijn niet hetzelfde";
 $GLOBALS['strRepeatPassword'] = "Herhaal het wachtwoord";
 $GLOBALS['strOldPassword'] = "Oud wachtwoord";
 $GLOBALS['strNewPassword'] = "Nieuw wachtwoord";
 $GLOBALS['strNoBannerId'] = "Geen banner ID";
 $GLOBALS['strDeadLink'] = "Deze link is ongeldig";
-$GLOBALS['strNoPlacement'] = "Geselecteerde campagne bestaat niet. probeer deze <a href='{link}'>link</a> eens";
+$GLOBALS['strNoPlacement'] = "Geselecteerde campagne bestaat niet. Probeer deze <a href='{link}'>link</a> eens";
 $GLOBALS['strNoAdvertiser'] = "Geselecteerde adverteerder bestaat niet. Probeer deze <a href='{link}'>link</a> eens";
 
 // General advertising
-$GLOBALS['strRequests'] = "Aanvragen";
-$GLOBALS['strImpressions'] = "AdViews";
-$GLOBALS['strClicks'] = "AdClicks";
+$GLOBALS['strRequests'] = "Requests";
+$GLOBALS['strImpressions'] = "Impressies";
+$GLOBALS['strClicks'] = "Kliks";
 $GLOBALS['strConversions'] = "Conversies ";
 $GLOBALS['strCTRShort'] = "CTR";
-$GLOBALS['strCTR'] = "CTR";
+$GLOBALS['strCTR'] = "Doorklik-percentage";
 $GLOBALS['strCNVR'] = "Verkoop ratio";
 $GLOBALS['strCPC'] = "Kosten Per Klik";
 $GLOBALS['strCPCo'] = "Kosten Per conversie";
 $GLOBALS['strCPCShort'] = "CPC";
-$GLOBALS['strTotalViews'] = "Totaal AdViews";
-$GLOBALS['strTotalClicks'] = "Totaal AdClicks";
-$GLOBALS['strTotalConversions'] = "Totaal conversies";
+$GLOBALS['strTotalViews'] = "Totaal aantal impressies";
+$GLOBALS['strTotalClicks'] = "Totaal aantal klikken";
+$GLOBALS['strTotalConversions'] = "Totaal aantal conversies";
 $GLOBALS['strViewCredits'] = "Adview krediet";
 $GLOBALS['strClickCredits'] = "Adclick krediet";
 $GLOBALS['strConversionCredits'] = "Conversies krediet";
@@ -270,7 +272,7 @@ $GLOBALS['strCampaignName'] = "Campagne naam";
 $GLOBALS['strCountry'] = "Land";
 $GLOBALS['strStatsAction'] = "Actie";
 $GLOBALS['strWindowDelay'] = "Scherm vertraging";
-$GLOBALS['strStatsVariables'] = "Variabele";
+$GLOBALS['strStatsVariables'] = "Variabelen";
 
 // Finance
 $GLOBALS['strFinanceCPM'] = "CPM";
@@ -283,10 +285,10 @@ $GLOBALS['strAmountPerItem'] = "Bedrag per item";
 // Time and date related
 $GLOBALS['strDate'] = "Datum";
 $GLOBALS['strToday'] = "Vandaag";
-$GLOBALS['strDay'] = "Dagen";
+$GLOBALS['strDay'] = "Dag";
 $GLOBALS['strDays'] = "Dagen";
-$GLOBALS['strLast7Days'] = "Laatste 7 dagen";
-$GLOBALS['strWeek'] = "Weken";
+$GLOBALS['strLast7Days'] = "Afgelopen 7 dagen";
+$GLOBALS['strWeek'] = "Week";
 $GLOBALS['strWeeks'] = "Weken";
 $GLOBALS['strSingleMonth'] = "Maand";
 $GLOBALS['strMonths'] = "Maanden";
@@ -346,18 +348,18 @@ $GLOBALS['strNoClientsForBanners'] = "Er zijn momenteel geen adverteerders besch
 $GLOBALS['strConfirmDeleteClient'] = "Weet u zeker dat u deze adverteerder wilt verwijderen?";
 $GLOBALS['strConfirmDeleteClients'] = "Weet u zeker dat u deze adverteerder wilt verwijderen?";
 $GLOBALS['strConfirmResetClientStats'] = "Weet u zeker dat u de statistieken wilt wissen voor deze adverteerder?";
-$GLOBALS['strSite'] = "Afmetingen";
+$GLOBALS['strSite'] = "Site";
 $GLOBALS['strHideInactiveAdvertisers'] = "Verberg niet-actieve adverteerders";
 $GLOBALS['strInactiveAdvertisersHidden'] = "niet-actieve adverteerder(s) verborgen";
-$GLOBALS['strOverallAdvertisers'] = "Adverteerder(s)";
+$GLOBALS['strOverallAdvertisers'] = "adverteerder(s)";
 $GLOBALS['strAdvertiserSignup'] = "Adverteerder aanmelden";
 $GLOBALS['strAdvertiserSignupLink'] = "Adverteerder aanmelden";
 $GLOBALS['strAdvertiserSignupOption'] = "Adverteerder aanmelden";
-$GLOBALS['strAdvertiserCampaigns'] = "Adverteerders & Campagnes";
+$GLOBALS['strAdvertiserCampaigns'] = "Campagnes van de adverteerder";
 
 // Advertisers properties
 $GLOBALS['strContact'] = "Contactpersoon";
-$GLOBALS['strContactName'] = "Contactnaam";
+$GLOBALS['strContactName'] = "Naam van de contactpersoon";
 $GLOBALS['strEMail'] = "E-mail";
 $GLOBALS['strChars'] = "tekens";
 $GLOBALS['strSendAdvertisingReport'] = "Stuur een advertentie rapport per e-mail";
@@ -388,7 +390,7 @@ $GLOBALS['strModifyCampaign'] = "Wijzig campagne";
 $GLOBALS['strMoveToNewCampaign'] = "Verplaats naar een nieuwe campagne";
 $GLOBALS['strBannersWithoutCampaign'] = "Banners zonder campagne";
 $GLOBALS['strDeleteAllCampaigns'] = "Verwijder alle campagnes";
-$GLOBALS['strLinkedCampaigns'] = "Gelinkte campagnes";
+$GLOBALS['strLinkedCampaigns'] = "Gekoppelde campagnes";
 $GLOBALS['strCampaignStats'] = "Campagne statistieken";
 $GLOBALS['strCampaignProperties'] = "Campagne eigenschappen";
 $GLOBALS['strCampaignOverview'] = "Campagne overzicht";
@@ -398,29 +400,33 @@ $GLOBALS['strConfirmDeleteAllCampaigns'] = "Weet je zeker dat je alle campagnes 
 $GLOBALS['strConfirmDeleteCampaign'] = "Weet u zeker dat u deze campagne wilt verwijderen?";
 $GLOBALS['strConfirmDeleteCampaigns'] = "Weet u zeker dat u deze campagne wilt verwijderen?";
 $GLOBALS['strConfirmResetCampaignStats'] = "Weet u zeker dat u de statistieken wilt wissen voor deze campagne?";
-$GLOBALS['strShowParentAdvertisers'] = "Laat huidige adverteerders zien";
-$GLOBALS['strHideParentAdvertisers'] = "Verberg huidige adverteerders";
+$GLOBALS['strShowParentAdvertisers'] = "Toon bovenliggende adverteerders";
+$GLOBALS['strHideParentAdvertisers'] = "Bovenliggende adverteerders verbergen";
 $GLOBALS['strHideInactiveCampaigns'] = "Verberg niet-actieve campagnes";
 $GLOBALS['strInactiveCampaignsHidden'] = "niet-actieve campagne(s) verborgen";
 $GLOBALS['strContractDetails'] = "Contract details";
 $GLOBALS['strInventoryDetails'] = "Inventaris details";
-$GLOBALS['strPriorityInformation'] = "Prioriteit in relatie met andere campagnes";
+$GLOBALS['strPriorityInformation'] = "Prioriteit in relatie tot andere campagnes";
 $GLOBALS['strECPMInformation'] = "eCPM Prioritisering";
 $GLOBALS['strHiddenCampaign'] = "Campagne";
-$GLOBALS['strHiddenAd'] = "advertentie";
+$GLOBALS['strHiddenAd'] = "Advertentie";
 $GLOBALS['strHiddenAdvertiser'] = "Adverteerder";
-$GLOBALS['strHiddenTracker'] = "Banner";
+$GLOBALS['strHiddenTracker'] = "Tracker";
 $GLOBALS['strHiddenWebsite'] = "Website";
 $GLOBALS['strHiddenZone'] = "Zone";
 $GLOBALS['strCampaignDelivery'] = "Campagne uitlevering";
 $GLOBALS['strRemaining'] = "Resterend";
 $GLOBALS['strSelectUnselectAll'] = "Selecteer/deselecteer alles";
+$GLOBALS['strConfirmOverwrite'] = "Opslaan van deze wijzigingen overschrijft eventuele individuele banner-zone koppelingen. Weet je het zeker?";
+$GLOBALS['strCampaignsOfAdvertiser'] = "van"; //this is added between page name and advertiser name eg. 'Campaigns of Advertiser 1'$GLOBALS['strShowCappedNoCookie'] = "Show capped ads if cookies are disabled";
 
 // Campaign-zone linking page
 $GLOBALS['strCalculatedForAllCampaigns'] = "Berekend voor alle campagnes";
 $GLOBALS['strCalculatedForThisCampaign'] = "Berekend voor deze campagne";
+$GLOBALS['strLinkingZonesProblem'] = "Er is een probleem opgetreden bij het koppelen van de zones";
 $GLOBALS['strUnlinkingZonesProblem'] = "Er is een probleem opgetreden bij het ontkoppelen van de zones";
 $GLOBALS['strZonesLinked'] = "zone(s) gekoppeld";
+$GLOBALS['strZonesUnlinked'] = "zone(s) ontkoppeld";
 $GLOBALS['strZonesSearch'] = "Zoeken";
 $GLOBALS['strZonesSearchTitle'] = "Zones en websites zoeken op naam";
 $GLOBALS['strNoWebsitesAndZones'] = "Geen websites en zones";
@@ -430,26 +436,28 @@ $GLOBALS['strLinked'] = "Gekoppeld";
 $GLOBALS['strAvailable'] = "Beschikbaar";
 $GLOBALS['strAllCategories'] = "alle categoriëen";
 $GLOBALS['strUncategorized'] = "Ongecategoriseerd";
+$GLOBALS['strEditZone'] = "Zone bewerken";
 $GLOBALS['strEditWebsite'] = "Website bewerken";
 
 
 // Campaign properties
 $GLOBALS['strDontExpire'] = "Deze campagne niet laten vervallen op een specifieke datum";
 $GLOBALS['strActivateNow'] = "Deze campagne direct activeren";
+$GLOBALS['strSetSpecificDate'] = "Stel een specifieke datum in";
 $GLOBALS['strLow'] = "Laag";
 $GLOBALS['strHigh'] = "Hoog";
-$GLOBALS['strExpirationDate'] = "Vervaldatum";
-$GLOBALS['strExpirationDateComment'] = "Campagne zal eindigen op het einde van deze dag";
-$GLOBALS['strActivationDate'] = "Activeringsdatum";
+$GLOBALS['strExpirationDate'] = "Einddatum";
+$GLOBALS['strExpirationDateComment'] = "Campagne zal eindigen aan het einde van deze dag";
+$GLOBALS['strActivationDate'] = "Begindatum";
 $GLOBALS['strActivationDateComment'] = "Campagne zal beginnen aan het begin van deze dag";
 $GLOBALS['strRevenueInfo'] = "Inkomsten informatie";
 $GLOBALS['strTotalRevenue'] = "Totale opbrengst";
-$GLOBALS['strImpressionsRemaining'] = "Resterende impressies ";
+$GLOBALS['strImpressionsRemaining'] = "Resterende impressies";
 $GLOBALS['strClicksRemaining'] = "Resterende kliks";
 $GLOBALS['strConversionsRemaining'] = "Resterende conversies";
 $GLOBALS['strImpressionsBooked'] = "Geboekte impressies";
 $GLOBALS['strClicksBooked'] = "Geboekte kliks";
-$GLOBALS['strConversionsBooked'] = "geboekte conversies";
+$GLOBALS['strConversionsBooked'] = "Geboekte conversies";
 $GLOBALS['strCampaignWeight'] = "Campagne gewicht";
 $GLOBALS['strOptimise'] = "Optimaliseer ";
 $GLOBALS['strAnonymous'] = "Verberg de adverteerder en websites van deze campagne";
@@ -473,8 +481,8 @@ worden totdat u het aantal AdViews gelimiteerd heeft
 
 Weet u zeker dat u door wilt gaan?";
 $GLOBALS['strCampaignStatusPending'] = "Wachtend";
-$GLOBALS['strCampaignStatusInactive'] = "actief";
-$GLOBALS['strCampaignStatusRunning'] = "Lopend";
+$GLOBALS['strCampaignStatusInactive'] = "Niet actief";
+$GLOBALS['strCampaignStatusRunning'] = "Actief";
 $GLOBALS['strCampaignStatusPaused'] = "Gepauzeerd";
 $GLOBALS['strCampaignStatusAwaiting'] = "Wachtend";
 $GLOBALS['strCampaignStatusExpired'] = "Voltooid";
@@ -483,11 +491,12 @@ $GLOBALS['strCampaignStatusRejected'] = "Afgewezen";
 $GLOBALS['strCampaignStatusAdded'] = "Toegevoegd";
 $GLOBALS['strCampaignStatusStarted'] = "Gestart";
 $GLOBALS['strCampaignStatusRestarted'] = "Herstart ";
-$GLOBALS['strCampaignStatusDeleted'] = "Verwijder";
+$GLOBALS['strCampaignStatusDeleted'] = "Verwijderd";
 $GLOBALS['strCampaignApprove'] = "Goedkeuren";
 $GLOBALS['strCampaignApproveDescription'] = "accepteren van deze campagne";
 $GLOBALS['strCampaignReject'] = "Afwijzen";
-$GLOBALS['strCampaignPause'] = "Pauze ";
+$GLOBALS['strCampaignRejectDescription'] = "verwerp deze campagne";
+$GLOBALS['strCampaignPause'] = "Pauseren";
 $GLOBALS['strCampaignPauseDescription'] = "tijdelijk onderbreken van deze campagne";
 $GLOBALS['strCampaignRestart'] = "Hervatten";
 $GLOBALS['strCampaignRestartDescription'] = "deze campagne hervatten";
@@ -495,32 +504,36 @@ $GLOBALS['strCampaignStatus'] = "Campagnestatus";
 $GLOBALS['strReasonForRejection'] = "Reden voor afwijzing";
 $GLOBALS['strReasonSiteNotLive'] = "Site niet live";
 $GLOBALS['strChangeStatus'] = "Status wijzigen";
-$GLOBALS['strCampaignType'] = "Campagne naam";
+$GLOBALS['strCampaignType'] = "Campagnetype";
 $GLOBALS['strType'] = "Type";
-$GLOBALS['strContract'] = "Contactpersoon";
-$GLOBALS['strStandardContract'] = "Contactpersoon";
+$GLOBALS['strContract'] = "Contract";
+$GLOBALS['strOverride'] = "Override";
+$GLOBALS['strStandardContract'] = "Contract";
 $GLOBALS['strRemnant'] = "Restant";
 $GLOBALS['strContractCampaign'] = "Contract campagne";
 $GLOBALS['strRemnantCampaign'] = "Restant campagne";
+$GLOBALS['strSelectPricingModel'] = "-- selecteer model --";
 $GLOBALS['strMinimumImpressions'] = "Minimale dagelijkse vertoningen";
+$GLOBALS['strWhyDisabled'] = "Waarom is dit uitgeschakeld?";
 $GLOBALS['strBackToCampaigns'] = "Terug naar campagnes";
+$GLOBALS['strCampaignBanners'] = "Banners van deze campagne";
 $GLOBALS['strCookies'] = "Cookies";
 
 // Tracker
-$GLOBALS['strTracker'] = "Banner";
-$GLOBALS['strTrackers'] = "Banner";
-$GLOBALS['strTrackerOverview'] = "Banner overzicht";
-$GLOBALS['strTrackerPreferences'] = "Banner voorkeuren";
-$GLOBALS['strAddTracker'] = "Voeg nieuwe banner toe";
-$GLOBALS['strAddTracker_Key'] = "<u>V</u>oeg een banner toe";
+$GLOBALS['strTracker'] = "Tracker";
+$GLOBALS['strTrackers'] = "Trackers";
+$GLOBALS['strTrackerOverview'] = "Tracker overzicht";
+$GLOBALS['strTrackerPreferences'] = "Tracker voorkeuren";
+$GLOBALS['strAddTracker'] = "Toevoegen van nieuwe tracker";
+$GLOBALS['strAddTracker_Key'] = "Voeg een <u>n</u>ieuwe tracker toe";
 $GLOBALS['strTrackerForAdvertiser'] = "voor adverteerder";
 $GLOBALS['strNoTrackers'] = "Er zijn momenteel geen trackers gedefinieerd voor deze adverteerder";
-$GLOBALS['strConfirmDeleteAllTrackers'] = "Weet je zeker dat je alle campagnes van deze adverteerder wilt verwijderen?";
-$GLOBALS['strConfirmDeleteTrackers'] = "Weet u zeker dat u deze banner wilt verwijderen?";
-$GLOBALS['strConfirmDeleteTracker'] = "Weet u zeker dat u deze banner wilt verwijderen?";
-$GLOBALS['strDeleteAllTrackers'] = "Verwijder alle banners";
-$GLOBALS['strTrackerProperties'] = "Banner eigenschappen";
-$GLOBALS['strTrackerOverview'] = "Banner overzicht";
+$GLOBALS['strConfirmDeleteAllTrackers'] = "Weet je zeker dat je alle trackers van deze adverteerder wilt verwijderen?";
+$GLOBALS['strConfirmDeleteTrackers'] = "Weet u zeker dat u alle geslecteerde trackers wilt verwijderen?";
+$GLOBALS['strConfirmDeleteTracker'] = "Weet u zeker dat u deze tracker wilt verwijderen?";
+$GLOBALS['strDeleteAllTrackers'] = "Verwijderen van alle trackers";
+$GLOBALS['strTrackerProperties'] = "Tracker eigenschappen";
+$GLOBALS['strTrackerOverview'] = "Tracker overzicht";
 $GLOBALS['strModifyTracker'] = "Tracker wijzigen";
 $GLOBALS['strDefaultStatus'] = "Standaard Status";
 $GLOBALS['strStatus'] = "Status";
@@ -528,11 +541,11 @@ $GLOBALS['strLinkedTrackers'] = "Gekoppelde Trackers";
 $GLOBALS['strTrackerInformation'] = "Tracker informatie";
 $GLOBALS['strConversionWindow'] = "Conversie venster";
 $GLOBALS['strUniqueWindow'] = "Uniek scherm";
-$GLOBALS['strClick'] = "AdClicks";
-$GLOBALS['strView'] = "Bekijk";
+$GLOBALS['strClick'] = "Klik";
+$GLOBALS['strView'] = "Impressie";
 $GLOBALS['strArrival'] = "Aankomst";
 $GLOBALS['strManual'] = "Handmatig";
-$GLOBALS['strImpression'] = "AdViews";
+$GLOBALS['strImpression'] = "Impressie";
 $GLOBALS['strConversionClickWindow'] = "Aantal conversies die zich binnen dit aantal seconden van een klik voordoen tellen";
 $GLOBALS['strConversionViewWindow'] = "Aantal conversies die zich binnen dit aantal seconden van een weergave voordoen";
 $GLOBALS['strTotalTrackerImpressions'] = "Totale vertoningen";
@@ -552,14 +565,14 @@ $GLOBALS['strBanners'] = "Banners";
 $GLOBALS['strBannerFilter'] = "Banner Filter";
 $GLOBALS['strAddBanner'] = "Voeg een banner toe";
 $GLOBALS['strAddBanner_Key'] = "<u>V</u>oeg een banner toe";
-$GLOBALS['strBannerToCampaign'] = "Uw campagne";
+$GLOBALS['strBannerToCampaign'] = "aan campagne";
 $GLOBALS['strModifyBanner'] = "Wijzig banner";
 $GLOBALS['strActiveBanners'] = "Actieve banners";
-$GLOBALS['strTotalBanners'] = "Totaal banners";
+$GLOBALS['strTotalBanners'] = "Totaal aantal banners";
 $GLOBALS['strShowBanner'] = "Toon banner";
 $GLOBALS['strShowAllBanners'] = "Toon alle banners";
-$GLOBALS['strShowBannersNoAdViews'] = "Toon banners zonder AdViews";
-$GLOBALS['strShowBannersNoAdClicks'] = "Toon banners zonder AdClicks";
+$GLOBALS['strShowBannersNoAdViews'] = "Toon banners zonder impressies";
+$GLOBALS['strShowBannersNoAdClicks'] = "Toon banners zonder kliks";
 $GLOBALS['strShowBannersNoAdConversions'] = "Toon banners zonder verkoop";
 $GLOBALS['strDeleteAllBanners'] = "Verwijder alle banners";
 $GLOBALS['strActivateAllBanners'] = "Activeer alle banners";
@@ -582,8 +595,28 @@ $GLOBALS['strInactiveBannersHidden'] = "niet-actieve banner(s) verborgen";
 $GLOBALS['strAppendOthers'] = "Voeg andere toe";
 $GLOBALS['strAppendTextAdNotPossible'] = "Het is niet mogelijk om andere banners toe te voegen aan tekst advertenties.";
 $GLOBALS['strHiddenBanner'] = "Verborgen banner";
+$GLOBALS['strWarningTag1'] = "Waarschuwing, tag ";
+$GLOBALS['strWarningTag2'] = " is  mogelijk niet gesloten/geopend";
+$GLOBALS['strWarningMissing'] = "Waarschuwing, mogelijk ontbrekende ";
+$GLOBALS['strWarningMissingClosing'] = " afsluitende tag '>'";
+$GLOBALS['strWarningMissingOpening'] = " Begin-tag '<'";
+$GLOBALS['strSubmitAnyway'] = "Toch opslaan";
+$GLOBALS['strOverallBanners'] = "banner(s)";
+$GLOBALS['strBannersOfCampaign'] = "in"; //this is added between page name and campaign name eg. 'Banners in coca cola campaign'// Banner Preferences
 $GLOBALS['strBannerPreferences'] = "Banner voorkeuren";
+$GLOBALS['strCampaignPreferences'] = "Campagne voorkeuren";
+$GLOBALS['strDefaultBanners'] = "Standaard Banners";
+$GLOBALS['strDefaultBannerUrl'] = "Standaard afbeelding URL";
 $GLOBALS['strDefaultBannerDestination'] = "Standaard bestemmings URL";
+$GLOBALS['strAllowedBannerTypes'] = "Toegestane bannertypes";
+$GLOBALS['strTypeSqlAllow'] = "SQL Local banners toestaan";
+$GLOBALS['strTypeWebAllow'] = "Webserver local banners toestaan";
+$GLOBALS['strTypeUrlAllow'] = "Externe banners toestaan";
+$GLOBALS['strTypeHtmlAllow'] = "HTML banners toestaan";
+$GLOBALS['strTypeTxtAllow'] = "Tekstadvertenties toestaan";
+$GLOBALS['strTypeHtmlSettings'] = "HTML Banner opties";
+$GLOBALS['strTypeHtmlAuto'] = "Automatisch HTML-banners aanpassen om click tracking te forceren";
+$GLOBALS['strTypeHtmlPhp'] = "Toestaan dat PHP expressies worden uitgevoerd vanuit een HTML banner";
 
 // Banner (Properties)
 $GLOBALS['strChooseBanner'] = "Kies het banner type";
@@ -592,19 +625,29 @@ $GLOBALS['strWebBanner'] = "Lokale banner (Webserver)";
 $GLOBALS['strURLBanner'] = "Externe banner";
 $GLOBALS['strHTMLBanner'] = "HTML banner";
 $GLOBALS['strTextBanner'] = "Tekst advertentie";
+$GLOBALS['strAlterHTML'] = "HTML code aanpassen om click tracking mogelijk te maken voor:";
+$GLOBALS['strIframeFriendly'] = "Deze banner kan veilig worden weergegeven binnen een iframe (is bijvoorbeeld niet uitklapbaar)";
 $GLOBALS['strUploadOrKeep'] = "Wilt u uw bestaande afbeelding <br />houden, of wilt u een <br />nieuwe afbeelding uploaden?";
 $GLOBALS['strUploadOrKeepAlt'] = "Wilt u uw bestaande afbeelding <br />houden, of wilt u een <br />nieuwe afbeelding uploaden?";
 $GLOBALS['strNewBannerFile'] = "Selecteer de afbeelding die u <br />wilt gebruiken voor deze banner<br /><br />";
 $GLOBALS['strNewBannerURL'] = "Afbeelding URL (incl. http://)";
 $GLOBALS['strURL'] = "Doel URL (incl. http://)";
+$GLOBALS['strHTML'] = "HTML";
 $GLOBALS['strKeyword'] = "Sleutelwoorden";
 $GLOBALS['strTextBelow'] = "Tekst onder banner";
 $GLOBALS['strWeight'] = "Gewicht";
 $GLOBALS['strAlt'] = "Alternative tekst";
 $GLOBALS['strStatusText'] = "Status tekst";
 $GLOBALS['strBannerWeight'] = "Banner gewicht";
+$GLOBALS['strBannerType'] = "Advertentietype";
+$GLOBALS['strAdserverTypeGeneric'] = "Generieke HTML Banner";
+$GLOBALS['strDoNotAlterHtml'] = "Breng geen wijzigingen aan in HTML";
+$GLOBALS['strGenericOutputAdServer'] = "Generiek";
+$GLOBALS['strSwfTransparency'] = "Transparante achtergrond toestaan";
+$GLOBALS['strBackToBanners'] = "Terug naar banners";
 
 // Banner (advanced)
+$GLOBALS['strBannerPrependHTML'] = "Altijd de volgende HTML-code voor deze banner toevoegen";
 
 // Banner (swf)
 $GLOBALS['strCheckSWF'] = "Controleer op vaste links in het Flash bestand";
@@ -651,7 +694,19 @@ $GLOBALS['strTime'] = "Tijd";
 $GLOBALS['strDomain'] = "Domein";
 $GLOBALS['strClientIP'] = "IP adres";
 $GLOBALS['strSource'] = "Bron";
+$GLOBALS['strBrowser'] = "Browser";
+$GLOBALS['strOS'] = "OS";
+$GLOBALS['strCountryCode'] = "Landcode (ISO 3166)";
+$GLOBALS['strCountryName'] = "Naam van het land";
+$GLOBALS['strRegion'] = "Regiocode (ISO-3166-2 of FIPS 10-4)";
 $GLOBALS['strCity'] = "Stad";
+$GLOBALS['strPostalCode'] = "U.S. / Canada ZIP/Postcode";
+$GLOBALS['strLatitude'] = "Breedtegraad";
+$GLOBALS['strLongitude'] = "Lengtegraad";
+$GLOBALS['strDMA'] = "Amerikaanse DMA Code";
+$GLOBALS['strOrg'] = "Naam van de organisatie";
+$GLOBALS['strIsp'] = "ISP naam";
+$GLOBALS['strNetspeed'] = "Internet verbindingssnelheid";
 $GLOBALS['strReferer'] = "Verwijzende pagina";
 $GLOBALS['strDeliveryLimitations'] = "Leveringsbeperkingen";
 
@@ -673,6 +728,7 @@ $GLOBALS['strCappingZone']['title'] = "{$GLOBALS['strDeliveryCapping']}";
 $GLOBALS['strCappingZone']['limit'] = "Limiteer zone vertoningen tot:";
 
 // Website
+$GLOBALS['strAffiliate'] = "Website";
 $GLOBALS['strAffiliates'] = "Uitgevers";
 $GLOBALS['strAffiliatesAndZones'] = "Uitgevers & Zones";
 $GLOBALS['strAddNewAffiliate'] = "Voeg een uitgever toe";
@@ -689,9 +745,14 @@ $GLOBALS['strConfirmDeleteAffiliates'] = "Weet u zeker dat u deze uitgever wilt 
 $GLOBALS['strMakePublisherPublic'] = "Maak de zones die eigendom zijn van de uitgever publiekelijk toegankelijk";
 $GLOBALS['strAffiliateInvocation'] = "Invocatiecode";
 $GLOBALS['strAdvertiserSetup'] = "Adverteerder aanmelden";
+$GLOBALS['strTotalAffiliates'] = "Total aantal websites";
 $GLOBALS['strInactiveAffiliatesHidden'] = "niet-actieve banner(s) verborgen";
+$GLOBALS['strShowParentAffiliates'] = "Toon bovenliggende websites";
+$GLOBALS['strHideParentAffiliates'] = "Verberg de bovenliggende websites";
 
 // Website (properties)
+$GLOBALS['strWebsite'] = "Website";
+$GLOBALS['strWebsiteURL'] = "Website URL";
 $GLOBALS['strAllowAffiliateModifyInfo'] = "Deze gebruiker kan zijn eigen instellingen wijzigen";
 $GLOBALS['strAllowAffiliateModifyZones'] = "Deze gebruiker kan zijn eigen zones wijzigen";
 $GLOBALS['strAllowAffiliateLinkBanners'] = "Deze gebruiker kan banners koppelen aan zijn eigen zones";
@@ -702,20 +763,32 @@ $GLOBALS['strAllowAffiliateZoneStats'] = "Laat deze gebruiker de gerichte statis
 // Website (properties - payment information)
 $GLOBALS['strPaymentInformation'] = "Betalingsinformatie ";
 $GLOBALS['strAddress'] = "Adres";
+$GLOBALS['strPostcode'] = "Postcode";
 $GLOBALS['strCity'] = "Stad";
 $GLOBALS['strCountry'] = "Land";
 $GLOBALS['strPhone'] = "Telefoon";
+$GLOBALS['strFax'] = "Fax";
+$GLOBALS['strAccountContact'] = "Contactpersoon van account";
 $GLOBALS['strPayeeName'] = "Naam betaler";
+$GLOBALS['strTaxID'] = "Belastingnummer";
+$GLOBALS['strModeOfPayment'] = "Wijze van betaling";
+$GLOBALS['strPaymentChequeByPost'] = "Cheque per post";
+$GLOBALS['strCurrency'] = "Valuta";
+$GLOBALS['strCurrencyGBP'] = "GBP";
 
 // Website (properties - other information)
 $GLOBALS['strOtherInformation'] = "Andere informatie";
 $GLOBALS['strUniqueUsersMonth'] = "unieke gebruikers/maand";
 $GLOBALS['strUniqueViewsMonth'] = "Unieke bekijken/maand";
 $GLOBALS['strCategory'] = "Categorie";
+$GLOBALS['strPrimaryCategory'] = "Primaire rubriek";
+$GLOBALS['strSecondaryCategory'] = "Secundaire rubriek";
 $GLOBALS['strHelpFile'] = "Help bestanden";
+$GLOBALS['strApprovedTandC'] = "Goedgekeurde bepalingen en voorwaarden";
 $GLOBALS['strWebsiteZones'] = "Uitgevers & Zones";
 
 // Zone
+$GLOBALS['strZone'] = "Zone";
 $GLOBALS['strZones'] = "Zones";
 $GLOBALS['strAddNewZone'] = "Voeg een zone toe";
 $GLOBALS['strAddNewZone_Key'] = "<u>V</u>oeg een zone toe";
@@ -724,6 +797,7 @@ $GLOBALS['strModifyZone'] = "Wijzig zone";
 $GLOBALS['strZoneToWebsite'] = "Alle websites";
 $GLOBALS['strLinkedZones'] = "Gekoppelde zones";
 $GLOBALS['strAvailableZones'] = "Beschikbare Zones";
+$GLOBALS['strLinkingNotSuccess'] = "Koppelen niet succesvol, gelieve opnieuw te proberen";
 $GLOBALS['strZoneOverview'] = "Zone overzicht";
 $GLOBALS['strZoneProperties'] = "Zone eigenschappen";
 $GLOBALS['strZoneHistory'] = "Zone geschiendenis";
@@ -852,11 +926,14 @@ $GLOBALS['strTargetModifiedDay'] = "Er zijn doelen gewijzigd gedurende de dag, h
 $GLOBALS['strTargetModifiedWeek'] = "Er zijn doelen gewijzigd gedurende de week, hierdoor waren de berekeningen niet accuraat";
 $GLOBALS['strTargetModifiedMonth'] = "Er zijn doelen gewijzigd gedurende de maand, hierdoor waren de berekeningen neit accuraat";
 $GLOBALS['strNoTargetStats'] = "Er zijn momenteen geen gegevens bekend over doelberekeningen";
+$GLOBALS['strByZone'] = "Per Zone";
 $GLOBALS['strBreakdownByDay'] = "Dagen";
 $GLOBALS['strBreakdownByWeek'] = "Weken";
 $GLOBALS['strBreakdownByMonth'] = "Maand";
 $GLOBALS['strBreakdownByDow'] = "Dag van de week";
 $GLOBALS['strBreakdownByHour'] = "Uur";
+$GLOBALS['strItemsPerPage'] = "Items per pagina";
+$GLOBALS['strExportStatisticsToExcel'] = "<u>E</u>xporteer statistieken naar Excel";
 $GLOBALS['strStatsArea'] = "Gebied";
 
 // Hosts
@@ -935,10 +1012,19 @@ correct functioneren.
 
 Lees a.u.b. de Administrator guide voor meer informatie
  over het instellen van het onderhoudsscript.";
+$GLOBALS['strErrorEditingCampaign'] = "Fout bij het bijwerken van de campagne:";
+$GLOBALS['strErrorEditingZone'] = "Fout bij het bijwerken van zone:";
 $GLOBALS['strEmailNoDates'] = "E-mail zone campagnes moeten een start- en einddatum hebben";
+$GLOBALS['strWarningInaccurateReadMore'] = "Lees hier meer over";
 
 //Validation
 $GLOBALS['strRequiredField'] = "Verplicht veld";
+$GLOBALS['strXRequiredField'] = "%s is vereist";
+$GLOBALS['strGreaterThanZeroField'] = "Moet groter zijn dan 0";
+$GLOBALS['strXGreaterThanZeroField'] = "%s moet groter zijn dan 0";
+$GLOBALS['strXPositiveWholeNumberField'] = "%s moet een positief geheel getal zijn";
+$GLOBALS['strXUniqueField'] = "%s met dit %s bestaat al";
+$GLOBALS['strInvalidWebsiteURL'] = "Ongeldige Website URL";
 
 
 // Email
@@ -984,6 +1070,7 @@ $GLOBALS['strReenterNewPassword'] = "Herhaal nieuw wachtwoord";
 $GLOBALS['strNameLanguage'] = "Naam en taal";
 $GLOBALS['strAccountPreferences'] = "Account voorkeuren";
 $GLOBALS['strCampaignEmailReportsPreferences'] = "Campagne e-mail rapporteer voorkeuren";
+$GLOBALS['strTimezonePreferences'] = "Tijdzone voorkeuren";
 $GLOBALS['strAdminEmailWarnings'] = "Administrator e-mail waarschuwingen";
 $GLOBALS['strAgencyEmailWarnings'] = "Agentschap e-mail waarschuwingen";
 $GLOBALS['strAdveEmailWarnings'] = "Adverteerder e-mail waarschuwingen ";
@@ -991,13 +1078,20 @@ $GLOBALS['strFullName'] = "Volledige naam";
 $GLOBALS['strEmailAddress'] = "E-mail adres";
 $GLOBALS['strUserDetails'] = "Gebruikersdetails";
 $GLOBALS['strLanguageTimezone'] = "Taal en tijdzone";
+$GLOBALS['strLanguageTimezonePreferences'] = "Taal en tijdzone voorkeuren";
 $GLOBALS['strUserInterfacePreferences'] = "Gebruikersinterface voorkeuren";
 $GLOBALS['strPluginPreferences'] = "Algemene voorkeuren";
+$GLOBALS['strColumnName'] = "Kolomnaam";
+$GLOBALS['strShowColumn'] = "Kolom weergeven";
+$GLOBALS['strCustomColumnName'] = "Aangepaste kolomnaam";
+$GLOBALS['strColumnRank'] = "Kolom rangorde";
 
 
 // Statistics columns
 // Long names
 $GLOBALS['strRevenue'] = "Opbrengst";
+$GLOBALS['strNumberOfItems'] = "Aantal items";
+$GLOBALS['strRevenueCPC'] = "Inkomsten CPC";
 $GLOBALS['strERPM'] = "CPM";
 $GLOBALS['strERPC'] = "CPC";
 $GLOBALS['strERPS'] = "CPM";
@@ -1010,6 +1104,7 @@ $GLOBALS['strECPS'] = "CPM";
 $GLOBALS['strEPPM'] = "CPM";
 $GLOBALS['strEPPC'] = "CPC";
 $GLOBALS['strEPPS'] = "CPM";
+$GLOBALS['strPendingConversions'] = "Conversies in behandeling";
 $GLOBALS['strImpressionSR'] = "AdViews";
 $GLOBALS['strActualImpressions'] = "AdViews";
 
@@ -1029,29 +1124,49 @@ $GLOBALS['strEPPS_short'] = "CPM";
 $GLOBALS['strClicks_short'] = "AdClicks";
 
 // Global Settings
+$GLOBALS['strConfiguration'] = "Instellingen";
 $GLOBALS['strGlobalSettings'] = "Algemene instellingen";
 $GLOBALS['strGeneralSettings'] = "Standaard instellingen";
 $GLOBALS['strMainSettings'] = "Hoofd instellingen";
 $GLOBALS['strAdminSettings'] = "Administratie instellingen";
+$GLOBALS['strPlugins'] = "Plugins";
 
+$GLOBALS['strChooseSection'] = 'Kies sectie';
 
 // Product Updates
 $GLOBALS['strProductUpdates'] = "Nieuwe versies";
+$GLOBALS['strViewPastUpdates'] = "Updates en backups uit het verleden beheren";
 $GLOBALS['strFromVersion'] = "Van versie";
 $GLOBALS['strToVersion'] = "Naar versie";
+$GLOBALS['strToggleDataBackupDetails'] = "Gegevens-backups details aan/uit";
+$GLOBALS['strClickViewBackupDetails'] = "Klik om backup details te bekijken";
+$GLOBALS['strClickHideBackupDetails'] = "Klik om backup details te verbergen";
+$GLOBALS['strShowBackupDetails'] = "Toon data backup details";
+$GLOBALS['strHideBackupDetails'] = "Verberg data backup details";
 $GLOBALS['strInstallation'] = "Installatie";
 $GLOBALS['strBackupDeleteConfirm'] = "Weet je zeker dat je alle back-ups wilt verwijderen, die gecreëerd zijn van deze upgrade?";
+$GLOBALS['strDeleteArtifacts'] = "Artefacten verwijderen";
+$GLOBALS['strArtifacts'] = "Artefacten";
+$GLOBALS['strBackupDbTables'] = "Reservekopie van de databasetabellen";
+$GLOBALS['strLogFiles'] = "Log-bestanden";
+$GLOBALS['strConfigBackups'] = "Backup van configuratie-files";
+$GLOBALS['strUpdatedDbVersionStamp'] = "Bijgewerkte database versieaanduiding";
 $GLOBALS['aProductStatus']['UPGRADE_COMPLETE'] = "Upgrade compleet";
 $GLOBALS['aProductStatus']['UPGRADE_FAILED'] = "Upgrade mislukt";
 
 // Agency
 $GLOBALS['strAgencyManagement'] = "Account beheer";
+$GLOBALS['strAgency'] = "Account";
 $GLOBALS['strAgencies'] = "Account";
 $GLOBALS['strAddAgency'] = "Voeg nieuw account toe";
 $GLOBALS['strAddAgency_Key'] = "<u>V</u>oeg een zone toe";
+$GLOBALS['strTotalAgencies'] = "Totaal aantal accounts";
+$GLOBALS['strAgencyProperties'] = "Accounteigenschappen";
 $GLOBALS['strNoAgencies'] = "Er zijn momenteel geen zones gedefinieerd";
 $GLOBALS['strConfirmDeleteAgency'] = "Weet u zeker dat u deze zone wilt wissen?";
+$GLOBALS['strHideInactiveAgencies'] = "Inactieve accounts verbergen";
 $GLOBALS['strInactiveAgenciesHidden'] = "niet-actieve banner(s) verborgen";
+$GLOBALS['strSwitchAccount'] = "Overschakelen naar dit account";
 
 // Channels
 $GLOBALS['strChannelToWebsite'] = "Alle websites";
@@ -1061,6 +1176,16 @@ $GLOBALS['strNoChannelsAddWebsite'] = "Er zijn momenteel geen websites beschikba
 $GLOBALS['strConfirmDeleteChannel'] = "Weet u zeker dat u deze banner wilt verwijderen?";
 $GLOBALS['strConfirmDeleteChannels'] = "Weet u zeker dat u deze banner wilt verwijderen?";
 $GLOBALS['strVariableDescription'] = "Beschrijving";
+$GLOBALS['strVariableDataType'] = "Gegevenstype";
+$GLOBALS['strVariablePurpose'] = "Doel";
+$GLOBALS['strGeneric'] = "Generiek";
+$GLOBALS['strBasketValue'] = "Waarde winkelmandje";
+$GLOBALS['strNumItems'] = "Aantal items";
+$GLOBALS['strVariableIsUnique'] = "Conversies ontdubbelen?";
+$GLOBALS['strJavascript'] = "Javascript";
+$GLOBALS['strInteger'] = "Geheel getal";
+$GLOBALS['strNumber'] = "Getal";
+$GLOBALS['strString'] = "String";
 $GLOBALS['strTrackerType'] = "Tracker naam";
 
 
@@ -1081,9 +1206,11 @@ $GLOBALS['strPwdRecReset'] = "Wachtwoord reset";
 $GLOBALS['strPwdRecResetLink'] = "Wachtwoord reset link";
 $GLOBALS['strPwdRecResetPwdThisUser'] = "Reset wachtwoord van deze gebruiker";
 $GLOBALS['strPwdRecEmailPwdRecovery'] = "%s wachtwoord herstelling";
+$GLOBALS['strProceed'] = "Doorgaan >";
 $GLOBALS['strNotifyPageMessage'] = "Een e-mail is naar u verzonden, deze bevat een link dat u de mogelijkheid bied om uw wachtwoord te resetten en in te loggen. <br />Gelieve enkele minuten te wachten eer de e-mail aankomt.<br />Indien u geen e-mail ontvangt, gelieve uw spam map na te kijken.<br /><a href='index.php'>Ga terug naar de login pagina.</a>";
 
 // Audit
+$GLOBALS['strAccount'] = "Account";
 $GLOBALS['strAccountUserAssociation'] = "Account gebruikersgroep";
 $GLOBALS['strImage'] = "Afbeelding";
 $GLOBALS['strCampaignZoneAssociation'] = "Campagne zonegroep";
