@@ -12,9 +12,12 @@
 
 // Set text direction and characterset
 
+$GLOBALS['phpAds_DecimalPoint'] = ",";
+$GLOBALS['phpAds_ThousandsSeperator'] = ".";
 
 // Date & time configuration
 $GLOBALS['date_format'] = "%d/%m/%Y";
+$GLOBALS['minute_format'] = "%H:%M";
 $GLOBALS['month_format'] = "%m/%Y";
 $GLOBALS['day_format'] = "%m/%d";
 $GLOBALS['week_format'] = "%W/%Y";
@@ -28,16 +31,21 @@ $GLOBALS['weekiso_format'] = "%V/%G";
 
 $GLOBALS['strHome'] = "Inicio";
 $GLOBALS['strHelp'] = "Ayuda";
+$GLOBALS['strContactUs'] = "Contáctanos";
 $GLOBALS['strStartOver'] = "Comenzar de nuevo";
 $GLOBALS['strNavigation'] = "Navegación";
 $GLOBALS['strShortcuts'] = "Atajos";
 $GLOBALS['strActions'] = "Acciones";
+$GLOBALS['strMore'] = "Más";
+$GLOBALS['strAndXMore'] = "y %s más";
+$GLOBALS['strLess'] = "Menos";
 $GLOBALS['strAdminstration'] = "Inventario";
 $GLOBALS['strMaintenance'] = "Mantenimiento";
 $GLOBALS['strProbability'] = "Probabilidad";
 $GLOBALS['strInvocationcode'] = "Código de invocación";
 $GLOBALS['strTrackerVariables'] = "Variables de Tracker";
 $GLOBALS['strBasicInformation'] = "Informaci&oacute;n B&aacute;sica";
+$GLOBALS['strAdditionalInformation'] = "Información adicional";
 $GLOBALS['strContractInformation'] = "Contraer información";
 $GLOBALS['strLoginInformation'] = "Información de autenticación";
 $GLOBALS['strLogoutURL'] = "URL de destino en cierre de sesión. <br /> Dejar en blanco para valor por defecto";
@@ -50,10 +58,12 @@ $GLOBALS['strUpdateSettings'] = "Configuración de Actualizaciones";
 $GLOBALS['strCheckForUpdates'] = "Comprobar actualizaciones";
 $GLOBALS['strWhenCheckingForUpdates'] = "Al comprobar si hay actualizaciones";
 $GLOBALS['strCompact'] = "Compactar";
+$GLOBALS['strVerbose'] = "Detallado";
 $GLOBALS['strUser'] = "Usuario";
 $GLOBALS['strEdit'] = "Editar";
 $GLOBALS['strCreate'] = "Crear";
 $GLOBALS['strDuplicate'] = "Duplicado";
+$GLOBALS['strCopyOf'] = "Copia de";
 $GLOBALS['strMoveTo'] = "Mover a";
 $GLOBALS['strDelete'] = "Borrar";
 $GLOBALS['strActivate'] = "Activar";
@@ -69,6 +79,7 @@ $GLOBALS['strBack'] = "Atrás";
 $GLOBALS['strPrevious'] = "Anterior";
 $GLOBALS['strNext'] = "Siguiente";
 $GLOBALS['strYes'] = "Sí";
+$GLOBALS['strNo'] = "No";
 $GLOBALS['strNone'] = "Nada";
 $GLOBALS['strCustom'] = "Común";
 $GLOBALS['strDefault'] = "Predeterminado";
@@ -80,6 +91,7 @@ $GLOBALS['strAll'] = "todo";
 $GLOBALS['strAvg'] = "Prom.";
 $GLOBALS['strAverage'] = "Promedio";
 $GLOBALS['strOverall'] = "General";
+$GLOBALS['strTotal'] = "Total";
 $GLOBALS['strActive'] = "activo";
 $GLOBALS['strFrom'] = "De";
 $GLOBALS['strTo'] = "a";
@@ -87,6 +99,7 @@ $GLOBALS['strAdd'] = "Agregar";
 $GLOBALS['strLinkedTo'] = "relacionado con";
 $GLOBALS['strDaysLeft'] = "Días restantes";
 $GLOBALS['strCheckAllNone'] = "Marcar todo / nada";
+$GLOBALS['strKiloByte'] = "KB";
 $GLOBALS['strExpandAll'] = "<u>E</u>xpandir todo";
 $GLOBALS['strCollapseAll'] = "<u>C</u>ontraer todo";
 $GLOBALS['strShowAll'] = "Ver todo";
@@ -107,8 +120,14 @@ $GLOBALS['strCollectedThisMonth'] = "Este mes";
 $GLOBALS['strCollectedLastMonth'] = "El mes pasado";
 $GLOBALS['strCollectedLast7Days'] = "Últimos 7 días";
 $GLOBALS['strCollectedSpecificDates'] = "Fechas específicas";
+$GLOBALS['strDifference'] = "Diferencia (%)";
+$GLOBALS['strPercentageOfTotal'] = "% Total";
+$GLOBALS['strValue'] = "Valor";
+$GLOBALS['strAdmin'] = "Admin";
+$GLOBALS['strWarning'] = "Advertencia";
 $GLOBALS['strNotice'] = "Atención";
 $GLOBALS['strRequiredField'] = "Campo requerido";
+$GLOBALS['strCloseWindow'] = "Cerrar ventana";
 
 // Dashboard
 $GLOBALS['strChoosenDisableHomePage'] = "Ha escogido deshabilitar su Página Principal.";
@@ -135,8 +154,11 @@ $GLOBALS['strName'] = "Nombre";
 $GLOBALS['strSize'] = "Tamaño";
 $GLOBALS['strWidth'] = "Ancho";
 $GLOBALS['strHeight'] = "Alto";
+$GLOBALS['strURL2'] = "URL";
 $GLOBALS['strLanguage'] = "Idioma";
 $GLOBALS['strDescription'] = "Descripción";
+$GLOBALS['strVariables'] = "Variables";
+$GLOBALS['strID'] = "ID";
 $GLOBALS['strComments'] = "Comentarios";
 
 // User access
@@ -206,6 +228,7 @@ $GLOBALS['strRequests'] = "Peticiones";
 $GLOBALS['strImpressions'] = "Impresiones";
 $GLOBALS['strClicks'] = "Clics";
 $GLOBALS['strConversions'] = "Conversiones";
+$GLOBALS['strCNVRShort'] = "SR";
 $GLOBALS['strCTR'] = "CTR";
 $GLOBALS['strCNVR'] = "Promedio de ventas";
 $GLOBALS['strTotalViews'] = "Total de Impresiones";
