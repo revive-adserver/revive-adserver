@@ -96,7 +96,9 @@ $GLOBALS['strCollectedThisMonth'] = "Luna curentă";
 $GLOBALS['strCollectedLastMonth'] = "Ultima lună";
 $GLOBALS['strCollectedLast7Days'] = "Ultimele 7 zile";
 $GLOBALS['strCollectedSpecificDates'] = "Date specificate";
+$GLOBALS['strDifference'] = "Diferenta (%)";
 $GLOBALS['strValue'] = "Valoare";
+$GLOBALS['strAdmin'] = "Admin";
 $GLOBALS['strWarning'] = "Avertisment";
 $GLOBALS['strNotice'] = "Atenţionare";
 $GLOBALS['strRequiredField'] = "Câmp necesar";
@@ -124,6 +126,7 @@ $GLOBALS['strName'] = "Nume";
 $GLOBALS['strSize'] = "Dimensiune";
 $GLOBALS['strWidth'] = "Lăţime";
 $GLOBALS['strHeight'] = "Înălţime";
+$GLOBALS['strURL2'] = "URL";
 $GLOBALS['strTarget'] = "Ţintă";
 $GLOBALS['strLanguage'] = "Limba";
 $GLOBALS['strDescription'] = "Descriere";
@@ -230,13 +233,16 @@ $GLOBALS['strPercentSumVariables'] = "% Sumă variabile";
 
 // Time and date related
 $GLOBALS['strDate'] = "Data";
+$GLOBALS['strToday'] = "Astăzi";
 $GLOBALS['strDay'] = "Ziua";
 $GLOBALS['strDays'] = "Zile";
+$GLOBALS['strLast7Days'] = "Ultimele 7 zile";
 $GLOBALS['strWeek'] = "Săptămână";
 $GLOBALS['strWeeks'] = "Săptămâni";
 $GLOBALS['strSingleMonth'] = "Luna";
 $GLOBALS['strMonths'] = "Luni";
 $GLOBALS['strDayOfWeek'] = "Ziua din săptămână";
+$GLOBALS['strThisMonth'] = "Luna curentă";
 
 $GLOBALS['strMonth'] = array();
 $GLOBALS['strMonth'][0] = "Ianuarie";
@@ -246,6 +252,7 @@ $GLOBALS['strMonth'][3] = "Aprilie";
 $GLOBALS['strMonth'][4] = "Mai";
 $GLOBALS['strMonth'][5] = "Iunie";
 $GLOBALS['strMonth'][6] = "Iulie";
+$GLOBALS['strMonth'][7] = "August";
 $GLOBALS['strMonth'][8] = "Septembrie";
 $GLOBALS['strMonth'][9] = "Octombrie";
 $GLOBALS['strMonth'][10] = "Noiembrie";
@@ -348,6 +355,7 @@ $GLOBALS['strCompanionPositioning'] = "Poziţionare campanie";
 $GLOBALS['strSelectUnselectAll'] = "Selectează / Deselectează Toate";
 
 // Campaign-zone linking page
+$GLOBALS['strAvailable'] = "Disponibil";
 
 
 // Campaign properties
@@ -415,6 +423,7 @@ $GLOBALS['strCampaignType'] = "Nume Campanie";
 $GLOBALS['strType'] = "Tip";
 $GLOBALS['strContract'] = "Contact";
 $GLOBALS['strStandardContract'] = "Contact";
+$GLOBALS['strBackToCampaigns'] = "Înapoi la campanii";
 
 // Tracker
 $GLOBALS['strTracker'] = "Contor";
@@ -439,11 +448,14 @@ $GLOBALS['strConversionWindow'] = "Fereastră conversie";
 $GLOBALS['strUniqueWindow'] = "Fereastră Unici";
 $GLOBALS['strView'] = "Vizualizare";
 $GLOBALS['strImpression'] = "Vizualizare";
+$GLOBALS['strTrackerImpressions'] = "Vizualizări";
 $GLOBALS['strConversionType'] = "Tip Conversie";
 $GLOBALS['strLinkCampaignsByDefault'] = "Asociază campaniile noi în mod implicit";
 $GLOBALS['strPerSingleImpression'] = "pe o singură vizualizare";
+$GLOBALS['strIPAddress'] = "Adresă IP";
 
 // Banners (General)
+$GLOBALS['strBanner'] = "Banner";
 $GLOBALS['strBanners'] = "Bannere";
 $GLOBALS['strAddBanner'] = "Adaugă banner nou";
 $GLOBALS['strAddBanner_Key'] = "Adaugă banner <u>n</u>ou";

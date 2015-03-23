@@ -135,6 +135,7 @@ $GLOBALS['strConvertingStats'] = "Convirtiendo estadísticas...";
 $GLOBALS['strConvertStats'] = "Estadísticas convertidas";
 $GLOBALS['strConvertAdViews'] = "Impresiones convertidas,";
 $GLOBALS['strConvertAdClicks'] = "Clicks convertidos...";
+$GLOBALS['strConvertAdConversions'] = "AdConversions convertido...";
 $GLOBALS['strConvertNothing'] = "No hay nada que convertir...";
 $GLOBALS['strConvertFinished'] = "Finalizado...";
 
@@ -164,6 +165,7 @@ $GLOBALS['strAutoMaintenanceDisabledMaintenanceRan'] = "El mantenimiento automá
 $GLOBALS['strAutoMaintenanceDisabledNotTriggered'] = "También, el mantenimiento automático está deshabilitado, con lo que cuando {$PRODUCT_NAME} entrega banners, el mantenimiento no es ejecutado. Si no tiene planeado ejecutar <a href='http://{$PRODUCT_DOCSURL}/maintenance.html' target='_blank'>mantenimiento programado</a>, debería <a href='settings-admin.php'>habilitar el auto mantenimiento</a> para asegurar que {$PRODUCT_NAME} funciona correctamente.";
 
 //  Deliver Limitations
+$GLOBALS['strDeliveryLimitations'] = "Limitaciones de entrega";
 $GLOBALS['strAllBannerChannelCompiled'] = "Todos los valores compilados de limitaciones de banners/canales han sido recompilados";
 $GLOBALS['strBannerChannelResult'] = "Aqui están los resultados de la validación de las limitaciones compiladas de banners/canales";
 $GLOBALS['strChannelCompiledLimitationsValid'] = "Todas las limitaciones de canales compiladas son válidas";
@@ -183,4 +185,11 @@ $GLOBALS['strAppendCodesResult'] = "Aquí están los resultados de la validació
 $GLOBALS['strAppendCodesValid'] = "Todos los trackers de los códigos agregados compilados son válidos";
 $GLOBALS['strRepairAppenedCodes'] = "Se encontraron algunas inconsistencias arriba, puede repararlas usando el botón de abajo, esto recompilará los códigos agregados para cada tracker en el sistema";
 
+$GLOBALS['strPlugins'] = "Plugins";
+$GLOBALS['strPluginsPrecis'] = "Diagnosticar y reparar problemas con plugins de {$PRODUCT_NAME}";
+$GLOBALS['strPluginsOk'] = "No se encontraron problemas";
 
+$GLOBALS['strMenus'] = "Menús";
+$GLOBALS['strMenusPrecis'] = "Reconstruir la cache de menú";
+$GLOBALS['strMenusCachedOk'] = "Caché de menú ha sido reconstruido";
+$GLOBALS['strMenusCachedErr'] = "Errores mientras se reconstruía la caché de menú";

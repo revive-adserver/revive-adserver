@@ -28,11 +28,16 @@ $GLOBALS['strAutoMantenaceDisabledAndHasntRun'] = "	Automatisch onderhoud is mom
 $GLOBALS['strAutoMantenaceEnabledAndRunning'] = "	Automatisch onderhoud is ingeschakeld en zal worden geactiveerd, indien nodig, wanneer {$PRODUCT_NAME} banners vertoond.
 	Voor de beste prestaties, zou u <a href='{$PRODUCT_DOCSURL}/admin/maintenance' target='_blank'>gepland onderhoud</a> moeten inschakelen.";
 
+$GLOBALS['strAutoMantenaceDisabledAndRunning'] = "	Automatisch onderhoud is echter onlangs uitgeschakeld. Om zeker te stellen dat {$PRODUCT_NAME} goed werkt, zou u ofwel <a href='{$PRODUCT_DOCSURL}/admin/maintenance' target='_blank'>gpeland onderhoud</a> moeten instellen ofwel
+	<a href='account-settings-maintenance.php'>automatisch onderhoud</a> opnieuw inschakelen.
+	<br><br>
+	Voor de beste prestaties, kunt u <a href='{$PRODUCT_DOCSURL}/admin/maintenance' target='_blank'>gepland onderhoud</a> instellen.";
 
 $GLOBALS['strScheduledMantenaceRunning'] = "<b>Gepland onderhoud wordt correct uitgevoerd.</b>";
 
 $GLOBALS['strAutomaticMaintenanceHasRun'] = "<b>Automatisch onderhoud wordt correct uitgevoerd.</b>";
 
+$GLOBALS['strAutoMantenaceEnabled'] = "Automatisch onderhoud is echter nog steeds ingeschakeld. Voor de beste prestaties moet u <a href='account-settings-maintenance.php'>automatisch onderhoud</a> uitschakelen.";
 
 
 // Priority
@@ -83,7 +88,12 @@ $GLOBALS['strStorageExplaination'] = "	De afbeeldingen welke gebruikt worden doo
 
 // Encoding
 $GLOBALS['strEncoding'] = "Codering";
+$GLOBALS['strEncodingExplaination'] = "{$PRODUCT_NAME} slaat nu alle gegevens in de database op in UTF-8 format.<br />
+    Als dat mogelijk was, is uw data automatische geconverteerd naar deze encoding.<br />
+    Als u na de upgrade misvormde tekens vindt, en u weet welke encoding gebruikt wordt, dan kunt u dit hulpmiddel gebruiken om de gegevens om te zetten van dat format naar UTF-8";
+$GLOBALS['strEncodingConvertFrom'] = "Converteren van deze encoding:";
 $GLOBALS['strEncodingConvert'] = "Converteer";
+$GLOBALS['strEncodingConvertTest'] = "Conversie testen";
 $GLOBALS['strConvertThese'] = "De volgende gegevens zullen worden gewijzigd als u doorgaat";
 
 
@@ -142,6 +152,7 @@ $GLOBALS['strConvertingStats'] = "Statistieken aan het converteren...";
 $GLOBALS['strConvertStats'] = "Converteer statitieken";
 $GLOBALS['strConvertAdViews'] = "AdViews geconverteerd,";
 $GLOBALS['strConvertAdClicks'] = "AdClicks geconverteerd...";
+$GLOBALS['strConvertAdConversions'] = "AdConversions converted...";
 $GLOBALS['strConvertNothing'] = "Er zijn geen statistieken aanwezig om te converteren...";
 $GLOBALS['strConvertFinished'] = "Klaar...";
 
@@ -166,9 +177,15 @@ $GLOBALS['strAutoMaintenanceEnabled'] = "Automatisch onderhoud is ingeschakeld. 
 $GLOBALS['strScheduledMaintenance'] = "Gepland onderhoud lijkt correct worden uitgevoerd.";
 $GLOBALS['strScheduledMaintenanceNotRun'] = "Gepland onderhoud is in het afgelopen uur niet uitgevoerd. Dit kan betekenen dat u het niet correct hebt ingesteld.";
 $GLOBALS['strAutoMaintenanceEnabledNotTriggered'] = "Automatisch onderhoud is ingeschakeld, maar nog niet geactiveerd. Denk er om dat automatisch onderhoud alleen wordt geactiveerd als Openads banners vertoond.";
+$GLOBALS['strAutoMaintenanceBestPerformance'] = "Voor de beste prestaties is het raadzaam om <a href='http://docs.openads.org/openads-2.3-guide/maintenance.html' target='_blank'>gepland onderhoud</a> in te stellen.";
 $GLOBALS['strAutoMaintenanceEnabledWilltTrigger'] = "Automatisch onderhoud is ingeschakeld en zal elk uur het onderhoudsproces activeren.";
+$GLOBALS['strAutoMaintenanceDisabledMaintenanceRan'] = "Automatisch onderhoud is ook uitgeschakeld, maar er heeft wel onlangs een onderhoudsproces gedraaid. Om zeker te weten dat {$PRODUCT_NAME} goed werkt, zou u ofwel <a href='http://docs.openads.org/openads-2.3-guide/maintenance.html' target='_blank'>gepland onderhoud</a> ofwel <a href='settings-admin.php'>automatisch onderhoud</a> moeten inschakelen. ";
+$GLOBALS['strAutoMaintenanceDisabledNotTriggered'] = "Bovendien is automatisch onderhoud uitgeschakeld, dus als {$PRODUCT_NAME} banners vertoont, wordt het onderhoudsproces niet geactiveerd.
+ Als u niet van plan bent om <a href='http://docs.openads.org/openads-2.3-guide/maintenance.html' target='_blank'>gepland onderhoud</a> te gebruiken,
+ dan dient u <a href='settings-admin.php'>automatisch onderhoud</a> in te schakelen, om zeker te stellen dat {$PRODUCT_NAME} goed werkt.";
 
 //  Deliver Limitations
+$GLOBALS['strDeliveryLimitations'] = "Leveringsbeperkingen";
 $GLOBALS['strAllBannerChannelCompiled'] = "Alle gecompileerde banner/channel limitations zijn opnieuw gecompileerd";
 $GLOBALS['strBannerChannelResult'] = "Dit zijn de uitkomsten van de validatie van de gecompileerde banner/channel limitations";
 $GLOBALS['strChannelCompiledLimitationsValid'] = "Alle gecompileerde channel limitations zijn valide";
@@ -176,9 +193,17 @@ $GLOBALS['strBannerCompiledLimitationsValid'] = "Alle gecompileerde banner limit
 $GLOBALS['strErrorsFound'] = "Fouten gevonden";
 $GLOBALS['strRepairCompiledLimitations'] = "Er zijn enkele inconsistenties aangetroffen (zie boven), u kunt deze herstellen met behulp van de onderstaande button, dit zal de gecompileerde limitations voor elke banner/channel in het systeem opnieuw compileren<br />";
 $GLOBALS['strRecompile'] = "Opnieuw compileren";
+$GLOBALS['strDeliveryEngineDisagreeNotice'] = "Onder bepaalde omstandigheden kan de the delivery engine afwijken van de opgeslagen ACLs voor banners en channels, gebruik de onderstaande link om de ACLs in de database te valideren";
+$GLOBALS['strCheckACLs'] = "Check ACLs";
 
 
 //  Append codes
+$GLOBALS['strAppendCodesDesc'] = "In sommige situaties kan de delivery engine afwijkingen aantreffen ten opzichte van de opgeslagen append codes voor trackers, gebruik de onderstaande link om de toegevoegde codes in de database te valideren";
+$GLOBALS['strCheckAppendCodes'] = "Controleer toegevoegde codes";
+$GLOBALS['strAppendCodesRecompiled'] = "Alle gecompileerde toegevoegde codes zijn opnieuw gecompileerd";
+$GLOBALS['strAppendCodesResult'] = "Hier zijn de resultaten van de validatie van de gecompileerde toegevoegde codes";
+$GLOBALS['strAppendCodesValid'] = "Alle gecompileerde toegevoegde codes voor trackers zijn in orde";
+$GLOBALS['strRepairAppenedCodes'] = "Er zijn enkele inconsistenties gevonden (zie boven), u kunt deze herstellen met de onderstaande knop, dit zal de toegevoegde codes opnieuw compileren voor elke tracker in het systeem";
 
 $GLOBALS['strPlugins'] = "Plugins";
 $GLOBALS['strPluginsPrecis'] = "Diagnosticeren en herstellen van problemen met {$PRODUCT_NAME} plugins";
@@ -187,3 +212,4 @@ $GLOBALS['strPluginsOk'] = "Geen problemen gevonden";
 $GLOBALS['strMenus'] = "Menu's";
 $GLOBALS['strMenusPrecis'] = "Wederopbouw van de menu-cache";
 $GLOBALS['strMenusCachedOk'] = "Menu cache is opnieuw opgebouwd";
+$GLOBALS['strMenusCachedErr'] = "Fouten tijdens het opnieuw opbouwen van het menu buffer";
