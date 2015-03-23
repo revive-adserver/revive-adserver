@@ -403,6 +403,22 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      */
     function getCampaignDeliveryToday($id, $today)
     {
+        $tz = $this->getTimezoneForCampaign($id);
+
+        $oStartDate = new Date($today);
+        $oStartDate->setTZ($tz);
+        $oStartDate->setHour(0);
+        $oStartDate->setMinute(0);
+        $oStartDate->setSecond(0);
+        $oStartDate->toUTC();
+
+        $oEndDate = new Date($today);
+        $oEndDate->setTZ($tz);
+        $oEndDate->setHour(23);
+        $oEndDate->setMinute(59);
+        $oEndDate->setSecond(59);
+        $oEndDate->toUTC();
+
         $aConf = $GLOBALS['_MAX']['CONF'];
         $query = array();
         $table = $this->_getTablenameUnquoted('campaigns');
@@ -422,7 +438,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         );
         $query['joins']    = array(
         array($joinTable1, "$table.campaignid = $joinTable1.campaignid"),
-        array($joinTable2, "$joinTable1.bannerid = $joinTable2.ad_id AND $joinTable2.date_time >= '$today 00:00:00' AND $joinTable2.date_time <= '$today 23:59:59'")
+        array($joinTable2, "$joinTable1.bannerid = $joinTable2.ad_id AND $joinTable2.date_time >= '" . $oStartDate->format('%Y-%m-%d %H:%M:%S') . "' AND $joinTable2.date_time <= '" . $oEndDate->format('%Y-%m-%d %H:%M:%S') . "'")
         );
         $query['group']    = "placement_id";
         return $this->_get($query);
