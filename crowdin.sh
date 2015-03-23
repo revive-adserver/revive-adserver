@@ -29,7 +29,11 @@ for po in `find plugins_repo -name '*.po' `; do
 	if [ $n -eq 0 ]; then
 		rm -f $po
 	else
+		# Delete PO-Revision-Date that sometimes is changed when
+		# content hasn't
 		sed -i '/^"PO-Revision-Date/d' $po
+
+		# Generate .mo
 		mo=`echo "$po" | sed $'s/_lang.po/_lang/g' | sed $'s/po$/mo/g'`
 		msgfmt $po -o $mo
 	fi
