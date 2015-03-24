@@ -17,6 +17,7 @@
 /** check step **/
 
 
+$GLOBALS['strWarning']                          = "Varning";
 
 /** admin login step **/
 

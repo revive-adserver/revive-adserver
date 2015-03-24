@@ -15,8 +15,6 @@
 // Measures
 
 // Common Invocation Parameters
-$GLOBALS['strInvocationClientID'] = "Inzerent";
-$GLOBALS['strInvocationCampaignID'] = "Kampaň";
 
 // Iframe
 
@@ -50,7 +48,6 @@ $GLOBALS['strAdLayerStyleName'] = array();
 // sql/web banner-type warning for clickonly zone invocation
 
 // IMG invocation selected for tracker with appended code
-$GLOBALS['strWarning'] = "Upozornenie";
 
 // Local Invocation
 

@@ -49,6 +49,7 @@ $GLOBALS['strPopUpAfterSec'] = "Apï¿œs";
 $GLOBALS['strAutoCloseAfter'] = "Automaticamente encerrada apï¿œs";
 $GLOBALS['strPopUpTop'] = "Posiï¿œï¿œo Inicial (topo)";
 $GLOBALS['strPopUpLeft'] = "Posiï¿œï¿œo Inicial (esquerda)";
+$GLOBALS['strShowStatus'] = "Estado";
 
 
 // XML-RPC

@@ -17,8 +17,7 @@
 /** check step **/
 
 
-$GLOBALS['strWarning']                          = "Advertencia";
-$GLOBALS['strSyscheckStatus']                   = "Estado";
+$GLOBALS['strSyscheckStatus']                   = "Durum";
 
 /** admin login step **/
 
@@ -32,4 +31,3 @@ $GLOBALS['strSyscheckStatus']                   = "Estado";
 
 /** finish step **/
 
-$GLOBALS['strContinue']                         = "Continuar »";

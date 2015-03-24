@@ -10,6 +10,26 @@
 +---------------------------------------------------------------------------+
 */
 
-// Note: New translations not found in original lang files but found in CSV
-$GLOBALS['strEncodingConvert'] = "Konverter";
-?>
+/** status messages **/
+
+/** welcome step **/
+
+/** check step **/
+
+
+$GLOBALS['strWarning']                          = "Попередження";
+$GLOBALS['strSyscheckStatus']                   = "Статус";
+
+/** admin login step **/
+
+/** database step **/
+
+
+/** config step **/
+
+/** jobs step **/
+
+
+/** finish step **/
+
+$GLOBALS['strContinue']                         = "Продолжить »";

@@ -14,3 +14,4 @@
 $translation_readable   = "Norsk bokmål";
 $translation_maintainer	= "Revive Adserver Team";
 $translation_contact	= "noreply@revive-adserver.com";
+

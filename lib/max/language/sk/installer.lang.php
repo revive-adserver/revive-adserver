@@ -10,6 +10,24 @@
 +---------------------------------------------------------------------------+
 */
 
-// Note: New translations not found in original lang files but found in CSV
-$GLOBALS['strSpecifySyncSettings'] = "Synkroniserings innstillinger";
-?>
+/** status messages **/
+
+/** welcome step **/
+
+/** check step **/
+
+
+$GLOBALS['strWarning']                          = "Upozornenie";
+
+/** admin login step **/
+
+/** database step **/
+
+
+/** config step **/
+
+/** jobs step **/
+
+
+/** finish step **/
+

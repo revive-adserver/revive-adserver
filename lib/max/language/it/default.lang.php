@@ -44,6 +44,7 @@ $GLOBALS['strNavigation'] = "Navigazione";
 $GLOBALS['strShortcuts'] = "Scorciatoie";
 $GLOBALS['strActions'] = "Azioni";
 $GLOBALS['strMore'] = "Di più";
+$GLOBALS['strAndXMore'] = "e %s altri";
 $GLOBALS['strLess'] = "Meno";
 $GLOBALS['strAdminstration'] = "Inventario";
 $GLOBALS['strMaintenance'] = "Manutenzione";

@@ -10,9 +10,25 @@
 +---------------------------------------------------------------------------+
 */
 
-// Note: New translations not found in original lang files but found in CSV
-$GLOBALS['strMaintenance'] = "Vedlikehold";
-$GLOBALS['strDelete'] = "Slett";
-$GLOBALS['strZone'] = "Ingen";
-$GLOBALS['strDeleted'] = "Slett";
-?>
+/** status messages **/
+
+/** welcome step **/
+
+/** check step **/
+
+
+$GLOBALS['strWarning']                          = "Rhybudd";
+$GLOBALS['strSyscheckStatus']                   = "Statws";
+
+/** admin login step **/
+
+/** database step **/
+
+
+/** config step **/
+
+/** jobs step **/
+
+
+/** finish step **/
+

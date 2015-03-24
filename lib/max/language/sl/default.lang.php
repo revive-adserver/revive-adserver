@@ -246,13 +246,16 @@ $GLOBALS['strPercentSumVariables'] = "& vsote spremenljivk";
 
 // Time and date related
 $GLOBALS['strDate'] = "Datum";
+$GLOBALS['strToday'] = "Danes";
 $GLOBALS['strDay'] = "Dan";
 $GLOBALS['strDays'] = "Dni";
+$GLOBALS['strLast7Days'] = "Zadnjih 7 dni";
 $GLOBALS['strWeek'] = "Teden";
 $GLOBALS['strWeeks'] = "Tednov";
 $GLOBALS['strSingleMonth'] = "Mesec";
 $GLOBALS['strMonths'] = "Mesecev";
 $GLOBALS['strDayOfWeek'] = "Dan v tednu";
+$GLOBALS['strThisMonth'] = "Trenutni mesec";
 
 $GLOBALS['strMonth'] = array();
 $GLOBALS['strMonth'][0] = "Januar";
@@ -502,6 +505,8 @@ $GLOBALS['strUniqueWindow'] = "Edinstveno okno";
 $GLOBALS['strClick'] = "Klik";
 $GLOBALS['strView'] = "Pogled";
 $GLOBALS['strImpression'] = "Ogled";
+$GLOBALS['strTotalTrackerConversions'] = "Celotnih pretvorb";
+$GLOBALS['strTrackerImpressions'] = "Učinkov";
 $GLOBALS['strConversionType'] = "Tip pretvorbe";
 $GLOBALS['strLinkCampaignsByDefault'] = "Privzeto nastavi povezave pri novih kampanjah";
 $GLOBALS['strNoLinkedTrackersDropdown'] = "\\-- ni povezanega sledilnika --";
@@ -836,6 +841,8 @@ $GLOBALS['strTotalThisPeriod'] = "Vseh za to obdobje";
 $GLOBALS['strPublisherDistribution'] = "Razporeditev spletne strani";
 $GLOBALS['strCampaignDistribution'] = "Razporeditev kampanje";
 $GLOBALS['strTargetStats'] = "Ciljana statistika";
+$GLOBALS['strCampaignTarget'] = "Cilj";
+$GLOBALS['strOVerall'] = "Celotno";
 $GLOBALS['strViewBreakdown'] = "Pogled po";
 $GLOBALS['strBreakdownByDay'] = "Dan";
 $GLOBALS['strBreakdownByWeek'] = "Teden";

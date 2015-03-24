@@ -45,6 +45,7 @@ $GLOBALS['strPopUpAfterSec'] = "Sonra";
 $GLOBALS['strAutoCloseAfter'] = "Süre sonra otomatik kapat";
 $GLOBALS['strPopUpTop'] = "Başlangıç konumu (üst)";
 $GLOBALS['strPopUpLeft'] = "Başlangıç konumu (sol)";
+$GLOBALS['strShowStatus'] = "Durum";
 
 
 // XML-RPC

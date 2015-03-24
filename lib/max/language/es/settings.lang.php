@@ -186,6 +186,7 @@ $GLOBALS['strDefaultCampaignWErr'] = "El peso predeterminado de la campaña debe
 $GLOBALS['strCurrencies'] = "Monedas";
 $GLOBALS['strCategories'] = "Categorías";
 $GLOBALS['strHelpFiles'] = "Archivos de ayuda";
+$GLOBALS['strHasTaxID'] = "ID del Impuesto";
 
 // CSV Import Settings
 $GLOBALS['strDefaultConversionStatus'] = "Reglas de conversión por defecto";
