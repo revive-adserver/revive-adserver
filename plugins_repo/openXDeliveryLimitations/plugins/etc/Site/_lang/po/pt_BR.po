@@ -1,0 +1,48 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: revive-adserver\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-09-16 14:32+0100\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: translate\n"
+"Last-Translator: mbeccati <matteo@beccati.com>\n"
+"Language-Team: Portuguese, Brazilian\n"
+"Language: pt_BR\n"
+"X-Generator: crowdin.com\n"
+"X-Poedit-SearchPath-0: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site/\n"
+"X-Crowdin-Project: revive-adserver\n"
+"X-Crowdin-Language: pt-BR\n"
+"X-Crowdin-File: /plugins_repo/openXDeliveryLimitations/plugins/etc/Site/_lang/po/en.po\n"
+
+#: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site//Channel.class.php:62
+msgid "Is all of"
+msgstr ""
+
+#: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site//Channel.class.php:72
+msgid "Channel"
+msgstr ""
+
+#: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site//Referingpage.class.php:59
+msgid "Refering Page"
+msgstr ""
+
+#: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site//Source.class.php:59
+msgid "Source"
+msgstr "Fonte"
+
+#: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site//Pageurl.class.php:66
+msgid "Page URL"
+msgstr ""
+
+#: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site//Variable.class.php:58
+msgid "Variable"
+msgstr ""
+
+#: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site//Variable.class.php:71
+msgid "Site:Variable: Name contains unallowed character(s)"
+msgstr ""
+

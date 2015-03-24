@@ -1,0 +1,90 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: revive-adserver\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-09-16 14:30+0100\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: translate\n"
+"Last-Translator: mbeccati <matteo@beccati.com>\n"
+"Language-Team: Welsh\n"
+"Language: cy_GB\n"
+"X-Generator: crowdin.com\n"
+"X-Poedit-SearchPath-0: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo/\n"
+"X-Crowdin-Project: revive-adserver\n"
+"X-Crowdin-Language: cy\n"
+"X-Crowdin-File: /plugins_repo/openXDeliveryLimitations/plugins/etc/Geo/_lang/po/en.po\n"
+
+#: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//City.res.inc.php:44
+msgid "---Any---"
+msgstr ""
+
+#: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Country.class.php:59
+#: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Region.class.php:98
+#: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//City.class.php:93
+msgid "Country"
+msgstr "Gwlad"
+
+#: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Netspeed.class.php:57
+msgid "Net Speed"
+msgstr ""
+
+#: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Netspeed.res.inc.php:35
+msgid "Unknown"
+msgstr ""
+
+#: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Netspeed.res.inc.php:36
+msgid "Dial-up"
+msgstr ""
+
+#: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Netspeed.res.inc.php:37
+msgid "Broadband"
+msgstr ""
+
+#: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Netspeed.res.inc.php:38
+msgid "Corporate"
+msgstr ""
+
+#: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Region.class.php:70
+msgid "Country / Region"
+msgstr ""
+
+#: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Region.class.php:114
+msgid "Region(s)"
+msgstr ""
+
+#: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Postalcode.class.php:58
+msgid "US/Canada Postal Code"
+msgstr ""
+
+#: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//City.class.php:108
+msgid "City(s)"
+msgstr ""
+
+#: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Latlong.class.php:61
+msgid "Is within"
+msgstr ""
+
+#: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Latlong.class.php:62
+msgid "Is not within"
+msgstr ""
+
+#: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Latlong.class.php:72
+msgid "Latitude/Longitude"
+msgstr ""
+
+#: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Latlong.class.php:97
+msgid "Geo:Latitude/Longitude: One of the parameter is not a number"
+msgstr ""
+
+#: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Latlong.class.php:114
+msgid "Latitude"
+msgstr ""
+
+#: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Latlong.class.php:120
+msgid "Longitude"
+msgstr ""
+

@@ -1,0 +1,32 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: revive-adserver\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-09-16 14:33+0100\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n%100==4 ? 3 : 0);\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: translate\n"
+"Last-Translator: mbeccati <matteo@beccati.com>\n"
+"Language-Team: Slovenian\n"
+"Language: sl_SI\n"
+"X-Generator: crowdin.com\n"
+"X-Poedit-SearchPath-0: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Time/\n"
+"X-Crowdin-Project: revive-adserver\n"
+"X-Crowdin-Language: sl\n"
+"X-Crowdin-File: /plugins_repo/openXDeliveryLimitations/plugins/etc/Time/_lang/po/en.po\n"
+
+#: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Time//Hour.class.php:68
+msgid "Hour of day"
+msgstr ""
+
+#: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Time//Day.class.php:68
+msgid "Day of week"
+msgstr "Dan v tednu"
+
+#: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Time//Date.class.php:79
+msgid "Date"
+msgstr "Datum"
+
