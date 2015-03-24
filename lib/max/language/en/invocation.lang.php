@@ -39,7 +39,6 @@ $GLOBALS['strIframeMakeTransparent'] = "Make the iframe transparent";
 $GLOBALS['strIframeIncludeNetscape4'] = "Include Netscape 4 compatible ilayer";
 $GLOBALS['strIframeGoogleClickTracking'] = "Include code to track Google AdSense clicks";
 
-
 // PopUp
 $GLOBALS['strPopUpStyle'] = "Pop-up type";
 $GLOBALS['strPopUpStylePopUp'] = "Pop-up";
@@ -59,36 +58,16 @@ $GLOBALS['strShowStatus'] = "Status";
 $GLOBALS['strWindowResizable'] = "Resizable";
 $GLOBALS['strShowScrollbars'] = "Scrollbars";
 
-
 // XML-RPC
 $GLOBALS['strXmlRpcLanguage'] = "Host Language";
 $GLOBALS['strXmlRpcProtocol'] = "Use HTTPS to contact XML-RPC Server";
 $GLOBALS['strXmlRpcTimeout'] = "XML-RPC Timeout (Seconds)";
-
-
-// AdLayer
-
-
-
-
-
-
-
-
-
 
 // Support for 3rd party server clicktracking
 $GLOBALS['str3rdPartyTrack'] = "Support 3rd Party Server Clicktracking";
 
 // Support for cachebusting code
 $GLOBALS['strCacheBuster'] = "Insert Cache-Busting code";
-
-// Non-Img creatives Warning for zone image-only invocation
-
-// unkown HTML tag type Warning for zone invocation
-
-// sql/web banner-type warning for clickonly zone invocation
-<br /> 1) Download the banner:";
 
 // IMG invocation selected for tracker with appended code
 $GLOBALS['strWarning'] = "Warning";

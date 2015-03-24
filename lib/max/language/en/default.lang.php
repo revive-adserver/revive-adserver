@@ -532,10 +532,6 @@ $GLOBALS['strConvertSWF'] = "<br />The Flash file you just uploaded contains har
 $GLOBALS['strCompressSWF'] = "Compress SWF file for faster downloading (Flash 6 player required)";
 $GLOBALS['strOverwriteSource'] = "Overwrite source parameter";
 
-// Banner (network)
-
-// Banner (AdSense)
-
 // Display limitations
 $GLOBALS['strModifyBannerAcl'] = "Delivery Options";
 $GLOBALS['strACL'] = "Delivery";
@@ -766,13 +762,6 @@ $GLOBALS['strAutoDetect'] = "Auto-detect";
 $GLOBALS['strCacheBusterComment'] = "  * Replace all instances of {random} with
   * a generated random number (or timestamp).
   *";
-  * non-SSL page. If this tag is to be placed on an SSL page, change the
-  *   'http://%s/...'  * to
-  *   'https://%s/...'  *";
-  * is to be placed on an SSL page, change the
-  *   'http://%s/...'  * to
-  *   'https://%s/...'  *";
-
 $GLOBALS['strThirdPartyComment'] = "  * Don't forget to replace the '{clickurl}' text with
   * the click tracking URL if this ad is to be delivered through a 3rd
   * party (non-Max) adserver.
@@ -827,7 +816,6 @@ $GLOBALS['strXGreaterThanZeroField'] = "%s must be greater than 0";
 $GLOBALS['strXPositiveWholeNumberField'] = "%s must be a positive whole number";
 $GLOBALS['strInvalidWebsiteURL'] = "Invalid Website URL";
 
-
 // Email
 $GLOBALS['strSirMadam'] = "Sir/Madam";
 $GLOBALS['strMailSubject'] = "Advertiser report";
@@ -840,7 +828,6 @@ the campaign activation date has been reached.";
 $GLOBALS['strMailBannerDeactivated'] = "Your campaign shown below has been deactivated because";
 $GLOBALS['strMailFooter'] = "Regards,
    {adminfullname}";
-We'd be glad to hear from you.";
 $GLOBALS['strClientDeactivated'] = "This campaign is currently not active because";
 $GLOBALS['strBeforeActivate'] = "the activation date has not yet been reached";
 $GLOBALS['strAfterExpire'] = "the expiration date has been reached";
@@ -850,7 +837,6 @@ $GLOBALS['strNoMoreConversions'] = "there are no Sales remaining";
 $GLOBALS['strWeightIsNull'] = "its weight is set to zero";
 $GLOBALS['strRevenueIsNull'] = "its revenue is set to zero";
 $GLOBALS['strTargetIsNull'] = "its limit per day is set to zero - you need to either specify both an end date and a limit or set Limit per day value";
-Your banners will be disabled when there are no Impressions, Clicks, or Conversions left. ";
 $GLOBALS['strNoViewLoggedInInterval'] = "No Impressions were logged during the span of this report";
 $GLOBALS['strNoClickLoggedInInterval'] = "No Clicks were logged during the span of this report";
 $GLOBALS['strNoConversionLoggedInInterval'] = "No Conversions were logged during the span of this report";
@@ -894,8 +880,6 @@ $GLOBALS['strShowColumn'] = "Show Column";
 $GLOBALS['strCustomColumnName'] = "Custom Column Name";
 $GLOBALS['strColumnRank'] = "Column Rank";
 
-
-// Statistics columns
 // Long names
 $GLOBALS['strRevenue'] = "Revenue";
 $GLOBALS['strNumberOfItems'] = "Number of items";
@@ -1017,10 +1001,6 @@ $GLOBALS['strTrackerTypeDOM'] = "Track HTML elements using DOM";
 $GLOBALS['strTrackerTypeCustom'] = "Custom JS code";
 $GLOBALS['strVariableCode'] = "Javascript tracking code";
 
-
-// Upload conversions
-
-
 // Password recovery
 $GLOBALS['strForgotPassword'] = "Forgot your password?";
 $GLOBALS['strPasswordRecovery'] = "Password recovery";
@@ -1043,7 +1023,6 @@ $GLOBALS['strFor'] = "for";
 $GLOBALS['strHas'] = "has";
 $GLOBALS['strBinaryData'] = "Binary data";
 $GLOBALS['strAuditTrailDisabled'] = "Audit Trail has been disabled by the system administrator. No further events are logged and shown in Audit Trail list.";
-
 
 // Widget - Audit
 $GLOBALS['strAuditNoData'] = "No user activity has been recorded during the timeframe you have selected.";
@@ -1144,7 +1123,6 @@ $GLOBALS['strXPreferencesHaveBeenUpdated'] = "<b>%s</b> have been updated";
 $GLOBALS['strXSettingsHaveBeenUpdated'] = "<b>%s</b> have been updated";
 $GLOBALS['strTZPreferencesWarning'] = "However, campaign activation and expiry were not updated, nor time-based banner limitations.<br />You will need to update them manually if you wish them to use the new timezone";
 
-
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */
 /* ------------------------------------------------------- */
@@ -1168,9 +1146,3 @@ $GLOBALS['keyNext'] = "n";
 $GLOBALS['keyPrevious'] = "p";
 $GLOBALS['keyLinkUser'] = "u";
 $GLOBALS['keyWorkingAs'] = "w";
-
-/* ------------------------------------------------------- */
-/* Languages Names                                       */
-/* ------------------------------------------------------- */
-
-?>

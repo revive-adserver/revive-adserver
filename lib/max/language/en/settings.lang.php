@@ -22,34 +22,12 @@ $GLOBALS['strBtnRetry'] = "Retry";
 $GLOBALS['strWarningRegisterArgcArv'] = "The PHP configuration variable register_argc_argv needs to be turned on to run maintenance from the command line.";
 $GLOBALS['strTablesType'] = "Table type";
 
-
 $GLOBALS['strRecoveryRequiredTitle'] = "Your previous upgrade attempt encountered an error";
 $GLOBALS['strRecoveryRequired'] = "There was an error while processing your previous upgrade and {$PRODUCT_NAME} must attempt to recover the upgrade process. Please click the Recover button below.";
 
 $GLOBALS['strProductUpToDateTitle'] = "{$PRODUCT_NAME} is up to date";
 $GLOBALS['strOaUpToDate'] = "Your {$PRODUCT_NAME} database and file structure are both using the most recent version and therefore no upgrade is required at this time. Please click Continue to proceed to the administration panel.";
 $GLOBALS['strOaUpToDateCantRemove'] = "The UPGRADE file is still present inside of your 'var' folder. We are unable to remove this file because of insufficient permissions. Please delete this file yourself.";
-<p><strong>What next?</strong></p>
-<div class='psub'>";
-    Use our <a href='{$PRODUCT_DOCSURL}/user/quickStartGuide' target='_blank'>quick start guide to start serving your first ad campaign</a>.
-  </p>
-</div>
-<p><strong>Optional installation steps</strong></p>
-<div class='psub'>
-  <p><b>Lock your configuration files</b><br>
-    This is a good extra security step to protect your ad server configuration settings from being altered.  <a href='{$PRODUCT_DOCSURL}/admin/lockConfig' target='_blank'>Find out more</a>.
-  </p>
-  <p><b>Set up a regular maintenance task</b><br>
-    A maintenance script is recommended to ensure timely reporting and the best possible ad delivery performance.  <a href='{$PRODUCT_DOCSURL}/admin/maintenance' target='_blank'>Find out more</a>
-  </p>
-  <p><b>Review your system configuration settings</b><br>
-    Before you start using {$PRODUCT_NAME} we suggest you review your settings within the 'Settings' tab.
-  </p>
-</div>";
-                                                It is possible these problems are only temporarily, in that case you can simply click <b>Proceed</b> and return to the
-                                                first step of the install process. If you want to know more on what the error message below means, and how to solve it,
-                                                please consult the supplied documentation.";
-
 $GLOBALS['strErrorWritePermissions'] = "File permission errors have been detected, and must be fixed before you can continue.<br />To fix the errors on a Linux system, try typing in the following command(s):";
 $GLOBALS['strErrorFixPermissionsRCommand'] = "<i>chmod -R a+w %s</i>";
 $GLOBALS['strNotWriteable'] = "NOT writeable";
@@ -64,8 +42,6 @@ $GLOBALS['strDeliveryUrlPrefix'] = "Delivery Engine URL";
 $GLOBALS['strDeliveryUrlPrefixSSL'] = "Delivery Engine URL (SSL)";
 $GLOBALS['strImagesUrlPrefix'] = "Image Store URL";
 $GLOBALS['strImagesUrlPrefixSSL'] = "Image Store URL (SSL)";
-
-
 
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
@@ -116,8 +92,6 @@ $GLOBALS['strDatabaseOptimalisations'] = "Database Optimisation Settings";
 $GLOBALS['strPersistentConnections'] = "Use Persistent Connections";
 $GLOBALS['strCantConnectToDb'] = "Can't Connect to Database";
 $GLOBALS['strCantConnectToDbDelivery'] = 'Can\'t Connect to Database for Delivery';
-
-
 
 // Email Settings
 $GLOBALS['strEmailSettings'] = "Email Settings";
@@ -207,9 +181,6 @@ $GLOBALS['strDeliveryFilenamesSinglePageCallJS'] = "Single Page Call (JavaScript
 $GLOBALS['strDeliveryCaching'] = "Banner Delivery Cache Settings";
 $GLOBALS['strDeliveryCacheLimit'] = "Time Between Banner Cache Updates (seconds)";
 $GLOBALS['strDeliveryCacheStore'] = "Banner Delivery Cache Store Type";
-
-
-
 $GLOBALS['strDeliveryAcls'] = "Evaluate banner delivery limitations during delivery";
 $GLOBALS['strDeliveryAclsDirectSelection'] = "Evaluate banner delivery limitations for direct selected ads";
 $GLOBALS['strDeliveryObfuscate'] = "Obfuscate channel when delivering ads";
@@ -251,13 +222,6 @@ $GLOBALS['strDefaultBannerWeight'] = "Default Banner Weight";
 $GLOBALS['strDefaultCampaignWeight'] = "Default Campaign Weight";
 $GLOBALS['strConfirmationUI'] = "Confirmation in User Interface";
 
-
-// CSV Import Settings
-
-/**
- * @todo remove strBannerSettings if banner is only configurable as a preference
- *       rename // Banner Settings to  // Banner Preferences
- */
 // Invocation Settings
 $GLOBALS['strInvocationDefaults'] = "Invocation Defaults";
 $GLOBALS['strEnable3rdPartyTrackingByDefault'] = "Enable 3rd Party Clicktracking by Default";
@@ -317,16 +281,13 @@ $GLOBALS['strSSLSettings'] = "SSL Settings";
 $GLOBALS['requireSSL'] = "Force SSL Access on User Interface";
 $GLOBALS['sslPort'] = "SSL Port Used by Web Server";
 $GLOBALS['strDashboardSettings'] = "Dashboard Settings";
-
 $GLOBALS['strMyLogo'] = "Name/URL of custom logo file";
 $GLOBALS['strGuiHeaderForegroundColor'] = "Color of the header foreground";
 $GLOBALS['strGuiHeaderBackgroundColor'] = "Color of the header background";
 $GLOBALS['strGuiActiveTabColor'] = "Color of the active tab";
 $GLOBALS['strGuiHeaderTextColor'] = "Color of the text in the header";
 $GLOBALS['strGuiSupportLink'] = "Custom URL for 'Support' link in header";
-
 $GLOBALS['strGzipContentCompression'] = "Use GZIP Content Compression";
-
 
 // Regenerate Platfor Hash script
 $GLOBALS['strPlatformHashRegenerate'] = "Platform Hash Regenerate";
@@ -337,9 +298,3 @@ $GLOBALS['strPlatformHashInsertingError'] = "Error inserting Platform Hash into 
 $GLOBALS['strPluginSettings'] = "Plugin Settings";
 $GLOBALS['strEnableNewPlugins'] = "Enable newly installed plugins";
 $GLOBALS['strUseMergedFunctions'] = "Use merged delivery functions file";
-
-/* ------------------------------------------------------- */
-/* Unknown (unused?) translations                        */
-/* ------------------------------------------------------- */
-
-

@@ -61,9 +61,6 @@ $GLOBALS['strDbUpgradeIntro']                   = "The following database has be
 $GLOBALS['strDbProgressMessageInstall']         = 'Installing database...';
 $GLOBALS['strDbProgressMessageUpgrade']         = 'Upgrading database...';
 $GLOBALS['strDbSeeMoreFields']                  = 'See more database fields...';
-                                                   <p>If you want historical statistics to be displayed with the correct timezone, upgrade your data manually.  Learn more <a target='help' href='%s'>here</a>.
-                                                      Your statistics values will remain accurate even if you leave your data untouched.
-                                                   </p>";
 $GLOBALS['strDbTimeZoneNoWarnings']             = "Do not display timezone warnings in the future";
 $GLOBALS['strDBInstallSuccess']                 = "Database created successfully";
 $GLOBALS['strDBUpgradeSuccess']                 = "Database upgraded successfully";
@@ -98,7 +95,6 @@ $GLOBALS['strFinishInstallTitle']               = "Your {$PRODUCT_NAME} installa
 $GLOBALS['strFinishUpgradeWithErrorsTitle']     = "Your {$PRODUCT_NAME} upgrade is complete. Please check the highlighted issues.";
 $GLOBALS['strFinishUpgradeTitle']               = "Your {$PRODUCT_NAME} upgrade is complete.";
 $GLOBALS['strFinishInstallWithErrorsTitle']     = "Your {$PRODUCT_NAME} installation is complete. Please check the highlighted issues.";
-                                                   and install log at \"%s\" for details. You will still be able to login to your {$PRODUCT_NAME} instance.";
 $GLOBALS['strDetailedTaskErrorList']            = "Detailed list of errors found";
 $GLOBALS['strPluginInstallFailed']              = "Installation of plugin \"%s\" failed:";
 $GLOBALS['strTaskInstallFailed']                = "Error occurred when running installation task \"%s\":";

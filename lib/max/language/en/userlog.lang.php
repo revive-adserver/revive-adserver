@@ -11,7 +11,6 @@
  */
 
 // Set translation strings
-
 $GLOBALS['strDeliveryEngine'] = "Delivery Engine";
 $GLOBALS['strMaintenance'] = "Maintenance";
 $GLOBALS['strAdministrator'] = "Administrator";

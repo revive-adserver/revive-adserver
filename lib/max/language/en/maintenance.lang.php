@@ -40,10 +40,8 @@ $GLOBALS['strAutomaticMaintenanceHasRun'] = "<b>Automatic maintenance is running
 
 $GLOBALS['strAutoMantenaceEnabled'] = "However, automatic maintenance is still enabled. For the best performance, you should <a href='account-settings-maintenance.php'>disable automatic maintenance</a>.";
 
-
 // Priority
 $GLOBALS['strRecalculatePriority'] = "Recalculate priority";
-
 
 // Banner cache
 $GLOBALS['strCheckBannerCache'] = "Check banner cache";
@@ -65,7 +63,6 @@ $GLOBALS['strDeliveryCacheSharedMem'] = "	Shared memory is currently being used 
 $GLOBALS['strDeliveryCacheDatabase'] = "	The database is currently being used for storing the delivery cache.";
 $GLOBALS['strDeliveryCacheFiles'] = "	The delivery cache is currently being stored into multiple files on your server.";
 
-
 // Storage
 $GLOBALS['strStorage'] = "Storage";
 $GLOBALS['strMoveToDirectory'] = "Move images stored inside the database to a directory";
@@ -80,11 +77,6 @@ $GLOBALS['strEncodingExplaination'] = "{$PRODUCT_NAME} now stores all data in th
 $GLOBALS['strEncodingConvertFrom'] = "Convert from this encoding:";
 $GLOBALS['strEncodingConvertTest'] = "Test conversion";
 $GLOBALS['strConvertThese'] = "The following data will be changed if you continue";
-
-
-// Storage
-	Do you want to convert your verbose statistics to the new compact format?";
-
 
 // Product Updates
 $GLOBALS['strSearchingUpdates'] = "Looking for updates. Please wait...";
@@ -124,26 +116,6 @@ $GLOBALS['strCurrentlyUsing'] = "You are currently using";
 $GLOBALS['strRunningOn'] = "running on";
 $GLOBALS['strAndPlain'] = "and";
 
-
-// Stats conversion
-
-	still some statistics in verbose format. As long as the verbose statistics aren't  <br />
-	converted to compact format they will not be used while viewing these pages.  <br />
-	Before converting your statistics, make a backup of the database!  <br />
-	Do you want to convert your verbose statistics to the new compact format? <br />";
-
-	Depending on how many impressions are stored in verbose format this may take a  <br />
-	couple of minutes. Please wait until the conversion is finished before you visit other <br />
-	pages. Below you will see a log of all modification made to the database. <br />";
-
-	should now be usable again. Below you will see a log of all modification made <br />
-	to the database.<br />";
-
-//  Maintenace
- set up <a href='http://docs.openads.org/openads-2.3-guide/maintenance.html' target='_blank'>scheduled maintenance</a> or <a href='settings-admin.php'>enable auto maintenance</a>. ";
- If you do not plan to run <a href='http://docs.openads.org/openads-2.3-guide/maintenance.html' target='_blank'>scheduled maintenance</a>,
- you must <a href='settings-admin.php'>enable auto maintenance</a> to ensure that {$PRODUCT_NAME} works correctly.";
-
 //  Deliver Limitations
 $GLOBALS['strDeliveryLimitations'] = "Delivery Limitations";
 $GLOBALS['strAllBannerChannelCompiled'] = "All banner/channel compiled limitation values have been recompiled";
@@ -155,7 +127,6 @@ $GLOBALS['strRepairCompiledLimitations'] = "Some inconsistancies were found abov
 $GLOBALS['strRecompile'] = "Recompile";
 $GLOBALS['strDeliveryEngineDisagreeNotice'] = "Under some circumstances the delivery engine can disagree with the stored ACLs for banners and channels, use the folowing link to validate the ACLs in the database";
 $GLOBALS['strCheckACLs'] = "Check ACLs";
-
 
 //  Append codes
 $GLOBALS['strAppendCodesDesc'] = "Under some circumstances the delivery engine can disagree with the stored append codes for trackers, use the folowing link to validate the append codes in the database";
