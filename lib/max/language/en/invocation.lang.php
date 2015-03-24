@@ -22,8 +22,6 @@ $GLOBALS['strAbbrSeconds'] = "sec";
 
 // Common Invocation Parameters
 $GLOBALS['strInvocationWhat'] = "Banner selection";
-$GLOBALS['strInvocationPreview'] = "Banner preview";
-$GLOBALS['strInvocationClientID'] = "Advertiser";
 $GLOBALS['strInvocationCampaignID'] = "Campaign";
 $GLOBALS['strInvocationTarget'] = "Target frame";
 $GLOBALS['strInvocationSource'] = "Source";
@@ -69,54 +67,15 @@ $GLOBALS['strXmlRpcTimeout'] = "XML-RPC Timeout (Seconds)";
 
 
 // AdLayer
-$GLOBALS['strAdLayerStyle'] = "Style";
-
-$GLOBALS['strAlignment'] = "Alignment";
-$GLOBALS['strHAlignment'] = "Horizontal alignment";
-$GLOBALS['strLeft'] = "Left";
-$GLOBALS['strCenter'] = "Center";
-$GLOBALS['strRight'] = "Right";
-
-$GLOBALS['strVAlignment'] = "Vertical alignment";
-$GLOBALS['strTop'] = "Top";
-$GLOBALS['strMiddle'] = "Middle";
-$GLOBALS['strBottom'] = "Bottom";
-
-$GLOBALS['strAutoCollapseAfter'] = "Automatically collapse after";
-$GLOBALS['strCloseText'] = "Close text";
-$GLOBALS['strClose'] = "[Close]";
-$GLOBALS['strBannerPadding'] = "Banner padding";
-
-$GLOBALS['strHShift'] = "Horizontal shift";
-$GLOBALS['strVShift'] = "Vertical shift";
-
-$GLOBALS['strShowCloseButton'] = "Show close button";
-$GLOBALS['strBackgroundColor'] = "Background color";
-$GLOBALS['strBorderColor'] = "Border color";
-
-$GLOBALS['strDirection'] = "Direction";
-$GLOBALS['strLeftToRight'] = "Left to right";
-$GLOBALS['strRightToLeft'] = "Right to left";
-$GLOBALS['strLooping'] = "Looping";
-$GLOBALS['strAlwaysActive'] = "Always active";
-$GLOBALS['strSpeed'] = "Speed";
-$GLOBALS['strPause'] = "Pause";
-$GLOBALS['strLimited'] = "Limited";
-$GLOBALS['strLeftMargin'] = "Left margin";
-$GLOBALS['strRightMargin'] = "Right margin";
-$GLOBALS['strTransparentBackground'] = "Transparent background";
-
-$GLOBALS['strSmoothMovement'] = "Smooth movement";
-$GLOBALS['strHideNotMoving'] = "Hide the banner when the cursor is not moving";
-$GLOBALS['strHideDelay'] = "Delay before banner is hidden";
-$GLOBALS['strHideTransparancy'] = "Transparancy of the hidden banner";
 
 
-$GLOBALS['strAdLayerStyleName'] = array();
-$GLOBALS['strAdLayerStyleName']['geocities'] = "Geocities";
-$GLOBALS['strAdLayerStyleName']['simple'] = "Simple";
-$GLOBALS['strAdLayerStyleName']['cursor'] = "Cursor";
-$GLOBALS['strAdLayerStyleName']['floater'] = "Floater";
+
+
+
+
+
+
+
 
 // Support for 3rd party server clicktracking
 $GLOBALS['str3rdPartyTrack'] = "Support 3rd Party Server Clicktracking";
@@ -125,17 +84,11 @@ $GLOBALS['str3rdPartyTrack'] = "Support 3rd Party Server Clicktracking";
 $GLOBALS['strCacheBuster'] = "Insert Cache-Busting code";
 
 // Non-Img creatives Warning for zone image-only invocation
-$GLOBALS['strNonImgWarningZone'] = "Warning: There are banners attached to this zone which are not images. These banners will not be rotated using this tag.";
-$GLOBALS['strNonImgWarning'] = "Warning: This tag will not work because this banner is not an image.";
 
 // unkown HTML tag type Warning for zone invocation
-$GLOBALS['strUnknHtmlWarning'] = "Warning: This banner is an unkown HTML ad format.";
 
 // sql/web banner-type warning for clickonly zone invocation
-$GLOBALS['strWebBannerWarning'] = "Warning: This banner must be downloaded and you must notify us the correct URL for the banner.
 <br /> 1) Download the banner:";
-$GLOBALS['strDwnldWebBanner'] = "Right-click here and choose Save Target As";
-$GLOBALS['strWebBannerWarning2'] = "<br /> 2) Upload the banner to your webserver and write its location here: ";
 
 // IMG invocation selected for tracker with appended code
 $GLOBALS['strWarning'] = "Warning";

@@ -32,7 +32,7 @@ foreach ($aFiles as $file) {
             if (!$status) {
                 if (!trim($output[0])) {
 					echo "Removing {$file}: str{$string}".PHP_EOL;
-                    exec("sed -i /str{$string}/d {$path}", $status, $output);
+                    exec("sed -i '/\\bstr{$string}\\b/d' {$path}", $status, $output);
                 }
             }
         }

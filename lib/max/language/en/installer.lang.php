@@ -11,10 +11,6 @@
 */
 
 /** status messages **/
-$GLOBALS['strInstallStatusRecovery']            = 'Recovering Revive Adserver %s';
-$GLOBALS['strInstallStatusInstall']             = 'Installing Revive Adserver %s';
-$GLOBALS['strInstallStatusUpgrade']             = 'Upgrading to Revive Adserver %s';
-$GLOBALS['strInstallStatusUpToDate']            = 'Detected Revive Adserver %s';
 
 /** welcome step **/
 $GLOBALS['strWelcomeTitle']                     = "Welcome to {$PRODUCT_NAME}";
@@ -65,7 +61,6 @@ $GLOBALS['strDbUpgradeIntro']                   = "The following database has be
 $GLOBALS['strDbProgressMessageInstall']         = 'Installing database...';
 $GLOBALS['strDbProgressMessageUpgrade']         = 'Upgrading database...';
 $GLOBALS['strDbSeeMoreFields']                  = 'See more database fields...';
-$GLOBALS['strDbTimeZoneWarning']                = "<p>As of this version {$PRODUCT_NAME} stores dates in UTC time rather than in server time.</p>
                                                    <p>If you want historical statistics to be displayed with the correct timezone, upgrade your data manually.  Learn more <a target='help' href='%s'>here</a>.
                                                       Your statistics values will remain accurate even if you leave your data untouched.
                                                    </p>";
@@ -83,7 +78,6 @@ $GLOBALS['strConfigureUpgradeIntro']            = "Provide the path to your prev
 $GLOBALS['strConfigSeeMoreFields']              = "See more configuration fields...";
 $GLOBALS['strPreviousInstallTitle']             = "Previous installation";
 $GLOBALS['strPathToPrevious']                   = "Path to previous {$PRODUCT_NAME} installation";
-$GLOBALS['strPathToPreviousHint']               = "Plugin files must be copied from the path based on your previous install";
 $GLOBALS['strPathToPreviousError']              = "One or more plugin files couln't be located, check the install.log file for more information";
 $GLOBALS['strConfigureProgressMessage']         = "Configuring {$PRODUCT_NAME}...";
 
@@ -104,20 +98,12 @@ $GLOBALS['strFinishInstallTitle']               = "Your {$PRODUCT_NAME} installa
 $GLOBALS['strFinishUpgradeWithErrorsTitle']     = "Your {$PRODUCT_NAME} upgrade is complete. Please check the highlighted issues.";
 $GLOBALS['strFinishUpgradeTitle']               = "Your {$PRODUCT_NAME} upgrade is complete.";
 $GLOBALS['strFinishInstallWithErrorsTitle']     = "Your {$PRODUCT_NAME} installation is complete. Please check the highlighted issues.";
-$GLOBALS['strInstallNonBlockingErrors']         = "An error occurred when performing installation tasks. Please check the <a class=\"show-errors\" href=\"#\">error list</a>
                                                    and install log at \"%s\" for details. You will still be able to login to your {$PRODUCT_NAME} instance.";
 $GLOBALS['strDetailedTaskErrorList']            = "Detailed list of errors found";
 $GLOBALS['strPluginInstallFailed']              = "Installation of plugin \"%s\" failed:";
 $GLOBALS['strTaskInstallFailed']                = "Error occurred when running installation task \"%s\":";
 $GLOBALS['strContinueToLogin']                  = "Click \"Continue\" to login to your {$PRODUCT_NAME} instance.";
 
-$GLOBALS['strContinue']                         = "Continue";
-$GLOBALS['strDBCreatedSuccessful']              = "Your database has successfully been created for {$PRODUCT_NAME}";
-$GLOBALS['strPluginsDefault']                   = "{$PRODUCT_NAME} Plugins";
-$GLOBALS['strPostUpgradeTasks']                 = "{$PRODUCT_NAME} Post-Upgrade Tasks";
-$GLOBALS['strInstallComplete']                  = "Your {$PRODUCT_NAME} installation is now complete.";
-$GLOBALS['strSignupUpdates']                    = "Sign up for product updates and security alerts";
-$GLOBALS['strUpgradeComplete']                  = "Congratulations, you have finished upgrading {$PRODUCT_NAME}";
 $GLOBALS['strUnableCreateConfFile']             = "We are unable to create your configuration file. Please re-check the permissions of the {$PRODUCT_NAME} var folder.";
 $GLOBALS['strUnableUpdateConfFile']             = "We are unable to update your configuration file. Please re-check the permissions of the {$PRODUCT_NAME} var folder, and also check the permissions of the previous install's config file that you copied into this folder.";
 $GLOBALS['strUnableToCreateAdmin']              = "We are unable to create a system administrator account, is your database accessible?";
