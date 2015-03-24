@@ -51,16 +51,19 @@ class MAX_Admin_Languages
     function AvailableLanguages()
     {
         $languages = array();
-        $langDirs = opendir(MAX_PATH . '/lib/max/language/');
-        while ($langDir = readdir($langDirs)) {
-            if (is_dir(MAX_PATH . '/lib/max/language/' . $langDir) &&
-                    !in_array($langDir, $this->aDeprecated) &&
-                    file_exists(MAX_PATH . '/lib/max/language/' . $langDir . '/index.lang.php')) {
-                $languages[$langDir] = $GLOBALS["str_" . $langDir];
+
+        foreach (glob(MAX_PATH.'/lib/max/language/*/index.lang.php') as $file) {
+            unset($translation_readable);
+            if (preg_match('#/(.*?)/index\.lang\.php#', $file, $m)) {
+                include($file);
+                if (isset($translation_readable)) {
+                    $languages[$m[1]] = $translation_readable;
+                }
             }
         }
-        closedir($langDirs);
-        asort($languages, SORT_STRING);
+
+        ksort($languages, SORT_STRING);
+
         return $languages;
     }
 

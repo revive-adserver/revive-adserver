@@ -11,8 +11,6 @@
 */
 
 // Meta information
-$translation_readable   = "Indonesian";
-$translation_maintainer	= "Rachim Tamsjadi";
-$translation_contact	= "tamsy@users.sourceforge.net";
-
-?>
+$translation_readable   = "Bahasa Indonesia";
+$translation_maintainer	= "Revive Adserver Team";
+$translation_contact	= "noreply@revive-adserver.com";

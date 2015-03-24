@@ -11,8 +11,6 @@
 */
 
 // Meta information
-$translation_readable   = "zh_TW";
-$translation_maintainer	= "OpenX Limited";
-$translation_contact	= "http://www.openx.org/community/localisation";
-
-?>
+$translation_readable   = "文言";
+$translation_maintainer	= "Revive Adserver Team";
+$translation_contact	= "noreply@revive-adserver.com";

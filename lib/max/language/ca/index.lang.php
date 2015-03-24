@@ -14,5 +14,3 @@
 $translation_readable   = "Català";
 $translation_maintainer	= "Revive Adserver Team";
 $translation_contact	= "noreply@revive-adserver.com";
-
-?>

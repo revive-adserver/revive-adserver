@@ -11,8 +11,6 @@
 */
 
 // Meta information
-$translation_readable   = "Hebrew";
-$translation_maintainer	= "Reuven Mansharoff";
-$translation_contact	= "reuven@act.co.il";
-
-?>
+$translation_readable   = "עברית";
+$translation_maintainer	= "Revive Adserver Team";
+$translation_contact	= "noreply@revive-adserver.com";

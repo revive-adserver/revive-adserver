@@ -11,8 +11,6 @@
 */
 
 // Meta information
-$translation_readable   = "nb";
-$translation_maintainer	= "OpenX Limited";
-$translation_contact	= "http://www.openx.org/community/localisation";
-
-?>
+$translation_readable   = "Norsk bokmål";
+$translation_maintainer	= "Revive Adserver Team";
+$translation_contact	= "noreply@revive-adserver.com";

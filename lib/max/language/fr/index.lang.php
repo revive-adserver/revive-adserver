@@ -12,7 +12,5 @@
 
 // Meta information
 $translation_readable   = "Français";
-$translation_maintainer	= "Vincent Zanotti";
-$translation_contact	= "amidebx@users.sourceforge.net";
-
-?>
+$translation_maintainer	= "Revive Adserver Team";
+$translation_contact	= "noreply@revive-adserver.com";

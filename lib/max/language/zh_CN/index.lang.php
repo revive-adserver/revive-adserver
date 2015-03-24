@@ -11,8 +11,6 @@
 */
 
 // Meta information
-$translation_readable   = "简体中文";
-$translation_maintainer	= "Sah Lee";
-$translation_contact	= "contact@leesah.name";
-
-?>
+$translation_readable   = "中文";
+$translation_maintainer	= "Revive Adserver Team";
+$translation_contact	= "noreply@revive-adserver.com";

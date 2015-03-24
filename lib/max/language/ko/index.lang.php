@@ -11,8 +11,6 @@
 */
 
 // Meta information
-$translation_readable   = "Korean";
-$translation_maintainer	= "Dong Hoon Han(Trax Han)";
-$translation_contact	= "traxacun@unitel.co.kr";
-
-?>
+$translation_readable   = "한국어";
+$translation_maintainer	= "Revive Adserver Team";
+$translation_contact	= "noreply@revive-adserver.com";

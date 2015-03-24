@@ -11,8 +11,6 @@
 */
 
 // Meta information
-$translation_readable   = "Turkce";
-$translation_maintainer	= "Bunyamin VICIL";
-$translation_contact	= "bunyamin@yapayzeka.net";
-
-?>
+$translation_readable   = "Türkçe";
+$translation_maintainer	= "Revive Adserver Team";
+$translation_contact	= "noreply@revive-adserver.com";
