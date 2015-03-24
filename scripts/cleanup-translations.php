@@ -4,22 +4,35 @@ define('MAX_PATH', dirname(dirname(__FILE__)));
 
 $aFiles = array(
     'default.lang.php',
+    'maintenance.lang.php',
+    'report.lang.php',
+    'userlog.lang.php',
+    'installer.lang.php',
+    'settings-help.lang.php',
+    'invocation.lang.php',
+    'settings.lang.php',
 );
 
 foreach ($aFiles as $file) {
-    $tokens = token_get_all(file_get_contents(MAX_PATH.'/lib/max/language/en/'.$file));
+	$path = MAX_PATH.'/lib/max/language/en/'.$file;
+    $tokens = token_get_all(file_get_contents($path));
 
-    foreach ($tokens as $token) {
+    foreach ($tokens as $key => $token) {
         if (T_CONSTANT_ENCAPSED_STRING === $token[0] && 'str' === substr($token[1], 1, 3)) {
+			if ($tokens[$key + 2] == ']') {
+				var_dump($tokens[$key + 2]);
+				exit;
+			}
             $string = substr(trim($token[1], '"\''), 3);
 
             $output = $status = null;
-            $regex = '\\(OA_Admin_Menu_Secti.*\\\\b\\|str=\\|str\\)'.$string.'\\\\b';
+            $regex = '\\(OA_Admin_Menu_Section.*\\\\b\\|key=\\|str=\\|str\\)'.$string.'\\\\b';
             exec("bash -c \"grep -rl '{$regex}' lib www\" | grep -v lib/max/language | wc -l", $output, $status);
 
             if (!$status) {
                 if (!trim($output[0])) {
-                    var_dump($string);
+					echo "Removing {$file}: str{$string}".PHP_EOL;
+                    exec("sed -i /str{$string}/d {$path}", $status, $output);
                 }
             }
         }
