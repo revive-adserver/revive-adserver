@@ -282,7 +282,7 @@ class HTML_QuickForm extends HTML_Common
      */
     function __construct($formName='', $method='post', $action='', $target='', $attributes=null, $trackSubmit = false)
     {
-        HTML_Common::HTML_Common($attributes);
+        parent::__construct($attributes);
         $method = (strtoupper($method) == 'GET') ? 'get' : 'post';
         $action = ($action == '') ? $_SERVER['PHP_SELF'] : $action;
         $target = empty($target) ? array() : array('target' => $target);

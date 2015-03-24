@@ -58,7 +58,7 @@ class HTML_QuickForm_static extends HTML_QuickForm_element {
      */
     function __construct($elementName=null, $elementLabel=null, $text=null)
     {
-        HTML_QuickForm_element::HTML_QuickForm_element($elementName, $elementLabel);
+        parent::__construct($elementName, $elementLabel);
         $this->_persistantFreeze = false;
         $this->_type = 'static';
         $this->_text = $text;

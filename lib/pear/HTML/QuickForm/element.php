@@ -90,7 +90,7 @@ class HTML_QuickForm_element extends HTML_Common
      */
     function __construct($elementName=null, $elementLabel=null, $attributes=null)
     {
-        HTML_Common::HTML_Common($attributes);
+        parent::__construct($attributes);
         if (isset($elementName)) {
             $this->setName($elementName);
         }
@@ -371,7 +371,7 @@ class HTML_QuickForm_element extends HTML_Common
         switch ($event) {
             case 'createElement':
                 $className = get_class($this);
-                $this->$className($arg[0], $arg[1], $arg[2], $arg[3], $arg[4]);
+                $this->__construct($arg[0], $arg[1], $arg[2], $arg[3], $arg[4]);
                 break;
             case 'addElement':
                 $this->onQuickFormEvent('createElement', $arg, $caller);

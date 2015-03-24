@@ -66,7 +66,7 @@ class HTML_QuickForm_link extends HTML_QuickForm_static
      */
     function __construct($elementName=null, $elementLabel=null, $href=null, $text=null, $attributes=null)
     {
-        HTML_QuickForm_element::HTML_QuickForm_element($elementName, $elementLabel, $attributes);
+        parent::__construct($elementName, $elementLabel, $attributes);
         $this->_persistantFreeze = false;
         $this->_type = 'link';
         $this->setHref($href);

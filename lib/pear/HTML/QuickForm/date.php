@@ -279,7 +279,7 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
     */
     function __construct($elementName = null, $elementLabel = null, $options = array(), $attributes = null)
     {
-        $this->HTML_QuickForm_element($elementName, $elementLabel, $attributes);
+        parent::__construct($elementName, $elementLabel, $attributes);
         $this->_persistantFreeze = true;
         $this->_appendName = true;
         $this->_type = 'date';

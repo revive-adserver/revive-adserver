@@ -52,7 +52,7 @@ class HTML_QuickForm_submit extends HTML_QuickForm_input
      */
     function __construct($elementName=null, $value=null, $attributes=null)
     {
-        HTML_QuickForm_input::HTML_QuickForm_input($elementName, null, $attributes);
+        parent::__construct($elementName, null, $attributes);
         $this->setValue($value);
         $this->setType('submit');
     } //end constructor
