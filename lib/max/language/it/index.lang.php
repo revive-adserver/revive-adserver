@@ -12,7 +12,5 @@
 
 // Meta information
 $translation_readable   = "Italiano";
-$translation_maintainer	= "Matteo Beccati";
-$translation_contact	= "matteo@beccati.com";
-
-?>
+$translation_maintainer	= "Revive Adserver Team";
+$translation_contact	= "noreply@revive-adserver.com";

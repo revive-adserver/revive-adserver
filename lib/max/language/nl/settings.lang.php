@@ -229,6 +229,7 @@ $GLOBALS['strDefaultCampaignWErr'] = "Standaard campagne gewicht moet een positi
 
 $GLOBALS['strCategories'] = "Categorieën";
 $GLOBALS['strHelpFiles'] = "Help bestanden";
+$GLOBALS['strHasTaxID'] = "Belastingnummer";
 
 // CSV Import Settings
 

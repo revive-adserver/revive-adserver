@@ -248,6 +248,7 @@ $GLOBALS['strCampaignName'] = "Nombre de la Campaña";
 $GLOBALS['strCountry'] = "País";
 $GLOBALS['strStatsAction'] = "Acción";
 $GLOBALS['strWindowDelay'] = "Retardo de Ventana";
+$GLOBALS['strStatsVariables'] = "Variables";
 
 // Finance
 $GLOBALS['strFinanceMT'] = "Alquiler mensual";
@@ -499,6 +500,9 @@ $GLOBALS['strUniqueWindow'] = "Ventana de único";
 $GLOBALS['strClick'] = "Clic";
 $GLOBALS['strView'] = "Vista";
 $GLOBALS['strImpression'] = "Impresión";
+$GLOBALS['strTotalTrackerImpressions'] = "Total de Impresiones";
+$GLOBALS['strTotalTrackerConversions'] = "Conversiones totales";
+$GLOBALS['strTrackerImpressions'] = "Impresiones";
 $GLOBALS['strConversionType'] = "Tipo de Conversión";
 $GLOBALS['strLinkCampaignsByDefault'] = "Enlazar campañas nuevas por defecto";
 $GLOBALS['strPerSingleImpression'] = "por cada impresión";
@@ -847,6 +851,7 @@ $GLOBALS['strResetStats'] = "Resetear Estadísticas";
 $GLOBALS['strSourceStats'] = "Estadísticas de fuente";
 $GLOBALS['strSelectSource'] = "Seleccione la fuente que desea ver:";
 $GLOBALS['strTargetStats'] = "Estadísticas de targeting";
+$GLOBALS['strOVerall'] = "General";
 $GLOBALS['strViewBreakdown'] = "Ver por";
 $GLOBALS['strBreakdownByDay'] = "Día";
 $GLOBALS['strBreakdownByWeek'] = "Semana";
@@ -1049,6 +1054,7 @@ $GLOBALS['strActualImpressions'] = "Impresiones";
 $GLOBALS['strRevenue_short'] = "Fact.";
 $GLOBALS['strBasketValue_short'] = "VC";
 $GLOBALS['strNumberOfItems_short'] = "Num. Ítems";
+$GLOBALS['strID_short'] = "ID";
 $GLOBALS['strRequests_short'] = "Petic.";
 $GLOBALS['strClicks_short'] = "Clics";
 $GLOBALS['strPendingConversions_short'] = "Conv. pendientes";
@@ -1256,6 +1262,8 @@ $GLOBALS['strXSettingsHaveBeenUpdated'] = "<b>%s</b> ha sido actualizado";
 
 // Reserved keys
 // Do not change these unless absolutely needed
+$GLOBALS['keyNextItem'] = ",";
+$GLOBALS['keyPreviousItem'] = ".";
 
 // Other keys
 // Please make sure you underline the key you

@@ -13,8 +13,10 @@
 // Installer translation strings
 $GLOBALS['strInstall'] = "Instalar";
 $GLOBALS['strDatabaseSettings'] = "Configurações de base de dados";
+$GLOBALS['strAdminSettings'] = "Configurações de administração";
 $GLOBALS['strAdminAccount'] = "Conta de Administrador";
 $GLOBALS['strAdvancedSettings'] = "Configurações avançadas";
+$GLOBALS['strWarning'] = "Alerta";
 $GLOBALS['strBtnContinue'] = "Prosseguir »";
 $GLOBALS['strBtnRecover'] = "Recuperar »";
 $GLOBALS['strBtnStartAgain'] = "Re-iniciar upgrade »";
@@ -41,6 +43,7 @@ $GLOBALS['strDbSuccessIntro'] = "A base de dados do {$PRODUCT_NAME} acaba de ser
 $GLOBALS['strDbSuccessIntroUpgrade'] = "Seu sistema foi atualizado com sucesso. As próximas telas irão lhe ajudar a atualizar as configurações de seu novo servidor de anúncios.";
 
 $GLOBALS['strErrorWritePermissions'] = "Erros de permissão em arquivos foram detectados, e devem ser corrigidos antes de prosseguir.<br />Para corrigir estes erros em um sistema Linux, tente digitar o(s) seguinte(s) comando(s):";
+$GLOBALS['strErrorFixPermissionsRCommand'] = "<i>chmod a+w %s</i>";
 
 $GLOBALS['strErrorWritePermissionsWin'] = "Erros de permissão em arquivos foram detectados, e devem ser corrigidos antes de prosseguir.";
 $GLOBALS['strCheckDocumentation'] = "Para mais ajuda, verifique a <a href='{$PRODUCT_DOCSURL}'>documentação do {$PRODUCT_NAME}</a>.";
@@ -58,6 +61,7 @@ $GLOBALS['strImagesUrlPrefixSSL'] = "URL do armazenamento de imagens (SSL)";
 /* ------------------------------------------------------- */
 
 // Global
+$GLOBALS['strChooseSection'] = "Escolher seção";
 $GLOBALS['strEditConfigNotPossible'] = "It is not possible to edit all settings because the configuration file is locked for security reasons. " .
     "If you want to make changes, you may need to unlock the configuration file for this installation first.";
 $GLOBALS['strEditConfigPossible'] = "It is possible to edit all settings because the configuration file is not locked, but this could lead to security issues. " .
@@ -76,10 +80,12 @@ $GLOBALS['strLoginCredentials'] = "Dados de login";
 $GLOBALS['strAdminUsername'] = "Usuário administrativo";
 $GLOBALS['strAdminPassword'] = "Senha de administração";
 $GLOBALS['strInvalidUsername'] = "Nome de usuário inválido";
+$GLOBALS['strBasicInformation'] = "Informações básicas";
 $GLOBALS['strAdminFullName'] = "Nome completo do administrador";
 $GLOBALS['strAdminEmail'] = "E-mail do admin.";
 $GLOBALS['strAdministratorEmail'] = "E-mail do administrador";
 $GLOBALS['strCompanyName'] = "Nome da empresa";
+$GLOBALS['strNovice'] = "Ações de remoção realizadas pelo Administrador necessitam confirmação, por segurança";
 $GLOBALS['strUserlogEmail'] = "Registrar todos e-mail enviados";
 $GLOBALS['strEnableDashboardSyncNotice'] = "Por favor habilite <a href='account-settings-update.php'>Verificar atualizações</a> se deseja usar o Painel de Controle.";
 $GLOBALS['strTimezone'] = "Fuso horário";
@@ -115,14 +121,19 @@ $GLOBALS['strDemoDataIntro'] = "Dados padronizados pode ser inseridos no {$PRODU
 
 
 // Email Settings
+$GLOBALS['strEmailSettings'] = "Configurações de e-mail";
 $GLOBALS['strEmailAddresses'] = "Endereço de remetente de E-mails";
 $GLOBALS['strEmailFromName'] = "Nome do remetente de E-mails";
 $GLOBALS['strEmailFromAddress'] = "Endereço do remetente do e-mail";
 $GLOBALS['strEmailFromCompany'] = "Nome da Companhia de E-mails";
 $GLOBALS['strQmailPatch'] = "patch para qmail";
+$GLOBALS['strEnableQmailPatch'] = "Habilitar patch do Qmail";
+$GLOBALS['strEmailHeader'] = "Cabeçalhos do e-mail";
+$GLOBALS['strEmailLog'] = "Registro de e-mail (Log)";
 
 // Audit Trail Settings
 $GLOBALS['strAuditTrailSettings'] = "Configurações de Auditoria de percurso";
+$GLOBALS['strEnableAudit'] = "Habilitar Auditoria de percurso";
 
 // Debug Logging Settings
 $GLOBALS['strDebug'] = "Configurações de log de debug";
@@ -165,6 +176,7 @@ $GLOBALS['strTypeFTPPassword'] = "Senha";
 $GLOBALS['strTypeFTPPassive'] = "Use FTP Passivo";
 $GLOBALS['strTypeFTPErrorDir'] = "O Diretório não existe no Servidor de FTP";
 $GLOBALS['strTypeFTPErrorConnect'] = "Impossível conectar ao servidor de FTP, o login ou senha estão incorretos";
+$GLOBALS['strTypeFTPErrorNoSupport'] = "Sua instalação de PHP não suporta FTP";
 $GLOBALS['strTypeFTPErrorUpload'] = "Impossível realizar upload para o servidor FTP, verifique as permissões no diretório do Host";
 $GLOBALS['strTypeFTPErrorHost'] = "O endereço do Servidor FTP está incorreto";
 $GLOBALS['strDeliveryFilenames'] = "Nome de arquivos de entrega";
@@ -213,6 +225,7 @@ $GLOBALS['uiEnabled'] = "Interface do usuário habilitada";
 $GLOBALS['strGeotargetingSettings'] = "Configurações de Direcionamento Geográfico (GeoTargeting)";
 $GLOBALS['strGeotargeting'] = "Configurações de Direcionamento Geográfico (GeoTargeting)";
 $GLOBALS['strGeotargetingType'] = "Tipo de módulo de direcionamento";
+$GLOBALS['strGeotargetingUseBundledCountryDb'] = "Usar a base MaxMind GeoLiteCountry inclusa no pacote";
 $GLOBALS['strGeotargetingGeoipCountryLocation'] = "Localização da base de dados de Países da MaxMind GeoIP";
 $GLOBALS['strGeotargetingGeoipRegionLocation'] = "Localização da base de dados de Regiões da MaxMind GeoIP";
 $GLOBALS['strGeotargetingGeoipCityLocation'] = "Localização da base de dados de Cidades da MaxMind GeoIP";
@@ -238,6 +251,7 @@ $GLOBALS['strShowBannerInfo'] = "Mostrar dados extras de banners na página de <
 $GLOBALS['strShowCampaignPreview'] = "Mostrar pre-visualização de banners na página de <i>Banners</i>";
 $GLOBALS['strShowBannerHTML'] = "Mostrar banner ao invés de código HTML na pré-visualização de banners HTML";
 $GLOBALS['strShowBannerPreview'] = "Mostrar pré-visualização do banner em páginas que lidam com banners";
+$GLOBALS['strHideInactive'] = "Ocultar inativos";
 $GLOBALS['strGUIShowMatchingBanners'] = "Mostrar banners compatíveis na página de <i>Banners vinculados</i>";
 $GLOBALS['strGUIShowParentCampaigns'] = "Mostrar campanhas superiores na página de <i>Banners vinculados</i>";
 $GLOBALS['strGUIAnonymousCampaignsByDefault'] = "Marcar campanhas como anônimas por padrão";
@@ -247,6 +261,7 @@ $GLOBALS['strPercentageDecimals'] = "Decimais de percentagens";
 $GLOBALS['strWeightDefaults'] = "Peso padrão";
 $GLOBALS['strDefaultBannerWeight'] = "Peso padrão de banners";
 $GLOBALS['strDefaultCampaignWeight'] = "Peso padrão de campanhas";
+$GLOBALS['strConfirmationUI'] = "Confirmação na interface do usuário";
 
 $GLOBALS['strPublisherDefaults'] = "Definições padrão para o site";
 $GLOBALS['strModesOfPayment'] = "Modos de pagamento";
@@ -286,10 +301,12 @@ $GLOBALS['strIgnoreUserAgents'] = "<b>Não</b> registre estatísticas de cliente
 $GLOBALS['strEnforceUserAgents'] = "<b>Somente</b> registre estatísticas de clientes com qualquer uma das palavras abaixo em seu user-agent (um por linha)";
 
 // Banner Storage Settings
+$GLOBALS['strBannerStorage'] = "Configurações  de armazenamento de banners";
 
 // Campaign ECPM settings
 
 // Statistics & Maintenance Settings
+$GLOBALS['strMaintenanceSettings'] = "Configurações de manutenção";
 $GLOBALS['strConversionTracking'] = "Configurações de acompanhamento de Conversões";
 $GLOBALS['strEnableConversionTracking'] = "Habilitar acompanhamento de Conversões";
 $GLOBALS['strCsvImport'] = "Permitir o upload de conversões offline";
@@ -310,6 +327,7 @@ $GLOBALS['strWarnLimitErr'] = "Limite para alerta deve ser um inteiro positivo";
 $GLOBALS['strWarnLimitDays'] = "Enviar um alerta quando os dias restantes forem menor que o número especificado";
 $GLOBALS['strWarnLimitDaysErr'] = "Limite para alerta de dias deve ser um inteiro positivo";
 $GLOBALS['strAllowEmail'] = "Permitir globalmente o envio de e-mails";
+$GLOBALS['strEmailAddressFrom'] = "Endereço de remetente de relatórios";
 $GLOBALS['strEmailAddressName'] = "Empresa ou nome pessoal para usar na assinatura do e-mail";
 $GLOBALS['strWarnAdmin'] = "Enviar um alerta para o administrador quando uma campanha estiver quase expirada";
 $GLOBALS['strWarnClient'] = "Enviar um alerta para o anunciante sempre que uma campanha estiver quase expirada";
@@ -317,6 +335,7 @@ $GLOBALS['strWarnAgency'] = "Enviar um alerta para a agência sempre que uma cam
 
 // UI Settings
 $GLOBALS['strGuiSettings'] = "Configurações da Interface de usuários";
+$GLOBALS['strGeneralSettings'] = "Configurações gerais";
 $GLOBALS['strAppName'] = "Nome da aplicação";
 $GLOBALS['strMyHeader'] = "Localização do arquivo de cabeçalho";
 $GLOBALS['strMyHeaderError'] = "O arquivo de cabeçalho especificado não existe";
@@ -324,6 +343,7 @@ $GLOBALS['strMyFooter'] = "Localização do arquivo de rodapé";
 $GLOBALS['strMyFooterError'] = "O arquivo de rodapé especificado não existe";
 $GLOBALS['strDefaultTrackerStatus'] = "Estado padrão do rastreador";
 $GLOBALS['strDefaultTrackerType'] = "Tipo padrão do rastreador";
+$GLOBALS['strSSLSettings'] = "Configurações de SSL";
 $GLOBALS['requireSSL'] = "Forçar acesso por SSL na interface de usuários";
 $GLOBALS['sslPort'] = "Porta SSL usada pelo servidor";
 $GLOBALS['strDashboardSettings'] = "Configurações do Painel de Controle";

@@ -11,8 +11,6 @@
 */
 
 // Meta information
-$translation_readable   = "Czech";
-$translation_maintainer	= "Jakub Olexa";
-$translation_contact	= "olexa@xland.cz";
-
-?>
+$translation_readable   = "Český";
+$translation_maintainer	= "Revive Adserver Team";
+$translation_contact	= "noreply@revive-adserver.com";

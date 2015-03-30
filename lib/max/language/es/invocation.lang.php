@@ -45,6 +45,7 @@ $GLOBALS['strPopUpStyle'] = "Tipo de Pop-up";
 $GLOBALS['strAutoCloseAfter'] = "Cerrar automáticamente despues de";
 $GLOBALS['strPopUpTop'] = "Posición inicial (superior)";
 $GLOBALS['strPopUpLeft'] = "Posición inicial (izquierda)";
+$GLOBALS['strShowStatus'] = "Estado";
 
 
 // XML-RPC
@@ -105,6 +106,7 @@ $GLOBALS['strCacheBuster'] = "Insertar código anti-cache";
 // sql/web banner-type warning for clickonly zone invocation
 
 // IMG invocation selected for tracker with appended code
+$GLOBALS['strWarning'] = "Advertencia";
 $GLOBALS['strImgWithAppendWarning'] = "Este tracker tiene código asociado; dicho código <strong>sólo</strong> funcionará con tags Javascript";
 
 // Local Invocation

@@ -11,9 +11,6 @@
 */
 
 // Meta information
-$translation_readable   = "Hungarian";
-//$translation_readable   = "Hungarian (Magyar)";
-$translation_maintainer	= "Herczeg József Tamás";
-$translation_contact	= "hdodi@freemail.hu";
-
-?>
+$translation_readable   = "Magyar";
+$translation_maintainer	= "Revive Adserver Team";
+$translation_contact	= "noreply@revive-adserver.com";

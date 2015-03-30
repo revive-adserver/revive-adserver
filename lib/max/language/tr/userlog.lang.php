@@ -18,9 +18,13 @@ $GLOBALS['strAdministrator'] = "Yönetici";
 
 // Audit
 $GLOBALS['strDeleted'] = "Sil";
+$GLOBALS['strDelete'] = "Sil";
 $GLOBALS['strAdvertiser'] = "Reklamveren";
 $GLOBALS['strPublisher'] = "Web sitesi";
+$GLOBALS['strCampaign'] = "Kampanya";
+$GLOBALS['strZone'] = "Alan";
 $GLOBALS['strType'] = "Tip";
+$GLOBALS['strAction'] = "Eylem";
 
 $GLOBALS['strUserlog'] = array();
 $GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Veritabanını otomatik temizle";

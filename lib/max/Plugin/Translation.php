@@ -10,7 +10,7 @@
 +---------------------------------------------------------------------------+
 */
 
-require_once MAX_PATH . '/lib/max/Admin/Languages.php';
+require_once MAX_PATH . '/lib/RV/Admin/Languages.php';
 
 /**
  * MAX_Plugin_Translation - plugin translation system.

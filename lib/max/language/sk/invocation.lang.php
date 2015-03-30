@@ -15,6 +15,7 @@
 // Measures
 
 // Common Invocation Parameters
+$GLOBALS['strInvocationClientID'] = "Inzerent";
 $GLOBALS['strInvocationCampaignID'] = "Kampaň";
 
 // Iframe

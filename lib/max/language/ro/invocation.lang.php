@@ -39,6 +39,7 @@ $GLOBALS['strIframeGoogleClickTracking'] = "Include codul pentru a urmări click
 
 
 // PopUp
+$GLOBALS['strShowStatus'] = "Stare";
 
 
 // XML-RPC

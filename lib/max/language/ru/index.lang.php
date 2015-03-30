@@ -11,7 +11,6 @@
 */
 
 // Meta information
-$translation_readable   = "Russian";
-$translation_maintainer	= "Michael Bravo";
-
-?>
+$translation_readable   = "Русский";
+$translation_maintainer	= "Revive Adserver Team";
+$translation_contact	= "noreply@revive-adserver.com";

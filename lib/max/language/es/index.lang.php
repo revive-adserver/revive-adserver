@@ -12,7 +12,5 @@
 
 // Meta information
 $translation_readable   = "Español";
-$translation_maintainer	= "SeBoRaiD";
-$translation_contact	= "me2@seboraid.com.ar";
-
-?>
+$translation_maintainer	= "Revive Adserver Team";
+$translation_contact	= "noreply@revive-adserver.com";

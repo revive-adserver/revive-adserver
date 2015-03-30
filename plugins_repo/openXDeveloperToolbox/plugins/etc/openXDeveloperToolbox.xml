@@ -3,13 +3,13 @@
 
 <plugin>
     <name>openXDeveloperToolbox</name>
-    <creationDate>2008-07-18</creationDate>
+    <creationDate>2015-03-30</creationDate>
     <author>Revive adserver</author>
     <authorEmail>revive@revive-adserver.com</authorEmail>
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>license.txt</license>
     <description>Developer Toolbox for Revive Adserver</description>
-    <version>0.1.4</version>
+    <version>0.1.5</version>
     <type>extension</type>
 
     <install>

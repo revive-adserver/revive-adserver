@@ -17,10 +17,10 @@ require_once '../../init.php';
 require_once MAX_PATH . '/lib/OA/Admin/Option.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI/UserAccess.php';
 
-require_once MAX_PATH . '/lib/max/Admin/Languages.php';
+require_once MAX_PATH . '/lib/RV/Admin/Languages.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 require_once MAX_PATH . '/www/admin/config.php';
-require_once MAX_PATH . '/lib/max/Admin/Languages.php';
+require_once MAX_PATH . '/lib/RV/Admin/Languages.php';
 
 
 // Security check
@@ -115,9 +115,6 @@ else if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER, OA_ACCOUNT_ADVERTISER))
 $oUser = OA_Permission::getCurrentUser();
 $aUser = $oUser->aUser;
 
-//$aLanguages = MAX_Admin_Languages::AvailableLanguages();
-$aLanguages = new MAX_Admin_Languages;
-
 // Prepare an array of HTML elements to display for the form, and
 // output using the $oOption object
 $aSettings = array (
@@ -160,7 +157,7 @@ $aSettings = array (
                 'type'    => 'select',
                 'name'    => 'language',
                 'text'    => $strLanguage,
-                'items'   => $aLanguages->AvailableLanguages(),
+                'items'   => RV_Admin_Languages::getAvailableLanguages(),
                 'value'   => $GLOBALS['_MAX']['PREF']['language']
             )
         )

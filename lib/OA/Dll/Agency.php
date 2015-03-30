@@ -20,7 +20,7 @@ require_once MAX_PATH . '/lib/OA/Dll.php';
 require_once MAX_PATH . '/lib/OA/Dll/AgencyInfo.php';
 require_once MAX_PATH . '/lib/OA/Dal/Statistics/Agency.php';
 require_once MAX_PATH . '/lib/OA/Auth.php';
-require_once MAX_PATH . '/lib/max/Admin/Languages.php';
+require_once MAX_PATH . '/lib/RV/Admin/Languages.php';
 
 
 /**
@@ -136,8 +136,8 @@ class OA_Dll_Agency extends OA_Dll
 
     function _validateLangage($language)
     {
-        $oLanguages = new MAX_Admin_Languages();
-        return array_key_exists($language, $oLanguages->AvailableLanguages());
+        $aLanguages = RV_Admin_Languages::getAvailableLanguages();
+        return isset($aLanguages[$language]);
     }
 
     /**

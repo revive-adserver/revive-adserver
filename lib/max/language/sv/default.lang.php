@@ -180,13 +180,16 @@ $GLOBALS['strPercentBasketValue'] = "Värdet på korgen";
 
 // Time and date related
 $GLOBALS['strDate'] = "Datum";
+$GLOBALS['strToday'] = "Idag";
 $GLOBALS['strDay'] = "Dag";
 $GLOBALS['strDays'] = "Dagar";
+$GLOBALS['strLast7Days'] = "Senaste 7 dagarna";
 $GLOBALS['strWeek'] = "Vecka";
 $GLOBALS['strWeeks'] = "Veckor";
 $GLOBALS['strSingleMonth'] = "Månad";
 $GLOBALS['strMonths'] = "Månader";
 $GLOBALS['strDayOfWeek'] = "Dag av vecka";
+$GLOBALS['strThisMonth'] = "Denna månad";
 
 $GLOBALS['strMonth'] = array();
 
@@ -337,6 +340,8 @@ $GLOBALS['strUniqueWindow'] = "Unikt fönster";
 $GLOBALS['strClick'] = "Klicka";
 $GLOBALS['strView'] = "Visa";
 $GLOBALS['strImpression'] = "Visningar";
+$GLOBALS['strTotalTrackerConversions'] = "Totala konverteringar";
+$GLOBALS['strTrackerImpressions'] = "Visningar";
 $GLOBALS['strConversionType'] = "Konversionstyp";
 $GLOBALS['strLinkCampaignsByDefault'] = "Länka nyskapade kampanjer som standard";
 
@@ -608,6 +613,8 @@ $GLOBALS['strTotalThisPeriod'] = "Totalt den här perioden";
 $GLOBALS['strPublisherDistribution'] = "Webbsajtdistribution";
 $GLOBALS['strCampaignDistribution'] = "Kampanjdistribution";
 $GLOBALS['strTargetStats'] = "Målstatistik";
+$GLOBALS['strCampaignTarget'] = "Mål";
+$GLOBALS['strOVerall'] = "Total";
 $GLOBALS['strViewBreakdown'] = "Visa efter";
 $GLOBALS['strBreakdownByDay'] = "Dag";
 $GLOBALS['strBreakdownByWeek'] = "Vecka";

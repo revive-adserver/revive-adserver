@@ -12,7 +12,5 @@
 
 // Meta information
 $translation_readable   = "Nederlands";
-$translation_maintainer	= "Niels Leenheer";
-$translation_contact	= "niels@creatype.nl";
-
-?>
+$translation_maintainer	= "Revive Adserver Team";
+$translation_contact	= "noreply@revive-adserver.com";
