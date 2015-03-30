@@ -175,13 +175,16 @@ $GLOBALS['strFinanceMT'] = "Tenantiaeth Misol";
 
 // Time and date related
 $GLOBALS['strDate'] = "Dyddiad";
+$GLOBALS['strToday'] = "Heddiw";
 $GLOBALS['strDay'] = "Diwrnod";
 $GLOBALS['strDays'] = "Diwrnodau";
+$GLOBALS['strLast7Days'] = "7 niwrnod diwethaf";
 $GLOBALS['strWeek'] = "Wythnos";
 $GLOBALS['strWeeks'] = "Wythnosau";
 $GLOBALS['strSingleMonth'] = "Mis";
 $GLOBALS['strMonths'] = "Misoedd";
 $GLOBALS['strDayOfWeek'] = "Diwrnod yr wythnos";
+$GLOBALS['strThisMonth'] = "Y mis hwn";
 
 $GLOBALS['strMonth'] = array();
 $GLOBALS['strMonth'][11] = "Rhagfyr";
@@ -332,6 +335,8 @@ $GLOBALS['strUniqueWindow'] = "Ffenest unigryw";
 $GLOBALS['strClick'] = "Clic";
 $GLOBALS['strView'] = "Golwg";
 $GLOBALS['strImpression'] = "Argraffiadau";
+$GLOBALS['strTotalTrackerConversions'] = "Cyfanswm Trawsnewidiadau";
+$GLOBALS['strTrackerImpressions'] = "Argraffiadau";
 $GLOBALS['strConversionType'] = "Math trawsnewidiad";
 $GLOBALS['strLinkCampaignsByDefault'] = "Cysylltwch ymgyrchoedd newydd yn ddiofyn";
 
@@ -603,6 +608,8 @@ $GLOBALS['strTotalThisPeriod'] = "Cyfanswm ar gyfer cyfnod";
 $GLOBALS['strPublisherDistribution'] = "Dosbarthiad gwefan";
 $GLOBALS['strCampaignDistribution'] = "Dosbarthiad Ymgyrch";
 $GLOBALS['strTargetStats'] = "Ystadegau Targedi";
+$GLOBALS['strCampaignTarget'] = "Targed";
+$GLOBALS['strOVerall'] = "Cyffredinol";
 $GLOBALS['strViewBreakdown'] = "Golwg gan";
 $GLOBALS['strBreakdownByDay'] = "Diwrnod";
 $GLOBALS['strBreakdownByWeek'] = "Wythnos";

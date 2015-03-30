@@ -472,6 +472,8 @@ $GLOBALS['strUniqueWindow'] = "Janela única";
 $GLOBALS['strClick'] = "Clique";
 $GLOBALS['strView'] = "Visualizar";
 $GLOBALS['strImpression'] = "Impressão";
+$GLOBALS['strTotalTrackerConversions'] = "Total de conversões";
+$GLOBALS['strTrackerImpressions'] = "Impressões";
 $GLOBALS['strConversionType'] = "Tipo de conversão";
 $GLOBALS['strLinkCampaignsByDefault'] = "vincular campanhas novas por padrão";
 $GLOBALS['strPerSingleImpression'] = "por cada impressão";
@@ -710,6 +712,9 @@ $GLOBALS['strWarnChangeBannerSize'] = 'Alterar o tamanho do banner irá remover 
 $GLOBALS['strInventoryForecasting'] = 'Previsão de inventário';
 $GLOBALS['strZonesOfWebsite'] = 'em'; //this is added between page name and website name eg. 'Zones in www.example.com'$GLOBALS['strBackToZones'] = "Back to zones";
 
+$GLOBALS['strIab']['IAB_Rectangle(180x150)*'] = "IAB Rectangle (180 x 150) *";
+$GLOBALS['strIab']['IAB_MediumRectangle(300x250)*'] = "IAB Medium Rectangle (300 x 250) *";
+$GLOBALS['strIab']['IAB_WideSkyscraper(160x600)*'] = "IAB Wide Skyscraper (160 x 600) *";
 
 // Advanced zone settings
 $GLOBALS['strAdvanced'] = "Avançado";
@@ -795,6 +800,8 @@ $GLOBALS['strResetStats'] = "Re-iniciar estatï¿œsticas";
 $GLOBALS['strSourceStats'] = "Tipo de estatï¿œsticas";
 $GLOBALS['strSelectSource'] = "Selecione o tipo que quer vï¿œr:";
 $GLOBALS['strTargetStats'] = "Estatísticas de direcionamento";
+$GLOBALS['strCampaignTarget'] = "Alvo (target)";
+$GLOBALS['strOVerall'] = "Geral";
 $GLOBALS['strViewBreakdown'] = "Visualizar por";
 $GLOBALS['strBreakdownByDay'] = "Dia";
 $GLOBALS['strBreakdownByWeek'] = "Semana";
@@ -1006,6 +1013,7 @@ $GLOBALS['strGeneralSettings'] = "Configurações gerais";
 $GLOBALS['strMainSettings'] = "Principais configurações";
 $GLOBALS['strAdminSettings'] = "Configurações de administração";
 
+$GLOBALS['strChooseSection'] = 'Escolher seção';
 
 // Product Updates
 $GLOBALS['strProductUpdates'] = "Atualizações do produto";
@@ -1163,6 +1171,8 @@ $GLOBALS['strDeliveryLimitationsInputErrors'] = "Os valores de algumas limitaç�
 
 // Reserved keys
 // Do not change these unless absolutely needed
+$GLOBALS['keyNextItem'] = ",";
+$GLOBALS['keyPreviousItem'] = ".";
 
 // Other keys
 // Please make sure you underline the key you

@@ -17,6 +17,8 @@
 /** check step **/
 
 
+$GLOBALS['strWarning']                          = "Avertisment";
+$GLOBALS['strSyscheckStatus']                   = "Stare";
 
 /** admin login step **/
 

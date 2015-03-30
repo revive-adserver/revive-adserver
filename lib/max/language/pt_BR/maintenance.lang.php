@@ -165,6 +165,7 @@ $GLOBALS['strAutoMaintenanceDisabledMaintenanceRan'] = "A manutenção automáti
 $GLOBALS['strAutoMaintenanceDisabledNotTriggered'] = "Também, a manutenção automática esta desablitada, portanto, quando o {$PRODUCT_NAME} entregar banners, a manutenção não é disparada. Cao não planeje executar <a href='http://{$PRODUCT_DOCSURL}/maintenance.html' target='_blank'>a manutenção agendada</a>, você deve <a href='settings-admin.php'>habilitar a manutenção automática</a> para garantir que o {$PRODUCT_NAME} funcione corretamente.";
 
 //  Deliver Limitations
+$GLOBALS['strDeliveryLimitations'] = "Limitações de entrega";
 $GLOBALS['strAllBannerChannelCompiled'] = "Todos valores de limiteções de banners/canais foram re-compilados";
 $GLOBALS['strBannerChannelResult'] = "Este são os resultados da validação da compilação de limites de banners/canais";
 $GLOBALS['strChannelCompiledLimitationsValid'] = "Todos limites compilados para os canais são válidos";

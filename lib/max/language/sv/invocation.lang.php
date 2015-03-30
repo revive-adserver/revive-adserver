@@ -21,6 +21,7 @@ $GLOBALS['strAbbrSeconds'] = "sek";
 
 // Common Invocation Parameters
 $GLOBALS['strInvocationWhat'] = "Val av banner";
+$GLOBALS['strInvocationClientID'] = "Annonsör";
 $GLOBALS['strInvocationCampaignID'] = "Kampanj";
 $GLOBALS['strInvocationTarget'] = "Målram";
 $GLOBALS['strInvocationSource'] = "Källa";

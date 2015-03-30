@@ -168,13 +168,16 @@ $GLOBALS['strFinanceMT'] = "Mesačný nájom";
 
 // Time and date related
 $GLOBALS['strDate'] = "Dátum";
+$GLOBALS['strToday'] = "Dnes";
 $GLOBALS['strDay'] = "Deň";
 $GLOBALS['strDays'] = "Dni";
+$GLOBALS['strLast7Days'] = "Posledných 7 dní";
 $GLOBALS['strWeek'] = "Týždeň";
 $GLOBALS['strWeeks'] = "Týždne";
 $GLOBALS['strSingleMonth'] = "Mesiac";
 $GLOBALS['strMonths'] = "Mesiace";
 $GLOBALS['strDayOfWeek'] = "Deň v týždni";
+$GLOBALS['strThisMonth'] = "Tento mesiac";
 
 $GLOBALS['strMonth'] = array();
 
@@ -278,6 +281,8 @@ $GLOBALS['strConfirmDeleteTrackers'] = "Naozaj chcete zmazať inzerenta?";
 $GLOBALS['strConfirmDeleteTracker'] = "Naozaj chcete zmazať inzerenta?";
 $GLOBALS['strClick'] = "Kliknutia";
 $GLOBALS['strImpression'] = "Impresie, Zobrazenia";
+$GLOBALS['strTotalTrackerConversions'] = "Celkový počet konverzií";
+$GLOBALS['strTrackerImpressions'] = "Impresií";
 
 // Banners (General)
 $GLOBALS['strTotalBanners'] = "Celkový počet banerov";
@@ -346,6 +351,8 @@ $GLOBALS['strConnTypeSale'] = "Uložiť";
 
 // Statistics
 $GLOBALS['strDailyStats'] = "Všetky štatistiky";
+$GLOBALS['strCampaignTarget'] = "Cieľ";
+$GLOBALS['strOVerall'] = "Celkový";
 $GLOBALS['strBreakdownByDay'] = "Deň";
 $GLOBALS['strBreakdownByWeek'] = "Týždeň";
 $GLOBALS['strBreakdownByMonth'] = "Mesiac";

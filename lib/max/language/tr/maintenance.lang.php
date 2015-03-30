@@ -110,6 +110,7 @@ $GLOBALS['strConvertFinishedExplaination'] = "	Yoğunlaştırılmış istatistik
 //  Maintenace
 
 //  Deliver Limitations
+$GLOBALS['strDeliveryLimitations'] = "Teslimat Kısıtlamaları";
 
 
 //  Append codes

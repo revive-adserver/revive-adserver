@@ -21,6 +21,7 @@ $GLOBALS['strAbbrSeconds'] = "sek";
 
 // Common Invocation Parameters
 $GLOBALS['strInvocationWhat'] = "Izbira pasice";
+$GLOBALS['strInvocationClientID'] = "Oglaševalec";
 $GLOBALS['strInvocationCampaignID'] = "Kampanja";
 $GLOBALS['strInvocationTarget'] = "Okvir cilja";
 $GLOBALS['strInvocationSource'] = "Vir";
@@ -40,6 +41,7 @@ $GLOBALS['strIframeGoogleClickTracking'] = "Vključi zbirnik za sledenje Google 
 
 
 // PopUp
+$GLOBALS['strShowStatus'] = "Stanje";
 
 
 // XML-RPC

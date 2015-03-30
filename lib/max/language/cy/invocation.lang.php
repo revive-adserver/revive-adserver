@@ -17,6 +17,7 @@ $GLOBALS['strChooseTypeOfBannerInvocation'] = "Dewiswch y math o actifadu baneri
 // Measures
 
 // Common Invocation Parameters
+$GLOBALS['strInvocationClientID'] = "Hysbysebwr";
 $GLOBALS['strInvocationCampaignID'] = "Ymgyrch";
 $GLOBALS['strInvocationSource'] = "Ffynhonnell";
 
@@ -24,6 +25,7 @@ $GLOBALS['strInvocationSource'] = "Ffynhonnell";
 
 
 // PopUp
+$GLOBALS['strShowStatus'] = "Statws";
 
 
 // XML-RPC
