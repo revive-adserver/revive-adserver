@@ -10,7 +10,7 @@
 +---------------------------------------------------------------------------+
 */
 
-require_once MAX_PATH . '/lib/max/Admin/Languages.php';
+require_once MAX_PATH . '/lib/RV/Admin/Languages.php';
 
 /**
  * @package    MaxUI
@@ -68,13 +68,12 @@ class Language_Loader {
             if ($lang != 'en') {
                 include MAX_PATH . '/lib/max/language/' . $lang . '/' . $section . '.lang.php';
             }
-        } else{
+        } else {
             // Check if using full language name (polish), if so then set to use two letter abbr (pl).
-            $oLang = new MAX_Admin_Languages();
             if (!empty($aConf['max']['language'])) {
                 $confMaxLanguage = $aConf['max']['language'];
-                if (in_array($confMaxLanguage, array_keys($oLang->aLanguageMap))) {
-                    $confMaxLanguage = $oLang->aLanguageMap[$confMaxLanguage];
+                if (isset(RV_Admin_Languages::$aOldLanguagesMap[$confMaxLanguage])) {
+                    $confMaxLanguage = RV_Admin_Languages::$aOldLanguagesMap[$confMaxLanguage];
                 }
             }
 

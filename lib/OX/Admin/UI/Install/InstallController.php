@@ -26,7 +26,7 @@ require_once MAX_PATH . '/lib/OX/Upgrade/PostUpgradeTask/Controller.php';
 
 // required files for header & nav
 require_once MAX_PATH.'/lib/JSON/JSON.php';
-require_once MAX_PATH . '/lib/max/Admin/Languages.php';
+require_once MAX_PATH . '/lib/RV/Admin/Languages.php';
 require_once MAX_PATH . '/lib/max/language/Loader.php';
 require_once MAX_PATH . '/lib/OA/Upgrade/Upgrade.php';
 require_once MAX_PATH . '/lib/OA/Upgrade/Login.php';
@@ -377,8 +377,7 @@ class OX_Admin_UI_Install_InstallController
         //setup form
         $aPluginsVerifyResult = OX_Admin_UI_Install_InstallUtils::checkPluginsVerified();
         $prevPathRequired = !$aPluginsVerifyResult['verified'];
-        $oLanguage = new MAX_Admin_Languages();
-        $aLanguages = $oLanguage->getAvailableLanguages();
+        $aLanguages = RV_Admin_Languages::getAvailableLanguages();
         $aTimezones = OX_Admin_Timezones::AvailableTimezones(true);
         $oForm = new OX_Admin_UI_Install_ConfigForm($this->oTranslation, $oWizard->getCurrentStep(),
              $aLanguages, $aTimezones, $isUpgrade, $prevPathRequired);

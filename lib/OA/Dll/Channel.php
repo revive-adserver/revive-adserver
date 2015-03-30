@@ -20,7 +20,7 @@ require_once MAX_PATH . '/lib/OA/Dll.php';
 require_once MAX_PATH . '/lib/OA/Dll/ChannelInfo.php';
 require_once MAX_PATH . '/lib/OA/Dll/TargetingInfo.php';
 require_once MAX_PATH . '/lib/OA/Auth.php';
-require_once MAX_PATH . '/lib/max/Admin/Languages.php';
+require_once MAX_PATH . '/lib/RV/Admin/Languages.php';
 
 
 /**
