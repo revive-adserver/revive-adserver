@@ -235,7 +235,7 @@ class Plugins_Authentication extends OX_Component
         $userExists = !empty($userData['user_id']);
         $userDetailsFields = array();
         $oLanguages = new MAX_Admin_Languages();
-        $aLanguages = $oLanguages->AvailableLanguages();
+        $aLanguages = $oLanguages->getAvailableLanguages();
 
         $userDetailsFields[] = array(
                 'name'      => 'login',

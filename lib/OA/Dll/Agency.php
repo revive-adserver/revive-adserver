@@ -137,7 +137,8 @@ class OA_Dll_Agency extends OA_Dll
     function _validateLangage($language)
     {
         $oLanguages = new MAX_Admin_Languages();
-        return array_key_exists($language, $oLanguages->AvailableLanguages());
+        $aLanguages = $oLanguages->getAvailableLanguages();
+        return isset($aLanguages[$language]);
     }
 
     /**

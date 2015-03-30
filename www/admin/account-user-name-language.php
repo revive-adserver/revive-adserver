@@ -160,7 +160,7 @@ $aSettings = array (
                 'type'    => 'select',
                 'name'    => 'language',
                 'text'    => $strLanguage,
-                'items'   => $aLanguages->AvailableLanguages(),
+                'items'   => $aLanguages->getAvailableLanguages(),
                 'value'   => $GLOBALS['_MAX']['PREF']['language']
             )
         )

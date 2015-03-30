@@ -378,7 +378,7 @@ class OX_Admin_UI_Install_InstallController
         $aPluginsVerifyResult = OX_Admin_UI_Install_InstallUtils::checkPluginsVerified();
         $prevPathRequired = !$aPluginsVerifyResult['verified'];
         $oLanguage = new MAX_Admin_Languages();
-        $aLanguages = $oLanguage->AvailableLanguages();
+        $aLanguages = $oLanguage->getAvailableLanguages();
         $aTimezones = OX_Admin_Timezones::AvailableTimezones(true);
         $oForm = new OX_Admin_UI_Install_ConfigForm($this->oTranslation, $oWizard->getCurrentStep(),
              $aLanguages, $aTimezones, $isUpgrade, $prevPathRequired);

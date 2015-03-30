@@ -11,6 +11,7 @@
  */
 
 // Installer translation strings
+$GLOBALS['strInstall'] = "Install";
 $GLOBALS['strDatabaseSettings'] = "Database Settings";
 $GLOBALS['strAdminAccount'] = "System Administrator Account";
 $GLOBALS['strAdvancedSettings'] = "Advanced Settings";
