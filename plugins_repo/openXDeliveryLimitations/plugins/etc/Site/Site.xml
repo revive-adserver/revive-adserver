@@ -4,13 +4,13 @@
 <plugin>
     <name>Site</name>
     <displayName>Site Delivery Limitation Plugin</displayName>
-    <creationDate>2014-12-02</creationDate>
+    <creationDate>2015-03-30</creationDate>
     <author>Revive Adserver</author>
     <authorEmail>revive@revive-adserver.com</authorEmail>
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>GNU Gneral Public License v2</license>
     <description>Plugin that provides the ability to target delivery of ads by site.</description>
-    <version>1.3.1</version>
+    <version>1.3.2</version>
     <oxversion>2.7.30-beta-rc11</oxversion>
     <extends>deliveryLimitations</extends>
 
@@ -27,11 +27,29 @@
             <file path="{MODULEPATH}deliveryLimitations/Site/">Variable.class.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Site/">Variable.delivery.php</file>
 
+            <file path="{GROUPPATH}/_lang/">cy.mo</file>
             <file path="{GROUPPATH}/_lang/">en.mo</file>
+            <file path="{GROUPPATH}/_lang/">es.mo</file>
             <file path="{GROUPPATH}/_lang/">nl.mo</file>
-            <file path="{GROUPPATH}/_lang/">zh_CN.mo</file>
+            <file path="{GROUPPATH}/_lang/">pl.mo</file>
+            <file path="{GROUPPATH}/_lang/">pt_BR.mo</file>
+            <file path="{GROUPPATH}/_lang/">ro.mo</file>
+            <file path="{GROUPPATH}/_lang/">sl.mo</file>
+            <file path="{GROUPPATH}/_lang/">sv.mo</file>
+            <file path="{GROUPPATH}/_lang/">tr.mo</file>
+            <file path="{GROUPPATH}/_lang/">uk.mo</file>
+            <file path="{GROUPPATH}/_lang/">zh_CN.po</file>
+            <file path="{GROUPPATH}/_lang/po/">cy.po</file>
             <file path="{GROUPPATH}/_lang/po/">en.po</file>
+            <file path="{GROUPPATH}/_lang/po/">es.po</file>
             <file path="{GROUPPATH}/_lang/po/">nl.po</file>
+            <file path="{GROUPPATH}/_lang/po/">pl.po</file>
+            <file path="{GROUPPATH}/_lang/po/">pt_BR.po</file>
+            <file path="{GROUPPATH}/_lang/po/">ro.po</file>
+            <file path="{GROUPPATH}/_lang/po/">sl.po</file>
+            <file path="{GROUPPATH}/_lang/po/">sv.po</file>
+            <file path="{GROUPPATH}/_lang/po/">tr.po</file>
+            <file path="{GROUPPATH}/_lang/po/">uk.po</file>
             <file path="{GROUPPATH}/_lang/po/">zh_CN.po</file>
         </files>
 
