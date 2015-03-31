@@ -14,6 +14,7 @@
     <include name="*.php"/>
     <include name="*.js"/>
     <include name="robots.txt"/>
+    <include name="crossdomain.xml"/>
     <exclude name="build.sh"/>
 
     <!-- Subdirectory rules -->
