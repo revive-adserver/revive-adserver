@@ -23,30 +23,23 @@
 
 $GLOBALS['strHelp'] = "مساعدة";
 $GLOBALS['strStartOver'] = "البدء من جديد";
-$GLOBALS['strNavigation'] = "التصفح";
 $GLOBALS['strShortcuts'] = "الاختصارات";
 $GLOBALS['strActions'] = "الفعل";
 $GLOBALS['strAdminstration'] = "المخزن";
 $GLOBALS['strMaintenance'] = "الصيانة";
 $GLOBALS['strProbability'] = "الإحتماليات";
 $GLOBALS['strInvocationcode'] = "كود التركيب";
-$GLOBALS['strTrackerVariables'] = "متغيرات متقفي الأثر";
 $GLOBALS['strBasicInformation'] = "معلومات أساسية";
-$GLOBALS['strLoginInformation'] = "معلومات الدخول";
-$GLOBALS['strLogoutURL'] = "الرابط الخاص بالتحويل لتسجيل الخروج. <br /> إتركه فارغاً لإستخدام الخيار الإفتراضي";
 $GLOBALS['strOverview'] = "نظرة عامة";
 $GLOBALS['strSearch'] = "البحث";
 $GLOBALS['strDetails'] = "التفاصيل";
 $GLOBALS['strCheckForUpdates'] = "فحص التحديثات";
 $GLOBALS['strCompact'] = "مدمج";
 $GLOBALS['strUser'] = "مستخدم";
-$GLOBALS['strEdit'] = "تعديل";
-$GLOBALS['strCreate'] = "إنشاء";
 $GLOBALS['strDuplicate'] = "نسخ";
 $GLOBALS['strMoveTo'] = "نقل إلى";
 $GLOBALS['strDelete'] = "حذف";
 $GLOBALS['strActivate'] = "تفعيل";
-$GLOBALS['strDeActivate'] = "إلغاء التفعيل";
 $GLOBALS['strConvert'] = "تحويل";
 $GLOBALS['strRefresh'] = "تحديث";
 $GLOBALS['strSaveChanges'] = "حفظ التعديلات";
@@ -61,15 +54,11 @@ $GLOBALS['strNo'] = "لا";
 $GLOBALS['strNone'] = "المنطقة";
 $GLOBALS['strCustom'] = "مخصص";
 $GLOBALS['strDefault'] = "افتراضي";
-$GLOBALS['strOther'] = "أخرى";
 $GLOBALS['strUnlimited'] = "غير محدود";
 $GLOBALS['strUntitled'] = "بدون عنوان";
-$GLOBALS['strAll'] = "الكل";
-$GLOBALS['strAvg'] = "متوسط";
 $GLOBALS['strAverage'] = "المتوسط";
 $GLOBALS['strOverall'] = "بشكل عام";
 $GLOBALS['strTotal'] = "المجموع";
-$GLOBALS['strActive'] = "فعال";
 $GLOBALS['strTo'] = "إلى";
 $GLOBALS['strLinkedTo'] = "رابط إلى";
 $GLOBALS['strDaysLeft'] = "أيام باقية";
@@ -82,7 +71,6 @@ $GLOBALS['strNoAdminInterface'] = "تم إيقاف لوحة تحكم المدر�
 $GLOBALS['strFieldContainsErrors'] = "الحقول التالية تحتوي على أخطاء:";
 $GLOBALS['strFieldFixBeforeContinue1'] = "قبل الاستمرار يجب أن";
 $GLOBALS['strFieldFixBeforeContinue2'] = "لتصليح هذه الأخطاء";
-$GLOBALS['strDelimiter'] = "الفاصل";
 $GLOBALS['strMiscellaneous'] = "خيارات متنوعة";
 $GLOBALS['strCollectedAllStats'] = "كل الاحصائيات";
 $GLOBALS['strCollectedToday'] = "اليوم";
@@ -93,7 +81,6 @@ $GLOBALS['strCollectedThisMonth'] = "هذا الشهر";
 $GLOBALS['strCollectedLastMonth'] = "الشهر الماضي";
 $GLOBALS['strCollectedLast7Days'] = "آخر 7 أيام";
 $GLOBALS['strCollectedSpecificDates'] = "تواريخ محددة";
-$GLOBALS['strAdmin'] = "المدير";
 $GLOBALS['strWarning'] = "تحذير";
 $GLOBALS['strNotice'] = "تنبيه";
 
@@ -103,8 +90,6 @@ $GLOBALS['strNotice'] = "تنبيه";
 // Priority
 $GLOBALS['strPriority'] = "الأهمية";
 $GLOBALS['strPriorityLevel'] = "مستوى الأهمية";
-$GLOBALS['strPriorityTargeting'] = "التوزيع";
-$GLOBALS['strPriorityOptimisation'] = "خيارات متنوعة"; // Er, what?
 $GLOBALS['strLimitations'] = "المحددات";
 $GLOBALS['strNoLimitations'] = "بدون تحديد";
 $GLOBALS['strCapping'] = "تغطية";
@@ -142,12 +127,9 @@ $GLOBALS['strAccessDenied'] = "الدخول ممنوع";
 $GLOBALS['strUsernameOrPasswordWrong'] = "قمت بإدخال بيانات خاطئة في اسم المستخدم أو كلمة السر. الرجاء المحاولة مرة أخرى.";
 $GLOBALS['strPasswordWrong'] = "كلمة السر غير صحيحة";
 $GLOBALS['strDuplicateClientName'] = "اسم المستخدم الذي أدخلته موجود مسبقاً ، الرجاء اختيار اسم آخر.";
-$GLOBALS['strDuplicateAgencyName'] = "اسم المستخدم الذي أدخلته موجود مسبقاً ، الرجاء اختيار اسم آخر.";
 $GLOBALS['strInvalidPassword'] = "كلمة السر الجديدة غير صالحة ، الرجاء اختيار كلمة سر أخرى.";
 $GLOBALS['strNotSamePasswords'] = "كلمتا السر التي قمت بإدخالهما غير متطابقتين";
 $GLOBALS['strRepeatPassword'] = "قم بإعادة كتابة كلمة السر";
-$GLOBALS['strOldPassword'] = "كلمة السر الحالية";
-$GLOBALS['strNewPassword'] = "كلمة السر الجديدة";
 
 // General advertising
 $GLOBALS['strRequests'] = "الطلبات";
@@ -156,12 +138,8 @@ $GLOBALS['strClicks'] = "الضغطات";
 $GLOBALS['strConversions'] = "التحويل";
 $GLOBALS['strCTRShort'] = "معدل الضغطات";
 $GLOBALS['strCTR'] = "معدل الضغطات";
-$GLOBALS['strCNVR'] = "نسبة المبيعات";
 $GLOBALS['strTotalClicks'] = "مجموع الضغطات";
 $GLOBALS['strTotalConversions'] = "مجموع التحويلات";
-$GLOBALS['strViewCredits'] = "رصيد الظهور";
-$GLOBALS['strClickCredits'] = "رصيد الضغطات";
-$GLOBALS['strConversionCredits'] = "رصيد التحويلات";
 $GLOBALS['strDateTime'] = "التاريخ الوقت";
 $GLOBALS['strTrackerID'] = "رقم المتتبع";
 $GLOBALS['strTrackerName'] = "اسم المتتبع";
@@ -191,19 +169,6 @@ $GLOBALS['strSingleMonth'] = "شهر";
 $GLOBALS['strMonths'] = "أشهر";
 $GLOBALS['strDayOfWeek'] = "اليوم من الأسبوع";
 
-$GLOBALS['strMonth'] = array();
-$GLOBALS['strMonth'][0] = "يناير";
-$GLOBALS['strMonth'][1] = "فبراير";
-$GLOBALS['strMonth'][2] = "مارس";
-$GLOBALS['strMonth'][3] = "أبريل";
-$GLOBALS['strMonth'][4] = "مايو";
-$GLOBALS['strMonth'][5] = "يونيو";
-$GLOBALS['strMonth'][6] = "يوليو";
-$GLOBALS['strMonth'][7] = "أغسطس";
-$GLOBALS['strMonth'][8] = "سبتمبر";
-$GLOBALS['strMonth'][9] = "أوكتوبر";
-$GLOBALS['strMonth'][10] = "نوفمبر";
-$GLOBALS['strMonth'][11] = "ديسمبر";
 
 $GLOBALS['strDayFullNames'] = array();
 $GLOBALS['strDayFullNames'][0] = 'ديسمبر';
@@ -233,19 +198,12 @@ $GLOBALS['strClient'] = "المعلن";
 $GLOBALS['strClients'] = "المعلنين";
 $GLOBALS['strClientsAndCampaigns'] = "المعلنين و الحملات الاعلانية";
 $GLOBALS['strAddClient'] = "إضافة معلن جديد";
-$GLOBALS['strAddClient_Key'] = "إضافة معلن <u>جـ</u>ـديد";
-$GLOBALS['strTotalClients'] = "جميع المعلنين";
 $GLOBALS['strClientProperties'] = "خواص المعلن";
 $GLOBALS['strClientHistory'] = "سجل المعلن";
-$GLOBALS['strNoClients'] = "لا يوجد معلنين حتى الآن. لإضافة حملة إعلانية، يجب <a href='advertiser-edit.php'>إضافة معلن</a> قبل ذلك.";
-$GLOBALS['strNoClientsForBanners'] = "لا يوجد معلنين حتى الآن. لإضافة حملة إعلانية، يجب <a href='advertiser-edit.php'>إضافة معلن</a> قبل ذلك.";
 $GLOBALS['strConfirmDeleteClient'] = "هل أنت متأكد من رغبتك في حذف هذا المعلن ؟";
 $GLOBALS['strConfirmDeleteClients'] = "هل أنت متأكد من رغبتك في حذف هذا المعلن ؟";
-$GLOBALS['strSite'] = "الحجم";
 $GLOBALS['strHideInactive'] = "إخفاء الغير فعّال";
-$GLOBALS['strHideInactiveAdvertisers'] = "إخفاء المعلنين غير النشطين";
 $GLOBALS['strInactiveAdvertisersHidden'] = "المعلنين غير النشطين تم إخفائهم";
-$GLOBALS['strOverallAdvertisers'] = "المعلنين";
 $GLOBALS['strAdvertiserCampaigns'] = "المعلنين و الحملات الاعلانية";
 
 // Advertisers properties
@@ -254,35 +212,25 @@ $GLOBALS['strEMail'] = "البريد الالكتروني";
 $GLOBALS['strSendAdvertisingReport'] = "إرسال تفاصيل الحملة الاعلانية بالبريد الالكتروني";
 $GLOBALS['strNoDaysBetweenReports'] = "عدد الأيام بين تقارير عرض الحملات";
 $GLOBALS['strSendDeactivationWarning'] = "إرسال بريد إلكتروني عندما يتم إيقاف أو تفعيل الحملة بشكل تلقائي";
-$GLOBALS['strAllowClientModifyInfo'] = "السماح لهذا العضو بتعديل خياراته";
 $GLOBALS['strAllowClientModifyBanner'] = "السماح لهذا العضو بتعديل الإعلانات الخاصة به";
 $GLOBALS['strAllowClientDisableBanner'] = "السماح لهذا العضو بتعطيل الإعلانات الخاصة به";
 $GLOBALS['strAllowClientActivateBanner'] = "السماح لهذا العضو بتفعيل الإعلانات الخاصة به";
-$GLOBALS['strAllowClientViewTargetingStats'] = "السماح لهذا العضو بإستعراض إحصائيات الإستهداف";
-$GLOBALS['strCsvImportConversions'] = "السماح لهذا العضو بإستيراد نسخة من التحويلات";
 
 // Campaign
 $GLOBALS['strCampaign'] = "الحملة الإعلانية";
 $GLOBALS['strCampaigns'] = "الحملة الإعلانية";
-$GLOBALS['strTotalCampaigns'] = "مجموع الحملات الاعلانية";
-$GLOBALS['strActiveCampaigns'] = "الحملات الاعلانية النشطة";
 $GLOBALS['strAddCampaign'] = "إضافة حملة إعلانية";
 $GLOBALS['strAddCampaign_Key'] = "إضافة حملة إعلانية";
-$GLOBALS['strModifyCampaign'] = "تعديل حملة إعلانية";
-$GLOBALS['strDeleteAllCampaigns'] = "حذف كل الحملات الاعلانية";
 $GLOBALS['strLinkedCampaigns'] = "الحملات الاعلانية المرتبطة";
 $GLOBALS['strCampaignProperties'] = "خواص الحملة الإعلانية";
 $GLOBALS['strCampaignOverview'] = "نظرة عامة على الحملة الإعلانية";
 $GLOBALS['strCampaignHistory'] = "سجل الحملة الإعلانية";
-$GLOBALS['strConfirmDeleteAllCampaigns'] = "هل تريد حذف كل الحملات الإعلانية المرتبطة بهذا المعلن ؟";
 $GLOBALS['strConfirmDeleteCampaign'] = "هل تريد حذف هذه الحملة الاعلانية ؟";
 $GLOBALS['strConfirmDeleteCampaigns'] = "هل تريد حذف هذه الحملة الاعلانية ؟";
 $GLOBALS['strShowParentAdvertisers'] = "عرض المعلنين الرئيسيين";
 $GLOBALS['strHideParentAdvertisers'] = "إخفاء المعلنين الرئيسيين";
 $GLOBALS['strHideInactiveCampaigns'] = "إخفاء الحملات الاعلانية غير النشطة";
 $GLOBALS['strInactiveCampaignsHidden'] = "تم إخفاء الحملات الاعلانية غير النشطة";
-$GLOBALS['strContractDetails'] = "تفاصيل العقد";
-$GLOBALS['strInventoryDetails'] = "تفاصيل المخزون";
 $GLOBALS['strPriorityInformation'] = "الأهمية مقارنة بالحملات الإعلانية الأخرى";
 $GLOBALS['strHiddenCampaign'] = "الحملة الإعلانية";
 $GLOBALS['strHiddenAd'] = "الاعلانات";
@@ -302,17 +250,14 @@ $GLOBALS['strExpirationDate'] = "تاريخ النهاية";
 $GLOBALS['strExpirationDateComment'] = "الحملة الاعلانية ستنتهي مع نهاية هذا اليوم";
 $GLOBALS['strActivationDate'] = "تاريخ البداية";
 $GLOBALS['strActivationDateComment'] = "الحملة الاعلانية ستبدأ مع بداية اليوم";
-$GLOBALS['strRevenueInfo'] = "تفاصيل الأرباح";
 $GLOBALS['strImpressionsRemaining'] = "مرات الظهور المتبقية";
 $GLOBALS['strClicksRemaining'] = "الضغطات المتبقية";
 $GLOBALS['strConversionsRemaining'] = "مرات الظهور المتبقية";
 $GLOBALS['strImpressionsBooked'] = "مرات الظهور المحجوزة";
 $GLOBALS['strClicksBooked'] = "الضغطات المحجوزة";
 $GLOBALS['strConversionsBooked'] = "التحويلات المحجوزة";
-$GLOBALS['strOptimise'] = "تحسين";
 $GLOBALS['strAnonymous'] = "إخفاء المعلن و المواقع لهذه الحملة الاعلانية";
 $GLOBALS['strTargetPerDay'] = "في اليوم";
-$GLOBALS['strPriorityAutoTargeting'] = "تلقائي - توزيع المخزون المتبقي بشكل متناسق مع الأيام المتبقية";
 $GLOBALS['strCampaignWarningRemnantNoWeight'] = "أهمية هذه الحملة تم تحديدها كمنخفضة، 
 ولكن الوزن تم تحديده كصفر أو لم يتم تحديده.
 هذا الأمر سيجعل الحملة غير نشطة
@@ -332,28 +277,18 @@ $GLOBALS['strCampaignStatusInactive'] = "فعال";
 $GLOBALS['strCampaignStatusPaused'] = "إيقاف مؤقت";
 $GLOBALS['strCampaignStatusRestarted'] = "إعادة تشغيل";
 $GLOBALS['strCampaignStatusDeleted'] = "حذف";
-$GLOBALS['strCampaignApprove'] = "تمت الموافقة";
-$GLOBALS['strCampaignPause'] = "إيقاف مؤقت";
 $GLOBALS['strCampaignType'] = "اسم الحملة الاعلانية";
 $GLOBALS['strType'] = "النوع";
-$GLOBALS['strContract'] = "الاتصال";
 $GLOBALS['strStandardContract'] = "الاتصال";
 
 // Tracker
 $GLOBALS['strTracker'] = "المتتبع";
 $GLOBALS['strTrackers'] = "المتتبع";
-$GLOBALS['strTrackerOverview'] = "نظرة عامة على المتتبع";
 $GLOBALS['strTrackerPreferences'] = "الخيارات العامة";
 $GLOBALS['strAddTracker'] = "إضافة متتبع جديد";
-$GLOBALS['strAddTracker_Key'] = "إضافة متتبع جديد";
-$GLOBALS['strConfirmDeleteAllTrackers'] = "هل تريد حذف كل المتتبعات المرتبطة بهذا المعلن ؟";
 $GLOBALS['strConfirmDeleteTrackers'] = "هل تريد حذف هذا المتتبع ؟";
 $GLOBALS['strConfirmDeleteTracker'] = "هل تريد حذف هذا المتتبع ؟";
-$GLOBALS['strDeleteAllTrackers'] = "حذف كل المتتبعات";
 $GLOBALS['strTrackerProperties'] = "خواص المتتبع";
-$GLOBALS['strTrackerOverview'] = "نظرة عامة على المتتبع";
-$GLOBALS['strModifyTracker'] = "تعديل المتتبع";
-$GLOBALS['strLog'] = "سجلات؟";
 $GLOBALS['strDefaultStatus'] = "الحالة الافتراضية";
 $GLOBALS['strStatus'] = "الحالة";
 $GLOBALS['strLinkedTrackers'] = "المتتبعات المرتبطة";
@@ -361,7 +296,6 @@ $GLOBALS['strConversionWindow'] = "نافذة التحويل";
 $GLOBALS['strUniqueWindow'] = "ناقذة فريدة";
 $GLOBALS['strClick'] = "ضغطة";
 $GLOBALS['strView'] = "عرض";
-$GLOBALS['strImpression'] = "مرات الظهور";
 $GLOBALS['strConversionType'] = "نوع التحويل";
 $GLOBALS['strLinkCampaignsByDefault'] = "ربط الحملات الاعلانية الجديدة افتراضياً";
 
@@ -370,26 +304,17 @@ $GLOBALS['strBanner'] = "بنر";
 $GLOBALS['strBanners'] = "بنرات";
 $GLOBALS['strAddBanner'] = "إضافة بنر جديد";
 $GLOBALS['strAddBanner_Key'] = "إضافة بنر جديد";
-$GLOBALS['strModifyBanner'] = "تعديل بنر";
-$GLOBALS['strActiveBanners'] = "البنرات النشطة";
-$GLOBALS['strTotalBanners'] = "مجموع البنرات";
 $GLOBALS['strShowBanner'] = "عرض البنر";
-$GLOBALS['strDeleteAllBanners'] = "حذف كل البنرات";
-$GLOBALS['strActivateAllBanners'] = "تنشيط كل البنرات";
-$GLOBALS['strDeactivateAllBanners'] = "إيقاف كل البنرات";
-$GLOBALS['strBannerOverview'] = "نظرة عامة على البنر";
 $GLOBALS['strBannerProperties'] = "خواص البنر";
 $GLOBALS['strBannerHistory'] = "سجل البنر";
 $GLOBALS['strNoBannersAddCampaign'] = "لا يوجد حتى الآن أية مواقع. لإضافة منطقة إعلانية، يجب <a href='affiliate-edit.php'>إضافة موقع جديد</a> قبل ذلك.";
 $GLOBALS['strNoBannersAddAdvertiser'] = "لا يوجد حتى الآن أية مواقع. لإضافة منطقة إعلانية، يجب <a href='affiliate-edit.php'>إضافة موقع جديد</a> قبل ذلك.";
 $GLOBALS['strConfirmDeleteBanner'] = "هل تريد حذف هذا البنر ؟";
 $GLOBALS['strConfirmDeleteBanners'] = "هل تريد حذف هذا البنر ؟";
-$GLOBALS['strConfirmDeleteAllBanners'] = "هل تريد حذف كل البنرات المرتبطة بهذه الحملة الاعلانية ؟";
 $GLOBALS['strShowParentCampaigns'] = "عرض الحملة الاعلانية الرئيسية";
 $GLOBALS['strHideParentCampaigns'] = "إخفاء الحملات الاعلانية الرئيسية";
 $GLOBALS['strHideInactiveBanners'] = "إخفاء البنرات غير النشطة";
 $GLOBALS['strInactiveBannersHidden'] = "تم إخفاء البنرات غير النشطة";
-$GLOBALS['strAppendTextAdNotPossible'] = "لا يمكن إضافة إعلانات أخرى للإعلانات النصية.";
 $GLOBALS['strWarningMissing'] = "تحذير، أمور مفقودة محتملة";
 $GLOBALS['strWarningMissingClosing'] = "علامة الإغلاق";
 $GLOBALS['strWarningMissingOpening'] = "علامة الإبتداء";
@@ -402,12 +327,10 @@ $GLOBALS['strAllowedBannerTypes'] = "أنواع البنرات المسموحة"
 $GLOBALS['strTypeUrlAllow'] = "إتاحة البنرات الخارجية";
 $GLOBALS['strTypeHtmlAllow'] = "إتاحة بنرات HTML";
 $GLOBALS['strTypeTxtAllow'] = "إتاحة الاعلانات النصية";
-$GLOBALS['strTypeHtmlSettings'] = "إعدادات بنرات HTML";
 
 // Banner (Properties)
 $GLOBALS['strChooseBanner'] = "الرجاء اختيار نوع البنر";
 $GLOBALS['strUploadOrKeep'] = "هل تريد حفظ <br />الصورة الحالية ، أو<br />رفع صورة أخرى ؟";
-$GLOBALS['strUploadOrKeepAlt'] = "هل تريد حفظ <br />الصورة الاحتياطية الحالية ، أو<br />رفع صورة أخرى ؟";
 $GLOBALS['strNewBannerFile'] = "الرجاء اختيار الصورة التي تريد<br />استخدامها لهذا البنر<br /><br />";
 $GLOBALS['strNewBannerFileAlt'] = "إختيار صورة إحتياطية <br /> تريد إستخدامها في حال لم يتمكن المستعرض <br /> من عرض الوسائط المتعددة<br /><br />";
 $GLOBALS['strNewBannerURL'] = "رابط الصورة (مع http://)";
@@ -432,10 +355,6 @@ $GLOBALS['strConvertSWF'] = "<br /> ملف الفلاش الذي قمت بتحم
 $GLOBALS['strCompressSWF'] = "ضغط ملف SWF لتحميل أسرع (يحتاج لمشغل فلاش 6 أو أعلى)";
 $GLOBALS['strOverwriteSource'] = "الكتابة على المتغيرات الأصلية";
 
-// Banner (network)
-
-// Banner (AdSense)
-
 // Display limitations
 $GLOBALS['strModifyBannerAcl'] = "خيارات التوصيل";
 $GLOBALS['strACL'] = "التوصيل";
@@ -444,20 +363,12 @@ $GLOBALS['strApplyLimitationsTo'] = "طبق الحدود إلى";
 $GLOBALS['strRemoveAllLimitations'] = "إزالة كل الحدود";
 $GLOBALS['strEqualTo'] = "يساوي";
 $GLOBALS['strDifferentFrom'] = "مختلف عن";
-$GLOBALS['strLaterThan'] = "أحدث من";
-$GLOBALS['strLaterThanOrEqual'] = "أحدث من أو يساوي";
-$GLOBALS['strEarlierThan'] = "أقدم من";
-$GLOBALS['strEarlierThanOrEqual'] = "أقدم من أو يساوي";
 $GLOBALS['strGreaterThan'] = "أكبر من";
 $GLOBALS['strLessThan'] = "أصغر من";
 $GLOBALS['strAND'] = "و";                          // logical operator
 $GLOBALS['strOR'] = "أو";                         // logical operator
 $GLOBALS['strOnlyDisplayWhen'] = "إعرض البنر فقط عندما";
-$GLOBALS['strWeekDay'] = "يوم من الاسبوع";
 $GLOBALS['strWeekDays'] = "أيام الاسبوع";
-$GLOBALS['strTime'] = "الوقت";
-$GLOBALS['strSource'] = "المصدر";
-$GLOBALS['strCity'] = "المدينة";
 $GLOBALS['strDeliveryLimitations'] = "حدود التوصيل";
 
 $GLOBALS['strDeliveryCappingReset'] = "قم بتصفير العداد بعد :";
@@ -478,54 +389,27 @@ $GLOBALS['strAffiliate'] = "الموقع";
 $GLOBALS['strAffiliates'] = "المواقع";
 $GLOBALS['strAffiliatesAndZones'] = "المواقع و مناطق العرض";
 $GLOBALS['strAddNewAffiliate'] = "إضافة موقع جديد";
-$GLOBALS['strAddNewAffiliate_Key'] = "إضافة موقع جديد";
 $GLOBALS['strAffiliateProperties'] = "خواص الموقع";
 $GLOBALS['strAffiliateHistory'] = "سجل الموقع";
-$GLOBALS['strZonesWithoutAffiliate'] = "مناطق عرض بدون مواقع";
-$GLOBALS['strMoveToNewAffiliate'] = "نقل الى موقع جديد";
 $GLOBALS['strNoAffiliates'] = "لا يوجد حتى الآن أية مواقع. لإضافة منطقة إعلانية، يجب <a href='affiliate-edit.php'>إضافة موقع جديد</a> قبل ذلك.";
 $GLOBALS['strConfirmDeleteAffiliate'] = "هل تريد حذف هذا الموقع؟";
 $GLOBALS['strConfirmDeleteAffiliates'] = "هل تريد حذف هذا الموقع؟";
-$GLOBALS['strMakePublisherPublic'] = "جعل المنطقة الإعلانية المملوكة لهذا الموقع معروضة للجميع";
-$GLOBALS['strAffiliateInvocation'] = "كود التركيب";
-$GLOBALS['strTotalAffiliates'] = "مجموع المواقع";
 $GLOBALS['strInactiveAffiliatesHidden'] = "تم إخفاء المواقع غير النشطة";
 $GLOBALS['strShowParentAffiliates'] = "عرض المواقع الرئيسية";
 $GLOBALS['strHideParentAffiliates'] = "إخفاء المواقع الرئيسية";
 
 // Website (properties)
-$GLOBALS['strWebsite'] = "الموقع";
-$GLOBALS['strMnemonic'] = "مساعد للذاكرة";
-$GLOBALS['strAllowAffiliateModifyInfo'] = "السماح لهذا العضو بتعديل خياراته";
 $GLOBALS['strAllowAffiliateModifyZones'] = "السماح لهذا العضو بتعديل مناطقه الإعلانية الخاصة";
 $GLOBALS['strAllowAffiliateLinkBanners'] = "السماح لهذا العضو بربط الإعلانات لمناطقة الخاصة";
 $GLOBALS['strAllowAffiliateAddZone'] = "السماح لهذا العضو بإنشاء منطقة إعلانية جديدة";
 $GLOBALS['strAllowAffiliateDeleteZone'] = "السماح لهذا العضو بحذف منطقة إعلانية موجودة";
 $GLOBALS['strAllowAffiliateGenerateCode'] = "السماح لهذا العضو بإنشاء أكواد التركيب";
-$GLOBALS['strAllowAffiliateZoneStats'] = "السماح لهذا العضو بمشاهدة إحصائيات المنطقة الإعلانية";
-$GLOBALS['strAllowAffiliateApprPendConv'] = "السماح لهذا العضو بمشاهدة التحويلات الموافق عليها أو تحت الإنتظار";
 
 // Website (properties - payment information)
-$GLOBALS['strPaymentInformation'] = "معلومات الدفع";
-$GLOBALS['strAddress'] = "العنوان";
 $GLOBALS['strPostcode'] = "الرمز البريدي";
-$GLOBALS['strCity'] = "المدينة";
 $GLOBALS['strCountry'] = "الدولة";
-$GLOBALS['strPhone'] = "الهاتف";
-$GLOBALS['strFax'] = "الفاكس";
-$GLOBALS['strPayeeName'] = "اسم المستفيد";
-$GLOBALS['strTaxID'] = "رقم الضريبة";
-$GLOBALS['strModeOfPayment'] = "اسلوب الدفع";
-$GLOBALS['strPaymentChequeByPost'] = "شيك عبر البريد";
-$GLOBALS['strCurrency'] = "العملة";
-$GLOBALS['strCurrencyGBP'] = "جنيه استرليني";
 
 // Website (properties - other information)
-$GLOBALS['strOtherInformation'] = "معلومات أخرى";
-$GLOBALS['strUniqueUsersMonth'] = "عدد الزوار شهرياً";
-$GLOBALS['strUniqueViewsMonth'] = "مرات التصفح شهرياً";
-$GLOBALS['strCategory'] = "القسم";
-$GLOBALS['strHelpFile'] = "ملف التعليمات";
 $GLOBALS['strWebsiteZones'] = "المواقع و مناطق العرض";
 
 // Zone
@@ -533,10 +417,8 @@ $GLOBALS['strZone'] = "المنطقة";
 $GLOBALS['strZones'] = "مناطق العرض";
 $GLOBALS['strAddNewZone'] = "إضافة منطقة عرض جديدة";
 $GLOBALS['strAddNewZone_Key'] = "إضافة منطقة عرض جديدة";
-$GLOBALS['strModifyZone'] = "تعديل منطقة عرض";
 $GLOBALS['strZoneToWebsite'] = "كل المواقع";
 $GLOBALS['strLinkedZones'] = "مناطق العرض المرتبطة";
-$GLOBALS['strZoneOverview'] = "نظرة عامة على منطقة عرض";
 $GLOBALS['strZoneProperties'] = "خواص منطقة العرض";
 $GLOBALS['strZoneHistory'] = "سجل منطقة العرض";
 $GLOBALS['strNoZonesAddWebsite'] = "لا يوجد حتى الآن أية مواقع. لإضافة منطقة إعلانية، يجب <a href='affiliate-edit.php'>إضافة موقع جديد</a> قبل ذلك.";
@@ -552,7 +434,6 @@ $GLOBALS['strShowMatchingBanners'] = "عرض البنرات المطابقة";
 $GLOBALS['strHideMatchingBanners'] = "إخفاء البنرات المطابقة";
 $GLOBALS['strBannerLinkedAds'] = "البنرات المرتبطة بمنطقة العرض هذه";
 $GLOBALS['strCampaignLinkedAds'] = "الحملات الاعلانية المرتبطة بمنطقة العرض هذه";
-$GLOBALS['strTotalZones'] = "مجموع مناطق العرض";
 $GLOBALS['strInactiveZonesHidden'] = "تم إخفاء مناطق العرض غير النشطة";
 
 
@@ -571,7 +452,6 @@ $GLOBALS['strCampaignDefaults'] = "ربط بنرات عبر الحملة الا�
 $GLOBALS['strLinkedCategories'] = "ربط بنرات حسب التصنيف";
 $GLOBALS['strRawQueryString'] = "كلمة مفتاحية";
 $GLOBALS['strIncludedBanners'] = "البنرات المرتبطة";
-$GLOBALS['strNoZonesToLink'] = "لا توجد مناطق عرض متوفرة للربط بهذا البنر";
 $GLOBALS['strMatchingBanners'] = "{count} بنرات مطابقة";
 $GLOBALS['strNoCampaignsToLink'] = "لا توجد حملات إعلانية متوفرة للربط بهذا البنر";
 $GLOBALS['strNoTrackersToLink'] = "لا يوجد متتبع متوفر للربط بهذا البنر";
@@ -582,20 +462,12 @@ $GLOBALS['strSelectAdvertiser'] = "إختيار المعلن";
 $GLOBALS['strSelectPlacement'] = "إختيار الحملة الاعلانية";
 $GLOBALS['strSelectAd'] = "إختيار البنر";
 $GLOBALS['strSelectZone'] = "إختيار المنطقة";
-$GLOBALS['strStatusPending'] = "بانتظار الموافقة";
-$GLOBALS['strStatusApproved'] = "تمت الموافقة";
-$GLOBALS['strStatusDisapproved'] = "لم تتم الموافقة";
-$GLOBALS['strStatusDuplicate'] = "نسخ";
-$GLOBALS['strStatusIgnore'] = "تجاهل";
 $GLOBALS['strConnectionType'] = "النوع";
-$GLOBALS['strConnTypeSale'] = "حفظ";
-$GLOBALS['strConnTypeSignUp'] = "تسجيل جديد";
 $GLOBALS['strShortcutEditStatuses'] = "تعديل الحالات";
 $GLOBALS['strShortcutShowStatuses'] = "عرض الحالات";
 
 // Statistics
 $GLOBALS['strNoStats'] = "لا تتوفر إحصائيات حالياً";
-$GLOBALS['strNoTargetingStats'] = "لا تتوفر إحصائيات حالياً";
 $GLOBALS['strGlobalHistory'] = "السجل العام";
 $GLOBALS['strDailyHistory'] = "السجل اليومي";
 $GLOBALS['strDailyStats'] = "الإحصائيات اليومية";
@@ -615,15 +487,11 @@ $GLOBALS['strExportStatisticsToExcel'] = "تصدير الاحصائيات الى
 // Hosts
 
 // Expiration
-$GLOBALS['strExpiration'] = "تاريخ الانتهاء";
 $GLOBALS['strNoExpiration'] = "لم يتم تحديد تاريخ الانتهاء";
 $GLOBALS['strEstimated'] = "تاريخ الانتهاء المتوقع";
 $GLOBALS['strCampaignStop'] = "سجل الحملة الإعلانية";
 
 // Reports
-$GLOBALS['strReports'] = "التقارير";
-$GLOBALS['strStartDate'] = "تاريخ البداية";
-$GLOBALS['strEndDate'] = "تاريخ النهاية";
 $GLOBALS['strLimitations'] = "المحددات";
 
 // Admin_UI_Fields
@@ -645,12 +513,10 @@ $GLOBALS['strFrameSize'] = "حجم الاطار";
 $GLOBALS['strBannercode'] = "كود البنر";
 $GLOBALS['strBackToTheList'] = "العودة لقائمة التقارير";
 
-
 // Errors
 $GLOBALS['strErrorOccurred'] = "حدث خطأ ما";
 
 //Validation
-
 
 // Email
 
@@ -673,12 +539,9 @@ $GLOBALS['strAdveEmailWarnings'] = "التنبيهات البريدية للمع
 $GLOBALS['strFullName'] = "الإسم الكامل";
 $GLOBALS['strEmailAddress'] = "البريد الإلكتروني";
 $GLOBALS['strUserDetails'] = "معلومات العضو";
-$GLOBALS['strLanguageTimezone'] = "اللغة و المنطقة الزمنية";
 $GLOBALS['strUserInterfacePreferences'] = "خيارات شكل لوحة التحكم";
 $GLOBALS['strPluginPreferences'] = "الخيارات العامة";
 
-
-// Statistics columns
 // Long names
 $GLOBALS['strERPM'] = "تكلفة الظهور";
 $GLOBALS['strERPC'] = "تكلفة الضغطات";
@@ -689,11 +552,7 @@ $GLOBALS['strEIPS'] = "تكلفة الظهور";
 $GLOBALS['strECPM'] = "تكلفة الظهور";
 $GLOBALS['strECPC'] = "تكلفة الضغطات";
 $GLOBALS['strECPS'] = "تكلفة الظهور";
-$GLOBALS['strEPPM'] = "تكلفة الظهور";
-$GLOBALS['strEPPC'] = "تكلفة الضغطات";
-$GLOBALS['strEPPS'] = "تكلفة الظهور";
 $GLOBALS['strImpressionSR'] = "مرات الظهور";
-$GLOBALS['strActualImpressions'] = "مرات الظهور";
 
 // Short names
 $GLOBALS['strERPM_short'] = "تكلفة الظهور";
@@ -705,9 +564,6 @@ $GLOBALS['strEIPS_short'] = "تكلفة الظهور";
 $GLOBALS['strECPM_short'] = "تكلفة الظهور";
 $GLOBALS['strECPC_short'] = "تكلفة الضغطات";
 $GLOBALS['strECPS_short'] = "تكلفة الظهور";
-$GLOBALS['strEPPM_short'] = "تكلفة الظهور";
-$GLOBALS['strEPPC_short'] = "تكلفة الضغطات";
-$GLOBALS['strEPPS_short'] = "تكلفة الظهور";
 $GLOBALS['strID_short'] = "الرقم";
 $GLOBALS['strClicks_short'] = "الضغطات";
 $GLOBALS['strCTR_short'] = "معدل الضغطات";
@@ -715,7 +571,6 @@ $GLOBALS['strCTR_short'] = "معدل الضغطات";
 // Global Settings
 $GLOBALS['strGlobalSettings'] = "الإعدادات العامة";
 $GLOBALS['strGeneralSettings'] = "الإعدادات العامة";
-$GLOBALS['strAdminSettings'] = "خيارات المدير";
 
 $GLOBALS['strChooseSection'] = 'إختيار قسم';
 
@@ -739,17 +594,10 @@ $GLOBALS['strVariableDescription'] = "الوصف";
 $GLOBALS['strGeneric'] = "عام";
 $GLOBALS['strTrackerType'] = "اسم المتتبع";
 
-
-// Upload conversions
-$GLOBALS['strYouHaveNoCampaigns'] = "المعلنين و الحملات الاعلانية";
-
-
 // Password recovery
 
 // Audit
-$GLOBALS['strAdZoneAsscociation'] = "المنطقة الإعلانية ذي العلاقة";
 $GLOBALS['strBinaryData'] = "معلومات Binary";
-
 
 // Widget - Audit
 
@@ -759,7 +607,6 @@ $GLOBALS['strCampaignNoRecordsAdmin'] = "<li>لا يوجد أي نشاط لأي 
 
 
 //confirmation messages
-
 
 
 
@@ -780,9 +627,3 @@ $GLOBALS['strCampaignNoRecordsAdmin'] = "<li>لا يوجد أي نشاط لأي 
 // Other keys
 // Please make sure you underline the key you
 // used in the string in default.lang.php
-
-/* ------------------------------------------------------- */
-/* Languages Names                                       */
-/* ------------------------------------------------------- */
-
-?>

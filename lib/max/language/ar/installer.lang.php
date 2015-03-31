@@ -17,6 +17,8 @@
 /** check step **/
 
 
+$GLOBALS['strWarning']                          = "تحذير";
+$GLOBALS['strSyscheckStatus']                   = "الحالة";
 
 /** admin login step **/
 
@@ -30,4 +32,3 @@
 
 /** finish step **/
 
-$GLOBALS['strContinue']                         = "متابعة >>";

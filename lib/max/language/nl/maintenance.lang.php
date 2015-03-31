@@ -39,29 +39,14 @@ $GLOBALS['strAutomaticMaintenanceHasRun'] = "<b>Automatisch onderhoud wordt corr
 
 $GLOBALS['strAutoMantenaceEnabled'] = "Automatisch onderhoud is echter nog steeds ingeschakeld. Voor de beste prestaties moet u <a href='account-settings-maintenance.php'>automatisch onderhoud</a> uitschakelen.";
 
-
 // Priority
 $GLOBALS['strRecalculatePriority'] = "Prioriteit opnieuw berekenen";
-$GLOBALS['strHighPriorityCampaigns'] = "Hoge prioriteit campagnes";
-$GLOBALS['strAdViewsAssigned'] = "AdViews toegewezen";
-$GLOBALS['strLowPriorityCampaigns'] = "Lage prioriteit campagnes";
-$GLOBALS['strPredictedAdViews'] = "Voorspelde AdViews";
-$GLOBALS['strPriorityDaysRunning'] = "Er zijn momenteel {days} dagen aan statistieken beschikbaar waar {$PRODUCT_NAME} zijn dagelijkse voorspellingen op kan baseren. ";
-$GLOBALS['strPriorityBasedLastWeek'] = "De voorspelling is gebaseerd op data van deze week en afgelopen week. ";
-$GLOBALS['strPriorityBasedLastDays'] = "De voorspelling is gebaseerd op data van de laatste paar dagen. ";
-$GLOBALS['strPriorityBasedYesterday'] = "De voorspelling is gebaseerd op data van gisteren. ";
-$GLOBALS['strPriorityNoData'] = "Er is niet genoeg data beschikbaar om een betrouwbare voorspelling te doen betreffende het aantal impressies dat deze ad server vandaag zal genereren. De toewijzing van de prioriteit zal op basis van de statistieken van vandaag gebeuren. ";
-$GLOBALS['strPriorityEnoughAdViews'] = "Er zijn genoeg AdViews om aan de doelstelling van alle hoge prioriteit campagnes te voldoen. ";
-$GLOBALS['strPriorityNotEnoughAdViews'] = "Het is niet zeker dat er vandaag genoeg AdViews zijn om de doelstellingen van alle hoge prioriteit campaignes te halen. Daarom zijn alle lage prioriteit campagnes tijdelijk uitgeschaked. ";
-
 
 // Banner cache
 $GLOBALS['strCheckBannerCache'] = "Controleer banner cache";
-$GLOBALS['strRebuildBannerCache'] = "Banner cache opnieuw aanmaken";
 $GLOBALS['strBannerCacheErrorsFound'] = "De database banner chase controle heeft enkele fouten gevonden. De banners zullen niet werken totdat u ze handmatig gerepareerd hebt.";
 $GLOBALS['strBannerCacheOK'] = "Er zijn geen fouten gevonden. De database banner cache is up to date";
 $GLOBALS['strBannerCacheDifferencesFound'] = "De controle van de database banner cache heeft opgeleverd dat de cache niet up to date is, en opnieuw moet worden opgebouwd. Click hier om de cache automatisch bij te werken.";
-$GLOBALS['strBannerCacheFixed'] = "De banner cache in de database is met succes opnieuw opgebouwd. De database cache is nu bijgewerkt.";
 $GLOBALS['strBannerCacheRebuildButton'] = "Opnieuw opbouwen";
 $GLOBALS['strRebuildDeliveryCache'] = "Leveringscache opnieuw aanmaken";
 $GLOBALS['strBannerCacheExplaination'] = "De banner cache bevat een kopie van de HTML code welke gebruikt wordt om de banner tonen. Door het gebruik van de banner cache wordt<br />
@@ -74,11 +59,9 @@ server veranderd.
 
 // Cache
 $GLOBALS['strCache'] = "Leveringscache";
-$GLOBALS['strAge'] = "Leeftijd";
 $GLOBALS['strDeliveryCacheSharedMem'] = "	Momenteel wordt de cache opgeslagen in gedeeld geheugen.";
 $GLOBALS['strDeliveryCacheDatabase'] = "	Momenteel wordt de cache opgeslagen in de database.";
 $GLOBALS['strDeliveryCacheFiles'] = "	Momenteel wordt de cache opgeslagen in bestanden op de server.";
-
 
 // Storage
 $GLOBALS['strStorage'] = "Opslag";
@@ -92,15 +75,8 @@ $GLOBALS['strEncodingExplaination'] = "{$PRODUCT_NAME} slaat nu alle gegevens in
     Als dat mogelijk was, is uw data automatische geconverteerd naar deze encoding.<br />
     Als u na de upgrade misvormde tekens vindt, en u weet welke encoding gebruikt wordt, dan kunt u dit hulpmiddel gebruiken om de gegevens om te zetten van dat format naar UTF-8";
 $GLOBALS['strEncodingConvertFrom'] = "Converteren van deze encoding:";
-$GLOBALS['strEncodingConvert'] = "Converteer";
 $GLOBALS['strEncodingConvertTest'] = "Conversie testen";
 $GLOBALS['strConvertThese'] = "De volgende gegevens zullen worden gewijzigd als u doorgaat";
-
-
-// Storage
-$GLOBALS['strStatisticsExplaination'] = "	U heeft <i>compacte statistieken</i> ingeschakeld, maar er zijn nog enkele oude statistieken beschikbaar
-	in het uitgebreide formaat. Wilt u de oude statistieken converteren naar het compacte formaat?";
-
 
 // Product Updates
 $GLOBALS['strSearchingUpdates'] = "Zoeken naar nieuwere versies, een moment geduld a.u.b...";
@@ -145,45 +121,6 @@ $GLOBALS['strCurrentlyUsing'] = "U gebruikt momenteel";
 $GLOBALS['strRunningOn'] = "draaiend op";
 $GLOBALS['strAndPlain'] = "en";
 
-
-// Stats conversion
-$GLOBALS['strConverting'] = "Bezig met converteren...";
-$GLOBALS['strConvertingStats'] = "Statistieken aan het converteren...";
-$GLOBALS['strConvertStats'] = "Converteer statitieken";
-$GLOBALS['strConvertAdViews'] = "AdViews geconverteerd,";
-$GLOBALS['strConvertAdClicks'] = "AdClicks geconverteerd...";
-$GLOBALS['strConvertAdConversions'] = "AdConversions converted...";
-$GLOBALS['strConvertNothing'] = "Er zijn geen statistieken aanwezig om te converteren...";
-$GLOBALS['strConvertFinished'] = "Klaar...";
-
-$GLOBALS['strConvertExplaination'] = "	U gebruikt momenteel het compacte formaat om uw statistieken te bewaren, maar er zijn<br />
-	nog steeds statistieken aanwezig in het uitgebreide formaat. Zolang deze uitgebreide<br />
-	statistieken niet geconverteerd zijn naar het compacte formaat zullen deze niet getoond<br />
-	worden binnen op de overzichtspagina's. Voordat u uw statistieken gaat converteren, maak<br />
-	eerst een backup van de database! Wilt u de uitgebreide statistieken converteren? <br />";
-
-$GLOBALS['strConvertingExplaination'] = "	Alle uitgebreide statistieken worden nu geconverteerd naar het compate formaat.<br />
-	Afhankelijk van de grootte van de statistieken kan dit enige minuten duren.<br />
-	Wacht tot de gehele conversie klaar is voordat u andere pagina's gaat bekijken.<br />
-	Hieronder ziet een een lijst met alle veranderingen welke gemaakt zijn in de database.<br />";
-
-$GLOBALS['strConvertFinishedExplaination'] = "	De conversie van de uitgebreide statistieken is succesvol afgerond en de gegevens<br />
-	zouden nu beschikbaar moeten zijn in alle overzichten. Hieronder vindt u een lijst<br />
-	met alle veranderingen welke gemaakt zijn in de database.<br />";
-
-//  Maintenace
-$GLOBALS['strAutoMaintenanceDisabled'] = "Automatisch onderhoud is uitgeschakeld.";
-$GLOBALS['strAutoMaintenanceEnabled'] = "Automatisch onderhoud is ingeschakeld. Voor de beste prestaties is het aan te bevelen om <a href='settings-admin.php'>automatisch onderhoud uit te schakelen</a>.";
-$GLOBALS['strScheduledMaintenance'] = "Gepland onderhoud lijkt correct worden uitgevoerd.";
-$GLOBALS['strScheduledMaintenanceNotRun'] = "Gepland onderhoud is in het afgelopen uur niet uitgevoerd. Dit kan betekenen dat u het niet correct hebt ingesteld.";
-$GLOBALS['strAutoMaintenanceEnabledNotTriggered'] = "Automatisch onderhoud is ingeschakeld, maar nog niet geactiveerd. Denk er om dat automatisch onderhoud alleen wordt geactiveerd als Openads banners vertoond.";
-$GLOBALS['strAutoMaintenanceBestPerformance'] = "Voor de beste prestaties is het raadzaam om <a href='http://docs.openads.org/openads-2.3-guide/maintenance.html' target='_blank'>gepland onderhoud</a> in te stellen.";
-$GLOBALS['strAutoMaintenanceEnabledWilltTrigger'] = "Automatisch onderhoud is ingeschakeld en zal elk uur het onderhoudsproces activeren.";
-$GLOBALS['strAutoMaintenanceDisabledMaintenanceRan'] = "Automatisch onderhoud is ook uitgeschakeld, maar er heeft wel onlangs een onderhoudsproces gedraaid. Om zeker te weten dat {$PRODUCT_NAME} goed werkt, zou u ofwel <a href='http://docs.openads.org/openads-2.3-guide/maintenance.html' target='_blank'>gepland onderhoud</a> ofwel <a href='settings-admin.php'>automatisch onderhoud</a> moeten inschakelen. ";
-$GLOBALS['strAutoMaintenanceDisabledNotTriggered'] = "Bovendien is automatisch onderhoud uitgeschakeld, dus als {$PRODUCT_NAME} banners vertoont, wordt het onderhoudsproces niet geactiveerd.
- Als u niet van plan bent om <a href='http://docs.openads.org/openads-2.3-guide/maintenance.html' target='_blank'>gepland onderhoud</a> te gebruiken,
- dan dient u <a href='settings-admin.php'>automatisch onderhoud</a> in te schakelen, om zeker te stellen dat {$PRODUCT_NAME} goed werkt.";
-
 //  Deliver Limitations
 $GLOBALS['strDeliveryLimitations'] = "Leveringsbeperkingen";
 $GLOBALS['strAllBannerChannelCompiled'] = "Alle gecompileerde banner/channel limitations zijn opnieuw gecompileerd";
@@ -196,7 +133,6 @@ $GLOBALS['strRecompile'] = "Opnieuw compileren";
 $GLOBALS['strDeliveryEngineDisagreeNotice'] = "Onder bepaalde omstandigheden kan de the delivery engine afwijken van de opgeslagen ACLs voor banners en channels, gebruik de onderstaande link om de ACLs in de database te valideren";
 $GLOBALS['strCheckACLs'] = "Check ACLs";
 
-
 //  Append codes
 $GLOBALS['strAppendCodesDesc'] = "In sommige situaties kan de delivery engine afwijkingen aantreffen ten opzichte van de opgeslagen append codes voor trackers, gebruik de onderstaande link om de toegevoegde codes in de database te valideren";
 $GLOBALS['strCheckAppendCodes'] = "Controleer toegevoegde codes";
@@ -207,9 +143,7 @@ $GLOBALS['strRepairAppenedCodes'] = "Er zijn enkele inconsistenties gevonden (zi
 
 $GLOBALS['strPlugins'] = "Plugins";
 $GLOBALS['strPluginsPrecis'] = "Diagnosticeren en herstellen van problemen met {$PRODUCT_NAME} plugins";
-$GLOBALS['strPluginsOk'] = "Geen problemen gevonden";
 
 $GLOBALS['strMenus'] = "Menu's";
 $GLOBALS['strMenusPrecis'] = "Wederopbouw van de menu-cache";
 $GLOBALS['strMenusCachedOk'] = "Menu cache is opnieuw opgebouwd";
-$GLOBALS['strMenusCachedErr'] = "Fouten tijdens het opnieuw opbouwen van het menu buffer";

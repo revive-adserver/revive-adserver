@@ -21,23 +21,15 @@
 
 
 
-
 // Priority
-
 
 // Banner cache
 
 // Cache
 
-
 // Storage
 
 // Encoding
-$GLOBALS['strEncodingConvert'] = "Trosi";
-
-
-// Storage
-
 
 // Product Updates
 
@@ -51,17 +43,8 @@ $GLOBALS['strEncodingConvert'] = "Trosi";
 
 
 
-
-// Stats conversion
-
-
-
-
-//  Maintenace
-
 //  Deliver Limitations
 $GLOBALS['strDeliveryLimitations'] = "Cyfyngiadau Trosglwyddo";
-
 
 //  Append codes
 

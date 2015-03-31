@@ -11,10 +11,6 @@
 */
 
 /** status messages **/
-$GLOBALS['strInstallStatusRecovery']            = 'Revive Adserver %s herstellen';
-$GLOBALS['strInstallStatusInstall']             = 'Revive Adserver %s installeren';
-$GLOBALS['strInstallStatusUpgrade']             = 'Upgrade naar Revive Adserver %s';
-$GLOBALS['strInstallStatusUpToDate']            = 'Revive Adserver %s gedetecteerd';
 
 /** welcome step **/
 $GLOBALS['strWelcomeTitle']                     = "Welkom bij {$PRODUCT_NAME}";
@@ -61,7 +57,6 @@ $GLOBALS['strDbUpgradeIntro']                   = "De volgende database is gedet
 $GLOBALS['strDbProgressMessageInstall']         = 'Database aanmaken...';
 $GLOBALS['strDbProgressMessageUpgrade']         = 'Database bijwerken...';
 $GLOBALS['strDbSeeMoreFields']                  = 'Bekijk extra databasevelden...';
-$GLOBALS['strDbTimeZoneWarning']                = "<p>Vanaf deze versie van {$PRODUCT_NAME} worden datums in UTC-tijd in plaats van servertijd opgeslagen.</p>                                                    <p>Als u wilt dat historische statistieken moet worden weergegeven met de juiste tijdzone, upgrade dan uw gegevens handmatig.  Meer informatie <a target='help' href='%s'> hier</a>.                                                       Uw statistieken waarden zal nauwkeurig blijven, zelfs als u uw gegevens ongewijzigd laat.                                                    </p>";
 $GLOBALS['strDbTimeZoneNoWarnings']             = "Toon in de toekomst geen waarschuwingen over tijdzones";
 $GLOBALS['strDBInstallSuccess']                 = "Database correct aangemaakt";
 $GLOBALS['strDBUpgradeSuccess']                 = "Database met success bijgewerkt";
@@ -76,7 +71,6 @@ $GLOBALS['strConfigureUpgradeIntro']            = "Geef het pad naar uw vorige i
 $GLOBALS['strConfigSeeMoreFields']              = "Bekijk meer configuratie-velden...";
 $GLOBALS['strPreviousInstallTitle']             = "Vorige installatie";
 $GLOBALS['strPathToPrevious']                   = "Pad naar eerdere {$PRODUCT_NAME} installatie";
-$GLOBALS['strPathToPreviousHint']               = "Plugin bestanden moeten overgenomen worden van het path van uw vorige installatie";
 $GLOBALS['strPathToPreviousError']              = "Een of meer plugin bestanden kon niet gevonden worden, bekijk het bestand install.log voor meer informatie";
 $GLOBALS['strConfigureProgressMessage']         = "Configureren van {$PRODUCT_NAME}...";
 
@@ -97,19 +91,11 @@ $GLOBALS['strFinishInstallTitle']               = "Uw {$PRODUCT_NAME}-installati
 $GLOBALS['strFinishUpgradeWithErrorsTitle']     = "Uw {$PRODUCT_NAME}-upgrade is voltooid. Controleer de aangegeven punten.";
 $GLOBALS['strFinishUpgradeTitle']               = "Uw {$PRODUCT_NAME}-upgrade is voltooid.";
 $GLOBALS['strFinishInstallWithErrorsTitle']     = "Uw {$PRODUCT_NAME}-installatie is voltooid. Controleer alstublieft de aangegeven punten.";
-$GLOBALS['strInstallNonBlockingErrors']         = "Er is een fout opgetreden bij het uitvoeren van de installatietaken. Controleer de <a class=\"show-errors\" href=\"#\"> lijst met fouten</a> en installatie  log op \"%s\" voor details. U zal nog steeds kunnen inloggen op uw {$PRODUCT_NAME}-installatie.";
 $GLOBALS['strDetailedTaskErrorList']            = "Gedetailleerde lijst van gevonden fouten";
 $GLOBALS['strPluginInstallFailed']              = "Installatie van plugin '%s' is mislukt:";
 $GLOBALS['strTaskInstallFailed']                = "Fout opgetreden bij het uitvoeren van installatie taak '%s':";
 $GLOBALS['strContinueToLogin']                  = "Klik op \"Doorgaan\" om in te loggen in uw {$PRODUCT_NAME}-installatie.";
 
-$GLOBALS['strContinue']                         = "Ga verder";
-$GLOBALS['strDBCreatedSuccessful']              = "Uw database is met succes gemaakt voor {$PRODUCT_NAME}";
-$GLOBALS['strPluginsDefault']                   = "{$PRODUCT_NAME} Plugins";
-$GLOBALS['strPostUpgradeTasks']                 = "{$PRODUCT_NAME} taken na de upgrade";
-$GLOBALS['strInstallComplete']                  = "Uw {$PRODUCT_NAME}-installatie is voltooid.";
-$GLOBALS['strSignupUpdates']                    = "Meld u aan voor productupdates en beveiligingswaarschuwingen";
-$GLOBALS['strUpgradeComplete']                  = "Gefeliciteerd, u bent klaar met het upgraden van {$PRODUCT_NAME}";
 $GLOBALS['strUnableCreateConfFile']             = "Wij zijn niet in staat om uw configuratiebestand te maken. Controleer de permissies van de map {$PRODUCT_NAME} var opnieuw.";
 $GLOBALS['strUnableUpdateConfFile']             = "Wij zijn niet in staat om uw configuratiebestand bij te werken. Controleer de permissies  van de map {$PRODUCT_NAME} var opnieuw, en ook de permissies van het configuratiebestand van de vorige installatie dat u heeft gekopieerd naar deze map.";
 $GLOBALS['strUnableToCreateAdmin']              = "We zijn niet in staat om een systeembeheerder-account te maken, is de database toegankelijk?";

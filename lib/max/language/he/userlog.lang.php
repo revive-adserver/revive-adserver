@@ -11,11 +11,13 @@
  */
 
 // Set translation strings
-
 $GLOBALS['strDeliveryEngine'] = "מנוע הפצה";
 $GLOBALS['strMaintenance'] = "תחזוקה";
 $GLOBALS['strAdministrator'] = "אחראי";
 
 // Audit
+$GLOBALS['strDelete'] = "מחק";
+$GLOBALS['strAdvertiser'] = "מפרסם";
+$GLOBALS['strCampaign'] = "מערכה";
 
 $GLOBALS['strUserlog'] = array();

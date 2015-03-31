@@ -31,8 +31,5 @@ $GLOBALS['strWarning']                          = "Varning";
 
 /** finish step **/
 
-$GLOBALS['strContinue']                         = "Fortsätt";
-$GLOBALS['strPluginsDefault']                   = "OpenX Plugins";
-$GLOBALS['strInstallComplete']                  = "Din OpenX installation är nu utförd.";
 $GLOBALS['strUnableCreateConfFile']             = "Vi lyckades inte skapa din konfigurationsfil. Vänligen kontrollera rättigheterna till {$PRODUCT_NAME} var mappen.";
 $GLOBALS['strUnableUpdateConfFile']             = "Vi lyckades inte uppdatera din konfigurationsfil. Vänligen kontrollera rättigheterna till {$PRODUCT_NAME} var mappen samt kontrollera rättigheterna i tidigare installations konfigurationsfil som kan ha kopierats till den här mappen.";

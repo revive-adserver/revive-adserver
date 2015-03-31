@@ -11,21 +11,15 @@
  */
 
 // Set translation strings
-
 $GLOBALS['strDeliveryEngine'] = "Pristatymo variklis";
 $GLOBALS['strMaintenance'] = "Aptarnavimas";
 $GLOBALS['strAdministrator'] = "Administratorius";
 
 // Audit
-$GLOBALS['strLogging'] = "Prisijungiama";
-$GLOBALS['strAudit'] = "Patikrinimo registras";
-$GLOBALS['strEvent'] = "Įvykis";
 $GLOBALS['strDeleted'] = "ištrintas";
 $GLOBALS['strInserted'] = "įterptas";
 $GLOBALS['strUpdated'] = "atnaujintas";
 $GLOBALS['strDelete'] = "Ištrinti";
-$GLOBALS['strInsert'] = "Įterpti";
-$GLOBALS['strUpdate'] = "Atnaujinti";
 $GLOBALS['strHas'] = "turi";
 $GLOBALS['strFilters'] = "Filtrai";
 $GLOBALS['strAdvertiser'] = "Reklamos skelbėjas";
@@ -36,7 +30,6 @@ $GLOBALS['strType'] = "Tipas";
 $GLOBALS['strAction'] = "Veiksmas";
 $GLOBALS['strParameter'] = "Parametrai";
 $GLOBALS['strValue'] = "Vertė";
-$GLOBALS['strDetailedView'] = "Detalus vaizdas";
 $GLOBALS['strReturnAuditTrail'] = "Grįžti prie Audit Trail";
 $GLOBALS['strMaintenanceLog'] = "techninio aptarnavimo registras";
 $GLOBALS['strAuditResultsNotFound'] = "Jokių įvykių pagal įvestus kriterijus nerasta";

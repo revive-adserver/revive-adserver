@@ -11,14 +11,16 @@
  */
 
 // Set translation strings
-
 $GLOBALS['strDeliveryEngine'] = "Kiszolgáló motor";
 $GLOBALS['strMaintenance'] = "Karbantartás";
 $GLOBALS['strAdministrator'] = "Adminisztrátor";
 
 // Audit
 $GLOBALS['strDeleted'] = "Töröl";
+$GLOBALS['strDelete'] = "Töröl";
 $GLOBALS['strAdvertiser'] = "Hirdető";
+$GLOBALS['strCampaign'] = "Kampány";
+$GLOBALS['strZone'] = "Nincs";
 
 $GLOBALS['strUserlog'] = array();
 $GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Adatbázis automatikus tisztítása";

@@ -11,23 +11,15 @@
  */
 
 // Set translation strings
-
 $GLOBALS['strDeliveryEngine'] = "Delivery Engine";
 $GLOBALS['strMaintenance'] = "Onderhoud";
 $GLOBALS['strAdministrator'] = "Beheerder";
 
 // Audit
-$GLOBALS['strLogging'] = "Logboekregistratie";
-$GLOBALS['strAudit'] = "Audit Logboek";
-$GLOBALS['strDebugLog'] = "Debug Logboek";
-$GLOBALS['strEvent'] = "Gebeurtenis";
-$GLOBALS['strTimestamp'] = "Tijdstip";
 $GLOBALS['strDeleted'] = "verwijderd";
 $GLOBALS['strInserted'] = "ingevoegd";
 $GLOBALS['strUpdated'] = "bijgewerkt";
 $GLOBALS['strDelete'] = "Verwijder";
-$GLOBALS['strInsert'] = "Invoegen";
-$GLOBALS['strUpdate'] = "Actualiseren";
 $GLOBALS['strHas'] = "heeft";
 $GLOBALS['strFilters'] = "Filters";
 $GLOBALS['strAdvertiser'] = "Adverteerder";
@@ -38,7 +30,6 @@ $GLOBALS['strType'] = "Type";
 $GLOBALS['strAction'] = "Actie";
 $GLOBALS['strParameter'] = "Parameter";
 $GLOBALS['strValue'] = "Waarde";
-$GLOBALS['strDetailedView'] = "Gedetailleerde weergave";
 $GLOBALS['strReturnAuditTrail'] = "Terug naar Audit Logboek";
 $GLOBALS['strAuditTrail'] = "Audit logboek";
 $GLOBALS['strMaintenanceLog'] = "Maintenance logboek";

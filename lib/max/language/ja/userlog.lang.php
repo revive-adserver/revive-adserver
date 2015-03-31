@@ -11,23 +11,15 @@
  */
 
 // Set translation strings
-
 $GLOBALS['strDeliveryEngine'] = "配信エンジン";
 $GLOBALS['strMaintenance'] = "メンテナンス";
 $GLOBALS['strAdministrator'] = "管理者";
 
 // Audit
-$GLOBALS['strLogging'] = "ロギング";
-$GLOBALS['strAudit'] = "追跡記録ログ";
-$GLOBALS['strDebugLog'] = "デバッグログ";
-$GLOBALS['strEvent'] = "イベント";
-$GLOBALS['strTimestamp'] = "タイムスタンプ";
 $GLOBALS['strDeleted'] = "削除済";
 $GLOBALS['strInserted'] = "挿入済";
 $GLOBALS['strUpdated'] = "更新済";
 $GLOBALS['strDelete'] = "削除";
-$GLOBALS['strInsert'] = "挿入";
-$GLOBALS['strUpdate'] = "更新";
 $GLOBALS['strHas'] = "=";
 $GLOBALS['strFilters'] = "フィルター条件";
 $GLOBALS['strAdvertiser'] = "広告主";
@@ -38,7 +30,6 @@ $GLOBALS['strType'] = "タイプ";
 $GLOBALS['strAction'] = "アクション";
 $GLOBALS['strParameter'] = "パラメータ";
 $GLOBALS['strValue'] = "数値";
-$GLOBALS['strDetailedView'] = "明細ビュー";
 $GLOBALS['strReturnAuditTrail'] = "追跡記録に戻る";
 $GLOBALS['strAuditTrail'] = "追跡記録";
 $GLOBALS['strMaintenanceLog'] = "メンテナンスログ";

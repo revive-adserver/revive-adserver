@@ -11,23 +11,15 @@
  */
 
 // Set translation strings
-
 $GLOBALS['strDeliveryEngine'] = "發布引擎";
 $GLOBALS['strMaintenance'] = "維護";
 $GLOBALS['strAdministrator'] = "管理員";
 
 // Audit
-$GLOBALS['strLogging'] = "日誌";
-$GLOBALS['strAudit'] = "審計日誌";
-$GLOBALS['strDebugLog'] = "調試日誌";
-$GLOBALS['strEvent'] = "事件";
-$GLOBALS['strTimestamp'] = "時間戳";
 $GLOBALS['strDeleted'] = "已刪除 ";
 $GLOBALS['strInserted'] = "已插入";
 $GLOBALS['strUpdated'] = "已更新";
 $GLOBALS['strDelete'] = "刪除";
-$GLOBALS['strInsert'] = "插入";
-$GLOBALS['strUpdate'] = "更新";
 $GLOBALS['strHas'] = "具備";
 $GLOBALS['strFilters'] = "過濾器";
 $GLOBALS['strAdvertiser'] = "廣告商";
@@ -38,7 +30,6 @@ $GLOBALS['strType'] = "類型";
 $GLOBALS['strAction'] = "操作";
 $GLOBALS['strParameter'] = "參數";
 $GLOBALS['strValue'] = "值";
-$GLOBALS['strDetailedView'] = "詳細視圖";
 $GLOBALS['strReturnAuditTrail'] = "返回到審計跟蹤";
 $GLOBALS['strAuditTrail'] = "審計跟踪";
 $GLOBALS['strMaintenanceLog'] = "維護日誌";

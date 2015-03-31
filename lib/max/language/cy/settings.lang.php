@@ -11,12 +11,7 @@
  */
 
 // Installer translation strings
-$GLOBALS['strAdminSettings'] = "Gosodiadau Gweinyddwr";
 $GLOBALS['strWarning'] = "Rhybudd";
-
-
-
-
 
 
 
@@ -35,13 +30,10 @@ $GLOBALS['strEditConfigPossible'] = "It is possible to edit all settings because
 // Configuration Settings
 
 // Administrator Settings
-$GLOBALS['strAdministratorSettings'] = "Gosodiadau Gweinyddwr";
 $GLOBALS['strBasicInformation'] = "Gwybodaeth Sylfaenol";
 
 
 // Database Settings
-
-
 
 // Email Settings
 $GLOBALS['strEmailSettings'] = "Prif Osodiadau";
@@ -56,9 +48,6 @@ $GLOBALS['strTypeFTPUsername'] = "Mewngofnodi";
 $GLOBALS['strTypeFTPPassword'] = "Cyfrinair";
 $GLOBALS['strDeliveryFilenamesXMLRPC'] = "Actifadu XML RPC";
 $GLOBALS['strDeliveryFilenamesLocal'] = "Actifadu Lleol";
-
-
-
 $GLOBALS['strDeliveryExecPhp'] = "Caniatáu i god PHP mewn hysbysebion i gael ei weithredu<br />(Rhybudd: Risg Diogelwch)";
 
 // General Settings
@@ -70,20 +59,7 @@ $GLOBALS['strInventory'] = "Rhestren";
 $GLOBALS['strHideInactive'] = "Cuddio anweithredol";
 $GLOBALS['strStatisticsDefaults'] = "Ystadegau";
 
-$GLOBALS['strModesOfPayment'] = "Dull talu";
-$GLOBALS['strHelpFiles'] = "Ffeil cymorth";
-$GLOBALS['strHasTaxID'] = "ID Treth";
-
-// CSV Import Settings
-$GLOBALS['strDefaultConversionStatus'] = "Rhagosodiad rheolau trawsnewidiad";
-$GLOBALS['strDefaultConversionType'] = "Rhagosodiad rheolau trawsnewidiad";
-
-/**
- * @todo remove strBannerSettings if banner is only configurable as a preference
- *       rename // Banner Settings to  // Banner Preferences
- */
 // Invocation Settings
-$GLOBALS['strAllowedInvocationTypes'] = "Mathau o Actifadu a Ganiateir";
 $GLOBALS['strInvocationDefaults'] = "Rhagosodiadau Actifadu";
 
 // Banner Delivery Settings
@@ -95,23 +71,10 @@ $GLOBALS['strInvocationDefaults'] = "Rhagosodiadau Actifadu";
 // Campaign ECPM settings
 
 // Statistics & Maintenance Settings
-$GLOBALS['strCsvImport'] = "Caniatáu lanlwytho trawsnewidiadau all-lein";
-$GLOBALS['strAllowEmail'] = "Caniatáu danfon ebost yn eang";
 
 // UI Settings
 $GLOBALS['strGeneralSettings'] = "Gosodiadau Cyffredinol";
 
-
-$GLOBALS['strClientWelcomeText'] = "Testun Groeso<br />(Caniateir Tagiau HTML)";
-
-$GLOBALS['strPublisherAgreementText'] = "Testun Mewngofnodi (Caniateir Tagiau HTML)";
-
 // Regenerate Platfor Hash script
 
 // Plugin Settings
-
-/* ------------------------------------------------------- */
-/* Unknown (unused?) translations                        */
-/* ------------------------------------------------------- */
-
-

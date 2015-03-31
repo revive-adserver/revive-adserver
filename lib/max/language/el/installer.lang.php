@@ -17,6 +17,8 @@
 /** check step **/
 
 
+$GLOBALS['strWarning']                          = "Προειδοποίηση";
+$GLOBALS['strSyscheckStatus']                   = "Κατάσταση";
 
 /** admin login step **/
 
@@ -30,4 +32,3 @@
 
 /** finish step **/
 
-$GLOBALS['strContinue']                         = "Dalej";

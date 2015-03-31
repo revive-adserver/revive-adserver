@@ -11,21 +11,14 @@
  */
 
 // Set translation strings
-
 $GLOBALS['strDeliveryEngine'] = "Motor de Livrare";
 $GLOBALS['strMaintenance'] = "Întreţinere";
 
 // Audit
-$GLOBALS['strLogging'] = "Înregistrare în Jurnal";
-$GLOBALS['strAudit'] = "Jurnal Bilanţ";
-$GLOBALS['strDebugLog'] = "Jurnal Depanare";
-$GLOBALS['strEvent'] = "Eveniment";
 $GLOBALS['strDeleted'] = "şters";
 $GLOBALS['strInserted'] = "adăugat";
 $GLOBALS['strUpdated'] = "actualizat";
 $GLOBALS['strDelete'] = "Şterge";
-$GLOBALS['strInsert'] = "Adaugă";
-$GLOBALS['strUpdate'] = "Actualizează";
 $GLOBALS['strHas'] = "are";
 $GLOBALS['strFilters'] = "Filtre";
 $GLOBALS['strCampaign'] = "Campanie";
@@ -34,7 +27,6 @@ $GLOBALS['strType'] = "Tip";
 $GLOBALS['strAction'] = "Acţiune";
 $GLOBALS['strParameter'] = "Parametru";
 $GLOBALS['strValue'] = "Valoare";
-$GLOBALS['strDetailedView'] = "Vizualizare Detaliată";
 $GLOBALS['strReturnAuditTrail'] = "Întoarcere la Urmărirea Bilanţului";
 $GLOBALS['strAuditTrail'] = "Urmărirea Bilanţului";
 $GLOBALS['strMaintenanceLog'] = "Jurnal întreţinere";

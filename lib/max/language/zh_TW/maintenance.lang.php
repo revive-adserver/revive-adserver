@@ -22,17 +22,14 @@ $GLOBALS['strChooseSection'] = "選擇章節";
 
 
 
-
 // Priority
 $GLOBALS['strRecalculatePriority'] = "重新計算優先級";
-
 
 // Banner cache
 $GLOBALS['strCheckBannerCache'] = "檢查廣告緩存";
 $GLOBALS['strBannerCacheErrorsFound'] = "經查，數據庫廣告緩存發現錯誤。在手工修正這些錯誤之前，這些廣告將無法正常運行。";
 $GLOBALS['strBannerCacheOK'] = "未發現錯誤，您的數據庫廣告緩存已是最新的";
 $GLOBALS['strBannerCacheDifferencesFound'] = "經查，數據庫廣告緩存不是最新的，需要重建。點擊這裡自動更新緩存。";
-$GLOBALS['strBannerCacheFixed'] = "成功完成廣告數據庫緩存重構, 數據庫緩存已經更新.";
 $GLOBALS['strBannerCacheRebuildButton'] = "重構";
 $GLOBALS['strRebuildDeliveryCache'] = "重構數據庫廣告緩存";
 $GLOBALS['strBannerCacheExplaination'] = "廣告數據庫緩存的作用是加速廣告的投放
@@ -44,11 +41,9 @@ $GLOBALS['strBannerCacheExplaination'] = "廣告數據庫緩存的作用是加�
 
 // Cache
 $GLOBALS['strCache'] = "發布緩存";
-$GLOBALS['strAge'] = "年齡";
 $GLOBALS['strDeliveryCacheSharedMem'] = "共享內存目前正被發布緩存佔用";
 $GLOBALS['strDeliveryCacheDatabase'] = "數據正在存儲發布緩存";
 $GLOBALS['strDeliveryCacheFiles'] = "發布緩存正在存儲到你伺服器上的多個文件 ";
-
 
 // Storage
 $GLOBALS['strStorage'] = "存儲";
@@ -56,12 +51,6 @@ $GLOBALS['strMoveToDirectory'] = "將圖片從數據庫中移動到目錄下 ";
 $GLOBALS['strStorageExplaination'] = "圖片文件可存儲在數據庫或文件系統中。存儲在文件系統中將比存儲在數據庫中效率更高。";
 
 // Encoding
-$GLOBALS['strEncodingConvert'] = "轉換";
-
-
-// Storage
-$GLOBALS['strStatisticsExplaination'] = "您已經啟用了<i>緊縮統計</i>, 但是您的報表還是詳細格式.您是否願意把現有的詳細格式轉換為緊縮格式?";
-
 
 // Product Updates
 $GLOBALS['strSearchingUpdates'] = "查找更新，請稍候……";
@@ -96,17 +85,8 @@ $GLOBALS['strCurrentlyUsing'] = "你正在使用的";
 $GLOBALS['strRunningOn'] = "運行的";
 $GLOBALS['strAndPlain'] = "與";
 
-
-// Stats conversion
-
-
-
-
-//  Maintenace
-
 //  Deliver Limitations
 $GLOBALS['strDeliveryLimitations'] = "發布限制";
-
 
 //  Append codes
 

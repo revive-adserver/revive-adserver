@@ -22,10 +22,8 @@ $GLOBALS['strChooseSection'] = "إختيار قسم";
 
 
 
-
 // Priority
 $GLOBALS['strRecalculatePriority'] = "إعادة حساب الأهمية";
-
 
 // Banner cache
 $GLOBALS['strCheckBannerCache'] = "فحص كاش البنرات";
@@ -42,11 +40,9 @@ $GLOBALS['strBannerCacheExplaination'] = "كاش قاعدة بيانات الب�
 </ul>";
 
 // Cache
-$GLOBALS['strAge'] = "العمر";
 $GLOBALS['strDeliveryCacheSharedMem'] = "	حالياً يتم استخدام الذاكرة المشتركة لتخزين كاش التسليم.";
 $GLOBALS['strDeliveryCacheDatabase'] = "	حالياً يتم استخدام قاعدة البيانات لتخزين كاش التسليم.";
 $GLOBALS['strDeliveryCacheFiles'] = "	حالياً يتم تخزين كاش التسليم في ملفات متعددة على الخادم.";
-
 
 // Storage
 $GLOBALS['strStorage'] = "تخزين";
@@ -55,11 +51,6 @@ $GLOBALS['strStorageExplaination'] = "	صور البنرات المستخدمة 
 	المجلدات سيقل الضغط على قواعد البيانات و سيؤدي ذلك إلى زيادة في سرعة عرض الإعلانات.";
 
 // Encoding
-$GLOBALS['strEncodingConvert'] = "تحويل";
-
-
-// Storage
-
 
 // Product Updates
 $GLOBALS['strSearchingUpdates'] = "يتم البحث عن تحديثات، الرجاء الإنتظار...";
@@ -102,17 +93,8 @@ $GLOBALS['strCurrentlyUsing'] = "تستخدم الآن";
 $GLOBALS['strRunningOn'] = "تعمل على";
 $GLOBALS['strAndPlain'] = "و";
 
-
-// Stats conversion
-
-
-
-
-//  Maintenace
-
 //  Deliver Limitations
 $GLOBALS['strDeliveryLimitations'] = "حدود التوصيل";
-
 
 //  Append codes
 

@@ -17,10 +17,6 @@ $GLOBALS['strWarning'] = "Upozornenie";
 
 
 
-
-
-
-
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
 /* ------------------------------------------------------- */
@@ -39,8 +35,6 @@ $GLOBALS['strBasicInformation'] = "Základné údaje";
 
 // Database Settings
 
-
-
 // Email Settings
 
 // Audit Trail Settings
@@ -52,9 +46,6 @@ $GLOBALS['strWebPath'] = "$PRODUCT_NAME Server Access Paths";
 $GLOBALS['strTypeFTPUsername'] = "Prihlásiť";
 $GLOBALS['strTypeFTPPassword'] = "Heslo";
 
-
-
-
 // General Settings
 
 // Geotargeting Settings
@@ -63,13 +54,6 @@ $GLOBALS['strTypeFTPPassword'] = "Heslo";
 $GLOBALS['strInventory'] = "Inventár";
 $GLOBALS['strHideInactive'] = "Skryť neaktívne";
 
-
-// CSV Import Settings
-
-/**
- * @todo remove strBannerSettings if banner is only configurable as a preference
- *       rename // Banner Settings to  // Banner Preferences
- */
 // Invocation Settings
 
 // Banner Delivery Settings
@@ -84,15 +68,6 @@ $GLOBALS['strHideInactive'] = "Skryť neaktívne";
 
 // UI Settings
 
-
-
-
 // Regenerate Platfor Hash script
 
 // Plugin Settings
-
-/* ------------------------------------------------------- */
-/* Unknown (unused?) translations                        */
-/* ------------------------------------------------------- */
-
-

@@ -11,15 +11,19 @@
  */
 
 // Set translation strings
-
 $GLOBALS['strDeliveryEngine'] = "موتور تحویل";
 $GLOBALS['strMaintenance'] = "نگهدار&#1740;";
 $GLOBALS['strAdministrator'] = "مدیریت";
 
 // Audit
 $GLOBALS['strDeleted'] = "حذف";
+$GLOBALS['strDelete'] = "حذ�?";
 $GLOBALS['strAdvertiser'] = "آگهی دهنده";
 $GLOBALS['strPublisher'] = "ناشر";
+$GLOBALS['strCampaign'] = "داخلی";
+$GLOBALS['strZone'] = "ناحیه";
+$GLOBALS['strAction'] = "اقدام";
+$GLOBALS['strValue'] = "قیمت";
 
 $GLOBALS['strUserlog'] = array();
 $GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "غیر فعال کردن هشدارها برای campaign {id} و ارسال توسط ایمیل";

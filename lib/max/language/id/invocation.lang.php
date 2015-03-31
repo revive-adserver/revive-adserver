@@ -21,7 +21,6 @@ $GLOBALS['strAbbrSeconds'] = "dtk";
 
 // Common Invocation Parameters
 $GLOBALS['strInvocationWhat'] = "Pilihan Banner";
-$GLOBALS['strInvocationClientID'] = "Pemasang Iklan";
 $GLOBALS['strInvocationCampaignID'] = "Kampanye";
 $GLOBALS['strInvocationTarget'] = "Frame Tujuan";
 $GLOBALS['strInvocationSource'] = "Sumber";
@@ -38,7 +37,6 @@ $GLOBALS['strIframeResizeToBanner'] = "Ubah ukuran iframe sesuai dimensi dari ba
 $GLOBALS['strIframeMakeTransparent'] = "Ubah iframe menjadi transparan";
 $GLOBALS['strIframeIncludeNetscape4'] = "Masukkan ilayer yang kompatibel dengan Netscape 4";
 
-
 // PopUp
 $GLOBALS['strPopUpStyle'] = "Jenis Pop-up";
 $GLOBALS['strPopUpCreateInstance'] = "Halnya kapan pop-up dikreasi";
@@ -50,80 +48,19 @@ $GLOBALS['strPopUpTop'] = "Posisi asal (atas)";
 $GLOBALS['strPopUpLeft'] = "Posisi asal (kiri)";
 $GLOBALS['strWindowOptions'] = "Pilihan Jendela";
 $GLOBALS['strShowLocation'] = "Lokasi";
+$GLOBALS['strShowStatus'] = "Keadaan";
 $GLOBALS['strWindowResizable'] = "Ukuran dabat diubah";
-
 
 // XML-RPC
 $GLOBALS['strXmlRpcLanguage'] = "Bahasa yang digunakan pada Host";
 $GLOBALS['strXmlRpcProtocol'] = "Gunakan HTTPS untuk menghubungi XML-RPC Server";
 $GLOBALS['strXmlRpcTimeout'] = "XML-RPC Timeout (detik)";
 
-
-// AdLayer
-$GLOBALS['strAdLayerStyle'] = "Gaya";
-
-$GLOBALS['strAlignment'] = "Penjajaran";
-$GLOBALS['strHAlignment'] = "Penjajaran Horisontal";
-$GLOBALS['strLeft'] = "Kiri";
-$GLOBALS['strCenter'] = "Tengah";
-$GLOBALS['strRight'] = "Kanan";
-
-$GLOBALS['strVAlignment'] = "Penjajaran Vertikal";
-$GLOBALS['strTop'] = "Atas";
-$GLOBALS['strMiddle'] = "Tengah";
-$GLOBALS['strBottom'] = "Bawah";
-
-$GLOBALS['strAutoCollapseAfter'] = "Melipatkan secara otomatis setelah";
-$GLOBALS['strCloseText'] = "Tutup Teks";
-$GLOBALS['strClose'] = "[Tutup]";
-$GLOBALS['strBannerPadding'] = "Isi dari Banner";
-
-$GLOBALS['strHShift'] = "Penggeseran Horisontal";
-$GLOBALS['strVShift'] = "Penggeseran Vertikal";
-
-$GLOBALS['strShowCloseButton'] = "Tampilkan tombol Tutup";
-$GLOBALS['strBackgroundColor'] = "Warna dasar";
-$GLOBALS['strBorderColor'] = "Warna  batas";
-
-$GLOBALS['strDirection'] = "Jurusan";
-$GLOBALS['strLeftToRight'] = "Dari kiri ke kanan";
-$GLOBALS['strRightToLeft'] = "Dari kanan ke kiri";
-$GLOBALS['strLooping'] = "Memutar";
-$GLOBALS['strAlwaysActive'] = "Selalu aktif";
-$GLOBALS['strSpeed'] = "Kecepatan";
-$GLOBALS['strPause'] = "Istirahat";
-$GLOBALS['strLimited'] = "Terbatas";
-$GLOBALS['strLeftMargin'] = "Pinggiran kiri";
-$GLOBALS['strRightMargin'] = "Pinggiran kanan";
-$GLOBALS['strTransparentBackground'] = "Dasar transparan";
-
-$GLOBALS['strSmoothMovement'] = "Gerakan halus";
-$GLOBALS['strHideNotMoving'] = "Sembunyikan banner bila Cursor tidak bergerak";
-$GLOBALS['strHideDelay'] = "Menunda sebelum banner disembunyikan";
-$GLOBALS['strHideTransparancy'] = "Tingkat transparansi dari banner yang tersembunyi";
-
-
-$GLOBALS['strAdLayerStyleName'] = array();
-$GLOBALS['strAdLayerStyleName']['geocities'] = "GeocitiesSimpleCursorFloater";
-
 // Support for 3rd party server clicktracking
 $GLOBALS['str3rdPartyTrack'] = "Dukungan untuk pelacakan klik dari Server pihak ketiga";
 
 // Support for cachebusting code
 $GLOBALS['strCacheBuster'] = "Menambahkan kode Cache-Busting";
-
-// Non-Img creatives Warning for zone image-only invocation
-$GLOBALS['strNonImgWarningZone'] = "Perhatian: Ada banner pada zona ini yang tidak berupa gambar. Banner tersebut tidak dapat diputar dengan cara menggunakan Tag ini.";
-$GLOBALS['strNonImgWarning'] = "Perhatian: Banner ini tidak dapat difungsikan dengan benar sehubungan banner ini bukan berupa gambar.";
-
-// unkown HTML tag type Warning for zone invocation
-$GLOBALS['strUnknHtmlWarning'] = "Perhatian: Banner ini adalah dalam format HTML yang tidak dikenal.";
-
-// sql/web banner-type warning for clickonly zone invocation
-$GLOBALS['strWebBannerWarning'] = "Perhatian: Banner ini harus di-download dan Anda perlu beritahukan kepada kami tentang URL yang diminta untuk banner ini.
-<br /> 1) Download the banner:";
-$GLOBALS['strDwnldWebBanner'] = "Klik kanan disini dan kemudian pilihlah Save Target As";
-$GLOBALS['strWebBannerWarning2'] = "<br /> 2) Silakan Upload banner ke Webserver Anda and tuliskan lokasinya disini: ";
 
 // IMG invocation selected for tracker with appended code
 $GLOBALS['strWarning'] = "Perhatian";

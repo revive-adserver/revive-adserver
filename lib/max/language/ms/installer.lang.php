@@ -17,6 +17,7 @@
 /** check step **/
 
 
+$GLOBALS['strWarning']                          = "Amaran";
 
 /** admin login step **/
 
@@ -30,4 +31,3 @@
 
 /** finish step **/
 
-$GLOBALS['strContinue']                         = "Seterusnya »";

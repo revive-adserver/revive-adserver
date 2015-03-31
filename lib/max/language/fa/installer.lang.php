@@ -17,6 +17,8 @@
 /** check step **/
 
 
+$GLOBALS['strWarning']                          = "اخطار";
+$GLOBALS['strSyscheckStatus']                   = "وضعیت";
 
 /** admin login step **/
 
@@ -30,4 +32,3 @@
 
 /** finish step **/
 
-$GLOBALS['strContinue']                         = "ادامه دادن »";

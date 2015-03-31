@@ -22,21 +22,10 @@ $GLOBALS['strChooseSection'] = "�?역 선�?";
 
 
 
-
 // Priority
 $GLOBALS['strRecalculatePriority'] = "우선순위 다시 계산";
-$GLOBALS['strHighPriorityCampaigns'] = "높�?� 우선순위 캠페�?�";
-$GLOBALS['strAdViewsAssigned'] = "할당�?� AdViews";
-$GLOBALS['strLowPriorityCampaigns'] = "낮�?� 우선순위 캠페�?�";
-$GLOBALS['strPredictedAdViews'] = "예�? AdViews";
-$GLOBALS['strPriorityDaysRunning'] = "�?��?� 예�?치를 기준으로 {days}�?� 정�?� 남아있습니다.";
-$GLOBALS['strPriorityBasedLastWeek'] = "지난주와 금주�?� �?��?�터를 토대로 예�? 노출수 계산. ";
-$GLOBALS['strPriorityBasedLastDays'] = "최근 며칠간�?� �?��?�터를 토대로 예�? 노출수 계산. ";
-$GLOBALS['strPriorityBasedYesterday'] = "어제 �?��?�터를 기준으로 예�? 노출수 계산. ";
-
 
 // Banner cache
-$GLOBALS['strRebuildBannerCache'] = "배너 �?시 다시 빌드";
 $GLOBALS['strRebuildDeliveryCache'] = "전달유지 �?시 다시 빌드";
 $GLOBALS['strBannerCacheExplaination'] = "	The banner cache contains a copy of the HTML code which is used to display the banner. By using a banner cache it is possible to speed
 	up the delivery of banners because the HTML code doesn't need to be generated every time a banner is being delivered. Because the
@@ -48,18 +37,12 @@ $GLOBALS['strCache'] = "전달유지 �?시";
 $GLOBALS['strDeliveryCacheSharedMem'] = "현재 전달유지 �?시를 저장하기 위해 공유 메모리를 사용하고 있습니다.";
 $GLOBALS['strDeliveryCacheDatabase'] = "현재 전달유지 �?시를 저장하기 위해 �?��?�터베�?�스를 사용하고 있습니다.";
 
-
 // Storage
 $GLOBALS['strStorage'] = "저장�?역";
 $GLOBALS['strMoveToDirectory'] = "�?��?�터베�?�스�? 저장�?� �?�미지를 디렉터리로 옮기기";
 $GLOBALS['strStorageExplaination'] = "로컬 배너로 사용하는 �?�미지는 �?��?�터베�?�스 �?는 디렉터리�? 저장�?�어 있습니다. �?�미지를 디렉터리�? 저장한 경우�?는 �?��?�터베�?�스�? 대한 부하를 줄임으로�?� �?�?�를 향�?시킬 수 있습니다.";
 
 // Encoding
-$GLOBALS['strEncodingConvert'] = "변환";
-
-
-// Storage
-
 
 // Product Updates
 $GLOBALS['strSearchingUpdates'] = "업�?��?�트를 겅색중입니다. 잠시 기다려주십시오...";
@@ -90,35 +73,8 @@ $GLOBALS['strSecurityUpdate'] = "	<b>It is highly recommended to install this up
 
 $GLOBALS['strClickToVisitWebsite'] = "	Click here to visit our website";
 
-
-// Stats conversion
-$GLOBALS['strConverting'] = "변환중";
-$GLOBALS['strConvertingStats'] = "통계를 변환중입니다...";
-$GLOBALS['strConvertStats'] = "통계 변환";
-$GLOBALS['strConvertAdViews'] = "AdViews 변환,";
-$GLOBALS['strConvertAdClicks'] = "AdClicks 변환...";
-$GLOBALS['strConvertNothing'] = "변환할 것�?� 없습니다...";
-$GLOBALS['strConvertFinished'] = "완료...";
-
-$GLOBALS['strConvertExplaination'] = "	You are currently using the compact format to store your statistics, but there are <br>
-	still some statistics in verbose format. As long as the verbose statistics aren't  <br>
-	converted to compact format they will not be used while viewing these pages.  <br>
-	Before converting your statistics, make a backup of the database!  <br>
-	Do you want to convert your verbose statistics to the new compact format? <br>";
-
-$GLOBALS['strConvertingExplaination'] = "	All remaining verbose statistics are now being converted to the compact format. <br>
-	Depending on how many impressions are stored in verbose format this may take a  <br>
-	couple of minutes. Please wait until the conversion is finished before you visit other <br>
-	pages. Below you will see a log of all modification made to the database. <br>";
-
-$GLOBALS['strConvertFinishedExplaination'] = "	The conversion of the remaining verbose statistics was succesful and the data <br>
-	should now be usable again. Below you will see a log of all modification made <br>
-	to the database.<br>";
-
-//  Maintenace
-
 //  Deliver Limitations
-
+$GLOBALS['strDeliveryLimitations'] = "전달유지 제한";
 
 //  Append codes
 

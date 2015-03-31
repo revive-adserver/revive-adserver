@@ -11,22 +11,15 @@
  */
 
 // Set translation strings
-
 $GLOBALS['strDeliveryEngine'] = "Motor de entrega";
 $GLOBALS['strMaintenance'] = "Mantenimiento";
 $GLOBALS['strAdministrator'] = "Administrador";
 
 // Audit
-$GLOBALS['strLogging'] = "Grabando";
-$GLOBALS['strAudit'] = "Auditar Registro";
-$GLOBALS['strDebugLog'] = "Depurar Registro";
-$GLOBALS['strEvent'] = "Evento";
 $GLOBALS['strDeleted'] = "borrado";
 $GLOBALS['strInserted'] = "insertado";
 $GLOBALS['strUpdated'] = "actualizado";
 $GLOBALS['strDelete'] = "Borrar";
-$GLOBALS['strInsert'] = "Insertar";
-$GLOBALS['strUpdate'] = "Actualizar";
 $GLOBALS['strHas'] = "tiene";
 $GLOBALS['strFilters'] = "Filtros";
 $GLOBALS['strAdvertiser'] = "Anunciante";
@@ -37,7 +30,6 @@ $GLOBALS['strType'] = "Tipo";
 $GLOBALS['strAction'] = "Acción";
 $GLOBALS['strParameter'] = "Parámetro";
 $GLOBALS['strValue'] = "Valor";
-$GLOBALS['strDetailedView'] = "Vista detallada";
 $GLOBALS['strReturnAuditTrail'] = "Volver a Audit Trail";
 $GLOBALS['strAuditTrail'] = "Audit Trail";
 $GLOBALS['strMaintenanceLog'] = "Registro de mantenimiento";

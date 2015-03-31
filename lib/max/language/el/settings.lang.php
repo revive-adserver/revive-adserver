@@ -11,12 +11,7 @@
  */
 
 // Installer translation strings
-$GLOBALS['strAdminSettings'] = "Ρυθμίσεις Διαχειριστή";
 $GLOBALS['strWarning'] = "Προειδοποίηση";
-
-
-
-
 
 
 
@@ -35,13 +30,10 @@ $GLOBALS['strEditConfigPossible'] = "It is possible to edit all settings because
 // Configuration Settings
 
 // Administrator Settings
-$GLOBALS['strAdministratorSettings'] = "Ρυθμίσεις Διαχειριστή";
 $GLOBALS['strBasicInformation'] = "Βασικές Πληροφορίες";
 
 
 // Database Settings
-
-
 
 // Email Settings
 $GLOBALS['strEmailSettings'] = "Βασικές Ρυθμίσεις";
@@ -55,9 +47,6 @@ $GLOBALS['strWebPath'] = "$PRODUCT_NAME Server Access Paths";
 $GLOBALS['strTypeFTPUsername'] = "Σύνδεση";
 $GLOBALS['strTypeFTPPassword'] = "Κωδικός";
 
-
-
-
 // General Settings
 
 // Geotargeting Settings
@@ -66,13 +55,6 @@ $GLOBALS['strTypeFTPPassword'] = "Κωδικός";
 $GLOBALS['strInventory'] = "Κατάλογος";
 $GLOBALS['strStatisticsDefaults'] = "Στατιστικά";
 
-
-// CSV Import Settings
-
-/**
- * @todo remove strBannerSettings if banner is only configurable as a preference
- *       rename // Banner Settings to  // Banner Preferences
- */
 // Invocation Settings
 
 // Banner Delivery Settings
@@ -88,15 +70,6 @@ $GLOBALS['strStatisticsDefaults'] = "Στατιστικά";
 // UI Settings
 $GLOBALS['strGeneralSettings'] = "Γενικές Ρυθμίσεις";
 
-
-
-
 // Regenerate Platfor Hash script
 
 // Plugin Settings
-
-/* ------------------------------------------------------- */
-/* Unknown (unused?) translations                        */
-/* ------------------------------------------------------- */
-
-

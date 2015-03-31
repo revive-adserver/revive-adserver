@@ -22,24 +22,10 @@ $GLOBALS['strChooseSection'] = "Vyberte sekci";
 
 
 
-
 // Priority
 $GLOBALS['strRecalculatePriority'] = "Přepočítat prioritu";
-$GLOBALS['strHighPriorityCampaigns'] = "Kampaně s vysokou prioritou";
-$GLOBALS['strAdViewsAssigned'] = "Přidělěných zobrazení";
-$GLOBALS['strLowPriorityCampaigns'] = "Kampaně s nízkou prioritou";
-$GLOBALS['strPredictedAdViews'] = "Předpovězených zobrazení";
-$GLOBALS['strPriorityDaysRunning'] = "V tuto chvíli jsou k dispozici statistiky za {days} dní z čehož {$PRODUCT_NAME} může vytvořit denní předpověď. ";
-$GLOBALS['strPriorityBasedLastWeek'] = "Předpověď je založena na údajích z tohoto a předchozího týdne. ";
-$GLOBALS['strPriorityBasedLastDays'] = "Předpověď je založena na údajích z předchozích několika dnů. ";
-$GLOBALS['strPriorityBasedYesterday'] = "Předpověď je založena na údajích ze včerejška. ";
-$GLOBALS['strPriorityNoData'] = "Není k dispozici dostatek údajů pro vytvoření důvěryhodné předpovědi počtu impresí pro dnešní den. Přidělení priorit bude průběžně upravováno na základě průběžných údajů. ";
-$GLOBALS['strPriorityEnoughAdViews'] = "Mělo by být k dispozici dostatek AdViews pro plné splnění kampaní s vysokou prioritou. ";
-$GLOBALS['strPriorityNotEnoughAdViews'] = "Není jisté že bude k dispozici dostatek AdViews pro plné splnění kampaní s vysokou prioritou. ";
-
 
 // Banner cache
-$GLOBALS['strRebuildBannerCache'] = "Aktualizovat cache bannerů";
 $GLOBALS['strRebuildDeliveryCache'] = "Aktualizovat cache doručování";
 $GLOBALS['strBannerCacheExplaination'] = "	Cache bannerů obsahuje kopii HTML kódu který se používá pro zobrazení banneru. Použitím chache bannerů je možné docílit zrychlení
 	doručování bannerů protože se HTML kód nemusí generovat pokaždé když má být banner doručen. Protože cache bannerů obsahuje pevné
@@ -48,11 +34,9 @@ $GLOBALS['strBannerCacheExplaination'] = "	Cache bannerů obsahuje kopii HTML k�
 
 // Cache
 $GLOBALS['strCache'] = "Cache doručování";
-$GLOBALS['strAge'] = "Stáří";
 $GLOBALS['strDeliveryCacheSharedMem'] = "	V tuto chvíli se pro ukládání cache doručování využívá sdílená paměť.";
 $GLOBALS['strDeliveryCacheDatabase'] = "	V tuto chvíli se pro ukládání cache doručování využívá databáze.";
 $GLOBALS['strDeliveryCacheFiles'] = "	V tuto chvíli se pro ukládání cache doručování využívá vícero souborů na disku.";
-
 
 // Storage
 $GLOBALS['strStorage'] = "Ukládání";
@@ -61,11 +45,6 @@ $GLOBALS['strStorageExplaination'] = "	Obrázky lokálních bannerů jsou ulože
 	zátěž databáze výrazně poklesne a zvýší se rychlost doručování.";
 
 // Encoding
-$GLOBALS['strEncodingConvert'] = "Konvertovat";
-
-
-// Storage
-
 
 // Product Updates
 $GLOBALS['strSearchingUpdates'] = "Hledám aktualizace. Prosím čekejte...";
@@ -107,35 +86,8 @@ $GLOBALS['strCurrentlyUsing'] = "V tuto chvíli používáte";
 $GLOBALS['strRunningOn'] = "běžící na";
 $GLOBALS['strAndPlain'] = "a";
 
-
-// Stats conversion
-$GLOBALS['strConverting'] = "Probíhá převod";
-$GLOBALS['strConvertingStats'] = "Převod statistik...";
-$GLOBALS['strConvertStats'] = "Převeď statistiky";
-$GLOBALS['strConvertAdViews'] = "Převedených zobrazení,";
-$GLOBALS['strConvertAdClicks'] = "Převedených kliknutí...";
-$GLOBALS['strConvertAdConversions'] = "Převedených prodejů...";
-$GLOBALS['strConvertNothing'] = "Není nic k převodu...";
-$GLOBALS['strConvertFinished'] = "Dokončeno...";
-
-$GLOBALS['strConvertExplaination'] = "	V tuto chvíli používáte kompaktní formát statistik, ale stále máte některé statsitiky <br>
-	v datailním formátu. Dokud nebudou deatilní statistiky převedny do kompaktního formátu <br>
-	nebudou zobrazovány při prohlížení této stránky.  <br>
-	Před převodem statistiky si zazálohujte databázi!  <br>
-	Chcete převést deatilní statistiky do kompaktního formátu? <br>";
-
-$GLOBALS['strConvertingExplaination'] = "	Všechny zbývající detailní statistiky jsou převáděny do kompaktního formátu. <br>
-	V závislosti na počtu impresí uložených v detailním formátu tato akce může trvat  <br>
-	až několik minut. Prosím vyčkejte na ukončení převodu než navšívíte jiné stráky. <br>
-	Níže máte seznam všech úprav provedených na databázi. <br>";
-
-$GLOBALS['strConvertFinishedExplaination'] = "	Převod zbývajících detailních statistik byl úspěšný a data by nyní měla být <br>
-	znovu použitelná. Níže máte seznam všech úprav provedených na databázi. <br>";
-
-//  Maintenace
-
 //  Deliver Limitations
-
+$GLOBALS['strDeliveryLimitations'] = "Omezení doručování";
 
 //  Append codes
 

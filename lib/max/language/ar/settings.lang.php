@@ -13,27 +13,20 @@
 // Installer translation strings
 $GLOBALS['strInstall'] = "تنصيب";
 $GLOBALS['strDatabaseSettings'] = "خيارات قواعد البيانات";
-$GLOBALS['strAdminSettings'] = "خيارات المدير";
 $GLOBALS['strAdminAccount'] = "حساب المدير";
 $GLOBALS['strAdvancedSettings'] = "خيارات متقدمة";
 $GLOBALS['strWarning'] = "تحذير";
 $GLOBALS['strBtnContinue'] = "متابعة >>";
 $GLOBALS['strBtnRecover'] = "إسترجاع >>";
-$GLOBALS['strBtnStartAgain'] = "البدء بالتحديث من جديد >>";
-$GLOBALS['strBtnGoBack'] = "<< الرجوع";
 $GLOBALS['strBtnAgree'] = "موافق >>";
 $GLOBALS['strBtnRetry'] = "فصح جديد";
 $GLOBALS['strWarningRegisterArgcArv'] = "حتى تتم عملية الصيانة من خلال سطر الأوامر يجب أن يكون المتغير register_argc_argv مفعلاً في خيارات PHP.";
 $GLOBALS['strTablesType'] = "نوع الجدول";
 
-
 $GLOBALS['strRecoveryRequiredTitle'] = "عملية محاولة الترقية السابقة واجهت بعض المشاكل";
 $GLOBALS['strRecoveryRequired'] = "حدثت مشكلة أثناء محاولة الترقية و سيقوم برنامج {$PRODUCT_NAME} بمحاولة إصلاح عملية الترقية. إضغط زر التصحيح بالأسفل.";
 
-$GLOBALS['strDbSuccessIntro'] = "تم إنشاء قاعد بيانات لـ {$PRODUCT_NAME} . إضغط 'استمرار' لمتابعة تعديل الاعدادات.";
-
 $GLOBALS['strErrorWritePermissions'] = "هناك خلل في تصاريح الملفات ، يجب عليك إصلاحه قبل الاستمرار.<br />لحل الأخطاء في نظام لينوكس ، قم بكتابة هذه الأوامر :";
-$GLOBALS['strErrorFixPermissionsCommand'] = "<i>إعطاء التصريح a+w %s</i>";
 $GLOBALS['strErrorFixPermissionsRCommand'] = "<i>إعطاء التصريح a+w %s</i>";
 
 $GLOBALS['strErrorWritePermissionsWin'] = "هناك خلل في تصاريح الملفات ، يجب عليك إصلاحه قبل الاستمرار";
@@ -44,8 +37,6 @@ $GLOBALS['strDeliveryUrlPrefix'] = "نظام التوزيع";
 $GLOBALS['strDeliveryUrlPrefixSSL'] = "نظام التوزيع";
 $GLOBALS['strImagesUrlPrefix'] = "رابط حفظ الصور";
 $GLOBALS['strImagesUrlPrefixSSL'] = "رابط حفظ الصور (رابط آمن)";
-
-
 
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
@@ -65,23 +56,14 @@ $GLOBALS['strImageDirLockedDetected'] = "<b>ملجد الصور</b>غير قاب
 $GLOBALS['strConfigurationSettings'] = "تعديل الاعدادات";
 
 // Administrator Settings
-$GLOBALS['strAdministratorSettings'] = "خيارات المدير";
-$GLOBALS['strLoginCredentials'] = "معلومات الدخول";
 $GLOBALS['strAdminUsername'] = "اسم المستخدم للمدير";
 $GLOBALS['strAdminPassword'] = "كلمة السر للمدير";
 $GLOBALS['strInvalidUsername'] = "اسم المستخدم غير صالح";
 $GLOBALS['strBasicInformation'] = "معلومات أساسية";
-$GLOBALS['strAdminFullName'] = "الاسم الكامل للمدير";
-$GLOBALS['strAdminEmail'] = "البريد الالكتروني للمدير";
 $GLOBALS['strAdministratorEmail'] = "البريد الالكتروني للمدير العام";
-$GLOBALS['strCompanyName'] = "اسم الشركة";
 $GLOBALS['strNovice'] = "نحتاج للتأكيد قبل الحذف كخطوة احترازية";
 $GLOBALS['strUserlogEmail'] = "حفظ كل الرسائل الصادرة";
 $GLOBALS['strTimezone'] = "المنطقة الزمنية";
-$GLOBALS['strTimezoneEstimated'] = "المنطقة الزمنية المتوقعة";
-$GLOBALS['strTimezoneGuessedValue'] = "المنطقة الزمنية للسيرفر غير مجهزة في إعدادات PHP";
-$GLOBALS['strTimezoneSeeDocs'] = "الرجاء الإطلاع على %DOCS% بخصوص تجهيز هذا المتغير في PHP.";
-$GLOBALS['strTimezoneDocumentation'] = "وثائق المساعدة";
 
 
 // Database Settings
@@ -95,16 +77,12 @@ $GLOBALS['strDbPassword'] = "كلمة سر قاعدة البيانات";
 $GLOBALS['strDbName'] = "اسم قاعدة البيانات";
 $GLOBALS['strPersistentConnections'] = "استخدام الاتصال المستمر";
 $GLOBALS['strCantConnectToDb'] = "لا يمكن الاتصال بقاعدة البيانات";
-$GLOBALS['strDemoDataInstall'] = "تركيب بيانات تجريبية";
-
-
 
 // Email Settings
 
 // Audit Trail Settings
 
 // Debug Logging Settings
-$GLOBALS['strProduction'] = "بيئة عمل";
 $GLOBALS['strDebugTypeFile'] = "ملف";
 $GLOBALS['strDebugTypeSql'] = "قاعدة بيانات SQL";
 $GLOBALS['strDebugTypeSyslog'] = "سجل النظام";
@@ -130,9 +108,6 @@ $GLOBALS['strTypeFTPErrorHost'] = "عنوان مستضيف FTP غير صحيح";
 $GLOBALS['strDeliveryFilenamesAdClick'] = "رابط الضغط على الإعلان";
 $GLOBALS['strDeliveryFilenamesAdImage'] = "صورة الاعلان";
 
-
-
-
 // General Settings
 
 // Geotargeting Settings
@@ -144,21 +119,6 @@ $GLOBALS['strWeightDefaults'] = "الوزن الافتراضي";
 $GLOBALS['strDefaultBannerWeight'] = "الوزن الافتراضي للبنر";
 $GLOBALS['strDefaultCampaignWeight'] = "الوزن الافتراضي للحملة الاعلانية";
 
-$GLOBALS['strPublisherDefaults'] = "الخيارات الافتراضية للموقع";
-$GLOBALS['strModesOfPayment'] = "أساليب الدفع";
-$GLOBALS['strCurrencies'] = "العملات";
-$GLOBALS['strCategories'] = "الأقسام";
-$GLOBALS['strHelpFiles'] = "ملفات التعليمات";
-$GLOBALS['strHasTaxID'] = "رقم الضريبة";
-
-// CSV Import Settings
-$GLOBALS['strDefaultConversionStatus'] = "قوانين التحويل الإفتراضية";
-$GLOBALS['strDefaultConversionType'] = "قوانين التحويل الإفتراضية";
-
-/**
- * @todo remove strBannerSettings if banner is only configurable as a preference
- *       rename // Banner Settings to  // Banner Preferences
- */
 // Invocation Settings
 
 // Banner Delivery Settings
@@ -176,36 +136,16 @@ $GLOBALS['strPreventLogging'] = "خيارات حجب تسجيل البنرات";
 
 // Statistics & Maintenance Settings
 $GLOBALS['strMaintenanceOI'] = "توقيت عمليات الصيانة (كل × دقيقة)";
-$GLOBALS['strMaintenanceOIError'] = "توقيت عمليات الصيانة غير صحيح - الرجاء الاطلاع على التعليمات لمعرفة القيم الصحيحة";
 $GLOBALS['strPrioritySettings'] = "إعدادات الأهمية";
 $GLOBALS['strWarnLimit'] = "ارسل تحذيراً عندما يكون عدد مرات الظهور أقل من الرقم المكتوب هنا";
-$GLOBALS['strAllowEmail'] = "السماح بإرسال الإيميلات بشكل عام";
-$GLOBALS['strEmailAddressFrom'] = "البريد الإلكتروني الذي يراد إرسال التقارير منه";
-$GLOBALS['strEmailAddressName'] = "الشركة أو الإسم الذي يراد توقيع الرسائل الإلكترونية به";
 
 // UI Settings
 $GLOBALS['strGeneralSettings'] = "الإعدادات العامة";
 $GLOBALS['strAppName'] = "اسم التطبيق";
 $GLOBALS['strDefaultTrackerStatus'] = "النوع الافتراضي للمتتبع";
 $GLOBALS['strDefaultTrackerType'] = "النوع الافتراضي للمتتبع";
-
 $GLOBALS['strMyLogo'] = "اسم الشعار المخصص";
-$GLOBALS['strMyLogoError'] = "ملف الشعار غير موجود في مجلد admin/images ";
-
-$GLOBALS['strClientInterface'] = "واجهة المعلن";
-$GLOBALS['strReportsInterface'] = "واجهة التقارير";
-$GLOBALS['strClientWelcomeEnabled'] = "إتاحة رسالة الترحيب بالمعلن";
-$GLOBALS['strClientWelcomeText'] = "نص الترحيب<br />(HTML متاح)";
-
-$GLOBALS['strPublisherInterface'] = "واجهة الموقع";
-$GLOBALS['strPublisherAgreementText'] = "نص تسجيل الدخول<br />(HTML متاح)";
 
 // Regenerate Platfor Hash script
 
 // Plugin Settings
-
-/* ------------------------------------------------------- */
-/* Unknown (unused?) translations                        */
-/* ------------------------------------------------------- */
-
-

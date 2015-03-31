@@ -11,28 +11,24 @@
  */
 
 // Set translation strings
-
 $GLOBALS['strDeliveryEngine'] = "Moteur de distribution";
+$GLOBALS['strMaintenance'] = "Entretien";
 $GLOBALS['strAdministrator'] = "Administrateur";
 
 // Audit
-$GLOBALS['strLogging'] = "Journalisation";
-$GLOBALS['strAudit'] = "Journal d'audit";
-$GLOBALS['strDebugLog'] = "Journal de débogage";
-$GLOBALS['strEvent'] = "Évènement";
-$GLOBALS['strTimestamp'] = "Date et heure";
 $GLOBALS['strDeleted'] = "supprimé(e)";
 $GLOBALS['strInserted'] = "inséré(e)";
 $GLOBALS['strUpdated'] = "mis(e) à jour";
-$GLOBALS['strInsert'] = "Insérer";
-$GLOBALS['strUpdate'] = "Mettre à jour";
+$GLOBALS['strDelete'] = "Supprimer";
 $GLOBALS['strHas'] = "contient";
 $GLOBALS['strFilters'] = "Filtres";
 $GLOBALS['strAdvertiser'] = "Annonceur";
 $GLOBALS['strPublisher'] = "Site web";
+$GLOBALS['strCampaign'] = "Campagne";
+$GLOBALS['strZone'] = "Zone";
+$GLOBALS['strAction'] = "Action";
 $GLOBALS['strParameter'] = "Paramètre";
 $GLOBALS['strValue'] = "Valeur";
-$GLOBALS['strDetailedView'] = "Affichage détaillé";
 $GLOBALS['strReturnAuditTrail'] = "Retourner à la piste d'audit";
 $GLOBALS['strAuditTrail'] = "Piste d'audit";
 $GLOBALS['strMaintenanceLog'] = "Journal de maintenance";

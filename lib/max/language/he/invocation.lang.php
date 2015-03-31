@@ -12,6 +12,7 @@
 
 // Other
 $GLOBALS['strCopyToClipboard'] = "העתק לזיכרון";
+$GLOBALS['strChooseTypeOfBannerInvocation'] = "נא לבחור בסוג קוד הקריאה";
 
 // Measures
 $GLOBALS['strAbbrPixels'] = "פיקסלים";
@@ -19,7 +20,7 @@ $GLOBALS['strAbbrSeconds'] = "שניות";
 
 // Common Invocation Parameters
 $GLOBALS['strInvocationWhat'] = "בחירת באנר";
-$GLOBALS['strInvocationClientID'] = "מפרסם או קמפיין";
+$GLOBALS['strInvocationCampaignID'] = "מערכה";
 $GLOBALS['strInvocationTarget'] = "חלון מטרה";
 $GLOBALS['strInvocationSource'] = "מקור";
 $GLOBALS['strInvocationWithText'] = "הצג כיתוב מתחת לבנר";
@@ -32,7 +33,6 @@ $GLOBALS['strIFrameRefreshAfter'] = "רענן אחרי";
 $GLOBALS['strIframeResizeToBanner'] = "התאם גודל מסגרת למידות הבאנר";
 $GLOBALS['strIframeMakeTransparent'] = "רקע מסגרת שקוף";
 $GLOBALS['strIframeIncludeNetscape4'] = "בכל קוד התאמה עבור שכבת ilayer של Netscape 4 ";
-
 
 // PopUp
 $GLOBALS['strPopUpStyle'] = "סוג קופץ";
@@ -53,70 +53,12 @@ $GLOBALS['strShowStatus'] = "סטטוס";
 $GLOBALS['strWindowResizable'] = "שינוי גודל";
 $GLOBALS['strShowScrollbars'] = "גוללים";
 
-
 // XML-RPC
 $GLOBALS['strXmlRpcLanguage'] = "שפת אירוח";
-
-
-// AdLayer
-$GLOBALS['strAdLayerStyle'] = "סגנון";
-
-$GLOBALS['strAlignment'] = "יישור";
-$GLOBALS['strHAlignment'] = "יישור אופקי";
-$GLOBALS['strLeft'] = "שמאל";
-$GLOBALS['strCenter'] = "מרכז";
-$GLOBALS['strRight'] = "ימין";
-
-$GLOBALS['strVAlignment'] = "יישור אנכי";
-$GLOBALS['strTop'] = "עליון";
-$GLOBALS['strMiddle'] = "אמצע";
-$GLOBALS['strBottom'] = "תחתון";
-
-$GLOBALS['strAutoCollapseAfter'] = "קפל אוטומטית אחרי";
-$GLOBALS['strCloseText'] = "כיתוב להוראת סגירה";
-$GLOBALS['strClose'] = "[סגור]";
-$GLOBALS['strBannerPadding'] = "דיפון באנר";
-
-$GLOBALS['strHShift'] = "הסטה אופקית";
-$GLOBALS['strVShift'] = "הסטה אנכית";
-
-$GLOBALS['strShowCloseButton'] = "הצג לחצן סגירה";
-$GLOBALS['strBackgroundColor'] = "צבע רקע";
-$GLOBALS['strBorderColor'] = "צבע מסגרת";
-
-$GLOBALS['strDirection'] = "כיוון";
-$GLOBALS['strLeftToRight'] = "משמאל לימין";
-$GLOBALS['strRightToLeft'] = "מימין לשמאל";
-$GLOBALS['strLooping'] = "חוזר על עצמו";
-$GLOBALS['strAlwaysActive'] = "פעיל תמידית";
-$GLOBALS['strSpeed'] = "מהירות";
-$GLOBALS['strPause'] = "אתנח";
-$GLOBALS['strLimited'] = "מוגבל";
-$GLOBALS['strLeftMargin'] = "שוליים שמאליים";
-$GLOBALS['strRightMargin'] = "שוליים ימניים";
-$GLOBALS['strTransparentBackground'] = "רקע שקוף";
-
-$GLOBALS['strSmoothMovement'] = "תנועה חלקה";
-$GLOBALS['strHideNotMoving'] = "הסתר את הבאנר כאשר הסמן אינו בתנועה";
-$GLOBALS['strHideDelay'] = "השהייה לפני שהבאנר נעלם";
-$GLOBALS['strHideTransparancy'] = "שקיפות הבאנר הנעלם";
-
-
-$GLOBALS['strAdLayerStyleName'] = array();
-$GLOBALS['strAdLayerStyleName']['geocities'] = "סטייל Geocities";
-$GLOBALS['strAdLayerStyleName']['simple'] = "פשוט";
-$GLOBALS['strAdLayerStyleName']['cursor'] = "תחת העכבר";
-$GLOBALS['strAdLayerStyleName']['floater'] = "מצוף";
 
 // Support for 3rd party server clicktracking
 
 // Support for cachebusting code
-
-// Non-Img creatives Warning for zone image-only invocation
-
-// unkown HTML tag type Warning for zone invocation
-
-// sql/web banner-type warning for clickonly zone invocation
 
 // IMG invocation selected for tracker with appended code
 

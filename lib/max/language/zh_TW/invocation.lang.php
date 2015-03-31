@@ -37,39 +37,16 @@ $GLOBALS['strIframeResizeToBanner'] = "按照廣告尺寸重新設置iframe大�
 $GLOBALS['strIframeMakeTransparent'] = "iframe透明";
 $GLOBALS['strIframeIncludeNetscape4'] = "兼容Netscape4或更高版本";
 
-
 // PopUp
-
+$GLOBALS['strShowStatus'] = "狀態";
 
 // XML-RPC
-
-
-// AdLayer
-$GLOBALS['strAdLayerStyle'] = "風格";
-
-
-
-
-
-
-$GLOBALS['strPause'] = "暫停";
-
-
-
-$GLOBALS['strAdLayerStyleName'] = array();
-$GLOBALS['strAdLayerStyleName']['geocities'] = "個人主頁";
 
 // Support for 3rd party server clicktracking
 $GLOBALS['str3rdPartyTrack'] = "支持第三方廣告跟蹤伺服器";
 
 // Support for cachebusting code
 $GLOBALS['strCacheBuster'] = "插入Cache-Busting代碼";
-
-// Non-Img creatives Warning for zone image-only invocation
-
-// unkown HTML tag type Warning for zone invocation
-
-// sql/web banner-type warning for clickonly zone invocation
 
 // IMG invocation selected for tracker with appended code
 $GLOBALS['strWarning'] = "警告";

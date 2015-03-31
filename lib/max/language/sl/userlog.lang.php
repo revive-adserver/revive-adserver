@@ -11,22 +11,14 @@
  */
 
 // Set translation strings
-
 $GLOBALS['strDeliveryEngine'] = "Orodje za dostavo";
 $GLOBALS['strMaintenance'] = "Vzdrževanje";
 
 // Audit
-$GLOBALS['strLogging'] = "Beleženje";
-$GLOBALS['strAudit'] = "Preglej beležko";
-$GLOBALS['strDebugLog'] = "Debug beležka";
-$GLOBALS['strEvent'] = "Dogodek";
-$GLOBALS['strTimestamp'] = "Časovni žig";
 $GLOBALS['strDeleted'] = "izbrisano";
 $GLOBALS['strInserted'] = "vstavljeno";
 $GLOBALS['strUpdated'] = "posodobljeno";
 $GLOBALS['strDelete'] = "Izbriši";
-$GLOBALS['strInsert'] = "Vstavi";
-$GLOBALS['strUpdate'] = "Posodobi";
 $GLOBALS['strHas'] = "ima";
 $GLOBALS['strFilters'] = "Filtri";
 $GLOBALS['strAdvertiser'] = "Oglaševalec";
@@ -36,7 +28,6 @@ $GLOBALS['strZone'] = "Področje";
 $GLOBALS['strType'] = "Tip";
 $GLOBALS['strAction'] = "Dejanje";
 $GLOBALS['strValue'] = "Vrednost";
-$GLOBALS['strDetailedView'] = "Podroben pogled";
 $GLOBALS['strReturnAuditTrail'] = "Vrnitev na Pregledno pot";
 $GLOBALS['strAuditTrail'] = "Pregledna pot (audit trail)";
 $GLOBALS['strMaintenanceLog'] = "Vzdrževalna beležka";

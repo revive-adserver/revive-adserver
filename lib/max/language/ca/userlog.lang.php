@@ -11,19 +11,14 @@
  */
 
 // Set translation strings
-
 $GLOBALS['strMaintenance'] = "Manteniment";
 $GLOBALS['strAdministrator'] = "Administrador/a";
 
 // Audit
-$GLOBALS['strEvent'] = "Esdeveniment";
-$GLOBALS['strTimestamp'] = "Data i hora";
 $GLOBALS['strDeleted'] = "s'ha suprimit";
 $GLOBALS['strInserted'] = "s'ha inserit";
 $GLOBALS['strUpdated'] = "s'ha actualitzat";
 $GLOBALS['strDelete'] = "Suprimeix";
-$GLOBALS['strInsert'] = "Insereix";
-$GLOBALS['strUpdate'] = "Actualitza";
 $GLOBALS['strFilters'] = "Filtres";
 $GLOBALS['strAdvertiser'] = "Anunciant";
 $GLOBALS['strPublisher'] = "Pàgina web";

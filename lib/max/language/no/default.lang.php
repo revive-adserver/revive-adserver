@@ -23,7 +23,6 @@
 
 $GLOBALS['strHelp'] = "Hjelp";
 $GLOBALS['strStartOver'] = "Begynn forfra";
-$GLOBALS['strNavigation'] = "Navigasjon";
 $GLOBALS['strShortcuts'] = "Snarveier";
 $GLOBALS['strMaintenance'] = "Vedlikehold";
 $GLOBALS['strProbability'] = "Sannsynlighet";
@@ -32,13 +31,10 @@ $GLOBALS['strOverview'] = "Oversikt";
 $GLOBALS['strSearch'] = "<u>S</u>&oslash;k";
 $GLOBALS['strDetails'] = "Detaljer";
 $GLOBALS['strUser'] = "Bruker";
-$GLOBALS['strEdit'] = "Rediger";
-$GLOBALS['strCreate'] = "Opprett";
 $GLOBALS['strDuplicate'] = "Dupliser";
 $GLOBALS['strMoveTo'] = "Flytt til";
 $GLOBALS['strDelete'] = "Slett";
 $GLOBALS['strActivate'] = "Aktiver";
-$GLOBALS['strDeActivate'] = "Deaktiver";
 $GLOBALS['strConvert'] = "Konverter";
 $GLOBALS['strSaveChanges'] = "Lagre endringer";
 $GLOBALS['strUp'] = "Opp";
@@ -50,11 +46,8 @@ $GLOBALS['strNext'] = "Neste";
 $GLOBALS['strYes'] = "Ja";
 $GLOBALS['strNo'] = "Nei";
 $GLOBALS['strNone'] = "Ingen";
-$GLOBALS['strOther'] = "Andre";
-$GLOBALS['strAll'] = "alle";
 $GLOBALS['strAverage'] = "Gjennomsnittlig";
 $GLOBALS['strTotal'] = "Totalt";
-$GLOBALS['strActive'] = "aktive";
 $GLOBALS['strTo'] = "til";
 $GLOBALS['strDaysLeft'] = "Dager igjen";
 $GLOBALS['strCheckAllNone'] = "Merk alle / ingen";
@@ -78,7 +71,6 @@ $GLOBALS['strShowAll'] = "Vis alle";
 
 // Time and date related
 
-$GLOBALS['strMonth'] = array();
 
 $GLOBALS['strDayFullNames'] = array();
 
@@ -109,10 +101,6 @@ $GLOBALS['strCampaignStatusDeleted'] = "Slett";
 
 // Banner (swf)
 
-// Banner (network)
-
-// Banner (AdSense)
-
 // Display limitations
 
 
@@ -123,7 +111,6 @@ $GLOBALS['strCappingCampaign'] = array();
 $GLOBALS['strCappingZone'] = array();
 
 // Website
-$GLOBALS['strAffiliateInvocation'] = "Aktiveringskode";
 
 // Website (properties)
 
@@ -141,8 +128,6 @@ $GLOBALS['strZones'] = "Ingen";
 // Zone probability
 
 // Linked banners/campaigns/trackers
-$GLOBALS['strStatusDuplicate'] = "Dupliser";
-$GLOBALS['strConnTypeSale'] = "Lagre";
 
 // Statistics
 
@@ -158,11 +143,9 @@ $GLOBALS['strConnTypeSale'] = "Lagre";
 
 // Code generation
 
-
 // Errors
 
 //Validation
-
 
 // Email
 
@@ -171,8 +154,6 @@ $GLOBALS['strConnTypeSale'] = "Lagre";
 // Preferences
 $GLOBALS['strPreferences'] = "Innstillinger";
 
-
-// Statistics columns
 // Long names
 
 // Short names
@@ -187,14 +168,9 @@ $GLOBALS['strPreferences'] = "Innstillinger";
 // Channels
 
 
-
-// Upload conversions
-
-
 // Password recovery
 
 // Audit
-
 
 // Widget - Audit
 
@@ -203,7 +179,6 @@ $GLOBALS['strPreferences'] = "Innstillinger";
 
 
 //confirmation messages
-
 
 
 
@@ -224,9 +199,3 @@ $GLOBALS['strPreferences'] = "Innstillinger";
 // Other keys
 // Please make sure you underline the key you
 // used in the string in default.lang.php
-
-/* ------------------------------------------------------- */
-/* Languages Names                                       */
-/* ------------------------------------------------------- */
-
-?>

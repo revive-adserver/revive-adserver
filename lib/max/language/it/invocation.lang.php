@@ -20,7 +20,6 @@ $GLOBALS['strChooseTypeOfBannerInvocation'] = "Seleziona il tipo di invocazione 
 
 // Common Invocation Parameters
 $GLOBALS['strInvocationWhat'] = "Selezione banner";
-$GLOBALS['strInvocationClientID'] = "Inserzionista o campagna";
 $GLOBALS['strInvocationCampaignID'] = "Campagna";
 $GLOBALS['strInvocationTarget'] = "Frame di destinazione";
 $GLOBALS['strInvocationSource'] = "Risorsa";
@@ -36,7 +35,6 @@ $GLOBALS['strIframeResizeToBanner'] = "Adatta dimensioni IFrame al Banner";
 $GLOBALS['strIframeMakeTransparent'] = "Sfondo IFrame trasparente";
 $GLOBALS['strIframeIncludeNetscape4'] = "Includi ilayer compatibile con Netscape 4";
 $GLOBALS['strIframeGoogleClickTracking'] = "Includi il codice per monitorare i click AdSense di Google";
-
 
 // PopUp
 $GLOBALS['strPopUpStyle'] = "Tipo di Pop-up";
@@ -55,59 +53,8 @@ $GLOBALS['strShowStatus'] = "Barra di stato";
 $GLOBALS['strWindowResizable'] = "Ridimensionabile";
 $GLOBALS['strShowScrollbars'] = "Barre di scorrimento";
 
-
 // XML-RPC
 $GLOBALS['strXmlRpcLanguage'] = "Linguaggio utilizzato";
-
-
-// AdLayer
-$GLOBALS['strAdLayerStyle'] = "Stile";
-
-$GLOBALS['strAlignment'] = "Allinemento";
-$GLOBALS['strHAlignment'] = "Allinemento orizzontale";
-$GLOBALS['strLeft'] = "Sinistra";
-$GLOBALS['strCenter'] = "Centrato";
-$GLOBALS['strRight'] = "Destra";
-
-$GLOBALS['strVAlignment'] = "Allinemento verticale";
-$GLOBALS['strTop'] = "Alto";
-$GLOBALS['strMiddle'] = "Centrato";
-$GLOBALS['strBottom'] = "Basso";
-
-$GLOBALS['strAutoCollapseAfter'] = "Riduci automaticamente dopo";
-$GLOBALS['strCloseText'] = "Testo di chiusura";
-$GLOBALS['strClose'] = "[Chiudi]";
-$GLOBALS['strBannerPadding'] = "Margini interni";
-
-$GLOBALS['strHShift'] = "Scostamento orizzontale";
-$GLOBALS['strVShift'] = "Scostamento verticale";
-
-$GLOBALS['strShowCloseButton'] = "Visualizza pulsante di chiusura";
-$GLOBALS['strBackgroundColor'] = "Colore di sfondo";
-$GLOBALS['strBorderColor'] = "Colore del bordo";
-
-$GLOBALS['strDirection'] = "Direzione";
-$GLOBALS['strLeftToRight'] = "Da sinistra a destra";
-$GLOBALS['strRightToLeft'] = "Da destra a sinistra";
-$GLOBALS['strLooping'] = "Ripetizioni";
-$GLOBALS['strAlwaysActive'] = "Sempre attivo";
-$GLOBALS['strSpeed'] = "Velocità";
-$GLOBALS['strPause'] = "Pausa";
-$GLOBALS['strLimited'] = "Limitato";
-$GLOBALS['strLeftMargin'] = "Margine sinistro";
-$GLOBALS['strRightMargin'] = "Margine destro";
-$GLOBALS['strTransparentBackground'] = "Sfondo trasparente";
-
-$GLOBALS['strSmoothMovement'] = "Movimento fluido";
-$GLOBALS['strHideNotMoving'] = "Nascondi il banner quando il puntatore è fermo";
-$GLOBALS['strHideDelay'] = "Nascondi dopo";
-$GLOBALS['strHideTransparancy'] = "Trasparenza del banner nascosto";
-
-
-$GLOBALS['strAdLayerStyleName'] = array();
-$GLOBALS['strAdLayerStyleName']['simple'] = "Semplice";
-$GLOBALS['strAdLayerStyleName']['cursor'] = "Cursore";
-$GLOBALS['strAdLayerStyleName']['floater'] = "Flottante";
 
 // Support for 3rd party server clicktracking
 $GLOBALS['str3rdPartyTrack'] = "Supporta server di tracciamento dei click di terze parti";
@@ -115,13 +62,8 @@ $GLOBALS['str3rdPartyTrack'] = "Supporta server di tracciamento dei click di ter
 // Support for cachebusting code
 $GLOBALS['strCacheBuster'] = "Inserisci codice di Cache-Busting";
 
-// Non-Img creatives Warning for zone image-only invocation
-
-// unkown HTML tag type Warning for zone invocation
-
-// sql/web banner-type warning for clickonly zone invocation
-
 // IMG invocation selected for tracker with appended code
+$GLOBALS['strWarning'] = "Attenzione";
 $GLOBALS['strImgWithAppendWarning'] = "Questo tracker ha aggiunto il codice, il codice aggiunto funzionerà <strong>solo</strong> con tag JavaScript";
 
 // Local Invocation

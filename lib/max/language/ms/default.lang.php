@@ -23,25 +23,19 @@
 
 $GLOBALS['strHelp'] = "Bantuan";
 $GLOBALS['strStartOver'] = "Mula kembali";
-$GLOBALS['strNavigation'] = "Navigasi";
 $GLOBALS['strAdminstration'] = "Inventori";
 $GLOBALS['strMaintenance'] = "Baikpulih";
 $GLOBALS['strProbability'] = "Kebarangkalian";
 $GLOBALS['strInvocationcode'] = "Kod seruan";
-$GLOBALS['strTrackerVariables'] = "Pembolehubah pencari jejak";
 $GLOBALS['strBasicInformation'] = "Maklumat Asas";
-$GLOBALS['strLoginInformation'] = "Maklumat Log Masuk";
 $GLOBALS['strDetails'] = "secara terperinci";
 $GLOBALS['strCheckForUpdates'] = "Periksa untuk versi baru";
 $GLOBALS['strCompact'] = "Padat";
 $GLOBALS['strUser'] = "Pengguna";
-$GLOBALS['strEdit'] = "Menyunting";
-$GLOBALS['strCreate'] = "Mencipta";
 $GLOBALS['strDuplicate'] = "Salinan";
 $GLOBALS['strMoveTo'] = "Pindah ke";
 $GLOBALS['strDelete'] = "Padam";
 $GLOBALS['strActivate'] = "Aktifkan";
-$GLOBALS['strDeActivate'] = "Nyahaktifkan";
 $GLOBALS['strConvert'] = "Tukar";
 $GLOBALS['strRefresh'] = "Pamer kembali";
 $GLOBALS['strSaveChanges'] = "Simpan penukaran";
@@ -54,14 +48,11 @@ $GLOBALS['strNext'] = "Seterusnya";
 $GLOBALS['strYes'] = "Ya";
 $GLOBALS['strNo'] = "Tidak";
 $GLOBALS['strNone'] = "Tiada";
-$GLOBALS['strOther'] = "Lain-lain";
 $GLOBALS['strUnlimited'] = "Tiada had";
 $GLOBALS['strUntitled'] = "Tiada tajuk";
-$GLOBALS['strAll'] = "Semua";
 $GLOBALS['strAverage'] = "Purata";
 $GLOBALS['strOverall'] = "Kesemuanya";
 $GLOBALS['strTotal'] = "Jumlah";
-$GLOBALS['strActive'] = "Aktif";
 $GLOBALS['strTo'] = "kepada";
 $GLOBALS['strLinkedTo'] = "dihubungkan ke";
 $GLOBALS['strDaysLeft'] = "baki hari yang masih ada";
@@ -88,7 +79,6 @@ $GLOBALS['strPassword'] = "Kata Laluan";
 
 // Time and date related
 
-$GLOBALS['strMonth'] = array();
 
 $GLOBALS['strDayFullNames'] = array();
 
@@ -121,10 +111,6 @@ $GLOBALS['strTypeTxtAllow'] = "Benarkan Iklan Teks";
 
 // Banner (swf)
 
-// Banner (network)
-
-// Banner (AdSense)
-
 // Display limitations
 
 
@@ -135,7 +121,6 @@ $GLOBALS['strCappingCampaign'] = array();
 $GLOBALS['strCappingZone'] = array();
 
 // Website
-$GLOBALS['strAffiliateInvocation'] = "Kod seruan";
 
 // Website (properties)
 
@@ -153,8 +138,6 @@ $GLOBALS['strZones'] = "Tiada";
 // Zone probability
 
 // Linked banners/campaigns/trackers
-$GLOBALS['strStatusDuplicate'] = "Salinan";
-$GLOBALS['strConnTypeSale'] = "Simpan";
 
 // Statistics
 
@@ -170,11 +153,9 @@ $GLOBALS['strConnTypeSale'] = "Simpan";
 
 // Code generation
 
-
 // Errors
 
 //Validation
-
 
 // Email
 
@@ -184,14 +165,11 @@ $GLOBALS['strConnTypeSale'] = "Simpan";
 $GLOBALS['strPreferences'] = "Pilihan";
 $GLOBALS['strAdminEmailWarnings'] = "Alamat emel Pentadbir";
 
-
-// Statistics columns
 // Long names
 
 // Short names
 
 // Global Settings
-$GLOBALS['strAdminSettings'] = "Konfigurasi Pentadbir";
 
 $GLOBALS['strChooseSection'] = 'Pilih bahagian';
 
@@ -202,14 +180,9 @@ $GLOBALS['strChooseSection'] = 'Pilih bahagian';
 // Channels
 
 
-
-// Upload conversions
-
-
 // Password recovery
 
 // Audit
-
 
 // Widget - Audit
 
@@ -218,7 +191,6 @@ $GLOBALS['strChooseSection'] = 'Pilih bahagian';
 
 
 //confirmation messages
-
 
 
 
@@ -239,9 +211,3 @@ $GLOBALS['strChooseSection'] = 'Pilih bahagian';
 // Other keys
 // Please make sure you underline the key you
 // used in the string in default.lang.php
-
-/* ------------------------------------------------------- */
-/* Languages Names                                       */
-/* ------------------------------------------------------- */
-
-?>

@@ -21,7 +21,6 @@ $GLOBALS['strAbbrSeconds'] = "sek";
 
 // Common Invocation Parameters
 $GLOBALS['strInvocationWhat'] = "Val av banner";
-$GLOBALS['strInvocationClientID'] = "Annonsör";
 $GLOBALS['strInvocationCampaignID'] = "Kampanj";
 $GLOBALS['strInvocationTarget'] = "Målram";
 $GLOBALS['strInvocationSource'] = "Källa";
@@ -37,37 +36,15 @@ $GLOBALS['strIframeResizeToBanner'] = "Omvandla iframe till bannerns dimensioner
 $GLOBALS['strIframeMakeTransparent'] = "Gör iframe transparent";
 $GLOBALS['strIframeIncludeNetscape4'] = "Inkludera Netscape 4 kompatibel ilayer";
 
-
 // PopUp
 
-
 // XML-RPC
-
-
-// AdLayer
-$GLOBALS['strAdLayerStyle'] = "Stil";
-
-
-
-
-
-
-
-
-
-$GLOBALS['strAdLayerStyleName'] = array();
 
 // Support for 3rd party server clicktracking
 $GLOBALS['str3rdPartyTrack'] = "Stöd klickspårning från 3:e parts server ";
 
 // Support for cachebusting code
 $GLOBALS['strCacheBuster'] = "Infoga Cache-Busting code";
-
-// Non-Img creatives Warning for zone image-only invocation
-
-// unkown HTML tag type Warning for zone invocation
-
-// sql/web banner-type warning for clickonly zone invocation
 
 // IMG invocation selected for tracker with appended code
 $GLOBALS['strWarning'] = "Varning";

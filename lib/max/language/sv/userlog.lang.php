@@ -11,23 +11,15 @@
  */
 
 // Set translation strings
-
 $GLOBALS['strDeliveryEngine'] = "Visningsmotor";
 $GLOBALS['strMaintenance'] = "Underhåll";
 $GLOBALS['strAdministrator'] = "Administratör";
 
 // Audit
-$GLOBALS['strLogging'] = "Loggning";
-$GLOBALS['strAudit'] = "Auditlogg";
-$GLOBALS['strDebugLog'] = "Debuglogg";
-$GLOBALS['strEvent'] = "Händelse";
-$GLOBALS['strTimestamp'] = "Tidstämpel";
 $GLOBALS['strDeleted'] = "raderade";
 $GLOBALS['strInserted'] = "lade till";
 $GLOBALS['strUpdated'] = "aktualiserade";
 $GLOBALS['strDelete'] = "Radera";
-$GLOBALS['strInsert'] = "Lägg till";
-$GLOBALS['strUpdate'] = "Uppdatera";
 $GLOBALS['strHas'] = "har";
 $GLOBALS['strFilters'] = "Filter";
 $GLOBALS['strAdvertiser'] = "Annonsör";
@@ -37,7 +29,6 @@ $GLOBALS['strZone'] = "Zon";
 $GLOBALS['strType'] = "Typ";
 $GLOBALS['strAction'] = "Handling";
 $GLOBALS['strValue'] = "Värde";
-$GLOBALS['strDetailedView'] = "Detaljerad visning";
 $GLOBALS['strReturnAuditTrail'] = "Återvänd till Auditlista";
 $GLOBALS['strAuditTrail'] = "Auditlista";
 $GLOBALS['strMaintenanceLog'] = "Underhållslogg";

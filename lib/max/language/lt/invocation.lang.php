@@ -38,38 +38,16 @@ $GLOBALS['strIframeResizeToBanner'] = "Pakeisti banerio matmenis";
 $GLOBALS['strIframeMakeTransparent'] = "Padaryti rėmelį permatomą";
 $GLOBALS['strIframeIncludeNetscape4'] = "Įterpti Netscape 4 kompaktišką lygmenį";
 
-
 // PopUp
-
+$GLOBALS['strShowStatus'] = "Statusas";
 
 // XML-RPC
-
-
-// AdLayer
-$GLOBALS['strAdLayerStyle'] = "Stilius";
-
-
-
-
-
-
-$GLOBALS['strPause'] = "Laikinai sustabdyti";
-
-
-
-$GLOBALS['strAdLayerStyleName'] = array();
 
 // Support for 3rd party server clicktracking
 $GLOBALS['str3rdPartyTrack'] = "Palaikyti trečiosios šalies serverio paspaudimų sekimą";
 
 // Support for cachebusting code
 $GLOBALS['strCacheBuster'] = "Įterpti Cache-Busting kodą";
-
-// Non-Img creatives Warning for zone image-only invocation
-
-// unkown HTML tag type Warning for zone invocation
-
-// sql/web banner-type warning for clickonly zone invocation
 
 // IMG invocation selected for tracker with appended code
 $GLOBALS['strWarning'] = "Perspėjimas";

@@ -20,35 +20,14 @@ $GLOBALS['strInvocationSource'] = "Πηγή";
 
 // Iframe
 
-
 // PopUp
-
+$GLOBALS['strShowStatus'] = "Κατάσταση";
 
 // XML-RPC
-
-
-// AdLayer
-
-
-
-
-
-
-$GLOBALS['strPause'] = "Παύση";
-
-
-
-$GLOBALS['strAdLayerStyleName'] = array();
 
 // Support for 3rd party server clicktracking
 
 // Support for cachebusting code
-
-// Non-Img creatives Warning for zone image-only invocation
-
-// unkown HTML tag type Warning for zone invocation
-
-// sql/web banner-type warning for clickonly zone invocation
 
 // IMG invocation selected for tracker with appended code
 $GLOBALS['strWarning'] = "Προειδοποίηση";

@@ -11,15 +11,17 @@
  */
 
 // Set translation strings
-
 $GLOBALS['strDeliveryEngine'] = "전달유지 엔진";
 $GLOBALS['strMaintenance'] = "유지보수";
 $GLOBALS['strAdministrator'] = "관리자";
 
 // Audit
 $GLOBALS['strDeleted'] = "삭제";
+$GLOBALS['strDelete'] = "삭제";
 $GLOBALS['strAdvertiser'] = "광고주";
 $GLOBALS['strPublisher'] = "광고게시자";
+$GLOBALS['strCampaign'] = "캠페�?�";
+$GLOBALS['strZone'] = "�?역";
 
 $GLOBALS['strUserlog'] = array();
 $GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "데이터베이스 자동 정리";

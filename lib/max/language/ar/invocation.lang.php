@@ -32,35 +32,14 @@ $GLOBALS['strInvocationComments'] = "إرفاق التعليقات";
 $GLOBALS['strIFrameRefreshAfter'] = "إعادة العرض بعد";
 $GLOBALS['strIframeResizeToBanner'] = "تعديل حجم الاطار ليتناسب مع حجم الاعلان";
 
-
 // PopUp
-
+$GLOBALS['strShowStatus'] = "الحالة";
 
 // XML-RPC
-
-
-// AdLayer
-
-
-
-
-
-
-$GLOBALS['strPause'] = "إيقاف مؤقت";
-
-
-
-$GLOBALS['strAdLayerStyleName'] = array();
 
 // Support for 3rd party server clicktracking
 
 // Support for cachebusting code
-
-// Non-Img creatives Warning for zone image-only invocation
-
-// unkown HTML tag type Warning for zone invocation
-
-// sql/web banner-type warning for clickonly zone invocation
 
 // IMG invocation selected for tracker with appended code
 $GLOBALS['strWarning'] = "تحذير";

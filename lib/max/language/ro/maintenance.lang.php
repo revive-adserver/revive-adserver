@@ -31,17 +31,14 @@ $GLOBALS['strAutomaticMaintenanceHasRun'] = "<b>Întreţinerea automată funcţi
 
 $GLOBALS['strAutoMantenaceEnabled'] = "Totuşi, întreţinerea automată încă este activată. Pentru cea mai bună performanţă, ar trebui să <a href='account-settings-maintenance.php'>dezactivezi întreţinerea automată</a>.";
 
-
 // Priority
 $GLOBALS['strRecalculatePriority'] = "Recalculează prioritatea";
-
 
 // Banner cache
 $GLOBALS['strCheckBannerCache'] = "Verifică cache banner";
 $GLOBALS['strBannerCacheErrorsFound'] = "Verificarea bazei de date pentru cache-ul bannerului a întâmpinat unele erori. Aceste bannere nu vor funcţiona până când nu le repari manual.";
 $GLOBALS['strBannerCacheOK'] = "Nu a fost detectată nici o eroare. Baza de date cu cache-ul bannerului este actualizată";
 $GLOBALS['strBannerCacheDifferencesFound'] = "Verificarea bazei de date pentru cache-ul bannerului a descoperit ca sunt necesare actualizări ce necesită reconstruirea acesteia. Apasă aici pentru actualizarea automată a cache-ului.";
-$GLOBALS['strBannerCacheFixed'] = "Refacerea cache-ului bazei de date folosite pentru bannere a fost refăcut cu succes. Cache-ul bazei tale de date este actualizat acum.";
 $GLOBALS['strBannerCacheRebuildButton'] = "Reconstruieşte";
 $GLOBALS['strRebuildDeliveryCache'] = "Reconstruieşte baza de date cu cache-ul bannerului";
 $GLOBALS['strBannerCacheExplaination'] = "   Baza de date cu cache-ul bannerului este utilizată pentru a spori viteza de livrare a banner-elor in timpul distribuţiei<br />
@@ -53,11 +50,9 @@ $GLOBALS['strBannerCacheExplaination'] = "   Baza de date cu cache-ul bannerului
 
 // Cache
 $GLOBALS['strCache'] = "Cache Distribuţie";
-$GLOBALS['strAge'] = "Vârstă";
 $GLOBALS['strDeliveryCacheSharedMem'] = "	Memoria împărţită este momentan utilizată pentru a stoca cache-ul distribuţiei.";
 $GLOBALS['strDeliveryCacheDatabase'] = "	Baza de date este momentan utilizată pentru a stoca cache-ul distribuţiei.";
 $GLOBALS['strDeliveryCacheFiles'] = "	Cache-ul distribuţiei este stocat momentan în mai multe fişiere de pe server.";
-
 
 // Storage
 $GLOBALS['strStorage'] = "Stocare";
@@ -69,15 +64,8 @@ $GLOBALS['strStorageExplaination'] = "	Imaginile utilizate de bannerele locale s
 $GLOBALS['strEncoding'] = "Codare";
 $GLOBALS['strEncodingExplaination'] = "{$PRODUCT_NAME} acum stochează toate datele în baza de date în format UTF-8.<br />Acolo unde este posibil, datele tale vor fi automat convertite către această codare.<br />Dacă după actualizare găseşti caractere corupte, şi cunoşi codarea folosită, poţi folosi această unealtă pentru a converti datele din acel format în UTF-8";
 $GLOBALS['strEncodingConvertFrom'] = "Converteşte din această codare:";
-$GLOBALS['strEncodingConvert'] = "Converteşte";
 $GLOBALS['strEncodingConvertTest'] = "Verifică conversia";
 $GLOBALS['strConvertThese'] = "Următoarele date vor fi schimbate dacă continui";
-
-
-// Storage
-$GLOBALS['strStatisticsExplaination'] = "	Ai activat <i>statisticile compacte</i>, dar vechile tale statistici încă sunt în formatul normal.
-	Vrei să converteşti statisticile tale normale în noul format compact?";
-
 
 // Product Updates
 $GLOBALS['strSearchingUpdates'] = "Caut actualizări. Te rugăm să aştepţi...";
@@ -120,23 +108,6 @@ $GLOBALS['strCurrentlyUsing'] = "Momentan utilizezi";
 $GLOBALS['strRunningOn'] = "rulând pe";
 $GLOBALS['strAndPlain'] = "şi";
 
-
-// Stats conversion
-
-
-
-
-//  Maintenace
-$GLOBALS['strAutoMaintenanceDisabled'] = "Întreţinerea automată este dezactivată.";
-$GLOBALS['strAutoMaintenanceEnabled'] = "Întreţinerea automată este activată. Pentru cea mai bună performanţă îţi recomandăm să <a href='settings-admin.php'>dezactivezi întreţinerea automată</a>.";
-$GLOBALS['strScheduledMaintenance'] = "Se pare că întreţinerea programată funcţionează corect.";
-$GLOBALS['strScheduledMaintenanceNotRun'] = "Întreţinerea programată nu a fost executată în ultima oră. Acest lucru ar putea însemna că nu ai setat-o corect.";
-$GLOBALS['strAutoMaintenanceEnabledNotTriggered'] = "Întreţinerea automată este activată, dar nu a fost accesată. Reţine faptul că întreţinerea automată este accesată doar când {$PRODUCT_NAME} afişează bannere.";
-$GLOBALS['strAutoMaintenanceBestPerformance'] = "Pentru cea mai bună performanţă îţi recomandăm să setezi <a href='{$PRODUCT_DOCSURL}/maintenance.html' target='_blank'>întreţinerea programată</a>";
-$GLOBALS['strAutoMaintenanceEnabledWilltTrigger'] = "Întreţinerea automată este activată şi va accesa întreţinerea în fiecare oră.";
-$GLOBALS['strAutoMaintenanceDisabledMaintenanceRan'] = "Întreţinerea automată este dezactivată deasemenea dar o sarcină de întreţinere a fost executată recent. Pentru a fi sigur că {$PRODUCT_NAME} funcţionează corect ar trebui să setezi <a href='http://{$PRODUCT_DOCSURL}/maintenance.html' target='_blank'>întreţinerea programată</a> sau să <a href='settings-admin.php'>activezi întreţinerea automată</a>.";
-$GLOBALS['strAutoMaintenanceDisabledNotTriggered'] = "Deasemenea, întreţinerea automată este dezactivată, astfel când {$PRODUCT_NAME} afişează bannere, întreţinerea nu este accesată. Dacă nu ai de gând să execuţi <a href='http://{$PRODUCT_DOCSURL}/maintenance.html' target='_blank'>întreţinerea programată</a>, trebuie să <a href='settings-admin.php'>activezi întreţinerea automată</a> pentru a fi sigur că {$PRODUCT_NAME} funcţionează corect.";
-
 //  Deliver Limitations
 $GLOBALS['strDeliveryLimitations'] = "Limitări Livare";
 $GLOBALS['strAllBannerChannelCompiled'] = "Toate valorile de limitare compilate ale banner-ului/canalului au fost recompilate";
@@ -148,7 +119,6 @@ $GLOBALS['strRepairCompiledLimitations'] = "Au fost găsite unele incompatibilit
 $GLOBALS['strRecompile'] = "Recompilează";
 $GLOBALS['strDeliveryEngineDisagreeNotice'] = "În unele circumstanţe motorul de livrare poate dezaproba ACL-urile stocate pentru bannere şi canale, foloseşte următorul link pentru a valida ACL-urile din baza de date";
 $GLOBALS['strCheckACLs'] = "Verifică ACL-uri";
-
 
 //  Append codes
 $GLOBALS['strAppendCodesDesc'] = "În unele circumstanţe motorul de livrare poate dezaproba codul alăturat contoarelor, foloseşte următorul link pentru a valida codul alăturat din baza de date";

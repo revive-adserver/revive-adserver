@@ -16,10 +16,6 @@
 
 
 
-
-
-
-
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
 /* ------------------------------------------------------- */
@@ -37,8 +33,6 @@ $GLOBALS['strEditConfigPossible'] = "It is possible to edit all settings because
 
 // Database Settings
 
-
-
 // Email Settings
 
 // Audit Trail Settings
@@ -48,22 +42,12 @@ $GLOBALS['strEditConfigPossible'] = "It is possible to edit all settings because
 // Delivery Settings
 $GLOBALS['strWebPath'] = "$PRODUCT_NAME Server Access Paths";
 
-
-
-
 // General Settings
 
 // Geotargeting Settings
 
 // Interface Settings
 
-
-// CSV Import Settings
-
-/**
- * @todo remove strBannerSettings if banner is only configurable as a preference
- *       rename // Banner Settings to  // Banner Preferences
- */
 // Invocation Settings
 
 // Banner Delivery Settings
@@ -78,15 +62,6 @@ $GLOBALS['strWebPath'] = "$PRODUCT_NAME Server Access Paths";
 
 // UI Settings
 
-
-
-
 // Regenerate Platfor Hash script
 
 // Plugin Settings
-
-/* ------------------------------------------------------- */
-/* Unknown (unused?) translations                        */
-/* ------------------------------------------------------- */
-
-

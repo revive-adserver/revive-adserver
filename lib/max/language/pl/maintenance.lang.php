@@ -31,29 +31,14 @@ $GLOBALS['strAutomaticMaintenanceHasRun'] = "<b>Automatyczna konserwacja działa
 
 $GLOBALS['strAutoMantenaceEnabled'] = "Jednakże, automatyczna konserwacja jest nadal włączona. Dla optymalnej wydajności, należy wyłączyć <a href='account-settings-maintenance.php'>automatyczną konserwację</a>.";
 
-
 // Priority
 $GLOBALS['strRecalculatePriority'] = "Przelicz priorytety";
-$GLOBALS['strHighPriorityCampaigns'] = "Kampanie o wysokich priorytetach";
-$GLOBALS['strAdViewsAssigned'] = "Odsłony przydzielone";
-$GLOBALS['strLowPriorityCampaigns'] = "Kampanie o niskich priorytetach";
-$GLOBALS['strPredictedAdViews'] = "Przewidziane Odsłony";
-$GLOBALS['strPriorityDaysRunning'] = "Dostępnych jest obecnie {days} dni danych statystycznych, na których {$PRODUCT_NAME} może bazować swoje dzienne przewidywania. ";
-$GLOBALS['strPriorityBasedLastWeek'] = "Predykcja jest oparta na danych z tego i poprzedniego tygodnia. ";
-$GLOBALS['strPriorityBasedLastDays'] = "Predykcja jest oparta na danych z kilku ostatnich dni. ";
-$GLOBALS['strPriorityBasedYesterday'] = "Predykcja jest oparta na danych z wczoraj. ";
-$GLOBALS['strPriorityNoData'] = "Nie ma wystarczających danych na których możnaby oprzeć przewidywania co o ilości Odsłon, które ten serwer może wytworzyć dzisiaj. Przydziały priorytetów będą bazowały jedynie na chwilowych danych statystycznych. ";
-$GLOBALS['strPriorityEnoughAdViews'] = "Powinno wystarczyć Odsłon aby zapewnić wykonanie limitów przydzielonych kampaniom o wysokim priorytecie. ";
-$GLOBALS['strPriorityNotEnoughAdViews'] = "Nie jest pewne czy wystarczy Odsłon aby zapewnić wykonanie limitów wszystkich kampanii o wysokim priorytecie. Z tego powodu kampanie o niskim priorytecie zostają chwilowo wyłączone. ";
-
 
 // Banner cache
 $GLOBALS['strCheckBannerCache'] = "Sprawdź cache banerów";
-$GLOBALS['strRebuildBannerCache'] = "Odbuduj cache bannerów";
 $GLOBALS['strBannerCacheErrorsFound'] = "Wykryto błędy w cache banerów. Banery będą działać, jeśli problemy zostaną naprawione manualnie.";
 $GLOBALS['strBannerCacheOK'] = "Nie wykryto błędów. Cache banerów jest aktualne.";
 $GLOBALS['strBannerCacheDifferencesFound'] = "Twoje cache banerów nie jest aktualne i wymaga odbudowania. Kliknij tu, aby automatycznie aktualizować cache.";
-$GLOBALS['strBannerCacheFixed'] = "Cache banerów zostało pomyślnie odbudowane. Cache bazy danych jest aktualne.";
 $GLOBALS['strBannerCacheRebuildButton'] = "Odbuduj";
 $GLOBALS['strRebuildDeliveryCache'] = "Odbuduj cache banerów";
 $GLOBALS['strBannerCacheExplaination'] = "    Cache banerów wykorzystywane jest do przyśpieszenia ich dostarczania<br />
@@ -65,11 +50,9 @@ $GLOBALS['strBannerCacheExplaination'] = "    Cache banerów wykorzystywane jest
 
 // Cache
 $GLOBALS['strCache'] = "Cache dostarczania";
-$GLOBALS['strAge'] = "Wiek";
 $GLOBALS['strDeliveryCacheSharedMem'] = "	Współdzielona pamięć jest obecnie wykorzystywana do przechowywania cache dostarczania.";
 $GLOBALS['strDeliveryCacheDatabase'] = "	Baza danych jest obecnie wykorzystywana do przechowywania cache dostarczania.";
 $GLOBALS['strDeliveryCacheFiles'] = "Cache dostarczania jest obecnie przechowywane w różnych plikach na serwerze.";
-
 
 // Storage
 $GLOBALS['strStorage'] = "Przechowywanie";
@@ -81,15 +64,8 @@ $GLOBALS['strStorageExplaination'] = "	Pliki graficzne wykorzystywane przez bane
 $GLOBALS['strEncoding'] = "Kodowanie";
 $GLOBALS['strEncodingExplaination'] = "{$PRODUCT_NAME} przechowuje wszystkie dane w formacie UTF-8.<br />W miarę możliwości dane będą automatycznie konwertowane do tego kodowania.<br />Jeśli po aktualizacji znaki nie będą wyświetlane poprawnie i wiesz, które kodowanie zostało zastosowane, możesz użyć tego narzędzia do przekonwertowania danych z tego formatu do formatu UTF-8";
 $GLOBALS['strEncodingConvertFrom'] = "Konwertuj z następującego kodowania:";
-$GLOBALS['strEncodingConvert'] = "Konwertuj";
 $GLOBALS['strEncodingConvertTest'] = "Konwersja próbna";
 $GLOBALS['strConvertThese'] = "Następujące dane zostaną zmienione, jeśli przejdziesz dalej";
-
-
-// Storage
-$GLOBALS['strStatisticsExplaination'] = "	Wybrałeś opcję <i>statystyk skróconych</i>, jednakże stare statystyki są nadal w rozszerzonym formacie.
-	Czy chcesz je skonwertować do nowego, skróconego formatu?";
-
 
 // Product Updates
 $GLOBALS['strSearchingUpdates'] = "Wyszukiwanie aktualizacji. Proszę czekać...";
@@ -133,43 +109,8 @@ $GLOBALS['strCurrentlyUsing'] = "Obecnie korzystasz z";
 $GLOBALS['strRunningOn'] = "obsługujący";
 $GLOBALS['strAndPlain'] = "i";
 
-
-// Stats conversion
-$GLOBALS['strConverting'] = "Konwersja";
-$GLOBALS['strConvertingStats'] = "Konwertowanie statystyk...";
-$GLOBALS['strConvertStats'] = "Konwertuj statystyki";
-$GLOBALS['strConvertAdViews'] = "Odsłony skonwertowane,";
-$GLOBALS['strConvertAdClicks'] = "Kliknięcia skonwertowane...";
-$GLOBALS['strConvertNothing'] = "Nie ma nic do konwersji...";
-$GLOBALS['strConvertFinished'] = "Zakończone...";
-
-$GLOBALS['strConvertExplaination'] = "	Używasz obecnie skróconego formatu statystyk, ale nadal niektóre dane statystyczne są <br />
-	w rozszerzonym formacie. Dopóki nie zostaną one skonwertowane do formatu skróconego <br />
-	nie będą wykorzystywane podczas przeglądania tych stron. <br />
-	Przed konwersją statystyk zrób kopię zapasową bazy danych! <br />
-	Czy chcesz skonwertować rozszczerzone statystyki do nowego, skróconego formatu? <br />";
-
-$GLOBALS['strConvertingExplaination'] = "	Wszystkie pozostające rozszerzone statystyki są obecnie konwertowane do formatu skróconego. <br />
-	Zależnie od ilości danych poddawanych konwersji może ona potrwać do kilkunastu minut. <br />
-	Zaczekaj aż zostanie ona zakończona zanim przejdziesz na inną stronę. <br />
-	Poniżej znajduje się lista wszystkich dokonanych modyfikacji w bazie danych. <br />";
-
-$GLOBALS['strConvertFinishedExplaination'] = "	Konwersja pozostałych w formacie rozszerzonym statystyk została zakończona i <br />
-	dane mogą być teraz znowu wykorzystywane. Poniżej znajdziesz listę wszystkich <br />
-	zmian dokonanych w bazie danych.<br />";
-
-//  Maintenace
-$GLOBALS['strAutoMaintenanceDisabled'] = "Automatyczna konserwacja jest wyłączona.";
-$GLOBALS['strAutoMaintenanceEnabled'] = "Automatyczna konserwacja jest włączona. Dla optymalnej wydajności zaleca się <a href='settings-admin.php'>wyłączenie automatycznej konserwacji</a>.";
-$GLOBALS['strScheduledMaintenance'] = "Planowana konserwacja wydaje się działać poprawnie.";
-$GLOBALS['strScheduledMaintenanceNotRun'] = "Planowana konserwacja nie była uruchomiona w ciągu ostatnich godzin. Może to oznaczać, że nie wszystko dobrze ustawiłeś.";
-$GLOBALS['strAutoMaintenanceEnabledNotTriggered'] = "Automatyczna konserwacja jest włączona, ale nie została zastosowana. Należy pamiętać, że automatyczna konserwacja jest stosowana tylko wtedy, gdy {$PRODUCT_NAME} wyświetla bannery.";
-$GLOBALS['strAutoMaintenanceBestPerformance'] = "Dla optymalnej wydajności zaleca się skonfigurowanie <a href='{$PRODUCT_DOCSURL}/maintenance.html' target='_blank'>planowanej konserwacji</a>";
-$GLOBALS['strAutoMaintenanceEnabledWilltTrigger'] = "Automatyczna konserwacja jest włączona i będzie uruchamiana co godzinę.";
-$GLOBALS['strAutoMaintenanceDisabledMaintenanceRan'] = "Automatyczna konserwacja jest wyłączona, ale zadanie konserwacji niedawno zostało uruchomione. Aby upewnić się, że {$PRODUCT_NAME} działa prawidłowo należy również ustawić <a href='http://{$PRODUCT_DOCSURL}/maintenance.html' target='_blank'>planowaną konserwację</a> lub <a href='settings-admin.php'>uruchomić automatyczną konserwację</a>.";
-$GLOBALS['strAutoMaintenanceDisabledNotTriggered'] = "Ponadto, automatyczna konserwacja jest wyłączona, więc kiedy {$PRODUCT_NAME} wyświetla banery, konserwacja nie jest uruchamian. Jeśli nie planujesz uruchomić <a href='http://{$PRODUCT_DOCSURL}/maintenance.html' target='_blank'>planowanej konserwacji</a>, <a href='settings-admin.php'>musisz włączyć automatyczną konserwację</a>, aby upewnić się, że {$PRODUCT_NAME} działa poprawnie.";
-
 //  Deliver Limitations
+$GLOBALS['strDeliveryLimitations'] = "Limity dostarczania";
 $GLOBALS['strAllBannerChannelCompiled'] = "Wszystkie skompilowane wartości limitów dla banerów/kanałów zostały zrekompilowane";
 $GLOBALS['strBannerChannelResult'] = "Oto wyniki walidacji skompilowanych limitów dla banerów/kanałów";
 $GLOBALS['strChannelCompiledLimitationsValid'] = "Wszystkie skompilowane limity dla kanału są ważne";
@@ -179,7 +120,6 @@ $GLOBALS['strRepairCompiledLimitations'] = "Stwierdzono pewne nieprawidłowości
 $GLOBALS['strRecompile'] = "Przekompiluj";
 $GLOBALS['strDeliveryEngineDisagreeNotice'] = "W pewnych okolicznościach mechanizm dostarczania może nie być kompatybilny z listami ACL dla banerów i kanałów, użyj tego linku, aby sprawdzić poprawność list ACL w bazie danych";
 $GLOBALS['strCheckACLs'] = "Sprawdź listy ACL";
-
 
 //  Append codes
 $GLOBALS['strAppendCodesDesc'] = "W pewnych okolicznościach mechanizm dostarczania może nie być kompatybilny z kodami dodawanymi do trackerów, użyj tego linku, aby sprawdzić poprawność kodów w bazie danych";

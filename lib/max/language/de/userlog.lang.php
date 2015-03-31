@@ -11,28 +11,24 @@
  */
 
 // Set translation strings
-
 $GLOBALS['strDeliveryEngine'] = "Bannerauslieferung (Programm)";
 $GLOBALS['strMaintenance'] = "Wartung (Programm)";
 $GLOBALS['strAdministrator'] = "Administration (Programm)";
 
 // Audit
-$GLOBALS['strLogging'] = "Protokollierung";
-$GLOBALS['strAudit'] = "Prüfungsprotokoll";
-$GLOBALS['strDebugLog'] = "Debug-Protokoll";
-$GLOBALS['strEvent'] = "Ereignis";
-$GLOBALS['strTimestamp'] = "Uhrzeit";
 $GLOBALS['strDeleted'] = "gelöscht";
 $GLOBALS['strInserted'] = "eingefügt";
 $GLOBALS['strUpdated'] = "geändert";
-$GLOBALS['strInsert'] = "Einfügen";
-$GLOBALS['strUpdate'] = "Ändern";
+$GLOBALS['strDelete'] = "Löschen";
 $GLOBALS['strHas'] = "hat";
 $GLOBALS['strFilters'] = "Filter";
 $GLOBALS['strAdvertiser'] = "Werbetreibender";
 $GLOBALS['strPublisher'] = "Webseite";
+$GLOBALS['strCampaign'] = "Kampagne";
+$GLOBALS['strZone'] = "Verborgene Zone";
 $GLOBALS['strType'] = "Art";
-$GLOBALS['strDetailedView'] = "Erweiterte Ansicht";
+$GLOBALS['strAction'] = "Aktion";
+$GLOBALS['strValue'] = "Wert";
 $GLOBALS['strReturnAuditTrail'] = "Zurück zum Prüfprotokoll";
 $GLOBALS['strAuditTrail'] = "Prüfprotokoll";
 $GLOBALS['strMaintenanceLog'] = "Wartungsprotokoll";

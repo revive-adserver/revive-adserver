@@ -17,6 +17,8 @@
 /** check step **/
 
 
+$GLOBALS['strWarning']                          = "Perspėjimas";
+$GLOBALS['strSyscheckStatus']                   = "Statusas";
 
 /** admin login step **/
 
@@ -30,4 +32,3 @@
 
 /** finish step **/
 
-$GLOBALS['strContinue']                         = "Tęsti »";

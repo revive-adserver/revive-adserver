@@ -22,25 +22,11 @@ $GLOBALS['strChooseSection'] = "Pilihan Bagian";
 
 
 
-
 // Priority
 $GLOBALS['strRecalculatePriority'] = "Ulangi kalkulasi prioritas";
-$GLOBALS['strHighPriorityCampaigns'] = "Kampanye prioritas tinggi";
-$GLOBALS['strAdViewsAssigned'] = "Memperuntukkan AdViews";
-$GLOBALS['strLowPriorityCampaigns'] = "Kampanye prioritas rendah";
-$GLOBALS['strPredictedAdViews'] = "Prediksi AdViews";
-$GLOBALS['strPriorityDaysRunning'] = "Pada saat ini {days} hari tercatat dalam statistik pada {$PRODUCT_NAME} sebagai data dasar untuk memprediksikan statistik harian. ";
-$GLOBALS['strPriorityBasedLastWeek'] = "Prediksi ini berdasar pada data minggu ini dan data minggu terakhir. ";
-$GLOBALS['strPriorityBasedLastDays'] = "Prediksi ini berdasar pada data berberapa hari terakhir. ";
-$GLOBALS['strPriorityBasedYesterday'] = "Prediksi ini berdasar pada data hari kemarin. ";
-$GLOBALS['strPriorityNoData'] = "Data yang tersedia tidak cukup untuk memprediksikan secara akur berapa Impression yang akan diolah oleh Adserver pada hari ini. Memperuntukkan prioritas akan didasarkan oleh statisik Real Time. ";
-$GLOBALS['strPriorityEnoughAdViews'] = "Jumlah AdViews sudah cukup untuk mempenuhi target dari seluruh kampanye dengan prioritas tinggi. ";
-$GLOBALS['strPriorityNotEnoughAdViews'] = "Pada saat ini belum cukup jelas apakah jumlah AdViews telah cukup untuk mempenuhi target dari seluruh kampanye dengan prioritas tinggi. ";
-
 
 // Banner cache
 $GLOBALS['strCheckBannerCache'] = "Periksa banner cache";
-$GLOBALS['strRebuildBannerCache'] = "Bangun ulang cache banner";
 $GLOBALS['strBannerCacheRebuildButton'] = "Bangun ulang";
 $GLOBALS['strRebuildDeliveryCache'] = "Bangun ulang database banner cache";
 $GLOBALS['strBannerCacheExplaination'] = "Cache ini perlu dibangun ulang bilamana:<br />
@@ -52,14 +38,12 @@ $GLOBALS['strBannerCacheExplaination'] = "Cache ini perlu dibangun ulang bilaman
 
 // Cache
 $GLOBALS['strCache'] = "Cache penyampaian";
-$GLOBALS['strAge'] = "Umur";
 $GLOBALS['strDeliveryCacheSharedMem'] = "Database pada saat ini digunakan untuk menyimpan cache penyampaian.
 ";
 $GLOBALS['strDeliveryCacheDatabase'] = "Database pada saat ini digunakan untuk menyimpan cache penyampaian.
 ";
 $GLOBALS['strDeliveryCacheFiles'] = "Cache penyampaian pada saat ini disimpan pada berberapa file yang berbeda di server Anda.
 ";
-
 
 // Storage
 $GLOBALS['strStorage'] = "Tempat Penampungan";
@@ -69,14 +53,6 @@ dalam sebuah direktori, beban pada database berkurang yang mengakibatkan kecepat
 ";
 
 // Encoding
-$GLOBALS['strEncodingConvert'] = "Tukarkan";
-
-
-// Storage
-$GLOBALS['strStatisticsExplaination'] = "Anda telah aktifkan <i>Statistik Kompak</i> tetapi statistik yang lama masih dalam format Verbose (terperinci).
-Apakah Anda ingin merubah statistik verbose ke dalam format kompak?
-";
-
 
 // Product Updates
 $GLOBALS['strSearchingUpdates'] = "Mencari Update. Silakan tunggu...";
@@ -124,36 +100,8 @@ $GLOBALS['strCurrentlyUsing'] = "Anda gunakan";
 $GLOBALS['strRunningOn'] = "yang bekerjasama dengan";
 $GLOBALS['strAndPlain'] = "dan";
 
-
-// Stats conversion
-$GLOBALS['strConverting'] = "Menukarkan";
-$GLOBALS['strConvertingStats'] = "Menukarkan statistik...";
-$GLOBALS['strConvertStats'] = "Menukarkan statistik";
-$GLOBALS['strConvertAdViews'] = "AdViews telah ditukarkan,";
-$GLOBALS['strConvertAdClicks'] = "AdClicks telah ditukarkan...";
-$GLOBALS['strConvertNothing'] = "Tidak ada yang perlu ditukarkan...";
-$GLOBALS['strConvertFinished'] = "Selesai...";
-
-$GLOBALS['strConvertExplaination'] = "	Pada saat ini Anda menggunakan format kompak untuk menyimpan statistik Anda. Tetapi <br>
-	tetap masih ada statistik dalam format verbose (terperinci). Selama statistik verbose <br>
-	tidak diubah menjadi format kompak, statistik tersebut tidak digunakan untuk tampilan
-	di halaman-halaman tersebut.  <br>
-	Sebelum mengubah statistik Anda disarankan untuk meng-backup database Anda!  <br>
-	Apakah Anda ingin mengubah statistik Anda kedalam format kompak yang baru? <br>";
-
-$GLOBALS['strConvertingExplaination'] = "	Seluruh statistik verbose (terperinci) yang tersisa akan diubah kedalam format kompak. <br>
-	Tergantung pada jumlah Impression yang tersimpan dalam format verbose, pengolahan ini  <br>
-	butuh waktu berberapa menit. Mohon tunggu sampai perubahaan ini selesai sebelum halaman <br>
-	lain dikunjungi. Dibawah ini akan tertampil seluruh perubahan yang dilakukan dalam database. <br>";
-
-$GLOBALS['strConvertFinishedExplaination'] = "	Perubahan dari statistik verbose telah selesai dengan sukses dan data-data bisa <br>
-	dipakai kembali seperti biasa. Dibawah ini akan tertampil seluruh perubahan yang <br>
-	dilakukan dalam	database. <br>";
-
-//  Maintenace
-
 //  Deliver Limitations
-
+$GLOBALS['strDeliveryLimitations'] = "Limitasi Penyampaian";
 
 //  Append codes
 

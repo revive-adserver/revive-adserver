@@ -32,4 +32,3 @@ $GLOBALS['strSyscheckStatus']                   = "Статус";
 
 /** finish step **/
 
-$GLOBALS['strContinue']                         = "Продолжить »";

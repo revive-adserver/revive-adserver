@@ -22,10 +22,8 @@ $GLOBALS['strChooseSection'] = "Pilih bahagian";
 
 
 
-
 // Priority
 $GLOBALS['strRecalculatePriority'] = "Kira semula prioriti";
-
 
 // Banner cache
 $GLOBALS['strCheckBannerCache'] = "Periksa semula banner cache";
@@ -38,15 +36,9 @@ $GLOBALS['strBannerCacheExplaination'] = "Pengkalan data \"banner cache\" diguna
 
 // Cache
 
-
 // Storage
 
 // Encoding
-$GLOBALS['strEncodingConvert'] = "Tukar";
-
-
-// Storage
-
 
 // Product Updates
 
@@ -70,16 +62,7 @@ $GLOBALS['strCurrentlyUsing'] = "Anda sedang menggunakan";
 $GLOBALS['strRunningOn'] = "menggunakan";
 $GLOBALS['strAndPlain'] = "dan";
 
-
-// Stats conversion
-
-
-
-
-//  Maintenace
-
 //  Deliver Limitations
-
 
 //  Append codes
 

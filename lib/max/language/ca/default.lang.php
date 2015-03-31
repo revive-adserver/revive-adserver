@@ -25,25 +25,17 @@ $GLOBALS['phpAds_ThousandsSeperator'] = ".";
 
 $GLOBALS['strHome'] = "Pàgina d'inici";
 $GLOBALS['strHelp'] = "Ajuda";
-$GLOBALS['strContactUs'] = "Contacte";
 $GLOBALS['strActions'] = "Accions";
-$GLOBALS['strMore'] = "Més";
 $GLOBALS['strAdminstration'] = "Inventari";
 $GLOBALS['strMaintenance'] = "Manteniment";
 $GLOBALS['strProbability'] = "Probabilitat";
 $GLOBALS['strInvocationcode'] = "Codi d'invocació";
 $GLOBALS['strBasicInformation'] = "Informació bàsica";
-$GLOBALS['strAdditionalInformation'] = "Informació addicional";
-$GLOBALS['strContractInformation'] = "Informació del contracte";
-$GLOBALS['strHistory'] = "Historial";
 $GLOBALS['strDetails'] = "Detalls";
 $GLOBALS['strCheckForUpdates'] = "Cerca actualitzacions";
 $GLOBALS['strUser'] = "Usuari";
-$GLOBALS['strEdit'] = "Edita";
-$GLOBALS['strCreate'] = "Crea";
 $GLOBALS['strDuplicate'] = "Duplica";
 $GLOBALS['strActivate'] = "Activa";
-$GLOBALS['strDeActivate'] = "Desactiva";
 $GLOBALS['strConvert'] = "Converteix";
 $GLOBALS['strRefresh'] = "Refresca";
 $GLOBALS['strSaveChanges'] = "Desa els canvis";
@@ -54,11 +46,8 @@ $GLOBALS['strNext'] = "Següent";
 $GLOBALS['strYes'] = "Sí";
 $GLOBALS['strNo'] = "No";
 $GLOBALS['strDefault'] = "Predeterminat";
-$GLOBALS['strOther'] = "Un altre";
-$GLOBALS['strUnknown'] = "Desconegut";
 $GLOBALS['strUnlimited'] = "Il·limitat";
 $GLOBALS['strUntitled'] = "Sense títol";
-$GLOBALS['strAll'] = "tots";
 
 // Dashboard
 // Dashboard Errors
@@ -77,7 +66,6 @@ $GLOBALS['strAll'] = "tots";
 
 // Time and date related
 
-$GLOBALS['strMonth'] = array();
 
 $GLOBALS['strDayFullNames'] = array();
 
@@ -96,6 +84,7 @@ $GLOBALS['strDayShortCuts'] = array();
 // Campaign properties
 
 // Tracker
+$GLOBALS['strIPAddress'] = "Adreça IP";
 
 // Banners (General)
 
@@ -104,10 +93,6 @@ $GLOBALS['strDayShortCuts'] = array();
 // Banner (advanced)
 
 // Banner (swf)
-
-// Banner (network)
-
-// Banner (AdSense)
 
 // Display limitations
 
@@ -149,11 +134,9 @@ $GLOBALS['strCappingZone'] = array();
 
 // Code generation
 
-
 // Errors
 
 //Validation
-
 
 // Email
 
@@ -161,8 +144,6 @@ $GLOBALS['strCappingZone'] = array();
 
 // Preferences
 
-
-// Statistics columns
 // Long names
 
 // Short names
@@ -177,14 +158,9 @@ $GLOBALS['strCappingZone'] = array();
 // Channels
 
 
-
-// Upload conversions
-
-
 // Password recovery
 
 // Audit
-
 
 // Widget - Audit
 
@@ -203,20 +179,15 @@ $GLOBALS['strCappingZone'] = array();
 
 
 
-
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */
 /* ------------------------------------------------------- */
 
 // Reserved keys
 // Do not change these unless absolutely needed
+$GLOBALS['keyNextItem'] = ",";
+$GLOBALS['keyPreviousItem'] = ".";
 
 // Other keys
 // Please make sure you underline the key you
 // used in the string in default.lang.php
-
-/* ------------------------------------------------------- */
-/* Languages Names                                       */
-/* ------------------------------------------------------- */
-
-?>

@@ -23,7 +23,6 @@
 
 $GLOBALS['strHelp'] = "Βοήθεια";
 $GLOBALS['strStartOver'] = "Επανεκκίνηση";
-$GLOBALS['strNavigation'] = "Πλοήγηση";
 $GLOBALS['strShortcuts'] = "Συντομεύσεις";
 $GLOBALS['strActions'] = "Ενέργεια";
 $GLOBALS['strAdminstration'] = "Κατάλογος";
@@ -31,8 +30,6 @@ $GLOBALS['strMaintenance'] = "Συντήρηση";
 $GLOBALS['strProbability'] = "Πιθανότητα";
 $GLOBALS['strInvocationcode'] = "Κώδικας προς Ενσωμάτωση";
 $GLOBALS['strBasicInformation'] = "Βασικές Πληροφορίες";
-$GLOBALS['strLoginInformation'] = "Πληροφορίες Σύνδεσης";
-$GLOBALS['strLogoutURL'] = "Διεύθυνση όπου θα γίνεται ανακατεύθυνση στην έξοδο. <br/>Αφήστε κενό για την προεπιλεγμένη.";
 $GLOBALS['strAppendTrackerCode'] = "Επισύναψη Κώδικα Παρακολούθησης";
 $GLOBALS['strOverview'] = "Με μια ματιά";
 $GLOBALS['strSearch'] = "<u>Α</u>ναζήτηση";
@@ -40,13 +37,10 @@ $GLOBALS['strDetails'] = "Πληροφορίες";
 $GLOBALS['strCheckForUpdates'] = "Έλεγχος Ενημερώσεων";
 $GLOBALS['strCompact'] = "Συμπικνωμένο";
 $GLOBALS['strUser'] = "Χρήστης";
-$GLOBALS['strEdit'] = "Επεξεργασία";
-$GLOBALS['strCreate'] = "Δημιουργία";
 $GLOBALS['strDuplicate'] = "Αντιγραφή";
 $GLOBALS['strMoveTo'] = "Μετακίνηση σε";
 $GLOBALS['strDelete'] = "Διαγραφή";
 $GLOBALS['strActivate'] = "Ενεργοποίηση";
-$GLOBALS['strDeActivate'] = "Απενεργοποίηση";
 $GLOBALS['strConvert'] = "Μετατροπή";
 $GLOBALS['strRefresh'] = "Ανανέωση";
 $GLOBALS['strSaveChanges'] = "Αποθήκευση Αλλαγών";
@@ -61,15 +55,11 @@ $GLOBALS['strNo'] = "Όχι";
 $GLOBALS['strNone'] = "Κανένα";
 $GLOBALS['strCustom'] = "Παραμετροποιημένο";
 $GLOBALS['strDefault'] = "Προεπιλογή";
-$GLOBALS['strOther'] = "Άλλο";
 $GLOBALS['strUnlimited'] = "Απεριόριστο";
 $GLOBALS['strUntitled'] = "Χωρίς Τίτλο";
-$GLOBALS['strAll'] = "όλα";
-$GLOBALS['strAvg'] = "Μ.Ο.";
 $GLOBALS['strAverage'] = "Μέσος Όρος";
 $GLOBALS['strOverall'] = "Συνολικά";
 $GLOBALS['strTotal'] = "Σύνολο";
-$GLOBALS['strActive'] = "ενεργό";
 $GLOBALS['strTo'] = "σε";
 $GLOBALS['strLinkedTo'] = "σύνδεση με";
 $GLOBALS['strDaysLeft'] = "Μέρες που απομένουν";
@@ -81,7 +71,6 @@ $GLOBALS['strNoAdminInterface'] = "Η οθόνη διαχειριστή έχει
 $GLOBALS['strFieldContainsErrors'] = "Τα επόμενα πεδία έχουν λάθη :";
 $GLOBALS['strFieldFixBeforeContinue1'] = "Προτού προχωρήσετε χρειάζεστε";
 $GLOBALS['strFieldFixBeforeContinue2'] = "για να διορθώσετε αυτά τα λάθη.";
-$GLOBALS['strDelimiter'] = "Οριοθέτης";
 $GLOBALS['strMiscellaneous'] = "Διάφορα";
 $GLOBALS['strCollectedAllStats'] = "Όλα τα Στατιστικά";
 $GLOBALS['strCollectedToday'] = "Σήμερα";
@@ -92,7 +81,6 @@ $GLOBALS['strCollectedThisMonth'] = "Τρέχον Μήνας";
 $GLOBALS['strCollectedLastMonth'] = "Προηγούμενος Μήνας";
 $GLOBALS['strCollectedLast7Days'] = "Τελευταίες 7 ημέρες";
 $GLOBALS['strCollectedSpecificDates'] = "Συγκεκριμένες ημερομηνίες";
-$GLOBALS['strAdmin'] = "Διαχειριστής";
 $GLOBALS['strWarning'] = "Προειδοποίηση";
 $GLOBALS['strNotice'] = "Σημείωση";
 
@@ -102,8 +90,6 @@ $GLOBALS['strNotice'] = "Σημείωση";
 // Priority
 $GLOBALS['strPriority'] = "Προτεραιότητα";
 $GLOBALS['strPriorityLevel'] = "Επίπεδο Προτεραιότητας";
-$GLOBALS['strPriorityTargeting'] = "Διανομή";
-$GLOBALS['strPriorityOptimisation'] = "Διάφορα"; // Er, what?
 $GLOBALS['strLimitations'] = "Περιορισμοί";
 $GLOBALS['strNoLimitations'] = "Χωρίς περιορισμούς";
 $GLOBALS['strCapping'] = "Υπερκάληψη";
@@ -139,18 +125,14 @@ $GLOBALS['strAccessDenied'] = "Απαγορεύεται η Πρόσβαση";
 $GLOBALS['strUsernameOrPasswordWrong'] = "Το όνομα χρήστη και/ή ο κωδικός δεν ήταν σωστά. Παρακαλώ προσπαθήστε ξανά.";
 $GLOBALS['strPasswordWrong'] = "Ο κωδικός δεν είναι σωστός";
 $GLOBALS['strDuplicateClientName'] = "Το όνομα χρήστη που δώσατε υπάρχει ήδη, παρακαλώ δώστε ένα διαφορετικό.";
-$GLOBALS['strDuplicateAgencyName'] = "Το όνομα χρήστη που δώσατε υπάρχει ήδη, παρακαλώ δώστε ένα διαφορετικό.";
 $GLOBALS['strInvalidPassword'] = "Ο κωδικός δεν είναι σωστός, παρακαλώ δώστε ένα διαφορετικό.";
 $GLOBALS['strNotSamePasswords'] = "Οι δυο κωδικοί που δώσατε δεν είναι ίδιοι";
 $GLOBALS['strRepeatPassword'] = "Επαναλάβατε τον κωδικό";
-$GLOBALS['strOldPassword'] = "Παλαιός Κωδικός";
-$GLOBALS['strNewPassword'] = "Νέος Κωδικός";
 
 // General advertising
 $GLOBALS['strRequests'] = "Αιτήματα";
 $GLOBALS['strImpressions'] = "Εντυπώσεις";
 $GLOBALS['strCTR'] = "CTR";
-$GLOBALS['strCNVR'] = "Ratio Πωλήσεων";
 $GLOBALS['strTotalClicks'] = "Συνολικά Clicks";
 $GLOBALS['strCampaigns'] = "Καμπάνια";
 $GLOBALS['strCampaignID'] = "Κωδικός Καμπάνιας";
@@ -172,8 +154,6 @@ $GLOBALS['strSingleMonth'] = "Μήνας";
 $GLOBALS['strMonths'] = "Μήνες";
 $GLOBALS['strDayOfWeek'] = "Ημέρα της εβδομάδας";
 
-$GLOBALS['strMonth'] = array();
-$GLOBALS['strMonth'][11] = "Δεκέμβριος";
 
 $GLOBALS['strDayFullNames'] = array();
 $GLOBALS['strDayFullNames'][6] = 'Σάββατο';
@@ -191,33 +171,23 @@ $GLOBALS['strClient'] = "Διαφημιζόμενος";
 $GLOBALS['strClients'] = "Διαφημιζόμενοι";
 $GLOBALS['strClientsAndCampaigns'] = "Διαφημιζόμενοι & Καμπάνιες";
 $GLOBALS['strAddClient'] = "Προσθήκη νέου διαφημιζόμενου";
-$GLOBALS['strAddClient_Key'] = "Προσθηκη <u>ν</u>έου διαφημιζόμενου";
-$GLOBALS['strTotalClients'] = "Σύνολο διαφημιζόμενων";
 $GLOBALS['strClientProperties'] = "Ιδιότητες Διαφημιζόμενου";
 $GLOBALS['strClientHistory'] = "Ιστορικό Διαφημιζόμενου";
-$GLOBALS['strSite'] = "Μέγεθος";
-$GLOBALS['strOverallAdvertisers'] = "Διαφημιζόμενοι";
 $GLOBALS['strAdvertiserCampaigns'] = "Διαφημιζόμενοι & Καμπάνιες";
 
 // Advertisers properties
 $GLOBALS['strContact'] = "Επικοινωνία";
-$GLOBALS['strChars'] = "χαρακτήρες";
 $GLOBALS['strSendAdvertisingReport'] = "Αναφορές Καμπάνιας Αποστολής Email";
 
 // Campaign
 $GLOBALS['strCampaign'] = "Καμπάνια";
 $GLOBALS['strCampaigns'] = "Καμπάνια";
-$GLOBALS['strTotalCampaigns'] = "Συνολικές Καμπάνιες";
-$GLOBALS['strActiveCampaigns'] = "Ενεργές Καμπάνιες";
 $GLOBALS['strAddCampaign'] = "Προσθήκη νέας καμπάνιας";
 $GLOBALS['strAddCampaign_Key'] = "Προσθήκη <u>ν</u>έας καμπάνιας";
-$GLOBALS['strModifyCampaign'] = "Διόρθωση Καμπάνιας";
-$GLOBALS['strDeleteAllCampaigns'] = "Διαγραφή όλων των καμπανιών";
 $GLOBALS['strLinkedCampaigns'] = "Συνδεδεμένες Καμπάνιες";
 $GLOBALS['strCampaignProperties'] = "Ιδιότητες Καμπάνιας";
 $GLOBALS['strCampaignOverview'] = "Σύνοψη Καμπάνιας";
 $GLOBALS['strCampaignHistory'] = "Ιστορικό Καμπάνιας";
-$GLOBALS['strContractDetails'] = "Λεπτομέρειες συμβολαίου";
 $GLOBALS['strHiddenCampaign'] = "Καμπάνια";
 $GLOBALS['strHiddenAd'] = "Διαφήμιση";
 $GLOBALS['strHiddenAdvertiser'] = "Διαφημιζόμενος";
@@ -235,31 +205,20 @@ $GLOBALS['strCampaignStatusInactive'] = "ενεργό";
 $GLOBALS['strCampaignStatusPaused'] = "Παύση";
 $GLOBALS['strCampaignStatusRestarted'] = "Επανεκκίνηση";
 $GLOBALS['strCampaignStatusDeleted'] = "Διαγραφή";
-$GLOBALS['strCampaignPause'] = "Παύση";
 $GLOBALS['strCampaignType'] = "Όνομα Καμπάνιας";
 $GLOBALS['strType'] = "Τύπος";
-$GLOBALS['strContract'] = "Επικοινωνία";
 $GLOBALS['strStandardContract'] = "Επικοινωνία";
 
 // Tracker
-$GLOBALS['strAddTracker_Key'] = "Προσθήκη <u>ν</u>έου banner";
-$GLOBALS['strDeleteAllTrackers'] = "Διαγραφή όλων των banners";
 $GLOBALS['strTrackerProperties'] = "Ιδιότητες Ζώνης";
 $GLOBALS['strStatus'] = "Κατάσταση";
 $GLOBALS['strUniqueWindow'] = "Μοναδικό παράθυρο";
 $GLOBALS['strView'] = "Προβολή";
-$GLOBALS['strImpression'] = "Εντυπώσεις";
 
 // Banners (General)
 $GLOBALS['strAddBanner'] = "Προσθήκη νέου banner";
 $GLOBALS['strAddBanner_Key'] = "Προσθήκη <u>ν</u>έου banner";
-$GLOBALS['strModifyBanner'] = "Διόρθωση banner";
-$GLOBALS['strActiveBanners'] = "Ενεργά banners";
-$GLOBALS['strTotalBanners'] = "Συνολικά banners";
 $GLOBALS['strShowBanner'] = "Προβολή banner";
-$GLOBALS['strDeleteAllBanners'] = "Διαγραφή όλων των banners";
-$GLOBALS['strActivateAllBanners'] = "Ενεργοποίηση όλων των banners";
-$GLOBALS['strDeactivateAllBanners'] = "Απενεργοποίηση όλων των banners";
 $GLOBALS['strBannerProperties'] = "Ιδιότητες Ζώνης";
 
 // Banner (Properties)
@@ -270,17 +229,10 @@ $GLOBALS['strWeight'] = "Ύψος";
 
 // Banner (swf)
 
-// Banner (network)
-
-// Banner (AdSense)
-
 // Display limitations
 $GLOBALS['strNoLimitations'] = "Χωρίς περιορισμούς";
 $GLOBALS['strAND'] = "ΚΑΙ";                          // logical operator
 $GLOBALS['strOR'] = "Ή";                         // logical operator
-$GLOBALS['strTime'] = "Ώρα";
-$GLOBALS['strSource'] = "Πηγή";
-$GLOBALS['strCity'] = "Πόλη";
 
 
 $GLOBALS['strCappingBanner'] = array();
@@ -294,29 +246,16 @@ $GLOBALS['strAffiliate'] = "Ιστοσελίδα";
 $GLOBALS['strAffiliates'] = "Ιστοσελίδες";
 $GLOBALS['strAffiliatesAndZones'] = "Ιστοσελίδες & Ζώνες";
 $GLOBALS['strAddNewAffiliate'] = "Προσθήκη νέας ιστοσελίδας";
-$GLOBALS['strAddNewAffiliate_Key'] = "Προσθήκη <u>ν</u>έας ιστοσελίδας";
 $GLOBALS['strAffiliateProperties'] = "Ιδιότητες Ιστοσελίδας";
 $GLOBALS['strAffiliateHistory'] = "Ιστορικό Ιστοσελίδας";
-$GLOBALS['strZonesWithoutAffiliate'] = "Ζώνες χωρίς Ιστοσελίδα";
-$GLOBALS['strAffiliateInvocation'] = "Κώδικας προς Ενσωμάτωση";
-$GLOBALS['strTotalAffiliates'] = "Συνολικές ιστοσελίδες";
 
 // Website (properties)
-$GLOBALS['strWebsite'] = "Ιστοσελίδα";
 
 // Website (properties - payment information)
-$GLOBALS['strPaymentInformation'] = "Πληροφορίες Πληρωμής";
-$GLOBALS['strAddress'] = "Διεύθυνση";
 $GLOBALS['strPostcode'] = "Ταχυδρομικός Κωδικός";
-$GLOBALS['strCity'] = "Πόλη";
 $GLOBALS['strCountry'] = "Χώρα";
-$GLOBALS['strPhone'] = "Τηλέφωνο";
-$GLOBALS['strFax'] = "Φαξ.";
-$GLOBALS['strCurrency'] = "Νόμισμα";
 
 // Website (properties - other information)
-$GLOBALS['strOtherInformation'] = "Άλλες πληροφορίες";
-$GLOBALS['strCategory'] = "Κατηγορία";
 $GLOBALS['strWebsiteZones'] = "Ιστοσελίδες & Ζώνες";
 
 // Zone
@@ -324,10 +263,8 @@ $GLOBALS['strZone'] = "Ζώνη";
 $GLOBALS['strZones'] = "Ζώνες";
 $GLOBALS['strAddNewZone'] = "Προσθήκη νέας ζώνης";
 $GLOBALS['strAddNewZone_Key'] = "Προσθήκη <u>ν</u>έας ζώνης";
-$GLOBALS['strModifyZone'] = "Διόρθωση ζώνης";
 $GLOBALS['strZoneToWebsite'] = "Όλες οι ιστοσελίδες";
 $GLOBALS['strLinkedZones'] = "Συνδεδεμένες Ζώνες";
-$GLOBALS['strZoneOverview'] = "Σύνοψη Ζώνης";
 $GLOBALS['strZoneProperties'] = "Ιδιότητες Ζώνης";
 $GLOBALS['strZoneHistory'] = "Ιστορικό Ζώνης";
 $GLOBALS['strZoneType'] = "Τύπος Ζώνης";
@@ -343,10 +280,7 @@ $GLOBALS['strRawQueryString'] = "Λέξη Κλειδί";
 $GLOBALS['strSelectAdvertiser'] = "Επιλέξτε Διαφημιζόμενο";
 $GLOBALS['strSelectPlacement'] = "Επιλέξτε Καμπάνια";
 $GLOBALS['strSelectAd'] = "Επιλέξτε Banner";
-$GLOBALS['strTrackerCodeSubject'] = "Επισύναψη Κώδικα Παρακολούθησης";
-$GLOBALS['strStatusDuplicate'] = "Αντιγραφή";
 $GLOBALS['strConnectionType'] = "Τύπος";
-$GLOBALS['strConnTypeSale'] = "Αποθήκευση";
 
 // Statistics
 $GLOBALS['strStats'] = "Στατιστικά";
@@ -367,9 +301,6 @@ $GLOBALS['strBreakdownByHour'] = "Ώρα";
 $GLOBALS['strCampaignStop'] = "Ιστορικό Καμπάνιας";
 
 // Reports
-$GLOBALS['strReports'] = "Αναφορές";
-$GLOBALS['strStartDate'] = "Ημερομηνία Έναρξης";
-$GLOBALS['strEndDate'] = "Ημερομηνία Ολοκλήρωσης";
 $GLOBALS['strLimitations'] = "Περιορισμοί";
 
 // Admin_UI_Fields
@@ -384,11 +315,9 @@ $GLOBALS['strAction'] = "Ενέργεια";
 
 // Code generation
 
-
 // Errors
 
 //Validation
-
 
 // Email
 
@@ -399,8 +328,6 @@ $GLOBALS['strSourceEdit'] = "Διόρθωση Πηγών";
 // Preferences
 $GLOBALS['strPreferences'] = "Προτιμήσεις";
 
-
-// Statistics columns
 // Long names
 $GLOBALS['strERPM'] = "CPM";
 $GLOBALS['strERPC'] = "CPC";
@@ -411,11 +338,7 @@ $GLOBALS['strEIPS'] = "CPM";
 $GLOBALS['strECPM'] = "CPM";
 $GLOBALS['strECPC'] = "CPC";
 $GLOBALS['strECPS'] = "CPM";
-$GLOBALS['strEPPM'] = "CPM";
-$GLOBALS['strEPPC'] = "CPC";
-$GLOBALS['strEPPS'] = "CPM";
 $GLOBALS['strImpressionSR'] = "Εντυπώσεις";
-$GLOBALS['strActualImpressions'] = "Εντυπώσεις";
 
 // Short names
 $GLOBALS['strERPM_short'] = "CPM";
@@ -427,16 +350,12 @@ $GLOBALS['strEIPS_short'] = "CPM";
 $GLOBALS['strECPM_short'] = "CPM";
 $GLOBALS['strECPC_short'] = "CPC";
 $GLOBALS['strECPS_short'] = "CPM";
-$GLOBALS['strEPPM_short'] = "CPM";
-$GLOBALS['strEPPC_short'] = "CPC";
-$GLOBALS['strEPPS_short'] = "CPM";
 $GLOBALS['strID_short'] = "Κωδικός";
 
 // Global Settings
 $GLOBALS['strGlobalSettings'] = "Γενικές Ρυθμίσεις";
 $GLOBALS['strGeneralSettings'] = "Γενικές Ρυθμίσεις";
 $GLOBALS['strMainSettings'] = "Βασικές Ρυθμίσεις";
-$GLOBALS['strAdminSettings'] = "Ρυθμίσεις Διαχειριστή";
 
 
 // Product Updates
@@ -444,7 +363,6 @@ $GLOBALS['strProductUpdates'] = "Ενημερώσεις Προϊόντος";
 
 // Agency
 $GLOBALS['strAgency'] = "Λογαριασμός";
-$GLOBALS['strAgencies'] = "Λογαριασμός";
 $GLOBALS['strAddAgency_Key'] = "Προσθήκη <u>ν</u>έας ζώνης";
 $GLOBALS['strTotalAgencies'] = "Σύνολο λογαριασμών";
 $GLOBALS['strAgencyProperties'] = "Ιδιότητες λογαριασμού";
@@ -454,16 +372,9 @@ $GLOBALS['strChannelToWebsite'] = "Όλες οι ιστοσελίδες";
 
 $GLOBALS['strVariableDescription'] = "Περιγραφή";
 
-
-// Upload conversions
-$GLOBALS['strYouHaveNoCampaigns'] = "Διαφημιζόμενοι & Καμπάνιες";
-
-
 // Password recovery
 
 // Audit
-$GLOBALS['strAccount'] = "Λογαριασμός";
-
 
 // Widget - Audit
 
@@ -472,7 +383,6 @@ $GLOBALS['strAccount'] = "Λογαριασμός";
 
 
 //confirmation messages
-
 
 
 
@@ -493,9 +403,3 @@ $GLOBALS['strAccount'] = "Λογαριασμός";
 // Other keys
 // Please make sure you underline the key you
 // used in the string in default.lang.php
-
-/* ------------------------------------------------------- */
-/* Languages Names                                       */
-/* ------------------------------------------------------- */
-
-?>

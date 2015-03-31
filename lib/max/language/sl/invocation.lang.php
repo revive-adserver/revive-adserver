@@ -21,7 +21,6 @@ $GLOBALS['strAbbrSeconds'] = "sek";
 
 // Common Invocation Parameters
 $GLOBALS['strInvocationWhat'] = "Izbira pasice";
-$GLOBALS['strInvocationClientID'] = "Oglaševalec";
 $GLOBALS['strInvocationCampaignID'] = "Kampanja";
 $GLOBALS['strInvocationTarget'] = "Okvir cilja";
 $GLOBALS['strInvocationSource'] = "Vir";
@@ -39,39 +38,16 @@ $GLOBALS['strIframeMakeTransparent'] = "Naredi I-Frame prozoren";
 $GLOBALS['strIframeIncludeNetscape4'] = "Vključi Netscape 4 združljiv i-layer";
 $GLOBALS['strIframeGoogleClickTracking'] = "Vključi zbirnik za sledenje Google AdSense klikov";
 
-
 // PopUp
 $GLOBALS['strShowStatus'] = "Stanje";
 
-
 // XML-RPC
-
-
-// AdLayer
-$GLOBALS['strAdLayerStyle'] = "Slog";
-
-
-
-
-
-
-$GLOBALS['strPause'] = "Premor";
-
-
-
-$GLOBALS['strAdLayerStyleName'] = array();
 
 // Support for 3rd party server clicktracking
 $GLOBALS['str3rdPartyTrack'] = "Podpora sledenju klikov iz drugih strežnikov";
 
 // Support for cachebusting code
 $GLOBALS['strCacheBuster'] = "Vstavi cache-busting kodo";
-
-// Non-Img creatives Warning for zone image-only invocation
-
-// unkown HTML tag type Warning for zone invocation
-
-// sql/web banner-type warning for clickonly zone invocation
 
 // IMG invocation selected for tracker with appended code
 $GLOBALS['strWarning'] = "Opozorilo";

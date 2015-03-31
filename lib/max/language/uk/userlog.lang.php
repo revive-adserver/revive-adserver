@@ -11,13 +11,11 @@
  */
 
 // Set translation strings
-
 $GLOBALS['strDeliveryEngine'] = "Движок доставки";
 $GLOBALS['strMaintenance'] = "Обслуговування";
 $GLOBALS['strAdministrator'] = "Администратор";
 
 // Audit
-$GLOBALS['strEvent'] = "Событие";
 $GLOBALS['strDeleted'] = "Видалити";
 $GLOBALS['strDelete'] = "Видалити";
 $GLOBALS['strHas'] = "содержит";

@@ -22,10 +22,8 @@ $GLOBALS['strChooseSection'] = "Välj sektion";
 
 
 
-
 // Priority
 $GLOBALS['strRecalculatePriority'] = "Omkalkylera prioriteten";
-
 
 // Banner cache
 $GLOBALS['strCheckBannerCache'] = "Kolla bannerns minne";
@@ -35,19 +33,12 @@ $GLOBALS['strRebuildDeliveryCache'] = "Bygg om databasens bannerminne";
 
 // Cache
 $GLOBALS['strCache'] = "Leveransminne";
-$GLOBALS['strAge'] = "Ålder";
-
 
 // Storage
 $GLOBALS['strStorage'] = "Lager";
 $GLOBALS['strMoveToDirectory'] = "Flytta bilder som lagrats i databasen till en directory";
 
 // Encoding
-$GLOBALS['strEncodingConvert'] = "Konvertera";
-
-
-// Storage
-
 
 // Product Updates
 $GLOBALS['strSearchingUpdates'] = "Kollar uppdateringar. Vänligen vänta....";
@@ -69,17 +60,8 @@ $GLOBALS['strCurrentlyUsing'] = "Du använder för närvarande";
 $GLOBALS['strRunningOn'] = "körs på";
 $GLOBALS['strAndPlain'] = "och";
 
-
-// Stats conversion
-
-
-
-
-//  Maintenace
-
 //  Deliver Limitations
 $GLOBALS['strDeliveryLimitations'] = "Leveransbegränsningar";
-
 
 //  Append codes
 

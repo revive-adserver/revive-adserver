@@ -11,7 +11,6 @@
  */
 
 // Set translation strings
-
 $GLOBALS['strMaintenance'] = "Поддръжка";
 
 // Audit

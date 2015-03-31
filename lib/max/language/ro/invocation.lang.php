@@ -37,39 +37,16 @@ $GLOBALS['strIframeMakeTransparent'] = "Iframe transparent";
 $GLOBALS['strIframeIncludeNetscape4'] = "Include ilayer compatibil Netscape 4";
 $GLOBALS['strIframeGoogleClickTracking'] = "Include codul pentru a urmări click-urile Google Adsense";
 
-
 // PopUp
 $GLOBALS['strShowStatus'] = "Stare";
 
-
 // XML-RPC
-
-
-// AdLayer
-$GLOBALS['strAdLayerStyle'] = "Stil";
-
-
-
-
-
-
-$GLOBALS['strPause'] = "Pauză";
-
-
-
-$GLOBALS['strAdLayerStyleName'] = array();
 
 // Support for 3rd party server clicktracking
 $GLOBALS['str3rdPartyTrack'] = "Suportă contorizarea click-urilor pentru alte servere";
 
 // Support for cachebusting code
 $GLOBALS['strCacheBuster'] = "Inserează cod Cache-Busting";
-
-// Non-Img creatives Warning for zone image-only invocation
-
-// unkown HTML tag type Warning for zone invocation
-
-// sql/web banner-type warning for clickonly zone invocation
 
 // IMG invocation selected for tracker with appended code
 $GLOBALS['strWarning'] = "Avertisment";

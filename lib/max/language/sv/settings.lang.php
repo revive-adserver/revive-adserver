@@ -13,7 +13,6 @@
 // Installer translation strings
 $GLOBALS['strInstall'] = "Installera";
 $GLOBALS['strDatabaseSettings'] = "Inställningar för databas";
-$GLOBALS['strAdminSettings'] = "Administrativa inställningar";
 $GLOBALS['strAdminAccount'] = "Administratörens konto";
 $GLOBALS['strAdvancedSettings'] = "Avancerade inställningar";
 $GLOBALS['strWarning'] = "Varning";
@@ -21,12 +20,8 @@ $GLOBALS['strWarning'] = "Varning";
 
 
 
-
-
 $GLOBALS['strDeliveryUrlPrefix'] = "Visningsmotor";
 $GLOBALS['strDeliveryUrlPrefixSSL'] = "Visningsmotor";
-
-
 
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
@@ -42,19 +37,11 @@ $GLOBALS['strEditConfigPossible'] = "It is possible to edit all settings because
 // Configuration Settings
 
 // Administrator Settings
-$GLOBALS['strAdministratorSettings'] = "Administrativa inställningar";
 $GLOBALS['strBasicInformation'] = "Grundläggande Information";
-$GLOBALS['strAdminCheckEveryLogin'] = "Varje inloggning";
-$GLOBALS['strAdminCheckDaily'] = "Dagligen";
-$GLOBALS['strAdminCheckWeekly'] = "Veckovis";
-$GLOBALS['strAdminCheckMonthly'] = "Månadsvis";
-$GLOBALS['strAdminCheckNever'] = "Aldrig";
 
 
 // Database Settings
 $GLOBALS['strDatabaseSettings'] = "Inställningar för databas";
-
-
 
 // Email Settings
 $GLOBALS['strEmailSettings'] = "Huvudsakliga inställningar";
@@ -70,9 +57,6 @@ $GLOBALS['strDeliverySslPath'] = "Leveransminne";
 $GLOBALS['strTypeFTPUsername'] = "Logga in";
 $GLOBALS['strTypeFTPPassword'] = "Lösenord";
 
-
-
-
 // General Settings
 
 // Geotargeting Settings
@@ -82,29 +66,6 @@ $GLOBALS['strInventory'] = "Lager";
 $GLOBALS['strHideInactive'] = "Dölj inaktiva";
 $GLOBALS['strStatisticsDefaults'] = "Statistik";
 
-$GLOBALS['strModesOfPayment'] = "Betalsätt";
-$GLOBALS['strHelpFiles'] = "Hjälpfil";
-$GLOBALS['strHasTaxID'] = "Skatte-ID";
-
-// CSV Import Settings
-$GLOBALS['strChooseAdvertiser'] = "Välj Annonsör";
-$GLOBALS['strChooseCampaign'] = "Välj Kampanj";
-$GLOBALS['strChooseCampaignBanner'] = "Välj Annons";
-$GLOBALS['strChooseTracker'] = "Välj Spårare";
-$GLOBALS['strDefaultConversionStatus'] = "Standard konverteringsregler";
-$GLOBALS['strDefaultConversionType'] = "Standard konverteringsregler";
-$GLOBALS['strCSVTemplateSettings'] = "CSV Template Inställningar";
-$GLOBALS['strIncludeCountryInfo'] = "Inkludera Landsinformation";
-$GLOBALS['strIncludeBrowserInfo'] = "Inkludera webbläsare information";
-$GLOBALS['strIncludeOSInfo'] = "Inkludera OS information";
-$GLOBALS['strIncludeSampleRow'] = "Inkludera exempel rad";
-$GLOBALS['strCSVTemplateAdvanced'] = "Avancerad Template";
-$GLOBALS['strCSVTemplateIncVariables'] = "Inkludera Spårarvariabler";
-
-/**
- * @todo remove strBannerSettings if banner is only configurable as a preference
- *       rename // Banner Settings to  // Banner Preferences
- */
 // Invocation Settings
 
 // Banner Delivery Settings
@@ -120,15 +81,6 @@ $GLOBALS['strCSVTemplateIncVariables'] = "Inkludera Spårarvariabler";
 // UI Settings
 $GLOBALS['strGeneralSettings'] = "Allmänna inställningar";
 
-
-
-
 // Regenerate Platfor Hash script
 
 // Plugin Settings
-
-/* ------------------------------------------------------- */
-/* Unknown (unused?) translations                        */
-/* ------------------------------------------------------- */
-
-

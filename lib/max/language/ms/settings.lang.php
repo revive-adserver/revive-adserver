@@ -13,26 +13,20 @@
 // Installer translation strings
 $GLOBALS['strInstall'] = "Pasang";
 $GLOBALS['strDatabaseSettings'] = "Konfigurasi Pengkalan Data";
-$GLOBALS['strAdminSettings'] = "Konfigurasi Pentadbir";
 $GLOBALS['strAdminAccount'] = "Akaun Pentadbir";
 $GLOBALS['strAdvancedSettings'] = "Konfigurasi yang lebih mendalam";
 $GLOBALS['strWarning'] = "Amaran";
 $GLOBALS['strBtnContinue'] = "Seterusnya »";
 $GLOBALS['strBtnRecover'] = "Pulihkan »";
-$GLOBALS['strBtnStartAgain'] = "Mulakan pembaharuan semula »";
-$GLOBALS['strBtnGoBack'] = "« Kembali";
 $GLOBALS['strBtnAgree'] = "Saya Setuju »";
 $GLOBALS['strBtnRetry'] = "Cuba lagi";
 $GLOBALS['strWarningRegisterArgcArv'] = "Konfigurasi PHP bagi pembolehubah register_argc_argv perlu diubah kepada on untuk membolehkan proses pemulihan dan pemantauan dijalankan dari command line.";
-
 
 $GLOBALS['strRecoveryRequiredTitle'] = "Cubaan pembaharuan anda yang terdahulu tidak berjaya";
 $GLOBALS['strRecoveryRequired'] = "Terdapat kesilapan semasa memproses pembaharuan anda terdahulu dan {$PRODUCT_NAME} mesti mencuba untuk memulihkan proses pembaharuan itu. Sila klik butang Pulih dibawah";
 
 $GLOBALS['strOaUpToDate'] = "Pengkalan data {$PRODUCT_NAME} anda dan juga struktur failnya, adalah versi terkini, maka dengan ini tiada pembaharuan diperlukan. Sila klik Seterusnya untuk ke panel pentadbiran OpenX.";
 $GLOBALS['strOaUpToDateCantRemove'] = "Amaran: fail Pembaharuan masih lagi terdapat didalam direktori var anda. Kami tidak dapat memadamkan fail ini disebabkan kekurangan hak keatasnya. Sila padamkan fail ini sendiri.";
-$GLOBALS['strRemoveUpgradeFile'] = "Anda perlu memadamkan fail pembaharuan yang terdapat didalam direktori var";
-
 
 
 $GLOBALS['strAdminUrlPrefix'] = "URL sistem muka pentadbir";
@@ -40,8 +34,6 @@ $GLOBALS['strDeliveryUrlPrefix'] = "Enjin Penghantaran";
 $GLOBALS['strDeliveryUrlPrefixSSL'] = "Enjin Penghantaran";
 $GLOBALS['strImagesUrlPrefix'] = "URL stor imej";
 $GLOBALS['strImagesUrlPrefixSSL'] = "URL (SSL) stor imej";
-
-
 
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
@@ -57,21 +49,14 @@ $GLOBALS['strEditConfigPossible'] = "It is possible to edit all settings because
 // Configuration Settings
 
 // Administrator Settings
-$GLOBALS['strAdministratorSettings'] = "Konfigurasi Pentadbir";
 $GLOBALS['strAdminUsername'] = "Kata nama Pentadbir";
 $GLOBALS['strAdminPassword'] = "Kata Laluan Pentadbir";
 $GLOBALS['strInvalidUsername'] = "Kata nama tidak sah";
 $GLOBALS['strBasicInformation'] = "Maklumat Asas";
-$GLOBALS['strAdminFullName'] = "Nama penuh Pentadbir";
-$GLOBALS['strAdminEmail'] = "Alamat emel Pentadbir";
 $GLOBALS['strAdministratorEmail'] = "Alamat emel Pentadbir";
-$GLOBALS['strCompanyName'] = "Nama Syarikat";
 $GLOBALS['strNovice'] = "Tindakan untuk memadam memerlukan maklum balas diatas tujuan keselamatan untuk mengelakkan kesilapan";
 $GLOBALS['strUserlogEmail'] = "Log kesemua mesej emel keluar";
 $GLOBALS['strTimezone'] = "Zon Waktu";
-$GLOBALS['strTimezoneEstimated'] = "Zon waktu anggaran";
-$GLOBALS['strTimezoneGuessedValue'] = "Zon waktu server tidak disetkan dengan tepat di PHP";
-$GLOBALS['strTimezoneDocumentation'] = "Dokumentasi";
 
 
 // Database Settings
@@ -86,20 +71,15 @@ $GLOBALS['strDbName'] = "Nama pengkalan data";
 $GLOBALS['strDatabaseOptimalisations'] = "Ciri-ciri untuk mengoptimumkan pengkalan data";
 $GLOBALS['strPersistentConnections'] = "Gunakan hubungan yang kekal";
 $GLOBALS['strCantConnectToDb'] = "Tidak dapat berhubung dengan pengkalan data";
-$GLOBALS['strDemoDataInstall'] = "Masukkan data demo";
-
-
 
 // Email Settings
 
 // Audit Trail Settings
 
 // Debug Logging Settings
-$GLOBALS['strProduction'] = "Server Produksi";
 $GLOBALS['strDebugTypeSql'] = "Pengkalan Data SQL";
 
 // Delivery Settings
-$GLOBALS['strDeliverySettings'] = "Ciri-ciri penghantaran";
 $GLOBALS['strWebPath'] = "$PRODUCT_NAME Server Access Paths";
 $GLOBALS['strImageStore'] = "Folder imej-imej";
 $GLOBALS['strTypeWebMode'] = "Cara menyimpan";
@@ -112,9 +92,6 @@ $GLOBALS['strDeliveryFilenamesAdContent'] = "Maklumat iklan";
 $GLOBALS['strDeliveryFilenamesAdImage'] = "Imej Iklan";
 $GLOBALS['strDeliveryFilenamesAdLog'] = "Log Iklan";
 
-
-
-
 // General Settings
 
 // Geotargeting Settings
@@ -122,13 +99,6 @@ $GLOBALS['strDeliveryFilenamesAdLog'] = "Log Iklan";
 // Interface Settings
 $GLOBALS['strInventory'] = "Inventori";
 
-
-// CSV Import Settings
-
-/**
- * @todo remove strBannerSettings if banner is only configurable as a preference
- *       rename // Banner Settings to  // Banner Preferences
- */
 // Invocation Settings
 
 // Banner Delivery Settings
@@ -143,15 +113,6 @@ $GLOBALS['strInventory'] = "Inventori";
 
 // UI Settings
 
-
-
-
 // Regenerate Platfor Hash script
 
 // Plugin Settings
-
-/* ------------------------------------------------------- */
-/* Unknown (unused?) translations                        */
-/* ------------------------------------------------------- */
-
-

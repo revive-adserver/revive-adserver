@@ -22,21 +22,10 @@ $GLOBALS['strChooseSection'] = "انتخاب بخش";
 
 
 
-
 // Priority
 $GLOBALS['strRecalculatePriority'] = "محاسبه مجدد اولو&#1740;ت";
-$GLOBALS['strHighPriorityCampaigns'] = "بااولو&#1740;ت تر&#1740;ن  campaigns";
-$GLOBALS['strAdViewsAssigned'] = "مشاهدات تع&#1740;&#1740;ن شده";
-$GLOBALS['strLowPriorityCampaigns'] = "پا&#1740;&#1740;ن تر&#1740;ن اولو&#1740;ت campaigns";
-$GLOBALS['strPredictedAdViews'] = "مشاهدات پ&#1740;ش ب&#1740;ن&#1740; شده";
-$GLOBALS['strPriorityDaysRunning'] = "در حا حاضر {days} روز دارا&#1740; ارزش آمار&#1740; برا&#1740;  {$PRODUCT_NAME} م&#1740; باشد که پ&#1740;ش ب&#1740;ن&#1740; روزانه م&#1740; تواند مبتن&#1740; بر آن م&#1740; باشد. ";
-$GLOBALS['strPriorityBasedLastWeek'] = "ا&#1740;ن پ&#1740;ش ب&#1740;ن&#1740; مبتن&#1740; بر اطلاعات ا&#1740;ن ه�?ته و ه�?ته گذشته م&#1740; باشد. ";
-$GLOBALS['strPriorityBasedLastDays'] = "ا&#1740;ن پ&#1740;ش ب&#1740;ن&#1740; م&#1740;تن&#1740; بر اطلاعات ج�?ت&#1740; دو روز گذشته م&#1740; باشد. ";
-$GLOBALS['strPriorityBasedYesterday'] = "ا&#1740;ن پ&#1740;ش ب&#1740;ن&#1740; مبتن&#1740; بر اطلاعات روز گذشته م&#1740; باشد. ";
-
 
 // Banner cache
-$GLOBALS['strRebuildBannerCache'] = "ساختن مجدد cache بنر";
 $GLOBALS['strBannerCacheExplaination'] = "    The database banner cache is used to speed up delivery of banners during delivery<br />
     This cache needs to be updated when:
     <ul>
@@ -52,17 +41,11 @@ $GLOBALS['strDeliveryCacheDatabase'] = "بانک اطلاعای در حال حا
 $GLOBALS['strDeliveryCacheFiles'] = "cache تحویل در حال حاضر درون �?ایل های چندگانه بر روی سرور شما ذخیره شده است.
 ";
 
-
 // Storage
 $GLOBALS['strStorage'] = "ذخیره سازی";
 $GLOBALS['strMoveToDirectory'] = "انتقال تصاویر ذخیره شده درون بانک اطلاعای بهیک دایرکتوری";
 
 // Encoding
-$GLOBALS['strEncodingConvert'] = "تبدیل";
-
-
-// Storage
-
 
 // Product Updates
 $GLOBALS['strSearchingUpdates'] = "جستجو برای بروزرسانی. منتظر بمانید....";
@@ -101,23 +84,8 @@ $GLOBALS['strCurrentlyUsing'] = "شما در حال است�?اده هستید.
 $GLOBALS['strRunningOn'] = "اجرا روی";
 $GLOBALS['strAndPlain'] = "و";
 
-
-// Stats conversion
-$GLOBALS['strConverting'] = "برگرداندن";
-$GLOBALS['strConvertingStats'] = "درحال برگرداندن آمار ...";
-$GLOBALS['strConvertStats'] = "برگرداندن آمار";
-$GLOBALS['strConvertAdViews'] = "مشاهدات برگردانده شد...";
-$GLOBALS['strConvertAdClicks'] = "کل&#1740;ک ها برگردانده شد ...";
-$GLOBALS['strConvertNothing'] = "چ&#1740;ز&#1740; برا&#1740; برگرداندن ن&#1740;ست...";
-$GLOBALS['strConvertFinished'] = "پا&#1740;ان &#1740;ا�?ت ...";
-
-
-
-
-//  Maintenace
-
 //  Deliver Limitations
-
+$GLOBALS['strDeliveryLimitations'] = "محدودیتهای نمایش";
 
 //  Append codes
 

@@ -22,16 +22,13 @@ $GLOBALS['strChooseSection'] = "Pasirinkti dalį";
 
 
 
-
 // Priority
 $GLOBALS['strRecalculatePriority'] = "Perskaičiuoti pirmenybę";
-
 
 // Banner cache
 $GLOBALS['strCheckBannerCache'] = "Patikrinti banerių atsargas";
 $GLOBALS['strBannerCacheErrorsFound'] = "Banerių duomenų bazė rado tam tikrų klaidų. Šie baneriai neveiks tol, kol jų rankiniu būdu nesutvarkysite.";
 $GLOBALS['strBannerCacheOK'] = "Jokių klaidų nerasta. Jūsų banerių duomenų bazė atnaujinta ";
-$GLOBALS['strBannerCacheFixed'] = "Duomenų bazės banerių atminties pertvarkymas buvo įvykdytas sėkmingai. Jūsų duomenų bazės atmitis šiuo atnaujinta. ";
 $GLOBALS['strBannerCacheRebuildButton'] = "Atstatyti";
 $GLOBALS['strRebuildDeliveryCache'] = "Atstatyti banerių duomenų bazės sandėlius";
 $GLOBALS['strBannerCacheExplaination'] = "    Banerių duomenų bazės naudojamos pagreitinti pristatymus, kai jie užsakyti<br />
@@ -43,11 +40,9 @@ $GLOBALS['strBannerCacheExplaination'] = "    Banerių duomenų bazės naudojamo
 
 // Cache
 $GLOBALS['strCache'] = "Pristatymo sandėlys";
-$GLOBALS['strAge'] = "Amžius";
 $GLOBALS['strDeliveryCacheSharedMem'] = "	 Pasidalinta atmintis yra naudojama pristatymo sandėliui.";
 $GLOBALS['strDeliveryCacheDatabase'] = "	 Duomenų bazė naudojama pristatymo sandėlio duomenims išsaugoti.";
 $GLOBALS['strDeliveryCacheFiles'] = "	 Pristatymo sandėlio atsargų kiekis yra išsaugotas per kelis failus Jūsų serveryje.";
-
 
 // Storage
 $GLOBALS['strStorage'] = "Saugojimas";
@@ -58,15 +53,8 @@ $GLOBALS['strStorageExplaination'] = "	 Vaizdai, kuriuos naudoja vietiniai baner
 // Encoding
 $GLOBALS['strEncoding'] = "Užkoduota";
 $GLOBALS['strEncodingConvertFrom'] = "Konvertuoti iš šio užkodavimo:";
-$GLOBALS['strEncodingConvert'] = "Versti";
 $GLOBALS['strEncodingConvertTest'] = "Perkeitimo testas";
 $GLOBALS['strConvertThese'] = "Šie duomenys bus pakeisti jei nuspręsite tęsti";
-
-
-// Storage
-$GLOBALS['strStatisticsExplaination'] = "	Jūs įgalinote <i>kompatišką statistiką</i>,bet Jūsų senoji statistika vis dar yra daugiakalbiame formate.
-	Ar norite konvertuoti daugiakalbę statistiką į naują kompaktišką formatą?";
-
 
 // Product Updates
 $GLOBALS['strSearchingUpdates'] = "Ieškoma atnaujinimų. Prašome palaukti...";
@@ -90,17 +78,8 @@ $GLOBALS['strCurrentlyUsing'] = "Šiuo metu Jūs naudojate";
 $GLOBALS['strRunningOn'] = "paleista per";
 $GLOBALS['strAndPlain'] = "Ir";
 
-
-// Stats conversion
-
-
-
-
-//  Maintenace
-
 //  Deliver Limitations
 $GLOBALS['strDeliveryLimitations'] = "Atsiuntimo apribojimai";
-
 
 //  Append codes
 

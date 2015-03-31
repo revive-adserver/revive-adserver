@@ -17,10 +17,6 @@ $GLOBALS['strWarning'] = "Предупреждение";
 
 
 
-
-
-
-
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
 /* ------------------------------------------------------- */
@@ -39,8 +35,6 @@ $GLOBALS['strBasicInformation'] = "Основна информация";
 
 // Database Settings
 
-
-
 // Email Settings
 
 // Audit Trail Settings
@@ -52,9 +46,6 @@ $GLOBALS['strWebPath'] = "$PRODUCT_NAME Server Access Paths";
 $GLOBALS['strTypeFTPUsername'] = "Вход";
 $GLOBALS['strTypeFTPPassword'] = "Парола";
 
-
-
-
 // General Settings
 
 // Geotargeting Settings
@@ -63,13 +54,6 @@ $GLOBALS['strTypeFTPPassword'] = "Парола";
 $GLOBALS['strInventory'] = "Инвентар";
 $GLOBALS['strHideInactive'] = "Скрий неактивните";
 
-
-// CSV Import Settings
-
-/**
- * @todo remove strBannerSettings if banner is only configurable as a preference
- *       rename // Banner Settings to  // Banner Preferences
- */
 // Invocation Settings
 
 // Banner Delivery Settings
@@ -84,15 +68,6 @@ $GLOBALS['strHideInactive'] = "Скрий неактивните";
 
 // UI Settings
 
-
-
-
 // Regenerate Platfor Hash script
 
 // Plugin Settings
-
-/* ------------------------------------------------------- */
-/* Unknown (unused?) translations                        */
-/* ------------------------------------------------------- */
-
-

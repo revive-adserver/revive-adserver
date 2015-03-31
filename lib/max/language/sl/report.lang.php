@@ -10,14 +10,6 @@
   +---------------------------------------------------------------------------+
  */
 
-
-$GLOBALS['strPublisherHistoryDescription'] = 'Poročilo o distribuciji spletne strani za oglaševalca';
-$GLOBALS['strPublisherZoneHistoryDescription'] = 'Poročilo o distribuciji spletne strani in področja za oglaševalca';
-$GLOBALS['strPublisherConversionTrackingAnalysisDescription'] = 'To poročilo prikazuje razčlembo vseh pretvorbenih sledilnih aktivnosti za določeno spletno stran.';
-
-
-
-
 // Error messages
 $GLOBALS['strReportErrorMissingSheets'] = "Noben delovni list ni bil izbran za poročilo";
 $GLOBALS['strReportErrorUnknownCode'] = "Neznana koda napake #";

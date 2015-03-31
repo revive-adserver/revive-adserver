@@ -17,6 +17,7 @@
 /** check step **/
 
 
+$GLOBALS['strSyscheckStatus']                   = "Keadaan";
 
 /** admin login step **/
 
@@ -30,4 +31,3 @@
 
 /** finish step **/
 
-$GLOBALS['strContinue']                         = "Lanjut &raquo;";

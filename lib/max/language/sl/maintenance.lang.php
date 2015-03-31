@@ -31,17 +31,14 @@ $GLOBALS['strAutomaticMaintenanceHasRun'] = "<b>Samodejno vzdrževanje deluje pr
 
 $GLOBALS['strAutoMantenaceEnabled'] = "Samodejno vzdrževanje je še vedno omogočeno. Za optimalno delovanje <a href='account-settings-maintenance.php'>onemogočite to funcijo</a>.";
 
-
 // Priority
 $GLOBALS['strRecalculatePriority'] = "Preračunaj prioriteto";
-
 
 // Banner cache
 $GLOBALS['strCheckBannerCache'] = "Preveri pomnilnik pasice";
 $GLOBALS['strBannerCacheErrorsFound'] = "Preverba podatkovne baze pomnilnika pasic je našla napake. Te pasice ne bodo delovale, dokler jih ročno ne popravite.";
 $GLOBALS['strBannerCacheOK'] = "Nobena napaka ni bila odkrita. Vaša pomnilniška baza pasic deluje pravilno.";
 $GLOBALS['strBannerCacheDifferencesFound'] = "Vaša pomnilniška baza pasice ni posodobljena. Za normalno delovanje je potrebna posodobitev.";
-$GLOBALS['strBannerCacheFixed'] = "Uspešno končano. Vaš pomnilnik podatkovne baze je posodobljen.";
 $GLOBALS['strBannerCacheRebuildButton'] = "Ponovno sestavi";
 $GLOBALS['strRebuildDeliveryCache'] = "Ponovno sestavi pomnilniško bazo pasice";
 $GLOBALS['strBannerCacheExplaination'] = "Pomnilniška baza pasice je namenjena pohitritvi dostave pasic.<br />
@@ -53,11 +50,9 @@ Pomnilnik mora biti posodobljen ko:
 
 // Cache
 $GLOBALS['strCache'] = "Dostavni pomnilnik";
-$GLOBALS['strAge'] = "Starost";
 $GLOBALS['strDeliveryCacheSharedMem'] = "	Skupen pomnilnik je trenutno v uporabi za hrambo dostavnega pomnilnika.";
 $GLOBALS['strDeliveryCacheDatabase'] = "	Podatkovna baza je trenutno v uporabi za hrambo dostavnega pomnilnika.";
 $GLOBALS['strDeliveryCacheFiles'] = "	Dostavni pomnilnik je trenutno v hrambi v večih datotekah na vašem strežniku.";
-
 
 // Storage
 $GLOBALS['strStorage'] = "Shramba";
@@ -69,15 +64,8 @@ $GLOBALS['strStorageExplaination'] = "	Slike, ki jih uporablja lokalna pasica, s
 $GLOBALS['strEncoding'] = "Šifriranje";
 $GLOBALS['strEncodingExplaination'] = "{$PRODUCT_NAME} zdaj shranjuje podatke v bazo v UTF-8 formatu.<br />Vaši podatki so bili samodejno pretvorjeni v ta format, kjer je to bilo mogoče.<br />Če po posodobitvi najdete pokvarjene znake in poznate, katero šifriranje ste izbrali, lahko uporabite to orodje za pretvorbo podatkov v format UTF-8";
 $GLOBALS['strEncodingConvertFrom'] = "Pretvori iz tega šifriranja:";
-$GLOBALS['strEncodingConvert'] = "Pretvori";
 $GLOBALS['strEncodingConvertTest'] = "Preveri pretvorbo";
 $GLOBALS['strConvertThese'] = "Naslednji podatki bodo spremenjeni, če boste nadaljevali";
-
-
-// Storage
-$GLOBALS['strStatisticsExplaination'] = "	Omogočeno imate <i>Zgoščeno statistiko</i>, vendar so starejši statistični podatki še vedno v preobširnem formatu.
-	Si jih želite spremeniti v zgoščen format?";
-
 
 // Product Updates
 $GLOBALS['strSearchingUpdates'] = "Preverjam za posodobitve. Prosimo, počakajte...";
@@ -122,23 +110,6 @@ $GLOBALS['strCurrentlyUsing'] = "Trenutno uporabljate";
 $GLOBALS['strRunningOn'] = "teče na";
 $GLOBALS['strAndPlain'] = "in";
 
-
-// Stats conversion
-
-
-
-
-//  Maintenace
-$GLOBALS['strAutoMaintenanceDisabled'] = "Samodejno vzdrževanje je onemogočeno.";
-$GLOBALS['strAutoMaintenanceEnabled'] = "Samodejno vzdrževanje je omogočeno. Za optimalno delovanje je priporočljivo to funkcijo <a href='settings-admin.php'>onemogočiti</a>.";
-$GLOBALS['strScheduledMaintenance'] = "Načrtovano vzdrževanje deluje pravilno.";
-$GLOBALS['strScheduledMaintenanceNotRun'] = "Načrtovano vzdrževanje ni bilo zagnano v zadnji uri. To verjetno pomeni, da ni nastavljeno pravilno.";
-$GLOBALS['strAutoMaintenanceEnabledNotTriggered'] = "Samodejno vzdrževanje je omogočeno, vendar ni bilo aktivirano. Aktivirano je samo takrat, ko {$PRODUCT_NAME} dostavlja pasice.";
-$GLOBALS['strAutoMaintenanceBestPerformance'] = "Za optimalno delovanje nastavite <a href='{$PRODUCT_DOCSURL}/maintenance.html' target='_blank'>načrtovano vzdrževanje</a>";
-$GLOBALS['strAutoMaintenanceEnabledWilltTrigger'] = "Samodejno vzdrževanje je omogočeno in bo aktiviralo vzdrževalni postopek vsako uro.";
-$GLOBALS['strAutoMaintenanceDisabledMaintenanceRan'] = "Tudi samodejno vzdrževanje je omogočeno, vendar je v kratkem bil zagnan vzdrževalni postopek. Za zagotovitev pravilnega {$PRODUCT_NAME} delovanja, nastavite <a href='http://{$PRODUCT_DOCSURL}/maintenance.html' target='_blank'>načrtovano vzdrževanje</a> ali <a href='settings-admin.php'>omogočite samodejno vzdrževanje</a>.";
-$GLOBALS['strAutoMaintenanceDisabledNotTriggered'] = "Samodejno vzdrževanje je onemogočeno. Ko {$PRODUCT_NAME} dostavlja pasice, vzdrževanje ni aktivirano. Če ne želite delovanja <a href='http://{$PRODUCT_DOCSURL}/maintenance.html' target='_blank'>načrtovanega vzdrževanja</a>, morate <a href='settings-admin.php'>omogočiti samodejno vzdrževanje</a> za zagotovitev pravilnega delovanja {$PRODUCT_NAME}.";
-
 //  Deliver Limitations
 $GLOBALS['strDeliveryLimitations'] = "Omejitve dostave";
 $GLOBALS['strAllBannerChannelCompiled'] = "Vse zbrane omejitvene vrednosti pasice/kanala so bile sestavljene";
@@ -151,7 +122,6 @@ $GLOBALS['strRecompile'] = "Znova sestavi";
 $GLOBALS['strDeliveryEngineDisagreeNotice'] = "V nekaterih okoliščinah dostavno orodje pride v navzkrižje z shranjenimi ACL-ji za pasice in kanale. Uporabite naslednjo povezavo za potrditev ACL-jev v podatkovni bazi";
 $GLOBALS['strCheckACLs'] = "Preveri ACL-je";
 
-
 //  Append codes
 $GLOBALS['strAppendCodesDesc'] = "Po nekaterimi pogoji dostavno orodje ne deluje pravilno z shranjenim zbirnikom za sledilnike. Uporabite naslednjo povezavo za potrditev zbrinika v podatkovni bazi";
 $GLOBALS['strCheckAppendCodes'] = "Preveri pripojitveni zbirnik";
@@ -162,9 +132,7 @@ $GLOBALS['strRepairAppenedCodes'] = "Zgoraj je bilo najdenih nekaj nedoslednosti
 
 $GLOBALS['strPlugins'] = "Vtičniki";
 $GLOBALS['strPluginsPrecis'] = "Diagnosticiraj in popravi težave z OpenX vtičniki";
-$GLOBALS['strPluginsOk'] = "Nobenih težav ni bilo najdenih";
 
 $GLOBALS['strMenus'] = "Meniji";
 $GLOBALS['strMenusPrecis'] = "Ponovno sestavi menijski pomnilnik";
 $GLOBALS['strMenusCachedOk'] = "Menijskih pomnilnik je bil ponovno sestavljen";
-$GLOBALS['strMenusCachedErr'] = "Prišlo je do napak pri sestavljanju menijskega pomnilnika";

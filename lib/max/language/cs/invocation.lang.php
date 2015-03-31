@@ -20,7 +20,6 @@ $GLOBALS['strAbbrSeconds'] = "vteřin";
 
 // Common Invocation Parameters
 $GLOBALS['strInvocationWhat'] = "Volba banneru";
-$GLOBALS['strInvocationClientID'] = "Inzerent";
 $GLOBALS['strInvocationCampaignID'] = "Skrytá kampaň";
 $GLOBALS['strInvocationTarget'] = "Cílový frame";
 $GLOBALS['strInvocationSource'] = "Zdroj";
@@ -35,7 +34,6 @@ $GLOBALS['strIFrameRefreshAfter'] = "Obnovit po";
 $GLOBALS['strIframeResizeToBanner'] = "Zmenit velikost iframe podle banneru";
 $GLOBALS['strIframeMakeTransparent'] = "Udělat iframe průhledný";
 $GLOBALS['strIframeIncludeNetscape4'] = "Vložit Nestcape 4 kompatibilní ilayer";
-
 
 // PopUp
 $GLOBALS['strPopUpStyle'] = "Typ Pop-upu";
@@ -54,71 +52,13 @@ $GLOBALS['strShowStatus'] = "Stavový řádek";
 $GLOBALS['strWindowResizable'] = "Měnitelná velikost";
 $GLOBALS['strShowScrollbars'] = "Skrolovatelný";
 
-
 // XML-RPC
 $GLOBALS['strXmlRpcLanguage'] = "Jazyk hostitele";
-
-
-// AdLayer
-$GLOBALS['strAdLayerStyle'] = "Styl";
-
-$GLOBALS['strAlignment'] = "Zarovnání";
-$GLOBALS['strHAlignment'] = "Horizontální zarovnání";
-$GLOBALS['strLeft'] = "Vlevo";
-$GLOBALS['strCenter'] = "Na střed";
-$GLOBALS['strRight'] = "Vpravo";
-
-$GLOBALS['strVAlignment'] = "Vertikální zarovnání";
-$GLOBALS['strTop'] = "Nahoru";
-$GLOBALS['strMiddle'] = "Na střed";
-$GLOBALS['strBottom'] = "Dolů";
-
-$GLOBALS['strAutoCollapseAfter'] = "Automaticky sloučit po";
-$GLOBALS['strCloseText'] = "Zavřít text";
-$GLOBALS['strClose'] = "[Zavřít]";
-$GLOBALS['strBannerPadding'] = "Odsazení banneru";
-
-$GLOBALS['strHShift'] = "Horizontání posun";
-$GLOBALS['strVShift'] = "Vertikální posun";
-
-$GLOBALS['strShowCloseButton'] = "Zobrazit tlačítko zavřít";
-$GLOBALS['strBackgroundColor'] = "Barva pozadí";
-$GLOBALS['strBorderColor'] = "Barva okraje";
-
-$GLOBALS['strDirection'] = "Směr";
-$GLOBALS['strLeftToRight'] = "Zleva do prava";
-$GLOBALS['strRightToLeft'] = "Zprava do leva";
-$GLOBALS['strLooping'] = "Smyčka";
-$GLOBALS['strAlwaysActive'] = "Vždy aktivní";
-$GLOBALS['strSpeed'] = "Rychlost";
-$GLOBALS['strPause'] = "Pauza";
-$GLOBALS['strLimited'] = "Omezený";
-$GLOBALS['strLeftMargin'] = "Levý okraj";
-$GLOBALS['strRightMargin'] = "Pravý okraj";
-$GLOBALS['strTransparentBackground'] = "Průhledné pozadí";
-
-$GLOBALS['strSmoothMovement'] = "Jemný pohyb";
-$GLOBALS['strHideNotMoving'] = "Skrýt banner když se nehýbe kurzor";
-$GLOBALS['strHideDelay'] = "Prodleva před skrytím banneru";
-$GLOBALS['strHideTransparancy'] = "Průhlednost skrytého banneru";
-
-
-$GLOBALS['strAdLayerStyleName'] = array();
-$GLOBALS['strAdLayerStyleName']['geocities'] = "GeocitiesJednoduchýKursorPlovoucí";
-$GLOBALS['strAdLayerStyleName']['simple'] = "Jednoduchý";
-$GLOBALS['strAdLayerStyleName']['cursor'] = "Kursor";
-$GLOBALS['strAdLayerStyleName']['floater'] = "Plovoucí";
 
 // Support for 3rd party server clicktracking
 $GLOBALS['str3rdPartyTrack'] = "Podpora pro sledování kliknutí serverů 3tích stran";
 
 // Support for cachebusting code
-
-// Non-Img creatives Warning for zone image-only invocation
-
-// unkown HTML tag type Warning for zone invocation
-
-// sql/web banner-type warning for clickonly zone invocation
 
 // IMG invocation selected for tracker with appended code
 

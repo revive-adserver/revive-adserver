@@ -11,17 +11,13 @@
  */
 
 // Set translation strings
-
 $GLOBALS['strMaintenance'] = "Vedligholdelse";
 
 // Audit
-$GLOBALS['strTimestamp'] = "Tidsstempel";
 $GLOBALS['strDeleted'] = "Slettet";
 $GLOBALS['strInserted'] = "indsat";
 $GLOBALS['strUpdated'] = "opdateret";
 $GLOBALS['strDelete'] = "Slet";
-$GLOBALS['strInsert'] = "Indsæt";
-$GLOBALS['strUpdate'] = "Opdater";
 $GLOBALS['strFilters'] = "Filtre";
 $GLOBALS['strAdvertiser'] = "Annoncør";
 $GLOBALS['strPublisher'] = "Webside";
@@ -29,7 +25,6 @@ $GLOBALS['strCampaign'] = "Kampagne";
 $GLOBALS['strAction'] = "Aktion";
 $GLOBALS['strParameter'] = "Parametre";
 $GLOBALS['strValue'] = "Værdi";
-$GLOBALS['strDetailedView'] = "Detaljeret Oversigt";
 $GLOBALS['strReturnAuditTrail'] = "Tilbage til Handlings Log";
 $GLOBALS['strAuditTrail'] = "Handlings Log";
 $GLOBALS['strMaintenanceLog'] = "Vedligeholdelses log";
