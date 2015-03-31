@@ -22,21 +22,16 @@
 function setupConstants()
 {
     // Define this version of Revive Adserver's constants
-    define('VERSION',           '3.2.0-beta-rc1');
-    define('PRODUCT_NAME',      'Revive Adserver');
-    define('PRODUCT_URL',       'www.revive-adserver.com');
-    define('PRODUCT_DOCSURL',   'http://documentation.revive-adserver.com');
+    define('VERSION', '3.2.0-beta-rc2');
+    define('PRODUCT_NAME', 'Revive Adserver');
+    define('PRODUCT_URL', 'www.revive-adserver.com');
+    define('PRODUCT_DOCSURL', 'http://documentation.revive-adserver.com');
 
     // Deprecated constants for backwards compatibility. Please use the ones above
-    define('OA_VERSION',         VERSION);
-    define('MAX_PRODUCT_NAME',   PRODUCT_NAME);
-    define('MAX_PRODUCT_URL',    PRODUCT_URL);
+    define('OA_VERSION', VERSION);
+    define('MAX_PRODUCT_NAME', PRODUCT_NAME);
+    define('MAX_PRODUCT_URL', PRODUCT_URL);
     define('OX_PRODUCT_DOCSURL', PRODUCT_DOCSURL);
-
-    // PHP <5.3 compatibility
-    if (!defined('E_DEPRECATED')) {
-        define('E_DEPRECATED', 0);
-    }
 
     define('OA_INSTALLATION_STATUS_NOTINSTALLED' ,   -1);
     define('OA_INSTALLATION_STATUS_UPGRADING'    ,    0);
