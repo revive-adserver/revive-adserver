@@ -74,6 +74,7 @@
     <include name="build.sh"/>
     <include name="crowdin.*"/>
     <include name="should_not_exist"/><!-- Required for one of the tests - ask Andrew -->
+    <exclude name="crossdomain.xml"/>
 
     <!-- Subdirectory rules -->
     <include name="build/**"/>
