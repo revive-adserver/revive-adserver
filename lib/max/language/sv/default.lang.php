@@ -184,6 +184,7 @@ $GLOBALS['strClientsAndCampaigns'] = "Annonsörer & kampanjer";
 $GLOBALS['strAddClient'] = "Lägg till ny annonsör";
 $GLOBALS['strClientProperties'] = "Annonsöregenskaper";
 $GLOBALS['strClientHistory'] = "Annonsörhistorik";
+$GLOBALS['strNoClients'] = "Det finns inga annonsörer inlagda. För att skapa en kampanj, <a href='advertiser-edit.php'>lägg till en annonsör</a> först.";
 $GLOBALS['strConfirmDeleteClient'] = "Vill du verkligen radera den här annonsören?";
 $GLOBALS['strConfirmDeleteClients'] = "Vill du verkligen radera den här annonsören?";
 $GLOBALS['strHideInactive'] = "Dölj inaktiva";

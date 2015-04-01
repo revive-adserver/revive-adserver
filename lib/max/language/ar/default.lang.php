@@ -200,6 +200,7 @@ $GLOBALS['strClientsAndCampaigns'] = "المعلنين و الحملات الا�
 $GLOBALS['strAddClient'] = "إضافة معلن جديد";
 $GLOBALS['strClientProperties'] = "خواص المعلن";
 $GLOBALS['strClientHistory'] = "سجل المعلن";
+$GLOBALS['strNoClients'] = "لا يوجد معلنين حتى الآن. لإضافة حملة إعلانية، يجب <a href='advertiser-edit.php'>إضافة معلن</a> قبل ذلك.";
 $GLOBALS['strConfirmDeleteClient'] = "هل أنت متأكد من رغبتك في حذف هذا المعلن ؟";
 $GLOBALS['strConfirmDeleteClients'] = "هل أنت متأكد من رغبتك في حذف هذا المعلن ؟";
 $GLOBALS['strHideInactive'] = "إخفاء الغير فعّال";

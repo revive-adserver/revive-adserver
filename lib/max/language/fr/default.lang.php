@@ -208,7 +208,11 @@ $GLOBALS['strWindowDelay'] = "Temps d'affichage";
 $GLOBALS['strStatsVariables'] = "Variables";
 
 // Finance
+$GLOBALS['strFinanceCPM'] = "CPM";
+$GLOBALS['strFinanceCPC'] = "CPC";
+$GLOBALS['strFinanceCPA'] = "CPA";
 $GLOBALS['strFinanceMT'] = "Location mensuelle";
+$GLOBALS['strFinanceCTR'] = "CTR";
 
 // Time and date related
 $GLOBALS['strDate'] = "Date";
@@ -222,6 +226,8 @@ $GLOBALS['strDayOfWeek'] = "Jour de la semaine";
 
 
 $GLOBALS['strDayFullNames'] = array();
+$GLOBALS['strDayFullNames'][0] = 'Dimanche';
+$GLOBALS['strDayFullNames'][1] = 'Lundi';
 
 $GLOBALS['strDayShortCuts'] = array();
 $GLOBALS['strDayShortCuts'][0] = 'Di';
@@ -233,6 +239,7 @@ $GLOBALS['strDayShortCuts'][5] = 'Ve';
 
 $GLOBALS['strHour'] = "Heure";
 $GLOBALS['strSeconds'] = "secondes";
+$GLOBALS['strMinutes'] = "minutes";
 $GLOBALS['strHours'] = "heures";
 
 // Advertiser
@@ -242,6 +249,7 @@ $GLOBALS['strClientsAndCampaigns'] = "Annonceurs & Campagnes";
 $GLOBALS['strAddClient'] = "Ajouter un nouvel annonceur";
 $GLOBALS['strClientProperties'] = "Propriétés de l'annonceur";
 $GLOBALS['strClientHistory'] = "Historique de l'annonceur";
+$GLOBALS['strNoClients'] = "Il n'y a actuellement aucun annonceur défini. Pour créer une campagne, commencez par <a href='advertiser-edit.php'>ajouter un nouvel annonceur</a>.";
 $GLOBALS['strConfirmDeleteClient'] = "Voulez-vous vraiment supprimer cet annonceur ?";
 $GLOBALS['strConfirmDeleteClients'] = "Voulez-vous vraiment supprimer les annonceurs sélectionnés ?";
 $GLOBALS['strHideInactive'] = "Masquer inactif";
@@ -250,6 +258,7 @@ $GLOBALS['strAdvertiserSignup'] = "Inscription annonceur";
 $GLOBALS['strAdvertiserCampaigns'] = "Campagnes des annonceurs";
 
 // Advertisers properties
+$GLOBALS['strContact'] = "Contact";
 $GLOBALS['strContactName'] = "Nom du contact";
 $GLOBALS['strEMail'] = "E-mail";
 $GLOBALS['strSendAdvertisingReport'] = "Envoyer des rapports de distribution de campagne par e-mail";
@@ -367,6 +376,7 @@ $GLOBALS['strCampaignStatusStarted'] = "Démarrée";
 $GLOBALS['strCampaignStatusRestarted'] = "Redémarrée";
 $GLOBALS['strCampaignStatusDeleted'] = "Supprimée";
 $GLOBALS['strCampaignType'] = "Type de campagne";
+$GLOBALS['strType'] = "Type";
 $GLOBALS['strStandardContract'] = "Contrat";
 $GLOBALS['strStandardContractInfo'] = "Cette campagne est limitée à la journée et continuera d'être délivrée de façon égale jusqu'à ce que la date de fin ou que la limite spécifiée sois atteinte";
 $GLOBALS['strRemnant'] = "Restant";
@@ -375,12 +385,14 @@ $GLOBALS['strPricing'] = "Définition du prix";
 $GLOBALS['strPricingModel'] = "Modèle de définition de prix";
 $GLOBALS['strSelectPricingModel'] = "\\-- sélectionner le modèle --";
 $GLOBALS['strRatePrice'] = "Taxe / Prix";
+$GLOBALS['strMinimumImpressions'] = "Impressions quotidiennes minimales";
 $GLOBALS['strLimit'] = "Limite";
 $GLOBALS['strLowExclusiveDisabled'] = "Vous ne pouvez pas changer cette campagne en Restante ou Exclusive, tant que et la date de fin et la limite d'impressions/clicks/conversions n'est pas définie. <br>Pour changer le type, vous ne devez paramétrer ni date de fin, ni limites à atteindre.";
 $GLOBALS['strCannotSetBothDateAndLimit'] = "Vous ne pouvez pas à la fois paramétrer et une date de fin et une limite d'impressions pour une campagne Restante ou Exclusive.<br>Si vous avez besoin de paramétrer à la fois une date de fin et une limite d'impressions/clicks/conversions, veuillez utiliser une campagne à contrat non-exclusif.";
 $GLOBALS['strWhyDisabled'] = "Pourquoi est-ce désactivé?";
 $GLOBALS['strBackToCampaigns'] = "Retour aux campagnes";
 $GLOBALS['strCampaignBanners'] = "Bannières des campagnes";
+$GLOBALS['strCookies'] = "Cookies";
 
 // Tracker
 $GLOBALS['strTracker'] = "Suiveur";
@@ -403,6 +415,7 @@ $GLOBALS['strView'] = "Affichage";
 $GLOBALS['strConversionType'] = "Type de conversion";
 $GLOBALS['strLinkCampaignsByDefault'] = "Lier les nouvelles campagnes créées par défaut";
 $GLOBALS['strBackToTrackers'] = "Retour aux traceurs";
+$GLOBALS['strIPAddress'] = "Adresse IP";
 
 // Banners (General)
 $GLOBALS['strBanner'] = "Bannière";
@@ -428,6 +441,9 @@ $GLOBALS['strWarningMissingOpening'] = " balise d'ouverture '<'";
 $GLOBALS['strSubmitAnyway'] = "Soumettre tout de même";
 $GLOBALS['strBannersOfCampaign'] = "dans"; //this is added between page name and campaign name eg. 'Banners in coca cola campaign'// Banner Preferences
 $GLOBALS['strBannerPreferences'] = "Préférences des bannières";
+$GLOBALS['strCampaignPreferences'] = "Préférences de campagne";
+$GLOBALS['strDefaultBanners'] = "Bannières par défaut";
+$GLOBALS['strDefaultBannerUrl'] = "URL de l'Image par défaut";
 $GLOBALS['strDefaultBannerDestination'] = "URL de destination par défaut";
 
 // Banner (Properties)
@@ -449,11 +465,14 @@ $GLOBALS['strAlt'] = "Texte de l'attribut Alt";
 $GLOBALS['strStatusText'] = "Texte affiché dans la barre d'état";
 $GLOBALS['strBannerWeight'] = "Poids de la bannière";
 $GLOBALS['strAdserverTypeGeneric'] = "Bannière HTML générique";
+$GLOBALS['strDoNotAlterHtml'] = "Ne pas modifier le code HTML";
 $GLOBALS['strGenericOutputAdServer'] = "Générique";
 $GLOBALS['strSwfTransparency'] = "Autoriser un arrière-plan transparent";
 $GLOBALS['strBackToBanners'] = "Retour aux bannières";
 
 // Banner (advanced)
+$GLOBALS['strBannerPrependHTML'] = "Toujours faire précéder le code HTML suivant à cette bannière";
+$GLOBALS['strBannerAppendHTML'] = "Toujours ajouter le code HTML suivant à cette bannière";
 
 // Banner (swf)
 $GLOBALS['strCheckSWF'] = "Vérifier la présence de liens codés en dur dans le fichier Flash";
@@ -469,6 +488,7 @@ $GLOBALS['strACL'] = "Distribution";
 $GLOBALS['strACLAdd'] = "Ajouter une limitation de distribution";
 $GLOBALS['strNoLimitations'] = "Aucune limitation";
 $GLOBALS['strApplyLimitationsTo'] = "Appliquer les limitations à";
+$GLOBALS['strAllBannersInCampaign'] = "Toutes les bannières dans cette campagne";
 $GLOBALS['strRemoveAllLimitations'] = "Supprimer toutes les limitations";
 $GLOBALS['strEqualTo'] = "est égal à";
 $GLOBALS['strDifferentFrom'] = "est différent de";

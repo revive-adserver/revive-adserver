@@ -263,6 +263,7 @@ $GLOBALS['strClientsAndCampaigns'] = "Inserzionisti e Campagne";
 $GLOBALS['strAddClient'] = "Aggiungi un nuovo inserzionista";
 $GLOBALS['strClientProperties'] = "Impostazioni inserzionista";
 $GLOBALS['strClientHistory'] = "Storico inserzionista";
+$GLOBALS['strNoClients'] = "Non è stato definito alcun inserzionista. Per creare una campagna, prima <a href='advertiser-edit.php'>aggiungi un inserzionista</a>.";
 $GLOBALS['strConfirmDeleteClient'] = "Vuoi veramente eliminare questo inserzionista?";
 $GLOBALS['strConfirmDeleteClients'] = "Vuoi veramente eliminare questo inserzionista?";
 $GLOBALS['strInactiveAdvertisersHidden'] = "inserzionisti inattivi nascosti";

@@ -207,6 +207,7 @@ $GLOBALS['strClientsAndCampaigns'] = "Annoncører & Kampagne";
 $GLOBALS['strAddClient'] = "Tilføj ny annoncør";
 $GLOBALS['strClientProperties'] = "Annoncør egenskaber";
 $GLOBALS['strClientHistory'] = "Annoncør historik";
+$GLOBALS['strNoClients'] = "Der er ikke valgt nogen annoncør. For at oprette en kampagne <a href='advertiser-edit.php'>kan du oprette en annoncør</a> først.";
 $GLOBALS['strConfirmDeleteClient'] = "Vil du virkelig slette denne annoncør?";
 $GLOBALS['strConfirmDeleteClients'] = "Vil du virkelig slette denne annoncør?";
 $GLOBALS['strInactiveAdvertisersHidden'] = "Inaktive annoncør(er) er skjult";

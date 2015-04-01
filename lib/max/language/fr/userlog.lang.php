@@ -26,6 +26,7 @@ $GLOBALS['strAdvertiser'] = "Annonceur";
 $GLOBALS['strPublisher'] = "Site web";
 $GLOBALS['strCampaign'] = "Campagne";
 $GLOBALS['strZone'] = "Zone";
+$GLOBALS['strType'] = "Type";
 $GLOBALS['strAction'] = "Action";
 $GLOBALS['strParameter'] = "Paramètre";
 $GLOBALS['strValue'] = "Valeur";

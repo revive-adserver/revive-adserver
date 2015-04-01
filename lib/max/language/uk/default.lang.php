@@ -233,6 +233,7 @@ $GLOBALS['strClientsAndCampaigns'] = "Клієнти і кампанії";
 $GLOBALS['strAddClient'] = "Додати клієнта";
 $GLOBALS['strClientProperties'] = "Параметри клієнта";
 $GLOBALS['strClientHistory'] = "Історія клієнтів";
+$GLOBALS['strNoClients'] = "в даний час не визначено жодного клієнта. Для створення кампанії необхідно спочатку <a href='advertiser-edit.php'>додати клієнта</a>.";
 $GLOBALS['strConfirmDeleteClient'] = "Ви дійсно хочете видалити цього клієнта?";
 $GLOBALS['strConfirmDeleteClients'] = "Ви дійсно хочете видалити цього клієнта?";
 $GLOBALS['strHideInactive'] = "Приховати неактивні";

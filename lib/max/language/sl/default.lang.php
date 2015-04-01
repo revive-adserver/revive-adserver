@@ -238,6 +238,7 @@ $GLOBALS['strClientsAndCampaigns'] = "Oglaševalci & Kampanje";
 $GLOBALS['strAddClient'] = "Dodaj novega oglaševalca";
 $GLOBALS['strClientProperties'] = "Lastnosti oglaševalca";
 $GLOBALS['strClientHistory'] = "Zgodovina oglaševalca";
+$GLOBALS['strNoClients'] = "Trenutno ni definiranih nobenih oglaševalcev. Če želite ustvariti novo kampanjo, <a href='advertiser-edit.php'>morate najprej dodati novega</a> oglaševalca.";
 $GLOBALS['strConfirmDeleteClient'] = "Ste prepričani, da želite izbrisati tega oglaševalca?";
 $GLOBALS['strConfirmDeleteClients'] = "Ste prepričani, da želite izbrisati izbrane oglaševalce?";
 $GLOBALS['strHideInactive'] = "Skrij neaktivne";
