@@ -9,8 +9,8 @@
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>GPL</license>
     <description>Plugin that provides MaxMind GeoIP Geotargeting via mod_geoip.</description>
-    <version>1.0.3</version>
-    <oxversion>2.7.30-beta-rc11</oxversion>
+    <version>1.0.4</version>
+    <oxversion>3.2.0-beta-rc3</oxversion>
     <extends>geoTargeting</extends>
 
     <install>
@@ -47,10 +47,6 @@
             <file path="{MODULEPATH}geoTargeting/oxMaxMindModGeoIP/">oxMaxMindModGeoIP.delivery.php</file>
             <!--file path="{MODULEPATH}geoTargeting/oxMaxMindModGeoIP/_lang">en.mo</file-->
 
-            <file path="{GROUPPATH}/_lang/">en.mo</file>
-            <file path="{GROUPPATH}/_lang/">nl.mo</file>
-            <file path="{GROUPPATH}/_lang/po/">en.po</file>
-            <file path="{GROUPPATH}/_lang/po/">nl.po</file>
 
         </files>
 

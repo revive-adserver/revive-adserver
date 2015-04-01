@@ -10,8 +10,8 @@
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>GNU Gneral Public License v2</license>
     <description>Plugin that provides standard reports.</description>
-    <version>1.5.4</version>
-    <oxversion>2.8.2-rc9</oxversion>
+    <version>1.5.5</version>
+    <oxversion>3.2.0-beta-rc3</oxversion>
     <extends>reports</extends>
 
     <install>
@@ -23,32 +23,6 @@
             <file path="{MODULEPATH}reports/oxReportsStandard/">liveCampaignDeliveryReport.class.php</file>
 
 
-            <file path="{GROUPPATH}/_lang/">cy.mo</file>
-            <file path="{GROUPPATH}/_lang/">en.mo</file>
-            <file path="{GROUPPATH}/_lang/">es.mo</file>
-            <file path="{GROUPPATH}/_lang/">nl.mo</file>
-            <file path="{GROUPPATH}/_lang/">pl.mo</file>
-            <file path="{GROUPPATH}/_lang/">pt_BR.mo</file>
-            <file path="{GROUPPATH}/_lang/">ro.mo</file>
-            <file path="{GROUPPATH}/_lang/">sk.mo</file>
-            <file path="{GROUPPATH}/_lang/">sl.mo</file>
-            <file path="{GROUPPATH}/_lang/">sv.mo</file>
-            <file path="{GROUPPATH}/_lang/">tr.mo</file>
-            <file path="{GROUPPATH}/_lang/">uk.mo</file>
-            <file path="{GROUPPATH}/_lang/">zh_CN.mo</file>
-            <file path="{GROUPPATH}/_lang/po/">cy.po</file>
-            <file path="{GROUPPATH}/_lang/po/">en.po</file>
-            <file path="{GROUPPATH}/_lang/po/">es.po</file>
-            <file path="{GROUPPATH}/_lang/po/">nl.po</file>
-            <file path="{GROUPPATH}/_lang/po/">pl.po</file>
-            <file path="{GROUPPATH}/_lang/po/">pt_BR.po</file>
-            <file path="{GROUPPATH}/_lang/po/">ro.po</file>
-            <file path="{GROUPPATH}/_lang/po/">sk.po</file>
-            <file path="{GROUPPATH}/_lang/po/">sl.po</file>
-            <file path="{GROUPPATH}/_lang/po/">sv.po</file>
-            <file path="{GROUPPATH}/_lang/po/">tr.po</file>
-            <file path="{GROUPPATH}/_lang/po/">uk.po</file>
-            <file path="{GROUPPATH}/_lang/po/">zh_CN.po</file>
         </files>
 
     </install>

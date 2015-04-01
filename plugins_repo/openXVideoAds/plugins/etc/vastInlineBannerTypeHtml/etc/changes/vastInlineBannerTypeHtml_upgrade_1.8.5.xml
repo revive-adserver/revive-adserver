@@ -12,7 +12,7 @@
     <description>vastbannertypehtml 13</description>
     <versionFrom>11</versionFrom>
     <versionTo>013</versionTo>
-    <oxversion>2.8.1</oxversion>
+    <oxversion>3.2.0-beta-rc3</oxversion>
     
     <!-- optional database package(s) -->
     <database>

@@ -1,0 +1,37 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: revive-adserver\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-09-17 11:36+0100\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: translate\n"
+"Last-Translator: mbeccati <matteo@beccati.com>\n"
+"Language-Team: Indonesian\n"
+"Language: id_ID\n"
+"X-Generator: crowdin.com\n"
+"X-Poedit-SearchPath-0: plugins_repo/openXReports/extensions/reports/oxReportsAdmin/\n"
+"X-Crowdin-Project: revive-adserver\n"
+"X-Crowdin-Language: id\n"
+"X-Crowdin-File: /plugins_repo/openXReports/plugins/etc/oxReportsAdmin/_lang/po/en.po\n"
+
+#: plugins_repo/openXReports/extensions/reports/oxReportsAdmin//breakdown.class.php:58
+#: plugins_repo/openXReports/extensions/reports/oxReportsAdmin//breakdown.class.php:155
+msgid "Manager Account Breakdown"
+msgstr ""
+
+#: plugins_repo/openXReports/extensions/reports/oxReportsAdmin//breakdown.class.php:59
+msgid "Lists Adviews/AdClicks/AdSales totals for a given month."
+msgstr ""
+
+#: plugins_repo/openXReports/extensions/reports/oxReportsAdmin//breakdown.class.php:61
+msgid "Admin Reports"
+msgstr "Laporan Admin"
+
+#: plugins_repo/openXReports/extensions/reports/oxReportsAdmin//breakdown.class.php:146
+msgid "Manager"
+msgstr ""
+

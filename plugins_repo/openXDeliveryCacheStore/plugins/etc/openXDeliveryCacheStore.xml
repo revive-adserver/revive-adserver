@@ -10,7 +10,7 @@
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>GNU Gneral Public License v2</license>
     <description>Plugin that provides banner delivery caching.</description>
-    <version>1.1.2</version>
+    <version>1.1.3</version>
     <type>package</type>
 
     <install>

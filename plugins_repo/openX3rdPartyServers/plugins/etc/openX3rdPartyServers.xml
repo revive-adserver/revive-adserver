@@ -10,7 +10,7 @@
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>GNU Gneral Public License v2</license>
     <description>Plugin that provides 3rd Party Server click tracking.</description>
-    <version>1.2.0</version>
+    <version>1.2.1</version>
     <type>package</type>
 
     <install>

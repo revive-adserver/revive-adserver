@@ -10,8 +10,8 @@
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>GNU Gneral Public License v2</license>
     <description>Plugin that provides IAB VAST video ad support.</description>
-    <version>1.10.9</version>
-    <oxversion>3.1-dev</oxversion>
+    <version>1.10.10</version>
+    <oxversion>3.2.0-beta-rc3</oxversion>
     <extends>bannerTypeHtml</extends>
 
     <install>

@@ -9,8 +9,8 @@
     <authorUrl>http://www.openx.org</authorUrl>
     <license>license.txt</license>
     <description>Developer Toolbox for OpenX</description>
-    <version>0.1.3</version>
-    <oxversion>2.7.30-beta-rc11</oxversion>
+    <version>0.1.4</version>
+    <oxversion>3.2.0-beta-rc3</oxversion>
     <extends>admin</extends>
 
     <install>

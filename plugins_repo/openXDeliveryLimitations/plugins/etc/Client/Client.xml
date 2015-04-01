@@ -10,8 +10,8 @@
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>GNU Gneral Public License v2</license>
     <description>Plugin that provides the ability to limit delivery of ads by client.</description>
-    <version>1.3.1</version>
-    <oxversion>2.7.30-beta-rc11</oxversion>
+    <version>1.3.2</version>
+    <oxversion>3.2.0-beta-rc3</oxversion>
     <extends>deliveryLimitations</extends>
 
     <install>
@@ -39,12 +39,6 @@
             <file path="{MODULEPATH}deliveryLimitations/Client/lib/phpSniff/">phpSniff.core.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Client/lib/phpSniff/">phpTimer.class.php</file>
 
-            <file path="{GROUPPATH}/_lang/">en.mo</file>
-            <file path="{GROUPPATH}/_lang/">nl.mo</file>
-            <file path="{GROUPPATH}/_lang/">zh_CN.mo</file>
-            <file path="{GROUPPATH}/_lang/po/">en.po</file>
-            <file path="{GROUPPATH}/_lang/po/">nl.po</file>
-            <file path="{GROUPPATH}/_lang/po/">zh_CN.po</file>
         </files>
 
         <components>

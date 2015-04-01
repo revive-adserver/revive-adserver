@@ -9,8 +9,8 @@
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>license.txt</license>
     <description>Demo HTML Banner Type extension for Revive Adserver</description>
-    <version>2.0.3</version>
-    <oxversion>3.1-dev</oxversion>
+    <version>2.0.4</version>
+    <oxversion>3.2.0-beta-rc3</oxversion>
     <extends>bannerTypeHtml</extends>
 
     <install>
@@ -18,10 +18,6 @@
             <file path="{MODULEPATH}bannerTypeHtml/demoBannerTypeHtml/">demoHtml.class.php</file>
             <file path="{MODULEPATH}bannerTypeHtml/demoBannerTypeHtml/">demoHtml.delivery.php</file>
 
-            <file path="{GROUPPATH}/_lang/">en.mo</file>
-            <file path="{GROUPPATH}/_lang/po/">en.po</file>
-            <file path="{GROUPPATH}/_lang/">nl.mo</file>
-            <file path="{GROUPPATH}/_lang/po/">nl.po</file>
         </files>
 
         <schema>

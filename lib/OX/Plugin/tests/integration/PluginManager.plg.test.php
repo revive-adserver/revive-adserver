@@ -99,6 +99,14 @@ class Test_OX_PluginManager extends UnitTestCase
         $this->assertTrue(isset($oPackageManager->aParse['plugins']));
         $this->assertEqual(count($oPackageManager->aParse['plugins']),1);
         $this->assertEqual($oPackageManager->errcode, OX_PLUGIN_ERROR_PACKAGE_OK);
+
+        $result = $oPackageManager->_checkPackageContents('testPluginPackage.xml', MAX_PATH.$this->testpathData.'zipGoodTrans/testPluginPackage.zip');
+        $this->assertTrue($result);
+        $this->assertEqual(count($oPackageManager->aParse),2);
+        $this->assertTrue(isset($oPackageManager->aParse['package']));
+        $this->assertTrue(isset($oPackageManager->aParse['plugins']));
+        $this->assertEqual(count($oPackageManager->aParse['plugins']),1);
+        $this->assertEqual($oPackageManager->errcode, OX_PLUGIN_ERROR_PACKAGE_OK);
     }
 
     function test_decompressFile()
@@ -111,8 +119,10 @@ class Test_OX_PluginManager extends UnitTestCase
         $oPackageManager                    = new OX_PluginManager();
         $oPackageManager->pathPackages      = $this->testpathPackages;
 
+        $wrongPath = DIRECTORY_SEPARATOR == '/' ? '/foo' : 'ABC:\Foo';
+
         $oPackageManager->aErrors = array();
-        $this->assertFalse($oPackageManager->_decompressFile(MAX_PATH.$this->testpathData.'ziptest.zip', '/foo'));
+        $this->assertFalse($oPackageManager->_decompressFile(MAX_PATH.$this->testpathData.'ziptest.zip', $wrongPath));
         $this->assertEqual(count($oPackageManager->aErrors),3);
 
         $oPackageManager->aErrors = array();
@@ -150,6 +160,10 @@ class Test_OX_PluginManager extends UnitTestCase
         $this->assertTrue(file_exists($path.'testPlugin-common.php'));
         $this->assertTrue(file_exists($path.'testPlugin-index.php'));
         $this->assertTrue(file_exists($path.'testPlugin-page.php'));
+
+        $path = MAX_PATH.$oPkgMgr->pathPlugins.'etc/testPlugin/_lang/';
+        $this->assertTrue(file_exists($path.'it.mo'));
+        $this->assertTrue(file_exists($path.'po/it.po'));
 
         $this->assertTrue(isset($GLOBALS['_MAX']['CONF']['plugins']['testPluginPackage']));
         $this->assertTrue(isset($GLOBALS['_MAX']['CONF']['pluginGroupComponents']['testPlugin']));

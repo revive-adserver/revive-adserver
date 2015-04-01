@@ -9,8 +9,8 @@
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>license.txt</license>
     <description>Demo Delivery Limitiation for Revive Adserver</description>
-    <version>1.0.2</version>
-    <oxversion>2.7.30-beta-rc11</oxversion>
+    <version>1.0.3</version>
+    <oxversion>3.2.0-beta-rc3</oxversion>
     <extends>deliveryLimitations</extends>
 
     <install>
@@ -18,10 +18,6 @@
             <file path="{MODULEPATH}deliveryLimitations/demoDeliveryLimitation/">demoLimitation.class.php</file>
             <file path="{MODULEPATH}deliveryLimitations/demoDeliveryLimitation/">demoLimitation.delivery.php</file>
 
-            <file path="{GROUPPATH}/_lang/">en.mo</file>
-            <file path="{GROUPPATH}/_lang/po/">en.po</file>
-            <file path="{GROUPPATH}/_lang/">nl.mo</file>
-            <file path="{GROUPPATH}/_lang/po/">nl.po</file>
         </files>
     </install>
 

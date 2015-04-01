@@ -10,7 +10,7 @@
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>GNU Gneral Public License v2</license>
     <description>Plugin that provides the ability to target delivery of ads.</description>
-    <version>1.3.2</version>
+    <version>1.3.3</version>
     <type>package</type>
 
     <install>

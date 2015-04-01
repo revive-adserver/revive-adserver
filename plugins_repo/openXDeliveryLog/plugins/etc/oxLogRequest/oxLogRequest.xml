@@ -10,8 +10,8 @@
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>GNU Gneral Public License v2</license>
     <description>Plugin that provides logging of banner requests.</description>
-    <version>1.1.1</version>
-    <oxversion>2.7.30-beta-rc11</oxversion>
+    <version>1.1.2</version>
+    <oxversion>3.2.0-beta-rc3</oxversion>
     <extends>deliveryLog</extends>
 
     <install>

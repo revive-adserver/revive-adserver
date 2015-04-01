@@ -6,4 +6,4 @@
     <license>{LICENCE}</license>
     <description>{DESCRIPTION}</description>
     <version>{VERSION}</version>
-    <oxversion>{OXVERSION}</oxversion>
+    <oxversion>3.2.0-beta-rc3</oxversion>

@@ -11,7 +11,7 @@
     <description>Client Delivery Limitations for OpenX</description>
     <versionFrom></versionFrom>
     <versionTo>1.0.2</versionTo>
-    <oxversion>2.7.27-beta-rc5</oxversion>
+    <oxversion>3.2.0-beta-rc3</oxversion>
 
     <!-- Database Packages -->
     <database>
