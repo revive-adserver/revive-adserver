@@ -272,6 +272,7 @@ $GLOBALS['strClientsAndCampaigns'] = "Advertisers & Campaigns";
 $GLOBALS['strAddClient'] = "Add new advertiser";
 $GLOBALS['strClientProperties'] = "Advertiser Properties";
 $GLOBALS['strClientHistory'] = "Advertiser History";
+$GLOBALS['strNoClients'] = "There are currently no advertisers defined. To create a campaign, <a href='advertiser-edit.php'>add a new advertiser</a> first.";
 $GLOBALS['strConfirmDeleteClient'] = "Do you really want to delete this advertiser?";
 $GLOBALS['strConfirmDeleteClients'] = "Do you really want to delete the selected advertisers?";
 $GLOBALS['strHideInactive'] = "Hide inactive";
