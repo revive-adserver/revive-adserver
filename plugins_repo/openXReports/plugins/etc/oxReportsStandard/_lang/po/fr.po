@@ -73,7 +73,7 @@ msgstr "Limites"
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//liveCampaignDeliveryReport.class.php:169
 msgid "Type"
-msgstr ""
+msgstr "Type"
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//liveCampaignDeliveryReport.class.php:179
 msgid "Booked Impressions"

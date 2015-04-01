@@ -180,6 +180,7 @@ $GLOBALS['strClientsAndCampaigns'] = "Hysbysebwyr a Ymgyrchoedd";
 $GLOBALS['strAddClient'] = "Ychwanegu hysbysebwr newydd";
 $GLOBALS['strClientProperties'] = "Priodweddau Hysbysebwr";
 $GLOBALS['strClientHistory'] = "Hanes Hysbysebwr";
+$GLOBALS['strNoClients'] = "Nid oes unrhyw hysbysebwr wedi ei ddiffinio hyd yma. Er mwyn creu ymgyrch, <a href='advertiser-edit.php'>ychwanegwch hysbysebwrnewydd</a>.";
 $GLOBALS['strConfirmDeleteClient'] = "Ydych chi wir am ddileu'r hysbysebwr yma?";
 $GLOBALS['strConfirmDeleteClients'] = "Ydych chi wir am ddileu'r hysbysebwr yma?";
 $GLOBALS['strHideInactive'] = "Cuddio anweithredol";

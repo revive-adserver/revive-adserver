@@ -243,6 +243,7 @@ $GLOBALS['strClientsAndCampaigns'] = "Anunciantes e campanhas";
 $GLOBALS['strAddClient'] = "Adicionar novo anunciante";
 $GLOBALS['strClientProperties'] = "Dados do anunciante";
 $GLOBALS['strClientHistory'] = "Histórico do anunciante";
+$GLOBALS['strNoClients'] = "Nenhum anunciante definido. Para criar uma campanha, <a href='advertiser-edit.php'>adicione um anunciante</a> primeiro.";
 $GLOBALS['strConfirmDeleteClient'] = "Deseja realmente remover este anunciante?";
 $GLOBALS['strConfirmDeleteClients'] = "Deseja realmente remover este anunciante?";
 $GLOBALS['strHideInactive'] = "Ocultar inativos";

@@ -228,6 +228,7 @@ $GLOBALS['strClientsAndCampaigns'] = "Advertiseri & Campanii";
 $GLOBALS['strAddClient'] = "Adaugă un nou advertiser";
 $GLOBALS['strClientProperties'] = "Proprietăţi advertiser";
 $GLOBALS['strClientHistory'] = "Istoric advertiser";
+$GLOBALS['strNoClients'] = "Momentan nu este nici un advertiser definit. Pentru a crea o campanie, <a href='advertiser-edit.php'>adaugă un advertiser</a> mai întâi.";
 $GLOBALS['strConfirmDeleteClient'] = "Eşti sigur că vrei să ştergi acest advertiser?";
 $GLOBALS['strConfirmDeleteClients'] = "Eşti sigur că vrei să ştergi acest advertiser?";
 $GLOBALS['strHideInactive'] = "Ascunde inactivi";

@@ -176,6 +176,7 @@ $GLOBALS['strClientsAndCampaigns'] = "Inzerenti a Kampane";
 $GLOBALS['strAddClient'] = "Pridať nového inzerenta";
 $GLOBALS['strClientProperties'] = "Charaktreistika inzerenta";
 $GLOBALS['strClientHistory'] = "História inzerenta";
+$GLOBALS['strNoClients'] = "Aktuálne nemáte vytvorených žiadnych zadávateľov reklamy. Pre vytvorenie kapmane, vytvorte najskôr <a href='advertiser-edit.php'>nového zadávateľa</a> reklamy.";
 $GLOBALS['strConfirmDeleteClient'] = "Naozaj chcete zmazať inzerenta?";
 $GLOBALS['strConfirmDeleteClients'] = "Naozaj chcete zmazať inzerenta?";
 $GLOBALS['strHideInactive'] = "Skryť neaktívne";

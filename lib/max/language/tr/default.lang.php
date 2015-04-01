@@ -193,6 +193,7 @@ $GLOBALS['strClientsAndCampaigns'] = "Reklamverenler ve Kampanyalar";
 $GLOBALS['strAddClient'] = "Yeni reklamveren ekle";
 $GLOBALS['strClientProperties'] = "Reklamveren Bilgileri";
 $GLOBALS['strClientHistory'] = "Reklamveren Geçmişi";
+$GLOBALS['strNoClients'] = "Henüz hiç reklamveren tanımlanmamış. Bir kampanya yaratabilmek için öncelikle <a href='advertiser-edit.php'>yeni bir reklamveren yarat</a>malısınız.";
 $GLOBALS['strConfirmDeleteClient'] = "Bu reklamvereni silmek istediğinize emin misiniz?";
 $GLOBALS['strConfirmDeleteClients'] = "Bu reklamvereni silmek istediğinize emin misiniz?";
 $GLOBALS['strInactiveAdvertisersHidden'] = "Etkin olmayan reklamveren(ler) gizlendi";

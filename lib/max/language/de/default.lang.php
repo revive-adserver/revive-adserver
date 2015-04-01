@@ -238,6 +238,7 @@ $GLOBALS['strClientsAndCampaigns'] = "Werbetreibende & Kampagnen";
 $GLOBALS['strAddClient'] = "Neuen Werbetreibenden hinzufügen";
 $GLOBALS['strClientProperties'] = "Merkmale Werbetreibender";
 $GLOBALS['strClientHistory'] = "Entwicklung Werbetreibende";
+$GLOBALS['strNoClients'] = "Es sind keine Werbetreibenden angelegt. Um eine Werbekampagne anzulegen, müssen Sie zuerst einen <a href='advertiser-edit.php'>Werbetreibenden hinzufügen</a>.";
 $GLOBALS['strConfirmDeleteClient'] = "Soll dieser Werbetreibende wirklich gelöscht werden?";
 $GLOBALS['strConfirmDeleteClients'] = "Möchten Sie die ausgewählten Werbetreibenden wirklich löschen?";
 $GLOBALS['strHideInactive'] = "Verberge inaktive";

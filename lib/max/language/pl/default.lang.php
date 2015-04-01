@@ -229,6 +229,7 @@ $GLOBALS['strClientsAndCampaigns'] = "Reklamodawcy i Kampanie";
 $GLOBALS['strAddClient'] = "Dodaj nowego reklamodawcę";
 $GLOBALS['strClientProperties'] = "Właściwości reklamodawcy";
 $GLOBALS['strClientHistory'] = "Historia reklamodawcy";
+$GLOBALS['strNoClients'] = "Obecnie nie istnieją żadni określeni reklamodawcy. Aby utworzyć kampanię najpierw <a href='advertiser-edit.php'> dodaj nowego reklamodawcę</a>.";
 $GLOBALS['strConfirmDeleteClient'] = "Czy na pewno chcesz usunąć tego reklamodawcę?";
 $GLOBALS['strConfirmDeleteClients'] = "Czy na pewno chcesz usunąć wybranych reklamodawców?";
 $GLOBALS['strInactiveAdvertisersHidden'] = "ukryci reklamodawcy nieaktywni";

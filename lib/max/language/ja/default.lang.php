@@ -239,6 +239,7 @@ $GLOBALS['strClientsAndCampaigns'] = "広告主＆キャンペーン";
 $GLOBALS['strAddClient'] = "広告主の追加";
 $GLOBALS['strClientProperties'] = "広告主の詳細";
 $GLOBALS['strClientHistory'] = "広告主の状況";
+$GLOBALS['strNoClients'] = "広告主が存在しません。キャンペーンを作成するためには、先に<a href='advertiser-edit.php'>広告主の作成</a>をして下さい。";
 $GLOBALS['strConfirmDeleteClient'] = "この広告主を本当に削除しますか？";
 $GLOBALS['strConfirmDeleteClients'] = "この広告主を本当に削除しますか？";
 $GLOBALS['strHideInactive'] = "非アクティブなものを隠す";

@@ -204,6 +204,7 @@ $GLOBALS['strClientsAndCampaigns'] = "廣告商與項目";
 $GLOBALS['strAddClient'] = "新增廣告商";
 $GLOBALS['strClientProperties'] = "廣告商屬性";
 $GLOBALS['strClientHistory'] = "廣告商歷史";
+$GLOBALS['strNoClients'] = "目前沒有廣告，請先<a href='advertiser-edit.php'>創建</a>";
 $GLOBALS['strConfirmDeleteClient'] = "您真的希望刪除該廣告商";
 $GLOBALS['strConfirmDeleteClients'] = "您真的希望刪除該廣告商";
 $GLOBALS['strInactiveAdvertisersHidden'] = "不顯示停用的廣告商";
