@@ -113,11 +113,11 @@ msgstr ""
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//liveCampaignDeliveryReport.class.php:522
 msgid "Override"
-msgstr ""
+msgstr "Override"
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//liveCampaignDeliveryReport.class.php:524
 msgid "Remnant"
-msgstr ""
+msgstr "Remnant"
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//liveCampaignDeliveryReport.class.php:526
 msgid "Contract"

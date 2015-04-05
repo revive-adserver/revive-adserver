@@ -660,6 +660,7 @@ $GLOBALS['strInvalidWebsiteURL'] = "Ungültige Webseiten-URL";
 // Email
 $GLOBALS['strSirMadam'] = "Sehr geehrte Damen und Herren";
 $GLOBALS['strMailSubject'] = "Bericht für Werbetreibende";
+$GLOBALS['strMailHeader'] = "Sehr geehrte(r) {contact},";
 $GLOBALS['strMailBannerStats'] = "Sie erhalten nachfolgend die Bannerstatistik für {clientname}:";
 $GLOBALS['strMailBannerActivatedSubject'] = "Kampagne aktiviert";
 $GLOBALS['strMailBannerDeactivatedSubject'] = "Kampagne deaktiviert";
