@@ -868,7 +868,7 @@ function _displayZoneEntitySelectionCell($entity, $entityId, $aOtherEntities, $e
 
         $name = MAX_buildName($otherEntityId, $aOtherEntity['name']);
         echo "
-        <option value='$otherEntityId'{$selected}>".htmlspecialchars($name)." $adsCount</option>";
+        <option value='$otherEntityId'{$selected}>".$name." $adsCount</option>";
     }
     echo "
     </select>
