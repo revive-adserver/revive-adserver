@@ -210,8 +210,22 @@ $GLOBALS['strDayOfWeek'] = "Wochentag";
 
 
 $GLOBALS['strDayFullNames'] = array();
+$GLOBALS['strDayFullNames'][0] = 'Sonntag';
+$GLOBALS['strDayFullNames'][1] = 'Montag';
+$GLOBALS['strDayFullNames'][2] = 'Dienstag';
+$GLOBALS['strDayFullNames'][3] = 'Mittwoch';
+$GLOBALS['strDayFullNames'][4] = 'Donnerstag';
+$GLOBALS['strDayFullNames'][5] = 'Freitag';
+$GLOBALS['strDayFullNames'][6] = 'Samstag';
 
 $GLOBALS['strDayShortCuts'] = array();
+$GLOBALS['strDayShortCuts'][0] = 'So';
+$GLOBALS['strDayShortCuts'][1] = 'Mo';
+$GLOBALS['strDayShortCuts'][2] = 'Di';
+$GLOBALS['strDayShortCuts'][3] = 'Mi';
+$GLOBALS['strDayShortCuts'][4] = 'Do';
+$GLOBALS['strDayShortCuts'][5] = 'Fr';
+$GLOBALS['strDayShortCuts'][6] = 'Sa';
 
 $GLOBALS['strHour'] = "Stunde";
 $GLOBALS['strSeconds'] = "Sekunden";
@@ -684,6 +698,7 @@ $GLOBALS['strYourCampaign'] = "Ihre Kampagne";
 $GLOBALS['strTheCampiaignBelongingTo'] = "Die Kampagne gehörend zu";
 $GLOBALS['strImpendingCampaignExpiryDateBody'] = "Unten angegebene {clientname} wird am {date} auslaufen.";
 $GLOBALS['strImpendingCampaignExpiryImpsBody'] = "Unten angegebene {clientname} hat weniger als {limit} Impressions übrig.";
+$GLOBALS['strImpendingCampaignExpiryBody'] = "Auf Grund dessen wird die Kampagne bald deaktiviert und weiter unten angegebene Banner aus dieser Kampagne werden deaktiviert:";
 
 // Priority
 $GLOBALS['strPriority'] = "Priorität";
