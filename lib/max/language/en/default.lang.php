@@ -78,6 +78,7 @@ $GLOBALS['strCustom'] = "Custom";
 $GLOBALS['strDefault'] = "Default";
 $GLOBALS['strUnlimited'] = "Unlimited";
 $GLOBALS['strUntitled'] = "Untitled";
+$GLOBALS['strAll'] = "all";
 $GLOBALS['strAverage'] = "Average";
 $GLOBALS['strOverall'] = "Overall";
 $GLOBALS['strTotal'] = "Total";
@@ -324,7 +325,8 @@ $GLOBALS['strHiddenWebsite'] = "Website";
 $GLOBALS['strHiddenZone'] = "Zone";
 $GLOBALS['strCompanionPositioning'] = "Companion positioning";
 $GLOBALS['strSelectUnselectAll'] = "Select / Unselect All";
-$GLOBALS['strCampaignsOfAdvertiser'] = "of"; //this is added between page name and advertiser name eg. 'Campaigns of Advertiser 1'$GLOBALS['strShowCappedNoCookie'] = "Show capped ads if cookies are disabled";
+$GLOBALS['strCampaignsOfAdvertiser'] = "of"; //this is added between page name and advertiser name eg. 'Campaigns of Advertiser 1'
+$GLOBALS['strShowCappedNoCookie'] = "Show capped ads if cookies are disabled";
 
 // Campaign-zone linking page
 $GLOBALS['strCalculatedForAllCampaigns'] = "Calculated for all campaigns";
@@ -406,6 +408,7 @@ $GLOBALS['strCampaignStatusRestarted'] = "Restarted";
 $GLOBALS['strCampaignStatusDeleted'] = "Deleted";
 $GLOBALS['strCampaignType'] = "Campaign type";
 $GLOBALS['strType'] = "Type";
+$GLOBALS['strContract'] = "Contract";
 $GLOBALS['strOverride'] = "Override";
 $GLOBALS['strOverrideInfo'] = "Override campaigns are a special campaign type specifically to
     override (i.e. take priority over) Remnant and Contract campaigns. Override campaigns are generally used with
@@ -482,7 +485,9 @@ $GLOBALS['strWarningMissing'] = "Warning, possibly missing ";
 $GLOBALS['strWarningMissingClosing'] = " closing tag '>'";
 $GLOBALS['strWarningMissingOpening'] = " opening tag '<'";
 $GLOBALS['strSubmitAnyway'] = "Submit Anyway";
-$GLOBALS['strBannersOfCampaign'] = "in"; //this is added between page name and campaign name eg. 'Banners in coca cola campaign'// Banner Preferences
+$GLOBALS['strBannersOfCampaign'] = "in"; //this is added between page name and campaign name eg. 'Banners in coca cola campaign'
+
+// Banner Preferences
 $GLOBALS['strBannerPreferences'] = "Banner Preferences";
 $GLOBALS['strCampaignPreferences'] = "Campaign Preferences";
 $GLOBALS['strDefaultBanners'] = "Default Banners";
@@ -533,6 +538,8 @@ $GLOBALS['strConvertSWF'] = "<br />The Flash file you just uploaded contains har
 $GLOBALS['strCompressSWF'] = "Compress SWF file for faster downloading (Flash 6 player required)";
 $GLOBALS['strOverwriteSource'] = "Overwrite source parameter";
 
+// Banner (network)
+// Banner (AdSense)
 // Display limitations
 $GLOBALS['strModifyBannerAcl'] = "Delivery Options";
 $GLOBALS['strACL'] = "Delivery";
@@ -543,12 +550,14 @@ $GLOBALS['strAllBannersInCampaign'] = "All banners in this campaign";
 $GLOBALS['strRemoveAllLimitations'] = "Remove all limitations";
 $GLOBALS['strEqualTo'] = "is equal to";
 $GLOBALS['strDifferentFrom'] = "is different from";
+$GLOBALS['strContains'] = "contains";
 $GLOBALS['strGreaterThan'] = "is greater than";
 $GLOBALS['strLessThan'] = "is less than";
 $GLOBALS['strAND'] = "AND";                          // logical operator
 $GLOBALS['strOR'] = "OR";                         // logical operator
 $GLOBALS['strOnlyDisplayWhen'] = "Only display this banner when:";
 $GLOBALS['strWeekDays'] = "Weekdays";
+$GLOBALS['strTime'] = "Time";
 $GLOBALS['strDeliveryLimitations'] = "Delivery Limitations";
 
 $GLOBALS['strDeliveryCappingReset'] = "Reset view counters after:";
@@ -582,6 +591,7 @@ $GLOBALS['strShowParentAffiliates'] = "Show parent websites";
 $GLOBALS['strHideParentAffiliates'] = "Hide parent websites";
 
 // Website (properties)
+$GLOBALS['strWebsite'] = "Website";
 $GLOBALS['strWebsiteURL'] = "Website URL";
 $GLOBALS['strAllowAffiliateModifyZones'] = "Allow this user to modify their own zones";
 $GLOBALS['strAllowAffiliateLinkBanners'] = "Allow this user to link banners to their own zones";
@@ -633,7 +643,8 @@ $GLOBALS['strWarnChangeZoneType'] = "Changing the zone type to text or email wil
 $GLOBALS['strWarnChangeZoneSize'] = 'Changing the zone size will unlink any banners that are not the new size, and will add any banners from linked campaigns which are the new size';
 $GLOBALS['strWarnChangeBannerSize'] = 'Changing the banner size will unlink this banner from any zones that are not the new size, and if this banner\'s <strong>campaign</strong> is linked to a zone of the new size, this banner will be automatically linked';
 $GLOBALS['strWarnBannerReadonly'] = 'This banner is read-only because an extension has been disabled. Contact your system administrator for more information.';
-$GLOBALS['strZonesOfWebsite'] = 'in'; //this is added between page name and website name eg. 'Zones in www.example.com'$GLOBALS['strBackToZones'] = "Back to zones";
+$GLOBALS['strZonesOfWebsite'] = 'in'; //this is added between page name and website name eg. 'Zones in www.example.com'
+$GLOBALS['strBackToZones'] = "Back to zones";
 
 $GLOBALS['strIab']['IAB_FullBanner(468x60)'] = "IAB Full Banner (468 x 60)";
 $GLOBALS['strIab']['IAB_Skyscraper(120x600)'] = "IAB Skyscraper (120 x 600)";
@@ -722,8 +733,6 @@ $GLOBALS['strExportStatisticsToExcel'] = "<u>E</u>xport Statistics to Excel";
 $GLOBALS['strGDnotEnabled'] = "You must have GD enabled in PHP to display graphs. <br />Please see <a href='http://www.php.net/gd' target='_blank'>http://www.php.net/gd</a> for more information, including how to install GD on your server.";
 $GLOBALS['strStatsArea'] = "Area";
 
-// Hosts
-
 // Expiration
 $GLOBALS['strNoExpiration'] = "No expiration date set";
 $GLOBALS['strEstimated'] = "Estimated expiration date";
@@ -763,7 +772,23 @@ $GLOBALS['strAutoDetect'] = "Auto-detect";
 $GLOBALS['strCacheBusterComment'] = "  * Replace all instances of {random} with
   * a generated random number (or timestamp).
   *";
-$GLOBALS['strThirdPartyComment'] = "  * Don't forget to replace the '{clickurl}' text with
+$GLOBALS['strSSLBackupComment'] = "
+  * The backup image section of this tag has been generated for use on a
+  * non-SSL page. If this tag is to be placed on an SSL page, change the
+  *   'http://%s/...'
+  * to
+  *   'https://%s/...'
+  *";
+$GLOBALS['strSSLDeliveryComment'] = "
+  * This tag has been generated for use on a non-SSL page. If this tag
+  * is to be placed on an SSL page, change the
+  *   'http://%s/...'
+  * to
+  *   'https://%s/...'
+  *";
+
+$GLOBALS['strThirdPartyComment'] = "
+  * Don't forget to replace the '{clickurl}' text with
   * the click tracking URL if this ad is to be delivered through a 3rd
   * party (non-Max) adserver.
   *";
@@ -928,7 +953,6 @@ $GLOBALS['strGlobalSettings'] = "Global Settings";
 $GLOBALS['strGeneralSettings'] = "General Settings";
 $GLOBALS['strMainSettings'] = "Main Settings";
 $GLOBALS['strPlugins'] = "Plugins";
-
 $GLOBALS['strChooseSection'] = 'Choose Section';
 
 // Product Updates
@@ -973,13 +997,14 @@ $GLOBALS['strAddNewChannel_Key'] = "Add <u>n</u>ew Targeting Channel";
 $GLOBALS['strChannelToWebsite'] = "to website";
 $GLOBALS['strNoChannels'] = "There are currently no targeting channels defined";
 $GLOBALS['strNoChannelsAddWebsite'] = "There are currently no targeting channels defined, because there are no websites. To create a targeting channel, <a href='affiliate-edit.php'>add a new website</a> first.";
-
 $GLOBALS['strEditChannelLimitations'] = "Edit targeting channel limitations";
 $GLOBALS['strChannelProperties'] = "Targeting Channel properties";
 $GLOBALS['strChannelLimitations'] = "Delivery Options";
 $GLOBALS['strConfirmDeleteChannel'] = "Do you really want to delete this targeting channel?";
 $GLOBALS['strConfirmDeleteChannels'] = "Do you really want to delete the selected targeting channels?";
-$GLOBALS['strChannelsOfWebsite'] = 'in'; //this is added between page name and website name eg. 'Targeting channels in www.example.com'// Tracker Variables
+$GLOBALS['strChannelsOfWebsite'] = 'in'; //this is added between page name and website name eg. 'Targeting channels in www.example.com'
+
+// Tracker Variables
 $GLOBALS['strVariableName'] = "Variable Name";
 $GLOBALS['strVariableDescription'] = "Description";
 $GLOBALS['strVariableDataType'] = "Data Type";
@@ -1123,6 +1148,10 @@ $GLOBALS['strPasswordChanged'] = "Your password has been changed";
 $GLOBALS['strXPreferencesHaveBeenUpdated'] = "<b>%s</b> have been updated";
 $GLOBALS['strXSettingsHaveBeenUpdated'] = "<b>%s</b> have been updated";
 $GLOBALS['strTZPreferencesWarning'] = "However, campaign activation and expiry were not updated, nor time-based banner limitations.<br />You will need to update them manually if you wish them to use the new timezone";
+
+// Report error messages
+$GLOBALS['strReportErrorMissingSheets'] = "No worksheet was selected for report";
+$GLOBALS['strReportErrorUnknownCode'] = "Unknown error code #";
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */

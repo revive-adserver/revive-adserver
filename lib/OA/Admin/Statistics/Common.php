@@ -321,9 +321,6 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         }
         $this->coreParams = self::getCoreParams();
 
-        $this->strMarketCampaignOptin = $GLOBALS['strMarketCampaignOptin'];
-        $this->strMarketZoneOptin = $GLOBALS['strMarketZoneOptin'];
-
         // Ensure that the entity/breakdown values are set
         if (empty($this->entity)) {
             $this->entity = 'entity';

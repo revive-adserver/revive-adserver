@@ -469,23 +469,9 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
                 $campaign['expanded'] = MAX_isExpanded($campaignId, $expand, $this->aNodes, $campaign['prefix']);
                 $campaign['icon'] = MAX_getEntityIcon('placement', $campaign['active'], $campaign['type']);
 
-                $htmlToAppend = '';
-                if($campaign['mtype'] == DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN) {
-                    $htmlToAppend = $this->getHtmlHelpLink('help-market-optin-campaign');
-                } else if($campaign['mtype'] == DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_ZONE_OPTIN) {
-                    $htmlToAppend = $this->getHtmlHelpLink('help-market-optin-zone');
-                }
-                $campaign['html-append'] = $htmlToAppend;
-
-
                 // mask anonymous campaigns
                 // a) mask campaign name
                 $campaign['name'] = MAX_getPlacementName($campaign);
-                if($campaign['mtype'] == DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CAMPAIGN_OPTIN) {
-                    $campaign['name'] = $GLOBALS['strMarketCampaignOptin'];
-                } else if($campaign['mtype'] == DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_ZONE_OPTIN) {
-                    $campaign['name'] = $GLOBALS['strMarketZoneOptin'];
-                }
 
                 // b) mask ad names
                 if(isset($campaign['children'])) {
@@ -758,11 +744,6 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
                                           . "&period_end=" . MAX_getStoredValue('period_end', date('Y-m-d'));
                 $zone['expanded'] = MAX_isExpanded($zoneId, $expand, $this->aNodes, $zone['prefix']);;
                 $zone['icon'] = MAX_getEntityIcon('zone', $zone['active'], $zone['type']);
-
-                if($zone['type'] == MAX_ZoneMarketMigrated) {
-                    $zone['html-append'] = $this->getHtmlHelpLink('help-market-zone-migrated-from-pre-283');
-                    $zone['name'] = $GLOBALS['strMarketZoneBeforeOpenX2.8.4'];
-                }
 
                 $aEntitiesData[] = $zone;
             } elseif ($this->startLevel == $level) {

@@ -21,6 +21,7 @@ $GLOBALS['strBtnRecover'] = "Recover »";
 $GLOBALS['strBtnAgree'] = "I Agree »";
 $GLOBALS['strBtnRetry'] = "Retry";
 $GLOBALS['strWarningRegisterArgcArv'] = "The PHP configuration variable register_argc_argv needs to be turned on to run maintenance from the command line.";
+$GLOBALS['strTablesPrefix'] = "Table names prefix";
 $GLOBALS['strTablesType'] = "Table type";
 
 $GLOBALS['strRecoveryRequiredTitle'] = "Your previous upgrade attempt encountered an error";
@@ -38,11 +39,18 @@ $GLOBALS['strErrorWritePermissionsWin'] = "File permission errors have been dete
 $GLOBALS['strCheckDocumentation'] = "For more help, please see the <a href=\"{$PRODUCT_DOCSURL}\">{$PRODUCT_NAME} documentation</a>.";
 $GLOBALS['strSystemCheckBadPHPConfig'] = "Your current PHP configuration does not meet requirements of {$PRODUCT_NAME}. To resolve the problems, please modify settings in your 'php.ini' file.";
 
+$GLOBALS['strErrorWritePermissionsWin'] = "File permission errors have been detected, and must be fixed before you can continue.";
+$GLOBALS['strCheckDocumentation'] = "For more help, please see the <a href = \"" . PRODUCT_DOCSURL . "\">" . PRODUCT_NAME . " documentation</a>.";
+$GLOBALS['strSystemCheckBadPHPConfig'] = "Your current PHP configuration does not meet requirements of " . MAX_PRODUCT_NAME . ". To resolve the problems, please modify settings in your 'php.ini' file.";
+
 $GLOBALS['strAdminUrlPrefix'] = "Admin Interface URL";
 $GLOBALS['strDeliveryUrlPrefix'] = "Delivery Engine URL";
 $GLOBALS['strDeliveryUrlPrefixSSL'] = "Delivery Engine URL (SSL)";
 $GLOBALS['strImagesUrlPrefix'] = "Image Store URL";
 $GLOBALS['strImagesUrlPrefixSSL'] = "Image Store URL (SSL)";
+
+
+$GLOBALS['strUpgrade'] = "Upgrade";
 
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
@@ -74,7 +82,6 @@ $GLOBALS['strUserlogEmail'] = "Log all outgoing email messages";
 $GLOBALS['strEnableDashboard'] = "Enable dashboard";
 $GLOBALS['strEnableDashboardSyncNotice'] = "Please enable <a href='account-settings-update.php'>check for updates</a> to use the dashboard.";
 $GLOBALS['strTimezone'] = "Timezone";
-
 $GLOBALS['strEnableAutoMaintenance'] = "Automatically perform maintenance during delivery if scheduled maintenance is not set up";
 
 // Database Settings
@@ -137,7 +144,7 @@ $GLOBALS['strDebugPassword'] = "mCal, SQL Server Password";
 $GLOBALS['strProductionSystem'] = "Production System";
 
 // Delivery Settings
-$GLOBALS['strWebPath'] = "$PRODUCT_NAME Server Access Paths";
+$GLOBALS['strWebPath'] = "{$PRODUCT_NAME} Server Access Paths";
 $GLOBALS['strWebPathSimple'] = "Web path";
 $GLOBALS['strDeliveryPath'] = "Delivery path";
 $GLOBALS['strImagePath'] = "Images path";

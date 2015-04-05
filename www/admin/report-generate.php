@@ -30,9 +30,6 @@ if (!is_null($_GET['period_preset']) && ($_GET['period_preset'] == 'specific')) 
     }
 }
 
-// Load the required language files
-Language_Loader::load('report');
-
 // Register input variables
 phpAds_registerGlobal('plugin');
 
