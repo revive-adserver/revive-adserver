@@ -68,7 +68,7 @@ class OA_UpgradeAuditor extends OA_BaseUpgradeAuditor
     	parent::__construct();
     }
 
-    function init(&$oDbh='', $oLogger='')
+    function init($oDbh='', $oLogger='')
     {
         $result = parent::init($oDbh, $oLogger);
         return $this->_initDBAuditor();

@@ -141,8 +141,8 @@ class Plugins_DeliveryLog_OxLogConversion_LogConversion extends Plugins_Delivery
         return $aMap;
     }
 
-    
-    public function getEarliestLoggedDataDate()
+
+    public function getEarliestLoggedDataDate($sDateTimeColumn = 'date_time')
     {
         return parent::getEarliestLoggedDataDate('date_time');
     }

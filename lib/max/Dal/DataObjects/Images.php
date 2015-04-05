@@ -26,7 +26,7 @@ class DataObjects_Images extends DB_DataObjectCommon
     public $t_stamp;                         // DATETIME() => openads_datetime => 14
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Images',$k,$v); }
+    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Images',$k,$v); }
 
     var $defaultValues = array(
                 'filename' => '',
@@ -171,7 +171,7 @@ class DataObjects_Images extends DB_DataObjectCommon
      *                      that needs to be able to see the audit trail
      *                      entry, if such an account exists.
      */
-    function getOwningAccountIds()
+    public function getOwningAccountIds($resetCache = false)
     {
         // Find the banner that contains this image, if possible
         $doBanners = OA_Dal::factoryDO('banners');

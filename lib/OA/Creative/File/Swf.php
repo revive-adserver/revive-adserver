@@ -42,7 +42,7 @@ class OA_Creative_File_Swf extends OA_Creative_File
         return true;
     }
 
-    function readCreativeDetails($fileName)
+    function readCreativeDetails($fileName, $aTypes = null)
     {
         // The standard check can fail with compressed SWF files and zlib not statically compiled in,
         // so we need to be more relaxed here and accept all matching files

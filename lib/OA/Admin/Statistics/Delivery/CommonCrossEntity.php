@@ -234,7 +234,7 @@ class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics
 
         // Merge plugin additional data
         foreach ($this->aPlugins as $oPlugin) {
-            $oPlugin->mergeData($aDirectSelection, $this->aEmptyRow, 'getEntitiesStats', $aParams + $this->aDates);
+            $oPlugin->mergeData($aDirectSelection, 'getEntitiesStats', $aParams + $this->aDates, $this->aEmptyRow);
         }
 
         if (count($aDirectSelection)) {
@@ -287,7 +287,7 @@ class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics
 
         // Merge plugin additional data
         foreach ($this->aPlugins as $oPlugin) {
-            $oPlugin->mergeData($aBlanks, $this->aEmptyRow, 'getEntitiesStats', $aParams + $this->aDates);
+            $oPlugin->mergeData($aBlanks, 'getEntitiesStats', $aParams + $this->aDates, $this->aEmptyRow);
         }
 
         if (count($aBlanks)) {

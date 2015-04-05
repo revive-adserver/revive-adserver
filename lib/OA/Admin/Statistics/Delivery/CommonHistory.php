@@ -226,7 +226,7 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
 
         // Merge plugin additional $oPlugin
         foreach ($this->aPlugins as $oPlugin) {
-            $oPlugin->mergeData($aStats, $this->aEmptyRow, $method, $aParams + $this->aDates);
+            $oPlugin->mergeData($aStats, $method, $aParams + $this->aDates, $this->aEmptyRow);
         }
 
         if (count($aStats) == 0) {

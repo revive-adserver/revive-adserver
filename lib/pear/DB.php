@@ -1300,7 +1300,7 @@ class DB_result
     function tableInfo($mode = null)
     {
         if (is_string($mode)) {
-            return $this->dbh->raiseError(DB_ERROR_NEED_MORE_DATA);
+            return $this->dbh->customRaiseError(DB_ERROR_NEED_MORE_DATA);
         }
         return $this->dbh->tableInfo($this, $mode);
     }

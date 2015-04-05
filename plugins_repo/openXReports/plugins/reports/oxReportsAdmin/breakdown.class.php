@@ -85,7 +85,7 @@ class Plugins_Reports_OxReportsAdmin_Breakdown extends Plugins_Reports
         phpAds_SessionDataStore();
     }
 
-    function execute($oDaySpan)
+    function execute($oDaySpan = null)
     {
         $this->isAllowedToExecute();
         // Prepare the range information for the report

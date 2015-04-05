@@ -26,7 +26,7 @@ class DataObjects_Variable_publisher extends DB_DataObjectCommon
     public $visible;                         // TINYINT(1) => openads_tinyint => 145 
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Variable_publisher',$k,$v); }
+    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Variable_publisher',$k,$v); }
 
     var $defaultValues = array(
                 'visible' => 0,

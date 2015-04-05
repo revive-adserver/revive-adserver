@@ -26,7 +26,7 @@ class DataObjects_Category extends DB_DataObjectCommon
     public $name;                            // VARCHAR(255) => openads_varchar => 2 
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Category',$k,$v); }
+    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Category',$k,$v); }
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

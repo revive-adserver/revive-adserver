@@ -58,7 +58,7 @@ class Plugins_InvocationTags_OxInvocationTags_adviewnocookies extends Plugins_In
      *
      * @return boolean  True - allowed, false - not allowed
      */
-    function isAllowed($extra)
+    function isAllowed($extra = null)
     {
         $isAllowed = parent::isAllowed($extra);
         if((is_array($extra) && $extra['delivery'] != MAX_ZoneEmail) || $this->maxInvocation->zone_invocation) {

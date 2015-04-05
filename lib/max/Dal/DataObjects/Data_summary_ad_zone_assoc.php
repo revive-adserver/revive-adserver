@@ -41,7 +41,7 @@ class DataObjects_Data_summary_ad_zone_assoc extends DB_DataObjectCommon
     public $to_be_delivered;                 // TINYINT(1) => openads_tinyint => 145 
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Data_summary_ad_zone_assoc',$k,$v); }
+    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Data_summary_ad_zone_assoc',$k,$v); }
 
     var $defaultValues = array(
                 'interval_start' => '%NO_DATE_TIME%',

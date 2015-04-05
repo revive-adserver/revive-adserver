@@ -37,7 +37,7 @@ class Plugins_DeliveryLimitations_Geo_Postalcode extends Plugins_DeliveryLimitat
      *
      * @return boolean
      */
-    function isAllowed()
+    function isAllowed($page = false)
     {
         return ((isset($GLOBALS['_MAX']['GEO_DATA']['postal_code']))
             || $GLOBALS['_MAX']['CONF']['geotargeting']['showUnavailable']);

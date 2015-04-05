@@ -53,7 +53,7 @@ class Plugins_DeliveryLimitations_Geo_Region extends Plugins_DeliveryLimitations
      *
      * @return boolean
      */
-    function isAllowed()
+    function isAllowed($page = false)
     {
         return isset($GLOBALS['_MAX']['GEO_DATA']['region'])
             || $GLOBALS['_MAX']['CONF']['geotargeting']['showUnavailable'];

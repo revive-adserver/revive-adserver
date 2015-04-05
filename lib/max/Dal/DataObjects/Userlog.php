@@ -30,7 +30,7 @@ class DataObjects_Userlog extends DB_DataObjectCommon
     public $details;                         // MEDIUMTEXT() => openads_mediumtext => 34 
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Userlog',$k,$v); }
+    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Userlog',$k,$v); }
 
     var $defaultValues = array(
                 'timestamp' => 0,

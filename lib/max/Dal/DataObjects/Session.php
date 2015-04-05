@@ -27,7 +27,7 @@ class DataObjects_Session extends DB_DataObjectCommon
     public $lastused;                        // DATETIME() => openads_datetime => 14 
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Session',$k,$v); }
+    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Session',$k,$v); }
 
     var $defaultValues = array(
                 'sessionid' => '',

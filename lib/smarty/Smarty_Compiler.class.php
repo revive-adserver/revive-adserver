@@ -260,12 +260,12 @@ class Smarty_Compiler extends Smarty {
         reset($this->_folded_blocks);
 
         /* replace special blocks by "{php}" */
-        $source_content = preg_replace($search.'e', "'"
-                                       . $this->_quote_replace($this->left_delimiter) . 'php'
-                                       . "' . str_repeat(\"\n\", substr_count('\\0', \"\n\")) .'"
-                                       . $this->_quote_replace($this->right_delimiter)
-                                       . "'"
-                                       , $source_content);
+        $that = $this; // Damn 5.3 compatibility!
+        $source_content = preg_replace_callback($search, function ($m) use ($that) {
+            return $that->left_delimiter.'php'.
+                str_repeat("\n", substr_count($m[0], "\n")).
+                $that->right_delimiter;
+        }, $source_content);
 
         /* Gather all template tags. */
         preg_match_all("~{$ldq}\s*(.*?)\s*{$rdq}~s", $source_content, $_match);

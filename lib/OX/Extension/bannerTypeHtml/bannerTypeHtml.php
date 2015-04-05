@@ -48,8 +48,8 @@ class Plugins_BannerTypeHTML extends OX_Component
     /**
      * Append type-specific form elements to the base form
      *
-     * @param object form
-     * @param integer banner id
+     * @param object &$form
+     * @param array &$row
      */
     function buildForm(&$form, &$row)
     {

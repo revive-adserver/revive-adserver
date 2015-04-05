@@ -208,7 +208,7 @@ class DB_pgsql extends DB_common
     function connect($dsn, $persistent = false)
     {
         if (!PEAR::loadExtension('pgsql')) {
-            return $this->raiseError(DB_ERROR_EXTENSION_NOT_FOUND);
+            return $this->customRaiseError(DB_ERROR_EXTENSION_NOT_FOUND);
         }
 
         $this->dsn = $dsn;
@@ -283,7 +283,7 @@ class DB_pgsql extends DB_common
         }
 
         if (!$this->connection) {
-            return $this->raiseError(DB_ERROR_CONNECT_FAILED,
+            return $this->customRaiseError(DB_ERROR_CONNECT_FAILED,
                                      null, null, null,
                                      $php_errormsg);
         }
@@ -683,14 +683,14 @@ class DB_pgsql extends DB_common
                 $result = $this->createSequence($seq_name);
                 $this->popErrorHandling();
                 if (DB::isError($result)) {
-                    return $this->raiseError($result);
+                    return $this->customRaiseError($result);
                 }
             } else {
                 $repeat = false;
             }
         } while ($repeat);
         if (DB::isError($result)) {
-            return $this->raiseError($result);
+            return $this->customRaiseError($result);
         }
         $arr = $result->fetchRow(DB_FETCHMODE_ORDERED);
         $result->free();
@@ -781,7 +781,7 @@ class DB_pgsql extends DB_common
         if ($errno === null) {
             $errno = $this->errorCode($native);
         }
-        return $this->raiseError($errno, null, null, null, $native);
+        return $this->customRaiseError($errno, null, null, null, $native);
     }
 
     // }}}

@@ -489,7 +489,7 @@ class MySqlRecordSet /* implements iterator */ extends MySqlRecord {
 	function reset() {
 		if (isset($this->QueryId) && is_resource($this->QueryId)) {
 			if (mysql_data_seek($this->QueryId, 0) === FALSE) {
-				$this->Connection->RaiseError();
+				$this->Connection->customRaiseError();
 			}
 		} else {
 			$query = $this->Query;

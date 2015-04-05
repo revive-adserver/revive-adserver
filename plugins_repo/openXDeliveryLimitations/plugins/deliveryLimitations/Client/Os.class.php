@@ -46,7 +46,7 @@ class Plugins_DeliveryLimitations_Client_Os extends Plugins_DeliveryLimitations_
      *
      * @return boolean
      */
-    function isAllowed()
+    function isAllowed($page = false)
     {
         return !empty($GLOBALS['_MAX']['CONF']['Client']['sniff']);
     }

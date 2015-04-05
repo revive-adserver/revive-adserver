@@ -231,7 +231,7 @@ class XML_Parser extends PEAR
     function setMode($mode)
     {
         if ($mode != 'func' && $mode != 'event') {
-            $this->raiseError('Unsupported mode given', XML_PARSER_ERROR_UNSUPPORTED_MODE);
+            $this->customRaiseError('Unsupported mode given', XML_PARSER_ERROR_UNSUPPORTED_MODE);
         }
 
         $this->mode = $mode;
@@ -285,7 +285,7 @@ class XML_Parser extends PEAR
                 xml_set_element_handler($this->parser, 'startHandler', 'endHandler');
                 break;
             default:
-                return $this->raiseError('Unsupported mode given', XML_PARSER_ERROR_UNSUPPORTED_MODE);
+                return $this->customRaiseError('Unsupported mode given', XML_PARSER_ERROR_UNSUPPORTED_MODE);
                 break;
         }
 
@@ -328,7 +328,7 @@ class XML_Parser extends PEAR
             if ($this->tgtenc !== null) {
                 if (!@xml_parser_set_option($xp, XML_OPTION_TARGET_ENCODING,
                                             $this->tgtenc)) {
-                    return $this->raiseError('invalid target encoding', XML_PARSER_ERROR_INVALID_ENCODING);
+                    return $this->customRaiseError('invalid target encoding', XML_PARSER_ERROR_INVALID_ENCODING);
                 }
             }
             $this->parser = $xp;
@@ -340,9 +340,9 @@ class XML_Parser extends PEAR
             return true;
         }
         if (!in_array(strtoupper($this->srcenc), $this->_validEncodings)) {
-            return $this->raiseError('invalid source encoding', XML_PARSER_ERROR_INVALID_ENCODING);
+            return $this->customRaiseError('invalid source encoding', XML_PARSER_ERROR_INVALID_ENCODING);
         }
-        return $this->raiseError('Unable to create XML parser resource.', XML_PARSER_ERROR_NO_RESOURCE);
+        return $this->customRaiseError('Unable to create XML parser resource.', XML_PARSER_ERROR_NO_RESOURCE);
     }
 
     // }}}
@@ -385,7 +385,7 @@ class XML_Parser extends PEAR
          */
         if (preg_match('%^(http|ftp)://%i', substr($file, 0, 10))) {
             if (!ini_get('allow_url_fopen')) {
-            	return $this->raiseError('Remote files cannot be parsed, as safe mode is enabled.', XML_PARSER_ERROR_REMOTE);
+            	return $this->customRaiseError('Remote files cannot be parsed, as safe mode is enabled.', XML_PARSER_ERROR_REMOTE);
             }
         }
 
@@ -394,7 +394,7 @@ class XML_Parser extends PEAR
             $this->fp = $fp;
             return $fp;
         }
-        return $this->raiseError('File could not be opened.', XML_PARSER_ERROR_FILE_NOT_READABLE);
+        return $this->customRaiseError('File could not be opened.', XML_PARSER_ERROR_FILE_NOT_READABLE);
     }
 
     // }}}
@@ -449,7 +449,7 @@ class XML_Parser extends PEAR
             return true;
         }
 
-        return $this->raiseError('Illegal input format', XML_PARSER_ERROR_INVALID_INPUT);
+        return $this->customRaiseError('Illegal input format', XML_PARSER_ERROR_INVALID_INPUT);
     }
 
     // }}}
@@ -483,7 +483,7 @@ class XML_Parser extends PEAR
                 } else {
                     // PHP 5 doesn't have such bug
                     if (!$this->_parseString($data, feof($this->fp))) {
-                        $error = &$this->raiseError();
+                        $error = &$this->customRaiseError();
                         $this->free();
                         return $error;
                     }
@@ -496,7 +496,7 @@ class XML_Parser extends PEAR
         // if the buffer is not empty, parse it
         if ($buffer !== '') {
             if (!$this->_parseString($buffer, true)) {
-                $error = &$this->raiseError();
+                $error = &$this->customRaiseError();
                 $this->free();
                 return $error;
             }
@@ -543,7 +543,7 @@ class XML_Parser extends PEAR
         }
 
         if (!$this->_parseString($data, $eof)) {
-           $error = &$this->raiseError();
+           $error = &$this->customRaiseError();
            $this->free();
            return $error;
         }
@@ -575,7 +575,7 @@ class XML_Parser extends PEAR
     }
 
     /**
-     * XML_Parser::raiseError()
+     * XML_Parser::customRaiseError()
      *
      * Throws a XML_Parser_Error
      *
@@ -583,7 +583,7 @@ class XML_Parser extends PEAR
      * @param integer $ecode the error message code
      * @return XML_Parser_Error
      **/
-    function raiseError($msg = null, $ecode = 0)
+    function customRaiseError($msg = null, $ecode = 0)
     {
         $msg = !is_null($msg) ? $msg : $this->parser;
         $err = new XML_Parser_Error($msg, $ecode);

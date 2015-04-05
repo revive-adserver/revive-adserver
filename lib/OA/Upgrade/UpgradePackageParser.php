@@ -96,7 +96,7 @@ class OA_UpgradePackageParser extends XML_Parser
         $this->element = implode('-', $this->elements);
     }
 
-    function &raiseError($msg = null, $xmlecode = 0, $xp = null, $ecode = -1)
+    function &customRaiseError($msg = null, $xmlecode = 0, $xp = null, $ecode = -1)
     {
         if (is_null($this->error)) {
             $error = '';

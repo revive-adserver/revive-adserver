@@ -126,9 +126,9 @@ class OA_StatisticsFieldsDelivery_Default extends OA_StatisticsFieldsDelivery
 
     }
 
-    function mergeData(&$aRows, $emptyRow, $method, $aParams)
+    function mergeData(&$aRows, $method, $aParams, $emptyRow = array())
     {
-        $this->mergeConversions($aRows, $emptyRow, $method, $aParams);
+        $this->mergeConversions($aRows, $method, $aParams, $emptyRow);
     }
 
     /**

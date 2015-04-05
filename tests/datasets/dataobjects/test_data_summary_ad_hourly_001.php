@@ -20,15 +20,11 @@ require_once MAX_PATH . '/tests/testClasses/OATestData_DataObjects.php';
 class OA_Test_Data_data_summary_ad_hourly_001 extends OA_Test_Data_DataObjects
 {
 
-    function __construct()
-    {
-    }
-
     /**
      * method for extending OA_Test_Data_DataObject
      */
 
-    function generateTestData()
+    function generateTestData($linkAdZone=false)
     {
         if (!parent::init())
         {

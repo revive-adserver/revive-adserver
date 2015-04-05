@@ -146,7 +146,7 @@ class Plugins_Reports_OxReportsStandard_AdvertisingAnalysisReport extends Plugin
      * @param Admin_UI_OrganisationScope $oScope The advertiser/publisher scope limitation object.
      * @param array $aSheets  An array of sheets that should be in the report.
      */
-    function execute($oDaySpan, $oScope, $aSheets)
+    function execute($oDaySpan = null, $oScope = null, $aSheets = null)
     {
         $checkResult = $this->_checkParameters($oDaySpan, $oScope, $aSheets);
         if ($checkResult !== true) {

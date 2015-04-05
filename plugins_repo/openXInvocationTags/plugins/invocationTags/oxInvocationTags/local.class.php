@@ -49,7 +49,7 @@ class Plugins_InvocationTags_OxInvocationTags_local extends Plugins_InvocationTa
      *
      * @return boolean  True - allowed, false - not allowed
      */
-    function isAllowed($extra, $server_same)
+    function isAllowed($extra = null, $server_same = true)
     {
         // Set "same_server" as a property on this object, but still permit invocation
         $this->same_server = $server_same;

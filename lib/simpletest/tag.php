@@ -470,7 +470,7 @@
          *    @param integer $y                  Y coordinate of click.
          *    @access public
          */
-        function write(&$encoding, $x, $y) {
+        function write(&$encoding, $x = 0, $y = 0) {
             if ($this->getName()) {
                 $encoding->add($this->getName() . '.x', $x);
                 $encoding->add($this->getName() . '.y', $y);

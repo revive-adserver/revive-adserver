@@ -100,7 +100,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetime ext
      *
      * @param OX_Maintenance_Priority_Campaign $oCampaign
      */
-    function getCampaignImpressionInventoryRequirement(&$oCampaign)
+    function getCampaignImpressionInventoryRequirement($oCampaign, $type = 'total', $ignorePast = false)
     {
         parent::getCampaignImpressionInventoryRequirement($oCampaign, 'total');
     }

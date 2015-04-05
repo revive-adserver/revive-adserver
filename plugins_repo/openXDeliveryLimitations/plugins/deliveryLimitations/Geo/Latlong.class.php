@@ -51,7 +51,7 @@ class Plugins_DeliveryLimitations_Geo_Latlong extends Plugins_DeliveryLimitation
      *
      * @return boolean
      */
-    function isAllowed()
+    function isAllowed($page = false)
     {
         return ((isset($GLOBALS['_MAX']['GEO_DATA']['latitude']))
             || $GLOBALS['_MAX']['CONF']['geotargeting']['showUnavailable']);

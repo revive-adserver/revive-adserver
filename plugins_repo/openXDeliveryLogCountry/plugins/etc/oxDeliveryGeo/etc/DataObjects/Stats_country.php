@@ -31,7 +31,7 @@ class DataObjects_Stats_country extends DB_DataObjectCommon
     public $country;                         // CHAR(3) => openads_char => 130
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Stats_country',$k,$v); }
+    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Stats_country',$k,$v); }
 
     var $defaultValues = array(
                 'date_time' => '%NO_DATE_TIME%',

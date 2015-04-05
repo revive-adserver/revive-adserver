@@ -95,7 +95,7 @@ class Plugins_InvocationTags_OxInvocationTags_Spc extends Plugins_InvocationTags
      *
      * @return boolean  True - allowed, false - not allowed
      */
-    function isAllowed()
+    function isAllowed($extra = null)
     {
         return false;
     }

@@ -148,7 +148,7 @@ class DB_fbsql extends DB_common
     function connect($dsn, $persistent = false)
     {
         if (!PEAR::loadExtension('fbsql')) {
-            return $this->raiseError(DB_ERROR_EXTENSION_NOT_FOUND);
+            return $this->customRaiseError(DB_ERROR_EXTENSION_NOT_FOUND);
         }
 
         $this->dsn = $dsn;
@@ -177,7 +177,7 @@ class DB_fbsql extends DB_common
         }
 
         if (!$this->connection) {
-            return $this->raiseError(DB_ERROR_CONNECT_FAILED,
+            return $this->customRaiseError(DB_ERROR_CONNECT_FAILED,
                                      null, null, null,
                                      $php_errormsg);
         }
@@ -604,7 +604,7 @@ class DB_fbsql extends DB_common
         if ($errno === null) {
             $errno = $this->errorCode(fbsql_errno($this->connection));
         }
-        return $this->raiseError($errno, null, null, null,
+        return $this->customRaiseError($errno, null, null, null,
                                  @fbsql_error($this->connection));
     }
 

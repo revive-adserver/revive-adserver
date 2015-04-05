@@ -41,7 +41,7 @@ class DataObjects_Agency extends DB_DataObjectCommon
     public $account_id;                      // MEDIUMINT(9) => openads_mediumint => 1 
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Agency',$k,$v); }
+    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Agency',$k,$v); }
 
     var $defaultValues = array(
                 'name' => '',

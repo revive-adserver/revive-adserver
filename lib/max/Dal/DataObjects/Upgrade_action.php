@@ -35,7 +35,7 @@ class DataObjects_Upgrade_action extends DB_DataObjectCommon
     function __clone() { return $this;}
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Upgrade_action',$k,$v); }
+    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Upgrade_action',$k,$v); }
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

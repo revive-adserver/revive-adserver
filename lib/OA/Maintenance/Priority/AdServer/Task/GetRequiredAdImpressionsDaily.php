@@ -91,7 +91,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsDaily extend
      *
      * @param OX_Maintenance_Priority_Campaign $oCampaign
      */
-    function getCampaignImpressionInventoryRequirement(&$oCampaign)
+    function getCampaignImpressionInventoryRequirement($oCampaign, $type = 'daily', $ignorePast = false)
     {
         parent::getCampaignImpressionInventoryRequirement($oCampaign, 'daily');
     }

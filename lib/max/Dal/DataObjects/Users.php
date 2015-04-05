@@ -24,22 +24,22 @@ class DataObjects_Users extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'users';                           // table name
-    public $user_id;                         // MEDIUMINT(9) => openads_mediumint => 129 
-    public $contact_name;                    // VARCHAR(255) => openads_varchar => 130 
-    public $email_address;                   // VARCHAR(64) => openads_varchar => 130 
-    public $username;                        // VARCHAR(64) => openads_varchar => 2 
-    public $password;                        // VARCHAR(64) => openads_varchar => 2 
-    public $language;                        // VARCHAR(5) => openads_varchar => 2 
-    public $default_account_id;              // MEDIUMINT(9) => openads_mediumint => 1 
-    public $comments;                        // TEXT() => openads_text => 34 
-    public $active;                          // TINYINT(1) => openads_tinyint => 145 
-    public $sso_user_id;                     // INT(11) => openads_int => 1 
-    public $date_created;                    // DATETIME() => openads_datetime => 14 
-    public $date_last_login;                 // DATETIME() => openads_datetime => 14 
-    public $email_updated;                   // DATETIME() => openads_datetime => 14 
+    public $user_id;                         // MEDIUMINT(9) => openads_mediumint => 129
+    public $contact_name;                    // VARCHAR(255) => openads_varchar => 130
+    public $email_address;                   // VARCHAR(64) => openads_varchar => 130
+    public $username;                        // VARCHAR(64) => openads_varchar => 2
+    public $password;                        // VARCHAR(64) => openads_varchar => 2
+    public $language;                        // VARCHAR(5) => openads_varchar => 2
+    public $default_account_id;              // MEDIUMINT(9) => openads_mediumint => 1
+    public $comments;                        // TEXT() => openads_text => 34
+    public $active;                          // TINYINT(1) => openads_tinyint => 145
+    public $sso_user_id;                     // INT(11) => openads_int => 1
+    public $date_created;                    // DATETIME() => openads_datetime => 14
+    public $date_last_login;                 // DATETIME() => openads_datetime => 14
+    public $email_updated;                   // DATETIME() => openads_datetime => 14
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Users',$k,$v); }
+    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Users',$k,$v); }
 
     var $defaultValues = array(
                 'contact_name' => '',
@@ -371,7 +371,7 @@ class DataObjects_Users extends DB_DataObjectCommon
      *                      that needs to be able to see the audit trail
      *                      entry, if such an account exists.
      */
-    function getOwningAccountIds()
+    public function getOwningAccountIds($resetCache = false)
     {
         // Special case - return the admin account ID only.
         // This is because we can only store one account ID for each

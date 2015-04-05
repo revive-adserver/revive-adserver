@@ -25,7 +25,7 @@ class DataObjects_Banners_demo extends DB_DataObjectCommon
     public $banners_demo_desc;               // VARCHAR(16) => openads_varchar => 130
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Banners_demo',$k,$v); }
+    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Banners_demo',$k,$v); }
 
     var $defaultValues = array(
                 'banners_demo_desc' => '',

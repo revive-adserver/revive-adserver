@@ -47,7 +47,7 @@ class DataObjects_Trackers extends DB_DataObjectCommon
     public $updated;                         // DATETIME() => openads_datetime => 142
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Trackers',$k,$v); }
+    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Trackers',$k,$v); }
 
     var $defaultValues = array(
                 'trackername' => '',
@@ -145,12 +145,12 @@ class DataObjects_Trackers extends DB_DataObjectCommon
      *                      that needs to be able to see the audit trail
      *                      entry, if such an account exists.
      */
-    function getOwningAccountIds()
+    public function getOwningAccountIds($resetCache = false)
     {
         // Trackers don't have an account_id, get it from the parent
         // advertiser account (stored in the "clients" table) using
         // the "clientid" key
-        return parent::getOwningAccountIds('clients', 'clientid');
+        return $this->_getOwningAccountIds('clients', 'clientid');
     }
 
     /**

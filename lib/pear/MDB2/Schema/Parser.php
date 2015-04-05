@@ -268,7 +268,7 @@ class MDB2_Schema_Parser extends XML_Parser
             {
                 $result = $this->val->validateTable($this->database_definition['tables'], $this->table, $this->table_name);
                 if (PEAR::isError($result)) {
-                    $this->raiseError($result->getUserinfo(), 0, $xp, $result->getCode());
+                    $this->customRaiseError($result->getUserinfo(), 0, $xp, $result->getCode());
                 }
             }
             $this->database_definition['tables'][$this->table_name] = $this->table;
@@ -285,7 +285,7 @@ class MDB2_Schema_Parser extends XML_Parser
             {
                 $result = $this->val->validateField($this->table['fields'], $this->field, $this->field_name);
                 if (PEAR::isError($result)) {
-                    $this->raiseError($result->getUserinfo(), 0, $xp, $result->getCode());
+                    $this->customRaiseError($result->getUserinfo(), 0, $xp, $result->getCode());
                 }
             }
             $this->table['fields'][$this->field_name] = $this->field;
@@ -297,7 +297,7 @@ class MDB2_Schema_Parser extends XML_Parser
             {
                 $result = $this->val->validateIndex($this->table['indexes'], $this->index, $this->index_name);
                 if (PEAR::isError($result)) {
-                    $this->raiseError($result->getUserinfo(), 0, $xp, $result->getCode());
+                    $this->customRaiseError($result->getUserinfo(), 0, $xp, $result->getCode());
                 }
             }
             $this->table['indexes'][$this->index_name] = $this->index;
@@ -307,7 +307,7 @@ class MDB2_Schema_Parser extends XML_Parser
             {
                 $result = $this->val->validateIndexField($this->index['fields'], $this->field, $this->field_name);
                 if (PEAR::isError($result)) {
-                    $this->raiseError($result->getUserinfo(), 0, $xp, $result->getCode());
+                    $this->customRaiseError($result->getUserinfo(), 0, $xp, $result->getCode());
                 }
             }
             $this->index['fields'][$this->field_name] = $this->field;
@@ -319,7 +319,7 @@ class MDB2_Schema_Parser extends XML_Parser
             {
                 $result = $this->val->validateSequence($this->database_definition['sequences'], $this->sequence, $this->sequence_name);
                 if (PEAR::isError($result)) {
-                    $this->raiseError($result->getUserinfo(), 0, $xp, $result->getCode());
+                    $this->customRaiseError($result->getUserinfo(), 0, $xp, $result->getCode());
                 }
             }
             $this->database_definition['sequences'][$this->sequence_name] = $this->sequence;
@@ -331,7 +331,7 @@ class MDB2_Schema_Parser extends XML_Parser
             {
                 $result = $this->val->validateDatabase($this->database_definition);
                 if (PEAR::isError($result)) {
-                    $this->raiseError($result->getUserinfo(), 0, $xp, $result->getCode());
+                    $this->customRaiseError($result->getUserinfo(), 0, $xp, $result->getCode());
                 }
             }
             break;
@@ -341,7 +341,7 @@ class MDB2_Schema_Parser extends XML_Parser
         $this->element = implode('-', $this->elements);
     }
 
-    function &raiseError($msg = null, $xmlecode = 0, $xp = null, $ecode = MDB2_SCHEMA_ERROR_PARSE)
+    function &customRaiseError($msg = null, $xmlecode = 0, $xp = null, $ecode = MDB2_SCHEMA_ERROR_PARSE)
     {
         if (is_null($this->error)) {
             $error = '';
@@ -373,7 +373,7 @@ class MDB2_Schema_Parser extends XML_Parser
     {
         if ($this->var_mode == true) {
             if (!isset($this->variables[$data])) {
-                $this->raiseError('variable "'.$data.'" not found', null, $xp);
+                $this->customRaiseError('variable "'.$data.'" not found', null, $xp);
                 return;
             }
             $data = $this->variables[$data];

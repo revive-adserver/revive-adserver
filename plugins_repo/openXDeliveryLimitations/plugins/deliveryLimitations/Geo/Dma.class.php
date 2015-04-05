@@ -40,7 +40,7 @@ class Plugins_DeliveryLimitations_Geo_Dma extends Plugins_DeliveryLimitations_Co
      *
      * @return boolean
      */
-    function isAllowed()
+    function isAllowed($page = false)
     {
         return ((isset($GLOBALS['_MAX']['GEO_DATA']['dma_code']))
             || $GLOBALS['_MAX']['CONF']['geotargeting']['showUnavailable']);

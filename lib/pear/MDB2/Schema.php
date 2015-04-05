@@ -173,13 +173,13 @@ class MDB2_Schema extends PEAR
     {
         if (isset($this->options[$option])) {
             if (is_null($value)) {
-                return $this->raiseError(MDB2_SCHEMA_ERROR, null, null,
+                return $this->customRaiseError(MDB2_SCHEMA_ERROR, null, null,
                     'may not set an option to value null');
             }
             $this->options[$option] = $value;
             return MDB2_OK;
         }
-        return $this->raiseError(MDB2_SCHEMA_ERROR_UNSUPPORTED, null, null,
+        return $this->customRaiseError(MDB2_SCHEMA_ERROR_UNSUPPORTED, null, null,
             "unknown option $option");
     }
 
@@ -198,7 +198,7 @@ class MDB2_Schema extends PEAR
         if (isset($this->options[$option])) {
             return $this->options[$option];
         }
-        return $this->raiseError(MDB2_SCHEMA_ERROR_UNSUPPORTED,
+        return $this->customRaiseError(MDB2_SCHEMA_ERROR_UNSUPPORTED,
             null, null, "unknown option $option");
     }
 
@@ -328,7 +328,7 @@ class MDB2_Schema extends PEAR
             $database_definition = $schema;
         }
         if (!$database_definition && !$skip_unreadable) {
-            $database_definition = $this->raiseError(MDB2_SCHEMA_ERROR, null, null,
+            $database_definition = $this->customRaiseError(MDB2_SCHEMA_ERROR, null, null,
                 'invalid data type of schema or unreadable data source');
         }
         return $database_definition;
@@ -357,7 +357,7 @@ class MDB2_Schema extends PEAR
             require_once 'XML/DTD/XmlValidator.php';
             $dtd = new XML_DTD_XmlValidator;
             if (!$dtd->isValid($dtd_file, $input_file)) {
-                return $this->raiseError(MDB2_SCHEMA_ERROR_PARSE, null, null, $dtd->getMessage());
+                return $this->customRaiseError(MDB2_SCHEMA_ERROR_PARSE, null, null, $dtd->getMessage());
             }
         }
 
@@ -446,7 +446,7 @@ class MDB2_Schema extends PEAR
             require_once 'XML/DTD/XmlValidator.php';
             $dtd = new XML_DTD_XmlValidator;
             if (!$dtd->isValid($dtd_file, $input_file)) {
-                return $this->raiseError(MDB2_SCHEMA_ERROR_PARSE, null, null, $dtd->getMessage());
+                return $this->customRaiseError(MDB2_SCHEMA_ERROR_PARSE, null, null, $dtd->getMessage());
             }
         }
 
@@ -493,7 +493,7 @@ class MDB2_Schema extends PEAR
     {
         $database = $this->db->database_name;
         if (empty($database)) {
-            return $this->raiseError(MDB2_SCHEMA_ERROR_INVALID, null, null,
+            return $this->customRaiseError(MDB2_SCHEMA_ERROR_INVALID, null, null,
                 'it was not specified a valid database name');
         }
 
@@ -1141,7 +1141,7 @@ class MDB2_Schema extends PEAR
     function createDatabase($database_definition)
     {
         if (!isset($database_definition['name']) || !$database_definition['name']) {
-            return $this->raiseError(MDB2_SCHEMA_ERROR_INVALID, null, null,
+            return $this->customRaiseError(MDB2_SCHEMA_ERROR_INVALID, null, null,
                 'no valid database name specified');
         }
         $create = (isset($database_definition['create']) && $database_definition['create']);
@@ -1227,12 +1227,12 @@ class MDB2_Schema extends PEAR
         if ($support_transactions) {
             $res = $this->db->completeNestedTransaction();
             if (PEAR::isError($res)) {
-                $result = $this->raiseError(MDB2_SCHEMA_ERROR, null, null,
+                $result = $this->customRaiseError(MDB2_SCHEMA_ERROR, null, null,
                     'Could not end transaction ('.
                     $res->getMessage().' ('.$res->getUserinfo().'))');
             }
         } elseif (PEAR::isError($result) && $created_objects) {
-            $result = $this->raiseError(MDB2_SCHEMA_ERROR, null, null,
+            $result = $this->customRaiseError(MDB2_SCHEMA_ERROR, null, null,
                 'the database was only partially created ('.
                 $result->getMessage().' ('.$result->getUserinfo().'))');
         }
@@ -1242,7 +1242,7 @@ class MDB2_Schema extends PEAR
         if (PEAR::isError($result) && $create
             && PEAR::isError($result2 = $this->db->manager->dropDatabase($database_definition['name']))
         ) {
-            return $this->raiseError(MDB2_SCHEMA_ERROR, null, null,
+            return $this->customRaiseError(MDB2_SCHEMA_ERROR, null, null,
                 'Could not drop the created database after unsuccessful creation attempt ('.
                 $result2->getMessage().' ('.$result2->getUserinfo().'))');
         }
@@ -1361,7 +1361,7 @@ class MDB2_Schema extends PEAR
                         $changes['rename'][$was_field_name] = array('name' => $field_name, 'definition' => $field);
                     }
                     if (!empty($defined_fields[$was_field_name])) {
-                        return $this->raiseError(MDB2_SCHEMA_ERROR_INVALID, null, null,
+                        return $this->customRaiseError(MDB2_SCHEMA_ERROR_INVALID, null, null,
                             'the field "'.$was_field_name.
                             '" was specified for more than one field of table');
                     }
@@ -1376,7 +1376,7 @@ class MDB2_Schema extends PEAR
                     }
                 } else {
                     if ($field_name != $was_field_name) {
-                        return $this->raiseError(MDB2_SCHEMA_ERROR_INVALID, null, null,
+                        return $this->customRaiseError(MDB2_SCHEMA_ERROR_INVALID, null, null,
                             'it was specified a previous field name ("'.
                             $was_field_name.'") for field "'.$field_name.'" of table "'.
                             $table_name.'" that does not exist');
@@ -1437,7 +1437,7 @@ class MDB2_Schema extends PEAR
                         $change['name'] = $was_index_name;
                     }
                     if (!empty($defined_indexes[$was_index_name])) {
-                        return $this->raiseError(MDB2_SCHEMA_ERROR_INVALID, null, null,
+                        return $this->customRaiseError(MDB2_SCHEMA_ERROR_INVALID, null, null,
                             'the index "'.$was_index_name.'" was specified for'.
                             ' more than one index of table "'.$table_name.'"');
                     }
@@ -1484,7 +1484,7 @@ class MDB2_Schema extends PEAR
                     }
                 } else {
                     if ($index_name != $was_index_name) {
-                        return $this->raiseError(MDB2_SCHEMA_ERROR_INVALID, null, null,
+                        return $this->customRaiseError(MDB2_SCHEMA_ERROR_INVALID, null, null,
                             'it was specified a previous index name ("'.$was_index_name.
                             ') for index "'.$index_name.'" of table "'.$table_name.'" that does not exist');
                     }
@@ -1529,7 +1529,7 @@ class MDB2_Schema extends PEAR
                     $changes['change'][$was_table_name] = array('name' => $table_name);
                 }
                 if (!empty($defined_tables[$was_table_name])) {
-                    return $this->raiseError(MDB2_SCHEMA_ERROR_INVALID, null, null,
+                    return $this->customRaiseError(MDB2_SCHEMA_ERROR_INVALID, null, null,
                         'the table "'.$was_table_name.
                         '" was specified for more than one table of the database');
                 }
@@ -1581,7 +1581,7 @@ class MDB2_Schema extends PEAR
                 }
             } else {
                 if ($table_name != $was_table_name) {
-                    return $this->raiseError(MDB2_SCHEMA_ERROR_INVALID, null, null,
+                    return $this->customRaiseError(MDB2_SCHEMA_ERROR_INVALID, null, null,
                         'it was specified a previous table name ("'.$was_table_name.
                         '") for table "'.$table_name.'" that does not exist');
                 }
@@ -1625,7 +1625,7 @@ class MDB2_Schema extends PEAR
                     $changes['change'][$was_sequence_name]['name'] = $sequence_name;
                 }
                 if (!empty($defined_sequences[$was_sequence_name])) {
-                    return $this->raiseError(MDB2_SCHEMA_ERROR_INVALID, null, null,
+                    return $this->customRaiseError(MDB2_SCHEMA_ERROR_INVALID, null, null,
                         'the sequence "'.$was_sequence_name.'" was specified as base'.
                         ' of more than of sequence of the database');
                 }
@@ -1651,7 +1651,7 @@ class MDB2_Schema extends PEAR
                 }
             } else {
                 if ($sequence_name != $was_sequence_name) {
-                    return $this->raiseError(MDB2_SCHEMA_ERROR_INVALID, null, null,
+                    return $this->customRaiseError(MDB2_SCHEMA_ERROR_INVALID, null, null,
                         'it was specified a previous sequence name ("'.$was_sequence_name.
                         '") for sequence "'.$sequence_name.'" that does not exist');
                 }
@@ -1677,7 +1677,7 @@ class MDB2_Schema extends PEAR
             foreach ($changes['tables']['change'] as $table_name => $table) {
                 if (!empty($table['indexes']) && is_array($table['indexes'])) {
                     if (!$this->db->supports('indexes')) {
-                        return $this->raiseError(MDB2_SCHEMA_ERROR_UNSUPPORTED, null, null,
+                        return $this->customRaiseError(MDB2_SCHEMA_ERROR_UNSUPPORTED, null, null,
                             'indexes are not supported');
                     }
                     $table_changes = count($table['indexes']);
@@ -1691,7 +1691,7 @@ class MDB2_Schema extends PEAR
                         $table_changes--;
                     }
                     if ($table_changes) {
-                        return $this->raiseError(MDB2_SCHEMA_ERROR_UNSUPPORTED, null, null,
+                        return $this->customRaiseError(MDB2_SCHEMA_ERROR_UNSUPPORTED, null, null,
                             'index alteration not yet supported: '.implode(', ', array_keys($table['indexes'])));
                     }
                 }
@@ -1704,7 +1704,7 @@ class MDB2_Schema extends PEAR
         }
         if (!empty($changes['sequences']) && is_array($changes['sequences'])) {
             if (!$this->db->supports('sequences')) {
-                return $this->raiseError(MDB2_SCHEMA_ERROR_UNSUPPORTED, null, null,
+                return $this->customRaiseError(MDB2_SCHEMA_ERROR_UNSUPPORTED, null, null,
                     'sequences are not supported');
             }
             $sequence_changes = count($changes['sequences']);
@@ -1718,7 +1718,7 @@ class MDB2_Schema extends PEAR
                 $sequence_changes--;
             }
             if ($sequence_changes) {
-                return $this->raiseError(MDB2_SCHEMA_ERROR_UNSUPPORTED, null, null,
+                return $this->customRaiseError(MDB2_SCHEMA_ERROR_UNSUPPORTED, null, null,
                     'sequence alteration not yet supported: '.implode(', ', array_keys($changes['sequences'])));
             }
         }
@@ -1985,12 +1985,12 @@ class MDB2_Schema extends PEAR
         if ($support_transactions) {
             $res = $this->db->completeNestedTransaction();
             if (PEAR::isError($res)) {
-                $result = $this->raiseError(MDB2_SCHEMA_ERROR, null, null,
+                $result = $this->customRaiseError(MDB2_SCHEMA_ERROR, null, null,
                     'Could not end transaction ('.
                     $res->getMessage().' ('.$res->getUserinfo().'))');
             }
         } elseif (PEAR::isError($result) && $alterations) {
-            $result = $this->raiseError(MDB2_SCHEMA_ERROR, null, null,
+            $result = $this->customRaiseError(MDB2_SCHEMA_ERROR, null, null,
                 'the requested database alterations were only partially implemented ('.
                 $result->getMessage().' ('.$result->getUserinfo().'))');
         }
@@ -2474,7 +2474,7 @@ class MDB2_Schema extends PEAR
             } elseif (!is_array($databases) ||
                 !in_array($current_definition['name'], $databases)
             ) {
-                return $this->raiseError(MDB2_SCHEMA_ERROR, null, null,
+                return $this->customRaiseError(MDB2_SCHEMA_ERROR, null, null,
                     'database to update does not exist: '.$current_definition['name']);
             }
 
@@ -2511,7 +2511,7 @@ class MDB2_Schema extends PEAR
             && is_string($previous_schema) && is_string($current_schema)
             && !copy($current_schema, $previous_schema)
         ) {
-            return $this->raiseError(MDB2_SCHEMA_ERROR, null, null,
+            return $this->customRaiseError(MDB2_SCHEMA_ERROR, null, null,
                 'Could not copy the new database definition file to the current file');
         }
 
@@ -2559,7 +2559,7 @@ class MDB2_Schema extends PEAR
     }
 
     // }}}
-    // {{{ raiseError()
+    // {{{ customRaiseError()
 
     /**
      * This method is used to communicate an error and invoke error
@@ -2581,9 +2581,9 @@ class MDB2_Schema extends PEAR
      * @access  public
      * @see PEAR_Error
      */
-    function &raiseError($code = null, $mode = null, $options = null, $userinfo = null)
+    function customRaiseError($code = null, $mode = null, $options = null, $userinfo = null)
     {
-        $err =& PEAR::raiseError(null, $code, $mode, $options, $userinfo, 'MDB2_Schema_Error', true);
+        $err = PEAR::raiseError(null, $code, $mode, $options, $userinfo, 'MDB2_Schema_Error', true);
         return $err;
     }
 
@@ -2675,7 +2675,7 @@ class MDB2_Schema extends PEAR
             require_once 'XML/DTD/XmlValidator.php';
             $dtd = new XML_DTD_XmlValidator;
             if (!$dtd->isValid($dtd_file, $input_file)) {
-                return $this->raiseError(MDB2_SCHEMA_ERROR_PARSE, null, null, $dtd->getMessage());
+                return $this->customRaiseError(MDB2_SCHEMA_ERROR_PARSE, null, null, $dtd->getMessage());
             }
         }
         require_once("MDB2/Schema/ParserChangeset.php");
@@ -2731,7 +2731,7 @@ class MDB2_Schema extends PEAR
             require_once 'XML/DTD/XmlValidator.php';
             $dtd = new XML_DTD_XmlValidator;
             if (!$dtd->isValid($dtd_file, $input_file)) {
-                return $this->raiseError(MDB2_SCHEMA_ERROR_PARSE, null, null, $dtd->getMessage());
+                return $this->customRaiseError(MDB2_SCHEMA_ERROR_PARSE, null, null, $dtd->getMessage());
             }
         }
         require_once("MDB2/Schema/ParserDictionary.php");

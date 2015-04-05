@@ -540,7 +540,7 @@ class MDB2
     }
 
     // }}}
-    // {{{ function raiseError($code = null, $mode = null, $options = null, $userinfo = null)
+    // {{{ function customRaiseError($code = null, $mode = null, $options = null, $userinfo = null)
 
     /**
      * This method is used to communicate an error and invoke error
@@ -568,7 +568,7 @@ class MDB2
      * @access  private
      * @see     PEAR_Error
      */
-    function raiseError($code = null, $mode = null, $options = null, $userinfo = null)
+    function customRaiseError($code = null, $mode = null, $options = null, $userinfo = null)
     {
         $err =& PEAR::raiseError(null, $code, $mode, $options, $userinfo, 'MDB2_Error', true);
         return $err;
@@ -1369,7 +1369,7 @@ class MDB2_Driver_Common extends PEAR
     }
 
     // }}}
-    // {{{ function raiseError($code = null, $mode = null, $options = null, $userinfo = null)
+    // {{{ function customRaiseError($code = null, $mode = null, $options = null, $userinfo = null)
 
     /**
      * This method is used to communicate an error and invoke error
@@ -1394,7 +1394,7 @@ class MDB2_Driver_Common extends PEAR
      * @access  public
      * @see     PEAR_Error
      */
-    function raiseError($code = null, $mode = null, $options = null, $userinfo = null, $method = null)
+    function customRaiseError($code = null, $mode = null, $options = null, $userinfo = null, $method = null)
     {
         $userinfo = "[Error message: $userinfo]\n";
         // The error is yet a MDB2 error object
@@ -1498,7 +1498,7 @@ class MDB2_Driver_Common extends PEAR
             $this->fetchmode = $fetchmode;
             break;
         default:
-            return $this->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,
+            return $this->customRaiseError(MDB2_ERROR_UNSUPPORTED, null, null,
                 'invalid fetchmode mode', __FUNCTION__);
         }
 
@@ -1524,7 +1524,7 @@ class MDB2_Driver_Common extends PEAR
             $this->options[$option] = $value;
             return MDB2_OK;
         }
-        return $this->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,
+        return $this->customRaiseError(MDB2_ERROR_UNSUPPORTED, null, null,
             "unknown option $option", __FUNCTION__);
     }
 
@@ -1545,7 +1545,7 @@ class MDB2_Driver_Common extends PEAR
         if (array_key_exists($option, $this->options)) {
             return $this->options[$option];
         }
-        return $this->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,
+        return $this->customRaiseError(MDB2_ERROR_UNSUPPORTED, null, null,
             "unknown option $option", __FUNCTION__);
     }
 
@@ -1870,7 +1870,7 @@ class MDB2_Driver_Common extends PEAR
             }
 
             if (!class_exists($class_name)) {
-                $err =& $this->raiseError(MDB2_ERROR_LOADMODULE, null, null,
+                $err =& $this->customRaiseError(MDB2_ERROR_LOADMODULE, null, null,
                     "unable to load module '$module' into property '$property'", __FUNCTION__);
                 return $err;
             }
@@ -2009,7 +2009,7 @@ class MDB2_Driver_Common extends PEAR
     function beginTransaction($savepoint = null)
     {
         $this->debug('Starting transaction', __FUNCTION__, array('is_manip' => true, 'savepoint' => $savepoint));
-        return $this->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,
+        return $this->customRaiseError(MDB2_ERROR_UNSUPPORTED, null, null,
             'transactions are not supported', __FUNCTION__);
     }
 
@@ -2030,7 +2030,7 @@ class MDB2_Driver_Common extends PEAR
     function commit($savepoint = null)
     {
         $this->debug('Committing transaction/savepoint', __FUNCTION__, array('is_manip' => true, 'savepoint' => $savepoint));
-        return $this->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,
+        return $this->customRaiseError(MDB2_ERROR_UNSUPPORTED, null, null,
             'commiting transactions is not supported', __FUNCTION__);
     }
 
@@ -2051,7 +2051,7 @@ class MDB2_Driver_Common extends PEAR
     function rollback($savepoint = null)
     {
         $this->debug('Rolling back transaction/savepoint', __FUNCTION__, array('is_manip' => true, 'savepoint' => $savepoint));
-        return $this->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,
+        return $this->customRaiseError(MDB2_ERROR_UNSUPPORTED, null, null,
             'rolling back transactions is not supported', __FUNCTION__);
     }
 
@@ -2099,7 +2099,7 @@ class MDB2_Driver_Common extends PEAR
     function setTransactionIsolation($isolation, $options = array())
     {
         $this->debug('Setting transaction isolation level', __FUNCTION__, array('is_manip' => true));
-        return $this->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,
+        return $this->customRaiseError(MDB2_ERROR_UNSUPPORTED, null, null,
             'isolation level setting is not supported', __FUNCTION__);
     }
 
@@ -2257,7 +2257,7 @@ class MDB2_Driver_Common extends PEAR
      */
     function connect()
     {
-        return $this->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,
+        return $this->customRaiseError(MDB2_ERROR_UNSUPPORTED, null, null,
             'method not implemented', __FUNCTION__);
     }
 
@@ -2274,7 +2274,7 @@ class MDB2_Driver_Common extends PEAR
      */
     function setCharset($charset, $connection = null)
     {
-        return $this->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,
+        return $this->customRaiseError(MDB2_ERROR_UNSUPPORTED, null, null,
             'method not implemented', __FUNCTION__);
     }
 
@@ -2485,7 +2485,7 @@ class MDB2_Driver_Common extends PEAR
             }
             $query = $result;
         }
-        $err =& $this->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,
+        $err =& $this->customRaiseError(MDB2_ERROR_UNSUPPORTED, null, null,
             'method not implemented', __FUNCTION__);
         return $err;
     }
@@ -2505,7 +2505,7 @@ class MDB2_Driver_Common extends PEAR
      */
     function _affectedRows($connection, $result = null)
     {
-        return $this->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,
+        return $this->customRaiseError(MDB2_ERROR_UNSUPPORTED, null, null,
             'method not implemented', __FUNCTION__);
     }
 
@@ -2624,13 +2624,13 @@ class MDB2_Driver_Common extends PEAR
         if ($result_class) {
             $class_name = sprintf($result_class, $this->phptype);
             if (!class_exists($class_name)) {
-                $err =& $this->raiseError(MDB2_ERROR_NOT_FOUND, null, null,
+                $err =& $this->customRaiseError(MDB2_ERROR_NOT_FOUND, null, null,
                     'result class does not exist '.$class_name, __FUNCTION__);
                 return $err;
             }
             $result = new $class_name($this, $result, $limit, $offset);
             if (!MDB2::isResultCommon($result)) {
-                $err =& $this->raiseError(MDB2_ERROR_NOT_FOUND, null, null,
+                $err =& $this->customRaiseError(MDB2_ERROR_NOT_FOUND, null, null,
                     'result class is not extended from MDB2_Result_Common', __FUNCTION__);
                 return $err;
             }
@@ -2647,7 +2647,7 @@ class MDB2_Driver_Common extends PEAR
         }
         if ($result_wrap_class) {
             if (!class_exists($result_wrap_class)) {
-                $err =& $this->raiseError(MDB2_ERROR_NOT_FOUND, null, null,
+                $err =& $this->customRaiseError(MDB2_ERROR_NOT_FOUND, null, null,
                     'result wrap class does not exist '.$result_wrap_class, __FUNCTION__);
                 return $err;
             }
@@ -2670,7 +2670,7 @@ class MDB2_Driver_Common extends PEAR
      */
     function getServerVersion($native = false)
     {
-        return $this->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,
+        return $this->customRaiseError(MDB2_ERROR_UNSUPPORTED, null, null,
             'method not implemented', __FUNCTION__);
     }
 
@@ -2690,19 +2690,19 @@ class MDB2_Driver_Common extends PEAR
     function setLimit($limit, $offset = null)
     {
         if (!$this->supports('limit_queries')) {
-            return $this->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,
+            return $this->customRaiseError(MDB2_ERROR_UNSUPPORTED, null, null,
                 'limit is not supported by this driver', __FUNCTION__);
         }
         $limit = (int)$limit;
         if ($limit < 0) {
-            return $this->raiseError(MDB2_ERROR_SYNTAX, null, null,
+            return $this->customRaiseError(MDB2_ERROR_SYNTAX, null, null,
                 'it was not specified a valid selected range row limit', __FUNCTION__);
         }
         $this->limit = $limit;
         if (!is_null($offset)) {
             $offset = (int)$offset;
             if ($offset < 0) {
-                return $this->raiseError(MDB2_ERROR_SYNTAX, null, null,
+                return $this->customRaiseError(MDB2_ERROR_SYNTAX, null, null,
                     'it was not specified a valid first selected range row', __FUNCTION__);
             }
             $this->offset = $offset;
@@ -2732,7 +2732,7 @@ class MDB2_Driver_Common extends PEAR
         }
 
         if (!$this->supports('sub_selects')) {
-            return $this->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,
+            return $this->customRaiseError(MDB2_ERROR_UNSUPPORTED, null, null,
                 'method not implemented', __FUNCTION__);
         }
 
@@ -2819,7 +2819,7 @@ class MDB2_Driver_Common extends PEAR
     function replace($table, $fields)
     {
         if (!$this->supports('replace')) {
-            return $this->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,
+            return $this->customRaiseError(MDB2_ERROR_UNSUPPORTED, null, null,
                 'replace query is not supported', __FUNCTION__);
         }
         $count = count($fields);
@@ -2835,14 +2835,14 @@ class MDB2_Driver_Common extends PEAR
             $values[$name] = $value;
             if (isset($fields[$name]['key']) && $fields[$name]['key']) {
                 if ($value === 'NULL') {
-                    return $this->raiseError(MDB2_ERROR_CANNOT_REPLACE, null, null,
+                    return $this->customRaiseError(MDB2_ERROR_CANNOT_REPLACE, null, null,
                         'key value '.$name.' may not be NULL', __FUNCTION__);
                 }
                 $condition[] = $name . '=' . $value;
             }
         }
         if (empty($condition)) {
-            return $this->raiseError(MDB2_ERROR_CANNOT_REPLACE, null, null,
+            return $this->customRaiseError(MDB2_ERROR_CANNOT_REPLACE, null, null,
                 'not specified which fields are keys', __FUNCTION__);
         }
 
@@ -2976,7 +2976,7 @@ class MDB2_Driver_Common extends PEAR
                 if ($placeholder_type == ':') {
                     $parameter = preg_replace('/^.{'.($position+1).'}([a-z0-9_]+).*$/si', '\\1', $query);
                     if ($parameter === '') {
-                        $err =& $this->raiseError(MDB2_ERROR_SYNTAX, null, null,
+                        $err =& $this->customRaiseError(MDB2_ERROR_SYNTAX, null, null,
                             'named parameter with an empty name', __FUNCTION__);
                         return $err;
                     }
@@ -3034,7 +3034,7 @@ class MDB2_Driver_Common extends PEAR
                             if ($ignore['end'] === "\n") {
                                 $end_quote = strlen($query) - 1;
                             } else {
-                                $err =& $this->raiseError(MDB2_ERROR_SYNTAX, null, null,
+                                $err =& $this->customRaiseError(MDB2_ERROR_SYNTAX, null, null,
                                     'query with an unterminated text string specified', __FUNCTION__);
                                 return $err;
                             }
@@ -3141,7 +3141,7 @@ class MDB2_Driver_Common extends PEAR
         if (array_key_exists($feature, $this->supported)) {
             return $this->supported[$feature];
         }
-        return $this->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,
+        return $this->customRaiseError(MDB2_ERROR_UNSUPPORTED, null, null,
             "unknown support feature $feature", __FUNCTION__);
     }
 
@@ -3196,7 +3196,7 @@ class MDB2_Driver_Common extends PEAR
      */
     function nextID($seq_name, $ondemand = true)
     {
-        return $this->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,
+        return $this->customRaiseError(MDB2_ERROR_UNSUPPORTED, null, null,
             'method not implemented', __FUNCTION__);
     }
 
@@ -3216,7 +3216,7 @@ class MDB2_Driver_Common extends PEAR
      */
     function lastInsertID($table = null, $field = null)
     {
-        return $this->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,
+        return $this->customRaiseError(MDB2_ERROR_UNSUPPORTED, null, null,
             'method not implemented', __FUNCTION__);
     }
 
@@ -3480,7 +3480,7 @@ class MDB2_Result_Common extends MDB2_Result
     {
         $target_rownum = $rownum - 1;
         if ($this->rownum > $target_rownum) {
-            return $this->db->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,
+            return $this->db->customRaiseError(MDB2_ERROR_UNSUPPORTED, null, null,
                 'seeking to previous rows not implemented', __FUNCTION__);
         }
         while ($this->rownum < $target_rownum) {
@@ -3504,7 +3504,7 @@ class MDB2_Result_Common extends MDB2_Result
      */
     function fetchRow($fetchmode = MDB2_FETCHMODE_DEFAULT, $rownum = null)
     {
-        $err =& $this->db->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,
+        $err =& $this->db->customRaiseError(MDB2_ERROR_UNSUPPORTED, null, null,
             'method not implemented', __FUNCTION__);
         return $err;
     }
@@ -3530,7 +3530,7 @@ class MDB2_Result_Common extends MDB2_Result
             return $row;
         }
         if (!array_key_exists($colnum, $row)) {
-            return $this->db->raiseError(MDB2_ERROR_TRUNCATED, null, null,
+            return $this->db->customRaiseError(MDB2_ERROR_TRUNCATED, null, null,
                 'column is not defined in the result set: '.$colnum, __FUNCTION__);
         }
         return $row[$colnum];
@@ -3555,7 +3555,7 @@ class MDB2_Result_Common extends MDB2_Result
         $row = $this->fetchRow($fetchmode);
         if (is_array($row)) {
             if (!array_key_exists($colnum, $row)) {
-                return $this->db->raiseError(MDB2_ERROR_TRUNCATED, null, null,
+                return $this->db->customRaiseError(MDB2_ERROR_TRUNCATED, null, null,
                     'column is not defined in the result set: '.$colnum, __FUNCTION__);
             }
             do {
@@ -3613,7 +3613,7 @@ class MDB2_Result_Common extends MDB2_Result
                 $colnum = count($row);
             }
             if ($colnum < 2) {
-                return $this->db->raiseError(MDB2_ERROR_TRUNCATED, null, null,
+                return $this->db->customRaiseError(MDB2_ERROR_TRUNCATED, null, null,
                     'rekey feature requires atleast 2 column', __FUNCTION__);
             }
             $shift_array = (!$force_array && $colnum == 2);
@@ -3682,7 +3682,7 @@ class MDB2_Result_Common extends MDB2_Result
      */
     function numRows()
     {
-        return $this->db->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,
+        return $this->db->customRaiseError(MDB2_ERROR_UNSUPPORTED, null, null,
             'method not implemented', __FUNCTION__);
     }
 
@@ -3701,7 +3701,7 @@ class MDB2_Result_Common extends MDB2_Result
 
     function nextResult()
     {
-        return $this->db->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,
+        return $this->db->customRaiseError(MDB2_ERROR_UNSUPPORTED, null, null,
             'method not implemented', __FUNCTION__);
     }
 
@@ -3751,7 +3751,7 @@ class MDB2_Result_Common extends MDB2_Result
      */
     function _getColumnNames()
     {
-        return $this->db->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,
+        return $this->db->customRaiseError(MDB2_ERROR_UNSUPPORTED, null, null,
             'method not implemented', __FUNCTION__);
     }
 
@@ -3768,7 +3768,7 @@ class MDB2_Result_Common extends MDB2_Result
      */
     function numCols()
     {
-        return $this->db->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,
+        return $this->db->customRaiseError(MDB2_ERROR_UNSUPPORTED, null, null,
             'method not implemented', __FUNCTION__);
     }
 
@@ -3957,7 +3957,7 @@ class MDB2_Statement_Common
             $parameter = preg_replace('/^:(.*)$/', '\\1', $parameter);
         }
         if (!in_array($parameter, $this->positions)) {
-            return $this->db->raiseError(MDB2_ERROR_NOT_FOUND, null, null,
+            return $this->db->customRaiseError(MDB2_ERROR_NOT_FOUND, null, null,
                 'Unable to bind to missing placeholder: '.$parameter, __FUNCTION__);
         }
         $this->values[$parameter] = $value;
@@ -4018,7 +4018,7 @@ class MDB2_Statement_Common
             $parameter = preg_replace('/^:(.*)$/', '\\1', $parameter);
         }
         if (!in_array($parameter, $this->positions)) {
-            return $this->db->raiseError(MDB2_ERROR_NOT_FOUND, null, null,
+            return $this->db->customRaiseError(MDB2_ERROR_NOT_FOUND, null, null,
                 'Unable to bind to missing placeholder: '.$parameter, __FUNCTION__);
         }
         $this->values[$parameter] =& $value;
@@ -4076,7 +4076,7 @@ class MDB2_Statement_Common
     function execute($values = null, $result_class = true, $result_wrap_class = false)
     {
         if (is_null($this->positions)) {
-            return $this->db->raiseError(MDB2_ERROR, null, null,
+            return $this->db->customRaiseError(MDB2_ERROR, null, null,
                 'Prepared statement has already been freed', __FUNCTION__);
         }
 
@@ -4108,7 +4108,7 @@ class MDB2_Statement_Common
         $last_position = 0;
         foreach ($this->positions as $current_position => $parameter) {
             if (!array_key_exists($parameter, $this->values)) {
-                return $this->db->raiseError(MDB2_ERROR_NOT_FOUND, null, null,
+                return $this->db->customRaiseError(MDB2_ERROR_NOT_FOUND, null, null,
                     'Unable to bind to missing placeholder: '.$parameter, __FUNCTION__);
             }
             $value = $this->values[$parameter];
@@ -4150,7 +4150,7 @@ class MDB2_Statement_Common
     function free()
     {
         if (is_null($this->positions)) {
-            return $this->db->raiseError(MDB2_ERROR, null, null,
+            return $this->db->customRaiseError(MDB2_ERROR, null, null,
                 'Prepared statement has already been freed', __FUNCTION__);
         }
 

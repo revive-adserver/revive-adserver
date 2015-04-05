@@ -29,7 +29,7 @@ class DataObjects_Tracker_append extends DB_DataObjectCommon
     public $autotrack;                       // ENUM('t','f') => openads_enum => 130 
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Tracker_append',$k,$v); }
+    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Tracker_append',$k,$v); }
 
     var $defaultValues = array(
                 'tracker_id' => 0,

@@ -177,13 +177,13 @@ class OA_Admin_Template extends Smarty
         $this->caching = 2;
     }
 
-    function is_cached()
+    function is_cached($tpl_file = null, $cache_id = null, $compile_id = null)
     {
         return parent::is_cached($this->templateName, $this->cacheId);
     }
 
 
-    function display()
+    function display($resource_name = null, $cache_id = null, $compile_id = null)
     {
         parent::display($this->templateName, $this->cacheId);
     }
@@ -214,7 +214,7 @@ class OA_Admin_Template extends Smarty
             if (empty($aParams['escape'])) {
                 return $t;
             }
-            
+
             return smarty_modifier_escape($t, $aParams['escape']);
         }
 

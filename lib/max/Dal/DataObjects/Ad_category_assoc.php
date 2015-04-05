@@ -26,7 +26,7 @@ class DataObjects_Ad_category_assoc extends DB_DataObjectCommon
     public $ad_id;                           // INT(10) => openads_int => 129 
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Ad_category_assoc',$k,$v); }
+    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Ad_category_assoc',$k,$v); }
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

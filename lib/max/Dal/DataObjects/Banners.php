@@ -76,7 +76,7 @@ class DataObjects_Banners extends DB_DataObjectCommon
     public $iframe_friendly;                 // TINYINT(1) => openads_tinyint => 145
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Banners',$k,$v); }
+    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Banners',$k,$v); }
 
     var $defaultValues = array(
                 'campaignid' => 0,
@@ -275,12 +275,12 @@ class DataObjects_Banners extends DB_DataObjectCommon
      *                      that needs to be able to see the audit trail
      *                      entry, if such an account exists.
      */
-    function getOwningAccountIds()
+    public function getOwningAccountIds($resetCache = false)
     {
         // Banners don't have an account_id, get it from the parent
         // campaign (stored in the "campaigns" table) using the
         // "campaignid" key
-        return parent::getOwningAccountIds('campaigns', 'campaignid');
+        return $this->_getOwningAccountIds('campaigns', 'campaignid');
     }
 
     /**

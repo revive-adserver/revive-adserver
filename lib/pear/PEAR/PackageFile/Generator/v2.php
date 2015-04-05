@@ -189,7 +189,7 @@ http://pear.php.net/dtd/package-2.0.xsd',
                 $fname = $package;
                 $file = $pkgdir . DIRECTORY_SEPARATOR . $fname;
                 if (!file_exists($file)) {
-                    return $packager->raiseError("File does not exist: $fname");
+                    return $packager->customRaiseError("File does not exist: $fname");
                 }
                 $tfile = $packageDir . DIRECTORY_SEPARATOR . $fname;
                 System::mkdir(array('-p', dirname($tfile)));
@@ -210,7 +210,7 @@ http://pear.php.net/dtd/package-2.0.xsd',
                 $orig = $file;
                 $file = $pkgdir . DIRECTORY_SEPARATOR . $fname;
                 if (!file_exists($file)) {
-                    return $packager->raiseError("File does not exist: $fname");
+                    return $packager->customRaiseError("File does not exist: $fname");
                 } else {
                     $tfile = $packageDir . DIRECTORY_SEPARATOR . $fname;
                     unset($orig['attribs']);
@@ -261,14 +261,14 @@ http://pear.php.net/dtd/package-2.0.xsd',
             // ----- Creates with the package.xml file
             $ok = $tar->createModify(array($packagexml), '', $where);
             if (PEAR::isError($ok)) {
-                return $packager->raiseError($ok);
+                return $packager->customRaiseError($ok);
             } elseif (!$ok) {
-                return $packager->raiseError('PEAR_Packagefile_v2::toTgz(): adding ' . $name .
+                return $packager->customRaiseError('PEAR_Packagefile_v2::toTgz(): adding ' . $name .
                     ' failed');
             }
             // ----- Add the content of the package
             if (!$tar->addModify($filelist, $pkgver, $where)) {
-                return $packager->raiseError(
+                return $packager->customRaiseError(
                     'PEAR_Packagefile_v2::toTgz(): tarball creation failed');
             }
             // add the package.xml version 1.0
@@ -277,7 +277,7 @@ http://pear.php.net/dtd/package-2.0.xsd',
                 $packagexml1 = $pfgen->toPackageFile($where, PEAR_VALIDATE_PACKAGING,
                     'package.xml', true);
                 if (!$tar->addModify(array($packagexml1), '', $where)) {
-                    return $packager->raiseError(
+                    return $packager->customRaiseError(
                         'PEAR_Packagefile_v2::toTgz(): adding package.xml failed');
                 }
             }
