@@ -35,6 +35,8 @@ What's New in Revive Adserver 3.2.0-beta
 
  * Added plugin hooks to the VAST events in the VideoAds plugin.
 
+ * Added preliminary support for PHP7.
+
  Bug Fixes
  ---------
 
