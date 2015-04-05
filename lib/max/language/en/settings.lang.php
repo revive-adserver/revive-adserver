@@ -39,10 +39,6 @@ $GLOBALS['strErrorWritePermissionsWin'] = "File permission errors have been dete
 $GLOBALS['strCheckDocumentation'] = "For more help, please see the <a href=\"{$PRODUCT_DOCSURL}\">{$PRODUCT_NAME} documentation</a>.";
 $GLOBALS['strSystemCheckBadPHPConfig'] = "Your current PHP configuration does not meet requirements of {$PRODUCT_NAME}. To resolve the problems, please modify settings in your 'php.ini' file.";
 
-$GLOBALS['strErrorWritePermissionsWin'] = "File permission errors have been detected, and must be fixed before you can continue.";
-$GLOBALS['strCheckDocumentation'] = "For more help, please see the <a href = \"" . PRODUCT_DOCSURL . "\">" . PRODUCT_NAME . " documentation</a>.";
-$GLOBALS['strSystemCheckBadPHPConfig'] = "Your current PHP configuration does not meet requirements of " . MAX_PRODUCT_NAME . ". To resolve the problems, please modify settings in your 'php.ini' file.";
-
 $GLOBALS['strAdminUrlPrefix'] = "Admin Interface URL";
 $GLOBALS['strDeliveryUrlPrefix'] = "Delivery Engine URL";
 $GLOBALS['strDeliveryUrlPrefixSSL'] = "Delivery Engine URL (SSL)";
