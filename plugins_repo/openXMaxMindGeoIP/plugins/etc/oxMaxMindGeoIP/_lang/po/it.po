@@ -20,5 +20,5 @@ msgstr ""
 
 #: plugins_repo/openXMaxMindGeoIP/extensions/geoTargeting/oxMaxMindGeoIP//oxMaxMindGeoIP.class.php:49
 msgid "MaxMind GeoIP (Flat file)"
-msgstr "MaxMind GeoIP (file Piatto)"
+msgstr "MaxMind GeoIP (Standard)"
 

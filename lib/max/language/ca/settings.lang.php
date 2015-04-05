@@ -16,6 +16,8 @@
 
 
 
+
+
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
 /* ------------------------------------------------------- */
@@ -30,7 +32,6 @@ $GLOBALS['strEditConfigPossible'] = "It is possible to edit all settings because
 
 // Administrator Settings
 
-
 // Database Settings
 
 // Email Settings
@@ -40,7 +41,6 @@ $GLOBALS['strEditConfigPossible'] = "It is possible to edit all settings because
 // Debug Logging Settings
 
 // Delivery Settings
-$GLOBALS['strWebPath'] = "$PRODUCT_NAME Server Access Paths";
 
 // General Settings
 

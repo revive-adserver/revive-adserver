@@ -39,6 +39,8 @@ $GLOBALS['strDeliveryUrlPrefixSSL'] = "URL du moteur de distribution (SSL)";
 $GLOBALS['strImagesUrlPrefix'] = "URL de stockage des images";
 $GLOBALS['strImagesUrlPrefixSSL'] = "URL de stockage des images (SSL)";
 
+
+
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
 /* ------------------------------------------------------- */
@@ -68,7 +70,6 @@ $GLOBALS['strNovice'] = "Les actions de suppression nécessitent une confirmatio
 $GLOBALS['strUserlogEmail'] = "Journaliser tous les messages e-mail sortants";
 $GLOBALS['strEnableDashboardSyncNotice'] = "Veuillez activer la <a href='account-settings-update.php'>vérification des mises à jour</a> pour utiliser le tableau de bord.";
 $GLOBALS['strTimezone'] = "Fuseau horaire";
-
 $GLOBALS['strEnableAutoMaintenance'] = "Exécuter automatiquement une maintenance pendant la distribution si la maintenance planifiée n'est pas activée";
 
 // Database Settings
@@ -122,7 +123,6 @@ $GLOBALS['strDebugPassword'] = "Mot de passe mCal, serveur SQL";
 $GLOBALS['strProductionSystem'] = "Système en production";
 
 // Delivery Settings
-$GLOBALS['strWebPath'] = "$PRODUCT_NAME Server Access Paths";
 $GLOBALS['strWebPathSimple'] = "Emplacement web";
 $GLOBALS['strDeliveryPath'] = "Emplacement de distribution";
 $GLOBALS['strImagePath'] = "Emplacement des images";

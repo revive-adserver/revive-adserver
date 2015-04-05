@@ -39,6 +39,8 @@ $GLOBALS['strDeliveryUrlPrefixSSL'] = "URL Motor de Livrare (SSL)";
 $GLOBALS['strImagesUrlPrefix'] = "URL Stocare Imagini";
 $GLOBALS['strImagesUrlPrefixSSL'] = "URL Stocare Imagini (SSL)";
 
+
+
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
 /* ------------------------------------------------------- */
@@ -66,7 +68,6 @@ $GLOBALS['strNovice'] = "Acţiunile de ştergere necesită confirmare pentru sig
 $GLOBALS['strUserlogEmail'] = "Păstrează jurnalul tuturor mesajelor email trimise";
 $GLOBALS['strEnableDashboardSyncNotice'] = "Te rugăm să activezi <a href='account-settings-update.php'>Verificare Actualizări</a> dacă doriţi să utilizaţi Panoul Principal.";
 $GLOBALS['strTimezone'] = "Fus Orar";
-
 $GLOBALS['strEnableAutoMaintenance'] = "Execută întreţinerea automat în timpul livrării reclamelor dacă întreţinerea planificată nu este setată";
 
 // Database Settings
@@ -120,7 +121,6 @@ $GLOBALS['strDebugPassword'] = "Parolă mCal, SQL Server";
 $GLOBALS['strProductionSystem'] = "Sistem de Producţie";
 
 // Delivery Settings
-$GLOBALS['strWebPath'] = "$PRODUCT_NAME Server Access Paths";
 $GLOBALS['strWebPathSimple'] = "Locaţie web";
 $GLOBALS['strDeliveryPath'] = "Locaţie livrare";
 $GLOBALS['strImagePath'] = "Locaţie imagini";

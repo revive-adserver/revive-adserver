@@ -20,7 +20,7 @@ msgstr ""
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//City.res.inc.php:44
 msgid "---Any---"
-msgstr ""
+msgstr "---Qualsiasi---"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Country.class.php:59
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Region.class.php:98
@@ -30,7 +30,7 @@ msgstr "Stato"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Netspeed.class.php:57
 msgid "Net Speed"
-msgstr ""
+msgstr "Velocità Rete"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Netspeed.res.inc.php:35
 msgid "Unknown"
@@ -50,19 +50,19 @@ msgstr ""
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Region.class.php:70
 msgid "Country / Region"
-msgstr ""
+msgstr "Paese / regione"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Region.class.php:114
 msgid "Region(s)"
-msgstr ""
+msgstr "Regione/i"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Postalcode.class.php:58
 msgid "US/Canada Postal Code"
-msgstr ""
+msgstr "Codice postale (U.S. / Canada)"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//City.class.php:108
 msgid "City(s)"
-msgstr ""
+msgstr "Città"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Latlong.class.php:61
 msgid "Is within"
@@ -74,7 +74,7 @@ msgstr ""
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Latlong.class.php:72
 msgid "Latitude/Longitude"
-msgstr ""
+msgstr "Latitudine/Longitudine"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Latlong.class.php:97
 msgid "Geo:Latitude/Longitude: One of the parameter is not a number"
@@ -82,9 +82,9 @@ msgstr ""
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Latlong.class.php:114
 msgid "Latitude"
-msgstr ""
+msgstr "Latitudine"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Latlong.class.php:120
 msgid "Longitude"
-msgstr ""
+msgstr "Longitudine"
 

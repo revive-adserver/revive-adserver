@@ -114,7 +114,6 @@ $GLOBALS['strAuthentification'] = "Идентифициране";
 $GLOBALS['strWelcomeTo'] = "Добре дошъл в";
 $GLOBALS['strEnterUsername'] = "Въведете вашето потребителско име и парола";
 $GLOBALS['strEnterBoth'] = "Моля, въведете потребителско име и парола";
-$GLOBALS['strEnableCookies'] = "Трябва да позволите кукита преди да може да използвате {$PRODUCT_NAME}";
 $GLOBALS['strLogin'] = "Вход";
 $GLOBALS['strLogout'] = "Изход";
 $GLOBALS['strUsername'] = "Потребителско име";
@@ -162,10 +161,8 @@ $GLOBALS['strDayOfWeek'] = "Ден от седмицата";
 
 
 $GLOBALS['strDayFullNames'] = array();
-$GLOBALS['strDayFullNames'][6] = 'Събота';
 
 $GLOBALS['strDayShortCuts'] = array();
-$GLOBALS['strDayShortCuts'][6] = 'Сб';
 
 $GLOBALS['strHour'] = "Час";
 $GLOBALS['strSeconds'] = "секунди";
@@ -237,22 +234,10 @@ $GLOBALS['strClicksBooked'] = "Запазени кликове";
 $GLOBALS['strConversionsBooked'] = "Запазени конверсии";
 $GLOBALS['strAnonymous'] = "Скрий рекламодателя и уебсайта от тази кампания.";
 $GLOBALS['strTargetPerDay'] = "на ден";
-$GLOBALS['strCampaignWarningRemnantNoWeight'] = "Приоритета на тази кампания беше сложен, като нисък,
-но тежестта беше сложена, като нула или не беше
-определена. Това ще предизвика кампанията да
-бъде деактивирана и банерите няма да се показват,
-докато теглото не се като валиден номер.
-
-Сигурни ли сте, че искате да продължите?";
-$GLOBALS['strCampaignWarningNoTarget'] = "Приоритета на тази кампания беше сложен, като висок,
-но целевия брой импресии не е определен. Това ще
-деактивира кампанията и нейните банери, докато
-валиден брой импресии не бъде посочен.
-
-Сигурни ли сте, че искате да продължите?";
 $GLOBALS['strCampaignStatusInactive'] = "активен";
 $GLOBALS['strCampaignStatusDeleted'] = "Изтрий";
 $GLOBALS['strCampaignType'] = "Име на кампания";
+$GLOBALS['strContract'] = "За контакти";
 $GLOBALS['strStandardContract'] = "За контакти";
 
 // Tracker
@@ -276,6 +261,8 @@ $GLOBALS['strConfirmDeleteBanner'] = "Наистина ли искате да и
 $GLOBALS['strConfirmDeleteBanners'] = "Наистина ли искате да изтриете този тракер?";
 $GLOBALS['strInactiveBannersHidden'] = "неактивния рекламодател(и) са скрити";
 
+// Banner Preferences
+
 // Banner (Properties)
 $GLOBALS['strWeight'] = "Височина";
 
@@ -283,6 +270,8 @@ $GLOBALS['strWeight'] = "Височина";
 
 // Banner (swf)
 
+// Banner (network)
+// Banner (AdSense)
 // Display limitations
 $GLOBALS['strNoLimitations'] = "Без ограничения";
 
@@ -302,6 +291,7 @@ $GLOBALS['strConfirmDeleteAffiliates'] = "Наистина ли искате д�
 $GLOBALS['strInactiveAffiliatesHidden'] = "неактивния рекламодател(и) са скрити";
 
 // Website (properties)
+$GLOBALS['strWebsite'] = "Уебсайт";
 $GLOBALS['strAllowAffiliateModifyZones'] = "Разреши на потребителя да променя банерите си";
 
 // Website (properties - payment information)
@@ -335,8 +325,6 @@ $GLOBALS['strBreakdownByMonth'] = "Месец";
 $GLOBALS['strBreakdownByDow'] = "Ден от седмицата";
 $GLOBALS['strBreakdownByHour'] = "Час";
 
-// Hosts
-
 // Expiration
 $GLOBALS['strCampaignStop'] = "История на кампаниите";
 
@@ -350,6 +338,7 @@ $GLOBALS['strAllAdvertisers'] = "Общо рекламодатели";
 $GLOBALS['strAction'] = "Действие";
 
 // Code generation
+
 
 // Errors
 
@@ -389,7 +378,6 @@ $GLOBALS['strClicks_short'] = "Кликове";
 
 // Global Settings
 
-
 // Product Updates
 
 // Agency
@@ -400,9 +388,10 @@ $GLOBALS['strInactiveAgenciesHidden'] = "неактивния рекламода
 
 // Channels
 $GLOBALS['strNoChannelsAddWebsite'] = "Няма посочени рекламодатели. За да създадете кампания първо <a href='advertiser-edit.php'>добавете нов рекламодател</a>.";
-
 $GLOBALS['strConfirmDeleteChannel'] = "Наистина ли искате да изтриете този тракер?";
 $GLOBALS['strConfirmDeleteChannels'] = "Наистина ли искате да изтриете този тракер?";
+
+// Tracker Variables
 $GLOBALS['strVariableDescription'] = "Описание";
 $GLOBALS['strTrackerType'] = "Име на тракер";
 
@@ -426,6 +415,8 @@ $GLOBALS['strTrackerType'] = "Име на тракер";
 
 
 
+
+// Report error messages
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */

@@ -102,6 +102,8 @@ $GLOBALS['strCampaignStatusDeleted'] = "Padam";
 // Tracker
 
 // Banners (General)
+
+// Banner Preferences
 $GLOBALS['strTypeHtmlAllow'] = "Benarkan banner HTML";
 $GLOBALS['strTypeTxtAllow'] = "Benarkan Iklan Teks";
 
@@ -111,6 +113,8 @@ $GLOBALS['strTypeTxtAllow'] = "Benarkan Iklan Teks";
 
 // Banner (swf)
 
+// Banner (network)
+// Banner (AdSense)
 // Display limitations
 
 
@@ -141,8 +145,6 @@ $GLOBALS['strZones'] = "Tiada";
 
 // Statistics
 
-// Hosts
-
 // Expiration
 
 // Reports
@@ -152,6 +154,7 @@ $GLOBALS['strZones'] = "Tiada";
 // Userlog
 
 // Code generation
+
 
 // Errors
 
@@ -170,7 +173,6 @@ $GLOBALS['strAdminEmailWarnings'] = "Alamat emel Pentadbir";
 // Short names
 
 // Global Settings
-
 $GLOBALS['strChooseSection'] = 'Pilih bahagian';
 
 // Product Updates
@@ -179,6 +181,7 @@ $GLOBALS['strChooseSection'] = 'Pilih bahagian';
 
 // Channels
 
+// Tracker Variables
 
 // Password recovery
 
@@ -200,6 +203,8 @@ $GLOBALS['strChooseSection'] = 'Pilih bahagian';
 
 
 
+
+// Report error messages
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */

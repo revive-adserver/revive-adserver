@@ -39,6 +39,8 @@ $GLOBALS['strDeliveryUrlPrefixSSL'] = "URL serwera (SSL)";
 $GLOBALS['strImagesUrlPrefix'] = "URL pamięci plików graficznych";
 $GLOBALS['strImagesUrlPrefixSSL'] = "URL pamięci plików graficznych (SSL)";
 
+
+
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
 /* ------------------------------------------------------- */
@@ -66,7 +68,6 @@ $GLOBALS['strAdminCheckUpdates'] = "Sorawdź aktualizacje";
 $GLOBALS['strNovice'] = "Usuwanie wymaga potwierdzenia ze względu na bezpieczeństwo";
 $GLOBALS['strUserlogEmail'] = "Loguj wszystkie wychodzące wiadomości e-mail";
 $GLOBALS['strTimezone'] = "Strefa czasowa";
-
 $GLOBALS['strEnableAutoMaintenance'] = "Jeśli nie ustawiono konserwacji, przeprowadź ją automatycznie w trakcie dostarczania";
 
 // Database Settings
@@ -125,7 +126,6 @@ $GLOBALS['strDebugPassword'] = "Hasło serwera mCal, SQL";
 $GLOBALS['strProductionSystem'] = "System produkcji";
 
 // Delivery Settings
-$GLOBALS['strWebPath'] = "$PRODUCT_NAME Server Access Paths";
 $GLOBALS['strWebPathSimple'] = "Ścieżka strony";
 $GLOBALS['strDeliveryPath'] = "Ścieżka dostarczania";
 $GLOBALS['strImagePath'] = "Ścieżka obrazów";

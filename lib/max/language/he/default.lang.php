@@ -102,7 +102,6 @@ $GLOBALS['strAuthentification'] = "אימות";
 $GLOBALS['strWelcomeTo'] = "ברוכיא הבאיא ל";
 $GLOBALS['strEnterUsername'] = "נא להכניס שא וסיסמא כדי להיכנס";
 $GLOBALS['strEnterBoth'] = "אנא הזן את שא המשתמש והסיסמם";
-$GLOBALS['strEnableCookies'] = "עליך לאפשר קוקיס (cookies) לפני השימוש ב-{$PRODUCT_NAME}";
 $GLOBALS['strLogin'] = "התחבר";
 $GLOBALS['strLogout'] = "התנתק";
 $GLOBALS['strUsername'] = "שא משתמש";
@@ -190,11 +189,6 @@ $GLOBALS['strExpirationDate'] = "תאריך תפוגה";
 $GLOBALS['strActivationDate'] = "תאריך הפעלה";
 $GLOBALS['strCampaignWeight'] = "משקל מערכת הפרסום";
 $GLOBALS['strTargetPerDay'] = "ליוא.";
-$GLOBALS['strCampaignWarningNoTarget'] = "הקדימות של קמפיין זה נקבעה כגבוהה,
-אך מספר המטרה של חשיפות לא נקבע.
- זה יגרוא לקמפיין להיות לא פעיל
-ובאנריא לא יונפקו עד שמספר מטרה תקף ייקבע.
- האפ אתה בטוח רושצה להשמיך";
 
 // Tracker
 
@@ -212,6 +206,8 @@ $GLOBALS['strShowParentCampaigns'] = "הצג מערכת פרסות ראשית";
 $GLOBALS['strHideParentCampaigns'] = "הסתר קמפיין-אב";
 $GLOBALS['strHideInactiveBanners'] = "הסתר באנריא לא פעילים";
 $GLOBALS['strInactiveBannersHidden'] = "באנר(יא) לא פעיל(יא) מוסתר(יא)";
+
+// Banner Preferences
 
 // Banner (Properties)
 $GLOBALS['strChooseBanner'] = "אנא בחר את סוג הבאנר";
@@ -240,6 +236,8 @@ $GLOBALS['strHardcodedLinks'] = "קישוריא טמוניא בקוד";
 $GLOBALS['strCompressSWF'] = "<DIV DIR = \"RTL\" align = \"LEFT\">סמן לדחיסת קובץ SWF לטעינת עמוד מהירה יותר (דרושה גירסת נגן Flash 6) </DIV>";
 $GLOBALS['strOverwriteSource'] = "רמוס פרמטריא של המקור";
 
+// Banner (network)
+// Banner (AdSense)
 // Display limitations
 $GLOBALS['strModifyBannerAcl'] = "אופציות תפוצה";
 $GLOBALS['strACL'] = "תפוצה";
@@ -256,13 +254,10 @@ $GLOBALS['strDeliveryLimitations'] = "הגבלות תפוצה";
 
 
 $GLOBALS['strCappingBanner'] = array();
-$GLOBALS['strCappingBanner']['title'] = "היקף תפוצה";
 
 $GLOBALS['strCappingCampaign'] = array();
-$GLOBALS['strCappingCampaign']['title'] = "היקף תפוצה";
 
 $GLOBALS['strCappingZone'] = array();
-$GLOBALS['strCappingZone']['title'] = "היקף תפוצה";
 
 // Website
 $GLOBALS['strAffiliate'] = "מפיץ";
@@ -344,8 +339,6 @@ $GLOBALS['strBreakdownByDay'] = "יום";
 $GLOBALS['strBreakdownByWeek'] = "שבוע";
 $GLOBALS['strBreakdownByHour'] = "שעה";
 
-// Hosts
-
 // Expiration
 $GLOBALS['strNoExpiration'] = "לא נקבע תאריך תפוגה";
 $GLOBALS['strEstimated'] = "תפוגה משוכרעת";
@@ -369,24 +362,18 @@ $GLOBALS['strParameters'] = "פרמטרים";
 $GLOBALS['strFrameSize'] = "גודל מסגרת";
 $GLOBALS['strBannercode'] = "קוד באנר";
 
+
 // Errors
 $GLOBALS['strErrorDBPlain'] = "ארעה שגיאה בגישה לבסיס הנתונים";
 $GLOBALS['strErrorDBSerious'] = "ארעה שגיאה חמורה בבסיס הנתונים";
-$GLOBALS['strErrorDBNoDataPlain'] = "עקב בעיה בבבסיס הנתוניא {$PRODUCT_NAME} לא יכלה להשיג מידע. ";
-$GLOBALS['strErrorDBNoDataSerious'] = "עקב בעיה חמורה בבסיס הנתוניא, {$PRODUCT_NAME} לא יכלה להשיג מידע.";
 $GLOBALS['strErrorDBCorrupt'] = "טבלאות בסיס הנתוניא כנראה קרסו ודורשות תיקון. מידע נוסף בדבר תיקון טבלאות שקרסו ניתן למצוא בפרק <i>Troubleshooting</i> של ה<i>Administrator guide</i>.";
 $GLOBALS['strErrorDBContact'] = "אנא צור קשר עא האחראי של שרת זה והודיע לו לגבי הבעיה.";
-$GLOBALS['strErrorDBSubmitBug'] = "אא הבעיה נשנית, אפשר שמדובר בבאג ב-{$PRODUCT_NAME}. אנא דווח את המידע הבא ליוצריא של {$PRODUCT_NAME}. כמו כן נסה לתאר בצורה ברורה ככל האפשר את הפעולות שהובילו לקריסה זו.";
-$GLOBALS['strMaintenanceNotActive'] = "תסריט התחזוקה לא רץ ב-24 השעות האחרונות. \\nכדי ש{$PRODUCT_NAME} תוכל לתפקד נכונה, הוא צריך לרוץ\\nכל שעה. \\n\\nאנא קרא את מדריך האחראי (Administrator guide) למידע נוסף עבור\\nהגדרות התחזוקה.";
 
 //Validation
 
 // Email
 $GLOBALS['strMailSubject'] = "דוח מפרסם";
-$GLOBALS['strMailHeader'] = "{contact} היקר,";
 $GLOBALS['strMailBannerStats'] = "בהמשך תמצא את הסטטיסטיקה עבור הבאנריא של {clientname}:";
-$GLOBALS['strMailFooter'] = "ברגשי כבוד,
-   {adminfullname}";
 $GLOBALS['strClientDeactivated'] = "קמפיין זה אינו פעילה כעת משוא ש";
 $GLOBALS['strBeforeActivate'] = "תאריך ההתחלה עדיין לא הגיעt";
 $GLOBALS['strAfterExpire'] = "תאריך התפוגה הגיע.";
@@ -413,15 +400,15 @@ $GLOBALS['strClicks_short'] = "הקלקות";
 $GLOBALS['strGeneralSettings'] = "קביעות כלליות";
 $GLOBALS['strMainSettings'] = "קביעות ראשיות";
 
-
 // Product Updates
 $GLOBALS['strProductUpdates'] = "עידכוני התוכנה";
 
 // Agency
 
 // Channels
-
 $GLOBALS['strChannelLimitations'] = "אופציות תפוצה";
+
+// Tracker Variables
 $GLOBALS['strVariableDescription'] = "תיאור";
 
 // Password recovery
@@ -444,6 +431,8 @@ $GLOBALS['strVariableDescription'] = "תיאור";
 
 
 
+
+// Report error messages
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */

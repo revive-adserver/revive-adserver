@@ -17,6 +17,8 @@ $GLOBALS['strWarning'] = "Upozornenie";
 
 
 
+
+
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
 /* ------------------------------------------------------- */
@@ -32,7 +34,6 @@ $GLOBALS['strEditConfigPossible'] = "It is possible to edit all settings because
 // Administrator Settings
 $GLOBALS['strBasicInformation'] = "Základné údaje";
 
-
 // Database Settings
 
 // Email Settings
@@ -42,7 +43,6 @@ $GLOBALS['strBasicInformation'] = "Základné údaje";
 // Debug Logging Settings
 
 // Delivery Settings
-$GLOBALS['strWebPath'] = "$PRODUCT_NAME Server Access Paths";
 $GLOBALS['strTypeFTPUsername'] = "Prihlásiť";
 $GLOBALS['strTypeFTPPassword'] = "Heslo";
 

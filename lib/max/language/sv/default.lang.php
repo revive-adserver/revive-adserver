@@ -115,7 +115,6 @@ $GLOBALS['strAuthentification'] = "Autentisering";
 $GLOBALS['strWelcomeTo'] = "Välkommen till";
 $GLOBALS['strEnterUsername'] = "Ange ditt användarnamn och lösenord för att logga in";
 $GLOBALS['strEnterBoth'] = "Vänligen ange både användarnamn och lösenord";
-$GLOBALS['strEnableCookies'] = "Du måste aktivera cookies innan du kan använda {$PRODUCT_NAME}";
 $GLOBALS['strLogin'] = "Logga in";
 $GLOBALS['strLogout'] = "Logga ut";
 $GLOBALS['strUsername'] = "Användarnamn";
@@ -167,10 +166,8 @@ $GLOBALS['strDayOfWeek'] = "Dag av vecka";
 
 
 $GLOBALS['strDayFullNames'] = array();
-$GLOBALS['strDayFullNames'][6] = 'Lördag';
 
 $GLOBALS['strDayShortCuts'] = array();
-$GLOBALS['strDayShortCuts'][6] = 'Lö';
 
 $GLOBALS['strHour'] = "Timme";
 $GLOBALS['strSeconds'] = "sekunder";
@@ -246,20 +243,6 @@ $GLOBALS['strConversionsBooked'] = "Bokade konverteringar";
 $GLOBALS['strCampaignWeight'] = "Kampanj vikt";
 $GLOBALS['strAnonymous'] = "Dölj kampanjens annonsörer och sajter.";
 $GLOBALS['strTargetPerDay'] = "per dag.";
-$GLOBALS['strCampaignWarningRemnantNoWeight'] = "Kampanjens prioriteringar är satta till låg,
-men vikten är satt till noll eller har inte
-specifiserats. Kampanjen kommer att
-avaktiveras och dess banners ej levereras
-tills vikten sätts till giltigt nummer.
-
-Vill du fortsätta?";
-$GLOBALS['strCampaignWarningNoTarget'] = "Kampanjens prioritet är satt till hög,
-men målantal för visningar är inte angivet.
-Detta gör att kampanjen blir avaktiverad och
-dess banners kommer inte att levereras tills
-giltigt målantal anges
-
-Är du säker på att du vill fortsätta?";
 $GLOBALS['strCampaignStatusPending'] = "Pågående";
 $GLOBALS['strCampaignStatusInactive'] = "aktiv";
 $GLOBALS['strCampaignStatusPaused'] = "Pause";
@@ -267,6 +250,7 @@ $GLOBALS['strCampaignStatusRestarted'] = "Starta om";
 $GLOBALS['strCampaignStatusDeleted'] = "Radera";
 $GLOBALS['strCampaignType'] = "Kampanjnamn";
 $GLOBALS['strType'] = "Typ";
+$GLOBALS['strContract'] = "Kontakt";
 $GLOBALS['strStandardContract'] = "Kontakt";
 
 // Tracker
@@ -306,7 +290,9 @@ $GLOBALS['strWarningMissing'] = "Varning, förmodligen saknas _";
 $GLOBALS['strWarningMissingClosing'] = "_ avslutande tag \">\"";
 $GLOBALS['strWarningMissingOpening'] = "_ öppningstag \"<\"";
 $GLOBALS['strSubmitAnyway'] = "Skicka ändå";
-$GLOBALS['strBannersOfCampaign'] = "i"; //this is added between page name and campaign name eg. 'Banners in coca cola campaign'// Banner Preferences
+$GLOBALS['strBannersOfCampaign'] = "i"; //this is added between page name and campaign name eg. 'Banners in coca cola campaign'
+
+// Banner Preferences
 
 // Banner (Properties)
 $GLOBALS['strChooseBanner'] = "Vänligen välj annonstyp";
@@ -335,10 +321,11 @@ $GLOBALS['strSwfTransparency'] = "Tillåt transparent bakgrund";
 $GLOBALS['strCheckSWF'] = "Sök efter hård-kodade länkar i Flashfilen";
 $GLOBALS['strConvertSWFLinks'] = "Konvertera Flashlänkar";
 $GLOBALS['strHardcodedLinks'] = "Hård-kodade länkar";
-$GLOBALS['strConvertSWF'] = "<br />Flash-filen du laddat upp innehåller hårdkodade URL:er. {$PRODUCT_NAME} kommer inte att kunna spåra antalet klick för den här annonsen om du inte konverterar dessa hårdkodade URL:er. Nedan finner du en lista över alla URL:er i Flash-filen. Om du vill konvertera dessa, klicka på <b>Konvertera</b>, i annat fall klicka på <b>Avbryt</b>.<br /><br />Vänligen notera: om du klickar på <b>Konvertera</b> kommer flash-filen att redigeras. <br /> Vänligen spara en backup på originalfilen. Oavsett vilken version av Flash den här annonsen var skapad i kräver den nya filen Flash 4 player (eller högre) för att visas korrekt.<br /><br />";
 $GLOBALS['strCompressSWF'] = "Komprimera SWF filen för snabbare nedladdning (Flash 6 spelare krävs)";
 $GLOBALS['strOverwriteSource'] = "Skriv över källparameter";
 
+// Banner (network)
+// Banner (AdSense)
 // Display limitations
 $GLOBALS['strModifyBannerAcl'] = "Leveransinställningar";
 $GLOBALS['strACL'] = "Leverans";
@@ -360,15 +347,12 @@ $GLOBALS['strDeliveryCappingReset'] = "Återställ visningsräknare efter:";
 $GLOBALS['strDeliveryCappingTotal'] = "totalt";
 
 $GLOBALS['strCappingBanner'] = array();
-$GLOBALS['strCappingBanner']['title'] = "{$GLOBALS['strDeliveryCapping']}";
 $GLOBALS['strCappingBanner']['limit'] = "Begränsa annonsvisningar till:";
 
 $GLOBALS['strCappingCampaign'] = array();
-$GLOBALS['strCappingCampaign']['title'] = "{$GLOBALS['strDeliveryCapping']}";
 $GLOBALS['strCappingCampaign']['limit'] = "Begränsa kampanjvisningar till:";
 
 $GLOBALS['strCappingZone'] = array();
-$GLOBALS['strCappingZone']['title'] = "{$GLOBALS['strDeliveryCapping']}";
 $GLOBALS['strCappingZone']['limit'] = "Begränsa zonvisningar till:";
 
 // Website
@@ -386,6 +370,7 @@ $GLOBALS['strShowParentAffiliates'] = "Visa överordnade webbsidor";
 $GLOBALS['strHideParentAffiliates'] = "Dölj överordnade webbsidor";
 
 // Website (properties)
+$GLOBALS['strWebsite'] = "Webbsida";
 $GLOBALS['strAllowAffiliateModifyZones'] = "Tillåt användaren att modifiera egna zoner";
 $GLOBALS['strAllowAffiliateLinkBanners'] = "Tillåt användaren att länka annonser till egna zoner";
 $GLOBALS['strAllowAffiliateAddZone'] = "Tillåt användaren att skapa nya zoner";
@@ -429,7 +414,7 @@ $GLOBALS['strWarnChangeZoneType'] = "Om du ändrar zontyp till text eller epost 
 <li>Epost kampanjer kan endast ha en aktiv annons åt gången</li>
 </ul>";
 $GLOBALS['strWarnChangeZoneSize'] = 'Om du ändrar zonstorleken avlänkas alla annonser som inte matchar den nya storleken och alla annonser från länkade kampanjer med samma storlek läggs till';
-$GLOBALS['strZonesOfWebsite'] = 'i'; //this is added between page name and website name eg. 'Zones in www.example.com'$GLOBALS['strBackToZones'] = "Back to zones";
+$GLOBALS['strZonesOfWebsite'] = 'i'; //this is added between page name and website name eg. 'Zones in www.example.com'
 
 
 // Advanced zone settings
@@ -492,8 +477,6 @@ $GLOBALS['strShowGraphOfStatistics'] = "Visa <u>G</u>raf för statistiken";
 $GLOBALS['strExportStatisticsToExcel'] = "<u>E</u>xportera statistik till Excel";
 $GLOBALS['strGDnotEnabled'] = "Du måste ha GD aktiverat i PHP för att visa grafer. <br />Vänligen besök <a href='http://www.php.net/gd' target='_blank'>http://www.php.net/gd</a> för mer information, inklusive hur man installerar GD på servern.";
 
-// Hosts
-
 // Expiration
 $GLOBALS['strNoExpiration'] = "Inget utgångsdatum angivet";
 $GLOBALS['strEstimated'] = "Estimerad utgångsdatum";
@@ -525,33 +508,27 @@ $GLOBALS['strFrameSize'] = "Ramstorlek";
 $GLOBALS['strBannercode'] = "Bannerkod";
 $GLOBALS['strBackToTheList'] = "Gå tillbaks till rapportlistan";
 
+
 // Errors
 $GLOBALS['strNoMatchesFound'] = "Inga matchningar hittades";
 $GLOBALS['strErrorOccurred'] = "Ett fel inträffade";
 $GLOBALS['strErrorDBPlain'] = "Ett fel inträffande vid läsning från databasen";
 $GLOBALS['strErrorDBSerious'] = "Ett allvarligt problem med databasen har upptäckts";
-$GLOBALS['strErrorDBNoDataPlain'] = "Pga problem med databasen kunde inte {$PRODUCT_NAME} hämta eller lagra data.";
-$GLOBALS['strErrorDBNoDataSerious'] = "Pga allvarligt problem med databasen kunde inte {$PRODUCT_NAME} hämta data.";
 $GLOBALS['strErrorDBCorrupt'] = "Databasen är förmodligen korrupt och behöver lagas. För mer info om hur man fixar korrupta tabeller, vänligen läs kapitlet <i>Felsökning</i> i <i>Administrationsguide</i>";
 $GLOBALS['strErrorDBContact'] = "Vänligen kontakta serveradministratören och meddela problemet.";
-$GLOBALS['strErrorDBSubmitBug'] = "Om detta problem kan återskapas så kan det skapats av en bugg i {$PRODUCT_NAME}. Vänligen rapportera följande information till skaparna av {$PRODUCT_NAME}. Försök också beskriva handlingarna som ledde till detta fel så tydligt som möjligt.";
 $GLOBALS['strErrorLinkingBanner'] = "Det var inte möjligt att länka bannern till den här zonen pga:";
 $GLOBALS['strUnableToLinkBanner'] = "Kan inte länka bannern:";
 $GLOBALS['strUnableToChangeZone'] = "Kan inte genomföra denna ändring därför att:";
 $GLOBALS['strDatesConflict'] = "datumen i konflikt med:";
-$GLOBALS['strEmailNoDates'] = "Kampanjer för emailzoner måste ha ett start och ett slutdatum";
 
 //Validation
 
 // Email
 $GLOBALS['strSirMadam'] = "Herr/fru";
 $GLOBALS['strMailSubject'] = "Rapport för annonsör";
-$GLOBALS['strMailHeader'] = "Bäste {kontakt},";
 $GLOBALS['strMailBannerStats'] = "Nedan finner du bannerstatistik för {klientnamn}:";
 $GLOBALS['strMailBannerActivatedSubject'] = "Kampanjen aktiverad";
 $GLOBALS['strMailBannerDeactivatedSubject'] = "Kampanjen avaktiverad";
-$GLOBALS['strMailBannerActivated'] = "Din kampanj nedan har aktiverats pga
-kampanjens aktiveringsdatum har nåtts.";
 $GLOBALS['strMailBannerDeactivated'] = "Din kampanj nedan har avaktiverats p.g.a";
 $GLOBALS['strClientDeactivated'] = "Denna kampanj är för närvarande inte aktiv p.g.a";
 $GLOBALS['strBeforeActivate'] = "aktiveringsdatumet har inte nåtts";
@@ -568,8 +545,6 @@ $GLOBALS['strYourCampaign'] = "Din kampanj";
 $GLOBALS['strTheCampiaignBelongingTo'] = "Kampanjen tillhör";
 $GLOBALS['strImpendingCampaignExpiryDateBody'] = "{klientnamn} som visas nedan avslutas {datum}.";
 $GLOBALS['strImpendingCampaignExpiryImpsBody'] = "{klientnamn} som visas nedan har färre än {gräns} visningar kvar.";
-$GLOBALS['strImpendingCampaignExpiryBody'] = "Som ett resultat av det kommer kampanjen snart att avaktiveras automatiskt och då kommer
-följande banners i kampanjen också att avaktiveras:";
 
 // Priority
 $GLOBALS['strPriority'] = "Prioritering";
@@ -607,7 +582,6 @@ $GLOBALS['strClicks_short'] = "Klick";
 $GLOBALS['strGlobalSettings'] = "Allmänna inställningar";
 $GLOBALS['strGeneralSettings'] = "Allmänna inställningar";
 $GLOBALS['strMainSettings'] = "Huvudsakliga inställningar";
-
 $GLOBALS['strChooseSection'] = 'Välj sektion';
 
 // Product Updates
@@ -629,13 +603,14 @@ $GLOBALS['strInactiveAgenciesHidden'] = "inaktiva konton gömda";
 $GLOBALS['strChannelToWebsite'] = "INga webbsajter";
 $GLOBALS['strNoChannels'] = "Det finns för tillfället inga målkanaler angivna";
 $GLOBALS['strNoChannelsAddWebsite'] = "Det finns inga sajter inlagda. För att skapa en zon, <a href='affiliate-edit.php'>lägg till ny sajt</a> först.";
-
 $GLOBALS['strEditChannelLimitations'] = "Editera begränsningar för målkanaler";
 $GLOBALS['strChannelProperties'] = "Egenskaper för målkanaler";
 $GLOBALS['strChannelLimitations'] = "Leveransinställningar";
 $GLOBALS['strConfirmDeleteChannel'] = "Vill du verkligen radera denna målkanal?";
 $GLOBALS['strConfirmDeleteChannels'] = "Vill du verkligen radera denna målkanal?";
-$GLOBALS['strChannelsOfWebsite'] = 'i'; //this is added between page name and website name eg. 'Targeting channels in www.example.com'// Tracker Variables
+$GLOBALS['strChannelsOfWebsite'] = 'i'; //this is added between page name and website name eg. 'Targeting channels in www.example.com'
+
+// Tracker Variables
 $GLOBALS['strVariableName'] = "Namn på variabel";
 $GLOBALS['strVariableDescription'] = "Beskrivning";
 $GLOBALS['strVariableDataType'] = "Datatyp";
@@ -685,6 +660,8 @@ $GLOBALS['strAuditTrail'] = "Auditlista";
 
 
 
+
+// Report error messages
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */

@@ -53,5 +53,4 @@ $GLOBALS['strWarning'] = "Avertisment";
 $GLOBALS['strImgWithAppendWarning'] = "Acest contor are cod lipit, codul lipit va funcţiona <strong>doar</strong> cu tag-uri JavaScript";
 
 // Local Invocation
-$GLOBALS['strWarningLocalInvocation'] = "<span class='tab-s'><strong>Atenţie:</strong> Codul HTML în modul local va funcţiona DOAR dacă site-ul care face apel la cod se află pe acelaşi calculator cu server-ul de reclame</span><br />Verifică dacă MAX_PATH definită în codul de mai jos indică către directorul de bază al instalării MAX<br />and şi dacă ai un fişier de configurare pentru domeniul site-ului care afişează reclamele (în MAX_PATH/var)";
 

@@ -117,7 +117,6 @@ $GLOBALS['strAuthentification'] = "Autentifikasi";
 $GLOBALS['strWelcomeTo'] = "Selamat Datang di";
 $GLOBALS['strEnterUsername'] = "Silakan masukan Nama dan Kata Sandi Anda untuk Login";
 $GLOBALS['strEnterBoth'] = "Silakan masukan Nama <i>dan</i> Kata Sandi";
-$GLOBALS['strEnableCookies'] = "Anda perlu aktifkan Cookies sebelum mengunakan {$PRODUCT_NAME}";
 $GLOBALS['strUsername'] = "Nama Pengguna";
 $GLOBALS['strPassword'] = "Kata Sandi";
 $GLOBALS['strPasswordRepeat'] = "Ulangi Kata Sandi";
@@ -165,22 +164,8 @@ $GLOBALS['strDayOfWeek'] = "Hari dalam minggu";
 
 
 $GLOBALS['strDayFullNames'] = array();
-$GLOBALS['strDayFullNames'][0] = 'Minggu';
-$GLOBALS['strDayFullNames'][1] = 'Senin';
-$GLOBALS['strDayFullNames'][2] = 'Selasa';
-$GLOBALS['strDayFullNames'][3] = 'Rabu';
-$GLOBALS['strDayFullNames'][4] = 'Kamis';
-$GLOBALS['strDayFullNames'][5] = 'Jumat';
-$GLOBALS['strDayFullNames'][6] = 'Sabtu';
 
 $GLOBALS['strDayShortCuts'] = array();
-$GLOBALS['strDayShortCuts'][0] = 'Min';
-$GLOBALS['strDayShortCuts'][1] = 'Sen';
-$GLOBALS['strDayShortCuts'][2] = 'Sel';
-$GLOBALS['strDayShortCuts'][3] = 'Rab';
-$GLOBALS['strDayShortCuts'][4] = 'Kam';
-$GLOBALS['strDayShortCuts'][5] = 'Jum';
-$GLOBALS['strDayShortCuts'][6] = 'Sab';
 
 $GLOBALS['strHour'] = "Jam";
 $GLOBALS['strSeconds'] = "Detik";
@@ -257,25 +242,13 @@ $GLOBALS['strConversionsBooked'] = "Jumlah konversi yang dipesan";
 $GLOBALS['strCampaignWeight'] = "Bobot Kampanye";
 $GLOBALS['strAnonymous'] = "Sembunyikan pemasang iklan dan penerbit dari kampanye ini.";
 $GLOBALS['strTargetPerDay'] = "per hari.";
-$GLOBALS['strCampaignWarningRemnantNoWeight'] = "Prioritas dari kampanye ini distel pada posisi yang rendah,
-tetapi berbobot nol atau tidak
-ditentukan. Hal ini mengakibatkan deaktivasi
-kampanye tersebut dan tidak ada banner yang disampaikan
-sampai bobotnya distel pada angka yang berlaku.
-
-Apakah Anda yakin untuk melanjut?";
-$GLOBALS['strCampaignWarningNoTarget'] = "Prioritas dari kampanye ini distel pada posisi yang terlalu tinggi,
-tetapi jumlah target dari AdViews tidak ditentukan.
-Hal ini mengakibatkan deaktivasi kampanye tersebut dan tidak ada banner yang disampaikan
-sampai jumlah target AdViews yang berlaku ditentukan.
-
-Apakah Anda yakin untuk melanjut?";
 $GLOBALS['strCampaignStatusInactive'] = "aktif";
 $GLOBALS['strCampaignStatusPaused'] = "Istirahat";
 $GLOBALS['strCampaignStatusRestarted'] = "Restart";
 $GLOBALS['strCampaignStatusDeleted'] = "Hapus";
 $GLOBALS['strCampaignType'] = "Nama Kampanye";
 $GLOBALS['strType'] = "Jenis";
+$GLOBALS['strContract'] = "Alamat";
 $GLOBALS['strStandardContract'] = "Alamat";
 
 // Tracker
@@ -316,6 +289,8 @@ $GLOBALS['strWarningMissingClosing'] = "penutup ujung \\\">\\\"";
 $GLOBALS['strWarningMissingOpening'] = "pembuka ujung \\\"<\\\"";
 $GLOBALS['strSubmitAnyway'] = "Tetap menyerahi";
 
+// Banner Preferences
+
 // Banner (Properties)
 $GLOBALS['strChooseBanner'] = "Silakan pilih jenis banner";
 $GLOBALS['strMySQLBanner'] = "Banner lokal (SQL)";
@@ -343,10 +318,11 @@ $GLOBALS['strSwfTransparency'] = "Background transparan (hanya Flash)";
 // Banner (swf)
 $GLOBALS['strCheckSWF'] = "Periksa hard-coded links dalam file Flash";
 $GLOBALS['strConvertSWFLinks'] = "Menukarkan links dari Flash";
-$GLOBALS['strConvertSWF'] = "<br />File Flash yang di-upload berisi URL yang hard-coded. {$PRODUCT_NAME} tidak bisa mencatat jumlah AdClicks untuk banner tersebut sampai hard-coded URL dirubah. Dibawah ini terdaftar seluruh URL yang berada dalam file Flash tersebut. Bila Anda ingin merubah URL silakan klik <b>Convert</b>, bilak tidak klik <b>Cancel</b>.<br /><br />Perhatian: Bila Anda klik<b>Convert</b> file Flash yang baru di-upload akan dirubah secara fisik. <br />Mohon simpan backup dari file asli. Dengan versi apapun banner tersebut dibuat, file yang didapatkan akan membutuhkan Player Flash 4 (atau versi lebih tinggi) untuk ditampilkan secara benar.<br /><br />";
 $GLOBALS['strCompressSWF'] = "Kompres file SWF untuk meng-download lebih cepat (Player Flash 6 dibutuhkan)";
 $GLOBALS['strOverwriteSource'] = "Timpah parameter induk";
 
+// Banner (network)
+// Banner (AdSense)
 // Display limitations
 $GLOBALS['strModifyBannerAcl'] = "Pilihan Penyampaian";
 $GLOBALS['strACL'] = "Penyampaian";
@@ -369,15 +345,12 @@ $GLOBALS['strDeliveryCappingTotal'] = "jumlahnya";
 $GLOBALS['strDeliveryCappingSession'] = "per sesi";
 
 $GLOBALS['strCappingBanner'] = array();
-$GLOBALS['strCappingBanner']['title'] = "{$GLOBALS['strDeliveryCapping']}";
 $GLOBALS['strCappingBanner']['limit'] = "Batasi penampilan banner pada:";
 
 $GLOBALS['strCappingCampaign'] = array();
-$GLOBALS['strCappingCampaign']['title'] = "{$GLOBALS['strDeliveryCapping']}";
 $GLOBALS['strCappingCampaign']['limit'] = "Batasi penampilan kampanye pada:";
 
 $GLOBALS['strCappingZone'] = array();
-$GLOBALS['strCappingZone']['title'] = "{$GLOBALS['strDeliveryCapping']}";
 $GLOBALS['strCappingZone']['limit'] = "Batasi penampilan zona pada:";
 
 // Website
@@ -395,6 +368,7 @@ $GLOBALS['strShowParentAffiliates'] = "Tampilkan penerbit induk";
 $GLOBALS['strHideParentAffiliates'] = "Sembunyikan penerbit induk";
 
 // Website (properties)
+$GLOBALS['strWebsite'] = "Penerbit";
 $GLOBALS['strAllowAffiliateModifyZones'] = "Izinkan pengguna ini untuk mengubah zona yang dimiliki";
 $GLOBALS['strAllowAffiliateLinkBanners'] = "Izinkan pengguna ini untuk me-link banner ke zona yang dimiliki";
 $GLOBALS['strAllowAffiliateAddZone'] = "Izinkan pengguna ini untuk membuat zona baru";
@@ -490,8 +464,6 @@ $GLOBALS['strBreakdownByHour'] = "Jam";
 $GLOBALS['strShowGraphOfStatistics'] = "Tampilkan <u>G</u>rafik Statistik";
 $GLOBALS['strExportStatisticsToExcel'] = "<u>E</u>kspor Statistik ke Excel";
 
-// Hosts
-
 // Expiration
 $GLOBALS['strNoExpiration'] = "Tanggal masa berlaku tidak ditentukan";
 $GLOBALS['strEstimated'] = "Perkiraan habisnya masa berlaku";
@@ -523,40 +495,27 @@ $GLOBALS['strBannercode'] = "Kode Banner";
 $GLOBALS['strTrackercode'] = "Kode Pelacakan";
 $GLOBALS['strBackToTheList'] = "Kembali ke daftar laporan";
 
+
 // Errors
 $GLOBALS['strNoMatchesFound'] = "Tidak ada sepadan yang ditemukan";
 $GLOBALS['strErrorOccurred'] = "Telah terjadi Error";
 $GLOBALS['strErrorDBPlain'] = "Telah terjadi Error sewaktu mengakses database";
 $GLOBALS['strErrorDBSerious'] = "Terdeteksi masalah serius pada database";
-$GLOBALS['strErrorDBNoDataPlain'] = "Sehubungan ada masalah pada database, gagal mengambil atau menyimpan data. ";
-$GLOBALS['strErrorDBNoDataSerious'] = "Sehubungan ada masalah yang serius pada database, gagal mengambil data.";
 $GLOBALS['strErrorDBCorrupt'] = "Tabel pada database rupanya rusak dan perlu perbaikan. Untuk informasi lebih lanjut tentang caranya memperbaiki tabel yang rusak mohon baca BAB <i>Troubleshooting</i> pada <i>Administrator Guide</i>.";
 $GLOBALS['strErrorDBContact'] = "Mohon hubungi Administrator dari server ini dan beritahukan masalah ini.";
-$GLOBALS['strErrorDBSubmitBug'] = "Bila masalah ini bisa diulang-ulang, ada kemungkinan hal ini disebabkan oleh sebuah bug pada . Mohon laporkan informasi berikut ini kepada pencipta dari program . Mohon berikan deskripsi tentang sejarah masalah ini secara rinci.";
-$GLOBALS['strMaintenanceNotActive'] = "Skript Pemeliharaan <i>(Maintenance)</i> tidak dijalankan dalam waktu 24 jam terakhir.
-Untuk menjaminkan  berfungsi semestinya, skript Pemeliharaan perlu dijalankan \\setiap jam.
-
-Mohon belajari <i>Administrator Guide</i> untuk informasi lebih lanjut
-tentang caranya untuk mengkonfigurasi skript Pemeliharaan.";
 $GLOBALS['strUnableToLinkBanner'] = "Gagal menghubungkan banner: ";
 $GLOBALS['strUnableToChangeZone'] = "Gagal melakukan perubahan ini disebabkan:";
 $GLOBALS['strDatesConflict'] = "tanggal-tanggal berbentrokan dengan:";
-$GLOBALS['strEmailNoDates'] = "Email zone campaigns must have a start and end date";
 
 //Validation
 
 // Email
 $GLOBALS['strSirMadam'] = "Ibu/Bpk";
 $GLOBALS['strMailSubject'] = "Laporan untuk Pemasang Iklan";
-$GLOBALS['strMailHeader'] = "Dengan Hormat {contact},";
 $GLOBALS['strMailBannerStats'] = "Bersama E-mail ini kami kirimkan data statistik dari iklan banner untuk {clientname}:";
 $GLOBALS['strMailBannerActivatedSubject'] = "Kampanye diaktifkan";
 $GLOBALS['strMailBannerDeactivatedSubject'] = "Kampanye dihentikan";
-$GLOBALS['strMailBannerActivated'] = "Kampanye Anda yang dibawah ini telah diaktifkan sehubungan
-tanggal aktivasi telah sampai.";
 $GLOBALS['strMailBannerDeactivated'] = "Kampanye yang dibawah ini telah dihentikan berdasarkan";
-$GLOBALS['strMailFooter'] = "Hormat Kami,
-   {adminfullname}";
 $GLOBALS['strClientDeactivated'] = "Kampanye ini pada saat sekarang tidak aktif sehubungan";
 $GLOBALS['strBeforeActivate'] = "tanggal aktivasi belum tercapai";
 $GLOBALS['strAfterExpire'] = "waktu habisnya sudah tercapai";
@@ -575,8 +534,6 @@ $GLOBALS['strYourCampaign'] = "Kampanye Anda";
 $GLOBALS['strTheCampiaignBelongingTo'] = "Kampanye ini dimiliki oleh";
 $GLOBALS['strImpendingCampaignExpiryDateBody'] = "{clientname} dibawah ini akan berakhir pada tanggal {date}.";
 $GLOBALS['strImpendingCampaignExpiryImpsBody'] = "{clientname} dibawah ini impresinya yang tersisa lebih kurang dari {limit}.";
-$GLOBALS['strImpendingCampaignExpiryBody'] = "Maka dengan itu kampanye tersebut akan dihentikan dan
- banner-banner berikut ini akan dilumpuhkan secara otomatis:";
 
 // Priority
 $GLOBALS['strPriority'] = "Prioritas";
@@ -614,7 +571,6 @@ $GLOBALS['strGlobalSettings'] = "Penyetelan Umum";
 $GLOBALS['strGeneralSettings'] = "Penyetelan Umum";
 $GLOBALS['strMainSettings'] = "Penyetelan Utama";
 
-
 // Product Updates
 $GLOBALS['strProductUpdates'] = "Update Produk";
 $GLOBALS['strViewPastUpdates'] = "Atur seluruh Update dan Backup yang pernah dilakukan";
@@ -639,12 +595,13 @@ $GLOBALS['strAddNewChannel'] = "Add new channel";
 $GLOBALS['strAddNewChannel_Key'] = "Add <u>n</u>ew channel";
 $GLOBALS['strChannelToWebsite'] = "Semua penerbit";
 $GLOBALS['strNoChannels'] = "There are currently no channels defined";
-
 $GLOBALS['strEditChannelLimitations'] = "Edit channel limitations";
 $GLOBALS['strChannelProperties'] = "Channel properties";
 $GLOBALS['strChannelLimitations'] = "Pilihan Penyampaian";
 $GLOBALS['strConfirmDeleteChannel'] = "Do you really want to delete this channel?";
 $GLOBALS['strConfirmDeleteChannels'] = "Do you really want to delete this channel?";
+
+// Tracker Variables
 $GLOBALS['strVariableName'] = "Nama dari Variabel";
 $GLOBALS['strVariableDescription'] = "Deskripsi";
 $GLOBALS['strVariableDataType'] = "Jenis Data";
@@ -688,6 +645,8 @@ $GLOBALS['strProceed'] = "Lanjut &gt;";
 
 
 
+
+// Report error messages
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */

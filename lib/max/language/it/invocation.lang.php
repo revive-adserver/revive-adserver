@@ -17,6 +17,8 @@ $GLOBALS['strChooseTypeOfInvocation'] = "Seleziona il tipo di invocazione";
 $GLOBALS['strChooseTypeOfBannerInvocation'] = "Seleziona il tipo di invocazione banner";
 
 // Measures
+$GLOBALS['strAbbrPixels'] = "pixel";
+$GLOBALS['strAbbrSeconds'] = "secondi";
 
 // Common Invocation Parameters
 $GLOBALS['strInvocationWhat'] = "Selezione banner";
@@ -27,6 +29,7 @@ $GLOBALS['strInvocationWithText'] = "Mostra testo sotto il Banner";
 $GLOBALS['strInvocationDontShowAgain'] = "Non mostrare banner duplicati nella stessa pagina";
 $GLOBALS['strInvocationDontShowAgainCampaign'] = "Non mostrare banner della stessa campagna nella pagina";
 $GLOBALS['strInvocationTemplate'] = "Assegna il banner a una variabile per utilizzarla in un template";
+$GLOBALS['strInvocationBannerID'] = "Banner ID";
 $GLOBALS['strInvocationComments'] = "Includi commenti";
 
 // Iframe
@@ -55,6 +58,8 @@ $GLOBALS['strShowScrollbars'] = "Barre di scorrimento";
 
 // XML-RPC
 $GLOBALS['strXmlRpcLanguage'] = "Linguaggio utilizzato";
+$GLOBALS['strXmlRpcProtocol'] = "Usa HTTPS per contattare il Server XML-RPC";
+$GLOBALS['strXmlRpcTimeout'] = "Timeout XML-RPC (secondi)";
 
 // Support for 3rd party server clicktracking
 $GLOBALS['str3rdPartyTrack'] = "Supporta server di tracciamento dei click di terze parti";
@@ -67,5 +72,4 @@ $GLOBALS['strWarning'] = "Attenzione";
 $GLOBALS['strImgWithAppendWarning'] = "Questo tracker ha aggiunto il codice, il codice aggiunto funzionerà <strong>solo</strong> con tag JavaScript";
 
 // Local Invocation
-$GLOBALS['strWarningLocalInvocation'] = "<span class='tab-s'><strong>Attenzione:</strong> L'invocazione in modalità locale funzionerà soltanto se il sito che richiama il codice è fisicamente posizionato sulla stessa macchina dell'ad server.</span><br />Controlla che il valore MAX_PATH definito nel codice sottostante indichi effettivamente la directory di base del prodotto<br /> e di avere un file di configurazione per il dominio che mostra i banner (nella directory MAX_PATH/var)";
 

@@ -39,6 +39,8 @@ $GLOBALS['strDeliveryUrlPrefixSSL'] = "URL движка доставки бан�
 $GLOBALS['strImagesUrlPrefix'] = "URL хранилища изображений";
 $GLOBALS['strImagesUrlPrefixSSL'] = "URL хранилища изображений (SSL)";
 
+
+
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
 /* ------------------------------------------------------- */
@@ -64,7 +66,6 @@ $GLOBALS['strAdminCheckUpdates'] = "Проверить обновления";
 $GLOBALS['strUserlogEmail'] = "Протоколировать все исходящие сообщения электронной почты";
 $GLOBALS['strEnableDashboardSyncNotice'] = "Пожалуйста разрешите <a href='account-settings-update.php'>Проверить обновление</a> если вы хотите использовать панель инструментов.";
 $GLOBALS['strTimezone'] = "Часовой пояс";
-
 $GLOBALS['strEnableAutoMaintenance'] = "Автоматически проводить обслуживание БД во время доставки баннеров, если обслуживание не настроено вручную";
 
 // Database Settings
@@ -113,7 +114,6 @@ $GLOBALS['strDebugPassword'] = "Пароль для mCal или SQL сервер
 $GLOBALS['strProductionSystem'] = "Production сервер";
 
 // Delivery Settings
-$GLOBALS['strWebPath'] = "$PRODUCT_NAME Server Access Paths";
 $GLOBALS['strWebPathSimple'] = "Расположение веб-страниц";
 $GLOBALS['strDeliveryPath'] = "Расположение папки доставки";
 $GLOBALS['strImagePath'] = "Расположение папки изображений";

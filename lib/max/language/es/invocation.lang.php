@@ -59,5 +59,4 @@ $GLOBALS['strWarning'] = "Advertencia";
 $GLOBALS['strImgWithAppendWarning'] = "Este tracker tiene código asociado; dicho código <strong>sólo</strong> funcionará con tags Javascript";
 
 // Local Invocation
-$GLOBALS['strWarningLocalInvocation'] = "<span class='tab-s'><strong>Atención</strong> Invocación de modo local SÓLO funcionará si el sitio que hace la llamada al código está en la misma máquina física que el servidor de publicidad</span><br />Revise que el MAX_PATH definido en el código que hay a continuación apunta al directorio raízde su instalación de {$PRODUCT_NAME}<br />y que tiene un archivo de configuración para el dominio del sitio que muestra los anuncios (en MAX_PATH/var)";
 

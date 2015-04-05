@@ -114,7 +114,6 @@ $GLOBALS['strAuthentification'] = "Dilysiad ";
 $GLOBALS['strWelcomeTo'] = "Croeso i";
 $GLOBALS['strEnterUsername'] = "Rhowch eich enw defnyddiwr a'ch cyfrinair i fewngofnodi";
 $GLOBALS['strEnterBoth'] = "Rhowch eich enw defnyddiwr a'ch cyfrinair os gwelwch yn dda";
-$GLOBALS['strEnableCookies'] = "Rhaid i chi alluogi cwcis cyn bod modd i chi ddefnyddio {$PRODUCT_NAME}";
 $GLOBALS['strLogin'] = "Mewngofnodi";
 $GLOBALS['strLogout'] = "Allgofnodi";
 $GLOBALS['strUsername'] = "Enw Defnyddiwr";
@@ -163,10 +162,8 @@ $GLOBALS['strDayOfWeek'] = "Diwrnod yr wythnos";
 
 
 $GLOBALS['strDayFullNames'] = array();
-$GLOBALS['strDayFullNames'][6] = 'Dydd Sadwrn';
 
 $GLOBALS['strDayShortCuts'] = array();
-$GLOBALS['strDayShortCuts'][6] = 'Sad';
 
 $GLOBALS['strHour'] = "Awr";
 $GLOBALS['strSeconds'] = "eiliadau";
@@ -242,20 +239,6 @@ $GLOBALS['strClicksBooked'] = "Cliciau a Archebwyd";
 $GLOBALS['strConversionsBooked'] = "Trawsnewidiadau a Archebwyd";
 $GLOBALS['strAnonymous'] = "Cuddio hysbysebwr a gwefannau'r ymgyrch hwn.";
 $GLOBALS['strTargetPerDay'] = "y diwrnod.";
-$GLOBALS['strCampaignWarningRemnantNoWeight'] = "Mae blaenoriaeth yr ymgyrch wedi ei osod i isel,
-ond mae'r pwysau wedi ei osod i sero neu nid yw wedi cael
-ei nodi. Bydd hyn yn achosi bod eich ymgyrch yn
-cael ei ddad-ysgogi ac ni fydd y baneri yn cael eu trosglwyddo
-nes bod y pwysau yn cael ei newid i rif dilys.
-
-Ydych chi'n siwr eich bod am barhau?";
-$GLOBALS['strCampaignWarningNoTarget'] = "Mae blaenoriaeth yr ymgyrch wedi ei osod i uchel,
-ond nid yw'r nifer darged o Argraffiadau wedi cael ei nodi.
-Bydd hyn yn achosi bod eich ymgyrch yn cael ei ddad-ysgogi
-ac ni fydd y baneri yn cael eu trosglwyddo nes bod rhif targed
-dilys o Argraffiadau wedi cael ei osod.
-
-Ydych chi'n siwr eich bod am barhau?";
 $GLOBALS['strCampaignStatusPending'] = "Dan Ystyriaeth";
 $GLOBALS['strCampaignStatusInactive'] = "gweithredol";
 $GLOBALS['strCampaignStatusPaused'] = "Saib";
@@ -263,6 +246,7 @@ $GLOBALS['strCampaignStatusRestarted'] = "Ailgychwyn";
 $GLOBALS['strCampaignStatusDeleted'] = "Dileu";
 $GLOBALS['strCampaignType'] = "Enw Ymgyrch";
 $GLOBALS['strType'] = "Math";
+$GLOBALS['strContract'] = "Cysylltu";
 $GLOBALS['strStandardContract'] = "Cysylltu";
 
 // Tracker
@@ -302,6 +286,8 @@ $GLOBALS['strWarningMissing'] = "Rhybudd, y canlynol o bosib ar goll";
 $GLOBALS['strWarningMissingClosing'] = " closing tag \">\"";
 $GLOBALS['strWarningMissingOpening'] = " opening tag \"<\"";
 $GLOBALS['strSubmitAnyway'] = "Argymell Beth Bynnag";
+
+// Banner Preferences
 $GLOBALS['strTypeSqlAllow'] = "Caniatáu Baneri Lleol SQL";
 $GLOBALS['strTypeWebAllow'] = "Caniatáu Baneri Lleol Gwe-weinydd";
 $GLOBALS['strTypeUrlAllow'] = "Caniatáu Baneri Allanol";
@@ -334,6 +320,8 @@ $GLOBALS['strHardcodedLinks'] = "Dolenni cod-caled";
 $GLOBALS['strCompressSWF'] = "Cywasgu ffeil SWF ar gyfer lawrlwytho cynt (Chwaraewr Flash 6 yn ofynnol)";
 $GLOBALS['strOverwriteSource'] = "Trosysgrifo paramedr ffynhonnell";
 
+// Banner (network)
+// Banner (AdSense)
 // Display limitations
 $GLOBALS['strModifyBannerAcl'] = "Dewisiadau Trosglwyddiad";
 $GLOBALS['strACL'] = "Trosglwyddo";
@@ -355,15 +343,12 @@ $GLOBALS['strDeliveryCappingTotal'] = "mewn cyfanswm";
 $GLOBALS['strDeliveryCappingSession'] = "y sesiwn ";
 
 $GLOBALS['strCappingBanner'] = array();
-$GLOBALS['strCappingBanner']['title'] = "{$GLOBALS['strDeliveryCapping']}";
 $GLOBALS['strCappingBanner']['limit'] = "Cyfyngu golygon baner i:";
 
 $GLOBALS['strCappingCampaign'] = array();
-$GLOBALS['strCappingCampaign']['title'] = "{$GLOBALS['strDeliveryCapping']}";
 $GLOBALS['strCappingCampaign']['limit'] = "Cyfyngu golygon ymgyrch i:";
 
 $GLOBALS['strCappingZone'] = array();
-$GLOBALS['strCappingZone']['title'] = "{$GLOBALS['strDeliveryCapping']}";
 $GLOBALS['strCappingZone']['limit'] = "Cyfyngu golygon ardal i:";
 
 // Website
@@ -381,6 +366,7 @@ $GLOBALS['strShowParentAffiliates'] = "Dangos gwefannau rhiant";
 $GLOBALS['strHideParentAffiliates'] = "Cuddio gwefannau rhiant";
 
 // Website (properties)
+$GLOBALS['strWebsite'] = "Gwefan";
 $GLOBALS['strAllowAffiliateModifyZones'] = "Caniatáu i'r defnyddiwr newid ei ardaloedd ei hunan";
 $GLOBALS['strAllowAffiliateLinkBanners'] = "Caniatáu i'r defnyddiwr gysylltu baneri i'w ardaloedd ei hunan";
 $GLOBALS['strAllowAffiliateAddZone'] = "Caniatáu i'r defnyddiwr ddiffinio ardaloedd newydd";
@@ -485,8 +471,6 @@ $GLOBALS['strItemsPerPage'] = "Eitem y tudalen";
 $GLOBALS['strShowGraphOfStatistics'] = "Dangos yr Ystadegau fel <u>G</u>raff";
 $GLOBALS['strExportStatisticsToExcel'] = "Allforio'r Ystadegau i Excel";
 
-// Hosts
-
 // Expiration
 $GLOBALS['strNoExpiration'] = "Dyddiad dod i ben heb ei osod";
 $GLOBALS['strEstimated'] = "Dyddiad dod i ben amcangyfrifol";
@@ -518,6 +502,7 @@ $GLOBALS['strFrameSize'] = "Maint ffram";
 $GLOBALS['strBannercode'] = "Codbaner";
 $GLOBALS['strBackToTheList'] = "Mynd yn ôl i'r rhestr adroddiadau";
 
+
 // Errors
 $GLOBALS['strNoMatchesFound'] = "Methwyd darganfod cydweddiadau";
 $GLOBALS['strErrorOccurred'] = "Bu gwall";
@@ -527,22 +512,16 @@ $GLOBALS['strErrorDBContact'] = "Cysylltwch â gweinyddwr y gweinydd a'i hysbysu
 $GLOBALS['strUnableToLinkBanner'] = "Methwyd cysylltu'r baner:";
 $GLOBALS['strUnableToChangeZone'] = "Methwyd gweithredu'r newidiad oherwydd:";
 $GLOBALS['strDatesConflict'] = "dyddiadau'n gwrthdaro gyda:";
-$GLOBALS['strEmailNoDates'] = "Rhaid i ymgyrchoedd ardal ebost gael dyddiad cychwyn a gorffen";
 
 //Validation
 
 // Email
 $GLOBALS['strSirMadam'] = "Syr/Madam";
 $GLOBALS['strMailSubject'] = "Adroddiad Hysbysebwr";
-$GLOBALS['strMailHeader'] = "Annwyl{contact},";
 $GLOBALS['strMailBannerStats'] = "Isod byddwch yn darganfod ystadegau baner ar gyfer {clientname}:";
 $GLOBALS['strMailBannerActivatedSubject'] = "Ymgyrch wedi ysgogi";
 $GLOBALS['strMailBannerDeactivatedSubject'] = "Ymgyrch wedi dad-ysgogi";
-$GLOBALS['strMailBannerActivated'] = "Mae eich ymgyrch a ddangosir isod wedi cael ei ysgogi achos
-bod y dyddiad ysgogi ymgyrch wedi cael ei gyrraedd.";
 $GLOBALS['strMailBannerDeactivated'] = "Mae eich ymgyrch a ddangosir isod wedi cael ei ddad-ysgogi achos";
-$GLOBALS['strMailFooter'] = "Cofion,
-{adminfullname}";
 $GLOBALS['strClientDeactivated'] = "Nid yw'r ymgyrch yn weithredol ar hyn o bryd oherwydd";
 $GLOBALS['strBeforeActivate'] = "nad yw'r dyddiad ysgogi wedi cyrraedd eto";
 $GLOBALS['strAfterExpire'] = "nad yw'r dyddiad gorffen weddi cyrraedd";
@@ -598,7 +577,6 @@ $GLOBALS['strGlobalSettings'] = "Gosodiadau Cyffredinol";
 $GLOBALS['strGeneralSettings'] = "Gosodiadau Cyffredinol";
 $GLOBALS['strMainSettings'] = "Prif Osodiadau";
 
-
 // Product Updates
 $GLOBALS['strProductUpdates'] = "Diweddariadau Cynnyrch";
 
@@ -611,10 +589,11 @@ $GLOBALS['strInactiveAgenciesHidden'] = "cyfrif(on) anweithredol wedi cuddio";
 // Channels
 $GLOBALS['strChannelToWebsite'] = "Pob gwefan";
 $GLOBALS['strNoChannelsAddWebsite'] = "Nid oes unrhyw wefan wedi cael ei ddiffinio hyd yma. I greu ardal, <a href='affiliate-edit.php'>ychwanegwch wefan newydd</a> yn gyntaf.";
-
 $GLOBALS['strChannelLimitations'] = "Dewisiadau Trosglwyddiad";
 $GLOBALS['strConfirmDeleteChannel'] = "Ydych chi wir am ddileu yr ymgyrch yma?";
 $GLOBALS['strConfirmDeleteChannels'] = "Ydych chi wir am ddileu yr ymgyrch yma?";
+
+// Tracker Variables
 $GLOBALS['strVariableDescription'] = "Disgrifiad";
 $GLOBALS['strGeneric'] = "Generig";
 $GLOBALS['strTrackerType'] = "Enw Traciwr";
@@ -640,6 +619,8 @@ $GLOBALS['strCampaignAuditTrailSetup'] = "Ysgogi Trywydd Archwilio er mwyn cychw
 
 
 
+
+// Report error messages
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */

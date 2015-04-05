@@ -39,6 +39,8 @@ $GLOBALS['strDeliveryUrlPrefixSSL'] = "配信エンジンURL(SSL)";
 $GLOBALS['strImagesUrlPrefix'] = "画像ストレージURL";
 $GLOBALS['strImagesUrlPrefixSSL'] = "画像ストレージURL(SSL)";
 
+
+
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
 /* ------------------------------------------------------- */
@@ -68,7 +70,6 @@ $GLOBALS['strUserlogEmail'] = "全ての送信メールの内容をログに取�
 $GLOBALS['strEnableDashboard'] = "ダッシュボードを有効にする";
 $GLOBALS['strEnableDashboardSyncNotice'] = "ダッシュボードを使用するには、<a href='account-settings-update.php'>アップデートのチェック</a>を有効にしてください。";
 $GLOBALS['strTimezone'] = "タイムゾーン";
-
 $GLOBALS['strEnableAutoMaintenance'] = "定期メンテナンスが設定されていない場合、配信中に定期的なメンテナンスを自動実行する。";
 
 // Database Settings
@@ -127,7 +128,6 @@ $GLOBALS['strDebugPassword'] = "mCal, SQLサーバのパスワード";
 $GLOBALS['strProductionSystem'] = "プロダクションシステム";
 
 // Delivery Settings
-$GLOBALS['strWebPath'] = "$PRODUCT_NAME Server Access Paths";
 $GLOBALS['strWebPathSimple'] = "Webパス";
 $GLOBALS['strDeliveryPath'] = "配信パス";
 $GLOBALS['strImagePath'] = "画像パス";

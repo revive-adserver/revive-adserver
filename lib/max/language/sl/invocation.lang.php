@@ -54,5 +54,4 @@ $GLOBALS['strWarning'] = "Opozorilo";
 $GLOBALS['strImgWithAppendWarning'] = "Ta sledilnik ima pripeto kodo, ki deluje <strong>samo</strong> z JavaScriptom";
 
 // Local Invocation
-$GLOBALS['strWarningLocalInvocation'] = "<span class='tab-s'><strong>Opozorilo:</strong> Način lokalnega poziva bo deloval SAMO, če je klicujoča stran na istem računalniku kot oglaševalski strežnik</span><br />Preverite, da MAX_PATH definirana v zbirniku spodaj kaže na osnovno mapo vaše MAX namestitve,<br />in da imate konfiguracijsko datoteka za domeno strani, ki prikazuje oglas (v MAX_PATH/var)";
 

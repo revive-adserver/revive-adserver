@@ -64,5 +64,4 @@ $GLOBALS['strWarning'] = "Попередження";
 $GLOBALS['strImgWithAppendWarning'] = "Трекер имеет встроенный код, который должен располагаться внутри контейнера JavaScript";
 
 // Local Invocation
-$GLOBALS['strWarningLocalInvocation'] = "<span class='tab-s'><strong>Внимание:</strong> Локальный режим вызова баннеров работает только при вызове кода с той же физической машины, что и рекламный сервер.</span><br />Проверьте, что переменная MAX_PATH указывает на базовую папку вашей инсталляции<br />и у вас есть соответствующий файл конфигурации в MAX_PATH/var";
 

@@ -40,6 +40,8 @@ $GLOBALS['strDeliveryUrlPrefixSSL'] = "URL tampilan untuk mesin penyampaian ikla
 $GLOBALS['strImagesUrlPrefix'] = "URL penyimpanan gambar";
 $GLOBALS['strImagesUrlPrefixSSL'] = "URL penyimpanan gambar (SSL)";
 
+
+
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
 /* ------------------------------------------------------- */
@@ -67,7 +69,6 @@ $GLOBALS['strAdminCheckUpdates'] = "Cari Update";
 $GLOBALS['strUserlogEmail'] = "Catat seluruh E-Mail yang dikirim";
 $GLOBALS['strEnableDashboard'] = "Aktifkan Dashboard";
 $GLOBALS['strTimezone'] = "Zona waktu";
-
 $GLOBALS['strEnableAutoMaintenance'] = "Bila jadwal untuk pemeliharaan tidak di-set pada Cron, jalankan pemeliharaan dengan cara otomatis pada saat penyampaian iklan";
 
 // Database Settings
@@ -100,7 +101,6 @@ $GLOBALS['strDebugName'] = "Debug Log Name, Calendar, SQL Table,<br />atau Syslo
 $GLOBALS['strPEAR_LOG_INFO'] = "PEAR_LOG_INFO - Informasi anggapan";
 
 // Delivery Settings
-$GLOBALS['strWebPath'] = "$PRODUCT_NAME Server Access Paths";
 $GLOBALS['strWebPathSimple'] = "Lintasan Web";
 $GLOBALS['strDeliveryPath'] = "Cache penyampaian";
 $GLOBALS['strImagePath'] = "Lintasan gambar";

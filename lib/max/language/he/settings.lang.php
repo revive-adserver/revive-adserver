@@ -21,6 +21,8 @@ $GLOBALS['strTablesType'] = "סוגי הטבל�?ות";
 
 
 
+
+
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
 /* ------------------------------------------------------- */
@@ -40,7 +42,6 @@ $GLOBALS['strInvalidUsername'] = "ש�? משתמש פסול";
 $GLOBALS['strBasicInformation'] = "מידע בסיסי";
 $GLOBALS['strAdminCheckUpdates'] = "בדוק עדכוני�?";
 $GLOBALS['strUserlogEmail'] = " תעד �?ת כל ה�?ימייל היוצ�?";
-
 
 // Database Settings
 $GLOBALS['strDatabaseSettings'] = "קביעות בסיס נתוני�?";
@@ -63,7 +64,6 @@ $GLOBALS['strQmailPatch'] = " �?פשר טל�?י qmail ";
 // Debug Logging Settings
 
 // Delivery Settings
-$GLOBALS['strWebPath'] = "$PRODUCT_NAME Server Access Paths";
 $GLOBALS['strTypeWebSettings'] = "קונפיגורציית ב�?נר מקומי (השרת)";
 $GLOBALS['strTypeWebMode'] = "שיטת �?יחסון";
 $GLOBALS['strTypeWebModeLocal'] = "תיקייה מקומית";

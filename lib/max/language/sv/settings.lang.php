@@ -23,6 +23,8 @@ $GLOBALS['strWarning'] = "Varning";
 $GLOBALS['strDeliveryUrlPrefix'] = "Visningsmotor";
 $GLOBALS['strDeliveryUrlPrefixSSL'] = "Visningsmotor";
 
+
+
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
 /* ------------------------------------------------------- */
@@ -39,7 +41,6 @@ $GLOBALS['strEditConfigPossible'] = "It is possible to edit all settings because
 // Administrator Settings
 $GLOBALS['strBasicInformation'] = "Grundläggande Information";
 
-
 // Database Settings
 $GLOBALS['strDatabaseSettings'] = "Inställningar för databas";
 
@@ -51,7 +52,6 @@ $GLOBALS['strEmailSettings'] = "Huvudsakliga inställningar";
 // Debug Logging Settings
 
 // Delivery Settings
-$GLOBALS['strWebPath'] = "$PRODUCT_NAME Server Access Paths";
 $GLOBALS['strDeliveryPath'] = "Leveransminne";
 $GLOBALS['strDeliverySslPath'] = "Leveransminne";
 $GLOBALS['strTypeFTPUsername'] = "Logga in";

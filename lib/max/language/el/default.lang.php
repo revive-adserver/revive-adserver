@@ -115,7 +115,6 @@ $GLOBALS['strAuthentification'] = "Επικύρωση Στοιχείων";
 $GLOBALS['strWelcomeTo'] = "Καλώς ήλθατε στο";
 $GLOBALS['strEnterUsername'] = "Παρακαλώ εισάγετε το όνομα χρήστη και τον κωδικό σας για να συνδεθειτε";
 $GLOBALS['strEnterBoth'] = "Παρακαλώ εισάγετε και το όνομα χρήστη αλλά και τον κωδικό σας. Και τα δύο.";
-$GLOBALS['strEnableCookies'] = "Πρέπει να ενεργοποιήσετε τα cookies πριν χρησιμοποιήσετε το {$PRODUCT_NAME}";
 $GLOBALS['strLogin'] = "Σύνδεση";
 $GLOBALS['strLogout'] = "Αποσύνδεση";
 $GLOBALS['strUsername'] = "Όνομα Χρήστη";
@@ -156,10 +155,8 @@ $GLOBALS['strDayOfWeek'] = "Ημέρα της εβδομάδας";
 
 
 $GLOBALS['strDayFullNames'] = array();
-$GLOBALS['strDayFullNames'][6] = 'Σάββατο';
 
 $GLOBALS['strDayShortCuts'] = array();
-$GLOBALS['strDayShortCuts'][6] = 'Σα';
 
 $GLOBALS['strHour'] = "Ώρα";
 $GLOBALS['strSeconds'] = "δευτερόλεπτα";
@@ -207,6 +204,7 @@ $GLOBALS['strCampaignStatusRestarted'] = "Επανεκκίνηση";
 $GLOBALS['strCampaignStatusDeleted'] = "Διαγραφή";
 $GLOBALS['strCampaignType'] = "Όνομα Καμπάνιας";
 $GLOBALS['strType'] = "Τύπος";
+$GLOBALS['strContract'] = "Επικοινωνία";
 $GLOBALS['strStandardContract'] = "Επικοινωνία";
 
 // Tracker
@@ -221,6 +219,8 @@ $GLOBALS['strAddBanner_Key'] = "Προσθήκη <u>ν</u>έου banner";
 $GLOBALS['strShowBanner'] = "Προβολή banner";
 $GLOBALS['strBannerProperties'] = "Ιδιότητες Ζώνης";
 
+// Banner Preferences
+
 // Banner (Properties)
 $GLOBALS['strKeyword'] = "Λέξεις Κλειδιά";
 $GLOBALS['strWeight'] = "Ύψος";
@@ -229,6 +229,8 @@ $GLOBALS['strWeight'] = "Ύψος";
 
 // Banner (swf)
 
+// Banner (network)
+// Banner (AdSense)
 // Display limitations
 $GLOBALS['strNoLimitations'] = "Χωρίς περιορισμούς";
 $GLOBALS['strAND'] = "ΚΑΙ";                          // logical operator
@@ -250,6 +252,7 @@ $GLOBALS['strAffiliateProperties'] = "Ιδιότητες Ιστοσελίδας"
 $GLOBALS['strAffiliateHistory'] = "Ιστορικό Ιστοσελίδας";
 
 // Website (properties)
+$GLOBALS['strWebsite'] = "Ιστοσελίδα";
 
 // Website (properties - payment information)
 $GLOBALS['strPostcode'] = "Ταχυδρομικός Κωδικός";
@@ -295,8 +298,6 @@ $GLOBALS['strBreakdownByMonth'] = "Μήνας";
 $GLOBALS['strBreakdownByDow'] = "Ημέρα της εβδομάδας";
 $GLOBALS['strBreakdownByHour'] = "Ώρα";
 
-// Hosts
-
 // Expiration
 $GLOBALS['strCampaignStop'] = "Ιστορικό Καμπάνιας";
 
@@ -314,6 +315,7 @@ $GLOBALS['strAllAvailZones'] = "Όλες οι διαθέσιμες ζώνες";
 $GLOBALS['strAction'] = "Ενέργεια";
 
 // Code generation
+
 
 // Errors
 
@@ -357,7 +359,6 @@ $GLOBALS['strGlobalSettings'] = "Γενικές Ρυθμίσεις";
 $GLOBALS['strGeneralSettings'] = "Γενικές Ρυθμίσεις";
 $GLOBALS['strMainSettings'] = "Βασικές Ρυθμίσεις";
 
-
 // Product Updates
 $GLOBALS['strProductUpdates'] = "Ενημερώσεις Προϊόντος";
 
@@ -370,6 +371,7 @@ $GLOBALS['strAgencyProperties'] = "Ιδιότητες λογαριασμού";
 // Channels
 $GLOBALS['strChannelToWebsite'] = "Όλες οι ιστοσελίδες";
 
+// Tracker Variables
 $GLOBALS['strVariableDescription'] = "Περιγραφή";
 
 // Password recovery
@@ -392,6 +394,8 @@ $GLOBALS['strVariableDescription'] = "Περιγραφή";
 
 
 
+
+// Report error messages
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */

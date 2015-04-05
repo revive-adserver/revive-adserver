@@ -62,5 +62,4 @@ $GLOBALS['strCacheBuster'] = "Wstaw kod Cache-Busting";
 $GLOBALS['strImgWithAppendWarning'] = "Do trackera załączony jest kod, który funkcjonuje <strong>wyłącznie</strong> ze znacznikami JavaScript";
 
 // Local Invocation
-$GLOBALS['strWarningLocalInvocation'] = "<span class='tab-s'> <strong> Ostrzeżenie: </strong> Lokalny tryb inwokacji będzie działać tylko w miejscu wywołania kodu na tej samej maszynie fizycznej co AdServer </span> <br /> Sprawdź, czy MAX_PATH określony w poniższym kodzie wskazuje na główną kategorię twojej instalacji MAX.<br />, oraz że masz plik config dla domeny strony, która pokazuje reklamy (w MAX_PATH / var)";
 

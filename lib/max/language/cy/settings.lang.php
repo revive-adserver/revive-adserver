@@ -17,6 +17,8 @@ $GLOBALS['strWarning'] = "Rhybudd";
 
 
 
+
+
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
 /* ------------------------------------------------------- */
@@ -32,7 +34,6 @@ $GLOBALS['strEditConfigPossible'] = "It is possible to edit all settings because
 // Administrator Settings
 $GLOBALS['strBasicInformation'] = "Gwybodaeth Sylfaenol";
 
-
 // Database Settings
 
 // Email Settings
@@ -43,7 +44,6 @@ $GLOBALS['strEmailSettings'] = "Prif Osodiadau";
 // Debug Logging Settings
 
 // Delivery Settings
-$GLOBALS['strWebPath'] = "$PRODUCT_NAME Server Access Paths";
 $GLOBALS['strTypeFTPUsername'] = "Mewngofnodi";
 $GLOBALS['strTypeFTPPassword'] = "Cyfrinair";
 $GLOBALS['strDeliveryFilenamesXMLRPC'] = "Actifadu XML RPC";

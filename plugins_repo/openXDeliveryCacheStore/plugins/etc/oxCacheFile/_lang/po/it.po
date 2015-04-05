@@ -1,0 +1,28 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: revive-adserver\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-09-06 11:03+0100\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: translate\n"
+"Last-Translator: mbeccati <matteo@beccati.com>\n"
+"Language-Team: Italian\n"
+"Language: it_IT\n"
+"X-Generator: crowdin.com\n"
+"X-Poedit-SearchPath-0: plugins_repo/openXDeliveryCacheStore/extensions/deliveyCacheStore/oxCacheFile\n"
+"X-Crowdin-Project: revive-adserver\n"
+"X-Crowdin-Language: it\n"
+"X-Crowdin-File: /plugins_repo/openXDeliveryCacheStore/plugins/etc/oxCacheFile/_lang/po/en.po\n"
+
+#: plugins_repo/openXDeliveryCacheStore/extensions/deliveryCacheStore/oxCacheFile/oxCacheFile.class.php:47
+msgid "File based cache"
+msgstr "Cache basato su file"
+
+#: plugins_repo/openXDeliveryCacheStore/extensions/deliveryCacheStore/oxCacheFile/oxCacheFile.class.php:59
+msgid "strUnableToWriteTo"
+msgstr ""
+

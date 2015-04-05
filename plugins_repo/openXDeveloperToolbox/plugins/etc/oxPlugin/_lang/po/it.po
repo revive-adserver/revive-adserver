@@ -28,7 +28,7 @@ msgstr ""
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:81
 msgid "New Plugin"
-msgstr ""
+msgstr "Nuovo Plugin"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:83
 msgid "Plugin Name"
@@ -72,7 +72,7 @@ msgstr "Stato"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:97
 msgid "Version"
-msgstr ""
+msgstr "Versione"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:104
 msgid "Group Name"
@@ -89,5 +89,5 @@ msgstr ""
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:109
 msgid "Submit"
-msgstr ""
+msgstr "Invio"
 

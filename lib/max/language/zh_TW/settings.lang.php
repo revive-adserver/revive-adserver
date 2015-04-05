@@ -41,6 +41,8 @@ $GLOBALS['strDeliveryUrlPrefixSSL'] = "發布引擎路徑 (SSL)";
 $GLOBALS['strImagesUrlPrefix'] = "由於安全原因無法編輯所有設定。如果你希望修改，你需要解鎖配置文件。 ";
 $GLOBALS['strImagesUrlPrefixSSL'] = "由於安全原因無法編輯所有設定。如果你希望修改，你需要解鎖配置文件。 (SSL)";
 
+
+
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
 /* ------------------------------------------------------- */
@@ -67,7 +69,6 @@ $GLOBALS['strAdministratorEmail'] = "管理員郵件地址";
 $GLOBALS['strNovice'] = "管理員的刪除操作需確認";
 $GLOBALS['strUserlogEmail'] = "記錄所有發出郵件資訊";
 $GLOBALS['strTimezone'] = "時區";
-
 $GLOBALS['strEnableAutoMaintenance'] = "運行期間的自動維護還未設定";
 
 // Database Settings
@@ -111,7 +112,6 @@ $GLOBALS['strPEAR_LOG_EMERG'] = "PEAR_LOG_EMERG - 最少信息";
 $GLOBALS['strDebugIdent'] = "調試鑑定弦";
 
 // Delivery Settings
-$GLOBALS['strWebPath'] = "$PRODUCT_NAME Server Access Paths";
 $GLOBALS['strWebPathSimple'] = "頁面路徑";
 $GLOBALS['strDeliveryPath'] = "發布緩存";
 $GLOBALS['strImagePath'] = "圖片路徑";

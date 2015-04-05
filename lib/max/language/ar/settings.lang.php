@@ -38,6 +38,8 @@ $GLOBALS['strDeliveryUrlPrefixSSL'] = "نظام التوزيع";
 $GLOBALS['strImagesUrlPrefix'] = "رابط حفظ الصور";
 $GLOBALS['strImagesUrlPrefixSSL'] = "رابط حفظ الصور (رابط آمن)";
 
+
+
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
 /* ------------------------------------------------------- */
@@ -65,7 +67,6 @@ $GLOBALS['strNovice'] = "نحتاج للتأكيد قبل الحذف كخطوة 
 $GLOBALS['strUserlogEmail'] = "حفظ كل الرسائل الصادرة";
 $GLOBALS['strTimezone'] = "المنطقة الزمنية";
 
-
 // Database Settings
 $GLOBALS['strDatabaseSettings'] = "خيارات قواعد البيانات";
 $GLOBALS['strDatabaseServer'] = "الإعدادات العامة لمستضيف قاعدة البيانات";
@@ -88,7 +89,6 @@ $GLOBALS['strDebugTypeSql'] = "قاعدة بيانات SQL";
 $GLOBALS['strDebugTypeSyslog'] = "سجل النظام";
 
 // Delivery Settings
-$GLOBALS['strWebPath'] = "$PRODUCT_NAME Server Access Paths";
 $GLOBALS['strImagePath'] = "مسار الصور";
 $GLOBALS['strImageSslPath'] = "مسار الصور (آمن)";
 $GLOBALS['strImageStore'] = "مجلد الصور";

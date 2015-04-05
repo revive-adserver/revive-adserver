@@ -178,21 +178,8 @@ $GLOBALS['strDayOfWeek'] = "Savaitės diena";
 
 
 $GLOBALS['strDayFullNames'] = array();
-$GLOBALS['strDayFullNames'][0] = 'Sekmadienis';
-$GLOBALS['strDayFullNames'][1] = 'Pirmadienis';
-$GLOBALS['strDayFullNames'][2] = 'Antradienis';
-$GLOBALS['strDayFullNames'][3] = 'Trečiadienis';
-$GLOBALS['strDayFullNames'][4] = 'Ketvirtadienis';
-$GLOBALS['strDayFullNames'][5] = 'Penktadienis';
-$GLOBALS['strDayFullNames'][6] = 'Šeštadienis';
 
 $GLOBALS['strDayShortCuts'] = array();
-$GLOBALS['strDayShortCuts'][0] = 'Sekm.';
-$GLOBALS['strDayShortCuts'][1] = 'Pirm.';
-$GLOBALS['strDayShortCuts'][2] = 'Antr.';
-$GLOBALS['strDayShortCuts'][3] = 'Treč.';
-$GLOBALS['strDayShortCuts'][4] = 'Ketv.';
-$GLOBALS['strDayShortCuts'][5] = 'Penkt.';
 
 $GLOBALS['strHour'] = "Valanda";
 $GLOBALS['strSeconds'] = "Sekundės";
@@ -262,20 +249,6 @@ $GLOBALS['strClicksBooked'] = "Užsakyti paspaudimai";
 $GLOBALS['strConversionsBooked'] = "Užsakyti konvertavimai";
 $GLOBALS['strAnonymous'] = "Slėpti šios kampanijos internetinius puslapius ir reklamos skleidėjus.";
 $GLOBALS['strTargetPerDay'] = "per dieną.";
-$GLOBALS['strCampaignWarningRemnantNoWeight'] = "Šiai kompanijai nustatyta žema pirmenybė
-bet nustatytas svoris lygus arba jis nebuvo
-nustatytas iš viso. Tai priverčia kampanija būti
- išformuotair jos baneriai nebus pristatyti
-tol kol jos svoris bus nustatytas kaip tinkamas dydis.
-
-Ar esate tikri, kad norite tęsti?";
-$GLOBALS['strCampaignWarningNoTarget'] = "Šiai kampanijai parinktas aukšto lygio prioritetas,
-tačiau tikslus spaudinių skaičius nėra nurodytas.
-Tai priverčia kampaniją būti deaktyvuotai ir
-jos baneriai nebus pristatyti tol, kol tinkamas
-spaudinių skaičius nebus parinktas.
-
-Ar esate įsitikines, kad norite tęsti?";
 $GLOBALS['strCampaignStatusPending'] = "Laukiantis";
 $GLOBALS['strCampaignStatusInactive'] = "Aktyvus";
 $GLOBALS['strCampaignStatusRunning'] = "Procesas";
@@ -290,6 +263,7 @@ $GLOBALS['strCampaignStatusRestarted'] = "Atnaujintas";
 $GLOBALS['strCampaignStatusDeleted'] = "Ištrinti";
 $GLOBALS['strCampaignType'] = "Kampanijos pavadinimas";
 $GLOBALS['strType'] = "Tipas";
+$GLOBALS['strContract'] = "Kontaktai";
 $GLOBALS['strStandardContract'] = "Kontaktai";
 
 // Tracker
@@ -325,6 +299,8 @@ $GLOBALS['strHideInactiveBanners'] = "Slėpti neaktyvius banerius";
 $GLOBALS['strInactiveBannersHidden'] = "Neaktyvūs baneriai paslėpti";
 $GLOBALS['strWarningMissing'] = "Įspėjimas, tikriausiai trūksta";
 $GLOBALS['strSubmitAnyway'] = "Tvirtinti bet kokiu atveju";
+
+// Banner Preferences
 $GLOBALS['strBannerPreferences'] = "Pirmenybė baneriui";
 $GLOBALS['strDefaultBanners'] = "Pagrindiniai baneriai";
 $GLOBALS['strDefaultBannerUrl'] = "Pagrindiniai vaizdų URL";
@@ -362,6 +338,8 @@ $GLOBALS['strHardcodedLinks'] = "Sunkiai užkoduoti saitai";
 $GLOBALS['strCompressSWF'] = "Suspausti SWF failą, tam kad būtų pagreitintas atsiuntimas (Flash 6 player reikalaujamas)";
 $GLOBALS['strOverwriteSource'] = "Perrašyti šaltinio parametrus";
 
+// Banner (network)
+// Banner (AdSense)
 // Display limitations
 $GLOBALS['strACL'] = "Atsiuntimas";
 $GLOBALS['strNoLimitations'] = "Nėra draudimų";
@@ -402,6 +380,7 @@ $GLOBALS['strShowParentAffiliates'] = "Rodyti pagrindinius (pirminius) interneti
 $GLOBALS['strHideParentAffiliates'] = "Slėpti pagrindinius (pirminius) internetinius puslapius";
 
 // Website (properties)
+$GLOBALS['strWebsite'] = "Internetinis puslapis";
 $GLOBALS['strAllowAffiliateModifyZones'] = "Leisti šiam vartotojui redaguoti savo zonas";
 $GLOBALS['strAllowAffiliateLinkBanners'] = "Leisti šiam vartotojui susieti su savo zonomis banerius";
 $GLOBALS['strAllowAffiliateAddZone'] = "Leisti šiam vartotojui kurti naujas zonas";
@@ -502,8 +481,6 @@ $GLOBALS['strShowGraphOfStatistics'] = "Rodyti <u>G</u>rafas statistikos";
 $GLOBALS['strExportStatisticsToExcel'] = "<u>Į</u>kelti statistiką į Excel failą";
 $GLOBALS['strGDnotEnabled'] = "Jūs turite įgalinti GD veikimą pagal PHP. <br />Čia rasite <a href='http://www.php.net/gd' target='_blank'>http://www.php.net/gd</a> daugiau informacijos, įskaitant ir tai, kaip  įdiegti GD į jūsų serverį.";
 
-// Hosts
-
 // Expiration
 $GLOBALS['strNoExpiration'] = "Nėra galiojimo pasibaigimo nustatytos datos";
 $GLOBALS['strCampaignStop'] = "Kampanijos pavadinimas";
@@ -536,6 +513,7 @@ $GLOBALS['strBackToTheList'] = "Grįžti į ataskaitų sąrašą";
 $GLOBALS['strCharset'] = "Ženklų nustatymus";
 $GLOBALS['strAutoDetect'] = "Auto radimas";
 
+
 // Errors
 $GLOBALS['strNoMatchesFound'] = "Jokių atitikmenų nerasta";
 $GLOBALS['strErrorOccurred'] = "Atsirado klaida";
@@ -547,7 +525,6 @@ $GLOBALS['strErrorLinkingBanner'] = "Neįmanoma ssieti šį banerį su šia zona
 $GLOBALS['strUnableToLinkBanner'] = "Negalima susieti šio banerio:";
 $GLOBALS['strUnableToChangeZone'] = "Neįmanoma patvirtinti šių pasikeitimų, nes:";
 $GLOBALS['strDatesConflict'] = "datos prieštarauja su:";
-$GLOBALS['strEmailNoDates'] = "Elektroninio pašto zonos privalo turėti pradžią ir pabaigą";
 $GLOBALS['strWarningInaccurateStats'] = "Kai kurios iš šių statistikų buvo prijungtos  prie ne ne-UTC laiko zonos, ir gali būti rodomos neteisingu laiko zonos laiku. ";
 $GLOBALS['strWarningInaccurateReadMore'] = "Skaitykite daugiau apie tai";
 $GLOBALS['strWarningInaccurateReport'] = "Dalis  šios ataskaitos statistikos buvo priregistruoti į ne-UTC laiko zoną, ir gali būti rodoma neteisingoje laiko zonoje ";
@@ -557,15 +534,10 @@ $GLOBALS['strWarningInaccurateReport'] = "Dalis  šios ataskaitos statistikos bu
 // Email
 $GLOBALS['strSirMadam'] = "Pone/Madam";
 $GLOBALS['strMailSubject'] = "Reklamos skleidėjo ataskaita";
-$GLOBALS['strMailHeader'] = "Brangus {contact},";
 $GLOBALS['strMailBannerStats'] = "Žemiau rasite banerio statistiką, skirtą {klientvardas}: ";
 $GLOBALS['strMailBannerActivatedSubject'] = "Kampanija aktyvuota";
 $GLOBALS['strMailBannerDeactivatedSubject'] = "Kampanija deaktyvuota";
-$GLOBALS['strMailBannerActivated'] = "Jūsų kampanija, rodoma žemiau, buvo aktyvuota, nes
-atėjo kampanijos aktyvavimo data.";
 $GLOBALS['strMailBannerDeactivated'] = "Jūsų kampanija, rodoma žemiau, buvo deaktyvuota, nes";
-$GLOBALS['strMailFooter'] = "Pagarbiai,
-   {administartoriauspilnasvardas}";
 $GLOBALS['strClientDeactivated'] = "Ši kampanija šiuo metu neaktyvi, nes";
 $GLOBALS['strBeforeActivate'] = "aktyvacijos data dar neatėjo";
 $GLOBALS['strAfterExpire'] = "atėjo galiojimo pasibaigimo data";
@@ -584,8 +556,6 @@ $GLOBALS['strYourCampaign'] = "Jūsų kampanija";
 $GLOBALS['strTheCampiaignBelongingTo'] = "Kampanija priklauso";
 $GLOBALS['strImpendingCampaignExpiryDateBody'] = "{klientovardas} rodomas žemiau baigiasi {data}.";
 $GLOBALS['strImpendingCampaignExpiryImpsBody'] = "{klientovardas} rodomas žemiau turi spaudos limitą, kurios dydis yra {limitodydis}.";
-$GLOBALS['strImpendingCampaignExpiryBody'] = "Kaip pasekmė, kampanijai bus automatiškai apriboti tam tikri veiksmai, ir
-kampanijos baneriai taip pat bus apriboti: ";
 
 // Priority
 $GLOBALS['strPriority'] = "Pirmenybė";
@@ -640,7 +610,6 @@ $GLOBALS['strClicks_short'] = "Paspaudimai";
 $GLOBALS['strGlobalSettings'] = "Bendri nustatymai";
 $GLOBALS['strGeneralSettings'] = "Bendri nustatymai";
 $GLOBALS['strMainSettings'] = "Pagrindiniai nustatymai";
-
 $GLOBALS['strChooseSection'] = 'Pasirinkti dalį';
 
 // Product Updates
@@ -656,9 +625,10 @@ $GLOBALS['strSwitchAccount'] = "Perjungti į šią sąskaitą";
 
 // Channels
 $GLOBALS['strChannelToWebsite'] = "Visi internetiniai puslapiai";
-
 $GLOBALS['strConfirmDeleteChannel'] = "Ar tikrai norite ištrinti šį banerį?";
 $GLOBALS['strConfirmDeleteChannels'] = "Ar tikrai norite ištrinti šį banerį?";
+
+// Tracker Variables
 $GLOBALS['strVariableName'] = "Kintamas vardas";
 $GLOBALS['strVariableDescription'] = "Aprašymas";
 $GLOBALS['strVariableDataType'] = "Duomenų tipas";
@@ -711,7 +681,6 @@ $GLOBALS['strCampaignSetUp'] = "Nustatyti kampaniją šiandien";
 $GLOBALS['strCampaignNoRecordsAdmin'] = "<li> Nėra jokių įrašų atvaizduoti kampanijos veiklą.</li>";
 
 $GLOBALS['strCampaignNoDataTimeSpan'] = "Per laiko tarpą, kurį pasirinkote jokia kampanija neprasidėjo ir nesibaigė";
-$GLOBALS['strCampaignAuditNotActivated'] = "<li>Jei norite peržiūrėti kampanijas, kurios prasidėjo arba kurios jau baigėsi, pagal tam tikrą laiką intervalą, kurį nustatėte, Audit trail turi būti aktyvuotas</li>	        <li>Jūs matote šį pranešimą, nes dar neaktyvavote patikrinimo keliol</li>";
 $GLOBALS['strCampaignAuditTrailSetup'] = "Aktyvuokite Audit Trail norėdami pradėti peržiūrėti kampanijas";
 
 
@@ -725,6 +694,8 @@ $GLOBALS['strCampaignAuditTrailSetup'] = "Aktyvuokite Audit Trail norėdami prad
 
 
 
+
+// Report error messages
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */

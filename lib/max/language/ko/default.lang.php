@@ -96,7 +96,6 @@ $GLOBALS['strAuthentification'] = "�?��?";
 $GLOBALS['strWelcomeTo'] = "환�?합니다. ";
 $GLOBALS['strEnterUsername'] = "로그�?�하기 위해 사용�?ID과 비밀번호를 입력하세요.";
 $GLOBALS['strEnterBoth'] = "사용�?ID와 비밀번호를 모�? 입력하세요.";
-$GLOBALS['strEnableCookies'] = "{$PRODUCT_NAME}�?� 사용하려면 쿠키를 활성화해야합니다.";
 $GLOBALS['strLogin'] = "로그�?�ID";
 $GLOBALS['strLogout'] = "로그아웃";
 $GLOBALS['strUsername'] = "사용�?ID";
@@ -133,13 +132,6 @@ $GLOBALS['strMonths'] = "월";
 $GLOBALS['strDayFullNames'] = array();
 
 $GLOBALS['strDayShortCuts'] = array();
-$GLOBALS['strDayShortCuts'][0] = '�?�';
-$GLOBALS['strDayShortCuts'][1] = '월';
-$GLOBALS['strDayShortCuts'][2] = '화';
-$GLOBALS['strDayShortCuts'][3] = '수';
-$GLOBALS['strDayShortCuts'][4] = '목';
-$GLOBALS['strDayShortCuts'][5] = '금';
-$GLOBALS['strDayShortCuts'][6] = '토';
 
 $GLOBALS['strHour'] = "시";
 $GLOBALS['strSeconds'] = "초";
@@ -201,6 +193,7 @@ $GLOBALS['strTargetPerDay'] = "회로 제한합니다.";
 $GLOBALS['strCampaignStatusInactive'] = "사용 가능";
 $GLOBALS['strCampaignStatusDeleted'] = "삭제";
 $GLOBALS['strCampaignType'] = "캠페�?� 기�?";
+$GLOBALS['strContract'] = "연�?�처";
 $GLOBALS['strStandardContract'] = "연�?�처";
 
 // Tracker
@@ -223,6 +216,8 @@ $GLOBALS['strShowParentCampaigns'] = "�?위 캠페�?� 표시";
 $GLOBALS['strHideParentCampaigns'] = "�?위 캠페�?� 숨기기";
 $GLOBALS['strHideInactiveBanners'] = "사용하지 않는 배너 숨김";
 $GLOBALS['strInactiveBannersHidden'] = "배너가 숨겨져 있습니다.";
+
+// Banner Preferences
 
 // Banner (Properties)
 $GLOBALS['strChooseBanner'] = "배너 형�?�?� 선�?하세요.";
@@ -248,10 +243,11 @@ $GLOBALS['strBannerWeight'] = "배너 가중치";
 $GLOBALS['strCheckSWF'] = "플래시 파�?��? 입력�?� �?�?�를 확�?�합니다.";
 $GLOBALS['strConvertSWFLinks'] = "플래시 �?�?� 변환합니다.";
 $GLOBALS['strHardcodedLinks'] = "내장�?� �?�?�";
-$GLOBALS['strConvertSWF'] = "<br />업로드한 플래시 파�?��? URL�?� �?�함시킬 수 있습니다. 업로드한 플래시 파�?��? URL�?� �?�함�?�어 있습니다. {$PRODUCT_NAME}는 플래시 파�?��? �?�함�?� URL�?� 변환하지 않으면 배너�? 대한 AdClick 수를 추�?할 수 없습니다. 다�?��?� 플래시 파�?��? �?�함�?� URL 목�?입니다. �?� URL�?� 변환하려면 <b>변환</b>�?� �?�릭하고, 아니면 <b>취소</b>를 �?�릭하세요.</b>.<br /><br />주�?�: <b>변환</b>�?� �?�릭하면 업로드한 플래시 파�?��?� 실제로 변경합니다.<br />�?본 파�?��?� 백업하십시오. 배너를 만드는�?� 사용한 플래시 파�?��?� 버전�? �?관없�?� 결과 파�?��?� 플래시 4 파�?�로 �?성합니다.<br /><br />";
 $GLOBALS['strCompressSWF'] = "보다 빠른 파�?� 전송�?� 위해 SWF 파�?� 압축";
 $GLOBALS['strOverwriteSource'] = "소스 파�?�미터 �?�어쓰기";
 
+// Banner (network)
+// Banner (AdSense)
 // Display limitations
 $GLOBALS['strModifyBannerAcl'] = "전달유지 옵션";
 $GLOBALS['strACL'] = "전달유지";
@@ -269,13 +265,10 @@ $GLOBALS['strDeliveryLimitations'] = "전달유지 제한";
 
 
 $GLOBALS['strCappingBanner'] = array();
-$GLOBALS['strCappingBanner']['title'] = "전달유지 제한(Delivery capping)";
 
 $GLOBALS['strCappingCampaign'] = array();
-$GLOBALS['strCappingCampaign']['title'] = "전달유지 제한(Delivery capping)";
 
 $GLOBALS['strCappingZone'] = array();
-$GLOBALS['strCappingZone']['title'] = "전달유지 제한(Delivery capping)";
 
 // Website
 $GLOBALS['strAffiliate'] = "광고게시�?";
@@ -290,6 +283,7 @@ $GLOBALS['strConfirmDeleteAffiliates'] = "해당 광고게시�?를 삭제합�
 $GLOBALS['strInactiveAffiliatesHidden'] = "배너가 숨겨져 있습니다.";
 
 // Website (properties)
+$GLOBALS['strWebsite'] = "광고게시�?";
 $GLOBALS['strAllowAffiliateModifyZones'] = "사용�?가 �?역�?� 수정하는 것�?� 허용합니다.";
 $GLOBALS['strAllowAffiliateLinkBanners'] = "사용�?가 �?신�?� �?역�? 배너를 연결할 수 있게 합니다.";
 $GLOBALS['strAllowAffiliateAddZone'] = "사용�?가 새 �?역�?� 정�?�하는 것�?� 허용합니다.";
@@ -361,8 +355,6 @@ $GLOBALS['strBreakdownByWeek'] = "주";
 $GLOBALS['strBreakdownByMonth'] = "월";
 $GLOBALS['strBreakdownByHour'] = "시";
 
-// Hosts
-
 // Expiration
 $GLOBALS['strNoExpiration'] = "만료�?� 설정없�?�";
 $GLOBALS['strEstimated'] = "예�? 만료�?�";
@@ -388,6 +380,7 @@ $GLOBALS['strParameters'] = "파�?�미터";
 $GLOBALS['strFrameSize'] = "프레임 �?�기";
 $GLOBALS['strBannercode'] = "배너코드";
 
+
 // Errors
 $GLOBALS['strNoMatchesFound'] = "검색 결과가 없습니다.";
 $GLOBALS['strErrorOccurred'] = "오류가 발�?했습니다.";
@@ -396,7 +389,6 @@ $GLOBALS['strErrorOccurred'] = "오류가 발�?했습니다.";
 
 // Email
 $GLOBALS['strMailSubject'] = "광고주 보고서";
-$GLOBALS['strMailHeader'] = "{contact}님,";
 $GLOBALS['strMailBannerStats'] = "{clientname}�?� 배너 통계는 다�?�과 같습니다.";
 $GLOBALS['strMailBannerActivatedSubject'] = "캠페�?� {id} 활성화";
 $GLOBALS['strMailBannerDeactivatedSubject'] = "캠페�?� {id} 활성화";
@@ -429,7 +421,6 @@ $GLOBALS['strGlobalSettings'] = "�?�반 설정";
 $GLOBALS['strGeneralSettings'] = "�?�반 설정";
 $GLOBALS['strMainSettings'] = "설정";
 
-
 // Product Updates
 $GLOBALS['strProductUpdates'] = "제품 업�?��?�트";
 
@@ -441,10 +432,11 @@ $GLOBALS['strInactiveAgenciesHidden'] = "배너가 숨겨져 있습니다.";
 
 // Channels
 $GLOBALS['strNoChannels'] = "현재 등�?�?� 배너가 없습니다.";
-
 $GLOBALS['strChannelLimitations'] = "전달유지 옵션";
 $GLOBALS['strConfirmDeleteChannel'] = "해당 배너를 삭제합니까??";
 $GLOBALS['strConfirmDeleteChannels'] = "해당 배너를 삭제합니까??";
+
+// Tracker Variables
 $GLOBALS['strVariableDescription'] = "설명";
 
 // Password recovery
@@ -467,6 +459,8 @@ $GLOBALS['strVariableDescription'] = "설명";
 
 
 
+
+// Report error messages
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */

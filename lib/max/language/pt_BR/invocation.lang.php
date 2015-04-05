@@ -63,5 +63,4 @@ $GLOBALS['strWarning'] = "Alerta";
 $GLOBALS['strImgWithAppendWarning'] = "Este rastreador tem código anexado, código anexado funcionará <strong>apenas</strong> com tags JavaScript";
 
 // Local Invocation
-$GLOBALS['strWarningLocalInvocation'] = "<span class='tab-s'><strong>Atenção:</strong>O código de inserção local SOMENTE funcionará se o site que estiver incluindo o código estiver fisicamente na mesma máquina que o servidor de anúncios</span><br />Verifique que o MAX_PATH definido no código abaixo aponta para o diretório raiz de sua instalação MAX<br />e que você possui um arquivo de configuração para o domínio do site que mostra os anúncios (em MAX_PATH/Var)";
 

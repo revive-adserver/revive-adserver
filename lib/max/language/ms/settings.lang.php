@@ -35,6 +35,8 @@ $GLOBALS['strDeliveryUrlPrefixSSL'] = "Enjin Penghantaran";
 $GLOBALS['strImagesUrlPrefix'] = "URL stor imej";
 $GLOBALS['strImagesUrlPrefixSSL'] = "URL (SSL) stor imej";
 
+
+
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
 /* ------------------------------------------------------- */
@@ -58,7 +60,6 @@ $GLOBALS['strNovice'] = "Tindakan untuk memadam memerlukan maklum balas diatas t
 $GLOBALS['strUserlogEmail'] = "Log kesemua mesej emel keluar";
 $GLOBALS['strTimezone'] = "Zon Waktu";
 
-
 // Database Settings
 $GLOBALS['strDatabaseSettings'] = "Konfigurasi Pengkalan Data";
 $GLOBALS['strDatabaseServer'] = "Ciri-ciri global server pengkalan data";
@@ -80,7 +81,6 @@ $GLOBALS['strCantConnectToDb'] = "Tidak dapat berhubung dengan pengkalan data";
 $GLOBALS['strDebugTypeSql'] = "Pengkalan Data SQL";
 
 // Delivery Settings
-$GLOBALS['strWebPath'] = "$PRODUCT_NAME Server Access Paths";
 $GLOBALS['strImageStore'] = "Folder imej-imej";
 $GLOBALS['strTypeWebMode'] = "Cara menyimpan";
 $GLOBALS['strTypeWebModeLocal'] = "Direktori Tempatan";

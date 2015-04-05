@@ -23,6 +23,8 @@ $GLOBALS['strTablesType'] = "Tablo tipleri";
 $GLOBALS['strDeliveryUrlPrefix'] = "Teslimat Motoru";
 $GLOBALS['strDeliveryUrlPrefixSSL'] = "Teslimat Motoru";
 
+
+
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
 /* ------------------------------------------------------- */
@@ -42,7 +44,6 @@ $GLOBALS['strInvalidUsername'] = "Geçersiz Kullanıcı Adı";
 $GLOBALS['strBasicInformation'] = "Temel Bilgiler";
 $GLOBALS['strAdminCheckUpdates'] = "Güncellemeleri kontrol et";
 $GLOBALS['strUserlogEmail'] = "Tüm giden e-mailleri logla";
-
 
 // Database Settings
 $GLOBALS['strDatabaseSettings'] = "Veritabanı ayarları";
@@ -66,7 +67,6 @@ $GLOBALS['strEnableQmailPatch'] = "qmail patchini kullanın";
 // Debug Logging Settings
 
 // Delivery Settings
-$GLOBALS['strWebPath'] = "$PRODUCT_NAME Server Access Paths";
 $GLOBALS['strTypeWebSettings'] = "Yerel banner (Webserver) ayarları";
 $GLOBALS['strTypeWebMode'] = "Depolama metodu";
 $GLOBALS['strTypeWebModeLocal'] = "Yerel Klasörler";

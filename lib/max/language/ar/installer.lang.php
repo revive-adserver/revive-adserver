@@ -1,34 +1,34 @@
 <?php
 
 /*
-+---------------------------------------------------------------------------+
-| Revive Adserver                                                           |
-| http://www.revive-adserver.com                                            |
-|                                                                           |
-| Copyright: See the COPYRIGHT.txt file.                                    |
-| License: GPLv2 or later, see the LICENSE.txt file.                        |
-+---------------------------------------------------------------------------+
-*/
+  +---------------------------------------------------------------------------+
+  | Revive Adserver                                                           |
+  | http://www.revive-adserver.com                                            |
+  |                                                                           |
+  | Copyright: See the COPYRIGHT.txt file.                                    |
+  | License: GPLv2 or later, see the LICENSE.txt file.                        |
+  +---------------------------------------------------------------------------+
+ */
 
-/** status messages **/
+/** status messages * */
 
-/** welcome step **/
+/** welcome step * */
 
-/** check step **/
-
-
-$GLOBALS['strWarning']                          = "تحذير";
-$GLOBALS['strSyscheckStatus']                   = "الحالة";
-
-/** admin login step **/
-
-/** database step **/
+/** check step * */
 
 
-/** config step **/
+$GLOBALS['strWarning'] = "تحذير";
+$GLOBALS['strSyscheckStatus'] = "الحالة";
 
-/** jobs step **/
+/** admin login step * */
+
+/** database step * */
 
 
-/** finish step **/
+/** config step * */
+
+/** jobs step * */
+
+
+/** finish step * */
 

@@ -39,6 +39,8 @@ $GLOBALS['strDeliveryUrlPrefixSSL'] = "URL (SSL) Dostavnega orodja";
 $GLOBALS['strImagesUrlPrefix'] = "URL Hrambe slik";
 $GLOBALS['strImagesUrlPrefixSSL'] = "URL (SSL) Hrambe slik";
 
+
+
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
 /* ------------------------------------------------------- */
@@ -68,7 +70,6 @@ $GLOBALS['strNovice'] = "Zaradi varnostnih razlogov potrebujejo postopki o izbri
 $GLOBALS['strUserlogEmail'] = "Beleži vsa odhodna e-poštna sporočila";
 $GLOBALS['strEnableDashboardSyncNotice'] = "Prosimo, omogočite <a href='account-settings-update.php'>Preveri za posodobitve</a> , če bi želeli uporabljati Nadzorno ploščo.";
 $GLOBALS['strTimezone'] = "Časovno področje";
-
 $GLOBALS['strEnableAutoMaintenance'] = "Samodejno izvrši vzdrževalna dela med dostavo, če načrtovana vzdrževalna dela niso omogočena";
 
 // Database Settings
@@ -123,7 +124,6 @@ $GLOBALS['strDebugPassword'] = "mCal, SQL Geslo strežnika";
 $GLOBALS['strProductionSystem'] = "Sistem produkcije";
 
 // Delivery Settings
-$GLOBALS['strWebPath'] = "$PRODUCT_NAME Server Access Paths";
 $GLOBALS['strWebPathSimple'] = "Omrežna pot";
 $GLOBALS['strDeliveryPath'] = "Dostavna pot";
 $GLOBALS['strImagePath'] = "Pot slik";

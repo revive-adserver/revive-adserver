@@ -1,36 +1,36 @@
 <?php
 
 /*
-+---------------------------------------------------------------------------+
-| Revive Adserver                                                           |
-| http://www.revive-adserver.com                                            |
-|                                                                           |
-| Copyright: See the COPYRIGHT.txt file.                                    |
-| License: GPLv2 or later, see the LICENSE.txt file.                        |
-+---------------------------------------------------------------------------+
-*/
+  +---------------------------------------------------------------------------+
+  | Revive Adserver                                                           |
+  | http://www.revive-adserver.com                                            |
+  |                                                                           |
+  | Copyright: See the COPYRIGHT.txt file.                                    |
+  | License: GPLv2 or later, see the LICENSE.txt file.                        |
+  +---------------------------------------------------------------------------+
+ */
 
-/** status messages **/
+/** status messages * */
 
-/** welcome step **/
+/** welcome step * */
 
-/** check step **/
-
-
-$GLOBALS['strWarning']                          = "Opozorilo";
-$GLOBALS['strSyscheckStatus']                   = "Stanje";
-
-/** admin login step **/
-
-/** database step **/
+/** check step * */
 
 
-/** config step **/
+$GLOBALS['strWarning'] = "Opozorilo";
+$GLOBALS['strSyscheckStatus'] = "Stanje";
 
-/** jobs step **/
+/** admin login step * */
+
+/** database step * */
 
 
-/** finish step **/
+/** config step * */
 
-$GLOBALS['strUnableCreateConfFile']             = "Vaša konfiguracijska datoteka ni bila ustvarjena. Prosimo, preverite dovoljenja {$PRODUCT_NAME} v var mapi.";
-$GLOBALS['strUnableUpdateConfFile']             = "Vaša konfiguracijska datoteka ni bila posodobljena. Prosimo, preverite dovoljenja {$PRODUCT_NAME} v var mapi, kakor tudi dovoljenja prejšnje namestitve konfiguracijske datoteke, ki ste jo kopirali v to mapo.";
+/** jobs step * */
+
+
+/** finish step * */
+
+$GLOBALS['strUnableCreateConfFile'] = "Vaša konfiguracijska datoteka ni bila ustvarjena. Prosimo, preverite dovoljenja {$PRODUCT_NAME} v var mapi.";
+$GLOBALS['strUnableUpdateConfFile'] = "Vaša konfiguracijska datoteka ni bila posodobljena. Prosimo, preverite dovoljenja {$PRODUCT_NAME} v var mapi, kakor tudi dovoljenja prejšnje namestitve konfiguracijske datoteke, ki ste jo kopirali v to mapo.";

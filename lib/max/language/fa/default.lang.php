@@ -120,7 +120,6 @@ $GLOBALS['strAuthentification'] = "اجازه کاربری";
 $GLOBALS['strWelcomeTo'] = "خوش آمدید به ";
 $GLOBALS['strEnterUsername'] = "کلمه کاربری و رمز خود را برای ورود وارد کنید";
 $GLOBALS['strEnterBoth'] = "لط�?ا کلمه کاربری و رمز ورود را وارد کنید";
-$GLOBALS['strEnableCookies'] = "شما باید cookies را قبل از است�?اده �?عال کنید {$PRODUCT_NAME}";
 $GLOBALS['strLogin'] = "ورود به سیستم";
 $GLOBALS['strLogout'] = "خروج";
 $GLOBALS['strUsername'] = "نام کاربری";
@@ -170,13 +169,6 @@ $GLOBALS['strDayOfWeek'] = "روز و ه�?ته";
 
 
 $GLOBALS['strDayFullNames'] = array();
-$GLOBALS['strDayFullNames'][0] = 'یکشنبه';
-$GLOBALS['strDayFullNames'][1] = 'دوشنبه';
-$GLOBALS['strDayFullNames'][2] = 'سه شنبه';
-$GLOBALS['strDayFullNames'][3] = 'چهارشنبه';
-$GLOBALS['strDayFullNames'][4] = 'پنجشنبه';
-$GLOBALS['strDayFullNames'][5] = 'جمعه';
-$GLOBALS['strDayFullNames'][6] = 'شنبه';
 
 $GLOBALS['strDayShortCuts'] = array();
 
@@ -255,16 +247,10 @@ $GLOBALS['strConversionsBooked'] = "تغییرات";
 $GLOBALS['strCampaignWeight'] = "هیچ - هماهنگ نیست با حجم داخلی";
 $GLOBALS['strAnonymous'] = "مخ�?ی کردن آگهی دهندگان و ناشران در نمایش داخلی";
 $GLOBALS['strTargetPerDay'] = "در هر روز .";
-$GLOBALS['strCampaignWarningNoTarget'] = "The priority of this campaign has been set to high,
-but the target number of Impressions are not specified.
-This will cause the campaign to be deactivated and
-its banners won't be delivered until a valid target
-number of Impressions has been set.
-
-Are you sure you want to continue?";
 $GLOBALS['strCampaignStatusInactive'] = "�?عال";
 $GLOBALS['strCampaignStatusDeleted'] = "حذ�?";
 $GLOBALS['strCampaignType'] = "نام Campaign";
+$GLOBALS['strContract'] = "تماس";
 $GLOBALS['strStandardContract'] = "تماس";
 
 // Tracker
@@ -303,6 +289,8 @@ $GLOBALS['strWarningMissingClosing'] = " closing tag \">\"";
 $GLOBALS['strWarningMissingOpening'] = " opening tag \"<\"";
 $GLOBALS['strSubmitAnyway'] = "ذخیره سازی";
 
+// Banner Preferences
+
 // Banner (Properties)
 $GLOBALS['strChooseBanner'] = "لط�?ا نوع بنر خود را از منو زیر انتخاب کنید";
 $GLOBALS['strMySQLBanner'] = "بنر لوکال SQL";
@@ -328,10 +316,11 @@ $GLOBALS['strSwfTransparency'] = "Transparent background (Flash-only)";
 $GLOBALS['strCheckSWF'] = "بررسی لینک های رمزی شده مشکل درون �?ایل �?لش";
 $GLOBALS['strConvertSWFLinks'] = "تبدیل لینک �?لش";
 $GLOBALS['strHardcodedLinks'] = "لینک های رمزی شده مشکل";
-$GLOBALS['strConvertSWF'] = "<br>�?ایل �?لشی که شما آپلود کرده اید دارای رمز های پیچیده می باشد.   برای پگیری کلیک های انجام شده بر روی این بنر باید آدرس آن را  تبدیل کنید. لیست زیر همه آدرس های موجود در این �?ایل �?لش می باشد. اگر می خواهید آدرس هارا تبدیل نمایید بر روی  <b>تبدیل</b>کلیک کنید, در غیر اینصورت بر روی گزینه  <b>لغو</b>کلیک نمایید.<br><br>توجه: اگر شما بر روی <b>تبدیل</b>کلیک کنید �?ایل شما به طور �?یزیکی آپلود می شود. <br>لط�?ا پشتیبانی از �?ایل اصلی را نگه دارید. صر�? نظر نوع نسخه ایجاد شده �?ایل باید نسخه �?لش 4 به بالا باشد.<br><br>";
 $GLOBALS['strCompressSWF'] = "�?شرده سازی �?ایل SWF برای سریعتر دانلود شدن (�?لش پلیر 6 مورد نیاز است)";
 $GLOBALS['strOverwriteSource'] = "بازنویسی سورس پارامتر";
 
+// Banner (network)
+// Banner (AdSense)
 // Display limitations
 $GLOBALS['strModifyBannerAcl'] = "تنظیمات نمایش";
 $GLOBALS['strACL'] = "تحویل";
@@ -353,15 +342,12 @@ $GLOBALS['strDeliveryCappingTotal'] = "در کل";
 $GLOBALS['strDeliveryCappingSession'] = "در هر ثانیه";
 
 $GLOBALS['strCappingBanner'] = array();
-$GLOBALS['strCappingBanner']['title'] = "strDeliveryCapping";
 $GLOBALS['strCappingBanner']['limit'] = "حد نمایش بنر به : ";
 
 $GLOBALS['strCappingCampaign'] = array();
-$GLOBALS['strCappingCampaign']['title'] = "strDeliveryCapping";
 $GLOBALS['strCappingCampaign']['limit'] = "حد داخلی نمایش به : ";
 
 $GLOBALS['strCappingZone'] = array();
-$GLOBALS['strCappingZone']['title'] = "strDeliveryCapping";
 $GLOBALS['strCappingZone']['limit'] = "حد ناحیه نمایش به : ";
 
 // Website
@@ -379,6 +365,7 @@ $GLOBALS['strShowParentAffiliates'] = "نمایش منشا ناشرین";
 $GLOBALS['strHideParentAffiliates'] = "مخ�?ی کردن منشا ناشرین";
 
 // Website (properties)
+$GLOBALS['strWebsite'] = "ناشر";
 $GLOBALS['strAllowAffiliateModifyZones'] = "مجاز بودن کاربر برای تغییر ناحیه خود";
 $GLOBALS['strAllowAffiliateLinkBanners'] = "مجاز بودن کاربر برای قراردادن لینک بنرهای خود در ناحیه ها";
 $GLOBALS['strAllowAffiliateAddZone'] = "مجاز بودن کاربر برای تعری�? ناحیه جدید";
@@ -469,8 +456,6 @@ $GLOBALS['strBreakdownByHour'] = "ساعت";
 $GLOBALS['strItemsPerPage'] = "آیتم ها در هر ص�?حه";
 $GLOBALS['strExportStatisticsToExcel'] = "خروجی آمار به صورت �?ایل اگسل";
 
-// Hosts
-
 // Expiration
 $GLOBALS['strNoExpiration'] = "تا به حال انقضا نداشته";
 $GLOBALS['strEstimated'] = "تحمین انقضا";
@@ -502,33 +487,24 @@ $GLOBALS['strBannercode'] = "کد خروجی بنر";
 $GLOBALS['strTrackercode'] = "کد خروجی تراکر";
 $GLOBALS['strBackToTheList'] = "بازگشت به لیست گزارشات";
 
+
 // Errors
 $GLOBALS['strNoMatchesFound'] = "هیچ تطبیقی پیدا نشد";
 $GLOBALS['strErrorOccurred'] = "یک خطا رخ داده است";
 $GLOBALS['strErrorDBPlain'] = "یک خطا در طی دسترسی به بانک اطلاعاتی رخ داده است";
 $GLOBALS['strErrorDBSerious'] = "یک مشکل جدی هنگام دسترسی و شناسایی بانک اطلاعاتی رخ داده است";
-$GLOBALS['strErrorDBNoDataPlain'] = "به خاطر یک مشکل با بانک اطلاعاتی  اطلاعات قادر به بازیابی یا ذخیره شدن نمی باشند. ";
-$GLOBALS['strErrorDBNoDataSerious'] = "به خاطر یک مشکل با بانک اطلاعاتی,  اطلاعات نمی توانند بازیابی شوند.";
 $GLOBALS['strErrorDBCorrupt'] = "جداول بانک اطلاعاتی احتمالا خراب شده اند و نیاز به تعمیر دارند. برای اطلاعات بیشتر راهنمای برنامه را مطالعه نمایید.";
 $GLOBALS['strErrorDBContact'] = "با مدیریت سرور تماس بگیرید و این مشکل را حل نمایید.";
-$GLOBALS['strErrorDBSubmitBug'] = "اگر این مشکل قابل پردازش مجدد باشد باعث ایجاد یک خطا در.می شود. لط�?ا اطلاعات زیر را به نویسنده برنامه گزارش دهید. همچنین سعی کنید که اعمالی را که باعث ایجاد این خطا شده اند برای نوسنده برنامه تشریح نمایید.";
-$GLOBALS['strMaintenanceNotActive'] = "این برنامه هر 24 ساعت برای تگهداری قابل اجرا نمی باشد.
-برای اطلاعات بیشتر
- برای پیکربندی نگهداری اسکریپت.";
 $GLOBALS['strDatesConflict'] = "dates conflict with:";
-$GLOBALS['strEmailNoDates'] = "Email zone campaigns must have a start and end date";
 
 //Validation
 
 // Email
 $GLOBALS['strSirMadam'] = "آقا/خانوم";
 $GLOBALS['strMailSubject'] = "گزارش آگهی دهندگان";
-$GLOBALS['strMailHeader'] = "دوست عزیز {contact},";
 $GLOBALS['strMailBannerStats'] = "در زیر آمار بنر ها برای {clientname}آورده شده است:";
 $GLOBALS['strMailBannerActivatedSubject'] = "Campaign {id} �?عال شده است";
 $GLOBALS['strMailBannerDeactivatedSubject'] = "Campaign {id} �?عال شده است";
-$GLOBALS['strMailFooter'] = "با احترام �?راوان,
-   {adminfullname}";
 $GLOBALS['strClientDeactivated'] = "این  در حال حاضر �?عال نمی باشد زیرا";
 $GLOBALS['strBeforeActivate'] = "تاریخ �?عال سازی هنوز �?را نرسیده است";
 $GLOBALS['strAfterExpire'] = "تاریخ انقضاء �?رارسیده است";
@@ -559,7 +535,6 @@ $GLOBALS['strGlobalSettings'] = "تنظیمات عمومی";
 $GLOBALS['strGeneralSettings'] = "تنظیمات عمومی";
 $GLOBALS['strMainSettings'] = "تنظیمات اصلی";
 
-
 // Product Updates
 $GLOBALS['strProductUpdates'] = "به روز رسانی محصولات";
 
@@ -583,12 +558,13 @@ $GLOBALS['strAddNewChannel'] = "ا�?زودن خط مشی";
 $GLOBALS['strAddNewChannel_Key'] = "ساختن خط مشی جدید";
 $GLOBALS['strChannelToWebsite'] = "همه ناشرین";
 $GLOBALS['strNoChannels'] = "خط مشی تا به حال وارد نشده";
-
 $GLOBALS['strEditChannelLimitations'] = "ویرایش محدودیت خط مشی";
 $GLOBALS['strChannelProperties'] = "تنظیمات خط مشی";
 $GLOBALS['strChannelLimitations'] = "تنظیمات نمایش";
 $GLOBALS['strConfirmDeleteChannel'] = "آیا شما واقعا میخواهید این بنر را حذ�? کنید.";
 $GLOBALS['strConfirmDeleteChannels'] = "آیا شما واقعا میخواهید این بنر را حذ�? کنید.";
+
+// Tracker Variables
 $GLOBALS['strVariableDescription'] = "توصی�?";
 $GLOBALS['strVariableDataType'] = "پسوند تاریخ";
 $GLOBALS['strVariablePurpose'] = "زمینه";
@@ -627,6 +603,8 @@ $GLOBALS['strProceed'] = "اقدام کردن &gt;";
 
 
 
+
+// Report error messages
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */

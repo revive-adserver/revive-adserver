@@ -1,0 +1,23 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: revive-adserver\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-09-18 15:03+0100\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: translate\n"
+"Last-Translator: mbeccati <matteo@beccati.com>\n"
+"Language-Team: Italian\n"
+"Language: it_IT\n"
+"X-Generator: crowdin.com\n"
+"X-Crowdin-Project: revive-adserver\n"
+"X-Crowdin-Language: it\n"
+"X-Crowdin-File: /plugins_repo/openXBannerTypes/plugins/etc/oxText/_lang/po/en.po\n"
+
+#: plugins_repo/openXBannerTypes/extensions/bannerTypeText/oxText/genericText.class.php:49
+msgid "Generic Text Banner"
+msgstr "Banner testuale generico"
+

@@ -95,12 +95,16 @@ $GLOBALS['strCampaignStatusDeleted'] = "Slett";
 
 // Banners (General)
 
+// Banner Preferences
+
 // Banner (Properties)
 
 // Banner (advanced)
 
 // Banner (swf)
 
+// Banner (network)
+// Banner (AdSense)
 // Display limitations
 
 
@@ -131,8 +135,6 @@ $GLOBALS['strZones'] = "Ingen";
 
 // Statistics
 
-// Hosts
-
 // Expiration
 
 // Reports
@@ -142,6 +144,7 @@ $GLOBALS['strZones'] = "Ingen";
 // Userlog
 
 // Code generation
+
 
 // Errors
 
@@ -160,13 +163,13 @@ $GLOBALS['strPreferences'] = "Innstillinger";
 
 // Global Settings
 
-
 // Product Updates
 
 // Agency
 
 // Channels
 
+// Tracker Variables
 
 // Password recovery
 
@@ -188,6 +191,8 @@ $GLOBALS['strPreferences'] = "Innstillinger";
 
 
 
+
+// Report error messages
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */

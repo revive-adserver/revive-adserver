@@ -119,7 +119,6 @@ $GLOBALS['strAuthentification'] = "Hitelesítés";
 $GLOBALS['strWelcomeTo'] = "Üdvözli az";
 $GLOBALS['strEnterUsername'] = "Adja meg felhasználónevét és jelszavát";
 $GLOBALS['strEnterBoth'] = "Felhasználói nevét és jelszavát is adja meg";
-$GLOBALS['strEnableCookies'] = "{$PRODUCT_NAME} használatához engedélyezni kell a cookie-kat.";
 $GLOBALS['strLogin'] = "Login név (FTP felhasználó)";
 $GLOBALS['strLogout'] = "Kilépés";
 $GLOBALS['strUsername'] = "Felhasználónév";
@@ -167,13 +166,6 @@ $GLOBALS['strDayOfWeek'] = "A hét napja";
 $GLOBALS['strDayFullNames'] = array();
 
 $GLOBALS['strDayShortCuts'] = array();
-$GLOBALS['strDayShortCuts'][0] = 'Va';
-$GLOBALS['strDayShortCuts'][1] = 'He';
-$GLOBALS['strDayShortCuts'][2] = 'Ke';
-$GLOBALS['strDayShortCuts'][3] = 'Sz';
-$GLOBALS['strDayShortCuts'][4] = 'Cs';
-$GLOBALS['strDayShortCuts'][5] = 'Pe';
-$GLOBALS['strDayShortCuts'][6] = 'Szo';
 
 $GLOBALS['strHour'] = "Óra";
 $GLOBALS['strSeconds'] = "másodperc";
@@ -229,13 +221,6 @@ $GLOBALS['strExpirationDate'] = "Lejárat dátuma";
 $GLOBALS['strActivationDate'] = "Aktiválás dátuma";
 $GLOBALS['strCampaignWeight'] = "A kampány fontossága";
 $GLOBALS['strTargetPerDay'] = "naponta.";
-$GLOBALS['strCampaignWarningNoTarget'] = "A kampány prioritását magasra állította,
-viszont nem adta meg a reklámletöltések célzott számát.
-Ez a kampány deaktiválását eredményezi, és
-a reklámok továbbítására nem kerül sor a reklámletöltések
-célzott számának megadásáig.
-
-Biztos, hogy folytatja?";
 $GLOBALS['strCampaignStatusInactive'] = "aktív";
 $GLOBALS['strCampaignStatusDeleted'] = "Töröl";
 $GLOBALS['strCampaignType'] = "Kampány név";
@@ -257,6 +242,8 @@ $GLOBALS['strShowParentCampaigns'] = "Szülő kampányok megjelenítése";
 $GLOBALS['strHideParentCampaigns'] = "Szülő kampányok elrejtése";
 $GLOBALS['strHideInactiveBanners'] = "Inaktív reklámok elrejtése";
 $GLOBALS['strInactiveBannersHidden'] = "inaktív reklám elrejtve";
+
+// Banner Preferences
 $GLOBALS['strDefaultBannerDestination'] = "Alapértelmezett cél URL";
 
 // Banner (Properties)
@@ -283,10 +270,11 @@ $GLOBALS['strBannerWeight'] = "Reklám fontossága";
 $GLOBALS['strCheckSWF'] = "Nehezen módosítható hivatkozások keresése a Flash fájlban";
 $GLOBALS['strConvertSWFLinks'] = "Flash hivatkozások konvertálása";
 $GLOBALS['strHardcodedLinks'] = "Nehezen módosítható hivatkozások";
-$GLOBALS['strConvertSWF'] = "<br>Az imént feltöltött Flash fájl nehezen módosítható hivatkozásokat tartalmaz. Ilyen reklám esetén a phpAdsNew csak akkor tudja követni a kattintások számát, ha ön átalakítja ezeket a nehezen módosítható hivatkozásokat. Az alábbiakban található a Flash fájlban lévő hivatkozások listája. Ha kívánja konvertálni a hivatkozásokat, kattintson a <b>Konvertálás</b> gombra, egyéb esetben a <b>Mégse</b> gombra.<br><br>Ne feledje: ha a <b>Konvertálás</b> gombra kattint, akkor az imént feltöltött Flash fájlt fizikailag fogja módosítani. <br>Készítsen másolatot az eredeti fájlról. Tekintet nélkül a verzióra, mellyel ezt a reklámot készítette, az eredményül kapott fájl megfelelő megjelenítéséhez a Flash 4 lejátszó (vagy újabb) szükséges.<br><br>";
 $GLOBALS['strCompressSWF'] = "Az SWF fájl tömörítése a gyorsabb letöltés céljából (Flash 6 lejátszó szükséges)";
 $GLOBALS['strOverwriteSource'] = "Forrás tulajdonságok felülírása";
 
+// Banner (network)
+// Banner (AdSense)
 // Display limitations
 $GLOBALS['strModifyBannerAcl'] = "Továbbítás beállításai";
 $GLOBALS['strACL'] = "Továbbítás";
@@ -301,13 +289,10 @@ $GLOBALS['strDeliveryLimitations'] = "Továbbítás korlátozásai";
 
 
 $GLOBALS['strCappingBanner'] = array();
-$GLOBALS['strCappingBanner']['title'] = "Továbbítás szüneteltetése";
 
 $GLOBALS['strCappingCampaign'] = array();
-$GLOBALS['strCappingCampaign']['title'] = "Továbbítás szüneteltetése";
 
 $GLOBALS['strCappingZone'] = array();
-$GLOBALS['strCappingZone']['title'] = "Továbbítás szüneteltetése";
 
 // Website
 $GLOBALS['strAffiliate'] = "Kiadó";
@@ -391,8 +376,6 @@ $GLOBALS['strBreakdownByMonth'] = "Hónap";
 $GLOBALS['strBreakdownByDow'] = "A hét napja";
 $GLOBALS['strBreakdownByHour'] = "Óra";
 
-// Hosts
-
 // Expiration
 $GLOBALS['strNoExpiration'] = "Nincs megadva a lejárat dátuma";
 $GLOBALS['strEstimated'] = "Becsült lejárat";
@@ -419,26 +402,20 @@ $GLOBALS['strParameters'] = "Jellemzők";
 $GLOBALS['strFrameSize'] = "Keret mérete";
 $GLOBALS['strBannercode'] = "Reklámkód";
 
+
 // Errors
 $GLOBALS['strNoMatchesFound'] = "Nincs találat";
 $GLOBALS['strErrorOccurred'] = "Hiba történt";
 $GLOBALS['strErrorDBPlain'] = "Hiba történt az adatbázishoz történő hozzáféréskor";
 $GLOBALS['strErrorDBSerious'] = "Komoly probléma állapítható meg az adatbázissal kapcsolatban";
-$GLOBALS['strErrorDBNoDataPlain'] = "A {$PRODUCT_NAME} adatbázissal kapcsolatos probléma miatt nem lehet adatokat kikeresni vagy tárolni. ";
-$GLOBALS['strErrorDBNoDataSerious'] = "Az adatbázissal kapcsolatos komoly probléma miatt a {$PRODUCT_NAME} nem tudott adatokat kikeresni";
 $GLOBALS['strErrorDBCorrupt'] = "Valószínűleg sérült az adatbázis tábla, ezért javításra szorul. A sérült táblákkal kapcsolatban további részleteket olvashat az <i>Administrator guide</i> <i>Troubleshooting</i> fejezetében.";
 $GLOBALS['strErrorDBContact'] = "Vegye fel a kapcsolatot a kiszolgáló adminisztrátorával, és értesítse őt a problémáról.";
-$GLOBALS['strErrorDBSubmitBug'] = "Ha ez a probléma megismételhető, akkor lehet, hogy a {$PRODUCT_NAME} hibája okozta. Jelentse a következő adatokat a {$PRODUCT_NAME} fejlesztőinek. Amennyire csak lehet, próbálja meg pontosan ismertetni azokat a műveleteket, melyek ezt a hibát okozták.";
-$GLOBALS['strMaintenanceNotActive'] = "Az utóbbi 24 órában nem történt meg a karbantartás parancsfájl futtatása. \\nA {$PRODUCT_NAME} megfelelő működéséhez óránként futtatás szükséges. \\n\\nAz Administrator guide kézikönyvben részletes tájékoztatót olvashat \\na karbantartás parancsfájl beállításáról.";
 
 //Validation
 
 // Email
 $GLOBALS['strMailSubject'] = "Hirdetési jelentés";
-$GLOBALS['strMailHeader'] = "Tisztelt {contact}!";
 $GLOBALS['strMailBannerStats'] = "Kérem, tekintse át az alábbiakban a {clientname} reklámstatisztikáját:";
-$GLOBALS['strMailFooter'] = "Üdvözlettel:
-   {adminfullname}";
 $GLOBALS['strClientDeactivated'] = "A kampány jelenleg nem aktív, mert";
 $GLOBALS['strBeforeActivate'] = "még nem érkezett el az aktiválás dátuma";
 $GLOBALS['strAfterExpire'] = "már elérkezett a lejárat dátuma";
@@ -470,15 +447,15 @@ $GLOBALS['strGlobalSettings'] = "�?ltalános beállítások";
 $GLOBALS['strGeneralSettings'] = "�?ltalános beállítások";
 $GLOBALS['strMainSettings'] = "Alapbeállítások";
 
-
 // Product Updates
 $GLOBALS['strProductUpdates'] = "Termékfrissítés";
 
 // Agency
 
 // Channels
-
 $GLOBALS['strChannelLimitations'] = "Továbbítás beállításai";
+
+// Tracker Variables
 $GLOBALS['strVariableDescription'] = "Leírás";
 
 // Password recovery
@@ -501,6 +478,8 @@ $GLOBALS['strVariableDescription'] = "Leírás";
 
 
 
+
+// Report error messages
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */

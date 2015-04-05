@@ -63,5 +63,4 @@ $GLOBALS['strWarning'] = "Avertissement";
 $GLOBALS['strImgWithAppendWarning'] = "Ce suiveur contient du code ajouté qui fonctionnera <strong>uniquement</strong> avec des balises JavaScript";
 
 // Local Invocation
-$GLOBALS['strWarningLocalInvocation'] = "<span class='tab-s'><strong>Attention :</strong> Le mode d'invocation local ne fonctionnera QUE si le site appelant le code est sur la même machine physique que le serveur publicitaire</span><br />Vérifiez que le MAX_PATH défini dans le code ci-dessous pointe vers le répertoire de base de votre installation MAX<br />et que vous avez un fichier de configuration pour le domaine du site affichant les publicités (dans MAX_PATH/var)";
 

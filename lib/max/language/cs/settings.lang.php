@@ -23,6 +23,8 @@ $GLOBALS['strTablesType'] = "Typ tabulky";
 $GLOBALS['strDeliveryUrlPrefix'] = "Doručovací engine";
 $GLOBALS['strDeliveryUrlPrefixSSL'] = "Doručovací engine";
 
+
+
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
 /* ------------------------------------------------------- */
@@ -42,7 +44,6 @@ $GLOBALS['strInvalidUsername'] = "Špatné Jméno";
 $GLOBALS['strBasicInformation'] = "Základní údaje";
 $GLOBALS['strAdminCheckUpdates'] = "Kontrolovat aktualizace";
 $GLOBALS['strUserlogEmail'] = "Logovat veškerou odchozí poštu";
-
 
 // Database Settings
 $GLOBALS['strDatabaseSettings'] = "Nastavení databáze";
@@ -69,7 +70,6 @@ $GLOBALS['strEnableQmailPatch'] = "Zapnout qmail patch";
 $GLOBALS['strDebugTypeFile'] = "Soubory";
 
 // Delivery Settings
-$GLOBALS['strWebPath'] = "$PRODUCT_NAME Server Access Paths";
 $GLOBALS['strDeliveryPath'] = "Cache doručování";
 $GLOBALS['strDeliverySslPath'] = "Cache doručování";
 $GLOBALS['strTypeWebSettings'] = "Nastavení lokálních bannerů (Webserver)";

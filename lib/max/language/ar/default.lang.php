@@ -12,6 +12,7 @@
 
 // Set text direction and characterset
 
+$GLOBALS['phpAds_DecimalPoint'] = ".";
 
 // Date & time configuration
 
@@ -33,10 +34,13 @@ $GLOBALS['strBasicInformation'] = "معلومات أساسية";
 $GLOBALS['strOverview'] = "نظرة عامة";
 $GLOBALS['strSearch'] = "البحث";
 $GLOBALS['strDetails'] = "التفاصيل";
+$GLOBALS['strUpdateSettings'] = "تحديث الإعدادات";
 $GLOBALS['strCheckForUpdates'] = "فحص التحديثات";
+$GLOBALS['strWhenCheckingForUpdates'] = "التحقق من التحديثات";
 $GLOBALS['strCompact'] = "مدمج";
 $GLOBALS['strUser'] = "مستخدم";
 $GLOBALS['strDuplicate'] = "نسخ";
+$GLOBALS['strCopyOf'] = "نسخ من";
 $GLOBALS['strMoveTo'] = "نقل إلى";
 $GLOBALS['strDelete'] = "حذف";
 $GLOBALS['strActivate'] = "تفعيل";
@@ -47,6 +51,7 @@ $GLOBALS['strUp'] = "فوق";
 $GLOBALS['strDown'] = "تحت";
 $GLOBALS['strSave'] = "حفظ";
 $GLOBALS['strCancel'] = "إلغاء";
+$GLOBALS['strBack'] = "رجوع للخلف";
 $GLOBALS['strPrevious'] = "السابق";
 $GLOBALS['strNext'] = "التالي";
 $GLOBALS['strYes'] = "نعم";
@@ -56,10 +61,13 @@ $GLOBALS['strCustom'] = "مخصص";
 $GLOBALS['strDefault'] = "افتراضي";
 $GLOBALS['strUnlimited'] = "غير محدود";
 $GLOBALS['strUntitled'] = "بدون عنوان";
+$GLOBALS['strAll'] = "الكل";
 $GLOBALS['strAverage'] = "المتوسط";
 $GLOBALS['strOverall'] = "بشكل عام";
 $GLOBALS['strTotal'] = "المجموع";
+$GLOBALS['strFrom'] = "من";
 $GLOBALS['strTo'] = "إلى";
+$GLOBALS['strAdd'] = "اضافة";
 $GLOBALS['strLinkedTo'] = "رابط إلى";
 $GLOBALS['strDaysLeft'] = "أيام باقية";
 $GLOBALS['strCheckAllNone'] = "تحديد الكل/ إزالة التحديد";
@@ -116,7 +124,6 @@ $GLOBALS['strAuthentification'] = "التحقق";
 $GLOBALS['strWelcomeTo'] = "مرحباً بك في";
 $GLOBALS['strEnterUsername'] = "الرجاء كتابة اسم المستخدم و كلمة السر للدخول";
 $GLOBALS['strEnterBoth'] = "الرجاء كتابة اسم المستخدم و كلمة السر";
-$GLOBALS['strEnableCookies'] = "يجب عليك تفعيل الكوكيز قبل أن تستخدم {$PRODUCT_NAME}";
 $GLOBALS['strSessionIDNotMatch'] = "هنالك مشكلة في الكوكيز، الرجاء الدخول من جديد";
 $GLOBALS['strLogin'] = "اسم الدخول";
 $GLOBALS['strLogout'] = "تسجيل الخروج";
@@ -171,22 +178,8 @@ $GLOBALS['strDayOfWeek'] = "اليوم من الأسبوع";
 
 
 $GLOBALS['strDayFullNames'] = array();
-$GLOBALS['strDayFullNames'][0] = 'ديسمبر';
-$GLOBALS['strDayFullNames'][1] = 'الإثنين';
-$GLOBALS['strDayFullNames'][2] = 'الثلاثاء';
-$GLOBALS['strDayFullNames'][3] = 'الأربعاء';
-$GLOBALS['strDayFullNames'][4] = 'الخميس';
-$GLOBALS['strDayFullNames'][5] = 'الجمعة';
-$GLOBALS['strDayFullNames'][6] = 'السبت';
 
 $GLOBALS['strDayShortCuts'] = array();
-$GLOBALS['strDayShortCuts'][0] = 'أح';
-$GLOBALS['strDayShortCuts'][1] = 'إث';
-$GLOBALS['strDayShortCuts'][2] = 'ث';
-$GLOBALS['strDayShortCuts'][3] = 'أر';
-$GLOBALS['strDayShortCuts'][4] = 'خ';
-$GLOBALS['strDayShortCuts'][5] = 'ج';
-$GLOBALS['strDayShortCuts'][6] = 'س';
 
 $GLOBALS['strHour'] = "الساعة";
 $GLOBALS['strSeconds'] = "الثواني";
@@ -259,20 +252,6 @@ $GLOBALS['strClicksBooked'] = "الضغطات المحجوزة";
 $GLOBALS['strConversionsBooked'] = "التحويلات المحجوزة";
 $GLOBALS['strAnonymous'] = "إخفاء المعلن و المواقع لهذه الحملة الاعلانية";
 $GLOBALS['strTargetPerDay'] = "في اليوم";
-$GLOBALS['strCampaignWarningRemnantNoWeight'] = "أهمية هذه الحملة تم تحديدها كمنخفضة، 
-ولكن الوزن تم تحديده كصفر أو لم يتم تحديده.
-هذا الأمر سيجعل الحملة غير نشطة
-و لن يتم عرض الإعلانات الموجودة فيها
-حتى يتم تعديل الوزن إلى رقم صحيح.
-
-هل أنت متأكد من رغبتك في المواصلة؟";
-$GLOBALS['strCampaignWarningNoTarget'] = "أهمية هذه الحملة تم تحديدها كمرتفعة،
-ولكن مرات الظهور المستهدفة لم يتم تحديدها.
-هذا الأمر سيعطل الحملة و
-الإعلانات المرتبطة بها لن يتم عرضها حتى يتم
-تحديد عدد مرات الظهور المستهدف.
-
-هل أنت متأكد من رغبتك في المواصلة؟";
 $GLOBALS['strCampaignStatusPending'] = "بانتظار الموافقة";
 $GLOBALS['strCampaignStatusInactive'] = "فعال";
 $GLOBALS['strCampaignStatusPaused'] = "إيقاف مؤقت";
@@ -280,6 +259,7 @@ $GLOBALS['strCampaignStatusRestarted'] = "إعادة تشغيل";
 $GLOBALS['strCampaignStatusDeleted'] = "حذف";
 $GLOBALS['strCampaignType'] = "اسم الحملة الاعلانية";
 $GLOBALS['strType'] = "النوع";
+$GLOBALS['strContract'] = "الاتصال";
 $GLOBALS['strStandardContract'] = "الاتصال";
 
 // Tracker
@@ -320,6 +300,8 @@ $GLOBALS['strWarningMissing'] = "تحذير، أمور مفقودة محتملة
 $GLOBALS['strWarningMissingClosing'] = "علامة الإغلاق";
 $GLOBALS['strWarningMissingOpening'] = "علامة الإبتداء";
 $GLOBALS['strSubmitAnyway'] = "إضافة دون تغيير";
+
+// Banner Preferences
 $GLOBALS['strBannerPreferences'] = "الخيارات العامة";
 $GLOBALS['strDefaultBanners'] = "البنر الافتراضي";
 $GLOBALS['strDefaultBannerUrl'] = "الصورة الافتراضية";
@@ -352,10 +334,11 @@ $GLOBALS['strSwfTransparency'] = "السماح بخليفة شفافة";
 $GLOBALS['strCheckSWF'] = "افحص الروابط المكتوبة داخل ملف الفلاش";
 $GLOBALS['strConvertSWFLinks'] = "تحويل روابط الفلاش";
 $GLOBALS['strHardcodedLinks'] = "روابط ضمن الكود البرمجي";
-$GLOBALS['strConvertSWF'] = "<br /> ملف الفلاش الذي قمت بتحميله للتو يحتوي على روابط ضمن الكود البرمجي. لن يتمكن {$PRODUCT_NAME} من عدّ الضغطات الخاصة بهذا الإعلان إلا إذا قمت بتحويل هذه الروابط في الكود البرمجي. في الأسفل ستجد الروابط الموجودة في ملف الفلاش. إذا كنت تريد بتحوي هذه الروابط، قم بالضغط على <b>تحويل</b>، أو إضغط على <b>إلغاء</b> لإنهاء العملية.<br /><br /> خذ علماءً: إذا ضغطت على <b>تحويل</b> سيتم تغيير ملف الفلاش الذي قمت بتحميله. <br /> لذلك يفضل أن تقوم بأخذ نسخة إحتياطية من الملف الأصلي. أياً كانت النسخة المستخدمة لإنتاج هذا الملف، الملف المنتج سيحتاج على الأقل إلى إصدارة فلاش 4 (أو أكبر) للعرض بشكل صحيح.<br /><br />";
 $GLOBALS['strCompressSWF'] = "ضغط ملف SWF لتحميل أسرع (يحتاج لمشغل فلاش 6 أو أعلى)";
 $GLOBALS['strOverwriteSource'] = "الكتابة على المتغيرات الأصلية";
 
+// Banner (network)
+// Banner (AdSense)
 // Display limitations
 $GLOBALS['strModifyBannerAcl'] = "خيارات التوصيل";
 $GLOBALS['strACL'] = "التوصيل";
@@ -400,6 +383,7 @@ $GLOBALS['strShowParentAffiliates'] = "عرض المواقع الرئيسية";
 $GLOBALS['strHideParentAffiliates'] = "إخفاء المواقع الرئيسية";
 
 // Website (properties)
+$GLOBALS['strWebsite'] = "الموقع";
 $GLOBALS['strAllowAffiliateModifyZones'] = "السماح لهذا العضو بتعديل مناطقه الإعلانية الخاصة";
 $GLOBALS['strAllowAffiliateLinkBanners'] = "السماح لهذا العضو بربط الإعلانات لمناطقة الخاصة";
 $GLOBALS['strAllowAffiliateAddZone'] = "السماح لهذا العضو بإنشاء منطقة إعلانية جديدة";
@@ -485,8 +469,6 @@ $GLOBALS['strItemsPerPage'] = "عدد العناصر في الصفحة";
 $GLOBALS['strShowGraphOfStatistics'] = "عرض مخطط بياني للاحصائيات";
 $GLOBALS['strExportStatisticsToExcel'] = "تصدير الاحصائيات الى Excel";
 
-// Hosts
-
 // Expiration
 $GLOBALS['strNoExpiration'] = "لم يتم تحديد تاريخ الانتهاء";
 $GLOBALS['strEstimated'] = "تاريخ الانتهاء المتوقع";
@@ -513,6 +495,7 @@ $GLOBALS['strGenerate'] = "إنشاء";
 $GLOBALS['strFrameSize'] = "حجم الاطار";
 $GLOBALS['strBannercode'] = "كود البنر";
 $GLOBALS['strBackToTheList'] = "العودة لقائمة التقارير";
+
 
 // Errors
 $GLOBALS['strErrorOccurred'] = "حدث خطأ ما";
@@ -572,7 +555,6 @@ $GLOBALS['strCTR_short'] = "معدل الضغطات";
 // Global Settings
 $GLOBALS['strGlobalSettings'] = "الإعدادات العامة";
 $GLOBALS['strGeneralSettings'] = "الإعدادات العامة";
-
 $GLOBALS['strChooseSection'] = 'إختيار قسم';
 
 // Product Updates
@@ -587,10 +569,11 @@ $GLOBALS['strInactiveAgenciesHidden'] = "تم إخفاء مناطق العرض �
 $GLOBALS['strChannelToWebsite'] = "كل المواقع";
 $GLOBALS['strNoChannels'] = "لم يتم تعريف أي بنرات";
 $GLOBALS['strNoChannelsAddWebsite'] = "لا يوجد حتى الآن أية مواقع. لإضافة منطقة إعلانية، يجب <a href='affiliate-edit.php'>إضافة موقع جديد</a> قبل ذلك.";
-
 $GLOBALS['strChannelLimitations'] = "خيارات التوصيل";
 $GLOBALS['strConfirmDeleteChannel'] = "هل تريد حذف هذا البنر ";
 $GLOBALS['strConfirmDeleteChannels'] = "هل تريد حذف هذا البنر ";
+
+// Tracker Variables
 $GLOBALS['strVariableDescription'] = "الوصف";
 $GLOBALS['strGeneric'] = "عام";
 $GLOBALS['strTrackerType'] = "اسم المتتبع";
@@ -618,12 +601,15 @@ $GLOBALS['strCampaignNoRecordsAdmin'] = "<li>لا يوجد أي نشاط لأي 
 
 
 
+// Report error messages
+
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */
 /* ------------------------------------------------------- */
 
 // Reserved keys
 // Do not change these unless absolutely needed
+$GLOBALS['keyNextItem'] = ".";
 
 // Other keys
 // Please make sure you underline the key you

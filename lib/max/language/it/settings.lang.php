@@ -30,15 +30,20 @@ $GLOBALS['strProductUpToDateTitle'] = "{$PRODUCT_NAME} è aggiornato";
 $GLOBALS['strOaUpToDate'] = "Il database e i file della tua installazione di {$PRODUCT_NAME} sono già aggiornati all'ultima versione e non è quindi al momento necessario procedere ad alcun aggiornamento. Premi Continua per raggiungere il pannello di amministrazione di OpenX.";
 $GLOBALS['strOaUpToDateCantRemove'] = "Attenzione: il file UPGRADE è ancora presente all'interno della cartella var. Non è possibile cancellare questo file automaticamente per mancanza dei permessi necessari. Si prega di rimuovere il file manualmente.";
 $GLOBALS['strErrorWritePermissions'] = "E' stato riscontrato un errore nei permessi dei file che deve essere corretto prima procedere.<br />Per correggere l'errore su un sistema Linux, prova a digitare i seguenti comandi:";
+$GLOBALS['strNotWriteable'] = "NON scrivibile";
+$GLOBALS['strDirNotWriteableError'] = "La directory deve essere scrivibile";
 
 $GLOBALS['strErrorWritePermissionsWin'] = "Sono stati rilevati errori nei permessi dei file, e devono essere corretti per procedere.";
 $GLOBALS['strCheckDocumentation'] = "Per maggiori informazioni, consulta la <a href='{$PRODUCT_DOCSURL}'>documentazione di {$PRODUCT_NAME}</a>.";
+$GLOBALS['strSystemCheckBadPHPConfig'] = "La tua configurazione PHP non soddisfa i requisiti di {$PRODUCT_NAME}. Per risolvere i problemi, modifica le impostazioni nel tuo file 'php.ini'.";
 
 $GLOBALS['strAdminUrlPrefix'] = "URL dell'interfaccia di amministrazione";
 $GLOBALS['strDeliveryUrlPrefix'] = "URL sistema di consegna";
 $GLOBALS['strDeliveryUrlPrefixSSL'] = "URL sistema di consegna (SSL)";
 $GLOBALS['strImagesUrlPrefix'] = "URL memorizzazione immagini";
 $GLOBALS['strImagesUrlPrefixSSL'] = "URL memorizzazione immagini (SSL)";
+
+
 
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
@@ -70,7 +75,6 @@ $GLOBALS['strUserlogEmail'] = "Registra tutte le email in uscita";
 $GLOBALS['strEnableDashboard'] = "Abilita dashboard";
 $GLOBALS['strEnableDashboardSyncNotice'] = "Per favore abilita <a href='account-settings-update.php'>Controllo aggiornamenti</a> se vuoi usare la bacheca.";
 $GLOBALS['strTimezone'] = "Fuso orario";
-
 $GLOBALS['strEnableAutoMaintenance'] = "Esegue automaticamente la manutenzione durante la consegna se la manutenzione progeammata non è impostata.";
 
 // Database Settings
@@ -88,6 +92,7 @@ $GLOBALS['strDbNameHint'] = "La base dati sarà creata, se non esiste";
 $GLOBALS['strDatabaseOptimalisations'] = "Ottimizzazioni Database";
 $GLOBALS['strPersistentConnections'] = "Utilizza connessioni persistenti";
 $GLOBALS['strCantConnectToDb'] = "Impossibile connettersi al database";
+$GLOBALS['strCantConnectToDbDelivery'] = 'Impossibile connettersi al Database per la consegna';
 
 // Email Settings
 $GLOBALS['strEmailSettings'] = "Impostazioni Email";
@@ -110,12 +115,19 @@ $GLOBALS['strEnableDebug'] = "Abilita il log di debug";
 $GLOBALS['strDebugMethodNames'] = "Includi il nome dei metodi nei log di debug";
 $GLOBALS['strDebugLineNumbers'] = "Includi il numero di riga nei log di debug";
 $GLOBALS['strDebugType'] = "Tipo di log di debug";
+$GLOBALS['strDebugTypeFile'] = "File";
+$GLOBALS['strDebugTypeMcal'] = "mCal";
 $GLOBALS['strDebugTypeSql'] = "Database SQL";
 $GLOBALS['strDebugTypeSyslog'] = "Log si sistema";
 $GLOBALS['strDebugName'] = "Nome del log di debug, Calendario, Tabella SQL<br /> o log di sistema";
 $GLOBALS['strDebugPriority'] = "Livello di priorità debug";
 $GLOBALS['strPEAR_LOG_DEBUG'] = "PEAR_LOG_DEBUG - Maggiori informazioni";
 $GLOBALS['strPEAR_LOG_INFO'] = "PEAR_LOG_INFO - Informazioni predefinite";
+$GLOBALS['strPEAR_LOG_NOTICE'] = "PEAR_LOG_NOTICE";
+$GLOBALS['strPEAR_LOG_WARNING'] = "PEAR_LOG_WARNING";
+$GLOBALS['strPEAR_LOG_ERR'] = "PEAR_LOG_ERR";
+$GLOBALS['strPEAR_LOG_CRIT'] = "PEAR_LOG_CRIT";
+$GLOBALS['strPEAR_LOG_ALERT'] = "PEAR_LOG_ALERT";
 $GLOBALS['strPEAR_LOG_EMERG'] = "PEAR_LOG_EMERG - Meno informazioni";
 $GLOBALS['strDebugIdent'] = "Stringa di indentificazione debug";
 $GLOBALS['strDebugUsername'] = "mCal, Nome utente server SQL";
@@ -123,7 +135,6 @@ $GLOBALS['strDebugPassword'] = "mCal, password server SQL";
 $GLOBALS['strProductionSystem'] = "Sistema di produzione";
 
 // Delivery Settings
-$GLOBALS['strWebPath'] = "$PRODUCT_NAME Server Access Paths";
 $GLOBALS['strWebPathSimple'] = "Percorso Web";
 $GLOBALS['strDeliveryPath'] = "Percorso di consegna";
 $GLOBALS['strImagePath'] = "Percorso immagini";
@@ -180,7 +191,9 @@ $GLOBALS['strP3PCompactPolicy'] = "Versione compatta della policy P3P";
 $GLOBALS['strP3PPolicyLocation'] = "Indirizzo della policy P3P completa";
 
 // General Settings
+$GLOBALS['generalSettings'] = "Impostazioni di sistema generale globale";
 $GLOBALS['uiEnabled'] = "Interfaccia utente abilitata";
+$GLOBALS['defaultLanguage'] = "Lingua di sistema predefinita<br />(Ogni utente può scegliere il linguaggio che preferisce)";
 
 // Geotargeting Settings
 $GLOBALS['strGeotargetingSettings'] = "Targeting geografico";
@@ -233,6 +246,8 @@ $GLOBALS['strBannerStorage'] = "Impostazioni di memorizzazione banner";
 $GLOBALS['strEnableECPM'] = "Utilizza priorità ottimizzate per eCPM per le campagne remnant";
 $GLOBALS['strEnableContractECPM'] = "Utilizza priorità ottimizzate per eCPM per le campagne a contratto";
 $GLOBALS['strEnableECPMfromRemnant'] = "(Se la funzionalità viene abilitata, tutte le campagne remnant verranno disabilitate e dovranno essere riabilitate manualmente)";
+$GLOBALS['strEnableECPMfromECPM'] = "(Disabilitando questa funzione alcune delle tue campagne attive eCPM verranno disattivate, dovrai aggiornarle manualmente per riattivarle)";
+$GLOBALS['strInactivatedCampaigns'] = "Lista delle campagne che sono state disattivate a causa del cambiamento delle preferenze:";
 
 // Statistics & Maintenance Settings
 $GLOBALS['strMaintenanceSettings'] = "Impostazioni di manutenzione";
@@ -273,6 +288,9 @@ $GLOBALS['strGuiSupportLink'] = "URL personalizzato per il link di Supporto in a
 $GLOBALS['strGzipContentCompression'] = "Utilizza la compressione GZIP per i contenuti";
 
 // Regenerate Platfor Hash script
+$GLOBALS['strNewPlatformHash'] = "La nuova piattaforma Hash è:";
+$GLOBALS['strPlatformHashInsertingError'] = "Errore nell'inserimento della Piattaforma Hash nel database";
 
 // Plugin Settings
 $GLOBALS['strPluginSettings'] = "Impostazioni del plugin";
+$GLOBALS['strEnableNewPlugins'] = "Attiva i plugin appena installati";

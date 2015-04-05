@@ -23,6 +23,8 @@ $GLOBALS['strTablesType'] = "테�?�블 종류";
 $GLOBALS['strDeliveryUrlPrefix'] = "전달유지 엔진";
 $GLOBALS['strDeliveryUrlPrefixSSL'] = "전달유지 엔진";
 
+
+
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
 /* ------------------------------------------------------- */
@@ -42,7 +44,6 @@ $GLOBALS['strInvalidUsername'] = "잘못�?� ID";
 $GLOBALS['strBasicInformation'] = "기본 정보";
 $GLOBALS['strAdminCheckUpdates'] = "업�?��?�트 검색";
 $GLOBALS['strUserlogEmail'] = "모든 외부 발송 �?�메�?� 메시지를 기�?합니다.";
-
 
 // Database Settings
 $GLOBALS['strDatabaseSettings'] = "�?��?�터베�?�스 설정";
@@ -66,7 +67,6 @@ $GLOBALS['strEnableQmailPatch'] = "qmail 패치를 사용합니다.(qmail�?�
 // Debug Logging Settings
 
 // Delivery Settings
-$GLOBALS['strWebPath'] = "$PRODUCT_NAME Server Access Paths";
 $GLOBALS['strDeliveryPath'] = "전달유지 �?시";
 $GLOBALS['strDeliverySslPath'] = "전달유지 �?시";
 $GLOBALS['strTypeWebSettings'] = "로컬 배너(웹서버) 설정";

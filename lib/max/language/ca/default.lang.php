@@ -88,12 +88,16 @@ $GLOBALS['strIPAddress'] = "Adreça IP";
 
 // Banners (General)
 
+// Banner Preferences
+
 // Banner (Properties)
 
 // Banner (advanced)
 
 // Banner (swf)
 
+// Banner (network)
+// Banner (AdSense)
 // Display limitations
 
 
@@ -122,8 +126,6 @@ $GLOBALS['strCappingZone'] = array();
 
 // Statistics
 
-// Hosts
-
 // Expiration
 
 // Reports
@@ -133,6 +135,7 @@ $GLOBALS['strCappingZone'] = array();
 // Userlog
 
 // Code generation
+
 
 // Errors
 
@@ -150,13 +153,13 @@ $GLOBALS['strCappingZone'] = array();
 
 // Global Settings
 
-
 // Product Updates
 
 // Agency
 
 // Channels
 
+// Tracker Variables
 
 // Password recovery
 
@@ -178,6 +181,8 @@ $GLOBALS['strCappingZone'] = array();
 
 
 
+
+// Report error messages
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */

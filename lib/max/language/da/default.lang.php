@@ -131,7 +131,6 @@ $GLOBALS['strAuthentification'] = "Ægtheds kontrol";
 $GLOBALS['strWelcomeTo'] = "Velkommen til";
 $GLOBALS['strEnterUsername'] = "Indtast dit brugernavn og kodeord for at logge ind";
 $GLOBALS['strEnterBoth'] = "Indtast venligs både dit brugernavn og kodeord";
-$GLOBALS['strEnableCookies'] = "Det er nødvendigt at du tillader cookies før du kan bruge {$PRODUCT_NAME}";
 $GLOBALS['strLogin'] = "Log ind";
 $GLOBALS['strLogout'] = "Log ud";
 $GLOBALS['strUsername'] = "Brugernavn";
@@ -178,22 +177,8 @@ $GLOBALS['strDayOfWeek'] = "Ugedag";
 
 
 $GLOBALS['strDayFullNames'] = array();
-$GLOBALS['strDayFullNames'][0] = 'December';
-$GLOBALS['strDayFullNames'][1] = 'Mandag';
-$GLOBALS['strDayFullNames'][2] = 'Tirsdag';
-$GLOBALS['strDayFullNames'][3] = 'Onsdag';
-$GLOBALS['strDayFullNames'][4] = 'Torsdag';
-$GLOBALS['strDayFullNames'][5] = 'Fredag';
-$GLOBALS['strDayFullNames'][6] = 'Søndag';
 
 $GLOBALS['strDayShortCuts'] = array();
-$GLOBALS['strDayShortCuts'][0] = 'Sø';
-$GLOBALS['strDayShortCuts'][1] = 'Ma';
-$GLOBALS['strDayShortCuts'][2] = 'Tir';
-$GLOBALS['strDayShortCuts'][3] = 'Ons';
-$GLOBALS['strDayShortCuts'][4] = 'Tor';
-$GLOBALS['strDayShortCuts'][5] = 'Fre';
-$GLOBALS['strDayShortCuts'][6] = 'Sø';
 
 $GLOBALS['strHour'] = "Time";
 $GLOBALS['strSeconds'] = "Sekunder";
@@ -266,19 +251,6 @@ $GLOBALS['strClicksBooked'] = "Reserverede kliks";
 $GLOBALS['strConversionsBooked'] = "Reserverede conversions";
 $GLOBALS['strAnonymous'] = "Skjul annoncør og webside af denne kampagne";
 $GLOBALS['strTargetPerDay'] = "per dag.";
-$GLOBALS['strCampaignWarningRemnantNoWeight'] = "Prioriteringen af denne kampagne er sat til lav,
-men vægten er sat til nul eller den ikke er
- specificeret. Dette vil betyde at kampagnen er
- deaktiveret og dens banner vil ikke blive levert
- indtil vægten er sat til valid nummer.
-
- Er du sikker på at du vil fortsætte?";
-$GLOBALS['strCampaignWarningNoTarget'] = "Prioriteringen af denne kampagne er sat til høj,
-men ønsket antal impressions er ikke specificeret. Dette vil betyde at kampagnen er
- deaktiveret og dens banner vil ikke blive levert
- indtil vægten er sat til valid nummer.
-
- Er du sikker på at du vil fortsætte?";
 $GLOBALS['strCampaignStatusPending'] = "Under behandling";
 $GLOBALS['strCampaignStatusInactive'] = "Aktive";
 $GLOBALS['strCampaignStatusRunning'] = "Kører";
@@ -289,6 +261,7 @@ $GLOBALS['strCampaignStatusApproval'] = "Afventer godkendelse »";
 $GLOBALS['strCampaignStatusRejected'] = "Afvist";
 $GLOBALS['strCampaignStatusDeleted'] = "Slet";
 $GLOBALS['strCampaignType'] = "Kampagne navn";
+$GLOBALS['strContract'] = "Kontakt";
 $GLOBALS['strStandardContract'] = "Kontakt";
 
 // Tracker
@@ -326,7 +299,9 @@ $GLOBALS['strWarningMissing'] = "Advarsel, der mangler muligvis_";
 $GLOBALS['strWarningMissingClosing'] = " lukke mærke \">\"";
 $GLOBALS['strWarningMissingOpening'] = " åbne mærke \"<\"";
 $GLOBALS['strSubmitAnyway'] = "Fremsende alligevel";
-$GLOBALS['strBannersOfCampaign'] = "i"; //this is added between page name and campaign name eg. 'Banners in coca cola campaign'// Banner Preferences
+$GLOBALS['strBannersOfCampaign'] = "i"; //this is added between page name and campaign name eg. 'Banners in coca cola campaign'
+
+// Banner Preferences
 $GLOBALS['strBannerPreferences'] = "Banner Præferencer";
 $GLOBALS['strDefaultBanners'] = "Standard banner";
 $GLOBALS['strDefaultBannerDestination'] = "Standard destination URL";
@@ -357,10 +332,11 @@ $GLOBALS['strGenericOutputAdServer'] = "Generisk";
 // Banner (swf)
 $GLOBALS['strCheckSWF'] = "Tjek for hard-coded links inde i Flash filen";
 $GLOBALS['strConvertSWFLinks'] = "Konverter Flash links";
-$GLOBALS['strConvertSWF'] = "<br /> Flash filen du netop har uploaded indeholder hard-coded urls. {$PRODUCT_NAME} vil ikke har mulighed for at spore antal klik på denne banner, med mindre du konverter disse hard-coded urls. Herunder vil du finde en list over all urls som er i Flash filen. Hvis du ønsker ad konvertere urls, skal du blot klikke <b>Konverter</b>, eller klik <b>Fortryk</b>.<br /><br />Venligst vær opmærksom på hvis du klikker<b>Konvertere</b> Flash filen som du ntop har uploaded vil blive fysisk ændres. <br /> Venligst behold en back-up af den originale fil. Uanset in hvilken version denne banner er lavet, den endelige fil vil være kræve en Flash 4 afspiller (eller højere) for at blive vist korrekt. <br /><br />";
 $GLOBALS['strCompressSWF'] = "KOmprimer SWF filen for hurtigere downloading (Dette kræver en Flash 6 afspiller)";
 $GLOBALS['strOverwriteSource'] = "Overskriv kilde parameter";
 
+// Banner (network)
+// Banner (AdSense)
 // Display limitations
 $GLOBALS['strModifyBannerAcl'] = "Leverings optioner";
 $GLOBALS['strACL'] = "Levering";
@@ -404,6 +380,7 @@ $GLOBALS['strShowParentAffiliates'] = "Vis oprindelig websider";
 $GLOBALS['strHideParentAffiliates'] = "Skjul oprindelig websider";
 
 // Website (properties)
+$GLOBALS['strWebsite'] = "Webside";
 $GLOBALS['strAllowAffiliateModifyZones'] = "Tillad denne bruger at modificere egne zoner";
 $GLOBALS['strAllowAffiliateLinkBanners'] = "Tillad denne bruger at linke banner til egne zoner";
 $GLOBALS['strAllowAffiliateAddZone'] = "Tillad denne burger at definere nye zoner";
@@ -444,7 +421,7 @@ $GLOBALS['strWarnChangeZoneType'] = "Ved at skifte zone type til tekst eller ema
 <li>Email zoner kan kun have en aktic banner på samme tid</li>
 </ul>";
 $GLOBALS['strWarnChangeZoneSize'] = 'Skifte zone størrelse vil fjerne link til all bannnere som ikke er i den nye størrelse, og vil tilføje enhver banner fra tilsvarend kampagner som har den nye størrelse';
-$GLOBALS['strZonesOfWebsite'] = 'i'; //this is added between page name and website name eg. 'Zones in www.example.com'$GLOBALS['strBackToZones'] = "Back to zones";
+$GLOBALS['strZonesOfWebsite'] = 'i'; //this is added between page name and website name eg. 'Zones in www.example.com'
 
 
 // Advanced zone settings
@@ -509,8 +486,6 @@ $GLOBALS['strShowGraphOfStatistics'] = "Vis <u>g</u>raf af statistik";
 $GLOBALS['strExportStatisticsToExcel'] = "<u>E</u>ksport statistik til Excel";
 $GLOBALS['strGDnotEnabled'] = "Du skal have GD aktiveret i PHP for at vise grafer. <br />Venligst se<a href='http://www.php.net/gd' target='_blank'>http://www.php.net/gd</a> for yderligere information, inklusiv hvordan du installerer GD på din server.";
 
-// Hosts
-
 // Expiration
 $GLOBALS['strNoExpiration'] = "Der er ikke defineret en udløbsdato";
 $GLOBALS['strEstimated'] = "Estimeret udløbs dato";
@@ -542,42 +517,28 @@ $GLOBALS['strFrameSize'] = "Ramme størrelse";
 $GLOBALS['strBannercode'] = "Banner kode";
 $GLOBALS['strBackToTheList'] = "Gå tilbage til rapport listen";
 
+
 // Errors
 $GLOBALS['strNoMatchesFound'] = "Der er ikke fundet nogle matchende resultater";
 $GLOBALS['strErrorOccurred'] = "Der opstod en fejl";
 $GLOBALS['strErrorDBPlain'] = "Der opstod en fejl under adgangsforsøget til databasen.";
 $GLOBALS['strErrorDBSerious'] = "Der er detekteret et avorligt problem med databasen.";
-$GLOBALS['strErrorDBNoDataPlain'] = "På grund af et problem med databasen {$PRODUCT_NAME}  kunne data hverken hentes eller gemmes.";
-$GLOBALS['strErrorDBNoDataSerious'] = "På grund af et alvorligt problem med databasen, {$PRODUCT_NAME} kunne data ikke hentes";
 $GLOBALS['strErrorDBCorrupt'] = "Database tabellen er sandsynligvis fejlbehæftet og behøver at blive repareret. For yderligere information om at reparere fejlbehæftede tabeller, venligst læs kapitlet <i>Troubleshooting</i> i <i>Administrator guide</i>.";
 $GLOBALS['strErrorDBContact'] = "Venligst kontakt administratoren af denne server og meddel ham eller hende om dette problem.";
-$GLOBALS['strErrorDBSubmitBug'] = "Hvis det er muligt at genskabe et problem er det måske opstået ved en bug i {$PRODUCT_NAME}. Venligst rapporter den følgende information til personen som har lavet {$PRODUCT_NAME}. Forsøg også at beskrive så tydeligt som muligt hvilke handlinger som har forårsaget at denne fejl opstod.";
-$GLOBALS['strMaintenanceNotActive'] = "Vedligeholdelses skripten er ikke blevet kørt de seneste 24 timer.
- For at {$PRODUCT_NAME} skal fungere korrekt er det nødvendig at køre hver
-hver time.
-
-Venligst læs Administrator guiden for mere information
-omkring konfigurering af vedligeholdelses skriptet.";
 $GLOBALS['strErrorLinkingBanner'] = "Det var ikke muligt at linke banner til denne zone fordi:";
 $GLOBALS['strUnableToLinkBanner'] = "Kan ikke linke denne banner:_";
 $GLOBALS['strUnableToChangeZone'] = "Kan ikke tilføje denne ændring på grund af:";
 $GLOBALS['strDatesConflict'] = "datoer konflikter med:";
-$GLOBALS['strEmailNoDates'] = "Email zone kampagne må have en start og slut dato";
 
 //Validation
 
 // Email
 $GLOBALS['strSirMadam'] = "Hr/Fru";
 $GLOBALS['strMailSubject'] = "Annoncør rapport";
-$GLOBALS['strMailHeader'] = "Kære {contact},";
 $GLOBALS['strMailBannerStats'] = "Nedenfor vil få finde banner statistik for {clientname}:";
 $GLOBALS['strMailBannerActivatedSubject'] = "Kampagne aktiveret";
 $GLOBALS['strMailBannerDeactivatedSubject'] = "Kampagne deaktiveret";
-$GLOBALS['strMailBannerActivated'] = "Din kampagne som er vist nedenfor er blevet aktiveret fordi
- kampagnens aktiverings dato er nået.";
 $GLOBALS['strMailBannerDeactivated'] = "Din kampagne som er vist nedenfor er deaktiveret fordi";
-$GLOBALS['strMailFooter'] = "Med venlig hilsen,
-{adminfullname}";
 $GLOBALS['strClientDeactivated'] = "Kampagnen er for øjeblikket ikke aktiv fordi";
 $GLOBALS['strBeforeActivate'] = "aktiverings datoen er endu ikke opnået";
 $GLOBALS['strAfterExpire'] = "udløbsdatoen er opnået";
@@ -596,8 +557,6 @@ $GLOBALS['strYourCampaign'] = "Din kampagne";
 $GLOBALS['strTheCampiaignBelongingTo'] = "Kampagnen som hører til";
 $GLOBALS['strImpendingCampaignExpiryDateBody'] = "{clientname} vist nedenfor er sat til at slutte på {date}.";
 $GLOBALS['strImpendingCampaignExpiryImpsBody'] = "{clientname} vist nedenfor har mindre end {limit} impressions tilbage.";
-$GLOBALS['strImpendingCampaignExpiryBody'] = "Som et resultat vil kampagnen automatisk blive stoppet, og de
- følgende bannere i kampagnen vil også blive stoppet:";
 
 // Priority
 $GLOBALS['strPriority'] = "Prioritet";
@@ -652,7 +611,6 @@ $GLOBALS['strClicks_short'] = "Klik";
 $GLOBALS['strGlobalSettings'] = "Overordnede Indstillinger";
 $GLOBALS['strGeneralSettings'] = "Generel opsætninger";
 $GLOBALS['strMainSettings'] = "Hoved opsætninger";
-
 $GLOBALS['strChooseSection'] = 'Vælg sektion';
 
 // Product Updates
@@ -676,13 +634,14 @@ $GLOBALS['strAddNewChannel_Key'] = "Tilføj <u>n</u>y targeting channel";
 $GLOBALS['strChannelToWebsite'] = "til website";
 $GLOBALS['strNoChannels'] = "Der er ikke valgt nogen targeting channels";
 $GLOBALS['strNoChannelsAddWebsite'] = "Der er ikke valgt noget website. For at oprette en zone, skal du <a href='affiliate-edit.php'>tilføje et nyt website</a> først.";
-
 $GLOBALS['strEditChannelLimitations'] = "Rediger targeting channel begrænsninger";
 $GLOBALS['strChannelProperties'] = "Targeting Channel indstillinger";
 $GLOBALS['strChannelLimitations'] = "Leverings optioner";
 $GLOBALS['strConfirmDeleteChannel'] = "Vil du virkelig slette denne targeting channel?";
 $GLOBALS['strConfirmDeleteChannels'] = "Vil du virkelig slette denne targeting channel?";
-$GLOBALS['strChannelsOfWebsite'] = 'i'; //this is added between page name and website name eg. 'Targeting channels in www.example.com'// Tracker Variables
+$GLOBALS['strChannelsOfWebsite'] = 'i'; //this is added between page name and website name eg. 'Targeting channels in www.example.com'
+
+// Tracker Variables
 $GLOBALS['strVariableName'] = "Variable Navn";
 $GLOBALS['strVariableDescription'] = "Beskrivelse";
 $GLOBALS['strVariablePurpose'] = "Formål";
@@ -736,6 +695,8 @@ $GLOBALS['strYouAreNowWorkingAsX'] = "Du arbejder nu som <b>%s</b>";
 
 
 
+
+// Report error messages
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */

@@ -39,6 +39,8 @@ $GLOBALS['strDeliveryUrlPrefixSSL'] = "URL motor de entrega (SSL)";
 $GLOBALS['strImagesUrlPrefix'] = "URL de almacenamiento de imagen";
 $GLOBALS['strImagesUrlPrefixSSL'] = "URL de almacenamiento de imagen (SSL)";
 
+
+
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
 /* ------------------------------------------------------- */
@@ -62,7 +64,6 @@ $GLOBALS['strAdminShareStack'] = "Comparta información técnica con el equipo d
 $GLOBALS['strUserlogEmail'] = "Grabar todos los e-mails salientes";
 $GLOBALS['strEnableDashboardSyncNotice'] = "Por favor, permita el <a href='account-settings-update.php'>chequeo de actualizaciones</a> si desea usar el Tablero.";
 $GLOBALS['strTimezone'] = "Zona horaria";
-
 $GLOBALS['strEnableAutoMaintenance'] = "Ejecutar automáticamente el mantenimiento durante la entrega si el mantenimiento programado no está activo";
 
 // Database Settings
@@ -94,7 +95,6 @@ $GLOBALS['strDebugTypeSyslog'] = "Syslog";
 $GLOBALS['strProductionSystem'] = "Sistema de Producción";
 
 // Delivery Settings
-$GLOBALS['strWebPath'] = "$PRODUCT_NAME Server Access Paths";
 $GLOBALS['strTypeWebSettings'] = "Configuración de banner local (Webserver)";
 $GLOBALS['strTypeWebMode'] = "Método de almacenamiento";
 $GLOBALS['strTypeWebModeLocal'] = "Directorio local";

@@ -74,5 +74,4 @@ $GLOBALS['strWarning'] = "警告";
 $GLOBALS['strImgWithAppendWarning'] = "トラッカーコードを追加しました。追加コードは、<strong>Javescriptタグ</strong>で動作します。";
 
 // Local Invocation
-$GLOBALS['strWarningLocalInvocation'] = "<span class='tab-s'><strong>注意</strong> ローカルバナーの生成は、広告を呼び出すサーバと、呼び出される広告のコードが、同じサーバ上にある場合にのみ、動作します。</span><br />MAX_PATHがベースディレクトリをさしているか、確認してください。<br />そして、広告を表示しているサーバの設定ファイルがMAX_PATH/varにあることを確認してください。";
 

@@ -36,6 +36,8 @@ $GLOBALS['strDeliveryUrlPrefixSSL'] = "Pristatymo variklio URL (SSL)";
 $GLOBALS['strImagesUrlPrefix'] = "Vaizdų išsaugojimo URL";
 $GLOBALS['strImagesUrlPrefixSSL'] = "Vaizdų išsaugojimo URL (SSL)";
 
+
+
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
 /* ------------------------------------------------------- */
@@ -62,7 +64,6 @@ $GLOBALS['strAdministratorEmail'] = "Administratoriaus el.pašto adresas";
 $GLOBALS['strNovice'] = "Ištrinimo veiksmai reikalaujami dėl saugumo tikslų";
 $GLOBALS['strUserlogEmail'] = "Įrašyti visas išsiunčiamas elektroninio pašto žinutes";
 $GLOBALS['strTimezone'] = "Laiko zona";
-
 $GLOBALS['strEnableAutoMaintenance'] = "Automatiškai atlikite aptarnavimo darbus per pristatymą jei nėra pagal grafiką sudarytų aptarvimų darbų sąrašo";
 
 // Database Settings
@@ -115,7 +116,6 @@ $GLOBALS['strDebugUsername'] = "mCal, SQL serverio vartotojo vardas";
 $GLOBALS['strDebugPassword'] = "mCal, SQL serverio slaptažodis";
 
 // Delivery Settings
-$GLOBALS['strWebPath'] = "$PRODUCT_NAME Server Access Paths";
 $GLOBALS['strWebPathSimple'] = "Web kelias";
 $GLOBALS['strDeliveryPath'] = "Pristatymo kelias";
 $GLOBALS['strImagePath'] = "Vaizdų kelias";

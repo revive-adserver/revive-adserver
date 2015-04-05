@@ -111,7 +111,6 @@ $GLOBALS['strAuthentification'] = "Prihlásenie";
 $GLOBALS['strWelcomeTo'] = "Vitajte v";
 $GLOBALS['strEnterUsername'] = "Zadajte Vaše užívateľské meno a heslo pre prihlásenie";
 $GLOBALS['strEnterBoth'] = "Prosím vložte užívateľské meno a heslo";
-$GLOBALS['strEnableCookies'] = "Skôr ako začnete používať {$PRODUCT_NAME} musíte mať povolené COOKIES";
 $GLOBALS['strLogin'] = "Prihlásiť";
 $GLOBALS['strLogout'] = "Odhlásiť";
 $GLOBALS['strUsername'] = "Užívateľské meno";
@@ -159,10 +158,8 @@ $GLOBALS['strDayOfWeek'] = "Deň v týždni";
 
 
 $GLOBALS['strDayFullNames'] = array();
-$GLOBALS['strDayFullNames'][6] = 'Sobota';
 
 $GLOBALS['strDayShortCuts'] = array();
-$GLOBALS['strDayShortCuts'][6] = 'So';
 
 $GLOBALS['strHour'] = "Hodina";
 $GLOBALS['strSeconds'] = "sekundy";
@@ -230,6 +227,7 @@ $GLOBALS['strConversionsBooked'] = "Objednané konverzie";
 $GLOBALS['strCampaignStatusInactive'] = "aktívne";
 $GLOBALS['strCampaignStatusDeleted'] = "Zmazať";
 $GLOBALS['strCampaignType'] = "Názov kampane";
+$GLOBALS['strContract'] = "Kontakt";
 $GLOBALS['strStandardContract'] = "Kontakt";
 
 // Tracker
@@ -244,6 +242,8 @@ $GLOBALS['strConfirmDeleteBanner'] = "Naozaj chcete zmazať túto kampaň?";
 $GLOBALS['strConfirmDeleteBanners'] = "Naozaj chcete zmazať túto kampaň?";
 $GLOBALS['strInactiveBannersHidden'] = "Neaktívny inzerent(i) skrytý";
 
+// Banner Preferences
+
 // Banner (Properties)
 $GLOBALS['strWeight'] = "Výška";
 
@@ -251,6 +251,8 @@ $GLOBALS['strWeight'] = "Výška";
 
 // Banner (swf)
 
+// Banner (network)
+// Banner (AdSense)
 // Display limitations
 $GLOBALS['strNoLimitations'] = "Bez obmedzení";
 
@@ -270,6 +272,7 @@ $GLOBALS['strConfirmDeleteAffiliates'] = "Naozaj chcete zmazať inzerenta?";
 $GLOBALS['strInactiveAffiliatesHidden'] = "Neaktívny inzerent(i) skrytý";
 
 // Website (properties)
+$GLOBALS['strWebsite'] = "Webstránka";
 $GLOBALS['strAllowAffiliateModifyZones'] = "Povoliť tomuto užívateľovi modifikovať svoje vlastné banery";
 
 // Website (properties - payment information)
@@ -300,8 +303,6 @@ $GLOBALS['strBreakdownByMonth'] = "Mesiac";
 $GLOBALS['strBreakdownByDow'] = "Deň v týždni";
 $GLOBALS['strBreakdownByHour'] = "Hodina";
 
-// Hosts
-
 // Expiration
 $GLOBALS['strCampaignStop'] = "História kampane";
 
@@ -315,6 +316,7 @@ $GLOBALS['strAllAdvertisers'] = "Celkový počet inzerentov";
 $GLOBALS['strAction'] = "Akcia";
 
 // Code generation
+
 
 // Errors
 
@@ -354,7 +356,6 @@ $GLOBALS['strClicks_short'] = "Kliknutia";
 
 // Global Settings
 
-
 // Product Updates
 
 // Agency
@@ -365,9 +366,10 @@ $GLOBALS['strInactiveAgenciesHidden'] = "Neaktívny inzerent(i) skrytý";
 
 // Channels
 $GLOBALS['strNoChannelsAddWebsite'] = "Aktuálne nemáte vytvorených žiadnych zadávateľov reklamy. Pre vytvorenie kapmane, vytvorte najskôr <a href='affiliate-edit.php'>nového zadávateľa</a> reklamy.";
-
 $GLOBALS['strConfirmDeleteChannel'] = "Naozaj chcete zmazať túto kampaň?";
 $GLOBALS['strConfirmDeleteChannels'] = "Naozaj chcete zmazať túto kampaň?";
+
+// Tracker Variables
 $GLOBALS['strVariableDescription'] = "Popis";
 $GLOBALS['strTrackerType'] = "Názov trackeru";
 
@@ -391,6 +393,8 @@ $GLOBALS['strTrackerType'] = "Názov trackeru";
 
 
 
+
+// Report error messages
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */

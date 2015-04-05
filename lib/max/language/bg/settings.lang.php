@@ -17,6 +17,8 @@ $GLOBALS['strWarning'] = "Предупреждение";
 
 
 
+
+
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
 /* ------------------------------------------------------- */
@@ -32,7 +34,6 @@ $GLOBALS['strEditConfigPossible'] = "It is possible to edit all settings because
 // Administrator Settings
 $GLOBALS['strBasicInformation'] = "Основна информация";
 
-
 // Database Settings
 
 // Email Settings
@@ -42,7 +43,6 @@ $GLOBALS['strBasicInformation'] = "Основна информация";
 // Debug Logging Settings
 
 // Delivery Settings
-$GLOBALS['strWebPath'] = "$PRODUCT_NAME Server Access Paths";
 $GLOBALS['strTypeFTPUsername'] = "Вход";
 $GLOBALS['strTypeFTPPassword'] = "Парола";
 

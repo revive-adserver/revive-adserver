@@ -35,6 +35,8 @@ $GLOBALS['strDeliveryUrlPrefixSSL'] = "آدرس خروجی به صورت (SSL)";
 $GLOBALS['strImagesUrlPrefix'] = "آدرس ذخیره سازی عکسها";
 $GLOBALS['strImagesUrlPrefixSSL'] = "آدرس عکسها به صورت (SSL)";
 
+
+
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
 /* ------------------------------------------------------- */
@@ -59,7 +61,6 @@ $GLOBALS['strAdminCheckUpdates'] = "چک برای به روزرسانی";
 $GLOBALS['strUserlogEmail'] = "همه خروجی پیامهای ایمیل";
 $GLOBALS['strEnableDashboard'] = "�?عال بودن داشبورد";
 $GLOBALS['strTimezone'] = "ساعت";
-
 $GLOBALS['strEnableAutoMaintenance'] = "نگهداری به صورت اتوماتیک تا زمان تحویل ";
 
 // Database Settings
@@ -97,7 +98,6 @@ $GLOBALS['strDebugUsername'] = "نام کاربری سرور اس کیو ال و
 $GLOBALS['strDebugPassword'] = "پسورد سرور اس کیو ال و سی پنل";
 
 // Delivery Settings
-$GLOBALS['strWebPath'] = "$PRODUCT_NAME Server Access Paths";
 $GLOBALS['strWebPathSimple'] = "آدرس وب";
 $GLOBALS['strDeliveryPath'] = "آدرس خروجی";
 $GLOBALS['strImagePath'] = "آدرس عکسها";

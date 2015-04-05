@@ -40,6 +40,8 @@ $GLOBALS['strDeliveryUrlPrefixSSL'] = "A Kiszoláló Motor URL-je (SSL)";
 $GLOBALS['strImagesUrlPrefix'] = "A Kép Tár URL-je";
 $GLOBALS['strImagesUrlPrefixSSL'] = "A Kép Tár URL-je (SSL)";
 
+
+
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
 /* ------------------------------------------------------- */
@@ -67,7 +69,6 @@ $GLOBALS['strAdminCheckUpdates'] = "Frissítés keresése";
 $GLOBALS['strNovice'] = "A törlésekhez megerősítés szükséges biztonsági okokból";
 $GLOBALS['strUserlogEmail'] = "Kimenő e-mail üzenetek naplózása";
 $GLOBALS['strTimezone'] = "Időzóna";
-
 $GLOBALS['strEnableAutoMaintenance'] = "Automatikusan fusson le a karbantartó eljárás a kiszolgáláskor, ha nincs beállítva a karbantartás ütemterve. ";
 
 // Database Settings
@@ -108,7 +109,6 @@ $GLOBALS['strDebugUsername'] = "mCal, SQL szerver felhasználóinév";
 $GLOBALS['strDebugPassword'] = "mCal, SQL szerver jelszó";
 
 // Delivery Settings
-$GLOBALS['strWebPath'] = "$PRODUCT_NAME Server Access Paths";
 $GLOBALS['strWebPathSimple'] = "Webes elérési út";
 $GLOBALS['strDeliveryPath'] = "Kézbesítés elérési útja";
 $GLOBALS['strImagePath'] = "Képek elérési útja";

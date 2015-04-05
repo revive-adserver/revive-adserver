@@ -35,6 +35,8 @@ $GLOBALS['strCheckDocumentation'] = "For mere hjælp se <a href='http://{$PRODUC
 
 $GLOBALS['strAdminUrlPrefix'] = "Administrator interface URL";
 
+
+
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
 /* ------------------------------------------------------- */
@@ -60,7 +62,6 @@ $GLOBALS['strBasicInformation'] = "Basis information";
 $GLOBALS['strAdministratorEmail'] = "Administrators email adresse";
 $GLOBALS['strUserlogEmail'] = "Log alle udgående email beskeder";
 $GLOBALS['strTimezone'] = "Tidszone";
-
 $GLOBALS['strEnableAutoMaintenance'] = "Automatisk udfør vedligeholdelse under levering if planlagt vedligehold ikke er sat op";
 
 // Database Settings
@@ -103,7 +104,6 @@ $GLOBALS['strDebugUsername'] = "mCal, SQL Server brugernavn";
 $GLOBALS['strDebugPassword'] = "mCal, SQL Server kodeord";
 
 // Delivery Settings
-$GLOBALS['strWebPath'] = "$PRODUCT_NAME Server Access Paths";
 $GLOBALS['strWebPathSimple'] = "Web sti";
 $GLOBALS['strDeliveryPath'] = "Cache levering";
 $GLOBALS['strDeliverySslPath'] = "Cache levering";

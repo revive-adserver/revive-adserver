@@ -39,6 +39,8 @@ $GLOBALS['strDeliveryUrlPrefixSSL'] = "URL des Ad-Servers (SSL)";
 $GLOBALS['strImagesUrlPrefix'] = "URL des Verzeichnisses in dem die Grafiken gespeichert werden.";
 $GLOBALS['strImagesUrlPrefixSSL'] = "URL des Verzeichnisses in dem die Grafiken gespeichert werden (SSL).";
 
+
+
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
 /* ------------------------------------------------------- */
@@ -69,7 +71,6 @@ $GLOBALS['strUserlogEmail'] = "Alle ausgehenden E-Mails protokollieren ";
 $GLOBALS['strEnableDashboard'] = "Dashboard aktivieren";
 $GLOBALS['strEnableDashboardSyncNotice'] = "Bitte aktivieren Sie <a href='account-settings-update.php'>Prüfen, ob neue Programmversionen vorhanden sind</a> wenn Sie das Dashboard nutzen möchten.";
 $GLOBALS['strTimezone'] = "Zeitzone";
-
 $GLOBALS['strEnableAutoMaintenance'] = "Durchführen von automatischen Maintenance-Wartungsläufen während der Bannerauslieferung, wenn regelmäßigen Wartungsläufe nicht eingerichtet sind.";
 
 // Database Settings
@@ -128,7 +129,6 @@ $GLOBALS['strDebugPassword'] = "mCal, SQL-Server Paßwort";
 $GLOBALS['strProductionSystem'] = "Produktionssystem";
 
 // Delivery Settings
-$GLOBALS['strWebPath'] = "$PRODUCT_NAME Server Access Paths";
 $GLOBALS['strWebPathSimple'] = "Web-Pfad";
 $GLOBALS['strDeliveryPath'] = "Auslieferungs-Pfad";
 $GLOBALS['strImagePath'] = "Banner-Pfad";

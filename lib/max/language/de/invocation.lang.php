@@ -74,5 +74,4 @@ $GLOBALS['strWarning'] = "Warnung";
 $GLOBALS['strImgWithAppendWarning'] = "Dieser Tracker hat angehängten Code.<br />Angehängter Code kann nur über JavaScript-Tags ausgeführt werden";
 
 // Local Invocation
-$GLOBALS['strWarningLocalInvocation'] = "<span class='tab-s'><strong>Hinweis:</strong>Der Local mode Bannercode kann nur verwendet werden, wenn die Webseite die diesen Code ausführt auf der gleichen physikalischen Maschine wie der AdServer liegt.</span><br />Überprüfen Sie das MAX_PATH in dem unten stehenden Code definiert ist und das Hauptverzeichnis der MAX Installation benennt. Außerdem benötigen Sie eine Konfigurationsdatei für die Webseite, die die Werbebanner anzeigt (in MAX_PATH/var).";
 

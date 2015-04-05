@@ -40,6 +40,8 @@ $GLOBALS['strDeliveryUrlPrefixSSL'] = "URL da engine de entrega (SSL)";
 $GLOBALS['strImagesUrlPrefix'] = "URL do armazenamento de imagens";
 $GLOBALS['strImagesUrlPrefixSSL'] = "URL do armazenamento de imagens (SSL)";
 
+
+
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
 /* ------------------------------------------------------- */
@@ -67,7 +69,6 @@ $GLOBALS['strNovice'] = "Ações de remoção realizadas pelo Administrador nece
 $GLOBALS['strUserlogEmail'] = "Registrar todos e-mail enviados";
 $GLOBALS['strEnableDashboardSyncNotice'] = "Por favor habilite <a href='account-settings-update.php'>Verificar atualizações</a> se deseja usar o Painel de Controle.";
 $GLOBALS['strTimezone'] = "Fuso horário";
-
 $GLOBALS['strEnableAutoMaintenance'] = "Executar a manutenção automaticamente durante a entrega de anúncios se a manutenção não estiver agendada";
 
 // Database Settings
@@ -121,7 +122,6 @@ $GLOBALS['strDebugPassword'] = "Senha do mCal, SQL Server";
 $GLOBALS['strProductionSystem'] = "Sistema em Produção";
 
 // Delivery Settings
-$GLOBALS['strWebPath'] = "$PRODUCT_NAME Server Access Paths";
 $GLOBALS['strWebPathSimple'] = "Caminho pela Web";
 $GLOBALS['strDeliveryPath'] = "Caminho de entrega";
 $GLOBALS['strImagePath'] = "Caminho de Imagens";
