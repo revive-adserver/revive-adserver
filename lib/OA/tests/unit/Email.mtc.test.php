@@ -179,7 +179,7 @@ class Test_OA_Email extends UnitTestCase
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 3);
         $this->assertEqual($aResult['subject'], $expectedSubject);
-        $this->assertEqual($aResult['contents'], $expectedContents);
+        $this->assertEqual(str_replace("\r", "", $aResult['contents']), str_replace("\r", "", $expectedContents));
 
         // Add another placement with no ads to the above advertiser, and test
         // that the correct report is generated
@@ -207,7 +207,7 @@ class Test_OA_Email extends UnitTestCase
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 3);
         $this->assertEqual($aResult['subject'], $expectedSubject);
-        $this->assertEqual($aResult['contents'], $expectedContents);
+        $this->assertEqual(str_replace("\r", "", $aResult['contents']), str_replace("\r", "", $expectedContents));
 
         // Add an ad to the second placements, but with no delivery data, and
         // ensure the correct email is generated (no change to previous!)
@@ -219,7 +219,7 @@ class Test_OA_Email extends UnitTestCase
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 3);
         $this->assertEqual($aResult['subject'], $expectedSubject);
-        $this->assertEqual($aResult['contents'], $expectedContents);
+        $this->assertEqual(str_replace("\r", "", $aResult['contents']), str_replace("\r", "", $expectedContents));
 
         // Add an ad to the second placements, with delivery data outside
         // the current date range, and ensure the correct email is generated
@@ -258,7 +258,7 @@ class Test_OA_Email extends UnitTestCase
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 3);
         $this->assertEqual($aResult['subject'], $expectedSubject);
-        $this->assertEqual($aResult['contents'], $expectedContents);
+        $this->assertEqual(str_replace("\r", "", $aResult['contents']), str_replace("\r", "", $expectedContents));
 
         // Add an ad to the second placements, with delivery data in the
         // report range, and ensure the correct email is generated
@@ -316,7 +316,7 @@ class Test_OA_Email extends UnitTestCase
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 3);
         $this->assertEqual($aResult['subject'], $expectedSubject);
-        $this->assertEqual($aResult['contents'], $expectedContents);
+        $this->assertEqual(str_replace("\r", "", $aResult['contents']), str_replace("\r", "", $expectedContents));
 
         DataGenerator::cleanUp();
 
@@ -382,7 +382,7 @@ class Test_OA_Email extends UnitTestCase
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 3);
         $this->assertEqual($aResult['subject'], $expectedSubject);
-        $this->assertEqual($aResult['contents'], $expectedContents);
+        $this->assertEqual(str_replace("\r", "", $aResult['contents']), str_replace("\r", "", $expectedContents));
 
         // Retest with a different timezone, same interval
         $oStartDate   = new Date('2007-05-10 00:00:00');
@@ -411,7 +411,7 @@ class Test_OA_Email extends UnitTestCase
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 3);
         $this->assertEqual($aResult['subject'], $expectedSubject);
-        $this->assertEqual($aResult['contents'], $expectedContents);
+        $this->assertEqual(str_replace("\r", "", $aResult['contents']), str_replace("\r", "", $expectedContents));
 
 
         // Retest with a different timezone, shorter interval
@@ -440,7 +440,7 @@ class Test_OA_Email extends UnitTestCase
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 3);
         $this->assertEqual($aResult['subject'], $expectedSubject);
-        $this->assertEqual($aResult['contents'], $expectedContents);
+        $this->assertEqual(str_replace("\r", "", $aResult['contents']), str_replace("\r", "", $expectedContents));
 
         DataGenerator::cleanUp(array('accounts', 'account_user_assoc'));
     }
@@ -931,7 +931,7 @@ class Test_OA_Email extends UnitTestCase
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
         $this->assertEqual($aResult['subject'],   $expectedSubject);
-        $this->assertEqual($aResult['contents'],  $expectedContents);
+        $this->assertEqual(str_replace("\r", "", $aResult['contents']), str_replace("\r", "", $expectedContents));
 
         // One entry in userlog
         $doUserLog = OA_Dal::factoryDO('userlog');
@@ -973,7 +973,7 @@ class Test_OA_Email extends UnitTestCase
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
         $this->assertEqual($aResult['subject'],   $expectedSubject);
-        $this->assertEqual($aResult['contents'],  $expectedContents);
+        $this->assertEqual(str_replace("\r", "", $aResult['contents']), str_replace("\r", "", $expectedContents));
 
         // Should create another entry in userlog
         $doUserLog = OA_Dal::factoryDO('userlog');
@@ -1005,7 +1005,7 @@ class Test_OA_Email extends UnitTestCase
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
         $this->assertEqual($aResult['subject'],   $expectedSubject);
-        $this->assertEqual($aResult['contents'],  $expectedContents);
+        $this->assertEqual(str_replace("\r", "", $aResult['contents']), str_replace("\r", "", $expectedContents));
 
 
         // Use email from empty details and test that not Regards are added
@@ -1033,7 +1033,7 @@ class Test_OA_Email extends UnitTestCase
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
         $this->assertEqual($aResult['subject'],   $expectedSubject);
-        $this->assertEqual($aResult['contents'],  $expectedContents);
+        $this->assertEqual(str_replace("\r", "", $aResult['contents']), str_replace("\r", "", $expectedContents));
 
         $aConf['email']['useManagerDetails'] = true;
         $aConf['email']['fromAddress']  = $adminMail;
@@ -1066,7 +1066,7 @@ class Test_OA_Email extends UnitTestCase
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
         $this->assertEqual($aResult['subject'],   $expectedSubject);
-        $this->assertEqual($aResult['contents'],  $expectedContents);
+        $this->assertEqual(str_replace("\r", "", $aResult['contents']), str_replace("\r", "", $expectedContents));
 
         $expectedSubject = "Impending campaign expiration: $advertiserName";
         $expectedContents  = "Dear {$aAgencyUser['contact_name']},\n\n";
@@ -1087,7 +1087,7 @@ class Test_OA_Email extends UnitTestCase
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
         $this->assertEqual($aResult['subject'],   $expectedSubject);
-        $this->assertEqual($aResult['contents'],  $expectedContents);
+        $this->assertEqual(str_replace("\r", "", $aResult['contents']), str_replace("\r", "", $expectedContents));
 
         // Emails not sent, nothing new in userlog
         $doUserLog = OA_Dal::factoryDO('userlog');
@@ -1129,7 +1129,7 @@ class Test_OA_Email extends UnitTestCase
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
         $this->assertEqual($aResult['subject'],   $expectedSubject);
-        $this->assertEqual($aResult['contents'],  $expectedContents);
+        $this->assertEqual(str_replace("\r", "", $aResult['contents']), str_replace("\r", "", $expectedContents));
 
         $doUserLog = OA_Dal::factoryDO('userlog');
         $doUserLog->action = phpAds_actionWarningMailed;
@@ -1157,7 +1157,7 @@ class Test_OA_Email extends UnitTestCase
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
         $this->assertEqual($aResult['subject'],   $expectedSubject);
-        $this->assertEqual($aResult['contents'],  $expectedContents);
+        $this->assertEqual(str_replace("\r", "", $aResult['contents']), str_replace("\r", "", $expectedContents));
 
         $doUserLog = OA_Dal::factoryDO('userlog');
         $doUserLog->action = phpAds_actionWarningMailed;
@@ -1208,7 +1208,7 @@ class Test_OA_Email extends UnitTestCase
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
         $this->assertEqual($aResult['subject'],   $expectedSubject);
-        $this->assertEqual($aResult['contents'],  $expectedContents);
+        $this->assertEqual(str_replace("\r", "", $aResult['contents']), str_replace("\r", "", $expectedContents));
 
         $doUserLog = OA_Dal::factoryDO('userlog');
         $doUserLog->action = phpAds_actionWarningMailed;
@@ -1264,13 +1264,13 @@ class Test_OA_Email extends UnitTestCase
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
         $this->assertEqual($aResult['subject'],   $expectedSubject);
-        $this->assertEqual($aResult['contents'],  $expectedContents);
+        $this->assertEqual(str_replace("\r", "", $aResult['contents']), str_replace("\r", "", $expectedContents));
 
         // Check that advertiser2's email is send in their desired language (german)
         $expectedSubject = "Bevorstehende Deaktivierung der Kampagne: $advertiserName";
         $expectedContents  = "Sehr geehrte(r) {$aAdvertiserUser2['contact_name']},\n\n";
         $expectedContents .= "Unten angegebene Ihre Kampagne hat weniger als {$impValue} Impressions übrig.\n\n";
-        $expectedContents .= "Auf Grund dessen wird die Kampagne bald deaktiviert und weiter unten angegebene Banner aus dieser Kampagne werden deaktiviert.\n";
+        $expectedContents .= "Auf Grund dessen wird die Kampagne bald deaktiviert und weiter unten angegebene Banner aus dieser Kampagne werden deaktiviert:\n";
         $expectedContents .= "\nKampagne [id$placementId] Default Campaign\n";
         $expectedContents .= "http://{$aConf['webpath']['admin']}/stats.php?clientid=$advertiserId1&campaignid=$placementId&statsBreakdown=day&entity=campaign&breakdown=history&period_preset=all_stats&period_start=&period_end=\n";
         $expectedContents .= "-------------------------------------------------------\n\n";
@@ -1283,7 +1283,7 @@ class Test_OA_Email extends UnitTestCase
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
         $this->assertEqual($aResult['subject'],   $expectedSubject);
-        $this->assertEqual($aResult['contents'],  $expectedContents);
+        $this->assertEqual(str_replace("\r", "", $aResult['contents']), str_replace("\r", "", $expectedContents));
 
         DataGenerator::cleanUp(array('accounts','account_user_assoc'));
     }
@@ -1463,7 +1463,7 @@ class Test_OA_Email extends UnitTestCase
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
         $this->assertEqual($aResult['subject'],   $expectedSubject);
-        $this->assertEqual($aResult['contents'],  $expectedContents);
+        $this->assertEqual(str_replace("\r", "", $aResult['contents']), str_replace("\r", "", $expectedContents));
 
         // Check for a campaign that should be deactivated
         $expectedSubject = 'Campaign deactivated: Foo Client';
@@ -1482,7 +1482,7 @@ class Test_OA_Email extends UnitTestCase
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
         $this->assertEqual($aResult['subject'],   $expectedSubject);
-        $this->assertEqual($aResult['contents'],  $expectedContents);
+        $this->assertEqual(str_replace("\r", "", $aResult['contents']), str_replace("\r", "", $expectedContents));
 
         $aResult = $oEmail->prepareCampaignActivatedDeactivatedEmail($aAdvertiserUser, $placementId, OX_CAMPAIGN_DISABLED_CLICKS);
         $expectedSubject = 'Campaign deactivated: Foo Client';
@@ -1500,7 +1500,7 @@ class Test_OA_Email extends UnitTestCase
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
         $this->assertEqual($aResult['subject'],   $expectedSubject);
-        $this->assertEqual($aResult['contents'],  $expectedContents);
+        $this->assertEqual(str_replace("\r", "", $aResult['contents']), str_replace("\r", "", $expectedContents));
 
         $aResult = $oEmail->prepareCampaignActivatedDeactivatedEmail($aAdvertiserUser, $placementId, OX_CAMPAIGN_DISABLED_CONVERSIONS);
         $expectedSubject = 'Campaign deactivated: Foo Client';
@@ -1518,7 +1518,7 @@ class Test_OA_Email extends UnitTestCase
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
         $this->assertEqual($aResult['subject'],   $expectedSubject);
-        $this->assertEqual($aResult['contents'],  $expectedContents);
+        $this->assertEqual(str_replace("\r", "", $aResult['contents']), str_replace("\r", "", $expectedContents));
 
         $aResult = $oEmail->prepareCampaignActivatedDeactivatedEmail($aAdvertiserUser, $placementId, OX_CAMPAIGN_DISABLED_DATE);
         $expectedSubject = 'Campaign deactivated: Foo Client';
@@ -1536,7 +1536,7 @@ class Test_OA_Email extends UnitTestCase
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
         $this->assertEqual($aResult['subject'],   $expectedSubject);
-        $this->assertEqual($aResult['contents'],  $expectedContents);
+        $this->assertEqual(str_replace("\r", "", $aResult['contents']), str_replace("\r", "", $expectedContents));
 
         $reason = 0 | OX_CAMPAIGN_DISABLED_IMPRESSIONS | OX_CAMPAIGN_DISABLED_CLICKS | OX_CAMPAIGN_DISABLED_DATE;
         $aResult = $oEmail->prepareCampaignActivatedDeactivatedEmail($aAdvertiserUser, $placementId, $reason);
@@ -1557,7 +1557,7 @@ class Test_OA_Email extends UnitTestCase
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
         $this->assertEqual($aResult['subject'],   $expectedSubject);
-        $this->assertEqual($aResult['contents'],  $expectedContents);
+        $this->assertEqual(str_replace("\r", "", $aResult['contents']), str_replace("\r", "", $expectedContents));
 
         TestEnv::restoreEnv();
     }

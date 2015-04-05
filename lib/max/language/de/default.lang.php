@@ -679,6 +679,8 @@ $GLOBALS['strMailBannerStats'] = "Sie erhalten nachfolgend die Bannerstatistik f
 $GLOBALS['strMailBannerActivatedSubject'] = "Kampagne aktiviert";
 $GLOBALS['strMailBannerDeactivatedSubject'] = "Kampagne deaktiviert";
 $GLOBALS['strMailBannerDeactivated'] = "Die unten angegebene Kampagne wurde deaktiviert, weil";
+$GLOBALS['strMailFooter'] = "Mit freundlichem Gruß
+   {adminfullname}";
 $GLOBALS['strClientDeactivated'] = "Diese Kampagne ist zur Zeit nicht aktiv, weil";
 $GLOBALS['strBeforeActivate'] = "das Aktivierungsdatum noch nicht erreicht wurde ";
 $GLOBALS['strAfterExpire'] = "das Auslaufdatum erreicht wurde ";
