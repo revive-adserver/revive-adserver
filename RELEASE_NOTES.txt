@@ -58,6 +58,9 @@ What's New in Revive Adserver 3.2.0-beta
 
  * Fixed missing translation string from statistics screens for conversions.
 
+ * Fixed issue preventing contract campaigns to reach their daily target when
+   TZ had a negative offset.
+
  Non-Backwards Compatible Changes
  --------------------------------
 
