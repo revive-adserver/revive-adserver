@@ -182,8 +182,7 @@ else {
 }
 if ($ext_bannertype)
 {
-    list($extension, $group, $plugin) = explode(':', $ext_bannertype);
-    $oComponent = &OX_Component::factory($extension, $group, $plugin);
+    $oComponent = OX_Component::factoryByComponentIdentifier($ext_bannertype);
     //  we may want to use the ancestor class for some sort of generic functionality
     if (!$oComponent)
     {
@@ -193,8 +192,7 @@ if ($ext_bannertype)
 }
 if ((!$ext_bannertype) && $type && (!in_array($type, array('sql','web','url','html','txt'))))
 {
-    list($extension, $group, $plugin) = explode('.',$type);
-    $oComponent = &OX_Component::factoryByComponentIdentifier($extension, $group, $plugin);
+    $oComponent = OX_Component::factoryByComponentIdentifier($type);
     $formDisabled = (!$oComponent || !$oComponent->enabled);
     if ($oComponent)
     {

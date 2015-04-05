@@ -197,18 +197,6 @@ phpAds_SessionDataStore();
 
     $aParams = MAX_getLinkedAdParams($zoneId);
 
-    // if the selected campaign is a market campaign, we switch to the Link banner by parent campaign mode
-    // as Market contract campaign don't have banner to be linked individually
-    if(!empty($placementId)) {
-        $doCampaign = OA_Dal::factoryDO('campaigns');
-        $doCampaign->campaignid = $placementId;
-        $doCampaign->find();
-        $doCampaign->fetch();
-        if($doCampaign->type == DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CONTRACT) {
-            $view = 'placement';
-        }
-    }
-
     if ($view == 'placement') {
         $aDirectLinkedAds = Admin_DA::getAdZones(array('zone_id' => $zoneId), true, 'ad_id');
         $aOtherAdvertisers = Admin_DA::getAdvertisers($aParams + array('agency_id' => $agencyId), false);
