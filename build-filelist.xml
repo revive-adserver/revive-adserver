@@ -32,7 +32,7 @@
     <include name="scripts/maintenance/**"/>
     <include name="scripts/rpm/**"/>
     <exclude name="scripts/rpm/*.spec*" />
-    <exclude name="scripts/cleanup-translations.php"/>
+    <exclude name="scripts/translations/**"/>
     <include name="scripts/.htaccess"/>
     <include name="var/cache/README.txt"/>
     <include name="var/plugins/cache"/>
@@ -92,7 +92,6 @@
     <include name="scripts/rpm/*.spec*" />
     <include name="scripts/updateDocs.sh"/>
     <include name="scripts/translations/**"/>
-    <include name="scripts/cleanup-translations.php"/>
     <include name="tutorials/**"/>
     <include name="simulation/**"/>
     <include name="var/*.conf.php*"/>
