@@ -162,6 +162,7 @@ $GLOBALS['strUserUnlinkedFromAccount'] = "Gebruiker is verwijderd uit het accoun
 $GLOBALS['strUserWasDeleted'] = "Gebruiker is verwijderd";
 $GLOBALS['strUserNotLinkedWithAccount'] = "Deze gebruiker is niet verbonden met dit account";
 $GLOBALS['strCantDeleteOneAdminUser'] = "U kunt deze gebruiker niet verwijderen. Ten minste één gebruiker moet verbonden zijn met het system administrator account.";
+$GLOBALS['strLinkUserHelp'] = "Om een <b>bestaande gebruiker</b> toe te voegen, type de %1\\$s en klik %2\\$s <br />Om een <b>nieuwe gebruiker</b> toe te voegen, type de gewenste %1\\$s en klik %2\\$s";
 $GLOBALS['strLinkUserHelpUser'] = "gebruikersnaam";
 $GLOBALS['strLinkUserHelpEmail'] = "E-mail adres";
 $GLOBALS['strLastLoggedIn'] = "Laatst ingelogd";
@@ -176,6 +177,7 @@ $GLOBALS['strAuthentification'] = "Authenticatie";
 $GLOBALS['strWelcomeTo'] = "Welkom bij";
 $GLOBALS['strEnterUsername'] = "Voer uw gebruikersnaam en wachtwoord om in te loggen";
 $GLOBALS['strEnterBoth'] = "Vul zowel uw gebruikersnaam als uw wachtwoord in";
+$GLOBALS['strEnableCookies'] = "U dient cookies te accepteren voor het gebruik van {$PRODUCT_NAME}";
 $GLOBALS['strSessionIDNotMatch'] = "Cookie error voor deze sessie, gelieve nogmaals in te loggen";
 $GLOBALS['strLogin'] = "Inloggen";
 $GLOBALS['strLogout'] = "Uitloggen";
@@ -240,8 +242,22 @@ $GLOBALS['strDayOfWeek'] = "Dag van de week";
 
 
 $GLOBALS['strDayFullNames'] = array();
+$GLOBALS['strDayFullNames'][0] = 'zondag';
+$GLOBALS['strDayFullNames'][1] = 'maandag';
+$GLOBALS['strDayFullNames'][2] = 'dinsdag';
+$GLOBALS['strDayFullNames'][3] = 'woensdag';
+$GLOBALS['strDayFullNames'][4] = 'donderdag';
+$GLOBALS['strDayFullNames'][5] = 'vrijdag';
+$GLOBALS['strDayFullNames'][6] = 'zaterdag';
 
 $GLOBALS['strDayShortCuts'] = array();
+$GLOBALS['strDayShortCuts'][0] = 'zo';
+$GLOBALS['strDayShortCuts'][1] = 'ma';
+$GLOBALS['strDayShortCuts'][2] = 'di';
+$GLOBALS['strDayShortCuts'][3] = 'wo';
+$GLOBALS['strDayShortCuts'][4] = 'do';
+$GLOBALS['strDayShortCuts'][5] = 'vr';
+$GLOBALS['strDayShortCuts'][6] = 'za';
 
 $GLOBALS['strHour'] = "Uur";
 $GLOBALS['strSeconds'] = "seconden";
@@ -349,6 +365,28 @@ $GLOBALS['strConversionsBooked'] = "Geboekte conversies";
 $GLOBALS['strCampaignWeight'] = "Campagne gewicht";
 $GLOBALS['strAnonymous'] = "Verberg de adverteerder en websites van deze campagne";
 $GLOBALS['strTargetPerDay'] = "per dag.";
+$GLOBALS['strCampaignWarningRemnantNoWeight'] = "De prioriteit van deze campagne is laag,
+terwijl het gewicht op nul is gezet of niet
+gespecificeerd is. Dit zal er voor zorgen dat de campagne
+gedeactiveerd wordt en de banners zullen niet getoond
+worden totdat het gewicht aangepast is.
+
+Weet u zeker dat u door wilt gaan?";
+$GLOBALS['strCampaignWarningEcpmNoRevenue'] = "Deze campagne gebruikt eCPM optimalisatie
+maar de 'inkomsten' zijn ingestuld op nul of niet gespecificeerd.
+Dit zal er toe leiden dat de campagne wordt gedeactiveerd
+en dat de bijbehorende banners niet vertoond worden tot de
+inkomsten zijn ingeteld op een geldige waarde.
+
+Weet u zeker dat u wilt doorgaan?";
+$GLOBALS['strCampaignWarningOverrideNoWeight'] = "Het type van deze campagne is ingesteld op Override
+maar het gewicht is ingesteld op nul of het is niet
+gespecificeerd. Dat leidt er toe dat de campagne wordt
+gedeactiveerd en de banners niet vertoond worden
+tot het gewicht is ingesteld op een geldige waarde.
+
+Weet u zeker dat u wilt doorgaan?";
+$GLOBALS['strCampaignWarningNoTarget'] = "Het type van deze campagne is ingesteld op Contract, maar limiet per dag is niet opgegeven. Hierdoor wordt de campagne worden gedeactiveerd en haar banners zal niet worden geleverd tot een geldige limiet per dag is ingesteld.  Weet u zeker dat u wilt doorgaan?";
 $GLOBALS['strCampaignStatusPending'] = "Wachtend";
 $GLOBALS['strCampaignStatusInactive'] = "Niet actief";
 $GLOBALS['strCampaignStatusRunning'] = "Actief";
@@ -462,6 +500,7 @@ $GLOBALS['strURLBanner'] = "Externe banner koppelen";
 $GLOBALS['strHTMLBanner'] = "Een HTML banner maken";
 $GLOBALS['strTextBanner'] = "Maak een tekstadvertentie";
 $GLOBALS['strAlterHTML'] = "HTML code aanpassen om click tracking mogelijk te maken voor:";
+$GLOBALS['strIframeFriendly'] = "Deze banner kan veilig worden weergegeven binnen een iframe (is bijvoorbeeld niet uitklapbaar)";
 $GLOBALS['strUploadOrKeep'] = "Wilt u uw bestaande afbeelding <br />houden, of wilt u een <br />nieuwe afbeelding uploaden?";
 $GLOBALS['strNewBannerFile'] = "Selecteer de afbeelding die u <br />wilt gebruiken voor deze banner<br /><br />";
 $GLOBALS['strNewBannerFileAlt'] = "Selecteer een reserve afbeelding die u <br />wilt gebruiken in situaties waarin de browser<br />geen rich media ondersteunt<br /><br />";
@@ -487,6 +526,7 @@ $GLOBALS['strBannerAppendHTML'] = "Altijd de volgende HTML-code aan deze banner 
 $GLOBALS['strCheckSWF'] = "Controleer op vaste links in het Flash bestand";
 $GLOBALS['strConvertSWFLinks'] = "Converteer Flash links";
 $GLOBALS['strHardcodedLinks'] = "Hard-coded links";
+$GLOBALS['strConvertSWF'] = "<br />Het Flash bestand dat u zojuist upgeload heeft bevat vaste links. Pas als deze vaste links geconverteerd zijn zal {$PRODUCT_NAME} AdClicks kunnen volgen voor deze banner. Hieronder vindt u een lijst met alle links welke in het Flash bestand aanwezig zijn. Indien u de links wilt converteren, klik dan op <b>Converteer</b>, klik anders op <b>Annuleer</b>.<br /><br />Notitie: Als u klikt op <b>Converteer</b> zal het Flash bestand welke u zojuist geupload heeft veranderd worden. <br />Bewaar het orginele bestand goed. Ongeacht in welke versie de banner gemaakt is, het geconverteerde bestand zal alleen goed te zien zijn met de Flash 4 player (of hoger).<br /><br />";
 $GLOBALS['strCompressSWF'] = "Comprimeer SWF bestand voor versneld downloaden (Flash 6 speler benodigd)";
 $GLOBALS['strOverwriteSource'] = "Overschrijft de Source parameter";
 
@@ -517,12 +557,15 @@ $GLOBALS['strDeliveryCappingTotal'] = "in totaal";
 $GLOBALS['strDeliveryCappingSession'] = "per sessie";
 
 $GLOBALS['strCappingBanner'] = array();
+$GLOBALS['strCappingBanner']['title'] = "Delivery capping per bezoeker";
 $GLOBALS['strCappingBanner']['limit'] = "Limiteer banner vertoningen tot";
 
 $GLOBALS['strCappingCampaign'] = array();
+$GLOBALS['strCappingCampaign']['title'] = "Delivery capping per bezoeker";
 $GLOBALS['strCappingCampaign']['limit'] = "Limiteer campagne vertoningen tot:";
 
 $GLOBALS['strCappingZone'] = array();
+$GLOBALS['strCappingZone']['title'] = "Delivery capping per bezoeker";
 $GLOBALS['strCappingZone']['limit'] = "Limiteer zone vertoningen tot:";
 
 // Website
@@ -757,8 +800,16 @@ $GLOBALS['strNoMatchesFound'] = "Geen resultaten gevonden";
 $GLOBALS['strErrorOccurred'] = "Er is een fout opgetreden";
 $GLOBALS['strErrorDBPlain'] = "Er is een probleem opgetreden tijdens het benaderen van de database";
 $GLOBALS['strErrorDBSerious'] = "Er is een ernstig probleem met de database opgetreden";
+$GLOBALS['strErrorDBNoDataPlain'] = "Wegens een probleem met de database kon {$PRODUCT_NAME} geen gegevens ophalen of versturen. ";
+$GLOBALS['strErrorDBNoDataSerious'] = "Wegens het ernstige problem kon {$PRODUCT_NAME}  geen gegevens ophalen";
 $GLOBALS['strErrorDBCorrupt'] = "De database tabel is waarschijnlijk beschadigd en moet gerepareerd worden. Voor meer informatie over het repareren van beschadigde tabellen lees het hoofdstuk <i>Troubleshooting</i> van de <i>Administrator guide</i>.";
 $GLOBALS['strErrorDBContact'] = "Neem a.u.b. contact op met de beheerder van deze server en breng hem op de hoogte van uw probleem.";
+$GLOBALS['strErrorDBSubmitBug'] = "Indien dit probleem te reproduceren is, dan is het mogelijk dat het veroorzaakt wordt door een fout in {$PRODUCT_NAME}. Reporteer de volgende gegevens aan de makers van {$PRODUCT_NAME}. Probeer tevens de acties die deze fout tot gevolg hebben zo duidelijk mogelijk te omschrijven.";
+$GLOBALS['strMaintenanceNotActive'] = "Het onderhoudsproces heeft de afgelopen 24 uur niet gedraaid.
+Het moet elk uur draaien zodat dit programma goed kan functioneren.
+
+Lees svp de Systeembeheer handleiding voor meer informatie
+over het instellen van het onderhoudsproces.";
 $GLOBALS['strErrorLinkingBanner'] = "Het was niet mogelijk om deze banner te koppelen aan deze zone omdat:";
 $GLOBALS['strUnableToLinkBanner'] = "Deze banner kan niet gekoppeld worden: ";
 $GLOBALS['strErrorEditingCampaignRevenue'] = "onjuiste getalnotatie in inkomsten informatieveld";
@@ -766,6 +817,7 @@ $GLOBALS['strErrorEditingCampaignECPM'] = "onjuiste getalnotatie in ECPM informa
 $GLOBALS['strErrorEditingZone'] = "Fout bij het bijwerken van zone:";
 $GLOBALS['strUnableToChangeZone'] = "Deze wijziging kan niet worden uitgevoerd omdat:";
 $GLOBALS['strDatesConflict'] = "Datums van de campagne die u probeert te koppelen overlappen met de datums van een campagne die reeds gekoppeld is ";
+$GLOBALS['strEmailNoDates'] = "Campagnes die gekoppeld zijn aan email zones moeten een begindatum en een einddatum hebben. {$PRODUCT_NAME} zorgt er voor dat op een bepaalde datum maar 1 actieve banner gekoppeld is aan de email zone. Zorg ervoor dat de campagnes die al gekoppeld zijn aan de zone geen overlappende datums hebben met de campagne die u nu probeert te koppelen.";
 $GLOBALS['strWarningInaccurateStats'] = "Sommige van deze statistieken werden geregistreerd in een niet-UTC tijdzone, en worden mogelijk niet weergegeven in de juiste tijdzone.";
 $GLOBALS['strWarningInaccurateReadMore'] = "Lees hier meer over";
 $GLOBALS['strWarningInaccurateReport'] = "Sommige van deze statistieken in dit rapport werden geregistreerd in een niet-UTC tijdzone, en worden mogelijk niet weergegeven in de juiste tijdzone";
@@ -784,10 +836,15 @@ $GLOBALS['strInvalidWebsiteURL'] = "Ongeldige Website URL";
 // Email
 $GLOBALS['strSirMadam'] = "Meneer/mevrouw";
 $GLOBALS['strMailSubject'] = "Advertentierapport";
+$GLOBALS['strMailHeader'] = "Geachte {contact},";
 $GLOBALS['strMailBannerStats'] = "Bijgevoegd vind u de banner-statistieken van {clientname}:";
 $GLOBALS['strMailBannerActivatedSubject'] = "Campagne geactiveerd";
 $GLOBALS['strMailBannerDeactivatedSubject'] = "Campagne gedeactiveerd";
+$GLOBALS['strMailBannerActivated'] = "Uw hieronder vermelde campagne is geactiveerd omdat
+de campagne activatie datum is bereikt.";
 $GLOBALS['strMailBannerDeactivated'] = "Uw hieronder vermelde campagne is gedeactiveerd omdat";
+$GLOBALS['strMailFooter'] = "Met vriendelijke groet,
+    {adminfullname}";
 $GLOBALS['strClientDeactivated'] = "Deze campagne is momenteel niet actief omdat";
 $GLOBALS['strBeforeActivate'] = "de activeringsdatum nog niet bereikt is";
 $GLOBALS['strAfterExpire'] = "de vervaldatum bereikt is";
@@ -808,6 +865,7 @@ $GLOBALS['strYourCampaign'] = "Uw campagne";
 $GLOBALS['strTheCampiaignBelongingTo'] = "De campagne behorend bij";
 $GLOBALS['strImpendingCampaignExpiryDateBody'] = "{clientname} zoals hieronder getoond zal eindigen op {date}.";
 $GLOBALS['strImpendingCampaignExpiryImpsBody'] = "{clientname} zoals hieronder vermeld heeft minder dan {limit} impressies over.";
+$GLOBALS['strImpendingCampaignExpiryBody'] = "Daarom zal de campagne spoedig automatisch worden uitgeschakeld, en de volgende banners in de campagne worden dan ook uitgeschakeld:";
 
 // Priority
 $GLOBALS['strPriority'] = "Prioriteit";
@@ -987,13 +1045,21 @@ $GLOBALS['strAuditNoData'] = "Geen gebruikersactiviteit is opgenomen tijdens de 
 $GLOBALS['strAuditTrail'] = "Audit logboek";
 $GLOBALS['strAuditTrailSetup'] = "Stel nu de Audit trail in";
 $GLOBALS['strAuditTrailGoTo'] = "Ga naar Audit Trail pagina";
+$GLOBALS['strAuditTrailNotEnabled'] = "<li>Audit Trail stelt u in staat om te zien wie iets heeft gedaan en wanneer. Met andere woorden, het houdt de wijzigingen bij in {$PRODUCT_NAME}</li>
+        <li>U ziet deze melding omdat u de Audit Trail functie niet heeft ingeschakeld</li>
+        <li>Wilt u meer weten? Lees dan de <a href='{$PRODUCT_DOCSURL}/admin/settings/auditTrail' class='site-link' target='help' >Audit Trail documentatie</a></li>";
 
 // Widget - Campaign
 $GLOBALS['strCampaignGoTo'] = "Ga naar pagina campagnes";
 $GLOBALS['strCampaignSetUp'] = "Maak vandaag een campagne aan";
+$GLOBALS['strCampaignNoRecords'] = "<li>Campagnes stellen u in staat om een aantal banners met diverse formaten te groeperen, die een gezamenlijke doelstelling hebben</li>
+        <li>Bespaar tijd door banners te groeperen in een campagne zodat u de uitleveringinstellingen niet meer voor elke banner afzonderlijk hoeft in te stellen</li>
+        <li>Bekijk ook de <a class='site-link' target='help' href='{$PRODUCT_DOCSURL}/user/inventory/advertisersAndCampaigns/campaigns'>Campagne documentatie</a>!</li>";
 $GLOBALS['strCampaignNoRecordsAdmin'] = "<li>Er is geen Campagneactiviteit om weer te geven.</li>";
 
 $GLOBALS['strCampaignNoDataTimeSpan'] = "Geen campagnes zijn begonnen of voltooid tijdens het tijdsvak dat u hebt geselecteerd";
+$GLOBALS['strCampaignAuditNotActivated'] = "<li>Om te zien welke campagnes zijn gestart of afgelopen in de periode die u heeft geselecteerd, moet u de Audit Trail activeren</li>
+        <li>U ziet deze melding omdat u de Audit Trail niet heeft geactiveerd</li>";
 $GLOBALS['strCampaignAuditTrailSetup'] = "Activeer de Audit Trail om campagnes te kunnen bekijken";
 
 $GLOBALS['strUnsavedChanges'] = "U hebt niet-opgeslagen wijzigingen op deze pagina, zorg ervoor dat u klikt op &quot;Wijzigingen opslaan&quot; als u klaar bent";
@@ -1074,6 +1140,8 @@ $GLOBALS['strXSettingsHaveBeenUpdated'] = "<b>%s</b> zijn bijgewerkt";
 $GLOBALS['strTZPreferencesWarning'] = "Echter, de begindatum en einddatum van de campagne zijn niet bijgewerkt, en ook niet de banner uitleveropties die op tijd zijn gebaseerd.<br />U zult deze met de hand moeten aanpassen als u wilt dat ze gebruik maken van de nieuwe tijdzone";
 
 // Report error messages
+$GLOBALS['strReportErrorMissingSheets'] = "Voor dit rapport is geen werkblad geselecteerd";
+$GLOBALS['strReportErrorUnknownCode'] = "Onbekende foutcode #";
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */
