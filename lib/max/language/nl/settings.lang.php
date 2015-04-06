@@ -21,6 +21,7 @@ $GLOBALS['strBtnRecover'] = "Herstellen »";
 $GLOBALS['strBtnAgree'] = "Ik ga akkoord »";
 $GLOBALS['strBtnRetry'] = "Probeer opnieuw";
 $GLOBALS['strWarningRegisterArgcArv'] = "De PHP configuratie variabele register_argc_argv moet worden ingeschakeld om onderhoud vanaf de opdrachtregel uit te kunnen voeren.";
+$GLOBALS['strTablesPrefix'] = "Tabelnaam voorvoegsel";
 $GLOBALS['strTablesType'] = "Tabeltype";
 
 $GLOBALS['strRecoveryRequiredTitle'] = "Bij uw vorige upgrade poging is een fout opgetreden";
@@ -45,6 +46,7 @@ $GLOBALS['strImagesUrlPrefix'] = "URL voor opgeslagen afbeeldingen";
 $GLOBALS['strImagesUrlPrefixSSL'] = "URL voor opgeslagen afbeeldingen (SSL)";
 
 
+$GLOBALS['strUpgrade'] = "Upgrade";
 
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
@@ -138,6 +140,7 @@ $GLOBALS['strDebugPassword'] = "mCal, SQL Server Password";
 $GLOBALS['strProductionSystem'] = "Production System";
 
 // Delivery Settings
+$GLOBALS['strWebPath'] = "{$PRODUCT_NAME} Server toegang paden";
 $GLOBALS['strWebPathSimple'] = "Web path";
 $GLOBALS['strDeliveryPath'] = "Delivery path";
 $GLOBALS['strImagePath'] = "Images path";

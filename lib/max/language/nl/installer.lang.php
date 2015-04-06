@@ -11,6 +11,10 @@
  */
 
 /** status messages * */
+$GLOBALS['strInstallStatusRecovery'] = 'Revive Adserver %s herstellen';
+$GLOBALS['strInstallStatusInstall'] = 'Revive Adserver %s installeren';
+$GLOBALS['strInstallStatusUpgrade'] = 'Upgrade naar Revive Adserver %s';
+$GLOBALS['strInstallStatusUpToDate'] = 'Revive Adserver %s gedetecteerd';
 
 /** welcome step * */
 $GLOBALS['strWelcomeTitle'] = "Welkom bij {$PRODUCT_NAME}";
@@ -57,6 +61,7 @@ $GLOBALS['strDbUpgradeIntro'] = "De volgende database is gedetecteerd voor uw in
 $GLOBALS['strDbProgressMessageInstall'] = 'Database aanmaken...';
 $GLOBALS['strDbProgressMessageUpgrade'] = 'Database bijwerken...';
 $GLOBALS['strDbSeeMoreFields'] = 'Bekijk extra databasevelden...';
+$GLOBALS['strDbTimeZoneWarning'] = "<p>Vanaf deze versie van {$PRODUCT_NAME} worden datums in UTC-tijd in plaats van servertijd opgeslagen.</p>                                                    <p>Als u wilt dat historische statistieken moet worden weergegeven met de juiste tijdzone, upgrade dan uw gegevens handmatig.  Meer informatie <a target='help' href='%s'> hier</a>.                                                       Uw statistieken waarden zal nauwkeurig blijven, zelfs als u uw gegevens ongewijzigd laat.                                                    </p>";
 $GLOBALS['strDbTimeZoneNoWarnings'] = "Toon in de toekomst geen waarschuwingen over tijdzones";
 $GLOBALS['strDBInstallSuccess'] = "Database correct aangemaakt";
 $GLOBALS['strDBUpgradeSuccess'] = "Database met success bijgewerkt";

@@ -74,6 +74,7 @@ $GLOBALS['strWarning'] = "Waarschuwing";
 $GLOBALS['strImgWithAppendWarning'] = "Deze tracker code heeft toegevoegde code, toegevoegde code zal <strong>alleen</strong> werken met JavaScript-tags";
 
 // Local Invocation
+$GLOBALS['strWarningLocalInvocation'] = "<span class='tab-s'> <strong>Waarschuwing:</strong> Local Mode invocation werkt alleen als de site die de code aanroept op dezelfde fysieke computer staat als de adserver</span> <br / > Controleer of de opgegeven MAX_PATH gedefinieerd in de code hieronder verwijst naar de basis directory van uw installatie van Revive Adserver <br / > en dat u een configuratiebestand heeft voor het domein van de site die de advertenties tonen (in MAX_PATH/var)";
 
 $GLOBALS['strIABNoteLocalInvocation'] = "<b>Opmerking:</b> Impressie gegevens gegenereerd op basis van Local Mode Invocation tags zijn niet compatibel met IAB richtlijnen voor metingen van advertentie impressies.";
 $GLOBALS['strIABNoteXMLRPCInvocation'] = "<b>Opmerking:</b> Impressie gegevens gegenereerd met behulp van XML-RPC aanroepen tags zijn niet compatibel met IAB richtlijnen voor metingen van advertentie impressies.";
