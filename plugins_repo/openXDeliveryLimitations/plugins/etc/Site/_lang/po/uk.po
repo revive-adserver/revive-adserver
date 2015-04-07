@@ -20,15 +20,15 @@ msgstr ""
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site//Channel.class.php:62
 msgid "Is all of"
-msgstr ""
+msgstr "Это всё из"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site//Channel.class.php:72
 msgid "Channel"
-msgstr ""
+msgstr "Канал"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site//Referingpage.class.php:59
 msgid "Refering Page"
-msgstr ""
+msgstr "Реферальная страница"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site//Source.class.php:59
 msgid "Source"
@@ -36,13 +36,13 @@ msgstr "Источник"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site//Pageurl.class.php:66
 msgid "Page URL"
-msgstr ""
+msgstr "URL страницы"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site//Variable.class.php:58
 msgid "Variable"
-msgstr ""
+msgstr "Переменная"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site//Variable.class.php:71
 msgid "Site:Variable: Name contains unallowed character(s)"
-msgstr ""
+msgstr "Сайт:Переменная: Имя содержит запрещенные символы"
 

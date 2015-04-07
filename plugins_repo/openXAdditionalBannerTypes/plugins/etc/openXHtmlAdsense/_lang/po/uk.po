@@ -48,37 +48,37 @@ msgstr "Вертикальный текстовый баннер 120х240"
 
 #: plugins_repo/openXAdditionalBannerTypes/extensions/bannerTypeHtml/openXHtmlAdsense//adsense.class.php:88
 msgid "Text Leaderboard 728x90"
-msgstr "Высокий текстовый баннер 728х90"
+msgstr "Широкий текстовый баннер 728х90"
 
 #: plugins_repo/openXAdditionalBannerTypes/extensions/bannerTypeHtml/openXHtmlAdsense//adsense.class.php:89
 msgid "Text Skyscraper 120x600"
-msgstr ""
+msgstr "Высокий текстовый баннер 120х600"
 
 #: plugins_repo/openXAdditionalBannerTypes/extensions/bannerTypeHtml/openXHtmlAdsense//adsense.class.php:90
 msgid "Text Wide Skyscraper 160x600"
-msgstr ""
+msgstr "Высокий и широкий текстовый баннер 160х600"
 
 #: plugins_repo/openXAdditionalBannerTypes/extensions/bannerTypeHtml/openXHtmlAdsense//adsense.class.php:91
 msgid "Text Small Rectangle 180x150"
-msgstr ""
+msgstr "Маленький текстовый прямоугольник 180х150"
 
 #: plugins_repo/openXAdditionalBannerTypes/extensions/bannerTypeHtml/openXHtmlAdsense//adsense.class.php:92
 msgid "Text Medium Rectangle 300x250"
-msgstr ""
+msgstr "Средний текстовый прямоугольник 300х250"
 
 #: plugins_repo/openXAdditionalBannerTypes/extensions/bannerTypeHtml/openXHtmlAdsense//adsense.class.php:93
 msgid "Text Large Rectangle 336x280"
-msgstr ""
+msgstr "Большой текстовый прямоугольник 336х280"
 
 #: plugins_repo/openXAdditionalBannerTypes/extensions/bannerTypeHtml/openXHtmlAdsense//adsense.class.php:94
 msgid "Text Square 250x250"
-msgstr ""
+msgstr "Текстовый квадрат 250х250"
 
 #: plugins_repo/openXAdditionalBannerTypes/extensions/bannerTypeHtml/openXHtmlAdsense//adsense.class.php:95
 msgid "Text Small Square 200x200"
-msgstr ""
+msgstr "Маленький текстовый квадрат 200х200"
 
 #: plugins_repo/openXAdditionalBannerTypes/extensions/bannerTypeHtml/openXHtmlAdsense//adsense.class.php:97
 msgid "Ad Format"
-msgstr ""
+msgstr "Формат объявлений"
 

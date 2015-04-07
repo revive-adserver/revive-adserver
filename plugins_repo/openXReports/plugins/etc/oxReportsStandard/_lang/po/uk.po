@@ -20,18 +20,18 @@ msgstr ""
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//campaignAnalysisReport.class.php:120
 msgid "Campaign Analysis Report"
-msgstr ""
+msgstr "Отчет анализа компании"
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//campaignAnalysisReport.class.php:121
 msgid "This report shows a breakdown of advertising for a particular campaign, by day, banner, and zone."
-msgstr ""
+msgstr "Этот отчет показывает распределение рекламы для определенной компании по дням, баннерам и зонам."
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//campaignAnalysisReport.class.php:123
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//liveCampaignDeliveryReport.class.php:62
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//advertisingAnalysisReport.class.php:96
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//conversionTrackingReport.class.php:143
 msgid "Standard Reports"
-msgstr ""
+msgstr "Стандартные отчеты"
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//campaignAnalysisReport.class.php:159
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//campaignAnalysisReport.class.php:327
@@ -54,10 +54,10 @@ msgstr ""
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//liveCampaignDeliveryReport.class.php:59
 msgid "Campaign Delivery Report"
-msgstr ""
+msgstr "Отчет о доходах компании"
 
 msgid "Campaign delivery"
-msgstr ""
+msgstr "Доходы компании"
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//liveCampaignDeliveryReport.class.php:60
 msgid "This report shows delivery statistics for all campaigns which were live during the specified period, highlighting campaigns which are underperforming."
@@ -89,19 +89,19 @@ msgstr ""
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//liveCampaignDeliveryReport.class.php:185
 msgid "Overall +/-"
-msgstr ""
+msgstr "В целом +/-"
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//liveCampaignDeliveryReport.class.php:187
 msgid "Current +/-"
-msgstr ""
+msgstr "Текущие +/-"
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//liveCampaignDeliveryReport.class.php:485
 msgid "Targeted"
-msgstr ""
+msgstr "Целевые"
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//liveCampaignDeliveryReport.class.php:487
 msgid "Run of Site"
-msgstr ""
+msgstr "Запуск сайта"
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//liveCampaignDeliveryReport.class.php:503
 msgid "Running"
@@ -109,7 +109,7 @@ msgstr "Запущен "
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//liveCampaignDeliveryReport.class.php:505
 msgid "Stopped"
-msgstr ""
+msgstr "Остановлен"
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//liveCampaignDeliveryReport.class.php:522
 msgid "Override"

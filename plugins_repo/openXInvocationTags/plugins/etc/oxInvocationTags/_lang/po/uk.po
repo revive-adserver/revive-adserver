@@ -20,15 +20,15 @@ msgstr ""
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adframe.class.php:53
 msgid "iFrame Tag"
-msgstr ""
+msgstr "Тег iFrame"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adframe.class.php:115
 msgid "\n  * If iFrames are not supported by the viewer's browser, then this\n  * tag only shows image banners. There is no width or height in these\n  * banners, so if you want these tags to allocate space for the ad\n  * before it shows, you will need to add this information to the <img>\n  * tag."
-msgstr ""
+msgstr "\n * Если iFrame не поддерживает браузер пользователя, того этот\n * тэг показывает только баннеры с изображениями. Они не имеют ширины и высоты\n *, так что чтобы эти теги не занимали пространства для рекламы\n * прежде чем она появится, Вам необходимо добавить эту информацию в тег <img>\n *."
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adframe.class.php:204
 msgid "Placement Comment"
-msgstr ""
+msgstr "Размещение комментария"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adjs.class.php:53
 msgid "Javascript Tag"

@@ -42,9 +42,13 @@ $GLOBALS['phpAds_hlp_table_prefix'] = "	Als de database die {$PRODUCT_NAME} gebr
 
 $GLOBALS['phpAds_hlp_table_type'] = "MySQL ondersteunt meerdere tabel typen. Elk type tabel heeft unieke eigenschappen en sommige kunnen {$PRODUCT_NAME} aanzienlijk versnellen. MyISAM is de standaard tabelweergavetype en is beschikbaar in alle installaties van MySQL. Andere tabeltypes zijn mogelijk niet beschikbaar op uw server.";
 
+$GLOBALS['phpAds_hlp_url_prefix'] = "{$PRODUCT_NAME} moet weten waar het zich bevindt op de webserver om juist te kunnen werken. U dient de URL in te vullen van de directory waar {$PRODUCT_NAME} is geïnstalleerd, bijvoorbeeld: <i>http://www.your-url.com/ads</i>.";
 
+$GLOBALS['phpAds_hlp_ssl_url_prefix'] = "{$PRODUCT_NAME} moet weten waar het zich bevindt op de webserver om juist te kunnen werken. Soms is het SSL voorvoegsel anders dan de gewone URL prefix. U dient de URL in te vullen van de directory waar {$PRODUCT_NAME} is geïnstalleerd, bijvoorbeeld: <i>https://www.your-url.com/ads</i>.";
 
+$GLOBALS['phpAds_hlp_my_header'] = $GLOBALS['phpAds_hlp_my_footer'] = "Hier dient u het path naar de header files (bijvoorbeeld: /home/login/www/header.htm) om een header en/of footer toe te voegen aan elke pagina van de beheersinterface. U kunt tekst of HTML code in deze files plaatsen (als u HTML wilt gebruiken, gebruik dan geen tags zoals <body> of <html>).";
 
+$GLOBALS['phpAds_hlp_my_logo'] = "Hier kunt u de naam van een aangepast logo bestand invoeren, dat u wilt vertonen in plaats van het standaard logo. Het logo moet worden geplaatst in de admin/images director voordat u de bestandsnaam hier invoert.";
 
 $GLOBALS['phpAds_hlp_gui_header_foreground_color'] = "U kunt hier een aangepaste kleur instellen die gebruikt zal worden voor tabbladen, de zoekbalk en sommige tekst in vet.";
 
@@ -62,7 +66,9 @@ $GLOBALS['phpAds_hlp_name'] = "Geef de naam die u wilt gebruiken voor deze toepa
 
 $GLOBALS['phpAds_hlp_company_name'] = "Deze naam wordt gebruikt in de e-mail verzonden door {$PRODUCT_NAME}.";
 
+$GLOBALS['phpAds_hlp_override_gd_imageformat'] = "{$PRODUCT_NAME} detecteert gewoonlijk of de GD-bibliotheek is geïnstalleerd en welke afbeeldingsindeling wordt ondersteund door de geïnstalleerde versie van GD. Maar het is mogelijk dat de detectie niet accuraat of onjuist is, sommige versies van PHP staan de detectie van de ondersteunde afbeeldingsinstelingen niet toe. Indien {$PRODUCT_NAME} niet automatisch de juiste afbeelding-instelling detecteert, kunt u de juiste afbeeldingsinstelling kiezen. Mogelijke waarden zijn: geen, png, jpeg, gif.";
 
+$GLOBALS['phpAds_hlp_p3p_policies'] = "Als u de P3P Privacy Policies van {$PRODUCT_NAME} wilt toepassen, dan moet u deze optie inschakelen.";
 
 $GLOBALS['phpAds_hlp_p3p_compact_policy'] = "The compact policy which is sent together with cookies. The default setting
 is: 'CUR ADM OUR NOR STA NID', which will allow Internet Explorer 6 to
@@ -100,10 +106,18 @@ $GLOBALS['phpAds_hlp_block_adclicks'] = "	Als een bezoeker meerdere keren om een
 
 $GLOBALS['phpAds_hlp_log_adconversions'] = "Normaal gesproken worden alle conversies geregistreerd. Als u geen statistieken over conversies wilt verzamelen, dan kunt u dit uitschakelen.";
 
+$GLOBALS['phpAds_hlp_block_adconversions'] = "Als een bezoeker een pagina met een conversiepixel opnieuw laadt, dan zal {$PRODUCT_NAME} de conversie registreren. Deze functie wordt gebruikt om er voor te zorgen dat slechts een conversie wordt geregistreerd voor elke unieke conversie gedurende het aantal secondes dat u instelt. Bijvoorbeeld: als u deze waarde instelt op 300 secondes, dan zal {$PRODUCT_NAME} de conversie alleen registeren als de bezoeker dezelfde pagina met de conversiepixel niet heeft bekeken in de voorgaande 5 minuten. Deze functie werkt alleen als de browser cookies accepteert.";
 
+$GLOBALS['phpAds_hlp_geotracking_stats'] = "If you are using a geotargeting database you can also store the geographical information
+in the database. If you have enabled this option you will be able to see statistics about the
+location of your visitors and how each banner is performing in the different countries.
+This option will only be available to you if you are using verbose statistics.";
 
+$GLOBALS['phpAds_hlp_reverse_lookup'] = "De host name wordt normaal gesproken vastgesteld door de web server, maar in sommige gevallen is deze functie uitgeschakeld. Als u de host name van de bezoeker wilt gebruiken voor delivery limitations en/of als u statistieken wilt bijhouden, en de server geeft deze informatie niet, dan dient u deze optie in te schakelen. Het vaststellen van de host name van de bezoeker kost enige tijd; het zal de uitlevering van banners trager maken.";
 
+$GLOBALS['phpAds_hlp_proxy_lookup'] = "Sommige bezoekers gebruiken een proxy server om verbinding te makne met het internet. In dat geval zal {$PRODUCT_NAME} het IP adres of de host name van de proxy server registreren, in plaats van de bezoeker. Als u deze functie inschakelt, zal {$PRODUCT_NAME} proberen om het IP adres of de host name van de computer van de bezoeker proberen vast te stellen. Als het niet mogelijk is om het exacte adres van de bezoeker vast te stellen, dan zal het adres van de proxy server gebruikt worden. Deze optie staat standaard niet aan, omdat het de uitlevering van banners aanzienlijk zal vertragen.";
 
+$GLOBALS['phpAds_hlp_obfuscate'] = "Niets hier...";
 
 $GLOBALS['phpAds_hlp_auto_clean_tables'] = $GLOBALS['phpAds_hlp_auto_clean_tables_interval'] = "If you enable this feature, the gathered statistics will be automatically deleted after the
 period you specify below this checkbox is passed. For example, if you set this to 5 weeks,
@@ -112,12 +126,28 @@ statistics older than 5 weeks will be automatically deleted.";
 $GLOBALS['phpAds_hlp_auto_clean_userlog'] = $GLOBALS['phpAds_hlp_auto_clean_userlog_interval'] = "This feature will automatically delete entries from the userlog which are older than the
 number of weeks specified below this checkbox.";
 
+$GLOBALS['phpAds_hlp_geotracking_type'] = "Geotargeting stelt {$PRODUCT_NAME} in staat om het IP adres van een bezoeker om te zetten naar geografische
+informatie. Op basis van deze informatie kunt u uitleveringsbeperkingen instellen of u kunt deze
+informatie opslaan om te zien uit welk land de meeste impressies komen. Als u geotargeting wilt
+inschakelen moet u kiezen welk type database u heeft.
+{$PRODUCT_NAME} ondersteunt momenteel <a href='http://hop.clickbank.net/?phpadsnew/ip2country' target='_blank'></a>
+en <a href='http://www.maxmind.com/?rId=phpadsnew' target='_blank'>GeoIP</a> databases.";
 
+$GLOBALS['phpAds_hlp_geotracking_location'] = "Tenzij u de GeoIP Apache module, moet u {$PRODUCT_NAME} de locatie van de geotargeting database vertellen. Het is aan te raden om de database te plaatsen buiten de web servers document root, omdat anders mensen in staat zijn om de database te downloaden.";
 
+$GLOBALS['phpAds_hlp_geotracking_cookie'] = "Het omzetten van het IP adres in geografisch informatie kost tijd. Om te voorkomen dat
+{$PRODUCT_NAME} dit elke keer moet doen als een banner wordt uitgeleverd, kan het
+resultaat worden opgeslagen in een cookie. Als dit cookie aanwezig is, zal {$PRODUCT_NAME}
+deze informatie gebruiken in plaats van het IP adres nogmaals te verwerken.";
 
+$GLOBALS['phpAds_hlp_ignore_hosts'] = "Als u geen impressies, kliks en conversies wilt tellen van bepaalde computers, dan
+kunt u deze toevoegen aan deze lijst. Als u reverse lookup heeft ingeschakeld, dan
+kunt u zowel domain names als IP adressen toevoegen, anders kut u alleen IP
+adressen gebruiken. U kunt ook jokertekens gebruiken (bijvoorbeeld:  '*.altavista.com' or '192.168.*').";
 
 $GLOBALS['phpAds_hlp_begin_of_week'] = "Voor de meeste mensen begint de week op maandag, maar als je elke week op zondag wilt beginnen, dan kan dat.";
 
+$GLOBALS['phpAds_hlp_percentage_decimals'] = "Geeft aan hoeveel decimalen u wilt weergeven op statistieken pagina's.";
 
 $GLOBALS['phpAds_hlp_warn_admin'] = "{$PRODUCT_NAME} kan u e-mail sturen op het moment dat een campagne slechts een beperkt aantal impressies, kliks of conversies over heeft. Dit is standaard ingeschakeld.";
 
@@ -131,10 +161,27 @@ wel goed door qmail begrepen wordt.";
 
 $GLOBALS['phpAds_hlp_warn_limit'] = "De limiet waarbij {$PRODUCT_NAME} begint waarschuwings-emails te verzenden. Dit is standaard bij 100.";
 
+$GLOBALS['phpAds_hlp_acl'] = "Als u geen gebruik maakt van uitleveringsbeperkingen, dan kunt u deze optie uitschakelen,
+dit zal {$PRODUCT_NAME} iets sneller maken.";
 
+$GLOBALS['phpAds_hlp_default_banner_url'] = $GLOBALS['phpAds_hlp_default_banner_target'] = "Als {$PRODUCT_NAME} geen verbinding kan maken met de databaseserver, of geen enkele
+geschikte banner kan vinden, bijvoorbeeld omdat de database gecrashed of gewist is,
+dan wordt er niets vertoond. Sommige gebruikers willen dan een standaard banner
+opgeven, die in dat soort situaties wordt vertoond. De hier opgegeven standaard banner
+wordt niet geteld en wordt ook niet gebruik als er nog actieve banners over zijn in de
+database. Deze functie is standaard uitgeschakeld.";
 
+$GLOBALS['phpAds_hlp_delivery_caching'] = "Om de uitlevering van banners te versnellen, gebruikt {$PRODUCT_NAME} een buffer waarin alle informatie wordt opgeslagen die nodig is voor de uitlevering van een banner aan een bezoeker van uw website. Het uitleveringsbuffer wordt standaard opgeslagen in de database, maar om de snelheid te verhogen is het ook mogelijk om het buffer op te slaan in een bestand of in het geheugen. Geheugenopslag is het snelste. Bestandsopslag is ook erg snel. Het is af te raden om het uitleveringsbuffer uit te schakelen, aangezien dit een ernstige vermindering van de performance zal veroorzaken.";
 
+$GLOBALS['phpAds_hlp_type_web_mode'] = "Als u banners wilt gebruiken die opgeslagen zijn op de webserver, dan dient u deze instelling in te vullen. Als u de banners wilt opslaan in een lokale directory, stel dan deze optie in op <i>local directory</i>. Als u de banner wilt opslaan op een externe FTP server, stel dan deze optie in op <i>External FTP server</i>. Op sommige web servers zou u de FTP optie zelfs ook kunnen gebruiken op de lokale webserver.";
 
+$GLOBALS['phpAds_hlp_type_web_dir'] = "Geef op naar welke directory {$PRODUCT_NAME} de banners die zijn toegevoegd moet
+kopieren. Deze directory moet beschrijfbaar zijn door PHP, dit zou kunnen betekenen
+dat u de permissis van deze directory moet aanpassen (chmod). De directory
+die u hier opgeeft moet zich in de document root van de webserver bevinden, de
+webserver moet in staat zijn om deze bestanden direct uit te leveren. Voeg geen afsluitende
+slash (/) toe. U hoeft deze optie alleen in te stellen als u de opslagmethode heeft ingesteld
+op <i>Local Directory</i>.";
 
 $GLOBALS['phpAds_hlp_type_web_ftp_host'] = "	Indien u gebruik maakt van de <i>Externe FTP server</i> methode moet u het
 	IP adres of de domeinnaam van de FTP server, waar {$PRODUCT_NAME} de banners op moet
@@ -151,8 +198,13 @@ $GLOBALS['phpAds_hlp_type_web_ftp_password'] = "	Indien u gebruik maakt van de <
 	wachtwoord van de FTP server, waar {$PRODUCT_NAME} de banners op moet
 	opslaan, opgeven.";
 
+$GLOBALS['phpAds_hlp_type_web_ftp_passive'] = "Sommige FTP-servers en firewalls vereisen dat transfers de passieve modus (PASV) gebruiken. Als {$PRODUCT_NAME} passieve modus moet gebruiken om te verbinden met uw FTP-server, schakelt u deze optie.";
 
+$GLOBALS['phpAds_hlp_type_web_url'] = "Als u banners op een webserver opslaat, moet {$PRODUCT_NAME} weten welke openbare
+URL overeenkomt met de map die u hebt opgegeven. Voer geen slash (/) in aan het einde.";
 
+$GLOBALS['phpAds_hlp_type_web_ssl_url'] = "Als u banners op een webserver opslaat, moet {$PRODUCT_NAME} weten welke openbare
+URL (SSL) overeenkomt met de map die u hebt opgegeven. Voer geen slash (/) in aan het einde.";
 
 $GLOBALS['phpAds_hlp_type_html_auto'] = "Als deze optie is ingeschakeld, zal {$PRODUCT_NAME} zal automatisch HTML-banners aanpassen zodat kliks worden geteld. Als deze optie is ingeschakeld, is het nog steeds mogelijk om dit uit te schakelen per individuele banner.";
 
@@ -219,4 +271,12 @@ $GLOBALS['phpAds_hlp_gui_show_banner_preview'] = "\\n	Als deze optie aan staat w
 
 $GLOBALS['phpAds_hlp_gui_hide_inactive'] = "\\n	Als deze optie aan staat worden alle niet-actieve banners, campagnes en adverteerders verborgen\\n	op de <i>Adverteerders & campagnes</i> en <i>Campagne overzicht</i> pagina's. Als deze optie\\n	aan staat is het mogelijk om de verborgen items te tonen door te klikken op de <i>Toon alles</i>\\n	knop onderaan de pagina.\\n.";
 
+$GLOBALS['phpAds_hlp_gui_show_matching'] = "Als deze optie is ingeschakeld, dan zal de overeenkomende banner worden vertoond op de <i>Gekoppelde banners</i> pagina,
+als gekozen is voor de <i>Campagne selectie</i>methode. Dit stelt u in staat om precies te zien welke banners worden
+meegenomen voor uitlevering als de campagne gekoppeld wordt. Het is ook mogelijk om naar een voorbeeld van
+de overeenkomstige banners te kijken.";
 
+$GLOBALS['phpAds_hlp_gui_show_parents'] = "Als deze optie is ingeschakeld, dan zal de bovenliggende campange van de banners worden vertoond op de
+<i>Gekoppelde banners</i> pagina. indien de <i>Banner selectie</i> methode is gekozen. Dit stelt u in staat om te zien
+welke banner behoort bij welke campagne, voordat de banner wordt gekoppeld. Dit betent ook dat de banners worden
+gegroepeerd per bovenliggende campagne en niet langer meer alfabetisch worden gesorteerd.";

@@ -20,35 +20,35 @@ msgstr ""
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:53
 msgid "myPlugin"
-msgstr ""
+msgstr "мойПлагин"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:58
 msgid "My New Plugin"
-msgstr ""
+msgstr "Мой новый плагин"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:81
 msgid "New Plugin"
-msgstr ""
+msgstr "Новый плагин"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:83
 msgid "Plugin Name"
-msgstr ""
+msgstr "Имя плагина"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:84
 msgid "Author Email"
-msgstr ""
+msgstr "Почта автора"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:85
 msgid "Author Name"
-msgstr ""
+msgstr "Имя автора"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:86
 msgid "Author URL"
-msgstr ""
+msgstr "Ссылка на автора"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:87
 msgid "Licence Info"
-msgstr ""
+msgstr "Информация о лицензии"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:88
 msgid "Description"
@@ -56,15 +56,15 @@ msgstr "Опис"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:89
 msgid "Major"
-msgstr ""
+msgstr "Важный"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:90
 msgid "Minor"
-msgstr ""
+msgstr "Незначительный"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:91
 msgid "Build"
-msgstr ""
+msgstr "Собрать"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:95
 msgid "Status"
@@ -72,22 +72,22 @@ msgstr "Статус"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:97
 msgid "Version"
-msgstr ""
+msgstr "Версия"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:104
 msgid "Group Name"
-msgstr ""
+msgstr "Имя группы"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:105
 msgid "Has Schema"
-msgstr ""
+msgstr "Имеет схему"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:106
 #, php-format
 msgid "Extends %s"
-msgstr ""
+msgstr "Расширяет %s"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:109
 msgid "Submit"
-msgstr ""
+msgstr "Разместить"
 
