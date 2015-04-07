@@ -63,6 +63,9 @@ What's New in Revive Adserver 3.2.0-beta
  * Fixed issue preventing contract campaigns to reach their daily target when
    TZ had a negative offset.
 
+ * Fixed a problem with "Export Statistics to Excel" not working on some
+   platforms.
+
  Non-Backwards Compatible Changes
  --------------------------------
 
