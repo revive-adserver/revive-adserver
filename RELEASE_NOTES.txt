@@ -17,7 +17,7 @@ Revive Adserver. Please read these notes before reporting any bugs.
 What's New in Revive Adserver 3.2.0-beta
 ----------------------------------------
 
- * Release date: TBA
+ * Release date: 2015-04-08
 
  Security Updates
  ----------------
