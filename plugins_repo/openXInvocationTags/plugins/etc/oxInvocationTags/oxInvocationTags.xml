@@ -96,6 +96,7 @@
             <setting key="isAllowedAdlayer"         type="checkbox" label="Allow Interstitial or Floating DHTML Invocation Tag" required="0" size="1" visible="1">1</setting>
             <setting key="isAllowedAdview"          type="checkbox" label="Allow Image Invocation Tag" required="0" size="1" visible="1">0</setting>
             <setting key="isAllowedAdviewnocookies" type="checkbox" label="Allow No Cookie Image Invocation Tag" required="0" size="1" visible="1">1</setting>
+            <setting key="isAllowedAsync"           type="checkbox" label="Allow Asynchronous JS Invocation Tag" required="0" size="1" visible="1">1</setting>
             <setting key="isAllowedLocal"           type="checkbox" label="Allow Local Mode Invocation Tag" required="0" size="1" visible="1">1</setting>
             <setting key="isAllowedPopup"           type="checkbox" label="Allow Popup Invocation Tag" required="0" size="1" visible="1">0</setting>
             <setting key="isAllowedXmlrpc"          type="checkbox" label="Allow XML-RPC Invocation Tag" required="0" size="1" visible="1">0</setting>

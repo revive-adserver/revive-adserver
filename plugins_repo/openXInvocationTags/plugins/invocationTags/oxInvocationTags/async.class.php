@@ -56,7 +56,6 @@ class Plugins_InvocationTags_OxInvocationTags_async extends Plugins_InvocationTa
      */
     function isAllowed($extra = null)
     {
-        return true;
         $isAllowed = parent::isAllowed($extra);
         return $isAllowed;
     }
@@ -64,7 +63,7 @@ class Plugins_InvocationTags_OxInvocationTags_async extends Plugins_InvocationTa
     function getOrder()
     {
         parent::getOrder();
-        return 1;
+        return 0.5;
     }
 
     /**
