@@ -154,6 +154,8 @@ cgiForceStatusHeader                = false ; Set this to true if using a CGI sa
 clicktracking                       = "No"
 ecpmSelectionRate                   = 0.9
 enableControlOnPureCPM              = true
+assetClientCacheExpire              = 3600  ; Used to create the browser caching directive
+                                            ; of semi-static delivery files, e.g. asyncjs.php
 
 [defaultBanner]
 imageUrl                            =       ; If banner was deleted and ai.php script

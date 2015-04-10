@@ -16,7 +16,7 @@
                             win.removeEventListener("load", callback, false);
 
                             rv.done= true;
-                                rv.apply(rv.detect());
+                            rv.apply(rv.detect());
                         }
                     } catch (e) {
                         console.log(e);
