@@ -39,6 +39,15 @@ class Plugins_DeliveryLimitations_ArrayData extends Plugins_DeliveryLimitations
             '!~' => MAX_Plugin_Translation::translate('Is not any of', $this->extension, $this->group));
     }
 
+    /**
+     * This is a placeholder for the old PHP4 constructor.
+     *
+     * DO NOT DELETE OTHERWISE THE PLUGIN UPGRADE WILL FAIL!
+     */
+    final function Plugins_DeliveryLimitations_ArrayData()
+    {
+    }
+
     function init($data)
     {
         parent::init($data);

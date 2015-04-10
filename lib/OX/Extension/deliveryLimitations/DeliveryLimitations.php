@@ -58,6 +58,15 @@ class Plugins_DeliveryLimitations extends OX_Component
     }
 
     /**
+     * This is a placeholder for the old PHP4 constructor.
+     *
+     * DO NOT DELETE OTHERWISE THE PLUGIN UPGRADE WILL FAIL!
+     */
+    final function Plugins_DeliveryLimitations()
+    {
+    }
+
+    /**
      * Initialise this plugin
      */
     function init($data)
