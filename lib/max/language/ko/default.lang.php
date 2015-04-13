@@ -16,6 +16,8 @@ $GLOBALS['phpAds_DecimalPoint'] = ",";
 $GLOBALS['phpAds_ThousandsSeperator'] = ".";
 
 // Date & time configuration
+$GLOBALS['minute_format'] = "%H:% M";
+$GLOBALS['day_format'] = "%m-%d";
 
 // Formats used by PEAR Spreadsheet_Excel_Writer packate
 
@@ -23,20 +25,27 @@ $GLOBALS['phpAds_ThousandsSeperator'] = ".";
 /* Translations                                          */
 /* ------------------------------------------------------- */
 
+$GLOBALS['strHome'] = "홈";
 $GLOBALS['strHelp'] = "�?�움�?";
+$GLOBALS['strStartOver'] = "재시작";
 $GLOBALS['strShortcuts'] = "바로가기";
+$GLOBALS['strActions'] = "작업";
 $GLOBALS['strAdminstration'] = "목�?";
 $GLOBALS['strMaintenance'] = "유지보수";
 $GLOBALS['strProbability'] = "확률";
 $GLOBALS['strInvocationcode'] = "호출코드";
 $GLOBALS['strBasicInformation'] = "기본 정보";
+$GLOBALS['strAppendTrackerCode'] = "추적 코드 추가";
 $GLOBALS['strOverview'] = "목�?보기";
 $GLOBALS['strSearch'] = "검색(<u>S</u>)";
 $GLOBALS['strDetails'] = "�?세히";
+$GLOBALS['strUpdateSettings'] = "업데이트 설정";
 $GLOBALS['strCheckForUpdates'] = "업�?��?�트 검색";
+$GLOBALS['strWhenCheckingForUpdates'] = "업데이트를 확인할 때";
 $GLOBALS['strCompact'] = "간단히";
 $GLOBALS['strUser'] = "사용�?";
 $GLOBALS['strDuplicate'] = "복제";
+$GLOBALS['strCopyOf'] = "복사:";
 $GLOBALS['strMoveTo'] = "�?��?�하기";
 $GLOBALS['strDelete'] = "삭제";
 $GLOBALS['strActivate'] = "활성화";
@@ -47,6 +56,7 @@ $GLOBALS['strUp'] = "위로";
 $GLOBALS['strDown'] = "아래로";
 $GLOBALS['strSave'] = "저장";
 $GLOBALS['strCancel'] = "취소";
+$GLOBALS['strBack'] = "뒤로";
 $GLOBALS['strPrevious'] = "�?�전";
 $GLOBALS['strNext'] = "다�?�";
 $GLOBALS['strYes'] = "예";
@@ -56,27 +66,54 @@ $GLOBALS['strCustom'] = "사용�? 지정";
 $GLOBALS['strDefault'] = "기본설정";
 $GLOBALS['strUnlimited'] = "제한없�?�";
 $GLOBALS['strUntitled'] = "제목없�?�";
+$GLOBALS['strAll'] = "전체";
 $GLOBALS['strAverage'] = "�?�균";
 $GLOBALS['strOverall'] = "전체";
 $GLOBALS['strTotal'] = "합계";
+$GLOBALS['strFrom'] = "드림";
+$GLOBALS['strAdd'] = "추가 ";
 $GLOBALS['strDaysLeft'] = "남�?� 기간";
 $GLOBALS['strCheckAllNone'] = "모�? 선�?/ 해제";
+$GLOBALS['strKiloByte'] = "KB";
 $GLOBALS['strExpandAll'] = "모�? 보기(<u>E</u>)";
 $GLOBALS['strCollapseAll'] = "모�? 숨기기(<u>C</u>)";
 $GLOBALS['strShowAll'] = "모�? 보기";
 $GLOBALS['strNoAdminInterface'] = "서비스를 �?�용할 수 없습니다.";
+$GLOBALS['strFieldStartDateBeforeEnd'] = "시작일은 종료일보다 이전이어야 합니다.";
 $GLOBALS['strFieldContainsErrors'] = "다�?� 필드�? 오류가 있습니다.:";
 $GLOBALS['strFieldFixBeforeContinue1'] = "오류를 수정한 후�?";
 $GLOBALS['strFieldFixBeforeContinue2'] = "다시 시작해야 합니다..";
 $GLOBALS['strMiscellaneous'] = "기타";
 $GLOBALS['strCollectedAllStats'] = "�?��?� 통계";
+$GLOBALS['strCollectedToday'] = "오늘";
+$GLOBALS['strCollectedYesterday'] = "어제";
+$GLOBALS['strCollectedThisWeek'] = "이번 주";
+$GLOBALS['strCollectedLastWeek'] = "지난 주";
+$GLOBALS['strCollectedThisMonth'] = "이번 달";
+$GLOBALS['strCollectedLastMonth'] = "지난 달";
+$GLOBALS['strCollectedLast7Days'] = "최근 7일";
+$GLOBALS['strCollectedSpecificDates'] = "특정 날짜";
+$GLOBALS['strValue'] = "값";
+$GLOBALS['strWarning'] = "경고";
+$GLOBALS['strNotice'] = "공지";
 
 // Dashboard
+$GLOBALS['strDashboardCantBeDisplayed'] = "대시보드를 표시할 수 없습니다";
+$GLOBALS['strNoCheckForUpdates'] = "업데이트 확인 설정이 체크되어 있지 않다면<br />대시보드를 표시할 수 없습니다.";
+$GLOBALS['strEnableCheckForUpdates'] = "<a href='account-settings-update.php' target='_top'>업데이트 확인</a>설정을 <a href='account-settings-update.php' target='_top'>업데이트 설정</a>화면에서<br/>활성화해 주세요.";
 // Dashboard Errors
+$GLOBALS['strDashboardErrorCode'] = "코드";
+$GLOBALS['strDashboardSystemMessage'] = "시스템 메시지";
+$GLOBALS['strDashboardErrorHelp'] = "이 오류가 반복해서 발생하는 경우 <a href='http://forum.revive-adserver.com/'> forum.revive-adserver.com</a>에 자세한 오류 사항을 게시해 주세요.";
 
 // Priority
 $GLOBALS['strPriority'] = "우선순위";
+$GLOBALS['strPriorityLevel'] = "우선 순위 수준";
+$GLOBALS['strOverrideAds'] = "캠페인 광고 재정비";
+$GLOBALS['strHighAds'] = "캠페인 광고 규정";
+$GLOBALS['strLowAds'] = "남은 캠페인 광고";
 $GLOBALS['strNoLimitations'] = "제한 없�?�";
+$GLOBALS['strCapping'] = "상한";
 
 // Properties
 $GLOBALS['strName'] = "�?�름";
@@ -86,8 +123,21 @@ $GLOBALS['strHeight'] = "높�?�";
 $GLOBALS['strTarget'] = "대�? 프레임";
 $GLOBALS['strLanguage'] = "언어";
 $GLOBALS['strDescription'] = "설명";
+$GLOBALS['strVariables'] = "변수";
+$GLOBALS['strID'] = "ID";
+$GLOBALS['strComments'] = "댓글";
 
 // User access
+$GLOBALS['strWorkingAs'] = "다음 권한으로 관리중입니다 :";
+$GLOBALS['strWorkingAs_Key'] = "다음 권한으로 관리중 :";
+$GLOBALS['strWorkingAs'] = "다음 권한으로 관리중입니다 :";
+$GLOBALS['strSwitchTo'] = "선택하세요";
+$GLOBALS['strNoAccountWithXInNameFound'] = "이름이 \"%s\"인 계정이 없습니다.";
+$GLOBALS['strRecentlyUsed'] = "최근 사용";
+$GLOBALS['strLinkUser'] = "사용자 추가";
+$GLOBALS['strLinkUser_Key'] = "사용자 추가";
+$GLOBALS['strUsernameToLink'] = "추가할 사용자의 계정 아이디";
+$GLOBALS['strNewUserWillBeCreated'] = "새로운 사용자가 생성됩니다";
 $GLOBALS['strLinkUserHelpUser'] = "사용�?ID";
 
 // Login & Permissions
@@ -115,6 +165,7 @@ $GLOBALS['strBanners'] = "배너";
 $GLOBALS['strCampaigns'] = "캠페�?�";
 $GLOBALS['strCampaignName'] = "캠페�?� 기�?";
 $GLOBALS['strCountry'] = "국가";
+$GLOBALS['strStatsVariables'] = "변수";
 
 // Finance
 $GLOBALS['strFinanceCTR'] = "�?�릭율";
@@ -413,6 +464,7 @@ $GLOBALS['strPreferences'] = "설정";
 // Long names
 
 // Short names
+$GLOBALS['strID_short'] = "ID";
 $GLOBALS['strClicks_short'] = "AdClicks";
 $GLOBALS['strCTR_short'] = "�?�릭율";
 
