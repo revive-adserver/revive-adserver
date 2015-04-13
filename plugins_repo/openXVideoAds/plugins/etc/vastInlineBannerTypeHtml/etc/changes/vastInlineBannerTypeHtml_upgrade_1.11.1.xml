@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<upgrade>
+    <name>vastInlineBannerTypeHtml</name>
+    <type>plugin</type>
+    <creationDate>2015-04-13</creationDate>
+    <author>Matteo Beccati</author>
+    <authorEmail>revive@revive-adserver.com</authorEmail>
+    <authorUrl>http://www.revive-adserver.com</authorUrl>
+    <license>LICENSE.txt</license>
+    <description>Add SQL function</description>
+    <versionFrom></versionFrom>
+    <versionTo>1.11.1</versionTo>
+    <oxversion>3.2.0-beta-rc3</oxversion>
+
+    <!-- No database package(s) -->
+
+    <postscript>postscript_videoads_1.11.1.php</postscript>
+
+</upgrade>

@@ -65,6 +65,9 @@ What's New in Revive Adserver 3.2.0-beta
 
  * Fixed a problem with "Export Statistics to Excel" not working on some
    platforms.
+ 
+ * VideoAds VAST events were not properly logged on Postgres, as the required
+   pl/pgsql function wasn't created during install.
 
  Non-Backwards Compatible Changes
  --------------------------------
