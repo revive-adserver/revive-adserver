@@ -22,6 +22,7 @@ $GLOBALS['strAdvertiser'] = "광고주";
 $GLOBALS['strPublisher'] = "광고게시자";
 $GLOBALS['strCampaign'] = "캠페�?�";
 $GLOBALS['strZone'] = "�?역";
+$GLOBALS['strValue'] = "값";
 
 $GLOBALS['strUserlog'] = array();
 $GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "데이터베이스 자동 정리";

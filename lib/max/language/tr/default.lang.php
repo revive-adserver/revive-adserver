@@ -45,6 +45,7 @@ $GLOBALS['strCheckForUpdates'] = "Güncellemeleri Kontrol Et";
 $GLOBALS['strCompact'] = "Yoğunlaştırılmış";
 $GLOBALS['strUser'] = "Kullanıcı";
 $GLOBALS['strDuplicate'] = "Çoğalt";
+$GLOBALS['strCopyOf'] = "Kopyası";
 $GLOBALS['strMoveTo'] = "Taşı";
 $GLOBALS['strDelete'] = "Sil";
 $GLOBALS['strActivate'] = "Etkinleştir";

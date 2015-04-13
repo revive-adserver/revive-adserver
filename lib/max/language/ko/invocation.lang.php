@@ -52,6 +52,7 @@ $GLOBALS['strXmlRpcLanguage'] = "사용 언어";
 // Support for cachebusting code
 
 // IMG invocation selected for tracker with appended code
+$GLOBALS['strWarning'] = "경고";
 
 // Local Invocation
 

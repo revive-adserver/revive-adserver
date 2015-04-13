@@ -37,6 +37,7 @@ $GLOBALS['strEditConfigPossible'] = "It is possible to edit all settings because
     "If you want to secure your system, you need to lock the configuration file for this installation.";
 
 // Configuration Settings
+$GLOBALS['strConfigurationSettings'] = "구성 설정";
 
 // Administrator Settings
 $GLOBALS['strAdminUsername'] = "관리�? ID";
