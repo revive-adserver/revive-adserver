@@ -538,8 +538,6 @@ $GLOBALS['strConvertSWF'] = "<br />The Flash file you just uploaded contains har
 $GLOBALS['strCompressSWF'] = "Compress SWF file for faster downloading (Flash 6 player required)";
 $GLOBALS['strOverwriteSource'] = "Overwrite source parameter";
 
-// Banner (network)
-// Banner (AdSense)
 // Display limitations
 $GLOBALS['strModifyBannerAcl'] = "Delivery Options";
 $GLOBALS['strACL'] = "Delivery";
@@ -702,6 +700,16 @@ $GLOBALS['strSelectAd'] = "Select Banner";
 $GLOBALS['strSelectPublisher'] = "Select Website";
 $GLOBALS['strSelectZone'] = "Select Zone";
 $GLOBALS['strConnectionType'] = "Type";
+$GLOBALS['strStatusPending']            = "Pending";
+$GLOBALS['strStatusApproved']           = "Approved";
+$GLOBALS['strStatusDisapproved']        = "Disapproved";
+$GLOBALS['strStatusDuplicate']          = "Duplicate";
+$GLOBALS['strStatusOnHold']             = "On Hold";
+$GLOBALS['strStatusIgnore']             = "Ignore";
+$GLOBALS['strConnectionType']           = "Type";
+$GLOBALS['strConnTypeSale']             = "Sale";
+$GLOBALS['strConnTypeLead']             = "Lead";
+$GLOBALS['strConnTypeSignUp']           = "Signup";
 $GLOBALS['strShortcutEditStatuses'] = "Edit statuses";
 $GLOBALS['strShortcutShowStatuses'] = "Show statuses";
 
