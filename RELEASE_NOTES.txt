@@ -69,6 +69,9 @@ What's New in Revive Adserver 3.2.0-beta
  * VideoAds VAST events were not properly logged on Postgres, as the required
    pl/pgsql function wasn't created during install.
 
+ * Fixed potential timeouts or memory limit issues when displaying the audit
+   log index.
+
  Non-Backwards Compatible Changes
  --------------------------------
 

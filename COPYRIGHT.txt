@@ -15,6 +15,7 @@ contributions to the code:
  - Stelios Skiathitis
  - Sunci Syz
  - Heiko Weber
+ - Karen Mikaela Saavedra Chavez
 
 Please note: The Revive Adserver team does not have time to track every single
 pull request that is merged into the project. If you would like your name
