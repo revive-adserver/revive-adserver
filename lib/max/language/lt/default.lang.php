@@ -338,8 +338,6 @@ $GLOBALS['strHardcodedLinks'] = "Sunkiai užkoduoti saitai";
 $GLOBALS['strCompressSWF'] = "Suspausti SWF failą, tam kad būtų pagreitintas atsiuntimas (Flash 6 player reikalaujamas)";
 $GLOBALS['strOverwriteSource'] = "Perrašyti šaltinio parametrus";
 
-// Banner (network)
-// Banner (AdSense)
 // Display limitations
 $GLOBALS['strACL'] = "Atsiuntimas";
 $GLOBALS['strNoLimitations'] = "Nėra draudimų";
@@ -457,6 +455,9 @@ $GLOBALS['strSelectAd'] = "Pasirinkite banerį";
 $GLOBALS['strSelectPublisher'] = "Pasirinkite internetinį puslapį";
 $GLOBALS['strSelectZone'] = "Pasirinkite zoną";
 $GLOBALS['strConnectionType'] = "Tipas";
+$GLOBALS['strStatusPending']            = "Laukiantis";
+$GLOBALS['strStatusDuplicate']          = "Kopijuoti";
+$GLOBALS['strConnectionType']           = "Tipas";
 $GLOBALS['strShortcutEditStatuses'] = "Redaguoti statusus";
 $GLOBALS['strShortcutShowStatuses'] = "Rodyti statusus";
 

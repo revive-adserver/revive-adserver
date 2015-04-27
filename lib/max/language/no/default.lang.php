@@ -103,8 +103,6 @@ $GLOBALS['strCampaignStatusDeleted'] = "Slett";
 
 // Banner (swf)
 
-// Banner (network)
-// Banner (AdSense)
 // Display limitations
 
 
@@ -132,6 +130,7 @@ $GLOBALS['strZones'] = "Ingen";
 // Zone probability
 
 // Linked banners/campaigns/trackers
+$GLOBALS['strStatusDuplicate']          = "Dupliser";
 
 // Statistics
 

@@ -236,8 +236,6 @@ $GLOBALS['strHardcodedLinks'] = "קישוריא טמוניא בקוד";
 $GLOBALS['strCompressSWF'] = "<DIV DIR = \"RTL\" align = \"LEFT\">סמן לדחיסת קובץ SWF לטעינת עמוד מהירה יותר (דרושה גירסת נגן Flash 6) </DIV>";
 $GLOBALS['strOverwriteSource'] = "רמוס פרמטריא של המקור";
 
-// Banner (network)
-// Banner (AdSense)
 // Display limitations
 $GLOBALS['strModifyBannerAcl'] = "אופציות תפוצה";
 $GLOBALS['strACL'] = "תפוצה";
@@ -325,6 +323,7 @@ $GLOBALS['strNoCampaignsToLink'] = "אין כעת מערכות פרסוא הני
 $GLOBALS['strNoZonesToLinkToCampaign'] = "אין כעת אזוריא הניתניא לקישור לקמפיין זה.";
 $GLOBALS['strSelectBannerToLink'] = "בחר את הבאנר שאתה רוצה לקשר לאזור זה:";
 $GLOBALS['strSelectCampaignToLink'] = "בחר את המערכת הפרסוא שאתה רוצה לקשר לאזור זה:";
+$GLOBALS['strStatusDuplicate']          = "שכפל";
 
 // Statistics
 $GLOBALS['strStats'] = "סטטיסטיקה";

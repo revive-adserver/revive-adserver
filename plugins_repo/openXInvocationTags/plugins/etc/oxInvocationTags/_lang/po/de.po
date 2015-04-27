@@ -32,7 +32,7 @@ msgstr ""
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adjs.class.php:53
 msgid "Javascript Tag"
-msgstr ""
+msgstr "JavaScript-Tag"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adjs.class.php:116
 #, php-format

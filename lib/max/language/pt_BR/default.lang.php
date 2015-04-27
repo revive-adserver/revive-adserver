@@ -33,6 +33,7 @@ $GLOBALS['strHelp'] = "Ajuda";
 $GLOBALS['strStartOver'] = "Re-iniciar";
 $GLOBALS['strShortcuts'] = "Atalhos";
 $GLOBALS['strActions'] = "Ações";
+$GLOBALS['strAndXMore'] = "e mais %s";
 $GLOBALS['strAdminstration'] = "Inventário";
 $GLOBALS['strMaintenance'] = "Manutenção";
 $GLOBALS['strProbability'] = "Probabilidade";
@@ -44,9 +45,11 @@ $GLOBALS['strSearch'] = "Bu<u>s</u>ca";
 $GLOBALS['strDetails'] = "Detalhes";
 $GLOBALS['strUpdateSettings'] = "Configurações de Atualização";
 $GLOBALS['strCheckForUpdates'] = "Procurar atualizações";
+$GLOBALS['strWhenCheckingForUpdates'] = "Quando há verificação de atualizações";
 $GLOBALS['strCompact'] = "Compactar";
 $GLOBALS['strUser'] = "Usuário";
 $GLOBALS['strDuplicate'] = "Duplicar";
+$GLOBALS['strCopyOf'] = "Cópia de";
 $GLOBALS['strMoveTo'] = "Mover para";
 $GLOBALS['strDelete'] = "Remover";
 $GLOBALS['strActivate'] = "Ativar";
@@ -67,14 +70,17 @@ $GLOBALS['strCustom'] = "Personalizado";
 $GLOBALS['strDefault'] = "Padrão";
 $GLOBALS['strUnlimited'] = "Ilimitado";
 $GLOBALS['strUntitled'] = "Sem título";
+$GLOBALS['strAll'] = "todos";
 $GLOBALS['strAverage'] = "Média";
 $GLOBALS['strOverall'] = "Geral";
+$GLOBALS['strTotal'] = "Total";
 $GLOBALS['strFrom'] = "De";
 $GLOBALS['strTo'] = "para";
 $GLOBALS['strAdd'] = "Adicionar";
 $GLOBALS['strLinkedTo'] = "vinculado com";
 $GLOBALS['strDaysLeft'] = "Dias restantes";
 $GLOBALS['strCheckAllNone'] = "Selecionar todos/nenhum";
+$GLOBALS['strKiloByte'] = "KB";
 $GLOBALS['strExpandAll'] = "<u>E</u>xpandir todos";
 $GLOBALS['strCollapseAll'] = "Fe<u>c</u>har todos";
 $GLOBALS['strShowAll'] = "Mostrar todos";
@@ -100,6 +106,7 @@ $GLOBALS['strNotice'] = "Aviso";
 // Dashboard
 $GLOBALS['strDashboardCantBeDisplayed'] = "O painel de controle não pode ser exibido";
 $GLOBALS['strNoCheckForUpdates'] = "O painel de controle não pode ser exibido  a menos que a <br /> configuração  de verificação de atualizações esteja habilitada.";
+$GLOBALS['strEnableCheckForUpdates'] = "Por favor, ative a configuração <a href='account-settings-update.php' target='_top'> verificar se há atualizações</a> na página <br/> <a href='account-settings-update.php' target='_top'>  Configuração de atualizações</a>.";
 // Dashboard Errors
 $GLOBALS['strDashboardErrorCode'] = "código";
 $GLOBALS['strDashboardSystemMessage'] = "Mensagem do Sistema";
@@ -108,7 +115,9 @@ $GLOBALS['strDashboardErrorHelp'] = "Caso este erro ocorra novamente, po favor d
 // Priority
 $GLOBALS['strPriority'] = "Prioridade";
 $GLOBALS['strPriorityLevel'] = "Nível de prioridade";
+$GLOBALS['strOverrideAds'] = "Anúncios de Campanhas de Sobreposição";
 $GLOBALS['strHighAds'] = "Anúncios com Alta prioridade";
+$GLOBALS['strECPMAds'] = "eCPM dos Anúncios da Campanha";
 $GLOBALS['strLowAds'] = "Anúncios com Baixa prioridade";
 $GLOBALS['strLimitations'] = "Limites";
 $GLOBALS['strNoLimitations'] = "Sem limites";
@@ -123,12 +132,14 @@ $GLOBALS['strTarget'] = "Alvo (target)";
 $GLOBALS['strLanguage'] = "Idioma";
 $GLOBALS['strDescription'] = "Descrição";
 $GLOBALS['strVariables'] = "Variáveis";
+$GLOBALS['strID'] = "ID";
 $GLOBALS['strComments'] = "Comentários";
 
 // User access
 $GLOBALS['strWorkingAs'] = "Trabalhando como";
 $GLOBALS['strWorkingAs'] = "Trabalhando como";
 $GLOBALS['strSwitchTo'] = "Alternar para";
+$GLOBALS['strUseSearchBoxToFindMoreAccounts'] = "Use caixa de seleção para encontrar mais contas";
 $GLOBALS['strWorkingFor'] = "%s para ....";
 $GLOBALS['strNoAccountWithXInNameFound'] = "Nenhuma conta econtrada com \"%s\" no nome";
 $GLOBALS['strRecentlyUsed'] = "Usado recentemente";
@@ -182,6 +193,7 @@ $GLOBALS['strRequests'] = "Requisições";
 $GLOBALS['strImpressions'] = "Impressões";
 $GLOBALS['strClicks'] = "Cliques";
 $GLOBALS['strConversions'] = "Conversões";
+$GLOBALS['strCTRShort'] = "CTR";
 $GLOBALS['strCTR'] = "CTR";
 $GLOBALS['strTotalClicks'] = "Total de cliques";
 $GLOBALS['strTotalConversions'] = "Total de conversões";
@@ -190,6 +202,7 @@ $GLOBALS['strTrackerID'] = "ID do rastreador";
 $GLOBALS['strTrackerName'] = "Nome do rastreador";
 $GLOBALS['strTrackerImageTag'] = "Tag de imagem";
 $GLOBALS['strTrackerJsTag'] = "Tag de javascript";
+$GLOBALS['strBanners'] = "Anúncios";
 $GLOBALS['strCampaigns'] = "Campanhas";
 $GLOBALS['strCampaignID'] = "ID da campanha";
 $GLOBALS['strCampaignName'] = "Nome da campanha";
@@ -200,7 +213,10 @@ $GLOBALS['strStatsVariables'] = "Variáveis";
 
 // Finance
 $GLOBALS['strFinanceCPM'] = "CPM ";
+$GLOBALS['strFinanceCPC'] = "CPC";
+$GLOBALS['strFinanceCPA'] = "CPA";
 $GLOBALS['strFinanceMT'] = "Locação mensal";
+$GLOBALS['strFinanceCTR'] = "CTR";
 
 // Time and date related
 $GLOBALS['strDate'] = "Data";
@@ -214,8 +230,22 @@ $GLOBALS['strDayOfWeek'] = "Dia da semana";
 
 
 $GLOBALS['strDayFullNames'] = array();
+$GLOBALS['strDayFullNames'][0] = 'Domingo';
+$GLOBALS['strDayFullNames'][1] = 'Segunda';
+$GLOBALS['strDayFullNames'][2] = 'Terça';
+$GLOBALS['strDayFullNames'][3] = 'Quarta';
+$GLOBALS['strDayFullNames'][4] = 'Quinta';
+$GLOBALS['strDayFullNames'][5] = 'Sexta';
+$GLOBALS['strDayFullNames'][6] = 'Sábado';
 
 $GLOBALS['strDayShortCuts'] = array();
+$GLOBALS['strDayShortCuts'][0] = 'Dom';
+$GLOBALS['strDayShortCuts'][1] = 'Seg';
+$GLOBALS['strDayShortCuts'][2] = 'Ter';
+$GLOBALS['strDayShortCuts'][3] = 'Qua';
+$GLOBALS['strDayShortCuts'][4] = 'Qui';
+$GLOBALS['strDayShortCuts'][5] = 'Sex';
+$GLOBALS['strDayShortCuts'][6] = 'Sáb';
 
 $GLOBALS['strHour'] = "Hora";
 $GLOBALS['strSeconds'] = "segundos";
@@ -256,6 +286,7 @@ $GLOBALS['strCampaign'] = "Campanha";
 $GLOBALS['strCampaigns'] = "Campanhas";
 $GLOBALS['strAddCampaign'] = "Adicionar uma nova campanha";
 $GLOBALS['strAddCampaign_Key'] = "Adicionar <u>n</u>ova campanha";
+$GLOBALS['strCampaignForAdvertiser'] = "Campanha para anunciante";
 $GLOBALS['strLinkedCampaigns'] = "Campanhas vinculadas";
 $GLOBALS['strCampaignProperties'] = "Dados da campanha";
 $GLOBALS['strCampaignOverview'] = "Visão geral da campanha";
@@ -314,12 +345,15 @@ $GLOBALS['strCampaignType'] = "Nome da campanha";
 $GLOBALS['strType'] = "Tipo";
 $GLOBALS['strContract'] = "Contato";
 $GLOBALS['strStandardContract'] = "Contato";
+$GLOBALS['strBackToCampaigns'] = "Voltar às campanhas";
+$GLOBALS['strCampaignBanners'] = "Banners da campanha";
 
 // Tracker
 $GLOBALS['strTracker'] = "Rastreador";
 $GLOBALS['strTrackers'] = "Rastreadores";
 $GLOBALS['strTrackerPreferences'] = "Preferências do Rastreador";
 $GLOBALS['strAddTracker'] = "Adicionar no rastreador";
+$GLOBALS['strTrackerForAdvertiser'] = "Campanha para anunciante";
 $GLOBALS['strNoTrackers'] = "Nenhum rastreador definido";
 $GLOBALS['strConfirmDeleteTrackers'] = "Deseja realmente remover este rastreador?";
 $GLOBALS['strConfirmDeleteTracker'] = "Deseja realmente remover este rastreador?";
@@ -333,8 +367,12 @@ $GLOBALS['strClick'] = "Clique";
 $GLOBALS['strView'] = "Visualizar";
 $GLOBALS['strConversionType'] = "Tipo de conversão";
 $GLOBALS['strLinkCampaignsByDefault'] = "vincular campanhas novas por padrão";
+$GLOBALS['strBackToTrackers'] = "Voltar para rastreadores";
+$GLOBALS['strIPAddress'] = "Endereço IP";
 
 // Banners (General)
+$GLOBALS['strBanner'] = "Anúncio";
+$GLOBALS['strBanners'] = "Anúncios";
 $GLOBALS['strAddBanner'] = "Adicionar novo banner";
 $GLOBALS['strAddBanner_Key'] = "Adicionar <u>n</u>ovo banner";
 $GLOBALS['strBannerToCampaign'] = "Sua campanha";
@@ -358,6 +396,7 @@ $GLOBALS['strBannersOfCampaign'] = "em"; //this is added between page name and c
 
 // Banner Preferences
 $GLOBALS['strBannerPreferences'] = "Preferências dos Anúncios";
+$GLOBALS['strCampaignPreferences'] = "Preferências de campanha";
 $GLOBALS['strDefaultBanners'] = "Banners padrão";
 $GLOBALS['strDefaultBannerUrl'] = "URL padrão de imagens";
 $GLOBALS['strDefaultBannerDestination'] = "URL padrão de destino";
@@ -399,8 +438,6 @@ $GLOBALS['strHardcodedLinks'] = "Links codificados no Flash";
 $GLOBALS['strCompressSWF'] = "Comprimir arquivo SWF para download mais rápido(Flash Player 6 necessário)";
 $GLOBALS['strOverwriteSource'] = "Sobrescrever parâmetro original";
 
-// Banner (network)
-// Banner (AdSense)
 // Display limitations
 $GLOBALS['strModifyBannerAcl'] = "Opções de entrega";
 $GLOBALS['strACL'] = "Entrega";
@@ -535,6 +572,9 @@ $GLOBALS['strSelectAd'] = "Selecionar banner";
 $GLOBALS['strSelectPublisher'] = "Escolher o site";
 $GLOBALS['strSelectZone'] = "Escolher zona";
 $GLOBALS['strConnectionType'] = "Tipo";
+$GLOBALS['strStatusPending']            = "Pendente";
+$GLOBALS['strStatusDuplicate']          = "Duplicar";
+$GLOBALS['strConnectionType']           = "Tipo";
 $GLOBALS['strShortcutEditStatuses'] = "Editar estados";
 $GLOBALS['strShortcutShowStatuses'] = "Mostrar estados";
 
@@ -689,7 +729,9 @@ $GLOBALS['strRevenue_short'] = "Rec.";
 $GLOBALS['strBasketValue_short'] = "VM";
 $GLOBALS['strNumberOfItems_short'] = "Num. itm.";
 $GLOBALS['strRevenueCPC_short'] = "Rec. CPC";
+$GLOBALS['strID_short'] = "ID";
 $GLOBALS['strClicks_short'] = "Cliques";
+$GLOBALS['strCTR_short'] = "CTR";
 $GLOBALS['strPendingConversions_short'] = "Conv. pendentes";
 $GLOBALS['strClickSR_short'] = "Cliques SR";
 

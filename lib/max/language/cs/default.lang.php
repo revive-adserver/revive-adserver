@@ -281,8 +281,6 @@ $GLOBALS['strHardcodedLinks'] = "Pevné odkazy";
 $GLOBALS['strCompressSWF'] = "Komprimovat SWF soubor pro rychlejší stahování (vyžaduje přehrávač Flash 6)";
 $GLOBALS['strOverwriteSource'] = "Přepsat zdrojový parametr";
 
-// Banner (network)
-// Banner (AdSense)
 // Display limitations
 $GLOBALS['strModifyBannerAcl'] = "Nastavení doručování";
 $GLOBALS['strACL'] = "Doručování";
@@ -379,6 +377,7 @@ $GLOBALS['strSelectCampaignToLink'] = "Zvolte kampaň kterou chcete připojit k 
 $GLOBALS['strSelectAdvertiser'] = "Zvolte inzerenta";
 $GLOBALS['strSelectPlacement'] = "Zvolte kampaň";
 $GLOBALS['strSelectAd'] = "Zvolte banner";
+$GLOBALS['strStatusDuplicate']          = "Duplikovat";
 
 // Statistics
 $GLOBALS['strStats'] = "Statistiky";
