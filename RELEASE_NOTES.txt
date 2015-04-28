@@ -6,18 +6,18 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
-Release Notes: Revive Adserver 3.2.0-beta
-=========================================
+Release Notes: Revive Adserver 3.2.0
+====================================
 
 These release notes cover what's new, system requirements, download and
 installation instructions, known issues and frequently asked questions for
 Revive Adserver. Please read these notes before reporting any bugs.
 
 
-What's New in Revive Adserver 3.2.0-beta
-----------------------------------------
+What's New in Revive Adserver 3.2.0
+-----------------------------------
 
- * Release date: 2015-04-08
+ * Release date: 2015-04-28
 
  Security Updates
  ----------------
@@ -65,7 +65,7 @@ What's New in Revive Adserver 3.2.0-beta
 
  * Fixed a problem with "Export Statistics to Excel" not working on some
    platforms.
- 
+
  * VideoAds VAST events were not properly logged on Postgres, as the required
    pl/pgsql function wasn't created during install.
 
