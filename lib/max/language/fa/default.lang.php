@@ -319,8 +319,6 @@ $GLOBALS['strHardcodedLinks'] = "لینک های رمزی شده مشکل";
 $GLOBALS['strCompressSWF'] = "�?شرده سازی �?ایل SWF برای سریعتر دانلود شدن (�?لش پلیر 6 مورد نیاز است)";
 $GLOBALS['strOverwriteSource'] = "بازنویسی سورس پارامتر";
 
-// Banner (network)
-// Banner (AdSense)
 // Display limitations
 $GLOBALS['strModifyBannerAcl'] = "تنظیمات نمایش";
 $GLOBALS['strACL'] = "تحویل";
@@ -435,6 +433,8 @@ $GLOBALS['strSelectAdvertiser'] = "انتخاب آگهی دهنده";
 $GLOBALS['strSelectPlacement'] = "انتخاب داخلی";
 $GLOBALS['strSelectAd'] = "انتخاب بنر";
 $GLOBALS['strConnectionType'] = "پسوند";
+$GLOBALS['strStatusDuplicate']          = "همسان";
+$GLOBALS['strConnectionType']           = "پسوند";
 $GLOBALS['strShortcutEditStatuses'] = "ویرایش وضعیت";
 $GLOBALS['strShortcutShowStatuses'] = "نمایش وضعیت";
 

@@ -273,8 +273,6 @@ $GLOBALS['strHardcodedLinks'] = "Nehezen módosítható hivatkozások";
 $GLOBALS['strCompressSWF'] = "Az SWF fájl tömörítése a gyorsabb letöltés céljából (Flash 6 lejátszó szükséges)";
 $GLOBALS['strOverwriteSource'] = "Forrás tulajdonságok felülírása";
 
-// Banner (network)
-// Banner (AdSense)
 // Display limitations
 $GLOBALS['strModifyBannerAcl'] = "Továbbítás beállításai";
 $GLOBALS['strACL'] = "Továbbítás";
@@ -360,6 +358,7 @@ $GLOBALS['strNoCampaignsToLink'] = "Jelenleg nincsenek ehhez a zónához kapcsol
 $GLOBALS['strNoZonesToLinkToCampaign'] = "Nincsenek ehhez a kampányhoz kapcsolható zónák";
 $GLOBALS['strSelectBannerToLink'] = "Válassza ki a zónához kapcsolni kívánt reklámot:";
 $GLOBALS['strSelectCampaignToLink'] = "Válassza ki a zónához kapcsolni kívánt kampányt:";
+$GLOBALS['strStatusDuplicate']          = "Duplikál";
 
 // Statistics
 $GLOBALS['strStats'] = "Statisztikák";

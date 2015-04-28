@@ -64,7 +64,9 @@ $GLOBALS['strConvertThese'] = "Die folgenden Daten werden verändert wenn Sie fo
 
 // Product Updates
 $GLOBALS['strSearchingUpdates'] = "Suche nach neuen Updates. Bitte warten...";
-$GLOBALS['strAvailableUpdates'] = "Vorhandene Updates";
+$GLOBALS['strAvailableUpdates'] = "Verfügbare Updates";
+$GLOBALS['strDownloadZip'] = "Download (.zip)";
+$GLOBALS['strDownloadGZip'] = "Download (.tar.gz)";
 
 $GLOBALS['strUpdateAlert'] = "Eine neue Version von {$PRODUCT_NAME} ist verfügbar.
 
@@ -97,7 +99,7 @@ $GLOBALS['strSecurityUpdate'] = "	<b>Die schnellstmögliche Durchführung dieses
 
 $GLOBALS['strNotAbleToCheck'] = "	Auf Ihrem Server ist die XML-Erweiterung nicht verfügbar. {$PRODUCT_NAME} kann nicht prüfen, ob eine neuere Version verfügbar ist.";
 
-$GLOBALS['strForUpdatesLookOnWebsite'] = "	Informationen über neue Versionen .befinden sich auf unserer Webseite.";
+$GLOBALS['strForUpdatesLookOnWebsite'] = "	Informationen über neue Versionen befinden sich auf unserer Webseite.";
 
 $GLOBALS['strClickToVisitWebsite'] = "Zu unserer Webseite ";
 $GLOBALS['strCurrentlyUsing'] = "Sie nutzen derzeit";
@@ -124,6 +126,7 @@ $GLOBALS['strAppendCodesResult'] = "Hier sind die Ergebnisse der Überprüfung d
 $GLOBALS['strAppendCodesValid'] = "Alle Tracker Code Anhänge sind korrekt";
 $GLOBALS['strRepairAppenedCodes'] = "Obige Inkonsistenzen wurden ermittelt. Sie können diese reparieren durch die Verwendung des unten stehenden Buttons. Hierbei wird das System die Code Anhänge jedes Trackers im System neu übersetzen.";
 
+$GLOBALS['strPlugins'] = "Plugins";
 $GLOBALS['strPluginsPrecis'] = "Probleme mit den OpenX-Plugins überprüfen und reparieren";
 
 $GLOBALS['strMenus'] = "Menüs";
