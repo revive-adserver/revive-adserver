@@ -443,7 +443,7 @@ class OA_Dll_Banner extends OA_Dll
             if (!$this->checkPermissions(null, 'banners', $bannerId)) {
                 return false;
             }
-            $aTargetingList = array();
+            $aBannerList = array();
 
             $doBannerTargeting = OA_Dal::factoryDO('acls');
             $doBannerTargeting->bannerid = $bannerId;
