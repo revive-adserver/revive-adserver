@@ -270,8 +270,6 @@ $GLOBALS['strWeight'] = "Височина";
 
 // Banner (swf)
 
-// Banner (network)
-// Banner (AdSense)
 // Display limitations
 $GLOBALS['strNoLimitations'] = "Без ограничения";
 
@@ -316,6 +314,7 @@ $GLOBALS['strInactiveZonesHidden'] = "неактивния рекламодат�
 
 // Linked banners/campaigns/trackers
 $GLOBALS['strWithXBanners'] = "%d банер(и)";
+$GLOBALS['strStatusDuplicate']          = "Дублиране";
 
 // Statistics
 $GLOBALS['strDailyStats'] = "Всички статистики";

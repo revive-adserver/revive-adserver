@@ -394,8 +394,6 @@ $GLOBALS['strHardcodedLinks'] = "ハードコーデッドリンク";
 $GLOBALS['strCompressSWF'] = "ダウンロード時間を短くするため、Flashファイルを圧縮する(Flash6プレーヤー以降が必要)";
 $GLOBALS['strOverwriteSource'] = "ソースパラメータを上書きする";
 
-// Banner (network)
-// Banner (AdSense)
 // Display limitations
 $GLOBALS['strModifyBannerAcl'] = "配信オプション";
 $GLOBALS['strACL'] = "広告配信";
@@ -529,6 +527,9 @@ $GLOBALS['strSelectAd'] = "バナーを選択してください";
 $GLOBALS['strSelectPublisher'] = "Webサイトを選択してください";
 $GLOBALS['strSelectZone'] = "ゾーンを選択してください";
 $GLOBALS['strConnectionType'] = "タイプ";
+$GLOBALS['strStatusPending']            = "保留";
+$GLOBALS['strStatusDuplicate']          = "複製する";
+$GLOBALS['strConnectionType']           = "タイプ";
 $GLOBALS['strShortcutEditStatuses'] = "ステータスを変更する";
 $GLOBALS['strShortcutShowStatuses'] = "ステータスを見る";
 

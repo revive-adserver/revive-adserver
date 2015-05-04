@@ -335,8 +335,6 @@ $GLOBALS['strConvertSWFLinks'] = "Konverter Flash links";
 $GLOBALS['strCompressSWF'] = "KOmprimer SWF filen for hurtigere downloading (Dette kræver en Flash 6 afspiller)";
 $GLOBALS['strOverwriteSource'] = "Overskriv kilde parameter";
 
-// Banner (network)
-// Banner (AdSense)
 // Display limitations
 $GLOBALS['strModifyBannerAcl'] = "Leverings optioner";
 $GLOBALS['strACL'] = "Levering";
@@ -460,6 +458,8 @@ $GLOBALS['strSelectPlacement'] = "Vælg kampagne";
 $GLOBALS['strSelectAd'] = "Vælg banner";
 $GLOBALS['strSelectPublisher'] = "Vælg Website";
 $GLOBALS['strSelectZone'] = "Vælg Zone";
+$GLOBALS['strStatusPending']            = "Under behandling";
+$GLOBALS['strStatusDuplicate']          = "Kopier";
 $GLOBALS['strShortcutEditStatuses'] = "Editere status";
 $GLOBALS['strShortcutShowStatuses'] = "Vis status";
 

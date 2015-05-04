@@ -324,8 +324,6 @@ $GLOBALS['strHardcodedLinks'] = "Hård-kodade länkar";
 $GLOBALS['strCompressSWF'] = "Komprimera SWF filen för snabbare nedladdning (Flash 6 spelare krävs)";
 $GLOBALS['strOverwriteSource'] = "Skriv över källparameter";
 
-// Banner (network)
-// Banner (AdSense)
 // Display limitations
 $GLOBALS['strModifyBannerAcl'] = "Leveransinställningar";
 $GLOBALS['strACL'] = "Leverans";
@@ -451,6 +449,9 @@ $GLOBALS['strSelectAdvertiser'] = "Välj annonsör";
 $GLOBALS['strSelectPlacement'] = "Välj kampanj";
 $GLOBALS['strSelectAd'] = "Välj banner";
 $GLOBALS['strConnectionType'] = "Typ";
+$GLOBALS['strStatusPending']            = "Pågående";
+$GLOBALS['strStatusDuplicate']          = "Duplicera";
+$GLOBALS['strConnectionType']           = "Typ";
 $GLOBALS['strShortcutEditStatuses'] = "Redigera statusar";
 $GLOBALS['strShortcutShowStatuses'] = "Visa statusar";
 

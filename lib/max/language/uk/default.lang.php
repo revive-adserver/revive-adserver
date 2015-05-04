@@ -445,8 +445,6 @@ $GLOBALS['strHardcodedLinks'] = "Жорстко закодовані посил�
 $GLOBALS['strCompressSWF'] = "Сжать SWF-файл для ускорения загрузки (требует установки Flash 6 плагина)";
 $GLOBALS['strOverwriteSource'] = "Перезаписать параметр источника";
 
-// Banner (network)
-// Banner (AdSense)
 // Display limitations
 $GLOBALS['strModifyBannerAcl'] = "Ограничения показа";
 $GLOBALS['strACL'] = "Лимит";
@@ -589,6 +587,9 @@ $GLOBALS['strSelectAd'] = "Выберите баннер";
 $GLOBALS['strSelectPublisher'] = "Выбрать сайт";
 $GLOBALS['strSelectZone'] = "Выбрать зону";
 $GLOBALS['strConnectionType'] = "Тип";
+$GLOBALS['strStatusPending']            = "Ожидают";
+$GLOBALS['strStatusDuplicate']          = "Дублювати";
+$GLOBALS['strConnectionType']           = "Тип";
 $GLOBALS['strShortcutEditStatuses'] = "Редактировать статусы";
 $GLOBALS['strShortcutShowStatuses'] = "Показать статусы";
 

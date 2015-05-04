@@ -395,8 +395,6 @@ $GLOBALS['strHardcodedLinks'] = "Enlaces <i>hard-coded</i>";
 $GLOBALS['strCompressSWF'] = "Comprimir el archivo SWF para descargarlo más rápidamente (Reproductor Flash 6 es requerido)";
 $GLOBALS['strOverwriteSource'] = "Sobreescribir parámetro de origen";
 
-// Banner (network)
-// Banner (AdSense)
 // Display limitations
 $GLOBALS['strModifyBannerAcl'] = "Opciones de entrega";
 $GLOBALS['strACL'] = "Entrega";
@@ -542,6 +540,9 @@ $GLOBALS['strSelectAd'] = "Seleccione banner";
 $GLOBALS['strSelectPublisher'] = "Seleccionar página web";
 $GLOBALS['strSelectZone'] = "Seleccionar zona";
 $GLOBALS['strConnectionType'] = "Tipo";
+$GLOBALS['strStatusPending']            = "Pendiente";
+$GLOBALS['strStatusDuplicate']          = "Duplicado";
+$GLOBALS['strConnectionType']           = "Tipo";
 $GLOBALS['strShortcutEditStatuses'] = "Editar estados";
 $GLOBALS['strShortcutShowStatuses'] = "Mostrar estados";
 

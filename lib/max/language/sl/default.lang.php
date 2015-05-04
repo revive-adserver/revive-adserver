@@ -431,8 +431,6 @@ $GLOBALS['strHardcodedLinks'] = "Implementirane povezave (hard-coded links)";
 $GLOBALS['strCompressSWF'] = "Stisni SWF datoteko za hitrejši prenos (zahtevan Flash player 6)";
 $GLOBALS['strOverwriteSource'] = "Prepiši izvirni parameter";
 
-// Banner (network)
-// Banner (AdSense)
 // Display limitations
 $GLOBALS['strModifyBannerAcl'] = "Možnosti dostave";
 $GLOBALS['strACL'] = "Dostava";
@@ -584,6 +582,9 @@ $GLOBALS['strSelectAd'] = "Izberite pasico";
 $GLOBALS['strSelectPublisher'] = "Izberite spletno stran";
 $GLOBALS['strSelectZone'] = "Izberite področje";
 $GLOBALS['strConnectionType'] = "Tip";
+$GLOBALS['strStatusPending']            = "V teku";
+$GLOBALS['strStatusDuplicate']          = "Podvoji";
+$GLOBALS['strConnectionType']           = "Tip";
 $GLOBALS['strShortcutEditStatuses'] = "Uredi statuse";
 $GLOBALS['strShortcutShowStatuses'] = "Prikaži statuse";
 

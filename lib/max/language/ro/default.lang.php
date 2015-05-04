@@ -375,8 +375,6 @@ $GLOBALS['strHardcodedLinks'] = "Link-uri Codate-Puternic";
 $GLOBALS['strCompressSWF'] = "Compresează fişierul SWF pentru descărcare mai rapidă (necesită Flash Player 6)";
 $GLOBALS['strOverwriteSource'] = "Înlocuieşte parametrul sursă";
 
-// Banner (network)
-// Banner (AdSense)
 // Display limitations
 $GLOBALS['strModifyBannerAcl'] = "Opţiuni livrare";
 $GLOBALS['strACL'] = "Livrare";
@@ -517,6 +515,9 @@ $GLOBALS['strSelectAd'] = "Alege Banner";
 $GLOBALS['strSelectPublisher'] = "Alege Website";
 $GLOBALS['strSelectZone'] = "Alege Zonă";
 $GLOBALS['strConnectionType'] = "Tip";
+$GLOBALS['strStatusPending']            = "Aşteptare Aprobare";
+$GLOBALS['strStatusDuplicate']          = "Creează duplicat";
+$GLOBALS['strConnectionType']           = "Tip";
 $GLOBALS['strShortcutEditStatuses'] = "Editează statusuri";
 $GLOBALS['strShortcutShowStatuses'] = "Arată statusuri";
 

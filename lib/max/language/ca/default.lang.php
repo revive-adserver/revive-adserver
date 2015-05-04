@@ -96,8 +96,6 @@ $GLOBALS['strIPAddress'] = "Adreça IP";
 
 // Banner (swf)
 
-// Banner (network)
-// Banner (AdSense)
 // Display limitations
 
 
@@ -123,6 +121,7 @@ $GLOBALS['strCappingZone'] = array();
 // Zone probability
 
 // Linked banners/campaigns/trackers
+$GLOBALS['strStatusDuplicate']          = "Duplica";
 
 // Statistics
 
