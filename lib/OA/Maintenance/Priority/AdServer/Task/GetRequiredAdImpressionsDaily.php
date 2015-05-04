@@ -51,7 +51,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsDaily extend
      */
     function __construct()
     {
-        parent::OA_Maintenance_Priority_Common_Task_GetRequiredAdImpressions();
+        parent::__construct();
         $this->type = 'a daily target is set';
     }
 

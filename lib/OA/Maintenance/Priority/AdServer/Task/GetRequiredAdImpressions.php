@@ -57,7 +57,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
      *
      * @return OA_Maintenance_Priority_Common_Task_GetRequiredAdImpressions
      */
-    function OA_Maintenance_Priority_Common_Task_GetRequiredAdImpressions()
+    function __construct()
     {
         parent::__construct();
         $this->oTable =& $this->_getMaxTablePriorityObj();
