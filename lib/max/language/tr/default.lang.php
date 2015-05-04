@@ -12,10 +12,13 @@
 
 // Set text direction and characterset
 
+$GLOBALS['phpAds_DecimalPoint'] = ".";
+$GLOBALS['phpAds_ThousandsSeperator'] = ",";
 
 // Date & time configuration
 $GLOBALS['date_format'] = "%m/%d/%Y";
 $GLOBALS['time_format'] = "%H:%i:%S";
+$GLOBALS['minute_format'] = "%H:%M";
 $GLOBALS['month_format'] = "%m/%Y";
 $GLOBALS['day_format'] = "%m/%d";
 $GLOBALS['week_format'] = "%W/%Y";
@@ -32,6 +35,7 @@ $GLOBALS['strHelp'] = "Yardım";
 $GLOBALS['strStartOver'] = "Baştan başla";
 $GLOBALS['strShortcuts'] = "Kısayollar";
 $GLOBALS['strActions'] = "Eylem";
+$GLOBALS['strAndXMore'] = "ve %s daha fazla";
 $GLOBALS['strAdminstration'] = "Envanter";
 $GLOBALS['strMaintenance'] = "Bakım";
 $GLOBALS['strProbability'] = "Olasılık";
@@ -41,6 +45,7 @@ $GLOBALS['strAppendTrackerCode'] = "İzleme kodunu ekle";
 $GLOBALS['strOverview'] = "Genel Görünüm";
 $GLOBALS['strSearch'] = "Arama";
 $GLOBALS['strDetails'] = "Ayrıntılar";
+$GLOBALS['strUpdateSettings'] = "Ayarları Güncelle";
 $GLOBALS['strCheckForUpdates'] = "Güncellemeleri Kontrol Et";
 $GLOBALS['strCompact'] = "Yoğunlaştırılmış";
 $GLOBALS['strUser'] = "Kullanıcı";
@@ -73,6 +78,7 @@ $GLOBALS['strTo'] = "-e/-a";
 $GLOBALS['strLinkedTo'] = "bağlanmış";
 $GLOBALS['strDaysLeft'] = "Kalan gün";
 $GLOBALS['strCheckAllNone'] = "Tümünü / Hiçbirini Seç";
+$GLOBALS['strKiloByte'] = "KB";
 $GLOBALS['strExpandAll'] = "Hepsini Aç";
 $GLOBALS['strCollapseAll'] = "Hepsini Kapat";
 $GLOBALS['strShowAll'] = "Hepsini Göster";
@@ -94,10 +100,13 @@ $GLOBALS['strNotice'] = "Uyarı";
 
 // Dashboard
 // Dashboard Errors
+$GLOBALS['strDashboardErrorCode'] = "kod";
 
 // Priority
 $GLOBALS['strPriority'] = "Öncelik";
 $GLOBALS['strPriorityLevel'] = "Öncelik düzeyi";
+$GLOBALS['strECPMAds'] = "eBGBM Kampanya Reklamı";
+$GLOBALS['strLowAds'] = "Boşta Kalan Gösterim Kampanyası";
 $GLOBALS['strLimitations'] = "Kısıtlamalar";
 $GLOBALS['strNoLimitations'] = "Kısıtlama yok";
 $GLOBALS['strCapping'] = "Başlıklamak";
@@ -111,9 +120,12 @@ $GLOBALS['strTarget'] = "Hedef";
 $GLOBALS['strLanguage'] = "Dil";
 $GLOBALS['strDescription'] = "Tanımlama";
 $GLOBALS['strVariables'] = "Değişkenler";
+$GLOBALS['strID'] = "ID [Sıra No]";
 $GLOBALS['strComments'] = "Yorumlar";
 
 // User access
+$GLOBALS['strUserNotLinkedWithAccount'] = "Bu kullanıcının ilişkili bir hesabı bulunmuyor.";
+$GLOBALS['strCantDeleteOneAdminUser'] = "En az bir Yönetici hesabı olması gerektiğinden kullanıcıyı silemezsiniz.";
 $GLOBALS['strLinkUserHelpUser'] = "Kullanıcı Adı";
 
 // Login & Permissions
@@ -330,8 +342,6 @@ $GLOBALS['strHardcodedLinks'] = "Elle girilmiş, sabit bağlantılar";
 $GLOBALS['strCompressSWF'] = "Daha hızlı yüklenmesi için SWF dosyasını sıkıştır (Flash 6 player gerekli)";
 $GLOBALS['strOverwriteSource'] = "Kaynak parametresinin üzerine yaz";
 
-// Banner (network)
-// Banner (AdSense)
 // Display limitations
 $GLOBALS['strModifyBannerAcl'] = "Teslimat Seçenekleri";
 $GLOBALS['strACL'] = "Teslimat";
@@ -458,6 +468,9 @@ $GLOBALS['strSelectAdvertiser'] = "Reklamveren Seçin";
 $GLOBALS['strSelectPlacement'] = "Kampanya Seçin";
 $GLOBALS['strSelectAd'] = "Banner Seçin";
 $GLOBALS['strConnectionType'] = "Tip";
+$GLOBALS['strStatusPending']            = "Beklemede";
+$GLOBALS['strStatusDuplicate']          = "Çoğalt";
+$GLOBALS['strConnectionType']           = "Tip";
 $GLOBALS['strShortcutEditStatuses'] = "Durumları düzenle";
 $GLOBALS['strShortcutShowStatuses'] = "Durumları göster";
 
@@ -586,6 +599,7 @@ $GLOBALS['strEIPS_short'] = "CPM";
 $GLOBALS['strECPM_short'] = "CPM";
 $GLOBALS['strECPC_short'] = "CPC";
 $GLOBALS['strECPS_short'] = "CPM";
+$GLOBALS['strID_short'] = "ID [Sıra No]";
 $GLOBALS['strClicks_short'] = "Tıklamalar";
 $GLOBALS['strCTR_short'] = "TGO";
 
@@ -686,6 +700,8 @@ $GLOBALS['strPwdRecEmailPwdRecovery'] = "%s şifre yenilemesi";
 
 // Reserved keys
 // Do not change these unless absolutely needed
+$GLOBALS['keyNextItem'] = ".";
+$GLOBALS['keyPreviousItem'] = ",";
 
 // Other keys
 // Please make sure you underline the key you

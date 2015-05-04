@@ -321,8 +321,6 @@ $GLOBALS['strConvertSWFLinks'] = "Menukarkan links dari Flash";
 $GLOBALS['strCompressSWF'] = "Kompres file SWF untuk meng-download lebih cepat (Player Flash 6 dibutuhkan)";
 $GLOBALS['strOverwriteSource'] = "Timpah parameter induk";
 
-// Banner (network)
-// Banner (AdSense)
 // Display limitations
 $GLOBALS['strModifyBannerAcl'] = "Pilihan Penyampaian";
 $GLOBALS['strACL'] = "Penyampaian";
@@ -440,6 +438,8 @@ $GLOBALS['strSelectAdvertiser'] = "Pilih pemasang iklan";
 $GLOBALS['strSelectPlacement'] = "Pilih kampanye";
 $GLOBALS['strSelectAd'] = "Pilih banner";
 $GLOBALS['strConnectionType'] = "Jenis";
+$GLOBALS['strStatusDuplicate']          = "Mendobelkan";
+$GLOBALS['strConnectionType']           = "Jenis";
 $GLOBALS['strShortcutEditStatuses'] = "Edit status";
 $GLOBALS['strShortcutShowStatuses'] = "Tampilkan status";
 

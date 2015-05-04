@@ -113,8 +113,6 @@ $GLOBALS['strTypeTxtAllow'] = "Benarkan Iklan Teks";
 
 // Banner (swf)
 
-// Banner (network)
-// Banner (AdSense)
 // Display limitations
 
 
@@ -142,6 +140,7 @@ $GLOBALS['strZones'] = "Tiada";
 // Zone probability
 
 // Linked banners/campaigns/trackers
+$GLOBALS['strStatusDuplicate']          = "Salinan";
 
 // Statistics
 

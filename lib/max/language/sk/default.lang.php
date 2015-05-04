@@ -251,8 +251,6 @@ $GLOBALS['strWeight'] = "Výška";
 
 // Banner (swf)
 
-// Banner (network)
-// Banner (AdSense)
 // Display limitations
 $GLOBALS['strNoLimitations'] = "Bez obmedzení";
 
@@ -294,6 +292,7 @@ $GLOBALS['strInactiveZonesHidden'] = "Neaktívny inzerent(i) skrytý";
 // Zone probability
 
 // Linked banners/campaigns/trackers
+$GLOBALS['strStatusDuplicate']          = "Duplikovať";
 
 // Statistics
 $GLOBALS['strDailyStats'] = "Všetky štatistiky";

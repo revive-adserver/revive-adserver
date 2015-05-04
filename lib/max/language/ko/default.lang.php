@@ -297,8 +297,6 @@ $GLOBALS['strHardcodedLinks'] = "내장�?� �?�?�";
 $GLOBALS['strCompressSWF'] = "보다 빠른 파�?� 전송�?� 위해 SWF 파�?� 압축";
 $GLOBALS['strOverwriteSource'] = "소스 파�?�미터 �?�어쓰기";
 
-// Banner (network)
-// Banner (AdSense)
 // Display limitations
 $GLOBALS['strModifyBannerAcl'] = "전달유지 옵션";
 $GLOBALS['strACL'] = "전달유지";
@@ -391,6 +389,7 @@ $GLOBALS['strNoTrackersToLink'] = "현재 �?� �?역�? 연결할 �?페�
 $GLOBALS['strNoZonesToLinkToCampaign'] = "현재 �?� �?역�? 연결�?� �?페�?��?� 없습니다.";
 $GLOBALS['strSelectBannerToLink'] = "�?� �?역�? 연결할 배너를 선�?하세요:";
 $GLOBALS['strSelectCampaignToLink'] = "�?� �?역�? 연결할 캠페�?� 선�?합니다:";
+$GLOBALS['strStatusDuplicate']          = "복제";
 
 // Statistics
 $GLOBALS['strStats'] = "통계";

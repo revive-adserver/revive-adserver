@@ -530,8 +530,6 @@ $GLOBALS['strConvertSWF'] = "<br />Het Flash bestand dat u zojuist upgeload heef
 $GLOBALS['strCompressSWF'] = "Comprimeer SWF bestand voor versneld downloaden (Flash 6 speler benodigd)";
 $GLOBALS['strOverwriteSource'] = "Overschrijft de Source parameter";
 
-// Banner (network)
-// Banner (AdSense)
 // Display limitations
 $GLOBALS['strModifyBannerAcl'] = "Uitleveringsbeperkingen";
 $GLOBALS['strACL'] = "Uitlevering";
@@ -694,6 +692,16 @@ $GLOBALS['strSelectAd'] = "Selecteer Banner";
 $GLOBALS['strSelectPublisher'] = "Selecteer website";
 $GLOBALS['strSelectZone'] = "Selecteer zone";
 $GLOBALS['strConnectionType'] = "Type";
+$GLOBALS['strStatusPending']            = "Wachtend";
+$GLOBALS['strStatusApproved']           = "Goedgekeurd";
+$GLOBALS['strStatusDisapproved']        = "Afgekeurd";
+$GLOBALS['strStatusDuplicate']          = "Dubbel";
+$GLOBALS['strStatusOnHold']             = "In de wachtstand";
+$GLOBALS['strStatusIgnore']             = "Negeren";
+$GLOBALS['strConnectionType']           = "Type";
+$GLOBALS['strConnTypeSale']             = "Verkoop";
+$GLOBALS['strConnTypeLead']             = "Potentiële klant";
+$GLOBALS['strConnTypeSignUp']           = "Aanmelding";
 $GLOBALS['strShortcutEditStatuses'] = "Statussen bewerken";
 $GLOBALS['strShortcutShowStatuses'] = "Toon statussen";
 
