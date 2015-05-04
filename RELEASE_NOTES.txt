@@ -6,7 +6,7 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
-Release Notes: Revive Adserver 3.2.0
+Release Notes: Revive Adserver 3.2.1
 ====================================
 
 These release notes cover what's new, system requirements, download and
@@ -14,10 +14,10 @@ installation instructions, known issues and frequently asked questions for
 Revive Adserver. Please read these notes before reporting any bugs.
 
 
-What's New in Revive Adserver 3.2.0
+What's New in Revive Adserver 3.2.1
 -----------------------------------
 
- * Release date: 2015-04-28
+ * Release date: n/a
 
  Security Updates
  ----------------
@@ -27,59 +27,17 @@ What's New in Revive Adserver 3.2.0
  New Features
  ------------
 
- * Added new Javascript based asynchronous tags.
-
- * Added new help dialogue for companion positioning option.
-
- * Integrated (most) translations with Crowdin.
-
- * Added plugin hooks to the VAST events in the VideoAds plugin.
-
- * Added preliminary support for PHP7.
+ * None
 
  Bug Fixes
  ---------
 
- * Fixed issue with interstitial images (e.g. close.gif) always using http://
-   even when the request came via https.
-
- * Fixed issue with interstitial layers showing even when no matching banner
-   was found, since the introduction of blank logging.
-
- * Fixed issue that prevented the error message screen to be displayed when
-   trying to install or run Revive Adserver with some required functions
-   disabled via php.ini.
-
- * Fixed issue causing campaign revenue to be improperly parsed when using
-   a number format different than nnnn.nn.
-
- * Fixed a problem with the destination URL not being available for new overlay
-   video ads, and potentially other HTML-based custom banner types.
-
- * Fixed the size of the search popup window under Chrome.
-
- * Fixed missing translation string from statistics screens for conversions.
-
- * Fixed issue preventing contract campaigns to reach their daily target when
-   TZ had a negative offset.
-
- * Fixed a problem with "Export Statistics to Excel" not working on some
-   platforms.
-
- * VideoAds VAST events were not properly logged on Postgres, as the required
-   pl/pgsql function wasn't created during install.
-
- * Fixed potential timeouts or memory limit issues when displaying the audit
-   log index.
+ * None
 
  Non-Backwards Compatible Changes
  --------------------------------
 
- * The signatures of bannerTypeHtml/Text's preprocessForm() and processForm()
-   methods has been updated to what was actually used when invoking them.
-   Albeit unlikely, this might clash with the definition used in some custom
-   plugins.
-
+ * None
 
 System Requirements
 -------------------
