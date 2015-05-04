@@ -32,7 +32,8 @@ What's New in Revive Adserver 3.2.1
  Bug Fixes
  ---------
 
- * None
+ * Fixed issue with getBannerTargeting API call when the banner didn't have
+   any delivery limitation
 
  Non-Backwards Compatible Changes
  --------------------------------
