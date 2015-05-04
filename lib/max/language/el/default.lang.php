@@ -229,8 +229,6 @@ $GLOBALS['strWeight'] = "Ύψος";
 
 // Banner (swf)
 
-// Banner (network)
-// Banner (AdSense)
 // Display limitations
 $GLOBALS['strNoLimitations'] = "Χωρίς περιορισμούς";
 $GLOBALS['strAND'] = "ΚΑΙ";                          // logical operator
@@ -284,6 +282,8 @@ $GLOBALS['strSelectAdvertiser'] = "Επιλέξτε Διαφημιζόμενο";
 $GLOBALS['strSelectPlacement'] = "Επιλέξτε Καμπάνια";
 $GLOBALS['strSelectAd'] = "Επιλέξτε Banner";
 $GLOBALS['strConnectionType'] = "Τύπος";
+$GLOBALS['strStatusDuplicate']          = "Αντιγραφή";
+$GLOBALS['strConnectionType']           = "Τύπος";
 
 // Statistics
 $GLOBALS['strStats'] = "Στατιστικά";
