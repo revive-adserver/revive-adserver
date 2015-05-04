@@ -337,8 +337,6 @@ $GLOBALS['strHardcodedLinks'] = "روابط ضمن الكود البرمجي";
 $GLOBALS['strCompressSWF'] = "ضغط ملف SWF لتحميل أسرع (يحتاج لمشغل فلاش 6 أو أعلى)";
 $GLOBALS['strOverwriteSource'] = "الكتابة على المتغيرات الأصلية";
 
-// Banner (network)
-// Banner (AdSense)
 // Display limitations
 $GLOBALS['strModifyBannerAcl'] = "خيارات التوصيل";
 $GLOBALS['strACL'] = "التوصيل";
@@ -448,6 +446,9 @@ $GLOBALS['strSelectPlacement'] = "إختيار الحملة الاعلانية";
 $GLOBALS['strSelectAd'] = "إختيار البنر";
 $GLOBALS['strSelectZone'] = "إختيار المنطقة";
 $GLOBALS['strConnectionType'] = "النوع";
+$GLOBALS['strStatusPending']            = "بانتظار الموافقة";
+$GLOBALS['strStatusDuplicate']          = "نسخ";
+$GLOBALS['strConnectionType']           = "النوع";
 $GLOBALS['strShortcutEditStatuses'] = "تعديل الحالات";
 $GLOBALS['strShortcutShowStatuses'] = "عرض الحالات";
 

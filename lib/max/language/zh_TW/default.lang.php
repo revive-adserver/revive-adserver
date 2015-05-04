@@ -335,8 +335,6 @@ $GLOBALS['strSwfTransparency'] = "使用透明背景";
 $GLOBALS['strCompressSWF'] = "壓縮SWF文件（需要Flash 6 player)";
 $GLOBALS['strOverwriteSource'] = "覆蓋原參數";
 
-// Banner (network)
-// Banner (AdSense)
 // Display limitations
 $GLOBALS['strModifyBannerAcl'] = "發送選項";
 $GLOBALS['strACL'] = "發送設置";
@@ -442,6 +440,9 @@ $GLOBALS['strSelectAd'] = "選擇廣告";
 $GLOBALS['strSelectPublisher'] = "選擇網站";
 $GLOBALS['strSelectZone'] = "選擇版位";
 $GLOBALS['strConnectionType'] = "類型";
+$GLOBALS['strStatusPending']            = "未決的";
+$GLOBALS['strStatusDuplicate']          = "複製";
+$GLOBALS['strConnectionType']           = "類型";
 $GLOBALS['strShortcutEditStatuses'] = "編輯狀態";
 $GLOBALS['strShortcutShowStatuses'] = "顯示狀態";
 

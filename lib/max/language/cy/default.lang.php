@@ -320,8 +320,6 @@ $GLOBALS['strHardcodedLinks'] = "Dolenni cod-caled";
 $GLOBALS['strCompressSWF'] = "Cywasgu ffeil SWF ar gyfer lawrlwytho cynt (Chwaraewr Flash 6 yn ofynnol)";
 $GLOBALS['strOverwriteSource'] = "Trosysgrifo paramedr ffynhonnell";
 
-// Banner (network)
-// Banner (AdSense)
 // Display limitations
 $GLOBALS['strModifyBannerAcl'] = "Dewisiadau Trosglwyddiad";
 $GLOBALS['strACL'] = "Trosglwyddo";
@@ -446,6 +444,9 @@ $GLOBALS['strSelectAdvertiser'] = "Dewiswch Hysbysebwr";
 $GLOBALS['strSelectPlacement'] = "Dewiswch Ymgyrch";
 $GLOBALS['strSelectAd'] = "Dewiswch Faner";
 $GLOBALS['strConnectionType'] = "Math";
+$GLOBALS['strStatusPending']            = "Dan Ystyriaeth";
+$GLOBALS['strStatusDuplicate']          = "Dyblygu";
+$GLOBALS['strConnectionType']           = "Math";
 $GLOBALS['strShortcutEditStatuses'] = "Golygu statysau";
 $GLOBALS['strShortcutShowStatuses'] = "Dangos statysau";
 
