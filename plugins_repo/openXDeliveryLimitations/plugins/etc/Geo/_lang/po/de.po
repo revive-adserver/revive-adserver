@@ -30,7 +30,7 @@ msgstr "Land"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Netspeed.class.php:57
 msgid "Net Speed"
-msgstr ""
+msgstr "Anschlussgeschwindigkeit"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Netspeed.res.inc.php:35
 msgid "Unknown"
@@ -38,11 +38,11 @@ msgstr "Unbekannt"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Netspeed.res.inc.php:36
 msgid "Dial-up"
-msgstr ""
+msgstr "Wählleitung"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Netspeed.res.inc.php:37
 msgid "Broadband"
-msgstr ""
+msgstr "Breitband"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Netspeed.res.inc.php:38
 msgid "Corporate"
@@ -50,11 +50,11 @@ msgstr ""
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Region.class.php:70
 msgid "Country / Region"
-msgstr ""
+msgstr "Land / Region"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Region.class.php:114
 msgid "Region(s)"
-msgstr ""
+msgstr "Regionen(en)"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Postalcode.class.php:58
 msgid "US/Canada Postal Code"
@@ -62,23 +62,23 @@ msgstr ""
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//City.class.php:108
 msgid "City(s)"
-msgstr ""
+msgstr "Städte"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Latlong.class.php:61
 msgid "Is within"
-msgstr ""
+msgstr "liegt in"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Latlong.class.php:62
 msgid "Is not within"
-msgstr ""
+msgstr "liegt nicht in"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Latlong.class.php:72
 msgid "Latitude/Longitude"
-msgstr ""
+msgstr "Breitengrad/Längengrad"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Latlong.class.php:97
 msgid "Geo:Latitude/Longitude: One of the parameter is not a number"
-msgstr ""
+msgstr "Geo:Breitengrad/Längengrad: Einer der Parameter ist keine Zahl"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Latlong.class.php:114
 msgid "Latitude"

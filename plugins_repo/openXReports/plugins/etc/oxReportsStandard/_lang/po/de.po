@@ -191,7 +191,7 @@ msgstr ""
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//conversionTrackingReport.class.php:705
 msgid "Comment"
-msgstr ""
+msgstr "Kommentar"
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//conversionTrackingReport.class.php:711
 msgid "Advertiser Name"

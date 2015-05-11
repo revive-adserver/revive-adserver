@@ -28,21 +28,28 @@ $GLOBALS['weekiso_format'] = "%V.%G";
 /* Translations                                          */
 /* ------------------------------------------------------- */
 
+$GLOBALS['strHome'] = "Domů";
 $GLOBALS['strHelp'] = "Nápověda";
+$GLOBALS['strStartOver'] = "Začít znovu";
 $GLOBALS['strShortcuts'] = "Zkratka";
 $GLOBALS['strActions'] = "Akce";
+$GLOBALS['strAndXMore'] = "a %s více";
 $GLOBALS['strAdminstration'] = "Inventář";
 $GLOBALS['strMaintenance'] = "Správa";
 $GLOBALS['strProbability'] = "Pravděpodobnost";
 $GLOBALS['strInvocationcode'] = "Zobrazovací kód";
 $GLOBALS['strBasicInformation'] = "Základní údaje";
+$GLOBALS['strAppendTrackerCode'] = "Přidat Tracker kód";
 $GLOBALS['strOverview'] = "Přehled";
 $GLOBALS['strSearch'] = "<u>V</u>yhledávání";
 $GLOBALS['strDetails'] = "Detaily";
+$GLOBALS['strUpdateSettings'] = "Aktualizace nastavení";
 $GLOBALS['strCheckForUpdates'] = "Kontrolovat aktualizace";
+$GLOBALS['strWhenCheckingForUpdates'] = "Při kontrole aktualizací";
 $GLOBALS['strCompact'] = "Kompaktní";
 $GLOBALS['strUser'] = "Uživatel";
 $GLOBALS['strDuplicate'] = "Duplikovat";
+$GLOBALS['strCopyOf'] = "Kopírovat z";
 $GLOBALS['strMoveTo'] = "Přesunout";
 $GLOBALS['strDelete'] = "Smazat";
 $GLOBALS['strActivate'] = "Aktivovat";
@@ -53,6 +60,7 @@ $GLOBALS['strUp'] = "Nahoru";
 $GLOBALS['strDown'] = "Dolů";
 $GLOBALS['strSave'] = "Uložit";
 $GLOBALS['strCancel'] = "Zrušit";
+$GLOBALS['strBack'] = "Zpět";
 $GLOBALS['strPrevious'] = "Předchozí";
 $GLOBALS['strNext'] = "Následující";
 $GLOBALS['strYes'] = "Ano";
@@ -62,18 +70,22 @@ $GLOBALS['strCustom'] = "Vlastní";
 $GLOBALS['strDefault'] = "Implicitní";
 $GLOBALS['strUnlimited'] = "Neomezené";
 $GLOBALS['strUntitled'] = "Bezejména";
+$GLOBALS['strAll'] = "všechny";
 $GLOBALS['strAverage'] = "Průměr";
 $GLOBALS['strOverall'] = "Celkový přehled";
 $GLOBALS['strTotal'] = "Celkem";
 $GLOBALS['strFrom'] = "Od";
 $GLOBALS['strTo'] = "do";
+$GLOBALS['strAdd'] = "Přidat";
 $GLOBALS['strLinkedTo'] = "připojení k";
 $GLOBALS['strDaysLeft'] = "Zbývá dnů";
 $GLOBALS['strCheckAllNone'] = "Označit vše / nic";
+$GLOBALS['strKiloByte'] = "KB";
 $GLOBALS['strExpandAll'] = "<u>R</u>ozšířit vše";
 $GLOBALS['strCollapseAll'] = "<u>S</u>loučit vše";
 $GLOBALS['strShowAll'] = "Ukázat vše";
 $GLOBALS['strNoAdminInterface'] = "Služba není dostupná...";
+$GLOBALS['strFieldStartDateBeforeEnd'] = "'Z' data musí být dříve, než 'Do' data";
 $GLOBALS['strFieldContainsErrors'] = "Následující položky obsahují chyby:";
 $GLOBALS['strFieldFixBeforeContinue1'] = "Než budete moci pokračovat potřebujete";
 $GLOBALS['strFieldFixBeforeContinue2'] = "opravit tyto chyby.";
@@ -86,14 +98,29 @@ $GLOBALS['strCollectedLastWeek'] = "Minulý týden (Po-Ne)";
 $GLOBALS['strCollectedThisMonth'] = "Tento měsíc";
 $GLOBALS['strCollectedLastMonth'] = "Minulý měsíc";
 $GLOBALS['strCollectedLast7Days'] = "Posledních 7 dní";
+$GLOBALS['strCollectedSpecificDates'] = "Konkrétní data";
+$GLOBALS['strValue'] = "Hodnota";
+$GLOBALS['strWarning'] = "Varování";
+$GLOBALS['strNotice'] = "Oznámení";
 
 // Dashboard
+$GLOBALS['strDashboardCantBeDisplayed'] = "Řídicí panel nelze zobrazit";
+$GLOBALS['strNoCheckForUpdates'] = "Přístrojovou desku nelze zobrazit, pokud je povolena kontrola<br />pro nastavení aktualizace.";
+$GLOBALS['strEnableCheckForUpdates'] = "Prosím povolte položku <a href='account-settings-update.php' target='_top'> Zkontrolovat aktualizace</a> na stránce<br/> <a href='account-settings-update.php' target='_top'> aktualizovat nastavení</a>.";
 // Dashboard Errors
+$GLOBALS['strDashboardErrorCode'] = "kód";
+$GLOBALS['strDashboardSystemMessage'] = "Systémová zpráva";
+$GLOBALS['strDashboardErrorHelp'] = "Pokud tato chyba přetrvává popište váš problém podrobně a uveřejněte na <a href='http://forum.revive-adserver.com/'> forum.revive-adserver.com/</a>.";
 
 // Priority
 $GLOBALS['strPriority'] = "Priorita";
 $GLOBALS['strPriorityLevel'] = "Úroveň priority";
+$GLOBALS['strOverrideAds'] = "Přepsat reklamní kampaň";
+$GLOBALS['strHighAds'] = "Smlouva reklamní kampaně";
+$GLOBALS['strECPMAds'] = "eCPM reklamní kampaň";
+$GLOBALS['strLowAds'] = "Reklamy s nízkou prioritou";
 $GLOBALS['strNoLimitations'] = "Bez omezení";
+$GLOBALS['strCapping'] = "Omezení";
 
 // Properties
 $GLOBALS['strName'] = "Jméno";
@@ -104,9 +131,34 @@ $GLOBALS['strTarget'] = "Cíl";
 $GLOBALS['strLanguage'] = "Jazyk";
 $GLOBALS['strDescription'] = "Popis";
 $GLOBALS['strVariables'] = "Proměnné";
+$GLOBALS['strID'] = "ID";
+$GLOBALS['strComments'] = "Komentáře";
 
 // User access
+$GLOBALS['strWorkingAs'] = "Pracovat jako";
+$GLOBALS['strWorkingAs_Key'] = "<u>P</u>racovat jako";
+$GLOBALS['strWorkingAs'] = "Pracovat jako";
+$GLOBALS['strSwitchTo'] = "Přepnout do";
+$GLOBALS['strUseSearchBoxToFindMoreAccounts'] = "Pomocí přepínače pole pro vyhledávání najdete více účtů";
+$GLOBALS['strWorkingFor'] = "%s pro...";
+$GLOBALS['strNoAccountWithXInNameFound'] = "Žádné účty s \"%s\" ve jménu nalezen";
+$GLOBALS['strRecentlyUsed'] = "Naposledy použitých";
+$GLOBALS['strLinkUser'] = "Přidat uživatele";
+$GLOBALS['strLinkUser_Key'] = "Přidat <u>u</u>živatele";
+$GLOBALS['strUsernameToLink'] = "Přidat uživatelské jméno uživatele";
+$GLOBALS['strNewUserWillBeCreated'] = "Bude vytvořen nový uživatel";
+$GLOBALS['strToLinkProvideEmail'] = "Chcete-li přidat uživatele, zadejte jeho e-mail";
+$GLOBALS['strToLinkProvideUsername'] = "Chcete-li přidat uživatele, zadejte jeho uživatelské jméno";
+$GLOBALS['strUserLinkedToAccount'] = "Uživatel byl přidán k účtu";
+$GLOBALS['strUserAccountUpdated'] = "Uživatelský účet aktualizován";
+$GLOBALS['strUserUnlinkedFromAccount'] = "Uživatel byl odebrán z účtu";
+$GLOBALS['strUserWasDeleted'] = "Uživatel byl odstraněn";
+$GLOBALS['strUserNotLinkedWithAccount'] = "Takový uživatel není propojen s účtem";
+$GLOBALS['strCantDeleteOneAdminUser'] = "Nelze odstranit uživatele. Alespoň jeden uživatel musí být propojeny s účtem správce.";
+$GLOBALS['strLinkUserHelp'] = "Chcete-li přidat <b>existující uživatele</b>, zadejte %1\\$s a klepněte na tlačítko %2\\$s < br / > přidat <b>nového uživatele</b>, zadejte požadovanou %1\\$s a klepněte na %2\\$s";
 $GLOBALS['strLinkUserHelpUser'] = "Jméno";
+$GLOBALS['strLinkUserHelpEmail'] = "e-mailová adresa";
+$GLOBALS['strLastLoggedIn'] = "Poslední přihlášení";
 
 // Login & Permissions
 $GLOBALS['strUserProperties'] = "Nastavení banneru";
@@ -182,12 +234,15 @@ $GLOBALS['strSendDeactivationWarning'] = "Zaslat upozornění při deaktivaci ka
 $GLOBALS['strAllowClientModifyBanner'] = "Povolit uživateli měnit vlastní bannery";
 $GLOBALS['strAllowClientDisableBanner'] = "Povolit uživateli deaktivovat vlastní bannery";
 $GLOBALS['strAllowClientActivateBanner'] = "Povolit uživateli aktivovat vlastní bannery";
+$GLOBALS['strAdvertiserLimitation'] = "Na webové stránce zobrazit pouze jeden banner od tohoto inzerenta";
+$GLOBALS['strAllowAuditTrailAccess'] = "Povolit tomuto uživateli přístup auditu";
 
 // Campaign
 $GLOBALS['strCampaign'] = "Skrytá kampaň";
 $GLOBALS['strCampaigns'] = "Skrytá kampaň";
 $GLOBALS['strAddCampaign'] = "Přidat kampaň";
 $GLOBALS['strAddCampaign_Key'] = "Přidat <u>k</u>ampaň";
+$GLOBALS['strCampaignForAdvertiser'] = "pro inzerenta";
 $GLOBALS['strLinkedCampaigns'] = "Připojené kampaně";
 $GLOBALS['strCampaignProperties'] = "Nastavení kampaně";
 $GLOBALS['strCampaignOverview'] = "Přehled kampaně";
@@ -228,6 +283,7 @@ $GLOBALS['strStandardContract'] = "Kontakt";
 $GLOBALS['strTracker'] = "Sledovač";
 $GLOBALS['strTrackers'] = "Sledovač";
 $GLOBALS['strAddTracker'] = "Přidat nový sledovač";
+$GLOBALS['strTrackerForAdvertiser'] = "pro inzerenta";
 $GLOBALS['strNoTrackers'] = "V tuto chvíli nejsou definovány ádné sledovače";
 $GLOBALS['strConfirmDeleteTrackers'] = "Opravdu chcete smazat tento sledovač?";
 $GLOBALS['strConfirmDeleteTracker'] = "Opravdu chcete smazat tento sledovač?";
@@ -236,6 +292,7 @@ $GLOBALS['strLinkedTrackers'] = "Připojené sledovače";
 $GLOBALS['strConversionWindow'] = "Okno převodu";
 $GLOBALS['strClick'] = "Klik";
 $GLOBALS['strView'] = "Zobrazení";
+$GLOBALS['strIPAddress'] = "IP adresa";
 
 // Banners (General)
 $GLOBALS['strBanners'] = "Bannery";
@@ -459,6 +516,7 @@ $GLOBALS['strPreferences'] = "Předvolby";
 // Long names
 
 // Short names
+$GLOBALS['strID_short'] = "ID";
 $GLOBALS['strClicks_short'] = "Kliknutí";
 
 // Global Settings

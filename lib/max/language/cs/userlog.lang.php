@@ -22,6 +22,7 @@ $GLOBALS['strAdvertiser'] = "Inzerent";
 $GLOBALS['strCampaign'] = "Skrytá kampaň";
 $GLOBALS['strZone'] = "Zóna";
 $GLOBALS['strAction'] = "Akce";
+$GLOBALS['strValue'] = "Hodnota";
 
 $GLOBALS['strUserlog'] = array();
 $GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Výstraha na deaktivaci kampaně {id} odesláno e-mailem";
