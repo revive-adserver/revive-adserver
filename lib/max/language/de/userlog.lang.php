@@ -28,6 +28,7 @@ $GLOBALS['strCampaign'] = "Kampagne";
 $GLOBALS['strZone'] = "Verborgene Zone";
 $GLOBALS['strType'] = "Art";
 $GLOBALS['strAction'] = "Aktion";
+$GLOBALS['strParameter'] = "Parameter";
 $GLOBALS['strValue'] = "Wert";
 $GLOBALS['strReturnAuditTrail'] = "Zurück zum Prüfprotokoll";
 $GLOBALS['strAuditTrail'] = "Prüfprotokoll";

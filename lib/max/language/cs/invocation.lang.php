@@ -61,6 +61,7 @@ $GLOBALS['str3rdPartyTrack'] = "Podpora pro sledování kliknutí serverů 3tíc
 // Support for cachebusting code
 
 // IMG invocation selected for tracker with appended code
+$GLOBALS['strWarning'] = "Varování";
 
 // Local Invocation
 

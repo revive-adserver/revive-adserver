@@ -12,8 +12,10 @@
 
 // Main strings
 $GLOBALS['strChooseSection'] = "Vyberte sekci";
+$GLOBALS['strAppendCodes'] = "Přidat kódy";
 
 // Maintenance
+$GLOBALS['strScheduledMaintenanceHasntRun'] = "<b>Plánovaná údržbu nelze spustit za poslední hodinu. To může znamenat, že není nastavena správně.</b>";
 
 
 
@@ -26,6 +28,7 @@ $GLOBALS['strChooseSection'] = "Vyberte sekci";
 $GLOBALS['strRecalculatePriority'] = "Přepočítat prioritu";
 
 // Banner cache
+$GLOBALS['strCheckBannerCache'] = "Kontrola cache banerů";
 $GLOBALS['strRebuildDeliveryCache'] = "Aktualizovat cache doručování";
 $GLOBALS['strBannerCacheExplaination'] = "	Cache bannerů obsahuje kopii HTML kódu který se používá pro zobrazení banneru. Použitím chache bannerů je možné docílit zrychlení
 	doručování bannerů protože se HTML kód nemusí generovat pokaždé když má být banner doručen. Protože cache bannerů obsahuje pevné

@@ -457,6 +457,7 @@ $GLOBALS['strWebBanner'] = "Einen lokal gespeicherten Banner auf den Webserver l
 $GLOBALS['strURLBanner'] = "Verlinke einen externen Banner";
 $GLOBALS['strHTMLBanner'] = "Einen HTML-Banner anlegen";
 $GLOBALS['strTextBanner'] = "Einen Text-Banner anlegen";
+$GLOBALS['strIframeFriendly'] = "Dieser Banner kann ohne Einschränkungen innerhalb eines iFrames angezeigt werden (d.h. nicht expandierend)";
 $GLOBALS['strUploadOrKeep'] = "Soll die vorhandene <br />Bilddatei behalten werden, oder soll <br />ein neues geladen werden?";
 $GLOBALS['strNewBannerFile'] = "Wählen Sie die Bilddatei <br />für dieses Banner<br /><br />";
 $GLOBALS['strNewBannerFileAlt'] = "Wählen Sie eine Alternativdatei (JPG, GIF, ...) aus<br />für den Fall, daß ein Besucher<br />das RichMedia-Werbemittel nicht darstellen kann<br /><br />";
@@ -491,6 +492,7 @@ $GLOBALS['strApplyLimitationsTo'] = "Beschränkungen anwenden bei";
 $GLOBALS['strRemoveAllLimitations'] = "Alle Beschränkungen löschen";
 $GLOBALS['strEqualTo'] = "ist gleich";
 $GLOBALS['strDifferentFrom'] = "ist ungleich";
+$GLOBALS['strContains'] = "enthält";
 $GLOBALS['strGreaterThan'] = "ist größer als";
 $GLOBALS['strLessThan'] = "ist kleiner als";
 $GLOBALS['strAND'] = "UND";                          // logical operator
@@ -504,12 +506,15 @@ $GLOBALS['strDeliveryCappingTotal'] = "insgesamt";
 $GLOBALS['strDeliveryCappingSession'] = "pro Session";
 
 $GLOBALS['strCappingBanner'] = array();
+$GLOBALS['strCappingBanner']['title'] = "Kappung der Auslieferung pro Besucher";
 $GLOBALS['strCappingBanner']['limit'] = "Banner Ausliferungen kappen auf:";
 
 $GLOBALS['strCappingCampaign'] = array();
+$GLOBALS['strCappingCampaign']['title'] = "Kappung der Auslieferung pro Besucher";
 $GLOBALS['strCappingCampaign']['limit'] = "Kampagnen kappen auf:";
 
 $GLOBALS['strCappingZone'] = array();
+$GLOBALS['strCappingZone']['title'] = "Kappung der Auslieferung pro Besucher";
 $GLOBALS['strCappingZone']['limit'] = "Zone kappen auf:";
 
 // Website
@@ -561,6 +566,7 @@ $GLOBALS['strConfirmDeleteZoneLinkActive'] = "Es sind noch Kampagnen auf diese Z
 $GLOBALS['strZoneType'] = "Zonentyp";
 $GLOBALS['strBannerButtonRectangle'] = "Banner, Button oder Rechteck";
 $GLOBALS['strInterstitial'] = "Interstitial oder Floating DHTML";
+$GLOBALS['strPopup'] = "Popup";
 $GLOBALS['strTextAdZone'] = "Textanzeige";
 $GLOBALS['strEmailAdZone'] = "E-Mail/Newsletter";
 $GLOBALS['strShowMatchingBanners'] = "Anzeige zugehörende Banner";
@@ -634,6 +640,8 @@ $GLOBALS['strSelectPublisher'] = "Webseite auswählen";
 $GLOBALS['strSelectZone'] = "Zone auswählen";
 $GLOBALS['strConnectionType'] = "Art";
 $GLOBALS['strStatusPending']            = "wartet auf Überprüfung";
+$GLOBALS['strStatusApproved']           = "Freigegeben";
+$GLOBALS['strStatusDisapproved']        = "Abgelehnt";
 $GLOBALS['strStatusDuplicate']          = "Kopieren";
 $GLOBALS['strConnectionType']           = "Art";
 $GLOBALS['strShortcutEditStatuses'] = "Status bearbeiten";
