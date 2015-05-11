@@ -43,10 +43,13 @@ function phpAds_getBannerCache($banner)
         if (preg_match_all('#<a(.*?)href\s*=\s*(\\\\?[\'"])http(.*?)\2(.*?) *>#is', $buffer, $m)) {
             foreach ($m[0] as $k => $v) {
                 // Remove target parameters
-                $m[4][$k] = trim(preg_replace('#target\s*=\s*(\\\\?[\'"]).*?\1#i', '', $m[4][$k]));
+                $m[1][$k] = ' '.trim(preg_replace('#target\s*=\s*(\\\\?[\'"]).*?\1#i', '', $m[1][$k]));
+                $m[4][$k] = ' '.trim(preg_replace('#target\s*=\s*(\\\\?[\'"]).*?\1#i', '', $m[4][$k]));
+
+                $m[3][$k] = html_entity_decode($m[3][$k], null, 'UTF-8');
 
                 $urlDest = preg_replace('/%7B(.*?)%7D/', '{$1}', urlencode("http" . $m[3][$k]));
-                $buffer = str_replace($v, "<a{$m[1][$k]}href={$m[2][$k]}{clickurl}$urlDest{$m[2][$k]}{$m[4][$k]} target={$m[2][$k]}{target}{$m[2][$k]}>", $buffer);
+                $buffer = str_replace($v, "<a{$m[1][$k]}href={$m[2][$k]}{clickurl}$urlDest{$m[2][$k]}{$m[4][$k]}target={$m[2][$k]}{target}{$m[2][$k]}>", $buffer);
             }
         }
 
@@ -76,6 +79,7 @@ function phpAds_getBannerCache($banner)
         // the clickTag is case insentive match, as it is correct to use clicktag, CLICKTAG, etc.
         preg_match('/^(.*)(clickTAG)\s?=\s?(.*?)([\'"])(.*)$/is', $buffer, $matches);
         if(count($matches) > 0) {
+            $matches[3] = html_entity_decode($matches[3], null, 'UTF-8');
             $buffer = $matches[1] . $matches[2] . "={clickurl}".urlencode($matches[3]).$matches[4].$matches[5];
         }
 
