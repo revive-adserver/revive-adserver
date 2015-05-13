@@ -18,7 +18,9 @@ flush();
 ob_start();
 
 // Run maintenance
-require '../scripts/maintenance/maintenance-distributed.php';
+// Done this way so that it works in CLI PHP
+$path = dirname(__FILE__);
+require $path . '/../scripts/maintenance/maintenance-distributed.php';
 
 // Get and clean output buffer
 $buffer = ob_get_clean();
