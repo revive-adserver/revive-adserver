@@ -40,6 +40,9 @@ include('../../constants.php');
 $GLOBALS['_MAX']['CONF'] = true;
 setupConstants();
 
+$PRODUCT_NAME = PRODUCT_NAME;
+$PRODUCT_DOCSURL = PRODUCT_DOCSURL;
+
 //Always load the English language, in case of incomplete translations
 include '../../lib/max/language/en/default.lang.php';
 
