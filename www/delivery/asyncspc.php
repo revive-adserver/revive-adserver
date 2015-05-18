@@ -3299,13 +3299,21 @@ $append = !empty($aBanner['append']) ? $aBanner['append'] : '';
 $width = !empty($aBanner['width']) ? $aBanner['width'] : 0;
 $height = !empty($aBanner['height']) ? $aBanner['height'] : 0;
 $pluginVersion = !empty($aBanner['pluginversion']) ? _adRenderGetRealPluginVersion($aBanner['pluginversion']) : '4';
+$logURL = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&');
 if (!empty($aBanner['alt_filename']) || !empty($aBanner['alt_imageurl'])) {
 $altImageAdCode = _adRenderImage($aBanner, $zoneId, $source, $ct0, false, $logClick, false, true, true, $loc, $referer, false);
 $fallBackLogURL = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&', true);
 } else {
 $alt = !empty($aBanner['alt']) ? htmlspecialchars($aBanner['alt'], ENT_QUOTES) : '';
 $altImageAdCode = "<img src='" . _adRenderBuildImageUrlPrefix() . '/1x1.gif' . "' alt='".$alt."' title='".$alt."' border='0' />";
+if ($zoneId) {
+$fallBackLogURL = _adRenderBuildLogURL(array(
+'ad_id' => 0,
+'placement_id' => 0,
+), $zoneId, $source, $loc, $referer, '&', true);
+} else {
 $fallBackLogURL = false;
+}
 }
 $clickUrl = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick);
 if (!empty($clickUrl)) {  $status = _adRenderBuildStatusCode($aBanner);
@@ -3332,31 +3340,28 @@ $swfParams["atar{$iKey}"] = $aSwf['tar'];
 }
 }
 $fileUrl = _adRenderBuildFileUrl($aBanner, false);
-$rnd = md5(microtime());
+$id = 'rv_swf_{random}';
 $swfId = (!empty($aBanner['alt']) ? $aBanner['alt'] : 'Advertisement');
 $swfId = 'id-' . preg_replace('/[a-z0-1]+/', '', strtolower($swfId));
 $code = "
-<div id='ox_$rnd' style='display: inline;'>$altImageAdCode</div>
+<div id='{$id}' style='display: inline;'>$altImageAdCode</div>
 <script type='text/javascript'><!--/"."/ <![CDATA[
     var ox_swf = new FlashObject('{$fileUrl}', '{$swfId}', '{$width}', '{$height}', '{$pluginVersion}');\n";
 foreach ($swfParams as $key => $value) {
 $code .= "    ox_swf.addVariable('{$key}', '" . preg_replace('#%7B(.*?)%7D#', '{$1}', urlencode($value)) . "');\n";
 }
 if (!empty($aBanner['transparent'])) {
-$code .= "\n   ox_swf.addParam('wmode','transparent');";
+$code .= "    ox_swf.addParam('wmode','transparent');\n";
 } else {
-$code .= "\n   ox_swf.addParam('wmode','opaque');";
+$code .= "    ox_swf.addParam('wmode','opaque');\n";
 }
-$code .= "
-    ox_swf.addParam('allowScriptAccess','always');
-    ox_swf.write('ox_$rnd');\n";
+$code .= "    ox_swf.addParam('allowScriptAccess','always');\n";
 if ($logView && $conf['logging']['adImpressions']) {
-$code .= "    if (ox_swf.installedVer.versionIsValid(ox_swf.getAttribute('version'))) { document.write(\""._adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer)."\"); }";
-if ($fallBackLogURL) {
-$code .= ' else { document.write("'._adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer, $fallBackLogURL).'"); }';
+$code .= "    ox_swf.write('{$id}', ".json_encode($logURL).", ".json_encode($fallBackLogURL).");\n";
+} else {
+$code .= "    ox_swf.write('{$id}');\n";
 }
-}
-$code .= "\n/"."/ ]]> --></script>";
+$code .= "/"."/ ]]> --></script>";
 if ($fallBackLogURL) {
 $code .= '<noscript>' . _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer, $fallBackLogURL) . '</noscript>';
 }
@@ -4258,31 +4263,6 @@ return;
 }
 
 
-function MAX_flashGetFlashObjectExternal()
-{
-$conf = $GLOBALS['_MAX']['CONF'];
-if (substr($conf['file']['flash'], 0, 4) == 'http') {
-$url = $conf['file']['flash'];
-} else {
-$url = MAX_commonGetDeliveryUrl($conf['file']['flash']);
-}
-return "<script type='text/javascript' src='{$url}'></script>";
-}
-function MAX_flashGetFlashObjectInline()
-{
-$conf = $GLOBALS['_MAX']['CONF'];
-if (substr($conf['file']['flash'], 0, 4) == 'http') {
-if (file_exists(MAX_PATH . '/www/delivery/' . basename($conf['file']['flash']))) {
-return file_get_contents(MAX_PATH . '/www/delivery/' . basename($conf['file']['flash']));
-} else {
-return @file_get_contents($conf['file']['flash']);
-}
-} elseif (file_exists(MAX_PATH . '/www/delivery/' . $conf['file']['flash'])) {
-return file_get_contents(MAX_PATH . '/www/delivery/' . $conf['file']['flash']);
-}
-}
-
-
 function MAX_javascriptToHTML($string, $varName, $output = true, $localScope = true)
 {
 $jsLines = array();
@@ -4314,7 +4294,7 @@ return '"'.$string.'"';
 }
 
 MAX_commonSetNoCacheHeaders();
-MAX_commonRegisterGlobalsArray(array('zones' ,'source', 'block', 'blockcampaign', 'exclude', 'mmm_fo', 'q', 'prefix'));
+MAX_commonRegisterGlobalsArray(array('zones' ,'source', 'block', 'blockcampaign', 'exclude', 'q', 'prefix'));
 $source = MAX_commonDeriveSource($source);
 $spc_output = array();
 if(!empty($zones)) {
