@@ -33,7 +33,8 @@ What's New in Revive Adserver 3.2.1
  ---------
 
  * Fixed issue with getBannerTargeting API call when the banner didn't have
-   any delivery limitation
+   any delivery limitation.
+ * Fixed issue with SWF banners not working with asynchronous tags.
 
  Non-Backwards Compatible Changes
  --------------------------------
