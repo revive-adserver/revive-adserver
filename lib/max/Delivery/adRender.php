@@ -348,13 +348,13 @@ function _adRenderFlash(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=fal
         }
     }
     $fileUrl = _adRenderBuildFileUrl($aBanner, false);
-    $rnd = md5(microtime());
+    $id = 'rv_swf_{random}';
 
     $swfId = (!empty($aBanner['alt']) ? $aBanner['alt'] : 'Advertisement');
     $swfId = 'id-' . preg_replace('/[a-z0-1]+/', '', strtolower($swfId));
 
     $code = "
-<div id='ox_$rnd' style='display: inline;'>$altImageAdCode</div>
+<div id='{$id}' style='display: inline;'>$altImageAdCode</div>
 <script type='text/javascript'><!--/"."/ <![CDATA[
     var ox_swf = new FlashObject('{$fileUrl}', '{$swfId}', '{$width}', '{$height}', '{$pluginVersion}');\n";
     foreach ($swfParams as $key => $value) {
@@ -371,9 +371,9 @@ function _adRenderFlash(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=fal
     if ($logView && $conf['logging']['adImpressions']) {
         // Only render the log beacon if the user has the minumum required flash player version
         // Otherwise log a fallback impression (if there is a fallback creative configured)
-        $code .= "    ox_swf.write('ox_{$rnd}', ".json_encode($logURL).", ".json_encode($fallBackLogURL).");\n";
+        $code .= "    ox_swf.write('{$id}', ".json_encode($logURL).", ".json_encode($fallBackLogURL).");\n";
     } else {
-        $code .= "    ox_swf.write('ox_{$rnd}');\n";
+        $code .= "    ox_swf.write('{$id}');\n";
     }
 
     $code .= "/"."/ ]]> --></script>";
