@@ -35,6 +35,8 @@ What's New in Revive Adserver 3.2.1
  * Fixed issue with getBannerTargeting API call when the banner didn't have
    any delivery limitation.
  * Fixed issue with SWF banners not working with asynchronous tags.
+ * The campaign edit screen was triggering JS errors when switching to some
+   languages other than english and was therefore unusable.
 
  Non-Backwards Compatible Changes
  --------------------------------

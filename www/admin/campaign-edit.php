@@ -968,11 +968,6 @@ function displayPage($campaign, $campaignForm, $statusForm, $campaignErrors = nu
     $oTpl->assign ( 'clicksDelivered', isset ( $campaign['clicks_delivered'] ) ? $campaign['clicks_delivered'] : 0 );
     $oTpl->assign ( 'conversionsDelivered', isset ( $campaign['conversions_delivered'] ) ? $campaign['conversions_delivered'] : 0 );
 
-    $oTpl->assign ( 'strCampaignWarningNoTargetMessage', str_replace ( "\n", '\n', addslashes ( $GLOBALS ['strCampaignWarningNoTarget'] ) ) );
-    $oTpl->assign ( 'strCampaignWarningRemnantNoWeight', str_replace ( "\n", '\n', addslashes ( $GLOBALS ['strCampaignWarningRemnantNoWeight'] ) ) );
-    $oTpl->assign ( 'strCampaignWarningEcpmNoRevenue', str_replace ( "\n", '\n', addslashes ( $GLOBALS ['strCampaignWarningEcpmNoRevenue'] ) ) );
-    $oTpl->assign ( 'strCampaignWarningOverrideNoWeight', str_replace ( "\n", '\n', addslashes ( $GLOBALS ['strCampaignWarningOverrideNoWeight'] ) ) );
-
     $oTpl->assign ( 'campaignErrors', $campaignErrors );
 
     $oTpl->assign ( 'CAMPAIGN_TYPE_REMNANT', OX_CAMPAIGN_TYPE_REMNANT );
