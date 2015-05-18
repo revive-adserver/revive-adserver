@@ -23,7 +23,12 @@ msgid "iFrame Tag"
 msgstr ""
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adframe.class.php:115
-msgid "\n  * If iFrames are not supported by the viewer's browser, then this\n  * tag only shows image banners. There is no width or height in these\n  * banners, so if you want these tags to allocate space for the ad\n  * before it shows, you will need to add this information to the <img>\n  * tag."
+msgid "\n"
+"  * If iFrames are not supported by the viewer's browser, then this\n"
+"  * tag only shows image banners. There is no width or height in these\n"
+"  * banners, so if you want these tags to allocate space for the ad\n"
+"  * before it shows, you will need to add this information to the <img>\n"
+"  * tag."
 msgstr ""
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adframe.class.php:204
@@ -36,7 +41,16 @@ msgstr "Zaznamek JavaScript"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adjs.class.php:116
 #, php-format
-msgid "\n  * This noscript section of this tag only shows image banners. There\n  * is no width or height in these banners, so if you want these tags to\n  * allocate space for the ad before it shows, you will need to add this\n  * information to the <img> tag.\n  *\n  * If you do not want to deal with the intricities of the noscript\n  * section, delete the tag (from <noscript>... to </noscript>). On\n  * average, the noscript tag is called from less than 1% of internet\n  * users."
+msgid "\n"
+"  * This noscript section of this tag only shows image banners. There\n"
+"  * is no width or height in these banners, so if you want these tags to\n"
+"  * allocate space for the ad before it shows, you will need to add this\n"
+"  * information to the <img> tag.\n"
+"  *\n"
+"  * If you do not want to deal with the intricities of the noscript\n"
+"  * section, delete the tag (from <noscript>... to </noscript>). On\n"
+"  * average, the noscript tag is called from less than 1% of internet\n"
+"  * users."
 msgstr ""
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adlayer.class.php:62
@@ -44,21 +58,39 @@ msgid "Interstitial or Floating DHTML Tag"
 msgstr ""
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adlayer.class.php:119
-msgid "\n  * Replace all instances of {random} with\n  * a generated random number (or timestamp).\n  *"
+msgid "\n"
+"  * Replace all instances of {random} with\n"
+"  * a generated random number (or timestamp).\n"
+"  *"
 msgstr ""
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adlayer.class.php:123
-msgid "\n  * Don't forget to replace the '{clickurl}' text with\n  * the click tracking URL if this ad is to be delivered through a 3rd\n  * party (non-Max) adserver.\n  *"
+msgid "\n"
+"  * Don't forget to replace the '{clickurl}' text with\n"
+"  * the click tracking URL if this ad is to be delivered through a 3rd\n"
+"  * party (non-Max) adserver.\n"
+"  *"
 msgstr ""
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adlayer.class.php:128
 #, php-format
-msgid "\n  * This tag has been generated for use on a non-SSL page. If this tag\n  * is to be placed on an SSL page, change the\n  *   'http://%s/...'\n  * to\n  *   'https://%s/...'\n  *"
+msgid "\n"
+"  * This tag has been generated for use on a non-SSL page. If this tag\n"
+"  * is to be placed on an SSL page, change the\n"
+"  *   'http://%s/...'\n"
+"  * to\n"
+"  *   'https://%s/...'\n"
+"  *"
 msgstr ""
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adlayer.class.php:139
 #, php-format
-msgid "\n  *------------------------------------------------------------*\n  * This interstitial invocation code requires the images from:\n  * /www/images/layerstyles/%s/...\n  * To be accessible via: http(s)://%s/layerstyles/%s/...\n  *------------------------------------------------------------*"
+msgid "\n"
+"  *------------------------------------------------------------*\n"
+"  * This interstitial invocation code requires the images from:\n"
+"  * /www/images/layerstyles/%s/...\n"
+"  * To be accessible via: http(s)://%s/layerstyles/%s/...\n"
+"  *------------------------------------------------------------*"
 msgstr ""
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adlayer.class.php:242
@@ -70,7 +102,11 @@ msgid "Image Tag"
 msgstr "Zaznamek slike"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adview.class.php:111
-msgid "\n  * This tag only shows image banners. There is no width or height in\n  * these banners, so if you want these tags to allocate space for the\n  * ad before it shows, you will need to add this information to the\n  * <img> tag."
+msgid "\n"
+"  * This tag only shows image banners. There is no width or height in\n"
+"  * these banners, so if you want these tags to allocate space for the\n"
+"  * ad before it shows, you will need to add this information to the\n"
+"  * <img> tag."
 msgstr ""
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adviewnocookies.class.php:57
@@ -90,12 +126,26 @@ msgid "Popup Tag"
 msgstr ""
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/popup.class.php:120
-msgid "\n  -- Don't forget to replace the 'Insert_Clicktrack_URL_Here' text with\n  -- the click tracking URL if this ad is to be delivered through a 3rd\n  -- party (non-Max) adserver.\n  --\n  -- Don't forget to replace the 'Insert_Random_Number_Here' text with\n  -- a cache-buster random number each time you deliver the tag through\n  -- a 3rd party (non-Max) adserver.\n  --"
+msgid "\n"
+"  -- Don't forget to replace the 'Insert_Clicktrack_URL_Here' text with\n"
+"  -- the click tracking URL if this ad is to be delivered through a 3rd\n"
+"  -- party (non-Max) adserver.\n"
+"  --\n"
+"  -- Don't forget to replace the 'Insert_Random_Number_Here' text with\n"
+"  -- a cache-buster random number each time you deliver the tag through\n"
+"  -- a 3rd party (non-Max) adserver.\n"
+"  --"
 msgstr ""
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/popup.class.php:129
 #, php-format
-msgid "\n  -- This tag has been generated for use on a non-SSL page. If this tag\n  -- is to be placed on an SSL page, change all instances of\n  --   'http://%s/...'\n  -- to\n  --   'https://%s/...'\n  --"
+msgid "\n"
+"  -- This tag has been generated for use on a non-SSL page. If this tag\n"
+"  -- is to be placed on an SSL page, change all instances of\n"
+"  --   'http://%s/...'\n"
+"  -- to\n"
+"  --   'https://%s/...'\n"
+"  --"
 msgstr ""
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/spc.class.php:91
@@ -117,7 +167,22 @@ msgid "XML-RPC Tag"
 msgstr ""
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/xmlrpc.class.php:160
-msgid "\n  * As the PHP script below tries to set cookies, it must be called\n  * before any output is sent to the user's browser. Once the script\n  * has finished running, the HTML code needed to display the ad is\n  * stored in the $adArray array (so that multiple ads can be obtained\n  * by using mulitple tags). Once all ads have been obtained, and all\n  * cookies set, then you can send output to the user's browser, and\n  * print out the contents of $adArray where appropriate.\n  *\n  * Example code for printing from $adArray is at the end of the tag -\n  * you will need to remove this before using the tag in production.\n  * Remember to ensure that the PEAR::XML-RPC package is installed\n  * and available to this script, and to copy over the\n  * lib/xmlrpc/php/openads-xmlrpc.inc.php library file. You may need to\n  * alter the 'include_path' value immediately below.\n  */"
+msgid "\n"
+"  * As the PHP script below tries to set cookies, it must be called\n"
+"  * before any output is sent to the user's browser. Once the script\n"
+"  * has finished running, the HTML code needed to display the ad is\n"
+"  * stored in the $adArray array (so that multiple ads can be obtained\n"
+"  * by using mulitple tags). Once all ads have been obtained, and all\n"
+"  * cookies set, then you can send output to the user's browser, and\n"
+"  * print out the contents of $adArray where appropriate.\n"
+"  *\n"
+"  * Example code for printing from $adArray is at the end of the tag -\n"
+"  * you will need to remove this before using the tag in production.\n"
+"  * Remember to ensure that the PEAR::XML-RPC package is installed\n"
+"  * and available to this script, and to copy over the\n"
+"  * lib/xmlrpc/php/openads-xmlrpc.inc.php library file. You may need to\n"
+"  * alter the 'include_path' value immediately below.\n"
+"  */"
 msgstr ""
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:70

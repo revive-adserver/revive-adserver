@@ -204,6 +204,7 @@ $GLOBALS['strTrackerName'] = "Nombre del Tracker";
 $GLOBALS['strTrackerImageTag'] = "Tag de Imagen";
 $GLOBALS['strTrackerJsTag'] = "Tag de Javascript";
 $GLOBALS['strTrackerAlwaysAppend'] = "¿Mostrar siempre código anexado, aunque no haya una conversión registrada por el rastreador?";
+$GLOBALS['strBanners'] = "Banners";
 $GLOBALS['strCampaigns'] = "Campañas";
 $GLOBALS['strCampaignID'] = "ID Campaña";
 $GLOBALS['strCampaignName'] = "Nombre de la Campaña";
@@ -410,6 +411,8 @@ $GLOBALS['strLinkCampaignsByDefault'] = "Enlazar campañas nuevas por defecto";
 $GLOBALS['strIPAddress'] = "Dirección IP";
 
 // Banners (General)
+$GLOBALS['strBanner'] = "Banner";
+$GLOBALS['strBanners'] = "Banners";
 $GLOBALS['strAddBanner'] = "Agregar nuevo banner";
 $GLOBALS['strAddBanner_Key'] = "Agregar <u>n</u>uevo banner";
 $GLOBALS['strBannerToCampaign'] = "Su campaña";
@@ -452,6 +455,7 @@ $GLOBALS['strURLBanner'] = "Banner Externo";
 $GLOBALS['strHTMLBanner'] = "Banner HTML";
 $GLOBALS['strTextBanner'] = "Banner de texto";
 $GLOBALS['strAlterHTML'] = "Modificar HTML para permitir seguimiento de click para:";
+$GLOBALS['strIframeFriendly'] = "Este banner puede visualizarse con seguridad dentro de un iframe (por ejemplo no es ampliable)";
 $GLOBALS['strUploadOrKeep'] = "¿Desea conservar<br />la imagen existente,<br />o desea subir una nueva?";
 $GLOBALS['strNewBannerFile'] = "Seleccione la imagen que quiere <br />usar para este banner.<br /><br />";
 $GLOBALS['strNewBannerFileAlt'] = "Seleccione la imagen de reserva que <br />quiere usar en el caso de que los navegadores </br /> no soporten multimedia";
@@ -467,6 +471,7 @@ $GLOBALS['strAdserverTypeGeneric'] = "Banner HTML genérico";
 $GLOBALS['strDoNotAlterHtml'] = "No alterar HTML";
 $GLOBALS['strGenericOutputAdServer'] = "Genérico";
 $GLOBALS['strSwfTransparency'] = "Permitir fondo transparente";
+$GLOBALS['strBackToBanners'] = "Volver a banners";
 
 // Banner (advanced)
 
@@ -483,9 +488,11 @@ $GLOBALS['strACL'] = "Entrega";
 $GLOBALS['strACLAdd'] = "Agregar nuevas limitaciones";
 $GLOBALS['strNoLimitations'] = "Sin limitaciones";
 $GLOBALS['strApplyLimitationsTo'] = "Aplicar limitaciones a";
+$GLOBALS['strAllBannersInCampaign'] = "Todos los banners en esta campaña";
 $GLOBALS['strRemoveAllLimitations'] = "Quitar todas las limitaciones";
 $GLOBALS['strEqualTo'] = "es igual a";
 $GLOBALS['strDifferentFrom'] = "es diferente de";
+$GLOBALS['strContains'] = "contiene";
 $GLOBALS['strGreaterThan'] = "es mayor que";
 $GLOBALS['strLessThan'] = "es menor que";
 $GLOBALS['strAND'] = "Y";                          // logical operator
@@ -549,6 +556,7 @@ $GLOBALS['strAddNewZone_Key'] = "Agregar <u>n</u>ueva zona";
 $GLOBALS['strZoneToWebsite'] = "Sin sitio web";
 $GLOBALS['strLinkedZones'] = "Zonas enlazadas";
 $GLOBALS['strAvailableZones'] = "Zonas disponibles";
+$GLOBALS['strLinkingNotSuccess'] = "Vinculación fallida, por favor inténtelo nuevamente";
 $GLOBALS['strZoneProperties'] = "Propiedades de la zona";
 $GLOBALS['strZoneHistory'] = "Historial de la zona";
 $GLOBALS['strNoZones'] = "No hay zonas definidas actualmente";
@@ -559,6 +567,7 @@ $GLOBALS['strConfirmDeleteZoneLinkActive'] = "Hay campañas de pago todavía enl
 $GLOBALS['strZoneType'] = "Tipo de zona";
 $GLOBALS['strBannerButtonRectangle'] = "Banner, Botón o Rectángulo";
 $GLOBALS['strInterstitial'] = "Interstitial o DHTML flotante";
+$GLOBALS['strPopup'] = "Popup";
 $GLOBALS['strTextAdZone'] = "Texto";
 $GLOBALS['strEmailAdZone'] = "Zona de E-mail/Boletín";
 $GLOBALS['strShowMatchingBanners'] = "Mostrar banners correspondientes";
@@ -706,6 +715,11 @@ $GLOBALS['strBackToTheList'] = "Volver a la lista de informes";
 $GLOBALS['strCharset'] = "Juego de caracteres";
 $GLOBALS['strAutoDetect'] = "Autodetectar";
 
+$GLOBALS['strThirdPartyComment'] = "
+* No olvide de reemplazar el texto de '{clickurl}' con 
+* la URL de seguimiento de click si este anuncio va a ser entregado a través de un
+* adserver de terceros (no-Max)
+*";
 
 // Errors
 $GLOBALS['strErrorDatabaseConnetion'] = "Error de conexión a la Base de Datos.";
@@ -714,20 +728,28 @@ $GLOBALS['strNoMatchesFound'] = "No se han encontrado resultados.";
 $GLOBALS['strErrorOccurred'] = "Ha ocurrido un error";
 $GLOBALS['strErrorDBPlain'] = "Ha ocurrido un error al intentar acceder a la base de datos";
 $GLOBALS['strErrorDBSerious'] = "Se ha detectado un problema serio con la base de datos";
+$GLOBALS['strErrorDBNoDataPlain'] = "Debido a un problema con la base de datos {$PRODUCT_NAME} no se ha podido recuperar o guardar los datos. ";
+$GLOBALS['strErrorDBNoDataSerious'] = "Debido a un problema serio con la base de datos, {$PRODUCT_NAME} no se ha podido cargar los datos";
 $GLOBALS['strErrorDBCorrupt'] = "La tabla de base de datos está probablemente corrupta y necesita ser reparada. Para más información sobre reparación de tablas corruptas, por favor, lea el capítulo <i>Troubleshooting</i> (resolución de problemas) de la <i>Guía del Administrador</i>.";
 $GLOBALS['strErrorDBContact'] = "Por favor, contacte con el administrador de este servidor y notifíquele el problema.";
+$GLOBALS['strErrorDBSubmitBug'] = "Si el problema es reproducible puede ser debido a un bug en {$PRODUCT_NAME}. Por favor, envíe la siguiente información a los creadores de {$PRODUCT_NAME}. También intente describir las acciones que le han llevado hasta este error tan claramente como le sea posible.";
 $GLOBALS['strMaintenanceNotActive'] = "No se ha ejecutado el script de mantenimiento en las últimas 24 horas. Para asegurar que la aplicación funcione correctamente es necesario ejecutarlo cada hora.  Por favor lea a la guía del administrador para obtener más información acerca de cómo configurar el script de mantenimiento.";
 $GLOBALS['strErrorLinkingBanner'] = "No ha sido posible enlazar el banner a esta zona porque:";
 $GLOBALS['strUnableToLinkBanner'] = "No se puede enlazar este banner:";
 $GLOBALS['strErrorEditingCampaignRevenue'] = "formato incorrecto de número en el campo de Información de Ingresos";
+$GLOBALS['strErrorEditingCampaignECPM'] = "formato de número incorrecto en campo ECPM";
 $GLOBALS['strErrorEditingZone'] = "Error actualizando zona:";
 $GLOBALS['strUnableToChangeZone'] = "No se pueden aplicar los cambios porque:";
 $GLOBALS['strDatesConflict'] = "las fechas son conflictivas con:";
+$GLOBALS['strEmailNoDates'] = "Campañas vinculadas a las zonas de correo electrónico deben tener una fecha inicial y final. {$PRODUCT_NAME} asegura que en una fecha determinada, sólo un banner activo está ligado a una zona de correo electrónico. Por favor asegúrese de que las campañas ya vinculadas a la zona no tienen superposición de fechas con la campaña que está tratando de vincular.";
 $GLOBALS['strWarningInaccurateStats'] = "Algunas de estas estadísticas no fueron logueadas en un huso horario UTC por lo que podrían ser mostradas en un huso horario incorrecto.";
 $GLOBALS['strWarningInaccurateReadMore'] = "Leer más sobre esto";
 $GLOBALS['strWarningInaccurateReport'] = "Algunas estadísticas en este informe no fueron logueadas en un huso horario UTC por lo que podrían ser mostradas en un huso horario incorrecto.";
 
 //Validation
+$GLOBALS['strRequiredFieldLegend'] = "indica campo obligatorio";
+$GLOBALS['strFormContainsErrors'] = "El formulario tiene errores, por favor corrija los campos marcados a continuación.";
+$GLOBALS['strXRequiredField'] = "%s es obligatorio";
 $GLOBALS['strEmailField'] = "Por favor escriba un correo electrónico válido";
 $GLOBALS['strNumericField'] = "Introduce un número (sólo dígitos permitidos)";
 $GLOBALS['strGreaterThanZeroField'] = "Debe ser mayor que 0";
@@ -754,6 +776,7 @@ $GLOBALS['strNoMoreImpressions'] = "no quedan impresiones disponibles";
 $GLOBALS['strNoMoreClicks'] = "no quedan clics disponibles";
 $GLOBALS['strNoMoreConversions'] = "no quedan ventas disponibles";
 $GLOBALS['strWeightIsNull'] = "el peso es cero";
+$GLOBALS['strRevenueIsNull'] = "sus ingresos son cero";
 $GLOBALS['strTargetIsNull'] = "el target es cero";
 $GLOBALS['strNoViewLoggedInInterval'] = "No se ha grabado ninguna impresión durante el periodo de este informe";
 $GLOBALS['strNoClickLoggedInInterval'] = "No se ha grabado ningún clic durante el periodo de este informe";
@@ -929,6 +952,7 @@ $GLOBALS['strPwdRecEnterEmail'] = "Introduzca su dirección e-mail a continuaci�
 $GLOBALS['strPwdRecEnterPassword'] = "Introduzca su nueva contraseña a continuación";
 $GLOBALS['strPwdRecResetLink'] = "Enlace de reset de contraseña";
 $GLOBALS['strPwdRecEmailPwdRecovery'] = "Recuperación de contraseña %s";
+$GLOBALS['strProceed'] = "Continuar >";
 $GLOBALS['strNotifyPageMessage'] = "Se le ha enviado un e-mail, el cual incluye un enlace que le permitirá restaurar su contraseña y entrar en el sistema.<br />Por favor de varios minutos al e-mail para recibirlo.<br />Si no recibe el e-mail, por favor revise su carpeta de spam.<br /><a href='index.php'>Volver a la página principal de entrada al sistema.</a>";
 
 // Audit
