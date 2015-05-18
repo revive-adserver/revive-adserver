@@ -36,3 +36,4 @@ if (!empty($conf['delivery']['assetClientCacheExpire'])) {
 MAX_cookieGetUniqueViewerId();
 
 require __DIR__.'/async.js';
+require __DIR__.'/fl.js';

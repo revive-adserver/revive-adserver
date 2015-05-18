@@ -297,14 +297,25 @@ function _adRenderFlash(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=fal
     $width = !empty($aBanner['width']) ? $aBanner['width'] : 0;
     $height = !empty($aBanner['height']) ? $aBanner['height'] : 0;
     $pluginVersion = !empty($aBanner['pluginversion']) ? _adRenderGetRealPluginVersion($aBanner['pluginversion']) : '4';
-    // $imageUrlPrefix = ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) ? $conf['type_web_ssl_url'] : $conf['type_web_url'];
+    $logURL = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&');
+
     if (!empty($aBanner['alt_filename']) || !empty($aBanner['alt_imageurl'])) {
         $altImageAdCode = _adRenderImage($aBanner, $zoneId, $source, $ct0, false, $logClick, false, true, true, $loc, $referer, false);
         $fallBackLogURL = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&', true);
     } else {
         $alt = !empty($aBanner['alt']) ? htmlspecialchars($aBanner['alt'], ENT_QUOTES) : '';
         $altImageAdCode = "<img src='" . _adRenderBuildImageUrlPrefix() . '/1x1.gif' . "' alt='".$alt."' title='".$alt."' border='0' />";
-        $fallBackLogURL = false;
+
+        if ($zoneId) {
+            // Log a blank impression instead
+            $fallBackLogURL = _adRenderBuildLogURL(array(
+                    'ad_id' => 0,
+                    'placement_id' => 0,
+                ), $zoneId, $source, $loc, $referer, '&', true);
+        } else {
+            // No zone, skip logging
+            $fallBackLogURL = false;
+        }
     }
 
     // Create the anchor tag..
@@ -351,23 +362,21 @@ function _adRenderFlash(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=fal
         $code .= "    ox_swf.addVariable('{$key}', '" . preg_replace('#%7B(.*?)%7D#', '{$1}', urlencode($value)) . "');\n";
     }
     if (!empty($aBanner['transparent'])) {
-        $code .= "\n   ox_swf.addParam('wmode','transparent');";
+        $code .= "    ox_swf.addParam('wmode','transparent');\n";
     } else {
-        $code .= "\n   ox_swf.addParam('wmode','opaque');";
+        $code .= "    ox_swf.addParam('wmode','opaque');\n";
     }
-    $code .= "
-    ox_swf.addParam('allowScriptAccess','always');
-    ox_swf.write('ox_$rnd');\n";
+    $code .= "    ox_swf.addParam('allowScriptAccess','always');\n";
 
     if ($logView && $conf['logging']['adImpressions']) {
         // Only render the log beacon if the user has the minumum required flash player version
-        $code .= "    if (ox_swf.installedVer.versionIsValid(ox_swf.getAttribute('version'))) { document.write(\""._adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer)."\"); }";
         // Otherwise log a fallback impression (if there is a fallback creative configured)
-        if ($fallBackLogURL) {
-            $code .= ' else { document.write("'._adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer, $fallBackLogURL).'"); }';
-        }
+        $code .= "    ox_swf.write('ox_{$rnd}', ".json_encode($logURL).", ".json_encode($fallBackLogURL).");\n";
+    } else {
+        $code .= "    ox_swf.write('ox_{$rnd}');\n";
     }
-    $code .= "\n/"."/ ]]> --></script>";
+
+    $code .= "/"."/ ]]> --></script>";
     if ($fallBackLogURL) {
         $code .= '<noscript>' . _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer, $fallBackLogURL) . '</noscript>';
     }

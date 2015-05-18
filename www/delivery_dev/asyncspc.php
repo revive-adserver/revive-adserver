@@ -15,7 +15,6 @@ require_once '../../init-delivery.php';
 
 // Required files
 require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
-require_once MAX_PATH . '/lib/max/Delivery/flash.php';
 require_once MAX_PATH . '/lib/max/Delivery/javascript.php';
 
 MAX_commonSetNoCacheHeaders();
@@ -24,7 +23,7 @@ MAX_commonSetNoCacheHeaders();
 /* Register input variables                              */
 /*-------------------------------------------------------*/
 
-MAX_commonRegisterGlobalsArray(array('zones' ,'source', 'block', 'blockcampaign', 'exclude', 'mmm_fo', 'q', 'prefix'));
+MAX_commonRegisterGlobalsArray(array('zones' ,'source', 'block', 'blockcampaign', 'exclude', 'q', 'prefix'));
 
 /*-------------------------------------------------------*/
 /* Main code                                             */

@@ -192,7 +192,7 @@
                                     var s = document.createElement('SCRIPT');
                                     var a = scripts[i].attributes;
                                     for (var j = 0; j < a.length; j++) {
-                                        s[a[j].nodeName] = a[j].nodeValue
+                                        s[a[j].nodeName] = a[j].value;
                                     }
                                     if (scripts[i].innerHTML) {
                                         s.text = scripts[i].innerHTML;

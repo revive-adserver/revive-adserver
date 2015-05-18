@@ -280,6 +280,7 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
         }
     } else {
 
+        // Blank impression beacon
         if (!empty($zoneId)) {
             $logUrl = _adRenderBuildLogURL(array(
                 'ad_id' => 0,
