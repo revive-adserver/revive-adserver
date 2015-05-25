@@ -37,6 +37,8 @@ What's New in Revive Adserver 3.2.1
  * Fixed issue with SWF banners not working with asynchronous tags.
  * The campaign edit screen was triggering JS errors when switching to some
    languages other than english and was therefore unusable.
+ * Regular Javascript Tag is no longer hidden in the invocation screen
+   dropdown.
 
  Non-Backwards Compatible Changes
  --------------------------------

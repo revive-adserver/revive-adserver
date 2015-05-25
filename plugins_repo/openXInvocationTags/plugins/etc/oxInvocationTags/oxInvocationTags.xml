@@ -4,13 +4,13 @@
 <plugin>
     <name>oxInvocationTags</name>
     <displayName>Invocation Tags Plugin</displayName>
-    <creationDate>2015-03-30</creationDate>
+    <creationDate>2015-05-25</creationDate>
     <author>Revive Adserver</author>
     <authorEmail>revive@revive-adserver.com</authorEmail>
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>GNU Gneral Public License v2</license>
     <description>Plugin that provides invocation tags for displaying banners on websites.</description>
-    <version>1.4.3</version>
+    <version>1.4.4</version>
     <oxversion>3.2.0-beta-rc3</oxversion>
     <extends>invocationTags</extends>
 
@@ -84,6 +84,7 @@
            <component><name>adlayer</name></component>
            <component><name>adview</name></component>
            <component><name>adviewnocookies</name></component>
+           <component><name>async</name></component>
            <component><name>local</name></component>
            <component><name>popup</name></component>
            <component><name>spc</name></component>
@@ -91,12 +92,12 @@
         </components>
 
         <configuration option="Invocation Tags">
-            <setting key="isAllowedAdframe"         type="checkbox" label="Allow iFrame Invocation Tag" required="0" size="1" visible="1">1</setting>
+            <setting key="isAllowedAsync"           type="checkbox" label="Allow Asynchronous JS Invocation Tag" required="0" size="1" visible="1">1</setting>
             <setting key="isAllowedAdjs"            type="checkbox" label="Allow Javascript Invocation Tag" required="0" size="1" visible="1">1</setting>
+            <setting key="isAllowedAdframe"         type="checkbox" label="Allow iFrame Invocation Tag" required="0" size="1" visible="1">1</setting>
             <setting key="isAllowedAdlayer"         type="checkbox" label="Allow Interstitial or Floating DHTML Invocation Tag" required="0" size="1" visible="1">1</setting>
             <setting key="isAllowedAdview"          type="checkbox" label="Allow Image Invocation Tag" required="0" size="1" visible="1">0</setting>
             <setting key="isAllowedAdviewnocookies" type="checkbox" label="Allow No Cookie Image Invocation Tag" required="0" size="1" visible="1">1</setting>
-            <setting key="isAllowedAsync"           type="checkbox" label="Allow Asynchronous JS Invocation Tag" required="0" size="1" visible="1">1</setting>
             <setting key="isAllowedLocal"           type="checkbox" label="Allow Local Mode Invocation Tag" required="0" size="1" visible="1">1</setting>
             <setting key="isAllowedPopup"           type="checkbox" label="Allow Popup Invocation Tag" required="0" size="1" visible="1">0</setting>
             <setting key="isAllowedXmlrpc"          type="checkbox" label="Allow XML-RPC Invocation Tag" required="0" size="1" visible="1">0</setting>
