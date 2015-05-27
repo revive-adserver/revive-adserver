@@ -43,6 +43,9 @@ What's New in Revive Adserver 3.2.1
  * Regular Javascript Tag is no longer hidden in the invocation screen
    dropdown.
 
+ * Added back some translation strings that were mistakenly removed. This
+   especially fixes issues in the delivery limitations screen.
+
  Non-Backwards Compatible Changes
  --------------------------------
 
