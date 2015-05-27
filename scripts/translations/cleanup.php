@@ -27,7 +27,7 @@ foreach ($aFiles as $file) {
 
             $output = $status = null;
             $regex = '\\(OA_Admin_Menu_Section.*\\\\b\\|translate.*\\\\b\\|key=\\|str=\\|str\\)'.$string.'\\\\b';
-            exec("bash -c \"grep -rl '{$regex}' constants.php lib www\" | grep -v lib/max/language | wc -l", $output, $status);
+            exec("bash -c \"grep -rl '{$regex}' constants.php lib www plugins_repo\" | grep -v lib/max/language | wc -l", $output, $status);
 
             if (!$status) {
                 if (!trim($output[0])) {
