@@ -45,6 +45,10 @@ What's New in Revive Adserver 3.2.1
 
  * Added back some translation strings that were mistakenly removed. This
    especially fixes issues in the delivery limitations screen.
+ 
+ * HTML entities, such as "&amp;", are now properly parsed when using the
+   "Alter  HTML" functionality. This should fix a problem with truncated
+   destination URLs.
 
  Non-Backwards Compatible Changes
  --------------------------------
