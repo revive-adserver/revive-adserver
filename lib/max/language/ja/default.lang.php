@@ -62,6 +62,7 @@ $GLOBALS['strNo'] = "いいえ";
 $GLOBALS['strNone'] = "なし";
 $GLOBALS['strCustom'] = "カスタム";
 $GLOBALS['strDefault'] = "デフォルト";
+$GLOBALS['strUnknown'] = "不明";
 $GLOBALS['strUnlimited'] = "無制限";
 $GLOBALS['strUntitled'] = "名称未設定";
 $GLOBALS['strAverage'] = "平均";
@@ -268,6 +269,7 @@ $GLOBALS['strHiddenAdvertiser'] = "広告主";
 $GLOBALS['strHiddenTracker'] = "トラッカー";
 $GLOBALS['strHiddenWebsite'] = "Webサイト";
 $GLOBALS['strHiddenZone'] = "ゾーン";
+$GLOBALS['strCampaignDelivery'] = "キャンペーンの配信";
 $GLOBALS['strCompanionPositioning'] = "キャンペーンランキング";
 $GLOBALS['strSelectUnselectAll'] = "すべて選択する/解除する";
 
@@ -409,6 +411,7 @@ $GLOBALS['strAND'] = "かつ";                          // logical operator
 $GLOBALS['strOR'] = "または";                         // logical operator
 $GLOBALS['strOnlyDisplayWhen'] = "バナー表示日時:";
 $GLOBALS['strWeekDays'] = "平日";
+$GLOBALS['strSource'] = "ソースパラメータ";
 $GLOBALS['strDeliveryLimitations'] = "配信先";
 
 $GLOBALS['strDeliveryCappingReset'] = "カウンタリセット条件：";
@@ -527,9 +530,9 @@ $GLOBALS['strSelectAd'] = "バナーを選択してください";
 $GLOBALS['strSelectPublisher'] = "Webサイトを選択してください";
 $GLOBALS['strSelectZone'] = "ゾーンを選択してください";
 $GLOBALS['strConnectionType'] = "タイプ";
-$GLOBALS['strStatusPending']            = "保留";
-$GLOBALS['strStatusDuplicate']          = "複製する";
-$GLOBALS['strConnectionType']           = "タイプ";
+$GLOBALS['strStatusPending'] = "保留";
+$GLOBALS['strStatusDuplicate'] = "複製する";
+$GLOBALS['strConnectionType'] = "タイプ";
 $GLOBALS['strShortcutEditStatuses'] = "ステータスを変更する";
 $GLOBALS['strShortcutShowStatuses'] = "ステータスを見る";
 
@@ -565,6 +568,7 @@ $GLOBALS['strDaysAgo'] = "日前";
 $GLOBALS['strCampaignStop'] = "キャンペーン中断";
 
 // Reports
+$GLOBALS['strPeriod'] = "期限";
 $GLOBALS['strLimitations'] = "制限";
 
 // Admin_UI_Fields

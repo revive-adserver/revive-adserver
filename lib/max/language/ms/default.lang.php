@@ -140,7 +140,7 @@ $GLOBALS['strZones'] = "Tiada";
 // Zone probability
 
 // Linked banners/campaigns/trackers
-$GLOBALS['strStatusDuplicate']          = "Salinan";
+$GLOBALS['strStatusDuplicate'] = "Salinan";
 
 // Statistics
 

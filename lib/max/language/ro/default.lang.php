@@ -389,6 +389,7 @@ $GLOBALS['strAND'] = "ŞI";                          // logical operator
 $GLOBALS['strOR'] = "SAU";                         // logical operator
 $GLOBALS['strOnlyDisplayWhen'] = "Afişează acest banner doar când:";
 $GLOBALS['strWeekDays'] = "Zile din săptămână";
+$GLOBALS['strSource'] = "Sursa";
 $GLOBALS['strDeliveryLimitations'] = "Limitări Livare";
 
 $GLOBALS['strDeliveryCappingReset'] = "Resetează contoare vizualizări după:";
@@ -515,9 +516,9 @@ $GLOBALS['strSelectAd'] = "Alege Banner";
 $GLOBALS['strSelectPublisher'] = "Alege Website";
 $GLOBALS['strSelectZone'] = "Alege Zonă";
 $GLOBALS['strConnectionType'] = "Tip";
-$GLOBALS['strStatusPending']            = "Aşteptare Aprobare";
-$GLOBALS['strStatusDuplicate']          = "Creează duplicat";
-$GLOBALS['strConnectionType']           = "Tip";
+$GLOBALS['strStatusPending'] = "Aşteptare Aprobare";
+$GLOBALS['strStatusDuplicate'] = "Creează duplicat";
+$GLOBALS['strConnectionType'] = "Tip";
 $GLOBALS['strShortcutEditStatuses'] = "Editează statusuri";
 $GLOBALS['strShortcutShowStatuses'] = "Arată statusuri";
 
@@ -553,6 +554,7 @@ $GLOBALS['strDaysAgo'] = "zile în urmă";
 $GLOBALS['strCampaignStop'] = "Stop campanie";
 
 // Reports
+$GLOBALS['strPeriod'] = "Perioadă";
 $GLOBALS['strLimitations'] = "Limitări";
 
 // Admin_UI_Fields

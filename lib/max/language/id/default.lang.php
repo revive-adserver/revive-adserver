@@ -56,6 +56,7 @@ $GLOBALS['strYes'] = "Ya";
 $GLOBALS['strNo'] = "Tidak";
 $GLOBALS['strNone'] = "Belum ditentukan";
 $GLOBALS['strCustom'] = "Langgam";
+$GLOBALS['strUnknown'] = "Tidak dikenal";
 $GLOBALS['strUnlimited'] = "Tidak terbatas";
 $GLOBALS['strUntitled'] = "Tanpa nama";
 $GLOBALS['strAverage'] = "Rata-rata";
@@ -218,6 +219,7 @@ $GLOBALS['strHiddenAdvertiser'] = "Pemasang Iklan";
 $GLOBALS['strHiddenTracker'] = "Pelacak";
 $GLOBALS['strHiddenWebsite'] = "Penerbit";
 $GLOBALS['strHiddenZone'] = "Zona";
+$GLOBALS['strCampaignDelivery'] = "Pelayanan Kampanye";
 $GLOBALS['strCompanionPositioning'] = "Iklan yang bermitra";
 $GLOBALS['strSelectUnselectAll'] = "Pilih / Batalkan Pilihan";
 
@@ -336,6 +338,7 @@ $GLOBALS['strAND'] = "DAN";                          // logical operator
 $GLOBALS['strOR'] = "ATAU";                         // logical operator
 $GLOBALS['strOnlyDisplayWhen'] = "Tampilkan banner ini hanya:";
 $GLOBALS['strWeekDays'] = "Hari Kerja";
+$GLOBALS['strSource'] = "Sumber";
 $GLOBALS['strDeliveryLimitations'] = "Limitasi Penyampaian";
 
 $GLOBALS['strDeliveryCappingReset'] = "Reset hitungan AdViews setelah:";
@@ -438,8 +441,8 @@ $GLOBALS['strSelectAdvertiser'] = "Pilih pemasang iklan";
 $GLOBALS['strSelectPlacement'] = "Pilih kampanye";
 $GLOBALS['strSelectAd'] = "Pilih banner";
 $GLOBALS['strConnectionType'] = "Jenis";
-$GLOBALS['strStatusDuplicate']          = "Mendobelkan";
-$GLOBALS['strConnectionType']           = "Jenis";
+$GLOBALS['strStatusDuplicate'] = "Mendobelkan";
+$GLOBALS['strConnectionType'] = "Jenis";
 $GLOBALS['strShortcutEditStatuses'] = "Edit status";
 $GLOBALS['strShortcutShowStatuses'] = "Tampilkan status";
 

@@ -351,6 +351,7 @@ $GLOBALS['strAND'] = "و";                          // logical operator
 $GLOBALS['strOR'] = "أو";                         // logical operator
 $GLOBALS['strOnlyDisplayWhen'] = "إعرض البنر فقط عندما";
 $GLOBALS['strWeekDays'] = "أيام الاسبوع";
+$GLOBALS['strSource'] = "المصدر";
 $GLOBALS['strDeliveryLimitations'] = "حدود التوصيل";
 
 $GLOBALS['strDeliveryCappingReset'] = "قم بتصفير العداد بعد :";
@@ -446,9 +447,9 @@ $GLOBALS['strSelectPlacement'] = "إختيار الحملة الاعلانية";
 $GLOBALS['strSelectAd'] = "إختيار البنر";
 $GLOBALS['strSelectZone'] = "إختيار المنطقة";
 $GLOBALS['strConnectionType'] = "النوع";
-$GLOBALS['strStatusPending']            = "بانتظار الموافقة";
-$GLOBALS['strStatusDuplicate']          = "نسخ";
-$GLOBALS['strConnectionType']           = "النوع";
+$GLOBALS['strStatusPending'] = "بانتظار الموافقة";
+$GLOBALS['strStatusDuplicate'] = "نسخ";
+$GLOBALS['strConnectionType'] = "النوع";
 $GLOBALS['strShortcutEditStatuses'] = "تعديل الحالات";
 $GLOBALS['strShortcutShowStatuses'] = "عرض الحالات";
 

@@ -314,7 +314,7 @@ $GLOBALS['strInactiveZonesHidden'] = "неактивния рекламодат�
 
 // Linked banners/campaigns/trackers
 $GLOBALS['strWithXBanners'] = "%d банер(и)";
-$GLOBALS['strStatusDuplicate']          = "Дублиране";
+$GLOBALS['strStatusDuplicate'] = "Дублиране";
 
 // Statistics
 $GLOBALS['strDailyStats'] = "Всички статистики";
@@ -328,6 +328,7 @@ $GLOBALS['strBreakdownByHour'] = "Час";
 $GLOBALS['strCampaignStop'] = "История на кампаниите";
 
 // Reports
+$GLOBALS['strPeriod'] = "Период";
 $GLOBALS['strLimitations'] = "Ограничения";
 
 // Admin_UI_Fields

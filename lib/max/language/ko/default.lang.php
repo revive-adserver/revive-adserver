@@ -64,6 +64,7 @@ $GLOBALS['strNo'] = "아니오";
 $GLOBALS['strNone'] = "없�?�";
 $GLOBALS['strCustom'] = "사용�? 지정";
 $GLOBALS['strDefault'] = "기본설정";
+$GLOBALS['strUnknown'] = "알려지지 않�?�";
 $GLOBALS['strUnlimited'] = "제한없�?�";
 $GLOBALS['strUntitled'] = "제목없�?�";
 $GLOBALS['strAll'] = "전체";
@@ -310,6 +311,7 @@ $GLOBALS['strAND'] = "그리고";                          // logical operator
 $GLOBALS['strOR'] = "�?는";                         // logical operator
 $GLOBALS['strOnlyDisplayWhen'] = "다�?� 조건�?서만 배너를 표시합니다.:";
 $GLOBALS['strWeekDays'] = "�?��?�(월-금)";
+$GLOBALS['strSource'] = "소스";
 $GLOBALS['strDeliveryLimitations'] = "전달유지 제한";
 
 
@@ -389,7 +391,7 @@ $GLOBALS['strNoTrackersToLink'] = "현재 �?� �?역�? 연결할 �?페�
 $GLOBALS['strNoZonesToLinkToCampaign'] = "현재 �?� �?역�? 연결�?� �?페�?��?� 없습니다.";
 $GLOBALS['strSelectBannerToLink'] = "�?� �?역�? 연결할 배너를 선�?하세요:";
 $GLOBALS['strSelectCampaignToLink'] = "�?� �?역�? 연결할 캠페�?� 선�?합니다:";
-$GLOBALS['strStatusDuplicate']          = "복제";
+$GLOBALS['strStatusDuplicate'] = "복제";
 
 // Statistics
 $GLOBALS['strStats'] = "통계";

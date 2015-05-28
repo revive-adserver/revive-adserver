@@ -56,6 +56,7 @@ $GLOBALS['strNo'] = "خیر";
 $GLOBALS['strNone'] = "خالی";
 $GLOBALS['strCustom'] = "س�?ارشی";
 $GLOBALS['strDefault'] = "پیش �?رض";
+$GLOBALS['strUnknown'] = "مجهول";
 $GLOBALS['strUnlimited'] = "نامحدود";
 $GLOBALS['strUntitled'] = "بدون عنوان";
 $GLOBALS['strAverage'] = "میانگین";
@@ -333,6 +334,7 @@ $GLOBALS['strAND'] = "و";                          // logical operator
 $GLOBALS['strOR'] = "یا";                         // logical operator
 $GLOBALS['strOnlyDisplayWhen'] = "�?قط نمایش این بنر وقتی که:";
 $GLOBALS['strWeekDays'] = "روز ه�?ته";
+$GLOBALS['strSource'] = "منشا";
 $GLOBALS['strDeliveryLimitations'] = "محدودیتهای نمایش";
 
 $GLOBALS['strDeliveryCappingReset'] = "ریستارت مجدد پس از گذشت زمان : ";
@@ -433,8 +435,8 @@ $GLOBALS['strSelectAdvertiser'] = "انتخاب آگهی دهنده";
 $GLOBALS['strSelectPlacement'] = "انتخاب داخلی";
 $GLOBALS['strSelectAd'] = "انتخاب بنر";
 $GLOBALS['strConnectionType'] = "پسوند";
-$GLOBALS['strStatusDuplicate']          = "همسان";
-$GLOBALS['strConnectionType']           = "پسوند";
+$GLOBALS['strStatusDuplicate'] = "همسان";
+$GLOBALS['strConnectionType'] = "پسوند";
 $GLOBALS['strShortcutEditStatuses'] = "ویرایش وضعیت";
 $GLOBALS['strShortcutShowStatuses'] = "نمایش وضعیت";
 

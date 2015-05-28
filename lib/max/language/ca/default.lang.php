@@ -46,6 +46,7 @@ $GLOBALS['strNext'] = "Següent";
 $GLOBALS['strYes'] = "Sí";
 $GLOBALS['strNo'] = "No";
 $GLOBALS['strDefault'] = "Predeterminat";
+$GLOBALS['strUnknown'] = "Desconegut";
 $GLOBALS['strUnlimited'] = "Il·limitat";
 $GLOBALS['strUntitled'] = "Sense títol";
 
@@ -121,13 +122,14 @@ $GLOBALS['strCappingZone'] = array();
 // Zone probability
 
 // Linked banners/campaigns/trackers
-$GLOBALS['strStatusDuplicate']          = "Duplica";
+$GLOBALS['strStatusDuplicate'] = "Duplica";
 
 // Statistics
 
 // Expiration
 
 // Reports
+$GLOBALS['strPeriod'] = "Període";
 
 // Admin_UI_Fields
 
