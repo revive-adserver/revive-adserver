@@ -33,7 +33,7 @@ class RV_UpgradePostscript_3_2_1_rc1
         $tblBanners = $aConf['prefix'].($aConf['banners'] ? $aConf['banners'] : 'banners');
         $qTblBanners = $oDbh->quoteIdentifier($tblBanners, true);
 
-        $ret = $oDbh->query("UPDATE {$qTblBanners} SET iframe_friendly = 0 WHERE soragetype <> 'html'");
+        $ret = $oDbh->query("UPDATE {$qTblBanners} SET iframe_friendly = 0 WHERE storagetype <> 'html'");
 
         if (PEAR::isError($ret))
         {
