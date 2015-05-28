@@ -292,7 +292,7 @@ $GLOBALS['strInactiveZonesHidden'] = "Neaktívny inzerent(i) skrytý";
 // Zone probability
 
 // Linked banners/campaigns/trackers
-$GLOBALS['strStatusDuplicate']          = "Duplikovať";
+$GLOBALS['strStatusDuplicate'] = "Duplikovať";
 
 // Statistics
 $GLOBALS['strDailyStats'] = "Všetky štatistiky";

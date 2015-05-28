@@ -351,6 +351,7 @@ $GLOBALS['strAND'] = "IR";                          // logical operator
 $GLOBALS['strOR'] = "AR";                         // logical operator
 $GLOBALS['strOnlyDisplayWhen'] = "Šį banerį rodyti tik";
 $GLOBALS['strWeekDays'] = "Savaitės dienos";
+$GLOBALS['strSource'] = "Pirminis";
 $GLOBALS['strDeliveryLimitations'] = "Atsiuntimo apribojimai";
 
 $GLOBALS['strDeliveryCappingReset'] = "Perstatyti vaizdo skaitiklius po:";
@@ -455,9 +456,9 @@ $GLOBALS['strSelectAd'] = "Pasirinkite banerį";
 $GLOBALS['strSelectPublisher'] = "Pasirinkite internetinį puslapį";
 $GLOBALS['strSelectZone'] = "Pasirinkite zoną";
 $GLOBALS['strConnectionType'] = "Tipas";
-$GLOBALS['strStatusPending']            = "Laukiantis";
-$GLOBALS['strStatusDuplicate']          = "Kopijuoti";
-$GLOBALS['strConnectionType']           = "Tipas";
+$GLOBALS['strStatusPending'] = "Laukiantis";
+$GLOBALS['strStatusDuplicate'] = "Kopijuoti";
+$GLOBALS['strConnectionType'] = "Tipas";
 $GLOBALS['strShortcutEditStatuses'] = "Redaguoti statusus";
 $GLOBALS['strShortcutShowStatuses'] = "Rodyti statusus";
 
@@ -487,6 +488,7 @@ $GLOBALS['strNoExpiration'] = "Nėra galiojimo pasibaigimo nustatytos datos";
 $GLOBALS['strCampaignStop'] = "Kampanijos pavadinimas";
 
 // Reports
+$GLOBALS['strPeriod'] = "Periodas";
 $GLOBALS['strLimitations'] = "Draudimai";
 
 // Admin_UI_Fields

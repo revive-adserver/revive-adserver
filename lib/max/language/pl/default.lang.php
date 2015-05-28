@@ -65,6 +65,7 @@ $GLOBALS['strNo'] = "Nie";
 $GLOBALS['strNone'] = "Brak";
 $GLOBALS['strCustom'] = "Własne";
 $GLOBALS['strDefault'] = "Domyślne";
+$GLOBALS['strUnknown'] = "Nieznane";
 $GLOBALS['strUnlimited'] = "Nieograniczone";
 $GLOBALS['strUntitled'] = "Bez tytułu";
 $GLOBALS['strAverage'] = "średnio";
@@ -396,6 +397,7 @@ $GLOBALS['strAND'] = "I";                          // logical operator
 $GLOBALS['strOR'] = "LUB";                         // logical operator
 $GLOBALS['strOnlyDisplayWhen'] = "Wyświetlaj ten baner wyłącznie, gdy:";
 $GLOBALS['strWeekDays'] = "Dni robocze";
+$GLOBALS['strSource'] = "Źródło";
 $GLOBALS['strDeliveryLimitations'] = "Limity dostarczania";
 
 $GLOBALS['strDeliveryCappingReset'] = "Zresetuj liczniki po:";
@@ -525,9 +527,9 @@ $GLOBALS['strSelectAd'] = "Wybierz baner";
 $GLOBALS['strSelectPublisher'] = "Wybierz stronę";
 $GLOBALS['strSelectZone'] = "Wybierz strefę (obszar)";
 $GLOBALS['strConnectionType'] = "Typ";
-$GLOBALS['strStatusPending']            = "Oczekuje";
-$GLOBALS['strStatusDuplicate']          = "Duplikuj";
-$GLOBALS['strConnectionType']           = "Typ";
+$GLOBALS['strStatusPending'] = "Oczekuje";
+$GLOBALS['strStatusDuplicate'] = "Duplikuj";
+$GLOBALS['strConnectionType'] = "Typ";
 $GLOBALS['strShortcutEditStatuses'] = "Edytuj statusy";
 $GLOBALS['strShortcutShowStatuses'] = "Pokaż statusy";
 
@@ -563,6 +565,7 @@ $GLOBALS['strDaysAgo'] = "dni temu";
 $GLOBALS['strCampaignStop'] = "Zatrzymanie kampanii";
 
 // Reports
+$GLOBALS['strPeriod'] = "Okres";
 $GLOBALS['strLimitations'] = "Limity";
 
 // Admin_UI_Fields

@@ -349,6 +349,7 @@ $GLOBALS['strAND'] = "與";                          // logical operator
 $GLOBALS['strOR'] = "或";                         // logical operator
 $GLOBALS['strOnlyDisplayWhen'] = "當： 時候顯示這條廣告";
 $GLOBALS['strWeekDays'] = "工作日";
+$GLOBALS['strSource'] = "來源";
 $GLOBALS['strDeliveryLimitations'] = "發布限制";
 
 $GLOBALS['strDeliveryCappingReset'] = "於此時之後重新開始統計";
@@ -440,9 +441,9 @@ $GLOBALS['strSelectAd'] = "選擇廣告";
 $GLOBALS['strSelectPublisher'] = "選擇網站";
 $GLOBALS['strSelectZone'] = "選擇版位";
 $GLOBALS['strConnectionType'] = "類型";
-$GLOBALS['strStatusPending']            = "未決的";
-$GLOBALS['strStatusDuplicate']          = "複製";
-$GLOBALS['strConnectionType']           = "類型";
+$GLOBALS['strStatusPending'] = "未決的";
+$GLOBALS['strStatusDuplicate'] = "複製";
+$GLOBALS['strConnectionType'] = "類型";
 $GLOBALS['strShortcutEditStatuses'] = "編輯狀態";
 $GLOBALS['strShortcutShowStatuses'] = "顯示狀態";
 

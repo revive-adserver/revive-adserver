@@ -60,6 +60,7 @@ $GLOBALS['strNo'] = "לם";
 $GLOBALS['strNone'] = "אף אחד";
 $GLOBALS['strCustom'] = "לפי מידה";
 $GLOBALS['strDefault'] = "ברירת מחדל";
+$GLOBALS['strUnknown'] = "לא ידוע";
 $GLOBALS['strUnlimited'] = "ללא הגבלה";
 $GLOBALS['strUntitled'] = "ללא שם";
 $GLOBALS['strAverage'] = "ממוצע";
@@ -248,6 +249,7 @@ $GLOBALS['strDifferentFrom'] = "שונה מ";
 $GLOBALS['strAND'] = "ו";                          // logical operator
 $GLOBALS['strOR'] = "או";                         // logical operator
 $GLOBALS['strOnlyDisplayWhen'] = "הצג באנר זה רק כש:";
+$GLOBALS['strSource'] = "מקור";
 $GLOBALS['strDeliveryLimitations'] = "הגבלות תפוצה";
 
 
@@ -323,7 +325,7 @@ $GLOBALS['strNoCampaignsToLink'] = "אין כעת מערכות פרסוא הני
 $GLOBALS['strNoZonesToLinkToCampaign'] = "אין כעת אזוריא הניתניא לקישור לקמפיין זה.";
 $GLOBALS['strSelectBannerToLink'] = "בחר את הבאנר שאתה רוצה לקשר לאזור זה:";
 $GLOBALS['strSelectCampaignToLink'] = "בחר את המערכת הפרסוא שאתה רוצה לקשר לאזור זה:";
-$GLOBALS['strStatusDuplicate']          = "שכפל";
+$GLOBALS['strStatusDuplicate'] = "שכפל";
 
 // Statistics
 $GLOBALS['strStats'] = "סטטיסטיקה";

@@ -69,6 +69,7 @@ $GLOBALS['strNo'] = "No";
 $GLOBALS['strNone'] = "Nada";
 $GLOBALS['strCustom'] = "Común";
 $GLOBALS['strDefault'] = "Predeterminado";
+$GLOBALS['strUnknown'] = "Desconocido";
 $GLOBALS['strUnlimited'] = "Ilimitado";
 $GLOBALS['strUntitled'] = "Sin título";
 $GLOBALS['strAll'] = "todos";
@@ -500,6 +501,7 @@ $GLOBALS['strOR'] = "O";                         // logical operator
 $GLOBALS['strOnlyDisplayWhen'] = "Mostrar este banner solamente cuando:";
 $GLOBALS['strWeekDays'] = "Días de la semana";
 $GLOBALS['strTime'] = "Hora";
+$GLOBALS['strSource'] = "Origen";
 $GLOBALS['strDeliveryLimitations'] = "Limitaciones de entrega";
 
 $GLOBALS['strDeliveryCappingReset'] = "Resetear contadores de vistas después de:";
@@ -642,15 +644,15 @@ $GLOBALS['strSelectAd'] = "Seleccione banner";
 $GLOBALS['strSelectPublisher'] = "Seleccionar página web";
 $GLOBALS['strSelectZone'] = "Seleccionar zona";
 $GLOBALS['strConnectionType'] = "Tipo";
-$GLOBALS['strStatusPending']            = "Pendiente";
-$GLOBALS['strStatusApproved']           = "Aprobado";
-$GLOBALS['strStatusDisapproved']        = "No aprobado";
-$GLOBALS['strStatusDuplicate']          = "Duplicado";
-$GLOBALS['strStatusOnHold']             = "En espera";
-$GLOBALS['strStatusIgnore']             = "Ignorar";
-$GLOBALS['strConnectionType']           = "Tipo";
-$GLOBALS['strConnTypeSale']             = "Venta";
-$GLOBALS['strConnTypeSignUp']           = "Alta";
+$GLOBALS['strStatusPending'] = "Pendiente";
+$GLOBALS['strStatusApproved'] = "Aprobado";
+$GLOBALS['strStatusDisapproved'] = "No aprobado";
+$GLOBALS['strStatusDuplicate'] = "Duplicado";
+$GLOBALS['strStatusOnHold'] = "En espera";
+$GLOBALS['strStatusIgnore'] = "Ignorar";
+$GLOBALS['strConnectionType'] = "Tipo";
+$GLOBALS['strConnTypeSale'] = "Venta";
+$GLOBALS['strConnTypeSignUp'] = "Alta";
 $GLOBALS['strShortcutEditStatuses'] = "Editar estados";
 $GLOBALS['strShortcutShowStatuses'] = "Mostrar estados";
 
@@ -687,6 +689,7 @@ $GLOBALS['strCampaignStop'] = "Detener campaña";
 
 // Reports
 $GLOBALS['strAdvancedReports'] = "Informes avanzados";
+$GLOBALS['strPeriod'] = "Periodo";
 $GLOBALS['strLimitations'] = "Limitaciones";
 
 // Admin_UI_Fields

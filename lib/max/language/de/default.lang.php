@@ -68,6 +68,7 @@ $GLOBALS['strNo'] = "Nein";
 $GLOBALS['strNone'] = "Keiner";
 $GLOBALS['strCustom'] = "Benutzerdefiniert";
 $GLOBALS['strDefault'] = "Standard";
+$GLOBALS['strUnknown'] = "Unbekannt";
 $GLOBALS['strUnlimited'] = "Unbegrenzt";
 $GLOBALS['strUntitled'] = "Ohne Titel";
 $GLOBALS['strAll'] = "alle";
@@ -314,6 +315,7 @@ $GLOBALS['strHiddenAdvertiser'] = "Werbetreibender";
 $GLOBALS['strHiddenTracker'] = "Verborgene Tracker";
 $GLOBALS['strHiddenWebsite'] = "Webseite";
 $GLOBALS['strHiddenZone'] = "Verborgene Zone";
+$GLOBALS['strCampaignDelivery'] = "Kampagnen Auslieferung";
 $GLOBALS['strCompanionPositioning'] = "Tandem-Ads";
 $GLOBALS['strSelectUnselectAll'] = "Alle aus- und abwählen";
 $GLOBALS['strCampaignsOfAdvertiser'] = "von"; //this is added between page name and advertiser name eg. 'Campaigns of Advertiser 1'
@@ -499,6 +501,7 @@ $GLOBALS['strAND'] = "UND";                          // logical operator
 $GLOBALS['strOR'] = "ODER";                         // logical operator
 $GLOBALS['strOnlyDisplayWhen'] = "Diesen Banner nur anzeigen, wenn:";
 $GLOBALS['strWeekDays'] = "Wochentage";
+$GLOBALS['strSource'] = "Quelle";
 $GLOBALS['strDeliveryLimitations'] = "Auslieferungsbeschränkungen";
 
 $GLOBALS['strDeliveryCappingReset'] = "Rücksetzen AdView-Zählers nach";
@@ -639,11 +642,11 @@ $GLOBALS['strSelectAd'] = "Werbemittel auswählen";
 $GLOBALS['strSelectPublisher'] = "Webseite auswählen";
 $GLOBALS['strSelectZone'] = "Zone auswählen";
 $GLOBALS['strConnectionType'] = "Art";
-$GLOBALS['strStatusPending']            = "wartet auf Überprüfung";
-$GLOBALS['strStatusApproved']           = "Freigegeben";
-$GLOBALS['strStatusDisapproved']        = "Abgelehnt";
-$GLOBALS['strStatusDuplicate']          = "Kopieren";
-$GLOBALS['strConnectionType']           = "Art";
+$GLOBALS['strStatusPending'] = "wartet auf Überprüfung";
+$GLOBALS['strStatusApproved'] = "Freigegeben";
+$GLOBALS['strStatusDisapproved'] = "Abgelehnt";
+$GLOBALS['strStatusDuplicate'] = "Kopieren";
+$GLOBALS['strConnectionType'] = "Art";
 $GLOBALS['strShortcutEditStatuses'] = "Status bearbeiten";
 $GLOBALS['strShortcutShowStatuses'] = "Status anzeigen";
 
@@ -684,6 +687,7 @@ $GLOBALS['strCampaignStop'] = "Kampagnen Ende";
 
 // Reports
 $GLOBALS['strAdvancedReports'] = "Erweiterte Berichte";
+$GLOBALS['strPeriod'] = "Zeitraum";
 $GLOBALS['strLimitations'] = "Einschränkungen";
 
 // Admin_UI_Fields

@@ -68,6 +68,7 @@ $GLOBALS['strNo'] = "Ne";
 $GLOBALS['strNone'] = "Žádné";
 $GLOBALS['strCustom'] = "Vlastní";
 $GLOBALS['strDefault'] = "Implicitní";
+$GLOBALS['strUnknown'] = "Neznámé";
 $GLOBALS['strUnlimited'] = "Neomezené";
 $GLOBALS['strUntitled'] = "Bezejména";
 $GLOBALS['strAll'] = "všechny";
@@ -257,6 +258,7 @@ $GLOBALS['strHiddenCampaign'] = "Skrytá kampaň";
 $GLOBALS['strHiddenAdvertiser'] = "Inzerent";
 $GLOBALS['strHiddenTracker'] = "Sledovač";
 $GLOBALS['strHiddenZone'] = "Zóna";
+$GLOBALS['strCampaignDelivery'] = "Doručování kampaně";
 
 // Campaign-zone linking page
 
@@ -352,6 +354,7 @@ $GLOBALS['strAND'] = "A";                          // logical operator
 $GLOBALS['strOR'] = "NEBO";                         // logical operator
 $GLOBALS['strOnlyDisplayWhen'] = "Zobrazit tento banner pouze:";
 $GLOBALS['strWeekDays'] = "V pracovní den";
+$GLOBALS['strSource'] = "Zdroj";
 $GLOBALS['strDeliveryLimitations'] = "Omezení doručování";
 
 
@@ -434,7 +437,7 @@ $GLOBALS['strSelectCampaignToLink'] = "Zvolte kampaň kterou chcete připojit k 
 $GLOBALS['strSelectAdvertiser'] = "Zvolte inzerenta";
 $GLOBALS['strSelectPlacement'] = "Zvolte kampaň";
 $GLOBALS['strSelectAd'] = "Zvolte banner";
-$GLOBALS['strStatusDuplicate']          = "Duplikovat";
+$GLOBALS['strStatusDuplicate'] = "Duplikovat";
 
 // Statistics
 $GLOBALS['strStats'] = "Statistiky";
@@ -457,6 +460,7 @@ $GLOBALS['strEstimated'] = "Předpokládaná expirace";
 $GLOBALS['strCampaignStop'] = "Historie kampaně";
 
 // Reports
+$GLOBALS['strPeriod'] = "Období";
 
 // Admin_UI_Fields
 $GLOBALS['strAllAdvertisers'] = "Celkem inzerentů";

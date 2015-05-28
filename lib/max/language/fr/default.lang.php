@@ -66,6 +66,7 @@ $GLOBALS['strNo'] = "Non";
 $GLOBALS['strNone'] = "Aucun";
 $GLOBALS['strCustom'] = "Personnalisé";
 $GLOBALS['strDefault'] = "Par défaut";
+$GLOBALS['strUnknown'] = "Inconnu";
 $GLOBALS['strUnlimited'] = "Illimité";
 $GLOBALS['strUntitled'] = "Sans titre";
 $GLOBALS['strAverage'] = "Moyen";
@@ -605,9 +606,9 @@ $GLOBALS['strSelectAd'] = "Sélectionne la bannière";
 $GLOBALS['strSelectPublisher'] = "Sélectionnez un site web";
 $GLOBALS['strSelectZone'] = "Sélectionnez un zone";
 $GLOBALS['strConnectionType'] = "Type";
-$GLOBALS['strStatusPending']            = "Suspendue";
-$GLOBALS['strStatusDuplicate']          = "Doubler";
-$GLOBALS['strConnectionType']           = "Type";
+$GLOBALS['strStatusPending'] = "Suspendue";
+$GLOBALS['strStatusDuplicate'] = "Doubler";
+$GLOBALS['strConnectionType'] = "Type";
 $GLOBALS['strShortcutEditStatuses'] = "Éditer les états";
 $GLOBALS['strShortcutShowStatuses'] = "Afficher les états";
 
@@ -648,6 +649,7 @@ $GLOBALS['strCampaignStop'] = "Arrêt de la campagne";
 
 // Reports
 $GLOBALS['strAdvancedReports'] = "Rapports détaillés";
+$GLOBALS['strPeriod'] = "Période";
 $GLOBALS['strLimitations'] = "Limites";
 
 // Admin_UI_Fields

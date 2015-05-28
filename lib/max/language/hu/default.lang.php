@@ -61,6 +61,7 @@ $GLOBALS['strNo'] = "Nem";
 $GLOBALS['strNone'] = "Nincs";
 $GLOBALS['strCustom'] = "Egyedi";
 $GLOBALS['strDefault'] = "Alapértelmezett";
+$GLOBALS['strUnknown'] = "Ismeretlen";
 $GLOBALS['strUnlimited'] = "Korlátlan";
 $GLOBALS['strUntitled'] = "Címtelen";
 $GLOBALS['strAverage'] = "�?tlag";
@@ -283,6 +284,7 @@ $GLOBALS['strRemoveAllLimitations'] = "Minden korlátozás eltávolítása";
 $GLOBALS['strEqualTo'] = "egyenlő ezzel:";
 $GLOBALS['strDifferentFrom'] = "eltérő ettől:";
 $GLOBALS['strOnlyDisplayWhen'] = "A reklám megjelenítése csak ekkor:";
+$GLOBALS['strSource'] = "Forrás";
 $GLOBALS['strDeliveryLimitations'] = "Továbbítás korlátozásai";
 
 
@@ -358,7 +360,7 @@ $GLOBALS['strNoCampaignsToLink'] = "Jelenleg nincsenek ehhez a zónához kapcsol
 $GLOBALS['strNoZonesToLinkToCampaign'] = "Nincsenek ehhez a kampányhoz kapcsolható zónák";
 $GLOBALS['strSelectBannerToLink'] = "Válassza ki a zónához kapcsolni kívánt reklámot:";
 $GLOBALS['strSelectCampaignToLink'] = "Válassza ki a zónához kapcsolni kívánt kampányt:";
-$GLOBALS['strStatusDuplicate']          = "Duplikál";
+$GLOBALS['strStatusDuplicate'] = "Duplikál";
 
 // Statistics
 $GLOBALS['strStats'] = "Statisztikák";

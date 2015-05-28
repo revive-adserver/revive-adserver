@@ -130,7 +130,7 @@ $GLOBALS['strZones'] = "Ingen";
 // Zone probability
 
 // Linked banners/campaigns/trackers
-$GLOBALS['strStatusDuplicate']          = "Dupliser";
+$GLOBALS['strStatusDuplicate'] = "Dupliser";
 
 // Statistics
 

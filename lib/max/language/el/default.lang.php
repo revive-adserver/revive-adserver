@@ -233,6 +233,7 @@ $GLOBALS['strWeight'] = "Ύψος";
 $GLOBALS['strNoLimitations'] = "Χωρίς περιορισμούς";
 $GLOBALS['strAND'] = "ΚΑΙ";                          // logical operator
 $GLOBALS['strOR'] = "Ή";                         // logical operator
+$GLOBALS['strSource'] = "Πηγή";
 
 
 $GLOBALS['strCappingBanner'] = array();
@@ -282,8 +283,8 @@ $GLOBALS['strSelectAdvertiser'] = "Επιλέξτε Διαφημιζόμενο";
 $GLOBALS['strSelectPlacement'] = "Επιλέξτε Καμπάνια";
 $GLOBALS['strSelectAd'] = "Επιλέξτε Banner";
 $GLOBALS['strConnectionType'] = "Τύπος";
-$GLOBALS['strStatusDuplicate']          = "Αντιγραφή";
-$GLOBALS['strConnectionType']           = "Τύπος";
+$GLOBALS['strStatusDuplicate'] = "Αντιγραφή";
+$GLOBALS['strConnectionType'] = "Τύπος";
 
 // Statistics
 $GLOBALS['strStats'] = "Στατιστικά";

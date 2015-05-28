@@ -339,6 +339,7 @@ $GLOBALS['strAND'] = "OCH";                          // logical operator
 $GLOBALS['strOR'] = "ELLER";                         // logical operator
 $GLOBALS['strOnlyDisplayWhen'] = "Visa endast den här annonsen när:";
 $GLOBALS['strWeekDays'] = "Veckodagar";
+$GLOBALS['strSource'] = "Källa";
 $GLOBALS['strDeliveryLimitations'] = "Leveransbegränsningar";
 
 $GLOBALS['strDeliveryCappingReset'] = "Återställ visningsräknare efter:";
@@ -449,9 +450,9 @@ $GLOBALS['strSelectAdvertiser'] = "Välj annonsör";
 $GLOBALS['strSelectPlacement'] = "Välj kampanj";
 $GLOBALS['strSelectAd'] = "Välj banner";
 $GLOBALS['strConnectionType'] = "Typ";
-$GLOBALS['strStatusPending']            = "Pågående";
-$GLOBALS['strStatusDuplicate']          = "Duplicera";
-$GLOBALS['strConnectionType']           = "Typ";
+$GLOBALS['strStatusPending'] = "Pågående";
+$GLOBALS['strStatusDuplicate'] = "Duplicera";
+$GLOBALS['strConnectionType'] = "Typ";
 $GLOBALS['strShortcutEditStatuses'] = "Redigera statusar";
 $GLOBALS['strShortcutShowStatuses'] = "Visa statusar";
 

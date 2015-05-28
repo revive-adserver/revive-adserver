@@ -446,6 +446,7 @@ $GLOBALS['strAND'] = "IN";                          // logical operator
 $GLOBALS['strOR'] = "ALI";                         // logical operator
 $GLOBALS['strOnlyDisplayWhen'] = "To pasico prikaži samo ko:";
 $GLOBALS['strWeekDays'] = "Delavniki";
+$GLOBALS['strSource'] = "Vir";
 $GLOBALS['strDeliveryLimitations'] = "Omejitve dostave";
 
 $GLOBALS['strDeliveryCappingReset'] = "Ponastavi števce po:";
@@ -582,9 +583,9 @@ $GLOBALS['strSelectAd'] = "Izberite pasico";
 $GLOBALS['strSelectPublisher'] = "Izberite spletno stran";
 $GLOBALS['strSelectZone'] = "Izberite področje";
 $GLOBALS['strConnectionType'] = "Tip";
-$GLOBALS['strStatusPending']            = "V teku";
-$GLOBALS['strStatusDuplicate']          = "Podvoji";
-$GLOBALS['strConnectionType']           = "Tip";
+$GLOBALS['strStatusPending'] = "V teku";
+$GLOBALS['strStatusDuplicate'] = "Podvoji";
+$GLOBALS['strConnectionType'] = "Tip";
 $GLOBALS['strShortcutEditStatuses'] = "Uredi statuse";
 $GLOBALS['strShortcutShowStatuses'] = "Prikaži statuse";
 
@@ -625,6 +626,7 @@ $GLOBALS['strCampaignStop'] = "Ustavitev kampanje";
 
 // Reports
 $GLOBALS['strAdvancedReports'] = "Naprednejša poročila";
+$GLOBALS['strPeriod'] = "Obdobje";
 $GLOBALS['strLimitations'] = "Omejitve";
 
 // Admin_UI_Fields

@@ -66,6 +66,7 @@ $GLOBALS['strNo'] = "Ні";
 $GLOBALS['strNone'] = "Ніхто";
 $GLOBALS['strCustom'] = "Нестандартний";
 $GLOBALS['strDefault'] = "За умовчанням";
+$GLOBALS['strUnknown'] = "Неизвестное";
 $GLOBALS['strUnlimited'] = "Не обмежено";
 $GLOBALS['strUntitled'] = "Без назви";
 $GLOBALS['strAll'] = "все";
@@ -311,6 +312,7 @@ $GLOBALS['strHiddenAdvertiser'] = "Клієнт";
 $GLOBALS['strHiddenTracker'] = "Трекер";
 $GLOBALS['strHiddenWebsite'] = "Вебсайт";
 $GLOBALS['strHiddenZone'] = "Зона";
+$GLOBALS['strCampaignDelivery'] = "Доходы компании";
 $GLOBALS['strCompanionPositioning'] = "Сумісне розміщення банерів цієї кампанії";
 $GLOBALS['strSelectUnselectAll'] = "Вибрати все / Зняти виділення";
 $GLOBALS['strCampaignsOfAdvertiser'] = "из"; //this is added between page name and advertiser name eg. 'Campaigns of Advertiser 1'
@@ -463,6 +465,7 @@ $GLOBALS['strOR'] = "ИЛИ";                         // logical operator
 $GLOBALS['strOnlyDisplayWhen'] = "Показывать этот баннер только когда:";
 $GLOBALS['strWeekDays'] = "Дни недели";
 $GLOBALS['strTime'] = "Время";
+$GLOBALS['strSource'] = "Источник";
 $GLOBALS['strDeliveryLimitations'] = "Ограничения показов";
 
 $GLOBALS['strDeliveryCappingReset'] = "Сбросить счетчик показов после:";
@@ -587,9 +590,9 @@ $GLOBALS['strSelectAd'] = "Выберите баннер";
 $GLOBALS['strSelectPublisher'] = "Выбрать сайт";
 $GLOBALS['strSelectZone'] = "Выбрать зону";
 $GLOBALS['strConnectionType'] = "Тип";
-$GLOBALS['strStatusPending']            = "Ожидают";
-$GLOBALS['strStatusDuplicate']          = "Дублювати";
-$GLOBALS['strConnectionType']           = "Тип";
+$GLOBALS['strStatusPending'] = "Ожидают";
+$GLOBALS['strStatusDuplicate'] = "Дублювати";
+$GLOBALS['strConnectionType'] = "Тип";
 $GLOBALS['strShortcutEditStatuses'] = "Редактировать статусы";
 $GLOBALS['strShortcutShowStatuses'] = "Показать статусы";
 
@@ -625,6 +628,7 @@ $GLOBALS['strDaysAgo'] = "дней назад";
 $GLOBALS['strCampaignStop'] = "Історія кампаній";
 
 // Reports
+$GLOBALS['strPeriod'] = "Период";
 $GLOBALS['strLimitations'] = "Обмеження";
 
 // Admin_UI_Fields

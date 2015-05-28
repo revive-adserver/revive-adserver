@@ -349,6 +349,7 @@ $GLOBALS['strAND'] = "OG";                          // logical operator
 $GLOBALS['strOR'] = "ELLER";                         // logical operator
 $GLOBALS['strOnlyDisplayWhen'] = "Vis kun denne banner når:";
 $GLOBALS['strWeekDays'] = "Ugedage";
+$GLOBALS['strSource'] = "Kilde";
 $GLOBALS['strDeliveryLimitations'] = "Leverings begræsninger";
 
 $GLOBALS['strDeliveryCappingReset'] = "Nulstil visnings tæller efter:";
@@ -458,8 +459,8 @@ $GLOBALS['strSelectPlacement'] = "Vælg kampagne";
 $GLOBALS['strSelectAd'] = "Vælg banner";
 $GLOBALS['strSelectPublisher'] = "Vælg Website";
 $GLOBALS['strSelectZone'] = "Vælg Zone";
-$GLOBALS['strStatusPending']            = "Under behandling";
-$GLOBALS['strStatusDuplicate']          = "Kopier";
+$GLOBALS['strStatusPending'] = "Under behandling";
+$GLOBALS['strStatusDuplicate'] = "Kopier";
 $GLOBALS['strShortcutEditStatuses'] = "Editere status";
 $GLOBALS['strShortcutShowStatuses'] = "Vis status";
 

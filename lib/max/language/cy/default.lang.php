@@ -334,6 +334,7 @@ $GLOBALS['strAND'] = "A";                          // logical operator
 $GLOBALS['strOR'] = "NEU";                         // logical operator
 $GLOBALS['strOnlyDisplayWhen'] = "Dangos y faner yma yn unig pan:";
 $GLOBALS['strWeekDays'] = "Dyddiau o'r wythnos";
+$GLOBALS['strSource'] = "Ffynhonnell";
 $GLOBALS['strDeliveryLimitations'] = "Cyfyngiadau Trosglwyddo";
 
 $GLOBALS['strDeliveryCappingReset'] = "Ailosod rhifydd golwg ar ôl:";
@@ -444,9 +445,9 @@ $GLOBALS['strSelectAdvertiser'] = "Dewiswch Hysbysebwr";
 $GLOBALS['strSelectPlacement'] = "Dewiswch Ymgyrch";
 $GLOBALS['strSelectAd'] = "Dewiswch Faner";
 $GLOBALS['strConnectionType'] = "Math";
-$GLOBALS['strStatusPending']            = "Dan Ystyriaeth";
-$GLOBALS['strStatusDuplicate']          = "Dyblygu";
-$GLOBALS['strConnectionType']           = "Math";
+$GLOBALS['strStatusPending'] = "Dan Ystyriaeth";
+$GLOBALS['strStatusDuplicate'] = "Dyblygu";
+$GLOBALS['strConnectionType'] = "Math";
 $GLOBALS['strShortcutEditStatuses'] = "Golygu statysau";
 $GLOBALS['strShortcutShowStatuses'] = "Dangos statysau";
 
