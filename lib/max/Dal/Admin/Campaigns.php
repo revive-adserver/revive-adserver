@@ -560,11 +560,18 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
      *              included apart from default campaigns
      * @return array associative array $campaignId => array of campaign details
      */
-    public function getClientCampaigns($clientid, $listorder = null, $orderdirection = null, $aIncludeSystemTypes = array())
+    public function getClientCampaigns($clientid, $listorder = null, $orderdirection = null, $aIncludeSystemTypes = array(), $limits = null)
     {
         $aIncludeSystemTypes = array_merge(
             array(DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT),
             $aIncludeSystemTypes);
+
+        $limit = null;
+        $offset = null;
+        if($limits){
+            $limit = $limits['limit'];
+            $offset = $limits['offset'];
+        }
 
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->clientid = $clientid;
@@ -573,6 +580,12 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
         $doCampaigns->whereInAdd('type', $aIncludeSystemTypes);
         $doCampaigns->orderBy('(type='.DataObjects_Campaigns::CAMPAIGN_TYPE_DEFAULT.') ASC');
         $doCampaigns->addListOrderBy($listorder, $orderdirection);
+
+        if (isset($limit) && is_numeric($limit)  && is_numeric($offset)) {
+            $doCampaigns->limit($offset,$limit);
+        } elseif (!empty($limit)) {
+            $doCampaigns->limit(0,$limit);
+        }
 
         $doCampaigns->find();
 

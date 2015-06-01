@@ -408,6 +408,29 @@ class OA_Dll_Campaign extends OA_Dll
         return true;
     }
 
+
+    function getTotalCampaignsByAdvertiserId($advertiserId)
+    {
+        $totalCampaigns = 0 ;
+
+        if (!$this->checkIdExistence('clients', $advertiserId)) {
+                return $totalCampaigns;
+        }
+
+        $doCampaign = OA_Dal::factoryDO('campaigns');
+        $doCampaign->clientid = $advertiserId;
+        $doCampaign->selectAdd('count( campaignid ) as campaigns');
+        $doCampaign->find();
+
+        if ($doCampaign->fetch()=== false) {
+            return $totalCampaigns;
+        }
+        $aCampaignsCount = $doCampaign->toArray();
+        $totalCampaigns = $aCampaignsCount['campaigns'];
+
+        return $totalCampaigns;
+    }
+
     /**
      * This method returns daily statistics for a campaign for a specified period.
      *

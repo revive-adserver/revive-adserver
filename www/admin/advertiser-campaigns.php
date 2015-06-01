@@ -26,6 +26,10 @@ require_once MAX_PATH . '/lib/pear/Date.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
 require_once MAX_PATH . '/lib/OX/Admin/UI/ViewHooks.php';
 
+require_once 'Pager/Pager.php';
+require_once MAX_PATH . '/lib/OA/Dll/Campaign.php';
+
+
 phpAds_registerGlobalUnslashed('hideinactive', 'listorder', 'orderdirection');
 
 // Security check
@@ -61,6 +65,8 @@ else {
     }
 }
 
+$setPerPage     = MAX_getStoredValue('setPerPage',      10);
+$pageID         = MAX_getStoredValue('pageID',          1);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
@@ -108,10 +114,37 @@ require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
 $oTpl = new OA_Admin_Template('campaign-index.html');
 
+$oCampaign = new OA_Dll_Campaign();
+$totalCampaigns = $oCampaign->getTotalCampaignsByAdvertiserId($clientid);
+
+$aParams['totalItems'] = $totalCampaigns;
+
+if (!isset($pageID) || $pageID == 1) {
+    $aParams['startRecord'] = 0;
+} else {
+    $aParams['startRecord'] = ($pageID * $setPerPage) - $setPerPage;
+}
+
+if ($aParams['startRecord'] > $aParams['totalItems']) {
+    $aParams['startRecord'] = 0;
+}
+
+$aParams['perPage'] = MAX_getStoredValue('setPerPage', 10);
+$pager = & Pager::factory($aParams);
+$per_page = $pager->_perPage;
+$pager->history = $pager->getPageData();
+$pager->pagerLinks = $pager->getLinks();
+
+$pager->pagerLinks = $pager->pagerLinks['all'];
+$pager->pagerSelect = preg_replace('/(<select.*?)(>)/i', '$1 onchange="submitForm()" id="setPerPage"$2', $pager->getPerPageSelectBox(10, 100, 10));
 
 // Get clients & campaign and build the tree
 $dalCampaigns = OA_Dal::factoryDAL('campaigns');
 $aCampaigns = $dalCampaigns->getClientCampaigns($clientid, $listorder, $orderdirection, array(DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CONTRACT));
+
+$limits = array('limit' => $per_page ,'offset'=> $aParams['startRecord']);
+$aCampaigns = $dalCampaigns->getClientCampaigns($clientid, $listorder, $orderdirection, array(DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CONTRACT),$limits);
+
 foreach ($aCampaigns as $campaignId => $aCampaign) {
     $aCampaign['impressions']  = phpAds_formatNumber($aCampaign['views']);
     $aCampaign['clicks']       = phpAds_formatNumber($aCampaign['clicks']);
@@ -193,6 +226,8 @@ $oTpl->assign('isAdvertiser', OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER));
 $oTpl->assign('canEdit', OA_Permission::hasPermission(OA_PERM_BANNER_ACTIVATE) || OA_Permission::hasPermission(OA_PERM_BANNER_EDIT));
 $oTpl->assign('isManager', OA_Permission::isAccount(OA_ACCOUNT_MANAGER));
 
+$oTpl->assign('setPerPage',         $setPerPage);
+$oTpl->assign('pager',              $pager);
 
 /*-------------------------------------------------------*/
 /* Store preferences                                     */
@@ -202,6 +237,8 @@ $session['prefs']['advertiser-campaigns.php'][$clientid]['hideinactive'] = $hide
 $session['prefs']['advertiser-campaigns.php'][$clientid]['listorder'] = $listorder;
 $session['prefs']['advertiser-campaigns.php'][$clientid]['orderdirection'] = $orderdirection;
 $session['prefs']['inventory_entities'][OA_Permission::getEntityId()]['clientid'] = $clientid;
+$seesion['prefs']['advertiser-campaigns.php']['setPerPage']      = $setPerPage;
+
 phpAds_SessionDataStore();
 
 
