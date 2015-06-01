@@ -26,6 +26,7 @@ $GLOBALS['strTablesType'] = "Tipo de tablas";
 $GLOBALS['strRecoveryRequiredTitle'] = "El intento de actualización ha encontrado errores";
 $GLOBALS['strRecoveryRequired'] = "Ha ocurrido un error al procesar la actualización anterior y {$PRODUCT_NAME} necesita intentar recuperar el proceso de actualización. Por favor, haga clic en el botón Recuperar.";
 
+$GLOBALS['strProductUpToDateTitle'] = "{$PRODUCT_NAME} está actualizado";
 $GLOBALS['strOaUpToDate'] = "Su base de datos {$PRODUCT_NAME} y estructura de archivos están usando la versión más reciente, por lo tanto no hace falta realizar una actualización en este momento. Por favor, haga clic en Continuar para proceder al panel de administración de {$PRODUCT_NAME}.";
 $GLOBALS['strOaUpToDateCantRemove'] = "Aviso: el archivo de ACTUALIZACIÓN sigue presente en el directorio var. No podemos borrar dicho archivo debido a permisos insuficientes. Por favor, borre este archivo usted mismo.";
 $GLOBALS['strErrorWritePermissions'] = "Se han detectado errores de permisos de archivos y deben ser solucionados para poder continuar.<br />Para solucionar los errores en un sistema Linux intente teclear el/los siguiente(s) comando(s).";
@@ -40,6 +41,7 @@ $GLOBALS['strImagesUrlPrefix'] = "URL de almacenamiento de imagen";
 $GLOBALS['strImagesUrlPrefixSSL'] = "URL de almacenamiento de imagen (SSL)";
 
 
+$GLOBALS['strUpgrade'] = "Actualización";
 
 /* ------------------------------------------------------- */
 /* Configuration translations                            */

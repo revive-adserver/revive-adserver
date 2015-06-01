@@ -41,12 +41,12 @@ $GLOBALS['strBannerCacheOK'] = "No se han detectado errores. Su cache de base de
 $GLOBALS['strBannerCacheDifferencesFound'] = "La revision de la cache de banners de la base de datos  ha encontrado que la cache no está actualizada y requiere reconstruirse. Haga clic aquí para actualizar la cache automáticamente.";
 $GLOBALS['strBannerCacheRebuildButton'] = "Reconstruir";
 $GLOBALS['strRebuildDeliveryCache'] = "Reconstruir la base de datos de banner";
-$GLOBALS['strBannerCacheExplaination'] = "La base de datos de cache de banner se usa para agilizar la muestra de banners durante la entrega</br />
-Esta cache necesita ser actualizada cuando:
-  <ul>
-     <li>Actualice su versión de OpenX</li>
-     <li>Traslade su instalación de OpenX a un servidor diferente</li>
-  </ul>";
+$GLOBALS['strBannerCacheExplaination'] = "    La base de datos de cache de banner se usa para agilizar la muestra de banners durante la entrega<br />
+    Esta cache necesita ser actualizada cuando:
+      <ul>
+         <li>Actualice su versión de {$PRODUCT_NAME}</li>
+         <li>Traslade su instalación de {$PRODUCT_NAME} a un servidor diferente</li>
+      </ul>";
 
 // Cache
 $GLOBALS['strCache'] = "Cache de entrega";
