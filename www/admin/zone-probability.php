@@ -22,6 +22,8 @@ require_once MAX_PATH . '/lib/max/Dal/Delivery.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
 require_once MAX_PATH . '/lib/max/Delivery/cache.php';
 
+require_once 'Pager/Pager.php';
+
 /*-------------------------------------------------------*/
 /* Affiliate interface security                          */
 /*-------------------------------------------------------*/
@@ -56,12 +58,42 @@ MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $aEntities
 
 function phpAds_showZoneBanners ($zoneId)
 {
+
+    //pager combo
+    $setPerPage     = MAX_getStoredValue('setPerPage',      10);
+    $pageID         = MAX_getStoredValue('pageID',          1);
+
+    $totalBanners = 20;//$oCampaign->getTotalBannersByAdvertiserId($clientid);
+
+    $aParams['totalItems'] = $totalBanners;
+
+    if (!isset($pageID) || $pageID == 1) {
+        $aParams['startRecord'] = 0;
+    } else {
+        $aParams['startRecord'] = ($pageID * $setPerPage) - $setPerPage;
+    }
+
+    if ($aParams['startRecord'] > $aParams['totalItems']) {
+        $aParams['startRecord'] = 0;
+    }
+
+    $aParams['perPage'] = MAX_getStoredValue('setPerPage', 10);
+    $pager = & Pager::factory($aParams);
+    $per_page = $pager->_perPage;
+    $pager->history = $pager->getPageData();
+    $pager->pagerLinks = $pager->getLinks();
+
+    $pager->pagerLinks = $pager->pagerLinks['all'];
+    $pager->pagerSelect = preg_replace('/(<select.*?)(>)/i', '$1 onchange="submitForm()" id="setPerPage"$2', $pager->getPerPageSelectBox(10, 100, 10));
+
+
     $pref = $GLOBALS['_MAX']['PREF'];
     global $phpAds_TextDirection;
     global $strUntitled, $strName, $strID, $strWeight, $strShowBanner;
     global $strCampaignWeight, $strBannerWeight, $strProbability, $phpAds_TextAlignRight, $phpAds_TextAlignLeft;
     global $strRawQueryString, $strZoneProbListChain, $strZoneProbNullPri, $strZoneProbListChainLoop;
     global $strOverrideAds, $strHighAds, $strLowAds, $strECPMAds, $strLimitations, $strCapping, $strNoLimitations, $strPriority;
+    global $strItemsPerPage;
 
     MAX_Dal_Delivery_Include();
     $aZoneLinkedAds = OA_Dal_Delivery_getZoneLinkedAds($zoneId);
@@ -428,6 +460,15 @@ function phpAds_showZoneBanners ($zoneId)
             echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td></tr>";
         }
         echo "</table>";
+        echo "<form id='probalityForm' name='probalityForm' method='POST'>";
+        echo "<div class='filters'>";
+        echo $strItemsPerPage.":".$pager->pagerSelect;
+        if (!empty($pager->links)) {
+            echo $pager->links;
+        }
+        echo "</div>";
+        echo "</form>";
+
         echo "<br /><br />";
     }
 
