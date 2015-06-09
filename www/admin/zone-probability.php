@@ -60,10 +60,11 @@ function phpAds_showZoneBanners ($zoneId)
 {
 
     //pager combo
-    $setPerPage     = MAX_getStoredValue('setPerPage',      10);
+    $defaulftPerPage = 20;
+    $setPerPage     = MAX_getStoredValue('setPerPage',      $defaulftPerPage);
     $pageID         = MAX_getStoredValue('pageID',          1);
 
-    $totalBanners = 20;//$oCampaign->getTotalBannersByAdvertiserId($clientid);
+    $totalBanners = OA_Dal_Delivery_getTotalZoneLinkedAds($zoneId);
 
     $aParams['totalItems'] = $totalBanners;
 
@@ -77,14 +78,15 @@ function phpAds_showZoneBanners ($zoneId)
         $aParams['startRecord'] = 0;
     }
 
-    $aParams['perPage'] = MAX_getStoredValue('setPerPage', 10);
+    $aParams['perPage'] = MAX_getStoredValue('setPerPage', $defaulftPerPage);
     $pager = & Pager::factory($aParams);
     $per_page = $pager->_perPage;
     $pager->history = $pager->getPageData();
     $pager->pagerLinks = $pager->getLinks();
 
     $pager->pagerLinks = $pager->pagerLinks['all'];
-    $pager->pagerSelect = preg_replace('/(<select.*?)(>)/i', '$1 onchange="submitForm()" id="setPerPage"$2', $pager->getPerPageSelectBox(10, 100, 10));
+    $pager->pagerSelect = preg_replace('/(<select.*?)(>)/i', '$1 onchange="submitForm()" id="setPerPage"$2', $pager->getPerPageSelectBox($defaulftPerPage, 100, $defaulftPerPage));
+    $limits = array('limit' => $per_page ,'offset'=> $aParams['startRecord']);
 
 
     $pref = $GLOBALS['_MAX']['PREF'];
@@ -96,7 +98,8 @@ function phpAds_showZoneBanners ($zoneId)
     global $strItemsPerPage;
 
     MAX_Dal_Delivery_Include();
-    $aZoneLinkedAds = OA_Dal_Delivery_getZoneLinkedAds($zoneId);
+
+    $aZoneLinkedAds = OA_Dal_Delivery_getZoneLinkedAds($zoneId,$limits);
 
     if (empty($aZoneLinkedAds['xAds']) && empty($aZoneLinkedAds['ads']) &&  empty($aZoneLinkedAds['lAds']) &&  empty($aZoneLinkedAds['eAds'])) {
         echo "<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>";
@@ -491,12 +494,37 @@ function _isAdLimited($aAd)
     return ($aAd['compiledlimitation'] == '' or $aAd['compiledlimitation'] == 'true') ? false : true;
 }
 
+function phpAds_showScriptForPage($zoneid,$aEntities){
+     echo "<script language='JavaScript'>";
+     echo "
+            function submitForm() {
+                var form = document.getElementById('probalityForm');
+                var url  = '".$pageName."';
+                var aUrl = [];
+                var affiliateid = ".$aEntities['affiliateid'].";
+                var zoneid = ".$aEntities['zoneid'].";
+                aUrl.push('affiliateid=' + affiliateid);
+                aUrl.push('zoneid=' + zoneid);
+
+                var setPerPage = form.setPerPage.options[form.setPerPage.selectedIndex].value;
+                aUrl.push('setPerPage=' + setPerPage);
+
+                var params = aUrl.join('&');
+                if (aUrl.length > 0) {
+                    url = url + '?' + params;
+                }
+                document.location.href = url;
+                return false;
+            }";
+    echo "</script>";
+}
 /*-------------------------------------------------------*/
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
 if (isset($zoneid) && $zoneid != '') {
     phpAds_showZoneBanners($zoneid);
+    phpAds_showScriptForPage($zoneid,$aEntities,$pageName);
 }
 
 /*-------------------------------------------------------*/
