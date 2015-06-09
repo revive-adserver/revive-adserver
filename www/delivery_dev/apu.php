@@ -124,8 +124,14 @@ function MAX_{$row['bannerid']}_pop() {
       MAX_{$row['bannerid']}.resizeTo(outerX, outerY);
     }";
 
-if (!empty($left) && !empty($top)) {
-	echo "
+if (!empty($left) || !empty($top)) {
+    if (!isset($left) || empty($left)) {
+        $left = 0;
+    }
+    if (!isset($top) || empty($top)) {
+        $top = 0;
+    }
+ 	echo "
     if (window.moveTo) {";
 
 	if ($left == 'center') {
