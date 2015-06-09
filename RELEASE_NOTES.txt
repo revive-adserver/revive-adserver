@@ -27,7 +27,9 @@ What's New in Revive Adserver 3.2.2
  New Features
  ------------
 
- * None
+ * The campaign banner overview page now displays shortened URLs (when they are
+   very long) and displays a tool tip for the complete URL, to improve the
+   legibility of the page.
 
  Bug Fixes
  ---------

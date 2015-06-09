@@ -191,7 +191,13 @@
                             {/if}
                             <tr>
                                 <th>{t str=Url}</th>
-                                <td>{$banner.url}</td>
+                                <td>
+                                {if $banner.url_trimmed}
+                                    {$banner.url_trimmed}
+                                {else}
+                                    {$banner.url}
+                                {/if}
+                                </td>
                             </tr>
                             <tr>
                                 <th>{t str=Weight}</th>
