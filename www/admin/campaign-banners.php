@@ -206,11 +206,8 @@ if (isset($banners) && is_array($banners) && count($banners) > 0) {
             $bannersHidden++;
 			$aCount['banners_hidden']++;
             unset($banners[$key]);
-        } else if (strlen($banner['url']) > 40) {
-            $banners[$key]['url_trimmed'] =
-                    "<span title='" . $banner['url'] . "'>" .
-                    substr_replace($banner['url'], ' ...', 40) .
-                    "</span>";
+        } elseif (strlen($banner['url']) > 40) {
+            $banners[$key]['url_trimmed'] = substr_replace($banner['url'], ' ...', 40);
         }
     }
 }

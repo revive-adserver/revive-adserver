@@ -19,7 +19,7 @@
                 {if $clientId == -1 || $campaignId == -1}
                 <span class='inlineIcon iconBannerAddDisabled'>{t str=AddBanner}</span>
                 {else}
-                <a href='banner-edit.php?clientid={$clientId}&campaignid={$campaignId}' class='inlineIcon iconBannerAdd'>{t str=AddBanner}</a>
+                <a href='banner-edit.php?clientid={$clientId}&amp;campaignid={$campaignId}' class='inlineIcon iconBannerAdd'>{t str=AddBanner}</a>
                 {/if}
             </li>
             {/if}
@@ -32,18 +32,18 @@
                 <!--
 
                 $('#deleteSelection').click(function(event) {
-					event.preventDefault();
+                    event.preventDefault();
 
-					if (!$(this).parents('li').hasClass('inactive')) {
-						var ids = [];
-						$(this).parents('.tableWrapper').find('.toggleSelection input:checked').each(function() {
-							ids.push(this.value);
-						});
+                    if (!$(this).parents('li').hasClass('inactive')) {
+                        var ids = [];
+                        $(this).parents('.tableWrapper').find('.toggleSelection input:checked').each(function() {
+                            ids.push(this.value);
+                        });
 
-						if (!tablePreferences.warningBeforeDelete || confirm("{/literal}{t str=ConfirmDeleteBanners}{literal}")) {
-    						window.location = 'banner-delete.php?clientid={/literal}{$clientId}{literal}&campaignid={/literal}{$campaignId}&{rv_add_session_token}{literal}&bannerid=' + ids.join(',');
-						}
-					}
+                        if (!tablePreferences.warningBeforeDelete || confirm("{/literal}{t str=ConfirmDeleteBanners}{literal}")) {
+                            window.location = 'banner-delete.php?clientid={/literal}{$clientId}{literal}&campaignid={/literal}{$campaignId}&{rv_add_session_token}{literal}&bannerid=' + ids.join(',');
+                        }
+                    }
                 });
 
                 //-->
@@ -65,8 +65,8 @@
                     <div class='panel'>
                         <div>
                             <ul>
-                                <li><a href='campaign-banners.php?clientid={$clientId}&campaignid={$campaignId}&hideinactive=0'>All banners</a></li>
-                                <li><a href='campaign-banners.php?clientid={$clientId}&campaignid={$campaignId}&hideinactive=1'>Active banners</a></li>
+                                <li><a href='campaign-banners.php?clientid={$clientId}&amp;campaignid={$campaignId}&amp;hideinactive=0'>All banners</a></li>
+                                <li><a href='campaign-banners.php?clientid={$clientId}&amp;campaignid={$campaignId}&amp;hideinactive=1'>Active banners</a></li>
                             </ul>
                         </div>
                     </div>
@@ -114,7 +114,7 @@
                 <div class='tableMessage'>
                     <div class='panel'>
                         {if $clientId != -1}
-                        	{if $campaignId != -1}
+                            {if $campaignId != -1}
                                 {if $hideinactive}
                                     {$aCount.banners_hidden} {t str=InactiveBannersHidden}
                                 {else}
@@ -165,17 +165,17 @@
                     <ul class='rowActions'>
                       {if $canACL}
                         <li>
-                            <a href='banner-acl.php?clientid={$clientId}&campaignid={$campaignId}&bannerid={$bannerId}' class='inlineIcon iconBannerApplyLimitations'>{t str=ACL}</a>
+                            <a href='banner-acl.php?clientid={$clientId}&amp;campaignid={$campaignId}&amp;bannerid={$bannerId}' class='inlineIcon iconBannerApplyLimitations'>{t str=ACL}</a>
                         </li>
                         {/if}
                         {if !$banner.active && $canActivate}
                         <li>
-                            <a href='banner-activate.php?clientid={$clientId}&campaignid={$campaignId}&bannerid={$bannerId}&value=1' class='inlineIcon iconActivate'>{t str=Activate}</a>
+                            <a href='banner-activate.php?clientid={$clientId}&amp;campaignid={$campaignId}&amp;bannerid={$bannerId}&amp;value=1' class='inlineIcon iconActivate'>{t str=Activate}</a>
                         </li>
                         {/if}
                         {if $banner.active && $canDeactivate}
                         <li>
-                            <a href='banner-activate.php?clientid={$clientId}&campaignid={$campaignId}&bannerid={$bannerId}&value=0' class='inlineIcon iconDeactivate'>{t str=Deactivate}</a>
+                            <a href='banner-activate.php?clientid={$clientId}&amp;campaignid={$campaignId}&amp;bannerid={$bannerId}&amp;value=0' class='inlineIcon iconDeactivate'>{t str=Deactivate}</a>
                         </li>
                         {/if}
                     </ul>
@@ -183,7 +183,7 @@
                 <td class='hasPanel'>
                     <div class='panel'>
                         <table cellspacing='0' summary=''>
-                            {if $banner.type != 'txt'}
+                            {if $banner.width > 0}
                             <tr>
                                 <th>{t str=Size}</th>
                                 <td>{ox_banner_size width=$banner.width height=$banner.height}</td>
@@ -193,9 +193,11 @@
                                 <th>{t str=Url}</th>
                                 <td>
                                 {if $banner.url_trimmed}
-                                    {$banner.url_trimmed}
+                                    <span title="{$banner.url|escape}">
+                                        {$banner.url_trimmed|escape}
+                                    </span>
                                 {else}
-                                    {$banner.url}
+                                    {$banner.url|escape}
                                 {/if}
                                 </td>
                             </tr>
