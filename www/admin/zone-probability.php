@@ -494,7 +494,14 @@ function _isAdLimited($aAd)
     return ($aAd['compiledlimitation'] == '' or $aAd['compiledlimitation'] == 'true') ? false : true;
 }
 
-function phpAds_showScriptForPage($zoneid,$aEntities){
+/**
+ * Display a javascript code for submitForm function
+ * @param  array An array of entities, representing affiliateid and zoneid e.g.
+ *              array('affiliateid' => $affiliateid, 'zoneid' => $zoneid)
+ * @param  string $pageName  The script base name
+ *
+ */
+function phpAds_showScriptForPage($aEntities,$pageName){
      echo "<script language='JavaScript'>";
      echo "
             function submitForm() {
@@ -524,7 +531,7 @@ function phpAds_showScriptForPage($zoneid,$aEntities){
 
 if (isset($zoneid) && $zoneid != '') {
     phpAds_showZoneBanners($zoneid);
-    phpAds_showScriptForPage($zoneid,$aEntities,$pageName);
+    phpAds_showScriptForPage($aEntities,$pageName);
 }
 
 /*-------------------------------------------------------*/
