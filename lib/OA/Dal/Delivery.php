@@ -340,6 +340,7 @@ function OA_Dal_Delivery_getPublisherZones($publisherid) {
  * The function to get and return the ads linked to a zone
  *
  * @param  int   $zoneid The id of the zone to get linked ads for
+ * @param  array $limits array('limit' => $limit ,'offset'=> $offset) for SQL pagination
  *
  * @todo   Refactor this query (and others) to use OA_Dal_Delivery_buildQuery()
  * @return array|false
@@ -375,18 +376,18 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid, $limits = null) {
         'lAds'  => 0
     );
 
-    // for page
+    //------ for page ---------
     $limit = null;
     $offset = null;
-    $limit_q = "";
+    $limit_q = ""; // query limit
     if($limits){
         $limit = $limits['limit'];
         $offset = $limits['offset'];
     }
     if (isset($limit) && is_numeric($limit)  && is_numeric($offset)) {
-        $limit_q = " LIMIT ".$offset. ",".$limit;
+        $limit_q = " LIMIT ".$limit. " OFFSET ".$offset;
     } elseif (!empty($limit)) {
-        $limit_q = " LIMIT 0,".$limit;
+        $limit_q = " LIMIT ".$limit." OFFSET 0";
     }
 
 
@@ -520,6 +521,13 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid, $limits = null) {
     return $aRows;
 }
 
+/**
+ * The function to get total active ads linked for a zone
+ *
+ * @param  int   $zoneid The id of the zone
+ * @return int   total ads
+ *
+ */
 function OA_Dal_Delivery_getTotalZoneLinkedAds($zoneid) {
     $conf = $GLOBALS['_MAX']['CONF'];
     $total = 0;
@@ -548,6 +556,7 @@ function OA_Dal_Delivery_getTotalZoneLinkedAds($zoneid) {
     }
     $aZones = $rsZones->getAll();
     $total = $aZones[0];
+
     return $total;
 }
 
