@@ -408,7 +408,13 @@ class OA_Dll_Campaign extends OA_Dll
         return true;
     }
 
-
+    /**
+     * The function to get number of campaigns for an advertiser
+     *
+     * @param  int   $advertiserId The id of the advertiser
+     * @return int   number of total campaigns
+     *
+     */
     function getTotalCampaignsByAdvertiserId($advertiserId)
     {
         $totalCampaigns = 0 ;

@@ -558,6 +558,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
      * @param string $orderdirection soring direction 'up'/'down'
      * @param array $aIncludeSystemTypes an array of system types to be
      *              included apart from default campaigns
+     * @param  array $limits e.g. array('limit' => $limit ,'offset'=> $offset) for pagination
      * @return array associative array $campaignId => array of campaign details
      */
     public function getClientCampaigns($clientid, $listorder = null, $orderdirection = null, $aIncludeSystemTypes = array(), $limits = null)
