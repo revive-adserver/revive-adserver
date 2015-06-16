@@ -477,7 +477,7 @@ class OA_Dll_Banner extends OA_Dll
         if (!$this->checkStructureRequiredStringField($oTargeting,  'logical', 255) ||
             !$this->checkStructureRequiredStringField($oTargeting,  'type', 255) ||
             !$this->checkStructureRequiredStringField($oTargeting,  'comparison', 255) ||
-            !$this->checkStructureNotRequiredStringField($oTargeting,  'data', 255)) {
+            !$this->checkStructureNotRequiredStringField($oTargeting,  'data')) {
 
             return false;
         }
