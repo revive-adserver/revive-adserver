@@ -37,6 +37,8 @@ What's New in Revive Adserver 3.2.2
  * Pop-up and pop-under windows with only the X or Y axis opening position set
    will now open correctly with that axis position (it is no longer necessary
    to set a value for both axes).
+ * Asynchronous javascript invocation no longer triggers JS errors on
+   unsupported browsers (e.g. IE8).
 
  Non-Backwards Compatible Changes
  --------------------------------
