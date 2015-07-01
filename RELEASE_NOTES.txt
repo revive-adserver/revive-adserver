@@ -39,6 +39,8 @@ What's New in Revive Adserver 3.2.2
    to set a value for both axes).
  * Asynchronous javascript invocation no longer triggers JS errors on
    unsupported browsers (e.g. IE8).
+ * Asynchronous javascript invocation now works even when fl.js has been
+   renamed.
 
  Non-Backwards Compatible Changes
  --------------------------------

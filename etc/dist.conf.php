@@ -71,6 +71,7 @@ imagesSSL                           =
 
 [file]
 asyncjs                             = asyncjs.php
+asyncjsjs                           = async.js
 asyncspc                            = asyncspc.php
 click                               = ck.php
 conversionvars                      = tv.php

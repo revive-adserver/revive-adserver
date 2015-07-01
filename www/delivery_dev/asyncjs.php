@@ -35,5 +35,5 @@ if (!empty($conf['delivery']['assetClientCacheExpire'])) {
 // Try to set the OAID cookie, so that the following request already has it
 MAX_cookieGetUniqueViewerId();
 
-require __DIR__.'/async.js';
-require __DIR__.'/fl.js';
+require __DIR__.'/'.$GLOBALS['_MAX']['CONF']['file']['asyncjsjs'];
+require __DIR__.'/'.$GLOBALS['_MAX']['CONF']['file']['flash'];
