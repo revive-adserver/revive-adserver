@@ -41,6 +41,8 @@ What's New in Revive Adserver 3.2.2
    unsupported browsers (e.g. IE8).
  * Asynchronous javascript invocation now works even when fl.js has been
    renamed.
+ * Asynchronous javascript invocation was triggering an error when displaying a
+   banner with <script> tag(s) nested in other elements (e.g. inside a <div>).
 
  Non-Backwards Compatible Changes
  --------------------------------
