@@ -14,6 +14,7 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 require_once LIB_PATH . '/Plugin/Component.php';
 require_once 'Date.php';
 require_once MAX_PATH . '/lib/max/language/Loader.php';
+require_once MAX_PATH . '/lib/pear/HTML/QuickForm/Rule/Email.php';
 
 Language_Loader::load('settings');
 
@@ -308,8 +309,8 @@ class Plugins_Authentication extends OX_Component
      */
     function isValidEmail($email)
     {
-        return preg_match("#^[a-zA-Z0-9]+[_a-zA-Z0-9-]*(\.[_a-z0-9-]+)*@[a-z??????0-9]+"
-                ."(-[a-z??????0-9]+)*(\.[a-z??????0-9-]+)*(\.[a-z]{2,6})$#Di", $email);
+        $rule = new HTML_QuickForm_Rule_Email;
+        return $rule->validate($email);
     }
 
     function saveUser($userid, $login, $password, $contactName,
