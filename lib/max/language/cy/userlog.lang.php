@@ -23,7 +23,9 @@ $GLOBALS['strZone'] = "Ardal";
 $GLOBALS['strType'] = "Math";
 $GLOBALS['strAction'] = "Gweithred";
 
-$GLOBALS['strUserlog'] = array();
+if (!isset($GLOBALS['strUserlog'])) {
+    $GLOBALS['strUserlog'] = array();
+}
 $GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Dad-ysgogwyd ymgyrch {id}";
 $GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Dad-ysgogwyd ymgyrch {id}";
 $GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Dad-ysgogwyd ymgyrch {id}";

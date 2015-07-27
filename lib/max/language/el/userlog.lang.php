@@ -23,4 +23,6 @@ $GLOBALS['strZone'] = "Ζώνη";
 $GLOBALS['strType'] = "Τύπος";
 $GLOBALS['strAction'] = "Ενέργεια";
 
-$GLOBALS['strUserlog'] = array();
+if (!isset($GLOBALS['strUserlog'])) {
+    $GLOBALS['strUserlog'] = array();
+}

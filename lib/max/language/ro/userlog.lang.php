@@ -34,7 +34,9 @@ $GLOBALS['strAuditResultsNotFound'] = "Nu a fost găsit nici un eveniment care s
 $GLOBALS['strCollectedAllEvents'] = "Toate evenimentele";
 $GLOBALS['strClear'] = "Curăţă";
 
-$GLOBALS['strUserlog'] = array();
+if (!isset($GLOBALS['strUserlog'])) {
+    $GLOBALS['strUserlog'] = array();
+}
 $GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Notificarea de activare pentru campania {id} a fost trimisă prin email";
 $GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Notificarea de activare pentru campania {id} a fost trimisă prin email";
 $GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Notificarea de activare pentru campania {id} a fost trimisă prin email";

@@ -138,6 +138,7 @@ $GLOBALS['strComments'] = "Comentários";
 
 // User access
 $GLOBALS['strWorkingAs'] = "Trabalhando como";
+$GLOBALS['strWorkingAs_Key'] = "<u>T</u>rabalhando como";
 $GLOBALS['strWorkingAs'] = "Trabalhando como";
 $GLOBALS['strSwitchTo'] = "Alternar para";
 $GLOBALS['strUseSearchBoxToFindMoreAccounts'] = "Use caixa de seleção para encontrar mais contas";
@@ -170,6 +171,7 @@ $GLOBALS['strAuthentification'] = "Autenticação";
 $GLOBALS['strWelcomeTo'] = "Bem vindo a";
 $GLOBALS['strEnterUsername'] = "Entre com seu nome de usuário e senha para se logar";
 $GLOBALS['strEnterBoth'] = "Por favor digite ambos seu nome de usuário e senha";
+$GLOBALS['strEnableCookies'] = "Você precisa habilitar \"cookies\" em seu navegador para utilizar {$PRODUCT_NAME}";
 $GLOBALS['strSessionIDNotMatch'] = "Erro no cookie de sessão, por favor faça login novamente";
 $GLOBALS['strLogin'] = "Login ";
 $GLOBALS['strLogout'] = "Sair";
@@ -203,6 +205,7 @@ $GLOBALS['strTrackerID'] = "ID do rastreador";
 $GLOBALS['strTrackerName'] = "Nome do rastreador";
 $GLOBALS['strTrackerImageTag'] = "Tag de imagem";
 $GLOBALS['strTrackerJsTag'] = "Tag de javascript";
+$GLOBALS['strTrackerAlwaysAppend'] = "Sempre exibir código acrescentado, mesmo se nenhuma conversão for gravada pelo rastreador?";
 $GLOBALS['strBanners'] = "Anúncios";
 $GLOBALS['strCampaigns'] = "Campanhas";
 $GLOBALS['strCampaignID'] = "ID da campanha";
@@ -230,7 +233,9 @@ $GLOBALS['strMonths'] = "Meses";
 $GLOBALS['strDayOfWeek'] = "Dia da semana";
 
 
-$GLOBALS['strDayFullNames'] = array();
+if (!isset($GLOBALS['strDayFullNames'])) {
+    $GLOBALS['strDayFullNames'] = array();
+}
 $GLOBALS['strDayFullNames'][0] = 'Domingo';
 $GLOBALS['strDayFullNames'][1] = 'Segunda';
 $GLOBALS['strDayFullNames'][2] = 'Terça';
@@ -239,7 +244,9 @@ $GLOBALS['strDayFullNames'][4] = 'Quinta';
 $GLOBALS['strDayFullNames'][5] = 'Sexta';
 $GLOBALS['strDayFullNames'][6] = 'Sábado';
 
-$GLOBALS['strDayShortCuts'] = array();
+if (!isset($GLOBALS['strDayShortCuts'])) {
+    $GLOBALS['strDayShortCuts'] = array();
+}
 $GLOBALS['strDayShortCuts'][0] = 'Dom';
 $GLOBALS['strDayShortCuts'][1] = 'Seg';
 $GLOBALS['strDayShortCuts'][2] = 'Ter';
@@ -293,6 +300,7 @@ $GLOBALS['strCampaignProperties'] = "Dados da campanha";
 $GLOBALS['strCampaignOverview'] = "Visão geral da campanha";
 $GLOBALS['strCampaignHistory'] = "Histórico da campanha";
 $GLOBALS['strNoCampaigns'] = "Nenhuma campanha ativa definida";
+$GLOBALS['strNoCampaignsAddAdvertiser'] = "Não há campanhas definidas, porque não há anunciantes. Para criar uma campanha, <a href='advertiser-edit.php'> Adicione um novo anunciante</a> primeiro.";
 $GLOBALS['strConfirmDeleteCampaign'] = "Deseja realmente remover esta campanha?";
 $GLOBALS['strConfirmDeleteCampaigns'] = "Deseja realmente remover esta campanha?";
 $GLOBALS['strShowParentAdvertisers'] = "Mostrar anunciantes superiores";
@@ -308,13 +316,28 @@ $GLOBALS['strHiddenWebsite'] = "Site";
 $GLOBALS['strHiddenZone'] = "Zona";
 $GLOBALS['strCompanionPositioning'] = "Entrega casada (com outras peças)";
 $GLOBALS['strSelectUnselectAll'] = "Selecionar / Deselecionar Todos";
+$GLOBALS['strShowCappedNoCookie'] = "Mostrar anúncios tampados se os cookies estiverem desabilitados";
 
 // Campaign-zone linking page
+$GLOBALS['strCalculatedForAllCampaigns'] = "Calculado para todas as campanhas";
+$GLOBALS['strCalculatedForThisCampaign'] = "Calculado para esta campanha";
+$GLOBALS['strLinkingZonesProblem'] = "Problema ocorreu quando vinculando zonas";
+$GLOBALS['strUnlinkingZonesProblem'] = "Problema ocorreu quando desvinculando zonas";
+$GLOBALS['strZonesLinked'] = "zona(s) vinculada(s)";
+$GLOBALS['strZonesUnlinked'] = "zona(s) desvinculada(s)";
+$GLOBALS['strZonesSearch'] = "Busca";
+$GLOBALS['strZonesSearchTitle'] = "Busca de zonas e sites por nome";
+$GLOBALS['strLinked'] = "Vinculado";
+$GLOBALS['strAvailable'] = "Disponível";
+$GLOBALS['strShowing'] = "Exibindo";
+$GLOBALS['strEditZone'] = "Editar zona";
+$GLOBALS['strEditWebsite'] = "Editar site";
 
 
 // Campaign properties
 $GLOBALS['strDontExpire'] = "Não desativar";
 $GLOBALS['strActivateNow'] = "Ativar imediatamente";
+$GLOBALS['strSetSpecificDate'] = "Definir data específica";
 $GLOBALS['strLow'] = "Baixa";
 $GLOBALS['strHigh'] = "Alta";
 $GLOBALS['strExpirationDate'] = "Data de término";
@@ -461,13 +484,19 @@ $GLOBALS['strDeliveryCappingReset'] = "Resetar contadores de visualização apó
 $GLOBALS['strDeliveryCappingTotal'] = "no total";
 $GLOBALS['strDeliveryCappingSession'] = "por sessão";
 
-$GLOBALS['strCappingBanner'] = array();
+if (!isset($GLOBALS['strCappingBanner'])) {
+    $GLOBALS['strCappingBanner'] = array();
+}
 $GLOBALS['strCappingBanner']['limit'] = "Limitar visualização de banners a:";
 
-$GLOBALS['strCappingCampaign'] = array();
+if (!isset($GLOBALS['strCappingCampaign'])) {
+    $GLOBALS['strCappingCampaign'] = array();
+}
 $GLOBALS['strCappingCampaign']['limit'] = "Limitar visualizações da campanha a:";
 
-$GLOBALS['strCappingZone'] = array();
+if (!isset($GLOBALS['strCappingZone'])) {
+    $GLOBALS['strCappingZone'] = array();
+}
 $GLOBALS['strCappingZone']['limit'] = "Limitar visualizações de zonas a:";
 
 // Website

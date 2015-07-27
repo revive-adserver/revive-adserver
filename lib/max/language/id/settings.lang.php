@@ -48,10 +48,6 @@ $GLOBALS['strImagesUrlPrefixSSL'] = "URL penyimpanan gambar (SSL)";
 
 // Global
 $GLOBALS['strChooseSection'] = "Pilih Bagian";
-$GLOBALS['strEditConfigNotPossible'] = "It is not possible to edit all settings because the configuration file is locked for security reasons. " .
-    "If you want to make changes, you may need to unlock the configuration file for this installation first.";
-$GLOBALS['strEditConfigPossible'] = "It is possible to edit all settings because the configuration file is not locked, but this could lead to security issues. " .
-    "If you want to secure your system, you need to lock the configuration file for this installation.";
 $GLOBALS['strUnableToWriteConfig'] = "Gagal menulis perubahan pada config file";
 $GLOBALS['strUnableToWritePrefs'] = "Gagal mengirim preferensi kepada database";
 $GLOBALS['strImageDirLockedDetected'] = "<b>Direktori Gambar</b> yang diberikan tidak bisa ditulis oleh server. <br>Anda tidak dapat melanjut sebelum permissions dari direktori tersebut diubah atau direktori tersebut dibuatkan.";

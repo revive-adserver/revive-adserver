@@ -157,9 +157,13 @@ $GLOBALS['strMonths'] = "Mesiace";
 $GLOBALS['strDayOfWeek'] = "Deň v týždni";
 
 
-$GLOBALS['strDayFullNames'] = array();
+if (!isset($GLOBALS['strDayFullNames'])) {
+    $GLOBALS['strDayFullNames'] = array();
+}
 
-$GLOBALS['strDayShortCuts'] = array();
+if (!isset($GLOBALS['strDayShortCuts'])) {
+    $GLOBALS['strDayShortCuts'] = array();
+}
 
 $GLOBALS['strHour'] = "Hodina";
 $GLOBALS['strSeconds'] = "sekundy";
@@ -255,11 +259,17 @@ $GLOBALS['strWeight'] = "Výška";
 $GLOBALS['strNoLimitations'] = "Bez obmedzení";
 
 
-$GLOBALS['strCappingBanner'] = array();
+if (!isset($GLOBALS['strCappingBanner'])) {
+    $GLOBALS['strCappingBanner'] = array();
+}
 
-$GLOBALS['strCappingCampaign'] = array();
+if (!isset($GLOBALS['strCappingCampaign'])) {
+    $GLOBALS['strCappingCampaign'] = array();
+}
 
-$GLOBALS['strCappingZone'] = array();
+if (!isset($GLOBALS['strCappingZone'])) {
+    $GLOBALS['strCappingZone'] = array();
+}
 
 // Website
 $GLOBALS['strAffiliate'] = "Webstránka";

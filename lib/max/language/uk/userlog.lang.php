@@ -27,7 +27,9 @@ $GLOBALS['strType'] = "Тип";
 $GLOBALS['strAction'] = "Дія";
 $GLOBALS['strValue'] = "Значение";
 
-$GLOBALS['strUserlog'] = array();
+if (!isset($GLOBALS['strUserlog'])) {
+    $GLOBALS['strUserlog'] = array();
+}
 $GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Уведомление активации кампании {id} отправлено по e-mail";
 $GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Уведомление активации кампании {id} отправлено по e-mail";
 $GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Уведомление активации кампании {id} отправлено по e-mail";

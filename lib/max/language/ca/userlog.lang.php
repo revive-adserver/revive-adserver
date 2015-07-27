@@ -29,4 +29,6 @@ $GLOBALS['strAction'] = "Acció";
 $GLOBALS['strParameter'] = "Paràmetre";
 $GLOBALS['strValue'] = "Valor";
 
-$GLOBALS['strUserlog'] = array();
+if (!isset($GLOBALS['strUserlog'])) {
+    $GLOBALS['strUserlog'] = array();
+}

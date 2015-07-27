@@ -36,7 +36,9 @@ $GLOBALS['strAuditResultsNotFound'] = "Inga händelser passar till valda kriteri
 $GLOBALS['strCollectedAllEvents'] = "Alla händelser";
 $GLOBALS['strClear'] = "Rensa";
 
-$GLOBALS['strUserlog'] = array();
+if (!isset($GLOBALS['strUserlog'])) {
+    $GLOBALS['strUserlog'] = array();
+}
 $GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Aktiveringsmeddelande för kampanj {id} skickat per epost";
 $GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Aktiveringsmeddelande för kampanj {id} skickat per epost";
 $GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Aktiveringsmeddelande för kampanj {id} skickat per epost";

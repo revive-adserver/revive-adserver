@@ -25,7 +25,9 @@ $GLOBALS['strZone'] = "Alan";
 $GLOBALS['strType'] = "Tip";
 $GLOBALS['strAction'] = "Eylem";
 
-$GLOBALS['strUserlog'] = array();
+if (!isset($GLOBALS['strUserlog'])) {
+    $GLOBALS['strUserlog'] = array();
+}
 $GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Veritabanını otomatik temizle";
 $GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Veritabanını otomatik temizle";
 $GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Veritabanını otomatik temizle";

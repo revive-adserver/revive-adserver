@@ -37,7 +37,9 @@ $GLOBALS['strAuditResultsNotFound'] = "No hay eventos que concuerden con el crit
 $GLOBALS['strCollectedAllEvents'] = "Todos los eventos";
 $GLOBALS['strClear'] = "Limpiar";
 
-$GLOBALS['strUserlog'] = array();
+if (!isset($GLOBALS['strUserlog'])) {
+    $GLOBALS['strUserlog'] = array();
+}
 $GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Notificación de activación de la campaña {id} enviada por e-mail";
 $GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Notificación de activación de la campaña {id} enviada por e-mail";
 $GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Notificación de activación de la campaña {id} enviada por e-mail";

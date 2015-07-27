@@ -181,9 +181,13 @@ $GLOBALS['strSingleMonth'] = "월";
 $GLOBALS['strMonths'] = "월";
 
 
-$GLOBALS['strDayFullNames'] = array();
+if (!isset($GLOBALS['strDayFullNames'])) {
+    $GLOBALS['strDayFullNames'] = array();
+}
 
-$GLOBALS['strDayShortCuts'] = array();
+if (!isset($GLOBALS['strDayShortCuts'])) {
+    $GLOBALS['strDayShortCuts'] = array();
+}
 
 $GLOBALS['strHour'] = "시";
 $GLOBALS['strSeconds'] = "초";
@@ -315,11 +319,17 @@ $GLOBALS['strSource'] = "소스";
 $GLOBALS['strDeliveryLimitations'] = "전달유지 제한";
 
 
-$GLOBALS['strCappingBanner'] = array();
+if (!isset($GLOBALS['strCappingBanner'])) {
+    $GLOBALS['strCappingBanner'] = array();
+}
 
-$GLOBALS['strCappingCampaign'] = array();
+if (!isset($GLOBALS['strCappingCampaign'])) {
+    $GLOBALS['strCappingCampaign'] = array();
+}
 
-$GLOBALS['strCappingZone'] = array();
+if (!isset($GLOBALS['strCappingZone'])) {
+    $GLOBALS['strCappingZone'] = array();
+}
 
 // Website
 $GLOBALS['strAffiliate'] = "광고게시�?";

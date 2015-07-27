@@ -177,9 +177,13 @@ $GLOBALS['strMonths'] = "Mėnesiai";
 $GLOBALS['strDayOfWeek'] = "Savaitės diena";
 
 
-$GLOBALS['strDayFullNames'] = array();
+if (!isset($GLOBALS['strDayFullNames'])) {
+    $GLOBALS['strDayFullNames'] = array();
+}
 
-$GLOBALS['strDayShortCuts'] = array();
+if (!isset($GLOBALS['strDayShortCuts'])) {
+    $GLOBALS['strDayShortCuts'] = array();
+}
 
 $GLOBALS['strHour'] = "Valanda";
 $GLOBALS['strSeconds'] = "Sekundės";
@@ -358,13 +362,19 @@ $GLOBALS['strDeliveryCappingReset'] = "Perstatyti vaizdo skaitiklius po:";
 $GLOBALS['strDeliveryCappingTotal'] = "viso";
 $GLOBALS['strDeliveryCappingSession'] = "per sesiją";
 
-$GLOBALS['strCappingBanner'] = array();
+if (!isset($GLOBALS['strCappingBanner'])) {
+    $GLOBALS['strCappingBanner'] = array();
+}
 $GLOBALS['strCappingBanner']['limit'] = "Sumažinti banerių rodymų dydį iki: ";
 
-$GLOBALS['strCappingCampaign'] = array();
+if (!isset($GLOBALS['strCappingCampaign'])) {
+    $GLOBALS['strCappingCampaign'] = array();
+}
 $GLOBALS['strCappingCampaign']['limit'] = "Sumažinti kampanijų rodymų dydį iki:";
 
-$GLOBALS['strCappingZone'] = array();
+if (!isset($GLOBALS['strCappingZone'])) {
+    $GLOBALS['strCappingZone'] = array();
+}
 $GLOBALS['strCappingZone']['limit'] = "Sumažinti zonų rodymų dydį iki:";
 
 // Website
