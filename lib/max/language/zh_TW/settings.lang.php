@@ -49,10 +49,6 @@ $GLOBALS['strImagesUrlPrefixSSL'] = "由於安全原因無法編輯所有設定�
 
 // Global
 $GLOBALS['strChooseSection'] = "選擇章節";
-$GLOBALS['strEditConfigNotPossible'] = "It is not possible to edit all settings because the configuration file is locked for security reasons. " .
-    "If you want to make changes, you may need to unlock the configuration file for this installation first.";
-$GLOBALS['strEditConfigPossible'] = "It is possible to edit all settings because the configuration file is not locked, but this could lead to security issues. " .
-    "If you want to secure your system, you need to lock the configuration file for this installation.";
 $GLOBALS['strUnableToWriteConfig'] = "無法修改配置文件";
 $GLOBALS['strUnableToWritePrefs'] = "無法向數據庫提交屬性更改 ";
 $GLOBALS['strImageDirLockedDetected'] = "<b>圖片文件夾</b>不可寫<br>在修改文件夾權限之前無法修改或創建相關文件夾。";

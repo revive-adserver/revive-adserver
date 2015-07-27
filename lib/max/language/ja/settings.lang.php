@@ -47,10 +47,6 @@ $GLOBALS['strImagesUrlPrefixSSL'] = "画像ストレージURL(SSL)";
 
 // Global
 $GLOBALS['strChooseSection'] = "セクションの選択";
-$GLOBALS['strEditConfigNotPossible'] = "It is not possible to edit all settings because the configuration file is locked for security reasons. " .
-    "If you want to make changes, you may need to unlock the configuration file for this installation first.";
-$GLOBALS['strEditConfigPossible'] = "It is possible to edit all settings because the configuration file is not locked, but this could lead to security issues. " .
-    "If you want to secure your system, you need to lock the configuration file for this installation.";
 $GLOBALS['strUnableToWriteConfig'] = "設定ファイルに書き込む事ができませんでした。";
 $GLOBALS['strUnableToWritePrefs'] = "データベースに設定を反映できませんでした。";
 $GLOBALS['strImageDirLockedDetected'] = "指定した<b>画像ストレージ</b>への書き込みができません。<br>ディレクトリのパーミッションを変更するか、新しくディレクトリを作成してください。";

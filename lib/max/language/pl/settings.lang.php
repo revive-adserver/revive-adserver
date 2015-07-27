@@ -47,10 +47,6 @@ $GLOBALS['strImagesUrlPrefixSSL'] = "URL pamięci plików graficznych (SSL)";
 
 // Global
 $GLOBALS['strChooseSection'] = "Wybierz sekcję";
-$GLOBALS['strEditConfigNotPossible'] = "It is not possible to edit all settings because the configuration file is locked for security reasons. " .
-    "If you want to make changes, you may need to unlock the configuration file for this installation first.";
-$GLOBALS['strEditConfigPossible'] = "It is possible to edit all settings because the configuration file is not locked, but this could lead to security issues. " .
-    "If you want to secure your system, you need to lock the configuration file for this installation.";
 $GLOBALS['strUnableToWriteConfig'] = "Nie można wprowadzić zmian w pliku config";
 $GLOBALS['strUnableToWritePrefs'] = "Nie można wprowadzić preferencji w bazie danych";
 $GLOBALS['strImageDirLockedDetected'] = "Wskazany <b>Folder Obrazów</b> nie jest otwarty do edycji. <b>Zmień uprawnienia w folderze lub utwórz folder, aby kontynuować.";
