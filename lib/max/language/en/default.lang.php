@@ -244,7 +244,9 @@ $GLOBALS['strMonths'] = "Months";
 $GLOBALS['strDayOfWeek'] = "Day of week";
 
 
-$GLOBALS['strDayFullNames'] = array();
+if (!isset($GLOBALS['strDayFullNames'])) {
+    $GLOBALS['strDayFullNames'] = array();
+}
 $GLOBALS['strDayFullNames'][0] = 'Sunday';
 $GLOBALS['strDayFullNames'][1] = 'Monday';
 $GLOBALS['strDayFullNames'][2] = 'Tuesday';
@@ -253,7 +255,9 @@ $GLOBALS['strDayFullNames'][4] = 'Thursday';
 $GLOBALS['strDayFullNames'][5] = 'Friday';
 $GLOBALS['strDayFullNames'][6] = 'Saturday';
 
-$GLOBALS['strDayShortCuts'] = array();
+if (!isset($GLOBALS['strDayShortCuts'])) {
+    $GLOBALS['strDayShortCuts'] = array();
+}
 $GLOBALS['strDayShortCuts'][0] = 'Su';
 $GLOBALS['strDayShortCuts'][1] = 'Mo';
 $GLOBALS['strDayShortCuts'][2] = 'Tu';
@@ -576,15 +580,21 @@ $GLOBALS['strDeliveryCappingReset'] = "Reset view counters after:";
 $GLOBALS['strDeliveryCappingTotal'] = "in total";
 $GLOBALS['strDeliveryCappingSession'] = "per session";
 
-$GLOBALS['strCappingBanner'] = array();
+if (!isset($GLOBALS['strCappingBanner'])) {
+    $GLOBALS['strCappingBanner'] = array();
+}
 $GLOBALS['strCappingBanner']['title'] = "Delivery capping per visitor";
 $GLOBALS['strCappingBanner']['limit'] = "Limit banner views to:";
 
-$GLOBALS['strCappingCampaign'] = array();
+if (!isset($GLOBALS['strCappingCampaign'])) {
+    $GLOBALS['strCappingCampaign'] = array();
+}
 $GLOBALS['strCappingCampaign']['title'] = "Delivery capping per visitor";
 $GLOBALS['strCappingCampaign']['limit'] = "Limit campaign views to:";
 
-$GLOBALS['strCappingZone'] = array();
+if (!isset($GLOBALS['strCappingZone'])) {
+    $GLOBALS['strCappingZone'] = array();
+}
 $GLOBALS['strCappingZone']['title'] = "Delivery capping per visitor";
 $GLOBALS['strCappingZone']['limit'] = "Limit zone views to:";
 
