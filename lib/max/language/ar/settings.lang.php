@@ -46,10 +46,6 @@ $GLOBALS['strImagesUrlPrefixSSL'] = "رابط حفظ الصور (رابط آمن
 
 // Global
 $GLOBALS['strChooseSection'] = "إختيار قسم";
-$GLOBALS['strEditConfigNotPossible'] = "It is not possible to edit all settings because the configuration file is locked for security reasons. " .
-    "If you want to make changes, you may need to unlock the configuration file for this installation first.";
-$GLOBALS['strEditConfigPossible'] = "It is possible to edit all settings because the configuration file is not locked, but this could lead to security issues. " .
-    "If you want to secure your system, you need to lock the configuration file for this installation.";
 $GLOBALS['strUnableToWriteConfig'] = "تعذر حفظ التعديلات في ملف الإعدادات";
 $GLOBALS['strUnableToWritePrefs'] = "تعذر حفظ التعديلات في قاعدة البيانات";
 $GLOBALS['strImageDirLockedDetected'] = "<b>ملجد الصور</b>غير قابل للكتابة. <br> يجب عليك إنشاء المجلد او تعديل صلاحياته قبل الاستمرار";

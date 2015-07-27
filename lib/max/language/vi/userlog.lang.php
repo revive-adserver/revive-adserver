@@ -11,12 +11,10 @@
  */
 
 // Set translation strings
-$GLOBALS['strMaintenance'] = "Vedlikehold";
+$GLOBALS['strMaintenance'] = "Bảo trì";
 
 // Audit
-$GLOBALS['strDeleted'] = "Slett";
-$GLOBALS['strDelete'] = "Slett";
-$GLOBALS['strZone'] = "Ingen";
+$GLOBALS['strDelete'] = "Xoá";
 
 if (!isset($GLOBALS['strUserlog'])) {
     $GLOBALS['strUserlog'] = array();

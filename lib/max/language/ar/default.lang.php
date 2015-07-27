@@ -177,9 +177,13 @@ $GLOBALS['strMonths'] = "أشهر";
 $GLOBALS['strDayOfWeek'] = "اليوم من الأسبوع";
 
 
-$GLOBALS['strDayFullNames'] = array();
+if (!isset($GLOBALS['strDayFullNames'])) {
+    $GLOBALS['strDayFullNames'] = array();
+}
 
-$GLOBALS['strDayShortCuts'] = array();
+if (!isset($GLOBALS['strDayShortCuts'])) {
+    $GLOBALS['strDayShortCuts'] = array();
+}
 
 $GLOBALS['strHour'] = "الساعة";
 $GLOBALS['strSeconds'] = "الثواني";
@@ -358,13 +362,19 @@ $GLOBALS['strDeliveryCappingReset'] = "قم بتصفير العداد بعد :";
 $GLOBALS['strDeliveryCappingTotal'] = "في المجموع";
 $GLOBALS['strDeliveryCappingSession'] = "كل جلسة";
 
-$GLOBALS['strCappingBanner'] = array();
+if (!isset($GLOBALS['strCappingBanner'])) {
+    $GLOBALS['strCappingBanner'] = array();
+}
 $GLOBALS['strCappingBanner']['limit'] = "تحديد عرض الإعلانات إلى:";
 
-$GLOBALS['strCappingCampaign'] = array();
+if (!isset($GLOBALS['strCappingCampaign'])) {
+    $GLOBALS['strCappingCampaign'] = array();
+}
 $GLOBALS['strCappingCampaign']['limit'] = "تحديد عرض الحملة الإعلانية إلى:";
 
-$GLOBALS['strCappingZone'] = array();
+if (!isset($GLOBALS['strCappingZone'])) {
+    $GLOBALS['strCappingZone'] = array();
+}
 $GLOBALS['strCappingZone']['limit'] = "تحديد عرض المنطقة الإعلانية إلى:";
 
 // Website

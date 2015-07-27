@@ -161,9 +161,13 @@ $GLOBALS['strMonths'] = "Misoedd";
 $GLOBALS['strDayOfWeek'] = "Diwrnod yr wythnos";
 
 
-$GLOBALS['strDayFullNames'] = array();
+if (!isset($GLOBALS['strDayFullNames'])) {
+    $GLOBALS['strDayFullNames'] = array();
+}
 
-$GLOBALS['strDayShortCuts'] = array();
+if (!isset($GLOBALS['strDayShortCuts'])) {
+    $GLOBALS['strDayShortCuts'] = array();
+}
 
 $GLOBALS['strHour'] = "Awr";
 $GLOBALS['strSeconds'] = "eiliadau";
@@ -341,13 +345,19 @@ $GLOBALS['strDeliveryCappingReset'] = "Ailosod rhifydd golwg ar ôl:";
 $GLOBALS['strDeliveryCappingTotal'] = "mewn cyfanswm";
 $GLOBALS['strDeliveryCappingSession'] = "y sesiwn ";
 
-$GLOBALS['strCappingBanner'] = array();
+if (!isset($GLOBALS['strCappingBanner'])) {
+    $GLOBALS['strCappingBanner'] = array();
+}
 $GLOBALS['strCappingBanner']['limit'] = "Cyfyngu golygon baner i:";
 
-$GLOBALS['strCappingCampaign'] = array();
+if (!isset($GLOBALS['strCappingCampaign'])) {
+    $GLOBALS['strCappingCampaign'] = array();
+}
 $GLOBALS['strCappingCampaign']['limit'] = "Cyfyngu golygon ymgyrch i:";
 
-$GLOBALS['strCappingZone'] = array();
+if (!isset($GLOBALS['strCappingZone'])) {
+    $GLOBALS['strCappingZone'] = array();
+}
 $GLOBALS['strCappingZone']['limit'] = "Cyfyngu golygon ardal i:";
 
 // Website

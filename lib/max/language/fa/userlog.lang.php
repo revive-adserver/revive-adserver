@@ -25,7 +25,9 @@ $GLOBALS['strZone'] = "ناحیه";
 $GLOBALS['strAction'] = "اقدام";
 $GLOBALS['strValue'] = "قیمت";
 
-$GLOBALS['strUserlog'] = array();
+if (!isset($GLOBALS['strUserlog'])) {
+    $GLOBALS['strUserlog'] = array();
+}
 $GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "غیر فعال کردن هشدارها برای campaign {id} و ارسال توسط ایمیل";
 $GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "غیر فعال کردن هشدارها برای campaign {id} و ارسال توسط ایمیل";
 $GLOBALS['strUserlog'][phpAds_actionAutoClean] = "غیر فعال کردن هشدارها برای campaign {id} و ارسال توسط ایمیل";

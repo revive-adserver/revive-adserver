@@ -164,9 +164,13 @@ $GLOBALS['strMonths'] = "Bulan";
 $GLOBALS['strDayOfWeek'] = "Hari dalam minggu";
 
 
-$GLOBALS['strDayFullNames'] = array();
+if (!isset($GLOBALS['strDayFullNames'])) {
+    $GLOBALS['strDayFullNames'] = array();
+}
 
-$GLOBALS['strDayShortCuts'] = array();
+if (!isset($GLOBALS['strDayShortCuts'])) {
+    $GLOBALS['strDayShortCuts'] = array();
+}
 
 $GLOBALS['strHour'] = "Jam";
 $GLOBALS['strSeconds'] = "Detik";
@@ -345,13 +349,19 @@ $GLOBALS['strDeliveryCappingReset'] = "Reset hitungan AdViews setelah:";
 $GLOBALS['strDeliveryCappingTotal'] = "jumlahnya";
 $GLOBALS['strDeliveryCappingSession'] = "per sesi";
 
-$GLOBALS['strCappingBanner'] = array();
+if (!isset($GLOBALS['strCappingBanner'])) {
+    $GLOBALS['strCappingBanner'] = array();
+}
 $GLOBALS['strCappingBanner']['limit'] = "Batasi penampilan banner pada:";
 
-$GLOBALS['strCappingCampaign'] = array();
+if (!isset($GLOBALS['strCappingCampaign'])) {
+    $GLOBALS['strCappingCampaign'] = array();
+}
 $GLOBALS['strCappingCampaign']['limit'] = "Batasi penampilan kampanye pada:";
 
-$GLOBALS['strCappingZone'] = array();
+if (!isset($GLOBALS['strCappingZone'])) {
+    $GLOBALS['strCappingZone'] = array();
+}
 $GLOBALS['strCappingZone']['limit'] = "Batasi penampilan zona pada:";
 
 // Website

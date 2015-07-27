@@ -35,7 +35,9 @@ $GLOBALS['strAuditResultsNotFound'] = "Po izbranih kriterijih ni bilo mogoče na
 $GLOBALS['strCollectedAllEvents'] = "Vsi dogodki";
 $GLOBALS['strClear'] = "Počisti";
 
-$GLOBALS['strUserlog'] = array();
+if (!isset($GLOBALS['strUserlog'])) {
+    $GLOBALS['strUserlog'] = array();
+}
 $GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Objava o aktivaciji kampanje {id} se pošlje preko e-pošte";
 $GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Objava o aktivaciji kampanje {id} se pošlje preko e-pošte";
 $GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Objava o aktivaciji kampanje {id} se pošlje preko e-pošte";

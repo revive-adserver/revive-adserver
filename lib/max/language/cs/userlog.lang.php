@@ -24,7 +24,9 @@ $GLOBALS['strZone'] = "Zóna";
 $GLOBALS['strAction'] = "Akce";
 $GLOBALS['strValue'] = "Hodnota";
 
-$GLOBALS['strUserlog'] = array();
+if (!isset($GLOBALS['strUserlog'])) {
+    $GLOBALS['strUserlog'] = array();
+}
 $GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Výstraha na deaktivaci kampaně {id} odesláno e-mailem";
 $GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Výstraha na deaktivaci kampaně {id} odesláno e-mailem";
 $GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Výstraha na deaktivaci kampaně {id} odesláno e-mailem";

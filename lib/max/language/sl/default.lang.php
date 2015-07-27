@@ -206,9 +206,13 @@ $GLOBALS['strMonths'] = "Mesecev";
 $GLOBALS['strDayOfWeek'] = "Dan v tednu";
 
 
-$GLOBALS['strDayFullNames'] = array();
+if (!isset($GLOBALS['strDayFullNames'])) {
+    $GLOBALS['strDayFullNames'] = array();
+}
 
-$GLOBALS['strDayShortCuts'] = array();
+if (!isset($GLOBALS['strDayShortCuts'])) {
+    $GLOBALS['strDayShortCuts'] = array();
+}
 
 $GLOBALS['strHour'] = "Ura";
 $GLOBALS['strSeconds'] = "sekund";
@@ -453,13 +457,19 @@ $GLOBALS['strDeliveryCappingReset'] = "Ponastavi števce po:";
 $GLOBALS['strDeliveryCappingTotal'] = "celotnih";
 $GLOBALS['strDeliveryCappingSession'] = "na sejo";
 
-$GLOBALS['strCappingBanner'] = array();
+if (!isset($GLOBALS['strCappingBanner'])) {
+    $GLOBALS['strCappingBanner'] = array();
+}
 $GLOBALS['strCappingBanner']['limit'] = "Omeji prikazov pasice na:";
 
-$GLOBALS['strCappingCampaign'] = array();
+if (!isset($GLOBALS['strCappingCampaign'])) {
+    $GLOBALS['strCappingCampaign'] = array();
+}
 $GLOBALS['strCappingCampaign']['limit'] = "Omeji prikazov kampanje na:";
 
-$GLOBALS['strCappingZone'] = array();
+if (!isset($GLOBALS['strCappingZone'])) {
+    $GLOBALS['strCappingZone'] = array();
+}
 $GLOBALS['strCappingZone']['limit'] = "Omeji prikazov področja na:";
 
 // Website

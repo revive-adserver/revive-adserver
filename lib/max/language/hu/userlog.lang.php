@@ -22,7 +22,9 @@ $GLOBALS['strAdvertiser'] = "Hirdető";
 $GLOBALS['strCampaign'] = "Kampány";
 $GLOBALS['strZone'] = "Nincs";
 
-$GLOBALS['strUserlog'] = array();
+if (!isset($GLOBALS['strUserlog'])) {
+    $GLOBALS['strUserlog'] = array();
+}
 $GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Adatbázis automatikus tisztítása";
 $GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Adatbázis automatikus tisztítása";
 $GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Adatbázis automatikus tisztítása";

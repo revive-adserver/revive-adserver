@@ -43,10 +43,6 @@ $GLOBALS['strAdminUrlPrefix'] = "Administrator interface URL";
 
 // Global
 $GLOBALS['strChooseSection'] = "Vælg sektion";
-$GLOBALS['strEditConfigNotPossible'] = "It is not possible to edit all settings because the configuration file is locked for security reasons. " .
-    "If you want to make changes, you may need to unlock the configuration file for this installation first.";
-$GLOBALS['strEditConfigPossible'] = "It is possible to edit all settings because the configuration file is not locked, but this could lead to security issues. " .
-    "If you want to secure your system, you need to lock the configuration file for this installation.";
 $GLOBALS['strUnableToWriteConfig'] = "Ude af stand til at skrive ændringer til config filen";
 $GLOBALS['strUnableToWritePrefs'] = "Ude af stand til at binde referencer til databasen";
 $GLOBALS['strImageDirLockedDetected'] = "Den leverede <b>Billede Mappe</b> er ikke skrivebar af serveren. <br>Du kan ikke fortsætte indtil du enten ændrer adgangstilladdelse til mappen eller opretter mappen.";

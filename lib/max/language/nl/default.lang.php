@@ -242,7 +242,9 @@ $GLOBALS['strMonths'] = "Maanden";
 $GLOBALS['strDayOfWeek'] = "Dag van de week";
 
 
-$GLOBALS['strDayFullNames'] = array();
+if (!isset($GLOBALS['strDayFullNames'])) {
+    $GLOBALS['strDayFullNames'] = array();
+}
 $GLOBALS['strDayFullNames'][0] = 'zondag';
 $GLOBALS['strDayFullNames'][1] = 'maandag';
 $GLOBALS['strDayFullNames'][2] = 'dinsdag';
@@ -251,7 +253,9 @@ $GLOBALS['strDayFullNames'][4] = 'donderdag';
 $GLOBALS['strDayFullNames'][5] = 'vrijdag';
 $GLOBALS['strDayFullNames'][6] = 'zaterdag';
 
-$GLOBALS['strDayShortCuts'] = array();
+if (!isset($GLOBALS['strDayShortCuts'])) {
+    $GLOBALS['strDayShortCuts'] = array();
+}
 $GLOBALS['strDayShortCuts'][0] = 'zo';
 $GLOBALS['strDayShortCuts'][1] = 'ma';
 $GLOBALS['strDayShortCuts'][2] = 'di';
@@ -568,15 +572,21 @@ $GLOBALS['strDeliveryCappingReset'] = "Reset vertoningentellers na:";
 $GLOBALS['strDeliveryCappingTotal'] = "in totaal";
 $GLOBALS['strDeliveryCappingSession'] = "per sessie";
 
-$GLOBALS['strCappingBanner'] = array();
+if (!isset($GLOBALS['strCappingBanner'])) {
+    $GLOBALS['strCappingBanner'] = array();
+}
 $GLOBALS['strCappingBanner']['title'] = "Delivery capping per bezoeker";
 $GLOBALS['strCappingBanner']['limit'] = "Limiteer banner vertoningen tot";
 
-$GLOBALS['strCappingCampaign'] = array();
+if (!isset($GLOBALS['strCappingCampaign'])) {
+    $GLOBALS['strCappingCampaign'] = array();
+}
 $GLOBALS['strCappingCampaign']['title'] = "Delivery capping per bezoeker";
 $GLOBALS['strCappingCampaign']['limit'] = "Limiteer campagne vertoningen tot:";
 
-$GLOBALS['strCappingZone'] = array();
+if (!isset($GLOBALS['strCappingZone'])) {
+    $GLOBALS['strCappingZone'] = array();
+}
 $GLOBALS['strCappingZone']['title'] = "Delivery capping per bezoeker";
 $GLOBALS['strCappingZone']['limit'] = "Limiteer zone vertoningen tot:";
 

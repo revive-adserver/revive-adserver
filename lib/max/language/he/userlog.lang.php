@@ -20,4 +20,6 @@ $GLOBALS['strDelete'] = "מחק";
 $GLOBALS['strAdvertiser'] = "מפרסם";
 $GLOBALS['strCampaign'] = "מערכה";
 
-$GLOBALS['strUserlog'] = array();
+if (!isset($GLOBALS['strUserlog'])) {
+    $GLOBALS['strUserlog'] = array();
+}

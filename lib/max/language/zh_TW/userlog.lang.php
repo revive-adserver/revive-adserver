@@ -37,7 +37,9 @@ $GLOBALS['strAuditResultsNotFound'] = "沒有滿足約束條件的事件";
 $GLOBALS['strCollectedAllEvents'] = "所有事件";
 $GLOBALS['strClear'] = "清除";
 
-$GLOBALS['strUserlog'] = array();
+if (!isset($GLOBALS['strUserlog'])) {
+    $GLOBALS['strUserlog'] = array();
+}
 $GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "已發送發布商{id}報告郵件";
 $GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "已發送發布商{id}報告郵件";
 $GLOBALS['strUserlog'][phpAds_actionAutoClean] = "已發送發布商{id}報告郵件";

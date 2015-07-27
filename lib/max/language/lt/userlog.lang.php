@@ -36,7 +36,9 @@ $GLOBALS['strAuditResultsNotFound'] = "Jokių įvykių pagal įvestus kriterijus
 $GLOBALS['strCollectedAllEvents'] = "Visi įvykiai";
 $GLOBALS['strClear'] = "Ištrinti";
 
-$GLOBALS['strUserlog'] = array();
+if (!isset($GLOBALS['strUserlog'])) {
+    $GLOBALS['strUserlog'] = array();
+}
 $GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Aktyvacijos pranešimas apie kampaniją {id} išsiųstas el. paštu";
 $GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Aktyvacijos pranešimas apie kampaniją {id} išsiųstas el. paštu";
 $GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Aktyvacijos pranešimas apie kampaniją {id} išsiųstas el. paštu";

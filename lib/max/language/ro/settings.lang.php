@@ -47,10 +47,6 @@ $GLOBALS['strImagesUrlPrefixSSL'] = "URL Stocare Imagini (SSL)";
 
 // Global
 $GLOBALS['strChooseSection'] = "Alege Secţiune";
-$GLOBALS['strEditConfigNotPossible'] = "It is not possible to edit all settings because the configuration file is locked for security reasons. " .
-    "If you want to make changes, you may need to unlock the configuration file for this installation first.";
-$GLOBALS['strEditConfigPossible'] = "It is possible to edit all settings because the configuration file is not locked, but this could lead to security issues. " .
-    "If you want to secure your system, you need to lock the configuration file for this installation.";
 $GLOBALS['strUnableToWriteConfig'] = "Nu pot efectua modificările în fişierul de configurare";
 $GLOBALS['strUnableToWritePrefs'] = "Nu pot introduce aceste preferinţe în baza de date";
 $GLOBALS['strImageDirLockedDetected'] = "<b>Dosarul de Imagini</b> furnizat nu poate fi scris de către server. <br>Nu poţi continua până când nu modifici permisiunile sau creezi acel dosar.";

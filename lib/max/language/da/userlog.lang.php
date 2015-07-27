@@ -32,7 +32,9 @@ $GLOBALS['strAuditResultsNotFound'] = "Ingen handlinger fundet, der matcher valg
 $GLOBALS['strCollectedAllEvents'] = "Alle handlinger";
 $GLOBALS['strClear'] = "Ryd";
 
-$GLOBALS['strUserlog'] = array();
+if (!isset($GLOBALS['strUserlog'])) {
+    $GLOBALS['strUserlog'] = array();
+}
 $GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Kampagne deaktiveret";
 $GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Kampagne deaktiveret";
 $GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Kampagne deaktiveret";

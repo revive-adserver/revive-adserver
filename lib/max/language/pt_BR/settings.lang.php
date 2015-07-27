@@ -48,10 +48,6 @@ $GLOBALS['strImagesUrlPrefixSSL'] = "URL do armazenamento de imagens (SSL)";
 
 // Global
 $GLOBALS['strChooseSection'] = "Escolher seção";
-$GLOBALS['strEditConfigNotPossible'] = "It is not possible to edit all settings because the configuration file is locked for security reasons. " .
-    "If you want to make changes, you may need to unlock the configuration file for this installation first.";
-$GLOBALS['strEditConfigPossible'] = "It is possible to edit all settings because the configuration file is not locked, but this could lead to security issues. " .
-    "If you want to secure your system, you need to lock the configuration file for this installation.";
 $GLOBALS['strUnableToWriteConfig'] = "Não é possível editar todas as configurações pois o arquivo de configuração esta travado por questões de segurança. Se deseja fazer alterações destrave o arquivo de configurações primeiro.";
 $GLOBALS['strUnableToWritePrefs'] = "É possível editar toas configurações pois o arquivo de configuração esta liberado, mas isto pode levar a problemas de segurança. Se deseja tornar seus sistema seguro é necessário travar o arquivo de configuração.";
 $GLOBALS['strImageDirLockedDetected'] = "O <b>Diretório de imagens</b> fornecido não possui permissão de escrita pelo servidor. <br>Você não poderá prosseguir até alterar as permissões ou criar a pasta.";

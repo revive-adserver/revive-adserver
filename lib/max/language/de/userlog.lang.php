@@ -37,7 +37,9 @@ $GLOBALS['strAuditResultsNotFound'] = "Keine Ereignisse mit den ausgewählten Su
 $GLOBALS['strCollectedAllEvents'] = "Alle Ereignisse";
 $GLOBALS['strClear'] = "Leeren";
 
-$GLOBALS['strUserlog'] = array();
+if (!isset($GLOBALS['strUserlog'])) {
+    $GLOBALS['strUserlog'] = array();
+}
 $GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Benachrichtigungsmail über die Aktivierung der Kampagne {id} versendet";
 $GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Benachrichtigungsmail über die Aktivierung der Kampagne {id} versendet";
 $GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Benachrichtigungsmail über die Aktivierung der Kampagne {id} versendet";

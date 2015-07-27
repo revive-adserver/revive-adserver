@@ -37,7 +37,9 @@ $GLOBALS['strAuditResultsNotFound'] = "Geen logboekregistraties gevonden die ove
 $GLOBALS['strCollectedAllEvents'] = "Alle gebeurtenissen";
 $GLOBALS['strClear'] = "Leegmaken";
 
-$GLOBALS['strUserlog'] = array();
+if (!isset($GLOBALS['strUserlog'])) {
+    $GLOBALS['strUserlog'] = array();
+}
 $GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Melding van de activering voor campagne {id} verzenden per e-mail";
 $GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Melding van de activering voor campagne {id} verzenden per e-mail";
 $GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Melding van de activering voor campagne {id} verzenden per e-mail";

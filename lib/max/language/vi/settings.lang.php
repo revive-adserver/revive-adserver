@@ -11,7 +11,6 @@
  */
 
 // Installer translation strings
-$GLOBALS['strWarning'] = "Rhybudd";
 
 
 
@@ -28,35 +27,25 @@ $GLOBALS['strWarning'] = "Rhybudd";
 // Configuration Settings
 
 // Administrator Settings
-$GLOBALS['strBasicInformation'] = "Gwybodaeth Sylfaenol";
 
 // Database Settings
 
 // Email Settings
-$GLOBALS['strEmailSettings'] = "Prif Osodiadau";
 
 // Audit Trail Settings
 
 // Debug Logging Settings
 
 // Delivery Settings
-$GLOBALS['strTypeFTPUsername'] = "Mewngofnodi";
-$GLOBALS['strTypeFTPPassword'] = "Cyfrinair";
-$GLOBALS['strDeliveryFilenamesXMLRPC'] = "Actifadu XML RPC";
-$GLOBALS['strDeliveryFilenamesLocal'] = "Actifadu Lleol";
-$GLOBALS['strDeliveryExecPhp'] = "Caniatáu i god PHP mewn hysbysebion i gael ei weithredu<br />(Rhybudd: Risg Diogelwch)";
 
 // General Settings
 
 // Geotargeting Settings
 
 // Interface Settings
-$GLOBALS['strInventory'] = "Rhestren";
-$GLOBALS['strHideInactive'] = "Cuddio anweithredol";
-$GLOBALS['strStatisticsDefaults'] = "Ystadegau";
+$GLOBALS['strInventory'] = "Hàng tồn kho";
 
 // Invocation Settings
-$GLOBALS['strInvocationDefaults'] = "Rhagosodiadau Actifadu";
 
 // Banner Delivery Settings
 
@@ -69,7 +58,6 @@ $GLOBALS['strInvocationDefaults'] = "Rhagosodiadau Actifadu";
 // Statistics & Maintenance Settings
 
 // UI Settings
-$GLOBALS['strGeneralSettings'] = "Gosodiadau Cyffredinol";
 
 // Regenerate Platfor Hash script
 

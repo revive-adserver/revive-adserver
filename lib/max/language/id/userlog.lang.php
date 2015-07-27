@@ -25,7 +25,9 @@ $GLOBALS['strType'] = "Jenis";
 $GLOBALS['strAction'] = "Aksi";
 $GLOBALS['strValue'] = "Nilai";
 
-$GLOBALS['strUserlog'] = array();
+if (!isset($GLOBALS['strUserlog'])) {
+    $GLOBALS['strUserlog'] = array();
+}
 $GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Pembersihan database secara otomatis.";
 $GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Pembersihan database secara otomatis.";
 $GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Pembersihan database secara otomatis.";

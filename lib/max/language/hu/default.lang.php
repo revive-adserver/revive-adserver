@@ -164,9 +164,13 @@ $GLOBALS['strMonths'] = "Hónap";
 $GLOBALS['strDayOfWeek'] = "A hét napja";
 
 
-$GLOBALS['strDayFullNames'] = array();
+if (!isset($GLOBALS['strDayFullNames'])) {
+    $GLOBALS['strDayFullNames'] = array();
+}
 
-$GLOBALS['strDayShortCuts'] = array();
+if (!isset($GLOBALS['strDayShortCuts'])) {
+    $GLOBALS['strDayShortCuts'] = array();
+}
 
 $GLOBALS['strHour'] = "Óra";
 $GLOBALS['strSeconds'] = "másodperc";
@@ -288,11 +292,17 @@ $GLOBALS['strSource'] = "Forrás";
 $GLOBALS['strDeliveryLimitations'] = "Továbbítás korlátozásai";
 
 
-$GLOBALS['strCappingBanner'] = array();
+if (!isset($GLOBALS['strCappingBanner'])) {
+    $GLOBALS['strCappingBanner'] = array();
+}
 
-$GLOBALS['strCappingCampaign'] = array();
+if (!isset($GLOBALS['strCappingCampaign'])) {
+    $GLOBALS['strCappingCampaign'] = array();
+}
 
-$GLOBALS['strCappingZone'] = array();
+if (!isset($GLOBALS['strCappingZone'])) {
+    $GLOBALS['strCappingZone'] = array();
+}
 
 // Website
 $GLOBALS['strAffiliate'] = "Kiadó";

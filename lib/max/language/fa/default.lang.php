@@ -169,9 +169,13 @@ $GLOBALS['strMonths'] = "ماهها";
 $GLOBALS['strDayOfWeek'] = "روز و ه�?ته";
 
 
-$GLOBALS['strDayFullNames'] = array();
+if (!isset($GLOBALS['strDayFullNames'])) {
+    $GLOBALS['strDayFullNames'] = array();
+}
 
-$GLOBALS['strDayShortCuts'] = array();
+if (!isset($GLOBALS['strDayShortCuts'])) {
+    $GLOBALS['strDayShortCuts'] = array();
+}
 
 $GLOBALS['strHour'] = "ساعت";
 $GLOBALS['strSeconds'] = "ثانیه";
@@ -341,13 +345,19 @@ $GLOBALS['strDeliveryCappingReset'] = "ریستارت مجدد پس از گذش�
 $GLOBALS['strDeliveryCappingTotal'] = "در کل";
 $GLOBALS['strDeliveryCappingSession'] = "در هر ثانیه";
 
-$GLOBALS['strCappingBanner'] = array();
+if (!isset($GLOBALS['strCappingBanner'])) {
+    $GLOBALS['strCappingBanner'] = array();
+}
 $GLOBALS['strCappingBanner']['limit'] = "حد نمایش بنر به : ";
 
-$GLOBALS['strCappingCampaign'] = array();
+if (!isset($GLOBALS['strCappingCampaign'])) {
+    $GLOBALS['strCappingCampaign'] = array();
+}
 $GLOBALS['strCappingCampaign']['limit'] = "حد داخلی نمایش به : ";
 
-$GLOBALS['strCappingZone'] = array();
+if (!isset($GLOBALS['strCappingZone'])) {
+    $GLOBALS['strCappingZone'] = array();
+}
 $GLOBALS['strCappingZone']['limit'] = "حد ناحیه نمایش به : ";
 
 // Website

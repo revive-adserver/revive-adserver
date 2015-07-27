@@ -35,7 +35,9 @@ $GLOBALS['strAuditResultsNotFound'] = "Brak wyników dla wybranych kryteriów.";
 $GLOBALS['strCollectedAllEvents'] = "Wszystkie wyniki";
 $GLOBALS['strClear'] = "Wyczyść";
 
-$GLOBALS['strUserlog'] = array();
+if (!isset($GLOBALS['strUserlog'])) {
+    $GLOBALS['strUserlog'] = array();
+}
 $GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Informacja o aktywacji kampanii {id} została wysłana e-mailem";
 $GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Informacja o aktywacji kampanii {id} została wysłana e-mailem";
 $GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Informacja o aktywacji kampanii {id} została wysłana e-mailem";

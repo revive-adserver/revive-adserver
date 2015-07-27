@@ -20,7 +20,9 @@ $GLOBALS['strDeleted'] = "Padam";
 $GLOBALS['strDelete'] = "Padam";
 $GLOBALS['strZone'] = "Tiada";
 
-$GLOBALS['strUserlog'] = array();
+if (!isset($GLOBALS['strUserlog'])) {
+    $GLOBALS['strUserlog'] = array();
+}
 $GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Amaran penyahaktifan untuk kempen {id} dihantar melalui emel";
 $GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Amaran penyahaktifan untuk kempen {id} dihantar melalui emel";
 $GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Amaran penyahaktifan untuk kempen {id} dihantar melalui emel";

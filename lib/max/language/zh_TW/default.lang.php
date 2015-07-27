@@ -173,9 +173,13 @@ $GLOBALS['strMonths'] = "月";
 $GLOBALS['strDayOfWeek'] = "周一至周七";
 
 
-$GLOBALS['strDayFullNames'] = array();
+if (!isset($GLOBALS['strDayFullNames'])) {
+    $GLOBALS['strDayFullNames'] = array();
+}
 
-$GLOBALS['strDayShortCuts'] = array();
+if (!isset($GLOBALS['strDayShortCuts'])) {
+    $GLOBALS['strDayShortCuts'] = array();
+}
 
 $GLOBALS['strHour'] = "小時";
 $GLOBALS['strSeconds'] = "秒";
@@ -356,13 +360,19 @@ $GLOBALS['strDeliveryCappingReset'] = "於此時之後重新開始統計";
 $GLOBALS['strDeliveryCappingTotal'] = "合計";
 $GLOBALS['strDeliveryCappingSession'] = "平均每個線程";
 
-$GLOBALS['strCappingBanner'] = array();
+if (!isset($GLOBALS['strCappingBanner'])) {
+    $GLOBALS['strCappingBanner'] = array();
+}
 $GLOBALS['strCappingBanner']['limit'] = "限定廣告瀏覽數為:";
 
-$GLOBALS['strCappingCampaign'] = array();
+if (!isset($GLOBALS['strCappingCampaign'])) {
+    $GLOBALS['strCappingCampaign'] = array();
+}
 $GLOBALS['strCappingCampaign']['limit'] = "限定項目瀏覽數為:";
 
-$GLOBALS['strCappingZone'] = array();
+if (!isset($GLOBALS['strCappingZone'])) {
+    $GLOBALS['strCappingZone'] = array();
+}
 $GLOBALS['strCappingZone']['limit'] = "限定版位瀏覽數為:";
 
 // Website

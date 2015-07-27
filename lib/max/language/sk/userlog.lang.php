@@ -22,4 +22,6 @@ $GLOBALS['strCampaign'] = "Kampaň";
 $GLOBALS['strZone'] = "Oblasť";
 $GLOBALS['strAction'] = "Akcia";
 
-$GLOBALS['strUserlog'] = array();
+if (!isset($GLOBALS['strUserlog'])) {
+    $GLOBALS['strUserlog'] = array();
+}

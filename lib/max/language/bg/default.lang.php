@@ -160,9 +160,13 @@ $GLOBALS['strMonths'] = "Месеци";
 $GLOBALS['strDayOfWeek'] = "Ден от седмицата";
 
 
-$GLOBALS['strDayFullNames'] = array();
+if (!isset($GLOBALS['strDayFullNames'])) {
+    $GLOBALS['strDayFullNames'] = array();
+}
 
-$GLOBALS['strDayShortCuts'] = array();
+if (!isset($GLOBALS['strDayShortCuts'])) {
+    $GLOBALS['strDayShortCuts'] = array();
+}
 
 $GLOBALS['strHour'] = "Час";
 $GLOBALS['strSeconds'] = "секунди";
@@ -274,11 +278,17 @@ $GLOBALS['strWeight'] = "Височина";
 $GLOBALS['strNoLimitations'] = "Без ограничения";
 
 
-$GLOBALS['strCappingBanner'] = array();
+if (!isset($GLOBALS['strCappingBanner'])) {
+    $GLOBALS['strCappingBanner'] = array();
+}
 
-$GLOBALS['strCappingCampaign'] = array();
+if (!isset($GLOBALS['strCappingCampaign'])) {
+    $GLOBALS['strCappingCampaign'] = array();
+}
 
-$GLOBALS['strCappingZone'] = array();
+if (!isset($GLOBALS['strCappingZone'])) {
+    $GLOBALS['strCappingZone'] = array();
+}
 
 // Website
 $GLOBALS['strAffiliate'] = "Уебсайт";

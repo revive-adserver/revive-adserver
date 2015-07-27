@@ -208,9 +208,13 @@ $GLOBALS['strMonths'] = "月";
 $GLOBALS['strDayOfWeek'] = "曜日";
 
 
-$GLOBALS['strDayFullNames'] = array();
+if (!isset($GLOBALS['strDayFullNames'])) {
+    $GLOBALS['strDayFullNames'] = array();
+}
 
-$GLOBALS['strDayShortCuts'] = array();
+if (!isset($GLOBALS['strDayShortCuts'])) {
+    $GLOBALS['strDayShortCuts'] = array();
+}
 
 $GLOBALS['strHour'] = "時";
 $GLOBALS['strSeconds'] = "秒間";
@@ -418,13 +422,19 @@ $GLOBALS['strDeliveryCappingReset'] = "カウンタリセット条件：";
 $GLOBALS['strDeliveryCappingTotal'] = "総配信数";
 $GLOBALS['strDeliveryCappingSession'] = "／セッション";
 
-$GLOBALS['strCappingBanner'] = array();
+if (!isset($GLOBALS['strCappingBanner'])) {
+    $GLOBALS['strCappingBanner'] = array();
+}
 $GLOBALS['strCappingBanner']['limit'] = "バナービュー上限数";
 
-$GLOBALS['strCappingCampaign'] = array();
+if (!isset($GLOBALS['strCappingCampaign'])) {
+    $GLOBALS['strCappingCampaign'] = array();
+}
 $GLOBALS['strCappingCampaign']['limit'] = "キャンペーンビュー上限数";
 
-$GLOBALS['strCappingZone'] = array();
+if (!isset($GLOBALS['strCappingZone'])) {
+    $GLOBALS['strCappingZone'] = array();
+}
 $GLOBALS['strCappingZone']['limit'] = "ゾーンビュー上限数";
 
 // Website
