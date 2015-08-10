@@ -39,19 +39,35 @@
                  * @param object data
                  */
                 ajax: function (url, data) {
-                    var xhr = new XMLHttpRequest();
+                    if ($.browser.msie && window.XDomainRequest) {
+                        var emptyFunction = function(){ return; },
+                            xdr = new XDomainRequest();
 
-                    xhr.onreadystatechange = function() {
-                        if (this.readyState == 4 ) {
-                            if (this.status == 200) {
-                                rv.spc(JSON.parse(this.responseText));
+                        xdr.onerror = emptyFunction;
+                        xdr.ontimeout = emptyFunction;
+                        xdr.onprogress = emptyFunction;
+                        xdr.onload = function () {
+                            rv.spc(JSON.parse(this.responseText));
+                        };
+                        xdr.timeout = 5000;
+
+                        xdr.open("GET", e + "?" + f.encode(g).join("&"), true);
+                        xdr.send(null);
+                    } else {
+                        var xhr = new XMLHttpRequest();
+
+                        xhr.onreadystatechange = function () {
+                            if (this.readyState == 4) {
+                                if (this.status == 200) {
+                                    rv.spc(JSON.parse(this.responseText));
+                                }
                             }
-                        }
-                    };
+                        };
 
-                    xhr.open("GET", url + "?" + rv.encode(data).join("&"), true);
-                    xhr.withCredentials = true;
-                    xhr.send();
+                        xhr.open("GET", url + "?" + rv.encode(data).join("&"), true);
+                        xhr.withCredentials = true;
+                        xhr.send();
+                    }
                 },
 
                 /**
