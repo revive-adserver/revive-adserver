@@ -35,10 +35,13 @@ $GLOBALS['strAppendTrackerCode'] = "اضا�?ه کردن کد رهگیری";
 $GLOBALS['strOverview'] = "شمای کلی";
 $GLOBALS['strSearch'] = "<u>جستجو</u>";
 $GLOBALS['strDetails'] = "جزییات";
+$GLOBALS['strUpdateSettings'] = "بروز رسانی تنظیمات";
 $GLOBALS['strCheckForUpdates'] = "چک کردن برای به روز رسانی";
+$GLOBALS['strWhenCheckingForUpdates'] = "زمان بررسی بروز رسانی";
 $GLOBALS['strCompact'] = "�?شرده";
 $GLOBALS['strUser'] = "نام کاربری";
 $GLOBALS['strDuplicate'] = "همسان";
+$GLOBALS['strCopyOf'] = "کپی از";
 $GLOBALS['strMoveTo'] = "انتقال به";
 $GLOBALS['strDelete'] = "حذ�?";
 $GLOBALS['strActivate'] = "�?عالسازی";
@@ -49,6 +52,7 @@ $GLOBALS['strUp'] = "بالا";
 $GLOBALS['strDown'] = "پایین";
 $GLOBALS['strSave'] = "ذخیره";
 $GLOBALS['strCancel'] = "لغوکردن";
+$GLOBALS['strBack'] = "بازگشت";
 $GLOBALS['strPrevious'] = "قبلی";
 $GLOBALS['strNext'] = "بعدی";
 $GLOBALS['strYes'] = "بله";
@@ -56,17 +60,20 @@ $GLOBALS['strNo'] = "خیر";
 $GLOBALS['strNone'] = "خالی";
 $GLOBALS['strCustom'] = "س�?ارشی";
 $GLOBALS['strDefault'] = "پیش �?رض";
-$GLOBALS['strUnknown'] = "مجهول";
+$GLOBALS['strUnknown'] = "ناشناخته";
 $GLOBALS['strUnlimited'] = "نامحدود";
 $GLOBALS['strUntitled'] = "بدون عنوان";
+$GLOBALS['strAll'] = "همه";
 $GLOBALS['strAverage'] = "میانگین";
 $GLOBALS['strOverall'] = "کلی";
 $GLOBALS['strTotal'] = "جمع کل";
 $GLOBALS['strFrom'] = "توسط";
 $GLOBALS['strTo'] = "به";
+$GLOBALS['strAdd'] = "افزودن";
 $GLOBALS['strLinkedTo'] = "لینک به";
 $GLOBALS['strDaysLeft'] = "روزهای مانده";
 $GLOBALS['strCheckAllNone'] = "انتخاب همه / هیچکدام";
+$GLOBALS['strKiloByte'] = "کیلوبایت";
 $GLOBALS['strExpandAll'] = "<u>همه باز</u>";
 $GLOBALS['strCollapseAll'] = "<u>همه بسته</u>";
 $GLOBALS['strShowAll'] = "نمایش همه";
@@ -89,12 +96,21 @@ $GLOBALS['strWarning'] = "اخطار";
 $GLOBALS['strNotice'] = "توجه";
 
 // Dashboard
+$GLOBALS['strDashboardCantBeDisplayed'] = "پیشخوان نمایش داده نشده";
+$GLOBALS['strNoCheckForUpdates'] = "درصورتیکه پیشخوان نمایش داده نشده
+درقسمت آپدیت تنظیمات فعال بودن آن بررسی شود.";
+$GLOBALS['strEnableCheckForUpdates'] = "لطفا جهت بررسی بروز رسانی تنظیمات این گزینه را در صفحه تنظیمات فعال نمایید.";
 // Dashboard Errors
+$GLOBALS['strDashboardErrorCode'] = "کد";
+$GLOBALS['strDashboardSystemMessage'] = "پیام سیستمی";
+$GLOBALS['strDashboardErrorHelp'] = "چنانچه این خطا مجددا تکرا شد, این خطا را با جزئیات درآدرس انجمن عنوان نمایید.";
 
 // Priority
 $GLOBALS['strPriority'] = "اولویت";
 $GLOBALS['strPriorityLevel'] = "درجه اولویت";
+$GLOBALS['strOverrideAds'] = "کمپین تبلیعات با اولویت";
 $GLOBALS['strHighAds'] = "High-Priority Advertisements";
+$GLOBALS['strECPMAds'] = "eCPM کمپین تبلیغات";
 $GLOBALS['strLowAds'] = "Low-Priority Advertisements";
 $GLOBALS['strLimitations'] = "محدودیت ها";
 $GLOBALS['strNoLimitations'] = "هیچ محدودتی وارد نشده";
@@ -113,14 +129,42 @@ $GLOBALS['strID'] = "شناسه";
 $GLOBALS['strComments'] = "توضیحات";
 
 // User access
+$GLOBALS['strWorkingAs'] = "انجام فعالیت تحت";
+$GLOBALS['strWorkingAs'] = "انجام فعالیت تحت";
+$GLOBALS['strSwitchTo'] = "جابجایی به";
+$GLOBALS['strUseSearchBoxToFindMoreAccounts'] = "استفاده ازجعبه ابزار جستجوچهت پیدا کردن بیشترین اکانت ها";
+$GLOBALS['strWorkingFor'] = "%s برای...";
+$GLOBALS['strNoAccountWithXInNameFound'] = "هیچ اکانتی با\"%s\" پیدا نشد";
+$GLOBALS['strRecentlyUsed'] = "آخرین مورد استفاده شده";
+$GLOBALS['strLinkUser'] = "ایجاد کاربر";
+$GLOBALS['strLinkUser_Key'] = "ایجاد <u>کا</u>ربر";
+$GLOBALS['strUsernameToLink'] = "افزودن نام کاربری برای کاربر";
+$GLOBALS['strNewUserWillBeCreated'] = "کاربرجدید ایجاد شد";
+$GLOBALS['strToLinkProvideEmail'] = "برای افزودن کاربر, نیازمند ایمیل کاربرمی باشد";
+$GLOBALS['strToLinkProvideUsername'] = "برای افزودن کاربر , نیازمند نام کاربری می باشد";
+$GLOBALS['strUserLinkedToAccount'] = "نام کاربری برای اکانت ایجاد شد";
+$GLOBALS['strUserAccountUpdated'] = "اکانت کاربربروز رسانی شد";
+$GLOBALS['strUserUnlinkedFromAccount'] = "نام کاربری از این اکانت حذف شد";
+$GLOBALS['strUserWasDeleted'] = "کاربربطورکامل حذف شد";
+$GLOBALS['strUserNotLinkedWithAccount'] = "چنین کاربری به این اکانت متصل نشده";
+$GLOBALS['strCantDeleteOneAdminUser'] = "شما مجازبه حذف کاربرنیستید , حداقل نیازمند یک کاربرجهت اتصال به اکانت مدیریت می باشید.";
+$GLOBALS['strLinkUserHelp'] = "جهت افزودن یک کاربر %1\\$s تایپ کنید و کلیک کنید %2\\$s تا کاربرجدید اضافه شود , تایپ کنید%1\\$s دلخواه و سپس بروی %2\\$s کلیک کنید";
 $GLOBALS['strLinkUserHelpUser'] = "نام کاربری";
+$GLOBALS['strLinkUserHelpEmail'] = "آدرس ایمیل";
+$GLOBALS['strLastLoggedIn'] = "آخرین فعالیت انجام شده در";
+$GLOBALS['strDateLinked'] = "تاریخ اتصال شده";
 
 // Login & Permissions
+$GLOBALS['strUserAccess'] = "دسترسی کاربر";
+$GLOBALS['strAdminAccess'] = "دسترسی مدیریت";
 $GLOBALS['strUserProperties'] = "تنظیمات بنر";
+$GLOBALS['strPermissions'] = "سطح دسترسی";
 $GLOBALS['strAuthentification'] = "اجازه کاربری";
 $GLOBALS['strWelcomeTo'] = "خوش آمدید به ";
 $GLOBALS['strEnterUsername'] = "کلمه کاربری و رمز خود را برای ورود وارد کنید";
 $GLOBALS['strEnterBoth'] = "لط�?ا کلمه کاربری و رمز ورود را وارد کنید";
+$GLOBALS['strEnableCookies'] = "قبل از اینکه بتوانیداز {$PRODUCT_NAME} استفاده کنید نیازمند فعال کردن کوکی ها هستید ";
+$GLOBALS['strSessionIDNotMatch'] = "خطای نشست کوکی , لطفا دوباره وارد شوید";
 $GLOBALS['strLogin'] = "ورود به سیستم";
 $GLOBALS['strLogout'] = "خروج";
 $GLOBALS['strUsername'] = "نام کاربری";
@@ -132,6 +176,7 @@ $GLOBALS['strPasswordWrong'] = "رمز ورود صحیح نمی باشد.";
 $GLOBALS['strNotAdmin'] = "ممکن است شما دسترسی کا�?ی به کل امکانات نداشته باشید.";
 $GLOBALS['strDuplicateClientName'] = "این نام کاربری موجود می باشد. نام کاربری دیگری را انتخاب کنید..";
 $GLOBALS['strInvalidPassword'] = "این رمز ورود معتبر نمی باشد. رمز ورود دیگری را انتخاب کنید.";
+$GLOBALS['strInvalidEmail'] = "آدرس ایمیل بدرستی وارد نشده , لطفا آدرس صحیح ایمیل را وارد نمایید.";
 $GLOBALS['strNotSamePasswords'] = "رمز های ورود وارد شده شبیه به هم نمی باشند";
 $GLOBALS['strRepeatPassword'] = "تکرار رمز";
 
@@ -232,11 +277,26 @@ $GLOBALS['strCompanionPositioning'] = "همراه با موقعیت";
 $GLOBALS['strSelectUnselectAll'] = "انتخاب / انتخاب همه";
 
 // Campaign-zone linking page
+$GLOBALS['strUnlinkingZonesProblem'] = "خطای بوجود آمده درهنگام عدم اتصال مناطق";
+$GLOBALS['strZonesLinked'] = "مناطق متصل";
+$GLOBALS['strZonesUnlinked'] = "مناطق متصل نشده";
+$GLOBALS['strZonesSearch'] = "جستجو";
+$GLOBALS['strZonesSearchTitle'] = "جستجوی مناطق و وب سایتها بوسیله نام";
+$GLOBALS['strNoWebsitesAndZones'] = "عدم وجود وبسایت ها و مناطق";
+$GLOBALS['strNoWebsitesAndZonesText'] = "با  \"%s\" در اسم";
+$GLOBALS['strToLink'] = "برای اتصال";
+$GLOBALS['strToUnlink'] = "برای عدم اتصال";
+$GLOBALS['strLinked'] = "متصل شده";
+$GLOBALS['strAvailable'] = "قابل دسترس";
+$GLOBALS['strShowing'] = "درحال نمایش";
+$GLOBALS['strEditZone'] = "ویرایش منطقه";
+$GLOBALS['strEditWebsite'] = "ویرایش وب سایت";
 
 
 // Campaign properties
 $GLOBALS['strDontExpire'] = "غیر�?عال شدن بعد از گذشت زمان خاص";
 $GLOBALS['strActivateNow'] = "�?عال کردن سریع داخلی";
+$GLOBALS['strSetSpecificDate'] = "تنظیم تاریخ مشخص";
 $GLOBALS['strLow'] = "پایین";
 $GLOBALS['strHigh'] = "بالا";
 $GLOBALS['strExpirationDate'] = "تاریخ اتمام";
