@@ -64,7 +64,7 @@ $GLOBALS['strNo'] = "아니오";
 $GLOBALS['strNone'] = "없�?�";
 $GLOBALS['strCustom'] = "사용�? 지정";
 $GLOBALS['strDefault'] = "기본설정";
-$GLOBALS['strUnknown'] = "알려지지 않�?�";
+$GLOBALS['strUnknown'] = "알수없음";
 $GLOBALS['strUnlimited'] = "제한없�?�";
 $GLOBALS['strUntitled'] = "제목없�?�";
 $GLOBALS['strAll'] = "전체";
@@ -72,7 +72,9 @@ $GLOBALS['strAverage'] = "�?�균";
 $GLOBALS['strOverall'] = "전체";
 $GLOBALS['strTotal'] = "합계";
 $GLOBALS['strFrom'] = "드림";
+$GLOBALS['strTo'] = "받는 사람";
 $GLOBALS['strAdd'] = "추가 ";
+$GLOBALS['strLinkedTo'] = "연결할 링크";
 $GLOBALS['strDaysLeft'] = "남�?� 기간";
 $GLOBALS['strCheckAllNone'] = "모�? 선�?/ 해제";
 $GLOBALS['strKiloByte'] = "KB";
@@ -140,35 +142,59 @@ $GLOBALS['strLinkUser_Key'] = "사용자 추가";
 $GLOBALS['strUsernameToLink'] = "추가할 사용자의 계정 아이디";
 $GLOBALS['strNewUserWillBeCreated'] = "새로운 사용자가 생성됩니다";
 $GLOBALS['strLinkUserHelpUser'] = "사용�?ID";
+$GLOBALS['strLinkUserHelpEmail'] = "이메일 주소";
+$GLOBALS['strLastLoggedIn'] = "마지막 로그인";
 
 // Login & Permissions
 $GLOBALS['strUserProperties'] = "배너 등�? 정보";
+$GLOBALS['strPermissions'] = "권한";
 $GLOBALS['strAuthentification'] = "�?��?";
 $GLOBALS['strWelcomeTo'] = "환�?합니다. ";
 $GLOBALS['strEnterUsername'] = "로그�?�하기 위해 사용�?ID과 비밀번호를 입력하세요.";
 $GLOBALS['strEnterBoth'] = "사용�?ID와 비밀번호를 모�? 입력하세요.";
+$GLOBALS['strEnableCookies'] = "{$PRODUCT_NAME}를 사용하려면 쿠키를 사용하도록 설정해야 한다.";
+$GLOBALS['strSessionIDNotMatch'] = "세션 쿠키 오류, 다시 로그인 하시기 바랍니다";
 $GLOBALS['strLogin'] = "로그�?�ID";
 $GLOBALS['strLogout'] = "로그아웃";
 $GLOBALS['strUsername'] = "사용�?ID";
 $GLOBALS['strPassword'] = "비밀번호";
 $GLOBALS['strPasswordRepeat'] = "비밀번호 확�?�";
 $GLOBALS['strAccessDenied'] = "액세스할 수 없습니다.";
+$GLOBALS['strUsernameOrPasswordWrong'] = "사용자 이름 또는 암호가 정확 하지 않았다.  다시 시도 하십시오.";
 $GLOBALS['strPasswordWrong'] = "올바른 비밀번호가 아닙니다.";
 $GLOBALS['strNotAdmin'] = "권한�?� 없습니다.";
 $GLOBALS['strDuplicateClientName'] = "입력한 ID가 �?�미 있습니다. 다른 ID를 입력하세요.";
+$GLOBALS['strInvalidPassword'] = "새 암호가 유효하지 않습니다. 다른 암호를 사용하세요.";
+$GLOBALS['strInvalidEmail'] = "이메일 주소가 명확하지 않습니다. 이메일 주소를 정확하게 입력하세요.";
+$GLOBALS['strNotSamePasswords'] = "두개의 암호가 일치하지 않습니다.";
+$GLOBALS['strRepeatPassword'] = "비밀번호 확인";
+$GLOBALS['strDeadLink'] = "링크가 유효하지 않음";
 
 // General advertising
+$GLOBALS['strImpressions'] = "노출";
 $GLOBALS['strClicks'] = "AdClicks";
+$GLOBALS['strConversions'] = "변환";
 $GLOBALS['strCTRShort'] = "�?�릭율";
 $GLOBALS['strCTR'] = "�?�릭율";
 $GLOBALS['strTotalClicks'] = "�? AdClicks";
+$GLOBALS['strTotalConversions'] = "변환 합계";
+$GLOBALS['strDateTime'] = "날짜와 시간";
+$GLOBALS['strTrackerID'] = "추적 ID";
+$GLOBALS['strTrackerName'] = "추적 이름";
+$GLOBALS['strTrackerImageTag'] = "이미지 태그";
+$GLOBALS['strTrackerJsTag'] = "자바 스크립트 태그";
 $GLOBALS['strBanners'] = "배너";
 $GLOBALS['strCampaigns'] = "캠페�?�";
+$GLOBALS['strCampaignID'] = "캠페인 ID";
 $GLOBALS['strCampaignName'] = "캠페�?� 기�?";
 $GLOBALS['strCountry'] = "국가";
+$GLOBALS['strStatsAction'] = "행동";
+$GLOBALS['strWindowDelay'] = "윈도우 지연";
 $GLOBALS['strStatsVariables'] = "변수";
 
 // Finance
+$GLOBALS['strFinanceCPM'] = "CPM";
+$GLOBALS['strFinanceCPC'] = "클릭 당 비용";
 $GLOBALS['strFinanceCTR'] = "�?�릭율";
 
 // Time and date related
@@ -201,6 +227,7 @@ $GLOBALS['strClientsAndCampaigns'] = "광고주 & 캠페�?�";
 $GLOBALS['strAddClient'] = "새 광고주 추가";
 $GLOBALS['strClientProperties'] = "광고주 등�?정보";
 $GLOBALS['strClientHistory'] = "광고주 기�?";
+$GLOBALS['strNoClients'] = "현재 등록된 광고주가 없습니다. 캠페인을 만들려면 <a href='advertiser-edit.php'> 새 광고주 추가</a>를 하십시오.";
 $GLOBALS['strConfirmDeleteClient'] = "해당 광고주를 삭제합니까?";
 $GLOBALS['strConfirmDeleteClients'] = "해당 광고주를 삭제합니까?";
 $GLOBALS['strInactiveAdvertisersHidden'] = "광고주가 숨겨져 있습니다.";
@@ -208,6 +235,7 @@ $GLOBALS['strAdvertiserCampaigns'] = "광고주 & 캠페�?�";
 
 // Advertisers properties
 $GLOBALS['strContact'] = "연�?�처";
+$GLOBALS['strContactName'] = "연락처 이름";
 $GLOBALS['strEMail'] = "�?�메�?�";
 $GLOBALS['strSendAdvertisingReport'] = "광고 보고서를 �?�메�?�로 발송합니다.";
 $GLOBALS['strNoDaysBetweenReports'] = "보고서 발송 간격";

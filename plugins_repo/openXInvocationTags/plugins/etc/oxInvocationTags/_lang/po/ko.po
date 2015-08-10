@@ -37,7 +37,7 @@ msgstr ""
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adjs.class.php:53
 msgid "Javascript Tag"
-msgstr ""
+msgstr "자바 스크립트 태그"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adjs.class.php:116
 #, php-format
@@ -99,7 +99,7 @@ msgstr "배너 형식"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adview.class.php:53
 msgid "Image Tag"
-msgstr ""
+msgstr "이미지 태그"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adview.class.php:111
 msgid "\n"
