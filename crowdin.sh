@@ -11,6 +11,9 @@ crowdin-cli $*
 
 sed -i $'s/{{\([^}]*\)}}/{$\\1}/g' lib/max/language/*/*.lang.php
 
+# Fix extended printf
+sed -i 's/\(%[0-9.]\+\)\\\\\$/\1\\$/g' lib/max/language/*/*.lang.php
+
 # Remove empty translation strings from .lang.php files
 sed -i '/^$.*= "";/d' lib/max/language/*/*.lang.php
 sed -i "/^$.*= '';/d" lib/max/language/*/*.lang.php
