@@ -22,6 +22,7 @@ $GLOBALS['strAdvertiser'] = "광고주";
 $GLOBALS['strPublisher'] = "광고게시자";
 $GLOBALS['strCampaign'] = "캠페�?�";
 $GLOBALS['strZone'] = "�?역";
+$GLOBALS['strAction'] = "행동";
 $GLOBALS['strValue'] = "값";
 
 if (!isset($GLOBALS['strUserlog'])) {
