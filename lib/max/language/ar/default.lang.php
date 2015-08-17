@@ -11,8 +11,10 @@
  */
 
 // Set text direction and characterset
+$GLOBALS['phpAds_TextDirection'] = "rtl";
+$GLOBALS['phpAds_TextAlignRight'] = "left";
+$GLOBALS['phpAds_TextAlignLeft'] = "right";
 
-$GLOBALS['phpAds_DecimalPoint'] = ".";
 
 // Date & time configuration
 
