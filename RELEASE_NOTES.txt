@@ -45,6 +45,8 @@ What's New in Revive Adserver 3.2.2
    banner with <script> tag(s) nested in other elements (e.g. inside a <div>).
  * Fixed an issue with email validation for new users not accepting the
    user+ext@example.com format.
+ * Fixed an issue with the "Alter HTML" feature that was not playing nice with
+   e.g. <article> tags when wrapping links.
 
  Non-Backwards Compatible Changes
  --------------------------------
