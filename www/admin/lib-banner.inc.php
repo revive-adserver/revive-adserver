@@ -40,7 +40,7 @@ function phpAds_getBannerCache($banner)
     {
         // Put our click URL and our target parameter in all anchors...
         // The regexp should handle ", ', \", \' as delimiters
-        if (preg_match_all('#<a(.*?)href\s*=\s*(\\\\?[\'"])http(.*?)\2(.*?) *>#is', $buffer, $m)) {
+        if (preg_match_all('#<a(\s[^>]*?)href\s*=\s*(\\\\?[\'"])http(.*?)\2(.*?) *>#is', $buffer, $m)) {
             foreach ($m[0] as $k => $v) {
                 // Remove target parameters
                 $m[1][$k] = ' '.trim(preg_replace('#target\s*=\s*(\\\\?[\'"]).*?\1#i', '', $m[1][$k]));
