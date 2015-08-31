@@ -300,7 +300,7 @@ function _adRenderFlash(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=fal
     $logURL = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&');
 
     if (!empty($aBanner['alt_filename']) || !empty($aBanner['alt_imageurl'])) {
-        $altImageAdCode = _adRenderImage($aBanner, $zoneId, $source, $ct0, false, $logClick, false, true, true, $loc, $referer, false);
+        $altImageAdCode = _adRenderImage($aBanner, $zoneId, $source, $ct0, false, $logClick, false, true, true, $loc, $referer, $context, false);
         $fallBackLogURL = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&', true);
     } else {
         $alt = !empty($aBanner['alt']) ? htmlspecialchars($aBanner['alt'], ENT_QUOTES) : '';
