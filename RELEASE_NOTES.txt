@@ -47,6 +47,8 @@ What's New in Revive Adserver 3.2.2
    user+ext@example.com format.
  * Fixed an issue with the "Alter HTML" feature that was not playing nice with
    e.g. <article> tags when wrapping links.
+ * Fixed an issue with append being rendered twice for SWF banners with a
+   fallback image.
 
  Non-Backwards Compatible Changes
  --------------------------------
