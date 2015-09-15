@@ -199,7 +199,7 @@
                                             s.text = scripts[i].innerHTML;
                                         }
 
-                                        scripts[i].parentNote.replaceChild(s, scripts[i]);
+                                        scripts[i].parentNode.replaceChild(s, scripts[i]);
                                     }
 
                                     ins.parentNode.replaceChild(newIns, ins);
