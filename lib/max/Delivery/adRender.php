@@ -144,7 +144,7 @@ function MAX_adRender(&$aBanner, $zoneId=0, $source='', $target='', $ct0='', $wi
     for ($i=0;$i<count($macros[1]);$i++) {
         if (!in_array($macros[0][$i], $search) && isset($_REQUEST[$macros[1][$i]])) {
             $search[] = $macros[0][$i];
-            $replace[] = (!empty($macros[2][$i])) ? urlencode(stripslashes($_REQUEST[$macros[1][$i]])) : stripslashes($_REQUEST[$macros[1][$i]]);
+            $replace[] = (!empty($macros[2][$i])) ? urlencode(stripslashes($_REQUEST[$macros[1][$i]])) : htmlspecialchars(stripslashes($_REQUEST[$macros[1][$i]]), ENT_QUOTES);
         }
     }
     // addUrlParams hook for plugins to add key=value pairs to the log/click URLs
