@@ -125,8 +125,11 @@ class OA_Admin_UI_Component_Form
         //trim spaces from all data sent by the user
         $this->applyFilter('__ALL__', 'trim');
 
-        $this->addElement('hidden', 'token', phpAds_SessionGetToken());
-        $this->addRule('token', 'Invalid request token', 'callback', 'phpAds_SessionValidateToken');
+        if (!defined('phpAds_installing')) {
+            $this->addElement('hidden', 'token', phpAds_SessionGetToken());
+            $this->addRule('token', 'Missing request token', 'required');
+            $this->addRule('token', 'Invalid request token', 'callback', 'phpAds_SessionValidateToken');
+        }
     }
 
     function validate()
@@ -136,7 +139,7 @@ class OA_Admin_UI_Component_Form
         if (!$ret) {
             // The form returned an error. We need to generate a new CSRF token, in any.
             $token = $this->getElement('token');
-            if (!empty($token)) {
+            if (!empty($token) && !PEAR::isError($token)) {
                 $token->setValue(phpAds_SessionGetToken());
             }
         }
