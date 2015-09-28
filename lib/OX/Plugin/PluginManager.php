@@ -611,7 +611,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
     {
         if (substr($file,0,strlen($name))!=$name)
         {
-            $this->_logError('Filename mismatch: name/file'. $name.' / '.$file);
+            $this->_logError('Filename mismatch: name / file '. $name.' / '.$file);
             return false;
         }
         return $this->_parsePackageFilename($file);

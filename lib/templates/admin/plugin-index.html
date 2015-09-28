@@ -60,7 +60,7 @@
 {if $aMessages}
     <div class="infomessage" style="margin-bottom: 10px">
         {foreach from=$aMessages key=idx item=message}
-            {$message}
+            {$message|escape}
             <br />
         {/foreach}
     </div>

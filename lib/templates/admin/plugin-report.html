@@ -35,10 +35,10 @@
 	        {foreach from=$aPlugins key=i item=aitem}
 	            <tr class="{$bgClass}">
 	                <td width="40%">
-	                       {$aitem.name}
+	                       {$aitem.name|escape}
 	                </td>
 	                <td>
-	                       {$aitem.version}
+	                       {$aitem.version|escape}
 	                </td>
 	                <td>
 	                   {if $aitem.enabled}
@@ -63,7 +63,7 @@
 {if $aErrors}
     <div class="error-box" style="margin-bottom: 10px">
         {foreach from=$aErrors key=idx item=error}
-            {$error}
+            {$error|escape}
             <br />
         {/foreach}
     </div>
