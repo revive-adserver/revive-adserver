@@ -34,6 +34,8 @@ if (OA_Admin_Settings::isConfigWritable()) {
 //install
 if (array_key_exists('install',$_POST))
 {
+    OA_Permission::checkSessionToken();
+
     if (array_key_exists('filename',$_FILES))
     {
         $oPluginManager->installPackage($_FILES['filename']);
@@ -41,6 +43,8 @@ if (array_key_exists('install',$_POST))
 }
 else if (array_key_exists('import',$_POST))
 {
+    OA_Permission::checkSessionToken();
+
     if (array_key_exists('filename',$_FILES))
     {
         $oPluginManager->installPackageCodeOnly($_FILES['filename']);
@@ -48,6 +52,8 @@ else if (array_key_exists('import',$_POST))
 }
 else if (array_key_exists('upgrade',$_POST))
 {
+    OA_Permission::checkSessionToken();
+
     if (array_key_exists('filename',$_FILES))
     {
         $oPluginManager->upgradePackage($_FILES['filename'],$plugin);
@@ -71,6 +77,8 @@ else if (array_key_exists('upgrade',$_POST))
 }
 else if (array_key_exists('diagnose',$_POST))
 {
+    OA_Permission::checkSessionToken();
+
     $oTpl = new OA_Admin_Template('plugin-view.html');
     $aPackageInfo = $oPluginManager->getPackageInfo($plugin);
     $aComponents = $aPackageInfo['contents'];
@@ -96,6 +104,8 @@ else if (array_key_exists('diagnose',$_POST))
 }
 else if (array_key_exists('export',$_POST))
 {
+    OA_Permission::checkSessionToken();
+
     require_once LIB_PATH.'/Plugin/PluginExport.php';
     $oExporter = new OX_PluginExport();
     if ($file = $oExporter->exportPlugin($plugin))
@@ -121,6 +131,8 @@ else if (array_key_exists('export',$_POST))
 }
 else if (array_key_exists('backup',$_POST))
 {
+    OA_Permission::checkSessionToken();
+
     require_once LIB_PATH.'/Plugin/PluginExport.php';
     $oExporter = new OX_PluginExport();
     $oExporter->init($plugin);
@@ -145,6 +157,8 @@ else if (array_key_exists('backup',$_POST))
 //actions
 else if ('uninstall' == $action)
 {
+    OA_Permission::checkSessionToken();
+
     $oTpl = new OA_Admin_Template('plugin-uninstall.html');
     $aPackageInfo = $oPluginManager->getPackageInfo($plugin);
     $aComponents = $aPackageInfo['contents'];
@@ -161,6 +175,8 @@ else if ('uninstall' == $action)
 }
 else if (array_key_exists('uninstallConfirmed',$_POST))
 {
+    OA_Permission::checkSessionToken();
+
     $oPluginManager->uninstallPackage($plugin);
     if (!($oPluginManager->countErrors() || $oPluginManager->countWarnings()))
     {
@@ -169,6 +185,8 @@ else if (array_key_exists('uninstallConfirmed',$_POST))
 }
 else if ('enable' == $action)
 {
+    OA_Permission::checkSessionToken();
+
     if ($plugin)
     {
         $oPluginManager->enablePackage($plugin);
@@ -180,6 +198,8 @@ else if ('enable' == $action)
 }
 else if ('disable' == $action)
 {
+    OA_Permission::checkSessionToken();
+
     if ($plugin)
     {
         $oPluginManager->disablePackage($plugin);

@@ -93,7 +93,12 @@ class OA_Permission
      */
     public static function checkSessionToken()
     {
-        $token = isset($_GET['token']) ? $_GET['token'] : false;
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $token = isset($_POST['token']) ? $_POST['token'] : false;
+        } else {
+            $token = isset($_GET['token']) ? $_GET['token'] : false;
+        }
+
         OA_Permission::enforceTrue(
             phpAds_SessionValidateToken($token)
         );

@@ -41,7 +41,8 @@
     <br />
     <form name="packageform" id="packageform" method="post" action="plugin-index.php" enctype="multipart/form-data">
         <input name="package" value="{$aPackage.name}" type="hidden">
-    	<input value="< Back" name="back" tabindex="0" type="submit">
-    	<input value="Uninstall" name="uninstallConfirmed" tabindex="1" type="submit">
+        <input name="token" value="{$token}" type="hidden">
+        <input value="< Back" name="back" tabindex="0" type="button" onclick="location.href='plugin-index.php'">
+        <input value="Uninstall" name="uninstallConfirmed" tabindex="1" type="submit">
     </form>
 </div>
