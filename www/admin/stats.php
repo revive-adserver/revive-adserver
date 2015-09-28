@@ -23,8 +23,6 @@ require_once MAX_PATH . '/lib/OA/Admin/DaySpan.php';
 require_once MAX_PATH . '/lib/OA/Admin/Statistics/Factory.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
 
-// No cache
-MAX_commonSetNoCacheHeaders();
 
 // The URL for stats pages may include values for "period_preset",
 // "period_start" and "period_end". However, the user may have
