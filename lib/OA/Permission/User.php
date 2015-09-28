@@ -60,6 +60,32 @@ class OA_Permission_User
         }
     }
 
+    function __wakeup()
+    {
+        $aAccounts[$this->aAccount['account_id']] = true;
+
+        if (!empty($this->aUser['is_admin'])) {
+            $adminAccountId = OA_Dal_ApplicationVariables::get('admin_account_id');
+            $aAccounts[$adminAccountId] = true;
+        }
+
+        $doAUA  = OA_Dal::factoryDO('account_user_assoc');
+        $doAUA->whereInAdd('account_id', array_keys($aAccounts));
+        $doAUA->user_id = $this->aUser['user_id'];
+
+        $doAUA->find();
+
+        while ($doAUA->fetch()) {
+            unset($aAccounts[$doAUA->account_id]);
+        }
+
+        if (!empty($this->aUser['is_admin']) && isset($aAccounts[$adminAccountId])) {
+            $this->aUser['is_admin'] = false;
+        }
+
+        OA_Permission::enforceTrue($this->aUser['is_admin'] || !isset($aAccounts[$this->aAccount['account_id']]));
+    }
+
     function loadAccountData($accountId)
     {
         if (!empty($accountId))
