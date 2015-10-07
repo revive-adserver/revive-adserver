@@ -39,6 +39,8 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         'language'
     );
 
+    OA_Permission::checkSessionToken();
+
     // Get the DB_DataObject for the current user
     $doUsers = OA_Dal::factoryDO('users');
     $doUsers->get(OA_Permission::getUserId());

@@ -60,7 +60,7 @@
 {if $aMessages}
     <div class="infomessage" style="margin-bottom: 10px">
         {foreach from=$aMessages key=idx item=message}
-            {$message}
+            {$message|escape}
             <br />
         {/foreach}
     </div>
@@ -106,17 +106,17 @@
                   </td>
                   <td>{if {$aitem.authoremail}<a href="mailto:{$aitem.authoremail}">{/if}{$aitem.author}{if {$aitem.authoremail}</a>{/if}</td>
                   <td>{if $aitem.enabled > 0}Enabled{else}Disabled{/if}</td>
-                  <td><a href='plugin-index.php?action=info&package={$name}' ><span class="action icon details">Details</span></a></td>
+                  <td><a href='plugin-index.php?action=info&amp;package={$name}' ><span class="action icon details">Details</span></a></td>
                   <td>
                     {if $configLocked}&nbsp;{else}
                         {if $aitem.enabled > 0}
-                           <a href='plugin-index.php?action=disable&package={$name}' ><span class="action icon disable">Disable</span></a>
+                           <a href='plugin-index.php?action=disable&amp;package={$name}&amp;{rv_add_session_token}' ><span class="action icon disable">Disable</span></a>
                         {else}
-                           <a href='plugin-index.php?action=enable&package={$name}' ><span class="action icon enable">Enable</span></a>
+                           <a href='plugin-index.php?action=enable&amp;package={$name}&amp;{rv_add_session_token}' ><span class="action icon enable">Enable</span></a>
                         {/if}
                     {/if}
                   </td>
-                  {if $configLocked}&nbsp;{else}<td><a href='plugin-index.php?action=uninstall&package={$name}' ><span class="action icon uninstall">Uninstall</span></a></td>{/if}
+                  {if $configLocked}&nbsp;{else}<td><a href='plugin-index.php?action=uninstall&amp;package={$name}&amp;{rv_add_session_token}' ><span class="action icon uninstall">Uninstall</span></a></td>{/if}
               </tr>
           {/if}
         {/foreach}

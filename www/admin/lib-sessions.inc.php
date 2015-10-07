@@ -56,6 +56,25 @@ function phpAds_SessionDataFetch()
 }
 
 /*-------------------------------------------------------*/
+/* Sets an admin cookie                                  */
+/*-------------------------------------------------------*/
+
+function phpAds_SessionSetAdminCookie($name, $value)
+{
+    $conf = $GLOBALS['_MAX']['CONF'];
+
+    return setcookie(
+        $name,
+        $value,
+        0,
+        dirname($_SERVER["SCRIPT_NAME"]),
+        empty($_SERVER['HTTP_HOST']) ? null : $_SERVER['HTTP_HOST'],
+        !empty($conf['openads']['requireSSL']),
+        true
+    );
+}
+
+/*-------------------------------------------------------*/
 /* Create a new sessionid                                */
 /*-------------------------------------------------------*/
 
@@ -65,8 +84,8 @@ function phpAds_SessionStart()
 	if (empty($_COOKIE['sessionID'])) {
 		$session = array();
 		$_COOKIE['sessionID'] = md5(uniqid('phpads', 1));
-		MAX_cookieAdd('sessionID', $_COOKIE['sessionID']);
-		MAX_cookieFlush();
+
+        phpAds_SessionSetAdminCookie('sessionID', $_COOKIE['sessionID']);
 	}
 	return $_COOKIE['sessionID'];
 }
@@ -103,19 +122,18 @@ function phpAds_SessionDataRegister($key, $value='')
  */
 function phpAds_SessionDataStore()
 {
-    $dal = new MAX_Dal_Admin_Session();
-    $conf = $GLOBALS['_MAX']['CONF'];
     global $session;
+
+    $dal = new MAX_Dal_Admin_Session();
+
     if (isset($_COOKIE['sessionID']) && $_COOKIE['sessionID'] != '') {
         $session_id = $_COOKIE['sessionID'];
         $serialized_session_data = serialize($session);
         $dal->storeSerializedSession($serialized_session_data, $session_id);
     }
-    // Randomly purge old sessions
-    // XXX: Why is this random?
-    // XXX: Shouldn't this be done by a daemon, or at least at logout time?
-    srand((double)microtime()*1000000);
-    if(rand(1, 100) == 42) {
+
+    // Garbage collect old sessions, 1 out of 100 requests, roughly
+    if (mt_rand(1, 100) == 42) {
         $dal->pruneOldSessions();
     }
 }
@@ -133,8 +151,7 @@ function phpAds_SessionDataDestroy()
 	global $session;
     $dal->deleteSession($_COOKIE['sessionID']);
 
-    MAX_cookieAdd('sessionID', '');
-    MAX_cookieFlush();
+    phpAds_SessionSetAdminCookie('sessionID', '');
 
 	unset($session);
 	unset($_COOKIE['sessionID']);

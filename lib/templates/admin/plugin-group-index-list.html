@@ -40,13 +40,13 @@
             <tr class="{$bgClass}">
                 <td>
                     {if $aPlugin.displayname != ''}
-                        {$aPlugin.displayname}
+                        {$aPlugin.displayname|escape}
                     {else}
-                        {$name}
+                        {$name|escape}
                     {/if}
                 </td>
                 <td>{$aPlugin.version}</td>
-                <td>{if {$aPlugin.authoremail}<a href="mailto:{$aPlugin.authoremail}">{/if}{$aPlugin.author}{if {$aPlugin.authoremail}</a>{/if}</td>
+                <td>{if {$aPlugin.authoremail|escape}<a href="mailto:{$aPlugin.authoremail}">{/if}{$aPlugin.author|escape}{if {$aPlugin.authoremail}</a>{/if}</td>
                 <td>{$aPlugin.extends}</td>
                 <td>
                     {if $aPlugin.installed}

@@ -221,8 +221,8 @@ function MAX_commonSendContentTypeHeader($type = 'text/html', $charset = null)
 function MAX_commonSetNoCacheHeaders()
 {
     MAX_header('Pragma: no-cache');
-    MAX_header('Cache-Control: private, max-age=0, no-cache');
-    MAX_header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+    MAX_header('Cache-Control: no-cache, no-store, must-revalidate');
+    MAX_header('Expires: 0');
 
     // Also send default CORS headers
     MAX_header('Access-Control-Allow-Origin: *');

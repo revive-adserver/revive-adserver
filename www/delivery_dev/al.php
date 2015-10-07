@@ -27,13 +27,13 @@ if (!isset($layerstyle) || empty($layerstyle)) {
     $layerstyle = 'geocities';
 }
 
-// Include layerstyle
-if (file_exists(MAX_PATH . $conf['pluginPaths']['plugins'] . 'invocationTags/oxInvocationTags/layerstyles/' . $layerstyle . '/layerstyle.inc.php')) {
-    include MAX_PATH . $conf['pluginPaths']['plugins'] . 'invocationTags/oxInvocationTags/layerstyles/' . $layerstyle . '/layerstyle.inc.php';
-} else {
+$plugin = MAX_PATH.$conf['pluginPaths']['plugins'].'invocationTags/oxInvocationTags/layerstyles/'.$layerstyle.'/layerstyle.inc.php';
+
+if (!preg_match('/^[a-z0-9-]{1,64}$/Di', $layerstyle) || !@include($plugin)) {
     // Don't generate output when plugin layerstyleisn't available,just send javascript comment on fail
+    MAX_sendStatusCode(404);
     echo '// Cannot load required layerstyle file. Check if openXInvocationTags plugin is installed';
-    exit(1);
+    exit;
 }
 
 //Register any script specific input variables

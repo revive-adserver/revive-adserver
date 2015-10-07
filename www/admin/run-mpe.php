@@ -10,20 +10,15 @@
 +---------------------------------------------------------------------------+
 */
 
-/**
- * A script file to run the Maintenance Priority Engine.
- */
+// Require the initialisation file
+require_once '../../init.php';
 
-// Send headers to the client before proceeding
-flush();
+// Required files
+require_once MAX_PATH . '/www/admin/config.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 
-// Prevent output
-ob_start();
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
 
-// Run maintenance
-// Done this way so that it works in CLI PHP
-$path = dirname(__FILE__);
-require_once $path . '/../../init.php';
 
 // Set longer time out, and ignore user abort
 if (!ini_get('safe_mode')) {
@@ -31,14 +26,11 @@ if (!ini_get('safe_mode')) {
     @ignore_user_abort(true);
 }
 
-require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
+// No output required
+ob_start();
 
+// Run maintenance
 OA_Maintenance_Priority::run();
 
-// Get and clean output buffer
-$buffer = ob_get_clean();
-
-// Flush output buffer, stripping the
-echo preg_replace('/^#!.*\n/', '', $buffer);
-
-?>
+// Clean the output buffer
+ob_clean();
