@@ -2449,8 +2449,8 @@ MAX_header($header);
 function MAX_commonSetNoCacheHeaders()
 {
 MAX_header('Pragma: no-cache');
-MAX_header('Cache-Control: private, max-age=0, no-cache');
-MAX_header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+MAX_header('Cache-Control: no-cache, no-store, must-revalidate');
+MAX_header('Expires: 0');
 MAX_header('Access-Control-Allow-Origin: *');
 }
 function MAX_commonAddslashesRecursive($a)
@@ -3214,7 +3214,7 @@ preg_match_all('#{(.*?)(_enc)?}#', $code, $macros);
 for ($i=0;$i<count($macros[1]);$i++) {
 if (!in_array($macros[0][$i], $search) && isset($_REQUEST[$macros[1][$i]])) {
 $search[] = $macros[0][$i];
-$replace[] = (!empty($macros[2][$i])) ? urlencode(stripslashes($_REQUEST[$macros[1][$i]])) : stripslashes($_REQUEST[$macros[1][$i]]);
+$replace[] = (!empty($macros[2][$i])) ? urlencode(stripslashes($_REQUEST[$macros[1][$i]])) : htmlspecialchars(stripslashes($_REQUEST[$macros[1][$i]]), ENT_QUOTES);
 }
 }
 $componentParams = OX_Delivery_Common_hook('addUrlParams', array($aBanner));
