@@ -6,7 +6,7 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
-Release Notes: Revive Adserver 3.2.2
+Release Notes: Revive Adserver 3.3.0
 ====================================
 
 These release notes cover what's new, system requirements, download and
@@ -14,7 +14,7 @@ installation instructions, known issues and frequently asked questions for
 Revive Adserver. Please read these notes before reporting any bugs.
 
 
-What's New in Revive Adserver 3.2.2
+What's New in Revive Adserver 3.3.0
 -----------------------------------
 
  * Release date: n/a
@@ -49,6 +49,8 @@ What's New in Revive Adserver 3.2.2
    e.g. <article> tags when wrapping links.
  * Fixed an issue with append being rendered twice for SWF banners with a
    fallback image.
+ * Fixed the example XML-RPC api client class to properly work with SSL and
+   non-standard ports.
 
  Non-Backwards Compatible Changes
  --------------------------------

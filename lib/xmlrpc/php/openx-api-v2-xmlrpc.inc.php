@@ -40,7 +40,6 @@ class OA_Api_Xmlrpc
     var $host;
     var $basepath;
     var $port;
-    var $ssl;
     var $timeout;
     var $username;
     var $password;
@@ -75,10 +74,9 @@ class OA_Api_Xmlrpc
      */
     function __construct($host, $basepath, $username, $password, $port = 0, $ssl = false, $timeout = 15)
     {
-        $this->host = $host;
-        $this->basepath = $basepath;
+        $this->host = ($ssl ? 'https://' : 'http://').$host;
+        $this->basepath = rtrim($basepath, '/');
         $this->port = $port;
-        $this->ssl  = $ssl;
         $this->timeout = $timeout;
         $this->username = $username;
         $this->password = $password;
@@ -92,7 +90,7 @@ class OA_Api_Xmlrpc
      */
     function &_getClient()
     {
-        $oClient = new XML_RPC_Client($this->basepath . '/' . $this->debug, $this->host);
+        $oClient = new XML_RPC_Client($this->basepath . '/' . $this->debug, $this->host, $this->port);
         return $oClient;
     }
 
@@ -131,7 +129,7 @@ class OA_Api_Xmlrpc
         $client = &$this->_getClient();
 
         // Send the XML-RPC message to the server.
-        $response = $client->send($message, $this->timeout, $this->ssl ? 'https' : 'http');
+        $response = $client->send($message, $this->timeout);
 
         // Check for an error response.
         if ($response && $response->faultCode() == 0) {
@@ -655,7 +653,7 @@ class OA_Api_Xmlrpc
 
         return $oBannerInfo;
     }
-    
+
     /**
      * This method returns TargetingInfo for a specified banner.
      *
@@ -692,7 +690,7 @@ class OA_Api_Xmlrpc
         }
         return (bool) $this->_sendWithSession('ox.setBannerTargeting', array((int) $bannerId, $aTargetingInfoObjects));
     }
-    
+
     /**
      * This method returns a list of banners for a specified campaign.
      *
