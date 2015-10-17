@@ -2055,19 +2055,19 @@ $buffer .= "
 }
 }
 if (!empty($variableQuerystring)) {
-$conversionInfoParams = array();
 foreach ($conversionInfo as $plugin => $pluginData) {
+$conversionInfoParams = array();
 if (is_array($pluginData)) {
 foreach ($pluginData as $key => $value) {
 $conversionInfoParams[] = $key . '=' . urlencode($value);
 }
 }
-}
 $conversionInfoParams = '&' . implode('&', $conversionInfoParams);
 $buffer .= "
     document.write (\"<\" + \"script language='JavaScript' type='text/javascript' src='\");
-    document.write (\"$url?trackerid=$trackerid{$conversionInfoParams}{$variableQuerystring}'\");";
+    document.write (\"$url?trackerid=$trackerid&plugin={$plugin}{$conversionInfoParams}{$variableQuerystring}'\");";
 $buffer .= "\n\tdocument.write (\"><\\/scr\"+\"ipt>\");";
+}
 }
 }
 if(!empty($tracker['appendcode'])) {
@@ -2168,7 +2168,7 @@ return $aConversionInfo;
 }
 return false;
 }
-function MAX_Delivery_log_logVariableValues($aVariables, $trackerId, $serverConvId, $serverRawIp)
+function MAX_Delivery_log_logVariableValues($aVariables, $trackerId, $serverConvId, $serverRawIp, $pluginId = null)
 {
 $aConf = $GLOBALS['_MAX']['CONF'];
 foreach ($aVariables as $aVariable) {
@@ -2199,7 +2199,11 @@ continue;
 $aVariables[$aVariable['variable_id']]['value'] = $value;
 }
 if (count($aVariables)) {
-OX_Delivery_Common_hook('logConversionVariable', array($aVariables, $trackerId, $serverConvId, $serverRawIp, _viewersHostOkayToLog(null, null, $trackerId)));
+OX_Delivery_Common_hook(
+'logConversionVariable',
+array($aVariables, $trackerId, $serverConvId, $serverRawIp, _viewersHostOkayToLog(null, null, $trackerId)),
+empty($pluginId) ? null : $pluginId.'Variable'
+);
 }
 }
 function _viewersHostOkayToLog($adId=0, $zoneId=0, $trackerId=0)
@@ -2778,6 +2782,14 @@ return $return;
 }
 function OX_Delivery_Common_getFunctionFromComponentIdentifier($identifier, $hook = null)
 {
+if (preg_match('/[^a-zA-Z0-9:]/', $identifier)) {
+if (PHP_SAPI === 'cli') {
+exit(1);
+} else {
+MAX_sendStatusCode(400);
+exit;
+}
+}
 $aInfo = explode(':', $identifier);
 $functionName = 'Plugin_' . implode('_', $aInfo) . '_Delivery' . (!empty($hook) ? '_' . $hook : '');
 if (!function_exists($functionName)) {
@@ -3088,6 +3100,7 @@ if (!empty($_GET['trackerid'])) {
 $trackerId = $_GET['trackerid'];
 $serverConvId = (isset($_GET['server_conv_id'])) ? $_GET['server_conv_id'] : null;
 $serverRawIp = (isset($_GET['server_raw_ip'])) ? $_GET['server_raw_ip'] : null;
+$plugin = isset($_GET['plugin']) ? $_GET['plugin'] : null;
 $aVariables = MAX_cacheGetTrackerVariables($trackerId);
-MAX_Delivery_log_logVariableValues($aVariables, $trackerId, $serverConvId, $serverRawIp);
+MAX_Delivery_log_logVariableValues($aVariables, $trackerId, $serverConvId, $serverRawIp, $plugin);
 }

@@ -2055,19 +2055,19 @@ $buffer .= "
 }
 }
 if (!empty($variableQuerystring)) {
-$conversionInfoParams = array();
 foreach ($conversionInfo as $plugin => $pluginData) {
+$conversionInfoParams = array();
 if (is_array($pluginData)) {
 foreach ($pluginData as $key => $value) {
 $conversionInfoParams[] = $key . '=' . urlencode($value);
 }
 }
-}
 $conversionInfoParams = '&' . implode('&', $conversionInfoParams);
 $buffer .= "
     document.write (\"<\" + \"script language='JavaScript' type='text/javascript' src='\");
-    document.write (\"$url?trackerid=$trackerid{$conversionInfoParams}{$variableQuerystring}'\");";
+    document.write (\"$url?trackerid=$trackerid&plugin={$plugin}{$conversionInfoParams}{$variableQuerystring}'\");";
 $buffer .= "\n\tdocument.write (\"><\\/scr\"+\"ipt>\");";
+}
 }
 }
 if(!empty($tracker['appendcode'])) {
@@ -2168,7 +2168,7 @@ return $aConversionInfo;
 }
 return false;
 }
-function MAX_Delivery_log_logVariableValues($aVariables, $trackerId, $serverConvId, $serverRawIp)
+function MAX_Delivery_log_logVariableValues($aVariables, $trackerId, $serverConvId, $serverRawIp, $pluginId = null)
 {
 $aConf = $GLOBALS['_MAX']['CONF'];
 foreach ($aVariables as $aVariable) {
@@ -2199,7 +2199,11 @@ continue;
 $aVariables[$aVariable['variable_id']]['value'] = $value;
 }
 if (count($aVariables)) {
-OX_Delivery_Common_hook('logConversionVariable', array($aVariables, $trackerId, $serverConvId, $serverRawIp, _viewersHostOkayToLog(null, null, $trackerId)));
+OX_Delivery_Common_hook(
+'logConversionVariable',
+array($aVariables, $trackerId, $serverConvId, $serverRawIp, _viewersHostOkayToLog(null, null, $trackerId)),
+empty($pluginId) ? null : $pluginId.'Variable'
+);
 }
 }
 function _viewersHostOkayToLog($adId=0, $zoneId=0, $trackerId=0)
@@ -2778,6 +2782,14 @@ return $return;
 }
 function OX_Delivery_Common_getFunctionFromComponentIdentifier($identifier, $hook = null)
 {
+if (preg_match('/[^a-zA-Z0-9:]/', $identifier)) {
+if (PHP_SAPI === 'cli') {
+exit(1);
+} else {
+MAX_sendStatusCode(400);
+exit;
+}
+}
 $aInfo = explode(':', $identifier);
 $functionName = 'Plugin_' . implode('_', $aInfo) . '_Delivery' . (!empty($hook) ? '_' . $hook : '');
 if (!function_exists($functionName)) {
@@ -3123,14 +3135,16 @@ if ($conf['logging']['trackerImpressions']) {
 $aConversion = MAX_trackerCheckForValidAction($trackerid);
 if (!empty($aConversion)) {
 $aConversionInfo = MAX_Delivery_log_logConversion($trackerid, $aConversion);
+foreach ($aConversionInfo as $pluginId => $aData) {
 $serverConvId = $serverRawIp = null;
-if (isset($aConversionInfo['deliveryLog:oxLogConversion:logConversion']['server_conv_id'])) {
-$serverConvId = $aConversionInfo['deliveryLog:oxLogConversion:logConversion']['server_conv_id'];
+if (isset($aData['server_conv_id'])) {
+$serverConvId = $aData['server_conv_id'];
 }
-if (isset($aConversionInfo['deliveryLog:oxLogConversion:logConversion']['server_raw_ip'])) {
-$serverRawIp = $aConversionInfo['deliveryLog:oxLogConversion:logConversion']['server_raw_ip'];
+if (isset($aData['server_raw_ip'])) {
+$serverRawIp = $aData['server_raw_ip'];
 }
-MAX_Delivery_log_logVariableValues(MAX_cacheGetTrackerVariables($trackerid), $trackerid, $serverConvId, $serverRawIp);
+MAX_Delivery_log_logVariableValues(MAX_cacheGetTrackerVariables($trackerid), $trackerid, $serverConvId, $serverRawIp, $pluginId);
+}
 }
 }
 MAX_cookieFlush();
