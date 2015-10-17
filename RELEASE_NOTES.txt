@@ -51,11 +51,14 @@ What's New in Revive Adserver 3.3.0
    fallback image.
  * Fixed the example XML-RPC api client class to properly work with SSL and
    non-standard ports.
+ * Fixed an issue with conversion variable logging through non standard
+   plugins.
 
  Non-Backwards Compatible Changes
  --------------------------------
 
- * None
+ * Logging plugins that also deal with conversions and conversion variables
+   might require some additional testing.
 
 System Requirements
 -------------------

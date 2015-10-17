@@ -126,8 +126,9 @@ function MAX_Delivery_log_logConversion($trackerId, $aConversion)
  *                              server.
  * @param string $serverRawIp The IP address of the raw database server,
  *                            or the single server setup identifier.
+ * @param string $pluginId    The plugin identifier.
  */
-function MAX_Delivery_log_logVariableValues($aVariables, $trackerId, $serverConvId, $serverRawIp)
+function MAX_Delivery_log_logVariableValues($aVariables, $trackerId, $serverConvId, $serverRawIp, $pluginId = null)
 {
     $aConf = $GLOBALS['_MAX']['CONF'];
     // Get the variable information, including the Variable ID
@@ -164,7 +165,11 @@ function MAX_Delivery_log_logVariableValues($aVariables, $trackerId, $serverConv
         $aVariables[$aVariable['variable_id']]['value'] = $value;
     }
     if (count($aVariables)) {
-        OX_Delivery_Common_hook('logConversionVariable', array($aVariables, $trackerId, $serverConvId, $serverRawIp, _viewersHostOkayToLog(null, null, $trackerId)));
+        OX_Delivery_Common_hook(
+            'logConversionVariable',
+            array($aVariables, $trackerId, $serverConvId, $serverRawIp, _viewersHostOkayToLog(null, null, $trackerId)),
+            empty($pluginId) ? null : $pluginId.'Variable'
+        );
     }
 }
 

@@ -693,6 +693,16 @@ function OX_Delivery_Common_hook($hookName, $aParams = array(), $functionName = 
  */
 function OX_Delivery_Common_getFunctionFromComponentIdentifier($identifier, $hook = null)
 {
+    // Security check
+    if (preg_match('/[^a-zA-Z0-9:]/', $identifier)) {
+        if (PHP_SAPI === 'cli') {
+            exit(1);
+        } else {
+            MAX_sendStatusCode(400);
+            exit;
+        }
+    }
+
     $aInfo = explode(':', $identifier);
     $functionName = 'Plugin_' . implode('_', $aInfo) . '_Delivery' . (!empty($hook) ? '_' . $hook : '');
 

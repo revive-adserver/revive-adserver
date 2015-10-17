@@ -107,19 +107,19 @@ function MAX_trackerbuildJSVariablesScript($trackerid, $conversionInfo, $tracker
         }
         if (!empty($variableQuerystring)) {
 			// Pass the return values from the logConversion hook call into the variables request
-            $conversionInfoParams = array();
             foreach ($conversionInfo as $plugin => $pluginData) {
+                $conversionInfoParams = array();
                 if (is_array($pluginData)) {
                     foreach ($pluginData as $key => $value) {
                         $conversionInfoParams[] = $key . '=' . urlencode($value);
                     }
                 }
-            }
-            $conversionInfoParams = '&' . implode('&', $conversionInfoParams);
-            $buffer .= "
+                $conversionInfoParams = '&' . implode('&', $conversionInfoParams);
+                $buffer .= "
     document.write (\"<\" + \"script language='JavaScript' type='text/javascript' src='\");
-    document.write (\"$url?trackerid=$trackerid{$conversionInfoParams}{$variableQuerystring}'\");";
-            $buffer .= "\n\tdocument.write (\"><\\/scr\"+\"ipt>\");";
+    document.write (\"$url?trackerid=$trackerid&plugin={$plugin}{$conversionInfoParams}{$variableQuerystring}'\");";
+                $buffer .= "\n\tdocument.write (\"><\\/scr\"+\"ipt>\");";
+            }
         }
     }
     if(!empty($tracker['appendcode'])) {

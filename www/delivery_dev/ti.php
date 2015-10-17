@@ -30,17 +30,19 @@ if ($conf['logging']['trackerImpressions']) {
     $aConversion = MAX_trackerCheckForValidAction($trackerid);
     if (!empty($aConversion)) {
         $aConversionInfo = MAX_Delivery_log_logConversion($trackerid, $aConversion);
-        $serverConvId = $serverRawIp = null;
-        // I still dislike having checks here looking for specific return values... but that's what the logConversionVariable call expects :(
-        if (isset($aConversionInfo['deliveryLog:oxLogConversion:logConversion']['server_conv_id'])) {
-            $serverConvId = $aConversionInfo['deliveryLog:oxLogConversion:logConversion']['server_conv_id'];
+
+        foreach ($aConversionInfo as $pluginId => $aData) {
+            $serverConvId = $serverRawIp = null;
+            if (isset($aData['server_conv_id'])) {
+                $serverConvId = $aData['server_conv_id'];
+            }
+            if (isset($aData['server_raw_ip'])) {
+                $serverRawIp = $aData['server_raw_ip'];
+            }
+
+            // Log tracker impression variable values
+            MAX_Delivery_log_logVariableValues(MAX_cacheGetTrackerVariables($trackerid), $trackerid, $serverConvId, $serverRawIp, $pluginId);
         }
-        if (isset($aConversionInfo['deliveryLog:oxLogConversion:logConversion']['server_raw_ip'])) {
-            $serverRawIp = $aConversionInfo['deliveryLog:oxLogConversion:logConversion']['server_raw_ip'];
-        }
-        
-        // Log tracker impression variable values
-        MAX_Delivery_log_logVariableValues(MAX_cacheGetTrackerVariables($trackerid), $trackerid, $serverConvId, $serverRawIp);
     }
 }
 MAX_cookieFlush();
