@@ -198,7 +198,7 @@ class VideoAdsHelper
 
     static function getHelpLinkVideoPlayerConfig()
     {
-        return 'http://documentation.revive-adserver.com/display/DOCS/Invocation+code#Invocationcode-InvocationcodeforInlineVideoadzoneorOverlayVideoadzone';
+        return 'http://documentation.revive-adserver.com/display/DOCS/Invocation+code%3A+Zone+level#Invocationcode:Zonelevel-Video';
     }
 
     static function getHelpLinkOpenXPlugin()
