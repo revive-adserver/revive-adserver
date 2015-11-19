@@ -53,6 +53,8 @@ What's New in Revive Adserver 3.3.0
    non-standard ports.
  * Fixed an issue with conversion variable logging through non standard
    plugins.
+ * Fixed an issue with the UI session cookie not being set properly when the
+   web server was runing on a non-standard port.
 
  Non-Backwards Compatible Changes
  --------------------------------
