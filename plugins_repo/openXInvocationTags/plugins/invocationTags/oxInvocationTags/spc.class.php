@@ -233,7 +233,7 @@ class Plugins_InvocationTags_OxInvocationTags_Spc extends Plugins_InvocationTags
                         break;
                 case 'charset':
                         $optionName = $GLOBALS['strCharset'];
-                        $optionValue = empty($mi->$feature) ? $GLOBALS['strAutoDetect'] : $mi->$feature;
+                        $optionValue = empty($mi->$feature) ? $GLOBALS['strAutoDetect'] : htmlspecialchars($mi->$feature);
                         break;
                 default:
                         $optionName = $feature;
