@@ -107,11 +107,9 @@ class OA_Admin_PasswordRecovery
                 $this->displayRecoveryRequestForm($GLOBALS['strEmailRequired']);
             } else {
                 $sent = $this->sendRecoveryEmail(stripslashes($vars['email']));
-                if ($sent) {
-                    $this->displayMessage($GLOBALS['strNotifyPageMessage']);
-                } else {
-                $this->displayRecoveryRequestForm($GLOBALS['strPwdRecEmailNotFound']);
-                }
+
+                // Always pretend an email was sent, even if not to avoid information disclosure
+                $this->displayMessage($GLOBALS['strNotifyPageMessage']);
             }
         } else {
             if (empty($vars['newpassword']) || empty($vars['newpassword2']) || $vars['newpassword'] != $vars['newpassword2']) {
