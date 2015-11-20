@@ -31,6 +31,8 @@ OA_Permission::enforceAccessToObject('clients',   $clientid);
 OA_Permission::enforceAccessToObject('campaigns', $campaignid);
 OA_Permission::enforceAccessToObject('banners',   $bannerid);
 
+OA_Permission::checkSessionToken();
+
 /*-------------------------------------------------------*/
 /* Store preferences									 */
 /*-------------------------------------------------------*/

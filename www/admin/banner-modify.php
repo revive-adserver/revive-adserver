@@ -31,6 +31,7 @@ phpAds_registerGlobal('bannerid', 'campaignid', 'clientid', 'returnurl', 'duplic
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
 
+OA_Permission::checkSessionToken();
 
 /*-------------------------------------------------------*/
 /* Main code                                             */

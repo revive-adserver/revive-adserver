@@ -36,6 +36,8 @@ OA_Permission::enforceAccessToObject('clients',   $clientid);
 OA_Permission::enforceAccessToObject('campaigns', $campaignid);
 OA_Permission::enforceAccessToObject('banners',   $bannerid, true);
 
+OA_Permission::checkSessionToken();
+
 if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
     if ($value == OA_ENTITY_STATUS_RUNNING) {
         OA_Permission::enforceAllowed(OA_PERM_BANNER_ACTIVATE);

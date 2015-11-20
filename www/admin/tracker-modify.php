@@ -38,6 +38,8 @@ OA_Permission::enforceAccessToObject('trackers', $trackerid);
 
 if (!empty($trackerid))
 {
+    OA_Permission::checkSessionToken();
+    
     if (!empty($moveto))
     {
         // Delete any campaign-tracker links
