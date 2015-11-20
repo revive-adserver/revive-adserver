@@ -76,10 +76,10 @@ class MAX_Dal_Admin_Session extends MAX_Dal_Common
         if ($doSession) {
             $doSession->sessiondata = $serialized_session_data;
             $doSession->update();
-        }
-        else {
+        } else {
             $doSession = OA_Dal::factoryDO('session');
-            $doSession->sessionid = $session_id;
+            // It's an md5, so 32 chars max
+            $doSession->sessionid = substr($session_id, 0, 32);
             $doSession->sessiondata = $serialized_session_data;
             $doSession->insert();
         }
