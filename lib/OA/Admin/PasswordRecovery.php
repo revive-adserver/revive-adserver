@@ -99,6 +99,8 @@ class OA_Admin_PasswordRecovery
      */
     function handlePost($vars)
     {
+        OA_Permission::checkSessionToken();
+
         $this->pageHeader();
         if (empty($vars['id'])) {
             if (empty($vars['email'])) {
@@ -152,6 +154,8 @@ class OA_Admin_PasswordRecovery
 
         echo "<form method='post' action='password-recovery.php'>\n";
 
+        echo "<input type='hidden' name='token' value='".phpAds_SessionGetToken()."'/>\n";
+
         echo "<div class='install'>".$GLOBALS['strPwdRecEnterEmail']."</div>";
         echo "<table cellpadding='0' cellspacing='0' border='0'>";
         echo "<tr><td colspan='2'><img src='" . OX::assetPath() . "/images/break-el.gif' width='400' height='1' vspace='8'></td></tr>";
@@ -177,6 +181,7 @@ class OA_Admin_PasswordRecovery
 
         echo "<form method='post' action='password-recovery.php'>\n";
         echo "<input type='hidden' name='id' value=\"".htmlspecialchars($id)."\" />";
+        echo "<input type='hidden' name='token' value='".phpAds_SessionGetToken()."'/>\n";
 
         echo "<div class='install'>".$GLOBALS['strPwdRecEnterPassword']."</div>";
         echo "<table cellpadding='0' cellspacing='0' border='0'>";
