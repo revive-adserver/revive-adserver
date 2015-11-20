@@ -106,7 +106,7 @@ class OA_Admin_PasswordRecovery
             if (empty($vars['email'])) {
                 $this->displayRecoveryRequestForm($GLOBALS['strEmailRequired']);
             } else {
-                $sent = $this->sendRecoveryEmail(stripslashes($vars['email']));
+                $sent = $this->sendRecoveryEmail($vars['email']);
 
                 // Always pretend an email was sent, even if not to avoid information disclosure
                 $this->displayMessage($GLOBALS['strNotifyPageMessage']);
@@ -115,7 +115,7 @@ class OA_Admin_PasswordRecovery
             if (empty($vars['newpassword']) || empty($vars['newpassword2']) || $vars['newpassword'] != $vars['newpassword2']) {
                 $this->displayRecoveryResetForm($vars['id'], $GLOBALS['strNotSamePasswords']);
             } elseif ($this->_dal->checkRecoveryId($vars['id'])) {
-                $userId = $this->_dal->saveNewPasswordAndLogin($vars['id'], stripslashes($vars['newpassword']));
+                $userId = $this->_dal->saveNewPasswordAndLogin($vars['id'], $vars['newpassword']);
                 OX_Admin_Redirect::redirect();
             } else {
                 $this->displayRecoveryRequestForm($GLOBALS['strPwdRecWrongId']);
