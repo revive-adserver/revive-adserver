@@ -159,12 +159,14 @@ class OA_Test_Data_MDB2Schema extends OA_Test_Data
     function _fixSequences($prefix, $table_name, &$aTable)
     {
         if ($this->oDbh->dbsyntax == 'pgsql') {
+            $oTable = new OA_DB_Table();
+
             foreach ($aTable['fields'] as $fieldName => $fieldProperties) {
                 if (!empty($fieldProperties['autoincrement'])) {
                     $tblName = $this->oDbh->quoteIdentifier($prefix.$table_name, true);
                     $seqName = "{$prefix}{$table_name}_{$fieldName}_seq";
                     $maxValue = $this->oDbh->queryOne("SELECT MAX({$fieldName}) FROM {$tblName}");
-                    OA_DB_Table::resetSequence($seqName, $maxValue + 1);
+                    $oTable->resetSequence($seqName, $maxValue + 1);
                 }
             }
         }
