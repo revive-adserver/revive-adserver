@@ -164,24 +164,17 @@ this before reporting any new bugs.
 FAQ
 ---
 
- 1. What happened to OpenX Source?
-
-    OpenX Source has re-branded as Revive Adserver. It is still a completely
-    free, open source ad serving solution, and remains licensed under the
-    GPL v2 or greater license. Apart from the code moving home and a change of
-    name, Revive Adserver is just the same as the old OpenX Source application.
-
- 2. Can I upgrade from OpenX Source?
+ 1. Can I upgrade from OpenX Source?
 
     Yes. OpenX Source has rebranded as Revive Adserver. You will be able to
     upgrade from any version of OpenX Source.
 
- 3. Where can I get help?
+ 2. Where can I get help?
 
     You can ask for help at the Revive Adserver community forums:
     http://forum.revive-adserver.com/
 
- 4. What can I do to help?
+ 3. What can I do to help?
 
     We need help from both developers and users to provide as much feedback
     as possible to make Revive Adserver even better. You can contribute
