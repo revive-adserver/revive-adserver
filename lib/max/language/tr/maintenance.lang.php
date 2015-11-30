@@ -44,8 +44,8 @@ $GLOBALS['strAvailableUpdates'] = "Mevcut ürün güncellemeleri";
 $GLOBALS['strDownloadZip'] = "İndir (.zip)";
 $GLOBALS['strDownloadGZip'] = "İndir (.tar.gz)";
 
-$GLOBALS['strUpdateAlert'] = "{$PRODUCT_NAME} programının yeni sürümü bulunmaktadır.                 \\n\\nBu güncelleme ile ilgili daha\\nfazla bilgi ister misiniz?";
-$GLOBALS['strUpdateAlertSecurity'] = "{$PRODUCT_NAME} programının yeni sürümü bulunmaktadır.                 \\n\\nBu güncellemeyi yapmanız \\ntavsiye ediliyor, çünklü bu sürüm \\ngüvenlik problemlerinin onarılmış halini içeriyor.";
+$GLOBALS['strUpdateAlert'] = "{$PRODUCT_NAME} programının yeni sürümü bulunmaktadır.                 \n\nBu güncelleme ile ilgili daha\nfazla bilgi ister misiniz?";
+$GLOBALS['strUpdateAlertSecurity'] = "{$PRODUCT_NAME} programının yeni sürümü bulunmaktadır.                 \n\nBu güncellemeyi yapmanız \ntavsiye ediliyor, çünklü bu sürüm \ngüvenlik problemlerinin onarılmış halini içeriyor.";
 
 
 $GLOBALS['strNoNewVersionAvailable'] = "{$PRODUCT_NAME} sürümünüz güncellenmiş. şu anda mevcut bir güncelleme bulunmuyor.";

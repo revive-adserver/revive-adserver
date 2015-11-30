@@ -24,6 +24,7 @@ $GLOBALS['strCampaign'] = "الحملة الإعلانية";
 $GLOBALS['strZone'] = "المنطقة";
 $GLOBALS['strType'] = "النوع";
 $GLOBALS['strAction'] = "الفعل";
+$GLOBALS['strValue'] = "القيمة";
 
 if (!isset($GLOBALS['strUserlog'])) {
     $GLOBALS['strUserlog'] = array();

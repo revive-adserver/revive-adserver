@@ -476,7 +476,7 @@ $GLOBALS['strBannerHistory'] = "Banner geschiedenis";
 $GLOBALS['strNoBanners'] = "Er zijn momenteel geen banners gedefinieerd voor deze campagne.";
 $GLOBALS['strNoBannersAddCampaign'] = "Er zijn momenteel geen websites beschikbaar. Om een zone aan te maken, <a href='affiliate-edit.php'>voeg eerst een nieuwe website toe</a> .";
 $GLOBALS['strNoBannersAddAdvertiser'] = "Er zijn momenteel geen banners beschikbaar. Om een banner aan te maken, <a href='affiliate-edit.php'>voeg eerst een nieuwe adverteerder toe</a> .";
-$GLOBALS['strConfirmDeleteBanner'] = "Verwijderen van deze banner zal ook bijbehorende statistieken verwijderen. \\nWeet u zeker dat u deze banner wilt verwijderen?";
+$GLOBALS['strConfirmDeleteBanner'] = "Verwijderen van deze banner zal ook bijbehorende statistieken verwijderen. \nWeet u zeker dat u deze banner wilt verwijderen?";
 $GLOBALS['strConfirmDeleteBanners'] = "Weet u zeker dat u deze banner wilt verwijderen?";
 $GLOBALS['strShowParentCampaigns'] = "Toon bovenliggende campagnes";
 $GLOBALS['strHideParentCampaigns'] = "Verberg bovenliggende campagnes";

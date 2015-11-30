@@ -84,7 +84,7 @@ $GLOBALS['strAvailableUpdates'] = "Beschikbare update";
 $GLOBALS['strDownloadZip'] = "Downloaden (.zip)";
 $GLOBALS['strDownloadGZip'] = "Downloaden (.tar.gz)";
 
-$GLOBALS['strUpdateAlert'] = "A nieuwe versie van {$PRODUCT_NAME} is beschikbaar.\\n\\nWilt u meer informatie \\nover deze update?";
+$GLOBALS['strUpdateAlert'] = "A nieuwe versie van {$PRODUCT_NAME} is beschikbaar.\n\nWilt u meer informatie \nover deze update?";
 $GLOBALS['strUpdateAlertSecurity'] = "A nieuwe versie van {$PRODUCT_NAME} is beschikbaar.
 
 Het wordt aangeraden om uw versie

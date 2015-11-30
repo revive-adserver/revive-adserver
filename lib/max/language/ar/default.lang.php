@@ -25,6 +25,7 @@ $GLOBALS['phpAds_DecimalPoint'] = ".";
 /* Translations                                          */
 /* ------------------------------------------------------- */
 
+$GLOBALS['strHome'] = "الصفحة الرّئيسية";
 $GLOBALS['strHelp'] = "مساعدة";
 $GLOBALS['strStartOver'] = "البدء من جديد";
 $GLOBALS['strShortcuts'] = "الاختصارات";
@@ -62,6 +63,7 @@ $GLOBALS['strNo'] = "لا";
 $GLOBALS['strNone'] = "المنطقة";
 $GLOBALS['strCustom'] = "مخصص";
 $GLOBALS['strDefault'] = "افتراضي";
+$GLOBALS['strUnknown'] = "مجهول";
 $GLOBALS['strUnlimited'] = "غير محدود";
 $GLOBALS['strUntitled'] = "بدون عنوان";
 $GLOBALS['strAll'] = "الكل";
@@ -92,15 +94,21 @@ $GLOBALS['strCollectedThisMonth'] = "هذا الشهر";
 $GLOBALS['strCollectedLastMonth'] = "الشهر الماضي";
 $GLOBALS['strCollectedLast7Days'] = "آخر 7 أيام";
 $GLOBALS['strCollectedSpecificDates'] = "تواريخ محددة";
+$GLOBALS['strValue'] = "القيمة";
 $GLOBALS['strWarning'] = "تحذير";
 $GLOBALS['strNotice'] = "تنبيه";
 
 // Dashboard
+$GLOBALS['strDashboardCantBeDisplayed'] = "لا يمكن عرض لوحة المعلومات";
+$GLOBALS['strNoCheckForUpdates'] = "لا يمكن عرض لوحة المعلومات ما لم يكن التحق من خلال <br/> عن التحديثات ممكن.";
 // Dashboard Errors
+$GLOBALS['strDashboardSystemMessage'] = "رسالة من النظام";
+$GLOBALS['strDashboardErrorHelp'] = "إذا تكرر هذا الخطأ الرجاء وصف المشكلة بالتفصيل على <a href='http://forum.revive-adserver.com/'> forum.revive-adserver.com/</a>.";
 
 // Priority
 $GLOBALS['strPriority'] = "الأهمية";
 $GLOBALS['strPriorityLevel'] = "مستوى الأهمية";
+$GLOBALS['strOverrideAds'] = "تجاوز إعلانات الحملة";
 $GLOBALS['strLimitations'] = "المحددات";
 $GLOBALS['strNoLimitations'] = "بدون تحديد";
 $GLOBALS['strCapping'] = "تغطية";
@@ -118,15 +126,34 @@ $GLOBALS['strID'] = "الرقم";
 $GLOBALS['strComments'] = "التعليقات";
 
 // User access
+$GLOBALS['strSwitchTo'] = "قم بالتبديل إلى";
+$GLOBALS['strRecentlyUsed'] = "المستخدمة مؤخرا";
+$GLOBALS['strLinkUser'] = "إضافة مستخدم";
+$GLOBALS['strUsernameToLink'] = "اسم المستخدم للاضافة";
+$GLOBALS['strNewUserWillBeCreated'] = "سيتم خلق مستخدم جديد";
+$GLOBALS['strToLinkProvideEmail'] = "لإضافة مستخدم، زود البريد الإلكتروني للمستخدم";
+$GLOBALS['strToLinkProvideUsername'] = "لإضافة مستخدم، توفير اسم المستخدم";
+$GLOBALS['strUserLinkedToAccount'] = "قد تم إضافة المستخدم إلى الحساب";
+$GLOBALS['strUserAccountUpdated'] = "تم تحديث حساب المستخدم";
+$GLOBALS['strUserUnlinkedFromAccount'] = "لقد تمت إزالة المستخدم من الحساب";
+$GLOBALS['strUserWasDeleted'] = "تم حذف المستخدم";
+$GLOBALS['strUserNotLinkedWithAccount'] = "هذا المستخدم غير مرتبط بحساب";
+$GLOBALS['strCantDeleteOneAdminUser'] = "لا يمكنك حذف مستخدم. يحتاج أن يكون مستخدم واحد على الأقل مرتبط مع حساب المسؤول.";
 $GLOBALS['strLinkUserHelpUser'] = "اسم المستخدم";
 $GLOBALS['strLinkUserHelpEmail'] = "البريد الإلكتروني";
+$GLOBALS['strLastLoggedIn'] = "آخر تسجيل دخول";
+$GLOBALS['strDateLinked'] = "تاريخ الربط";
 
 // Login & Permissions
+$GLOBALS['strUserAccess'] = "صلاحيات مستخدم";
+$GLOBALS['strAdminAccess'] = "صلاحيات مسؤول";
 $GLOBALS['strUserProperties'] = "خواص البنر";
+$GLOBALS['strPermissions'] = "الصلاحيّات";
 $GLOBALS['strAuthentification'] = "التحقق";
 $GLOBALS['strWelcomeTo'] = "مرحباً بك في";
 $GLOBALS['strEnterUsername'] = "الرجاء كتابة اسم المستخدم و كلمة السر للدخول";
 $GLOBALS['strEnterBoth'] = "الرجاء كتابة اسم المستخدم و كلمة السر";
+$GLOBALS['strEnableCookies'] = "يجب عليك تفعيل الكوكيز قبل أن تستخدم {$PRODUCT_NAME}";
 $GLOBALS['strSessionIDNotMatch'] = "هنالك مشكلة في الكوكيز، الرجاء الدخول من جديد";
 $GLOBALS['strLogin'] = "اسم الدخول";
 $GLOBALS['strLogout'] = "تسجيل الخروج";
@@ -136,10 +163,13 @@ $GLOBALS['strPasswordRepeat'] = "قم بإعادة كتابة كلمة السر"
 $GLOBALS['strAccessDenied'] = "الدخول ممنوع";
 $GLOBALS['strUsernameOrPasswordWrong'] = "قمت بإدخال بيانات خاطئة في اسم المستخدم أو كلمة السر. الرجاء المحاولة مرة أخرى.";
 $GLOBALS['strPasswordWrong'] = "كلمة السر غير صحيحة";
+$GLOBALS['strNotAdmin'] = "الحساب الخاص بك ليس لديه الصلاحيات المطلوبة لاستخدام هذه الميزة، يمكنك تسجيل الدخول إلى حساب آخر لاستخدامها.";
 $GLOBALS['strDuplicateClientName'] = "اسم المستخدم الذي أدخلته موجود مسبقاً ، الرجاء اختيار اسم آخر.";
 $GLOBALS['strInvalidPassword'] = "كلمة السر الجديدة غير صالحة ، الرجاء اختيار كلمة سر أخرى.";
+$GLOBALS['strInvalidEmail'] = "البريد الإلكتروني غير منسق، الرجاء وضع عنوان البريد إلكتروني صحيح.";
 $GLOBALS['strNotSamePasswords'] = "كلمتا السر التي قمت بإدخالهما غير متطابقتين";
 $GLOBALS['strRepeatPassword'] = "قم بإعادة كتابة كلمة السر";
+$GLOBALS['strDeadLink'] = "الرابط الخاص بك غير صالح.";
 
 // General advertising
 $GLOBALS['strRequests'] = "الطلبات";
@@ -183,10 +213,24 @@ $GLOBALS['strDayOfWeek'] = "اليوم من الأسبوع";
 if (!isset($GLOBALS['strDayFullNames'])) {
     $GLOBALS['strDayFullNames'] = array();
 }
+$GLOBALS['strDayFullNames'][0] = 'الأحد';
+$GLOBALS['strDayFullNames'][1] = 'الإثنين';
+$GLOBALS['strDayFullNames'][2] = 'الثلاثاء';
+$GLOBALS['strDayFullNames'][3] = 'الأربعاء';
+$GLOBALS['strDayFullNames'][4] = 'الخميس';
+$GLOBALS['strDayFullNames'][5] = 'الجمعة';
+$GLOBALS['strDayFullNames'][6] = 'السبت';
 
 if (!isset($GLOBALS['strDayShortCuts'])) {
     $GLOBALS['strDayShortCuts'] = array();
 }
+$GLOBALS['strDayShortCuts'][0] = 'أح';
+$GLOBALS['strDayShortCuts'][1] = 'إث';
+$GLOBALS['strDayShortCuts'][2] = 'ث';
+$GLOBALS['strDayShortCuts'][3] = 'أر';
+$GLOBALS['strDayShortCuts'][4] = 'خ';
+$GLOBALS['strDayShortCuts'][5] = 'ج';
+$GLOBALS['strDayShortCuts'][6] = 'س';
 
 $GLOBALS['strHour'] = "الساعة";
 $GLOBALS['strSeconds'] = "الثواني";
@@ -209,6 +253,7 @@ $GLOBALS['strAdvertiserCampaigns'] = "المعلنين و الحملات الا�
 
 // Advertisers properties
 $GLOBALS['strContact'] = "الاتصال";
+$GLOBALS['strContactName'] = "اسم جهة الإتصال";
 $GLOBALS['strEMail'] = "البريد الالكتروني";
 $GLOBALS['strSendAdvertisingReport'] = "إرسال تفاصيل الحملة الاعلانية بالبريد الالكتروني";
 $GLOBALS['strNoDaysBetweenReports'] = "عدد الأيام بين تقارير عرض الحملات";
@@ -216,16 +261,20 @@ $GLOBALS['strSendDeactivationWarning'] = "إرسال بريد إلكتروني �
 $GLOBALS['strAllowClientModifyBanner'] = "السماح لهذا العضو بتعديل الإعلانات الخاصة به";
 $GLOBALS['strAllowClientDisableBanner'] = "السماح لهذا العضو بتعطيل الإعلانات الخاصة به";
 $GLOBALS['strAllowClientActivateBanner'] = "السماح لهذا العضو بتفعيل الإعلانات الخاصة به";
+$GLOBALS['strAllowCreateAccounts'] = "السماح لهذا المستخدم بإنشاء حسابات جديدة";
+$GLOBALS['strAllowAuditTrailAccess'] = "السماح لهذا المستخدم الوصول إلى سجل المراجعة";
 
 // Campaign
 $GLOBALS['strCampaign'] = "الحملة الإعلانية";
 $GLOBALS['strCampaigns'] = "الحملة الإعلانية";
 $GLOBALS['strAddCampaign'] = "إضافة حملة إعلانية";
 $GLOBALS['strAddCampaign_Key'] = "إضافة حملة إعلانية";
+$GLOBALS['strCampaignForAdvertiser'] = "للمعلن";
 $GLOBALS['strLinkedCampaigns'] = "الحملات الاعلانية المرتبطة";
 $GLOBALS['strCampaignProperties'] = "خواص الحملة الإعلانية";
 $GLOBALS['strCampaignOverview'] = "نظرة عامة على الحملة الإعلانية";
 $GLOBALS['strCampaignHistory'] = "سجل الحملة الإعلانية";
+$GLOBALS['strNoCampaigns'] = "لا يوجد حاليا حملات لهذا المعلن.";
 $GLOBALS['strConfirmDeleteCampaign'] = "هل تريد حذف هذه الحملة الاعلانية ؟";
 $GLOBALS['strConfirmDeleteCampaigns'] = "هل تريد حذف هذه الحملة الاعلانية ؟";
 $GLOBALS['strShowParentAdvertisers'] = "عرض المعلنين الرئيسيين";
@@ -242,9 +291,13 @@ $GLOBALS['strHiddenZone'] = "المنطقة";
 $GLOBALS['strSelectUnselectAll'] = "اختيار/عدم اختيار الكل";
 
 // Campaign-zone linking page
+$GLOBALS['strAvailable'] = "موجود";
 
 
 // Campaign properties
+$GLOBALS['strDontExpire'] = "لا تنتهي";
+$GLOBALS['strActivateNow'] = "تبدأ على الفور";
+$GLOBALS['strSetSpecificDate'] = "تعيين تاريخ محدد";
 $GLOBALS['strLow'] = "منخفض";
 $GLOBALS['strHigh'] = "عالي";
 $GLOBALS['strExpirationDate'] = "تاريخ النهاية";
@@ -261,7 +314,14 @@ $GLOBALS['strAnonymous'] = "إخفاء المعلن و المواقع لهذه �
 $GLOBALS['strTargetPerDay'] = "في اليوم";
 $GLOBALS['strCampaignStatusPending'] = "بانتظار الموافقة";
 $GLOBALS['strCampaignStatusInactive'] = "فعال";
+$GLOBALS['strCampaignStatusRunning'] = "قيد التشغيل";
 $GLOBALS['strCampaignStatusPaused'] = "إيقاف مؤقت";
+$GLOBALS['strCampaignStatusAwaiting'] = "قيد الانتظار";
+$GLOBALS['strCampaignStatusExpired'] = "أنجزت";
+$GLOBALS['strCampaignStatusApproval'] = "في انتظار الموافقة";
+$GLOBALS['strCampaignStatusRejected'] = "تم رفضها";
+$GLOBALS['strCampaignStatusAdded'] = "تمت الاضافة";
+$GLOBALS['strCampaignStatusStarted'] = "بدأت";
 $GLOBALS['strCampaignStatusRestarted'] = "إعادة تشغيل";
 $GLOBALS['strCampaignStatusDeleted'] = "حذف";
 $GLOBALS['strCampaignType'] = "اسم الحملة الاعلانية";
@@ -274,6 +334,7 @@ $GLOBALS['strTracker'] = "المتتبع";
 $GLOBALS['strTrackers'] = "المتتبع";
 $GLOBALS['strTrackerPreferences'] = "الخيارات العامة";
 $GLOBALS['strAddTracker'] = "إضافة متتبع جديد";
+$GLOBALS['strTrackerForAdvertiser'] = "للمعلن";
 $GLOBALS['strConfirmDeleteTrackers'] = "هل تريد حذف هذا المتتبع ؟";
 $GLOBALS['strConfirmDeleteTracker'] = "هل تريد حذف هذا المتتبع ؟";
 $GLOBALS['strTrackerProperties'] = "خواص المتتبع";

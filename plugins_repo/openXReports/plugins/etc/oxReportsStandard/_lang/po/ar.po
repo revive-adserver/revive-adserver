@@ -105,7 +105,7 @@ msgstr ""
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//liveCampaignDeliveryReport.class.php:503
 msgid "Running"
-msgstr ""
+msgstr "قيد التشغيل"
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//liveCampaignDeliveryReport.class.php:505
 msgid "Stopped"

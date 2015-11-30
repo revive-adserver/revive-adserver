@@ -58,7 +58,7 @@ $GLOBALS['phpAds_hlp_gui_header_active_tab_color'] = "U kunt hier een aangepast 
 
 $GLOBALS['phpAds_hlp_gui_header_text_color'] = "U kunt hier een aangepast kleur invoeren die zal worden gebruikt voor de teksten in de header.";
 
-$GLOBALS['phpAds_hlp_content_gzip_compression'] = "\\n	Door GZIP content compressie te gebruiken zal de data, die elke keer als een pagina\\n	van de administratie interface wordt opgevraagd naar uw browser gestuurd wordt, afnemen\\n	Om deze functie te kunnen gebruiken moet minimaal PHP 4.0.5 en de GZIP extentie op uw\\n	server geinstalleerd zijn.\\n.";
+$GLOBALS['phpAds_hlp_content_gzip_compression'] = "\n	Door GZIP content compressie te gebruiken zal de data, die elke keer als een pagina\n	van de administratie interface wordt opgevraagd naar uw browser gestuurd wordt, afnemen\n	Om deze functie te kunnen gebruiken moet minimaal PHP 4.0.5 en de GZIP extentie op uw\n	server geinstalleerd zijn.\n.";
 
 $GLOBALS['phpAds_hlp_language'] = "Selecteer de standaar taal die {$PRODUCT_NAME} moet gebruiken. Deze taalkeuze zal standaard worden gebruikt voor de interface voor de beheerders en adverteerders. Let op: u kunt een andere taal instellen voor elke adverteerder vanuit de beheerdersinterface, en elke adverteerder toestaan zelf een andere taal te kiezen.";
 
@@ -259,17 +259,17 @@ $GLOBALS['phpAds_hlp_default_banner_weight'] = "	Indien u standaard een hoger ge
 $GLOBALS['phpAds_hlp_default_campaign_weight'] = "	Indien u standaard een hoger gewicht wilt geven aan campagnes, dan kunt u hier het
 	gewenste gewicht instellen. Deze optie staat standaard op 1.";
 
-$GLOBALS['phpAds_hlp_gui_show_campaign_info'] = "\\n	Als deze optie aan staat, wordt er extra informatie over elke campagne getoond op de\\n	<i>Campagne overzicht</i> pagina. De extra informatie bevat o.a. het overgebleven aantal\\n	impressies, kliks en conversies, de begindatum en de einddatum en de prioriteits-instellingen.";
+$GLOBALS['phpAds_hlp_gui_show_campaign_info'] = "\n	Als deze optie aan staat, wordt er extra informatie over elke campagne getoond op de\n	<i>Campagne overzicht</i> pagina. De extra informatie bevat o.a. het overgebleven aantal\n	impressies, kliks en conversies, de begindatum en de einddatum en de prioriteits-instellingen.";
 
-$GLOBALS['phpAds_hlp_gui_show_banner_info'] = "\\n	Als deze optie aan staat, wordt er extra informatie over elke banner getoond op de\\n	<i>Banner overzicht</i> pagina. De extra informatie bevat o.a. de doel URL, sleutelwoorden,\\n	grootte en gewicht.\\n.";
+$GLOBALS['phpAds_hlp_gui_show_banner_info'] = "\n	Als deze optie aan staat, wordt er extra informatie over elke banner getoond op de\n	<i>Banner overzicht</i> pagina. De extra informatie bevat o.a. de doel URL, sleutelwoorden,\n	grootte en gewicht.\n.";
 
-$GLOBALS['phpAds_hlp_gui_show_campaign_preview'] = "\\n	Als deze optie aan staat, wordt er een voorbeeld van alle banners getoond op de <i>Banner \\n	overzicht</i> pagina. Als deze optie niet aan staat is het nog steeds mogelijk een een voorbeeld\\n	van een banner te zien, door op de driehoek naast elke banner op de <i>Banner overzicht</i>\\n	pagina te klikken.\\n.";
+$GLOBALS['phpAds_hlp_gui_show_campaign_preview'] = "\n	Als deze optie aan staat, wordt er een voorbeeld van alle banners getoond op de <i>Banner \n	overzicht</i> pagina. Als deze optie niet aan staat is het nog steeds mogelijk een een voorbeeld\n	van een banner te zien, door op de driehoek naast elke banner op de <i>Banner overzicht</i>\n	pagina te klikken.\n.";
 
-$GLOBALS['phpAds_hlp_gui_show_banner_html'] = "\\n	Als deze optie aan staat wordt de HTML banner zelf getoond in plaats van de HTML code. Deze\\n	optie staat standaard uit, omdat de HTML code in sommige gevallen storend kan werken op de\\n	pagina van de administratie interface. Als deze optie uit staat dan is het nog steeds mogelijk\\n	om de werkelijke banner te zien, door te klikken op <i>Toon banner</i> knop naast de HTML\\n	code.\\n.";
+$GLOBALS['phpAds_hlp_gui_show_banner_html'] = "\n	Als deze optie aan staat wordt de HTML banner zelf getoond in plaats van de HTML code. Deze\n	optie staat standaard uit, omdat de HTML code in sommige gevallen storend kan werken op de\n	pagina van de administratie interface. Als deze optie uit staat dan is het nog steeds mogelijk\n	om de werkelijke banner te zien, door te klikken op <i>Toon banner</i> knop naast de HTML\n	code.\n.";
 
-$GLOBALS['phpAds_hlp_gui_show_banner_preview'] = "\\n	Als deze optie aan staat wordt er een voorbeeld van de banner getoond aan de bovenkant van\\n	de <i>Banner eigenschappen</i>, <i>Leveringsopties</i> en <i>Gekoppelde zones</i> pagina's.\\n	Als deze optie uit staat is het nog steeds mogelijk om een voorbeeld te bekijken door te \\n	klikken op de <i>Toon banner</i> knop bovenaan de pagina.\\n.";
+$GLOBALS['phpAds_hlp_gui_show_banner_preview'] = "\n	Als deze optie aan staat wordt er een voorbeeld van de banner getoond aan de bovenkant van\n	de <i>Banner eigenschappen</i>, <i>Leveringsopties</i> en <i>Gekoppelde zones</i> pagina's.\n	Als deze optie uit staat is het nog steeds mogelijk om een voorbeeld te bekijken door te \n	klikken op de <i>Toon banner</i> knop bovenaan de pagina.\n.";
 
-$GLOBALS['phpAds_hlp_gui_hide_inactive'] = "\\n	Als deze optie aan staat worden alle niet-actieve banners, campagnes en adverteerders verborgen\\n	op de <i>Adverteerders & campagnes</i> en <i>Campagne overzicht</i> pagina's. Als deze optie\\n	aan staat is het mogelijk om de verborgen items te tonen door te klikken op de <i>Toon alles</i>\\n	knop onderaan de pagina.\\n.";
+$GLOBALS['phpAds_hlp_gui_hide_inactive'] = "\n	Als deze optie aan staat worden alle niet-actieve banners, campagnes en adverteerders verborgen\n	op de <i>Adverteerders & campagnes</i> en <i>Campagne overzicht</i> pagina's. Als deze optie\n	aan staat is het mogelijk om de verborgen items te tonen door te klikken op de <i>Toon alles</i>\n	knop onderaan de pagina.\n.";
 
 $GLOBALS['phpAds_hlp_gui_show_matching'] = "Als deze optie is ingeschakeld, dan zal de overeenkomende banner worden vertoond op de <i>Gekoppelde banners</i> pagina,
 als gekozen is voor de <i>Campagne selectie</i>methode. Dit stelt u in staat om precies te zien welke banners worden
