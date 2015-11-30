@@ -64,8 +64,8 @@ $GLOBALS['strAvailableUpdates'] = "�?�용할 수 있는 업�?��?�트
 $GLOBALS['strDownloadZip'] = "다운로드(.zip)";
 $GLOBALS['strDownloadGZip'] = "다운로드(.tar.gz)";
 
-$GLOBALS['strUpdateAlert'] = "{$PRODUCT_NAME}�?� 새 버전�?� �?�용할 수 있습니다.\\n\\n새 업�?��?�트�? 대한 �?세한 정보를 보겠습니까?";
-$GLOBALS['strUpdateAlertSecurity'] = "{$PRODUCT_NAME}�?� 새 버전�?� �?�용할 수 있습니다.\\n\\n새 버전�?� 하나 �?는 그 �?��?�?� 보안 수정�?� �?�함하고 있으므로 가능한한 빨리 업그레�?�드할 것�?� 권합니다.";
+$GLOBALS['strUpdateAlert'] = "{$PRODUCT_NAME}�?� 새 버전�?� �?�용할 수 있습니다.\n\n새 업�?��?�트�? 대한 �?세한 정보를 보겠습니까?";
+$GLOBALS['strUpdateAlertSecurity'] = "{$PRODUCT_NAME}�?� 새 버전�?� �?�용할 수 있습니다.\n\n새 버전�?� 하나 �?는 그 �?��?�?� 보안 수정�?� �?�함하고 있으므로 가능한한 빨리 업그레�?�드할 것�?� 권합니다.";
 
 $GLOBALS['strUpdateServerDown'] = "    Due to an unknown reason it isn't possible to retrieve <br>
 	information about possible updates. Please try again later.";

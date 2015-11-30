@@ -48,8 +48,8 @@ $GLOBALS['strAvailableUpdates'] = "עדכוני�? זמיני�?";
 $GLOBALS['strDownloadZip'] = "הורד (.zip)";
 $GLOBALS['strDownloadGZip'] = "הורד (.tar.gz)";
 
-$GLOBALS['strUpdateAlert'] = "גירסה חדשה של {$PRODUCT_NAME} יצ�?ה ל�?ור.                 \\n\\nה�?�? �?תה רוצה מידע נוסף \\n�?ודות העדכון?";
-$GLOBALS['strUpdateAlertSecurity'] = "גירסה חדשה של {$PRODUCT_NAME} יצ�?ה ל�?ור.                 \\n\\nמומלץ מ�?וד לעדכן \\nבהזדמנות הקרובה ביותר, כיוון שגירסה זו \\nמכילה תיקוניי�? בטיחוטיי�?.";
+$GLOBALS['strUpdateAlert'] = "גירסה חדשה של {$PRODUCT_NAME} יצ�?ה ל�?ור.                 \n\nה�?�? �?תה רוצה מידע נוסף \n�?ודות העדכון?";
+$GLOBALS['strUpdateAlertSecurity'] = "גירסה חדשה של {$PRODUCT_NAME} יצ�?ה ל�?ור.                 \n\nמומלץ מ�?וד לעדכן \nבהזדמנות הקרובה ביותר, כיוון שגירסה זו \nמכילה תיקוניי�? בטיחוטיי�?.";
 
 $GLOBALS['strUpdateServerDown'] = "מסיבה בלתי ידועה ל�? ניתן להשיג<br />מידע על עדכוני�? �?פשריי�?. �?נ�? נסה שוב מ�?וחר יותר.";
 
