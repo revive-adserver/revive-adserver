@@ -294,11 +294,11 @@ function RV_checkSystemInitialRequirements(&$aErrors){
         }
     }
 
-    // Check PHP version, as use of the minimum required version of PHP > 5.3.0
+    // Check PHP version, as use of the minimum required version of PHP > 5.5.9
     // may result in parse errors, which we want to avoid
-    $errorMessage = "PHP version 5.3.0, or greater, was not detected.";
+    $errorMessage = "PHP version 5.5.9, or greater, was not detected.";
     if (function_exists('version_compare')) {
-        $result = version_compare(phpversion(), '5.3.0', '<');
+        $result = version_compare(phpversion(), '5.5.9', '<');
         if ($result) {
             $aErrors[] = $errorMessage;
             $isSystemOK = false;

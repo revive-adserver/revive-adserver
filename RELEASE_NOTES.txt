@@ -61,6 +61,8 @@ What's New in Revive Adserver 3.3.0
  Non-Backwards Compatible Changes
  --------------------------------
 
+ * Revive Adserver now requires a minimum PHP version of 5.5.9.
+
  * Logging plugins that also deal with conversions and conversion variables
    might require some additional testing.
 
