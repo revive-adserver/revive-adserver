@@ -19,7 +19,7 @@ $GLOBALS['strChooseTypeOfBannerInvocation'] = "호출할 배너 종류를 선택
 
 // Common Invocation Parameters
 $GLOBALS['strInvocationWhat'] = "배너 선택";
-$GLOBALS['strInvocationCampaignID'] = "캠페�?�";
+$GLOBALS['strInvocationCampaignID'] = "캠페인";
 $GLOBALS['strInvocationTarget'] = "대상 프레임";
 $GLOBALS['strInvocationSource'] = "소스";
 $GLOBALS['strInvocationWithText'] = "배너 밑에 텍스트를 표시합니다.";
