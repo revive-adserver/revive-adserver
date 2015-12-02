@@ -476,9 +476,9 @@ class Test_OA_Environment_Manager extends UnitTestCase
     function _testValidEnvironmentManagerObject($oEnvironmentManager, $aErrors = array(), $aWarnings = array())
     {
         if (in_array('version', $aWarnings)) {
-            $this->assertNotNull($oEnvironmentManager->aInfo['PHP']['error']['version']);
+            $this->assertNotNull($oEnvironmentManager->aInfo['PHP']['warning']['version']);
         } else {
-            $this->assertNull($oEnvironmentManager->aInfo['PHP']['error']['version']);
+            $this->assertNull($oEnvironmentManager->aInfo['PHP']['warning']['version']);
         }
         if (in_array('memory_limit', $aErrors)) {
             $this->assertNotNull($oEnvironmentManager->aInfo['PHP']['error']['memory_limit']);
