@@ -373,12 +373,10 @@ class OA_Environment_Manager
         }
 
         if ($result == OA_ENV_ERROR_PHP_VERSION) {
-            $this->aInfo['PHP']['error']['version'] =
+            $this->aInfo['PHP']['warning']['version'] =
                 "Version {$this->aInfo['PHP']['actual']['version']} is below the minimum supported version of {$this->aInfo['PHP']['expected']['version']}." .
                 "<br />You should upgrade your PHP to at least {$this->aInfo['PHP']['expected']['version']} in order to install " . PRODUCT_NAME . ". " .
                 "Please see the <a href='" . PRODUCT_DOCSURL . "/faq'>FAQ</a> for more information.";
-                // Exit immediately
-                return $result;
         } else {
             $this->aInfo['PHP']['error'] = false;
         }
