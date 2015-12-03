@@ -37,21 +37,21 @@ $GLOBALS['strRecalculatePriority'] = "우선순위 다시 계산";
 
 // Banner cache
 $GLOBALS['strCheckBannerCache'] = "배너 캐시 확인";
-$GLOBALS['strRebuildDeliveryCache'] = "전달유지 �?시 다시 빌드";
+$GLOBALS['strRebuildDeliveryCache'] = "전달유지 캐시 다시 빌드";
 $GLOBALS['strBannerCacheExplaination'] = "	The banner cache contains a copy of the HTML code which is used to display the banner. By using a banner cache it is possible to speed
 	up the delivery of banners because the HTML code doesn't need to be generated every time a banner is being delivered. Because the
 	banner cache contains hard coded URLs to the location of {$PRODUCT_NAME} and its banners, the cache needs to be updated
 	everytime {$PRODUCT_NAME} is moved to another location on the webserver.";
 
 // Cache
-$GLOBALS['strCache'] = "전달유지 �?시";
-$GLOBALS['strDeliveryCacheSharedMem'] = "현재 전달유지 �?시를 저장하기 위해 공유 메모리를 사용하고 있습니다.";
-$GLOBALS['strDeliveryCacheDatabase'] = "현재 전달유지 �?시를 저장하기 위해 �?��?�터베�?�스를 사용하고 있습니다.";
+$GLOBALS['strCache'] = "전달유지 캐시";
+$GLOBALS['strDeliveryCacheSharedMem'] = "현재 전달유지 캐시를 저장하기 위해 공유 메모리를 사용하고 있습니다.";
+$GLOBALS['strDeliveryCacheDatabase'] = "현재 전달유지 캐시를 저장하기 위해 데이터베이스를 사용하고 있습니다.";
 
 // Storage
-$GLOBALS['strStorage'] = "저장�?역";
-$GLOBALS['strMoveToDirectory'] = "�?��?�터베�?�스�? 저장�?� �?�미지를 디렉터리로 옮기기";
-$GLOBALS['strStorageExplaination'] = "로컬 배너로 사용하는 �?�미지는 �?��?�터베�?�스 �?는 디렉터리�? 저장�?�어 있습니다. �?�미지를 디렉터리�? 저장한 경우�?는 �?��?�터베�?�스�? 대한 부하를 줄임으로�?� �?�?�를 향�?시킬 수 있습니다.";
+$GLOBALS['strStorage'] = "저장영역";
+$GLOBALS['strMoveToDirectory'] = "데이터베이스에 저장할 이미지를 디렉터리로 옮기기";
+$GLOBALS['strStorageExplaination'] = "로컬 배너로 사용하는 이미지는 데이터베이스 에는 디렉터리가 저장되어 있습니다. 이미지를 디렉터리에 저장한 경우에는 데이터베이스에 대한 부하를 줄임으로서 성능를 향상시킬 수 있습니다.";
 
 // Encoding
 $GLOBALS['strEncoding'] = "인코딩";
@@ -59,18 +59,18 @@ $GLOBALS['strEncodingConvertTest'] = "변환 테스트";
 $GLOBALS['strConvertThese'] = "계속하시는 경우 다음 데이터가 변경됩니다.";
 
 // Product Updates
-$GLOBALS['strSearchingUpdates'] = "업�?��?�트를 겅색중입니다. 잠시 기다려주십시오...";
-$GLOBALS['strAvailableUpdates'] = "�?�용할 수 있는 업�?��?�트";
+$GLOBALS['strSearchingUpdates'] = "업데이트트를 겅색중입니다. 잠시 기다려주십시오...";
+$GLOBALS['strAvailableUpdates'] = "사용할 수 있는 업데이트";
 $GLOBALS['strDownloadZip'] = "다운로드(.zip)";
 $GLOBALS['strDownloadGZip'] = "다운로드(.tar.gz)";
 
-$GLOBALS['strUpdateAlert'] = "{$PRODUCT_NAME}�?� 새 버전�?� �?�용할 수 있습니다.\n\n새 업�?��?�트�? 대한 �?세한 정보를 보겠습니까?";
-$GLOBALS['strUpdateAlertSecurity'] = "{$PRODUCT_NAME}�?� 새 버전�?� �?�용할 수 있습니다.\n\n새 버전�?� 하나 �?는 그 �?��?�?� 보안 수정�?� �?�함하고 있으므로 가능한한 빨리 업그레�?�드할 것�?� 권합니다.";
+$GLOBALS['strUpdateAlert'] = "{$PRODUCT_NAME}의 새 버전을 사용할 수 있습니다.\n\n새 업데이트에 대한 자세한 정보를 보겠습니까?";
+$GLOBALS['strUpdateAlertSecurity'] = "{$PRODUCT_NAME}의 새 버전을 사용할 수 있습니다.\n\n새 버전이 하나 또는 그 이상의 보안 수정을 포함하고 있으므로 가능한한 빨리 업그레이드할 것을 권합니다.";
 
 $GLOBALS['strUpdateServerDown'] = "    Due to an unknown reason it isn't possible to retrieve <br>
 	information about possible updates. Please try again later.";
 
-$GLOBALS['strNoNewVersionAvailable'] = "	현재 사용중�?� {$PRODUCT_NAME}�?� 버전�?� 최신입니다. 현재 �?�용할 수 있는 업�?��?�트가 없습니다.";
+$GLOBALS['strNoNewVersionAvailable'] = "	현재 사용중인 {$PRODUCT_NAME}의 버전이 최신입니다. 현재 사용할 수 있는 업데이트가 없습니다.";
 
 
 
