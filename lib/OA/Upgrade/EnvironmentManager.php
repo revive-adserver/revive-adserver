@@ -352,9 +352,6 @@ class OA_Environment_Manager
      */
     function _checkCriticalPHP()
     {
-        // Due to https://bugs.php.net/bug.php?id=65367 we need to blacklist PHP
-        // 5.5.0-5.5.1
-
         // Test the PHP version
         if (!function_exists('version_compare')) {
             // The user's PHP version is very old - it doesn't
