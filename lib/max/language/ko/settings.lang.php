@@ -119,17 +119,17 @@ $GLOBALS['strIgnoreHosts'] = "무시할 호스트";
 // Statistics & Maintenance Settings
 $GLOBALS['strAdminEmailHeaders'] = "�?��?� 광고 보고서�?� 발송�?�? 대한 정보를 메�?� 헤�?��? �?�함합니다.";
 $GLOBALS['strWarnLimit'] = "경고횟수 제한(Warn Limit)";
-$GLOBALS['strWarnAdmin'] = "관리�?�?게 경고를 알립니다.";
-$GLOBALS['strWarnClient'] = "광고주�?게 경고를 알립니다.";
-$GLOBALS['strWarnAgency'] = "광고주�?게 경고를 알립니다.";
+$GLOBALS['strWarnAdmin'] = "관리자에게 경고를 알립니다.";
+$GLOBALS['strWarnClient'] = "광고주에게 경고를 알립니다.";
+$GLOBALS['strWarnAgency'] = "광고주에게 경고를 알립니다.";
 
 // UI Settings
-$GLOBALS['strGuiSettings'] = "사용�? �?�터페�?�스 설정";
-$GLOBALS['strGeneralSettings'] = "�?�반 설정";
-$GLOBALS['strAppName'] = "�?�용 프로그램 �?�름";
+$GLOBALS['strGuiSettings'] = "사용자 인터페이스 설정";
+$GLOBALS['strGeneralSettings'] = "일반 설정";
+$GLOBALS['strAppName'] = "응용 프로그램 이름";
 $GLOBALS['strMyHeader'] = "내 머리글";
-$GLOBALS['strMyFooter'] = "내 바닥글";
-$GLOBALS['strGzipContentCompression'] = "컨�?트 GZIP 압축 사용";
+$GLOBALS['strMyFooter'] = "바닥글 파일 위치";
+$GLOBALS['strGzipContentCompression'] = "컨텐츠 GZIP 압축 사용";
 
 // Regenerate Platfor Hash script
 
