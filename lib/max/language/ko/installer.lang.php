@@ -69,6 +69,8 @@ $GLOBALS['strDbTimeZoneWarning'] = "<p>{$PRODUCT_NAME}의 이 버전은 시간�
                                                       데이터를 변경하지 않아도 통계 값은 정확히 유지됩니다.
                                                    </p>";
 $GLOBALS['strDbTimeZoneNoWarnings'] = "다음부터 표준 시간대 경고를 보지 않음";
+$GLOBALS['strDBInstallSuccess'] = "데이터베이스가 성공적으로 생성되었습니다";
+$GLOBALS['strDBUpgradeSuccess'] = "데이터베이스가 성공적으로 업그레이드 되었습니다.";
 
 $GLOBALS['strDetectedVersion'] = "{$PRODUCT_NAME} 버전 감지됨";
 
