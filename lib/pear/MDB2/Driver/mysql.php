@@ -387,7 +387,7 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
      */
     function connect()
     {
-        if (is_resource($this->connection)) {
+        if (is_resource_custom($this->connection)) {
             if (count(array_diff($this->connected_dsn, $this->dsn)) == 0
                 && $this->opened_persistent == $this->options['persistent']
                 && $this->connected_database_name == $this->database_name
@@ -397,7 +397,7 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
             $this->disconnect(false);
         }
 
-        if (!PEAR::loadExtension($this->phptype)) {
+        if (!function_exists('mysql_connect') and !PEAR::loadExtension($this->phptype)) {
             return $this->customRaiseError(MDB2_ERROR_NOT_FOUND, null, null,
                 'extension '.$this->phptype.' is not compiled into PHP', __FUNCTION__);
         }
@@ -576,7 +576,7 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
      */
     function disconnect($force = true)
     {
-        if (is_resource($this->connection)) {
+        if (is_resource_custom($this->connection)) {
             if ($this->in_transaction) {
                 $dsn = $this->dsn;
                 $database_name = $this->database_name;
@@ -1211,7 +1211,7 @@ class MDB2_Result_mysql extends MDB2_Result_Common
      */
     function free()
     {
-        if (is_resource($this->result) && $this->db->connection) {
+        if (is_resource_custom($this->result) && $this->db->connection) {
             $free = @mysql_free_result($this->result);
             if ($free === false) {
                 return $this->db->customRaiseError(null, null, null,
@@ -1349,15 +1349,15 @@ class MDB2_Statement_mysql extends MDB2_Statement_Common
                 }
                 $value = $this->values[$parameter];
                 $type = array_key_exists($parameter, $this->types) ? $this->types[$parameter] : null;
-                if (is_resource($value) || $type == 'clob' || $type == 'blob') {
-                    if (!is_resource($value) && preg_match('/^(\w+:\/\/)(.*)$/', $value, $match)) {
+                if (is_resource_custom($value) || $type == 'clob' || $type == 'blob') {
+                    if (!is_resource_custom($value) && preg_match('/^(\w+:\/\/)(.*)$/', $value, $match)) {
                         if ($match[1] == 'file://') {
                             $value = $match[2];
                         }
                         $value = @fopen($value, 'r');
                         $close = true;
                     }
-                    if (is_resource($value)) {
+                    if (is_resource_custom($value)) {
                         $data = '';
                         while (!@feof($value)) {
                             $data.= @fread($value, $this->db->options['lob_buffer_length']);

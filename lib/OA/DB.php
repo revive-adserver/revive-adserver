@@ -11,6 +11,7 @@
 */
 
 require_once MAX_PATH . '/lib/Max.php';
+require_once MAX_PATH . '/lib/OA/DB-MySQLWrapper.php';
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/DB/Charset.php';
 

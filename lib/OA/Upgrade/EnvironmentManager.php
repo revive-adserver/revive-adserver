@@ -31,7 +31,8 @@ define('OA_ENV_ERROR_PHP_SPL',                      -13);
 define('OA_ENV_ERROR_PHP_MBSTRING',                 -14);
 define('OA_ENV_WARNING_MEMORY',                     -15);
 
-require_once MAX_PATH.'/lib/OA/DB.php';
+require_once MAX_PATH . '/lib/OA/DB-MySQLWrapper.php';
+require_once MAX_PATH . '/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/Admin/Settings.php';
 require_once MAX_PATH . '/lib/OX/Admin/UI/Install/InstallUtils.php';
 
@@ -159,7 +160,7 @@ class OA_Environment_Manager
         $aResult['zlib']                 = extension_loaded('zlib');
         // some users have the mysqli extension and not the mysql, some have both
         // only a problem if they don't have mysql extension (until we handle mysqli)
-        $aResult['mysql']                = extension_loaded('mysql');
+        $aResult['mysql']                = (extension_loaded('mysql') or function_exists('mysql_connect'));
         $aResult['pgsql']                = extension_loaded('pgsql');
         $aResult['spl']                  = extension_loaded('spl');
         // Check mbstring.func_overload
