@@ -189,7 +189,6 @@ phpAds_PageHeader('account-settings-index', $oHeaderModel);
 // This page depends on deliveryCacheStore plugins, so use the plugin
 // information from earlier to generate the elements for the plugins
 // which is required in the next section
-
 $aCacheStoresSelect = array();
 foreach ($aDeliveryCacheStores as $pluginKey => $oCacheStore) {
     $aCacheStoresSelect[$oCacheStore->getComponentIdentifier()] = $oCacheStore->getName();
@@ -203,13 +202,15 @@ $aDeliveryCacheSettings = array (
             'check'   => 'wholeNumber'
         ),
     array (
-            'type'    => 'break'
+            'type'    => 'break',
+            'visible' => !empty($aCacheStoresSelect)
         ),
     array (
             'type'  => 'select',
             'name'  => 'delivery_cacheStorePlugin',
             'text'  => $strDeliveryCacheStore,
-            'items' => $aCacheStoresSelect
+            'items'   => $aCacheStoresSelect,
+            'visible' => !empty($aCacheStoresSelect)
         )
 );
 

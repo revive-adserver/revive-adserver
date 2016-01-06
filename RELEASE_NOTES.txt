@@ -57,6 +57,9 @@ What's New in Revive Adserver 3.3.0
    web server was running on a non-standard port.
  * Fixed an issue with saving some banner targeting data longer than 255
    characters when using the XML-RPC API.
+ * Fixed a display issue an extra break line being shown in the
+   Global Settings > Banner Delivery Settings page when no delivery cache store
+   plugins are enabled.
 
  Non-Backwards Compatible Changes
  --------------------------------
