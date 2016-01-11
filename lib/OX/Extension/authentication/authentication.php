@@ -19,7 +19,7 @@ require_once MAX_PATH . '/lib/pear/HTML/QuickForm/Rule/Email.php';
 Language_Loader::load('settings');
 
 /**
- * Plugins_Authentication is an parent class for Authentication plugins
+ * Plugins_Authentication is a parent class for Authentication plugins
  *
  * @package    OpenXPlugin
  * @subpackage Authentication
@@ -442,17 +442,6 @@ class Plugins_Authentication extends OX_Component
     {
         $doUsers->email_address = $emailAddress;
         $doUsers->email_updated = $doUsers->formatDate(new Date());
-        return true;
-    }
-
-    /**
-     * Delete unverified accounts. Used by cas
-     *
-     * @param OA_Maintenance $oMaintenance
-     * @return boolean
-     */
-    function deleteUnverifiedUsers(&$oMaintenance)
-    {
         return true;
     }
 

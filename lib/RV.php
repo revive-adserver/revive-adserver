@@ -30,6 +30,21 @@ class RV
         return $GLOBALS['_MAX']['CONF'];
     }
 
+    /**
+     * A method to strip unwanted ending tags from a Revive Adsaerver version
+     * string.
+     *
+     * @static
+     * @param string $version The original version string.
+     * @param array  $aAllow  An array of allowed tags
+     * @return string The stripped version string.
+     */
+    static function stripVersion($version, $aAllow = null)
+    {
+        $allow = is_null($aAllow) ? '' : '|'.join('|', $aAllow);
+        return preg_replace('/^v?(\d+.\d+.\d+(?:-(?:beta(?:-rc\d+)?|rc\d+'.$allow.'))?).*$/i', '$1', $version);
+    }
+
 }
 
 ?>

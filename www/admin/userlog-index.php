@@ -252,7 +252,12 @@ if ($showPublishers) {
     $oTpl->assign('aZone',              $aZone);
 }
 
-$oTpl->assign('aAuditEnabled',      OA::getConfigOption('audit', 'enabled', false));
+$audit = false;
+if (isset($GLOBALS['_MAX']['CONF']['audit']['enabled'])) {
+    $audit = $GLOBALS['_MAX']['CONF']['audit']['enabled'];
+}
+
+$oTpl->assign('aAuditEnabled',      $audit);
 $oTpl->assign('aAuditData',         $aAuditData);
 $oTpl->assign('aPeriodPreset',      $aPeriodPreset);
 $oTpl->assign('context',            $context);

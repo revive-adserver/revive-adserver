@@ -42,23 +42,22 @@ define('OA_STATUS_CAN_UPGRADE',            10);
 require_once 'MDB2.php';
 require_once 'MDB2/Schema.php';
 
-require_once MAX_PATH.'/lib/OA.php';
-require_once MAX_PATH.'/lib/OA/DB.php';
-require_once MAX_PATH.'/lib/OA/DB/Charset.php';
-require_once MAX_PATH.'/lib/OA/Dal/ApplicationVariables.php';
-require_once(MAX_PATH.'/lib/OA/Upgrade/UpgradeLogger.php');
-require_once(MAX_PATH.'/lib/OA/Upgrade/DB_Upgrade.php');
-require_once(MAX_PATH.'/lib/OA/Upgrade/UpgradeAuditor.php');
-require_once(MAX_PATH.'/lib/OA/Upgrade/DB_UpgradeAuditor.php');
-require_once(MAX_PATH.'/lib/OA/Upgrade/UpgradePackageParser.php');
-require_once(MAX_PATH.'/lib/OA/Upgrade/VersionController.php');
-require_once MAX_PATH.'/lib/OA/Upgrade/EnvironmentManager.php';
-require_once MAX_PATH.'/lib/OA/Upgrade/phpAdsNew.php';
-require_once(MAX_PATH.'/lib/OA/Upgrade/Configuration.php');
-require_once MAX_PATH.'/lib/OA/Upgrade/DB_Integrity.php';
-
+require_once MAX_PATH . '/lib/OA.php';
+require_once MAX_PATH . '/lib/OA/DB.php';
+require_once MAX_PATH . '/lib/OA/DB/Charset.php';
+require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
+require_once MAX_PATH . '/lib/OA/Upgrade/UpgradeLogger.php';
+require_once MAX_PATH . '/lib/OA/Upgrade/DB_Upgrade.php';
+require_once MAX_PATH . '/lib/OA/Upgrade/UpgradeAuditor.php';
+require_once MAX_PATH . '/lib/OA/Upgrade/DB_UpgradeAuditor.php';
+require_once MAX_PATH . '/lib/OA/Upgrade/UpgradePackageParser.php';
+require_once MAX_PATH . '/lib/OA/Upgrade/VersionController.php';
+require_once MAX_PATH . '/lib/OA/Upgrade/EnvironmentManager.php';
+require_once MAX_PATH . '/lib/OA/Upgrade/phpAdsNew.php';
+require_once MAX_PATH . '/lib/OA/Upgrade/Configuration.php';
+require_once MAX_PATH . '/lib/OA/Upgrade/DB_Integrity.php';
 require_once MAX_PATH . '/lib/OA/Preferences.php';
-
+require_once MAX_PATH . '/lib/RV.php';
 
 /**
  * @package    OpenXUpgrade Class
@@ -2611,7 +2610,7 @@ class OA_Upgrade
      */
     function getUpgradePackageList($verPrev, $aVersions=null)
     {
-        $verPrev = OA::stripVersion($verPrev);
+        $verPrev = RV::stripVersion($verPrev);
         $aFiles = array();
         if (is_array($aVersions))
         {

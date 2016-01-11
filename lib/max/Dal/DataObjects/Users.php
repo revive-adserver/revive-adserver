@@ -200,30 +200,6 @@ class DataObjects_Users extends DB_DataObjectCommon
     }
 
     /**
-     * This method should be called when a user claims existing sso account
-     * and it turns out that the sso account he wants to use is already linked
-     * to existing user. In such case all accounts and permissions
-     * from his partial account should be relinked to his existing account.
-     *
-     * @param integer $fromUserId
-     * @param integer $toUserId
-     * @return boolean
-     */
-    function relinkAccounts($existingUserId, $partialUserId)
-    {
-        $existingAccountIds = $this->getLinkedAccountsIds($existingUserId);
-        $partialAccountIds = $this->getLinkedAccountsIds($partialUserId);
-        $newAccounts = array_diff($partialAccountIds, $existingAccountIds);
-        foreach ($newAccounts as $newAccountId) {
-            if (!OA_Permission::setAccountAccess($newAccountId, $existingUserId)) {
-                return false;
-            }
-        }
-        return $this->addUserPermissions($existingUserId,
-            $this->getUsersPermissions($partialUserId));
-    }
-
-    /**
      * Sets on the user account accounts/permissions.
      *
      * @param integer $userId
@@ -288,30 +264,6 @@ class DataObjects_Users extends DB_DataObjectCommon
         $doAccount_user_assoc = OA_Dal::factoryDO('account_user_assoc');
         $doAccount_user_assoc->user_id = $userId;
         return $doAccount_user_assoc->getAll('account_id');
-    }
-
-    /**
-     * Deletes users who are not linked with any sso account, never logged
-     * in and their account was created before deleteUnverifiedUsersAfter days.
-     * Where deleteUnverifiedUsersAfter is defined in config in
-     * "authentication" section.
-     *
-     * @return boolean
-     */
-    function deleteUnverifiedUsers($deleteOlderThanSeconds = null)
-    {
-        if (empty($deleteOlderThanSeconds)) {
-            // by default 28 days
-            $deleteOlderThanSeconds = OA::getConfigOption('authentication',
-                'deleteUnverifiedUsersAfter', 2419200);
-        }
-        $monthAgo = new Date();
-        $monthAgo->subtractSeconds($deleteOlderThanSeconds);
-
-        $this->whereAdd('date_created < \'' . $this->formatDate($monthAgo).'\'');
-        $this->whereAdd('sso_user_id IS NULL');
-        $this->whereAdd('date_last_login IS NULL');
-        return $this->delete(DB_DATAOBJECT_WHEREADD_ONLY);
     }
 
     /**
