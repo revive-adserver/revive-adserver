@@ -685,9 +685,9 @@ class OA_Dll_Zone extends OA_Dll
                 $maxInvocation = new MAX_Admin_Invocation();
 
                 // factory plugin for this $codetype
-                OA::disableErrorHandling();
+                RV::disableErrorHandling();
                 $invocationTag = OX_Component::factoryByComponentIdentifier($codeType);
-                OA::enableErrorHandling();
+                RV::enableErrorHandling();
                 if($invocationTag === false) {
                     $this->raiseError('Error while factory invocationTag plugin');
                     return false;

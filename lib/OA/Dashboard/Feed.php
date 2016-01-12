@@ -61,10 +61,10 @@ class OA_Dashboard_Widget_Feed extends OA_Dashboard_Widget
     function display()
     {
         if (!$this->oTpl->is_cached()) {
-            OA::disableErrorHandling();
+            RV::disableErrorHandling();
             $oRss = new XML_RSS($this->url);
             $result = $oRss->parse();
-            OA::enableErrorHandling();
+            RV::enableErrorHandling();
 
             // ignore bad character error which could appear if rss is using invalid characters
             if (PEAR::isError($result)) {

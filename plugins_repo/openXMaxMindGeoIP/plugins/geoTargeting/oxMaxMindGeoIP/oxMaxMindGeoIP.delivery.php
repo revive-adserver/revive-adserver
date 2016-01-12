@@ -34,6 +34,7 @@ function Plugin_geoTargeting_oxMaxMindGeoIP_oxMaxMindGeoIP_Delivery_getGeoInfo($
 
     if ($conf['deliveryLog']['enabled'])
     {
+        require_once RV_PATH . '/lib/RV.php';
         require_once MAX_PATH . '/lib/OA.php';
         OA::switchLogIdent('delivery');
     }

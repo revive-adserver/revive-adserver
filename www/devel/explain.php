@@ -17,7 +17,7 @@ require_once MAX_PATH . '/lib/OA/DB.php';
 function parseLogFile()
 {
     $oDbh = &OA_DB::singleton();
-    OA::disableErrorHandling();
+    RV::disableErrorHandling();
 
     $fpsql = fopen(MAX_PATH."/var/sql.log", 'r');
     if (!$fpsql)
@@ -94,7 +94,7 @@ function parseLogFile()
         fclose($fpmqp);
 
     }
-    OA::enableErrorHandling();
+    RV::enableErrorHandling();
     return $aResult;
 }
 

@@ -10,6 +10,8 @@
 +---------------------------------------------------------------------------+
 */
 
+require_once RV_PATH . '/lib/RV.php';
+
 require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/DB/Charset.php';
@@ -152,9 +154,9 @@ class OA_DB
             }
 
             // Create the new database connection
-            OA::disableErrorHandling();
+            RV::disableErrorHandling();
             $oDbh = MDB2::singleton($dsn, $aOptions);
-            OA::enableErrorHandling();
+            RV::enableErrorHandling();
             if (PEAR::isError($oDbh)) {
                 return $oDbh;
             }
@@ -176,9 +178,9 @@ class OA_DB
                 }
             }
 
-            OA::disableErrorHandling();
+            RV::disableErrorHandling();
             $success = $oDbh->connect();
-            OA::enableErrorHandling();
+            RV::enableErrorHandling();
             if (PEAR::isError($success)) {
                 return $success;
             }
@@ -390,13 +392,13 @@ class OA_DB
         if (PEAR::isError($oDbh)) {
             return $oDbh;
         }
-        OA::disableErrorHandling();
+        RV::disableErrorHandling();
         $result = $oDbh->manager->validateDatabaseName($name);
-        OA::enableErrorHandling();
+        RV::enableErrorHandling();
         if (PEAR::isError($result)) {
             return $result;
         }
-        OA::disableErrorHandling();
+        RV::disableErrorHandling();
         // ideally this quote identifier would be global
         // but there are problems with MAX_Dal_Common
         if ($oDbh->dsn['phptype'] == 'mysql')
@@ -412,7 +414,8 @@ class OA_DB
         {
             $quote = '';
             $oDbh->setOption('quote_identifier', $quote);
-        }        OA::enableErrorHandling();
+        }
+        RV::enableErrorHandling();
         if (PEAR::isError($result)) {
             return $result;
         }
@@ -468,9 +471,9 @@ class OA_DB
 
         // Check if the language has been loaded.
         $query = "SELECT COUNT(*) FROM pg_catalog.pg_language WHERE lanname = '$lang'";
-        OA::disableErrorHandling();
+        RV::disableErrorHandling();
         $result = $oDbh->queryOne($query);
-        OA::enableErrorHandling();
+        RV::enableErrorHandling();
         if (PEAR::isError($result)) {
             return $result;
         } elseif ($result) {
@@ -485,9 +488,9 @@ class OA_DB
             $query = "CREATE FUNCTION plpgsql_call_handler() RETURNS language_handler AS '\$libdir/plpgsql' LANGUAGE C; ";
             $query .= "CREATE LANGUAGE plpgsql HANDLER plpgsql_call_handler;";
         }
-        OA::disableErrorHandling();
+        RV::disableErrorHandling();
         $result = $oDbh->exec($query);
-        OA::enableErrorHandling();
+        RV::enableErrorHandling();
         if (PEAR::isError($result)) {
             return $result;
         }
@@ -507,9 +510,9 @@ class OA_DB
     {
         $dsn = OA_DB::_getDefaultDsn();
         $oDbh = OA_DB::singleton($dsn);
-        OA::disableErrorHandling();
+        RV::disableErrorHandling();
         $result = $oDbh->manager->dropDatabase($name);
-        OA::enableErrorHandling();
+        RV::enableErrorHandling();
         if (PEAR::isError($result)) {
             return false;
         }
@@ -587,29 +590,29 @@ class OA_DB
                 // No need to deal with schemas
                 return true;
             }
-            OA::disableErrorHandling();
+            RV::disableErrorHandling();
             $result = $oDbh->exec("SET search_path = '{$aConf['databasePgsql']['schema']}'");
-            OA::enableErrorHandling();
+            RV::enableErrorHandling();
             if (PEAR::isError($result)) {
                 // Schema not found, try to create it
-                OA::disableErrorHandling();
+                RV::disableErrorHandling();
                 $schema = $oDbh->quoteIdentifier($aConf['databasePgsql']['schema'], true);
                 $result = $oDbh->exec("CREATE SCHEMA {$schema}");
-                OA::enableErrorHandling();
+                RV::enableErrorHandling();
                 if (PEAR::isError($result)) {
                     // Schema was not created, return error
                     return $result;
                 }
-                OA::disableErrorHandling();
+                RV::disableErrorHandling();
                 $result = $oDbh->exec("SET search_path = '{$aConf['databasePgsql']['schema']}'");
-                OA::enableErrorHandling();
+                RV::enableErrorHandling();
                 if (PEAR::isError($result)) {
                     // Schema was created, but SET search_path failed...
                     return $result;
                 }
-                OA::disableErrorHandling();
+                RV::disableErrorHandling();
                 $result = OA_DB::createFunctions();
-                OA::enableErrorHandling();
+                RV::enableErrorHandling();
                 if (PEAR::isError($result)) {
                     // Could not create functions
                     return $result;
@@ -772,7 +775,7 @@ class OA_DB
             $result = false;
         }*/
         $result = true;
-        OA::disableErrorHandling();
+        RV::disableErrorHandling();
         $pattern = '/(?P<found>[\\x00-\\x23]|[\\x25-\\x29]|[\\x2a-\\x2f]|[\\x3a-\\x3f]|[\\x40]|[\\x5b-\\x5e]|[\\x60]|[\\x7b-\\x7e]|[\\x9c]|[\\xff])/U';
         if (preg_match($pattern, $name, $aMatches))
         {
@@ -781,18 +784,18 @@ class OA_DB
         }
         if (PEAR::isError($result))
         {
-            OA::enableErrorHandling();
+            RV::enableErrorHandling();
             $msg = 'Table names may not contain any of ! " # % & \' ( ) * + , - . \/ : ; < = > ? @ [ \\ ] ^ ` { | } ~ £ nor any non-printing characters';
             return $result;
         }
         $oDbh = OA_DB::singleton();
         if (PEAR::isError($oDbh))
         {
-            OA::enableErrorHandling();
+            RV::enableErrorHandling();
             return $oDbh;
         }
         $result = $oDbh->manager->validateTableName($name);
-        OA::enableErrorHandling();
+        RV::enableErrorHandling();
         if (PEAR::isError($result))
         {
             return $result;

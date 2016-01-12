@@ -10,11 +10,12 @@
 +---------------------------------------------------------------------------+
 */
 
+require_once RV_PATH . '/lib/RV.php';
+
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
 require_once MAX_PATH . '/lib/OA/Central.php';
-require_once MAX_PATH . '/lib/RV.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**

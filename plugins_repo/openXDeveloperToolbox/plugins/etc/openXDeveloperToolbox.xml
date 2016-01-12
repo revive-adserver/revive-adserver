@@ -9,7 +9,7 @@
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>license.txt</license>
     <description>Developer Toolbox for Revive Adserver</description>
-    <version>0.1.6</version>
+    <version>0.1.7</version>
     <type>extension</type>
 
     <install>

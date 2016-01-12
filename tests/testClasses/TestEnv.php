@@ -9,6 +9,7 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 */
+require_once RV_PATH . '/lib/RV.php';
 
 require_once MAX_PATH . '/lib/max/Dal/DataObjects/DB_DataObjectCommon.php';
 

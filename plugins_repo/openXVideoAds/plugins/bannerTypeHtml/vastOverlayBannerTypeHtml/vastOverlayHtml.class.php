@@ -17,6 +17,7 @@
  *    You should have received a copy of the GNU General Public License
  *    along with the plug-in.  If not, see <http://www.gnu.org/licenses/>.
  */
+require_once RV_PATH . '/lib/RV.php';
 
 require_once MAX_PATH . '/plugins/bannerTypeHtml/vastInlineBannerTypeHtml/common.php';
 require_once MAX_PATH . '/plugins/bannerTypeHtml/vastInlineBannerTypeHtml/commonAdmin.php';

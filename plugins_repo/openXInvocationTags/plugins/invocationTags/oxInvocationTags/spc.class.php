@@ -15,6 +15,8 @@
  * @subpackage InvocationTags
  */
 
+require_once RV_PATH . '/lib/RV.php';
+
 require_once MAX_PATH . '/lib/Max.php';
 require_once LIB_PATH . '/Extension/invocationTags/InvocationTags.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';

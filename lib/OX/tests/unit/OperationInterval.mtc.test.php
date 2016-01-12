@@ -10,6 +10,8 @@
 +---------------------------------------------------------------------------+
 */
 
+require_once RV_PATH . '/lib/RV.php';
+
 require_once MAX_PATH . '/lib/Max.php';
 
 require_once MAX_PATH . '/lib/OA.php';
@@ -41,7 +43,7 @@ class Test_OA_OperationIntveral extends UnitTestCase
      */
     function testCheckOperationIntervalValue()
     {
-        OA::disableErrorHandling();
+        RV::disableErrorHandling();
         for ($i = -1; $i <= 61; $i++) {
             $result = OX_OperationInterval::checkOperationIntervalValue($i);
             if (
@@ -65,7 +67,7 @@ class Test_OA_OperationIntveral extends UnitTestCase
             $result = OX_OperationInterval::checkOperationIntervalValue(120);
             $this->assertTrue(PEAR::isError($result));
         }
-        OA::enableErrorHandling();
+        RV::enableErrorHandling();
     }
 
     /**

@@ -10,6 +10,8 @@
 +---------------------------------------------------------------------------+
 */
 
+require_once RV_PATH . '/lib/RV.php';
+
 require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 
 require_once MAX_PATH . '/lib/OA.php';
@@ -118,7 +120,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         $this->assertEqual($aRow['updated_to'], '2006-10-05 11:59:59');
 
         // Test 3
-        OA::disableErrorHandling();
+        RV::disableErrorHandling();
         $oDbh =& OA_DB::singleton();
         $oDalMaintenanceCommon = new OA_Dal_Maintenance_Common();
         $result = $oDalMaintenanceCommon->setProcessLastRunInfo(
@@ -139,7 +141,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
             1
         );
         $this->assertFalse($result);
-        OA::enableErrorHandling();
+        RV::enableErrorHandling();
 
         // Test 4
         $result = $oDalMaintenanceCommon->setProcessLastRunInfo(
@@ -265,7 +267,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         $this->assertNull($result);
 
         // Test 3
-        OA::disableErrorHandling();
+        RV::disableErrorHandling();
         $result = $oDalMaintenanceCommon->getProcessLastRunInfo(
             'foo',
             array(),
@@ -293,7 +295,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
             )
         );
         $this->assertFalse($result);
-        OA::enableErrorHandling();
+        RV::enableErrorHandling();
 
         // Test 4
         $query = "

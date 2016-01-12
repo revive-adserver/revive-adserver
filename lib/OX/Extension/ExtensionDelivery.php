@@ -61,12 +61,9 @@ class OX_Extension_Delivery extends OX_Extension_Common
 
     function _cacheDeliveryHooks()
     {
-        //require_once MAX_PATH.'/lib/OA.php';
-        //OA::logMem('enter _cacheDeliveryHooks()');
         $aHooks = $this->getCachedComponentHooks();
         $this->_saveComponentHooks($aHooks);
         $this->_generateDeliveryHooksCacheFile($aHooks);
-        //OA::logMem('exit _cacheDeliveryHooks()');
     }
 
 

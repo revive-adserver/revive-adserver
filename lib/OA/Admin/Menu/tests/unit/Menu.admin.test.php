@@ -22,13 +22,13 @@ class Test_OA_Admin_Menu extends Test_OA_Admin_MenuTestCase
 {
     function setUp()
     {
-        OA::disableErrorHandling();
+        RV::disableErrorHandling();
     }
 
 
     function tearDown()
     {
-        OA::enableErrorHandling();
+        RV::enableErrorHandling();
     }
 
     function testSingleton()

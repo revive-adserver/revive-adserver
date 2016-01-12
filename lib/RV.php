@@ -21,6 +21,33 @@ class RV
 {
 
     /**
+     * A method to temporarily disable PEAR error handling by
+     * pushing a null error handler onto the top of the stack.
+     *
+     * @static
+     */
+    static function disableErrorHandling()
+    {
+        PEAR::pushErrorHandling(null);
+    }
+
+    /**
+     * A method to re-enable PEAR error handling by popping
+     * a null error handler off the top of the stack.
+     *
+     * @static
+     */
+    static function enableErrorHandling()
+    {
+        // Ensure this method only acts when a null error handler exists
+        $stack = &$GLOBALS['_PEAR_error_handler_stack'];
+        list($mode, $options) = $stack[sizeof($stack) - 1];
+        if (is_null($mode) && is_null($options)) {
+            PEAR::popErrorHandling();
+        }
+    }
+
+    /**
      * A method to get the Revive Adserver configuration file details.
      *
      * @static

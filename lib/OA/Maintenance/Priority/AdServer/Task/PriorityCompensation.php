@@ -10,6 +10,8 @@
 +---------------------------------------------------------------------------+
 */
 
+require_once RV_PATH . '/lib/RV.php';
+
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/Ad.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task.php';

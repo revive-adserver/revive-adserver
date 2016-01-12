@@ -10,6 +10,8 @@
 +---------------------------------------------------------------------------+
 */
 
+require_once RV_PATH . '/lib/RV.php';
+
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
 if(!isset($GLOBALS['_MAX']['FILES']['/lib/max/Delivery/common.php'])) {

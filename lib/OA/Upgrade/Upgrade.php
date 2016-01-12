@@ -42,6 +42,8 @@ define('OA_STATUS_CAN_UPGRADE',            10);
 require_once 'MDB2.php';
 require_once 'MDB2/Schema.php';
 
+require_once RV_PATH . '/lib/RV.php';
+
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/DB/Charset.php';
@@ -57,7 +59,6 @@ require_once MAX_PATH . '/lib/OA/Upgrade/phpAdsNew.php';
 require_once MAX_PATH . '/lib/OA/Upgrade/Configuration.php';
 require_once MAX_PATH . '/lib/OA/Upgrade/DB_Integrity.php';
 require_once MAX_PATH . '/lib/OA/Preferences.php';
-require_once MAX_PATH . '/lib/RV.php';
 
 /**
  * @package    OpenXUpgrade Class

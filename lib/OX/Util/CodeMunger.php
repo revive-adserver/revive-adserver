@@ -28,6 +28,8 @@ define('STATE_STD',             1);     # normal, copy input to output
 define('STATE_REQUIRE',         2);     # require found, wait to complete filename
 define('STATE_REQUIRE_ONCE',    3);     # require_once found, wait ...
 
+require_once RV_PATH . '/lib/RV.php';
+
 require_once MAX_PATH . '/lib/OX.php';
 
 /**

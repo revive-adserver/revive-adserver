@@ -42,9 +42,9 @@ if (OA_Dal_ApplicationVariables::set('platform_hash', $platformHash))
 {
     echo $GLOBALS['strNewPlatformHash'] ." ". $platformHash;
     $oSync = new RV_Sync();
-    OA::disableErrorHandling();
+    RV::disableErrorHandling();
     $oSync->checkForUpdates();
-    OA::enableErrorHandling();
+    RV::enableErrorHandling();
 } else {
     $this->oLogger->logError('Error inserting Platform Hash into database');
     echo $GLOBALS['strPlatformHashInsertingError'];

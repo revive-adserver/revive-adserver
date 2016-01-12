@@ -317,51 +317,6 @@ class OA
         return count($aResult) ? $aResult : false;
     }
 
-    /**
-    /**
-     * A method to temporarily disable PEAR error handling by
-     * pushing a null error handler onto the top of the stack.
-     *
-     * @static
-     */
-    static function disableErrorHandling()
-    {
-        PEAR::pushErrorHandling(null);
-    }
-
-    /**
-     * A method to re-enable PEAR error handling by popping
-     * a null error handler off the top of the stack.
-     *
-     * @static
-     */
-    static function enableErrorHandling()
-    {
-        // Ensure this method only acts when a null error handler exists
-        $stack = &$GLOBALS['_PEAR_error_handler_stack'];
-        list($mode, $options) = $stack[sizeof($stack) - 1];
-        if (is_null($mode) && is_null($options)) {
-            PEAR::popErrorHandling();
-        }
-    }
-
-    /**
-     * Returns the option from config or the default value if that option
-     * do not exist.
-     *
-     * @param string $section  Section name
-     * @param string $name     Option name
-     * @param string $default  Default value to return if the option we
-     *                         are looking for do not exist.
-     * @return string
-     */
-    static function getConfigOption($section, $name, $default = null)
-    {
-        if (isset($GLOBALS['_MAX']['CONF'][$section][$name])) {
-            return $GLOBALS['_MAX']['CONF'][$section][$name];
-        }
-        return $default;
-    }
 }
 ###END_STRIP_DELIVERY
 

@@ -752,9 +752,9 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
                 {$prefix}zones.delivery = " . $this->oDbh->quote(MAX_ZoneEmail, 'integer') . "
             ORDER BY
                 zone_id";
-        OX::disableErrorHandling();
+        RV::disableErrorHandling();
         $rsResult = $this->oDbh->query($sQuery);
-        OX::enableErrorHandling();
+        RV::enableErrorHandling();
         if (PEAR::isError($rsResult)) {
             return $rsResult;
         }

@@ -23,12 +23,12 @@ class Test_OA_Admin_Menu_Section
 {
     function setUp()
     {
-        OA::disableErrorHandling();
+        RV::disableErrorHandling();
     }
 
     function tearDown()
     {
-        OA::enableErrorHandling();
+        RV::enableErrorHandling();
     }
 
 

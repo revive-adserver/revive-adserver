@@ -2514,9 +2514,9 @@ class OA_DB_Upgrade
                 campaignid
         ";
 
-        OX::disableErrorHandling();
+        RV::disableErrorHandling();
         $aResult = $this->oSchema->db->queryAll($query);
-        OX::enableErrorHandling();
+        RV::enableErrorHandling();
 
         if (!PEAR::isError($aResult) && count($aResult) > 0) {
             $warning = false;

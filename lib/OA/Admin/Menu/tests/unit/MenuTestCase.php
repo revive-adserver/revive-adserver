@@ -21,12 +21,12 @@ class Test_OA_Admin_MenuTestCase extends UnitTestCase
 
     function setUp()
     {
-        OA::disableErrorHandling();
+        RV::disableErrorHandling();
     }
 
     function tearDown()
     {
-        OA::enableErrorHandling();
+        RV::enableErrorHandling();
     }
 
     /**

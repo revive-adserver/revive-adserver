@@ -10,6 +10,8 @@
 +---------------------------------------------------------------------------+
 */
 
+require_once RV_PATH . '/lib/RV.php';
+
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/DB/XmlCache.php';
@@ -231,11 +233,11 @@ class OA_DB_Table
         }
         // Create the table
         OA::debug('Creating the ' . $tableName . ' table', PEAR_LOG_DEBUG);
-        OA::disableErrorHandling();
+        RV::disableErrorHandling();
         OA_DB::setCaseSensitive();
         $result = $this->oSchema->createTable($tableName, $this->aDefinition['tables'][$table], false, $aOptions);
         OA_DB::disableCaseSensitive();
-        OA::enableErrorHandling();
+        RV::enableErrorHandling();
         if (PEAR::isError($result) || (!$result)) {
             $showError = true;
             if ($this->temporary && $suppressTempTableError) {
@@ -332,9 +334,9 @@ class OA_DB_Table
         $aConf = $GLOBALS['_MAX']['CONF'];
         OA::debug('Checking for temporary table ' . $table, PEAR_LOG_DEBUG);
         $query = "SELECT * FROM ".$this->oDbh->quoteIdentifier($table,true);
-        OA::disableErrorHandling();
+        RV::disableErrorHandling();
         $result = $this->oDbh->exec($query);
-        OA::enableErrorHandling();
+        RV::enableErrorHandling();
         if (PEAR::isError($result)) {
             OA::debug('Temporary table exists ' . $table, PEAR_LOG_ERR);
             return false;
@@ -353,9 +355,9 @@ class OA_DB_Table
     function dropTable($table)
     {
         OA::debug('Dropping table ' . $table, PEAR_LOG_DEBUG);
-        OA::disableErrorHandling();
+        RV::disableErrorHandling();
         $result = $this->oDbh->manager->dropTable($table);
-        OA::enableErrorHandling();
+        RV::enableErrorHandling();
         if (PEAR::isError($result)) {
             OA::debug('Unable to drop table ' . $table, PEAR_LOG_ERR);
             return false;
@@ -406,18 +408,18 @@ class OA_DB_Table
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         OA::debug('Truncating table ' . $table, PEAR_LOG_DEBUG);
-        OA::disableErrorHandling();
+        RV::disableErrorHandling();
         $query = "TRUNCATE TABLE ".$this->oDbh->quoteIdentifier($table,true);
         $result = $this->oDbh->exec($query);
-        OA::enableErrorHandling();
+        RV::enableErrorHandling();
         if (PEAR::isError($result)) {
             OA::debug('Unable to truncate table ' . $table, PEAR_LOG_ERR);
             return false;
         }
         if ($aConf['database']['type'] == 'mysql') {
-            OA::disableErrorHandling();
+            RV::disableErrorHandling();
             $result = $this->oDbh->exec("ALTER TABLE $table AUTO_INCREMENT = 1" );
-            OA::enableErrorHandling();
+            RV::enableErrorHandling();
             if (PEAR::isError($result)) {
                 OA::debug('Unable to set mysql auto_increment to 1', PEAR_LOG_ERR);
                 return false;
@@ -473,9 +475,9 @@ class OA_DB_Table
                 {
                     $sequence.= '_seq';
                     OA::debug('Dropping sequence ' . $sequence, PEAR_LOG_DEBUG);
-                    OA::disableErrorHandling();
+                    RV::disableErrorHandling();
                     $result = $this->oDbh->exec("DROP SEQUENCE \"$sequence\"");
-                    OA::enableErrorHandling();
+                    RV::enableErrorHandling();
                     if (PEAR::isError($result))
                     {
                         OA::debug('Unable to drop the sequence ' . $sequence, PEAR_LOG_ERR);
@@ -502,7 +504,7 @@ class OA_DB_Table
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         OA::debug('Resetting sequence ' . $sequence, PEAR_LOG_DEBUG);
-        OA::disableErrorHandling(null);
+        RV::disableErrorHandling();
 
         if ($aConf['database']['type'] == 'pgsql') {
             if ($value < 1) {
@@ -513,7 +515,7 @@ class OA_DB_Table
 
             $sequence = $this->oDbh->quoteIdentifier($sequence,true);
             $result = $this->oDbh->exec("SELECT setval('$sequence', {$value}, false)");
-            OA::enableErrorHandling();
+            RV::enableErrorHandling();
             if (PEAR::isError($result)) {
                 OA::debug('Unable to reset sequence ' . $sequence, PEAR_LOG_ERR);
                 return false;
@@ -522,7 +524,7 @@ class OA_DB_Table
         else if ($aConf['database']['type'] == 'mysql')
         {
             $result = $this->oDbh->exec("ALTER TABLE {$GLOBALS['_MAX']['CONF']['table']['prefix']}{$sequence} AUTO_INCREMENT = 1");
-            OA::enableErrorHandling();
+            RV::enableErrorHandling();
             if (PEAR::isError($result)) {
                 OA::debug('Unable to reset auto increment on table ' . $sequence, PEAR_LOG_ERR);
                 return false;

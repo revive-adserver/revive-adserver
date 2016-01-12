@@ -9,7 +9,7 @@
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>license.txt</license>
     <description>Demo Extension for Revive Adserver</description>
-    <version>0.0.5</version>
+    <version>0.0.6</version>
     <type>extension</type>
 
     <install>

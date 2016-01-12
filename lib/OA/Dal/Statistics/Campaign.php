@@ -337,9 +337,9 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
                 AND b.campaignid = " . $campaignId . "
             ";
 
-        OX::disableErrorHandling();
+        RV::disableErrorHandling();
         $rsResult = $this->oDbh->query($query);
-        OX::enableErrorHandling();
+        RV::enableErrorHandling();
 
         $aResult = array();
         while (($row = $rsResult->fetchRow())) {

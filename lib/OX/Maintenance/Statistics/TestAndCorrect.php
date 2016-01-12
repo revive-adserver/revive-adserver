@@ -153,9 +153,9 @@ class OX_Maintenance_Statistics_TestAndCorrect
                 intermediate_conversions < summary_conversions
             ORDER BY
                 date_time";
-        OX::disableErrorHandling();
+        RV::disableErrorHandling();
         $rsResult = $this->oDbh->query($sQuery);
-        OX::enableErrorHandling();
+        RV::enableErrorHandling();
         if (PEAR::isError($rsResult)) {
             $message = "\n    Database error while searching for invalid data:\n    " . $rsResult->getMessage() . "\n    Cannot detect issues, so will not attepmt any corrections.\n";
             echo $message;
@@ -206,9 +206,9 @@ class OX_Maintenance_Statistics_TestAndCorrect
                         impressions,
                         clicks,
                         conversions";
-                OX::disableErrorHandling();
+                RV::disableErrorHandling();
                 $rsInnerResult = $this->oDbh->query($sInnerQuery);
-                OX::enableErrorHandling();
+                RV::enableErrorHandling();
                 if (PEAR::isError($rsInnerResult)) {
                     $message = "                Error while selecting duplicate rows, please re-run script later!\n";
                     echo $message;
@@ -253,9 +253,9 @@ class OX_Maintenance_Statistics_TestAndCorrect
                             $message = "                    " . $message . ";\n";
                             echo $message;
                         } else {
-                            OX::disableErrorHandling();
+                            RV::disableErrorHandling();
                             $rsDeleteResult = $this->oDbh->exec($sDeleteQuery);
-                            OX::enableErrorHandling();
+                            RV::enableErrorHandling();
                             if (PEAR::isError($rsDeleteResult)) {
                                 $message = "                Error while deleting a duplicate row, please re-run script later!\n";
                                 echo $message;
@@ -345,9 +345,9 @@ class OX_Maintenance_Statistics_TestAndCorrect
                 intermediate_conversions > summary_conversions
             ORDER BY
                 date_time";
-        OX::disableErrorHandling();
+        RV::disableErrorHandling();
         $rsResult = $this->oDbh->query($sQuery);
-        OX::enableErrorHandling();
+        RV::enableErrorHandling();
         if (PEAR::isError($rsResult)) {
             $message = "\n    Database error while searching for invalid data:\n    " . $rsResult->getMessage() . "\n    Cannot detect issues, so will not attepmt any corrections.\n";
             echo $message;
@@ -433,9 +433,9 @@ class OX_Maintenance_Statistics_TestAndCorrect
                     intermediate_conversions > summary_conversions
                 ORDER BY
                     date_time, ad_id, zone_id";
-            OX::disableErrorHandling();
+            RV::disableErrorHandling();
             $rsInnerResult = $this->oDbh->query($sInnerQuery);
-            OX::enableErrorHandling();
+            RV::enableErrorHandling();
             if (PEAR::isError($rsInnerResult)) {
                 $message = "                Error while selecting unsummarised rows, please re-run script later!\n";
                 echo $message;
@@ -478,9 +478,9 @@ class OX_Maintenance_Statistics_TestAndCorrect
                     $message = "                    " . $message . ";\n";
                     echo $message;
                 } else {
-                    OX::disableErrorHandling();
+                    RV::disableErrorHandling();
                     $rsUpdateResult = $this->oDbh->exec($sUpdateQuery);
-                    OX::enableErrorHandling();
+                    RV::enableErrorHandling();
                     if (PEAR::isError($rsUpdateResult)) {
                         $message = "                Error while updating an incomplete row, please re-run script later!\n";
                         echo $message;

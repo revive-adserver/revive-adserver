@@ -167,9 +167,9 @@ class OA_Version_Controller
 
     function _runQuery($query)
     {
-        OA::disableErrorHandling();
+        RV::disableErrorHandling();
         $result = $this->oDbh->queryOne($query);
-        OA::enableErrorHandling();
+        RV::enableErrorHandling();
         if (PEAR::isError($result))
         {
             return false;
@@ -179,9 +179,9 @@ class OA_Version_Controller
 
     function _execQuery($query)
     {
-        OA::disableErrorHandling();
+        RV::disableErrorHandling();
         $result = $this->oDbh->exec($query);
-        OA::enableErrorHandling();
+        RV::enableErrorHandling();
         if (PEAR::isError($result))
         {
             return false;

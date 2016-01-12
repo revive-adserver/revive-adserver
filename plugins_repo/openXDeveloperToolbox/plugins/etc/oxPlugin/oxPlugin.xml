@@ -9,7 +9,7 @@
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>license.txt</license>
     <description>Plugin Builder Plugin for Revive Adserver</description>
-    <version>0.1.6</version>
+    <version>0.1.7</version>
     <oxversion>3.2.0-beta-rc3</oxversion>
     <extends>admin</extends>
 

@@ -72,9 +72,9 @@ You will also find out how to make this script work by reading the comments. :-)
 /***************************************************************************/
 
 // Initialise the script
-OX::disableErrorHandling();
+RV::disableErrorHandling();
 $result = OX_OperationInterval::checkOperationIntervalValue(OX_OperationInterval::getOperationInterval());
-OX::enableErrorHandling();
+RV::enableErrorHandling();
 if (PEAR::isError($result)) {
     $message = "\nThe operation interval in your OpenX configuration file is not valid. Please see the OpenX\ndocumentation for more details on valid operation interval values.\n";
     echo $message;

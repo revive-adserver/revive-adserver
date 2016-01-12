@@ -10,10 +10,11 @@
 +---------------------------------------------------------------------------+
 */
 
+require_once RV_PATH . '/lib/RV.php';
+
 require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/max/Dal/Common.php';
 require_once MAX_PATH . '/lib/OA.php';
-
 
 require_once OX_PATH . '/lib/OX.php';
 require_once LIB_PATH . '/OperationInterval.php';

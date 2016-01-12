@@ -684,9 +684,9 @@ function processCampaignForm($form, &$oComponent = null)
         $dalCampaigns = OA_Dal::factoryDAL('campaigns');
         $aCurrentLinkedEmalZoneIds = $dalCampaigns->getLinkedEmailZoneIds($aFields['campaignid']);
         if (PEAR::isError($aCurrentLinkedEmalZoneIds)) {
-            OX::disableErrorHandling();
+            RV::disableErrorHandling();
             $errors[] = PEAR::raiseError($GLOBALS['strErrorDBPlain']);
-            OX::enableErrorHandling();
+            RV::enableErrorHandling();
         }
         $errors = array();
         foreach ($aCurrentLinkedEmalZoneIds as $zoneId) {

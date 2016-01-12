@@ -51,7 +51,7 @@ class OA_UpgradePostscript_2_5_67_RC8
                                 $qField = $this->oDbh->quoteIdentifier($fieldName, true);
                                 $qOldSequence = $this->oDbh->quoteIdentifier($oldSequenceName, true);
                                 $qNewSequence = $this->oDbh->quoteIdentifier($newSequenceName, true);
-                                OA::disableErrorHandling();
+                                RV::disableErrorHandling();
                                 $result = $this->oDbh->exec("ALTER TABLE {$qOldSequence} RENAME TO {$qNewSequence}");
                                 if (PEAR::isError($result)) {
                                     if ($result->getCode() == MDB2_ERROR_ALREADY_EXISTS) {
@@ -72,7 +72,7 @@ class OA_UpgradePostscript_2_5_67_RC8
                                     $this->logError("Could not set column default to sequence {$newSequenceName}: ".$result->getUserInfo());
                                     return false;
                                 }
-                                OA::enableErrorHandling();
+                                RV::enableErrorHandling();
                                 $result = $oTable->resetSequenceByData($tableName, $fieldName);
                                 if (PEAR::isError($result)) {
                                     $this->logError("Could not reset sequence value for {$newSequenceName}: ".$result->getUserInfo());

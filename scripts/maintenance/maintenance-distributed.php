@@ -21,6 +21,8 @@ $path = dirname(__FILE__);
 require_once $path . '/../../init.php';
 
 // Required files
+require_once RV_PATH . '/lib/RV.php';
+
 require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/OX/Maintenance/Distributed.php';
 
