@@ -11,9 +11,9 @@
 */
 
 /**
- * This file is only called to redirect to somewhere else, however, if Openads
- * is not yet installed, we need to know that it was this file that was called,
- * so set a global variable.
+ * This file is only called to redirect to somewhere else, however, if Revive
+ * Adserver is not yet installed, we need to know that it was this file that
+ * was called, so set a global variable.
  */
 define('ROOT_INDEX', true);
 
@@ -24,8 +24,7 @@ require_once 'init.php';
 require_once LIB_PATH . '/Admin/Redirect.php';
 
 // Redirect to the admin interface
-//if ($conf['openads']['installed'])
-if (OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED)
+if (RV_INSTALLATION_STATUS == RV_INSTALLATION_STATUS_INSTALLED)
 {
     OX_Admin_Redirect::redirect();
 }

@@ -98,8 +98,7 @@ function phpAds_SessionDataRegister($key, $value='')
 {
     $conf = $GLOBALS['_MAX']['CONF'];
 	global $session;
-    //if ($conf['openads']['installed'])
-    if (OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED)
+    if (RV_INSTALLATION_STATUS == RV_INSTALLATION_STATUS_INSTALLED)
     {
 		phpAds_SessionStart();
 	}
@@ -110,8 +109,7 @@ function phpAds_SessionDataRegister($key, $value='')
 	} else {
 		$session[$key] = $value;
 	}
-    //if ($conf['openads']['installed'])
-    if (OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED)
+    if (RV_INSTALLATION_STATUS == RV_INSTALLATION_STATUS_INSTALLED)
     {
 	   phpAds_SessionDataStore();
 	}
@@ -159,7 +157,7 @@ function phpAds_SessionDataDestroy()
 
 function phpAds_SessionGetToken()
 {
-    if (OA_INSTALLATION_STATUS != OA_INSTALLATION_STATUS_INSTALLED) {
+    if (RV_INSTALLATION_STATUS != RV_INSTALLATION_STATUS_INSTALLED) {
         return false;
     }
     global $session;

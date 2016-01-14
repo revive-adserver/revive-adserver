@@ -29,17 +29,15 @@ function setupConstants()
 
     // Deprecated constants for backwards compatibility. Please use the ones above
     define('OA_VERSION', VERSION);
-    define('MAX_PRODUCT_NAME', PRODUCT_NAME);
-    define('MAX_PRODUCT_URL', PRODUCT_URL);
     define('OX_PRODUCT_DOCSURL', PRODUCT_DOCSURL);
 
-    define('OA_INSTALLATION_STATUS_NOTINSTALLED' ,   -1);
-    define('OA_INSTALLATION_STATUS_UPGRADING'    ,    0);
-    define('OA_INSTALLATION_STATUS_INSTALLED'    ,    1);
+    define('RV_INSTALLATION_STATUS_NOTINSTALLED' ,   -1);
+    define('RV_INSTALLATION_STATUS_UPGRADING'    ,    0);
+    define('RV_INSTALLATION_STATUS_INSTALLED'    ,    1);
 
     define('OA_AD_DIRECT_ENABLED', false);
 
-    //campaign types
+    // Campaign types
     define('OX_CAMPAIGN_TYPE_REMNANT', 1);
     define('OX_CAMPAIGN_TYPE_CONTRACT_NORMAL', 2);
     define('OX_CAMPAIGN_TYPE_OVERRIDE', 3);
