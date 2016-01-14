@@ -8,7 +8,7 @@
     <author>Revive Adserver</author>
     <authorEmail>revive@revive-adserver.com</authorEmail>
     <authorUrl>http://www.revive-adserver.com</authorUrl>
-    <license>GNU Gneral Public License v2</license>
+    <license>LICENSE.txt</license>
     <description>Plugin that provides standard reports.</description>
     <version>1.5.5</version>
     <oxversion>3.2.0-beta-rc3</oxversion>

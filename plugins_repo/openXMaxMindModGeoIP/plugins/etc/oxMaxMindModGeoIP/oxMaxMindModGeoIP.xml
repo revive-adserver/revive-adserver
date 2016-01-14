@@ -7,7 +7,7 @@
     <author>Revive Adserver</author>
     <authorEmail>revive@revive-adserver.com</authorEmail>
     <authorUrl>http://www.revive-adserver.com</authorUrl>
-    <license>GPL</license>
+    <license>LICENSE.txt</license>
     <description>Plugin that provides MaxMind GeoIP Geotargeting via mod_geoip.</description>
     <version>1.0.4</version>
     <oxversion>3.2.0-beta-rc3</oxversion>

@@ -7,7 +7,7 @@
     <author>Revive Adserver</author>
     <authorEmail>noreply@revive-adserver.com</authorEmail>
     <authorUrl>http://www.revive-adserver.com</authorUrl>
-    <license>license.txt</license>
+    <license>LICENSE.txt</license>
     <description>Demo Extension for Revive Adserver</description>
     <version>0.0.6</version>
     <type>extension</type>

@@ -3,10 +3,10 @@
 <plugin>
     <name>openXDeliveryLogCountry</name>
     <creationDate>2008-06-10</creationDate>
-    <author>OpenX</author>
-    <authorEmail>plugins@openx.org</authorEmail>
-    <authorUrl>http://www.openx.org</authorUrl>
-    <license>GPL</license>
+    <author>Revive Adserver</author>
+    <authorEmail>revive@revive-adserver.com</authorEmail>
+    <authorUrl>http://www.revive-adserver.com</authorUrl>
+    <license>LICENSE.txt</license>
     <description>Delivery Log Country Plugin</description>
     <version>1.0.3-dev</version>
     <type>extension</type>

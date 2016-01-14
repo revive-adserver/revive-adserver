@@ -8,7 +8,7 @@
     <author>Revive Adserver</author>
     <authorEmail>revive@revive-adserver.com</authorEmail>
     <authorUrl>http://www.revive-adserver.com</authorUrl>
-    <license>GNU Gneral Public License v2</license>
+    <license>LICENSE.txt</license>
     <description>Standard delivery logging plugin for OpenX</description>
     <version>1.1.2</version>
     <type>extension</type>

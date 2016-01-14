@@ -4,9 +4,9 @@
 <upgrade>
     <name>demoBannerTypeHtml</name>
     <creationDate>2007-06-17</creationDate>
-    <author>Openads Devs</author>
-    <authorEmail>support@openads.org</authorEmail>
-    <authorUrl>http://www.openx.org</authorUrl>
+    <author>Revive Adserver</author>
+    <authorEmail>revive@revive-adserver.com</authorEmail>
+    <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>LICENSE.txt</license>
     <description>Upgrade for demoBannerTypeHtml plugin for OpenX</description>
     <versionFrom>0.0.1</versionFrom>
