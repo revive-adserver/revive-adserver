@@ -25,11 +25,14 @@ error_reporting(E_ALL & ~(E_NOTICE | E_WARNING | E_DEPRECATED | E_STRICT));
 
 echo "=> STARTING TO RE-COMPILE THE DELIVERY ENGINE FILES\n";
 
-// Set the MAX_PATH constant (this assumes that the script is located in
-// MAX_PATH . '/scripts'
+// Set the RV_PATH constant (this assumes that the script is located in
+// RV_PATH . '/scripts'
+define('RV_PATH', dirname(dirname(dirname(__FILE__))));
+define('LIB_PATH', RV_PATH . '/lib/OX');
+
+// Historical path constants still not refactored away
 define('MAX_PATH', dirname(dirname(dirname(__FILE__))));
 define('OX_PATH',  dirname(dirname(dirname(__FILE__))));
-define('LIB_PATH', MAX_PATH.'/lib/OX');
 
 $ignored_files = array('template.php');
 
@@ -45,9 +48,9 @@ function get_microtime()
 }
 
 // Source folder for the file to be processed
-$input_dir  = MAX_PATH . '/www/delivery_dev/';
+$input_dir  = RV_PATH . '/www/delivery_dev/';
 // Destination folder for the compiled scripts
-$output_dir = MAX_PATH . '/www/delivery/';
+$output_dir = RV_PATH . '/www/delivery/';
 
 $start_time = get_microtime();
 
