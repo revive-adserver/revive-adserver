@@ -169,11 +169,6 @@ function setupConstants()
     // data, before pruning, where a fixed retention value is appriopriate
     define('OA_MAINTENANCE_FIXED_PRUNING', 30);
 
-    // LegalAgreement Plugin Types
-    define('LEGALAGREEMENT_PLUGIN_PRE',         0);
-    define('LEGALAGREEMENT_PLUGIN_POST_DENY',   1);
-    define('LEGALAGREEMENT_PLUGIN_POST_ACCEPT', 2);
-
     define('MAX_LIMITATION_EQUAL', 0);
     define('MAX_LIMITATION_NOT_EQUAL', 1);
     define('MAX_LIMITATION_BITWISE', 2);
