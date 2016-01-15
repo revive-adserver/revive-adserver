@@ -26,7 +26,7 @@ error_reporting(E_ALL & ~(E_NOTICE | E_WARNING | E_DEPRECATED | E_STRICT));
 echo "=> STARTING TO RE-COMPILE THE DELIVERY ENGINE FILES\n";
 
 // Set the RV_PATH constant (this assumes that the script is located in
-// RV_PATH . '/scripts'
+// RV_PATH . '/scripts/delivery'
 define('RV_PATH', dirname(dirname(dirname(__FILE__))));
 define('LIB_PATH', RV_PATH . '/lib/OX');
 
