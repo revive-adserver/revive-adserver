@@ -210,7 +210,7 @@ function MAX_adRenderImageBeacon($logUrl, $beaconId = 'beacon', $userAgent = nul
         $style = " style='width: 0px; height: 0px;'";
         $divEnd = '</div>';
     }
-        $beacon = "$div<img src='".htmlspecialchars($logUrl)."' width='0' height='0' alt=''{$style} />{$divEnd}";
+        $beacon = "$div<img src='".htmlspecialchars($logUrl, ENT_QUOTES)."' width='0' height='0' alt=''{$style} />{$divEnd}";
         return $beacon;
 }
 
@@ -249,7 +249,7 @@ function _adRenderImage(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=fal
     if (!empty($clickUrl)) {  // There is a link
         $status = _adRenderBuildStatusCode($aBanner);
         //$target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
-        $clickTag = "<a href='$clickUrl' target='{target}'$status>";
+        $clickTag = "<a href='".htmlspecialchars($clickUrl, ENT_QUOTES)."' target='{target}'$status>";
         $clickTagEnd = '</a>';
     } else {
         $clickTag = '';
@@ -261,7 +261,7 @@ function _adRenderImage(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=fal
         $width = !empty($aBanner['width']) ? $aBanner['width'] : 0;
         $height = !empty($aBanner['height']) ? $aBanner['height'] : 0;
         $alt = !empty($aBanner['alt']) ? htmlspecialchars($aBanner['alt'], ENT_QUOTES) : '';
-        $imageTag = "$clickTag<img src='$imageUrl' width='$width' height='$height' alt='$alt' title='$alt' border='0'$imgStatus />$clickTagEnd";
+        $imageTag = "$clickTag<img src='".htmlspecialchars($imageUrl, ENT_QUOTES)."' width='$width' height='$height' alt='$alt' title='$alt' border='0'$imgStatus />$clickTagEnd";
     } else {
         $imageTag = '';
     }
@@ -324,7 +324,7 @@ function _adRenderFlash(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=fal
         $status = _adRenderBuildStatusCode($aBanner);
         $target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
         $swfParams = array('clickTARGET' => $target, 'clickTAG' => $clickUrl);
-        $clickTag = "<a href='$clickUrl' target='$target'$status>";
+        $clickTag = "<a href='".htmlspecialchars($clickUrl, ENT_QUOTES)."' target='$target'$status>";
         $clickTagEnd = '</a>';
     } else {
         $swfParams = array();
