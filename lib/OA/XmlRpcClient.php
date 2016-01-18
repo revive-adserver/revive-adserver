@@ -40,8 +40,8 @@ class OA_XML_RPC_Client extends XML_RPC_Client
             $this->hasOpenssl = in_array('openssl', $aExtensions);
         }
 
-        $this->verifyPeer = false;
-        $this->caFile     = MAX_PATH . '/etc/curl-ca-bundle.crt';
+        $this->verifyPeer = true;
+        $this->caFile     = RV_PATH . '/etc/curl-ca-bundle.crt';
         parent::__construct($path, $server, $port);
     }
 

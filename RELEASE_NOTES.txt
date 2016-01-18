@@ -34,6 +34,8 @@ What's New in Revive Adserver 3.3.0
  Bug Fixes
  ---------
 
+ * Fixed an issue with Revive Adserver failing to connect correctly to the
+   sync service, which advises users about upgrades to the product.
  * Pop-up and pop-under windows with only the X or Y axis opening position set
    will now open correctly with that axis position (it is no longer necessary
    to set a value for both axes).
