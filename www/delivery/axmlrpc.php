@@ -3097,6 +3097,9 @@ OX_Delivery_Common_hook('postInit');
 
 setupIncludePath();
 
+require_once RV_PATH . '/lib/RV.php';
+
+
 
 
 
@@ -4473,18 +4476,6 @@ $absolutes[] = $part;
 }
 }
 return implode(DIRECTORY_SEPARATOR, $absolutes);
-}
-function disableErrorHandling()
-{
-PEAR::pushErrorHandling(null);
-}
-function enableErrorHandling()
-{
-$stack = &$GLOBALS['_PEAR_error_handler_stack'];
-list($mode, $options) = $stack[sizeof($stack) - 1];
-if (is_null($mode) && is_null($options)) {
-PEAR::popErrorHandling();
-}
 }
 }
 
