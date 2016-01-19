@@ -9,7 +9,7 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 */
-
+// ABC
 require('./www/delivery/ajs.php');
 
 ?>
