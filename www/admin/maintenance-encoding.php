@@ -105,6 +105,8 @@ $aTableFields = array(
 );
 
 if (!empty($_POST['encConfirm'])) {
+    OA_Permission::checkSessionToken();
+
     _iterateTableFields($aTableFields, true);
     Header("Location: maintenance-maintenance.php");
 }
@@ -201,6 +203,7 @@ if (!empty($_POST['encTest'])) {
         }
     }
     echo "</table><br />";
+    echo "<input type='hidden' name='token' value='".htmlspecialchars(phpAds_SessionGetToken(), ENT_QUOTES)."' />";
     echo "<input type='submit' name='encConfirm' value='{$GLOBALS['strConvert']}' /> <input type='button' name='encCancel' value='{$GLOBALS['strCancel']}' onclick='javascript:document.location = \"" . $_SERVER['SCRIPT_NAME'] . "\";' />";
 }
 

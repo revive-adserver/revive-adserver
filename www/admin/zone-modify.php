@@ -32,6 +32,7 @@ OA_Permission::enforceAccessToObject('zones', $zoneid);
 /*-------------------------------------------------------*/
 
 if (isset($zoneid) && $zoneid != '') {
+    OA_Permission::checkSessionToken();
 
     if (isset($newaffiliateid) && $newaffiliateid != '') {
         // A publisher cannot move a zone to another publisher!

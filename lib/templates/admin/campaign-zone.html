@@ -13,6 +13,7 @@
 
 <form id="zoneLinkingForm">
 <div id="campaign-zone" class="new-form">
+  <input id="csrf-token" type="hidden" value="{$csrfToken|escape}" />
   <input id="advertiser-id" type="hidden" value="{$advertiserId}" />
   <input id="campaign-id" type="hidden" value="{$campaignId}" />
 
@@ -213,6 +214,7 @@
     }
 
     var postData = {
+      "token": $("#csrf-token").val(),
       "clientid": $("#advertiser-id").val(),
       "campaignid": $("#campaign-id").val(),
       "text-linked": quickSearchLinked,
@@ -237,6 +239,9 @@
         if (!checkReload(data)) {
           updatePanel(data, "available");
           updatePanel(data, "linked");
+
+          // Refresh token
+          $("#csrf-token").val(extractPart(data, "value", "token"));
 
 	        $("#linking-status").html(extractPart(data, "info", "result")).stop().show().css("opacity", "1");
 	        if (window.linkingTimout) {

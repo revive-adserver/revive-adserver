@@ -99,6 +99,8 @@ $oUpgrader->initDatabaseConnection();
 
 if (array_key_exists('btn_clean_audit', $_POST))
 {
+    OA_Permission::checkSessionToken();
+
     $upgrade_id = $_POST['upgrade_action_id'];
     $oUpgrader->oAuditor->cleanAuditArtifacts($upgrade_id);
 }
@@ -295,6 +297,7 @@ if (count($aMessages)>0)
                         </table>
                     </td>
                     <input type="hidden" name="upgrade_action_id" value="<?php echo $v['upgrade_action_id']; ?>" />
+                    <input type="hidden" name="token" value="<?php echo htmlspecialchars(phpAds_SessionGetToken()); ?>" />
                 </tr>
               </form>
                 <tr height='1'><td colspan='7' bgcolor='#888888'><img src='<?php echo OX::assetPath() ?>/images/break.gif' height='1' width='100%'></td></tr>

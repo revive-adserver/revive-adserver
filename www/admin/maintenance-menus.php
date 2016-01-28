@@ -40,6 +40,8 @@ echo "<br /><br />";
 
 if (!empty($action))
 {
+    OA_Permission::checkSessionToken();
+
     switch ($action)
     {
         case 'build':
@@ -53,7 +55,7 @@ if (!empty($action))
 }
 
 phpAds_ShowBreak();
-echo "<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-menus.php?action=build'>Rebuild Menu Cache</a>&nbsp;&nbsp;";
+echo "<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-menus.php?action=build&amp;token=".urlencode(phpAds_SessionGetToken())."'>Rebuild Menu Cache</a>&nbsp;&nbsp;";
 phpAds_ShowBreak();
 
 

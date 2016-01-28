@@ -117,7 +117,7 @@ function phpAds_showBanners()
 echo "<br />";
 
 // Show recalculate button
-echo "<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-priority-calculate.php'>$strRecalculatePriority</a>&nbsp;&nbsp;";
+echo "<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-priority-calculate.php?token=".urlencode(phpAds_SessionGetToken())."'>$strRecalculatePriority</a>&nbsp;&nbsp;";
 echo "<br /><br />";
 phpAds_ShowBreak();
 

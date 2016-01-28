@@ -40,6 +40,8 @@ phpAds_registerGlobal('action', 'returnurl');
 
 if (!empty($action))
 {
+    OA_Permission::checkSessionToken();
+
     switch ($action)
     {
         case 'rep':
@@ -116,19 +118,21 @@ if (!empty($action))
     }
 }
 
+$token = 'token='.urlencode(phpAds_SessionGetToken()).'&amp;';
+
 phpAds_ShowBreak();
-echo "<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-plugins.php?action=hook'>Rebuild Component Hooks Cache</a>&nbsp;&nbsp;";
+echo "<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-plugins.php?{$token}action=hook'>Rebuild Component Hooks Cache</a>&nbsp;&nbsp;";
 phpAds_ShowBreak();
-echo "<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-plugins.php?action=pref'>Rebuild Preferences List</a>&nbsp;&nbsp;";
+echo "<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-plugins.php?{$token}action=pref'>Rebuild Preferences List</a>&nbsp;&nbsp;";
 phpAds_ShowBreak();
-echo "<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-plugins.php?action=reg'>Rebuild Delivery Hooks Cache</a>&nbsp;&nbsp;";
+echo "<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-plugins.php?{$token}action=reg'>Rebuild Delivery Hooks Cache</a>&nbsp;&nbsp;";
 phpAds_ShowBreak();
-echo "<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-plugins.php?action=rep'>Plugin Report</a>&nbsp;&nbsp;";
+echo "<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-plugins.php?{$token}action=rep'>Plugin Report</a>&nbsp;&nbsp;";
 phpAds_ShowBreak();
-echo "<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-plugins.php?action=exp'>Export All Plugins</a>&nbsp;&nbsp;";
+echo "<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-plugins.php?{$token}action=exp'>Export All Plugins</a>&nbsp;&nbsp;";
 phpAds_ShowBreak();
 
-/*echo "<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-plugins.php?action=dep'>Check Dependencies</a>&nbsp;&nbsp;";
+/*echo "<img src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-plugins.php?{$token}action=dep'>Check Dependencies</a>&nbsp;&nbsp;";
 phpAds_ShowBreak();*/
 if ($oTpl)
 {
