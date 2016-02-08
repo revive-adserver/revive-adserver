@@ -1,8 +1,6 @@
 # Revive Adserver
 #### The world's most popular free, open source ad serving system
 
-[![Gitter](https://badges.gitter.im/Join%20The%20Developers%20Chat.svg)](https://gitter.im/revive-adserver/revive-adserver?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 **Revive Adserver is an open source ad serving tool** that enables publishers to:
 
 * Serve ads on their websites;
