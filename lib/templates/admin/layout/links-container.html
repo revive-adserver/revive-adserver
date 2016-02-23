@@ -20,7 +20,7 @@
         		<li>
         			{if $aLinks[linkLoop].type == 'link'}
             			{if $aLinks[linkLoop].icon}<img src='{$assetPath}/images/{$aLinks[linkLoop].icon}' align='absmiddle' alt=''>{/if}
-            			<a href='{$aLinks[linkLoop].url}' {if $aLinks[linkLoop].iconClass}class='inlineIcon {$aLinks[linkLoop].iconClass}'{/if} {if $aLinks[linkLoop].accesskey}accesskey='{$aLinks[linkLoop].accesskey}'{/if} {$aLinks[linkLoop].extraAttr}>{$aLinks[linkLoop].title}</a>
+                        <a href='{$aLinks[linkLoop].url|escape}' {if $aLinks[linkLoop].iconClass}class='inlineIcon {$aLinks[linkLoop].iconClass}'{/if} {if $aLinks[linkLoop].accesskey}accesskey='{$aLinks[linkLoop].accesskey}'{/if} {$aLinks[linkLoop].extraAttr}>{$aLinks[linkLoop].title}</a>
         			{elseif $aLinks[linkLoop].type == 'form'}
             			{if $aLinks[linkLoop].icon}<img src='{$assetPath}/images/{$aLinks[linkLoop].icon}' align='absmiddle' alt=''>{/if}
             			<label {if $aLinks[linkLoop].iconClass}class='inlineIcon {$aLinks[linkLoop].iconClass}'{/if}>{$aLinks[linkLoop].title}</label>

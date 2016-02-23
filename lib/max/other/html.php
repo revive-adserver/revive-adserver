@@ -192,7 +192,8 @@ function MAX_displayNoStatsMessage()
 function _getHtmlHeaderColumn($title, $name, $pageName, $entityIds, $listorder, $orderdirection, $showColumn = true)
 {
     $str = '';
-    $entity = _getEntityString($entityIds);
+    $entity = htmlspecialchars(_getEntityString($entityIds), ENT_QUOTES);
+    $pageName = htmlspecialchars($pageName, ENT_QUOTES);
     if ($listorder == $name) {
         if (($orderdirection == '') || ($orderdirection == 'down')) {
             $str = "<a href='$pageName?{$entity}orderdirection=up'><img src='" . OX::assetPath() . "/images/caret-ds.gif' border='0' alt='' title=''></a>";
@@ -200,7 +201,7 @@ function _getHtmlHeaderColumn($title, $name, $pageName, $entityIds, $listorder, 
             $str = "<a href='$pageName?{$entity}orderdirection=down'><img src='" . OX::assetPath() . "/images/caret-u.gif' border='0' alt='' title=''></a>";
         }
     }
-    return $showColumn ? "<b><a href='$pageName?{$entity}listorder=$name'>$title</a>$str</b>" : '';
+    return $showColumn ? "<b><a href='$pageName?{$entity}listorder=".urlencode($name)."'>$title</a>$str</b>" : '';
 }
 
 function _getEntityString($entityIds)
@@ -209,9 +210,9 @@ function _getEntityString($entityIds)
     if (!empty($entityIds)) {
         $entityArr = array();
         foreach ($entityIds as $entityId => $entityValue) {
-            $entityArr[] = "$entityId=$entityValue";
+            $entityArr[] = "$entityId=".urlencode($entityValue);
         }
-        $entity = implode('&',$entityArr) . '&';
+        $entity = implode('&', $entityArr) . '&';
     }
 
     return $entity;
