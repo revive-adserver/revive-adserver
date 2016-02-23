@@ -1,6 +1,6 @@
 --------------------------------------------------------------------------------
 
-Revive Adserver is Copyright (c) 2013-2015 Revive Software and Services BV
+Revive Adserver is Copyright (c) 2013-2016 Revive Software and Services BV
 
  - http://www.revive-sas.com/
 
