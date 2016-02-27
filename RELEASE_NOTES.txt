@@ -38,24 +38,34 @@ What's New in Revive Adserver 3.2.3
  * Pop-up and pop-under windows with only the X or Y axis opening position set
    will now open correctly with that axis position (it is no longer necessary
    to set a value for both axes).
- * Asynchronous javascript invocation no longer triggers JS errors on
+
+ * Asynchronous Javascript invocation no longer triggers JS errors on
    unsupported browsers (e.g. IE8).
- * Asynchronous javascript invocation now works even when fl.js has been
+
+ * Asynchronous Javascript invocation now works even when fl.js has been
    renamed.
- * Asynchronous javascript invocation was triggering an error when displaying a
+
+ * Asynchronous Javascript invocation was triggering an error when displaying a
    banner with <script> tag(s) nested in other elements (e.g. inside a <div>).
+
  * Fixed an issue with email validation for new users not accepting the
    user+ext@example.com format.
- * Fixed an issue with the "Alter HTML" feature that was not playing nice with
+
+ * Fixed an issue with the "Alter HTML" feature that was not working with
    e.g. <article> tags when wrapping links.
+
  * Fixed an issue with append being rendered twice for SWF banners with a
    fallback image.
- * Fixed the example XML-RPC api client class to properly work with SSL and
+
+ * Fixed the example XML-RPC API client class to properly work with SSL and
    non-standard ports.
+
  * Fixed an issue with conversion variable logging through non standard
    plugins.
+
  * Fixed an issue with the UI session cookie not being set properly when the
-   web server was runing on a non-standard port.
+   web server was running on a non-standard port.
+
  * Fixed an issue with the password recovery form sending emails to all the
    registered users at once.
 
