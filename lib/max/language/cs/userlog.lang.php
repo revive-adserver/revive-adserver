@@ -21,6 +21,7 @@ $GLOBALS['strDelete'] = "Smazat";
 $GLOBALS['strAdvertiser'] = "Inzerent";
 $GLOBALS['strCampaign'] = "Skrytá kampaň";
 $GLOBALS['strZone'] = "Zóna";
+$GLOBALS['strType'] = "Typ";
 $GLOBALS['strAction'] = "Akce";
 $GLOBALS['strValue'] = "Hodnota";
 

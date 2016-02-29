@@ -24,7 +24,7 @@ msgstr ""
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Time//Day.class.php:68
 msgid "Day of week"
-msgstr ""
+msgstr "Den v týdnu"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Time//Date.class.php:79
 msgid "Date"
