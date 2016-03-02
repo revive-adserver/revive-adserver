@@ -32,7 +32,11 @@ What's New in Revive Adserver 3.3.0
  Bug Fixes
  ---------
 
- * None
+ * Fixed an issue with the Linked Zones screen in the banner section triggering
+   a permissions error upon submit.
+
+ * Fixed an issue with banner (de)activation not working and triggering a
+   permissions error instead.
 
  Non-Backwards Compatible Changes
  --------------------------------
