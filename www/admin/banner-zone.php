@@ -31,8 +31,6 @@ OA_Permission::enforceAccessToObject('clients',   $clientid);
 OA_Permission::enforceAccessToObject('campaigns', $campaignid);
 OA_Permission::enforceAccessToObject('banners',   $bannerid);
 
-OA_Permission::checkSessionToken();
-
 /*-------------------------------------------------------*/
 /* Store preferences									 */
 /*-------------------------------------------------------*/
@@ -59,6 +57,8 @@ phpAds_SessionDataStore();
     // Process submitted form
     if (isset($submit))
     {
+        OA_Permission::checkSessionToken();
+
         $dalZones       = OA_Dal::factoryDAL('zones');
         $prioritise     = false;
         $error          = false;
