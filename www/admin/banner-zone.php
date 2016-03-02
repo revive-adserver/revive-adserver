@@ -148,7 +148,8 @@ phpAds_SessionDataStore();
 <form name='zones' action='$pageName' method='post'>
 <input type='hidden' name='clientid' value='$advertiserId'>
 <input type='hidden' name='campaignid' value='$campaignId'>
-<input type='hidden' name='bannerid' value='$bannerId'>";
+<input type='hidden' name='bannerid' value='$bannerId'>
+<input type='hidden' name='token' value='".htmlspecialchars(phpAds_SessionGetToken(), ENT_QUOTES)."'>";
 
     MAX_displayZoneHeader($pageName, $listorder, $orderdirection, $aEntities);
 
