@@ -273,51 +273,52 @@ class OA_Admin_Statistics_History
      *                                    that are available.
      * @return array The array, as described above.
      */
-    function getDatesArray($aDates, $breakdown, $oStatsStartDate)
+    public function getDatesArray($aDates, $breakdown, $oStatsStartDate)
     {
+        $now = new DateTime();
         // Does the day span selector element have dates set?
         if (($aDates['day_begin'] && $aDates['day_end']) || ($aDates['period_start'] && $aDates['period_end'])) {
             if ($aDates['day_begin'] && $aDates['day_end']) {
                 // Use the dates given by the day span selector element
-                $oStartDate = new Date($aDates['day_begin']);
-                $oEndDate   = new Date($aDates['day_end']);
+                $oStartDate = new DateTime($aDates['day_begin']);
+                $oEndDate   = new DateTime($aDates['day_end']);
             } else {
                 // Use the dates given by the period_start and period_end
-                $oStartDate = new Date($aDates['period_start']);
-                $oEndDate   = new Date($aDates['period_end']);
+                $oStartDate = new DateTime($aDates['period_start']);
+                $oEndDate   = new DateTime($aDates['period_end']);
             }
             // Adjust end date to be now, if it's in the future
-            if ($oEndDate->isFuture()) {
-                $oEndDate = new Date();
+            if ($oEndDate > $now) {
+                $oEndDate = $now;
                 $aDates['day_end'] = date('Y-m-d');
             }
         } else {
             // Use the dates given by the statistics date limitation
             // and now
-            $oStartDate = new Date($oStatsStartDate);
-            $oEndDate   = new Date(date('Y-m-d'));
+            $oStartDate = new DateTime($oStatsStartDate);
+            $oEndDate   = $now;
         }
         // Prepare the return array
         $aDatesResult = array();
         switch ($breakdown) {
             case 'week' :
             case 'day' :
-                $oOneDaySpan = new Date_Span('1', '%d');
-                $oEndDate->addSpan($oOneDaySpan);
-                $oDate = new Date($oStartDate);
-                while ($oDate->before($oEndDate)) {
-                    $aDatesResult[$oDate->format('%Y-%m-%d')] = $oDate->format($GLOBALS['date_format']);
-                    $oDate->addSpan($oOneDaySpan);
+                $oOneDaySpan = new DateInterval('P1D');
+                $oEndDate->add($oOneDaySpan);
+                $oDate = clone $oStartDate;
+                $date_format = str_replace('%','',$GLOBALS['date_format']);
+                while ($oDate < $oEndDate) {
+                    $aDatesResult[$oDate->format('Y-m-d')] = $oDate->format($date_format);
+                    $oDate->add($oOneDaySpan);
                 }
                 break;
             case 'month' :
-                $oOneMonthSpan = new Date_Span((string)($oEndDate->getDaysInMonth() - $oEndDate->getDay() + 1), '%d');
-                $oEndDate->addSpan($oOneMonthSpan);
-                $oDate = new Date($oStartDate);
-                while ($oDate->before($oEndDate)) {
-                    $aDatesResult[$oDate->format('%Y-%m')] = $oDate->format($GLOBALS['month_format']);
-                    $oOneMonthSpan = new Date_Span((string)($oDate->getDaysInMonth() - $oDate->getDay() + 1), '%d');
-                    $oDate->addSpan($oOneMonthSpan);
+                $oEndDate->add(new DateInterval('P'.((int)$oEndDate->format('t') - (int)$oEndDate->format('j') + 1).'D'));
+                $oDate = clone $oStartDate;
+                $month_format = str_replace('%','',$GLOBALS['month_format']);
+                while ($oDate < $oEndDate) {
+                    $aDatesResult[$oDate->format('Y-m')] = $oDate->format($month_format);
+                    $oDate->add(new DateInterval('P'.((int)$oDate->format('t') - (int)$oDate->format('j') + 1).'D'));
                 }
                 break;
             case 'dow' :
