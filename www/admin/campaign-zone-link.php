@@ -38,6 +38,8 @@ $campaignId = $GLOBALS['campaignid'];
 OA_Permission::enforceAccount ( OA_ACCOUNT_MANAGER );
 OA_Permission::enforceAccessToObject ( 'campaigns', $campaignid );
 
+OA_Permission::checkSessionToken();
+
 $aZonesIds = array();
 $aZonesIdsHash = array();
 foreach ($_REQUEST['ids'] as $zone) {
@@ -103,4 +105,5 @@ switch ($action) {
 };
 echo "<!--result-info-end-->";
 
-?>
+// CSRF Token
+echo "<!--token-value-start-->".phpAds_SessionGetToken()."<!--token-value-end-->";

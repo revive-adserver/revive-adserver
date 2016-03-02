@@ -25,7 +25,7 @@ class OA_Upgrade_Login
     function checkLogin()
     {
         // Clean up session
-        $GLOBALS['session'] = array();
+        phpAds_clearSession();
 
         // Detection needs to happen every time to make sure that database parameters are
         $oUpgrader = new OA_Upgrade();
@@ -93,6 +93,7 @@ class OA_Upgrade_Login
             $doUser->joinAdd($doAUA);
             $doUser->find();
             if ($doUser->fetch()) {
+                phpAds_SessionRegenerateId();
                 phpAds_SessionDataRegister(OA_Auth::getSessionData($doUser));
                 phpAds_SessionDataStore();
             }
@@ -106,6 +107,8 @@ class OA_Upgrade_Login
         $aCredentials = $oPlugin->_getCredentials(false);
 
         if (!PEAR::isError($aCredentials)) {
+            phpAds_SessionRegenerateId();
+
             $doUser = $oPlugin->checkPassword($aCredentials['username'], $aCredentials['password']);
 
             if ($doUser) {
@@ -140,6 +143,8 @@ class OA_Upgrade_Login
                 $aCredentials = $oPlugin->_getCredentials(false);
 
                 if (!PEAR::isError($aCredentials)) {
+                    phpAds_SessionRegenerateId();
+
                     if (strtolower($aPref['admin']) == strtolower($aCredentials['username']) &&
                         $aPref['admin_pw'] == md5($aCredentials['password']))
                     {

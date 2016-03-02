@@ -31,12 +31,13 @@ phpAds_registerGlobal('bannerid', 'campaignid', 'clientid', 'returnurl', 'duplic
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
 
-
 /*-------------------------------------------------------*/
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
 if (!empty($bannerid)) {
+    OA_Permission::checkSessionToken();
+
     OA_Permission::enforceAccessToObject('banners', $bannerid);
 
     if (!empty($moveto) && isset($moveto_x)) {

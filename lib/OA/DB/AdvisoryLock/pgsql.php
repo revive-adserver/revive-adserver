@@ -30,6 +30,7 @@ class OA_DB_AdvisoryLock_pgsql extends OA_DB_AdvisoryLock
     function _getLock($iWaitTime)
     {
         $aParams = unserialize($this->_sId);
+        $iWaitTime = (int)$iWaitTime;
 
         // Acquire lock
         $bAcquired = $this->oDbh->extended->getOne(
@@ -37,9 +38,19 @@ class OA_DB_AdvisoryLock_pgsql extends OA_DB_AdvisoryLock
             'boolean',
             $aParams
         );
-        while (!$bAcquired && $iWaitTime > 0) {
-            // TODO: Emulate waittime - don't know if it's really needed
-            break;
+
+        if (empty($bAcquired) && $iWaitTime > 0) {
+            $timeout = $this->oDbh->extended->getOne("SHOW statement_timeout");
+
+            $this->oDbh->exec("SET statement_timeout = '{$iWaitTime}s'");
+
+            $bAcquired = $this->oDbh->extended->getOne(
+                "SELECT pg_advisory_lock(?::int4, ?::int4)",
+                'boolean',
+                $aParams
+            );
+
+            $this->oDbh->exec("SET statement_timeout = '{$timeout}'");
         }
 
         return !PEAR::isError($bAcquired) && !empty($bAcquired);

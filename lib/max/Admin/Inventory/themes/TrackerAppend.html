@@ -13,7 +13,7 @@
 function MMM_trackerAction(action, id)
 {
     var f = document.getElementById('trackerAppendForm');
-    
+
     f.t_action.value = action;
     f.t_id.value = id;
     f.submit();
@@ -26,6 +26,7 @@ function MMM_trackerAction(action, id)
 <span class='tab-s'>You have unsaved changes on this page, make sure you press &quot;Save Changes&quot; when finished</span><br>
 </div>
 <form id="trackerAppendForm" class="section" method="post">
+    <input type="hidden" name="token" value="{csrf_token}" />
     <input type="hidden" name="clientid" value="{advertiser_id}" />
     <input type="hidden" name="trackerid" value="{tracker_id}" />
     <input type="hidden" name="t_action" />

@@ -170,12 +170,12 @@
                         {/if}
                         {if !$banner.active && $canActivate}
                         <li>
-                            <a href='banner-activate.php?clientid={$clientId}&amp;campaignid={$campaignId}&amp;bannerid={$bannerId}&amp;value=1' class='inlineIcon iconActivate'>{t str=Activate}</a>
+                            <a href='banner-activate.php?{rv_add_session_token}&amp;clientid={$clientId}&amp;campaignid={$campaignId}&amp;bannerid={$bannerId}&amp;value=1' class='inlineIcon iconActivate'>{t str=Activate}</a>
                         </li>
                         {/if}
                         {if $banner.active && $canDeactivate}
                         <li>
-                            <a href='banner-activate.php?clientid={$clientId}&amp;campaignid={$campaignId}&amp;bannerid={$bannerId}&amp;value=0' class='inlineIcon iconDeactivate'>{t str=Deactivate}</a>
+                            <a href='banner-activate.php?{rv_add_session_token}&amp;clientid={$clientId}&amp;campaignid={$campaignId}&amp;bannerid={$bannerId}&amp;value=0' class='inlineIcon iconDeactivate'>{t str=Deactivate}</a>
                         </li>
                         {/if}
                     </ul>

@@ -27,49 +27,17 @@ What's New in Revive Adserver 3.3.0
  New Features
  ------------
 
- * The campaign banner overview page now displays shortened URLs (when they are
-   very long) and displays a tool tip for the complete URL, to improve the
-   legibility of the page.
+ * None
 
  Bug Fixes
  ---------
 
- * Fixed an issue with Revive Adserver failing to connect correctly to the
-   sync service, which advises users about upgrades to the product.
- * Pop-up and pop-under windows with only the X or Y axis opening position set
-   will now open correctly with that axis position (it is no longer necessary
-   to set a value for both axes).
- * Asynchronous Javascript invocation no longer triggers JS errors on
-   unsupported browsers (e.g. IE8).
- * Asynchronous Javascript invocation now works even when fl.js has been
-   renamed.
- * Asynchronous Javascript invocation was triggering an error when displaying a
-   banner with <script> tag(s) nested in other elements (e.g. inside a <div>).
- * Fixed an issue with email validation for new users not accepting the
-   user+ext@example.com format.
- * Fixed an issue with the "Alter HTML" feature that was not playing nice with
-   e.g. <article> tags when wrapping links.
- * Fixed an issue with append being rendered twice for SWF banners with a
-   fallback image.
- * Fixed the example XML-RPC API client class to properly work with SSL and
-   non-standard ports.
- * Fixed an issue with conversion variable logging through non standard
-   plugins.
- * Fixed an issue with the UI session cookie not being set properly when the
-   web server was running on a non-standard port.
- * Fixed an issue with saving some banner targeting data longer than 255
-   characters when using the XML-RPC API.
- * Fixed a display issue an extra break line being shown in the
-   Global Settings > Banner Delivery Settings page when no delivery cache store
-   plugins are enabled.
+ * None
 
  Non-Backwards Compatible Changes
  --------------------------------
 
  * Revive Adserver now requires a minimum PHP version of 5.5.9.
-
- * Logging plugins that also deal with conversions and conversion variables
-   might require some additional testing.
 
 System Requirements
 -------------------

@@ -101,23 +101,23 @@ class OA_Admin_PasswordRecovery
      */
     function handlePost($vars)
     {
+        OA_Permission::checkSessionToken();
+
         $this->pageHeader();
         if (empty($vars['id'])) {
             if (empty($vars['email'])) {
                 $this->displayRecoveryRequestForm($GLOBALS['strEmailRequired']);
             } else {
-                $sent = $this->sendRecoveryEmail(stripslashes($vars['email']));
-                if ($sent) {
-                    $this->displayMessage($GLOBALS['strNotifyPageMessage']);
-                } else {
-                $this->displayRecoveryRequestForm($GLOBALS['strPwdRecEmailNotFound']);
-                }
+                $sent = $this->sendRecoveryEmail($vars['email']);
+
+                // Always pretend an email was sent, even if not to avoid information disclosure
+                $this->displayMessage($GLOBALS['strNotifyPageMessage']);
             }
         } else {
             if (empty($vars['newpassword']) || empty($vars['newpassword2']) || $vars['newpassword'] != $vars['newpassword2']) {
                 $this->displayRecoveryResetForm($vars['id'], $GLOBALS['strNotSamePasswords']);
             } elseif ($this->_dal->checkRecoveryId($vars['id'])) {
-                $userId = $this->_dal->saveNewPasswordAndLogin($vars['id'], stripslashes($vars['newpassword']));
+                $userId = $this->_dal->saveNewPasswordAndLogin($vars['id'], $vars['newpassword']);
                 OX_Admin_Redirect::redirect();
             } else {
                 $this->displayRecoveryRequestForm($GLOBALS['strPwdRecWrongId']);
@@ -154,6 +154,8 @@ class OA_Admin_PasswordRecovery
 
         echo "<form method='post' action='password-recovery.php'>\n";
 
+        echo "<input type='hidden' name='token' value='".phpAds_SessionGetToken()."'/>\n";
+
         echo "<div class='install'>".$GLOBALS['strPwdRecEnterEmail']."</div>";
         echo "<table cellpadding='0' cellspacing='0' border='0'>";
         echo "<tr><td colspan='2'><img src='" . OX::assetPath() . "/images/break-el.gif' width='400' height='1' vspace='8'></td></tr>";
@@ -179,6 +181,7 @@ class OA_Admin_PasswordRecovery
 
         echo "<form method='post' action='password-recovery.php'>\n";
         echo "<input type='hidden' name='id' value=\"".htmlspecialchars($id)."\" />";
+        echo "<input type='hidden' name='token' value='".phpAds_SessionGetToken()."'/>\n";
 
         echo "<div class='install'>".$GLOBALS['strPwdRecEnterPassword']."</div>";
         echo "<table cellpadding='0' cellspacing='0' border='0'>";

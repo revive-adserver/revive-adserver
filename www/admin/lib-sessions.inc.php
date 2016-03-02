@@ -30,28 +30,29 @@ require_once MAX_PATH . '/lib/max/Dal/Admin/Session.php';
 function phpAds_SessionDataFetch()
 {
     global $session;
-    $dal = new MAX_Dal_Admin_Session();
 
     // Guard clause: Can't fetch a session without an ID
-	if (empty($_COOKIE['sessionID'])) {
+    if (empty($_COOKIE['sessionID']) || !preg_match('#^[0-9a-f]{32}$#D', $_COOKIE['sessionID'])) {
         return;
     }
 
+    $dal = new MAX_Dal_Admin_Session();
     $serialized_session = $dal->getSerializedSession($_COOKIE['sessionID']);
 
-    // This is required because 'sessionID' cookie is set to new during logout.
-    // According to comments in the file it is because some servers do not
-    // support setting cookies during redirect.
-    if (empty($serialized_session)) {
+    // Return if the session was not found (expired or forged)
+    if (!$serialized_session) {
         return;
     }
 
     $loaded_session = unserialize($serialized_session);
-	if (!$loaded_session) {
-        // XXX: Consider raising an error
+
+    // Or if it can't be unserialized and/or is not a session we started
+    if (empty($loaded_session['__authentic__'])) {
         return;
     }
-	$session = $loaded_session;
+
+    $session = $loaded_session;
+
     $dal->refreshSession($_COOKIE['sessionID']);
 }
 
@@ -75,19 +76,73 @@ function phpAds_SessionSetAdminCookie($name, $value)
 }
 
 /*-------------------------------------------------------*/
-/* Create a new sessionid                                */
+/* Start a new session                                   */
 /*-------------------------------------------------------*/
 
 function phpAds_SessionStart()
 {
 	global $session;
-	if (empty($_COOKIE['sessionID'])) {
-		$session = array();
-		$_COOKIE['sessionID'] = md5(uniqid('phpads', 1));
 
-        phpAds_SessionSetAdminCookie('sessionID', $_COOKIE['sessionID']);
+	if (empty($_COOKIE['sessionID'])) {
+		phpAds_clearSession();
+
+        $sessionId = phpAds_SessionGenerateId();
+
+        $dal = new MAX_Dal_Admin_Session();
+        $dal->storeSerializedSession(serialize($session), $sessionId);
 	}
+
 	return $_COOKIE['sessionID'];
+}
+
+/*-------------------------------------------------------*/
+/* Generate a sessionid                                  */
+/*-------------------------------------------------------*/
+
+function phpAds_SessionGenerateId()
+{
+    $_COOKIE['sessionID'] = md5(uniqid('phpads', 1));
+
+    phpAds_SessionSetAdminCookie('sessionID', $_COOKIE['sessionID']);
+
+    return $_COOKIE['sessionID'];
+}
+
+/*-------------------------------------------------------*/
+/* Re-generate the sessionid                             */
+/*-------------------------------------------------------*/
+
+function phpAds_SessionRegenerateId()
+{
+    global $session;
+
+    $dal = new MAX_Dal_Admin_Session();
+
+    if (!empty($_COOKIE['sessionID'])) {
+        $dal->deleteSession($_COOKIE['sessionID']);
+    }
+
+    if (!empty($session['__authentic__'])) {
+        $sessionId = phpAds_SessionGenerateId();
+        $dal->storeSerializedSession(serialize($session), $sessionId);
+
+        return $sessionId;
+    }
+
+    unset($_COOKIE['sessionID']);
+
+    return phpAds_SessionStart();
+}
+
+/*-------------------------------------------------------*/
+/* Clear the session and mark it as authentic            */
+/*-------------------------------------------------------*/
+
+function phpAds_clearSession()
+{
+    $GLOBALS['session'] = array(
+        '__authentic__' => true,
+    );
 }
 
 /*-------------------------------------------------------*/

@@ -63,7 +63,7 @@
         </label>
       </td>
       <td class="link">
-          <a title="{t str=EditWebsite} {$website.name}" class="website-icon" href="affiliate-edit.php?affiliateid={$websiteid}">&nbsp;</a>
+          <a title="{t str=EditWebsite} {$website.name|escape}" class="website-icon" href="affiliate-edit.php?affiliateid={$websiteid}">&nbsp;</a>
       </td>
       {if !empty($showStats)}
           <td></td>
@@ -82,7 +82,7 @@
         </label>
         </td>
         <td class="link">
-            <a title="{t str=EditZone} {$website.name}" class="zone-icon" href="zone-edit.php?affiliateid={$websiteid}&zoneid={$zoneid}">&nbsp;</a>
+            <a title="{t str=EditZone} {$website.name|escape}" class="zone-icon" href="zone-edit.php?affiliateid={$websiteid}&zoneid={$zoneid}">&nbsp;</a>
         </td>
         {if !empty($showStats)}
             {assign var="ctr" value="`$zone.ctr*100`"}

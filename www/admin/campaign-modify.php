@@ -43,6 +43,8 @@ else if (!empty($newclientid)) {
 /*-------------------------------------------------------*/
 
 if (!empty($campaignid)) {
+    OA_Permission::checkSessionToken();
+
     if (!empty($duplicate)) {
     	// Duplicate the campaign
     	$doCampaigns = OA_Dal::factoryDO('campaigns');

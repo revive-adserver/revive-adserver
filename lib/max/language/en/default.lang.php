@@ -1067,7 +1067,6 @@ $GLOBALS['strVariableCode'] = "Javascript tracking code";
 $GLOBALS['strForgotPassword'] = "Forgot your password?";
 $GLOBALS['strPasswordRecovery'] = "Password recovery";
 $GLOBALS['strEmailRequired'] = "Email is a required field";
-$GLOBALS['strPwdRecEmailNotFound'] = "Email address not found";
 $GLOBALS['strPwdRecWrongId'] = "Wrong ID";
 $GLOBALS['strPwdRecEnterEmail'] = "Enter your email address below";
 $GLOBALS['strPwdRecEnterPassword'] = "Enter your new password below";

@@ -48,6 +48,8 @@ $aEntities = array('clientid' => $clientid, 'campaignid' => $campaignid, 'banner
 if (!empty($action)) {
     $acl = MAX_AclAdjust($acl, $action);
 } elseif (!empty($submit)) {
+    OA_Permission::checkSessionToken();
+
     $acl = (isset($acl)) ? $acl : array();
 
     // Only save when inputs are valid

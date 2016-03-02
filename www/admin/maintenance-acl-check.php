@@ -38,6 +38,8 @@ phpAds_MaintenanceSelection("acls");
 /*-------------------------------------------------------*/
 
 if (!empty($action) && ($action == 'Recompile')) {
+    OA_Permission::checkSessionToken();
+
     MAX_AclReCompileAll();
     echo "<strong>$strAllBannerChannelCompiled</strong><br />";
 }
@@ -94,6 +96,7 @@ if (!$allBannersValid || !$allChannelsValid) {
     echo "<br /><strong>". $strErrorsFound ."</strong><br /><br />";
     echo $strRepairCompiledLimitations;
     echo "<form action='' METHOD='GET'>";
+    echo "<input type='hidden' name='token' value='".htmlspecialchars(phpAds_SessionGetToken(), ENT_QUOTES)."' />";
     echo "<input type='submit' name='action' value='$strRecompile' />";
     echo "</form>";
 }

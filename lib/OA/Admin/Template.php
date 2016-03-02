@@ -119,6 +119,8 @@ class OA_Admin_Template extends Smarty
          */
         $this->register_function('rv_add_session_token', array('OA_Admin_Template', '_add_session_token'));
 
+        // Also assign a template variable for other usages
+        $this->assign("csrfToken", phpAds_SessionGetToken());
     }
 
     /**

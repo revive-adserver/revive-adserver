@@ -40,6 +40,8 @@ $trackerAppend = new Max_Admin_Inventory_TrackerAppend();
 header("Content-Type: text/html; charset=ISO-8859-1");
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    OA_Permission::checkSessionToken();
+
     $trackerAppend->handlePost($_POST);
 } else {
     $trackerAppend->handleGet();

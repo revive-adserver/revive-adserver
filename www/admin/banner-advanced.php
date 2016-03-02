@@ -39,23 +39,26 @@ phpAds_SessionDataStore();
 /*-------------------------------------------------------*/
 
 if (isset($submitbutton)) {
-    if (isset($bannerid) && $bannerid != '') {
-        // Update banner
-        $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->get($bannerid);
-        $doBanners->prepend = $prepend;
-        $doBanners->append  = $append;
-        $doBanners->update();
+    OA_Permission::checkSessionToken();
 
-        // Queue confirmation message
-        $translation = new OX_Translation();
-        $translated_message = $translation->translate($GLOBALS['strBannerAdvancedHasBeenUpdated'], array(
-            MAX::constructURL(MAX_URL_ADMIN, 'banner-edit.php?clientid=' .  $clientid . '&campaignid=' . $campaignid . '&bannerid=' . $bannerid),
-            htmlspecialchars($doBanners->description)
-        ));
-        OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
-    }
+    // Update banner
+    $doBanners = OA_Dal::factoryDO('banners');
+    $doBanners->get($bannerid);
+    $doBanners->prepend = $prepend;
+    $doBanners->append  = $append;
+    $doBanners->update();
+
+    // Queue confirmation message
+    $translation = new OX_Translation();
+    $translated_message = $translation->translate($GLOBALS['strBannerAdvancedHasBeenUpdated'], array(
+        MAX::constructURL(MAX_URL_ADMIN, 'banner-edit.php?clientid=' .  $clientid . '&campaignid=' . $campaignid . '&bannerid=' . $bannerid),
+        htmlspecialchars($doBanners->description)
+    ));
+
+    OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);
+
     header ("Location: banner-advanced.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$bannerid);
+    exit;
 }
 
 /*-------------------------------------------------------*/

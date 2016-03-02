@@ -93,7 +93,8 @@ class LogonServiceImpl extends BaseServiceImpl
 
         $_POST['login'] = 'Login';
 
-        $_COOKIE['sessionID'] = uniqid('phpads', 1);
+        unset($_COOKIE['sessionID']);
+        phpAds_SessionStart();
         $_POST['phpAds_cookiecheck'] = $_COOKIE['sessionID'];
 
         $this->preInitSession();

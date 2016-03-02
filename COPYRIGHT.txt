@@ -1,6 +1,6 @@
 --------------------------------------------------------------------------------
 
-Revive Adserver is Copyright (c) 2013-2015 Revive Software and Services BV
+Revive Adserver is Copyright (c) 2013-2016 Revive Software and Services BV
 
  - http://www.revive-sas.com/
 
@@ -45,4 +45,8 @@ Copyright (c) 1999 - 2009 by the original authors:
 
   - phpAds created by Tobias Ratschiller.
 
+<<<<<<< HEAD
 --------------------------------------------------------------------------------
+=======
+--------------------------------------------------------------------------------
+>>>>>>> REL-3.2.4

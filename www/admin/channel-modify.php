@@ -34,6 +34,8 @@ if (empty($returnurl)) {
 
 // Security check
 if (isset($channelid) && $channelid != '') {
+    OA_Permission::checkSessionToken();
+
     if (isset($duplicate) && $duplicate == 'true') {
 
         //get channel old channel name

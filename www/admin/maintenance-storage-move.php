@@ -21,6 +21,7 @@ require_once MAX_PATH . '/www/admin/lib-storage.inc.php';
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
+OA_Permission::checkSessionToken();
 
 /*-------------------------------------------------------*/
 /* Main code                                             */

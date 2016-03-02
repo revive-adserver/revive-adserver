@@ -83,9 +83,11 @@ class OA_Auth
             $doUser = OA_Auth::authenticateUser();
 
             if (!$doUser) {
-                sleep(3);
                 OA_Auth::restart($GLOBALS['strUsernameOrPasswordWrong']);
             }
+
+            // Regenerate session ID now
+            phpAds_SessionRegenerateId();
 
             return OA_Auth::getSessionData($doUser);
         }
@@ -191,7 +193,7 @@ class OA_Auth
      */
     function restart($sMessage = '')
     {
-        $_COOKIE['sessionID'] = phpAds_SessionStart();
+        $_COOKIE['sessionID'] = phpAds_SessionRegenerateId();
         OA_Auth::displayLogin($sMessage, $_COOKIE['sessionID']);
     }
 
