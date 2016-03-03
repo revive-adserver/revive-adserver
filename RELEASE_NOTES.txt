@@ -43,6 +43,9 @@ What's New in Revive Adserver 3.2.4
  
  * Fixed an issue with zone duplication not working and triggering a
    permissions error instead.
+ 
+ * Fixed an PHP7 compatibility potentially causing an infinite loop in the
+   statistics screens.
 
  Non-Backwards Compatible Changes
  --------------------------------

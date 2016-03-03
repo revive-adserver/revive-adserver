@@ -340,7 +340,7 @@ class Date_Span {
                 if (is_null($val)) {
                     return false;
                 }
-                $$vars[$i] = $val;
+                ${$vars[$i]} = $val;
             }
             if (strcasecmp($pm, 'pm') == 0) {
                 $hour += 12;
