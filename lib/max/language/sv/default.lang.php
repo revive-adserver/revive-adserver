@@ -644,7 +644,6 @@ $GLOBALS['strTrackerTypeJS'] = "Spåra variabler för JavaScript";
 $GLOBALS['strForgotPassword'] = "Glömt ditt lösenord?";
 $GLOBALS['strPasswordRecovery'] = "Hämta lösenord";
 $GLOBALS['strEmailRequired'] = "Email måste fyllas i";
-$GLOBALS['strPwdRecEmailNotFound'] = "Kan inte hitta emailadress";
 $GLOBALS['strPwdRecWrongId'] = "Fel ID";
 $GLOBALS['strPwdRecEnterEmail'] = "Skriv in din mailadress nedan";
 $GLOBALS['strPwdRecEnterPassword'] = "Skriv ditt nya lösenord nedan";

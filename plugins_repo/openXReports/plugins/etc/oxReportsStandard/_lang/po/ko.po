@@ -121,7 +121,7 @@ msgstr ""
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//liveCampaignDeliveryReport.class.php:526
 msgid "Contract"
-msgstr "연�?�처"
+msgstr "연락처"
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//advertisingAnalysisReport.class.php:93
 msgid "Advertising Analysis Report"
@@ -167,7 +167,7 @@ msgstr ""
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//conversionTrackingReport.class.php:188
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//conversionTrackingReport.class.php:666
 msgid "Connection Detail"
-msgstr ""
+msgstr "연결 상세 정보"
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//conversionTrackingReport.class.php:377
 msgid "Total Connections"

@@ -155,7 +155,7 @@ msgstr ""
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/spc.class.php:237
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/spc.class.php:411
 msgid "Option - noscript"
-msgstr ""
+msgstr "옵션 - 스크립트 허용안함"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/spc.class.php:241
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/spc.class.php:426
@@ -264,7 +264,7 @@ msgstr "배경색"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:56
 msgid "[Close]"
-msgstr ""
+msgstr "[닫기]"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:65
 msgid "Alignment"

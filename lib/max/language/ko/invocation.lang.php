@@ -19,7 +19,7 @@ $GLOBALS['strChooseTypeOfBannerInvocation'] = "호출할 배너 종류를 선택
 
 // Common Invocation Parameters
 $GLOBALS['strInvocationWhat'] = "배너 선택";
-$GLOBALS['strInvocationCampaignID'] = "캠페�?�";
+$GLOBALS['strInvocationCampaignID'] = "캠페인";
 $GLOBALS['strInvocationTarget'] = "대상 프레임";
 $GLOBALS['strInvocationSource'] = "소스";
 $GLOBALS['strInvocationWithText'] = "배너 밑에 텍스트를 표시합니다.";
@@ -43,6 +43,8 @@ $GLOBALS['strPopUpAfterSec'] = "후에 ";
 $GLOBALS['strAutoCloseAfter'] = "후에 자동으로 닫음";
 $GLOBALS['strPopUpTop'] = "격자 배너 위치(top)";
 $GLOBALS['strPopUpLeft'] = "격자 배너 위치(left)";
+$GLOBALS['strWindowOptions'] = "창 옵션";
+$GLOBALS['strShowLocation'] = "위치";
 
 // XML-RPC
 $GLOBALS['strXmlRpcLanguage'] = "사용 언어";

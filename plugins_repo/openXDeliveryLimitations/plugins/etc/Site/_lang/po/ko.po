@@ -20,7 +20,7 @@ msgstr ""
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site//Channel.class.php:62
 msgid "Is all of"
-msgstr ""
+msgstr "모두"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site//Channel.class.php:72
 msgid "Channel"

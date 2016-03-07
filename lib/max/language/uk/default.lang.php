@@ -863,7 +863,6 @@ $GLOBALS['strVariableCode'] = "Код отслеживания JS";
 $GLOBALS['strForgotPassword'] = "Забыли пароль?";
 $GLOBALS['strPasswordRecovery'] = "Восстановление пароля";
 $GLOBALS['strEmailRequired'] = "Поле \"E-mail\" обязательно для заполнения";
-$GLOBALS['strPwdRecEmailNotFound'] = "Указанный адрес электронной почты не найден";
 $GLOBALS['strPwdRecWrongId'] = "Неправильный ID";
 $GLOBALS['strPwdRecEnterEmail'] = "Введите ваш адрес электронной почты";
 $GLOBALS['strPwdRecEnterPassword'] = "Введите ваш новый пароль";

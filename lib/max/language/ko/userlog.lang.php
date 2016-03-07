@@ -20,9 +20,9 @@ $GLOBALS['strDeleted'] = "삭제";
 $GLOBALS['strDelete'] = "삭제";
 $GLOBALS['strAdvertiser'] = "광고주";
 $GLOBALS['strPublisher'] = "광고게시자";
-$GLOBALS['strCampaign'] = "캠페�?�";
-$GLOBALS['strZone'] = "�?역";
-$GLOBALS['strAction'] = "행동";
+$GLOBALS['strCampaign'] = "캠페인";
+$GLOBALS['strZone'] = "광고영역";
+$GLOBALS['strAction'] = "작업";
 $GLOBALS['strValue'] = "값";
 
 if (!isset($GLOBALS['strUserlog'])) {

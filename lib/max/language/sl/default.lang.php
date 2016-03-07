@@ -857,7 +857,6 @@ $GLOBALS['strVariableCode'] = "JavaScript sledilna koda";
 $GLOBALS['strForgotPassword'] = "Ste pozabili svoje geslo?";
 $GLOBALS['strPasswordRecovery'] = "Povrnitev gesla";
 $GLOBALS['strEmailRequired'] = "Polje za vnos e-pošte je potrebno obvezno izpolniti";
-$GLOBALS['strPwdRecEmailNotFound'] = "Naslova elektronske pošte ni bilo mogoče najti";
 $GLOBALS['strPwdRecWrongId'] = "Napačen ID";
 $GLOBALS['strPwdRecEnterEmail'] = "Spodaj vpišite naslov svoje elektronske pošte";
 $GLOBALS['strPwdRecEnterPassword'] = "Spodaj vpišite vaše novo geslo";
