@@ -41,8 +41,7 @@ What's New in Revive Adserver 3.2.4
  Non-Backwards Compatible Changes
  --------------------------------
 
- * Logging plugins that also deal with conversions and conversion variables
-   might require some additional testing.
+ * None
 
 System Requirements
 -------------------

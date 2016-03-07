@@ -18,7 +18,7 @@ require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
-OA_Permission::checkSessionToken();
+OA_Permission::checkSessionToken('mpe_token');
 
 
 // Set longer time out, and ignore user abort
