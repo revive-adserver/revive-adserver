@@ -13,7 +13,7 @@
 function OA_runMPE()
 {
     $objResponse = new xajaxResponse();
-    $objResponse->addAssign("run-mpe", "innerHTML", "<img src='run-mpe.ph?token=".urlencode(phpAds_SessionGetToken())."' />");
+    $objResponse->addAssign("run-mpe", "innerHTML", "<img src='run-mpe.php?mpe_token=".urlencode(phpAds_SessionGetToken('mpe_token'))."' />");
     return $objResponse;
 }
 

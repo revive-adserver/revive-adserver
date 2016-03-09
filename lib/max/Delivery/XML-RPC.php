@@ -370,7 +370,7 @@ function OA_Delivery_XmlRpc_SPC($params)
 
         if ($i) {
             // Put the decoded value the view arg array
-            $$vars[$i] = XML_RPC_decode($p);
+            ${$vars[$i]} = XML_RPC_decode($p);
         } else {
             // First parameter: environment information supplied be XML-RPC client
             $p = XML_RPC_decode($p);

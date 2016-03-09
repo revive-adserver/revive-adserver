@@ -93,6 +93,7 @@ $tabindex = 1;
     echo "<input type='hidden' name='clientid' value='".(isset($clientid) && $clientid != '' ? $clientid : '')."'>";
     echo "<input type='hidden' name='campaignid' value='".(isset($campaignid) && $campaignid != '' ? $campaignid : '')."'>";
     echo "<input type='hidden' name='bannerid' value='".(isset($bannerid) && $bannerid != '' ? $bannerid : '')."'>";
+    echo "<input type='hidden' name='token' value='".htmlspecialchars(phpAds_SessionGetToken(), ENT_QUOTES)."'>";
 
     echo "<br /><table border='0' width='100%' cellpadding='0' cellspacing='0'>";
     echo "<tr><td height='25' colspan='3'><b>".$strAppendSettings."</b></td></tr>";

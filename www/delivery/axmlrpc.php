@@ -4640,7 +4640,7 @@ for ($i = 0; $i < $numParams; $i++)
 {
 $p = $params->getParam($i);
 if ($i) {
-$$vars[$i] = XML_RPC_decode($p);
+${$vars[$i]} = XML_RPC_decode($p);
 } else {
 $p = XML_RPC_decode($p);
 if (!isset($p['remote_addr'])) {

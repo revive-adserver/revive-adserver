@@ -210,27 +210,27 @@ function phpAds_SessionDataDestroy()
 	unset($_COOKIE['sessionID']);
 }
 
-function phpAds_SessionGetToken()
+function phpAds_SessionGetToken($tokenName = 'token')
 {
     if (RV_INSTALLATION_STATUS != RV_INSTALLATION_STATUS_INSTALLED) {
         return false;
     }
     global $session;
     phpAds_SessionStart();
-    if (empty($session['token'])) {
-        $session['token'] = md5(uniqid('phpads', 1));
+    if (empty($session[$tokenName])) {
+        $session[$tokenName] = md5(uniqid('phpads', 1));
         phpAds_SessionDataStore();
     }
-    return $session['token'];
+    return $session[$tokenName];
 }
 
-function phpAds_SessionValidateToken($token)
+function phpAds_SessionValidateToken($token, $tokenName = 'token')
 {
     static $result;
 
     if (!isset($result)) {
-        $result = ($token === phpAds_SessionGetToken());
-        phpAds_SessionDataRegister('token', null);
+        $result = ($token === phpAds_SessionGetToken($tokenName));
+        phpAds_SessionDataRegister($tokenName, null);
     }
     return $result;
 }

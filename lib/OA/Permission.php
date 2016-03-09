@@ -91,16 +91,16 @@ class OA_Permission
      * eventually needed) refactoring of the enture UI to a proper MVC
      * framework.
      */
-    public static function checkSessionToken()
+    public static function checkSessionToken($tokenName = 'token')
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $token = isset($_POST['token']) ? $_POST['token'] : false;
+            $token = isset($_POST[$tokenName]) ? $_POST[$tokenName] : false;
         } else {
-            $token = isset($_GET['token']) ? $_GET['token'] : false;
+            $token = isset($_GET[$tokenName]) ? $_GET[$tokenName] : false;
         }
 
         OA_Permission::enforceTrue(
-            phpAds_SessionValidateToken($token)
+            phpAds_SessionValidateToken($token, $tokenName)
         );
     }
 
