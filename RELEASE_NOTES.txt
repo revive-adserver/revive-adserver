@@ -17,7 +17,7 @@ Revive Adserver. Please read these notes before reporting any bugs.
 What's New in Revive Adserver 3.2.4
 -----------------------------------
 
- * Release date: 2016-03-09
+ * Release date: 2016-03-11
 
  Security Updates
  ----------------
