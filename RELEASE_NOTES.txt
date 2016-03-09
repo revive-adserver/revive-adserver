@@ -38,8 +38,11 @@ What's New in Revive Adserver 3.2.4
  * Fixed an issue with banner (de)activation not working and triggering a
    permissions error instead.
  
- * Fixes an issue with tracker variables and append screens triggering a
+ * Fixed an issue with tracker variables and append screens triggering a
    permissions error upon save.
+ 
+ * Fixed an issue with zone duplication not working and triggering a
+   permissions error instead.
 
  Non-Backwards Compatible Changes
  --------------------------------

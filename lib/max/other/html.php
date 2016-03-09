@@ -1861,7 +1861,7 @@ function addZonePageTools($affiliateid, $zoneid, $aOtherPublishers, $aEntities)
     if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)
         || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)
         || OA_Permission::hasPermission(OA_PERM_ZONE_ADD)) {
-        addPageLinkTool($GLOBALS["strDuplicate"], MAX::constructUrl(MAX_URL_ADMIN, "zone-modify.php?duplicate=true&affiliateid=$affiliateid&zoneid=$zoneid&returnurl=".urlencode(basename($_SERVER['SCRIPT_NAME']))), "iconZoneDuplicate");
+        addPageLinkTool($GLOBALS["strDuplicate"], MAX::constructUrl(MAX_URL_ADMIN, "zone-modify.php?token=".urlencode($token)."&duplicate=true&affiliateid=$affiliateid&zoneid=$zoneid&returnurl=".urlencode(basename($_SERVER['SCRIPT_NAME']))), "iconZoneDuplicate");
     }
 
     //move to
