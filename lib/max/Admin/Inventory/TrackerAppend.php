@@ -46,7 +46,6 @@ class MAX_Admin_Inventory_TrackerAppend
     {
         $this->_useDefaultDal();
 
-        $this->csrf_token    = phpAds_SessionGetToken();
         $this->advertiser_id = MAX_getValue('clientid', 0);
         $this->tracker_id    = MAX_getValue('trackerid', 0);
         $this->assetPath 	 = OX::assetPath();
@@ -171,6 +170,9 @@ class MAX_Admin_Inventory_TrackerAppend
             'compileDir'        => MAX_PATH . '/var/templates_compiled',
             'flexyIgnore'        => true
         ));
+
+        // Load token now
+        $this->csrf_token    = phpAds_SessionGetToken();
 
         $codes = $this->codes;
         $this->codes = array();

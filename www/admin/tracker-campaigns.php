@@ -58,6 +58,8 @@ foreach($invocationPlugins as $pluginKey => $plugin) {
 
 if (!empty($trackerid)) {
     if (isset($action) && $action == 'set') {
+        OA_Permission::checkSessionToken();
+
         $doCampaign_trackers = OA_Dal::factoryDO('campaigns_trackers');
         $doCampaign_trackers->trackerid = $trackerid;
         $doCampaign_trackers->delete();
@@ -172,6 +174,7 @@ if ($doCampaigns->getRowCount() != 0) {
     echo "\t\t\t\t<input type='hidden' name='trackerid' value='".$GLOBALS['trackerid']."'>\n";
     echo "\t\t\t\t<input type='hidden' name='clientid' value='".$GLOBALS['clientid']."'>\n";
     echo "\t\t\t\t<input type='hidden' name='action' value='set'>\n";
+    echo "\t\t\t\t<input type='hidden' name='token' value='".htmlspecialchars(phpAds_SessionGetToken(), ENT_QUOTES)."'>\n";
 }
 
 

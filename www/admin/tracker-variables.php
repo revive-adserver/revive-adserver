@@ -307,7 +307,7 @@ $tabindex = 0;
 if (isset($trackerid) && $trackerid != '')
 {
             echo "<form action='".$_SERVER['SCRIPT_NAME']."?clientid=$clientid&trackerid=$trackerid' method='post' onsubmit='return m3_hideShowSubmit()'>\n";
-                echo "<input type='token' name='submit' value='".htmlspecialchars(phpAds_SessionGetToken(), ENT_QUOTES)."'>";
+                echo "<input type='hidden' name='token' value='".htmlspecialchars(phpAds_SessionGetToken(), ENT_QUOTES)."'>";
                 echo "<input type='hidden' name='submit' value='true'>";
                 echo "<input type='image' name='dummy' src='" . OX::assetPath() . "/images/spacer.gif' border='0' width='1' height='1'>\n";
                 echo "<br /><br />\n";

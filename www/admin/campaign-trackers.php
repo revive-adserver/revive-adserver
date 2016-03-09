@@ -69,6 +69,8 @@ foreach($invocationPlugins as $pluginKey => $plugin) {
 
 if (!empty($campaignid)) {
     if (isset($action) && $action == 'set') {
+        OA_Permission::checkSessionToken();
+
         $clickWindow = _windowValuesToseconds($clickwindowday, $clickwindowhour, $clickwindowminute, $clickwindowsecond);
         $viewWindow = _windowValuesToseconds($viewwindowday, $viewwindowhour, $viewwindowminute, $viewwindowsecond);
 
@@ -156,6 +158,7 @@ echo "\t\t\t\t<form name='availabletrackers' method='post' action='campaign-trac
 echo "\t\t\t\t<input type='hidden' name='campaignid' value='".$GLOBALS['campaignid']."'>\n";
 echo "\t\t\t\t<input type='hidden' name='clientid' value='".$GLOBALS['clientid']."'>\n";
 echo "\t\t\t\t<input type='hidden' name='action' value='set'>\n";
+echo "\t\t\t\t<input type='hidden' name='token' value='".htmlspecialchars(phpAds_SessionGetToken(), ENT_QUOTES)."'>\n";
 
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>"."\n";
 echo "<tr><td height='25' width='100%' colspan='3'><b>{$GLOBALS['strConversionWindow']}</b></td></tr>"."\n";

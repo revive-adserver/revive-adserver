@@ -32,11 +32,14 @@ What's New in Revive Adserver 3.2.4
  Bug Fixes
  ---------
 
- * Fixed an issue with the Banner Advanced and Linked Zones screen triggering 
+ * Fixed an issue with the Banner Advanced and Linked Zones screens triggering 
    a permissions error upon submit.
 
  * Fixed an issue with banner (de)activation not working and triggering a
    permissions error instead.
+ 
+ * Fixes an issue with tracker variables and append screens triggering a
+   permissions error upon save.
 
  Non-Backwards Compatible Changes
  --------------------------------
