@@ -46,6 +46,9 @@ What's New in Revive Adserver 3.2.4
  
  * Fixed an PHP7 compatibility potentially causing an infinite loop in the
    statistics screens.
+ 
+ * Fixed an issue with prioritization when using a timezone with a positive
+   offset from UTC.
 
  Non-Backwards Compatible Changes
  --------------------------------
