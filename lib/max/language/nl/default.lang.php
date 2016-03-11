@@ -1057,7 +1057,6 @@ $GLOBALS['strVariableCode'] = "JavaScript tracking-code";
 $GLOBALS['strForgotPassword'] = "Wachtwoord vergeten?";
 $GLOBALS['strPasswordRecovery'] = "Wachtwoord herstellen";
 $GLOBALS['strEmailRequired'] = "E-mail is een verplicht veld";
-$GLOBALS['strPwdRecEmailNotFound'] = "E-mail adres is niet gevonden";
 $GLOBALS['strPwdRecWrongId'] = "Verkeerde ID";
 $GLOBALS['strPwdRecEnterEmail'] = "Voer hieronder uw e-mail adres in";
 $GLOBALS['strPwdRecEnterPassword'] = "Voer uw nieuwe wachtwoord hieronder in";

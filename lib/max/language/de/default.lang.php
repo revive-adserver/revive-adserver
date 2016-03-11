@@ -920,7 +920,6 @@ $GLOBALS['strTrackerTypeCustom'] = "Eigener JS code";
 $GLOBALS['strForgotPassword'] = "Passwort vergessen?";
 $GLOBALS['strPasswordRecovery'] = "Password wiederherstellen";
 $GLOBALS['strEmailRequired'] = "Das Eingabefeld e-Mail muss ausgefüllt sein";
-$GLOBALS['strPwdRecEmailNotFound'] = "Die e-Mail Adresse konnte nicht gefunden werden";
 $GLOBALS['strPwdRecWrongId'] = "Falsche ID";
 $GLOBALS['strPwdRecEnterEmail'] = "Geben Sie nachfolgend Ihre eMail Adresse ein";
 $GLOBALS['strPwdRecEnterPassword'] = "Geben Sie nachfolgend Ihr neues Passwort ein";

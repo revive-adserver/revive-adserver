@@ -652,7 +652,6 @@ $GLOBALS['strTrackerType'] = "نام تراکر";
 $GLOBALS['strForgotPassword'] = "پسورد خود را �?راموش کردید ؟ ";
 $GLOBALS['strPasswordRecovery'] = "بازیابی پسورد";
 $GLOBALS['strEmailRequired'] = "نیاز بودن آدرس ایمیل برای ارسال";
-$GLOBALS['strPwdRecEmailNotFound'] = "همچین آدرس ایمیلی وجود ندارد";
 $GLOBALS['strPwdRecWrongId'] = "آی دی اشتباه";
 $GLOBALS['strPwdRecEnterEmail'] = "آدرس ایمیل خود را برای بازیابی پسورد وارد کنید";
 $GLOBALS['strPwdRecEnterPassword'] = "Enter your new password address below";

@@ -64,7 +64,7 @@ msgstr ""
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:91
 msgid "Build"
-msgstr ""
+msgstr "빌드"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:95
 msgid "Status"

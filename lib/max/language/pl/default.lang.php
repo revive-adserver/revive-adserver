@@ -780,7 +780,6 @@ $GLOBALS['strVariableCode'] = "Kod śledzenia JavaScript";
 $GLOBALS['strForgotPassword'] = "Nie pamiętasz hasła?";
 $GLOBALS['strPasswordRecovery'] = "Odzyskiwanie hasła";
 $GLOBALS['strEmailRequired'] = "Adres e-mail jest obligatoryjny";
-$GLOBALS['strPwdRecEmailNotFound'] = "Nie znaleziono adresu e-mail";
 $GLOBALS['strPwdRecWrongId'] = "ID niepoprawne";
 $GLOBALS['strPwdRecEnterEmail'] = "Wprowadź adres e-mail poniżej";
 $GLOBALS['strPwdRecEnterPassword'] = "Wprowadź nowe hasło poniżej";

@@ -667,7 +667,6 @@ $GLOBALS['strVariableCode'] = "Javascript sekimo kodas";
 $GLOBALS['strForgotPassword'] = "Pamiršote savo slaptažodį?";
 $GLOBALS['strPasswordRecovery'] = "Slaptažodžio gražinimas";
 $GLOBALS['strEmailRequired'] = "Privaloma užpildyti elektroninį lauką";
-$GLOBALS['strPwdRecEmailNotFound'] = "Elektroninis adresas nerastas";
 $GLOBALS['strPwdRecWrongId'] = "Neteisingas ID ";
 $GLOBALS['strPwdRecEnterEmail'] = "Įveskite savo elektroninio pašto adresą žemiau";
 $GLOBALS['strPwdRecEnterPassword'] = "Įveskite savo slaptažodį žemiau";

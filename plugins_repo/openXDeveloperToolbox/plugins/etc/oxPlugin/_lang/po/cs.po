@@ -68,7 +68,7 @@ msgstr ""
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:95
 msgid "Status"
-msgstr ""
+msgstr "Stav"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:97
 msgid "Version"

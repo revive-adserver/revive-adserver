@@ -880,7 +880,6 @@ $GLOBALS['strVariableCode'] = "Code de suivi Javascript";
 $GLOBALS['strForgotPassword'] = "Mot de passe oublié ?";
 $GLOBALS['strPasswordRecovery'] = "Récupération du mot de passe";
 $GLOBALS['strEmailRequired'] = "Le champ e-mail est requis";
-$GLOBALS['strPwdRecEmailNotFound'] = "Adresse e-mail non trouvée";
 $GLOBALS['strPwdRecWrongId'] = "ID erroné";
 $GLOBALS['strPwdRecEnterEmail'] = "Entrez votre adresse e-mail ci-dessous";
 $GLOBALS['strPwdRecEnterPassword'] = "Entrez votre nouveau mot de passe ci-dessous";

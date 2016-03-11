@@ -924,7 +924,6 @@ $GLOBALS['strVariableCode'] = "Codice tracciamento Javascript";
 $GLOBALS['strForgotPassword'] = "Hai dimenticato la password?";
 $GLOBALS['strPasswordRecovery'] = "Recupero password";
 $GLOBALS['strEmailRequired'] = "Email è un campo richiesto";
-$GLOBALS['strPwdRecEmailNotFound'] = "Indirizzo email non trovato";
 $GLOBALS['strPwdRecWrongId'] = "ID errato";
 $GLOBALS['strPwdRecEnterEmail'] = "Inserisci il tuo indirizzo e-mail qui sotto";
 $GLOBALS['strPwdRecEnterPassword'] = "Inserisci qui sotto la nuova password";

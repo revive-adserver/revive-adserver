@@ -37,7 +37,7 @@ msgstr ""
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adjs.class.php:53
 msgid "Javascript Tag"
-msgstr ""
+msgstr "JavaScript Tag"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adjs.class.php:116
 #, php-format
@@ -99,7 +99,7 @@ msgstr "Styl"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adview.class.php:53
 msgid "Image Tag"
-msgstr ""
+msgstr "Tag obrázku"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adview.class.php:111
 msgid "\n"

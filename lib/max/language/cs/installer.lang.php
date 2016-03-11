@@ -64,6 +64,7 @@ $GLOBALS['strConfigureUpgradeTitle'] = "Nastavení konfigurace";
 $GLOBALS['strConfigureUpgradeIntro'] = "Zadejte cestu k instalaci předchozí {$PRODUCT_NAME}.";
 $GLOBALS['strConfigSeeMoreFields'] = "Více konfiguračních polí...";
 $GLOBALS['strPreviousInstallTitle'] = "Předchozí instalace";
+$GLOBALS['strConfigureProgressMessage'] = "Konfigurace {$PRODUCT_NAME}...";
 
 /** jobs step * */
 

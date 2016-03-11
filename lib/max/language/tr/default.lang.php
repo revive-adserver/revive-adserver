@@ -678,7 +678,6 @@ $GLOBALS['strVariableCode'] = "Javascript izleme kodu";
 $GLOBALS['strForgotPassword'] = "Şifrenizi mi unuttunuz?";
 $GLOBALS['strPasswordRecovery'] = "Şifre yenileme";
 $GLOBALS['strEmailRequired'] = "Eposta alanı gereklidir";
-$GLOBALS['strPwdRecEmailNotFound'] = "Eposta adresi bulunamadı";
 $GLOBALS['strPwdRecWrongId'] = "Yanlış ID";
 $GLOBALS['strPwdRecEnterEmail'] = "Eposta adresinizi girin";
 $GLOBALS['strPwdRecEnterPassword'] = "Yeni şifrenizi girin";

@@ -677,7 +677,6 @@ $GLOBALS['strVariableCode'] = "Javascript sporer kode";
 $GLOBALS['strForgotPassword'] = "Glemt dit password?";
 $GLOBALS['strPasswordRecovery'] = "Password genskabes";
 $GLOBALS['strEmailRequired'] = "Email er et krævet felt";
-$GLOBALS['strPwdRecEmailNotFound'] = "Email adresse er ikke fundet";
 $GLOBALS['strPwdRecWrongId'] = "Forkert ID";
 $GLOBALS['strPwdRecEnterEmail'] = "Skriv din email adresse nedefor";
 $GLOBALS['strPwdRecEnterPassword'] = "Skriv dit nye password nedenfor";

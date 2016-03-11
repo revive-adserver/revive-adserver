@@ -849,7 +849,6 @@ $GLOBALS['strVariableCode'] = "Código de rastreamento em Javascript";
 $GLOBALS['strForgotPassword'] = "Esqueceu sua senha?";
 $GLOBALS['strPasswordRecovery'] = "Recuperação de senha";
 $GLOBALS['strEmailRequired'] = "E-mail é um campo obrigatório";
-$GLOBALS['strPwdRecEmailNotFound'] = "E-mail não encontrado";
 $GLOBALS['strPwdRecWrongId'] = "ID incorreto";
 $GLOBALS['strPwdRecEnterEmail'] = "Digite seu e-mail abaixo";
 $GLOBALS['strPwdRecEnterPassword'] = "Digite sua nova senha abaixo";

@@ -634,7 +634,6 @@ $GLOBALS['strVariableCode'] = "Kode pelacak berbasis Javascript";
 // Password recovery
 $GLOBALS['strForgotPassword'] = "Lupa kata sandi Anda?";
 $GLOBALS['strEmailRequired'] = "Pengisian alamat E-mail diwajibkan!";
-$GLOBALS['strPwdRecEmailNotFound'] = "Alamat E-mail tidak ditemukan";
 $GLOBALS['strPwdRecWrongId'] = "ID tidak dikenal";
 $GLOBALS['strPwdRecEnterEmail'] = "Silakan masukkan alamat E-Mail Anda dibawah ini";
 $GLOBALS['strPwdRecEnterPassword'] = "Silakan masukkan alamat E-Mail baru yang terhubung dengan kata sandi Anda dibawah ini";

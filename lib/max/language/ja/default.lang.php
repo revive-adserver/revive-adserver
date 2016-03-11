@@ -784,7 +784,6 @@ $GLOBALS['strVariableCode'] = "トラッカー用Javascriptコード";
 $GLOBALS['strForgotPassword'] = "パスワードを忘れた？";
 $GLOBALS['strPasswordRecovery'] = "パスワードのリカバリ";
 $GLOBALS['strEmailRequired'] = "メールアドレスは必須です。";
-$GLOBALS['strPwdRecEmailNotFound'] = "指定したメールアドレスは見つかりませんでした。";
 $GLOBALS['strPwdRecWrongId'] = "メールアドレスが間違っています。";
 $GLOBALS['strPwdRecEnterEmail'] = "メールアドレスを入力してください";
 $GLOBALS['strPwdRecEnterPassword'] = "新しいパスワードを入力してください";

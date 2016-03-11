@@ -655,7 +655,6 @@ $GLOBALS['strVariableCode'] = "JavaScript跟蹤代碼";
 $GLOBALS['strForgotPassword'] = "忘記密碼？";
 $GLOBALS['strPasswordRecovery'] = "密碼恢復";
 $GLOBALS['strEmailRequired'] = "電子郵件為必填項";
-$GLOBALS['strPwdRecEmailNotFound'] = "沒有該電子郵件地址";
 $GLOBALS['strPwdRecWrongId'] = "錯誤ID";
 $GLOBALS['strPwdRecEnterEmail'] = "請填入你的郵件地址";
 $GLOBALS['strPwdRecEnterPassword'] = "請填入新密碼";

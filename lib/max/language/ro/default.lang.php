@@ -766,7 +766,6 @@ $GLOBALS['strVariableCode'] = "Cod Javascript de contorizare";
 $GLOBALS['strForgotPassword'] = "Ţi-ai uitat parola?";
 $GLOBALS['strPasswordRecovery'] = "Recuperare parolă";
 $GLOBALS['strEmailRequired'] = "Email este un câmp obligatoriu";
-$GLOBALS['strPwdRecEmailNotFound'] = "Adresa de email nu a fost găsită";
 $GLOBALS['strPwdRecWrongId'] = "ID greşit";
 $GLOBALS['strPwdRecEnterEmail'] = "Scrie adresa de email mai jos";
 $GLOBALS['strPwdRecEnterPassword'] = "Scrie noua parolă mai jos";
