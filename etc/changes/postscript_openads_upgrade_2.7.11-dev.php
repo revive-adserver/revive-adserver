@@ -101,12 +101,12 @@ class OA_UpgradePostscript_2_7_11_dev
         $cpaCount = count($aCPACampaigns);
         $count = $cpmCount +  $cpcCount + $cpaCount;
 
-        $this->logOnly("Found " + $count + " campaign(s) to set missing revenue type: "
-            + ($cpmCount > 0 ? "$cpmCount to CPM,": '')
-            + ($cpcCount > 0 ? "$cpcCount to CPC," : '')
-            + ($cpaCount > 0 ? "$cpaCount to CPA" : ''));
+        $this->logOnly("Found {$count} campaign(s) to set missing revenue type:".
+            ($cpmCount > 0 ? " $cpmCount to CPM,": '').
+            ($cpcCount > 0 ? " $cpcCount to CPC," : '').
+            ($cpaCount > 0 ? " $cpaCount to CPA" : ''));
 
-
+        
         if ($cpmCount > 0)
         {
             $query = sprintf($this->queryUpdateTemplate, MAX_FINANCE_CPM, implode(',', $aCPMCampaigns));

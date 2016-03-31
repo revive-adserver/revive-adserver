@@ -1594,7 +1594,7 @@ class OA_DB_Upgrade
                             {
                                 if (array_key_exists('rename', $aField_tasks))
                                 {
-                                    $method -= $aField_tasks['rename'];
+                                    $method = $aField_tasks['rename'];
                                     $this->_logOnly('task found: '.$method);
                                     $was = $this->_getPreviousFieldname($table, $field);
                                     if ($was)
