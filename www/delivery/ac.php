@@ -3480,6 +3480,8 @@ $url .= $amp . urlencode($key) . '=' . urlencode($value);
 }
 }
 }
+$url .= $amp . "auction_id={auction_id}";
+$url .= $amp . "winprice={winprice}";
 return $url;
 }
 function _adRenderImageBeacon($aBanner, $zoneId = 0, $source = '', $loc = '', $referer = '', $logUrl = '')
