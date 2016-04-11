@@ -3480,8 +3480,12 @@ $url .= $amp . urlencode($key) . '=' . urlencode($value);
 }
 }
 }
-$url .= $amp . "auction_id={auction_id}";
-$url .= $amp . "winprice={winprice}";
+if (!empty($conf['var']['customVars'])) {
+$customVars = explode(',',$conf['var']['customVars']);
+foreach ($customVars as $customVar) {
+$url .= "{$amp}{$customVar}={{$customVar}}";
+}
+}
 return $url;
 }
 function _adRenderImageBeacon($aBanner, $zoneId = 0, $source = '', $loc = '', $referer = '', $logUrl = '')
@@ -3534,9 +3538,12 @@ $maxparams .= $del . urlencode($key) . '=' . urlencode($value);
 }
 }
 }
-$auction_id = "{$del}auction_id={auction_id}";
-$winprice = "{$del}winprice={winprice}";
-$maxparams .= $auction_id . $winprice;
+if (!empty($conf['var']['customVars'])) {
+$customVars = explode(',',$conf['var']['customVars']);
+foreach ($customVars as $customVar) {
+$maxparams .= "{$del}{$customVar}={{$customVar}}";
+}
+}
 $maxparams .= $maxdest;
 }
 return $maxparams;
