@@ -27,7 +27,9 @@ What's New in Revive Adserver 3.3.0
  New Features
  ------------
 
- * Improved .htaccess compatibility with Apache 2.4+
+ * Improved .htaccess compatibility with Apache 2.4+.
+ * Improved error reporting when installing Revive Adserver when the PHP session
+   save path is not writable.
 
  Bug Fixes
  ---------
