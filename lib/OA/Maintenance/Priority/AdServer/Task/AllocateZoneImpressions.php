@@ -145,7 +145,7 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
     {
         $conf = $GLOBALS['_MAX']['CONF'];
 
-        $oDbh = OA_DB::singleton();
+        $oDbh = $this->oDal->_getDbConnection();
         $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['campaigns'],true);
 
         $aWheres = array(

@@ -68,7 +68,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsDaily extend
     function _getValidCampaigns()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = OA_DB::singleton();
+        $oDbh = $this->oDal->_getDbConnection();
         $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['campaigns'],true);
         $aWheres = array(
             array("$table.priority >= 1", 'AND'),

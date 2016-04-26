@@ -76,7 +76,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetime ext
         $oDate = new Date($this->_getDate());
         $oDate->toUTC();
         $dateYMD = $oDate->getDate(DATE_FORMAT_ISO);
-        $oDbh = OA_DB::singleton();
+        $oDbh = $this->oDal->_getDbConnection();
         $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['campaigns'],true);
 
         $aWheres = array(

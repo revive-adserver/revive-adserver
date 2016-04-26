@@ -33,6 +33,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
         Mock::generate('MAX_Dal_Entities');
         Mock::generate('OA_Dal_Maintenance_Priority');
         Mock::generate('OA_DB_Table_Priority');
+        Mock::generate('MDB2_Driver_Common');
     }
 
     /**
@@ -42,9 +43,12 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
     function setUp()
     {
         $oServiceLocator =& OA_ServiceLocator::instance();
+        $oDBh = new MockMDB2_Driver_Common($this);
+        $oDBh->setReturnValue('quoteIdentifier', 'qTbl');
         $oMaxDalEntites = new MockMAX_Dal_Entities($this);
         $oServiceLocator->register('MAX_Dal_Entities', $oMaxDalEntites);
         $oMaxDalMaintenancePriority = new MockOA_Dal_Maintenance_Priority($this);
+        $oMaxDalMaintenancePriority->setReturnReference('_getDbConnection', $oDBh);
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oMaxDalMaintenancePriority);
         $oTable = new MockOA_DB_Table_Priority($this);
         $oServiceLocator->register('OA_DB_Table_Priority', $oTable);

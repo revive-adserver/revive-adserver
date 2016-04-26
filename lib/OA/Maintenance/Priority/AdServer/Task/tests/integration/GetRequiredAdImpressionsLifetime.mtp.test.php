@@ -194,7 +194,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         $oDate = new Date('2005-12-08 13:55:00');
         $oServiceLocator->register('now', $oDate);
         $oGetRequiredAdImpressionsLifetime->oDal->setReturnValue('getCampaigns', array());
-        $oDbh = OA_DB::singleton();
+        $oDbh = $this->oDal->_getDbConnection();
         $table = $oDbh->quoteIdentifier($table, true);
         $oGetRequiredAdImpressionsLifetime->oDal->expectOnce(
             'getCampaigns',
