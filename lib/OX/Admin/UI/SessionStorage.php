@@ -23,7 +23,7 @@ class OX_Admin_UI_SessionStorage
 
     function __construct($id = null, $path = null)
     {
-        if (!is_writable($path = session_save_path())) {
+        if ('cli' !== PHP_SAPI && !is_writable($path = session_save_path())) {
             echo htmlspecialchars("The session save path {$path} is not writable.");
             exit;
         }
