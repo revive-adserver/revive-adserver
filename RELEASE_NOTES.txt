@@ -28,6 +28,7 @@ What's New in Revive Adserver 3.3.0
  ------------
 
  * Improved .htaccess compatibility with Apache 2.4+.
+
  * Improved error reporting when installing Revive Adserver when the PHP session
    save path is not writable.
 
@@ -36,6 +37,13 @@ What's New in Revive Adserver 3.3.0
 
  * Fixed an issue with the upload of SWF banners with hardcoded links
    triggering a permissions error when the conversion feature was enabled.
+
+ * Expired contract campaigns ended with a (possibly large) number of
+   undelivered imps, clicks or conversions were being wrongly taken into
+   account when allocating impressions to zones, lowering the impressions
+   budget available for active campaigns.
+
+   Investigation and fix sponsored by Online Buddies, Inc.
 
  Non-Backwards Compatible Changes
  --------------------------------

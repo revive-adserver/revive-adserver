@@ -143,7 +143,17 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
      */
     function _getAllCampaigns()
     {
-        return $this->oDal->getCampaigns();
+        $conf = $GLOBALS['_MAX']['CONF'];
+
+        $oDbh = OA_DB::singleton();
+        $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['campaigns'],true);
+
+        $aWheres = array(
+            array("$table.priority >= 1", 'AND'),
+            array("$table.status = ".OA_ENTITY_STATUS_RUNNING, 'AND'),
+        );
+
+        return $this->oDal->getCampaigns($aWheres);
     }
 
     /**
