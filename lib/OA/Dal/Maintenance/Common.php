@@ -35,18 +35,6 @@ class OA_Dal_Maintenance_Common extends MAX_Dal_Common
     }
 
     /**
-     * A private method to manage creation of the utilised Openads_Dal class.
-     *
-     * @access private
-     * @return mixed Reference to an MDB2 connection resource, or PEAR_Error
-     *               on failure to connect.
-     */
-    function _getDbConnection()
-    {
-        return OA_DB::singleton();
-    }
-
-    /**
      * A method to store data about the times that various Maintenance
      * processes ran.
      *
