@@ -18,6 +18,10 @@ $product = $GLOBALS['_MAX']['CONF']['var']['product'];
 
 if (!empty($_SERVER["HTTP_IF_NONE_MATCH"]) && $_SERVER["HTTP_IF_NONE_MATCH"] == $etag) {
     header("HTTP/1.x 304 Not modified");
+
+    // Some temporary cookies might have been deleted, if so send permanent ones
+    MAX_cookieFlush();
+
     exit;
 }
 
@@ -34,6 +38,7 @@ if (!empty($conf['delivery']['assetClientCacheExpire'])) {
 
 // Try to set the OAID cookie, so that the following request already has it
 MAX_cookieGetUniqueViewerId();
+MAX_cookieFlush();
 
 require __DIR__.'/'.$GLOBALS['_MAX']['CONF']['file']['asyncjsjs'];
 require __DIR__.'/'.$GLOBALS['_MAX']['CONF']['file']['flash'];
