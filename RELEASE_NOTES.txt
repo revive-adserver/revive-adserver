@@ -45,6 +45,9 @@ What's New in Revive Adserver 3.3.0
 
    Investigation and fix sponsored by Online Buddies, Inc.
 
+  * Fixed an issue with delivery capping / blocking not working when a page
+    using async tags was forcibly reloaded soon after serving a capped banner.
+
  Non-Backwards Compatible Changes
  --------------------------------
 
