@@ -281,7 +281,7 @@ class OA_Dal
             $sql = "
                 CREATE TEMPORARY TABLE
                     $table
-                TYPE={$aConf['table']['type']}";
+                ENGINE={$aConf['table']['type']}";
         }
         return $sql;
     }
