@@ -1191,20 +1191,20 @@ class OA_Email
     	$contents = html_entity_decode($contents, ENT_QUOTES);
 
     	// Build the "to:" header for the email
-    	if (!get_cfg_var('SMTP')) {
-    		$toParam = '"'.$userName.'" <'.$userEmail.'>';
-    	} else {
-    		$toParam = $userEmail;
-    	}
+        if (strncasecmp(PHP_OS, 'WIN', 3) == 0) {
+            // We do not know if PHP's mail() in windows can handle the
+            // full username in the "To:" header for all supported 
+            // PHP versions so we leave it out for now to be on the safe side.
+            $toParam = $userEmail;
+        } else {
+            $toParam = '"'.$userName.'" <'.$userEmail.'>';
+        }
     	// Build additional email headers
     	$headersParam = "MIME-Version: 1.0\r\n";
     	if (isset($phpAds_CharSet)) {
     		$headersParam .= "Content-Type: text/plain; charset=" . $phpAds_CharSet . "\r\n";
     	}
     	$headersParam .= "Content-Transfer-Encoding: 8bit\r\n";
-    	if (get_cfg_var('SMTP')) {
-    		$headersParam .= 'To: "' . $userName . '" <' . $userEmail . ">\r\n";
-    	}
     	$headersParam .= 'From: "' . $fromDetails['name'] . '" <' . $fromDetails['emailAddress'] . '>' . "\r\n";
     	// Use only \n as header separator when qmail is used
     	if ($aConf['email']['qmailPatch']) {
