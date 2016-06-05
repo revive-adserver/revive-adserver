@@ -956,9 +956,10 @@ class OA_Upgrade
      * with that of a given schema
      *
      * @param string $version
+     * @param array $aSchema
      * @return boolean
      */
-    function _checkDBIntegrity($version, $aSchema='')
+    function _checkDBIntegrity($version, $aSchema=array())
     {
         if (empty($aSchema))
         {
