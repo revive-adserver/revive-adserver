@@ -300,6 +300,12 @@ class OA_Dll_Banner extends OA_Dll
 
         if ($this->_validate($oBanner)) {
             $bannerData['storagetype'] = $oBanner->storageType;
+
+            // Set iframe friendliness only for new html banners
+            if (!isset($oBanner->bannerId)) {
+                $bannerData['iframe_friendly'] = $bannerData['storagetype'] === 'html';
+            }
+
             switch($bannerData['storagetype']) {
                 case 'html':
                     $bannerData['contenttype']    = $bannerData['storagetype'];

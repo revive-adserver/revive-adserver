@@ -67,6 +67,7 @@ class Test_OA_Api_XmlRpc_Banner extends Test_OA_Api_XmlRpc
 
         $doBanners = OA_Dal::staticGetDO('banners', $bannerId);
         $this->assertTrue($doBanners->filename);
+        $this->assertFalse($doBanners->iframe_friendly);
 
         $doImages  = OA_Dal::staticGetDO('images', $doBanners->filename);
         $this->assertEqual($doImages->contents, $gif);
@@ -95,6 +96,27 @@ class Test_OA_Api_XmlRpc_Banner extends Test_OA_Api_XmlRpc
         $this->assertEqual($doImages->contents, $swfConv);
     }
 
+    public function testIframeFriendly()
+    {
+        if (empty($this->campaignId)) {
+            return;
+        }
+
+        $oBanner = new OA_Dll_BannerInfo();
+        $oBanner->bannerName  = 'test 2';
+        $oBanner->campaignId  = $this->campaignId;
+        $oBanner->storageType = 'html';
+        $oBanner->htmlTemplate = 'foobar';
+        $oBanner->width = 468;
+        $oBanner->height = 60;
+
+        $bannerId = $this->oApi->addBanner($oBanner);
+
+        $this->assertTrue($bannerId);
+
+        $doBanners = OA_Dal::staticGetDO('banners', $bannerId);
+        $this->assertTrue($doBanners->iframe_friendly);
+    }
 }
 
 ?>

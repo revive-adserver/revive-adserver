@@ -51,6 +51,9 @@ What's New in Revive Adserver 3.3.0
   * Fixed an issue with emails being sent with duplicate "To" headers, causing
     them to be rejected by some MTAs or spam filters.
 
+  * Fixed an issue with banners created via the API always being flagged as
+    "iframe friendly". The fix only applies to newly created banners.
+
  Non-Backwards Compatible Changes
  --------------------------------
 
