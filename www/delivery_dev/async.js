@@ -84,8 +84,8 @@
                 apply: function (data) {
                     if (data.zones.length) {
                         var url = doc.location.protocol == 'http:' ?
-                              "<?php echo MAX_commonConstructDeliveryUrl('asyncspc.php'); ?>" :
-                              "<?php echo MAX_commonConstructSecureDeliveryUrl('asyncspc.php'); ?>";
+                              "<?php echo MAX_commonConstructDeliveryUrl($GLOBALS['_MAX']['CONF']['file']['asyncspc']); ?>" :
+                              "<?php echo MAX_commonConstructSecureDeliveryUrl($GLOBALS['_MAX']['CONF']['file']['asyncspc']); ?>";
 
                         data.zones = data.zones.join("|");
                         data.loc = doc.location.href;

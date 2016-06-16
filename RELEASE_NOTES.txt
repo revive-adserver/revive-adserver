@@ -57,6 +57,9 @@ What's New in Revive Adserver 3.3.0
   * Fixed an issue with some banners showing underlined text when displayed with
     async JS tags.
 
+  * Removed an hardcoded reference to the "asyncspc.php" delivery script,
+    preventing the users from renaming it.
+
  Non-Backwards Compatible Changes
  --------------------------------
 
