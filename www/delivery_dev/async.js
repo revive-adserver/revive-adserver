@@ -186,6 +186,7 @@
                                     ins.parentNode.replaceChild(newIns, ins);
                                     rv.loadFrame(i, d.html);
                                 } else {
+                                    newIns.style.textDecoration = 'none';
                                     newIns.innerHTML = d.html;
                                     var scripts = newIns.getElementsByTagName('SCRIPT');
 

@@ -54,6 +54,9 @@ What's New in Revive Adserver 3.3.0
   * Fixed an issue with banners created via the API always being flagged as
     "iframe friendly". The fix only applies to newly created banners.
 
+  * Fixed an issue with some banners showing underlined text when displayed with
+    async JS tags.
+
  Non-Backwards Compatible Changes
  --------------------------------
 
