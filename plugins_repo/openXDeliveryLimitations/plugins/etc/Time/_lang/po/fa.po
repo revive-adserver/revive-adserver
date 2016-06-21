@@ -6,7 +6,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-KeywordsList: translate\n"
 "Last-Translator: mbeccati <matteo@beccati.com>\n"
@@ -24,9 +24,9 @@ msgstr ""
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Time//Day.class.php:68
 msgid "Day of week"
-msgstr "روز و ه�?ته"
+msgstr "روز هفتهk"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Time//Date.class.php:79
 msgid "Date"
-msgstr "تاریخ"
+msgstr "زمان"
 

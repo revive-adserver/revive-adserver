@@ -11,57 +11,71 @@
  */
 
 // Other
-$GLOBALS['strCopyToClipboard'] = "کپی کردن به حافظه";
+$GLOBALS['strCopyToClipboard'] = "کپی به کلیپ بورد";
 $GLOBALS['strCopy'] = "کپی";
-$GLOBALS['strChooseTypeOfInvocation'] = "لطفا پسوند خروجی را انتخاب کنید";
-$GLOBALS['strChooseTypeOfBannerInvocation'] = "لطفا پسوند خروجی را انتخاب کنید";
+$GLOBALS['strChooseTypeOfInvocation'] = "لطفا نوع نیایش را انتخاب کنید";
+$GLOBALS['strChooseTypeOfBannerInvocation'] = "لطفا نوع نیایش بنر را انتخاب کنید";
 
 // Measures
 $GLOBALS['strAbbrSeconds'] = "ثانیه";
 
 // Common Invocation Parameters
 $GLOBALS['strInvocationWhat'] = "انتخاب بنر";
-$GLOBALS['strInvocationCampaignID'] = "داخلی";
-$GLOBALS['strInvocationTarget'] = "نحوه نمایش";
-$GLOBALS['strInvocationSource'] = "منشا";
-$GLOBALS['strInvocationWithText'] = "نمایش متن در زیر بنر";
-$GLOBALS['strInvocationDontShowAgain'] = "نمایش ندادن مجدد بنر در صورتی که یکسان باشد در صفحه";
-$GLOBALS['strInvocationDontShowAgainCampaign'] = "عدم نمایش بنر از  در صفحه مشابه";
-$GLOBALS['strInvocationTemplate'] = "ذخیره بنر درون یک متغیر که قابل استفاده در قالب صفحه باشد.";
-$GLOBALS['strInvocationBannerID'] = "آی دی بنر";
-$GLOBALS['strInvocationComments'] = "قراردادن توضیحات";
+$GLOBALS['strInvocationCampaignID'] = "کمپین";
+$GLOBALS['strInvocationTarget'] = "فریم هدف";
+$GLOBALS['strInvocationSource'] = "منبع";
+$GLOBALS['strInvocationWithText'] = "نمایش متن زیر بنر";
+$GLOBALS['strInvocationDontShowAgain'] = "تبلیغ را دوباره در یک صفحه نشان نده ";
+$GLOBALS['strInvocationDontShowAgainCampaign'] = "تبلیغات یک کمپین را دوباره در یک صفحه مشابه نشان نده";
+$GLOBALS['strInvocationTemplate'] = "تبلیغ را در یک متغیر ذخیره کنید تا بیوانید آن را در یک قالب استفاده کنید ";
+$GLOBALS['strInvocationBannerID'] = "تبلیغ ID";
+$GLOBALS['strInvocationComments'] = "مشمول کامنت شدن";
 
 // Iframe
-$GLOBALS['strIFrameRefreshAfter'] = "رفرش بعد از";
+$GLOBALS['strIFrameRefreshAfter'] = "تازه سازی بعد از";
 $GLOBALS['strIframeResizeToBanner'] = "تغییر اندازه iframe برای ابعاد بنر";
-$GLOBALS['strIframeMakeTransparent'] = "ساختن شفافیت ( Transparency ) برای iframe";
-$GLOBALS['strIframeIncludeNetscape4'] = "همساز با مرورگر نت اسکپ 4";
+$GLOBALS['strIframeMakeTransparent'] = "iframe را شفاف کن";
+$GLOBALS['strIframeIncludeNetscape4'] = "شامل نت اسکیپ 4 به iPlayer سازگار";
+$GLOBALS['strIframeGoogleClickTracking'] = "مشمول کد برای پیگیری کلیک حس تبلیغ گوگل";
 
 // PopUp
-$GLOBALS['strPopUpStyle'] = " نوع Pop-up";
-$GLOBALS['strPopUpCreateInstance'] = "نمونه وقتی که  pop-up ایجاد شد";
-$GLOBALS['strPopUpImmediately'] = "بی درنگ";
-$GLOBALS['strPopUpOnClose'] = "وقتی که این صفحه بسته می شود";
+$GLOBALS['strPopUpStyle'] = "نوع پاپ آپ";
+$GLOBALS['strPopUpStylePopUp'] = "پاپ آپ";
+$GLOBALS['strPopUpStylePopUnder'] = "پاپ تحت";
+$GLOBALS['strPopUpCreateInstance'] = "به عنوان مثال زمانی که پاپ آپ ایجاد شده است";
+$GLOBALS['strPopUpImmediately'] = "بلافاصله";
+$GLOBALS['strPopUpOnClose'] = "زمانی که صفحه بسته است";
 $GLOBALS['strPopUpAfterSec'] = "بعد از";
-$GLOBALS['strAutoCloseAfter'] = "اتوماتیک بسته شود بعد از";
-$GLOBALS['strWindowOptions'] = "گزینه های تنظیم پنجره";
+$GLOBALS['strAutoCloseAfter'] = "بسته شود به صورت خودکار بعد از";
+$GLOBALS['strPopUpTop'] = "موقعیت اولیه(بالا(";
+$GLOBALS['strPopUpLeft'] = "موقعیت اولیه (سمت چپ)";
+$GLOBALS['strWindowOptions'] = "گزینه های پنجره";
 $GLOBALS['strShowToolbars'] = "نوار ابزار";
-$GLOBALS['strShowLocation'] = "مکان";
+$GLOBALS['strShowLocation'] = "محل";
 $GLOBALS['strShowMenubar'] = "نوار منو";
 $GLOBALS['strShowStatus'] = "وضعیت";
-$GLOBALS['strWindowResizable'] = "قابلیت عوض کردن اندازه";
-$GLOBALS['strShowScrollbars'] = "اسکرول";
+$GLOBALS['strWindowResizable'] = "قابل اندازه بندی مجدد";
+$GLOBALS['strShowScrollbars'] = "پیمایش";
 
 // XML-RPC
-$GLOBALS['strXmlRpcLanguage'] = "زبان هاست";
+$GLOBALS['strXmlRpcLanguage'] = "زبان میزبانe";
+$GLOBALS['strXmlRpcProtocol'] = "استفاده از HTTPS برای تماس با XML-RPC سرور";
+$GLOBALS['strXmlRpcTimeout'] = "XML-RPC اتمام مهلت (ثانیه)";
 
 // Support for 3rd party server clicktracking
+$GLOBALS['str3rdPartyTrack'] = "حمایت از سرور های 3rd party  برای ردیابی کلیک";
 
 // Support for cachebusting code
-$GLOBALS['strCacheBuster'] = "قراردادن کد Cache-Busting";
+$GLOBALS['strCacheBuster'] = "کد کش-باستیگ را وارد کنید";
 
 // IMG invocation selected for tracker with appended code
-$GLOBALS['strWarning'] = "اخطار";
+$GLOBALS['strWarning'] = "هشدار";
+$GLOBALS['strImgWithAppendWarning'] = "این ردیاب کداضافی دارد ,این کد اضافی  <strong>فقط</strong> با برچسب جاوا اسکریپت کار می کند";
 
 // Local Invocation
+$GLOBALS['strWarningLocalInvocation'] = "<span class='tab-s'><strong>هشدار :</strong> حالت نیایش محلی تنها زمانی کار خواهد کرد اگر سایت خواستار کد در سرور تبلیغاتی دستگاه فیزیکی باشد</span><br />
+بررسی کنید که MAX_PATH در کد زیر تعریف شده به پایه دایرکتوری نصب و راه اندازی حداکثر اشاره می کند . <br />
+و که شما یک فایل پیکربندی برای دامنه از سایت با نشان دادن تبلیغات دارید(در MAX_PATH/var)";
 
+$GLOBALS['strIABNoteLocalInvocation'] = "<b>توجه:</b> اطلاعات تصور تولید شده از با استفاده از تگ حالت نیایش محلی مطابق با دستورالعمل IAB برای اندازه گیری های آگهی تصور نیست.";
+$GLOBALS['strIABNoteXMLRPCInvocation'] = "<b>توجه:</b> اطلاعات تصور تولید شده از با استفاده از تگ فراخوانی XML-RPC هستند مطابق با دستورالعمل IAB برای اندازه گیری های آگهی تصور نیست.";

@@ -6,7 +6,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-KeywordsList: translate\n"
 "Last-Translator: mbeccati <matteo@beccati.com>\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adframe.class.php:53
 msgid "iFrame Tag"
-msgstr ""
+msgstr "برچسب iFrame"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adframe.class.php:115
 msgid "\n"
@@ -29,15 +29,20 @@ msgid "\n"
 "  * banners, so if you want these tags to allocate space for the ad\n"
 "  * before it shows, you will need to add this information to the <img>\n"
 "  * tag."
-msgstr ""
+msgstr "\n"
+"* اگر iFrames توسط مرورگر بازدید کنندگان پشتیبانی نشد ، پس این \n"
+"* برچسب فقط تبلیغات تصویری را نشان می دهد . هیچ عرض یا پهنایی در این تبلیغات وجود ندارد \n"
+"*پس ، اگر می خواهید که برای این برچسب فضایی اختصاص داده شود برای تبلیغات \n"
+"* قبل از این که نمایش داده شود ، شما باید این اطلاعات به \n"
+"* برچسب اضافه کنید . "
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adframe.class.php:204
 msgid "Placement Comment"
-msgstr ""
+msgstr "محل قرارگیری نطر"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adjs.class.php:53
 msgid "Javascript Tag"
-msgstr ""
+msgstr "برچسب Javascript"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adjs.class.php:116
 #, php-format
@@ -55,14 +60,17 @@ msgstr ""
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adlayer.class.php:62
 msgid "Interstitial or Floating DHTML Tag"
-msgstr ""
+msgstr "بینابینی یا شناوری برچسب DHTML"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adlayer.class.php:119
 msgid "\n"
 "  * Replace all instances of {random} with\n"
 "  * a generated random number (or timestamp).\n"
 "  *"
-msgstr ""
+msgstr "\n"
+"* تمام نمونه های {random} را با \n"
+"* یک عدد تصادفی (یا یک زمان تصادفی) جایگذاری کنید \n"
+"*"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adlayer.class.php:123
 msgid "\n"
@@ -70,7 +78,11 @@ msgid "\n"
 "  * the click tracking URL if this ad is to be delivered through a 3rd\n"
 "  * party (non-Max) adserver.\n"
 "  *"
-msgstr ""
+msgstr "\n"
+"* فراموش نشود که متن '{clickurl}' با \n"
+"* کلیک ردیابی URL، اگر این تبلیغ یک سرور تبلیغاتی 3rd-party \n"
+"* باشد ، جایگزین کنید .\n"
+"*"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adlayer.class.php:128
 #, php-format
@@ -81,7 +93,14 @@ msgid "\n"
 "  * to\n"
 "  *   'https://%s/...'\n"
 "  *"
-msgstr ""
+msgstr "\n"
+"* این برچسب برای استفاده از صفحه های بدون SSL تولید شده است . اگر این برچسب \n"
+"*باید در SSL جایگذاری شود، \n"
+"* 'http://%s/...' \n"
+"* را به \n"
+"*  'https://%s/...'\n"
+"* تغییر دهید . \n"
+"*"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adlayer.class.php:139
 #, php-format
@@ -91,7 +110,13 @@ msgid "\n"
 "  * /www/images/layerstyles/%s/...\n"
 "  * To be accessible via: http(s)://%s/layerstyles/%s/...\n"
 "  *------------------------------------------------------------*"
-msgstr ""
+msgstr "\n"
+" *------------------------------------------------------------*\n"
+"  * این کد نیایش بینابینی به تصویر از آدرس زیر نیازمند است: \n"
+"  \n"
+"  * /www/images/layerstyles/%s/...\n"
+"  * تا قابل دسترسی باشد از: http(s)://%s/layerstyles/%s/...\n"
+"  *------------------------------------------------------------*"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adlayer.class.php:242
 msgid "Style"
@@ -99,7 +124,7 @@ msgstr "استایل"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adview.class.php:53
 msgid "Image Tag"
-msgstr ""
+msgstr "برچسب تصویر"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adview.class.php:111
 msgid "\n"
@@ -107,23 +132,27 @@ msgid "\n"
 "  * these banners, so if you want these tags to allocate space for the\n"
 "  * ad before it shows, you will need to add this information to the\n"
 "  * <img> tag."
-msgstr ""
+msgstr "\n"
+"* این برچسب فقط تبلیغات تصویری را نشان می دهد . هیچ طول و عرضی در این\n"
+"* تبلیغات وجود ندارد ، پس برای تخصص دادن حافظه به این بر چسب برای تبلیغ قبل از اینکه مشاهده شود \n"
+"* باید این اطلاعات را به بر چسب <img>اضافه کنید . \n"
+"*"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adviewnocookies.class.php:57
 msgid "No Cookie Image Tag"
-msgstr ""
+msgstr "برچسب تصویر بدون کوکی"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/local.class.php:49
 msgid "Local Mode Tag"
-msgstr ""
+msgstr "برچسب حالت محلی"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/local.class.php:146
 msgid "Assign the $phpAds_raw['html'] variable to your template"
-msgstr ""
+msgstr "معرفی کردن مقدار  $phpAds_raw['html'] به قالب تان"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/popup.class.php:59
 msgid "Popup Tag"
-msgstr ""
+msgstr "برچسب پنجره "
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/popup.class.php:120
 msgid "\n"
@@ -135,7 +164,15 @@ msgid "\n"
 "  -- a cache-buster random number each time you deliver the tag through\n"
 "  -- a 3rd party (non-Max) adserver.\n"
 "  --"
-msgstr ""
+msgstr "\n"
+"--فراموش نشود که متن 'Insert_Clicktrack_URL_Here' با \n"
+"--  اگر این تبلیغ یک سرور تبلیغاتی 3rd party (non-max) فراخوانی شود . \n"
+"-- کلیک جست و جو URL جایگزین کنید .\n"
+"--\n"
+"-- فراموش نکنید که هر بار که یک بر چسب از یک سرور 3rdparty(non max) \n"
+"-- متن  'Insert_Random_Number_Here' با عدد تصادفی  cache-buster \n"
+"-- جایگزین کنید . \n"
+"--"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/popup.class.php:129
 #, php-format
@@ -146,25 +183,31 @@ msgid "\n"
 "  -- to\n"
 "  --   'https://%s/...'\n"
 "  --"
-msgstr ""
+msgstr "\n"
+"-- این برچسب برای استفاده در صفحه ی بدون SSL نولید شده سات . اگر این بر چسب \n"
+"-- لازم بود که در صفحه SSL درج شود ، تمامی موارد \n"
+"  --   'http://%s/...'\n"
+"  -- را به\n"
+"  --   'https://%s/...'\n"
+"  -- تغییر دهید "
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/spc.class.php:91
 msgid "Publisher code - Single Page Call"
-msgstr ""
+msgstr "کد ناشر - فراخوانی یک صفحه"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/spc.class.php:237
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/spc.class.php:411
 msgid "Option - noscript"
-msgstr ""
+msgstr "گزینه - بدون script"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/spc.class.php:241
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/spc.class.php:426
 msgid "Option - SSL"
-msgstr ""
+msgstr "گزینه-SSL"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/xmlrpc.class.php:54
 msgid "XML-RPC Tag"
-msgstr ""
+msgstr "XML-برچسب RPC"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/xmlrpc.class.php:160
 msgid "\n"
@@ -183,7 +226,22 @@ msgid "\n"
 "  * lib/xmlrpc/php/openads-xmlrpc.inc.php library file. You may need to\n"
 "  * alter the 'include_path' value immediately below.\n"
 "  */"
-msgstr ""
+msgstr "\n"
+" * همان گونه که script PHP زیر تلاش می کند که کوکی ها را وارد کند، باید قبل از اینکه خروجی ای \n"
+"* به مرورگر کاربر فرستاده شود ، فراخوانی شود . هنگامی که اجرای script تمام شود، به کد HTML نیاز است تا تبلیغ \n"
+"* ذخیره شده در آرایه ی  $adArray (پس می تواند شامل تبلیغات چند گانه با استفاده از برچسب های چندگانه باشد )نشان داده شود.\n"
+"* وقتی که تمام تبلیغات در بر گرفته شدند ، و تمامی کوکی ها تنظیم شدند\n"
+"* ، آنگاه شما می توانید خروجی را به مرورگر کاربر بفرستید ، و \n"
+"* تمام محتویات   $adArray را در جایی که مناسب است پرینت کنید . \n"
+"*\n"
+"* کد نمونه برای پرینت کردن از  $adArray در انتهای بر چسب است -\n"
+"* شما باید این برچسب را قبل از استفاده از تگ پاک کنید \n"
+"* به یاد داشته باشید که از وجود پکیج(بسته) PEAR::XML-RPC اطمینان پیدا کنید \n"
+".  \n"
+"* و برای اسکریپت معرفی کنید ، و کل کتابخانه lib/xmlrpc/php/openads-xmlrpc.inc.php \n"
+"* را کپی کنید .  شاید نیاز بشود که \n"
+"* ارزش  'include_path' را سریعا کاهش دهید . \n"
+"  */"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:70
 msgid "Smooth movement"
