@@ -6,7 +6,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-KeywordsList: translate\n"
 "Last-Translator: mbeccati <matteo@beccati.com>\n"
@@ -20,15 +20,15 @@ msgstr ""
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site//Channel.class.php:62
 msgid "Is all of"
-msgstr ""
+msgstr "همه ی "
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site//Channel.class.php:72
 msgid "Channel"
-msgstr ""
+msgstr "کانال"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site//Referingpage.class.php:59
 msgid "Refering Page"
-msgstr ""
+msgstr "صفحه ارجاعی"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site//Source.class.php:59
 msgid "Source"
@@ -36,13 +36,13 @@ msgstr "منشا"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site//Pageurl.class.php:66
 msgid "Page URL"
-msgstr ""
+msgstr "آدرس صفحه"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site//Variable.class.php:58
 msgid "Variable"
-msgstr ""
+msgstr "ارزش"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site//Variable.class.php:71
 msgid "Site:Variable: Name contains unallowed character(s)"
-msgstr ""
+msgstr "سایت:ارزش:اسم حاوی کارکتر های غیر مجاز می باشد (s)"
 
