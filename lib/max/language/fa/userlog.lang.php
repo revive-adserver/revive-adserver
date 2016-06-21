@@ -12,29 +12,41 @@
 
 // Set translation strings
 $GLOBALS['strDeliveryEngine'] = "موتور تحویل";
-$GLOBALS['strMaintenance'] = "نگهدار&#1740;";
-$GLOBALS['strAdministrator'] = "مدیریت";
+$GLOBALS['strMaintenance'] = "نگهداری";
+$GLOBALS['strAdministrator'] = "ادمین";
 
 // Audit
-$GLOBALS['strDeleted'] = "حذف";
-$GLOBALS['strDelete'] = "حذ�?";
-$GLOBALS['strAdvertiser'] = "آگهی دهنده";
-$GLOBALS['strPublisher'] = "ناشر";
-$GLOBALS['strCampaign'] = "داخلی";
-$GLOBALS['strZone'] = "ناحیه";
+$GLOBALS['strDeleted'] = "حذف شذه";
+$GLOBALS['strInserted'] = "وارد شده";
+$GLOBALS['strUpdated'] = "بروز شده";
+$GLOBALS['strDelete'] = "حذف";
+$GLOBALS['strHas'] = "داشتن";
+$GLOBALS['strFilters'] = "فیلتر ها";
+$GLOBALS['strAdvertiser'] = "مبلغ";
+$GLOBALS['strPublisher'] = "وب سایت";
+$GLOBALS['strCampaign'] = "کمپین";
+$GLOBALS['strZone'] = "منطقه";
+$GLOBALS['strType'] = "نوع";
 $GLOBALS['strAction'] = "اقدام";
-$GLOBALS['strValue'] = "قیمت";
+$GLOBALS['strParameter'] = "پارامتر";
+$GLOBALS['strValue'] = "مقدار";
+$GLOBALS['strReturnAuditTrail'] = "بازگشت به حسابرسی نوین";
+$GLOBALS['strAuditTrail'] = "حسابرسی نوین";
+$GLOBALS['strMaintenanceLog'] = "ورود به سیستم تعمیر و نگهداری";
+$GLOBALS['strAuditResultsNotFound'] = "واقعه ای که با ضوابط انتخاب شده مچ شود یافت نشد";
+$GLOBALS['strCollectedAllEvents'] = "تمام وقایع";
+$GLOBALS['strClear'] = "پاک کردن";
 
 if (!isset($GLOBALS['strUserlog'])) {
     $GLOBALS['strUserlog'] = array();
 }
-$GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "غیر فعال کردن هشدارها برای campaign {id} و ارسال توسط ایمیل";
-$GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "غیر فعال کردن هشدارها برای campaign {id} و ارسال توسط ایمیل";
-$GLOBALS['strUserlog'][phpAds_actionAutoClean] = "غیر فعال کردن هشدارها برای campaign {id} و ارسال توسط ایمیل";
-$GLOBALS['strUserlog'][phpAds_actionBatchStatistics] = "غیر فعال کردن هشدارها برای campaign {id} و ارسال توسط ایمیل";
-$GLOBALS['strUserlog'][phpAds_actionDeactivationMailed] = "غیر فعال کردن هشدارها برای campaign {id} و ارسال توسط ایمیل";
-$GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "غیر فعال کردن هشدارها برای campaign {id} و ارسال توسط ایمیل";
-$GLOBALS['strUserlog'][phpAds_actionPriorityCalculation] = "غیر فعال کردن هشدارها برای campaign {id} و ارسال توسط ایمیل";
-$GLOBALS['strUserlog'][phpAds_actionPublisherReportMailed] = "غیر فعال کردن هشدارها برای campaign {id} و ارسال توسط ایمیل";
-$GLOBALS['strUserlog'][phpAds_actionWarningMailed] = "غیر فعال کردن هشدارها برای campaign {id} و ارسال توسط ایمیل";
-$GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "غیر فعال کردن هشدارها برای campaign {id} و ارسال توسط ایمیل";
+$GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "اخطار فعال شدن برای کمپین {id}  فرستادن از طریق ایمیل";
+$GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "اخطار فعال شدن برای کمپین {id}  فرستادن از طریق ایمیل";
+$GLOBALS['strUserlog'][phpAds_actionAutoClean] = "اخطار فعال شدن برای کمپین {id}  فرستادن از طریق ایمیل";
+$GLOBALS['strUserlog'][phpAds_actionBatchStatistics] = "اخطار فعال شدن برای کمپین {id}  فرستادن از طریق ایمیل";
+$GLOBALS['strUserlog'][phpAds_actionDeactivationMailed] = "اخطار فعال شدن برای کمپین {id}  فرستادن از طریق ایمیل";
+$GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "اخطار فعال شدن برای کمپین {id}  فرستادن از طریق ایمیل";
+$GLOBALS['strUserlog'][phpAds_actionPriorityCalculation] = "اخطار فعال شدن برای کمپین {id}  فرستادن از طریق ایمیل";
+$GLOBALS['strUserlog'][phpAds_actionPublisherReportMailed] = "اخطار فعال شدن برای کمپین {id}  فرستادن از طریق ایمیل";
+$GLOBALS['strUserlog'][phpAds_actionWarningMailed] = "اخطار فعال شدن برای کمپین {id}  فرستادن از طریق ایمیل";
+$GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "اخطار فعال شدن برای کمپین {id}  فرستادن از طریق ایمیل";
