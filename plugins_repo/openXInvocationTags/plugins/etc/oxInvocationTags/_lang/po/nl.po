@@ -395,3 +395,6 @@ msgstr "Automatisch sluiten na"
 msgid "Border color"
 msgstr "Randkleur"
 
+#~ msgid "PHP Comment"
+#~ msgstr "PHP Comment"
+

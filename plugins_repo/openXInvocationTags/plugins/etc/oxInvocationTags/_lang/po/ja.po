@@ -330,3 +330,6 @@ msgstr "自動クローズ秒数"
 msgid "Border color"
 msgstr "境界色"
 
+#~ msgid "PHP Comment"
+#~ msgstr "PHP Comment"
+
