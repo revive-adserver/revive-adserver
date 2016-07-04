@@ -412,6 +412,3 @@ msgstr "Automatically close after"
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:144
 msgid "Border color"
 msgstr "Border color"
-
-#~ msgid "PHP Comment"
-#~ msgstr "PHP Comment"
