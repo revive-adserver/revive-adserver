@@ -330,3 +330,6 @@ msgstr "Automatikus bezárás, után"
 msgid "Border color"
 msgstr "Szegély színe"
 
+#~ msgid "PHP Comment"
+#~ msgstr "PHP Comment"
+

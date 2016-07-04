@@ -330,3 +330,6 @@ msgstr "יסגר אוטומטית אחרי"
 msgid "Border color"
 msgstr "צבע מסגרת"
 
+#~ msgid "PHP Comment"
+#~ msgstr "PHP Comment"
+
