@@ -330,3 +330,6 @@ msgstr "Süre sonra otomatik kapat"
 msgid "Border color"
 msgstr "Çerçeve Rengi"
 
+#~ msgid "PHP Comment"
+#~ msgstr "PHP Comment"
+

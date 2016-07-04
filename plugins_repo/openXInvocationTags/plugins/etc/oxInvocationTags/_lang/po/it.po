@@ -330,3 +330,6 @@ msgstr "Chiudi automaticamente dopo"
 msgid "Border color"
 msgstr "Colore del bordo"
 
+#~ msgid "PHP Comment"
+#~ msgstr "PHP Comment"
+

@@ -330,3 +330,6 @@ msgstr ""
 msgid "Border color"
 msgstr ""
 
+#~ msgid "PHP Comment"
+#~ msgstr "PHP Comment"
+
