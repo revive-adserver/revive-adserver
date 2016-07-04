@@ -330,3 +330,6 @@ msgstr "후에 자동으로 닫음"
 msgid "Border color"
 msgstr "테두리 색"
 
+#~ msgid "PHP Comment"
+#~ msgstr "PHP Comment"
+

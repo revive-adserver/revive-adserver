@@ -10,12 +10,12 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-KeywordsList: translate\n"
 "Last-Translator: mbeccati <matteo@beccati.com>\n"
-"Language-Team: Chinese Traditional\n"
-"Language: zh_TW\n"
+"Language-Team: Vietnamese\n"
+"Language: vi_VN\n"
 "X-Generator: crowdin.com\n"
 "X-Poedit-SearchPath-0: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/\n"
 "X-Crowdin-Project: revive-adserver\n"
-"X-Crowdin-Language: zh-TW\n"
+"X-Crowdin-Language: vi\n"
 "X-Crowdin-File: /plugins_repo/openXInvocationTags/plugins/etc/oxInvocationTags/_lang/po/en.po\n"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adframe.class.php:53
@@ -95,7 +95,7 @@ msgstr ""
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adlayer.class.php:242
 msgid "Style"
-msgstr "風格"
+msgstr ""
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adview.class.php:53
 msgid "Image Tag"
@@ -239,7 +239,7 @@ msgstr ""
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:107
 msgid "Pause"
-msgstr "暫停"
+msgstr ""
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:117
 msgid "Limited"

@@ -335,3 +335,6 @@ msgstr "Автоматически закрыть через"
 msgid "Border color"
 msgstr "Цвет рамки"
 
+#~ msgid "PHP Comment"
+#~ msgstr "PHP Comment"
+
