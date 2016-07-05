@@ -60,6 +60,9 @@ What's New in Revive Adserver 3.3.0
   * Removed an hardcoded reference to the "asyncspc.php" delivery script,
     preventing the users from renaming it.
 
+  * Fixed an issue with Doubleclick 3rd party click tracking plugin not
+    recognizing https URLs.
+
  Non-Backwards Compatible Changes
  --------------------------------
 
