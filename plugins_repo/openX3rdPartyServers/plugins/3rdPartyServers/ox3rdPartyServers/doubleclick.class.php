@@ -46,8 +46,8 @@ class Plugins_3rdPartyServers_ox3rdPartyServers_doubleclick extends Plugins_3rdP
      */
     function getBannerCache($buffer, &$noScript)
     {
-        $search  = array("/\[timestamp\]/i", "/(http:.*?;)(.*?)/i");
-        $replace = array("{random}",      "$1click0={clickurl};$2");
+        $search  = array("/\[timestamp\]/i", "/(http:.*?;)(.*?)/i", "/(https:.*?;)(.*?)/i");
+        $replace = array("{random}",      "$1click0={clickurl};$2", "$1click0={clickurl};$2");
 
         $buffer = preg_replace ($search, $replace, $buffer);
         $noScript[0] = preg_replace($search[0], $replace[0], $noScript[0]);
