@@ -3480,6 +3480,12 @@ $url .= $amp . urlencode($key) . '=' . urlencode($value);
 }
 }
 }
+if (!empty($conf['var']['customVars'])) {
+$customVars = explode(',',$conf['var']['customVars']);
+foreach ($customVars as $customVar) {
+$url .= "{$amp}{$customVar}={{$customVar}}";
+}
+}
 return $url;
 }
 function _adRenderImageBeacon($aBanner, $zoneId = 0, $source = '', $loc = '', $referer = '', $logUrl = '')
@@ -3530,6 +3536,12 @@ foreach ($params as $key => $value) {
 $maxparams .= $del . urlencode($key) . '=' . urlencode($value);
 }
 }
+}
+}
+if (!empty($conf['var']['customVars'])) {
+$customVars = explode(',',$conf['var']['customVars']);
+foreach ($customVars as $customVar) {
+$maxparams .= "{$del}{$customVar}={{$customVar}}";
 }
 }
 $maxparams .= $maxdest;

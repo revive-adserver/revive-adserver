@@ -334,6 +334,7 @@ disableSendEmails   = false                 ; If true, no email will be sent fro
 
 [var]
 prefix              = OA_           ; Used to prefix some variables and used in invocation codes
+customVars          =               ; Comma list of additional variables to pass to the click and log URLs from the AdJS/AdFrame/etc URL querystrings
 cookieTest          = ct            ; Used for the forced cookie test redirect
 cacheBuster         = cb            ; Cache buster
 channel             = source        ; Channel of the website

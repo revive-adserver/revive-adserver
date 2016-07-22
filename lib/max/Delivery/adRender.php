@@ -557,6 +557,15 @@ function _adRenderBuildLogURL($aBanner, $zoneId = 0, $source = '', $loc = '', $r
             }
         }
     }
+
+    // JSS - hack here for the following reason: There is no way to use the adUrlParams hook to add foo={foo}, since the param values are url encoded
+    if (!empty($conf['var']['customVars'])) {
+        $customVars = explode(',',$conf['var']['customVars']);
+        foreach ($customVars as $customVar) {
+            $url .= "{$amp}{$customVar}={{$customVar}}";
+        }
+    }
+
     return $url;
 }
 
@@ -641,6 +650,7 @@ function _adRenderBuildParams($aBanner, $zoneId=0, $source='', $ct0='', $logClic
         $log .= (!empty($logLastClick)) ? $del . $conf['var']['lastClick'] . '=' . $logLastClick : '';
 
         $maxparams = $delnum . $bannerId . $zoneId . $source . $log . $random;
+
         // addUrlParams hook for plugins to add key=value pairs to the log/click URLs
         $componentParams =  OX_Delivery_Common_hook('addUrlParams', array($aBanner));
         if (!empty($componentParams) && is_array($componentParams)) {
@@ -652,6 +662,15 @@ function _adRenderBuildParams($aBanner, $zoneId=0, $source='', $ct0='', $logClic
                 }
             }
         }
+
+        // JSS - hack here for the following reason: There is no way to use the adUrlParams hook to add foo={foo}, since the param values are url encoded
+        if (!empty($conf['var']['customVars'])) {
+            $customVars = explode(',',$conf['var']['customVars']);
+            foreach ($customVars as $customVar) {
+                $maxparams .= "{$del}{$customVar}={{$customVar}}";
+            }
+        }
+
         $maxparams .= $maxdest;
     }
     return $maxparams;
