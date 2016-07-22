@@ -871,7 +871,7 @@ $dispatches = array(
             array('string', 'string', 'int', 'string', 'struct'),
             array('string', 'string', 'int', 'string', 'array')
         ),
-        'docstring' => 'Unlink a campaign from a zone'
+        'docstring' => 'Generate zone invocation code'
     ),
 
 );
