@@ -1,0 +1,21 @@
+{
+    "name": "revive-adserver/revive-adserver",
+    "description": "The world's most popular free, open source ad serving system",
+    "type": "project",
+    "license": "GNU GPLv2",
+    "authors": [
+        {
+            "name": "The Revive Adserver Team",
+            "email": "revive@revive-adserver.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "config": {
+        "vendor-dir": "lib/vendor"
+    },
+    "autoload": {
+        "psr-4": {
+            "RV\\": "lib/RV/"
+        }
+    }
+}

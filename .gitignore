@@ -22,3 +22,4 @@
 /www/images/
 /plugins_repo/build-ap.xml
 /plugins_repo/release/*.zip
+/lib/vendor/

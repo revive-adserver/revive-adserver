@@ -27,6 +27,9 @@ require_once 'init-delivery-parse.php';
 require_once 'memory.php';
 require_once 'variables.php';
 
+// PSR Autoloader
+require_once __DIR__.'/lib/vendor/autoload.php';
+
 // Increase the PHP memory_limit value to the minimum required value, if necessery
 OX_increaseMemoryLimit(OX_getMinimumRequiredMemory());
 

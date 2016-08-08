@@ -41,7 +41,7 @@
   <!-- DELIVERY AND XML CACHE GENERATION TARGETS                            -->
   <!-- ******************************************************************** -->
 
-  <target name="generate-delivery"
+  <target name="generate-delivery" depends="install-deps"
     description="Merge delivery files into /www/delivery folder to optimize their speed.">
     <exec dir="${basedir}/scripts/delivery" executable="php" failonerror="true">
         <arg value="rebuild.php" />
@@ -59,7 +59,7 @@
   </target>
 
 
-  <target name="generate-xml-cache" description="Generate XML Cache from MDB2 Schema XML files">
+  <target name="generate-xml-cache" depends="install-deps" description="Generate XML Cache from MDB2 Schema XML files">
     <exec dir="${basedir}/scripts/upgrade" executable="php" failonerror="true">
       <arg value="buildXmlCache.php" />
     </exec>
@@ -125,7 +125,18 @@
     </copy>
   </target>
 
-  <target name="clear-distribution" depends="prepare-version-info">
+  <target name="install-deps" description="Install composer dependencies.">
+    <exec dir="${basedir}" executable="composer" failonerror="true">
+        <arg value="install" />
+        <arg value="-o" />
+    </exec>
+  </target>
+
+  <target name="clear-deps" description="Cleans the composer vendor dir.">
+    <delete dir="lib/vendor" />
+  </target>
+
+  <target name="clear-distribution" depends="prepare-version-info, clear-deps">
     <property name="release.dir" value="${dir.test.results}/${release}"/>
     <delete dir="${release.dir}" failonerror="false"/>
   </target>

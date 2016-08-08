@@ -15,6 +15,8 @@
     <include name="*.js"/>
     <include name="robots.txt"/>
     <include name="crossdomain.xml"/>
+    <include name="composer.json"/>
+    <include name="composer.lock"/>
     <exclude name="build.sh"/>
 
     <!-- Subdirectory rules -->
