@@ -71,15 +71,15 @@ function init()
     // If not being called from the installation script...
     if ( (!isset($GLOBALS['_MAX']['CONF']['openads']['installed'])) || (!$GLOBALS['_MAX']['CONF']['openads']['installed']) )
     {
-        define('RV_INSTALLATION_STATUS',    RV_INSTALLATION_STATUS_NOTINSTALLED);
+        define('OA_INSTALLATION_STATUS',    OA_INSTALLATION_STATUS_NOTINSTALLED);
     }
     else if ($GLOBALS['_MAX']['CONF']['openads']['installed'] && file_exists(MAX_PATH.'/var/UPGRADE'))
     {
-        define('RV_INSTALLATION_STATUS',    RV_INSTALLATION_STATUS_UPGRADING);
+        define('OA_INSTALLATION_STATUS',    OA_INSTALLATION_STATUS_UPGRADING);
     }
     else if ($GLOBALS['_MAX']['CONF']['openads']['installed'] && file_exists(MAX_PATH.'/var/INSTALLED'))
     {
-        define('RV_INSTALLATION_STATUS',    RV_INSTALLATION_STATUS_INSTALLED);
+        define('OA_INSTALLATION_STATUS',    OA_INSTALLATION_STATUS_INSTALLED);
     }
 
     global $installing;
@@ -88,7 +88,8 @@ function init()
         if ($scriptName != 'install.php' && PHP_SAPI != 'cli')
         {
             // Direct the user to the installation script if not installed
-            if (RV_INSTALLATION_STATUS !== RV_INSTALLATION_STATUS_INSTALLED)
+            //if (!$GLOBALS['_MAX']['CONF']['openads']['installed'])
+            if (OA_INSTALLATION_STATUS !== OA_INSTALLATION_STATUS_INSTALLED)
             {
                 // Do not redirect for maintenance scripts
                 if ($scriptName == 'maintenance.php' || $scriptName == 'maintenance-distributed.php') {

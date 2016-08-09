@@ -96,7 +96,7 @@ function OA_Start($checkRedirectFunc = null)
     MAX_header('Cache-Control: no-cache, no-store, must-revalidate');
     MAX_header('Expires: 0');
 
-    if (RV_INSTALLATION_STATUS == RV_INSTALLATION_STATUS_INSTALLED)
+    if (OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED)
     {
         phpAds_SessionDataFetch();
     }

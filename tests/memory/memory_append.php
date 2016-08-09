@@ -14,12 +14,13 @@
  * Script check the memory footprint and automatically creates a report file
  * which contains the biggest memory usage per all executed scripts
  */
+
 $mem = memory_get_usage(true);
 
 $filename = basename($_SERVER["SCRIPT_NAME"]);
 
-if (!defined('RV_PATH')) {
-    // Make sure this script is executed only inside Revive Adserver
+if (!defined('MAX_PATH')) {
+    // make sure this script is executed only inside Openads
     exit;
 }
 $memoryLock = MAX_PATH . '/var/MEMORY_LOCK';
@@ -69,5 +70,4 @@ if (!file_put_contents($memoryLog, implode('', $aLog))) {
 }
 
 unlink($memoryLock);
-
 ?>

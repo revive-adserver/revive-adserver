@@ -553,7 +553,7 @@ class OA_Admin_Option
         }
         $this->_showHiddenField(array('name' => 'token', 'value' => phpAds_SessionGetToken()), '');
 
-        if (RV_INSTALLATION_STATUS == RV_INSTALLATION_STATUS_INSTALLED)
+        if (OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED)
         {
             if ($disableSubmit != 0) {
                 $max_file_size = $this->_display_to_bytes(ini_get('upload_max_filesize'));
@@ -579,7 +579,7 @@ class OA_Admin_Option
         $this->oTpl->assign('section',          $aSettingSection);
         $this->oTpl->assign('optionType',       $this->_optionType);
         $this->oTpl->assign('adminUser',        OA_Permission::isAccount(OA_ACCOUNT_ADMIN));
-        $this->oTpl->assign('oxInstalled',      RV_INSTALLATION_STATUS == RV_INSTALLATION_STATUS_INSTALLED);
+        $this->oTpl->assign('oxInstalled',      OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED);
 
         $this->oTpl->display();
     }
@@ -727,7 +727,7 @@ class OA_Admin_Option
     function _showStartSection($name, $error = array(), $disableSubmit=0, $imgPath="")
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $icon = (RV_INSTALLATION_STATUS != RV_INSTALLATION_STATUS_INSTALLED) ? 'setup' : 'settings';
+        $icon = (OA_INSTALLATION_STATUS != OA_INSTALLATION_STATUS_INSTALLED) ? 'setup' : 'settings';
 
         $aItem['name'] = $name;
         $aItem['error'] = $error;
@@ -959,7 +959,7 @@ class OA_Admin_Option
     {
         if ($this->_optionType == 'account-settings') {
             $aConf = $GLOBALS['_MAX']['CONF'];
-            if ((RV_INSTALLATION_STATUS == RV_INSTALLATION_STATUS_INSTALLED) && isset($aItem['name']))
+            if ((OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED) && isset($aItem['name']))
             {
                 $aNameExploded = explode('_', $aItem['name']);
                 $aSettingSection = isset($aNameExploded[0]) ? $aNameExploded[0] : null;

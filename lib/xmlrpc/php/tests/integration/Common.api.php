@@ -31,7 +31,7 @@ $fp = fopen(MAX_PATH .'/var/cache/test_api_openads-api-xmlrpc.php', 'w');
 fwrite($fp, '<'.'?php '.$api);
 require_once(MAX_PATH .'/var/cache/test_api_openads-api-xmlrpc.php');
 
-define('RV_INSTALLATION_STATUS', RV_INSTALLATION_STATUS_INSTALLED);
+define('OA_INSTALLATION_STATUS', OA_INSTALLATION_STATUS_INSTALLED);
 
 /**
  * A common class for testing the webservices API
