@@ -129,6 +129,7 @@
     <exec dir="${basedir}" executable="composer" failonerror="true">
         <arg value="install" />
         <arg value="-o" />
+        <env key="COMPOSER_HOME" value="${basedir}"/>
     </exec>
   </target>
 
