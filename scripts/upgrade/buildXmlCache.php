@@ -22,6 +22,7 @@ echo "=> STARTING TO REFRESH THE MDB2 SCHEMA XML FILE CACHE\n";
 
 define('MAX_PATH', dirname(__FILE__) . '/../..');
 define('OX_PATH', dirname(__FILE__) . '/../..');
+define('RV_PATH', MAX_PATH);
 error_reporting(E_ALL);
 
 // setup environment - do not require config file

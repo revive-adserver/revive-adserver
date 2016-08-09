@@ -30,6 +30,7 @@ echo "=> STARTING TO RE-COMPILE THE DELIVERY ENGINE FILES\n";
 define('MAX_PATH', dirname(dirname(dirname(__FILE__))));
 define('OX_PATH',  dirname(dirname(dirname(__FILE__))));
 define('LIB_PATH', MAX_PATH.'/lib/OX');
+define('RV_PATH', MAX_PATH);
 
 $ignored_files = array('template.php');
 
