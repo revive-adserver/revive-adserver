@@ -248,6 +248,8 @@ $oxZendPath = MAX_PATH . DIRECTORY_SEPARATOR . 'lib';
 set_include_path($oxPearPath . PATH_SEPARATOR . $oxZendPath . PATH_SEPARATOR . get_include_path());
 }
 
+require_once __DIR__.'/lib/vendor/autoload.php';
+
 OX_increaseMemoryLimit(OX_getMinimumRequiredMemory());
 if (!defined('E_DEPRECATED')) {
 define('E_DEPRECATED', 0);
