@@ -62,12 +62,18 @@ class OX_Admin_UI_Install_DbForm
     {
         $this->addElement('hidden', 'moreFieldsShown', 0, array('id' => 'moreFieldsShown'));
 
+        $typeOptions = array('class' => 'small', 'id' => 'dbType');
+        if (!isset($this->aDbTypes['mysql']) && PHP_VERSION_ID >= 50000) {
+            $typeOptions['suffix'] = sprintf(" {$GLOBALS['strDbPHP7AndMySQL']}", 'http:');
+        }
+
         //build form
         $this->addElement('header', 'h_db_main', $GLOBALS['strDatabaseSettings']);
+        $this->addElement('select', 'dbType', $GLOBALS['strDbType'], $this->aDbTypes, $typeOptions);
+        $this->addElement('text', 'dbHost', $GLOBALS['strDbHost'], array('class' => 'medium', 'id' => 'dbHost'));
         $this->addElement('text', 'dbName', $GLOBALS['strDbName'], array('class' => 'medium', 'id' => 'dbName', 'suffix' => ' '.$GLOBALS['strDbNameHint']));
         $this->addElement('text', 'dbUser', $GLOBALS['strDbUser'], array('class' => 'medium', 'id' => 'dbUser'));
         $this->addElement('password', 'dbPassword', $GLOBALS['strDbPassword'], array('class' => 'medium', 'id' => 'dbPassword'));
-        $this->addElement('text', 'dbHost', $GLOBALS['strDbHost'], array('class' => 'medium', 'id' => 'dbHost'));
 
         $this->addElement('static', 'moreFields', '<a href="#" id="showMoreFields">'.$GLOBALS['strDbSeeMoreFields'].'</a>');
 
@@ -85,7 +91,6 @@ class OX_Admin_UI_Install_DbForm
         //build form
         $this->addElement('header', 'h_db_add', $GLOBALS['strAdvancedSettings']);
 
-        $this->addElement('select', 'dbType', $GLOBALS['strDbType'], $this->aDbTypes, array('class' => 'small', 'id' => 'dbType'));
         $this->addElement('advcheckbox', 'dbLocal', null,  $GLOBALS['strDbLocal'], array('id' => 'dbLocal'), array(0, 1));
 
         $this->addElement('text', 'dbSocket', $GLOBALS['strDbSocket'], array('class' => 'small', 'id' => 'dbSocket'));

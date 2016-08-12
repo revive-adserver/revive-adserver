@@ -32,6 +32,9 @@ What's New in Revive Adserver 3.3.0
  * Improved error reporting when installing Revive Adserver when the PHP session
    save path is not writable.
 
+ * Moved database type dropdown out of the hidden advanced settings section
+   during install.
+
  Bug Fixes
  ---------
 
