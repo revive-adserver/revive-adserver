@@ -66,6 +66,9 @@ What's New in Revive Adserver 3.3.0
   * Fixed an issue with Doubleclick 3rd party click tracking plugin not
     recognizing https URLs.
 
+  * Fixed an issue with the "UTC" timezone only being available if configured
+    as PHP default timezone. Also removed non-standard "GB" timezone.
+
  Non-Backwards Compatible Changes
  --------------------------------
 
