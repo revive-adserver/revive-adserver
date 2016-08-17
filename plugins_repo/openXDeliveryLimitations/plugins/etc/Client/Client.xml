@@ -19,6 +19,8 @@
             <file path="{MODULEPATH}deliveryLimitations/Client/">initClientData.delivery.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Client/">Browser.class.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Client/">Browser.delivery.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Client/">Device.class.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Client/">Device.delivery.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Client/">Domain.class.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Client/">Domain.delivery.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Client/">Ip.class.php</file>
@@ -44,6 +46,7 @@
         <components>
             <component><name>initClientData</name><hook>postInit</hook></component>
             <component><name>Browser</name></component>
+            <component><name>Device</name></component>
             <component><name>Domain</name></component>
             <component><name>Ip</name></component>
             <component><name>Language</name></component>
@@ -53,6 +56,9 @@
 
         <configuration option="Browser Limitations">
             <setting key="sniff" type="checkbox" label="Extract the viewer's operating system and web browser information using phpSniff" required="0" size="0" visible="1">true</setting>
+        </configuration>
+        <configuration option="Device Limitations">
+            <setting key="sniff" type="checkbox" label="Extract the viewer's operating system and web device information using phpSniff" required="0" size="0" visible="1">true</setting>
         </configuration>
 
         <postscript>postscript_install_Client.php</postscript>
