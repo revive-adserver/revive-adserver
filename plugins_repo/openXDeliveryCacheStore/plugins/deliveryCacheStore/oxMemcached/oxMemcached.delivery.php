@@ -64,7 +64,7 @@ function Plugin_deliveryCacheStore_oxMemcached_oxMemcached_Delivery_cacheStore($
     // @ - to catch "memcached errno=10054: An existing connection was forcibly closed by the remote host", when one of servers is down
     $result = @$oMemcache->replace($filename, $serializedCacheExport, false, $expiryTime);
     if ($result !== true) {
-        // Memcache set/replece can return null on error, so ensure, that for all errors results if false
+        // Memcached set/replace can return null on error, so ensure, that for all errors results if false
         // @ - to catch "memcached errno=10054: An existing connection was forcibly closed by the remote host", when one of servers is down
         if (@$oMemcache->set($filename, $serializedCacheExport, false, $expiryTime) !== true) {
             return false;
@@ -74,9 +74,9 @@ function Plugin_deliveryCacheStore_oxMemcached_oxMemcached_Delivery_cacheStore($
 }
 
 /**
- * Return current Memcache instance
+ * Return current Memcached instance
  *
- * @return Memcache
+ * @return Memcached
  */
 function _oxMemcached_getMemcache(){
     if (!isset($GLOBALS['OA_Delivery_Cache']['MemcachedObject'])) {
@@ -86,17 +86,17 @@ function _oxMemcached_getMemcache(){
 }
 
 /**
- * Function to initialize Memcache connection
- * Memcache function is stored in $GLOBALS['OA_Delivery_Cache']['MemcachedObject']
+ * Function to initialize Memcached connection
+ * Memcached function is stored in $GLOBALS['OA_Delivery_Cache']['MemcachedObject']
  *
- * @return Memcache|bool Memcache object or false on errors
+ * @return Memcached|bool Memcached object or false on errors
  */
 function _oxMemcached_MemcachedInit() {
     // Don't use memcached if there is no extension in PHP
-    if (!class_exists('Memcache')){
+    if (!class_exists('Memcached')){
         return false;
     }
-    $oMemcache = new Memcache();
+    $oMemcache = new Memcached();
 
     $aServers = (explode(',', $GLOBALS['_MAX']['CONF']['oxMemcached']['memcachedServers']));
     $serversAdded = false;
@@ -117,8 +117,8 @@ function _oxMemcached_MemcachedInit() {
  * Split given server address to host and port
  * Host can be unix:///path!
  *
- * @param Memcache $oMemcache Memcache instance
- * @param string $serverAddress memcache server adres in format host:port
+ * @param Memcached $oMemcache Memcached instance
+ * @param string $serverAddress memcached server address in format host:port
  * @return bool
  */
 function _oxMemcached_addMemcachedServer(&$oMemcache, $serverAddress) {

@@ -44,7 +44,7 @@ class Plugins_DeliveryCacheStore_oxMemcached_oxMemcached extends Plugins_Deliver
         $aConf = $GLOBALS['_MAX']['CONF'];
 
         // Check if memcached is enabled in php.ini
-        if (!class_exists('Memcache'))
+        if (!class_exists('Memcached'))
         {
             return array($this->translate('strNoMemcacheModuleInPhp'));
         }
@@ -63,7 +63,7 @@ class Plugins_DeliveryCacheStore_oxMemcached_oxMemcached extends Plugins_Deliver
         {
             return $this->translate('strEmptyServerList', array('plugin-settings.php?group=oxMemcached'));
         }
-        $oMemcache = new Memcache();
+        $oMemcache = new Memcached();
         foreach ($aServers as $server)
         {
             if (!_oxMemcached_addMemcachedServer($oMemcache, $server))
