@@ -62,11 +62,20 @@ function Plugin_deliveryCacheStore_oxMemcached_oxMemcached_Delivery_cacheStore($
 
     // Store serialized cache
     // @ - to catch "memcached errno=10054: An existing connection was forcibly closed by the remote host", when one of servers is down
-    $result = @$oMemcache->replace($filename, $serializedCacheExport, false, $expiryTime);
+    if($oMemcache instanceof Memcached) {
+        $result = @$oMemcache->replace($filename, $serializedCacheExport, $expiryTime);
+    } else {
+        $result = @$oMemcache->replace($filename, $serializedCacheExport, false, $expiryTime);
+    }
     if ($result !== true) {
         // Memcached set/replace can return null on error, so ensure, that for all errors results if false
         // @ - to catch "memcached errno=10054: An existing connection was forcibly closed by the remote host", when one of servers is down
-        if (@$oMemcache->set($filename, $serializedCacheExport, false, $expiryTime) !== true) {
+        if($oMemcache instanceof Memcached) {
+            $setResult = @$oMemcache->set($filename, $serializedCacheExport, $expiryTime);
+        } else {
+            $setResult = @$oMemcache->set($filename, $serializedCacheExport, false, $expiryTime);
+        }
+        if($setResult !== true) {
             return false;
         }
     }
@@ -76,7 +85,7 @@ function Plugin_deliveryCacheStore_oxMemcached_oxMemcached_Delivery_cacheStore($
 /**
  * Return current Memcached instance
  *
- * @return Memcached
+ * @return Memcached|Memcache|bool
  */
 function _oxMemcached_getMemcache(){
     if (!isset($GLOBALS['OA_Delivery_Cache']['MemcachedObject'])) {
@@ -89,14 +98,19 @@ function _oxMemcached_getMemcache(){
  * Function to initialize Memcached connection
  * Memcached function is stored in $GLOBALS['OA_Delivery_Cache']['MemcachedObject']
  *
- * @return Memcached|bool Memcached object or false on errors
+ * @return Memcached|Memcache|bool Memcached object or false on errors
  */
 function _oxMemcached_MemcachedInit() {
     // Don't use memcached if there is no extension in PHP
-    if (!class_exists('Memcached')){
+    if (!class_exists('Memcached') && !class_exists('Memcache')){
         return false;
     }
-    $oMemcache = new Memcached();
+
+    if(class_exists('Memcached')) {
+        $oMemcache = new Memcached();
+    } else {
+        $oMemcache = new Memcache();
+    }
 
     $aServers = (explode(',', $GLOBALS['_MAX']['CONF']['oxMemcached']['memcachedServers']));
     $serversAdded = false;
@@ -117,7 +131,7 @@ function _oxMemcached_MemcachedInit() {
  * Split given server address to host and port
  * Host can be unix:///path!
  *
- * @param Memcached $oMemcache Memcached instance
+ * @param Memcached|Memcache $oMemcache Memcached instance
  * @param string $serverAddress memcached server address in format host:port
  * @return bool
  */
