@@ -44,36 +44,30 @@ class Plugins_DeliveryCacheStore_oxMemcached_oxMemcached extends Plugins_Deliver
         $aConf = $GLOBALS['_MAX']['CONF'];
 
         // Check if memcached is enabled in php.ini
-        if (!class_exists('Memcached') && !class_exists('Memcache'))
-        {
+        if (!class_exists('Memcached') && !class_exists('Memcache')) {
             return array($this->translate('strNoMemcacheModuleInPhp'));
         }
         // Check servers list
         $aServers = (explode(',', $aConf[$this->group]['memcachedServers']));
-        if (count($aServers) > 0)
-        {
-            foreach ($aServers as $key => $server)
-            {
+        if (count($aServers) > 0) {
+            foreach ($aServers as $key => $server) {
                 if (empty($server)) {
                     unset($aServers[$key]);
                 }
             }
         }
-        if (count($aServers) == 0)
-        {
+        if (count($aServers) == 0) {
             return $this->translate('strEmptyServerList', array('plugin-settings.php?group=oxMemcached'));
         }
 
-        if(class_exists('Memcached')){
+        if (class_exists('Memcached')) {
             $oMemcache = new Memcached();
         } else {
             $oMemcache = new Memcache();
         }
 
-        foreach ($aServers as $server)
-        {
-            if (!_oxMemcached_addMemcachedServer($oMemcache, $server))
-            {
+        foreach ($aServers as $server) {
+            if (!_oxMemcached_addMemcachedServer($oMemcache, $server)) {
                 $aErrors[] = $this->translate('strInvalidServerAddress') . " " . $server;
             }
         }
@@ -83,19 +77,16 @@ class Plugins_DeliveryCacheStore_oxMemcached_oxMemcached extends Plugins_Deliver
                 !is_numeric($aConf[$this->group]['memcachedExpireTime']) ||
                 $aConf[$this->group]['memcachedExpireTime'] <= $aConf['delivery']['cacheExpire']
             )
-        )
-        {
+        ) {
             $aErrors[] = $this->translate('strInvalidExpireTime');
         }
         // Check if memcached server is running
 
-        if (@$oMemcache->getVersion() === false)
-        {
+        if (@$oMemcache->getVersion() === false) {
             $aErrors[] = $this->translate('strCouldntConnectToMemcached');
         }
 
-        if (count($aErrors) > 0)
-        {
+        if (count($aErrors) > 0) {
             return $aErrors;
         }
         return true;
@@ -105,6 +96,7 @@ class Plugins_DeliveryCacheStore_oxMemcached_oxMemcached extends Plugins_Deliver
      * A function to delete a single cache entry
      *
      * @param string $filename The cache entry filename (hashed name)
+     *
      * @return bool True if the entres were succesfully deleted
      */
     function _deleteCacheFile($filename)
@@ -129,4 +121,5 @@ class Plugins_DeliveryCacheStore_oxMemcached_oxMemcached extends Plugins_Deliver
         return @$oMemcache->flush();
     }
 }
+
 ?>
