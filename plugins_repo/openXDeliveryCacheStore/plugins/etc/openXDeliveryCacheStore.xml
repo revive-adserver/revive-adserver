@@ -4,13 +4,13 @@
 <plugin>
     <name>openXDeliveryCacheStore</name>
     <displayName>Banner Delivery Cache Store Plugin</displayName>
-    <creationDate>2014-04-08</creationDate>
+    <creationDate>2016-08-26</creationDate>
     <author>Revive Adserver</author>
     <authorEmail>revive@revive-adserver.com</authorEmail>
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>LICENSE.txt</license>
     <description>Plugin that provides banner delivery caching.</description>
-    <version>1.1.3</version>
+    <version>1.2.0</version>
     <type>package</type>
 
     <install>
