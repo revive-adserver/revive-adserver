@@ -25,7 +25,7 @@
 ###################################
 
 # Location of the phpdocumentor
-PATH_PHPDOC="/usr/local/php4/bin/phpdoc"
+PATH_PHPDOC="/d/phpDocumentor.phar"
 
 # Source code location
 PATH_SRC="../"
@@ -33,32 +33,27 @@ PATH_SRC="../"
 # Output location for documentation
 PATH_DOCS="../docs/developer/api"
 
-# Output format to use
-OUTPUT_FORMAT="HTML"
-
 # Output style
-CONVERTER="frames"
-TEMPLATE="DOM/earthli"
+TEMPLATE="clean"
 
 ###################################
 # End user configurable section   #
 ###################################
 
 # "Fixed" values
-TITLE="OpenX API"
-PACKAGES="Max"
-PRIVATE="on"
+TITLE="Revive Adserver API"
+PACKAGE="Max"
 
 # Delete, create output directory
 rm -rf $PATH_DOCS
 mkdir $PATH_DOCS
 
 # Make documentation
-$PATH_PHPDOC \
+php -d error_reporting=0 $PATH_PHPDOC \
   -d $PATH_SRC/lib/max,$PATH_SRC/plugins,$PATH_SRC/scripts,$PATH_SRC/tests,$PATH_SRC/tutorials,$PATH_SRC/www \
   -f $PATH_SRC/constants.php,$PATH_SRC/index.php,$PATH_SRC/init-delivery-parse.php,$PATH_SRC/init-delivery.php,$PATH_SRC/init-parse.php,$PATH_SRC/init.php,$PATH_SRC/lib/Max.php \
   -t $PATH_DOCS \
-  -ti "$TITLE" \
-  -dn $PACKAGES \
-  -o $OUTPUT_FORMAT:$CONVERTER:$TEMPLATE \
-  -pp $PRIVATE
+  --title="$TITLE" \
+  --defaultpackagename=$PACKAGE \
+  --template $TEMPLATE \
+  --parseprivate
