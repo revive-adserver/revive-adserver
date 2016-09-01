@@ -103,6 +103,7 @@ class phpSniff
     var $_browsers = array(
         'microsoft internet explorer' => 'IE',
         'msie'                        => 'IE',
+        'msie 10'                     => 'IE10',
         'netscape6'                   => 'NS',
         'netscape'                    => 'NS',
         'galeon'                      => 'GA',
@@ -584,8 +585,10 @@ class phpSniff
             $v2 = $match[3][count($match[0])-1];
             // Establish NT 5.1 as Windows XP
                 if(stristr($v,'NT') && $v2 == 5.1) $v = 'xp';
-            // Establish NT 6.1 as7
+            // Establish NT 6.1 as w7
                 elseif(stristr($v,'NT') && $v2 == 6.1) $v = 'w7';
+            // Establish NT 6.2 as w8
+                elseif(stristr($v,'NT') && $v2 == 6.2) $v = 'w8';
             // Establish NT 5.0 and Windows 2000 as win2k
                 elseif($v == '2000') $v = '2k';
                 elseif(stristr($v,'NT') && $v2 == 5.0) $v = '2k';
@@ -599,6 +602,15 @@ class phpSniff
             if(empty($v)) $v = 'win';
             $this->_set_browser('os',strtolower($v));
             $this->_set_browser('platform','win');
+
+            // Detect IE10 or IEx
+            if (stristr($this->_browser_info['ua'], 'msie')){
+                if (stristr($this->_browser_info['ua'], 'msie 10')){
+                    $this->_set_browser('browser', 'ie10');
+                } else {
+                    $this->_set_browser('browser', 'ie');
+                }
+            }
         }
         //  look for amiga OS
         elseif(preg_match($regex_amiga,$this->_browser_info['ua'],$match))
