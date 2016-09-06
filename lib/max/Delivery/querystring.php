@@ -34,7 +34,12 @@ function MAX_querystringConvertParams()
         $pos = strpos($qs, $destStr);
     }
     if ($pos !== false) {
-        $dest = urldecode(substr($qs, $pos + strlen($destStr)));
+        $endPos = strpos($qs, '&', $pos + strlen($destStr));
+        if ($endPos) {
+          $dest = urldecode(substr($qs, $pos + strlen($destStr), $endPos - $pos - strlen($destStr)));
+        } else {
+          $dest = urldecode(substr($qs, $pos + strlen($destStr)));
+        }
         $qs = substr($qs, 0, $pos);
     }
     // 2.  Parse the remaining string
