@@ -38,6 +38,9 @@ What's New in Revive Adserver 4.0.0
  * Added support for both Memcache and Memcached extensions in the oxMemcached
    plugin.
 
+ * Replaced old phpSniff with a modern alternative (Sinergi Browser detector),
+   with a significant speed improvement.
+
  Bug Fixes
  ---------
 
@@ -80,6 +83,12 @@ What's New in Revive Adserver 4.0.0
  --------------------------------
 
  * Revive Adserver now requires a minimum PHP version of 5.5.9.
+
+ * Browser and Os detection have been optimized out and are now only called if
+   necessary. Any plugin directly using such information during delivery
+   should be adapted to use the provided wrapper and perform the detection
+   if necessary. See the Broser/Os delivery limitations code for a usage
+   example.
 
 System Requirements
 -------------------

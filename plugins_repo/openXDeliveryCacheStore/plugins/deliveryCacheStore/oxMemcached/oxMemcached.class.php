@@ -45,7 +45,7 @@ class Plugins_DeliveryCacheStore_oxMemcached_oxMemcached extends Plugins_Deliver
 
         // Check if memcached is enabled in php.ini
         if (!class_exists('Memcached') && !class_exists('Memcache')) {
-            return array($this->translate('strNoMemcacheModuleInPhp'));
+            return array($this->translate('Either the Memcached or Memcache extensions are required'));
         }
         // Check servers list
         $aServers = (explode(',', $aConf[$this->group]['memcachedServers']));
@@ -57,7 +57,7 @@ class Plugins_DeliveryCacheStore_oxMemcached_oxMemcached extends Plugins_Deliver
             }
         }
         if (count($aServers) == 0) {
-            return $this->translate('strEmptyServerList', array('plugin-settings.php?group=oxMemcached'));
+            return $this->translate('Empty server list');
         }
 
         if (class_exists('Memcached')) {
@@ -68,7 +68,7 @@ class Plugins_DeliveryCacheStore_oxMemcached_oxMemcached extends Plugins_Deliver
 
         foreach ($aServers as $server) {
             if (!_oxMemcached_addMemcachedServer($oMemcache, $server)) {
-                $aErrors[] = $this->translate('strInvalidServerAddress') . " " . $server;
+                $aErrors[] = $this->translate('Invalid server address: %s', [$server]);
             }
         }
         // Check expire time
@@ -78,12 +78,12 @@ class Plugins_DeliveryCacheStore_oxMemcached_oxMemcached extends Plugins_Deliver
                 $aConf[$this->group]['memcachedExpireTime'] <= $aConf['delivery']['cacheExpire']
             )
         ) {
-            $aErrors[] = $this->translate('strInvalidExpireTime');
+            $aErrors[] = $this->translate('Invalid expire time');
         }
         // Check if memcached server is running
 
         if (@$oMemcache->getVersion() === false) {
-            $aErrors[] = $this->translate('strCouldntConnectToMemcached');
+            $aErrors[] = $this->translate('Could not connect to memcached');
         }
 
         if (count($aErrors) > 0) {

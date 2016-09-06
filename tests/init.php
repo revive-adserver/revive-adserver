@@ -15,6 +15,9 @@
  * @subpackage TestSuite
  */
 
+// PSR Autoloader
+require_once __DIR__.'/../lib/vendor/autoload.php';
+
 define('TEST_ENVIRONMENT_RUNNING', true);
 require_once '../init-parse.php';
 require_once '../constants.php';

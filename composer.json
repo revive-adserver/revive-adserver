@@ -17,5 +17,8 @@
         "psr-4": {
             "RV\\": "lib/RV/"
         }
+    },
+    "require": {
+        "sinergi/browser-detector": "^6.0"
     }
 }

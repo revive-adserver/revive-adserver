@@ -45,7 +45,7 @@ class Plugins_BannerTypeHTML_demoBannerTypeHtml_demoHtml extends Plugins_BannerT
     {
         parent::buildForm($form, $row);
         $form->addElement('text', 'demofield', 'Demo Field');
-        $form->addRule("demofield", $this->translate('Please enter http://www.openx.org'), 'regex', '/^http:\/\/www\.openx\.org$/');
+        $form->addRule("demofield", $this->translate('Please enter http://www.revive-adserver.com'), 'regex', '/^http:\/\/www\.openx\.org$/');
 
     }
 

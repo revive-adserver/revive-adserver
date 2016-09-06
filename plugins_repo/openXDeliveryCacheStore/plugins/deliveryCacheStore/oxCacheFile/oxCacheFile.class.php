@@ -40,7 +40,7 @@ class Plugins_DeliveryCacheStore_oxCacheFile_oxCacheFile extends Plugins_Deliver
     {
         $deliveryPath = $this->_getCachePath();
         if (!is_writable($deliveryPath)) {
-            return array($this->translate('strUnableToWriteTo') . ' ' . htmlspecialchars($deliveryPath));
+            return array($this->translate('Unable to write to') . ' ' . htmlspecialchars($deliveryPath));
         }
         return true;
     }

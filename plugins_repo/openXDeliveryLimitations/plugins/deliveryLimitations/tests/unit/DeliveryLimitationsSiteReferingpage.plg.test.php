@@ -25,22 +25,22 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Site_Referingpage extends UnitTe
     function testCheckSiteReferingpage()
     {
         // == and !=
-        $this->assertTrue(MAX_checkSite_Referingpage('http://www.openx.org/',  '==', array('referer' => 'http://www.openx.org/')));
-        $this->assertFalse(MAX_checkSite_Referingpage('http://www.openx.org/', '!=', array('referer' => 'http://www.openx.org/')));
-        $this->assertFalse(MAX_checkSite_Referingpage('http://www.openx.org/', '==', array('referer' => 'http://www.example.com/')));
-        $this->assertTrue(MAX_checkSite_Referingpage('http://www.openx.org/',  '!=', array('referer' => 'http://www.example.com/')));
+        $this->assertTrue(MAX_checkSite_Referingpage('http://www.revive-adserver.com/',  '==', array('referer' => 'http://www.revive-adserver.com/')));
+        $this->assertFalse(MAX_checkSite_Referingpage('http://www.revive-adserver.com/', '!=', array('referer' => 'http://www.revive-adserver.com/')));
+        $this->assertFalse(MAX_checkSite_Referingpage('http://www.revive-adserver.com/', '==', array('referer' => 'http://www.example.com/')));
+        $this->assertTrue(MAX_checkSite_Referingpage('http://www.revive-adserver.com/',  '!=', array('referer' => 'http://www.example.com/')));
 
         // =~ and !~
-        $this->assertTrue(MAX_checkSite_Referingpage('openx.org', '=~', array('referer' => 'http://www.openx.org/')));
-        $this->assertFalse(MAX_checkSite_Referingpage('openx.org', '!~', array('referer' => 'http://www.openx.org/')));
-        $this->assertFalse(MAX_checkSite_Referingpage('openx.org', '=~', array('referer' => 'http://www.example.com/')));
-        $this->assertTrue(MAX_checkSite_Referingpage('openx.org', '!~', array('referer' => 'http://www.example.com/')));
+        $this->assertTrue(MAX_checkSite_Referingpage('revive-adserver.com', '=~', array('referer' => 'http://www.revive-adserver.com/')));
+        $this->assertFalse(MAX_checkSite_Referingpage('revive-adserver.com', '!~', array('referer' => 'http://www.revive-adserver.com/')));
+        $this->assertFalse(MAX_checkSite_Referingpage('revive-adserver.com', '=~', array('referer' => 'http://www.example.com/')));
+        $this->assertTrue(MAX_checkSite_Referingpage('revive-adserver.com', '!~', array('referer' => 'http://www.example.com/')));
 
         // =x and !x
-        $this->assertTrue(MAX_checkSite_Referingpage('.*(openx|example)\.(org|com).*', '=x', array('referer' => 'http://www.openx.org/')));
-        $this->assertFalse(MAX_checkSite_Referingpage('.*(openx|example)\.(org|com).*', '!x', array('referer' => 'http://www.openx.org/')));
-        $this->assertFalse(MAX_checkSite_Referingpage('.*(openx|example)\.(org|com).*', '=x', array('referer' => 'http://www.openx.net/')));
-        $this->assertTrue(MAX_checkSite_Referingpage('.*(openx|example)\.(org|com).*', '!x', array('referer' => 'http://www.openx.net/')));
+        $this->assertTrue(MAX_checkSite_Referingpage('.*(revive-adserver|example)\.(org|com).*', '=x', array('referer' => 'http://www.revive-adserver.com/')));
+        $this->assertFalse(MAX_checkSite_Referingpage('.*(revive-adserver|example)\.(org|com).*', '!x', array('referer' => 'http://www.revive-adserver.com/')));
+        $this->assertFalse(MAX_checkSite_Referingpage('.*(revive-adserver|example)\.(org|com).*', '=x', array('referer' => 'http://www.revive-adserver.net/')));
+        $this->assertTrue(MAX_checkSite_Referingpage('.*(revive-adserver|example)\.(org|com).*', '!x', array('referer' => 'http://www.revive-adserver.net/')));
     }
 }
 

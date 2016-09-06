@@ -12,7 +12,8 @@
 
 require_once LIB_PATH . '/Extension/deliveryLimitations/DeliveryLimitationsCommaSeparatedData.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
-require_once dirname(__FILE__) . '/lib/phpSniff/phpSniff.class.php';
+
+use Sinergi\BrowserDetector\Browser;
 
 /**
  * A Client delivery limitation plugin, for filtering delivery of ads on the
@@ -30,39 +31,36 @@ require_once dirname(__FILE__) . '/lib/phpSniff/phpSniff.class.php';
  */
 class Plugins_DeliveryLimitations_Client_Browser extends Plugins_DeliveryLimitations_CommaSeparatedData
 {
+    protected static $aBrowsers = [
+        'GC' => 'Chrome',
+        'FX' => 'Firefox',
+        'IE' => 'Internet Explorer',
+        'SF' => 'Safari',
+        'OP' => 'Opera',
+    ];
+
     function __construct()
     {
         parent::__construct();
-        $phpSniff = new phpSniff('', false);
-        $this->setAValues($phpSniff->_browsers);
-        $this->nameEnglish = 'Client - Browser';
+        $this->nameEnglish = 'Client - Browser (Legacy)';
     }
-
 
     /**
-     * Returns true if this plugin is available in the current context,
-     * false otherwise.
+     * Outputs the HTML to display the data for this limitation
      *
-     * @return boolean
+     * @return void
      */
-    function isAllowed($page = false)
-    {
-        return !empty($GLOBALS['_MAX']['CONF']['Client']['sniff']);
-    }
-
-
     function displayArrayData()
     {
         $tabindex =& $GLOBALS['tabindex'];
 
         $i = 0;
 
-        $browsers = array_flip($this->_aValues);
-
 		echo "<table cellpadding='3' cellspacing='3'>";
-		foreach ($browsers as $key => $value) {
+		foreach (self::$aBrowsers as $key => $value) {
+            $value = htmlspecialchars($value, ENT_QUOTES);
 			if ($i % 4 == 0) echo "<tr>";
-			echo "<td><input type='checkbox' name='acl[{$this->executionorder}][data][]' value='$key'".(in_array($key, $this->data) ? ' checked="checked"' : '')." tabindex='".($tabindex++)."'>".ucfirst($value)."</td>";
+			echo "<td><input type='checkbox' name='acl[{$this->executionorder}][data][]' value='$key'".(in_array($key, $this->data) ? ' checked="checked"' : '')." tabindex='".($tabindex++)."'>".$value."</td>";
 			if (($i + 1) % 4 == 0) echo "</tr>";
 			$i++;
 		}
@@ -71,5 +69,3 @@ class Plugins_DeliveryLimitations_Client_Browser extends Plugins_DeliveryLimitat
     }
 
 }
-
-?>

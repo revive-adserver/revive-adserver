@@ -72,6 +72,43 @@ function MAX_limitationsMatchString(
     return MAX_limitationsMatchStringValue($value, $limitation, $op);
 }
 
+
+/**
+ * An utility function which matches the numeric $value with $limitation
+ * using $op operator.
+ *
+ * The possible operators are:
+ * <ul>
+ *   <li>==: true iff $value and $limitation are equal</li>
+ *   <li>lt: true iff $value is lesser than $limitation </li>
+ *   <li>le: true iff $value is lesser or equal to $limitation</li>
+ *   <li>gt: true iff $value is greater than $limitation</li>
+ *   <li>ge: true iff $value is greater or equal to $limitation</li>
+ * </ul>
+ *
+ * @param string $value
+ * @param string $limitation
+ * @param string $op
+ * @return boolean True if the $value matches the limitation,
+ * false otherwise.
+ */
+function MAX_limitationsMatchNumericValue($value, $limitation, $op)
+{
+    if (!is_numeric($value) || !is_numeric($limitation)) {
+		return !MAX_limitationsIsOperatorPositive($op);
+    }
+
+    switch ($op) {
+        case '==': return $value == $limitation;
+        case 'lt': return $value < $limitation;
+        case 'le': return $value <= $limitation;
+        case 'gt': return $value > $limitation;
+        case 'ge': return $value >= $limitation;
+    }
+
+	return !MAX_limitationsIsOperatorPositive($op);
+}
+
 /**
  * Match a numeric value (greater than or less than)
  *
@@ -85,7 +122,7 @@ function MAX_limitationsMatchString(
  *                 otherwise.
  *
  */
-function MAX_limitationMatchNumeric(
+function MAX_limitationsMatchNumeric(
     $paramName, $limitation, $op, $aParams = array(), $namespace = 'CLIENT')
 {
     if ($limitation == '') {
@@ -95,19 +132,21 @@ function MAX_limitationMatchNumeric(
         $aParams = $GLOBALS['_MAX'][$namespace];
     }
 
-	if (!isset($aParams[$paramName]) || !is_numeric($aParams[$paramName]) || !is_numeric($limitation)) {
+	if (!isset($aParams[$paramName])) {
 		return !MAX_limitationsIsOperatorPositive($op);
 	} else {
 	    $value = $aParams[$paramName];
 	}
 
-	if ($op == 'lt'){
-    	return $value < $limitation;
-    } else if ($op == 'gt'){
-    	return $value > $limitation;
-    } else {
-    	return !MAX_limitationsIsOperatorPositive($op);
-    }
+    return MAX_limitationsMatchNumericValue($value, $limitation, $op);
+}
+
+/**
+ * @deprecated
+ */
+function MAX_limitationMatchNumeric($paramName, $limitation, $op, $aParams = array(), $namespace = 'CLIENT')
+{
+    return MAX_limitationsMatchNumeric($paramName, $limitation, $op, $aParams, $namespace);
 }
 
 /**
@@ -260,7 +299,7 @@ function MAX_limitationsIsOperatorContains($op)
 
 function MAX_limitationsIsOperatorNumeric($op)
 {
-    return $op == 'gt' || $op == 'lt' ;
+    return $op == 'gt' || $op == 'lt' || $op == 'le' || $op == 'ge';
 }
 
 /**
@@ -284,7 +323,23 @@ function MAX_limitationsIsOperatorRegexp($op)
  */
 function MAX_limitationsIsOperatorPositive($op)
 {
-    return $op == '==' || $op == '=~' || $op == '=x' || $op == 'gt' || $op == 'lt';
+    return $op == '==' || $op == '=~' || $op == '=x' || $op == 'gt' || $op == 'lt' || $op == 'ge' || $op == 'le';
+}
+
+/**
+ * Returns an array where the keys are delivery limitation plugins operators
+ * suitable for equality / inequality tests and the values are properly
+ * translated strings which describe these operators to the user.
+ *
+ * @param DeliveryLimitationPlugin $oPlugin
+ * @return array Array associating operators with their localized names.
+ */
+function MAX_limitationsGetAOperationsEquality($oPlugin)
+{
+    return array(
+        '==' => $GLOBALS['strEqualTo'],
+        '!=' => $GLOBALS['strDifferentFrom'],
+    );
 }
 
 /**
@@ -300,6 +355,8 @@ function MAX_limitationsGetAOperationsForNumeric($oPlugin)
     return array(
         'lt'  => $GLOBALS['strLessThan'],
         'gt'  => $GLOBALS['strGreaterThan'],
+        'le'  => $GLOBALS['strLessOrEqualTo'],
+        'ge'  => $GLOBALS['strGreaterOrEqualTo'],
     );
 }
 
@@ -313,9 +370,7 @@ function MAX_limitationsGetAOperationsForNumeric($oPlugin)
  */
 function MAX_limitationsGetAOperationsForString($oPlugin)
 {
-    return array(
-        '==' => $GLOBALS['strEqualTo'],
-        '!=' => $GLOBALS['strDifferentFrom'],
+    return MAX_limitationsGetAOperationsEquality($oPlugin) + array(
         '=~' => MAX_Plugin_Translation::translate('Contains', $oPlugin->module, $oPlugin->package),
         '!~' => MAX_Plugin_Translation::translate('Does not contain', $oPlugin->module, $oPlugin->package),
         '=x' => MAX_Plugin_Translation::translate('Regex match', $oPlugin->module, $oPlugin->package),
@@ -450,12 +505,11 @@ function MAX_ipWithLastComponentReplacedByStar($ip)
 
 
 /**
- * Returns true if the string contains the start '*' character,
+ * Returns true if the string contains the star '*' character,
  * false otherwise.
  *
  * @param string $ip A string to check.
- * @return true if the string contains the start '*' character,
- * false otherwise.
+ * @return bool
  */
 function MAX_ipContainsStar($ip)
 {

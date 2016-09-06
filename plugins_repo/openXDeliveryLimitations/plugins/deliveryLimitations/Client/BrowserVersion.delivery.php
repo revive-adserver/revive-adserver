@@ -10,6 +10,7 @@
 +---------------------------------------------------------------------------+
 */
 
+
 /**
  * @package    OpenXPlugin
  * @subpackage DeliveryLimitations
@@ -25,15 +26,33 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
  * @param array $aParams An array of additional parameters to be checked
  * @return boolean Whether this impression's browser passes this limitation's test.
  */
-function MAX_checkClient_Browser($limitation, $op, $aParams = array())
+function MAX_checkClient_BrowserVersion($limitation, $op, $aParams = array())
 {
     if (empty($aParams)) {
         $aParams = $GLOBALS['_MAX']['CLIENT'];
 
-        if (!isset($aParams['browser'])) {
-            $aParams['browser'] = $aParams['wrapper']->getLegacyBrowser();
+        if (!isset($aParams['browserName'])) {
+            $aParams['browserName'] = $aParams['wrapper']->getBrowserName();
+        }
+
+        if (!isset($aParams['browserVersion'])) {
+            $aParams['browserVersion'] = $aParams['wrapper']->getBrowserVersion();
         }
     }
 
-    return MAX_limitationsMatchArray('browser', $limitation, $op, $aParams);
+    $aLimitation = explode('|', $limitation);
+
+    if (!MAX_limitationsMatchString('browserName', $aLimitation[0], '==', $aParams)) {
+        return false;
+    }
+
+    if ($op == 'nn') {
+        return true;
+    }
+
+    if (!isset($aLimitation[1])) {
+        $aLimitation[1] = 0;
+    }
+
+    return MAX_limitationMatchNumeric('browserVersion', (float)$aLimitation[1], $op, $aParams);
 }

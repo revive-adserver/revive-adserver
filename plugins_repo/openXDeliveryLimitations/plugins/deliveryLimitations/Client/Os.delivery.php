@@ -29,8 +29,11 @@ function MAX_checkClient_Os($limitation, $op, $aParams = array())
 {
     if (empty($aParams)) {
         $aParams = $GLOBALS['_MAX']['CLIENT'];
+
+        if (!isset($aParams['os'])) {
+            $aParams['os'] = $aParams['wrapper']->getLegacyOs();
+        }
     }
+
     return MAX_limitationsMatchArray('os', $limitation, $op, $aParams);
 }
-
-?>

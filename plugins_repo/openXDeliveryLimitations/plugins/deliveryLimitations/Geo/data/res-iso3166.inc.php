@@ -11,8 +11,7 @@
 */
 
 // This is by no means a complete list of all iso3166 codes, but rather
-// an unofficial list used by most browsers. If you have corrections or
-// additions to this list, please send them to developers@openx.org
+// an unofficial list used by most browsers.
 
 $OA_Geo_ISO3166 = array(
 	'AD' => "Andorra",
