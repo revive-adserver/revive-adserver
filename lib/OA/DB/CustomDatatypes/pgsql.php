@@ -873,6 +873,8 @@ function datatype_openads_mediumtext_callback($db, $method, $aParameters)
             $datatype = $db->datatype->mapPrepareDatatype($aParameters['type']);
             $declaration_options = $db->datatype->_getDeclarationOptions($aParameters['field']);
             $value = $name . ' ' . $datatype;
+            // Strip out any "DEFAULT NULL" value from the options
+            $declaration_options = preg_replace('/DEFAULT NULL NOT NULL/', "DEFAULT '' NOT NULL", $declaration_options);
             $value .= $declaration_options;
             return $value;
         case 'comparedefinition':

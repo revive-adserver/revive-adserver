@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>621</version>
+  <comments>Bump htmltemplate/cache size</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>621</version>
+      <change>
+        <table>
+          <name>banners</name>
+        <change>
+          <field>
+            <name>htmltemplate</name>
+            <type>openads_mediumtext</type>
+          </field>
+          <field>
+            <name>htmlcache</name>
+            <type>openads_mediumtext</type>
+          </field>
+        </change>
+      </table>
+    </change>
+  </changeset>
+</constructive>
+<destructive>
+  <changeset>
+    <name>openads</name>
+    <version>621</version>
+  </changeset>
+</destructive>
+</instructionset>

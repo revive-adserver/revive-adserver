@@ -41,8 +41,8 @@ class DataObjects_Banners extends DB_DataObjectCommon
     public $storagetype;                     // ENUM('sql','web','url','html','network','txt') => openads_enum => 130
     public $filename;                        // VARCHAR(255) => openads_varchar => 130
     public $imageurl;                        // VARCHAR(255) => openads_varchar => 130
-    public $htmltemplate;                    // TEXT() => openads_text => 162
-    public $htmlcache;                       // TEXT() => openads_text => 162
+    public $htmltemplate;                    // MEDIUMTEXT() => openads_text => 162
+    public $htmlcache;                       // MEDIUMTEXT() => openads_text => 162
     public $width;                           // SMALLINT(6) => openads_smallint => 129
     public $height;                          // SMALLINT(6) => openads_smallint => 129
     public $weight;                          // TINYINT(4) => openads_tinyint => 129

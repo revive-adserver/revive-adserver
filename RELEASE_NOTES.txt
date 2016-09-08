@@ -72,6 +72,10 @@ What's New in Revive Adserver 4.0.0
   * Fixed an issue with the "UTC" timezone only being available if configured
     as PHP default timezone. Also removed non-standard "GB" timezone.
 
+  * Increased HTML banner size hard limit from 64k to 16MB on MySQL,
+    by changing TEXT fields to MEDIUMTEXT. No change on Postgres, where the
+    maximum field size has always been 1GB.
+
  Non-Backwards Compatible Changes
  --------------------------------
 

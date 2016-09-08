@@ -733,6 +733,8 @@ function datatype_openads_mediumtext_callback($db, $method, $aParameters)
             if (isset($aParameters['field']['length']) && is_numeric($aParameters['field']['length'])) {
                 $value .= '(' . $aParameters['field']['length'] . ')';
             }
+            // Strip out any "DEFAULT NULL" value from the options
+            $declaration_options = preg_replace('/DEFAULT NULL /', '', $declaration_options);
             $value .= $declaration_options;
             return $value;
         case 'comparedefinition':
