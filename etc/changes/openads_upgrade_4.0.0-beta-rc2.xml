@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<upgrade>
+    <name>Revive Adserver</name>
+    <creationDate>2016-09-08</creationDate>
+    <author>Matteo Beccati</author>
+    <authorEmail>revive@revive-adserver.com</authorEmail>
+    <authorUrl>http://www.revive-adserver.com</authorUrl>
+    <license>LICENSE.txt</license>
+    <description>Revive Adserver Upgrade 4.0.0-beta-rc2</description>
+    <versionFrom></versionFrom>
+    <versionTo>4.0.0-beta-rc2</versionTo>
+
+        <!-- No database package(s) -->
+
+    <postscript>postscript_openads_upgrade_4.0.0-beta-rc2.php</postscript>
+
+</upgrade>

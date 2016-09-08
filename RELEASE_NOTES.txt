@@ -87,8 +87,12 @@ What's New in Revive Adserver 4.0.0
  * Browser and Os detection have been optimized out and are now only called if
    necessary. Any plugin directly using such information during delivery
    should be adapted to use the provided wrapper and perform the detection
-   if necessary. See the Broser/Os delivery limitations code for a usage
+   if necessary. See the Browser/Os delivery limitations code for a usage
    example.
+
+ * Removed non-working AdSense and YPN 3rd party click tracking adaptors: any
+   banner using them will be switched to "Generic HTML banner" during the
+   upgrade.
 
 System Requirements
 -------------------
