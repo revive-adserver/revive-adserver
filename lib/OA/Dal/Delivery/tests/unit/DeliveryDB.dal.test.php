@@ -68,8 +68,12 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
     {
         $GLOBALS['_MAX']['ADMIN_DB_LINK'] = OA_Dal_Delivery_connect();
         $this->assertNoErrors('test_OA_Dal_Delivery_query');
-        $type = get_resource_type($GLOBALS['_MAX']['ADMIN_DB_LINK']);
-        $this->assertEqual($type, $this->oDbh->dbsyntax.' link');
+        if ($GLOBALS['_MAX']['CONF']['database']['type'] == 'mysqli') {
+            $this->assertTrue($GLOBALS['_MAX']['ADMIN_DB_LINK'] instanceof mysqli);
+        } else {
+            $type = get_resource_type($GLOBALS['_MAX']['ADMIN_DB_LINK']);
+            $this->assertEqual($type, $this->oDbh->dbsyntax.' link');
+        }
     }
 
     function _getTableName($table)

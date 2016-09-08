@@ -40,7 +40,7 @@ class Test_OA_phpAdsNew extends UnitTestCase
         $oPAN->init();
         $this->assertTrue($oPAN->detected,'failed to detect phpAdsNew');
 
-        if ($GLOBALS['_MAX']['CONF']['database']['type']=='mysql')
+        if ($GLOBALS['_MAX']['CONF']['database']['type'] == 'mysql' || $GLOBALS['_MAX']['CONF']['database']['type'] == 'mysqli')
         {
             $this->assertEqual($oPAN->engine,'PANENGINE','mysql storage engine not detected');
         }

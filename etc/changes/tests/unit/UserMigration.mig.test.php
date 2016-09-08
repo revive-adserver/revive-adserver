@@ -321,7 +321,7 @@ require_once MAX_PATH . '/lib/OA/Upgrade/Upgrade.php';
         $aConf = $GLOBALS['_MAX']['CONF'];
         // Run the tests for every set of preferences that have been defined
         foreach (array_keys($this->aPrefsOld) as $set) {
-            if ($set == 1 && $aConf['database']['type'] != 'mysql')
+            if ($set == 1 && ($aConf['database']['type'] != 'mysql' || $aConf['database']['type'] != 'mysqli'))
             {
                 // OpenX 2.4.4 is only valid for MySQL
                 continue;

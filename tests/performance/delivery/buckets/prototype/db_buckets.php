@@ -12,6 +12,7 @@ class OA_Buckets
         $this->dbType = $GLOBALS['_MAX']['CONF']['database']['type'];
         switch ($this->dbType) {
             case 'mysql':
+            case 'mysqli':
                 $this->typeTimestamp = 'DATETIME';
                 break;
             case 'pgsql':
@@ -54,7 +55,7 @@ class OA_Buckets
         } else {
             $query = str_replace('{pk}', '', $query);
         }
-        if ($this->dbType == 'mysql') {
+        if ($this->dbType == 'mysql' || $this->dbType == 'mysqli') {
             $query .= ' ENGINE = '.$this->getEngineType();
         }
         return $this->query($this->modifyQuery($query, $this->dbType));
@@ -65,6 +66,7 @@ class OA_Buckets
         $query = str_replace('DATETIME', $this->typeTimestamp, $query);
         switch($dbType) {
             case 'mysql':
+            case 'mysqli':
                 $query .= ' ENGINE =' . $this->getEngineType();
                 break;
             case 'pgsql':

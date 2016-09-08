@@ -39,6 +39,11 @@ class Test_OX_Extension_DeliveryLog_BucketProcessingStrategyFactory extends Unit
             OX_Extension_DeliveryLog_BucketProcessingStrategyFactory::getAggregateBucketProcessingStrategy($aConf['database']['type']);
         $this->assertTrue(is_a($oProcessingStrategy, 'OX_Extension_DeliveryLog_AggregateBucketProcessingStrategyMysql'));
 
+        $aConf['database']['type'] = 'mysqli';
+        $oProcessingStrategy =
+            OX_Extension_DeliveryLog_BucketProcessingStrategyFactory::getAggregateBucketProcessingStrategy($aConf['database']['type']);
+        $this->assertTrue(is_a($oProcessingStrategy, 'OX_Extension_DeliveryLog_AggregateBucketProcessingStrategyMysqli'));
+
         $aConf['database']['type'] = 'pgsql';
         $oProcessingStrategy =
             OX_Extension_DeliveryLog_BucketProcessingStrategyFactory::getAggregateBucketProcessingStrategy($aConf['database']['type']);
@@ -62,6 +67,11 @@ class Test_OX_Extension_DeliveryLog_BucketProcessingStrategyFactory extends Unit
         $oProcessingStrategy =
             OX_Extension_DeliveryLog_BucketProcessingStrategyFactory::getRawBucketProcessingStrategy($aConf['database']['type']);
         $this->assertTrue(is_a($oProcessingStrategy, 'OX_Extension_DeliveryLog_RawBucketProcessingStrategyMysql'));
+
+        $aConf['database']['type'] = 'mysqli';
+        $oProcessingStrategy =
+            OX_Extension_DeliveryLog_BucketProcessingStrategyFactory::getRawBucketProcessingStrategy($aConf['database']['type']);
+        $this->assertTrue(is_a($oProcessingStrategy, 'OX_Extension_DeliveryLog_RawBucketProcessingStrategyMysqli'));
 
         $aConf['database']['type'] = 'pgsql';
         $oProcessingStrategy =

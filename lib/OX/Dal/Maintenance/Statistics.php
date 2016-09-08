@@ -952,7 +952,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
         }
 
         $indexHint = '';
-        if($aConf['database']['type'] == 'mysql'
+        if(($aConf['database']['type'] == 'mysql' || $aConf['database']['type'] == 'mysqli')
             && $table == 'data_summary_ad_hourly') {
             $indexHint = ' FORCE INDEX('.$aConf['table']['prefix'].'data_summary_ad_hourly_date_time) ';
         }

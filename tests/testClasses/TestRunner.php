@@ -230,7 +230,7 @@ class TestRunner
                 if (preg_match('/(\S*( ([0-9]|\.)*)?)/ ', $aRow['version'], $aMatches)) {
                     $version = $aMatches[0];
                 }
-                if ($aConf['database']['type'] == 'mysql') {
+                if ($aConf['database']['type'] == 'mysql' || $aConf['database']['type'] == 'mysqli') {
                     $version .= ' using ' . $aConf['table']['type'];
                 }
             }

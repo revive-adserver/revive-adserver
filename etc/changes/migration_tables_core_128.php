@@ -87,7 +87,7 @@ class Migration_128 extends Migration
 	{
         $table = $this->oDBH->quoteIdentifier($this->getPrefix().'banners',true);
 
-	    if ($this->oDBH->dbsyntax == 'mysql') {
+	    if ($this->oDBH->dbsyntax == 'mysql' || $this->oDBH->dbsyntax == 'mysqli') {
     	    $sql = "
     	       UPDATE {$table}
     	       SET transparent = 0

@@ -24,6 +24,14 @@
                 <grant>ALTER</grant>
             </dbms>
             <dbms>
+                <name>mysqli</name>
+                <supported>true</supported>
+                <version>4.0.18</version>
+                <engine>myisam</engine>
+                <engine>innodb</engine>
+                <grant>ALTER</grant>
+            </dbms>
+            <dbms>
                 <name>pgsql</name>
                 <supported>true</supported>
                 <version>8.0.12</version>

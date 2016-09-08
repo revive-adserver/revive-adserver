@@ -2173,6 +2173,7 @@ class OA_DB_Upgrade
         switch ($this->oSchema->db->dbsyntax)
         {
             case 'mysql':
+            case 'mysqli':
                 $engine = $this->oSchema->db->getOption('default_table_type');
                 $this->aSQLStatements['table_copy']     = "CREATE TABLE %s ENGINE={$engine} (SELECT * FROM %s)";
                 $this->aSQLStatements['table_move']     = "";

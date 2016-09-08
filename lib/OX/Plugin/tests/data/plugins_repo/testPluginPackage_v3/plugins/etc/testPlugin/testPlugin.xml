@@ -21,6 +21,10 @@
                 <supported>1</supported>
             </dbms>
             <dbms>
+                <name>mysqli</name>
+                <supported>1</supported>
+            </dbms>
+            <dbms>
                 <name>pgsql</name>
                 <supported>1</supported>
             </dbms>

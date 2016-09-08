@@ -250,6 +250,7 @@ class OA_Upgrade_Config
             switch ($aConfig['type'])
             {
                 case 'mysql':
+                case 'mysqli':
                     $aConfig['port'] = '3306';
                     break;
                 case 'pgsql':

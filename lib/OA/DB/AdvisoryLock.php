@@ -72,7 +72,7 @@ class OA_DB_AdvisoryLock
      *
      * @return OA_DB_AdvisoryLock Reference to an OA_DB_AdvisoryLock object.
      */
-    function &factory($sType = null)
+    static function &factory($sType = null)
     {
         if (is_null($sType)) {
 

@@ -188,7 +188,7 @@ class Test_OA_DB extends UnitTestCase
         $oDbh  = &OA_DB::singleton();
 
         RV::disableErrorHandling();
-        if ($aConf['database']['type'] == 'mysql') {
+        if ($aConf['database']['type'] == 'mysql' || $aConf['database']['type'] == 'mysqli') {
             $result = $oDbh->manager->validateDatabaseName('test white space ');
             $this->assertTrue(PEAR::isError($result));
             $result = $oDbh->manager->validateDatabaseName('special'.chr(255).'char');
@@ -264,7 +264,7 @@ class Test_OA_DB extends UnitTestCase
             $this->assertTrue(PEAR::isError($result), 'chr('.$i.') /'.dechex($i));
         }
 
-        if ($aConf['database']['type'] == 'mysql')
+        if ($aConf['database']['type'] == 'mysql' || $aConf['database']['type'] == 'mysqli')
         {
             $result = OA_DB::validateTableName('abcdefghij1234567890123456789012345678901234567890123456789012345'); //65 chars
             $this->assertTrue(PEAR::isError($result));

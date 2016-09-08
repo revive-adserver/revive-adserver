@@ -228,7 +228,7 @@ function setupConstants()
         }
         // Set the dbms type
         if (isset($GLOBALS['_MAX']['CONF']['database'])
-            && $GLOBALS['_MAX']['CONF']['database']['type'] == 'mysql')
+            && ($GLOBALS['_MAX']['CONF']['database']['type'] == 'mysql' || $GLOBALS['_MAX']['CONF']['database']['type'] == 'mysqli'))
         {
             define('phpAds_dbmsname', 'MySQL');
         }

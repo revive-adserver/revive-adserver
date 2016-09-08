@@ -43,7 +43,7 @@ class Migration_609Test extends MigrationTest
 
         $this->initDatabase(608, array_values($this->aTables));
 
-        $noDate = $oDbh->dbsyntax == 'mysql' ? "'0000-00-00'" : "NULL";
+        $noDate = ($oDbh->dbsyntax == 'mysql' || $oDbh->dbsyntax == 'mysqli') ? "'0000-00-00'" : "NULL";
 
         // Create accounts
         $oDbh->exec("INSERT INTO {$tblAccounts} (account_id, account_type, account_name) VALUES (1, 'ADMIN', 'Admin')");

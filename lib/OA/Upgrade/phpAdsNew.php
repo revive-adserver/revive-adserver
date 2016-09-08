@@ -129,7 +129,7 @@ class OA_phpAdsNew
             // pan has a setting dblocal to indicate a socket connection
             // max v0.1 doesn't, just have to detect if the port is a port number or socket path
             $aResult['database']['host']        = ($phpAds_config['dbhost'] ? $phpAds_config['dbhost'] : 'localhost');
-            $aResult['database']['port']        = ($phpAds_config['dbport'] ? $phpAds_config['dbport'] : ($aResult['database']['type'] == 'mysql' ? '3306' : '5432') );
+            $aResult['database']['port']        = ($phpAds_config['dbport'] ? $phpAds_config['dbport'] : ($aResult['database']['type'] == 'mysql' || $aResult['database']['type'] == 'mysqli' ? '3306' : '5432') );
             if (isset($phpAds_config['dblocal']) && $phpAds_config['dblocal']) // must be pan (mysql/pgsql)
             {
                 $aResult['database']['protocol']    = 'unix';

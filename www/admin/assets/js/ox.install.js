@@ -282,7 +282,7 @@
             }
 
             //port cannot be used with socket for mysql
-            var portDisabled = $dbType.val() == 'mysql';
+            var portDisabled = ($dbType.val() === 'mysql' || $dbType.val() === 'mysqli');
 
 
             if ($socketField.attr('checked') === true) {
@@ -302,7 +302,7 @@
         {
             var dbType = $dbType.val();
 
-            if (dbType == 'mysql') {
+            if (dbType === 'mysql' || dbType === 'mysqli') {
                 $dbPort.val(3306);
                 $dbTableType .attr('disabled', false);
             }

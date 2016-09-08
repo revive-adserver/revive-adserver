@@ -138,6 +138,7 @@ class OX_Admin_UI_Install_SystemCheckModelBuilder
         $aSection['checks']['mbstring.func_overload'] = $this->buildCheckEntry('mbstring.func_overload', $aEnvPhp, true, 'NOT OK', 'OK');
 
         $aSection['checks']['mysql'] = $this->buildExtensionCheckEntry('mysql', $aEnvPhp);
+        $aSection['checks']['mysqli'] = $this->buildExtensionCheckEntry('mysqli', $aEnvPhp);
         $aSection['checks']['pgsql'] = $this->buildExtensionCheckEntry('pgsql', $aEnvPhp);
 
         $aSection = $this->buildCheckSectionMessages($aEnvPhp, $aSection);

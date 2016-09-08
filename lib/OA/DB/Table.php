@@ -416,7 +416,7 @@ class OA_DB_Table
             OA::debug('Unable to truncate table ' . $table, PEAR_LOG_ERR);
             return false;
         }
-        if ($aConf['database']['type'] == 'mysql') {
+        if ($aConf['database']['type'] == 'mysql' || $aConf['database']['type'] == 'mysqli') {
             RV::disableErrorHandling();
             $result = $this->oDbh->exec("ALTER TABLE $table AUTO_INCREMENT = 1" );
             RV::enableErrorHandling();
@@ -521,7 +521,7 @@ class OA_DB_Table
                 return false;
             }
         }
-        else if ($aConf['database']['type'] == 'mysql')
+        else if ($aConf['database']['type'] == 'mysql' || $aConf['database']['type'] == 'mysqli')
         {
             $result = $this->oDbh->exec("ALTER TABLE {$GLOBALS['_MAX']['CONF']['table']['prefix']}{$sequence} AUTO_INCREMENT = 1");
             RV::enableErrorHandling();
@@ -573,7 +573,7 @@ class OA_DB_Table
                 	}
                 }
             }
-            else if ($this->oDbh->dbsyntax == 'mysql')
+            elseif ($this->oDbh->dbsyntax == 'mysql' || $this->oDbh->dbsyntax == 'mysqli')
             {
                 foreach (array_keys($this->aDefinition['tables']) as $tableName)
                 {

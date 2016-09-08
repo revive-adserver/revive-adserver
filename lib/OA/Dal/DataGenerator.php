@@ -523,7 +523,7 @@ class DataGenerator
             }
 
         }
-        else if ($aConf['database']['type'] == 'mysql')
+        else if ($aConf['database']['type'] == 'mysql' || $aConf['database']['type'] == 'mysqli')
         {
             $tableName = $aConf['table']['prefix'].$tableName;
             RV::disableErrorHandling();

@@ -132,6 +132,7 @@ class OX_PluginExport
             switch ($oDbh->dbsyntax)
             {
                 case 'mysql':
+                case 'mysqli':
                     $engine = $oDbh->getOption('default_table_type');
                     $sql = "CREATE TABLE %s ENGINE={$engine} (SELECT * FROM %s)";
                     break;

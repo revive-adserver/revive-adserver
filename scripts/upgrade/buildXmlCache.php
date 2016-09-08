@@ -45,7 +45,13 @@ if (!empty($existingPearPath)) {
     $newPearPath .= PATH_SEPARATOR . $existingPearPath;
 }
 ini_set('include_path', $newPearPath);
-$GLOBALS['_MAX']['CONF']['database']['type'] = 'mysql';
+
+// set database type to mysql or mysqli if available
+$availableMysqlExtension = 'mysql';
+if (extension_loaded('mysqli')) {
+    $availableMysqlExtension = 'mysqli';
+}
+$GLOBALS['_MAX']['CONF']['database']['type'] = $availableMysqlExtension;
 
 setupConstants();
 setupConfigVariables();
@@ -62,8 +68,8 @@ require MAX_PATH . '/lib/OA/DB/Table.php';
 
 // Create a database mock so we will not have to connect to database itself
 require_once MAX_PATH . '/lib/simpletest/mock_objects.php';
-require_once 'MDB2/Driver/mysql.php';
-Mock::generatePartial('MDB2_Driver_mysql', 'MDB2_Mock', array());
+require_once 'MDB2/Driver/' . $availableMysqlExtension . '.php';
+Mock::generatePartial('MDB2_Driver_' . $availableMysqlExtension, 'MDB2_Mock', array());
 $oDbh = new MDB2_Mock;
 $oDbh->__construct();
 

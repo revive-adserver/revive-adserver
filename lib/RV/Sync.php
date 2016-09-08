@@ -187,7 +187,7 @@ class RV_Sync
         if ($this->aConf['sync']['shareStack']) {
             // Thanks, admin user! You're a star! Prepare the technology stack
             // data and add it to the XML-RPC call
-            if ($this->oDbh->dbsyntax == 'mysql') {
+            if ($this->oDbh->dbsyntax == 'mysql' || $this->oDbh->dbsyntax == 'mysqli') {
                 $dbms = 'MySQL';
             } else if ($this->oDbh->dbsyntax == 'pgsql') {
                 $dbms = 'PostgreSQL';

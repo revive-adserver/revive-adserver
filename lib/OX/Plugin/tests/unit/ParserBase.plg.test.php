@@ -167,12 +167,13 @@ class Test_OX_ParserBase extends UnitTestCase
             $this->assertEqual($aPlugin['install']['files'][2]['name'],'testFile3.php');
             $this->assertEqual($aPlugin['install']['files'][2]['path'],'{ADMINPATH}/');
 
-            $this->assertEqual(count($aPlugin['install']['syscheck']['dbms']),2);
+            $this->assertEqual(count($aPlugin['install']['syscheck']['dbms']),3);
             $this->assertEqual($aPlugin['install']['syscheck']['dbms'][0]['name'],'mysql');
             $this->assertEqual($aPlugin['install']['syscheck']['dbms'][0]['supported'],1);
-
-            $this->assertEqual($aPlugin['install']['syscheck']['dbms'][1]['name'],'pgsql');
-            $this->assertEqual($aPlugin['install']['syscheck']['dbms'][1]['supported'],0);
+            $this->assertEqual($aPlugin['install']['syscheck']['dbms'][1]['name'],'mysqli');
+            $this->assertEqual($aPlugin['install']['syscheck']['dbms'][1]['supported'],1);
+            $this->assertEqual($aPlugin['install']['syscheck']['dbms'][2]['name'],'pgsql');
+            $this->assertEqual($aPlugin['install']['syscheck']['dbms'][2]['supported'],0);
 
             $this->assertEqual($aPlugin['install']['prescript'],'prescript_install_testParse.php');
             $this->assertEqual($aPlugin['install']['postscript'],'postscript_install_testParse.php');

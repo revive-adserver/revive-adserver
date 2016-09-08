@@ -25,7 +25,9 @@ $GLOBALS['OA_DEFAULT_RAND'] = 1000;
 
 if ($GLOBALS['_MAX']['CONF']['database']['type'] == 'mysql') {
     require 'mysql.php';
-} else if ($GLOBALS['_MAX']['CONF']['database']['type'] == 'pgsql') {
+} elseif ($GLOBALS['_MAX']['CONF']['database']['type'] == 'mysqli') {
+    require 'mysqli.php';
+} elseif ($GLOBALS['_MAX']['CONF']['database']['type'] == 'pgsql') {
     require 'pgsql.php';
 } else {
     die('Database not supported');
