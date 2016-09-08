@@ -6,62 +6,62 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: (n != 1)\n"
 
-#: plugins_repo/openX3rdPartyServers/plugins/3rdPartyServers/ox3rdPartyServers/adtech.class.php:37
-msgid = "adtech"
-msgstr = "adtech"
-
-#: plugins_repo/openX3rdPartyServers/plugins/3rdPartyServers/ox3rdPartyServers/atlas.class.php:36
-msgid = "Atlas"
-msgstr = "Atlas"
-
 #: plugins_repo/openX3rdPartyServers/plugins/3rdPartyServers/ox3rdPartyServers/bluestreak.class.php:36
 msgid = "Bluestreak"
 msgstr = "Bluestreak"
-
-#: plugins_repo/openX3rdPartyServers/plugins/3rdPartyServers/ox3rdPartyServers/cpx.class.php:36
-msgid = "CPX"
-msgstr = "CPX"
-
-#: plugins_repo/openX3rdPartyServers/plugins/3rdPartyServers/ox3rdPartyServers/doubleclick.class.php:39
-msgid = "Doubleclick/DFP"
-msgstr = "Doubleclick/DFP"
-
-#: plugins_repo/openX3rdPartyServers/plugins/3rdPartyServers/ox3rdPartyServers/eyeblaster.class.php:36
-msgid = "Eyeblaster"
-msgstr = "Eyeblaster"
 
 #: plugins_repo/openX3rdPartyServers/plugins/3rdPartyServers/ox3rdPartyServers/falk.class.php:36
 msgid = "Falk"
 msgstr = "Falk"
 
-#: plugins_repo/openX3rdPartyServers/plugins/3rdPartyServers/ox3rdPartyServers/google.class.php:36
-msgid = "Google AdSense"
-msgstr = "Google AdSense"
-
-#: plugins_repo/openX3rdPartyServers/plugins/3rdPartyServers/ox3rdPartyServers/kontera.class.php:36
-msgid = "Kontera"
-msgstr = "Kontera"
-
-#: plugins_repo/openX3rdPartyServers/plugins/3rdPartyServers/ox3rdPartyServers/max.class.php:39
-msgid = "Revive Adserver"
-msgstr = "Revive Adserver"
-
-#: plugins_repo/openX3rdPartyServers/plugins/3rdPartyServers/ox3rdPartyServers/mediaplex.class.php:36
-msgid = "Mediaplex"
-msgstr = "Mediaplex"
+#: plugins_repo/openX3rdPartyServers/plugins/3rdPartyServers/ox3rdPartyServers/adtech.class.php:37
+msgid = "adtech"
+msgstr = "adtech"
 
 #: plugins_repo/openX3rdPartyServers/plugins/3rdPartyServers/ox3rdPartyServers/openadstream.class.php:40
 msgid = "Open AdStream"
 msgstr = "Open AdStream"
 
-#: plugins_repo/openX3rdPartyServers/plugins/3rdPartyServers/ox3rdPartyServers/tangozebra.class.php:36
-msgid = "Tango Zebra"
-msgstr = "Tango Zebra"
+#: plugins_repo/openX3rdPartyServers/plugins/3rdPartyServers/ox3rdPartyServers/cpx.class.php:36
+msgid = "CPX"
+msgstr = "CPX"
+
+#: plugins_repo/openX3rdPartyServers/plugins/3rdPartyServers/ox3rdPartyServers/mediaplex.class.php:36
+msgid = "Mediaplex"
+msgstr = "Mediaplex"
+
+#: plugins_repo/openX3rdPartyServers/plugins/3rdPartyServers/ox3rdPartyServers/max.class.php:39
+msgid = "Revive Adserver"
+msgstr = "Revive Adserver"
+
+#: plugins_repo/openX3rdPartyServers/plugins/3rdPartyServers/ox3rdPartyServers/atlas.class.php:36
+msgid = "Atlas"
+msgstr = "Atlas"
+
+#: plugins_repo/openX3rdPartyServers/plugins/3rdPartyServers/ox3rdPartyServers/ypn.class.php:36
+msgid = "Yahoo! Publisher Network"
+msgstr = "Yahoo! Publisher Network"
 
 #: plugins_repo/openX3rdPartyServers/plugins/3rdPartyServers/ox3rdPartyServers/tradedoubler.class.php:36
 msgid = "Trade Doubler"
 msgstr = "Trade Doubler"
 
-#: plugins_repo/openX3rdPartyServers/plugins/3rdPartyServers/ox3rdPartyServers/ypn.class.php:36
-msgid = "Yahoo! Publisher Network"
-msgstr = "Yahoo! Publisher Network"
+#: plugins_repo/openX3rdPartyServers/plugins/3rdPartyServers/ox3rdPartyServers/google.class.php:36
+msgid = "Google AdSense"
+msgstr = "Google AdSense"
+
+#: plugins_repo/openX3rdPartyServers/plugins/3rdPartyServers/ox3rdPartyServers/tangozebra.class.php:36
+msgid = "Tango Zebra"
+msgstr = "Tango Zebra"
+
+#: plugins_repo/openX3rdPartyServers/plugins/3rdPartyServers/ox3rdPartyServers/kontera.class.php:36
+msgid = "Kontera"
+msgstr = "Kontera"
+
+#: plugins_repo/openX3rdPartyServers/plugins/3rdPartyServers/ox3rdPartyServers/eyeblaster.class.php:36
+msgid = "Eyeblaster"
+msgstr = "Eyeblaster"
+
+#: plugins_repo/openX3rdPartyServers/plugins/3rdPartyServers/ox3rdPartyServers/doubleclick.class.php:39
+msgid = "Doubleclick/DFP"
+msgstr = "Doubleclick/DFP"

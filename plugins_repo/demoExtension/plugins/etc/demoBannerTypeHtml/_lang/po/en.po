@@ -11,5 +11,5 @@ msgid = "Demonstration Plugin HTML Banner Type"
 msgstr = "Demonstration Plugin HTML Banner Type"
 
 #: plugins_repo/demoExtension/plugins/bannerTypeHtml/demoBannerTypeHtml/demoHtml.class.php:48
-msgid = "Please enter http://www.openx.org"
-msgstr = "Please enter http://www.openx.org"
+msgid = "Please enter http://www.revive-adserver.com"
+msgstr = "Please enter http://www.revive-adserver.com"

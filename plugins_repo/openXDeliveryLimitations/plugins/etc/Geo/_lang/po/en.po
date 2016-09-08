@@ -6,18 +6,21 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: (n != 1)\n"
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/City.class.php:75
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Region.class.php:76
-msgid = "Country"
-msgstr = "Country"
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Netspeed.res.inc.php:19
+msgid = "Unknown"
+msgstr = "Unknown"
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/City.class.php:90
-msgid = "City(s)"
-msgstr = "City(s)"
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Netspeed.res.inc.php:20
+msgid = "Dial-up"
+msgstr = "Dial-up"
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/City.res.inc.php:27
-msgid = "---Any---"
-msgstr = "---Any---"
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Netspeed.res.inc.php:21
+msgid = "Broadband"
+msgstr = "Broadband"
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Netspeed.res.inc.php:22
+msgid = "Corporate"
+msgstr = "Corporate"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:44
 msgid = "Is within"
@@ -35,21 +38,18 @@ msgstr = "Latitude"
 msgid = "Longitude"
 msgstr = "Longitude"
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Netspeed.res.inc.php:19
-msgid = "Unknown"
-msgstr = "Unknown"
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/City.class.php:75
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Region.class.php:76
+msgid = "Country"
+msgstr = "Country"
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Netspeed.res.inc.php:20
-msgid = "Dial-up"
-msgstr = "Dial-up"
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/City.class.php:90
+msgid = "City(s)"
+msgstr = "City(s)"
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Netspeed.res.inc.php:21
-msgid = "Broadband"
-msgstr = "Broadband"
-
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Netspeed.res.inc.php:22
-msgid = "Corporate"
-msgstr = "Corporate"
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/City.res.inc.php:27
+msgid = "---Any---"
+msgstr = "---Any---"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Region.class.php:92
 msgid = "Region(s)"
