@@ -157,9 +157,8 @@ class OA_Environment_Manager
         $aResult['xml']                  = extension_loaded('xml');
         $aResult['pcre']                 = extension_loaded('pcre');
         $aResult['zlib']                 = extension_loaded('zlib');
-        // some users have the mysqli extension and not the mysql, some have both
-        // only a problem if they don't have mysql extension (until we handle mysqli)
         $aResult['mysql']                = extension_loaded('mysql');
+        $aResult['mysqli']               = extension_loaded('mysqli');
         $aResult['pgsql']                = extension_loaded('pgsql');
         $aResult['spl']                  = extension_loaded('spl');
         // Check mbstring.func_overload
@@ -419,7 +418,7 @@ class OA_Environment_Manager
         if (!$this->aInfo['PHP']['actual']['zlib']) {
             $this->aInfo['PHP']['error']['zlib'] = 'The zlib extension must be loaded';
         }
-        if (!($this->aInfo['PHP']['actual']['mysql'] || $this->aInfo['PHP']['actual']['pgsql'])) {
+        if (!($this->aInfo['PHP']['actual']['mysql'] || $this->aInfo['PHP']['actual']['mysqli'] || $this->aInfo['PHP']['actual']['pgsql'])) {
             $this->aInfo['PHP']['error']['mysql'] = 'Either the mysql or the pgsql extension must be loaded';
         }
         if (!$this->aInfo['PHP']['actual']['spl']) {

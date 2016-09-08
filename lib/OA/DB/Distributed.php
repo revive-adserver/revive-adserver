@@ -110,7 +110,7 @@ class OA_DB_Distributed extends OA_DB
             $aConf = $GLOBALS['_MAX']['CONF'];
         }
         $dbType = $aConf['lb']['type'];
-        if (strcasecmp($dbType, 'mysql') === 0) {
+        if (strcasecmp($dbType, 'mysql') === 0 || strcasecmp($dbType, 'mysqli') === 0) {
             if ($aConf['lb']['ssl'] && !empty($aConf['lb']['ca']) && !empty($aConf['lb']['capth'])) {
                 $aDriverOptions['ssl'] = true;
                 $aDriverOptions['ca'] = $aConf['lb']['ca'];

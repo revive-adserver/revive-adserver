@@ -46,7 +46,7 @@ class Test_EncodingMigration extends MigrationTest
 
         // However MySQL versions < 4.1.2 didn't support charsets, so we don't need to do that
         // and assume that a database can store any 8bit data (which is in fact true)
-        if ($this->oDbh->dbsyntax == 'mysql') {
+        if ($this->oDbh->dbsyntax == 'mysql' || $this->oDbh->dbsyntax == 'mysqli') {
             $aVersion = $this->oDbh->getServerVersion();
             if (version_compare($aVersion['native'], '4.1.2', '<')) {
                 $GLOBALS['_MAX']['CONF']['databaseCharset']['clientCharset'] = '';

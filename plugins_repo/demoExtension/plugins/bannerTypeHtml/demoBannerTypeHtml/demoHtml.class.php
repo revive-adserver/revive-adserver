@@ -131,6 +131,7 @@ class Plugins_BannerTypeHTML_demoBannerTypeHtml_demoHtml extends Plugins_BannerT
         switch ($oDbh->dbsyntax)
         {
             case 'mysql':
+            case 'mysqli':
                 $engine = $oDbh->getOption('default_table_type');
                 $sql = "CREATE TABLE %s ENGINE={$engine} (SELECT * FROM %s %s)";
                 break;

@@ -384,7 +384,7 @@ class MDB2_Driver_mysqli extends MDB2_Driver_Common
      */
     function connect()
     {
-        if (is_resource($this->connection)) {
+        if (is_object($this->connection)) {
             if (count(array_diff($this->connected_dsn, $this->dsn)) == 0
                 && $this->opened_persistent == $this->options['persistent']
                 && $this->connected_database_name == $this->database_name

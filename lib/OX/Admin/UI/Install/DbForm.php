@@ -109,7 +109,7 @@ class OX_Admin_UI_Install_DbForm
             $this->addRequiredRule('dbSocket', $GLOBALS['strDbSocket']);
         }
         if ($_POST['dbLocal'] == 0) {
-            if ($_POST['dbType'] ==  'mysql') {
+            if ($_POST['dbType'] ==  'mysql' || $_POST['dbType'] ==  'mysqli') {
                 $this->addRequiredRule('dbPort', $GLOBALS['strDbPort']);
             }
         }

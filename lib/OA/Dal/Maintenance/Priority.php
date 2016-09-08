@@ -1452,7 +1452,8 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     {
         OA::debug('- Updating ECPM priorities ', PEAR_LOG_DEBUG);
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $dbHasTransactionSupport = !(strcasecmp($aConf['database']['type'], 'mysql') === 0
+        $dbHasTransactionSupport = !((strcasecmp($aConf['database']['type'], 'mysql') === 0
+            || strcasecmp($aConf['database']['type'], 'mysqli') === 0)
         && strcasecmp($aConf['table']['type'], 'myisam') === 0);
         if ($dbHasTransactionSupport) {
             $oRes = $this->oDbh->beginTransaction();
@@ -1511,7 +1512,8 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     {
         OA::debug('- Updating Campaigns ECPMs', PEAR_LOG_DEBUG);
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $dbHasTransactionSupport = !(strcasecmp($aConf['database']['type'], 'mysql') === 0
+        $dbHasTransactionSupport = !((strcasecmp($aConf['database']['type'], 'mysql') === 0
+            || strcasecmp($aConf['database']['type'], 'mysqli') === 0)
         && strcasecmp($aConf['table']['type'], 'myisam') === 0);
         if ($dbHasTransactionSupport) {
             $oRes = $this->oDbh->beginTransaction();
@@ -1612,12 +1614,9 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 return false;
             }
             // Does the database in use support transactions?
-            if (
-            strcasecmp($aConf['database']['type'], 'mysql') === 0
-            &&
-            strcasecmp($aConf['table']['type'], 'myisam') === 0
-            )
-            {
+            if ((strcasecmp($aConf['database']['type'], 'mysql') === 0 || strcasecmp($aConf['database']['type'], 'mysqli') === 0)
+                && strcasecmp($aConf['table']['type'], 'myisam') === 0
+            ) {
                 // Oh noz! No transaction support? How tragic!
                 OA::debug('  - Saving calculated priorities WITHOUT transaction support', PEAR_LOG_DEBUG);
                 // Obtain the list of all existing normal (ie. link_type = MAX_AD_ZONE_LINK_NORMAL)

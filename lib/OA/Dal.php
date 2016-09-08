@@ -362,7 +362,7 @@ class OA_Dal
         $fieldList = '('.join(',', array_map(array($oDbh, 'quoteIdentifier'), $aFields)).')';
 
         // Database custom stuff
-        if ($oDbh->dbsyntax == 'mysql') {
+        if ($oDbh->dbsyntax == 'mysql' || $oDbh->dbsyntax == 'mysqli') {
             $result = self::_batchInsertMySQL($qTableName, $fieldList, $aValues, $replace);
         } else {
             $result = self::_batchInsertPgSQL($qTableName, $fieldList, $aValues, $replace, $primaryKey);

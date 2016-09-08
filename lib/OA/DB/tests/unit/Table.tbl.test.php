@@ -384,12 +384,9 @@ class Test_OA_DB_Table extends UnitTestCase
     function test_resetSequence()
     {
         $oDbh =& OA_DB::singleton();
-        if ($oDbh->dbsyntax == 'pgsql')
-        {
+        if ($oDbh->dbsyntax == 'pgsql') {
             $sequence = 'test_table1_test_id1_seq';
-        }
-        else if ($oDbh->dbsyntax == 'mysql')
-        {
+        } elseif ($oDbh->dbsyntax == 'mysql' || $oDbh->dbsyntax == 'mysqli') {
             $sequence = 'test_table1';
         }
         $conf =& $GLOBALS['_MAX']['CONF'];

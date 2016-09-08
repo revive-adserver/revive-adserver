@@ -1068,5 +1068,33 @@ class MDB2_Driver_Manager_mysqli extends MDB2_Driver_Manager_Common
         }
         return true;
     }
+
+    /**
+     * New OPENX method to check table name according to specifications:
+     *  Mysql specification: http://dev.mysql.com/doc/refman/4.1/en/identifiers.html
+     *  Mysql specification: http://dev.mysql.com/doc/refman/5.0/en/identifiers.html
+     *  For 4.0, 4.1, 5.0 seem to be the same
+     *
+     *  There are some restrictions on the characters that may appear in identifiers:
+     *  - No identifier can contain ASCII 0 (0x00) or a byte with a value of 255.
+     *  - Before MySQL 4.1, identifier quote characters should not be used in identifiers.
+     *  - Database, table, and column names should not end with space characters.
+     *  - Database and table names cannot contain “/”, “\”, “.”, or characters that are not allowed in filenames.
+     *
+     *  Table name maximum length:
+     *  - 64
+     *
+     * @param string $name table name to check
+     * @return true if name is correct and PEAR error on failure
+     */
+    function validateTableName($name)
+    {
+        // Table name maximum length is 64
+        if (strlen($name) > 64) {
+            return PEAR::raiseError(
+                'MySQL table names are limited to 64 characters in length');
+        }
+        return true;
+    }
 }
 ?>

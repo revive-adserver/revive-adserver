@@ -13,6 +13,7 @@
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 
 require_once LIB_PATH . '/Dal/Maintenance/Statistics/Mysql.php';
+require_once LIB_PATH . '/Dal/Maintenance/Statistics/Mysqli.php';
 require_once LIB_PATH . '/Dal/Maintenance/Statistics/Pgsql.php';
 require_once LIB_PATH . '/Maintenance/Statistics.php';
 require_once LIB_PATH . '/Maintenance/Statistics/Task/DeduplicateConversions.php';

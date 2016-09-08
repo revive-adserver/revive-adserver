@@ -47,6 +47,9 @@ class OX_Admin_UI_Install_InstallUtils
         if (extension_loaded('mysql')) {
             $aTypes['mysql'] = 'MySQL';
         }
+        if (extension_loaded('mysqli')) {
+            $aTypes['mysqli'] = 'MySQLi';
+        }
         if (extension_loaded('pgsql')) {
             $aTypes['pgsql'] = 'PostgreSQL';
         }

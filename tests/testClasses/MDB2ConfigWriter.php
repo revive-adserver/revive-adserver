@@ -43,7 +43,7 @@ class MDB2ConfigWriter
         $sConfig = str_replace('%db.port%', $port, $sConfig);
 
         $sOptions = '';
-        if ('mysql' == $type) {
+        if ('mysql' == $type || 'mysqli' == $type) {
            $useTransactions = 'INNODB' == $tableType ? 'true' : 'false';
            $sOptions = "'options' => array(" . "'use_transactions' => $useTransactions" . ")";
         }

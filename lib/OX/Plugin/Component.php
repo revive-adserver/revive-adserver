@@ -50,7 +50,7 @@ class OX_Component
      *       they should be added to the refactoredExtensions until this whole section can be removed
      * @return mixed The instantiated component object, or false on error.
      */
-    function factory($extension, $group, $component = null)
+    static function factory($extension, $group, $component = null)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         if ($component === null) {
