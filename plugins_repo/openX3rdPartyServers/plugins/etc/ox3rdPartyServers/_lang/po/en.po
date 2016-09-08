@@ -38,17 +38,9 @@ msgstr = "Revive Adserver"
 msgid = "Atlas"
 msgstr = "Atlas"
 
-#: plugins_repo/openX3rdPartyServers/plugins/3rdPartyServers/ox3rdPartyServers/ypn.class.php:36
-msgid = "Yahoo! Publisher Network"
-msgstr = "Yahoo! Publisher Network"
-
 #: plugins_repo/openX3rdPartyServers/plugins/3rdPartyServers/ox3rdPartyServers/tradedoubler.class.php:36
 msgid = "Trade Doubler"
 msgstr = "Trade Doubler"
-
-#: plugins_repo/openX3rdPartyServers/plugins/3rdPartyServers/ox3rdPartyServers/google.class.php:36
-msgid = "Google AdSense"
-msgstr = "Google AdSense"
 
 #: plugins_repo/openX3rdPartyServers/plugins/3rdPartyServers/ox3rdPartyServers/tangozebra.class.php:36
 msgid = "Tango Zebra"
