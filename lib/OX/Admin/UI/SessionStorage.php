@@ -15,17 +15,19 @@ require_once MAX_PATH . '/lib/OX/Admin/UI/Storage.php';
 /**
  * @package OX_Admin_UI
  */
-class OX_Admin_UI_SessionStorage
-    implements OX_Admin_UI_Storage
+class OX_Admin_UI_SessionStorage implements OX_Admin_UI_Storage
 {
     private $id;
     private $path;
 
     function __construct($id = null, $path = null)
     {
-        if ('cli' !== PHP_SAPI && !is_writable($path = session_save_path())) {
-            echo htmlspecialchars("The session save path {$path} is not writable.");
-            exit;
+        if ('cli' !== PHP_SAPI) {
+            $path = session_save_path();
+            if (!empty($path) && !is_writable($path)) {
+                echo htmlspecialchars("The session save path '{$path}' is not writable.");
+                exit;
+            }
         }
 
         $this->id = isset($id)? $id : 'session_id';
