@@ -44,7 +44,7 @@ class OX_Admin_UI_Install_InstallUtils
         // These values must be the same as used for the
         // data access layer file names!
         $aTypes = array ();
-        if (extension_loaded('mysql')) {
+        if (extension_loaded('mysql') or function_exists('mysql_connect')) {
             $aTypes['mysql'] = 'MySQL';
         }
         if (extension_loaded('pgsql')) {
@@ -65,7 +65,7 @@ class OX_Admin_UI_Install_InstallUtils
         // These values must be the same as used for the
         // data access layer file names!
         $aTypes = array ();
-        if (extension_loaded('mysql')) {
+        if (extension_loaded('mysql') or function_exists('mysql_connect')) {
             $aTypes['MYISAM'] = 'MyISAM';
             $aTypes['INNODB'] = 'InnoDB';
         }
