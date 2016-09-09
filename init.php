@@ -55,7 +55,7 @@ function init()
     setupServerVariables();
 
     // PSR Autoloader
-    include MAX_PATH.'lib/vendor/autoload.php';
+    include MAX_PATH.'/lib/vendor/autoload.php';
 
     // Set up the UI constants
     setupConstants();
