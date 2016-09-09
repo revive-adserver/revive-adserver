@@ -27,9 +27,6 @@ require_once 'init-delivery-parse.php';
 require_once 'memory.php';
 require_once 'variables.php';
 
-// PSR Autoloader
-require_once __DIR__.'/lib/vendor/autoload.php';
-
 // Increase the PHP memory_limit value to the minimum required value, if necessery
 OX_increaseMemoryLimit(OX_getMinimumRequiredMemory());
 
@@ -41,6 +38,9 @@ if (!defined('E_DEPRECATED')) {
 setupServerVariables();
 setupDeliveryConfigVariables();
 $conf = $GLOBALS['_MAX']['CONF'];
+
+// PSR Autoloader
+include MAX_PATH.'lib/vendor/autoload.php';
 
 // Set this script's identifier (from the config file) in the global scope
 $GLOBALS['_OA']['invocationType'] = array_search(basename($_SERVER['SCRIPT_FILENAME']), $conf['file']);

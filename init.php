@@ -21,9 +21,6 @@ require_once 'init-parse.php';
 require_once 'variables.php';
 require_once 'constants.php';
 
-// PSR Autoloader
-require_once __DIR__.'/lib/vendor/autoload.php';
-
 /**
  * The environment initialisation function for the administration interface.
  *
@@ -56,6 +53,9 @@ function init()
 
     // Set up server variables
     setupServerVariables();
+
+    // PSR Autoloader
+    include MAX_PATH.'lib/vendor/autoload.php';
 
     // Set up the UI constants
     setupConstants();
