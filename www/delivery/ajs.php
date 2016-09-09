@@ -255,7 +255,7 @@ define('E_DEPRECATED', 0);
 setupServerVariables();
 setupDeliveryConfigVariables();
 $conf = $GLOBALS['_MAX']['CONF'];
-include MAX_PATH.'lib/vendor/autoload.php';
+include MAX_PATH.'/lib/vendor/autoload.php';
 $GLOBALS['_OA']['invocationType'] = array_search(basename($_SERVER['SCRIPT_FILENAME']), $conf['file']);
 if (!empty($conf['debug']['production'])) {
 error_reporting(E_ALL & ~(E_NOTICE | E_WARNING | E_DEPRECATED | E_STRICT));
