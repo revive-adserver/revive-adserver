@@ -285,7 +285,7 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
             $g_append = MAX_adRenderBlankBeacon($zoneId, $source, $loc, $referer).$g_append;
 
             // Try to fill the impression with a fallback from plugins
-            $outputbuffer = join("\n", OX_Delivery_Common_hook('blankAdSelect', array($zoneId, $context, $source, $richmedia)));
+            $outputbuffer = join("\n", OX_Delivery_Common_hook('blankAdSelect', array($zoneId, $context, $source, $richmedia)) ?: []);
         }
 
         if (!empty($outputbuffer)) {
