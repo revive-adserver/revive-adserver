@@ -3754,7 +3754,7 @@ MAX_Delivery_log_setLastAction(0, array($row['bannerid']), array($zoneId), array
 } else {
 if (!empty($zoneId)) {
 $g_append = MAX_adRenderBlankBeacon($zoneId, $source, $loc, $referer).$g_append;
-$outputbuffer = join("\n", OX_Delivery_Common_hook('blankAdSelect', array($zoneId, $context, $source, $richmedia)));
+$outputbuffer = join("\n", OX_Delivery_Common_hook('blankAdSelect', array($zoneId, $context, $source, $richmedia)) ?: []);
 }
 if (!empty($outputbuffer)) {
 $outputbuffer = $g_prepend . $outputbuffer . $g_append;
