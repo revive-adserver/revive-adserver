@@ -3277,6 +3277,14 @@ $divEnd = '</div>';
 $beacon = "$div<img src='".htmlspecialchars($logUrl, ENT_QUOTES)."' width='0' height='0' alt=''{$style} />{$divEnd}";
 return $beacon;
 }
+function MAX_adRenderBlankBeacon($zoneId, $source, $loc, $referer)
+{
+$logUrl = _adRenderBuildLogURL(array(
+'ad_id' => 0,
+'placement_id' => 0,
+), $zoneId, $source, $loc, $referer, '&');
+return str_replace('{random}', MAX_getRandomNumber(), MAX_adRenderImageBeacon($logUrl));
+}
 function _adRenderImage(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $richMedia=true, $loc='', $referer='', $context=array(), $useAppend=true)
 {
 $conf = $GLOBALS['_MAX']['CONF'];
@@ -3745,20 +3753,20 @@ MAX_Delivery_log_setLastAction(0, array($row['bannerid']), array($zoneId), array
 }
 } else {
 if (!empty($zoneId)) {
-$logUrl = _adRenderBuildLogURL(array(
-'ad_id' => 0,
-'placement_id' => 0,
-), $zoneId, $source, $loc, $referer, '&');
-$g_append = str_replace('{random}', MAX_getRandomNumber(), MAX_adRenderImageBeacon($logUrl)).$g_append;
+$g_append = MAX_adRenderBlankBeacon($zoneId, $source, $loc, $referer).$g_append;
+$outputbuffer = join("\n", OX_Delivery_Common_hook('blankAdSelect', array($zoneId, $context, $source, $richmedia)));
 }
-if (!empty($row['default'])) {
+if (!empty($outputbuffer)) {
+$outputbuffer = $g_prepend . $outputbuffer . $g_append;
+$output = array('html' => $outputbuffer, 'bannerid' => '' );
+} elseif (!empty($row['default'])) {
 if (empty($target)) {
 $target = '_blank';  }
 $outputbuffer = $g_prepend . '<a href=\'' . $row['default_banner_destination_url'] . '\' target=\'' .
 $target . '\'><img src=\'' . $row['default_banner_image_url'] .
 '\' border=\'0\' alt=\'\'></a>' . $g_append;
 $output = array('html' => $outputbuffer, 'bannerid' => '', 'default_banner_image_url' => $row['default_banner_image_url'] );
-} else if (!empty($conf['defaultBanner']['imageUrl'])) {
+} elseif (!empty($conf['defaultBanner']['imageUrl'])) {
 if (empty($target)) {
 $target = '_blank';  }
 $outputbuffer = "{$g_prepend}<img src='{$conf['defaultBanner']['imageUrl']}' border='0' alt=''>{$g_append}";
