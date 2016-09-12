@@ -22,6 +22,7 @@ contributions to the code:
  - Sunci Syz
  - Heiko Weber
  - Karen Mikaela Saavedra Chavez
+ - Stefan Greiner
 
 Please note: The Revive Adserver team does not have time to track every single
 pull request that is merged into the project. If you would like your name
@@ -45,8 +46,11 @@ Copyright (c) 1999 - 2009 by the original authors:
 
   - phpAds created by Tobias Ratschiller.
 
-<<<<<<< HEAD
 --------------------------------------------------------------------------------
-=======
+
+Revive Adserver release packages may also bundle the following packages:
+
+ - sinergi/browser-detector: Copyright (c) Chris Schuld, Gabriel Bull
+
 --------------------------------------------------------------------------------
->>>>>>> REL-3.2.4
+
