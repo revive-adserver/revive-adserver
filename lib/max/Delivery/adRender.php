@@ -215,6 +215,26 @@ function MAX_adRenderImageBeacon($logUrl, $beaconId = 'beacon', $userAgent = nul
 }
 
 /**
+ * This function builds the HTML to display a 1x1 logging beacon for a blank impression
+ *
+ * @param int     $zoneId       The zone ID of the zone used to select this ad (if zone-selected)
+ * @param string  $source       The "source" parameter passed into the adcall
+ * @param string  $loc          The "current page" URL
+ * @param string  $referer      The "referring page" URL
+ *
+ * @return string The HTML to show the 1x1 logging beacon
+ */
+function MAX_adRenderBlankBeacon($zoneId, $source, $loc, $referer)
+{
+    $logUrl = _adRenderBuildLogURL(array(
+        'ad_id' => 0,
+        'placement_id' => 0,
+    ), $zoneId, $source, $loc, $referer, '&');
+
+    return str_replace('{random}', MAX_getRandomNumber(), MAX_adRenderImageBeacon($logUrl));
+}
+
+/**
  * This function builds the HTML code to display an "image" ad (e.g. GIF/JPG/PNG)
  *
  * @param array   $aBanner      The ad-array for the ad to render code for
