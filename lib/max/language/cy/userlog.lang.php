@@ -26,13 +26,4 @@ $GLOBALS['strAction'] = "Gweithred";
 if (!isset($GLOBALS['strUserlog'])) {
     $GLOBALS['strUserlog'] = array();
 }
-$GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Dad-ysgogwyd ymgyrch {id}";
-$GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Dad-ysgogwyd ymgyrch {id}";
-$GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Dad-ysgogwyd ymgyrch {id}";
-$GLOBALS['strUserlog'][phpAds_actionBatchStatistics] = "Dad-ysgogwyd ymgyrch {id}";
-$GLOBALS['strUserlog'][phpAds_actionDeactivationMailed] = "Dad-ysgogwyd ymgyrch {id}";
-$GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "Dad-ysgogwyd ymgyrch {id}";
-$GLOBALS['strUserlog'][phpAds_actionPriorityCalculation] = "Dad-ysgogwyd ymgyrch {id}";
-$GLOBALS['strUserlog'][phpAds_actionPublisherReportMailed] = "Dad-ysgogwyd ymgyrch {id}";
-$GLOBALS['strUserlog'][phpAds_actionWarningMailed] = "Dad-ysgogwyd ymgyrch {id}";
 $GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "Dad-ysgogwyd ymgyrch {id}";

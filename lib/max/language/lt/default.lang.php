@@ -344,7 +344,6 @@ $GLOBALS['strOverwriteSource'] = "Perrašyti šaltinio parametrus";
 
 // Display limitations
 $GLOBALS['strACL'] = "Atsiuntimas";
-$GLOBALS['strNoLimitations'] = "Nėra draudimų";
 $GLOBALS['strApplyLimitationsTo'] = "Pritaikyti apribojimus";
 $GLOBALS['strRemoveAllLimitations'] = "Panaikinti apribojimus";
 $GLOBALS['strEqualTo'] = "yra lygus";

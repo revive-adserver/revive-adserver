@@ -282,7 +282,6 @@ $GLOBALS['strOverwriteSource'] = "Forrás tulajdonságok felülírása";
 $GLOBALS['strModifyBannerAcl'] = "Továbbítás beállításai";
 $GLOBALS['strACL'] = "Továbbítás";
 $GLOBALS['strACLAdd'] = "Új korlátozás hozzáadása";
-$GLOBALS['strNoLimitations'] = "Nincsenek korlátozások";
 $GLOBALS['strApplyLimitationsTo'] = "Korlátozás alkalmazása a következőre";
 $GLOBALS['strRemoveAllLimitations'] = "Minden korlátozás eltávolítása";
 $GLOBALS['strEqualTo'] = "egyenlő ezzel:";

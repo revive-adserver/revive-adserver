@@ -404,7 +404,6 @@ $GLOBALS['strOverwriteSource'] = "ソースパラメータを上書きする";
 $GLOBALS['strModifyBannerAcl'] = "配信オプション";
 $GLOBALS['strACL'] = "広告配信";
 $GLOBALS['strACLAdd'] = "配信制限の追加";
-$GLOBALS['strNoLimitations'] = "配信制限が定義されていません";
 $GLOBALS['strApplyLimitationsTo'] = "配信制限を適用する";
 $GLOBALS['strRemoveAllLimitations'] = "すべての配信制限を削除";
 $GLOBALS['strEqualTo'] = "一致する";

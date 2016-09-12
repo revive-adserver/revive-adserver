@@ -40,13 +40,13 @@ $GLOBALS['strClear'] = "Limpiar";
 if (!isset($GLOBALS['strUserlog'])) {
     $GLOBALS['strUserlog'] = array();
 }
-$GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Notificación de activación de la campaña {id} enviada por e-mail";
-$GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Notificación de activación de la campaña {id} enviada por e-mail";
-$GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Notificación de activación de la campaña {id} enviada por e-mail";
-$GLOBALS['strUserlog'][phpAds_actionBatchStatistics] = "Notificación de activación de la campaña {id} enviada por e-mail";
-$GLOBALS['strUserlog'][phpAds_actionDeactivationMailed] = "Notificación de activación de la campaña {id} enviada por e-mail";
-$GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "Notificación de activación de la campaña {id} enviada por e-mail";
-$GLOBALS['strUserlog'][phpAds_actionPriorityCalculation] = "Notificación de activación de la campaña {id} enviada por e-mail";
-$GLOBALS['strUserlog'][phpAds_actionPublisherReportMailed] = "Notificación de activación de la campaña {id} enviada por e-mail";
-$GLOBALS['strUserlog'][phpAds_actionWarningMailed] = "Notificación de activación de la campaña {id} enviada por e-mail";
+$GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Informe para el anunciante {id} enviar por correo electrónico";
+$GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Campaña {id} activada";
+$GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Auto limpieza de base de datos";
+$GLOBALS['strUserlog'][phpAds_actionBatchStatistics] = "Estadísticas compiladas";
+$GLOBALS['strUserlog'][phpAds_actionDeactivationMailed] = "Notificación de desactivación de la campaña {id} enviada por e-mail";
+$GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "Campaña {id} desactivada";
+$GLOBALS['strUserlog'][phpAds_actionPriorityCalculation] = "Prioridad recalculada";
+$GLOBALS['strUserlog'][phpAds_actionPublisherReportMailed] = "Informe para el sitio web {id} enviado por correo electrónico";
+$GLOBALS['strUserlog'][phpAds_actionWarningMailed] = "Advertencia de desactivación para la campaña {id} enviada por correo electrónico";
 $GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "Notificación de activación de la campaña {id} enviada por e-mail";

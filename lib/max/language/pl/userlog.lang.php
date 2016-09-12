@@ -38,13 +38,4 @@ $GLOBALS['strClear'] = "Wyczyść";
 if (!isset($GLOBALS['strUserlog'])) {
     $GLOBALS['strUserlog'] = array();
 }
-$GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Informacja o aktywacji kampanii {id} została wysłana e-mailem";
-$GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Informacja o aktywacji kampanii {id} została wysłana e-mailem";
-$GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Informacja o aktywacji kampanii {id} została wysłana e-mailem";
-$GLOBALS['strUserlog'][phpAds_actionBatchStatistics] = "Informacja o aktywacji kampanii {id} została wysłana e-mailem";
-$GLOBALS['strUserlog'][phpAds_actionDeactivationMailed] = "Informacja o aktywacji kampanii {id} została wysłana e-mailem";
-$GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "Informacja o aktywacji kampanii {id} została wysłana e-mailem";
-$GLOBALS['strUserlog'][phpAds_actionPriorityCalculation] = "Informacja o aktywacji kampanii {id} została wysłana e-mailem";
-$GLOBALS['strUserlog'][phpAds_actionPublisherReportMailed] = "Informacja o aktywacji kampanii {id} została wysłana e-mailem";
-$GLOBALS['strUserlog'][phpAds_actionWarningMailed] = "Informacja o aktywacji kampanii {id} została wysłana e-mailem";
 $GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "Informacja o aktywacji kampanii {id} została wysłana e-mailem";

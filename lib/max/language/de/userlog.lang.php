@@ -40,13 +40,10 @@ $GLOBALS['strClear'] = "Leeren";
 if (!isset($GLOBALS['strUserlog'])) {
     $GLOBALS['strUserlog'] = array();
 }
-$GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Benachrichtigungsmail über die Aktivierung der Kampagne {id} versendet";
-$GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Benachrichtigungsmail über die Aktivierung der Kampagne {id} versendet";
-$GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Benachrichtigungsmail über die Aktivierung der Kampagne {id} versendet";
-$GLOBALS['strUserlog'][phpAds_actionBatchStatistics] = "Benachrichtigungsmail über die Aktivierung der Kampagne {id} versendet";
-$GLOBALS['strUserlog'][phpAds_actionDeactivationMailed] = "Benachrichtigungsmail über die Aktivierung der Kampagne {id} versendet";
-$GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "Benachrichtigungsmail über die Aktivierung der Kampagne {id} versendet";
-$GLOBALS['strUserlog'][phpAds_actionPriorityCalculation] = "Benachrichtigungsmail über die Aktivierung der Kampagne {id} versendet";
-$GLOBALS['strUserlog'][phpAds_actionPublisherReportMailed] = "Benachrichtigungsmail über die Aktivierung der Kampagne {id} versendet";
-$GLOBALS['strUserlog'][phpAds_actionWarningMailed] = "Benachrichtigungsmail über die Aktivierung der Kampagne {id} versendet";
+$GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Kampagne {id} deaktiviert";
+$GLOBALS['strUserlog'][phpAds_actionDeactivationMailed] = "Benachrichtigungsmail über die Deaktivierung der Kampagne {id} versandt";
+$GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "Kampagne {id} deaktiviert";
+$GLOBALS['strUserlog'][phpAds_actionPriorityCalculation] = "Priorität neu berechnet";
+$GLOBALS['strUserlog'][phpAds_actionPublisherReportMailed] = "Auswertung für die Webseite {id} per eMail versand";
+$GLOBALS['strUserlog'][phpAds_actionWarningMailed] = "Versand einer eMail-Warnung wegen der Deaktivierung der Kampagne {id}";
 $GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "Benachrichtigungsmail über die Aktivierung der Kampagne {id} versendet";
