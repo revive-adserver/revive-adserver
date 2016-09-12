@@ -3104,6 +3104,7 @@ setupIncludePath();
 require_once RV_PATH . '/lib/RV.php';
 
 
+require_once RV_PATH . '/lib/RV.php';
 
 
 
