@@ -27,6 +27,10 @@ What's New in Revive Adserver 4.0.0-rc1
  New Features
  ------------
 
+ * Added support for the PHP mysqli extension, allowing Revive Adserver to
+   work on PHP7+ without having to install the legacy mysql extension from
+   pecl.
+
  * Replaced old phpSniff with a modern alternative (Sinergi Browser detector),
    with a significant speed improvement.
 
@@ -37,7 +41,7 @@ What's New in Revive Adserver 4.0.0-rc1
    by changing TEXT fields to MEDIUMTEXT. No change on Postgres, where the
    maximum field size has always been 1GB.
 
-* Improved .htaccess compatibility with Apache 2.4+.
+ * Improved .htaccess compatibility with Apache 2.4+.
 
  * Improved error reporting when installing Revive Adserver when the PHP session
    save path is not writable.
