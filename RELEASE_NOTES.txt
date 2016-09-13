@@ -27,7 +27,17 @@ What's New in Revive Adserver 4.0.0-rc1
  New Features
  ------------
 
- * Improved .htaccess compatibility with Apache 2.4+.
+ * Replaced old phpSniff with a modern alternative (Sinergi Browser detector),
+   with a significant speed improvement.
+
+ * Added support for both Memcache and Memcached extensions in the oxMemcached
+   plugin.
+
+ * Increased HTML banner size hard limit from 64k to 16MB on MySQL,
+   by changing TEXT fields to MEDIUMTEXT. No change on Postgres, where the
+   maximum field size has always been 1GB.
+
+* Improved .htaccess compatibility with Apache 2.4+.
 
  * Improved error reporting when installing Revive Adserver when the PHP session
    save path is not writable.
@@ -35,67 +45,81 @@ What's New in Revive Adserver 4.0.0-rc1
  * Moved database type dropdown out of the hidden advanced settings section
    during install.
 
- * Added support for both Memcache and Memcached extensions in the oxMemcached
-   plugin.
-
- * Replaced old phpSniff with a modern alternative (Sinergi Browser detector),
-   with a significant speed improvement.
-
  * Added a new blankAdSelect plugin hook to eventually fill in blank impressions
    with fallback material.
 
  Bug Fixes
  ---------
 
- * Fixed an issue with the upload of SWF banners with hardcoded links
-   triggering a permissions error when the conversion feature was enabled.
-
- * Expired contract campaigns ended with a (possibly large) number of
-   undelivered imps, clicks or conversions were being wrongly taken into
-   account when allocating impressions to zones, lowering the impressions
-   budget available for active campaigns.
+ * Fixed an issue where impressions, clicks and conversions that had not been
+   successfully delivered in now inactive contract campaigns were being
+   incorrectly taken into account when allocating impressions to zones, lowering
+   the available impression count available for active campaigns, resulting in
+   under-delivery.
 
    Investigation and fix sponsored by Online Buddies, Inc.
 
-  * Fixed an issue with delivery capping / blocking not working when a page
-    using async tags was forcibly reloaded soon after serving a capped banner.
+ * Fixed an issue with delivery capping / blocking not working when a page
+   using async tags was forcibly reloaded soon after serving a capped banner.
 
-  * Fixed an issue with emails being sent with duplicate "To" headers, causing
-    them to be rejected by some MTAs or spam filters.
+ * Fixed an issue with the upload of SWF banners with hardcoded links
+   triggering a permissions error when the conversion feature was enabled.
 
-  * Fixed an issue with banners created via the API always being flagged as
-    "iframe friendly". The fix only applies to newly created banners.
+ * Fixed an issue with some banners showing underlined text when displayed with
+   async JS tags.
 
-  * Fixed an issue with some banners showing underlined text when displayed with
-    async JS tags.
+ * Fixed an issue with banners created via the API always being flagged as
+   "iframe friendly". The fix only applies to newly created banners.
 
-  * Removed an hardcoded reference to the "asyncspc.php" delivery script,
-    preventing the users from renaming it.
+ * Fixed an issue with Doubleclick 3rd party click tracking plugin not
+   recognizing https URLs.
 
-  * Fixed an issue with Doubleclick 3rd party click tracking plugin not
-    recognizing https URLs.
+ * Fixed an issue with the "UTC" timezone only being available if configured
+   as a PHP default timezone. Also removed the non-standard "GB" timezone.
 
-  * Fixed an issue with the "UTC" timezone only being available if configured
-    as PHP default timezone. Also removed non-standard "GB" timezone.
+ * Fixed an issue with some report emails being sent with duplicate "To"
+   headers, causing them to be rejected by some MTAs or spam filters.
 
-  * Increased HTML banner size hard limit from 64k to 16MB on MySQL,
-    by changing TEXT fields to MEDIUMTEXT. No change on Postgres, where the
-    maximum field size has always been 1GB.
+ * Removed an hardcoded reference to the "asyncspc.php" delivery script,
+   preventing the users from renaming it.
 
  Non-Backwards Compatible Changes
  --------------------------------
 
- * Revive Adserver now requires a minimum PHP version of 5.5.9.
+ * Revive Adserver now requires PHP 5.5.9+.
 
- * Browser and Os detection have been optimized out and are now only called if
-   necessary. Any plugin directly using such information during delivery
-   should be adapted to use the provided wrapper and perform the detection
-   if necessary. See the Browser/Os delivery limitations code for a usage
-   example.
+ * Client Delivery Limitations:
 
- * Removed non-working AdSense and YPN 3rd party click tracking adaptors: any
-   banner using them will be switched to "Generic HTML banner" during the
+   * Support for delivery limitations against older browser types has been
+     dropped in Revive Adserver 4.0.0. As a result, existing Client - Browser
+     delivery limitations for all browser types other than Chrome, Firefox,
+     Internet Explorer, Safari and Opera will be removed as part of the upgrade
+     process.
+
+   * Support for delivery limitations against older operating systems has been
+     dropped in Revive Adserver 4.0.0. As a result, existing Client - Operating
+     system delivery limitations for all operating system types other than
+     Windows 7, Windows XP, Windows 2000, Linux, FreeBSD, Solaris and Mac OSX
+     will be removed as part of the upgrade process.
+
+   * Users with either existing Client - Browser or Client - Operating system
+     delivery limitations are advised that they should check delivery
+     limitations before and after upgrading to Revive Adserver 4.0.0, to ensure
+     that the limitations set remain valid for the desired delivery behavior.
+
+ * Support for 3rd party click tracking of Rich Media - Google AdSense and
+   Rich Media - Yahoo! Publisher Network banners has been removed, as these were
+   not working. Banners configured to use these 3rd party click tracking options
+   will be switched to the "Generic HTML banner" tracking option during the
    upgrade.
+
+ * Browser and Operating System detection speed has been optimized, and as a
+   result, the browser and operating system are only detected if necessary.
+   Plugins that need access to this information during delivery will need to be
+   updated to use the provided wrapper to perform browser/operating system
+   detection. Please see the core Browser/Operating System delivery limitations
+   plugin code for a usage example.
+
 
 System Requirements
 -------------------
