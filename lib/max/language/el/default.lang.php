@@ -234,7 +234,6 @@ $GLOBALS['strWeight'] = "Ύψος";
 // Banner (swf)
 
 // Display limitations
-$GLOBALS['strNoLimitations'] = "Χωρίς περιορισμούς";
 $GLOBALS['strAND'] = "ΚΑΙ";                          // logical operator
 $GLOBALS['strOR'] = "Ή";                         // logical operator
 $GLOBALS['strSource'] = "Πηγή";

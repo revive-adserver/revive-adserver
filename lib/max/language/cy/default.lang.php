@@ -327,7 +327,6 @@ $GLOBALS['strOverwriteSource'] = "Trosysgrifo paramedr ffynhonnell";
 // Display limitations
 $GLOBALS['strModifyBannerAcl'] = "Dewisiadau Trosglwyddiad";
 $GLOBALS['strACL'] = "Trosglwyddo";
-$GLOBALS['strNoLimitations'] = "Dim cyfyngiadau";
 $GLOBALS['strApplyLimitationsTo'] = "Cymhwyso cyfyngiadau at";
 $GLOBALS['strRemoveAllLimitations'] = "Diddymu pob cyfyngiad";
 $GLOBALS['strEqualTo'] = "yn hafal i";

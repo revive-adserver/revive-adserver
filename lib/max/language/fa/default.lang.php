@@ -632,7 +632,6 @@ $GLOBALS['strOverwriteSource'] = "پارامتر منبع جاینوشت";
 $GLOBALS['strModifyBannerAcl'] = "گزینه های تحویل";
 $GLOBALS['strACL'] = "تحویل";
 $GLOBALS['strACLAdd'] = "اضافه کردن محدودیت تحویل";
-$GLOBALS['strNoLimitations'] = "هیج محدوذیتی وجود ندارد";
 $GLOBALS['strApplyLimitationsTo'] = "درخواست محدودیت ";
 $GLOBALS['strAllBannersInCampaign'] = "همه تبلیغات در این کمپین";
 $GLOBALS['strRemoveAllLimitations'] = "حذف تمام محدودیت";

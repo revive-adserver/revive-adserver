@@ -39,13 +39,4 @@ $GLOBALS['strClear'] = "Rensa";
 if (!isset($GLOBALS['strUserlog'])) {
     $GLOBALS['strUserlog'] = array();
 }
-$GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Aktiveringsmeddelande för kampanj {id} skickat per epost";
-$GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Aktiveringsmeddelande för kampanj {id} skickat per epost";
-$GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Aktiveringsmeddelande för kampanj {id} skickat per epost";
-$GLOBALS['strUserlog'][phpAds_actionBatchStatistics] = "Aktiveringsmeddelande för kampanj {id} skickat per epost";
-$GLOBALS['strUserlog'][phpAds_actionDeactivationMailed] = "Aktiveringsmeddelande för kampanj {id} skickat per epost";
-$GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "Aktiveringsmeddelande för kampanj {id} skickat per epost";
-$GLOBALS['strUserlog'][phpAds_actionPriorityCalculation] = "Aktiveringsmeddelande för kampanj {id} skickat per epost";
-$GLOBALS['strUserlog'][phpAds_actionPublisherReportMailed] = "Aktiveringsmeddelande för kampanj {id} skickat per epost";
-$GLOBALS['strUserlog'][phpAds_actionWarningMailed] = "Aktiveringsmeddelande för kampanj {id} skickat per epost";
 $GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "Aktiveringsmeddelande för kampanj {id} skickat per epost";

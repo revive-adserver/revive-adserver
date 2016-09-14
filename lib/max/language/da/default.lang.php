@@ -342,7 +342,6 @@ $GLOBALS['strOverwriteSource'] = "Overskriv kilde parameter";
 // Display limitations
 $GLOBALS['strModifyBannerAcl'] = "Leverings optioner";
 $GLOBALS['strACL'] = "Levering";
-$GLOBALS['strNoLimitations'] = "Uden begrænsninger";
 $GLOBALS['strApplyLimitationsTo'] = "Tilføj begrænsninger til";
 $GLOBALS['strRemoveAllLimitations'] = "Fjern alle begrænsninger";
 $GLOBALS['strEqualTo'] = "er lig med";

@@ -35,13 +35,4 @@ $GLOBALS['strClear'] = "Ryd";
 if (!isset($GLOBALS['strUserlog'])) {
     $GLOBALS['strUserlog'] = array();
 }
-$GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Kampagne deaktiveret";
-$GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Kampagne deaktiveret";
-$GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Kampagne deaktiveret";
-$GLOBALS['strUserlog'][phpAds_actionBatchStatistics] = "Kampagne deaktiveret";
-$GLOBALS['strUserlog'][phpAds_actionDeactivationMailed] = "Kampagne deaktiveret";
-$GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "Kampagne deaktiveret";
-$GLOBALS['strUserlog'][phpAds_actionPriorityCalculation] = "Kampagne deaktiveret";
-$GLOBALS['strUserlog'][phpAds_actionPublisherReportMailed] = "Kampagne deaktiveret";
-$GLOBALS['strUserlog'][phpAds_actionWarningMailed] = "Kampagne deaktiveret";
 $GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "Kampagne deaktiveret";

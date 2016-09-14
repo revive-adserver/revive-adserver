@@ -40,13 +40,4 @@ $GLOBALS['strClear'] = "クリア";
 if (!isset($GLOBALS['strUserlog'])) {
     $GLOBALS['strUserlog'] = array();
 }
-$GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "キャンペーン: {id} の非アクティブ警告を電子メールにて送信する";
-$GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "キャンペーン: {id} の非アクティブ警告を電子メールにて送信する";
-$GLOBALS['strUserlog'][phpAds_actionAutoClean] = "キャンペーン: {id} の非アクティブ警告を電子メールにて送信する";
-$GLOBALS['strUserlog'][phpAds_actionBatchStatistics] = "キャンペーン: {id} の非アクティブ警告を電子メールにて送信する";
-$GLOBALS['strUserlog'][phpAds_actionDeactivationMailed] = "キャンペーン: {id} の非アクティブ警告を電子メールにて送信する";
-$GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "キャンペーン: {id} の非アクティブ警告を電子メールにて送信する";
-$GLOBALS['strUserlog'][phpAds_actionPriorityCalculation] = "キャンペーン: {id} の非アクティブ警告を電子メールにて送信する";
-$GLOBALS['strUserlog'][phpAds_actionPublisherReportMailed] = "キャンペーン: {id} の非アクティブ警告を電子メールにて送信する";
-$GLOBALS['strUserlog'][phpAds_actionWarningMailed] = "キャンペーン: {id} の非アクティブ警告を電子メールにて送信する";
 $GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "キャンペーン: {id} の非アクティブ警告を電子メールにて送信する";

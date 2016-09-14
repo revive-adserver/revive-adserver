@@ -275,7 +275,6 @@ $GLOBALS['strWeight'] = "Височина";
 // Banner (swf)
 
 // Display limitations
-$GLOBALS['strNoLimitations'] = "Без ограничения";
 
 
 if (!isset($GLOBALS['strCappingBanner'])) {

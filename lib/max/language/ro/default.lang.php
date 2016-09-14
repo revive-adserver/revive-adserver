@@ -382,7 +382,6 @@ $GLOBALS['strOverwriteSource'] = "Înlocuieşte parametrul sursă";
 // Display limitations
 $GLOBALS['strModifyBannerAcl'] = "Opţiuni livrare";
 $GLOBALS['strACL'] = "Livrare";
-$GLOBALS['strNoLimitations'] = "Fără limitări";
 $GLOBALS['strApplyLimitationsTo'] = "Aplică limitări pentru";
 $GLOBALS['strRemoveAllLimitations'] = "Şterge toate limitările";
 $GLOBALS['strEqualTo'] = "este egal cu";

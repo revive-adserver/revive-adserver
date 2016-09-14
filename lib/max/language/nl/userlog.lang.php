@@ -40,13 +40,13 @@ $GLOBALS['strClear'] = "Leegmaken";
 if (!isset($GLOBALS['strUserlog'])) {
     $GLOBALS['strUserlog'] = array();
 }
-$GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Melding van de activering voor campagne {id} verzenden per e-mail";
-$GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Melding van de activering voor campagne {id} verzenden per e-mail";
-$GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Melding van de activering voor campagne {id} verzenden per e-mail";
-$GLOBALS['strUserlog'][phpAds_actionBatchStatistics] = "Melding van de activering voor campagne {id} verzenden per e-mail";
-$GLOBALS['strUserlog'][phpAds_actionDeactivationMailed] = "Melding van de activering voor campagne {id} verzenden per e-mail";
-$GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "Melding van de activering voor campagne {id} verzenden per e-mail";
-$GLOBALS['strUserlog'][phpAds_actionPriorityCalculation] = "Melding van de activering voor campagne {id} verzenden per e-mail";
-$GLOBALS['strUserlog'][phpAds_actionPublisherReportMailed] = "Melding van de activering voor campagne {id} verzenden per e-mail";
-$GLOBALS['strUserlog'][phpAds_actionWarningMailed] = "Melding van de activering voor campagne {id} verzenden per e-mail";
+$GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Verslag voor adverteerder {id} verzonden per e-mail";
+$GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Campagne {id} geactiveerd";
+$GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Automatisch opschonen van database";
+$GLOBALS['strUserlog'][phpAds_actionBatchStatistics] = "Statistieken verzameld";
+$GLOBALS['strUserlog'][phpAds_actionDeactivationMailed] = "Kennisgeving van decactivering voor campagne {id} verzonden per e-mail";
+$GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "Campagne {id} gedeactiveerd";
+$GLOBALS['strUserlog'][phpAds_actionPriorityCalculation] = "Prioriteit herberekend";
+$GLOBALS['strUserlog'][phpAds_actionPublisherReportMailed] = "Rapport voor website {id} verzonden per e-mail";
+$GLOBALS['strUserlog'][phpAds_actionWarningMailed] = "Waarschuwing voor deactivering voor campagne {id} verzonden per e-mail";
 $GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "Melding van de activering voor campagne {id} verzenden per e-mail";

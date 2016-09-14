@@ -408,7 +408,6 @@ $GLOBALS['strOverwriteSource'] = "الكتابة على المتغيرات ال�
 // Display limitations
 $GLOBALS['strModifyBannerAcl'] = "خيارات التوصيل";
 $GLOBALS['strACL'] = "التوصيل";
-$GLOBALS['strNoLimitations'] = "بدون تحديد";
 $GLOBALS['strApplyLimitationsTo'] = "طبق الحدود إلى";
 $GLOBALS['strRemoveAllLimitations'] = "إزالة كل الحدود";
 $GLOBALS['strEqualTo'] = "يساوي";

@@ -468,7 +468,6 @@ $GLOBALS['strOverwriteSource'] = "Sobrescrever parâmetro original";
 $GLOBALS['strModifyBannerAcl'] = "Opções de entrega";
 $GLOBALS['strACL'] = "Entrega";
 $GLOBALS['strACLAdd'] = "Adicionar limitação";
-$GLOBALS['strNoLimitations'] = "Sem limites";
 $GLOBALS['strApplyLimitationsTo'] = "Aplicar limites a";
 $GLOBALS['strRemoveAllLimitations'] = "Remover todos limites";
 $GLOBALS['strEqualTo'] = "é igual a";

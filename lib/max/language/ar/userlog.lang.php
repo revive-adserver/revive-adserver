@@ -29,13 +29,4 @@ $GLOBALS['strValue'] = "القيمة";
 if (!isset($GLOBALS['strUserlog'])) {
     $GLOBALS['strUserlog'] = array();
 }
-$GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "تعطيل التنبيهات للحملة رقم {id} المرسلة عبر البريد الإلكتروني";
-$GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "تعطيل التنبيهات للحملة رقم {id} المرسلة عبر البريد الإلكتروني";
-$GLOBALS['strUserlog'][phpAds_actionAutoClean] = "تعطيل التنبيهات للحملة رقم {id} المرسلة عبر البريد الإلكتروني";
-$GLOBALS['strUserlog'][phpAds_actionBatchStatistics] = "تعطيل التنبيهات للحملة رقم {id} المرسلة عبر البريد الإلكتروني";
-$GLOBALS['strUserlog'][phpAds_actionDeactivationMailed] = "تعطيل التنبيهات للحملة رقم {id} المرسلة عبر البريد الإلكتروني";
-$GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "تعطيل التنبيهات للحملة رقم {id} المرسلة عبر البريد الإلكتروني";
-$GLOBALS['strUserlog'][phpAds_actionPriorityCalculation] = "تعطيل التنبيهات للحملة رقم {id} المرسلة عبر البريد الإلكتروني";
-$GLOBALS['strUserlog'][phpAds_actionPublisherReportMailed] = "تعطيل التنبيهات للحملة رقم {id} المرسلة عبر البريد الإلكتروني";
-$GLOBALS['strUserlog'][phpAds_actionWarningMailed] = "تعطيل التنبيهات للحملة رقم {id} المرسلة عبر البريد الإلكتروني";
 $GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "تعطيل التنبيهات للحملة رقم {id} المرسلة عبر البريد الإلكتروني";
