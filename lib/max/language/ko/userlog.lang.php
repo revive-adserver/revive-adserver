@@ -28,13 +28,4 @@ $GLOBALS['strValue'] = "값";
 if (!isset($GLOBALS['strUserlog'])) {
     $GLOBALS['strUserlog'] = array();
 }
-$GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "데이터베이스 자동 정리";
-$GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "데이터베이스 자동 정리";
-$GLOBALS['strUserlog'][phpAds_actionAutoClean] = "데이터베이스 자동 정리";
-$GLOBALS['strUserlog'][phpAds_actionBatchStatistics] = "데이터베이스 자동 정리";
-$GLOBALS['strUserlog'][phpAds_actionDeactivationMailed] = "데이터베이스 자동 정리";
-$GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "데이터베이스 자동 정리";
-$GLOBALS['strUserlog'][phpAds_actionPriorityCalculation] = "데이터베이스 자동 정리";
-$GLOBALS['strUserlog'][phpAds_actionPublisherReportMailed] = "데이터베이스 자동 정리";
-$GLOBALS['strUserlog'][phpAds_actionWarningMailed] = "데이터베이스 자동 정리";
 $GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "데이터베이스 자동 정리";

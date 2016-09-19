@@ -439,7 +439,6 @@ $GLOBALS['strOverwriteSource'] = "Prepiši izvirni parameter";
 $GLOBALS['strModifyBannerAcl'] = "Možnosti dostave";
 $GLOBALS['strACL'] = "Dostava";
 $GLOBALS['strACLAdd'] = "Dodaj dostavno omejitev";
-$GLOBALS['strNoLimitations'] = "Brez omejitev";
 $GLOBALS['strApplyLimitationsTo'] = "Uporabi omejitve";
 $GLOBALS['strRemoveAllLimitations'] = "Odstrani vse omejitve";
 $GLOBALS['strEqualTo'] = "je enak";

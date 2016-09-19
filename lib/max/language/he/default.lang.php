@@ -245,7 +245,6 @@ $GLOBALS['strOverwriteSource'] = "רמוס פרמטריא של המקור";
 $GLOBALS['strModifyBannerAcl'] = "אופציות תפוצה";
 $GLOBALS['strACL'] = "תפוצה";
 $GLOBALS['strACLAdd'] = "הוסף הגבלה חדשה";
-$GLOBALS['strNoLimitations'] = "ללא הגבלות";
 $GLOBALS['strApplyLimitationsTo'] = "הענק הגבלה ל";
 $GLOBALS['strRemoveAllLimitations'] = "הסר את כל המגבלות";
 $GLOBALS['strEqualTo'] = "שווה ל";

@@ -40,13 +40,4 @@ $GLOBALS['strClear'] = "Vider";
 if (!isset($GLOBALS['strUserlog'])) {
     $GLOBALS['strUserlog'] = array();
 }
-$GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Notification d'activation de la campagne {id} envoyée par e-mail";
-$GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Notification d'activation de la campagne {id} envoyée par e-mail";
-$GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Notification d'activation de la campagne {id} envoyée par e-mail";
-$GLOBALS['strUserlog'][phpAds_actionBatchStatistics] = "Notification d'activation de la campagne {id} envoyée par e-mail";
-$GLOBALS['strUserlog'][phpAds_actionDeactivationMailed] = "Notification d'activation de la campagne {id} envoyée par e-mail";
-$GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "Notification d'activation de la campagne {id} envoyée par e-mail";
-$GLOBALS['strUserlog'][phpAds_actionPriorityCalculation] = "Notification d'activation de la campagne {id} envoyée par e-mail";
-$GLOBALS['strUserlog'][phpAds_actionPublisherReportMailed] = "Notification d'activation de la campagne {id} envoyée par e-mail";
-$GLOBALS['strUserlog'][phpAds_actionWarningMailed] = "Notification d'activation de la campagne {id} envoyée par e-mail";
 $GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "Notification d'activation de la campagne {id} envoyée par e-mail";

@@ -331,7 +331,6 @@ $GLOBALS['strOverwriteSource'] = "Timpah parameter induk";
 $GLOBALS['strModifyBannerAcl'] = "Pilihan Penyampaian";
 $GLOBALS['strACL'] = "Penyampaian";
 $GLOBALS['strACLAdd'] = "Tambah batasan baru";
-$GLOBALS['strNoLimitations'] = "Tanpa batas";
 $GLOBALS['strApplyLimitationsTo'] = "Gunakan batas untuk";
 $GLOBALS['strRemoveAllLimitations'] = "Hapus semua batas";
 $GLOBALS['strEqualTo'] = "sama dengan";

@@ -38,13 +38,4 @@ $GLOBALS['strClear'] = "Počisti";
 if (!isset($GLOBALS['strUserlog'])) {
     $GLOBALS['strUserlog'] = array();
 }
-$GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Objava o aktivaciji kampanje {id} se pošlje preko e-pošte";
-$GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Objava o aktivaciji kampanje {id} se pošlje preko e-pošte";
-$GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Objava o aktivaciji kampanje {id} se pošlje preko e-pošte";
-$GLOBALS['strUserlog'][phpAds_actionBatchStatistics] = "Objava o aktivaciji kampanje {id} se pošlje preko e-pošte";
-$GLOBALS['strUserlog'][phpAds_actionDeactivationMailed] = "Objava o aktivaciji kampanje {id} se pošlje preko e-pošte";
-$GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "Objava o aktivaciji kampanje {id} se pošlje preko e-pošte";
-$GLOBALS['strUserlog'][phpAds_actionPriorityCalculation] = "Objava o aktivaciji kampanje {id} se pošlje preko e-pošte";
-$GLOBALS['strUserlog'][phpAds_actionPublisherReportMailed] = "Objava o aktivaciji kampanje {id} se pošlje preko e-pošte";
-$GLOBALS['strUserlog'][phpAds_actionWarningMailed] = "Objava o aktivaciji kampanje {id} se pošlje preko e-pošte";
 $GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "Objava o aktivaciji kampanje {id} se pošlje preko e-pošte";
