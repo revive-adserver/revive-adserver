@@ -332,7 +332,6 @@ $GLOBALS['strOverwriteSource'] = "Skriv över källparameter";
 $GLOBALS['strModifyBannerAcl'] = "Leveransinställningar";
 $GLOBALS['strACL'] = "Leverans";
 $GLOBALS['strACLAdd'] = "Lägg till leveransbegränsningar";
-$GLOBALS['strNoLimitations'] = "Inga begränsningar";
 $GLOBALS['strApplyLimitationsTo'] = "Applicera begränsningar på";
 $GLOBALS['strRemoveAllLimitations'] = "Ta bort alla begränsningar";
 $GLOBALS['strEqualTo'] = "är lika med";

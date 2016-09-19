@@ -37,13 +37,4 @@ $GLOBALS['strClear'] = "Curăţă";
 if (!isset($GLOBALS['strUserlog'])) {
     $GLOBALS['strUserlog'] = array();
 }
-$GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Notificarea de activare pentru campania {id} a fost trimisă prin email";
-$GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Notificarea de activare pentru campania {id} a fost trimisă prin email";
-$GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Notificarea de activare pentru campania {id} a fost trimisă prin email";
-$GLOBALS['strUserlog'][phpAds_actionBatchStatistics] = "Notificarea de activare pentru campania {id} a fost trimisă prin email";
-$GLOBALS['strUserlog'][phpAds_actionDeactivationMailed] = "Notificarea de activare pentru campania {id} a fost trimisă prin email";
-$GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "Notificarea de activare pentru campania {id} a fost trimisă prin email";
-$GLOBALS['strUserlog'][phpAds_actionPriorityCalculation] = "Notificarea de activare pentru campania {id} a fost trimisă prin email";
-$GLOBALS['strUserlog'][phpAds_actionPublisherReportMailed] = "Notificarea de activare pentru campania {id} a fost trimisă prin email";
-$GLOBALS['strUserlog'][phpAds_actionWarningMailed] = "Notificarea de activare pentru campania {id} a fost trimisă prin email";
 $GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "Notificarea de activare pentru campania {id} a fost trimisă prin email";

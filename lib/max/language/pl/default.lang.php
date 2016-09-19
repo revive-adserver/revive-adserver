@@ -390,7 +390,6 @@ $GLOBALS['strOverwriteSource'] = "Wstaw nowy parametr źródła";
 $GLOBALS['strModifyBannerAcl'] = "Opcje dostarczania";
 $GLOBALS['strACL'] = "Dostarczanie";
 $GLOBALS['strACLAdd'] = "Dodaj nowe ograniczenie";
-$GLOBALS['strNoLimitations'] = "Bez limitów";
 $GLOBALS['strApplyLimitationsTo'] = "Zastosuj limity do";
 $GLOBALS['strRemoveAllLimitations'] = "Usuń wszystkie limity";
 $GLOBALS['strEqualTo'] = "jest równy";

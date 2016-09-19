@@ -351,7 +351,6 @@ $GLOBALS['strOverwriteSource'] = "Kaynak parametresinin üzerine yaz";
 $GLOBALS['strModifyBannerAcl'] = "Teslimat Seçenekleri";
 $GLOBALS['strACL'] = "Teslimat";
 $GLOBALS['strACLAdd'] = "Yeni Sınırlama Ekle";
-$GLOBALS['strNoLimitations'] = "Kısıtlama yok";
 $GLOBALS['strApplyLimitationsTo'] = "Kısıtlamaları şunun için uygula:";
 $GLOBALS['strRemoveAllLimitations'] = "Tüm kısıtlamaları kaldır";
 $GLOBALS['strEqualTo'] = "eşittir";

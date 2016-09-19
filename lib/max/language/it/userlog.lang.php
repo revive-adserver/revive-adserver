@@ -40,13 +40,13 @@ $GLOBALS['strClear'] = "Pulisci";
 if (!isset($GLOBALS['strUserlog'])) {
     $GLOBALS['strUserlog'] = array();
 }
-$GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Notifica attivazione per campagna {id} spedito via email";
-$GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Notifica attivazione per campagna {id} spedito via email";
-$GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Notifica attivazione per campagna {id} spedito via email";
-$GLOBALS['strUserlog'][phpAds_actionBatchStatistics] = "Notifica attivazione per campagna {id} spedito via email";
-$GLOBALS['strUserlog'][phpAds_actionDeactivationMailed] = "Notifica attivazione per campagna {id} spedito via email";
-$GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "Notifica attivazione per campagna {id} spedito via email";
-$GLOBALS['strUserlog'][phpAds_actionPriorityCalculation] = "Notifica attivazione per campagna {id} spedito via email";
-$GLOBALS['strUserlog'][phpAds_actionPublisherReportMailed] = "Notifica attivazione per campagna {id} spedito via email";
-$GLOBALS['strUserlog'][phpAds_actionWarningMailed] = "Notifica attivazione per campagna {id} spedito via email";
+$GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Relazione per l'interzionista {id} inviato per email";
+$GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Campagna {id} attivata";
+$GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Pulizia automatica del database";
+$GLOBALS['strUserlog'][phpAds_actionBatchStatistics] = "Statistiche compilate";
+$GLOBALS['strUserlog'][phpAds_actionDeactivationMailed] = "Notifica di disattivazione per la campagna {id} inviato per email";
+$GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "Campagna {id} disattivata";
+$GLOBALS['strUserlog'][phpAds_actionPriorityCalculation] = "Priorità ricalcolata";
+$GLOBALS['strUserlog'][phpAds_actionPublisherReportMailed] = "Relazione per il sito {id} inviato per email";
+$GLOBALS['strUserlog'][phpAds_actionWarningMailed] = "Avviso di disattivazione per la campagna {id} inviato per email";
 $GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "Notifica attivazione per campagna {id} spedito via email";

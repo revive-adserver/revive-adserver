@@ -40,13 +40,4 @@ $GLOBALS['strClear'] = "پاک کردن";
 if (!isset($GLOBALS['strUserlog'])) {
     $GLOBALS['strUserlog'] = array();
 }
-$GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "اخطار فعال شدن برای کمپین {id}  فرستادن از طریق ایمیل";
-$GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "اخطار فعال شدن برای کمپین {id}  فرستادن از طریق ایمیل";
-$GLOBALS['strUserlog'][phpAds_actionAutoClean] = "اخطار فعال شدن برای کمپین {id}  فرستادن از طریق ایمیل";
-$GLOBALS['strUserlog'][phpAds_actionBatchStatistics] = "اخطار فعال شدن برای کمپین {id}  فرستادن از طریق ایمیل";
-$GLOBALS['strUserlog'][phpAds_actionDeactivationMailed] = "اخطار فعال شدن برای کمپین {id}  فرستادن از طریق ایمیل";
-$GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "اخطار فعال شدن برای کمپین {id}  فرستادن از طریق ایمیل";
-$GLOBALS['strUserlog'][phpAds_actionPriorityCalculation] = "اخطار فعال شدن برای کمپین {id}  فرستادن از طریق ایمیل";
-$GLOBALS['strUserlog'][phpAds_actionPublisherReportMailed] = "اخطار فعال شدن برای کمپین {id}  فرستادن از طریق ایمیل";
-$GLOBALS['strUserlog'][phpAds_actionWarningMailed] = "اخطار فعال شدن برای کمپین {id}  فرستادن از طریق ایمیل";
 $GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "اخطار فعال شدن برای کمپین {id}  فرستادن از طریق ایمیل";

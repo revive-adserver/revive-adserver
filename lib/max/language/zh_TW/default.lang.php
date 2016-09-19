@@ -342,7 +342,6 @@ $GLOBALS['strOverwriteSource'] = "覆蓋原參數";
 // Display limitations
 $GLOBALS['strModifyBannerAcl'] = "發送選項";
 $GLOBALS['strACL'] = "發送設置";
-$GLOBALS['strNoLimitations'] = "没有限制";
 $GLOBALS['strApplyLimitationsTo'] = "應用限制";
 $GLOBALS['strRemoveAllLimitations'] = "移除所有限制";
 $GLOBALS['strEqualTo'] = "等於";

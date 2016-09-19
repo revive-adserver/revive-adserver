@@ -338,7 +338,6 @@ $GLOBALS['strOverwriteSource'] = "원본소스 파라미터 덮어쓰기";
 $GLOBALS['strModifyBannerAcl'] = "전송 옵션";
 $GLOBALS['strACL'] = "전송";
 $GLOBALS['strACLAdd'] = "새 전송 제한 추가";
-$GLOBALS['strNoLimitations'] = "제한 없음";
 $GLOBALS['strApplyLimitationsTo'] = "제한 적용하기";
 $GLOBALS['strRemoveAllLimitations'] = "모든 제한 제거";
 $GLOBALS['strEqualTo'] = "같을 경우";

@@ -30,13 +30,4 @@ $GLOBALS['strValue'] = "Значение";
 if (!isset($GLOBALS['strUserlog'])) {
     $GLOBALS['strUserlog'] = array();
 }
-$GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Уведомление активации кампании {id} отправлено по e-mail";
-$GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Уведомление активации кампании {id} отправлено по e-mail";
-$GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Уведомление активации кампании {id} отправлено по e-mail";
-$GLOBALS['strUserlog'][phpAds_actionBatchStatistics] = "Уведомление активации кампании {id} отправлено по e-mail";
-$GLOBALS['strUserlog'][phpAds_actionDeactivationMailed] = "Уведомление активации кампании {id} отправлено по e-mail";
-$GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "Уведомление активации кампании {id} отправлено по e-mail";
-$GLOBALS['strUserlog'][phpAds_actionPriorityCalculation] = "Уведомление активации кампании {id} отправлено по e-mail";
-$GLOBALS['strUserlog'][phpAds_actionPublisherReportMailed] = "Уведомление активации кампании {id} отправлено по e-mail";
-$GLOBALS['strUserlog'][phpAds_actionWarningMailed] = "Уведомление активации кампании {id} отправлено по e-mail";
 $GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "Уведомление активации кампании {id} отправлено по e-mail";

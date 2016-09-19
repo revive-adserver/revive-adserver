@@ -493,7 +493,6 @@ $GLOBALS['strOverwriteSource'] = "Überschreiben der Parameter im Quelltext";
 $GLOBALS['strModifyBannerAcl'] = "Auslieferungsoptionen";
 $GLOBALS['strACL'] = "Bannerauslieferung";
 $GLOBALS['strACLAdd'] = "Auslieferungsbeschränkung hinzufügen";
-$GLOBALS['strNoLimitations'] = "Keine Beschränkungen";
 $GLOBALS['strApplyLimitationsTo'] = "Beschränkungen anwenden bei";
 $GLOBALS['strRemoveAllLimitations'] = "Alle Beschränkungen löschen";
 $GLOBALS['strEqualTo'] = "ist gleich";
