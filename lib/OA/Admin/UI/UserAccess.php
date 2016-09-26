@@ -81,7 +81,11 @@ class OA_Admin_UI_UserAccess
     function process()
     {
         if (!empty($this->request['submit'])) {
-            $this->aErrors = $this->oPlugin->validateUsersData($this->request);
+            if (preg_match('#[\x00-\x1F\x7F]#', $this->request['login'])) {
+                $this->aErrors = array($GLOBALS['strInvalidUsername']);
+            } else {
+                $this->aErrors = $this->oPlugin->validateUsersData($this->request);
+            }
             if (empty($this->aErrors)) {
                 $this->userid = $this->oPlugin->saveUser(
                     $this->userid, $this->request['login'], $this->request['passwd'],
