@@ -77,7 +77,7 @@ class Installer
     protected function createView($actionName)
     {
         $view = new OA_Admin_Template($actionName.'-step.html');
-        $installTemplatesPath = MAX_PATH . '/www/admin/templates/install/';
+        $installTemplatesPath = MAX_PATH . '/lib/templates/wizard/install/';
         $view->template_dir = $installTemplatesPath;
         $view->assign("oxInstallerTemplateDir", $installTemplatesPath);
         $view->register_function('ox_wizard_steps', array(new OX_UI_WizardSteps(),  'wizardSteps'));

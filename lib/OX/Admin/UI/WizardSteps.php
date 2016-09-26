@@ -54,7 +54,7 @@ class OX_UI_WizardSteps
         }
 
         $smarty->assign('_aSteps', $aWizardSteps);
-        $result = $smarty->fetch(MAX_PATH . '/www/admin/templates/wizard-steps.html');
+        $result = $smarty->fetch(MAX_PATH . '/lib/templates/wizard/wizard-steps.html');
         $smarty->clear_assign('_aSteps');
 
         return $result;
