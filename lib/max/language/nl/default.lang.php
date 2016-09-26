@@ -543,7 +543,6 @@ $GLOBALS['strOverwriteSource'] = "Overschrijft de Source parameter";
 $GLOBALS['strModifyBannerAcl'] = "Uitleveringsbeperkingen";
 $GLOBALS['strACL'] = "Uitlevering";
 $GLOBALS['strACLAdd'] = "Voeg nieuwe beperking toe";
-$GLOBALS['strNoLimitations'] = "Geen beperkingen";
 $GLOBALS['strApplyLimitationsTo'] = "Pas beperking toe op";
 $GLOBALS['strAllBannersInCampaign'] = "Alle banners in deze campagne";
 $GLOBALS['strRemoveAllLimitations'] = "Verwijder alle beperkingen";

@@ -461,7 +461,6 @@ $GLOBALS['strOverwriteSource'] = "Écraser le paramètre source";
 $GLOBALS['strModifyBannerAcl'] = "Options de distribution";
 $GLOBALS['strACL'] = "Distribution";
 $GLOBALS['strACLAdd'] = "Ajouter une limitation de distribution";
-$GLOBALS['strNoLimitations'] = "Aucun limitation";
 $GLOBALS['strApplyLimitationsTo'] = "Appliquer les limitations à";
 $GLOBALS['strAllBannersInCampaign'] = "Toutes les bannières dans cette campagne";
 $GLOBALS['strRemoveAllLimitations'] = "Supprimer toutes les limitations";
