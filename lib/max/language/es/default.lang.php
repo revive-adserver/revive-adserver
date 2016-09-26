@@ -492,7 +492,6 @@ $GLOBALS['strOverwriteSource'] = "Sobreescribir parámetro de origen";
 $GLOBALS['strModifyBannerAcl'] = "Opciones de entrega";
 $GLOBALS['strACL'] = "Entrega";
 $GLOBALS['strACLAdd'] = "Agregar nuevas limitaciones";
-$GLOBALS['strNoLimitations'] = "Sin limitaciones";
 $GLOBALS['strApplyLimitationsTo'] = "Aplicar limitaciones a";
 $GLOBALS['strAllBannersInCampaign'] = "Todos los banners en esta campaña";
 $GLOBALS['strRemoveAllLimitations'] = "Quitar todas las limitaciones";

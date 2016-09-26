@@ -462,7 +462,6 @@ $GLOBALS['strOverwriteSource'] = "Přepsat zdrojový parametr";
 $GLOBALS['strModifyBannerAcl'] = "Nastavení doručování";
 $GLOBALS['strACL'] = "Doručování";
 $GLOBALS['strACLAdd'] = "Přidat omezení";
-$GLOBALS['strNoLimitations'] = "Bez omezení";
 $GLOBALS['strApplyLimitationsTo'] = "Aplikovat omezení na";
 $GLOBALS['strAllBannersInCampaign'] = "Všechny bannery v této kampani";
 $GLOBALS['strRemoveAllLimitations'] = "Odstranit všechna omezení";

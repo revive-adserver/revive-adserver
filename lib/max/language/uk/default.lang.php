@@ -455,7 +455,6 @@ $GLOBALS['strOverwriteSource'] = "Перезаписать параметр ис
 $GLOBALS['strModifyBannerAcl'] = "Ограничения показа";
 $GLOBALS['strACL'] = "Лимит";
 $GLOBALS['strACLAdd'] = "Добавить новое ограничение";
-$GLOBALS['strNoLimitations'] = "Нет ограничений";
 $GLOBALS['strApplyLimitationsTo'] = "Применить ограничения к";
 $GLOBALS['strAllBannersInCampaign'] = "Все баннеры в этой компании";
 $GLOBALS['strRemoveAllLimitations'] = "Удалить все ограничения";
