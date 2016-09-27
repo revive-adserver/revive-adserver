@@ -6,23 +6,24 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
-Release Notes: Revive Adserver 4.0.0-rc1
-========================================
+Release Notes: Revive Adserver 4.0.0
+====================================
 
 These release notes cover what's new, system requirements, download and
 installation instructions, known issues and frequently asked questions for
 Revive Adserver. Please read these notes before reporting any bugs.
 
 
-What's New in Revive Adserver 4.0.0-rc1
----------------------------------------
+What's New in Revive Adserver 4.0.0
+-----------------------------------
 
- * Release date: 2016-09-13
+ * Release date: 2016-09-28
 
  Security Updates
  ----------------
 
- * None
+ * Multiple vulnerabilities fixed. For more details, please see:
+   http://www.revive-adserver.com/security/revive-sa-2016-002
 
  New Features
  ------------
