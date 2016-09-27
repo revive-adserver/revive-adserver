@@ -5432,7 +5432,6 @@ jQuery.extend({
                 if (n < duration / 2)
                     return jQuery.easing.bouncein(p, n * 2, 0, delta, duration) * .5 + firstNum;
             return jQuery.easing.bounceout(p, n * 2 - duration, 0, delta, duration) * .5 + delta * .5 + firstNum;
-            return firstNum + delta;
         },
         elasticin: function (p, n, firstNum, delta, duration) {
             var a, s;
@@ -6596,13 +6595,6 @@ jQuery.fx.itransferTo = function (e, o) {
     });
 };
 var loggingEnabled = false;
-
-function calcAdHeight() {
-    var adHeight = document.getElementById('adIframe').style.height;
-    adHeight = Math.max(adHeight, Math.max($("#main").height(), $(window).height()) - 250);
-    $('#adIframe').height(adHeight);
-    $("div.widgetAdLeft, div.widgetAdCenter, div.widgetAdRight").height(adHeight);
-}
 
 function getToolbarWidgetId(widget) {
     return widget.attr("id") + "tw";
