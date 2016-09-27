@@ -22,7 +22,7 @@
 			{/if}
 			<span id='errorMessages'>
             {foreach from=$aMessages.error item=error name=messagesLoop}
-              {$error} {if !$smarty.foreach.messagesLoop.last}<br/>{/if}
+              {$error|escape} {if !$smarty.foreach.messagesLoop.last}<br/>{/if}
             {/foreach}
             </span>
           </div>
