@@ -6,7 +6,7 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
-Release Notes: Revive Adserver 3.2.4
+Release Notes: Revive Adserver 3.2.5
 ====================================
 
 These release notes cover what's new, system requirements, download and
@@ -14,15 +14,16 @@ installation instructions, known issues and frequently asked questions for
 Revive Adserver. Please read these notes before reporting any bugs.
 
 
-What's New in Revive Adserver 3.2.4
+What's New in Revive Adserver 3.2.5
 -----------------------------------
 
- * Release date: 2016-03-14
+ * Release date: 2016-09-28
 
  Security Updates
  ----------------
 
- * None
+ * Multiple vulnerabilities fixed. For more details, please see:
+   http://www.revive-adserver.com/security/revive-sa-2016-002
 
  New Features
  ------------
@@ -32,23 +33,7 @@ What's New in Revive Adserver 3.2.4
  Bug Fixes
  ---------
 
- * Fixed an issue with the Banner Advanced and Linked Zones screens triggering 
-   a permissions error upon submit.
-
- * Fixed an issue with banner (de)activation not working and triggering a
-   permissions error instead.
- 
- * Fixed an issue with tracker variables and append screens triggering a
-   permissions error upon save.
- 
- * Fixed an issue with zone duplication not working and triggering a
-   permissions error instead.
- 
- * Fixed an PHP7 compatibility potentially causing an infinite loop in the
-   statistics screens.
- 
- * Fixed an issue with prioritization when using a timezone with a positive
-   offset from UTC.
+ * None
 
  Non-Backwards Compatible Changes
  --------------------------------
