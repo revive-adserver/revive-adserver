@@ -4319,6 +4319,10 @@ return '"'.$string.'"';
 
 MAX_commonSetNoCacheHeaders();
 MAX_commonRegisterGlobalsArray(array('zones' ,'source', 'block', 'blockcampaign', 'exclude', 'q', 'prefix'));
+if (preg_match('/[^a-zA-Z0-9_-]/', $prefix)) {
+MAX_sendStatusCode(400);
+exit;
+}
 $source = MAX_commonDeriveSource($source);
 $spc_output = array();
 if(!empty($zones)) {
