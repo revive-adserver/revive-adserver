@@ -1203,7 +1203,7 @@ class Date_Calc
 
     function dateToDays($day,$month,$year)
     {
-
+        $year = sprintf("%04d", $year);
         $century = (int) substr($year,0,2);
         $year = (int) substr($year,2,2);
 
