@@ -32,20 +32,24 @@ if (!isset($resize))    $resize = 0;
 $banner = MAX_adSelect($what, $campaignid, $target, $source, $withtext, $charset, $context, true, $ct0, $loc, $referer);
 
 // Send cookie if needed
-if (!empty($banner['html']) && !empty($n)) {
-    // Send bannerid headers
-    $cookie = array();
-    $cookie[$conf['var']['adId']] = $banner['bannerid'];
-    // Send zoneid headers
-    if ($zoneid != 0) {
-        $cookie[$conf['var']['zoneId']] = $zoneid;
+if (!empty($n)) {
+    if (!empty($banner['html'])) {
+        // Send bannerid headers
+        $cookie = array();
+        $cookie[$conf['var']['adId']] = $banner['bannerid'];
+        // Send zoneid headers
+        if ($zoneid != 0) {
+            $cookie[$conf['var']['zoneId']] = $zoneid;
+        }
+        // Send source headers
+        if (!empty($source)) {
+            $cookie[$conf['var']['channel']] = $source;
+        }
+        // Set the cookie
+        MAX_cookieAdd($conf['var']['vars'] . "[$n]", json_encode($cookie, JSON_UNESCAPED_SLASHES));
+    } else {
+        MAX_cookieUnset($conf['var']['vars'] . "[$n]");
     }
-    // Send source headers
-    if (!empty($source)) {
-        $cookie[$conf['var']['channel']] = $source;
-    }
-    // Set the cookie
-    MAX_cookieAdd($conf['var']['vars'] . "[$n]", serialize($cookie));
 }
 
 MAX_cookieFlush();
