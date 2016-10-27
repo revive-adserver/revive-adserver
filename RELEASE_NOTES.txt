@@ -32,7 +32,9 @@ What's New in Revive Adserver 4.0.1
  Bug Fixes
  ---------
 
- * None
+ * Fixed an issue in the newly introduced mysqli driver, which was preventing
+   the delivery engine from working when using unix sockets to connect to
+   the database.
 
  Non-Backwards Compatible Changes
  --------------------------------
@@ -74,15 +76,11 @@ Downloading and Installing
    ---------------------------------------------------------------
    | Product                             | Version(s)            |
    ---------------------------------------------------------------
+   | Revive Adserver 4.x                 | All previous versions |
+   ---------------------------------------------------------------
    | Revive Adserver 3.x                 | All versions          |
    ---------------------------------------------------------------
-   | OpenX 2.8                           | All versions          |
-   ---------------------------------------------------------------
-   | OpenX 2.7 beta                      | All previous versions |
-   ---------------------------------------------------------------
-   | OpenX 2.6                           | All versions          |
-   ---------------------------------------------------------------
-   | OpenX 2.4                           | All versions          |
+   | OpenX 2.x                           | All versions          |
    ---------------------------------------------------------------
    | Openads 2.4                         | All versions          |
    ---------------------------------------------------------------

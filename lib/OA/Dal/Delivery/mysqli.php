@@ -27,11 +27,12 @@
  */
 function OA_Dal_Delivery_connect($database = 'database') {
     // If a connection already exists, then return that
-    if ($database == 'database' && isset($GLOBALS['_MAX']['ADMIN_DB_LINK']) && is_resource($GLOBALS['_MAX']['ADMIN_DB_LINK'])) {
+    if ($database == 'database' && isset($GLOBALS['_MAX']['ADMIN_DB_LINK']) && $GLOBALS['_MAX']['ADMIN_DB_LINK'] instanceof mysqli) {
         return $GLOBALS['_MAX']['ADMIN_DB_LINK'];
-    } elseif ($database == 'rawDatabase' && isset($GLOBALS['_MAX']['RAW_DB_LINK']) && is_resource($GLOBALS['_MAX']['RAW_DB_LINK'])) {
+    } elseif ($database == 'rawDatabase' && isset($GLOBALS['_MAX']['RAW_DB_LINK']) && $GLOBALS['_MAX']['RAW_DB_LINK'] instanceof mysqli) {
         return $GLOBALS['_MAX']['RAW_DB_LINK'];
     }
+
     // No connection exists, so create one
     $conf = $GLOBALS['_MAX']['CONF'];
     if (!empty($conf[$database])) {
@@ -39,29 +40,32 @@ function OA_Dal_Delivery_connect($database = 'database') {
     } else {
         $dbConf = $conf['database'];
     }
-    $dbPort     = isset($dbConf['port']) ? $dbConf['port'] : 3306;
-    $dbHost     = $dbPort != 3306 ? $dbConf['host'].':'.$dbPort : $dbConf['host'];
-    if ($dbConf['protocol'] == 'unix' && !empty($dbConf['socket'])) {
-        $dbHost = ':' . $dbConf['socket'];
-    }
-    $dbUser     = $dbConf['username'];
+
+    $dbPersistent = empty($dbConf['persistent']) ? '' : 'p:';
+    $dbHost = $dbConf['host'];
+    $dbPort = isset($dbConf['port']) ? $dbConf['port'] : 3306;
+    $dbUser = $dbConf['username'];
     $dbPassword = $dbConf['password'];
-    $dbName     = $dbConf['name'];
-    if ($dbConf['persistent']) {
-        $dbLink = mysqli_connect('p:' . $dbHost, $dbUser, $dbPassword);
+    $dbName = $dbConf['name'];
+
+    if ($dbConf['protocol'] == 'unix' && !empty($dbConf['socket'])) {
+        $dbLink = mysqli_connect($dbPersistent.'localhost', $dbUser, $dbPassword, $dbName, $dbPort, $dbConf['socket']);
     } else {
-        $dbLink = mysqli_connect($dbHost, $dbUser, $dbPassword);
+        $dbLink = mysqli_connect($dbPersistent.$dbHost, $dbUser, $dbPassword, $dbName, $dbPort);
     }
-    if (mysqli_select_db($dbLink, $dbName)) {
+
+    if ($dbLink) {
         if (!empty($dbConf['mysql4_compatibility'])) {
             mysqli_query($dbLink, "SET SESSION sql_mode='MYSQL40'");
         }
+
         if (!empty($conf['databaseCharset']['checkComplete']) && !empty($conf['databaseCharset']['clientCharset'])) {
             mysqli_query($dbLink, "SET NAMES '{$conf['databaseCharset']['clientCharset']}'");
         }
 
         return $dbLink;
     }
+
     OX_Delivery_logMessage('DB connection error: ' . mysqli_error($dbLink), 4);
     return false;
 }
