@@ -36,6 +36,9 @@ What's New in Revive Adserver 4.0.1
    the delivery engine from working when using unix sockets to connect to
    the database.
 
+ * Fixed an issue with the banner properties page accepting  zero, negative
+   or decimal weight numbers.
+
  Non-Backwards Compatible Changes
  --------------------------------
 

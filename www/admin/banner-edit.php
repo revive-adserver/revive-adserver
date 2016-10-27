@@ -528,7 +528,8 @@ function buildBannerForm($type, $aBanner, &$oComponent=null, $formDisabled=false
         $form->addElement($weightElem);
         $form->addElement('textarea', 'comments', $GLOBALS['strComments']);
         $weightPositiveRule = $translation->translate($GLOBALS['strXPositiveWholeNumberField'], array($GLOBALS['strWeight']));
-        $form->addRule('weight', $weightPositiveRule, 'numeric');
+        $form->addRule('weight', $weightPositiveRule, 'regex', '#^\d+$#');
+        $form->addRule('weight', $weightPositiveRule, 'nonzero');
     }
 
 
