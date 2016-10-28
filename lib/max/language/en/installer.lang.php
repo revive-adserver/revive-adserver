@@ -83,7 +83,7 @@ $GLOBALS['strConfigureUpgradeIntro'] = "Provide the path to your previous {$PROD
 $GLOBALS['strConfigSeeMoreFields'] = "See more configuration fields...";
 $GLOBALS['strPreviousInstallTitle'] = "Previous installation";
 $GLOBALS['strPathToPrevious'] = "Path to previous {$PRODUCT_NAME} installation";
-$GLOBALS['strPathToPreviousError'] = "One or more plugin files couln't be located, check the install.log file for more information";
+$GLOBALS['strPathToPreviousError'] = "One or more plugin files couldn't be located, check the install.log file for more information";
 $GLOBALS['strConfigureProgressMessage'] = "Configuring {$PRODUCT_NAME}...";
 
 /** jobs step * */
