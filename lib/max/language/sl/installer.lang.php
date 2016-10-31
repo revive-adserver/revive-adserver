@@ -34,3 +34,4 @@ $GLOBALS['strSyscheckStatus'] = "Stanje";
 
 $GLOBALS['strUnableCreateConfFile'] = "Vaša konfiguracijska datoteka ni bila ustvarjena. Prosimo, preverite dovoljenja {$PRODUCT_NAME} v var mapi.";
 $GLOBALS['strUnableUpdateConfFile'] = "Vaša konfiguracijska datoteka ni bila posodobljena. Prosimo, preverite dovoljenja {$PRODUCT_NAME} v var mapi, kakor tudi dovoljenja prejšnje namestitve konfiguracijske datoteke, ki ste jo kopirali v to mapo.";
+
