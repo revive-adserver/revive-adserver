@@ -74,7 +74,6 @@ $GLOBALS['strConfigureUpgradeIntro'] = "Fornisci il percorso di installazione di
 $GLOBALS['strConfigSeeMoreFields'] = "Guarda più campi di configurazione...";
 $GLOBALS['strPreviousInstallTitle'] = "Installazione precedente";
 $GLOBALS['strPathToPrevious'] = "Percorso di installazione precedente di {$PRODUCT_NAME}";
-$GLOBALS['strPathToPreviousError'] = "Uno o più file di plugin non sono stati individuati, controlla il file install.log per maggiori informazioni";
 $GLOBALS['strConfigureProgressMessage'] = "Configurazione {$PRODUCT_NAME} in corso...";
 
 /** jobs step * */
@@ -104,3 +103,4 @@ $GLOBALS['strUnableUpdateConfFile'] = "Non riusciamo ad aggiornare i tuoi file d
 $GLOBALS['strUnableToCreateAdmin'] = "Non riusciamo a creare un account amministratore sistema, il tuo database è accessibile?";
 $GLOBALS['strTimezoneLocal'] = "{$PRODUCT_NAME} ha rilevato che la tua installazione PHP sta reimpostando \"Sistema/OraLocale\" come fuso orario del tuo server. Questo è a causa di una patch a PHP applicata da alcuni distrubutori Linux.
 Sfortunatamente, questo non è un fuso orario valido di PHP. Modifica il tuo file php.ini e imposta la \"Data.FusoOrario\" al valore corretto per il tuo server.";
+

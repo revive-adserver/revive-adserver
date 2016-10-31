@@ -31,3 +31,4 @@ $GLOBALS['strWarning'] = "Upozornenie";
 
 /** finish step * */
 
+
