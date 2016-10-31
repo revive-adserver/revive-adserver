@@ -68,3 +68,4 @@ $GLOBALS['strPluginInstallFailed'] = "Falha na instalação do plugin \"%s\":";
 $GLOBALS['strTaskInstallFailed'] = "Ocorreu um erro ao executar a tarefa de instalação \"%s\":";
 $GLOBALS['strContinueToLogin'] = "Clique \"Continuar\" para logar em sua instância de {$PRODUCT_NAME}.";
 
+
