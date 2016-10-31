@@ -85,7 +85,6 @@ $GLOBALS['strConfigureUpgradeIntro'] = "مسیری را برای نصب {$PRODUC
 $GLOBALS['strConfigSeeMoreFields'] = "مشاهده تنظیمات پیکر بندی بیشتر ...";
 $GLOBALS['strPreviousInstallTitle'] = "نصب های پیشین ...";
 $GLOBALS['strPathToPrevious'] = "{$PRODUCT_NAME}مسیر نصب های پیشین ";
-$GLOBALS['strPathToPreviousError'] = "یک یا چند فایل پلاگین نمی تواند واقع شود، بررسی کنید فایل install.log برای اطلاعات بیشتر";
 $GLOBALS['strConfigureProgressMessage'] = "
 پیکربندی {$PRODUCT_NAME} ...";
 
@@ -117,3 +116,4 @@ $GLOBALS['strUnableCreateConfFile'] = "
 ما قادر به ایجاد فایل پیکربندی شما نیستیم . لطفا دسترسی از {$PRODUCT_NAME} پوشه VAR دوباره چک کنید.";
 $GLOBALS['strUnableUpdateConfFile'] = "ما قادر به به روز رسانی فایل پیکربندی شما نیستیم لطفا دوباره بررسی مجوز از {$PRODUCT_NAME} پوشه VARرا دوباره بررسی کنید . ، و همچنین مجوزهای قبلی نصب فایل پیکربندی که شما را به این پوشه کپی کنید.";
 $GLOBALS['strUnableToCreateAdmin'] = "ما قادر به ایجاد حساب مدیریتی نیستیم ، آیا پایگاه داده شما در دسترس است ؟";
+

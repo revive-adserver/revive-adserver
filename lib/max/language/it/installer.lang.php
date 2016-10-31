@@ -11,6 +11,10 @@
  */
 
 /** status messages * */
+$GLOBALS['strInstallStatusRecovery'] = 'Ripristino di Revive Adserver %s';
+$GLOBALS['strInstallStatusInstall'] = 'Installazione di Revive Adserver %s';
+$GLOBALS['strInstallStatusUpgrade'] = 'Aggiornamento a Revive Adserver %s';
+$GLOBALS['strInstallStatusUpToDate'] = 'Rilevato Revive Adserver %s';
 
 /** welcome step * */
 $GLOBALS['strWelcomeTitle'] = "Benvenuto in {$PRODUCT_NAME}";
@@ -104,3 +108,4 @@ $GLOBALS['strUnableUpdateConfFile'] = "Non riusciamo ad aggiornare i tuoi file d
 $GLOBALS['strUnableToCreateAdmin'] = "Non riusciamo a creare un account amministratore sistema, il tuo database è accessibile?";
 $GLOBALS['strTimezoneLocal'] = "{$PRODUCT_NAME} ha rilevato che la tua installazione PHP sta reimpostando \"Sistema/OraLocale\" come fuso orario del tuo server. Questo è a causa di una patch a PHP applicata da alcuni distrubutori Linux.
 Sfortunatamente, questo non è un fuso orario valido di PHP. Modifica il tuo file php.ini e imposta la \"Data.FusoOrario\" al valore corretto per il tuo server.";
+
