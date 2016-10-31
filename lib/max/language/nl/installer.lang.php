@@ -76,7 +76,7 @@ $GLOBALS['strConfigureUpgradeIntro'] = "Geef het pad naar uw vorige installatie 
 $GLOBALS['strConfigSeeMoreFields'] = "Bekijk meer configuratie-velden...";
 $GLOBALS['strPreviousInstallTitle'] = "Vorige installatie";
 $GLOBALS['strPathToPrevious'] = "Pad naar eerdere {$PRODUCT_NAME} installatie";
-$GLOBALS['strPathToPreviousError'] = "Een of meer plugin bestanden kon niet gevonden worden, bekijk het bestand install.log voor meer informatie";
+$GLOBALS['strPathToPreviousError'] = "Een of meerdere plugin bestanden konden niet worden gevonden, bekijk het bestand install.log voor meer informatie";
 $GLOBALS['strConfigureProgressMessage'] = "Configureren van {$PRODUCT_NAME}...";
 
 /** jobs step * */
@@ -105,3 +105,6 @@ $GLOBALS['strUnableCreateConfFile'] = "Wij zijn niet in staat om uw configuratie
 $GLOBALS['strUnableUpdateConfFile'] = "Wij zijn niet in staat om uw configuratiebestand bij te werken. Controleer de permissies  van de map {$PRODUCT_NAME} var opnieuw, en ook de permissies van het configuratiebestand van de vorige installatie dat u heeft gekopieerd naar deze map.";
 $GLOBALS['strUnableToCreateAdmin'] = "We zijn niet in staat om een systeembeheerder-account te maken, is de database toegankelijk?";
 $GLOBALS['strTimezoneLocal'] = "{$PRODUCT_NAME} heeft gedetecteerd dat uw PHP installatie \"Systeem/Localtime\" als de tijdzone van uw server terug meldt. Dit is vanwege een patch aan PHP, toegepast door sommige Linuxdistributies. Helaas, dit is niet een geldige PHP tijdzone. Gelieve je php.ini-bestand bewerken en instellen van de \"date.timezone\"property op de juiste waarde voor uw server.";
+
+$GLOBALS['strInstallNonBlockingErrors'] = "Er is een fout opgetreden bij het uitvoeren van installatietaken. Bestudeer alstublieft de <a class=\"show-errors\" href=\"#\">lijst met fouten</a> en het bestand install. log in \\'%s\\' voor meer details.
+U kunt nog steeds inloggen op uw {$PRODUCT_NAME} installatie.";
