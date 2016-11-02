@@ -22,7 +22,7 @@ class OX_Admin_UI_SessionStorage implements OX_Admin_UI_Storage
 
     function __construct($id = null, $path = null)
     {
-        if ('cli' !== PHP_SAPI) {
+        if ('cli' !== PHP_SAPI && 'files' === ini_get('session.save_handler')) {
             $path = session_save_path();
             if (!empty($path) && !is_writable($path)) {
                 // We can only trust this if open basedir is not enabled

@@ -40,7 +40,8 @@ What's New in Revive Adserver 4.0.1
    or decimal weight numbers.
 
  * Fixed an issue preventing Revive Adserver from being installed or upgraded
-   on setups using both a custom session.save_path and open_basedir.
+   on setups using both a custom session.save_path and open_basedir, or using
+   a custom session handler.
 
  Non-Backwards Compatible Changes
  --------------------------------
