@@ -43,6 +43,9 @@ What's New in Revive Adserver 4.0.1
    on setups using both a custom session.save_path and open_basedir, or using
    a custom session handler.
 
+ * Fixed an issue preventing Revive Adserver from serving video ads on recent
+   Flash Player versions when loading HTTPS resources from an HTTP website.
+
  Non-Backwards Compatible Changes
  --------------------------------
 
