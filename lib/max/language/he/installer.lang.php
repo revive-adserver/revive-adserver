@@ -10,20 +10,25 @@
   +---------------------------------------------------------------------------+
  */
 
-// Set translation strings
-$GLOBALS['strDeliveryEngine'] = "מנוע הפצה";
-$GLOBALS['strMaintenance'] = "תחזוקה";
-$GLOBALS['strAdministrator'] = "אחראי";
+/** status messages * */
 
-// Audit
-$GLOBALS['strDelete'] = "מחק";
-$GLOBALS['strAdvertiser'] = "מפרסם";
-$GLOBALS['strPublisher'] = "אתר אינטרנט";
-$GLOBALS['strCampaign'] = "קמפיין";
-$GLOBALS['strType'] = "סוג";
-$GLOBALS['strAction'] = "פעולה";
-$GLOBALS['strValue'] = "ערך";
+/** welcome step * */
 
-if (!isset($GLOBALS['strUserlog'])) {
-    $GLOBALS['strUserlog'] = array();
-}
+/** check step * */
+
+
+$GLOBALS['strWarning'] = "אזהרה";
+
+/** admin login step * */
+
+/** database step * */
+
+
+/** config step * */
+
+/** jobs step * */
+
+
+/** finish step * */
+
+

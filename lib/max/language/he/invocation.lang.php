@@ -20,7 +20,7 @@ $GLOBALS['strAbbrSeconds'] = "שניות";
 
 // Common Invocation Parameters
 $GLOBALS['strInvocationWhat'] = "בחירת באנר";
-$GLOBALS['strInvocationCampaignID'] = "מערכה";
+$GLOBALS['strInvocationCampaignID'] = "קמפיין";
 $GLOBALS['strInvocationTarget'] = "חלון מטרה";
 $GLOBALS['strInvocationSource'] = "מקור";
 $GLOBALS['strInvocationWithText'] = "הצג כיתוב מתחת לבנר";
@@ -61,6 +61,7 @@ $GLOBALS['strXmlRpcLanguage'] = "שפת אירוח";
 // Support for cachebusting code
 
 // IMG invocation selected for tracker with appended code
+$GLOBALS['strWarning'] = "אזהרה";
 
 // Local Invocation
 
