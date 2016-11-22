@@ -458,6 +458,12 @@ class XML_RPC_Server
      */
     function createServerPayload()
     {
+        global $HTTP_RAW_POST_DATA;
+
+        if (!isset($HTTP_RAW_POST_DATA)) {
+            $HTTP_RAW_POST_DATA = file_get_contents('php://input');
+        }
+
         $r = $this->parseRequest();
         $this->server_payload = '<?xml version="1.0" encoding="'
                               . $this->encoding . '"?>' . "\n"
