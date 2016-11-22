@@ -46,6 +46,9 @@ What's New in Revive Adserver 4.0.1
  * Fixed an issue preventing Revive Adserver from serving video ads on recent
    Flash Player versions when loading HTTPS resources from an HTTP website.
 
+ * Fixed an issue preventing the Revive Adserver XML-RPC API from working on
+   PHP7+.
+
  Non-Backwards Compatible Changes
  --------------------------------
 
