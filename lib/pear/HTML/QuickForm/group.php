@@ -389,7 +389,7 @@ class HTML_QuickForm_group extends HTML_QuickForm_element
      * @access    public
      * @return    void
      */
-    function onQuickFormEvent($event, $arg, &$caller)
+    function onQuickFormEvent($event, $arg, $caller = null)
     {
         switch ($event) {
             case 'updateValue':

@@ -196,7 +196,7 @@ class HTML_QuickForm_radio extends HTML_QuickForm_input
      * @access    public
      * @return    void
      */
-    function onQuickFormEvent($event, $arg, &$caller)
+    function onQuickFormEvent($event, $arg, $caller = null)
     {
         switch ($event) {
             case 'updateValue':

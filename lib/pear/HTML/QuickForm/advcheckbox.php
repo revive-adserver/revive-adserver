@@ -240,7 +240,7 @@ class HTML_QuickForm_advcheckbox extends HTML_QuickForm_checkbox
      * @access    public
      * @return    void
      */
-    function onQuickFormEvent($event, $arg, &$caller)
+    function onQuickFormEvent($event, $arg, $caller = null)
     {
         switch ($event) {
             case 'updateValue':

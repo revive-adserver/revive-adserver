@@ -49,6 +49,9 @@ What's New in Revive Adserver 4.0.1
  * Fixed an issue preventing the Revive Adserver XML-RPC API from working on
    PHP7+.
 
+ * Fixed an issue preventing forms generated with HTML_QuickForm from working
+   with PHP 7.1.
+
  Non-Backwards Compatible Changes
  --------------------------------
 

@@ -168,7 +168,7 @@ class HTML_QuickForm_input extends HTML_QuickForm_element
      * @return    void
      * @throws
      */
-    function onQuickFormEvent($event, $arg, &$caller)
+    function onQuickFormEvent($event, $arg, $caller = null)
     {
         // do not use submit values for button-type elements
         $type = $this->getType();

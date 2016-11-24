@@ -165,7 +165,7 @@ class HTML_QuickForm_static extends HTML_QuickForm_element {
      * @return    void
      * @throws
      */
-    function onQuickFormEvent($event, $arg, &$caller)
+    function onQuickFormEvent($event, $arg, $caller = null)
     {
         switch ($event) {
             case 'updateValue':

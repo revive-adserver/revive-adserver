@@ -366,7 +366,7 @@ class HTML_QuickForm_element extends HTML_Common
      * @access    public
      * @return    void
      */
-    function onQuickFormEvent($event, $arg, &$caller)
+    function onQuickFormEvent($event, $arg, $caller = null)
     {
         switch ($event) {
             case 'createElement':
