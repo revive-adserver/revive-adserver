@@ -1600,6 +1600,7 @@ class MDB2_Statement_mysqli extends MDB2_Statement_Common
             $query = 'EXECUTE '.$this->statement;
         }
         if (!empty($this->positions)) {
+            $ref_params = array();
             $parameters = array(0 => $this->statement, 1 => '');
             $lobs = array();
             $i = 0;
@@ -1645,7 +1646,8 @@ class MDB2_Statement_mysqli extends MDB2_Statement_Common
                         $parameters[1].= 'b';
                         $lobs[$i] = $parameter;
                     } else {
-                        $parameters[] = $this->db->quote($value, $type, false);
+                        $ref_params[$i] = $this->db->quote($value, $type, false);
+                        $parameters[] = &$ref_params[$i];
                         $parameters[1].= $this->db->datatype->mapPrepareDatatype($type);
                     }
                     ++$i;
