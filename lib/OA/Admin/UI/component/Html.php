@@ -51,7 +51,7 @@ class OA_Admin_UI_Component_Html extends HTML_QuickForm_static
     * @access public
     * @return void 
     */
-    function accept(&$renderer)
+    function accept(&$renderer, $required = false, $error = null)
     {
         $renderer->renderHtml($this);
     } // end func accept

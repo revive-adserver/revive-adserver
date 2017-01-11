@@ -108,7 +108,7 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
      * @param array $aFields
      * @return boolean
      */
-    function processForm($insert, $bannerid, $aFields)
+    function processForm($insert, $bannerid, &$aFields, &$aVariables)
     {
         $doBanners = OA_Dal::factoryDO('banner_vast_element');
         $rowId = $aFields['banner_vast_element_id'];

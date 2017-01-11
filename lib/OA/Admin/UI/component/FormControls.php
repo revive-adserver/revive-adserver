@@ -38,7 +38,7 @@ class OA_Admin_UI_Component_FormControls
     *
     * @param HTML_QuickForm_Renderer    renderer object
     */
-    function accept(&$renderer)
+    function accept(&$renderer, $required = false, $error = null)
     {
         $renderer->renderHeader($this);
     } 
