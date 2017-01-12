@@ -1042,10 +1042,8 @@ class HTML_Template_Flexy_Compiler_Flexy_Tag {
         if (!is_string($in)) {
             return $in;
         }
-        $trans_tbl = get_html_translation_table (HTML_ENTITIES);
-        $trans_tbl = array_flip ($trans_tbl);
-        $ret = strtr ($in, $trans_tbl);
-        return preg_replace('/&#(\d+);/me', "chr('\\1')",$ret);
+
+        return html_entity_decode($in, ENT_QUOTES, 'UTF-8');
     }
 
 

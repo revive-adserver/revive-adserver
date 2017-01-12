@@ -52,6 +52,9 @@ What's New in Revive Adserver 4.0.1
  * Fixed an issue preventing forms generated with HTML_QuickForm from working
    with PHP 7.1.
 
+ * Fixed an issue with the "View by day/week/month" dropdown not properly
+   working on PHP7+.
+
  Non-Backwards Compatible Changes
  --------------------------------
 
