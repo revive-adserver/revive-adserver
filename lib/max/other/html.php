@@ -867,9 +867,7 @@ function _displayZoneEntitySelectionCell($entity, $entityId, $aOtherEntities, $e
             }
         }
 
-        $name = MAX_buildName($otherEntityId, $aOtherEntity['name']);
-        echo "
-        <option value='$otherEntityId'{$selected}>".$name." $adsCount</option>";
+        echo "<option value='$otherEntityId'{$selected}>".htmlspecialchars($aOtherEntity['name'])." $adsCount</option>";
     }
     echo "
     </select>
@@ -1438,7 +1436,7 @@ function MAX_displayNavigationCampaign($campaignId, $aOtherAdvertisers, $aOtherC
     $doCampaign->fetch();
     $campaignName = $doCampaign->campaignname;
 
-    $advertiserName = MAX_buildName($advertiserId, $aOtherAdvertisers[$advertiserId]['name']);
+    $advertiserName = $aOtherAdvertisers[$advertiserId]['name'];
     $advertiserEditUrl = '';
     if (OA_Permission::hasAccessToObject('clients', $advertiserId, OA_Permission::OPERATION_EDIT)) {
         $advertiserEditUrl = "advertiser-edit.php?clientid=$advertiserId";
@@ -1543,8 +1541,8 @@ function MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $
     unset($aOtherEntities['zoneid']);
     $otherEntityString = _getEntityString($aOtherEntities);
     $aPublisher = $aOtherPublishers[$websiteId];
-    $publisherName = MAX_buildName($websiteId, $aPublisher['name']);
-    $zoneName = (empty($zoneId)) ? $GLOBALS['strUntitled'] : MAX_buildName($zoneId, $aOtherZones[$zoneId]['name']);
+    $publisherName = $aPublisher['name'];
+    $zoneName = (empty($zoneId)) ? $GLOBALS['strUntitled'] : $aOtherZones[$zoneId]['name'];
 
     if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
         $tabSections = array('4.2.3.2', '4.2.3.6', '4.2.3.3', '4.2.3.4', '4.2.3.5');
@@ -1704,7 +1702,7 @@ function addTrackerPageTools($advertiserId, $trackerId, $aOtherAdvertisers)
             <input type='hidden' name='returnurl' value='tracker-edit.php'>
             <select name='moveto'>";
         foreach ($aOtherAdvertisers as $advertiser) {
-            $form .= "<option value='".$advertiser['clientid']."'>".htmlspecialchars(MAX_buildName($advertiser['clientid'], $advertiser['clientname']))."</option>";
+            $form .= "<option value='".$advertiser['clientid']."'>".htmlspecialchars($advertiser['clientname'])."</option>";
         }
         $form .= "</select><input type='image' class='submit' src='" . OX::assetPath() . "/images/".$GLOBALS['phpAds_TextDirection']."/go_blue.gif'></form>";
         addPageFormTool($GLOBALS['strMoveTo'], 'iconTrackerMove', $form);
@@ -1734,15 +1732,17 @@ function addCampaignPageTools($clientid, $campaignid, $aOtherAdvertisers, $aEnti
             <input type='hidden' name='campaignid' value='$campaignid'>
             <input type='hidden' name='returnurl' value='".htmlspecialchars(basename($_SERVER['SCRIPT_NAME'], ENT_QUOTES))."'>
             <select name='newclientid'>";
-                $aOtherAdvertisers = _multiSort($aOtherAdvertisers,'name','advertiser_id');
-                foreach ($aOtherAdvertisers as $aOtherAdvertiser) {
-                    $otherAdvertiserId = $aOtherAdvertiser['advertiser_id'];
-                    $otherAdvertiserName = MAX_buildName($otherAdvertiserId, $aOtherAdvertiser['name']);
 
-                    if ($otherAdvertiserId != $advertiserId) {
-                        $form .= "<option value='$otherAdvertiserId'>" . htmlspecialchars($otherAdvertiserName) . "</option>";
-                    }
+            $aOtherAdvertisers = _multiSort($aOtherAdvertisers,'name','advertiser_id');
+            foreach ($aOtherAdvertisers as $aOtherAdvertiser) {
+                $otherAdvertiserId = $aOtherAdvertiser['advertiser_id'];
+                $otherAdvertiserName = $aOtherAdvertiser['name'];
+
+                if ($otherAdvertiserId != $clientid) {
+                    $form .= "<option value='$otherAdvertiserId'>" . htmlspecialchars($otherAdvertiserName) . "</option>";
                 }
+            }
+
             $form .= "</select><input type='image' class='submit' src='" . OX::assetPath() . "/images/$phpAds_TextDirection/go_blue.gif'></form>";
 
             addPageFormTool($GLOBALS['strMoveTo'], 'iconCampaignMove', $form);
@@ -1793,7 +1793,7 @@ function addBannerPageTools($advertiserId, $campaignId, $bannerId, $aOtherCampai
     foreach ($aOtherCampaigns as $otherCampaignId => $aOtherCampaign) {
         // mask campaign name if anonymous campaign
         $aOtherCampaign['name'] = MAX_getPlacementName($aOtherCampaign);
-        $otherCampaignName = MAX_buildName($aOtherCampaign['placement_id'], $aOtherCampaign['name']);
+        $otherCampaignName = $aOtherCampaign['name'];
 
         if ($aOtherCampaign['placement_id'] != $campaignId) {
             $form .= "<option value='" . $aOtherCampaign['placement_id'] . "'>" . htmlspecialchars($otherCampaignName) . "</option>";
@@ -1818,7 +1818,7 @@ function addBannerPageTools($advertiserId, $campaignId, $bannerId, $aOtherCampai
         $aOtherBanners = _multiSort($aOtherBanners,'name','ad_id');
         foreach ($aOtherBanners as $idx => $aOtherBanner) {
             if ($aOtherBanner['ad_id'] != $bannerId) {
-                $form .= "<option value='{$aOtherBanner['ad_id']}'>" . MAX_buildName($aOtherBanner['ad_id'], $aOtherBanner['name']) . "</option>";
+                $form .= "<option value='{$aOtherBanner['ad_id']}'>" . htmlspecialchars($aOtherBanner['name']) . "</option>";
             }
         }
         $form .= "</select><input type='image' class='submit' name='applyto' src='" . OX::assetPath() . "/images/".$phpAds_TextDirection."/go_blue.gif'></form>";
@@ -1875,7 +1875,7 @@ function addZonePageTools($affiliateid, $zoneid, $aOtherPublishers, $aEntities)
         <select name='newaffiliateid'>";
         $aOtherPublishers = _multiSort($aOtherPublishers,'name','publisher_id');
         foreach ($aOtherPublishers as $otherPublisherId => $aOtherPublisher) {
-            $otherPublisherName = MAX_buildName($aOtherPublisher['publisher_id'], $aOtherPublisher['name']);
+            $otherPublisherName = $aOtherPublisher['name'];
             if ($aOtherPublisher['publisher_id'] != $affiliateid) {
                 $form .= "<option value='" . $aOtherPublisher['publisher_id'] . "'>" . htmlspecialchars($otherPublisherName) . "</option>";
             }
