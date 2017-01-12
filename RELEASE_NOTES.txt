@@ -55,6 +55,9 @@ What's New in Revive Adserver 4.0.1
  * Fixed an issue with the "View by day/week/month" dropdown not properly
    working on PHP7+.
 
+ * Fixed an issue with magic macros not properly working when nested in
+   curly brackets, e.g. within JSON or JS code.
+
  Non-Backwards Compatible Changes
  --------------------------------
 
