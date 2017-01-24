@@ -194,7 +194,7 @@ class Image_Graph_Common
      * @param Image_Graph_Common $element The new Image_Graph_element
      * @return Image_Graph_Common The new Image_Graph_element
      */
-    function &add(& $element)
+    function add(& $element)
     {
         if (!is_a($element, 'Image_Graph_Font')) {
             $this->_elements[] = &$element;

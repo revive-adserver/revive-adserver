@@ -68,7 +68,7 @@ class Image_Graph_Line_Array extends Image_Graph_Common
      *
      * @param Image_Graph_Line $style The style to add
      */
-    function add(& $style, $id = false)
+    function add(&$style, $id = false)
     {
         if (is_a($style, 'Image_Graph_Element')) {
             parent::add($style);

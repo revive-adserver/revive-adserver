@@ -145,7 +145,7 @@ class Image_Canvas_Color extends Image_Color
     *   @param      string    How much each 'step' between the colors we should take.
     *   @return     array     Returns an array of all the colors, one element for each color.
     */
-    function getRange ($degrees)
+    function getRange ($degrees = 2)
     {
         $tempColors = parent::getRange($degrees);
 
