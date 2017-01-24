@@ -4330,7 +4330,7 @@ $creativeURL = $row['html'];
 if ($conf['logging']['adImpressions']) {
 MAX_Delivery_log_logAdImpression($row['bannerid'], $zoneid);
 }
-MAX_cookieAdd($conf['var']['vars'] . "[$n]", serialize($cookie));
+MAX_cookieAdd($conf['var']['vars'] . "[$n]", json_encode($cookie, JSON_UNESCAPED_SLASHES));
 MAX_cookieFlush();
 if ($row['bannerid'] == '') {
 if ($row['default_banner_image_url'] != '') {
@@ -4342,7 +4342,7 @@ MAX_commonDisplay1x1();
 MAX_redirect($creativeURL);
 }
 } else {
-MAX_cookieAdd($conf['var']['vars'] . "[$n]", 'DEFAULT');
+MAX_cookieUnset($conf['var']['vars'] . "[$n]");
 MAX_cookieFlush();
 MAX_commonDisplay1x1();
 }

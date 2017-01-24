@@ -4317,7 +4317,8 @@ if (!isset($rewrite)) $rewrite = 1;
 if (!isset($refresh)) $refresh = 0;
 if (!isset($resize)) $resize = 0;
 $banner = MAX_adSelect($what, $campaignid, $target, $source, $withtext, $charset, $context, true, $ct0, $loc, $referer);
-if (!empty($banner['html']) && !empty($n)) {
+if (!empty($n)) {
+if (!empty($banner['html'])) {
 $cookie = array();
 $cookie[$conf['var']['adId']] = $banner['bannerid'];
 if ($zoneid != 0) {
@@ -4326,7 +4327,10 @@ $cookie[$conf['var']['zoneId']] = $zoneid;
 if (!empty($source)) {
 $cookie[$conf['var']['channel']] = $source;
 }
-MAX_cookieAdd($conf['var']['vars'] . "[$n]", serialize($cookie));
+MAX_cookieAdd($conf['var']['vars'] . "[$n]", json_encode($cookie, JSON_UNESCAPED_SLASHES));
+} else {
+MAX_cookieUnset($conf['var']['vars'] . "[$n]");
+}
 }
 MAX_cookieFlush();
 MAX_commonSendContentTypeHeader('text/html', $charset);
