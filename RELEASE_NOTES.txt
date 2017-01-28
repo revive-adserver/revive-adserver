@@ -62,6 +62,10 @@ What's New in Revive Adserver 4.0.1
  * Fixed an issue with parent entities names being sometimes escaped twice in
    the inventory header, thus displaying HTML entities on screen.
 
+ * Fixed a missing translation string that prevented an error message from
+   displaying in the installer, and various community-supplied translation
+   string updates.
+
  Non-Backwards Compatible Changes
  --------------------------------
 
