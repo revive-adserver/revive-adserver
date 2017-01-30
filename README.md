@@ -53,3 +53,8 @@ the GNU General Public License in all respects for all of the code used
 other than LIB-FTP.  If you modify this file, you may extend this exception
 to your version of the file, but you are not obligated to do so.  If
 you do not wish to do so, delete this exception statement from your version.
+
+------------------------------------------------------------------------
+
+This product includes GeoLite data created by MaxMind, available from the 
+http://www.maxmind.com/ website.
