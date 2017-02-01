@@ -84,7 +84,7 @@ if (!empty($row['html'])) {
         MAX_Delivery_log_logAdImpression($row['bannerid'], $zoneid);
     }
     // Redirect to the banner
-    MAX_cookieAdd($conf['var']['vars'] . "[$n]", serialize($cookie));
+    MAX_cookieAdd($conf['var']['vars'] . "[$n]", json_encode($cookie, JSON_UNESCAPED_SLASHES));
     MAX_cookieFlush();
     if ($row['bannerid'] == '') {
        if ($row['default_banner_image_url'] != '') {
@@ -98,7 +98,7 @@ if (!empty($row['html'])) {
         MAX_redirect($creativeURL);
     }
 } else {
-	MAX_cookieAdd($conf['var']['vars'] . "[$n]", 'DEFAULT');
+	MAX_cookieUnset($conf['var']['vars'] . "[$n]");
 	MAX_cookieFlush();
 	// Show 1x1 Gif, to ensure not broken image icon is shown.
 	MAX_commonDisplay1x1();

@@ -6,7 +6,7 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
-Release Notes: Revive Adserver 4.0.1
+Release Notes: Revive Adserver 4.0.2
 ====================================
 
 These release notes cover what's new, system requirements, download and
@@ -14,10 +14,10 @@ installation instructions, known issues and frequently asked questions for
 Revive Adserver. Please read these notes before reporting any bugs.
 
 
-What's New in Revive Adserver 4.0.1
+What's New in Revive Adserver 4.0.2
 -----------------------------------
 
- * Release date: n/a
+ * Release date: t.b.d.
 
  Security Updates
  ----------------
@@ -32,34 +32,7 @@ What's New in Revive Adserver 4.0.1
  Bug Fixes
  ---------
 
- * Fixed an issue in the newly introduced mysqli driver, which was preventing
-   the delivery engine from working when using unix sockets to connect to
-   the database.
-
- * Fixed an issue with the banner properties page accepting  zero, negative
-   or decimal weight numbers.
-
- * Fixed an issue preventing Revive Adserver from being installed or upgraded
-   on setups using both a custom session.save_path and open_basedir, or using
-   a custom session handler.
-
- * Fixed an issue preventing Revive Adserver from serving video ads on recent
-   Flash Player versions when loading HTTPS resources from an HTTP website.
-
- * Fixed an issue preventing the Revive Adserver XML-RPC API from working on
-   PHP7+.
-
- * Fixed an issue preventing forms generated with HTML_QuickForm from working
-   with PHP 7.1.
-
- * Fixed an issue with the "View by day/week/month" dropdown not properly
-   working on PHP7+.
-
- * Fixed an issue with magic macros not properly working when nested in
-   curly brackets, e.g. within JSON or JS code.
-
- * Fixed an issue with parent entities names being sometimes escaped twice in
-   the inventory header, thus displaying HTML entities on screen.
+ * None
 
  Non-Backwards Compatible Changes
  --------------------------------
@@ -71,7 +44,7 @@ System Requirements
 -------------------
 
 Before installing, please make sure your server meets the system
-requirements, which can be found at http://www.revive-adserver.com/.
+requirements, which can be found at https://www.revive-adserver.com/.
 
 
 Downloading and Installing
@@ -80,17 +53,17 @@ Downloading and Installing
  * Downloading Revive Adserver
 
    You can always find the latest version of Revive Adserver at
-   http://www.revive-adserver.com.
+   https://www.revive-adserver.com.
 
  * Installing Revive Adserver
 
    Installing Revive Adserver is a straightforward process. Follow the steps at
-   http://www.revive-adserver.com/support/installation/.
+   https://www.revive-adserver.com/support/installation/.
 
  * Upgrading Revive Adserver
 
    Upgrading Revive Adserver is a straightforward process. Follow the steps at
-   http://www.revive-adserver.com/support/upgrading/.
+   https://www.revive-adserver.com/support/upgrading/.
 
    Please note: The upgrade process will update your Revive Adserver database,
    and the database may no longer be compatible with your old installation.
@@ -139,7 +112,7 @@ This list covers some of the known problems with Revive Adserver. Please read
 this before reporting any new bugs.
 
  * The upgrade process may time out with very large databases. See
-   http://www.revive-adserver.com/docs/faq for more information if you
+   https://www.revive-adserver.com/docs/faq for more information if you
    have a large database.
 
  * If you want to run Revive Adserver with MySQL, please note that MySQL 4.1 or
@@ -159,7 +132,7 @@ this before reporting any new bugs.
    statistics. This can be worked around by ensuring that the timezone is
    correctly set in PHP.
 
- * See http://www.revive-adserver.com/support/bugs/ for the latest bug reports.
+ * See https://www.revive-adserver.com/support/bugs/ for the latest bug reports.
 
 
 FAQ
@@ -173,11 +146,11 @@ FAQ
  2. Where can I get help?
 
     You can ask for help at the Revive Adserver community forums:
-    http://forum.revive-adserver.com/
+    https://forum.revive-adserver.com/
 
  3. What can I do to help?
 
     We need help from both developers and users to provide as much feedback
     as possible to make Revive Adserver even better. You can contribute
     feedback, bug reports, submit patches or help with documentation by
-    visiting http://www.revive-adserver.com/.
+    visiting https://www.revive-adserver.com/.

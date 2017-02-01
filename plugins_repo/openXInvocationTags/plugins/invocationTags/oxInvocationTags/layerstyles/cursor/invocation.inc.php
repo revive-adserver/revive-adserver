@@ -80,7 +80,7 @@ class Plugins_oxInvocationTags_Adlayer_Layerstyles_Cursor_Invocation extends Plu
 
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
     	$buffer .= "<td width='200'>".$this->translate("Delay before banner is hidden")."</td><td width='370'>";
-    	$buffer .= "<input class='flat' type='text' name='delay' size='' value='".$delay."' style='width:60px;'".($hide == '0' ? ' disabled' : '')." tabindex='".($tabindex++)."'> ms</td></tr>";
+    	$buffer .= "<input class='flat' type='text' name='delay' size='' value='".htmlspecialchars($delay, ENT_QUOTES)."' style='width:60px;'".($hide == '0' ? ' disabled' : '')." tabindex='".($tabindex++)."'> ms</td></tr>";
     	$buffer .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
 
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
@@ -98,12 +98,12 @@ class Plugins_oxInvocationTags_Adlayer_Layerstyles_Cursor_Invocation extends Plu
 
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
     	$buffer .= "<td width='200'>".$this->translate("Horizontal shift")."</td><td width='370'>";
-    	$buffer .= "<input class='flat' type='text' name='offsetx' size='' value='".$offsetx."' style='width:60px;' tabindex='".($tabindex++)."'> ".$GLOBALS['strAbbrPixels']."</td></tr>";
+    	$buffer .= "<input class='flat' type='text' name='offsetx' size='' value='".htmlspecialchars($offsetx, ENT_QUOTES)."' style='width:60px;' tabindex='".($tabindex++)."'> ".$GLOBALS['strAbbrPixels']."</td></tr>";
     	$buffer .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
 
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
     	$buffer .= "<td width='200'>".$this->translate("Vertical shift")."</td><td width='370'>";
-    	$buffer .= "<input class='flat' type='text' name='offsety' size='' value='".$offsety."' style='width:60px;' tabindex='".($tabindex++)."'> ".$GLOBALS['strAbbrPixels']."</td></tr>";
+    	$buffer .= "<input class='flat' type='text' name='offsety' size='' value='".htmlspecialchars($offsety, ENT_QUOTES)."' style='width:60px;' tabindex='".($tabindex++)."'> ".$GLOBALS['strAbbrPixels']."</td></tr>";
     	$buffer .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
 
     	return $buffer;

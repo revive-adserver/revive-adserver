@@ -22,7 +22,7 @@
 function setupConstants()
 {
     // Define this version of Revive Adserver's constants
-    define('VERSION', '4.0.1-dev');
+    define('VERSION', '4.0.2-dev');
     define('PRODUCT_NAME', 'Revive Adserver');
     define('PRODUCT_URL', 'www.revive-adserver.com');
     define('PRODUCT_DOCSURL', 'http://documentation.revive-adserver.com');

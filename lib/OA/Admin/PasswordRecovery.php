@@ -117,7 +117,9 @@ class OA_Admin_PasswordRecovery
             if (empty($vars['newpassword']) || empty($vars['newpassword2']) || $vars['newpassword'] != $vars['newpassword2']) {
                 $this->displayRecoveryResetForm($vars['id'], $GLOBALS['strNotSamePasswords']);
             } elseif ($this->_dal->checkRecoveryId($vars['id'])) {
-                $userId = $this->_dal->saveNewPasswordAndLogin($vars['id'], $vars['newpassword']);
+                $this->_dal->saveNewPasswordAndLogin($vars['id'], $vars['newpassword']);
+
+                phpAds_SessionRegenerateId();
                 OX_Admin_Redirect::redirect();
             } else {
                 $this->displayRecoveryRequestForm($GLOBALS['strPwdRecWrongId']);

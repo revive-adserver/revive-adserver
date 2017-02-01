@@ -58,17 +58,17 @@ class Plugins_oxInvocationTags_Adlayer_Layerstyles_Geocities_Invocation extends 
 
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
     	$buffer .= "<td width='200'>".$this->translate("Close text")."</td><td width='370'>";
-    		$buffer .= "<input class='flat' type='text' name='closetext' size='' value='".$closetext."' style='width:175px;' tabindex='".($tabindex++)."'></td></tr>";
+    		$buffer .= "<input class='flat' type='text' name='closetext' size='' value='".htmlspecialchars($closetext, ENT_QUOTES)."' style='width:175px;' tabindex='".($tabindex++)."'></td></tr>";
     	$buffer .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
 
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
     	$buffer .= "<td width='200'>".$this->translate("Automatically collapse after")."</td><td width='370'>";
-    		$buffer .= "<input class='flat' type='text' name='collapsetime' size='' value='".(isset($collapsetime) ? $collapsetime : '-')."' style='width:60px;' tabindex='".($tabindex++)."'> ".$GLOBALS['strAbbrSeconds']."</td></tr>";
+    		$buffer .= "<input class='flat' type='text' name='collapsetime' size='' value='".(isset($collapsetime) ? htmlspecialchars($collapsetime, ENT_QUOTES) : '-')."' style='width:60px;' tabindex='".($tabindex++)."'> ".$GLOBALS['strAbbrSeconds']."</td></tr>";
     	$buffer .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
 
     	$buffer .= "<tr><td width='30'>&nbsp;</td>";
     	$buffer .= "<td width='200'>".$this->translate("Banner padding")."</td><td width='370'>";
-    		$buffer .= "<input class='flat' type='text' name='padding' size='' value='".(isset($padding) ? $padding : '0')."' style='width:60px;' tabindex='".($tabindex++)."'> ".$GLOBALS['strAbbrPixels']."</td></tr>";
+    		$buffer .= "<input class='flat' type='text' name='padding' size='' value='".(isset($padding) ? htmlspecialchars($padding, ENT_QUOTES) : '0')."' style='width:60px;' tabindex='".($tabindex++)."'> ".$GLOBALS['strAbbrPixels']."</td></tr>";
     	$buffer .= "<tr><td width='30'><img src='" . OX::assetPath() . "/images/spacer.gif' height='5' width='100%'></td></tr>";
 
     	return $buffer;

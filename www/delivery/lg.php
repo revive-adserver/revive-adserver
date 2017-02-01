@@ -3144,10 +3144,12 @@ if (empty($n)) {
 $n = isset($aGet[$conf['var']['n']]) ? $aGet[$conf['var']['n']] : '';
 }
 if (!empty($n) && !empty($_COOKIE[$conf['var']['vars']][$n])) {
-$aVars = unserialize(stripslashes($_COOKIE[$conf['var']['vars']][$n]));
+$aVars = json_decode($_COOKIE[$conf['var']['vars']][$n], true);
+if (is_array($aVars)) {
 foreach ($aVars as $name => $value) {
 if (!isset($_GET[$name])) {
 $aGet[$name] = $value;
+}
 }
 }
 }
