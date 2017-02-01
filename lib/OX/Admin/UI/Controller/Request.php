@@ -191,7 +191,7 @@ class OX_Admin_UI_Controller_Request
     public function getBaseUrl()
     {
         if ($this->baseUrl == null) {
-            $baseUrl = 'http'.((isset($_SERVER["HTTPS"]) && ($_SERVER["HTTPS"] == "on")) ? 's' : '').'://';
+            $baseUrl = 'http'.(((isset($_SERVER["HTTPS"]) && ($_SERVER["HTTPS"] == "on")) || (isset($_SERVER["HTTP_X_REAL_SSL"]) && ($_SERVER["HTTP_X_REAL_SSL"] == "yes") )) ? 's' : '').'://';
             $baseUrl .= OX_getHostNameWithPort().substr($_SERVER['REQUEST_URI'],0,strrpos($_SERVER['REQUEST_URI'], '/')+1);
 
             $this->baseUrl = $baseUrl;
