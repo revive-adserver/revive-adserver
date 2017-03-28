@@ -222,7 +222,7 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
                 $aStatsPublishers[$v['publisher_id']] = true;
             }
         }
-
+        
         // Get all publishers
         $aPublishers = Admin_DA::fromCache('getPublishers', array(), true);
 
