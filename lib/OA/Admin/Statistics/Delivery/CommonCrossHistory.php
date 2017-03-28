@@ -44,8 +44,6 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
         $aStatsPublishers = array();
         foreach ($this->aPlugins as $oPlugin) {
             $pluginParams = $oPlugin->getHistorySpanParams();
-            $aStatsPublishers += Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates);
-
             foreach (Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates) as $k => $v) {
                 $aStatsPublishers[$v['publisher_id']] = true;
             }
@@ -133,8 +131,6 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
         $aStatsPublishers = array();
         foreach ($this->aPlugins as $oPlugin) {
             $pluginParams = $oPlugin->getHistorySpanParams();
-            $aStatsPublishers += Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates);
-
             foreach (Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates) as $k => $v) {
                 $aStatsPublishers[$v['publisher_id']] = true;
             }
@@ -222,8 +218,6 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
         $aStatsPublishers = array();
         foreach ($this->aPlugins as $oPlugin) {
             $pluginParams = $oPlugin->getHistorySpanParams();
-            $aStatsPublishers += Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates);
-
             foreach (Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates) as $k => $v) {
                 $aStatsPublishers[$v['publisher_id']] = true;
             }
