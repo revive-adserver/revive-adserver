@@ -32,7 +32,8 @@ What's New in Revive Adserver 4.0.2
  Bug Fixes
  ---------
 
- * None
+ * Fixed a JavaScript error that occurred on the Campaign Properties page when
+   the global Enable Conversion Tracking option is disabled.
 
  Non-Backwards Compatible Changes
  --------------------------------
