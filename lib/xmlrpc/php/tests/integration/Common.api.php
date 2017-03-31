@@ -43,7 +43,7 @@ define('OA_INSTALLATION_STATUS', OA_INSTALLATION_STATUS_INSTALLED);
  * @subpackage TestSuite
  * @author     Matteo Beccati <matteo.beccati@openx.org>
  */
-class Test_OA_Api_XmlRpc extends UnitTestCase
+abstract class Test_OA_Api_XmlRpc extends UnitTestCase
 {
     /**
      * @var OA_API_Xmlrpc

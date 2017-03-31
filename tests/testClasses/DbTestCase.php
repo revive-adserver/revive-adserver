@@ -19,7 +19,7 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
  * @package    OpenXDB
  * @subpackage TestSuite
  */
-class DbTestCase extends UnitTestCase
+abstract class DbTestCase extends UnitTestCase
 {
     /**
      * Use this variable to carry DDL operations.

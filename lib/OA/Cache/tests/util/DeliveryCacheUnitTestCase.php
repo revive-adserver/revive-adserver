@@ -19,7 +19,7 @@ require_once MAX_PATH . '/lib/max/Delivery/cache.php';
  * @package    OpenXCache
  * @subpackage TestSuite
  */
-class DeliveryCacheUnitTestCase extends UnitTestCase
+abstract class DeliveryCacheUnitTestCase extends UnitTestCase
 {
     /**
      * The constructor method.
