@@ -35,6 +35,10 @@ What's New in Revive Adserver 4.0.2
  * Fixed a JavaScript error that occurred on the Campaign Properties page when
    the global Enable Conversion Tracking option is disabled.
 
+ * Fixed an issue with the Client/Language delivery limitation not properly
+   working when targeting specific territories (e.g. en_US) or targeting
+   the broader locale when the browser is only sending locale + territory.
+
  Non-Backwards Compatible Changes
  --------------------------------
 
