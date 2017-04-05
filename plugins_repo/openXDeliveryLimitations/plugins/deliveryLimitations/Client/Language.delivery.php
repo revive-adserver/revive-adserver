@@ -17,6 +17,11 @@
 
 require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
 
+function language_match($limitation, $language)
+{
+    return strncasecmp($language, $limitation, strlen($limitation));
+}
+
 /**
  * Check to see if this impression contains the valid language.
  *
@@ -41,7 +46,7 @@ function MAX_checkClient_Language($limitation, $op, $aParams = array())
     $aLimitation = MAX_limitationsGetAFromS($limitation);
     $aLanguages = MAX_limitationsGetAFromS($language);
 
-    $aMatchedValues = array_intersect($aLimitation, $aLanguages);
+    $aMatchedValues = array_uintersect($aLimitation, $aLanguages, 'language_match');
     if ('=~' == $op) {
         return !empty($aMatchedValues);
     } else {
