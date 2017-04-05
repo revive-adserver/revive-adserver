@@ -38,7 +38,9 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Client_Language extends UnitTest
         $this->assertFalse(MAX_checkClient_Language('en', '!~', array('language' => 'en')));
         $this->assertTrue(MAX_checkClient_Language('en,pl,fr,de', '=~', array('language' => 'en')));
         $this->assertTrue(MAX_checkClient_Language('en,pl,fr,de', '=~', array('language' => 'jp,en')));
-        $this->assertFalse(MAX_checkClient_Language('en,pl,fr,de', '=~', array('language' => 'jp,en-us')));
+        $this->assertTrue(MAX_checkClient_Language('en,pl,fr,de', '=~', array('language' => 'jp,en-us')));
+        $this->assertFalse(MAX_checkClient_Language('en,pl,fr,de', '=~', array('language' => 'jp,it-it')));
+        $this->assertFalse(MAX_checkClient_Language('en-us,pl,fr,de', '=~', array('language' => 'jp,en')));
         $this->assertTrue(MAX_checkClient_Language('en', '=~', array('language' => 'jp,en')));
 
         $_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'en-us,en,pl';
