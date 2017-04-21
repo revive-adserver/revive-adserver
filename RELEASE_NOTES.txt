@@ -39,6 +39,11 @@ What's New in Revive Adserver 4.0.2
    working when targeting specific territories (e.g. en_US) or targeting
    the broader locale when the browser is only sending locale + territory.
 
+ * Improved the warning messages used when generating Local Mode and XML-RPC
+   invocation tags to clarify why these tags are not compliant with IAB
+   guidelines for ad impression measurement (i.e. the ad request comes from the
+   server, not the client).
+
  Non-Backwards Compatible Changes
  --------------------------------
 
