@@ -1161,7 +1161,7 @@ class SqlBuilder
 
         $aData = array();
         foreach ($aArgs as $arg) {
-            $aData[] = $oDbh->quote($arg);
+            $aData[] = $arg;
             $aData[] = "'_'";
         }
 
