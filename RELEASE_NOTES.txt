@@ -32,6 +32,11 @@ What's New in Revive Adserver 4.0.2
  Bug Fixes
  ---------
 
+ * Improved the handling of Email/Newsletter zone linking, to ensure that
+   disallowed HTML banners are simply not shown in the first place when
+   linking from the zone, and to fix a bug that allowed HTML banners to be
+   linked to Email/Newsletter zones from the banner.
+
  * Fixed a JavaScript error that occurred on the Campaign Properties page when
    the global Enable Conversion Tracking option is disabled.
 
