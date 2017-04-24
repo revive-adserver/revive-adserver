@@ -77,5 +77,3 @@ $GLOBALS['strImgWithAppendWarning'] = "Dieser Tracker hat angehängten Code.<br 
 $GLOBALS['strWarningLocalInvocation'] = "<span class='tab-s'><strong>Hinweis:</strong>Der Local mode Bannercode kann nur verwendet werden, wenn die Webseite die diesen Code ausführt auf der gleichen physikalischen Maschine wie der AdServer liegt.</span><br />
 Überprüfen Sie ob MAX_PATH in dem unten stehenden Code definiert ist und auf das Hauptverzeichnis der MAX Installation zeigt<br />. Außerdem benötigen Sie eine Konfigurationsdatei für die Webseite, die die Werbebanner anzeigt (in MAX_PATH/var)";
 
-$GLOBALS['strIABNoteLocalInvocation'] = "<b>Hinweis:</b>Anzeigendaten, die mit lokalen Modus-Aufruf-Tags entstehen sind nicht kompatibel mit IAB Richtlinien für Anzeigedaten Messungen.";
-$GLOBALS['strIABNoteXMLRPCInvocation'] = "<b>Hinweis:</b>Anzeigendaten, die mit XML-RPC Aufrufen entstehen sind nicht kompatibel mit IAB Richtlinien für Anzeigedaten Messungen.";
