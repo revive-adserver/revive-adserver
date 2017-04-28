@@ -728,7 +728,7 @@ class OA_Api_Xmlrpc
      * @param integer $bannerId
      * @param array $aTargeting
      */
-    function setBannerTargeting($bannerId, &$aTargeting)
+    function setBannerTargeting($bannerId, $aTargeting)
     {
         $aTargetingInfoObjects = array();
         foreach ($aTargeting as $aTargetingArray) {
