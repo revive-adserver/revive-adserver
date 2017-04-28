@@ -60,8 +60,6 @@ class OA_Dll_Banner extends OA_Dll
         $bannerData['bannerId']         = $bannerData['bannerid'];
         $bannerData['bannerText']       = $bannerData['bannertext'];
         $bannerData['sessionCapping']   = $bannerData['session_capping'];
-        $bannerData['block']            = $bannerData['block'];
-        $bannerData['alt']              = $bannerData['alt'];
 
         $oBanner->readDataFromArray($bannerData);
         return  true;
