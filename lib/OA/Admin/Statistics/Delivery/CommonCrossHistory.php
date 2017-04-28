@@ -44,8 +44,6 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
         $aStatsPublishers = array();
         foreach ($this->aPlugins as $oPlugin) {
             $pluginParams = $oPlugin->getHistorySpanParams();
-            $aStatsPublishers += Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates);
-
             foreach (Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates) as $k => $v) {
                 $aStatsPublishers[$v['publisher_id']] = true;
             }
@@ -133,8 +131,6 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
         $aStatsPublishers = array();
         foreach ($this->aPlugins as $oPlugin) {
             $pluginParams = $oPlugin->getHistorySpanParams();
-            $aStatsPublishers += Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates);
-
             foreach (Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates) as $k => $v) {
                 $aStatsPublishers[$v['publisher_id']] = true;
             }
@@ -222,13 +218,11 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
         $aStatsPublishers = array();
         foreach ($this->aPlugins as $oPlugin) {
             $pluginParams = $oPlugin->getHistorySpanParams();
-            $aStatsPublishers += Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates);
-
             foreach (Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates) as $k => $v) {
                 $aStatsPublishers[$v['publisher_id']] = true;
             }
         }
-
+        
         // Get all publishers
         $aPublishers = Admin_DA::fromCache('getPublishers', array(), true);
 
@@ -304,7 +298,9 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
         $aStatsPlacements = array();
         foreach ($this->aPlugins as $oPlugin) {
             $pluginParams = $oPlugin->getHistorySpanParams();
-            $aStatsPlacements += Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates);
+            foreach (Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates) as $k => $v) {
+                $aStatsPlacements[$v['placement_id']] = true;
+            }                       
         }
 
         // Get all campaigns
@@ -335,7 +331,9 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
         $aStatsAds = array();
         foreach ($this->aPlugins as $oPlugin) {
             $pluginParams = $oPlugin->getHistorySpanParams();
-            $aStatsAds += Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates);
+            foreach (Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates) as $k => $v) {
+                $aStatsAds[$v['ad_id']] = true;
+            }  
         }
 
         // Get all banners
@@ -372,7 +370,9 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
         $aStatsPlacements = array();
         foreach ($this->aPlugins as $oPlugin) {
             $pluginParams = $oPlugin->getHistorySpanParams();
-            $aStatsPlacements += Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates);
+            foreach (Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates) as $k => $v) {
+                $aStatsPlacements[$v['placement_id']] = true;
+            }              
         }
 
         // Get all campaigns
@@ -403,7 +403,9 @@ class OA_Admin_Statistics_Delivery_CommonCrossHistory extends OA_Admin_Statistic
         $aStatsAds = array();
         foreach ($this->aPlugins as $oPlugin) {
             $pluginParams = $oPlugin->getHistorySpanParams();
-            $aStatsAds += Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates);
+            foreach (Admin_DA::fromCache('getEntitiesStats', $aParams + $pluginParams + $this->aDates) as $k => $v) {
+                $aStatsAds[$v['ad_id']] = true;
+            }
         }
 
         // Get all banners

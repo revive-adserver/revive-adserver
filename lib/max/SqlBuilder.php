@@ -70,6 +70,7 @@ class SqlBuilder
             $aColumns += array('cam.campaignid' => 'campaign_id', 'cam.campaignname' => 'campaignname', 'cam.clientid' => 'client_id', 'cam.anonymous' => 'anonymous', 'cam.type' => 'type');
             if ($allFields) $aColumns += array('cam.campaignid' => 'campaign_id', 'cam.campaignname' => 'campaignname', 'cam.clientid' => 'client_id', 'cam.views' => 'views', 'cam.clicks' => 'clicks', 'cam.conversions' => 'conversions', 'cam.priority' => 'priority', 'cam.weight' => 'weight', 'cam.target_impression' => 'target_impression', 'cam.target_click' => 'target_click', 'cam.target_conversion' => 'target_conversion', 'cam.anonymous' => 'anonymous', 'cam.companion' => 'companion', 'cam.comments' => 'comments', 'cam.revenue' => 'revenue', 'cam.revenue_type' => 'revenue_type', 'cam.updated' => 'updated', 'cam.block' => 'block', 'cam.capping' => 'capping', 'cam.session_capping' => 'session_capping', 'cam.activate_time' => 'activate_time', 'cam.expire_time' => 'expire_time', 'cam.show_capped_no_cookie' => 'show_capped_no_cookie');
             break;
+            
         case 'category' :
             $aColumns += array('cat.category_id' => 'category_id', 'cat.name' => 'name');
             break;
@@ -82,6 +83,7 @@ class SqlBuilder
         case 'channel_limitation' :
             $aColumns += array('chl.logical' => 'logical', 'chl.type' => 'type', 'chl.comparison' => 'comparison', 'chl.data' => 'data', 'chl.executionorder' => 'executionorder');
             break;
+        
         case 'image' :
             $aColumns += array('i.filename' => 'file_name');
             if ($allFields) $aColumns += array('i.t_stamp' => 't_stamp', 'i.contents' => 'contents');
@@ -1089,7 +1091,7 @@ class SqlBuilder
         }
 
         $query = $columns . $tables . $where . $group;
-//var_dump($query);
+        // var_dump($query);
         return  SqlBuilder::_query($query, $primaryKey);
     }
 
@@ -1102,7 +1104,7 @@ class SqlBuilder
      */
     function _query($query, $primaryKey)
     {
-//        var_dump($query);
+        // var_dump($query);
         $oDbh = OA_DB::singleton();
         $aResult =  $oDbh->queryAll($query);
         $aDataEntities = array();
@@ -1110,7 +1112,6 @@ class SqlBuilder
         {
             return false;
         }
-
 
         foreach ($aResult AS $k => $dataEntity)
         {
@@ -1160,7 +1161,7 @@ class SqlBuilder
 
         $aData = array();
         foreach ($aArgs as $arg) {
-            $aData[] = $oDbh->quote($arg);
+            $aData[] = $arg;
             $aData[] = "'_'";
         }
 
