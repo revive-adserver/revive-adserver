@@ -27,7 +27,8 @@ What's New in Revive Adserver 4.0.2
  New Features
  ------------
 
- * None
+ * Revive Adserver now supports zone chaining to zones where the dimension(s)
+   of the zone are undefined (i.e. "*") as well as an exact match.
 
  Bug Fixes
  ---------
