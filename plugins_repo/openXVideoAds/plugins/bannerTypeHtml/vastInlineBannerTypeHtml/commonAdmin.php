@@ -334,7 +334,7 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
     {
         $form->addElement('header', 'thirdpartyimp_title', 'Third party impression tracking');
         $form->addElement('html', 'thirdpartyimp_help', '
-        	When a video ad is displayed, OpenX will record the ad impression.
+        	When a video ad is displayed, Revive Adserver will record the ad impression.
         	You can also specify a URL to a third party 1x1 transparent pixel.
         	The URL can contain any of the supported <a href="http://documentation.revive-adserver.com/display/DOCS/Magic+Macros" target="_blank">magic macros</a>.
         					');
