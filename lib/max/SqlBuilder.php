@@ -530,6 +530,9 @@ class SqlBuilder
         if (!empty($aParams['ad_type'])) {
             if ($aParams['ad_type'] == "!txt") {
                 SqlBuilder::_addLimitation($aLimitations, 'ad_type', 'd.storagetype', 'txt', MAX_LIMITATION_NOT_EQUAL);
+            } else if ($aParams['ad_type'] == "!htmltxt") {
+                SqlBuilder::_addLimitation($aLimitations, 'ad_type', 'd.storagetype', 'txt', MAX_LIMITATION_NOT_EQUAL);
+                SqlBuilder::_addLimitation($aLimitations, 'ad_type', 'd.storagetype', 'html', MAX_LIMITATION_NOT_EQUAL);
             } else {
                 SqlBuilder::_addLimitation($aLimitations, 'ad_type', 'd.storagetype', $aParams['ad_type']);
             }

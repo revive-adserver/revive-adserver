@@ -717,6 +717,12 @@ function MAX_getLinkedAdParams($zoneId)
         $aParams['ad_type'] = 'txt';
     } else {
         $aParams['ad_type'] = '!txt';
+        if ($aZone['type'] == MAX_ZoneEmail) {
+            // If the zone is an Email/Newsletter zone, change the existing
+            // ad type restriction from !txt to !htmltxt, to also disallow 
+            // HTML banners as well as text banners
+            $aParams['ad_type'] = "!htmltxt";
+        }          
         if ($aZone['width'] != -1) {
             $aParams['ad_width'] = $aZone['width'];
         }
