@@ -616,7 +616,6 @@ $GLOBALS['strSelectPlacement'] = "Zvolte kampaň";
 $GLOBALS['strSelectAd'] = "Zvolte banner";
 $GLOBALS['strSelectPublisher'] = "Zvolte webovou stránku";
 $GLOBALS['strSelectZone'] = "Vyberte zónu";
-$GLOBALS['strConnectionType'] = "Typ";
 $GLOBALS['strStatusPending'] = "Čekající";
 $GLOBALS['strStatusApproved'] = "Schváleno";
 $GLOBALS['strStatusDisapproved'] = "Zamítnout";

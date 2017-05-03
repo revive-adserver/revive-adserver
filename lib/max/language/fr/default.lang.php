@@ -614,7 +614,6 @@ $GLOBALS['strSelectPlacement'] = "Sélectionner la campagne";
 $GLOBALS['strSelectAd'] = "Sélectionne la bannière";
 $GLOBALS['strSelectPublisher'] = "Sélectionnez un site web";
 $GLOBALS['strSelectZone'] = "Sélectionnez un zone";
-$GLOBALS['strConnectionType'] = "Type";
 $GLOBALS['strStatusPending'] = "Suspendue";
 $GLOBALS['strStatusDuplicate'] = "Doubler";
 $GLOBALS['strConnectionType'] = "Type";

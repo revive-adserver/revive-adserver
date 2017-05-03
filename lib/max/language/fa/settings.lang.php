@@ -265,8 +265,6 @@ $GLOBALS['strPrioritySettings'] = "تنظیمات اولویت ها";
 $GLOBALS['strPriorityInstantUpdate'] = "بروزرسانی اولویت تبلیغات بلافاصله بعد از اعمال تغییرات در UI";
 $GLOBALS['strPriorityIntentionalOverdelivery'] = "ارائه ی بیش از حد قرارداد کمپین ها به صورت عمدی
 (% over-delivery)";
-$GLOBALS['strDefaultImpConWindow'] = "پنجره ی تاثیر ارتباط اولیه ی تبلیغ(ثانیه)";
-$GLOBALS['strDefaultCliConWindow'] = "پنجره ی کلیک ارتباط اولیه ی تبلیغ (ثانیه )";
 $GLOBALS['strAdminEmailHeaders'] = "اضافه کردن هدر های داده شده به هر یک از ایمیل های فرستاده شده از {$PRODUCT_NAME}";
 $GLOBALS['strWarnLimit'] = "ارسال ارور هر وقت تاثیرات باقی مانده کمتر از تاثیرات مشخص شده در اینجا";
 $GLOBALS['strWarnLimitDays'] = "ارسال ارور هر وقت روز های باقی مانده کمتر از روز های مشخص شده در اینجا";

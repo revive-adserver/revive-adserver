@@ -598,7 +598,6 @@ $GLOBALS['strSelectPlacement'] = "Выберите кампанию";
 $GLOBALS['strSelectAd'] = "Выберите баннер";
 $GLOBALS['strSelectPublisher'] = "Выбрать сайт";
 $GLOBALS['strSelectZone'] = "Выбрать зону";
-$GLOBALS['strConnectionType'] = "Тип";
 $GLOBALS['strStatusPending'] = "Ожидают";
 $GLOBALS['strStatusDuplicate'] = "Дублювати";
 $GLOBALS['strConnectionType'] = "Тип";

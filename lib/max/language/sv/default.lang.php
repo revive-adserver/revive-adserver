@@ -458,7 +458,6 @@ $GLOBALS['strSelectCampaignToLink'] = "Välj den kampanj du vill länka till den
 $GLOBALS['strSelectAdvertiser'] = "Välj annonsör";
 $GLOBALS['strSelectPlacement'] = "Välj kampanj";
 $GLOBALS['strSelectAd'] = "Välj banner";
-$GLOBALS['strConnectionType'] = "Typ";
 $GLOBALS['strStatusPending'] = "Pågående";
 $GLOBALS['strStatusDuplicate'] = "Duplicera";
 $GLOBALS['strConnectionType'] = "Typ";

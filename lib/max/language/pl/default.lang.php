@@ -535,7 +535,6 @@ $GLOBALS['strSelectPlacement'] = "Wybierz kampanię";
 $GLOBALS['strSelectAd'] = "Wybierz baner";
 $GLOBALS['strSelectPublisher'] = "Wybierz stronę";
 $GLOBALS['strSelectZone'] = "Wybierz strefę (obszar)";
-$GLOBALS['strConnectionType'] = "Typ";
 $GLOBALS['strStatusPending'] = "Oczekuje";
 $GLOBALS['strStatusDuplicate'] = "Duplikuj";
 $GLOBALS['strConnectionType'] = "Typ";

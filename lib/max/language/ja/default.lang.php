@@ -538,7 +538,6 @@ $GLOBALS['strSelectPlacement'] = "キャンペーンを選択してください"
 $GLOBALS['strSelectAd'] = "バナーを選択してください";
 $GLOBALS['strSelectPublisher'] = "Webサイトを選択してください";
 $GLOBALS['strSelectZone'] = "ゾーンを選択してください";
-$GLOBALS['strConnectionType'] = "タイプ";
 $GLOBALS['strStatusPending'] = "保留";
 $GLOBALS['strStatusDuplicate'] = "複製する";
 $GLOBALS['strConnectionType'] = "タイプ";

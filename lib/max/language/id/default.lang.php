@@ -449,7 +449,6 @@ $GLOBALS['strSelectCampaignToLink'] = "Silakan pilih kampanye untuk di-link ke z
 $GLOBALS['strSelectAdvertiser'] = "Pilih pemasang iklan";
 $GLOBALS['strSelectPlacement'] = "Pilih kampanye";
 $GLOBALS['strSelectAd'] = "Pilih banner";
-$GLOBALS['strConnectionType'] = "Jenis";
 $GLOBALS['strStatusDuplicate'] = "Mendobelkan";
 $GLOBALS['strConnectionType'] = "Jenis";
 $GLOBALS['strShortcutEditStatuses'] = "Edit status";

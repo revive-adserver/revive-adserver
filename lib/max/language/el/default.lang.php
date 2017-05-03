@@ -291,7 +291,6 @@ $GLOBALS['strRawQueryString'] = "Λέξη Κλειδί";
 $GLOBALS['strSelectAdvertiser'] = "Επιλέξτε Διαφημιζόμενο";
 $GLOBALS['strSelectPlacement'] = "Επιλέξτε Καμπάνια";
 $GLOBALS['strSelectAd'] = "Επιλέξτε Banner";
-$GLOBALS['strConnectionType'] = "Τύπος";
 $GLOBALS['strStatusDuplicate'] = "Αντιγραφή";
 $GLOBALS['strConnectionType'] = "Τύπος";
 

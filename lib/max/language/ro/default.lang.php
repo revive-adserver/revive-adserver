@@ -524,7 +524,6 @@ $GLOBALS['strSelectPlacement'] = "Alege Campanie";
 $GLOBALS['strSelectAd'] = "Alege Banner";
 $GLOBALS['strSelectPublisher'] = "Alege Website";
 $GLOBALS['strSelectZone'] = "Alege Zonă";
-$GLOBALS['strConnectionType'] = "Tip";
 $GLOBALS['strStatusPending'] = "Aşteptare Aprobare";
 $GLOBALS['strStatusDuplicate'] = "Creează duplicat";
 $GLOBALS['strConnectionType'] = "Tip";
