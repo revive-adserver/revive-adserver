@@ -25,8 +25,8 @@ class OA_DB_AdvisoryLock_file extends OA_DB_AdvisoryLock
      *
      * @var string
      */
-    var $_sPath;
-    var $_rFile;
+    private $_sPath;
+    private $_rFile;
 
     /**
      * A private method to acquire an advisory lock.
@@ -34,7 +34,7 @@ class OA_DB_AdvisoryLock_file extends OA_DB_AdvisoryLock
      * @param int $iWaitTime Wait time.
      * @return bool True if lock was correctly acquired.
      */
-    function _getLock($iWaitTime)
+    public function _getLock($iWaitTime)
     {
         $this->_sPath = MAX_PATH . '/var/cache/' . $this->_sId . '.lock';
 
@@ -55,7 +55,7 @@ class OA_DB_AdvisoryLock_file extends OA_DB_AdvisoryLock
      *
      * @return bool True if the lock was correctly released.
      */
-    function _releaseLock()
+    public function _releaseLock()
     {
         if (!empty($this->_rFile)) {
             $bLock = @flock($this->_rFile, LOCK_UN);
@@ -70,5 +70,3 @@ class OA_DB_AdvisoryLock_file extends OA_DB_AdvisoryLock
         return false;
     }
 }
-
-?>

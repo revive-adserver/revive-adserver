@@ -27,7 +27,7 @@ class OA_DB_AdvisoryLock_pgsql extends OA_DB_AdvisoryLock
      * @param int $iWaitTime Wait time.
      * @return bool True if lock was correctly acquired.
      */
-    function _getLock($iWaitTime)
+    public function _getLock($iWaitTime)
     {
         $aParams = unserialize($this->_sId);
         $iWaitTime = (int)$iWaitTime;
@@ -61,7 +61,7 @@ class OA_DB_AdvisoryLock_pgsql extends OA_DB_AdvisoryLock
      *
      * @return bool True if the lock was correctly released.
      */
-    function _releaseLock()
+    public function _releaseLock()
     {
         $aParams = unserialize($this->_sId);
 
@@ -80,7 +80,7 @@ class OA_DB_AdvisoryLock_pgsql extends OA_DB_AdvisoryLock
      *
      * @return bool True if the connected database supports advisory locks.
      */
-    function _isLockingSupported()
+    public function _isLockingSupported()
     {
         $sVersion = $this->oDbh->extended->getOne("SELECT VERSION()");
         $sVersion = preg_replace('/^.*?(\d+\.\d+(\.\d+)?).*$/', '$1', $sVersion);
@@ -96,7 +96,7 @@ class OA_DB_AdvisoryLock_pgsql extends OA_DB_AdvisoryLock
      * @param string The lock name.
      * @return string The lock id.
      */
-    function _getId($sName)
+    public function _getId($sName)
     {
         $platformHash = OA_Dal_ApplicationVariables::get('platform_hash');
 
@@ -109,5 +109,3 @@ class OA_DB_AdvisoryLock_pgsql extends OA_DB_AdvisoryLock
         return serialize($sId);
     }
 }
-
-?>

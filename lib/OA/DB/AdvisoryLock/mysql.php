@@ -26,7 +26,7 @@ class OA_DB_AdvisoryLock_mysql extends OA_DB_AdvisoryLock
      * @param int $iWaitTime Wait time.
      * @return bool True if lock was correctly acquired.
      */
-    function _getLock($iWaitTime)
+    public function _getLock($iWaitTime)
     {
         // Acquire lock
         $iAcquired = $this->oDbh->extended->getOne(
@@ -50,7 +50,7 @@ class OA_DB_AdvisoryLock_mysql extends OA_DB_AdvisoryLock
      *
      * @return bool True if the lock was correctly released.
      */
-    function _releaseLock()
+    public function _releaseLock()
     {
         // Relase lock
         $iReleased = $this->oDbh->extended->getOne(
@@ -66,6 +66,13 @@ class OA_DB_AdvisoryLock_mysql extends OA_DB_AdvisoryLock
 
         return !PEAR::isError($iReleased) && !empty($iReleased);
     }
-}
 
-?>
+    /**
+     * {@inheritdoc}
+     */
+    public function _getId($sName)
+    {
+        // Recent MySQL versions limit lock names to 64 chars
+        return substr(parent::_getId($sName), 0, 64);
+    }
+}

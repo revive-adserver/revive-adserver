@@ -61,9 +61,9 @@ class OA_DB_AdvisoryLock
      *
      * @return OA_DB_AdvisoryLock
      */
-    function __construct()
+    public function __construct()
     {
-        $this->oDbh =& OA_DB::singleton();
+        $this->oDbh = OA_DB::singleton();
     }
 
     /**
@@ -72,11 +72,10 @@ class OA_DB_AdvisoryLock
      *
      * @return OA_DB_AdvisoryLock Reference to an OA_DB_AdvisoryLock object.
      */
-    static function &factory($sType = null)
+    public static function factory($sType = null)
     {
-        if (is_null($sType)) {
-
-            $oDbh =& OA_DB::singleton();
+        if (null === $sType) {
+            $oDbh = OA_DB::singleton();
 
             if (PEAR::isError($oDbh)) {
                 OA::debug('Error connecting to database to obtain locking object. Native error follows:', PEAR_LOG_ERR);
@@ -87,7 +86,7 @@ class OA_DB_AdvisoryLock
                     $retryCount++;
                     sleep(10);
                     OA::debug('Re-try connection attempt #' . $retryCount, PEAR_LOG_ERR);
-                    $oDbh =& OA_DB::singleton();
+                    $oDbh = OA_DB::singleton();
                 }
                 if (PEAR::isError($oDbh)) {
                     OA::debug('Failed in re-try attempts to connect to database. Aborting.', PEAR_LOG_CRIT);
@@ -103,11 +102,12 @@ class OA_DB_AdvisoryLock
         include_once(MAX_PATH.'/lib/OA/DB/AdvisoryLock/'.$sType.'.php');
         $sClass = "OA_DB_AdvisoryLock_".$sType;
 
+        /** @var OA_DB_AdvisoryLock $oLock */
         $oLock = new $sClass();
 
         if (!$oLock->_isLockingSupported()) {
             // Fallback to file based locking if the current class won't work
-            $oLock =& OA_DB_AdvisoryLock::factory('file');
+            $oLock = OA_DB_AdvisoryLock::factory('file');
         }
 
         return $oLock;
@@ -120,7 +120,7 @@ class OA_DB_AdvisoryLock
      * @param int $iWaitTime Wait time.
      * @return bool True if lock was correctly acquired.
      */
-    function get($sType = OA_DB_ADVISORYLOCK_GENERIC, $iWaitTime = 0)
+    public function get($sType = OA_DB_ADVISORYLOCK_GENERIC, $iWaitTime = 0)
     {
         // Release previous lock, if any
         $this->release();
@@ -136,7 +136,7 @@ class OA_DB_AdvisoryLock
      *
      * @return bool True if lock was correctly released.
      */
-    function release()
+    public function release()
     {
         if (!empty($this->_sId)) {
             return $this->_releaseLock();
@@ -151,7 +151,7 @@ class OA_DB_AdvisoryLock
      * @param string $sType Lock type.
      * @return bool True if locks match.
      */
-    function hasSameId($sType)
+    public function hasSameId($sType)
     {
         return $this->_getId($sType) == $this->_sId;
     }
@@ -165,7 +165,7 @@ class OA_DB_AdvisoryLock
      *
      * @return boolean True if the current class will work
      */
-    function _isLockingSupported() {
+    public function _isLockingSupported() {
         return true;
     }
 
@@ -175,7 +175,7 @@ class OA_DB_AdvisoryLock
      * @param int $iWaitTime Wait time.
      * @return bool True if lock was correctly acquired.
      */
-    function _getLock($iWaitTime)
+    public function _getLock($iWaitTime)
     {
         OA::debug('Base class cannot be used directly, use the factory method instead', PEAR_LOG_ERR);
         return false;
@@ -186,7 +186,7 @@ class OA_DB_AdvisoryLock
      *
      * @return bool True if the lock was correctly released.
      */
-    function _releaseLock()
+    public function _releaseLock()
     {
         OA::debug('Base class cannot be used directly, use the factory method instead', PEAR_LOG_ERR);
         return false;
@@ -197,10 +197,10 @@ class OA_DB_AdvisoryLock
      *
      * @access protected
      *
-     * @param string The lock name.
+     * @param string $sName The lock name.
      * @return string The lock id.
      */
-    function _getId($sName)
+    public function _getId($sName)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $sId = sha1($this->oDbh->getDsn().'/'.$aConf['table']['prefix']);
@@ -208,5 +208,3 @@ class OA_DB_AdvisoryLock
         return "OA_{$sName}.{$sId}";
     }
 }
-
-?>
