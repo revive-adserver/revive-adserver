@@ -308,59 +308,6 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
 
         $this->addVastVideoUrlFields($form, $bannerRow, $isNewBanner);
 
-        $sampleUrls = array(
-            'RTMP - FLV' => array(
-            	"rtmp://cp81850.edgefcs.net/ondemand/",
-                "openx-ad",
-                'FLV',
-                '8',
-            ),
-
-            'RTMP - MP4' => array(
-        		"rtmp://cp81850.edgefcs.net/ondemand/",
-        		"openx-ad.mp4",
-                'MP4',
-                '10',
-            ),
-
-            'HTTP - FLV' => array(
-            	"http://videoads.openx.org.edgesuite.net/openxvideos/openx-ad.flv",
-                'FLV',
-            	'8',
-            ),
-
-            'HTTP - MP4' => array(
-            	"http://videoads.openx.org.edgesuite.net/openxvideos/openx-ad.mp4",
-                'MP4',
-                '10'
-            ),
-
-            'HTTP - WEBM' => array(
-            	"http://video.webmfiles.org/big-buck-bunny_trailer.webm",
-                'WEBM',
-                '32'
-            ),
-
-        );
-
-        $sampleAdsString = 'You can try using any of the following sample ads<br/><br/>';
-        foreach($sampleUrls as $what => $urls) {
-            $sampleAdsString .= "<b>$what sample ads</b><ul style='margin-top:5px'>";
-            if(count($urls) == 3) {
-               $sampleAdsString .= '<li>'.$this->getFieldLabel('vast_video_filename_http') . ': '. $urls[0];
-               $sampleAdsString .= '<li>'.$this->getFieldLabel('vast_video_type') . ': '. $urls[1];
-               $sampleAdsString .= '<li>'.$this->getFieldLabel('vast_video_duration') . ': '. $urls[2];
-            } else {
-               $sampleAdsString .= '<li>'.$this->getFieldLabel('vast_net_connection_url') . ': '. $urls[0];
-               $sampleAdsString .= '<li>'.$this->getFieldLabel('vast_video_filename') . ': '. $urls[1];
-               $sampleAdsString .= '<li>'.$this->getFieldLabel('vast_video_type') . ': '. $urls[2];
-               $sampleAdsString .= '<li>'.$this->getFieldLabel('vast_video_duration') . ': '. $urls[3];
-            }
-            $sampleAdsString .= "</ul>";
-        }
-        $sampleAdsString .= '';
-        $form->addElement('html', 'video_status_info_rtmp_mp4', VideoAdsHelper::getWarningMessage($sampleAdsString) );
-
         $advancedUser = false;
         if ( $advancedUser ){
             // Bitrate of encoded video in Kbps

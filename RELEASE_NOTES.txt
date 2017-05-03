@@ -47,6 +47,8 @@ What's New in Revive Adserver 4.0.2
 
  * Fixed numerous instances of incomplete breadcrumb trails in statistics pages.
 
+ * Broken examples of Inline Video banners have been removed from the UI.
+
  Non-Backwards Compatible Changes
  --------------------------------
 
