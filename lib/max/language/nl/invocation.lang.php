@@ -76,3 +76,5 @@ $GLOBALS['strImgWithAppendWarning'] = "Deze tracker code heeft toegevoegde code,
 // Local Invocation
 $GLOBALS['strWarningLocalInvocation'] = "<span class='tab-s'> <strong>Waarschuwing:</strong> Local Mode invocation werkt alleen als de site die de code aanroept op dezelfde fysieke computer staat als de adserver</span> <br / > Controleer of de opgegeven MAX_PATH gedefinieerd in de code hieronder verwijst naar de basis directory van uw installatie van Revive Adserver <br / > en dat u een configuratiebestand heeft voor het domein van de site die de advertenties tonen (in MAX_PATH/var)";
 
+$GLOBALS['strIABNoteLocalInvocation'] = "<b>Opmerking:</b> Lokale modus invocation tags betekenen dat banner aanvragen afkomstig zijn van de webserver, in plaats van de client. Dientengevolge, zijn statistieken niet compatibel met IAB richtlijnen voor meting van advertentie impressies.";
+$GLOBALS['strIABNoteXMLRPCInvocation'] = "<b>Opmerking:</b> Lokale modus invocation tags betekenen dat banner aanvragen afkomstig zijn van de webserver, in plaats van de client. Dientengevolge, zijn statistieken niet compatibel met IAB richtlijnen voor meting van advertentie impressies.";

@@ -800,7 +800,6 @@ $GLOBALS['strSelectPlacement'] = "انتخاب کمپین";
 $GLOBALS['strSelectAd'] = "انتخاب بنر";
 $GLOBALS['strSelectPublisher'] = "انتخاب سایت";
 $GLOBALS['strSelectZone'] = "انتخاب منطقه";
-$GLOBALS['strConnectionType'] = "نوع";
 $GLOBALS['strStatusPending'] = "در حال پردازش";
 $GLOBALS['strStatusApproved'] = "تایید شده";
 $GLOBALS['strStatusDisapproved'] = "تایید نشده";

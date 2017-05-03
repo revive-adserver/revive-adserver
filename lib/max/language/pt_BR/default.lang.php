@@ -603,7 +603,6 @@ $GLOBALS['strSelectPlacement'] = "Selecionar campanha";
 $GLOBALS['strSelectAd'] = "Selecionar banner";
 $GLOBALS['strSelectPublisher'] = "Escolher o site";
 $GLOBALS['strSelectZone'] = "Escolher zona";
-$GLOBALS['strConnectionType'] = "Tipo";
 $GLOBALS['strStatusPending'] = "Pendente";
 $GLOBALS['strStatusDuplicate'] = "Duplicar";
 $GLOBALS['strConnectionType'] = "Tipo";

@@ -478,7 +478,6 @@ $GLOBALS['strSelectCampaignToLink'] = "Bu alana bağlamak istediğiniz kampanyay
 $GLOBALS['strSelectAdvertiser'] = "Reklamveren Seçin";
 $GLOBALS['strSelectPlacement'] = "Kampanya Seçin";
 $GLOBALS['strSelectAd'] = "Banner Seçin";
-$GLOBALS['strConnectionType'] = "Tip";
 $GLOBALS['strStatusPending'] = "Beklemede";
 $GLOBALS['strStatusDuplicate'] = "Çoğalt";
 $GLOBALS['strConnectionType'] = "Tip";

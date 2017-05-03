@@ -464,7 +464,6 @@ $GLOBALS['strSelectPlacement'] = "Pasirinkite kampaniją";
 $GLOBALS['strSelectAd'] = "Pasirinkite banerį";
 $GLOBALS['strSelectPublisher'] = "Pasirinkite internetinį puslapį";
 $GLOBALS['strSelectZone'] = "Pasirinkite zoną";
-$GLOBALS['strConnectionType'] = "Tipas";
 $GLOBALS['strStatusPending'] = "Laukiantis";
 $GLOBALS['strStatusDuplicate'] = "Kopijuoti";
 $GLOBALS['strConnectionType'] = "Tipas";

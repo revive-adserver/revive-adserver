@@ -449,7 +449,6 @@ $GLOBALS['strSelectPlacement'] = "選擇項目";
 $GLOBALS['strSelectAd'] = "選擇廣告";
 $GLOBALS['strSelectPublisher'] = "選擇網站";
 $GLOBALS['strSelectZone'] = "選擇版位";
-$GLOBALS['strConnectionType'] = "類型";
 $GLOBALS['strStatusPending'] = "未決的";
 $GLOBALS['strStatusDuplicate'] = "複製";
 $GLOBALS['strConnectionType'] = "類型";

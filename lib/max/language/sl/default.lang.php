@@ -591,7 +591,6 @@ $GLOBALS['strSelectPlacement'] = "Izberite kampanjo";
 $GLOBALS['strSelectAd'] = "Izberite pasico";
 $GLOBALS['strSelectPublisher'] = "Izberite spletno stran";
 $GLOBALS['strSelectZone'] = "Izberite področje";
-$GLOBALS['strConnectionType'] = "Tip";
 $GLOBALS['strStatusPending'] = "V teku";
 $GLOBALS['strStatusDuplicate'] = "Podvoji";
 $GLOBALS['strConnectionType'] = "Tip";

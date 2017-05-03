@@ -519,7 +519,6 @@ $GLOBALS['strSelectAdvertiser'] = "إختيار المعلن";
 $GLOBALS['strSelectPlacement'] = "إختيار الحملة الاعلانية";
 $GLOBALS['strSelectAd'] = "إختيار البنر";
 $GLOBALS['strSelectZone'] = "إختيار المنطقة";
-$GLOBALS['strConnectionType'] = "النوع";
 $GLOBALS['strStatusPending'] = "بانتظار الموافقة";
 $GLOBALS['strStatusDuplicate'] = "نسخ";
 $GLOBALS['strConnectionType'] = "النوع";

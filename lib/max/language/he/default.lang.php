@@ -533,7 +533,6 @@ $GLOBALS['strSelectPlacement'] = "בחר קמפיין";
 $GLOBALS['strSelectAd'] = "בחר באנר";
 $GLOBALS['strSelectPublisher'] = "בחר אתר אינטרנט";
 $GLOBALS['strSelectZone'] = "בחר איזור";
-$GLOBALS['strConnectionType'] = "סוג";
 $GLOBALS['strStatusPending'] = "ממתין";
 $GLOBALS['strStatusApproved'] = "אישור";
 $GLOBALS['strStatusDisapproved'] = "לא אושר";

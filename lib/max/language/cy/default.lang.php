@@ -453,7 +453,6 @@ $GLOBALS['strSelectCampaignToLink'] = "Dewiswch yr ymgyrch yr hoffech chi gysyll
 $GLOBALS['strSelectAdvertiser'] = "Dewiswch Hysbysebwr";
 $GLOBALS['strSelectPlacement'] = "Dewiswch Ymgyrch";
 $GLOBALS['strSelectAd'] = "Dewiswch Faner";
-$GLOBALS['strConnectionType'] = "Math";
 $GLOBALS['strStatusPending'] = "Dan Ystyriaeth";
 $GLOBALS['strStatusDuplicate'] = "Dyblygu";
 $GLOBALS['strConnectionType'] = "Math";
