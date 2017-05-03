@@ -724,7 +724,6 @@ $GLOBALS['strSelectPlacement'] = "Select Campaign";
 $GLOBALS['strSelectAd'] = "Select Banner";
 $GLOBALS['strSelectPublisher'] = "Select Website";
 $GLOBALS['strSelectZone'] = "Select Zone";
-$GLOBALS['strConnectionType'] = "Type";
 $GLOBALS['strStatusPending'] = "Pending";
 $GLOBALS['strStatusApproved'] = "Approved";
 $GLOBALS['strStatusDisapproved'] = "Disapproved";

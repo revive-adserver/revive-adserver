@@ -159,7 +159,7 @@ $aSettings = array (
             array (
                 'type'    => 'text',
                 'name'    => 'logging_defaultImpressionConnectionWindow',
-                'text'    => $strDefaultImpConWindow,
+                'text'    => $strDefaultImpConvWindow,
                 'size'    => 12,
                 'depends' => 'logging_trackerImpressions==1 && logging_adImpressions==1',
                 'check'   => 'wholeNumber'
@@ -170,7 +170,7 @@ $aSettings = array (
             array (
                 'type'    => 'text',
                 'name'    => 'logging_defaultClickConnectionWindow',
-                'text'    => $strDefaultCliConWindow,
+                'text'    => $strDefaultCliConvWindow,
                 'size'    => 12,
                 'depends' => 'logging_trackerImpressions==1 && logging_adClicks==1',
                 'check'   => 'wholeNumber'
