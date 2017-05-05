@@ -388,10 +388,10 @@ abstract class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastBase extends 
 
         $helpString .= "<br/><br/>To setup your ".$this->getBannerShortName().", you will need to:
         <ul style='list-style-type:decimal;padding-left:20px;padding-top:5px'>
-        <li>Enter the information about your Ad in the form below.</li>
-        <li>Link this ".$this->getBannerShortName()." to the desired zone. The zone must be of the type \"".$this->getZoneToLinkShortName()."\". <a href='".VideoAdsHelper::getHelpLinkOpenXPlugin() ."' target='_blank'>Learn more</a></li>
-        <li>Include the zone in the Ad Schedule of the video player plugin configuration in your webpage. <a href='". VideoAdsHelper::getHelpLinkVideoPlayerConfig() ."' target='_blank'>Learn more</a></li>
-        <li>Make sure that the flash player is allowed to request ads on this adserver. The <a href='$crossdomainUrl' target='_blank'>crossdomain.xml on your adserver</a> should look similar to the <a href='".VideoAdsHelper::getLinkCrossdomainExample()."' target='_blank'>recommended crossdomain.xml</a></li>
+        <li>Enter the information about your ad in the form below.</li>
+        <li><a href='".VideoAdsHelper::getHelpLinkOpenXPlugin() ."' target='_blank'>Link this ".$this->getBannerShortName()." to the desired zone.</a> The zone must be of the type \"".$this->getZoneToLinkShortName()."\".</li>
+        <li><a href='". VideoAdsHelper::getHelpLinkVideoPlayerConfig() ."' target='_blank'>Include the zone in the ad schedule of the video player plugin configuration in your webpage.</a></li>
+        <li>See the <a href='".VideoAdsHelper::getLinkCrossdomainExample()."' target='_blank'>details on how to ensure that Flash-based video players can load ads from ".PRODUCT_NAME.".</a></li>
     	</ul>";
         $form->addElement('html', 'video_status_info1', '<span style="font-size:100%;">'.$helpString.'</span>' );
     }
@@ -479,5 +479,5 @@ VIDEO_FORMAT_OPTION_JS;
                                 VAST_OVERLAY_CLICK_TO_VIDEO);
         $form->addElement('text', 'vast_video_clickthrough_url', "Destination URL (incl. http://) <br />when user clicks on the video");
     }
+    
 }
-
