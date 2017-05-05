@@ -4,13 +4,13 @@
 <plugin>
     <name>openXMaxMindGeoIP</name>
     <displayName>MaxMind GeoIP Plugin</displayName>
-    <creationDate>2017-01-30</creationDate>
+    <creationDate>2017-05-05</creationDate>
     <author>Revive Adserver</author>
     <authorEmail>revive@revive-adserver.com</authorEmail>
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>LICENSE.txt</license>
     <description>Plugin that provides MaxMind GeoIP Geotargeting.</description>
-    <version>1.3.6</version>
+    <version>1.3.7</version>
     <oxversion>3.2.0-beta-rc3</oxversion>
     <type>package</type>
 
