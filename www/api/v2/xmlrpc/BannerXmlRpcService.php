@@ -167,9 +167,14 @@ class BannerXmlRpcService extends BaseBannerService
         $aTargeting = null;
         if ($this->_oBannerServiceImp->getBannerTargeting($sessionId,
             $bannerId, $aTargeting)) {
-
-            return XmlRpcUtils::getArrayOfEntityResponse($aTargeting);
-
+            if ($aTargeting) {                
+                
+                return XmlRpcUtils::getArrayOfEntityResponse($aTargeting);
+            } else {                
+                $value = new XML_RPC_Value(array(), $GLOBALS['XML_RPC_Array']);
+                
+                return new XML_RPC_Response($value);
+            }
         } else {
 
             return XmlRpcUtils::generateError($this->_oBannerServiceImp->getLastError());
