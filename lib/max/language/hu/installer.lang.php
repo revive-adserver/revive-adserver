@@ -10,20 +10,25 @@
   +---------------------------------------------------------------------------+
  */
 
-// Set translation strings
-$GLOBALS['strDeliveryEngine'] = "Kiszolgáló motor";
-$GLOBALS['strMaintenance'] = "Karbantartás";
-$GLOBALS['strAdministrator'] = "Adminisztrátor";
+/** status messages * */
 
-// Audit
-$GLOBALS['strDeleted'] = "Töröl";
-$GLOBALS['strDelete'] = "Töröl";
-$GLOBALS['strAdvertiser'] = "Hirdető";
-$GLOBALS['strCampaign'] = "Kampány";
-$GLOBALS['strZone'] = "Zónák";
-$GLOBALS['strType'] = "Típus";
+/** welcome step * */
 
-if (!isset($GLOBALS['strUserlog'])) {
-    $GLOBALS['strUserlog'] = array();
-}
-$GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "Adatbázis automatikus tisztítása";
+/** check step * */
+
+
+$GLOBALS['strSyscheckStatus'] = "Állapot";
+
+/** admin login step * */
+
+/** database step * */
+
+
+/** config step * */
+
+/** jobs step * */
+
+
+/** finish step * */
+
+
