@@ -73,7 +73,7 @@ msgstr "Korlátozások"
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//liveCampaignDeliveryReport.class.php:169
 msgid "Type"
-msgstr ""
+msgstr "Típus"
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//liveCampaignDeliveryReport.class.php:179
 msgid "Booked Impressions"
@@ -105,7 +105,7 @@ msgstr ""
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//liveCampaignDeliveryReport.class.php:503
 msgid "Running"
-msgstr ""
+msgstr "Fut"
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//liveCampaignDeliveryReport.class.php:505
 msgid "Stopped"
