@@ -85,7 +85,6 @@ $GLOBALS['strConfigureUpgradeIntro'] = "مسیری را برای نصب {$PRODUC
 $GLOBALS['strConfigSeeMoreFields'] = "مشاهده تنظیمات پیکر بندی بیشتر ...";
 $GLOBALS['strPreviousInstallTitle'] = "نصب های پیشین ...";
 $GLOBALS['strPathToPrevious'] = "{$PRODUCT_NAME}مسیر نصب های پیشین ";
-$GLOBALS['strPathToPreviousError'] = "یک یا چند فایل پلاگین نمی تواند واقع شود، بررسی کنید فایل install.log برای اطلاعات بیشتر";
 $GLOBALS['strConfigureProgressMessage'] = "
 پیکربندی {$PRODUCT_NAME} ...";
 
