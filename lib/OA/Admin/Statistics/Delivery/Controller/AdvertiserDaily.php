@@ -124,7 +124,7 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserDaily extends OA_Admin_S
             $this->_addShortcut(
                 $GLOBALS['strClientProperties'],
                 'advertiser-edit.php?clientid='.$advertiserId,
-                'images/icon-advertiser.gif'
+                'iconAdvertiser'
             );
         }
 

@@ -114,13 +114,13 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignZoneHistory extends OA_Adm
             $this->_addShortcut(
                 $GLOBALS['strClientProperties'],
                 'advertiser-edit.php?clientid='.$advertiserId,
-                'images/icon-advertiser.gif'
+                'iconAdvertiser'
             );
         }
         $this->_addShortcut(
             $GLOBALS['strCampaignProperties'],
             'campaign-edit.php?clientid='.$advertiserId.'&campaignid='.$placementId,
-            'images/icon-campaign.gif'
+            'iconCampaign'
         );
 
         // Prepare the data for display by output() method

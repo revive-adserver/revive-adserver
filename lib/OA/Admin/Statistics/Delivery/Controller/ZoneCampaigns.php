@@ -96,13 +96,13 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneCampaigns extends OA_Admin_Sta
             $this->_addShortcut(
                 $GLOBALS['strAffiliateProperties'],
                 'affiliate-edit.php?affiliateid='.$publisherId,
-                'images/icon-affiliate.gif'
+                'iconAffiliate'
             );
         }
         $this->_addShortcut(
             $GLOBALS['strZoneProperties'],
             'zone-edit.php?affiliateid='.$publisherId.'&zoneid='.$zoneId,
-            'images/icon-zone.gif'
+            'iconZone'
         );
 
 

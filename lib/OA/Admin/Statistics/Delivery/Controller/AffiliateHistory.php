@@ -91,7 +91,7 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateHistory extends OA_Admin_
             $this->_addShortcut(
                 $GLOBALS['strAffiliateProperties'],
                 'affiliate-edit.php?affiliateid='.$publisherId,
-                'images/icon-affiliate.gif'
+                'iconAffiliate'
             );
         }
 

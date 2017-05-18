@@ -94,7 +94,7 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserAffiliates extends OA_Ad
             $this->_addShortcut(
                 $GLOBALS['strClientProperties'],
                 'advertiser-edit.php?clientid='.$advertiserId,
-                'images/icon-advertiser.gif'
+                'iconAdvertiser'
             );
         }
 

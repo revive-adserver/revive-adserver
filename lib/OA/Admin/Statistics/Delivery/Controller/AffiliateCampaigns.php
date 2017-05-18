@@ -94,7 +94,7 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateCampaigns extends OA_Admi
             $this->_addShortcut(
                 $GLOBALS['strAffiliateProperties'],
                 'affiliate-edit.php?affiliateid='.$publisherId,
-                'images/icon-affiliate.gif'
+                'iconAffiliate'
             );
         }
 

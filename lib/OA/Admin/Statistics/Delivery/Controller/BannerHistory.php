@@ -98,23 +98,23 @@ class OA_Admin_Statistics_Delivery_Controller_BannerHistory extends OA_Admin_Sta
             $this->_addShortcut(
                 $GLOBALS['strClientProperties'],
                 'advertiser-edit.php?clientid='.$advertiserId,
-                'images/icon-advertiser.gif'
+                'iconAdvertiser'
             );
         }
         $this->_addShortcut(
             $GLOBALS['strCampaignProperties'],
             'campaign-edit.php?clientid='.$advertiserId.'&campaignid='.$placementId,
-            'images/icon-campaign.gif'
+            'iconCampaign'
         );
         $this->_addShortcut(
             $GLOBALS['strBannerProperties'],
             'banner-edit.php?clientid='.$advertiserId.'&campaignid='.$placementId.'&bannerid='.$adId,
-            'images/icon-banner-stored.gif'
+            'iconBanner'
         );
         $this->_addShortcut(
             $GLOBALS['strModifyBannerAcl'],
             'banner-acl.php?clientid='.$advertiserId.'&campaignid='.$placementId.'&bannerid='.$adId,
-            'images/icon-acl.gif'
+            'iconTargetingChannelAcl'
         );
 
         // Prepare the data for display by output() method

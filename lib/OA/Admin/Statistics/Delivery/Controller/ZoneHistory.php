@@ -93,13 +93,13 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneHistory extends OA_Admin_Stati
             $this->_addShortcut(
                 $GLOBALS['strAffiliateProperties'],
                 'affiliate-edit.php?affiliateid='.$publisherId,
-                'images/icon-affiliate.gif'
+                'iconAffiliate'
             );
         }
         $this->_addShortcut(
             $GLOBALS['strZoneProperties'],
             'zone-edit.php?affiliateid='.$publisherId.'&zoneid='.$zoneId,
-            'images/icon-zone.gif'
+            'iconZone'
         );
 
         // Prepare the data for display by output() method

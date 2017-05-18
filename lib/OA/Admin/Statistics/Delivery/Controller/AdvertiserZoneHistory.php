@@ -111,7 +111,7 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserZoneHistory extends OA_A
             $this->_addShortcut(
                 $GLOBALS['strClientProperties'],
                 'advertiser-edit.php?clientid='.$advertiserId,
-                'images/icon-advertiser.gif'
+                'iconAdvertiser'
             );
         }
 
