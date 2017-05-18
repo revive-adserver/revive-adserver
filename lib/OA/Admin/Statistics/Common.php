@@ -477,7 +477,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
      */
     function output($graphMode = false)
     {
-        // Check if stats are accourate (when upgraded from a non-TZ enabled version
+        // Check if stats are accourate (when upgraded from a non-TZ enabled version)
         $this->_checkStatsAccuracy();
         
         $this->_showShortcuts();
