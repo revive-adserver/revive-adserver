@@ -19,7 +19,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/CommonCrossHistory.ph
  *
  * and:
  *
- * Statistics -> Publishers & Zones -> Campaign Distribution -> Distribution History -> Daily Statistics
+ * Statistics -> Publishers & Zones -> Campaign Distribution -> Distribution Statistics -> Daily Statistics
  *
  * @package    OpenXAdmin
  * @subpackage StatisticsDelivery

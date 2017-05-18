@@ -231,7 +231,7 @@ class SqlBuilder
         if(substr($entity, 0, strlen($matchingEntitiesToFix)) == $matchingEntitiesToFix) {
             // postgresql throws an error: column "m.campaignid" must appear in the GROUP BY clause or be used in an aggregate function
             // we therefore remove the column ad_id built on a concatenation of various other fields, as this particular field
-            // is not in use in the Global History stats screen (when entity == history_*)
+            // is not in use in the Global Statistics stats screen (when entity == history_*)
             if(false !== ($found = array_search('ad_id',$aColumns))) {
                 unset($aColumns[$found]);
             }
