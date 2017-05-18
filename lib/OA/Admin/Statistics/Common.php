@@ -1490,23 +1490,6 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
     }
 
     /**
-     * A private method to output the breadcrumb trail, highlighing
-     * the last item.
-     */
-    function _showBreadcrumbs()
-    {
-        if (!empty($this->aPageBreadcrumbs) && is_array($this->aPageBreadcrumbs)) {
-
-        	$breadcrumbPath = array();
-            foreach ($this->aPageBreadcrumbs as $bc) {
-            	array_push($breadcrumbPath, $bc['type']);
-            }
-
-            MAX_displayInventoryBreadcrumbsInternal($this->aPageBreadcrumbs, $breadcrumbPath);
-        }
-    }
-
-    /**
      * A private method to save the preferences previously assigned to the
      * {@link $this->aPagePrefs} and {@link $this->aGlobalPrefs} arrays to
      * the user's session data store.
