@@ -123,14 +123,13 @@ function setCurrentLeftMenuSubItem($itemId)
  *
  * @param string $title action title - translated
  * @param string $url link url for the action
- * @param string $iconClass icon class for action (if any) see icons.css for examples of icon classes
+ * @param string $iconClass icon class for action; see icons.css for examples of icon classes
  * @param string $accesskey access key for action (if any)
  */
 function addPageShortcut($title, $url, $iconClass, $accesskey = null)
 {
     $oUI = OA_Admin_UI::getInstance();
     $oUI->addPageShortcut($title, $url, $iconClass);
-
 }
 
 
