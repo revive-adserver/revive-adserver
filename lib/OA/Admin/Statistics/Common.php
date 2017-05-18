@@ -890,7 +890,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
 
     /**
      * A private method that can be inherited and used by children classes to
-     * add a shortcut to the left navigation bar.
+     * add a navigation shortcut.
      *
      * @param string $name Shortuct text
      * @param string $link Shortcut link
@@ -1477,7 +1477,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
     }
 
     /**
-     * A private method to output the shortcuts in the left navigation bar.
+     * A private method to output the shortcuts.
      *
      * @access private
      * {@uses addPageShortcut()}
