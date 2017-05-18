@@ -27,7 +27,8 @@ What's New in Revive Adserver 4.0.3
  New Features
  ------------
 
- * None
+ * Updated the pages under the Statistics tab to all be called "Statistics" 
+   pages in the UI, instead of (in some places), "History" pages.
 
  Bug Fixes
  ---------
