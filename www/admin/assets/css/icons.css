@@ -35,6 +35,9 @@ div.breadcrumb .inlineIcon {
 .iconAdvertisersLarge {
     background-image: url("../images/icon-advertisers-large.png");
 }
+.iconAffiliate{
+    background-image: url("../images/icon-affiliate.gif");
+}
 .iconCampaign {
     background-image: url("../images/icon-campaign.png");
 }
