@@ -479,7 +479,9 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
     {
         // Check if stats are accourate (when upgraded from a non-TZ enabled version
         $this->_checkStatsAccuracy();
-
+        
+        $this->_showShortcuts();
+        
         if ($this->outputType == 'deliveryEntity') {
 
             // Display the entity delivery stats
