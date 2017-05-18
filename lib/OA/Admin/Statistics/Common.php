@@ -894,11 +894,11 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
      *
      * @param string $name Shortuct text
      * @param string $link Shortcut link
-     * @param string $icon Shortcut icon
+     * @param string $iconClass Shortcut icon class
      */
-    function _addShortcut($name, $link, $icon)
+    function _addShortcut($name, $link, $iconClass)
     {
-        $this->pageShortcuts[] = array('name' => $name, 'link' => $link, 'icon' => $icon);
+        $this->aPageShortcuts[] = array('name' => $name, 'link' => $link, 'iconClass' => $iconClass);
     }
 
     /**
