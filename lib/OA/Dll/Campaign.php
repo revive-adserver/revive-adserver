@@ -258,13 +258,17 @@ class OA_Dll_Campaign extends OA_Dll
             $campaignData['activate_time'] = $oDate->getDate(DATE_FORMAT_ISO);
         }
         if (is_object($oEndDate)) {
-            $oDate = new Date($oEndDate);
-            $oDate->setTZ($oNow->tz);
-            $oDate->setHour(23);
-            $oDate->setMinute(59);
-            $oDate->setSecond(59);
-            $oDate->toUTC();
-            $campaignData['expire_time'] = $oDate->getDate(DATE_FORMAT_ISO);
+            if ($oEndDate->year > 0) {
+                $oDate = new Date($oEndDate);
+                $oDate->setTZ($oNow->tz);
+                $oDate->setHour(23);
+                $oDate->setMinute(59);
+                $oDate->setSecond(59);
+                $oDate->toUTC();
+                $campaignData['expire_time'] = $oDate->getDate(DATE_FORMAT_ISO);
+            } else {
+                $campaignData['expire_time'] = OX_DATAOBJECT_NULL;
+            }
         }
 
         $campaignData['views']        = $oCampaign->impressions;
