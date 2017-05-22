@@ -10,28 +10,28 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-KeywordsList: translate\n"
 "Last-Translator: mbeccati <matteo@beccati.com>\n"
-"Language-Team: Spanish\n"
-"Language: es_ES\n"
+"Language-Team: Hungarian\n"
+"Language: hu_HU\n"
 "X-Generator: crowdin.com\n"
 "X-Poedit-SearchPath-0: plugins_repo/openXReports/extensions/reports/oxReportsAdmin/\n"
 "X-Crowdin-Project: revive-adserver\n"
-"X-Crowdin-Language: es-ES\n"
+"X-Crowdin-Language: hu\n"
 "X-Crowdin-File: /plugins_repo/openXReports/plugins/etc/oxReportsAdmin/_lang/po/en.po\n"
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsAdmin//breakdown.class.php:58
 #: plugins_repo/openXReports/extensions/reports/oxReportsAdmin//breakdown.class.php:155
 msgid "Manager Account Breakdown"
-msgstr ""
+msgstr "Kezelői fiók bontása"
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsAdmin//breakdown.class.php:59
 msgid "Lists Adviews/AdClicks/AdSales totals for a given month."
-msgstr "Listas de Adviews/AdClicks/AdSales totales para un mes dado."
+msgstr "Az adott hónapra vonatkozó Adviews/AdClicks/AdSales összességének listáját."
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsAdmin//breakdown.class.php:61
 msgid "Admin Reports"
-msgstr "Informes de administrador"
+msgstr "Admin jelentések"
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsAdmin//breakdown.class.php:146
 msgid "Manager"
-msgstr "Administrador"
+msgstr "Kezelő"
 

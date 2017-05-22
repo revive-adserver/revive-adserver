@@ -47,7 +47,7 @@ $GLOBALS['strImagesUrlPrefixSSL'] = "A Kép Tár URL-je (SSL)";
 /* ------------------------------------------------------- */
 
 // Global
-$GLOBALS['strChooseSection'] = "Válasszon szekciót";
+$GLOBALS['strChooseSection'] = "Válasszon egyet";
 $GLOBALS['strUnableToWriteConfig'] = "A konfigurációs fájl írása sikertelen";
 $GLOBALS['strUnableToWritePrefs'] = "A beállítás adatbázisba írása sikertelen";
 $GLOBALS['strImageDirLockedDetected'] = "A kiszolgáló nem tudja írnia a megadott <b>Képek Könyvtárt</b>. <br>Addig nem tud továbblépni, amíg vagy meg nem változtatja a beállításokat vagy létre nem hozza a könyvtárat.";
@@ -60,7 +60,7 @@ $GLOBALS['strAdminUsername'] = "Adminisztrátor  felhasználóneve";
 $GLOBALS['strAdminPassword'] = "Adminisztrátor  jelszava";
 $GLOBALS['strInvalidUsername'] = "Érvénytelen felhasználóinév";
 $GLOBALS['strBasicInformation'] = "Alapinformációk";
-$GLOBALS['strAdministratorEmail'] = "Adminisztrátor e-mail címe";
+$GLOBALS['strAdministratorEmail'] = "Adminisztrátori e-mailek";
 $GLOBALS['strAdminCheckUpdates'] = "Frissítés keresése";
 $GLOBALS['strNovice'] = "A törlésekhez megerősítés szükséges biztonsági okokból";
 $GLOBALS['strUserlogEmail'] = "Kimenő e-mail üzenetek naplózása";
@@ -173,9 +173,9 @@ $GLOBALS['strGUIShowParentCampaigns'] = "Szülő kampányok megjelenítése a <i
 $GLOBALS['strStatisticsDefaults'] = "Statisztikák";
 $GLOBALS['strBeginOfWeek'] = "Hét kezdete";
 $GLOBALS['strPercentageDecimals'] = "Százalékok tört része";
-$GLOBALS['strWeightDefaults'] = "Alapértelmezett súly";
-$GLOBALS['strDefaultBannerWeight'] = "Alapértelmezett banner súly";
-$GLOBALS['strDefaultCampaignWeight'] = "Alapértelmezett kampány súly";
+$GLOBALS['strWeightDefaults'] = "Alapértelmezett súlyozás";
+$GLOBALS['strDefaultBannerWeight'] = "Alapértelmezett  reklám súly";
+$GLOBALS['strDefaultCampaignWeight'] = "Alapértelmezett  kampány súly";
 
 // Invocation Settings
 $GLOBALS['strInvocationDefaults'] = "Követelések alapértelmezett beállításai";
@@ -203,6 +203,8 @@ $GLOBALS['strBlockAdClicks'] = "Hírdetés kattintás számlálásának kihagyá
 $GLOBALS['strMaintenanceOI'] = "Karbantartás művelet időköze (percben)";
 $GLOBALS['strPrioritySettings'] = "Prioritás beállítások";
 $GLOBALS['strPriorityInstantUpdate'] = "Hirdetés prioritások frissítése rögtön a változtatások mentése után";
+$GLOBALS['strDefaultImpConvWindow'] = "Alapértelmezett megtekintési konverziós ablak (másodpercben)";
+$GLOBALS['strDefaultCliConvWindow'] = "Alapértelmezett kattintási konverziós ablak (másodpercben)";
 $GLOBALS['strAdminEmailHeaders'] = "A következő fejlécek hozzáadása a {$PRODUCT_NAME} által küldött elektronikus üzenethez";
 $GLOBALS['strWarnLimit'] = "Figyelmeztetés küldése ha a hátrelévő megtekintések száma kevesebb mint";
 $GLOBALS['strWarnLimitDays'] = "Figyelmeztetés küldése ha a hátralévő napok száma kevesebb mint ";

@@ -20,7 +20,7 @@ msgstr ""
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adframe.class.php:53
 msgid "iFrame Tag"
-msgstr ""
+msgstr "iFrame címke"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adframe.class.php:115
 msgid "\n"
@@ -33,11 +33,11 @@ msgstr ""
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adframe.class.php:204
 msgid "Placement Comment"
-msgstr ""
+msgstr "Megjegyzések elhelyezése"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adjs.class.php:53
 msgid "Javascript Tag"
-msgstr ""
+msgstr "Javascript címke"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adjs.class.php:116
 #, php-format
@@ -55,7 +55,7 @@ msgstr ""
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adlayer.class.php:62
 msgid "Interstitial or Floating DHTML Tag"
-msgstr ""
+msgstr "Közbeszúrt vagy lebegő DHTML címke"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adlayer.class.php:119
 msgid "\n"
@@ -99,7 +99,7 @@ msgstr "Stílusok"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adview.class.php:53
 msgid "Image Tag"
-msgstr ""
+msgstr "Kép címke"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adview.class.php:111
 msgid "\n"
@@ -111,7 +111,7 @@ msgstr ""
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adviewnocookies.class.php:57
 msgid "No Cookie Image Tag"
-msgstr ""
+msgstr "Kép címke (Cookie nélkül)"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/local.class.php:49
 msgid "Local Mode Tag"
@@ -123,7 +123,7 @@ msgstr ""
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/popup.class.php:59
 msgid "Popup Tag"
-msgstr ""
+msgstr "Popup címke"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/popup.class.php:120
 msgid "\n"
@@ -150,21 +150,21 @@ msgstr ""
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/spc.class.php:91
 msgid "Publisher code - Single Page Call"
-msgstr ""
+msgstr "Megjelenítő kód - Egyetlen oldalhívás"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/spc.class.php:237
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/spc.class.php:411
 msgid "Option - noscript"
-msgstr ""
+msgstr "Opcionális - noscript"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/spc.class.php:241
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/spc.class.php:426
 msgid "Option - SSL"
-msgstr ""
+msgstr "Opcionális - SSL"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/xmlrpc.class.php:54
 msgid "XML-RPC Tag"
-msgstr ""
+msgstr "XML-RPC címke"
 
 #: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/xmlrpc.class.php:160
 msgid "\n"
