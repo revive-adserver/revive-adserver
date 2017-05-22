@@ -20,15 +20,15 @@ msgstr ""
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site//Channel.class.php:62
 msgid "Is all of"
-msgstr ""
+msgstr "Az összes"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site//Channel.class.php:72
 msgid "Channel"
-msgstr ""
+msgstr "Csatorna"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site//Referingpage.class.php:59
 msgid "Refering Page"
-msgstr ""
+msgstr "Hivatkozó oldal"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site//Source.class.php:59
 msgid "Source"
@@ -36,13 +36,13 @@ msgstr "Forrás"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site//Pageurl.class.php:66
 msgid "Page URL"
-msgstr ""
+msgstr "Oldal URL"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site//Variable.class.php:58
 msgid "Variable"
-msgstr ""
+msgstr "Változó"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site//Variable.class.php:71
 msgid "Site:Variable: Name contains unallowed character(s)"
-msgstr ""
+msgstr "Site:Változó: A név nem engedélyezett karaktereket tartalmaz"
 

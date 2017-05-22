@@ -20,35 +20,35 @@ msgstr ""
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:53
 msgid "myPlugin"
-msgstr ""
+msgstr "myPlugin"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:58
 msgid "My New Plugin"
-msgstr ""
+msgstr "Saját új Plugin"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:81
 msgid "New Plugin"
-msgstr ""
+msgstr "Új Plugin"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:83
 msgid "Plugin Name"
-msgstr ""
+msgstr "Plugin neve"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:84
 msgid "Author Email"
-msgstr ""
+msgstr "Készítő e-mail"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:85
 msgid "Author Name"
-msgstr ""
+msgstr "Készítő neve"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:86
 msgid "Author URL"
-msgstr ""
+msgstr "Készítő URL"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:87
 msgid "Licence Info"
-msgstr ""
+msgstr "Licensz információ"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:88
 msgid "Description"
@@ -72,11 +72,11 @@ msgstr "Állapot"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:97
 msgid "Version"
-msgstr ""
+msgstr "Verzió"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:104
 msgid "Group Name"
-msgstr ""
+msgstr "Csoport neve"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:105
 msgid "Has Schema"
@@ -89,5 +89,5 @@ msgstr ""
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:109
 msgid "Submit"
-msgstr ""
+msgstr "Mehet"
 

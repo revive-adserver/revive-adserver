@@ -20,7 +20,7 @@ msgstr ""
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Time//Hour.class.php:68
 msgid "Hour of day"
-msgstr ""
+msgstr "Óránkénti"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Time//Day.class.php:68
 msgid "Day of week"
