@@ -58,11 +58,6 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         'logging_proxyLookup'         => array(
              'logging'                => 'proxyLookup',
              'bool'                   => 'true'
-         ),
-/*        'logging_sniff'               => array(
-              'logging'               => 'sniff',
-              'bool'                  => 'true'
-         )*/
     );
     // Block Banner Logging Window Settings
     $aElements += array(
@@ -164,12 +159,6 @@ $aSettings = array (
                 'type'    => 'checkbox',
                 'name'    => 'logging_proxyLookup',
                 'text'    => $strProxyLookup
-            ),
-/*            array (
-                'type'    => 'checkbox',
-                'name'    => 'logging_sniff',
-                'text'    => $strSniff
-            )*/
         )
     ),
     array (
@@ -179,7 +168,7 @@ $aSettings = array (
                 'type'    => 'text',
                 'name'    => 'logging_blockAdClicksWindow',
                 'text'    => $strBlockAdClicks,
-                'check'   => 'wholeNumber',
+                'check'   => 'wholeNumber'
             ),
             array (
                 'type'    => 'break'
@@ -189,7 +178,7 @@ $aSettings = array (
                 'name'      => 'logging_ignoreHosts',
                 'text'      => $strIgnoreHosts,
                 'preg_split'=> '/,/',
-                'merge'     => "\n",
+                'merge'     => "\n"
             ),
             array (
                 'type'    => 'break'
@@ -199,7 +188,7 @@ $aSettings = array (
                 'name'    => 'logging_ignoreUserAgents',
                 'text'    => $strIgnoreUserAgents,
                 'preg_split'=> '/\|/',
-                'merge'     => "\n",
+                'merge'     => "\n"
             ),
             array (
                 'type'    => 'break'
@@ -209,8 +198,8 @@ $aSettings = array (
                 'name'    => 'logging_enforceUserAgents',
                 'text'    => $strEnforceUserAgents,
                 'preg_split'=> '/\|/',
-                'merge'     => "\n",
-            ),
+                'merge'     => "\n"
+            )
         )
     )
 );
