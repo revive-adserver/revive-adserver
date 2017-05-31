@@ -58,7 +58,16 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         'logging_proxyLookup'         => array(
              'logging'                => 'proxyLookup',
              'bool'                   => 'true'
+         )
     );
+    
+    // Block Inactive Banner Clicks Settings
+    $aElements += array(
+         'logging_blockInactiveBannerClicks'=> array(
+             'logging'                => 'blockInactiveBannerClicks'
+         )
+     );
+    
     // Block Banner Logging Window Settings
     $aElements += array(
          'logging_blockAdClicksWindow'=> array(
@@ -159,11 +168,20 @@ $aSettings = array (
                 'type'    => 'checkbox',
                 'name'    => 'logging_proxyLookup',
                 'text'    => $strProxyLookup
+            )
         )
     ),
     array (
         'text'  => $strPreventLogging,
         'items' => array (
+            array (
+                'type'    => 'checkbox',
+                'name'    => 'logging_blockInactiveBannerClicks',
+                'text'    => $strBlockInactiveBannerClicks
+            ),
+            array (
+                'type'    => 'break'
+            ),
             array (
                 'type'    => 'text',
                 'name'    => 'logging_blockAdClicksWindow',
