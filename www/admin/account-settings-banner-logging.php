@@ -64,7 +64,8 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Block Inactive Banner Clicks Settings
     $aElements += array(
          'logging_blockInactiveBannerClicks'=> array(
-             'logging'                => 'blockInactiveBannerClicks'
+             'logging'                => 'blockInactiveBannerClicks',
+             'bool'                   => 'true'
          )
      );
     
