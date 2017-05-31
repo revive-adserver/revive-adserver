@@ -79,6 +79,26 @@ for ($i = 0; $i < count($adId); $i++) {
         $creativeId[$i] = 0;
     }
     if (($adId[$i] > 0 || $adId[$i] == -1) && ($conf['logging']['adClicks']) && !(isset($_GET['log']) && ($_GET['log'] == 'no'))) {
+        // If no-click/redirect on inactive banners is enabled, check to see
+        // if the banner is active. If not, exit click processing at this point,
+        // without recording the click or performing redirection
+        if (isset($GLOBALS['conf']['logging']['blockInactiveBannerClicks'])) {
+            $exitProcessing = true;
+            $aZoneLinkedAds = MAX_cacheGetZoneLinkedAds($zoneId);
+            $aAds = array_merge($aZoneLinkedAds['xAds'], $aZoneLinkedAds['ads'], $aZoneLinkedAds['lAds']);
+            foreach ($aAds as $aAdInfo) {
+                if ($adId[$i] == $aAdInfo['ad_id']) {
+                    // The ad is NOT inactive, so do NOT exit processing; move
+                    // on to click logging & URL redirection processing as per
+                    // normal
+                    $exitProcessing = false;
+                    break;
+                }
+            }
+            if ($exitProcessing) {
+                return;
+            }
+        }
         // Don't log the click if click blocking is enabled for the banner
         if (!MAX_Delivery_log_isClickBlocked($adId[$i], $aBlockLoggingClick)) {
             // If click blocking is enabled, set the cookie of the click, so
