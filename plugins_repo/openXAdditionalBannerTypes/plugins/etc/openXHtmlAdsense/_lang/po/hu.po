@@ -20,11 +20,11 @@ msgstr ""
 
 #: plugins_repo/openXAdditionalBannerTypes/extensions/bannerTypeHtml/openXHtmlAdsense//adsense.class.php:48
 msgid "Google Adsense HTML Banner"
-msgstr ""
+msgstr "Google Adsense HTML Banner"
 
 #: plugins_repo/openXAdditionalBannerTypes/extensions/bannerTypeHtml/openXHtmlAdsense//adsense.class.php:80
 msgid "Google Adsense Publisher Id"
-msgstr ""
+msgstr "Google Adsense Publisher Id"
 
 #: plugins_repo/openXAdditionalBannerTypes/extensions/bannerTypeHtml/openXHtmlAdsense//adsense.class.php:82
 msgid "Banner display"
@@ -32,53 +32,53 @@ msgstr "Reklám megjelenítése"
 
 #: plugins_repo/openXAdditionalBannerTypes/extensions/bannerTypeHtml/openXHtmlAdsense//adsense.class.php:84
 msgid "Text Button 125x125"
-msgstr ""
+msgstr "Szöveges Gomb 125x125"
 
 #: plugins_repo/openXAdditionalBannerTypes/extensions/bannerTypeHtml/openXHtmlAdsense//adsense.class.php:85
 msgid "Text Banner 468x60"
-msgstr ""
+msgstr "Szöveges Banner 468x60"
 
 #: plugins_repo/openXAdditionalBannerTypes/extensions/bannerTypeHtml/openXHtmlAdsense//adsense.class.php:86
 msgid "Text Half Banner 234x60"
-msgstr ""
+msgstr "Szöveges fél Banner 234x60"
 
 #: plugins_repo/openXAdditionalBannerTypes/extensions/bannerTypeHtml/openXHtmlAdsense//adsense.class.php:87
 msgid "Text Vertical Banner 120x240"
-msgstr ""
+msgstr "Szöveges függőleges Banner 120x240"
 
 #: plugins_repo/openXAdditionalBannerTypes/extensions/bannerTypeHtml/openXHtmlAdsense//adsense.class.php:88
 msgid "Text Leaderboard 728x90"
-msgstr ""
+msgstr "Szöveges Szélesvásznú 728 x 90"
 
 #: plugins_repo/openXAdditionalBannerTypes/extensions/bannerTypeHtml/openXHtmlAdsense//adsense.class.php:89
 msgid "Text Skyscraper 120x600"
-msgstr ""
+msgstr "Szöveges Felhőkarcoló 120x600"
 
 #: plugins_repo/openXAdditionalBannerTypes/extensions/bannerTypeHtml/openXHtmlAdsense//adsense.class.php:90
 msgid "Text Wide Skyscraper 160x600"
-msgstr ""
+msgstr "Szöveges széles Felhőkarcoló 120x600"
 
 #: plugins_repo/openXAdditionalBannerTypes/extensions/bannerTypeHtml/openXHtmlAdsense//adsense.class.php:91
 msgid "Text Small Rectangle 180x150"
-msgstr ""
+msgstr "Szöveges kis Téglalap 180x150"
 
 #: plugins_repo/openXAdditionalBannerTypes/extensions/bannerTypeHtml/openXHtmlAdsense//adsense.class.php:92
 msgid "Text Medium Rectangle 300x250"
-msgstr ""
+msgstr "Szöveges közepes Téglalap 300x250"
 
 #: plugins_repo/openXAdditionalBannerTypes/extensions/bannerTypeHtml/openXHtmlAdsense//adsense.class.php:93
 msgid "Text Large Rectangle 336x280"
-msgstr ""
+msgstr "Szöveges nagy Téglalap 336x280"
 
 #: plugins_repo/openXAdditionalBannerTypes/extensions/bannerTypeHtml/openXHtmlAdsense//adsense.class.php:94
 msgid "Text Square 250x250"
-msgstr ""
+msgstr "Szöveges Négyzet 250x250"
 
 #: plugins_repo/openXAdditionalBannerTypes/extensions/bannerTypeHtml/openXHtmlAdsense//adsense.class.php:95
 msgid "Text Small Square 200x200"
-msgstr ""
+msgstr "Szöveges kis Négyzet 200x200"
 
 #: plugins_repo/openXAdditionalBannerTypes/extensions/bannerTypeHtml/openXHtmlAdsense//adsense.class.php:97
 msgid "Ad Format"
-msgstr ""
+msgstr "Reklám formátum"
 

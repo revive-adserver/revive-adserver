@@ -17,12 +17,16 @@
 /** check step * */
 
 
+$GLOBALS['strError'] = "Error";
 $GLOBALS['strWarning'] = "Advertencia";
 $GLOBALS['strSyscheckStatus'] = "Estado";
+$GLOBALS['strCheckError'] = 'error';
+$GLOBALS['strCheckErrors'] = 'errores';
 
 /** admin login step * */
 
 /** database step * */
+$GLOBALS['strDbProgressMessageInstall'] = 'Instalando base de datos...';
 
 
 /** config step * */

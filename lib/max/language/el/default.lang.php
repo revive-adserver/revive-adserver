@@ -173,7 +173,6 @@ $GLOBALS['strClients'] = "Διαφημιζόμενοι";
 $GLOBALS['strClientsAndCampaigns'] = "Διαφημιζόμενοι & Καμπάνιες";
 $GLOBALS['strAddClient'] = "Προσθήκη νέου διαφημιζόμενου";
 $GLOBALS['strClientProperties'] = "Ιδιότητες Διαφημιζόμενου";
-$GLOBALS['strClientHistory'] = "Ιστορικό Διαφημιζόμενου";
 $GLOBALS['strAdvertiserCampaigns'] = "Διαφημιζόμενοι & Καμπάνιες";
 
 // Advertisers properties
@@ -188,7 +187,6 @@ $GLOBALS['strAddCampaign_Key'] = "Προσθήκη <u>ν</u>έας καμπάν�
 $GLOBALS['strLinkedCampaigns'] = "Συνδεδεμένες Καμπάνιες";
 $GLOBALS['strCampaignProperties'] = "Ιδιότητες Καμπάνιας";
 $GLOBALS['strCampaignOverview'] = "Σύνοψη Καμπάνιας";
-$GLOBALS['strCampaignHistory'] = "Ιστορικό Καμπάνιας";
 $GLOBALS['strHiddenCampaign'] = "Καμπάνια";
 $GLOBALS['strHiddenAd'] = "Διαφήμιση";
 $GLOBALS['strHiddenAdvertiser'] = "Διαφημιζόμενος";
@@ -257,7 +255,6 @@ $GLOBALS['strAffiliates'] = "Ιστοσελίδες";
 $GLOBALS['strAffiliatesAndZones'] = "Ιστοσελίδες & Ζώνες";
 $GLOBALS['strAddNewAffiliate'] = "Προσθήκη νέας ιστοσελίδας";
 $GLOBALS['strAffiliateProperties'] = "Ιδιότητες Ιστοσελίδας";
-$GLOBALS['strAffiliateHistory'] = "Ιστορικό Ιστοσελίδας";
 
 // Website (properties)
 $GLOBALS['strWebsite'] = "Ιστοσελίδα";
@@ -296,11 +293,6 @@ $GLOBALS['strConnectionType'] = "Τύπος";
 
 // Statistics
 $GLOBALS['strStats'] = "Στατιστικά";
-$GLOBALS['strGlobalHistory'] = "Συνολικο ιστορικό";
-$GLOBALS['strDailyHistory'] = "Ημερήσιο ιστορικό";
-$GLOBALS['strDailyStats'] = "Ημερήσια στατιστικά";
-$GLOBALS['strWeeklyHistory'] = "Εβδομαδιαίο ιστορικό";
-$GLOBALS['strMonthlyHistory'] = "Μηνιαίο ιστορικό";
 $GLOBALS['strBreakdownByDay'] = "Ημέρα";
 $GLOBALS['strBreakdownByWeek'] = "Εβδομάδα";
 $GLOBALS['strBreakdownByMonth'] = "Μήνας";

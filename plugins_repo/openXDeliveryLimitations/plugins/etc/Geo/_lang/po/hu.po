@@ -20,7 +20,7 @@ msgstr ""
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//City.res.inc.php:44
 msgid "---Any---"
-msgstr ""
+msgstr "---Bármelyik---"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Country.class.php:59
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Region.class.php:98
@@ -30,7 +30,7 @@ msgstr "Ország"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Netspeed.class.php:57
 msgid "Net Speed"
-msgstr ""
+msgstr "NET sebesség"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Netspeed.res.inc.php:35
 msgid "Unknown"
@@ -38,53 +38,53 @@ msgstr "Ismeretlen"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Netspeed.res.inc.php:36
 msgid "Dial-up"
-msgstr ""
+msgstr "Betárcsázás"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Netspeed.res.inc.php:37
 msgid "Broadband"
-msgstr ""
+msgstr "Szélessávú"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Netspeed.res.inc.php:38
 msgid "Corporate"
-msgstr ""
+msgstr "Vállalat"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Region.class.php:70
 msgid "Country / Region"
-msgstr ""
+msgstr "Ország / Régió"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Region.class.php:114
 msgid "Region(s)"
-msgstr ""
+msgstr "Régió(k)"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Postalcode.class.php:58
 msgid "US/Canada Postal Code"
-msgstr ""
+msgstr "US/kanadai irányítószám"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//City.class.php:108
 msgid "City(s)"
-msgstr ""
+msgstr "Város(ok)"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Latlong.class.php:61
 msgid "Is within"
-msgstr ""
+msgstr "belül"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Latlong.class.php:62
 msgid "Is not within"
-msgstr ""
+msgstr "nincs benne"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Latlong.class.php:72
 msgid "Latitude/Longitude"
-msgstr ""
+msgstr "Szélesség/Hosszúság"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Latlong.class.php:97
 msgid "Geo:Latitude/Longitude: One of the parameter is not a number"
-msgstr ""
+msgstr "Geo:Szélesség/Hosszúság: Az egyik paraméter nem szám"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Latlong.class.php:114
 msgid "Latitude"
-msgstr ""
+msgstr "Szélesség"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Geo//Latlong.class.php:120
 msgid "Longitude"
-msgstr ""
+msgstr "Hosszúság"
 

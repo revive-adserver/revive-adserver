@@ -191,11 +191,11 @@ msgstr ""
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//conversionTrackingReport.class.php:705
 msgid "Comment"
-msgstr ""
+msgstr "Megjegyzés"
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//conversionTrackingReport.class.php:711
 msgid "Advertiser Name"
-msgstr ""
+msgstr "Hirdető neve"
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//conversionTrackingReport.class.php:715
 msgid "Ad Name"
@@ -207,11 +207,11 @@ msgstr ""
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//conversionTrackingReport.class.php:719
 msgid "Zone Name"
-msgstr ""
+msgstr "Zóna neve"
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//conversionTrackingReport.class.php:721
 msgid "Connection Type"
-msgstr ""
+msgstr "Konverzió típusa"
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//conversionTrackingReport.class.php:723
 msgid "Connecting Value Date / Time"
@@ -219,5 +219,5 @@ msgstr ""
 
 #: plugins_repo/openXReports/extensions/reports/oxReportsStandard//conversionTrackingReport.class.php:725
 msgid "IP Address"
-msgstr ""
+msgstr "IP cím"
 

@@ -176,7 +176,6 @@ $GLOBALS['strClients'] = "Inzerenti";
 $GLOBALS['strClientsAndCampaigns'] = "Inzerenti a Kampane";
 $GLOBALS['strAddClient'] = "Pridať nového inzerenta";
 $GLOBALS['strClientProperties'] = "Charaktreistika inzerenta";
-$GLOBALS['strClientHistory'] = "História inzerenta";
 $GLOBALS['strNoClients'] = "Aktuálne nemáte vytvorených žiadnych zadávateľov reklamy. Pre vytvorenie kapmane, vytvorte najskôr <a href='advertiser-edit.php'>nového zadávateľa</a> reklamy.";
 $GLOBALS['strConfirmDeleteClient'] = "Naozaj chcete zmazať inzerenta?";
 $GLOBALS['strConfirmDeleteClients'] = "Naozaj chcete zmazať inzerenta?";
@@ -202,7 +201,6 @@ $GLOBALS['strAddCampaign_Key'] = "Pridať novú kampaň";
 $GLOBALS['strLinkedCampaigns'] = "Odkazované kampane";
 $GLOBALS['strCampaignProperties'] = "Charakterisika kampane";
 $GLOBALS['strCampaignOverview'] = "Prehľad kampane";
-$GLOBALS['strCampaignHistory'] = "História kampane";
 $GLOBALS['strConfirmDeleteCampaign'] = "Naozaj chcete zmazať túto kampaň?";
 $GLOBALS['strConfirmDeleteCampaigns'] = "Naozaj chcete zmazať túto kampaň?";
 $GLOBALS['strShowParentAdvertisers'] = "Ukázať nadradených inzerentov";
@@ -304,7 +302,6 @@ $GLOBALS['strInactiveZonesHidden'] = "Neaktívny inzerent(i) skrytý";
 $GLOBALS['strStatusDuplicate'] = "Duplikovať";
 
 // Statistics
-$GLOBALS['strDailyStats'] = "Všetky štatistiky";
 $GLOBALS['strBreakdownByDay'] = "Deň";
 $GLOBALS['strBreakdownByWeek'] = "Týždeň";
 $GLOBALS['strBreakdownByMonth'] = "Mesiac";
