@@ -3264,6 +3264,20 @@ $creativeId[$i] = intval($creativeId[$i]);
 $creativeId[$i] = 0;
 }
 if (($adId[$i] > 0 || $adId[$i] == -1) && ($conf['logging']['adClicks']) && !(isset($_GET['log']) && ($_GET['log'] == 'no'))) {
+if (isset($GLOBALS['conf']['logging']['blockInactiveBannerClicks'])) {
+$exitProcessing = true;
+$aZoneLinkedAds = MAX_cacheGetZoneLinkedAds($zoneId);
+$aAds = array_merge($aZoneLinkedAds['xAds'], $aZoneLinkedAds['ads'], $aZoneLinkedAds['lAds']);
+foreach ($aAds as $aAdInfo) {
+if ($adId[$i] == $aAdInfo['ad_id']) {
+$exitProcessing = false;
+break;
+}
+}
+if ($exitProcessing) {
+return;
+}
+}
 if (!MAX_Delivery_log_isClickBlocked($adId[$i], $aBlockLoggingClick)) {
 if (isset($GLOBALS['conf']['logging']['blockAdClicksWindow']) && $GLOBALS['conf']['logging']['blockAdClicksWindow'] != 0) {
 MAX_Delivery_log_setClickBlocked($i, $adId);
