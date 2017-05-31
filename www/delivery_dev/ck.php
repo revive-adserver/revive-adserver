@@ -61,12 +61,15 @@ if (!empty($conf['deliveryLog']['enabled'])) {
     }
 }
 
+// If only the Zone ID is supplied, then go the cache/database for the Banner ID
 if (empty($adId) && !empty($zoneId)) {
     foreach ($zoneId as $index => $zone) {
         $adId[$index] = _getZoneAd($zone);
         $creativeId[$index] = 0;
     }
 }
+
+// Log the click
 for ($i = 0; $i < count($adId); $i++) {
     $adId[$i] = intval($adId[$i]);
     $zoneId[$i] = intval($zoneId[$i]);
@@ -76,11 +79,17 @@ for ($i = 0; $i < count($adId); $i++) {
         $creativeId[$i] = 0;
     }
     if (($adId[$i] > 0 || $adId[$i] == -1) && ($conf['logging']['adClicks']) && !(isset($_GET['log']) && ($_GET['log'] == 'no'))) {
+        // Don't log the click if click blocking is enabled for the banner
         if (!MAX_Delivery_log_isClickBlocked($adId[$i], $aBlockLoggingClick)) {
+            // If click blocking is enabled, set the cookie of the click, so
+            // that click blocking can work for the banner on the next click
             if (isset($GLOBALS['conf']['logging']['blockAdClicksWindow']) && $GLOBALS['conf']['logging']['blockAdClicksWindow'] != 0) {
                 MAX_Delivery_log_setClickBlocked($i, $adId);
             }
+            // Log the click in the database
             MAX_Delivery_log_logAdClick($adId[$i], $zoneId[$i]);
+            // Update the cookie that stores click actions for conversion
+            // tracking
             MAX_Delivery_log_setLastAction($i, $adId, $zoneId, $lastClick, 'click');
         }
     }
@@ -93,7 +102,7 @@ MAX_cookieFlush();
 // Get the URL that we are going to redirect to
 $destination = MAX_querystringGetDestinationUrl($adId[0]);
 
-// Redirect to the destination url
+// Redirect to the destination URL
 if (!empty($destination) && empty($_GET['trackonly'])) {
     // Prevent HTTP response split attacks
     if (!preg_match('/[\r\n]/', $destination)) {
