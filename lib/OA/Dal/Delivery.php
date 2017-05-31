@@ -348,12 +348,12 @@ function OA_Dal_Delivery_getPublisherZones($publisherid) {
  * @return array|false
  *               The array containg zone information with nested arrays of linked ads
  *               or false on failure. Note that:
- *                  - Override campaign creatives are in "xAds"
- *                  - Contract campaign creatives are in "ads"
- *                  - Remnant campaign creatives ads are in "lAds"
+ *                  - Override campaign ads are in "xAds"
+ *                  - Contract campaign ads are in "ads"
+ *                  - Remnant campaign ads are in "lAds"
  *                  - Override and Remnant campaign creatives have had
- *                    their priorities calculated on the basis of the campaign and
- *                    creative weights
+ *                    their priorities calculated on the basis of the campaign
+ *                    and creative weights
  */
 function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
 
