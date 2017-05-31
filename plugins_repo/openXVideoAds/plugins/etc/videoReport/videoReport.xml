@@ -4,13 +4,13 @@
 <plugin>
     <name>videoReport</name>
     <displayName>IAB VAST Report Plugin</displayName>
-    <creationDate>2017-05-03</creationDate>
+    <creationDate>2017-05-31</creationDate>
     <author>Revive Adserver</author>
     <authorEmail>revive@revive-adserver.com</authorEmail>
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>LICENSE.txt</license>
     <description>Plugin that provides IAB VAST video ad support.</description>
-    <version>1.11.6</version>
+    <version>1.11.7</version>
     <oxversion>3.2.0-beta-rc3</oxversion>
 
     <install>
@@ -18,18 +18,9 @@
         </syscheck>
 
         <files>
-            <!--
-            <file path="{GROUPPATH}/">processPreferences.php</file>
-            <file path="{GROUPPATH}/">processSettings.php</file>
-            -->
-
             <file path="{ADMINPATH}/navigation/">oxVastMenuChecker.php</file>
-
             <file path="{ADMINPATH}/">VastAreaGraph.php</file>
             <file path="{ADMINPATH}/">VastMultiAreaGraph.php</file>
-            <file path="{ADMINPATH}/">players-content.css</file>
-            <file path="{ADMINPATH}/">players-content.html</file>
-            <file path="{ADMINPATH}/">players.php</file>
             <file path="{ADMINPATH}/">stats-api.php</file>
             <file path="{ADMINPATH}/">stats-export-csv.php</file>
             <file path="{ADMINPATH}/">stats-video.php</file>
@@ -51,21 +42,13 @@
             <file path="{ADMINPATH}/css/">report.css</file>
             <file path="{ADMINPATH}/css/">ui.datepicker.css</file>
             <file path="{ADMINPATH}/images/">arrow-blue-left.gif</file>
-            <file path="{ADMINPATH}/images/">box-left.png</file>
-            <file path="{ADMINPATH}/images/">box-middle.png</file>
-            <file path="{ADMINPATH}/images/">box-right.png</file>
             <file path="{ADMINPATH}/images/">button-arrow-left.gif</file>
             <file path="{ADMINPATH}/images/">button-arrow-right.gif</file>
             <file path="{ADMINPATH}/images/">corner_diagram.png</file>
-            <file path="{ADMINPATH}/images/">flowplayer.gif</file>
             <file path="{ADMINPATH}/images/">icon-calendar.gif</file>
             <file path="{ADMINPATH}/images/">icon-csv.gif</file>
             <file path="{ADMINPATH}/images/">icon-video-plugin-large.png</file>
-            <file path="{ADMINPATH}/images/">longtail.gif</file>
             <file path="{ADMINPATH}/images/">message-background.png</file>
-            <file path="{ADMINPATH}/images/">openvideoads.gif</file>
-            <file path="{ADMINPATH}/images/">panel-background.png</file>
-            <file path="{ADMINPATH}/images/">panel-corners.png</file>
             <file path="{ADMINPATH}/js/">ox.reports.js</file>
             <file path="{ADMINPATH}/js/">ui.core.js</file>
             <file path="{ADMINPATH}/js/">ui.datepicker-mod.js</file>
@@ -143,7 +126,6 @@
                 <menu addto="2.1.2.2" index="stats-vast-banner" link="plugins/videoReport/stats-video.php?entity=banner&amp;entityId={bannerid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVideoAds_vastMenuChecker" helplink="statistics/videoEvents">Ad Video Report</menu>
                 <menu addto="2.4.2" index="stats-vast-zone" link="plugins/videoReport/stats-video.php?entity=zone&amp;entityId={zoneid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVideoAds_vastMenuChecker" helplink="statistics/videoEvents">Zone Video Report</menu>
                 <menu addto="2.4" index="stats-vast-website" link="plugins/videoReport/stats-video.php?entity=website&amp;entityId={affiliateid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVideoAds_vastMenuChecker" helplink="statistics/videoEvents">Website Video Report</menu>
-                <menu addto="inventory" index="players-vast" link="plugins/videoReport/players.php" checker="Plugins_admin_openXVideoAds_vastMenuChecker">Video Ads - Player Info</menu>
                 <menu replace="zone-invocation" checker="Plugins_admin_openXVideoAds_vastMenuChecker"></menu>
             </manager>
 
@@ -153,20 +135,17 @@
                 <menu addto="2.1.2.2" index="stats-vast-banner" link="plugins/videoReport/stats-video.php?entity=banner&amp;entityId={bannerid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVideoAds_vastMenuChecker" helplink="statistics/videoEvents">Ad Video Report</menu>
                 <menu addto="2.4.2" index="stats-vast-zone" link="plugins/videoReport/stats-video.php?entity=zone&amp;entityId={zoneid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVideoAds_vastMenuChecker" helplink="statistics/videoEvents">Zone Video Report</menu>
                 <menu addto="2.4" index="stats-vast-website" link="plugins/videoReport/stats-video.php?entity=website&amp;entityId={affiliateid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVideoAds_vastMenuChecker" helplink="statistics/videoEvents">Website Video Report</menu>
-                <menu addto="inventory" index="players-vast" link="plugins/videoReport/players.php" checker="Plugins_admin_openXVideoAds_vastMenuChecker">Video Ads - Player Info</menu>
             </admin>
 
             <advertiser>
                 <menu addto="1" index="stats-vast-advertiser" link="plugins/videoReport/stats-video.php?entity=advertiser&amp;entityId={clientid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVideoAds_vastMenuChecker" helplink="statistics/videoEvents">Advertiser Video Report</menu>
                 <menu addto="1.2" index="stats-vast-campaign" link="plugins/videoReport/stats-video.php?entity=campaign&amp;entityId={campaignid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVideoAds_vastMenuChecker" helplink="statistics/videoEvents">Campaign Video Report</menu>
                 <menu addto="1.2.2" index="stats-vast-banner" link="plugins/videoReport/stats-video.php?entity=banner&amp;entityId={bannerid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVideoAds_vastMenuChecker" helplink="statistics/videoEvents">Ad Video Report</menu>
-                <menu addto="inventory" index="players-vast" link="plugins/videoReport/players.php" checker="Plugins_admin_openXVideoAds_vastMenuChecker">Video Ads - Player Info</menu>
             </advertiser>
 
             <trafficker>
                 <menu addto="1" index="stats-vast-website" link="plugins/videoReport/stats-video.php?entity=website&amp;entityId={affiliateid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVideoAds_vastMenuChecker" helplink="statistics/videoEvents">Website Video Report</menu>
                 <menu addto="1.2" index="stats-vast-zone" link="plugins/videoReport/stats-video.php?entity=zone&amp;entityId={zoneid}&amp;clientid={clientid}&amp;campaignid={campaignid}&amp;bannerid={bannerid}&amp;affiliateid={affiliateid}&amp;zoneid={zoneid}" checker="Plugins_admin_openXVideoAds_vastMenuChecker" helplink="statistics/videoEvents">Zone Video Report</menu>
-                <menu addto="inventory" index="players-vast" link="plugins/videoReport/players.php" checker="Plugins_admin_openXVideoAds_vastMenuChecker">Video Ads - Player Info</menu>
                 <menu replace="zone-invocation" checker="Plugins_admin_openXVideoAds_vastMenuChecker"></menu>
             </trafficker>
         </navigation>
