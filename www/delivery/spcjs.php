@@ -3177,11 +3177,11 @@ if ($key == 'id') { continue; }
 if ($magic_quotes_gpc) { $value = stripslashes($value); }
 $additionalParams .= htmlspecialchars('&'.urlencode($key).'='.urlencode($value), ENT_QUOTES);
 }
-$script = "
+$script = "var head = document.head || document.getElementsByTagName( 'head' )[0] || document.documentElement;
     if (typeof({$varprefix}zones) != 'undefined') {
         var {$varprefix}zoneids = '';
         for (var zonename in {$varprefix}zones) {$varprefix}zoneids += escape(zonename+'=' + {$varprefix}zones[zonename] + \"|\");
-        {$varprefix}zoneids += '&amp;nz=1';
+        {$varprefix}zoneids += '&nz=1';
     } else {
         var {$varprefix}zoneids = escape('" . implode('|', array_keys($aZones)) . "');
     }
@@ -3192,28 +3192,70 @@ MAX_commonConstructSecureDeliveryUrl($aConf['file']['singlepagecall'], true).
 "':'".
 MAX_commonConstructDeliveryUrl($aConf['file']['singlepagecall'])."';
     var {$varprefix}r=Math.floor(Math.random()*99999999);
-    {$varprefix}output = new Array();
+    {$varprefix}output = new Object();
 
-    var {$varprefix}spc=\"<\"+\"script type='text/javascript' \";
-    {$varprefix}spc+=\"src='\"+{$varprefix}p+\"?zones=\"+{$varprefix}zoneids;
-    {$varprefix}spc+=\"&amp;source=\"+escape({$varprefix}source)+\"&amp;r=\"+{$varprefix}r;" .
+      var {$varprefix}spc = {$varprefix}p+\"?zones=\"+{$varprefix}zoneids;
+    {$varprefix}spc+=\"&source=\"+escape({$varprefix}source)+\"&r=\"+{$varprefix}r;" .
 ((!empty($additionalParams)) ? "\n    {$varprefix}spc+=\"{$additionalParams}\";" : '') . "
     ";
 if (empty($_GET['charset'])) {
-$script .= "{$varprefix}spc+=(document.charset ? '&amp;charset='+document.charset : (document.characterSet ? '&amp;charset='+document.characterSet : ''));\n";
+$script .= "{$varprefix}spc+=(document.charset ? '&charset='+document.charset : (document.characterSet ? '&charset='+document.characterSet : ''));\n";
 }
 $script .= "
-    if (window.location) {$varprefix}spc+=\"&amp;loc=\"+escape(window.location);
-    if (document.referrer) {$varprefix}spc+=\"&amp;referer=\"+escape(document.referrer);
-    {$varprefix}spc+=\"'><\"+\"/script>\";
-    document.write({$varprefix}spc);
+    if (window.location) {$varprefix}spc+=\"&loc=\"+escape(window.location);
+    if (document.referrer) {$varprefix}spc+=\"&referer=\"+escape(document.referrer);
 
-    function {$varprefix}show(name) {
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = {$varprefix}spc;
+
+    head.insertBefore(script,head.firstChild);
+
+    function {$varprefix}show(id,name) {
         if (typeof({$varprefix}output[name]) == 'undefined') {
             return;
         } else {
-            document.write({$varprefix}output[name]);
+            document.getElementById(id).innerHTML = {$varprefix}output[name];
+            executeMarkup({$varprefix}output[name]);
         }
+    }
+    function executeMarkup(markup){
+        var init = function(){
+            var div = document.createElement('div');
+            div.innerHTML = markup;
+            var arr = div.getElementsByTagName('script');
+            var len = arr.length;
+            for(var j=0;j<len;j++){
+                if(arr[j].hasAttribute('src')){
+                    execScript(arr[j],arr[j].getAttribute('src'))
+                }else{
+                    execScript(arr[j],'');
+                }
+            }
+        }
+        var execScript = function(ele,source){
+                if(source.length && (source.indexOf(\"//\") || source.indexOf(\"http:\") || source.indexOf(\"https:\")== -1)){
+                   var useSSL = 'https:'==document.location.protocol;
+                   sourceArray = source.split('//');
+                   source = sourceArray[sourceArray.length - 1]
+                   source = useSSL?'https:':'http:'+source;
+                }
+                 evaluateScript(ele.text || ele.textContent || ele.innerHTML, source);
+        }
+        var evaluateScript = function(code, source){
+            var head = document.head || document.getElementsByTagName( \"head\" )[0] || document.documentElement,
+            script = document.createElement( \"script\" );
+            if(source!==''){
+                script.src=source;
+            }else{
+                script.text = code;
+            }
+            // Use insertBefore instead of appendChild to circumvent an IE6 bug.
+            // This arises when a base node is used (#2709).
+            head.insertBefore( script, head.firstChild );
+            head.removeChild( script );
+        }
+        init();
     }
 
     function {$varprefix}showpop(name) {
