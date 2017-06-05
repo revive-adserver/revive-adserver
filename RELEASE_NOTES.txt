@@ -36,6 +36,9 @@ What's New in Revive Adserver 4.1.0
  * Fixed display of shortcuts to advertisers, campaigns, banners, websites,
    zones, etc. on the statistics pages.
 
+ * Added missing check for access to the required PHP scandir() function in the
+   pre-initialisation system.
+
  Non-Backwards Compatible Changes
  --------------------------------
 
