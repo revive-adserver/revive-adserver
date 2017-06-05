@@ -212,6 +212,7 @@ function RV_checkSystemInitialRequirements(&$aErrors){
         'parse_ini_file',
         'version_compare',
         'set_include_path',
+        'scandir'
     );
 
     // Prepare error strings, in the simplest possible way
