@@ -4,13 +4,13 @@
 <plugin>
     <name>oxInvocationTags</name>
     <displayName>Invocation Tags Plugin</displayName>
-    <creationDate>2016-12-28</creationDate>
+    <creationDate>2017-06-08</creationDate>
     <author>Revive Adserver</author>
     <authorEmail>revive@revive-adserver.com</authorEmail>
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>LICENSE.txt</license>
     <description>Plugin that provides invocation tags for displaying banners on websites.</description>
-    <version>1.4.6</version>
+    <version>1.4.7</version>
     <oxversion>3.2.0-beta-rc3</oxversion>
     <extends>invocationTags</extends>
 

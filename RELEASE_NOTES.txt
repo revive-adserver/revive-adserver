@@ -39,6 +39,8 @@ What's New in Revive Adserver 4.1.0
  * Added missing check for access to the required PHP scandir() function in the
    pre-initialisation system.
 
+ * Fixed invalid PHP comment in the local mode invocation tags.
+
  Non-Backwards Compatible Changes
  --------------------------------
 

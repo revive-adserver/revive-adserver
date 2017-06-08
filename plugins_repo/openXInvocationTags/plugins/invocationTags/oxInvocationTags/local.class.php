@@ -105,7 +105,8 @@ class Plugins_InvocationTags_OxInvocationTags_local extends Plugins_InvocationTa
         $name = PRODUCT_NAME;
         $mi = &$this->maxInvocation;
 
-        $buffer = $mi->buffer;
+        // Strip HTML comment tags from buffer
+        $buffer = str_replace(['<!--', '-->'], '', $mi->buffer);
 
         // Deal with windows style paths
         $path = MAX_PATH;
@@ -116,7 +117,7 @@ class Plugins_InvocationTags_OxInvocationTags_local extends Plugins_InvocationTa
         if (empty($mi->campaignid)) $mi->campaignid = 0;
         if (empty($mi->bannerid))   $mi->bannerid = 0;
 
-        $buffer = "<"."?php\n  //" . $buffer;
+        $buffer = "<"."?php\n  " . $buffer;
         $buffer .= (!empty($mi->comments)) ? "  // The MAX_PATH below should point to the base of your {$name} installation\n" : '';
         $buffer .= "  define('MAX_PATH', '" . MAX_PATH . "');\n";
         $buffer .= "  if (@include_once(MAX_PATH . '/www/delivery" . (preg_match('#_dev\/?$#', $conf['webpath']['delivery']) ? '_dev' : '') . "/{$conf['file']['local']}')) {\n";
