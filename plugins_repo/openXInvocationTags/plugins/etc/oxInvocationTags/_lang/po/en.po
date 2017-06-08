@@ -60,7 +60,7 @@ msgstr = "Popup Tag"
 msgid = "Local Mode Tag"
 msgstr = "Local Mode Tag"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/local.class.php:135
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/local.class.php:136
 msgid = "Assign the \$phpAds_raw['html'] variable to your template"
 msgstr = "Assign the \$phpAds_raw['html'] variable to your template"
 
