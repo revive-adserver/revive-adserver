@@ -45,7 +45,7 @@ class Plugins_InvocationTagsOptions
             'hostlanguage'      => '',
             'thirdPartyServer'  => $conf['delivery']['clicktracking'],
             'cachebuster'       => 1,
-            'comments'          => 1,
+            'comments'          => 0,
             'charset'           => '',
         );
     }

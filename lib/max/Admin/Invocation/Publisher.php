@@ -24,7 +24,7 @@ class MAX_Admin_Invocation_Publisher extends MAX_Admin_Invocation {
      *
      * @var array Array of $key => $defaultValue
      */
-    var $defaultOptionValues = array('comments' => 1);
+    var $defaultOptionValues = array('comments' => 0);
 
     /**
      * Place invocation form - generate form with group of options for every plugin,
