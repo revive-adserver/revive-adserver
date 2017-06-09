@@ -30,6 +30,11 @@ What's New in Revive Adserver 4.1.0
  * Updated the pages under the Statistics tab to all be called "Statistics" 
    pages in the UI, instead of (in some places), "History" pages.
 
+ * Invocation tags are now generated with a much shorter comment, and, by
+   default, no longer include the large block of comments in the tag. (The
+   comments can be switched on for a given tag, if required, during tag
+   generation.)
+
  Bug Fixes
  ---------
 
