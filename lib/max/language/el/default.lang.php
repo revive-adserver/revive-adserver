@@ -21,6 +21,7 @@
 /* Translations                                          */
 /* ------------------------------------------------------- */
 
+$GLOBALS['strHome'] = "Αρχική Σελίδα";
 $GLOBALS['strHelp'] = "Βοήθεια";
 $GLOBALS['strStartOver'] = "Επανεκκίνηση";
 $GLOBALS['strShortcuts'] = "Συντομεύσεις";
@@ -34,7 +35,9 @@ $GLOBALS['strAppendTrackerCode'] = "Επισύναψη Κώδικα Παρακο
 $GLOBALS['strOverview'] = "Με μια ματιά";
 $GLOBALS['strSearch'] = "<u>Α</u>ναζήτηση";
 $GLOBALS['strDetails'] = "Πληροφορίες";
+$GLOBALS['strUpdateSettings'] = "Ενημέρωση ρυθμίσεων";
 $GLOBALS['strCheckForUpdates'] = "Έλεγχος Ενημερώσεων";
+$GLOBALS['strWhenCheckingForUpdates'] = "Έλεγχος για ενημερώσεις";
 $GLOBALS['strCompact'] = "Συμπικνωμένο";
 $GLOBALS['strUser'] = "Χρήστης";
 $GLOBALS['strDuplicate'] = "Αντιγραφή";
@@ -48,6 +51,7 @@ $GLOBALS['strUp'] = "Επάνω";
 $GLOBALS['strDown'] = "Κάτω";
 $GLOBALS['strSave'] = "Αποθήκευση";
 $GLOBALS['strCancel'] = "Ακύρωση";
+$GLOBALS['strBack'] = "Επιστροφή";
 $GLOBALS['strPrevious'] = "Προηγούμενο";
 $GLOBALS['strNext'] = "Επόμενο";
 $GLOBALS['strYes'] = "Ναι";
@@ -55,12 +59,16 @@ $GLOBALS['strNo'] = "Όχι";
 $GLOBALS['strNone'] = "Κανένα";
 $GLOBALS['strCustom'] = "Παραμετροποιημένο";
 $GLOBALS['strDefault'] = "Προεπιλογή";
+$GLOBALS['strUnknown'] = "Άγνωστο";
 $GLOBALS['strUnlimited'] = "Απεριόριστο";
 $GLOBALS['strUntitled'] = "Χωρίς Τίτλο";
+$GLOBALS['strAll'] = "όλα";
 $GLOBALS['strAverage'] = "Μέσος Όρος";
 $GLOBALS['strOverall'] = "Συνολικά";
 $GLOBALS['strTotal'] = "Σύνολο";
+$GLOBALS['strFrom'] = "Από";
 $GLOBALS['strTo'] = "σε";
+$GLOBALS['strAdd'] = "Προσθήκη";
 $GLOBALS['strLinkedTo'] = "σύνδεση με";
 $GLOBALS['strDaysLeft'] = "Μέρες που απομένουν";
 $GLOBALS['strCheckAllNone'] = "Τσέκαρε τα όλα / κανένα";
@@ -157,6 +165,13 @@ $GLOBALS['strDayOfWeek'] = "Ημέρα της εβδομάδας";
 if (!isset($GLOBALS['strDayFullNames'])) {
     $GLOBALS['strDayFullNames'] = array();
 }
+$GLOBALS['strDayFullNames'][0] = 'Κυριακή';
+$GLOBALS['strDayFullNames'][1] = 'Δευτέρα';
+$GLOBALS['strDayFullNames'][2] = 'Τρίτη';
+$GLOBALS['strDayFullNames'][3] = 'Τετάρτη';
+$GLOBALS['strDayFullNames'][4] = 'Πέμπτη';
+$GLOBALS['strDayFullNames'][5] = 'Παρασκευή';
+$GLOBALS['strDayFullNames'][6] = 'Σάββατο';
 
 if (!isset($GLOBALS['strDayShortCuts'])) {
     $GLOBALS['strDayShortCuts'] = array();
@@ -173,6 +188,7 @@ $GLOBALS['strClients'] = "Διαφημιζόμενοι";
 $GLOBALS['strClientsAndCampaigns'] = "Διαφημιζόμενοι & Καμπάνιες";
 $GLOBALS['strAddClient'] = "Προσθήκη νέου διαφημιζόμενου";
 $GLOBALS['strClientProperties'] = "Ιδιότητες Διαφημιζόμενου";
+$GLOBALS['strClientHistory'] = "Στατιστικά διαφημιστή";
 $GLOBALS['strAdvertiserCampaigns'] = "Διαφημιζόμενοι & Καμπάνιες";
 
 // Advertisers properties
