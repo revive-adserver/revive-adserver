@@ -3267,7 +3267,7 @@ $creativeId[$i] = 0;
 if (($adId[$i] > 0 || $adId[$i] == -1) && ($conf['logging']['adClicks']) && !(isset($_GET['log']) && ($_GET['log'] == 'no'))) {
 if (isset($GLOBALS['conf']['logging']['blockInactiveBannerClicks'])) {
 $aAdInfo = MAX_cacheGetAd($adId[$i]);
-if ($aAdInfo['status'] != 0 || $aAdInfo['campaign_status'] != 0) {
+if ($aAdInfo['status'] != OA_ENTITY_STATUS_RUNNING || $aAdInfo['campaign_status'] != OA_ENTITY_STATUS_RUNNING) {
 return;
 }
 }
