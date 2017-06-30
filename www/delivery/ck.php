@@ -1220,7 +1220,8 @@ $query = "
         c.clickwindow AS clickwindow,
         c.viewwindow AS viewwindow,
         m.advertiser_limitation AS advertiser_limitation,
-        m.agencyid AS agency_id
+        m.agencyid AS agency_id,
+        c.status AS campaign_status
     FROM
         ".OX_escapeIdentifier($conf['table']['prefix'].$conf['table']['banners'])." AS d,
         ".OX_escapeIdentifier($conf['table']['prefix'].$conf['table']['campaigns'])." AS c,
@@ -3264,6 +3265,12 @@ $creativeId[$i] = intval($creativeId[$i]);
 $creativeId[$i] = 0;
 }
 if (($adId[$i] > 0 || $adId[$i] == -1) && ($conf['logging']['adClicks']) && !(isset($_GET['log']) && ($_GET['log'] == 'no'))) {
+if (isset($GLOBALS['conf']['logging']['blockInactiveBannerClicks'])) {
+$aAdInfo = MAX_cacheGetAd($adId[$i]);
+if ($aAdInfo['status'] != OA_ENTITY_STATUS_RUNNING || $aAdInfo['campaign_status'] != OA_ENTITY_STATUS_RUNNING) {
+return;
+}
+}
 if (!MAX_Delivery_log_isClickBlocked($adId[$i], $aBlockLoggingClick)) {
 if (isset($GLOBALS['conf']['logging']['blockAdClicksWindow']) && $GLOBALS['conf']['logging']['blockAdClicksWindow'] != 0) {
 MAX_Delivery_log_setClickBlocked($i, $adId);

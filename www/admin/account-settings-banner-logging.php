@@ -41,33 +41,38 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     $aElements += array(
         'logging_adRequests'          => array(
              'logging'                => 'adRequests',
-             'bool'                   => 'true'
+             'bool'                   => 'true',
          ),
         'logging_adImpressions'       => array(
              'logging'                => 'adImpressions',
-             'bool'                   => 'true'
+             'bool'                   => 'true',
          ),
         'logging_adClicks'            => array(
              'logging'                => 'adClicks',
-             'bool'                   => 'true'
+             'bool'                   => 'true',
          ),
         'logging_reverseLookup'       => array(
              'logging'                => 'reverseLookup',
-             'bool'                   => 'true'
+             'bool'                   => 'true',
          ),
         'logging_proxyLookup'         => array(
              'logging'                => 'proxyLookup',
-             'bool'                   => 'true'
-         ),
-/*        'logging_sniff'               => array(
-              'logging'               => 'sniff',
-              'bool'                  => 'true'
-         )*/
+             'bool'                   => 'true',
+         )
     );
+    
+    // Block Inactive Banner Clicks Settings
+    $aElements += array(
+         'logging_blockInactiveBannerClicks'=> array(
+             'logging'                => 'blockInactiveBannerClicks',
+             'bool'                   => 'true',
+         )
+     );
+    
     // Block Banner Logging Window Settings
     $aElements += array(
          'logging_blockAdClicksWindow'=> array(
-             'logging'                => 'blockAdClicksWindow'
+             'logging'                => 'blockAdClicksWindow',
          )
      );
 
@@ -77,7 +82,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             'logging'      => 'ignoreHosts',
             'preg_split'   => "/ |,|;|\r|\n/",
             'merge'        => ',',
-            'merge_unique' => true
+            'merge_unique' => true,
         )
     );
 
@@ -140,17 +145,17 @@ $aSettings = array (
             array (
                 'type'    => 'checkbox',
                 'name'    => 'logging_adRequests',
-                'text'    => $strLogAdRequests
+                'text'    => $strLogAdRequests,
             ),
             array (
                 'type'    => 'checkbox',
                 'name'    => 'logging_adImpressions',
-                'text'    => $strLogAdImpressions
+                'text'    => $strLogAdImpressions,
             ),
             array (
                 'type'    => 'checkbox',
                 'name'    => 'logging_adClicks',
-                'text'    => $strLogAdClicks
+                'text'    => $strLogAdClicks,
             ),
             array (
                 'type'    => 'break'
@@ -158,23 +163,26 @@ $aSettings = array (
             array (
                 'type'    => 'checkbox',
                 'name'    => 'logging_reverseLookup',
-                'text'    => $strReverseLookup
+                'text'    => $strReverseLookup,
             ),
             array (
                 'type'    => 'checkbox',
                 'name'    => 'logging_proxyLookup',
-                'text'    => $strProxyLookup
-            ),
-/*            array (
-                'type'    => 'checkbox',
-                'name'    => 'logging_sniff',
-                'text'    => $strSniff
-            )*/
+                'text'    => $strProxyLookup,
+            )
         )
     ),
     array (
         'text'  => $strPreventLogging,
         'items' => array (
+            array (
+                'type'    => 'checkbox',
+                'name'    => 'logging_blockInactiveBannerClicks',
+                'text'    => $strBlockInactiveBannerClicks,
+            ),
+            array (
+                'type'    => 'break'
+            ),
             array (
                 'type'    => 'text',
                 'name'    => 'logging_blockAdClicksWindow',
@@ -210,7 +218,7 @@ $aSettings = array (
                 'text'    => $strEnforceUserAgents,
                 'preg_split'=> '/\|/',
                 'merge'     => "\n",
-            ),
+            )
         )
     )
 );

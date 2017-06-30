@@ -247,23 +247,22 @@ function MAX_cacheGetAccountTZs($cached = true)
  *                   The array containg zone information with nested arrays of linked ads
  *                   or false on failure. Note that:
  *                      - Override ads are in "xAds"
- *                      - Normal (paid) ads are in "ads"
- *                      - Low-priority ads are in "lAds"
+ *                      - Contract campaign ads are in "ads"
+ *                      - Remnant campaign ads are in "lAds"
  *                      - Companion ads, in addition to being in one of the above, are
  *                        also in "cAds" and "clAds"
- *                      - Override and low-priority ads have had their priorities
- *                        calculated on the basis of the placement and advertisement
- *                        weight
+ *                      - Override and Remnant ads have had their priorities
+ *                        calculated on the basis of the campaign and creative
+ *                        weights
  */
 function MAX_cacheGetZoneLinkedAds($zoneId, $cached = true)
 {
-    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $zoneId);
+    $sName = OA_Delivery_Cache_getName(__FUNCTION__, $zoneId);
     if (!$cached || ($aRows = OA_Delivery_Cache_fetch($sName)) === false) {
         MAX_Dal_Delivery_Include();
         $aRows = OA_Dal_Delivery_getZoneLinkedAds($zoneId);
         $aRows = OA_Delivery_Cache_store_return($sName, $aRows);
     }
-
     return $aRows;
 }
 

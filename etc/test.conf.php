@@ -192,18 +192,19 @@ defaultClickConnectionWindow        =
 ignoreHosts                         =         ; Comma separated list of hosts
 ignoreUserAgents                    =         ; Pipe separated list of user-agents to ignore
 enforceUserAgents                   =         ; Pipe separated list of user-agents to enforce
-blockAdClicksWindow                 = 0      ; window for block clicks logging in seconds
+blockAdClicksWindow                 = 0       ; Window for block clicks logging in seconds
+blockInactiveBannerClicks           = 1       ; Should recording of clicks & re-direction be blocked if the banner is inactive?
 
 [maintenance]
 autoMaintenance                     = 1
 timeLimitScripts                    = 1800    ; Should maintenance scripts be limited to run no longer than
-                                             ; this many seconds? Set to 0 for no time limit
+                                              ; this many seconds? Set to 0 for no time limit
 
 operationInterval                   = 60
 
-blockAdImpressions                  = 0      ; How many seconds must be between impressions and clicks
-blockAdClicks                       = 0      ; from the same viewer ID for them to count? Set to 0 seconds
-                                             ; for all to count.
+blockAdImpressions                  = 0       ; How many seconds must be between impressions and clicks
+blockAdClicks                       = 0       ; from the same viewer ID for them to count? Set to 0 seconds
+                                              ; for all to count.
 
 channelForecasting                  = false
 pruneCompletedCampaignsSummaryData  = false
