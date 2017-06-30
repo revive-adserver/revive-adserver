@@ -1220,7 +1220,8 @@ $query = "
         c.clickwindow AS clickwindow,
         c.viewwindow AS viewwindow,
         m.advertiser_limitation AS advertiser_limitation,
-        m.agencyid AS agency_id
+        m.agencyid AS agency_id,
+        c.status AS campaign_status
     FROM
         ".OX_escapeIdentifier($conf['table']['prefix'].$conf['table']['banners'])." AS d,
         ".OX_escapeIdentifier($conf['table']['prefix'].$conf['table']['campaigns'])." AS c,
@@ -3265,16 +3266,8 @@ $creativeId[$i] = 0;
 }
 if (($adId[$i] > 0 || $adId[$i] == -1) && ($conf['logging']['adClicks']) && !(isset($_GET['log']) && ($_GET['log'] == 'no'))) {
 if (isset($GLOBALS['conf']['logging']['blockInactiveBannerClicks'])) {
-$exitProcessing = true;
-$aZoneLinkedAds = MAX_cacheGetZoneLinkedAds($zoneId);
-$aAds = array_merge($aZoneLinkedAds['xAds'], $aZoneLinkedAds['ads'], $aZoneLinkedAds['lAds']);
-foreach ($aAds as $aAdInfo) {
-if ($adId[$i] == $aAdInfo['ad_id']) {
-$exitProcessing = false;
-break;
-}
-}
-if ($exitProcessing) {
+$aAdInfo = MAX_cacheGetAd($adId[$i]);
+if ($aAdInfo['status'] != 0 || $aAdInfo['campaign_status'] != 0) {
 return;
 }
 }
