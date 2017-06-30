@@ -84,12 +84,12 @@ for ($i = 0; $i < count($adId); $i++) {
         // without recording the click or performing redirection
         if (isset($GLOBALS['conf']['logging']['blockInactiveBannerClicks'])) {
             $aAdInfo = MAX_cacheGetAd($adId[$i]);
-            if ($aAdInfo['status'] != 0 || $aAdInfo['campaign_status'] != 0) {
+            if ($aAdInfo['status'] != OA_ENTITY_STATUS_RUNNING || $aAdInfo['campaign_status'] != OA_ENTITY_STATUS_RUNNING) {
                 // The ad and/or campaign is inactive - exit processing at this
                 // stage, so that the click is not logged, and the click does
                 // not redirect in the browser
                 return;
-            }            
+            }
         }
         // Don't log the click if click blocking is enabled for the banner
         if (!MAX_Delivery_log_isClickBlocked($adId[$i], $aBlockLoggingClick)) {
