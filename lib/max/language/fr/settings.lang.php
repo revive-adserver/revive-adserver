@@ -228,7 +228,6 @@ $GLOBALS['strBannerStorage'] = "Paramètres de stockage des bannières";
 $GLOBALS['strMaintenanceSettings'] = "Paramètres de maintenance";
 $GLOBALS['strConversionTracking'] = "Paramètres de suivi des conversions";
 $GLOBALS['strEnableConversionTracking'] = "Activer le suivi des conversions";
-$GLOBALS['strBlockAdClicks'] = "Ne pas compter les clics publicitaires si le visiteur a vu la même paire publicité/zone dans l'intervalle de temps spécifié (secondes)";
 $GLOBALS['strMaintenanceOI'] = "Intervalle entre les opérations de maintenance (minutes)";
 $GLOBALS['strPrioritySettings'] = "Paramètres de priorité";
 $GLOBALS['strPriorityInstantUpdate'] = "Mettre à jour les priorités des publicités immédiatement après avoir effectué des changements dans l'IU";

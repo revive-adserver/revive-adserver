@@ -204,7 +204,6 @@ $GLOBALS['strBannerStorage'] = "廣告存儲設置";
 
 // Statistics & Maintenance Settings
 $GLOBALS['strMaintenanceSettings'] = "維護設置";
-$GLOBALS['strBlockAdClicks'] = "如果瀏覽者在在指定時間（秒）內點擊同一個廣告，不計算廣告點擊數";
 $GLOBALS['strMaintenanceOI'] = "管理運行間隔（分鐘)";
 $GLOBALS['strPrioritySettings'] = "全局優先權設定";
 $GLOBALS['strPriorityInstantUpdate'] = "修改後廣告優先級立即生效";

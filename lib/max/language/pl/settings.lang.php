@@ -227,7 +227,6 @@ $GLOBALS['strBannerStorage'] = "Ustawienia przechowywania banerów";
 $GLOBALS['strMaintenanceSettings'] = "Ustawienia konserwacji";
 $GLOBALS['strConversionTracking'] = "Ustawienia śledzenia konwersji";
 $GLOBALS['strEnableConversionTracking'] = "Uruchom śledzenie konwersji";
-$GLOBALS['strBlockAdClicks'] = "Nie zliczaj Kliknięć, jeśli odwiedzający kliknął tę samą parę reklama/strefa w ciągu określonego okresu czasu (w sekundach)";
 $GLOBALS['strMaintenanceOI'] = "Odstęp między przeprowadzaniem konserwacji (w minutach)";
 $GLOBALS['strPrioritySettings'] = "Ustawienia priorytetów";
 $GLOBALS['strPriorityInstantUpdate'] = "Aktualizuj priorytety reklamy natychmiast po modyfikacjach w interfejsie";

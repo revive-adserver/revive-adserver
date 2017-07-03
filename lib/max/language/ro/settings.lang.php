@@ -223,7 +223,6 @@ $GLOBALS['strBannerStorage'] = "Setări Stocare Banner";
 $GLOBALS['strMaintenanceSettings'] = "Setări Întreţinere";
 $GLOBALS['strConversionTracking'] = "Setări pentru Urmărirea Conversiilor";
 $GLOBALS['strEnableConversionTracking'] = "Activează Urmărirea Conversiilor";
-$GLOBALS['strBlockAdClicks'] = "Nu contoriza Click-urile pe Reclame dacă vizitatorul a mai făcut click pe aceeaşi pereche reclamă/zonă în timpul specificat (secunde)";
 $GLOBALS['strMaintenanceOI'] = "Intervalul Operaţiunii de Întreţinere (minute)";
 $GLOBALS['strPrioritySettings'] = "Setări de Prioritate";
 $GLOBALS['strPriorityInstantUpdate'] = "Actualizează priorităţile reclamelor imediat ce sunt făcute schimbări în Interfaţa Utilizatorului";

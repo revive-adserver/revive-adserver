@@ -209,7 +209,6 @@ $GLOBALS['strBannerStorage'] = "Banerio išsaugojimo nustatymai";
 $GLOBALS['strMaintenanceSettings'] = "Techninio aptarnavimo nustatymai";
 $GLOBALS['strConversionTracking'] = "Agento konvertacijos nustatymai";
 $GLOBALS['strEnableConversionTracking'] = "Įgalinti agento konvertaciją";
-$GLOBALS['strBlockAdClicks'] = "Neskaičiuoti paspaudimų jei peržiūrėtojas paspaudė ant tos pačios zonos poros per tam tikrą laiką (sekundės)";
 $GLOBALS['strMaintenanceOI'] = "Techninio aptarnavimo intervalas (minutės)";
 $GLOBALS['strPrioritySettings'] = "Pirmenybės nustatymai";
 $GLOBALS['strPriorityInstantUpdate'] = "Atnaujinti reklamos pirmenybės iš karto kai tik atliekami bet kokie UI pasikeitimai";

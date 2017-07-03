@@ -257,7 +257,6 @@ $GLOBALS['strInactivatedCampaigns'] = "Lijst van campagnes die inactief zijn gew
 $GLOBALS['strMaintenanceSettings'] = "Onderhoudsinstellingen";
 $GLOBALS['strConversionTracking'] = "Instellingen voor Conversion Tracking";
 $GLOBALS['strEnableConversionTracking'] = "Conversion Tracking inschakelen";
-$GLOBALS['strBlockAdClicks'] = "Tel geen kliks als de bezoeker op dezelfde advertentie/zone heeft geklikt binnen de aangegeven tijdsduur (secondes)";
 $GLOBALS['strMaintenanceOI'] = "Operatie onderhoudsinterval (minuten)";
 $GLOBALS['strPrioritySettings'] = "Prioriteitsinstellingen";
 $GLOBALS['strPriorityInstantUpdate'] = "Bijwerken van advertentie prioriteiten onmiddellijk nadat er wijzigingen aangebracht via de gebruikersinterface";
