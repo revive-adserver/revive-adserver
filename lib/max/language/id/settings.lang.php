@@ -167,7 +167,6 @@ $GLOBALS['strIgnoreHosts'] = "Don't store statistics for viewers using one of th
 // Campaign ECPM settings
 
 // Statistics & Maintenance Settings
-$GLOBALS['strBlockAdClicks'] = "Don't log an Ad Click if the viewer has clicked on the same ad within the specified time (seconds)";
 $GLOBALS['strPrioritySettings'] = "Penyetelan prioritas secara global";
 $GLOBALS['strAdminEmailHeaders'] = "Tambahkan header berikut pada semua E-Mail yang dikirimkan oleh {$PRODUCT_NAME}";
 $GLOBALS['strWarnLimit'] = "Kirimkan pemberitahuan bilamana jumlah impresi yang tersisa kurang dari jumlah impresi yang ditentukan disini";
