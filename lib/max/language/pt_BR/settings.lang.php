@@ -224,7 +224,6 @@ $GLOBALS['strBannerStorage'] = "Configurações  de armazenamento de banners";
 $GLOBALS['strMaintenanceSettings'] = "Configurações de manutenção";
 $GLOBALS['strConversionTracking'] = "Configurações de acompanhamento de Conversões";
 $GLOBALS['strEnableConversionTracking'] = "Habilitar acompanhamento de Conversões";
-$GLOBALS['strBlockAdClicks'] = "Não contar cliques se o visualizador clicar o mesmo par de anúncio/zona dentro do tempo especificado (segundos)";
 $GLOBALS['strMaintenanceOI'] = "Intervalo de operações de manutenção (minutos)";
 $GLOBALS['strPrioritySettings'] = "Configurações de prioridade";
 $GLOBALS['strPriorityInstantUpdate'] = "Atualizar prioridade de anúncios imediatamente após mudanças na interface";

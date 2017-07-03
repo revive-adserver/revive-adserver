@@ -199,7 +199,6 @@ $GLOBALS['strIgnoreHosts'] = "A következő IP címek és kiszolgálónevek kiha
 // Campaign ECPM settings
 
 // Statistics & Maintenance Settings
-$GLOBALS['strBlockAdClicks'] = "Hírdetés kattintás számlálásának kihagyása ha a látogató kattintott az adott hírdetés/zóna párra a megadott időn belül (másodpercben)";
 $GLOBALS['strMaintenanceOI'] = "Karbantartás művelet időköze (percben)";
 $GLOBALS['strPrioritySettings'] = "Prioritás beállítások";
 $GLOBALS['strPriorityInstantUpdate'] = "Hirdetés prioritások frissítése rögtön a változtatások mentése után";

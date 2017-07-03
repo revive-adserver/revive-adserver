@@ -229,7 +229,6 @@ $GLOBALS['strBannerStorage'] = "Nastavitve hrambe pasic";
 $GLOBALS['strMaintenanceSettings'] = "Vzdrževalne nastavitve";
 $GLOBALS['strConversionTracking'] = "Nastavitve sledilnika pretvorb";
 $GLOBALS['strEnableConversionTracking'] = "Omogoči sledenje pretvorb";
-$GLOBALS['strBlockAdClicks'] = "Ne štej klikov oglasa, če je obiskovalec kliknil na enak oglas/področje znotraj označenega časa (v sekundah)";
 $GLOBALS['strMaintenanceOI'] = "Presledek vzdrževalnega postopka (v minutah)";
 $GLOBALS['strPrioritySettings'] = "Prednostne nastavitve";
 $GLOBALS['strPriorityInstantUpdate'] = "Takoj posodobi oglasne prioritete po spremembi uporabniškega vmesnika (UI)";

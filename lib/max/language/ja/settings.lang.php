@@ -231,7 +231,6 @@ $GLOBALS['strBannerStorage'] = "バナーストレージ設定";
 $GLOBALS['strMaintenanceSettings'] = "メンテナンス設定";
 $GLOBALS['strConversionTracking'] = "コンバージョン追跡設定";
 $GLOBALS['strEnableConversionTracking'] = "コンバージョンの追跡を有効にする";
-$GLOBALS['strBlockAdClicks'] = "特定の時間内に同じゾーンもしくは広告にアクセスするユーザがいた場合、その広告クリック数を取得しない";
 $GLOBALS['strMaintenanceOI'] = "メンテナンス時間間隔(分）";
 $GLOBALS['strPrioritySettings'] = "優先度設定";
 $GLOBALS['strPriorityInstantUpdate'] = "優先度の変更を即反映する";

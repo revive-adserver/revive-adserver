@@ -234,7 +234,6 @@ $GLOBALS['strInactivatedCampaigns'] = "Durch die Änderungen der Voreinstellunge
 $GLOBALS['strMaintenanceSettings'] = "Wartungseinstellungen";
 $GLOBALS['strConversionTracking'] = "Einstellungen zum Konversionen-Tracking";
 $GLOBALS['strEnableConversionTracking'] = "Konversionen-Tracking aktivieren";
-$GLOBALS['strBlockAdClicks'] = "Zähle keine Ad Klicks wenn der Betrachter auf diese Banner/Zonen-Kombination innerhalb dieses Zeitraums schon geklickt hat (in Sekunden)";
 $GLOBALS['strMaintenanceOI'] = "Wartungsintervall (in Minuten)";
 $GLOBALS['strPrioritySettings'] = "Einstellung der Prioritäten";
 $GLOBALS['strPriorityInstantUpdate'] = "Sofortige Neuberechnung der Prioritäten nach Änderungen in der Benutzeroberfläche.";

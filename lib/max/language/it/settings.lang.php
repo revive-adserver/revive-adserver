@@ -249,7 +249,6 @@ $GLOBALS['strInactivatedCampaigns'] = "Lista delle campagne che sono state disat
 $GLOBALS['strMaintenanceSettings'] = "Impostazioni di manutenzione";
 $GLOBALS['strConversionTracking'] = "Impostazioni del monitoraggio conversioni";
 $GLOBALS['strEnableConversionTracking'] = "Abilita il monitoraggio conversioni";
-$GLOBALS['strBlockAdClicks'] = "Non conteggiare il click se il visitatore ha cliccato la stessa inserzione nella stessa zona entro il tempo specificato (in secondi)";
 $GLOBALS['strMaintenanceOI'] = "Intervallo delle operazioni di manutenzione (in minuti)";
 $GLOBALS['strPrioritySettings'] = "Impostazioni Priorità";
 $GLOBALS['strPriorityInstantUpdate'] = "Aggiorna immediatamente le priorità a seguito di un cambiamento effettuato da interfaccia grafica";

@@ -259,7 +259,6 @@ $GLOBALS['strInactivatedCampaigns'] = "لیست کمپین هایی که بر ا
 $GLOBALS['strMaintenanceSettings'] = "تنظیمات نگهداری";
 $GLOBALS['strConversionTracking'] = "تنظیمات پیگیری تغییرات";
 $GLOBALS['strEnableConversionTracking'] = "فعال سازی پیگیری تغییرات";
-$GLOBALS['strBlockAdClicks'] = "نشمردن کلیک تبلیغات اگر بیننده روی همان جفت منطقه/تبلیغ در زمانی مشخص کلیک کرده";
 $GLOBALS['strMaintenanceOI'] = "تعمیر و نگهداری عملیات فاصله (دقیقه)";
 $GLOBALS['strPrioritySettings'] = "تنظیمات اولویت ها";
 $GLOBALS['strPriorityInstantUpdate'] = "بروزرسانی اولویت تبلیغات بلافاصله بعد از اعمال تغییرات در UI";
