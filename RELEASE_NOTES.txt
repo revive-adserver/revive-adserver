@@ -52,6 +52,9 @@ What's New in Revive Adserver 4.1.0
 
  * Fixed invalid PHP comment in the local mode invocation tags.
 
+ * Fixed incompatibility with "N;M;/path" syntax in session.save_path detection
+   during installation.
+
  Non-Backwards Compatible Changes
  --------------------------------
 
