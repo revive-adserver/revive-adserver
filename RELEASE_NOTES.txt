@@ -46,7 +46,9 @@ What's New in Revive Adserver 4.1.0
 
      * ACLs are now Delivery Options;
 
-     * Delivery Limitations are now Delivery Rules.
+     * Delivery Limitations are now Delivery Rules;
+
+     * Targeting Channels are now Delivery Rule Sets.
 
  Bug Fixes
  ---------

@@ -118,14 +118,14 @@ $GLOBALS['strAndPlain'] = "and";
 
 //  Deliver Limitations
 $GLOBALS['strDeliveryLimitations'] = "Delivery Rules";
-$GLOBALS['strAllBannerChannelCompiled'] = "All banner/channel compiled delivery rule values have been recompiled";
-$GLOBALS['strBannerChannelResult'] = "Here are the results of the banner/channel compiled delivery rule validation";
-$GLOBALS['strChannelCompiledLimitationsValid'] = "All compiled delivery rules for channels are valid";
+$GLOBALS['strAllBannerChannelCompiled'] = "All banner/delivery rule set compiled delivery rule values have been recompiled";
+$GLOBALS['strBannerChannelResult'] = "Here are the results of the banner/delivery rule set compiled delivery rule validation";
+$GLOBALS['strChannelCompiledLimitationsValid'] = "All compiled delivery rules for delivery rule sets are valid";
 $GLOBALS['strBannerCompiledLimitationsValid'] = "All compiled delivery rules for banners are valid";
 $GLOBALS['strErrorsFound'] = "Errors found";
-$GLOBALS['strRepairCompiledLimitations'] = "Some inconsistancies were found above, you can repair these using the button below, this will recompile the compiled limitation for every banner/channel in the system<br />";
+$GLOBALS['strRepairCompiledLimitations'] = "Some inconsistancies were found above, you can repair these using the button below, this will recompile the compiled limitation for every banner/delivery rule set in the system<br />";
 $GLOBALS['strRecompile'] = "Recompile";
-$GLOBALS['strDeliveryEngineDisagreeNotice'] = "Under some circumstances the delivery engine can disagree with the stored delivery rules for banners and channels, use the folowing link to validate the delivery rules in the database";
+$GLOBALS['strDeliveryEngineDisagreeNotice'] = "Under some circumstances the delivery engine can disagree with the stored delivery rules for banners and delivery rule sets, use the folowing link to validate the delivery rules in the database";
 $GLOBALS['strCheckACLs'] = "Check delivery rules";
 
 //  Append codes

@@ -1025,20 +1025,20 @@ $GLOBALS['strInactiveAgenciesHidden'] = "inactive account(s) hidden";
 $GLOBALS['strSwitchAccount'] = "Switch to this account";
 
 // Channels
-$GLOBALS['strChannel'] = "Targeting Channel";
-$GLOBALS['strChannels'] = "Targeting Channels";
-$GLOBALS['strChannelManagement'] = "Targeting Channel Management";
-$GLOBALS['strAddNewChannel'] = "Add new Targeting Channel";
-$GLOBALS['strAddNewChannel_Key'] = "Add <u>n</u>ew Targeting Channel";
+$GLOBALS['strChannel'] = "Delivery Rule Set";
+$GLOBALS['strChannels'] = "Delivery Rule Sets";
+$GLOBALS['strChannelManagement'] = "Delivery Rule Set Management";
+$GLOBALS['strAddNewChannel'] = "Add new Delivery Rule Set";
+$GLOBALS['strAddNewChannel_Key'] = "Add <u>n</u>ew Delivery Rule Set";
 $GLOBALS['strChannelToWebsite'] = "to website";
-$GLOBALS['strNoChannels'] = "There are currently no targeting channels defined";
-$GLOBALS['strNoChannelsAddWebsite'] = "There are currently no targeting channels defined, because there are no websites. To create a targeting channel, <a href='affiliate-edit.php'>add a new website</a> first.";
-$GLOBALS['strEditChannelLimitations'] = "Edit targeting channel limitations";
-$GLOBALS['strChannelProperties'] = "Targeting Channel properties";
+$GLOBALS['strNoChannels'] = "There are currently no delivery rule sets defined";
+$GLOBALS['strNoChannelsAddWebsite'] = "There are currently no delivery rule sets defined, because there are no websites. To create a delivery rule set, <a href='affiliate-edit.php'>add a new website</a> first.";
+$GLOBALS['strEditChannelLimitations'] = "Edit delivery options for the delivery rule set";
+$GLOBALS['strChannelProperties'] = "Delivery Rule Set Properties";
 $GLOBALS['strChannelLimitations'] = "Delivery Options";
-$GLOBALS['strConfirmDeleteChannel'] = "Do you really want to delete this targeting channel?";
-$GLOBALS['strConfirmDeleteChannels'] = "Do you really want to delete the selected targeting channels?";
-$GLOBALS['strChannelsOfWebsite'] = 'in'; //this is added between page name and website name eg. 'Targeting channels in www.example.com'
+$GLOBALS['strConfirmDeleteChannel'] = "Do you really want to delete this delivery rule set?";
+$GLOBALS['strConfirmDeleteChannels'] = "Do you really want to delete the selected delivery rule sets?";
+$GLOBALS['strChannelsOfWebsite'] = 'in'; //this is added between page name and website name eg. 'delivery rule sets in www.example.com'
 
 // Tracker Variables
 $GLOBALS['strVariableName'] = "Variable Name";
@@ -1170,12 +1170,12 @@ $GLOBALS['strZoneLinkedCampaign'] = "Campaign has been linked to zone <a href='%
 $GLOBALS['strZoneRemovedBanner'] = "Banner has been unlinked from zone <a href='%s'>%s</a>";
 $GLOBALS['strZoneRemovedCampaign'] = "Campaign has been unlinked from zone <a href='%s'>%s</a>";
 
-$GLOBALS['strChannelHasBeenAdded'] = "Targeting channel <a href='%s'>%s</a> has been added, <a href='%s'>change the delivery options</a>";
-$GLOBALS['strChannelHasBeenUpdated'] = "Targeting channel <a href='%s'>%s</a> has been updated";
-$GLOBALS['strChannelAclHasBeenUpdated'] = "Delivery options for targeting channel <a href='%s'>%s</a> have been updated";
-$GLOBALS['strChannelHasBeenDeleted'] = "Targeting channel <b>%s</b> has been deleted";
-$GLOBALS['strChannelsHaveBeenDeleted'] = "All selected Targeting Channels have been deleted";
-$GLOBALS['strChannelHasBeenDuplicated'] = "Targeting channel <a href='%s'>%s</a> has been copied to <a href='%s'>%s</a>";
+$GLOBALS['strChannelHasBeenAdded'] = "Delivery rule set <a href='%s'>%s</a> has been added. <a href='%s'>Set the delivery options.</a>";
+$GLOBALS['strChannelHasBeenUpdated'] = "Delivery rule set <a href='%s'>%s</a> has been updated";
+$GLOBALS['strChannelAclHasBeenUpdated'] = "Delivery options for the delivery rule set<a href='%s'>%s</a> have been updated";
+$GLOBALS['strChannelHasBeenDeleted'] = "Delivery rule set <b>%s</b> has been deleted";
+$GLOBALS['strChannelsHaveBeenDeleted'] = "All selected delivery rule sets have been deleted";
+$GLOBALS['strChannelHasBeenDuplicated'] = "Delivery rule set <a href='%s'>%s</a> has been copied to <a href='%s'>%s</a>";
 
 $GLOBALS['strUserPreferencesUpdated'] = "Your <b>%s</b> preferences has been updated";
 $GLOBALS['strEmailChanged'] = "Your E-mail has been changed";
