@@ -145,7 +145,7 @@ location of your visitors and how each banner is performing in the different cou
 This option will only be available to you if you are using verbose statistics.";
 
 $GLOBALS['phpAds_hlp_reverse_lookup'] = "The hostname is usually determined by the web server, but in some cases this might be
-turned off. If you want to use the visitors hostname inside delivery limitations and/or
+turned off. If you want to use the visitors hostname inside delivery rules and/or
 keep statistics about this and the server doesn't provide this information you will need to
 turn this option on. Determining the hostname of the visitor does take some time; it will
 slow the delivery of banners down.";
@@ -167,7 +167,7 @@ $GLOBALS['phpAds_hlp_auto_clean_userlog'] = $GLOBALS['phpAds_hlp_auto_clean_user
 number of weeks specified below this checkbox.";
 
 $GLOBALS['phpAds_hlp_geotracking_type'] = "Geotargeting allows {$PRODUCT_NAME} to convert the IP address of the visitor to geographical
-information. Based on this information you can set delivery limitations or you could store
+information. Based on this information you can set delivery rules or you could store
 this information to see which country is generation the most impressions or click-thrus.
 If you want to enable geotargeting you need to choose which type of database you have.
 {$PRODUCT_NAME} currently supports the <a href='http://hop.clickbank.net/?phpadsnew/ip2country' target='_blank'>IP2Country</a>
@@ -205,7 +205,7 @@ this setting, {$PRODUCT_NAME} will send email in a qmail compatible format.";
 $GLOBALS['phpAds_hlp_warn_limit'] = "The limit on which {$PRODUCT_NAME} starts sending warning emails. This is 100
 by default.";
 
-$GLOBALS['phpAds_hlp_acl'] = "If you are not using delivery limitations you can disable this option with this parameter,
+$GLOBALS['phpAds_hlp_acl'] = "If you are not using delivery rules you can disable this option with this parameter,
 this will speed up {$PRODUCT_NAME} a bit.";
 
 $GLOBALS['phpAds_hlp_default_banner_url'] = $GLOBALS['phpAds_hlp_default_banner_target'] = "If {$PRODUCT_NAME} can't connect to the database server, or can't find any matching

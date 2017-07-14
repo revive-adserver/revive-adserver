@@ -41,6 +41,13 @@ What's New in Revive Adserver 4.1.0
    comments can be switched on for a given tag, if required, during tag
    generation.)
 
+ * In the user interface, a number of terms have been renamed, to bring the
+   language used into line with modern terms:
+
+     * ACLs are now Delivery Options;
+
+     * Delivery Limitations are now Delivery Rules.
+
  Bug Fixes
  ---------
 

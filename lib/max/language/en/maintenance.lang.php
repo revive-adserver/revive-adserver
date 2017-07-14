@@ -117,16 +117,16 @@ $GLOBALS['strRunningOn'] = "running on";
 $GLOBALS['strAndPlain'] = "and";
 
 //  Deliver Limitations
-$GLOBALS['strDeliveryLimitations'] = "Delivery Limitations";
-$GLOBALS['strAllBannerChannelCompiled'] = "All banner/channel compiled limitation values have been recompiled";
-$GLOBALS['strBannerChannelResult'] = "Here are the results of the banner/channel compiled limitation validation";
-$GLOBALS['strChannelCompiledLimitationsValid'] = "All channel compiled limitations are valid";
-$GLOBALS['strBannerCompiledLimitationsValid'] = "All banner compiled limitations are valid";
+$GLOBALS['strDeliveryLimitations'] = "Delivery Rules";
+$GLOBALS['strAllBannerChannelCompiled'] = "All banner/channel compiled delivery rule values have been recompiled";
+$GLOBALS['strBannerChannelResult'] = "Here are the results of the banner/channel compiled delivery rule validation";
+$GLOBALS['strChannelCompiledLimitationsValid'] = "All compiled delivery rules for channels are valid";
+$GLOBALS['strBannerCompiledLimitationsValid'] = "All compiled delivery rules for banners are valid";
 $GLOBALS['strErrorsFound'] = "Errors found";
 $GLOBALS['strRepairCompiledLimitations'] = "Some inconsistancies were found above, you can repair these using the button below, this will recompile the compiled limitation for every banner/channel in the system<br />";
 $GLOBALS['strRecompile'] = "Recompile";
-$GLOBALS['strDeliveryEngineDisagreeNotice'] = "Under some circumstances the delivery engine can disagree with the stored ACLs for banners and channels, use the folowing link to validate the ACLs in the database";
-$GLOBALS['strCheckACLs'] = "Check ACLs";
+$GLOBALS['strDeliveryEngineDisagreeNotice'] = "Under some circumstances the delivery engine can disagree with the stored delivery rules for banners and channels, use the folowing link to validate the delivery rules in the database";
+$GLOBALS['strCheckACLs'] = "Check delivery rules";
 
 //  Append codes
 $GLOBALS['strAppendCodesDesc'] = "Under some circumstances the delivery engine can disagree with the stored append codes for trackers, use the folowing link to validate the append codes in the database";

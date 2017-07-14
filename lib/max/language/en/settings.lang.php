@@ -185,8 +185,8 @@ $GLOBALS['strDeliveryFilenamesSinglePageCallJS'] = "Single Page Call (JavaScript
 $GLOBALS['strDeliveryCaching'] = "Banner Delivery Cache Settings";
 $GLOBALS['strDeliveryCacheLimit'] = "Time Between Banner Cache Updates (seconds)";
 $GLOBALS['strDeliveryCacheStore'] = "Banner Delivery Cache Store Type";
-$GLOBALS['strDeliveryAcls'] = "Evaluate banner delivery limitations during delivery";
-$GLOBALS['strDeliveryAclsDirectSelection'] = "Evaluate banner delivery limitations for direct selected ads";
+$GLOBALS['strDeliveryAcls'] = "Evaluate banner delivery rules during delivery";
+$GLOBALS['strDeliveryAclsDirectSelection'] = "Evaluate banner delivery rules for direct selected ads";
 $GLOBALS['strDeliveryObfuscate'] = "Obfuscate channel when delivering ads";
 $GLOBALS['strDeliveryExecPhp'] = "Allow PHP code in ads to be executed<br />(Warning: Security risk)";
 $GLOBALS['strDeliveryCtDelimiter'] = "3rd Party Click Tracking Delimiter";
@@ -205,7 +205,7 @@ $GLOBALS['defaultLanguage'] = "Default System Language<br />(Each user can selec
 $GLOBALS['strGeotargetingSettings'] = "Geotargeting Settings";
 $GLOBALS['strGeotargeting'] = "Geotargeting Settings";
 $GLOBALS['strGeotargetingType'] = "Geotargeting Module Type";
-$GLOBALS['strGeoShowUnavailable'] = "Show geotargeting delivery limitations even if GeoIP data unavailable";
+$GLOBALS['strGeoShowUnavailable'] = "Show geotargeting delivery rules even if GeoIP data unavailable";
 
 // Interface Settings
 $GLOBALS['strInventory'] = "Inventory";

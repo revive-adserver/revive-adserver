@@ -128,8 +128,8 @@ $GLOBALS['strOverrideAds'] = "Override Campaign Advertisements";
 $GLOBALS['strHighAds'] = "Contract Campaign Advertisements";
 $GLOBALS['strECPMAds'] = "eCPM Campaign Advertisements";
 $GLOBALS['strLowAds'] = "Remnant Campaign Advertisements";
-$GLOBALS['strLimitations'] = "Limitations";
-$GLOBALS['strNoLimitations'] = "No Limitations";
+$GLOBALS['strLimitations'] = "Delivery rules";
+$GLOBALS['strNoLimitations'] = "No delivery rules";
 $GLOBALS['strCapping'] = "Capping";
 
 // Properties
@@ -547,13 +547,13 @@ $GLOBALS['strConvertSWF'] = "<br />The Flash file you just uploaded contains har
 $GLOBALS['strCompressSWF'] = "Compress SWF file for faster downloading (Flash 6 player required)";
 $GLOBALS['strOverwriteSource'] = "Overwrite source parameter";
 
-// Display limitations
+// Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "Delivery Options";
-$GLOBALS['strACL'] = "Delivery";
-$GLOBALS['strACLAdd'] = "Add delivery limitation";
-$GLOBALS['strApplyLimitationsTo'] = "Apply limitations to";
+$GLOBALS['strACL'] = "Delivery Options";
+$GLOBALS['strACLAdd'] = "Add delivery rule";
+$GLOBALS['strApplyLimitationsTo'] = "Apply delivery rules to";
 $GLOBALS['strAllBannersInCampaign'] = "All banners in this campaign";
-$GLOBALS['strRemoveAllLimitations'] = "Remove all limitations";
+$GLOBALS['strRemoveAllLimitations'] = "Remove all delivery rules";
 $GLOBALS['strEqualTo'] = "is equal to";
 $GLOBALS['strDifferentFrom'] = "is different from";
 $GLOBALS['strLaterThan'] = "is later than";
@@ -575,7 +575,7 @@ $GLOBALS['strDomain'] = "Domain";
 $GLOBALS['strSource'] = "Source";
 $GLOBALS['strBrowser'] = "Browser";
 $GLOBALS['strOS'] = "OS";
-$GLOBALS['strDeliveryLimitations'] = "Delivery Limitations";
+$GLOBALS['strDeliveryLimitations'] = "Delivery Rules";
 
 $GLOBALS['strDeliveryCappingReset'] = "Reset view counters after:";
 $GLOBALS['strDeliveryCappingTotal'] = "in total";
@@ -777,7 +777,7 @@ $GLOBALS['strAdvancedReports'] = "Advanced Reports";
 $GLOBALS['strStartDate'] = "Start Date";
 $GLOBALS['strEndDate'] = "End Date";
 $GLOBALS['strPeriod'] = "Period";
-$GLOBALS['strLimitations'] = "Limitations";
+$GLOBALS['strLimitations'] = "Delivery Rules";
 $GLOBALS['strWorksheets'] = "Worksheets";
 
 // Admin_UI_Fields
@@ -1108,8 +1108,8 @@ $GLOBALS['strCampaignAuditNotActivated'] = "<li>In order to view campaigns which
 $GLOBALS['strCampaignAuditTrailSetup'] = "Activate Audit Trail to start viewing Campaigns";
 
 $GLOBALS['strUnsavedChanges'] = "You have unsaved changes on this page, make sure you press &quot;Save Changes&quot; when finished";
-$GLOBALS['strDeliveryLimitationsDisagree'] = "WARNING: The delivery engine limitations <strong>DO NOT AGREE</strong> with the limitations shown below<br />Please hit save changes to update the delivery engine's rules";
-$GLOBALS['strDeliveryLimitationsInputErrors'] = "Some of delivery limitations reports incorrect values:";
+$GLOBALS['strDeliveryLimitationsDisagree'] = "WARNING: The cached delivery rules <strong>DO NOT AGREE</strong> with the delivery rules shown below<br />Please hit save changes to update the cached delivery rules";
+$GLOBALS['strDeliveryLimitationsInputErrors'] = "Some delivery rules report incorrect values:";
 
 //confirmation messages
 $GLOBALS['strYouAreNowWorkingAsX'] = "You are now working as <b>%s</b>";
@@ -1182,7 +1182,7 @@ $GLOBALS['strEmailChanged'] = "Your E-mail has been changed";
 $GLOBALS['strPasswordChanged'] = "Your password has been changed";
 $GLOBALS['strXPreferencesHaveBeenUpdated'] = "<b>%s</b> have been updated";
 $GLOBALS['strXSettingsHaveBeenUpdated'] = "<b>%s</b> have been updated";
-$GLOBALS['strTZPreferencesWarning'] = "However, campaign activation and expiry were not updated, nor time-based banner limitations.<br />You will need to update them manually if you wish them to use the new timezone";
+$GLOBALS['strTZPreferencesWarning'] = "However, campaign activation and expiry were not updated, nor time-based banner delivery rules.<br />You will need to update them manually if you wish them to use the new timezone";
 
 // Report error messages
 $GLOBALS['strReportErrorMissingSheets'] = "No worksheet was selected for report";
