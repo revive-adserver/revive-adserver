@@ -39,8 +39,8 @@ setupServerVariables();
 setupDeliveryConfigVariables();
 $conf = $GLOBALS['_MAX']['CONF'];
 
-// PSR Autoloader
-include MAX_PATH.'/lib/vendor/autoload.php';
+// Bootstrap PSR Autoloader and DI container
+$GLOBALS['_MAX']['DI'] = include MAX_PATH.'/bootstrap.php';
 
 // Set this script's identifier (from the config file) in the global scope
 $GLOBALS['_OA']['invocationType'] = array_search(basename($_SERVER['SCRIPT_FILENAME']), $conf['file']);
