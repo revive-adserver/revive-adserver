@@ -247,6 +247,10 @@ $oxPearPath = MAX_PATH . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'pe
 $oxZendPath = MAX_PATH . DIRECTORY_SEPARATOR . 'lib';
 set_include_path($oxPearPath . PATH_SEPARATOR . $oxZendPath . PATH_SEPARATOR . get_include_path());
 }
+function RV_getContainer()
+{
+return $GLOBALS['_MAX']['DI'];
+}
 
 OX_increaseMemoryLimit(OX_getMinimumRequiredMemory());
 if (!defined('E_DEPRECATED')) {
@@ -255,7 +259,7 @@ define('E_DEPRECATED', 0);
 setupServerVariables();
 setupDeliveryConfigVariables();
 $conf = $GLOBALS['_MAX']['CONF'];
-include MAX_PATH.'/lib/vendor/autoload.php';
+$GLOBALS['_MAX']['DI'] = include MAX_PATH.'/bootstrap.php';
 $GLOBALS['_OA']['invocationType'] = array_search(basename($_SERVER['SCRIPT_FILENAME']), $conf['file']);
 if (!empty($conf['debug']['production'])) {
 error_reporting(E_ALL & ~(E_NOTICE | E_WARNING | E_DEPRECATED | E_STRICT));
