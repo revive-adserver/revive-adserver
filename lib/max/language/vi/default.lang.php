@@ -140,7 +140,7 @@ if (!isset($GLOBALS['strDayShortCuts'])) {
 
 // Banner (swf)
 
-// Display limitations
+// Display Delviery Rules
 
 
 if (!isset($GLOBALS['strCappingBanner'])) {

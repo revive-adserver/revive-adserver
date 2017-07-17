@@ -93,8 +93,6 @@ $GLOBALS['strNotice'] = "Besked";
 // Priority
 $GLOBALS['strPriority'] = "Prioritet";
 $GLOBALS['strPriorityLevel'] = "Prioritets niveau";
-$GLOBALS['strLimitations'] = "Begrænsninger";
-$GLOBALS['strNoLimitations'] = "Uden begrænsninger";
 $GLOBALS['strCapping'] = "Rammer";
 
 // Properties
@@ -336,11 +334,9 @@ $GLOBALS['strConvertSWFLinks'] = "Konverter Flash links";
 $GLOBALS['strCompressSWF'] = "KOmprimer SWF filen for hurtigere downloading (Dette kræver en Flash 6 afspiller)";
 $GLOBALS['strOverwriteSource'] = "Overskriv kilde parameter";
 
-// Display limitations
+// Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "Leverings optioner";
-$GLOBALS['strACL'] = "Levering";
-$GLOBALS['strApplyLimitationsTo'] = "Tilføj begrænsninger til";
-$GLOBALS['strRemoveAllLimitations'] = "Fjern alle begrænsninger";
+$GLOBALS['strACL'] = "Leverings optioner";
 $GLOBALS['strEqualTo'] = "er lig med";
 $GLOBALS['strDifferentFrom'] = "er forskellig fra";
 $GLOBALS['strGreaterThan'] = "er større end";
@@ -350,7 +346,6 @@ $GLOBALS['strOR'] = "ELLER";                         // logical operator
 $GLOBALS['strOnlyDisplayWhen'] = "Vis kun denne banner når:";
 $GLOBALS['strWeekDays'] = "Ugedage";
 $GLOBALS['strSource'] = "Kilde";
-$GLOBALS['strDeliveryLimitations'] = "Leverings begræsninger";
 
 $GLOBALS['strDeliveryCappingReset'] = "Nulstil visnings tæller efter:";
 $GLOBALS['strDeliveryCappingTotal'] = "total";
@@ -493,7 +488,6 @@ $GLOBALS['strEstimated'] = "Estimeret udløbs dato";
 $GLOBALS['strCampaignStop'] = "Kampagne historik";
 
 // Reports
-$GLOBALS['strLimitations'] = "Begrænsninger";
 
 // Admin_UI_Fields
 $GLOBALS['strAllAdvertisers'] = "All annoncører";
@@ -629,18 +623,9 @@ $GLOBALS['strConfirmDeleteAgency'] = "Vil du virkelig slette denne zone?";
 $GLOBALS['strInactiveAgenciesHidden'] = "inaktive zone(r) er skjult";
 
 // Channels
-$GLOBALS['strChannelManagement'] = "Administration af Targeting Channels";
-$GLOBALS['strAddNewChannel'] = "Tilføj ny targeting channel";
-$GLOBALS['strAddNewChannel_Key'] = "Tilføj <u>n</u>y targeting channel";
 $GLOBALS['strChannelToWebsite'] = "til website";
-$GLOBALS['strNoChannels'] = "Der er ikke valgt nogen targeting channels";
-$GLOBALS['strNoChannelsAddWebsite'] = "Der er ikke valgt noget website. For at oprette en zone, skal du <a href='affiliate-edit.php'>tilføje et nyt website</a> først.";
-$GLOBALS['strEditChannelLimitations'] = "Rediger targeting channel begrænsninger";
-$GLOBALS['strChannelProperties'] = "Targeting Channel indstillinger";
 $GLOBALS['strChannelLimitations'] = "Leverings optioner";
-$GLOBALS['strConfirmDeleteChannel'] = "Vil du virkelig slette denne targeting channel?";
-$GLOBALS['strConfirmDeleteChannels'] = "Vil du virkelig slette denne targeting channel?";
-$GLOBALS['strChannelsOfWebsite'] = 'i'; //this is added between page name and website name eg. 'Targeting channels in www.example.com'
+$GLOBALS['strChannelsOfWebsite'] = 'i'; //this is added between page name and website name eg. 'delivery rule sets in www.example.com'
 
 // Tracker Variables
 $GLOBALS['strVariableName'] = "Variable Navn";

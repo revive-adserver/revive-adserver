@@ -165,8 +165,6 @@ $GLOBALS['strDeliveryFilenamesFrontController'] = "フロントコントロー�
 $GLOBALS['strDeliveryFilenamesFlash'] = "FlashのURL（フルURL）";
 $GLOBALS['strDeliveryCaching'] = "バナーキャッシュの設定";
 $GLOBALS['strDeliveryCacheLimit'] = "バナーキャッシュの更新間隔";
-$GLOBALS['strDeliveryAcls'] = "バナー配送毎に配信制限を確認する";
-$GLOBALS['strDeliveryObfuscate'] = "バナー配信時にチャンネルを隠す";
 $GLOBALS['strDeliveryExecPhp'] = "バナーの内容にPHPコードを許可する<br />(Warning: セキュリティリスクとなり得る)";
 $GLOBALS['strDeliveryCtDelimiter'] = "サードパーティー製の、クリック追跡時用区切り文字";
 $GLOBALS['strP3PSettings'] = "P3Pプライベートポリシー";
@@ -183,7 +181,6 @@ $GLOBALS['defaultLanguage'] = "デフォルト言語設定";
 $GLOBALS['strGeotargetingSettings'] = "ジオターゲティング設定";
 $GLOBALS['strGeotargeting'] = "ジオターゲティング設定";
 $GLOBALS['strGeotargetingType'] = "ジオターゲティングモジュールタイプ";
-$GLOBALS['strGeoShowUnavailable'] = "GeoIPにデータがない場合でも、ジオターゲティングの配信制限を表示する";
 
 // Interface Settings
 $GLOBALS['strInventory'] = "インベントリ";

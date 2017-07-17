@@ -120,8 +120,6 @@ $GLOBALS['strOverrideAds'] = "Přepsat reklamní kampaň";
 $GLOBALS['strHighAds'] = "Smlouva reklamní kampaně";
 $GLOBALS['strECPMAds'] = "eCPM reklamní kampaň";
 $GLOBALS['strLowAds'] = "Reklamy s nízkou prioritou";
-$GLOBALS['strLimitations'] = "Omezení";
-$GLOBALS['strNoLimitations'] = "Bez omezení";
 $GLOBALS['strCapping'] = "Omezení";
 
 // Properties
@@ -454,13 +452,10 @@ $GLOBALS['strHardcodedLinks'] = "Pevné odkazy";
 $GLOBALS['strCompressSWF'] = "Komprimovat SWF soubor pro rychlejší stahování (vyžaduje přehrávač Flash 6)";
 $GLOBALS['strOverwriteSource'] = "Přepsat zdrojový parametr";
 
-// Display limitations
+// Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "Nastavení doručování";
-$GLOBALS['strACL'] = "Doručování";
-$GLOBALS['strACLAdd'] = "Přidat omezení";
-$GLOBALS['strApplyLimitationsTo'] = "Aplikovat omezení na";
+$GLOBALS['strACL'] = "Nastavení doručování";
 $GLOBALS['strAllBannersInCampaign'] = "Všechny bannery v této kampani";
-$GLOBALS['strRemoveAllLimitations'] = "Odstranit všechna omezení";
 $GLOBALS['strEqualTo'] = "je rovno";
 $GLOBALS['strDifferentFrom'] = "liší se od";
 $GLOBALS['strLaterThan'] = "je později než";
@@ -480,7 +475,6 @@ $GLOBALS['strDomain'] = "Doména";
 $GLOBALS['strSource'] = "Zdroj";
 $GLOBALS['strBrowser'] = "Prohlížeč";
 $GLOBALS['strOS'] = "OS";
-$GLOBALS['strDeliveryLimitations'] = "Omezení doručování";
 
 $GLOBALS['strDeliveryCappingReset'] = "Obnovit počítadlo zobrazení po:";
 $GLOBALS['strDeliveryCappingTotal'] = "celkem";
@@ -650,7 +644,6 @@ $GLOBALS['strAdvancedReports'] = "Rozšířené reporty";
 $GLOBALS['strStartDate'] = "Počáteční datum";
 $GLOBALS['strEndDate'] = "Datum ukončení";
 $GLOBALS['strPeriod'] = "Období";
-$GLOBALS['strLimitations'] = "Omezení";
 $GLOBALS['strWorksheets'] = "Pracovní výkaz";
 
 // Admin_UI_Fields
@@ -766,11 +759,8 @@ $GLOBALS['strInactiveAgenciesHidden'] = "neaktivních bannerů skryto";
 
 // Channels
 $GLOBALS['strChannelToWebsite'] = "na webové stránky";
-$GLOBALS['strNoChannels'] = "Zatím nejsou definovány žádné bannery";
 $GLOBALS['strChannelLimitations'] = "Nastavení doručování";
-$GLOBALS['strConfirmDeleteChannel'] = "Opravdu chcete smazat tento banner?";
-$GLOBALS['strConfirmDeleteChannels'] = "Opravdu chcete smazat tento banner?";
-$GLOBALS['strChannelsOfWebsite'] = 'v'; //this is added between page name and website name eg. 'Targeting channels in www.example.com'
+$GLOBALS['strChannelsOfWebsite'] = 'v'; //this is added between page name and website name eg. 'delivery rule sets in www.example.com'
 
 // Tracker Variables
 $GLOBALS['strVariableName'] = "Název proměnné";

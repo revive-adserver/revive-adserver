@@ -70,7 +70,6 @@ $GLOBALS['strRunningOn'] = "רץ על";
 $GLOBALS['strAndPlain'] = "ו";
 
 //  Deliver Limitations
-$GLOBALS['strDeliveryLimitations'] = "הגבלות תפוצה";
 
 //  Append codes
 

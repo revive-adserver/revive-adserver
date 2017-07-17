@@ -92,8 +92,6 @@ $GLOBALS['strNotice'] = "Įspėjimas";
 // Priority
 $GLOBALS['strPriority'] = "Pirmenybė";
 $GLOBALS['strPriorityLevel'] = "Pirmumo lygmuo";
-$GLOBALS['strLimitations'] = "Draudimai";
-$GLOBALS['strNoLimitations'] = "Nėra draudimų";
 
 // Properties
 $GLOBALS['strName'] = "Vardas";
@@ -342,10 +340,7 @@ $GLOBALS['strHardcodedLinks'] = "Sunkiai užkoduoti saitai";
 $GLOBALS['strCompressSWF'] = "Suspausti SWF failą, tam kad būtų pagreitintas atsiuntimas (Flash 6 player reikalaujamas)";
 $GLOBALS['strOverwriteSource'] = "Perrašyti šaltinio parametrus";
 
-// Display limitations
-$GLOBALS['strACL'] = "Atsiuntimas";
-$GLOBALS['strApplyLimitationsTo'] = "Pritaikyti apribojimus";
-$GLOBALS['strRemoveAllLimitations'] = "Panaikinti apribojimus";
+// Display Delviery Rules
 $GLOBALS['strEqualTo'] = "yra lygus";
 $GLOBALS['strDifferentFrom'] = "skiriasi nuo";
 $GLOBALS['strGreaterThan'] = "didesnis už";
@@ -355,7 +350,6 @@ $GLOBALS['strOR'] = "AR";                         // logical operator
 $GLOBALS['strOnlyDisplayWhen'] = "Šį banerį rodyti tik";
 $GLOBALS['strWeekDays'] = "Savaitės dienos";
 $GLOBALS['strSource'] = "Pirminis";
-$GLOBALS['strDeliveryLimitations'] = "Atsiuntimo apribojimai";
 
 $GLOBALS['strDeliveryCappingReset'] = "Perstatyti vaizdo skaitiklius po:";
 $GLOBALS['strDeliveryCappingTotal'] = "viso";
@@ -492,7 +486,6 @@ $GLOBALS['strCampaignStop'] = "Kampanijos pavadinimas";
 
 // Reports
 $GLOBALS['strPeriod'] = "Periodas";
-$GLOBALS['strLimitations'] = "Draudimai";
 
 // Admin_UI_Fields
 $GLOBALS['strAllAdvertisers'] = "Visi reklamuotojai";
@@ -631,8 +624,6 @@ $GLOBALS['strSwitchAccount'] = "Perjungti į šią sąskaitą";
 
 // Channels
 $GLOBALS['strChannelToWebsite'] = "Visi internetiniai puslapiai";
-$GLOBALS['strConfirmDeleteChannel'] = "Ar tikrai norite ištrinti šį banerį?";
-$GLOBALS['strConfirmDeleteChannels'] = "Ar tikrai norite ištrinti šį banerį?";
 
 // Tracker Variables
 $GLOBALS['strVariableName'] = "Kintamas vardas";

@@ -120,8 +120,6 @@ $GLOBALS['strOverrideAds'] = "Anúncios de Campanhas de Sobreposição";
 $GLOBALS['strHighAds'] = "Anúncios com Alta prioridade";
 $GLOBALS['strECPMAds'] = "eCPM dos Anúncios da Campanha";
 $GLOBALS['strLowAds'] = "Anúncios com Baixa prioridade";
-$GLOBALS['strLimitations'] = "Limites";
-$GLOBALS['strNoLimitations'] = "Sem limites";
 $GLOBALS['strCapping'] = "Excesso";
 
 // Properties
@@ -460,12 +458,9 @@ $GLOBALS['strHardcodedLinks'] = "Links codificados no Flash";
 $GLOBALS['strCompressSWF'] = "Comprimir arquivo SWF para download mais rápido(Flash Player 6 necessário)";
 $GLOBALS['strOverwriteSource'] = "Sobrescrever parâmetro original";
 
-// Display limitations
+// Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "Opções de entrega";
-$GLOBALS['strACL'] = "Entrega";
-$GLOBALS['strACLAdd'] = "Adicionar limitação";
-$GLOBALS['strApplyLimitationsTo'] = "Aplicar limites a";
-$GLOBALS['strRemoveAllLimitations'] = "Remover todos limites";
+$GLOBALS['strACL'] = "Opções de entrega";
 $GLOBALS['strEqualTo'] = "é igual a";
 $GLOBALS['strDifferentFrom'] = "é diferente de";
 $GLOBALS['strGreaterThan'] = "maior que";
@@ -475,7 +470,6 @@ $GLOBALS['strOR'] = "OU";                         // logical operator
 $GLOBALS['strOnlyDisplayWhen'] = "Somente mostrar este banner quando:";
 $GLOBALS['strWeekDays'] = "Dias da semana";
 $GLOBALS['strSource'] = "Fonte";
-$GLOBALS['strDeliveryLimitations'] = "Limitações de entrega";
 
 $GLOBALS['strDeliveryCappingReset'] = "Resetar contadores de visualização após:";
 $GLOBALS['strDeliveryCappingTotal'] = "no total";
@@ -632,7 +626,6 @@ $GLOBALS['strCampaignStop'] = "Fim da Campanha";
 
 // Reports
 $GLOBALS['strPeriod'] = "Período";
-$GLOBALS['strLimitations'] = "Limites";
 
 // Admin_UI_Fields
 $GLOBALS['strAllAdvertisers'] = "Todos anunciantes";
@@ -797,20 +790,9 @@ $GLOBALS['strInactiveAgenciesHidden'] = "conta(s) inativa(s) oculta(s)";
 $GLOBALS['strSwitchAccount'] = "Trocar para esta conta";
 
 // Channels
-$GLOBALS['strChannel'] = "Canal de direcionamento";
-$GLOBALS['strChannels'] = "Canais de direcionamento";
-$GLOBALS['strChannelManagement'] = "Gerenciamento de Canais de direcionamento";
-$GLOBALS['strAddNewChannel'] = "Adicionar novo canal de direcionamento";
-$GLOBALS['strAddNewChannel_Key'] = "Adicionar <u>n</u>ovo canal de direcionamento";
 $GLOBALS['strChannelToWebsite'] = "Nenhum site";
-$GLOBALS['strNoChannels'] = "Nenhum canal de direcionamento definido";
-$GLOBALS['strNoChannelsAddWebsite'] = "Atualmente nenhum website esta definido. Para criar uma zona, <a href='affiliate-edit.php'>adicione um website</a> primeiro.";
-$GLOBALS['strEditChannelLimitations'] = "Editar limitações do canal de direcionamento";
-$GLOBALS['strChannelProperties'] = "Propriedades do canal de direcionamento";
 $GLOBALS['strChannelLimitations'] = "Opções de entrega";
-$GLOBALS['strConfirmDeleteChannel'] = "Deseja realmente remover este canal de direcionamento?";
-$GLOBALS['strConfirmDeleteChannels'] = "Deseja realmente remover este canal de direcionamento?";
-$GLOBALS['strChannelsOfWebsite'] = 'em'; //this is added between page name and website name eg. 'Targeting channels in www.example.com'
+$GLOBALS['strChannelsOfWebsite'] = 'em'; //this is added between page name and website name eg. 'delivery rule sets in www.example.com'
 
 // Tracker Variables
 $GLOBALS['strVariableName'] = "Nome da variável";
@@ -869,8 +851,6 @@ $GLOBALS['strCampaignNoDataTimeSpan'] = "Nenhuma campanha começou ou terminou n
 $GLOBALS['strCampaignAuditTrailSetup'] = "Ativar rastro de auditoria para começar a visualizar campanhas";
 
 $GLOBALS['strUnsavedChanges'] = "Você tem alterações não salvas nesta página, não esqueça de apertar \"Salvar Alterações\" quando terminar";
-$GLOBALS['strDeliveryLimitationsDisagree'] = "ATENÇÃO: As limitações do núcleo de entrega <strong>NÃO BATEM</strong> com as limitações mostradas abaixo<br />Aperta salvar alterações para atualizar as regras do núcleo de entrega";
-$GLOBALS['strDeliveryLimitationsInputErrors'] = "Os valores de algumas limitações estão incorretas";
 
 //confirmation messages
 

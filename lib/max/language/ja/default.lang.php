@@ -107,8 +107,6 @@ $GLOBALS['strPriority'] = "優先度";
 $GLOBALS['strPriorityLevel'] = "優先度レベル";
 $GLOBALS['strHighAds'] = "高優先広告";
 $GLOBALS['strLowAds'] = "低優先広告";
-$GLOBALS['strLimitations'] = "制限";
-$GLOBALS['strNoLimitations'] = "配信制限が定義されていません";
 $GLOBALS['strCapping'] = "制限";
 
 // Properties
@@ -397,12 +395,9 @@ $GLOBALS['strHardcodedLinks'] = "ハードコーデッドリンク";
 $GLOBALS['strCompressSWF'] = "ダウンロード時間を短くするため、Flashファイルを圧縮する(Flash6プレーヤー以降が必要)";
 $GLOBALS['strOverwriteSource'] = "ソースパラメータを上書きする";
 
-// Display limitations
+// Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "配信オプション";
-$GLOBALS['strACL'] = "広告配信";
-$GLOBALS['strACLAdd'] = "配信制限の追加";
-$GLOBALS['strApplyLimitationsTo'] = "配信制限を適用する";
-$GLOBALS['strRemoveAllLimitations'] = "すべての配信制限を削除";
+$GLOBALS['strACL'] = "配信オプション";
 $GLOBALS['strEqualTo'] = "一致する";
 $GLOBALS['strDifferentFrom'] = "一致しない";
 $GLOBALS['strGreaterThan'] = "以下よりも大きい";
@@ -412,7 +407,6 @@ $GLOBALS['strOR'] = "または";                         // logical operator
 $GLOBALS['strOnlyDisplayWhen'] = "バナー表示日時:";
 $GLOBALS['strWeekDays'] = "平日";
 $GLOBALS['strSource'] = "ソースパラメータ";
-$GLOBALS['strDeliveryLimitations'] = "配信先";
 
 $GLOBALS['strDeliveryCappingReset'] = "カウンタリセット条件：";
 $GLOBALS['strDeliveryCappingTotal'] = "総配信数";
@@ -568,7 +562,6 @@ $GLOBALS['strCampaignStop'] = "キャンペーン中断";
 
 // Reports
 $GLOBALS['strPeriod'] = "期限";
-$GLOBALS['strLimitations'] = "制限";
 
 // Admin_UI_Fields
 $GLOBALS['strAllAdvertisers'] = "すべての広告主";
@@ -731,20 +724,9 @@ $GLOBALS['strInactiveAgenciesHidden'] = "非表示のアカウントを無効に
 $GLOBALS['strSwitchAccount'] = "アカウントの変更";
 
 // Channels
-$GLOBALS['strChannel'] = "ターゲットチャンネル";
-$GLOBALS['strChannels'] = "ターゲットチャンネル";
-$GLOBALS['strChannelManagement'] = "ターゲットチャンネル管理";
-$GLOBALS['strAddNewChannel'] = "ターゲットチャンネルを追加";
-$GLOBALS['strAddNewChannel_Key'] = "新しいターゲットチャンネルを追加する(<u>n</u>)";
 $GLOBALS['strChannelToWebsite'] = "すべてのWebサイト";
-$GLOBALS['strNoChannels'] = "チャンネルが存在しません";
-$GLOBALS['strNoChannelsAddWebsite'] = "Webサイトが存在しません。広告枠を作成する前に、先に<a href='affiliate-edit.php'>Webサイトを作成</a>して下さい。";
-$GLOBALS['strEditChannelLimitations'] = "ターゲットチャンネルの制限を変更する";
-$GLOBALS['strChannelProperties'] = "ターゲットチャンネルの設定";
 $GLOBALS['strChannelLimitations'] = "配信オプション";
-$GLOBALS['strConfirmDeleteChannel'] = "このチャンネルを本当に削除しますか？";
-$GLOBALS['strConfirmDeleteChannels'] = "このチャンネルを本当に削除しますか？";
-$GLOBALS['strChannelsOfWebsite'] = '内の'; //this is added between page name and website name eg. 'Targeting channels in www.example.com'
+$GLOBALS['strChannelsOfWebsite'] = '内の'; //this is added between page name and website name eg. 'delivery rule sets in www.example.com'
 
 // Tracker Variables
 $GLOBALS['strVariableName'] = "トラッカー変数名";
@@ -802,7 +784,6 @@ $GLOBALS['strCampaignNoDataTimeSpan'] = "選択した期間内において、開
 $GLOBALS['strCampaignAuditTrailSetup'] = "キャンペーンの活動状況を確認するため、追跡記録をアクティブにする";
 
 $GLOBALS['strUnsavedChanges'] = "変更が保存されていません。\"保存する\"ボタンを押してください。";
-$GLOBALS['strDeliveryLimitationsDisagree'] = "注意：配信エンジン制限です。<strong>絶対に</strong>以下の制限を承認しないでください<br />配信エンジンのルールを保存してください。";
 
 //confirmation messages
 

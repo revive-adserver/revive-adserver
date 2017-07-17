@@ -90,8 +90,6 @@ $GLOBALS['strNotice'] = "Бележка";
 // Priority
 $GLOBALS['strPriority'] = "Приоритет";
 $GLOBALS['strPriorityLevel'] = "Ниво на приоритет";
-$GLOBALS['strLimitations'] = "Ограничения";
-$GLOBALS['strNoLimitations'] = "Без ограничения";
 $GLOBALS['strCapping'] = "Ограничи броя реклами показвани на потребител";
 
 // Properties
@@ -272,7 +270,7 @@ $GLOBALS['strWeight'] = "Височина";
 
 // Banner (swf)
 
-// Display limitations
+// Display Delviery Rules
 
 
 if (!isset($GLOBALS['strCappingBanner'])) {
@@ -335,7 +333,6 @@ $GLOBALS['strCampaignStop'] = "История на кампаниите";
 
 // Reports
 $GLOBALS['strPeriod'] = "Период";
-$GLOBALS['strLimitations'] = "Ограничения";
 
 // Admin_UI_Fields
 $GLOBALS['strAllAdvertisers'] = "Общо рекламодатели";
@@ -393,9 +390,6 @@ $GLOBALS['strConfirmDeleteAgency'] = "Наистина ли искате да и
 $GLOBALS['strInactiveAgenciesHidden'] = "неактивния рекламодател(и) са скрити";
 
 // Channels
-$GLOBALS['strNoChannelsAddWebsite'] = "Няма посочени рекламодатели. За да създадете кампания първо <a href='advertiser-edit.php'>добавете нов рекламодател</a>.";
-$GLOBALS['strConfirmDeleteChannel'] = "Наистина ли искате да изтриете този тракер?";
-$GLOBALS['strConfirmDeleteChannels'] = "Наистина ли искате да изтриете този тракер?";
 
 // Tracker Variables
 $GLOBALS['strVariableDescription'] = "Описание";

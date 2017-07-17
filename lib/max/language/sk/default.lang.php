@@ -88,8 +88,6 @@ $GLOBALS['strNotice'] = "Poznámka";
 // Priority
 $GLOBALS['strPriority'] = "Priorita";
 $GLOBALS['strPriorityLevel'] = "Level priority";
-$GLOBALS['strLimitations'] = "Obmedzenia";
-$GLOBALS['strNoLimitations'] = "Bez obmedzení";
 $GLOBALS['strCapping'] = "Obmedzenie zobrazovania reklamného formátu";
 
 // Properties
@@ -253,7 +251,7 @@ $GLOBALS['strWeight'] = "Výška";
 
 // Banner (swf)
 
-// Display limitations
+// Display Delviery Rules
 
 
 if (!isset($GLOBALS['strCappingBanner'])) {
@@ -312,7 +310,6 @@ $GLOBALS['strBreakdownByHour'] = "Hodina";
 $GLOBALS['strCampaignStop'] = "História kampane";
 
 // Reports
-$GLOBALS['strLimitations'] = "Obmedzenia";
 
 // Admin_UI_Fields
 $GLOBALS['strAllAdvertisers'] = "Celkový počet inzerentov";
@@ -370,9 +367,6 @@ $GLOBALS['strConfirmDeleteAgency'] = "Naozaj chcete zmazať túto kampaň?";
 $GLOBALS['strInactiveAgenciesHidden'] = "Neaktívny inzerent(i) skrytý";
 
 // Channels
-$GLOBALS['strNoChannelsAddWebsite'] = "Aktuálne nemáte vytvorených žiadnych zadávateľov reklamy. Pre vytvorenie kapmane, vytvorte najskôr <a href='affiliate-edit.php'>nového zadávateľa</a> reklamy.";
-$GLOBALS['strConfirmDeleteChannel'] = "Naozaj chcete zmazať túto kampaň?";
-$GLOBALS['strConfirmDeleteChannels'] = "Naozaj chcete zmazať túto kampaň?";
 
 // Tracker Variables
 $GLOBALS['strVariableDescription'] = "Popis";

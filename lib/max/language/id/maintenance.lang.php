@@ -101,7 +101,6 @@ $GLOBALS['strRunningOn'] = "yang bekerjasama dengan";
 $GLOBALS['strAndPlain'] = "dan";
 
 //  Deliver Limitations
-$GLOBALS['strDeliveryLimitations'] = "Limitasi Penyampaian";
 
 //  Append codes
 

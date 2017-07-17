@@ -182,9 +182,6 @@ $GLOBALS['strDeliveryFilenamesSinglePageCallJS'] = "فراخوانی یک صفح
 $GLOBALS['strDeliveryCaching'] = "تنظیمات کش تحویل بنر";
 $GLOBALS['strDeliveryCacheLimit'] = "زمان بین بروزرسانی کش بنر(ثانیه)";
 $GLOBALS['strDeliveryCacheStore'] = "نوع ذخیره سازی کش تویل بنر";
-$GLOBALS['strDeliveryAcls'] = "تخمین محدودیت تحویل بنر هنگام تحویل";
-$GLOBALS['strDeliveryAclsDirectSelection'] = "تخمین محدودیت تحویل بنر برای تبلیغات مستقیم انتخاب شده";
-$GLOBALS['strDeliveryObfuscate'] = "مبهم سازی کانال هنگام تحویل تبلیغات";
 $GLOBALS['strDeliveryExecPhp'] = "اجازه داده به کد php برای اجرا
 
 (اخطار : ریسک امنیتی)";
@@ -205,7 +202,6 @@ $GLOBALS['defaultLanguage'] = "زبان اولیه ی سیستمe
 $GLOBALS['strGeotargetingSettings'] = "Geotargeting سیستم";
 $GLOBALS['strGeotargeting'] = "Geotargeting تنظیمات";
 $GLOBALS['strGeotargetingType'] = "Geotargeting نوع مدل";
-$GLOBALS['strGeoShowUnavailable'] = "نمایش محدودیت تحویل geotargeting حتی اگر GeoIP موجود نباشد";
 
 // Interface Settings
 $GLOBALS['strInventory'] = "فهرست";

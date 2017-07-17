@@ -95,8 +95,6 @@ $GLOBALS['strPriority'] = "Prioritas";
 $GLOBALS['strPriorityLevel'] = "Tingkat Prioritas";
 $GLOBALS['strHighAds'] = "Iklan dengan prioritas tinggi";
 $GLOBALS['strLowAds'] = "Iklan dengan prioritas rendah";
-$GLOBALS['strLimitations'] = "Limitasi";
-$GLOBALS['strNoLimitations'] = "Tanpa batas";
 $GLOBALS['strCapping'] = "Pemangkasan";
 
 // Properties
@@ -324,12 +322,9 @@ $GLOBALS['strConvertSWFLinks'] = "Menukarkan links dari Flash";
 $GLOBALS['strCompressSWF'] = "Kompres file SWF untuk meng-download lebih cepat (Player Flash 6 dibutuhkan)";
 $GLOBALS['strOverwriteSource'] = "Timpah parameter induk";
 
-// Display limitations
+// Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "Pilihan Penyampaian";
-$GLOBALS['strACL'] = "Penyampaian";
-$GLOBALS['strACLAdd'] = "Tambah batasan baru";
-$GLOBALS['strApplyLimitationsTo'] = "Gunakan batas untuk";
-$GLOBALS['strRemoveAllLimitations'] = "Hapus semua batas";
+$GLOBALS['strACL'] = "Pilihan Penyampaian";
 $GLOBALS['strEqualTo'] = "sama dengan";
 $GLOBALS['strDifferentFrom'] = "lain dibandingkan dengan";
 $GLOBALS['strGreaterThan'] = "lebih besar daripada";
@@ -339,7 +334,6 @@ $GLOBALS['strOR'] = "ATAU";                         // logical operator
 $GLOBALS['strOnlyDisplayWhen'] = "Tampilkan banner ini hanya:";
 $GLOBALS['strWeekDays'] = "Hari Kerja";
 $GLOBALS['strSource'] = "Sumber";
-$GLOBALS['strDeliveryLimitations'] = "Limitasi Penyampaian";
 
 $GLOBALS['strDeliveryCappingReset'] = "Reset hitungan AdViews setelah:";
 $GLOBALS['strDeliveryCappingTotal'] = "jumlahnya";
@@ -472,7 +466,6 @@ $GLOBALS['strEstimated'] = "Perkiraan habisnya masa berlaku";
 $GLOBALS['strCampaignStop'] = "Sejarah Kampanye";
 
 // Reports
-$GLOBALS['strLimitations'] = "Limitasi";
 
 // Admin_UI_Fields
 $GLOBALS['strAllAdvertisers'] = "Semua pemasang iklan";
@@ -590,18 +583,8 @@ $GLOBALS['strHideInactiveAgencies'] = "Hide inactive agencies";
 $GLOBALS['strInactiveAgenciesHidden'] = "zona yang tidak aktif tersembunyi";
 
 // Channels
-$GLOBALS['strChannel'] = "Channel";
-$GLOBALS['strChannels'] = "Channels";
-$GLOBALS['strChannelManagement'] = "Channel management";
-$GLOBALS['strAddNewChannel'] = "Add new channel";
-$GLOBALS['strAddNewChannel_Key'] = "Add <u>n</u>ew channel";
 $GLOBALS['strChannelToWebsite'] = "Semua penerbit";
-$GLOBALS['strNoChannels'] = "There are currently no channels defined";
-$GLOBALS['strEditChannelLimitations'] = "Edit channel limitations";
-$GLOBALS['strChannelProperties'] = "Channel properties";
 $GLOBALS['strChannelLimitations'] = "Pilihan Penyampaian";
-$GLOBALS['strConfirmDeleteChannel'] = "Do you really want to delete this channel?";
-$GLOBALS['strConfirmDeleteChannels'] = "Do you really want to delete this channel?";
 
 // Tracker Variables
 $GLOBALS['strVariableName'] = "Nama dari Variabel";

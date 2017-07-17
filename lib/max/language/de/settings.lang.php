@@ -165,9 +165,6 @@ $GLOBALS['strDeliveryFilenamesFlash'] = "Flash Include (Kann eine vollständige 
 $GLOBALS['strDeliveryCaching'] = "Allgemeine Einstellungen des Auslieferungs-Caches";
 $GLOBALS['strDeliveryCacheLimit'] = "Zeitintervall zwischen Cache-Aktualisierungen (in Sek.)";
 $GLOBALS['strDeliveryCacheStore'] = "Cache-Typ für die Bannerauslieferung";
-$GLOBALS['strDeliveryAcls'] = "Überprüfe die Auslieferungseinschränkungen eines Banners während der Auslieferung";
-$GLOBALS['strDeliveryAclsDirectSelection'] = "Überprüfe die Auslieferungsbedingungen bei \"Direct Selected\" Werbemitteln";
-$GLOBALS['strDeliveryObfuscate'] = "Bei der Auslieferung die Gruppe eines Werbemittels verschleiern";
 $GLOBALS['strDeliveryExecPhp'] = "PHP-Code in Werbemitteln wird ausgeführt<br />(Achtung: Starkes Sicherheitsrisiko)";
 $GLOBALS['strDeliveryCtDelimiter'] = "Begrenzung des 3rd Party Kick-Trackings";
 $GLOBALS['strGlobalDefaultBannerUrl'] = "Globale Default-Image-Banner URL";
@@ -185,7 +182,6 @@ $GLOBALS['defaultLanguage'] = "Voreinstellung der Systemsprache<br />(Jeder Benu
 $GLOBALS['strGeotargetingSettings'] = "Einstellungen Geotargeting";
 $GLOBALS['strGeotargeting'] = "Einstellungen Geotargeting";
 $GLOBALS['strGeotargetingType'] = "Typ des Geotargeting Moduls";
-$GLOBALS['strGeoShowUnavailable'] = "Zeige die durch Geotargeting verursachten Auslieferungslimitierungen an, auch wenn keine GeoIP-Daten verfügbar sind";
 
 // Interface Settings
 $GLOBALS['strInventory'] = "Inventar-Seiten";

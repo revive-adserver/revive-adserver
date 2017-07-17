@@ -90,7 +90,6 @@ $GLOBALS['strRunningOn'] = "běžící na";
 $GLOBALS['strAndPlain'] = "a";
 
 //  Deliver Limitations
-$GLOBALS['strDeliveryLimitations'] = "Omezení doručování";
 
 //  Append codes
 

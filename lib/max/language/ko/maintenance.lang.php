@@ -88,7 +88,6 @@ $GLOBALS['strSecurityUpdate'] = "	<b>It is highly recommended to install this up
 $GLOBALS['strClickToVisitWebsite'] = "	Click here to visit our website";
 
 //  Deliver Limitations
-$GLOBALS['strDeliveryLimitations'] = "전송 제한사항";
 
 //  Append codes
 

@@ -143,8 +143,6 @@ $GLOBALS['strDeliveryFilenamesLocal'] = "Helyi kérés";
 $GLOBALS['strDeliveryFilenamesFlash'] = "Flash beágyazás (teljes URL cím is lehet)";
 $GLOBALS['strDeliveryCaching'] = "Banner kézbesítési gyorsítótár beállításai";
 $GLOBALS['strDeliveryCacheLimit'] = "A banner gyorsítótár frissítései közti idő (másodpercekben)";
-$GLOBALS['strDeliveryAcls'] = "Banner kézbesítési korlátozások megbecslése kézbesítés közben.";
-$GLOBALS['strDeliveryObfuscate'] = "Csatornazavarás a hirdetések kézbesítése közben";
 $GLOBALS['strDeliveryExecPhp'] = "PHP kódok futtatásának engedélyezése a hirdetésekben<br />(Figyelem: Biztonsági kockázat)";
 $GLOBALS['strDeliveryCtDelimiter'] = "Harmadik féltől származó kattintás követési határolójel";
 $GLOBALS['strP3PSettings'] = "P3P adatvédelmi irányelvek";
@@ -158,7 +156,6 @@ $GLOBALS['strP3PPolicyLocation'] = "P3P irányelvek helye";
 $GLOBALS['strGeotargetingSettings'] = "Geotargeting beállítások";
 $GLOBALS['strGeotargeting'] = "Geotargeting beállítások";
 $GLOBALS['strGeotargetingType'] = "Geotargeting modul típus";
-$GLOBALS['strGeoShowUnavailable'] = "Geotargeting kézbesítési korlátok mutatása a GeoIP adatok elérhetetlensége esetén";
 
 // Interface Settings
 $GLOBALS['strInventory'] = "Leltár";

@@ -109,8 +109,6 @@ $GLOBALS['strDashboardSystemMessage'] = "Rendszerüzenet";
 // Priority
 $GLOBALS['strPriority'] = "Prioritás";
 $GLOBALS['strPriorityLevel'] = "Prioritási szint";
-$GLOBALS['strLimitations'] = "Korlátozások";
-$GLOBALS['strNoLimitations'] = "Nincsenek korlátozások";
 $GLOBALS['strCapping'] = "Felső határérték";
 
 // Properties
@@ -396,12 +394,9 @@ $GLOBALS['strHardcodedLinks'] = "Nehezen módosítható hivatkozások";
 $GLOBALS['strCompressSWF'] = "Az SWF fájl tömörítése a gyorsabb letöltés céljából (Flash 6 lejátszó szükséges)";
 $GLOBALS['strOverwriteSource'] = "Forrás tulajdonságok felülírása";
 
-// Display limitations
+// Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "Kézbesítés beállításai";
-$GLOBALS['strACL'] = "Kézbesítés";
-$GLOBALS['strACLAdd'] = "Új korlátozás hozzáadása";
-$GLOBALS['strApplyLimitationsTo'] = "Korlátozás alkalmazása a következőre";
-$GLOBALS['strRemoveAllLimitations'] = "Minden korlátozás eltávolítása";
+$GLOBALS['strACL'] = "Kézbesítés beállításai";
 $GLOBALS['strEqualTo'] = "Egyenlő ezzel:";
 $GLOBALS['strDifferentFrom'] = "Eltérő ettől:";
 $GLOBALS['strContains'] = "Tartalmazza ezt:";
@@ -419,7 +414,6 @@ $GLOBALS['strDomain'] = "Domain";
 $GLOBALS['strSource'] = "Forrás";
 $GLOBALS['strBrowser'] = "Böngésző";
 $GLOBALS['strOS'] = "OS";
-$GLOBALS['strDeliveryLimitations'] = "Továbbítás korlátozásai";
 
 $GLOBALS['strDeliveryCappingReset'] = "Ennyi idő után a számlálók visszaállítása:";
 $GLOBALS['strDeliveryCappingTotal'] = "összesen";
@@ -551,7 +545,6 @@ $GLOBALS['strCampaignStop'] = "Kampány vége";
 // Reports
 $GLOBALS['strStartDate'] = "Kezdő dátum";
 $GLOBALS['strEndDate'] = "Befejezés dátuma";
-$GLOBALS['strLimitations'] = "Korlátozások";
 
 // Admin_UI_Fields
 $GLOBALS['strAllAdvertisers'] = "Összes hirdető";
@@ -647,17 +640,8 @@ $GLOBALS['strInactiveAgenciesHidden'] = "inaktív fiók elrejtve";
 $GLOBALS['strSwitchAccount'] = "Átváltás erre a fiókra";
 
 // Channels
-$GLOBALS['strChannel'] = "Célzási csatorna";
-$GLOBALS['strChannels'] = "Célzási csatornák";
-$GLOBALS['strChannelManagement'] = "Célzási csatorna kezelése";
-$GLOBALS['strAddNewChannel'] = "Célzási csatorna hozzáadása";
-$GLOBALS['strAddNewChannel_Key'] = "Célzási <u>c</u>satorna hozzáadása";
-$GLOBALS['strNoChannels'] = "Jelenleg nincsenek célzási csatornák";
-$GLOBALS['strEditChannelLimitations'] = "Célzási csatorna korlátozásainak szerkesztése";
-$GLOBALS['strChannelProperties'] = "Célzási csatorna tulajdonságai";
 $GLOBALS['strChannelLimitations'] = "Kézbesítés beállításai";
-$GLOBALS['strConfirmDeleteChannel'] = "Valóban törli ezt célzási csatornát?";
-$GLOBALS['strChannelsOfWebsite'] = 'itt:'; //this is added between page name and website name eg. 'Targeting channels in www.example.com'
+$GLOBALS['strChannelsOfWebsite'] = 'itt:'; //this is added between page name and website name eg. 'delivery rule sets in www.example.com'
 
 // Tracker Variables
 $GLOBALS['strVariableName'] = "Változó neve";

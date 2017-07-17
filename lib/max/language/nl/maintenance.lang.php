@@ -122,16 +122,16 @@ $GLOBALS['strRunningOn'] = "draaiend op";
 $GLOBALS['strAndPlain'] = "en";
 
 //  Deliver Limitations
-$GLOBALS['strDeliveryLimitations'] = "Leveringsbeperkingen";
-$GLOBALS['strAllBannerChannelCompiled'] = "Alle gecompileerde banner/channel limitations zijn opnieuw gecompileerd";
-$GLOBALS['strBannerChannelResult'] = "Dit zijn de uitkomsten van de validatie van de gecompileerde banner/channel limitations";
-$GLOBALS['strChannelCompiledLimitationsValid'] = "Alle gecompileerde channel limitations zijn valide";
-$GLOBALS['strBannerCompiledLimitationsValid'] = "Alle gecompileerde banner limitations zijn valide";
+$GLOBALS['strDeliveryLimitations'] = "Uitleveringsregels";
+$GLOBALS['strAllBannerChannelCompiled'] = "Alle uitleveringsregels voor banners en verzamelingen zijn opnieuw gecompileerd";
+$GLOBALS['strBannerChannelResult'] = "Dit zijn de resultaten van de controle van de gecompileerde uitleveringsregels van banners en verzamelingen";
+$GLOBALS['strChannelCompiledLimitationsValid'] = "Alle gecompileerde uitleveringsregels in verzamelingen uitleveringsregels zijn geldig";
+$GLOBALS['strBannerCompiledLimitationsValid'] = "Alle gecompileerde uitleveringsregels van banners zijn geldig";
 $GLOBALS['strErrorsFound'] = "Fouten gevonden";
-$GLOBALS['strRepairCompiledLimitations'] = "Er zijn enkele inconsistenties aangetroffen (zie boven), u kunt deze herstellen met behulp van de onderstaande button, dit zal de gecompileerde limitations voor elke banner/channel in het systeem opnieuw compileren<br />";
+$GLOBALS['strRepairCompiledLimitations'] = "Er zijn enkele inconsistenties aangetroffen (zie boven), u kunt deze herstellen met de onderstaande knop, dit zal de de gecompileerde uitleveringsregels voor alle banners en alle verzamelingen opnieuwe compileren<br />";
 $GLOBALS['strRecompile'] = "Opnieuw compileren";
-$GLOBALS['strDeliveryEngineDisagreeNotice'] = "Onder bepaalde omstandigheden kan de the delivery engine afwijken van de opgeslagen ACLs voor banners en channels, gebruik de onderstaande link om de ACLs in de database te valideren";
-$GLOBALS['strCheckACLs'] = "Check ACLs";
+$GLOBALS['strDeliveryEngineDisagreeNotice'] = "Onder bepaalde omstandigheden kunnen er verschillen zijn tussen de opgeslagen uitleveringsregels voor banners en verzamelingen, gebruik de volgende link om de uitleveringsregels in de database te valideren";
+$GLOBALS['strCheckACLs'] = "Controleer Uitleveringsregels";
 
 //  Append codes
 $GLOBALS['strAppendCodesDesc'] = "In sommige situaties kan de delivery engine afwijkingen aantreffen ten opzichte van de opgeslagen append codes voor trackers, gebruik de onderstaande link om de toegevoegde codes in de database te valideren";

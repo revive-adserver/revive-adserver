@@ -158,8 +158,6 @@ $GLOBALS['strDeliveryFilenamesFrontController'] = "Controler Faţă";
 $GLOBALS['strDeliveryFilenamesFlash'] = "Include Flash (Poate fi un URL complet)";
 $GLOBALS['strDeliveryCaching'] = "Setări Cache Distribuţie Banner";
 $GLOBALS['strDeliveryCacheLimit'] = "Perioada între actualizările Cache-ului de Bannere (secunde)";
-$GLOBALS['strDeliveryAcls'] = "Evaluează limitările de distribuţie ale banner-ului în timpul livrării";
-$GLOBALS['strDeliveryObfuscate'] = "Ascunde canalul în timpul livrării reclamelor";
 $GLOBALS['strDeliveryExecPhp'] = "Permite execuţia codului PHP în reclame<br />(Atenţie: Risc de Securitate)";
 $GLOBALS['strDeliveryCtDelimiter'] = "Separator Urmărire Click-uri pentru Terţe Părţi";
 $GLOBALS['strGlobalDefaultBannerUrl'] = "URL Global către bannerul imagine implicit";
@@ -175,7 +173,6 @@ $GLOBALS['uiEnabled'] = "Interfaţa Utilizatorului Activată";
 $GLOBALS['strGeotargetingSettings'] = "Setări de Localizare";
 $GLOBALS['strGeotargeting'] = "Setări de Localizare";
 $GLOBALS['strGeotargetingType'] = "Tip Modul de Localizare";
-$GLOBALS['strGeoShowUnavailable'] = "Afişează limitările de livrare în funcţie de localizare chiar dacă GeoIP nu este valabil";
 
 // Interface Settings
 $GLOBALS['strInventory'] = "Inventar";

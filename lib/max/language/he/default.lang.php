@@ -111,8 +111,6 @@ $GLOBALS['strDashboardSystemMessage'] = "הודעת מערכת";
 // Priority
 $GLOBALS['strPriority'] = "קדימויות";
 $GLOBALS['strPriorityLevel'] = "רמת קידמות";
-$GLOBALS['strLimitations'] = "מגבלות";
-$GLOBALS['strNoLimitations'] = "ללא הגבלות";
 
 // Properties
 $GLOBALS['strName'] = "שם";
@@ -395,13 +393,10 @@ $GLOBALS['strHardcodedLinks'] = "קישורים טמונים בקוד";
 $GLOBALS['strCompressSWF'] = "סמן לדחיסת קובץ SWF לטעינת עמוד מהירה יותר (דרושה גירסת נגן Flash 6)";
 $GLOBALS['strOverwriteSource'] = "רמוס פרמטרים של המקור";
 
-// Display limitations
+// Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "אופציות תפוצה";
-$GLOBALS['strACL'] = "תפוצה";
-$GLOBALS['strACLAdd'] = "הוסף הגבלה חדשה";
-$GLOBALS['strApplyLimitationsTo'] = "הענק הגבלה ל";
+$GLOBALS['strACL'] = "אופציות תפוצה";
 $GLOBALS['strAllBannersInCampaign'] = "כל באנרים בקמפיין זה ";
-$GLOBALS['strRemoveAllLimitations'] = "הסר את כל המגבלות";
 $GLOBALS['strEqualTo'] = "שווה ל";
 $GLOBALS['strDifferentFrom'] = "שונה מ";
 $GLOBALS['strLaterThan'] = "אחרי ";
@@ -420,7 +415,6 @@ $GLOBALS['strTime'] = "זמן";
 $GLOBALS['strDomain'] = "דומיין";
 $GLOBALS['strSource'] = "מקור";
 $GLOBALS['strBrowser'] = "בראוזר";
-$GLOBALS['strDeliveryLimitations'] = "הגבלות תפוצה";
 
 
 if (!isset($GLOBALS['strCappingBanner'])) {
@@ -565,7 +559,6 @@ $GLOBALS['strAdvancedReports'] = "דו''חות מתקדמים";
 $GLOBALS['strStartDate'] = "התחלה";
 $GLOBALS['strEndDate'] = "סוף";
 $GLOBALS['strPeriod'] = "נקודה";
-$GLOBALS['strLimitations'] = "מגבלות";
 
 // Admin_UI_Fields
 $GLOBALS['strAllAdvertisers'] = "כל המפרסמים";
@@ -657,20 +650,9 @@ $GLOBALS['strProductUpdates'] = "עידכוני התוכנה";
 // Agency
 
 // Channels
-$GLOBALS['strChannel'] = "ערוץ פילוח";
-$GLOBALS['strChannels'] = "ערוצי פילוח";
-$GLOBALS['strChannelManagement'] = "ניהול ערוצי פילוח";
-$GLOBALS['strAddNewChannel'] = "הוספת ערוץ פילוח";
-$GLOBALS['strAddNewChannel_Key'] = "הוספת ערוץ פילוח";
 $GLOBALS['strChannelToWebsite'] = "לאתר";
-$GLOBALS['strNoChannels'] = "לא מוגדרים ערוצים.";
-$GLOBALS['strNoChannelsAddWebsite'] = "אין ערוצי פילוח בגלל שאין אתרים, <a href='affiliate-edit.php'>עליך להוסיף אתר </a> קודם.";
-$GLOBALS['strEditChannelLimitations'] = "עריכת ערוץ פילוח";
-$GLOBALS['strChannelProperties'] = "מאפייני ערוץ פילוח";
 $GLOBALS['strChannelLimitations'] = "אופציות תפוצה";
-$GLOBALS['strConfirmDeleteChannel'] = "האם למחוק ערוץ פילוח?";
-$GLOBALS['strConfirmDeleteChannels'] = "האם למחוק ערוצי פילוח ??";
-$GLOBALS['strChannelsOfWebsite'] = 'ב'; //this is added between page name and website name eg. 'Targeting channels in www.example.com'
+$GLOBALS['strChannelsOfWebsite'] = 'ב'; //this is added between page name and website name eg. 'delivery rule sets in www.example.com'
 
 // Tracker Variables
 $GLOBALS['strVariableDescription'] = "תיאור";

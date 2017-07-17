@@ -110,16 +110,8 @@ $GLOBALS['strRunningOn'] = "in esecuzione su";
 $GLOBALS['strAndPlain'] = "e";
 
 //  Deliver Limitations
-$GLOBALS['strDeliveryLimitations'] = "Limitazioni di consegna";
-$GLOBALS['strAllBannerChannelCompiled'] = "Sono stati ricompilati tutti i valori compilati di limitazioni banner / canale.";
-$GLOBALS['strBannerChannelResult'] = "Seguono i risultati della validazione delle limitazioni banner/canale";
-$GLOBALS['strChannelCompiledLimitationsValid'] = "Tutte le limitazioni compilate del canale sono valide";
-$GLOBALS['strBannerCompiledLimitationsValid'] = "Tutte le limitazioni compilate del banner sono valide";
 $GLOBALS['strErrorsFound'] = "Sono stati rilevati degli errori";
-$GLOBALS['strRepairCompiledLimitations'] = "Sono state trovate alcune inconsistenze, puoi ripararle usando il bottone seguente. Ricompilerai la limitazione banner / canale nel sistema<br />";
 $GLOBALS['strRecompile'] = "Ricompila";
-$GLOBALS['strDeliveryEngineDisagreeNotice'] = "In alcune circostanze il motore di distribuzione è in disaccordo con la lista di controllo degli accessi per banner e canali. Clicca sul link sotto per convalidare la lista di controllo degli accessi.";
-$GLOBALS['strCheckACLs'] = "Controlla la lista di controllo degli accessi";
 
 //  Append codes
 $GLOBALS['strAppendCodesDesc'] = "In alcune circostanze il motore di distribuzione è in disaccordo con i codici accodati. Usa il seguente collegamento per convalidare nel database i codici accodati.";

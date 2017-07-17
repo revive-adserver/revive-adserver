@@ -161,8 +161,6 @@ $GLOBALS['strDeliveryFilenamesFlash'] = "Inclusion Flash (Peut être une URL com
 $GLOBALS['strDeliveryCaching'] = "Paramètres du cache de distribution des bannières";
 $GLOBALS['strDeliveryCacheLimit'] = "Temps entre les mises à jour du cache des bannières (secondes)";
 $GLOBALS['strDeliveryCacheStore'] = "Type de stockage du cache de distribution des bannières";
-$GLOBALS['strDeliveryAcls'] = "Evaluer les limitations de distribution des bannières au cours de la distribution";
-$GLOBALS['strDeliveryObfuscate'] = "Masquer le canal lors de la distribution des publicités";
 $GLOBALS['strDeliveryExecPhp'] = "Autoriser le code PHP à être exécuté dans les publicités<br />(Attention : risque de sécurité)";
 $GLOBALS['strDeliveryCtDelimiter'] = "Délimiteur de suivi des clics par les tiers";
 $GLOBALS['strGlobalDefaultBannerUrl'] = "URL de l'image de la bannière par défaut générale";
@@ -180,7 +178,6 @@ $GLOBALS['defaultLanguage'] = "Langage par défaut<br />(Chaque utilisateur choi
 $GLOBALS['strGeotargetingSettings'] = "Paramètres de géolocalisation";
 $GLOBALS['strGeotargeting'] = "Paramètres de géolocalisation";
 $GLOBALS['strGeotargetingType'] = "Type du module de géolocalisation";
-$GLOBALS['strGeoShowUnavailable'] = "Afficher les limitations de géolocalisation de distribution même si les données GeoIP sont indisponibles";
 
 // Interface Settings
 $GLOBALS['strInventory'] = "Inventaire";

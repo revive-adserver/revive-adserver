@@ -113,7 +113,7 @@ in the database. If you have enabled this option you will be able to see statist
 location of your visitors and how each banner is performing in the different countries.
 This option will only be available to you if you are using verbose statistics.";
 
-$GLOBALS['phpAds_hlp_reverse_lookup'] = "De host name wordt normaal gesproken vastgesteld door de web server, maar in sommige gevallen is deze functie uitgeschakeld. Als u de host name van de bezoeker wilt gebruiken voor delivery limitations en/of als u statistieken wilt bijhouden, en de server geeft deze informatie niet, dan dient u deze optie in te schakelen. Het vaststellen van de host name van de bezoeker kost enige tijd; het zal de uitlevering van banners trager maken.";
+$GLOBALS['phpAds_hlp_reverse_lookup'] = "De host name wordt normaal gesproken vastgesteld door de web server, maar in sommige gevallen is deze functie uitgeschakeld. Als u de host name van de bezoeker wilt gebruiken voor uitleveringsregels en/of als u statistieken wilt bijhouden, en de server geeft deze informatie niet, dan dient u deze optie in te schakelen. Het vaststellen van de host name van de bezoeker kost enige tijd; het zal de uitlevering van banners trager maken.";
 
 $GLOBALS['phpAds_hlp_proxy_lookup'] = "Sommige bezoekers gebruiken een proxy server om verbinding te makne met het internet. In dat geval zal {$PRODUCT_NAME} het IP adres of de host name van de proxy server registreren, in plaats van de bezoeker. Als u deze functie inschakelt, zal {$PRODUCT_NAME} proberen om het IP adres of de host name van de computer van de bezoeker proberen vast te stellen. Als het niet mogelijk is om het exacte adres van de bezoeker vast te stellen, dan zal het adres van de proxy server gebruikt worden. Deze optie staat standaard niet aan, omdat het de uitlevering van banners aanzienlijk zal vertragen.";
 
@@ -127,7 +127,7 @@ $GLOBALS['phpAds_hlp_auto_clean_userlog'] = $GLOBALS['phpAds_hlp_auto_clean_user
 number of weeks specified below this checkbox.";
 
 $GLOBALS['phpAds_hlp_geotracking_type'] = "Geotargeting stelt {$PRODUCT_NAME} in staat om het IP adres van een bezoeker om te zetten naar geografische
-informatie. Op basis van deze informatie kunt u uitleveringsbeperkingen instellen of u kunt deze
+informatie. Op basis van deze informatie kunt u uitleveringsregels instellen of u kunt deze
 informatie opslaan om te zien uit welk land de meeste impressies komen. Als u geotargeting wilt
 inschakelen moet u kiezen welk type database u heeft.
 {$PRODUCT_NAME} ondersteunt momenteel <a href='http://hop.clickbank.net/?phpadsnew/ip2country' target='_blank'></a>
@@ -161,7 +161,7 @@ wel goed door qmail begrepen wordt.";
 
 $GLOBALS['phpAds_hlp_warn_limit'] = "De limiet waarbij {$PRODUCT_NAME} begint waarschuwings-emails te verzenden. Dit is standaard bij 100.";
 
-$GLOBALS['phpAds_hlp_acl'] = "Als u geen gebruik maakt van uitleveringsbeperkingen, dan kunt u deze optie uitschakelen,
+$GLOBALS['phpAds_hlp_acl'] = "Als u geen gebruik maakt van Uitleveringsregels, dan kunt u deze optie uitschakelen,
 dit zal {$PRODUCT_NAME} iets sneller maken.";
 
 $GLOBALS['phpAds_hlp_default_banner_url'] = $GLOBALS['phpAds_hlp_default_banner_target'] = "Als {$PRODUCT_NAME} geen verbinding kan maken met de databaseserver, of geen enkele

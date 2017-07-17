@@ -89,8 +89,6 @@ $GLOBALS['strNotice'] = "提示";
 // Priority
 $GLOBALS['strPriority'] = "優先";
 $GLOBALS['strPriorityLevel'] = "優先級";
-$GLOBALS['strLimitations'] = "限制";
-$GLOBALS['strNoLimitations'] = "没有限制";
 $GLOBALS['strCapping'] = "上限";
 
 // Properties
@@ -336,11 +334,9 @@ $GLOBALS['strSwfTransparency'] = "使用透明背景";
 $GLOBALS['strCompressSWF'] = "壓縮SWF文件（需要Flash 6 player)";
 $GLOBALS['strOverwriteSource'] = "覆蓋原參數";
 
-// Display limitations
+// Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "發送選項";
-$GLOBALS['strACL'] = "發送設置";
-$GLOBALS['strApplyLimitationsTo'] = "應用限制";
-$GLOBALS['strRemoveAllLimitations'] = "移除所有限制";
+$GLOBALS['strACL'] = "發送選項";
 $GLOBALS['strEqualTo'] = "等於";
 $GLOBALS['strDifferentFrom'] = "不同於";
 $GLOBALS['strGreaterThan'] = "大於";
@@ -350,7 +346,6 @@ $GLOBALS['strOR'] = "或";                         // logical operator
 $GLOBALS['strOnlyDisplayWhen'] = "當： 時候顯示這條廣告";
 $GLOBALS['strWeekDays'] = "工作日";
 $GLOBALS['strSource'] = "來源";
-$GLOBALS['strDeliveryLimitations'] = "發布限制";
 
 $GLOBALS['strDeliveryCappingReset'] = "於此時之後重新開始統計";
 $GLOBALS['strDeliveryCappingTotal'] = "合計";
@@ -475,7 +470,6 @@ $GLOBALS['strEstimated'] = "預期到期日";
 $GLOBALS['strCampaignStop'] = "項目歷史";
 
 // Reports
-$GLOBALS['strLimitations'] = "限制";
 
 // Admin_UI_Fields
 $GLOBALS['strAllAdvertisers'] = "所有客戶";
@@ -604,20 +598,9 @@ $GLOBALS['strHideInactiveAgencies'] = "藏不活躍的帳戶";
 $GLOBALS['strInactiveAgenciesHidden'] = "藏不活躍的帳戶";
 
 // Channels
-$GLOBALS['strChannel'] = "目標頻道";
-$GLOBALS['strChannels'] = "目標頻道";
-$GLOBALS['strChannelManagement'] = "目標頻道管理";
-$GLOBALS['strAddNewChannel'] = "新增一個目標頻道";
-$GLOBALS['strAddNewChannel_Key'] = "新增一個目標頻道";
 $GLOBALS['strChannelToWebsite'] = "沒有網站";
-$GLOBALS['strNoChannels'] = "尚未定義目標頻道";
-$GLOBALS['strNoChannelsAddWebsite'] = "目前沒有網站，想要新建一個版位，請先<a href='affiliate-edit.php'>創建</a>一個網站";
-$GLOBALS['strEditChannelLimitations'] = "編輯目標頻道限制";
-$GLOBALS['strChannelProperties'] = "目標頻道屬性";
 $GLOBALS['strChannelLimitations'] = "發送選項";
-$GLOBALS['strConfirmDeleteChannel'] = "您是否真的希望刪除該目標頻道";
-$GLOBALS['strConfirmDeleteChannels'] = "您是否真的希望刪除該目標頻道";
-$GLOBALS['strChannelsOfWebsite'] = '屬於'; //this is added between page name and website name eg. 'Targeting channels in www.example.com'
+$GLOBALS['strChannelsOfWebsite'] = '屬於'; //this is added between page name and website name eg. 'delivery rule sets in www.example.com'
 
 // Tracker Variables
 $GLOBALS['strVariableName'] = "變量名";
