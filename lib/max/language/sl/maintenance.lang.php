@@ -111,16 +111,8 @@ $GLOBALS['strRunningOn'] = "teče na";
 $GLOBALS['strAndPlain'] = "in";
 
 //  Deliver Limitations
-$GLOBALS['strDeliveryLimitations'] = "Omejitve dostave";
-$GLOBALS['strAllBannerChannelCompiled'] = "Vse zbrane omejitvene vrednosti pasice/kanala so bile sestavljene";
-$GLOBALS['strBannerChannelResult'] = "Tukaj so rezultati veljavne zbrane omejitve pasice/kanala";
-$GLOBALS['strChannelCompiledLimitationsValid'] = "Vse zbrane omejitve kanala so veljavne";
-$GLOBALS['strBannerCompiledLimitationsValid'] = "Vse zbrane omejitve pasice so veljavne";
 $GLOBALS['strErrorsFound'] = "Najdene napake";
-$GLOBALS['strRepairCompiledLimitations'] = "Zgoraj je bilo najdenih nekaj nedoslednosti. Te lahko odpravite s klikom na spodnjim gumbom, ki bo znova sestavil zbrane omejitve za vsako pasico/kanal v sistemu<br />";
 $GLOBALS['strRecompile'] = "Znova sestavi";
-$GLOBALS['strDeliveryEngineDisagreeNotice'] = "V nekaterih okoliščinah dostavno orodje pride v navzkrižje z shranjenimi ACL-ji za pasice in kanale. Uporabite naslednjo povezavo za potrditev ACL-jev v podatkovni bazi";
-$GLOBALS['strCheckACLs'] = "Preveri ACL-je";
 
 //  Append codes
 $GLOBALS['strAppendCodesDesc'] = "Po nekaterimi pogoji dostavno orodje ne deluje pravilno z shranjenim zbirnikom za sledilnike. Uporabite naslednjo povezavo za potrditev zbrinika v podatkovni bazi";

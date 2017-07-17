@@ -97,8 +97,6 @@ $GLOBALS['strDashboardErrorHelp'] = "Daca această eroare se va repeta te rugăm
 // Priority
 $GLOBALS['strPriority'] = "Prioritate";
 $GLOBALS['strPriorityLevel'] = "Nivel prioritate";
-$GLOBALS['strLimitations'] = "Limitări";
-$GLOBALS['strNoLimitations'] = "Fără limitări";
 $GLOBALS['strCapping'] = "Limitare";
 
 // Properties
@@ -376,11 +374,9 @@ $GLOBALS['strHardcodedLinks'] = "Link-uri Codate-Puternic";
 $GLOBALS['strCompressSWF'] = "Compresează fişierul SWF pentru descărcare mai rapidă (necesită Flash Player 6)";
 $GLOBALS['strOverwriteSource'] = "Înlocuieşte parametrul sursă";
 
-// Display limitations
+// Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "Opţiuni livrare";
-$GLOBALS['strACL'] = "Livrare";
-$GLOBALS['strApplyLimitationsTo'] = "Aplică limitări pentru";
-$GLOBALS['strRemoveAllLimitations'] = "Şterge toate limitările";
+$GLOBALS['strACL'] = "Opţiuni livrare";
 $GLOBALS['strEqualTo'] = "este egal cu";
 $GLOBALS['strDifferentFrom'] = "este diferit de";
 $GLOBALS['strGreaterThan'] = "este mai mare decât";
@@ -390,7 +386,6 @@ $GLOBALS['strOR'] = "SAU";                         // logical operator
 $GLOBALS['strOnlyDisplayWhen'] = "Afişează acest banner doar când:";
 $GLOBALS['strWeekDays'] = "Zile din săptămână";
 $GLOBALS['strSource'] = "Sursa";
-$GLOBALS['strDeliveryLimitations'] = "Limitări Livare";
 
 $GLOBALS['strDeliveryCappingReset'] = "Resetează contoare vizualizări după:";
 $GLOBALS['strDeliveryCappingTotal'] = "în total";
@@ -554,7 +549,6 @@ $GLOBALS['strCampaignStop'] = "Stop campanie";
 
 // Reports
 $GLOBALS['strPeriod'] = "Perioadă";
-$GLOBALS['strLimitations'] = "Limitări";
 
 // Admin_UI_Fields
 $GLOBALS['strAllAdvertisers'] = "Toţi advertiserii";
@@ -715,20 +709,9 @@ $GLOBALS['strInactiveAgenciesHidden'] = "conturi inactive ascunse";
 $GLOBALS['strSwitchAccount'] = "Schimbă pe acest cont";
 
 // Channels
-$GLOBALS['strChannel'] = "Canal Targetare";
-$GLOBALS['strChannels'] = "Canale Targetare";
-$GLOBALS['strChannelManagement'] = "Organizare Canal Targetare";
-$GLOBALS['strAddNewChannel'] = "Adaugă canal nou de targetare";
-$GLOBALS['strAddNewChannel_Key'] = "Adaugă canal <u>n</u>ou de targetare";
 $GLOBALS['strChannelToWebsite'] = "Nici un website";
-$GLOBALS['strNoChannels'] = "Momentan nu este nici un canal de targetare definit";
-$GLOBALS['strNoChannelsAddWebsite'] = "Momentan nu este nici un website definit. Pentru a crea o zonă, <a href='affiliate-edit.php'>adaugă un website nou</a> mai întâi.";
-$GLOBALS['strEditChannelLimitations'] = "Editează limitările canalului de targetare";
-$GLOBALS['strChannelProperties'] = "Proprietăţi Canal de Targetare";
 $GLOBALS['strChannelLimitations'] = "Opţiuni livrare";
-$GLOBALS['strConfirmDeleteChannel'] = "Eşti sigur că vrei să ştergi acest canal de targetare?";
-$GLOBALS['strConfirmDeleteChannels'] = "Eşti sigur că vrei să ştergi acest canal de targetare?";
-$GLOBALS['strChannelsOfWebsite'] = 'în'; //this is added between page name and website name eg. 'Targeting channels in www.example.com'
+$GLOBALS['strChannelsOfWebsite'] = 'în'; //this is added between page name and website name eg. 'delivery rule sets in www.example.com'
 
 // Tracker Variables
 $GLOBALS['strVariableName'] = "Nume Variabilă";
@@ -785,8 +768,6 @@ $GLOBALS['strCampaignNoDataTimeSpan'] = "Nici o campanie nu a început sau s-a t
 $GLOBALS['strCampaignAuditTrailSetup'] = "Activează Urmărirea Bilanţului pentru a începe vizualizarea Campaniilor";
 
 $GLOBALS['strUnsavedChanges'] = "Nu ai salvat schimbările din această pagină, asigură-te că vei apăsa \"Salvează Shimbări\" când ai terminat";
-$GLOBALS['strDeliveryLimitationsDisagree'] = "ATENŢIE: Limitările motorului de livrare <strong>NU SUNT DE ACORD</strong> cu limitările afişate mai jos<br />Te rugăm apasă Salvează Schimbări pentru a actualiza regulile motorului de livrare";
-$GLOBALS['strDeliveryLimitationsInputErrors'] = "Unele valori incorecte ale rapoartelor de limitare ale livrărilor:";
 
 //confirmation messages
 

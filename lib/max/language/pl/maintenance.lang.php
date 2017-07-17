@@ -110,16 +110,8 @@ $GLOBALS['strRunningOn'] = "obsługujący";
 $GLOBALS['strAndPlain'] = "i";
 
 //  Deliver Limitations
-$GLOBALS['strDeliveryLimitations'] = "Limity dostarczania";
-$GLOBALS['strAllBannerChannelCompiled'] = "Wszystkie skompilowane wartości limitów dla banerów/kanałów zostały zrekompilowane";
-$GLOBALS['strBannerChannelResult'] = "Oto wyniki walidacji skompilowanych limitów dla banerów/kanałów";
-$GLOBALS['strChannelCompiledLimitationsValid'] = "Wszystkie skompilowane limity dla kanału są ważne";
-$GLOBALS['strBannerCompiledLimitationsValid'] = "Wszystkie skompilowane limity dla banerów są ważne";
 $GLOBALS['strErrorsFound'] = "Znaleziono błędy";
-$GLOBALS['strRepairCompiledLimitations'] = "Stwierdzono pewne nieprawidłowości powyżej, można naprawić je, korzystając z przycisku poniżej, aby ponownie skompilować ograniczenia dla każdego banera/kanału systemu<br />";
 $GLOBALS['strRecompile'] = "Przekompiluj";
-$GLOBALS['strDeliveryEngineDisagreeNotice'] = "W pewnych okolicznościach mechanizm dostarczania może nie być kompatybilny z listami ACL dla banerów i kanałów, użyj tego linku, aby sprawdzić poprawność list ACL w bazie danych";
-$GLOBALS['strCheckACLs'] = "Sprawdź listy ACL";
 
 //  Append codes
 $GLOBALS['strAppendCodesDesc'] = "W pewnych okolicznościach mechanizm dostarczania może nie być kompatybilny z kodami dodawanymi do trackerów, użyj tego linku, aby sprawdzić poprawność kodów w bazie danych";

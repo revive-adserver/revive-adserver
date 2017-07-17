@@ -150,8 +150,6 @@ $GLOBALS['strDeliveryFilenamesFrontController'] = "Priekinis tikrintojas";
 $GLOBALS['strDeliveryFilenamesFlash'] = "Pridėti Flash (gali būti pilnas URL)";
 $GLOBALS['strDeliveryCaching'] = "Banerio pristatymo kelio nustatymai";
 $GLOBALS['strDeliveryCacheLimit'] = "Laikas ";
-$GLOBALS['strDeliveryAcls'] = "Nustatyti banerio pristatymo limitus per patį pristatymą";
-$GLOBALS['strDeliveryObfuscate'] = "Užtamsyti kanalą, kai pridedamas pristatymas";
 $GLOBALS['strDeliveryExecPhp'] = "Leisti PHP kodui, kai pridedamas būti pašalintam<br />(Įspėjimas: Security risk)";
 $GLOBALS['strDeliveryCtDelimiter'] = "Trečiosios šalies paspaudimų seklio delimiter";
 $GLOBALS['strP3PSettings'] = "P3P privatumo politika";
@@ -165,7 +163,6 @@ $GLOBALS['strP3PPolicyLocation'] = "P3P vietos politika";
 $GLOBALS['strGeotargetingSettings'] = "Geotargeting nustatymai";
 $GLOBALS['strGeotargeting'] = "Geotargeting nustatymai";
 $GLOBALS['strGeotargetingType'] = "Geotargeting modulio tipas";
-$GLOBALS['strGeoShowUnavailable'] = "Rodyti geotargeting pristatymo limitus net jei GeoIP duomenys negalimi";
 
 // Interface Settings
 $GLOBALS['strInventory'] = "Inventorius";

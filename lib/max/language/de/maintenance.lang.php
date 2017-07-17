@@ -107,16 +107,8 @@ $GLOBALS['strRunningOn'] = "laufend auf";
 $GLOBALS['strAndPlain'] = "und";
 
 //  Deliver Limitations
-$GLOBALS['strDeliveryLimitations'] = "Auslieferungsbeschränkungen";
-$GLOBALS['strAllBannerChannelCompiled'] = "Alle Auslieferungsbeschränkungen der Banner und Gruppen wurden neu übersetzt.";
-$GLOBALS['strBannerChannelResult'] = "Hier die Ergebnisse der Übersetzung und Überprüfung der Auslieferungsbeschränkungen der Banner und Gruppen";
-$GLOBALS['strChannelCompiledLimitationsValid'] = "Alle Auslieferungsbeschränkungen der Gruppen ist gültig.";
-$GLOBALS['strBannerCompiledLimitationsValid'] = "Alle Auslieferungsbeschränkungen der Banner ist gültig.";
 $GLOBALS['strErrorsFound'] = "Fehler gefunden";
-$GLOBALS['strRepairCompiledLimitations'] = "Obige Inkonsistenzen wurden ermittelt. Sie können diese reparieren durch die Verwendung des unten stehenden Buttons. Hierbei wird das System die Auslieferungsbeschränkungen jedes Banners und jeder Gruppe im System neu übersetzen.<br />";
 $GLOBALS['strRecompile'] = "Neu übersetzen";
-$GLOBALS['strDeliveryEngineDisagreeNotice'] = "Unter manchen Umständen kann das Auslieferungsmodul die gespeicherten ACLs der Banner und Gruppen nicht korrekt verarbeiten. Verwenden Sie den folgenden Link um die in der Datenbank gespeicherten ACLs zu überprüfen.";
-$GLOBALS['strCheckACLs'] = "ACLs überprüfen";
 
 //  Append codes
 $GLOBALS['strAppendCodesDesc'] = "Unter manchen Umständen kann das Auslieferungsmodul den gespeicherten Code-Anhang der Tracker nicht korrekt verarbeiten. Verwenden Sie den folgenden Link um die in der Datenbank gespeicherten Codes zu überprüfen.";

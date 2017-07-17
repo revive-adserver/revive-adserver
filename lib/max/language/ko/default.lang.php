@@ -115,7 +115,6 @@ $GLOBALS['strPriorityLevel'] = "우선 순위";
 $GLOBALS['strOverrideAds'] = "캠페인 광고 재정비";
 $GLOBALS['strHighAds'] = "캠페인 광고 규정";
 $GLOBALS['strLowAds'] = "남은 캠페인 광고";
-$GLOBALS['strNoLimitations'] = "제한 없음";
 $GLOBALS['strCapping'] = "상한";
 
 // Properties
@@ -330,12 +329,9 @@ $GLOBALS['strHardcodedLinks'] = "내장�?� �?�?�";
 $GLOBALS['strCompressSWF'] = "보다 빠른전송을 위해 SWF 파일을 압축합니다. (플래시 6 버젼이상 필요)";
 $GLOBALS['strOverwriteSource'] = "원본소스 파라미터 덮어쓰기";
 
-// Display limitations
+// Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "전송 옵션";
-$GLOBALS['strACL'] = "전송";
-$GLOBALS['strACLAdd'] = "새 전송 제한 추가";
-$GLOBALS['strApplyLimitationsTo'] = "제한 적용하기";
-$GLOBALS['strRemoveAllLimitations'] = "모든 제한 제거";
+$GLOBALS['strACL'] = "전송 옵션";
 $GLOBALS['strEqualTo'] = "같을 경우";
 $GLOBALS['strDifferentFrom'] = "다른 경우";
 $GLOBALS['strAND'] = "그리고";                          // logical operator
@@ -345,7 +341,6 @@ $GLOBALS['strWeekDays'] = "주간";
 $GLOBALS['strDomain'] = "도메인";
 $GLOBALS['strSource'] = "소스";
 $GLOBALS['strBrowser'] = "브라우저";
-$GLOBALS['strDeliveryLimitations'] = "전송 제한사항";
 
 
 if (!isset($GLOBALS['strCappingBanner'])) {
@@ -532,10 +527,7 @@ $GLOBALS['strConfirmDeleteAgency'] = "�?� �?역�?� 삭제합니까?";
 $GLOBALS['strInactiveAgenciesHidden'] = "배너가 숨겨져 있습니다.";
 
 // Channels
-$GLOBALS['strNoChannels'] = "현재 등�?�?� 배너가 없습니다.";
 $GLOBALS['strChannelLimitations'] = "전달유지 옵션";
-$GLOBALS['strConfirmDeleteChannel'] = "해당 배너를 삭제합니까??";
-$GLOBALS['strConfirmDeleteChannels'] = "해당 배너를 삭제합니까??";
 
 // Tracker Variables
 $GLOBALS['strVariableDescription'] = "설명";

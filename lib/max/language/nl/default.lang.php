@@ -12,6 +12,8 @@
 
 // Set text direction and characterset
 $GLOBALS['phpAds_TextDirection'] = "ltr";
+$GLOBALS['phpAds_TextAlignRight'] = "rechts";
+$GLOBALS['phpAds_TextAlignLeft'] = "links";
 $GLOBALS['phpAds_CharSet'] = "UTF-8";
 
 $GLOBALS['phpAds_DecimalPoint'] = ",";
@@ -126,8 +128,8 @@ $GLOBALS['strOverrideAds'] = "Banners van Override campagne";
 $GLOBALS['strHighAds'] = "Contract campagne advertenties";
 $GLOBALS['strECPMAds'] = "eCPM campagne advertenties";
 $GLOBALS['strLowAds'] = "Restant campagne advertenties";
-$GLOBALS['strLimitations'] = "Beperkingen";
-$GLOBALS['strNoLimitations'] = "Geen beperkingen";
+$GLOBALS['strLimitations'] = "Uitleveringsregels";
+$GLOBALS['strNoLimitations'] = "Geen uitleveringsregels";
 $GLOBALS['strCapping'] = "Capping";
 
 // Properties
@@ -539,13 +541,13 @@ $GLOBALS['strConvertSWF'] = "<br />Het Flash bestand dat u zojuist upgeload heef
 $GLOBALS['strCompressSWF'] = "Comprimeer SWF bestand voor versneld downloaden (Flash 6 speler benodigd)";
 $GLOBALS['strOverwriteSource'] = "Overschrijft de Source parameter";
 
-// Display limitations
+// Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "Uitleveringsbeperkingen";
-$GLOBALS['strACL'] = "Uitlevering";
-$GLOBALS['strACLAdd'] = "Voeg nieuwe beperking toe";
-$GLOBALS['strApplyLimitationsTo'] = "Pas beperking toe op";
+$GLOBALS['strACL'] = "Uitleveringsbeperkingen";
+$GLOBALS['strACLAdd'] = "Voeg uitleveringsregel toe";
+$GLOBALS['strApplyLimitationsTo'] = "Pas uitleveringregel toe op";
 $GLOBALS['strAllBannersInCampaign'] = "Alle banners in deze campagne";
-$GLOBALS['strRemoveAllLimitations'] = "Verwijder alle beperkingen";
+$GLOBALS['strRemoveAllLimitations'] = "Verwijder alle uitleveringsregels";
 $GLOBALS['strEqualTo'] = "is gelijk aan";
 $GLOBALS['strDifferentFrom'] = "is verschillend van";
 $GLOBALS['strLaterThan'] = "is later dan";
@@ -567,7 +569,7 @@ $GLOBALS['strDomain'] = "Domein";
 $GLOBALS['strSource'] = "Bron";
 $GLOBALS['strBrowser'] = "Browser";
 $GLOBALS['strOS'] = "OS";
-$GLOBALS['strDeliveryLimitations'] = "Uitleveringsbeperkingen";
+$GLOBALS['strDeliveryLimitations'] = "Uitleveringsregels";
 
 $GLOBALS['strDeliveryCappingReset'] = "Reset vertoningentellers na:";
 $GLOBALS['strDeliveryCappingTotal'] = "in totaal";
@@ -769,7 +771,7 @@ $GLOBALS['strAdvancedReports'] = "Geavanceerde rapporten";
 $GLOBALS['strStartDate'] = "Begindatum";
 $GLOBALS['strEndDate'] = "Einddatum";
 $GLOBALS['strPeriod'] = "Periode";
-$GLOBALS['strLimitations'] = "Beperkingen";
+$GLOBALS['strLimitations'] = "Uitleveringsregels";
 $GLOBALS['strWorksheets'] = "Werkbladen";
 
 // Admin_UI_Fields
@@ -1015,20 +1017,20 @@ $GLOBALS['strInactiveAgenciesHidden'] = "inactieve account(s) verborgen";
 $GLOBALS['strSwitchAccount'] = "Overschakelen naar dit account";
 
 // Channels
-$GLOBALS['strChannel'] = "Targeting Channel";
-$GLOBALS['strChannels'] = "Targeting Channels";
-$GLOBALS['strChannelManagement'] = "Targeting channels beheren";
-$GLOBALS['strAddNewChannel'] = "Nieuw targeting channel maken";
-$GLOBALS['strAddNewChannel_Key'] = "<u>N</u>ieuw targeting channel toevoegen";
+$GLOBALS['strChannel'] = "Verzameling Uitleveringsregels";
+$GLOBALS['strChannels'] = "Verzamelingen Uitleveringsregels";
+$GLOBALS['strChannelManagement'] = "Beheer van verzamelingen Uitleveringsregels";
+$GLOBALS['strAddNewChannel'] = "Nieuwe Verzameling Uitleveringsregels";
+$GLOBALS['strAddNewChannel_Key'] = "Voeg <u>n</u>ieuwe Verzameling Uitleveringsregels toe";
 $GLOBALS['strChannelToWebsite'] = "naar website";
-$GLOBALS['strNoChannels'] = "Er zijn momenteel geen targeting channels gedefinieerd";
-$GLOBALS['strNoChannelsAddWebsite'] = "Er zijn nu geen targeting channels beschikbaar, omdat er geen websites zijn. Om een targeting channel te maken, dient u eerst <a href='affiliate-edit.php'>een nieuwe website toe te voegen</a>.";
-$GLOBALS['strEditChannelLimitations'] = "Uitleveringsopties van het targeting channel bewerken";
-$GLOBALS['strChannelProperties'] = "Targeting Channel eigenschappen";
+$GLOBALS['strNoChannels'] = "Er bestaan geen verzamelingen uitleveringsregels";
+$GLOBALS['strNoChannelsAddWebsite'] = "Er zijn nu geen verzamelingen uitleveringsregels beschikbaar, omdat er geen websites zijn. Om een verzameling uitleveringsregels te maken, dient u eerst <a href='affiliate-edit.php'>een nieuwe website toe te voegen</a>.";
+$GLOBALS['strEditChannelLimitations'] = "Bewerk Uitleveringsregels voor de verzameling Uitleveringsregels";
+$GLOBALS['strChannelProperties'] = "Eigenschappen van de verzameling uitleveringsregels";
 $GLOBALS['strChannelLimitations'] = "Uitleveringsbeperkingen";
-$GLOBALS['strConfirmDeleteChannel'] = "Weet u zeker dat u dit targeting channel wilt verwijderen?";
-$GLOBALS['strConfirmDeleteChannels'] = "Weet u zeker dat u de geselecteerde targeting channels wilt verwijderen?";
-$GLOBALS['strChannelsOfWebsite'] = 'in'; //this is added between page name and website name eg. 'Targeting channels in www.example.com'
+$GLOBALS['strConfirmDeleteChannel'] = "Weet u zeker dat u deze Verzameling Uitleveringsregels wilt verwijderen?";
+$GLOBALS['strConfirmDeleteChannels'] = "Weet u zeker dat u de geselecteerde verzamelingen uitleveringsregels wilt verwijderen?";
+$GLOBALS['strChannelsOfWebsite'] = 'in'; //this is added between page name and website name eg. 'delivery rule sets in www.example.com'
 
 // Tracker Variables
 $GLOBALS['strVariableName'] = "Naam van de variabele";
@@ -1098,8 +1100,8 @@ $GLOBALS['strCampaignAuditNotActivated'] = "<li>Om te zien welke campagnes zijn 
 $GLOBALS['strCampaignAuditTrailSetup'] = "Activeer de Audit Trail om campagnes te kunnen bekijken";
 
 $GLOBALS['strUnsavedChanges'] = "U hebt niet-opgeslagen wijzigingen op deze pagina, zorg ervoor dat u klikt op &quot;Wijzigingen opslaan&quot; als u klaar bent";
-$GLOBALS['strDeliveryLimitationsDisagree'] = "Waarschuwing: de Delivery engine uitleverbeperkingen <strong>kloppen niet</strong> met de beperkingen die hieronder getoond worden<br />Sla de wijzigingen op om de regels van de Delivery engine bij te werken";
-$GLOBALS['strDeliveryLimitationsInputErrors'] = "Sommige delivery limitations rapporteren onjuiste waarden:";
+$GLOBALS['strDeliveryLimitationsDisagree'] = "Waarschuwing: de opgeslagen uitleveringsregels <strong>zijn niet in overeenstemming</strong> met de uitleveringsregels die hieronder worden getoond<br />Sla de wijzigingen op om de opgeslagen uitleveringsregels bij te werken";
+$GLOBALS['strDeliveryLimitationsInputErrors'] = "Sommige Uitleveringsregels rapporten onjuiste waarden:";
 
 //confirmation messages
 $GLOBALS['strYouAreNowWorkingAsX'] = "U werkt nu als <b>%s</b>";
@@ -1160,19 +1162,19 @@ $GLOBALS['strZoneLinkedCampaign'] = "Campagne is gekoppeld aan zone <a href='%s'
 $GLOBALS['strZoneRemovedBanner'] = "Banner is ontkoppeld van zone <a href='%s'>%s</a>";
 $GLOBALS['strZoneRemovedCampaign'] = "Campagne is ontkoppeld van zone <a href='%s'>%s</a>";
 
-$GLOBALS['strChannelHasBeenAdded'] = "Targeting channel <a href='%s'>%s</a> is toegevoegd, <a href='%s'>bewerk de uitleveringsopties</a>";
-$GLOBALS['strChannelHasBeenUpdated'] = "Targeting channel <a href='%s'>%s</a> is bijgewerkt";
-$GLOBALS['strChannelAclHasBeenUpdated'] = "Uitleveringsopties voor targeting channel <a href='%s'>%s</a> zijn bijgewerkt";
-$GLOBALS['strChannelHasBeenDeleted'] = "Targeting channel <b>%s</b> is verwijderd";
-$GLOBALS['strChannelsHaveBeenDeleted'] = "Alle geselecteerde Targeting channels zijn verwijderd";
-$GLOBALS['strChannelHasBeenDuplicated'] = "Targeting channel <a href='%s'>%s</a> is gekopieerd naar <a href='%s'>%s</a>";
+$GLOBALS['strChannelHasBeenAdded'] = "Verzameling uitleveringsregels <a href='%s'>%s</a> is toegevoegd. <a href='%s'>Stel de uitleveringsregels in.</a>";
+$GLOBALS['strChannelHasBeenUpdated'] = "Verzameling uitleveringsregels <a href='%s'>%s</a> is bijgewerkt";
+$GLOBALS['strChannelAclHasBeenUpdated'] = "De uitleveringsregels voor de verzameling <a href='%s'>%s</a> zijn bijgewerkt";
+$GLOBALS['strChannelHasBeenDeleted'] = "Verzameling uitleveringsregels <b>%s</b> is verwijderd";
+$GLOBALS['strChannelsHaveBeenDeleted'] = "Alle geselecteerde verzamelingen uitleveringsregels zijn verwijderd";
+$GLOBALS['strChannelHasBeenDuplicated'] = "Verzameling uitleveringsregels <a href='%s'>%s</a> is gekopieerd naar <a href='%s'>%s</a>";
 
 $GLOBALS['strUserPreferencesUpdated'] = "Uw voorkeuren voor <b>%s</b> zijn bijgewerkt";
 $GLOBALS['strEmailChanged'] = "Uw E-mail adres is gewijzigd";
 $GLOBALS['strPasswordChanged'] = "Uw wachtwoord is gewijzigd";
 $GLOBALS['strXPreferencesHaveBeenUpdated'] = "<b>%s</b> zijn bijgewerkt";
 $GLOBALS['strXSettingsHaveBeenUpdated'] = "<b>%s</b> zijn bijgewerkt";
-$GLOBALS['strTZPreferencesWarning'] = "Echter, de begindatum en einddatum van de campagne zijn niet bijgewerkt, en ook niet de banner uitleveropties die op tijd zijn gebaseerd.<br />U zult deze met de hand moeten aanpassen als u wilt dat ze gebruik maken van de nieuwe tijdzone";
+$GLOBALS['strTZPreferencesWarning'] = "Echter, de begindatum en einddatum van de campagne zijn niet bijgewerkt, en ook niet de banner uitleveringsregels die op tijd zijn gebaseerd.<br />U zult deze met de hand moeten aanpassen als u wilt dat ze gebruik maken van de nieuwe tijdzone";
 
 // Report error messages
 $GLOBALS['strReportErrorMissingSheets'] = "Voor dit rapport is geen werkblad geselecteerd";
@@ -1184,9 +1186,11 @@ $GLOBALS['strReportErrorUnknownCode'] = "Onbekende foutcode #";
 
 // Reserved keys
 // Do not change these unless absolutely needed
+$GLOBALS['keyHome'] = "h";
 $GLOBALS['keyUp'] = "o";
 $GLOBALS['keyNextItem'] = ",";
 $GLOBALS['keyPreviousItem'] = ".";
+$GLOBALS['keyList'] = "l";
 
 // Other keys
 // Please make sure you underline the key you
@@ -1198,3 +1202,4 @@ $GLOBALS['keyAddNew'] = "v";
 $GLOBALS['keyNext'] = "g";
 $GLOBALS['keyPrevious'] = "r";
 $GLOBALS['keyLinkUser'] = "o";
+$GLOBALS['keyWorkingAs'] = "w";

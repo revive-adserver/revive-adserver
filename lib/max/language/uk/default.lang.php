@@ -116,8 +116,6 @@ $GLOBALS['strPriority'] = "Пріоритет";
 $GLOBALS['strPriorityLevel'] = "Рівень пріоритету";
 $GLOBALS['strHighAds'] = "Îые кампании";
 $GLOBALS['strLowAds'] = "Ùе кампании";
-$GLOBALS['strLimitations'] = "Обмеження";
-$GLOBALS['strNoLimitations'] = "Немає обмежень";
 $GLOBALS['strCapping'] = "Часткові обмеження";
 
 // Properties
@@ -447,13 +445,10 @@ $GLOBALS['strHardcodedLinks'] = "Жорстко закодовані посил�
 $GLOBALS['strCompressSWF'] = "Сжать SWF-файл для ускорения загрузки (требует установки Flash 6 плагина)";
 $GLOBALS['strOverwriteSource'] = "Перезаписать параметр источника";
 
-// Display limitations
+// Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "Ограничения показа";
-$GLOBALS['strACL'] = "Лимит";
-$GLOBALS['strACLAdd'] = "Добавить новое ограничение";
-$GLOBALS['strApplyLimitationsTo'] = "Применить ограничения к";
+$GLOBALS['strACL'] = "Ограничения показа";
 $GLOBALS['strAllBannersInCampaign'] = "Все баннеры в этой компании";
-$GLOBALS['strRemoveAllLimitations'] = "Удалить все ограничения";
 $GLOBALS['strEqualTo'] = "равно";
 $GLOBALS['strDifferentFrom'] = "отличается от";
 $GLOBALS['strContains'] = "содержит";
@@ -465,7 +460,6 @@ $GLOBALS['strOnlyDisplayWhen'] = "Показывать этот баннер т�
 $GLOBALS['strWeekDays'] = "Дни недели";
 $GLOBALS['strTime'] = "Время";
 $GLOBALS['strSource'] = "Источник";
-$GLOBALS['strDeliveryLimitations'] = "Ограничения показов";
 
 $GLOBALS['strDeliveryCappingReset'] = "Сбросить счетчик показов после:";
 $GLOBALS['strDeliveryCappingTotal'] = "всего";
@@ -627,7 +621,6 @@ $GLOBALS['strCampaignStop'] = "Історія кампаній";
 
 // Reports
 $GLOBALS['strPeriod'] = "Период";
-$GLOBALS['strLimitations'] = "Обмеження";
 
 // Admin_UI_Fields
 $GLOBALS['strAllAdvertisers'] = "Всього клієнтів";
@@ -809,20 +802,9 @@ $GLOBALS['strInactiveAgenciesHidden'] = "неактивні клієнти пр�
 $GLOBALS['strSwitchAccount'] = "Переключиться в этот аккаунт";
 
 // Channels
-$GLOBALS['strChannel'] = "Канал таргетинга";
-$GLOBALS['strChannels'] = "Каналы таргетинга";
-$GLOBALS['strChannelManagement'] = "Управление каналами таргетинга";
-$GLOBALS['strAddNewChannel'] = "Добавить канал таргетинга";
-$GLOBALS['strAddNewChannel_Key'] = "Добавить <u>н</u>овый канал таргетинга";
 $GLOBALS['strChannelToWebsite'] = "Ни один веб-сайт";
-$GLOBALS['strNoChannels'] = "В настоящее время каналы не определены";
-$GLOBALS['strNoChannelsAddWebsite'] = "в даний час не визначено жодного клієнта. Для створення кампанії необхідно спочатку <а href='advertiser-edit.php'>додати клієнта</a>.";
-$GLOBALS['strEditChannelLimitations'] = "Редактировать канал таргетинга";
-$GLOBALS['strChannelProperties'] = "Свойства канала таргетинга";
 $GLOBALS['strChannelLimitations'] = "Ограничения показа";
-$GLOBALS['strConfirmDeleteChannel'] = "Ви дійсно хочете видалити цього клієнта?";
-$GLOBALS['strConfirmDeleteChannels'] = "Ви дійсно хочете видалити цього клієнта?";
-$GLOBALS['strChannelsOfWebsite'] = 'в'; //this is added between page name and website name eg. 'Targeting channels in www.example.com'
+$GLOBALS['strChannelsOfWebsite'] = 'в'; //this is added between page name and website name eg. 'delivery rule sets in www.example.com'
 
 // Tracker Variables
 $GLOBALS['strVariableName'] = "Имя переменной";
@@ -880,8 +862,6 @@ $GLOBALS['strCampaignNoDataTimeSpan'] = "В выбранный вами пери
 $GLOBALS['strCampaignAuditTrailSetup'] = "Активируйте аудит для начала отображения кампаний";
 
 $GLOBALS['strUnsavedChanges'] = "У вас есть несохраненные изменения. Не забудьте нажать кнопку \"Сохранить\" когда закончите редактирование";
-$GLOBALS['strDeliveryLimitationsDisagree'] = "ВНИМАНИЕ: Ограничения движка доставки <strong>НЕ СОГЛАСУЮТСЯ</strong> с ограничениями, показанными ниже.<br />Нажмите кнопку Сохранить для обновления правил движка доставки.";
-$GLOBALS['strDeliveryLimitationsInputErrors'] = "Некоторые из ограничений доставки сообщений, содержат неправильные значения:";
 
 //confirmation messages
 

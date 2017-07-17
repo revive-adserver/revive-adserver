@@ -147,8 +147,6 @@ $GLOBALS['strDeliveryFilenamesFrontController'] = "字體控制器";
 $GLOBALS['strDeliveryFilenamesFlash'] = "包括Flash（可以使用絕對路徑)";
 $GLOBALS['strDeliveryCaching'] = "全局發送緩存設置";
 $GLOBALS['strDeliveryCacheLimit'] = "緩存刷新頻率（秒)";
-$GLOBALS['strDeliveryAcls'] = "在分發時評估廣告的分發";
-$GLOBALS['strDeliveryObfuscate'] = "混淆通道時廣告";
 $GLOBALS['strDeliveryExecPhp'] = "可在廣告中使用PHP代碼（可能存在安全隱患)";
 $GLOBALS['strDeliveryCtDelimiter'] = "第三方廣告跟蹤分隔符";
 $GLOBALS['strP3PSettings'] = "P3P隱私策略的全局設置";
@@ -163,7 +161,6 @@ $GLOBALS['uiEnabled'] = "啟用用戶界面";
 $GLOBALS['strGeotargetingSettings'] = "地理定位設置";
 $GLOBALS['strGeotargeting'] = "地理定位設置";
 $GLOBALS['strGeotargetingType'] = "地理定位模塊類型";
-$GLOBALS['strGeoShowUnavailable'] = "如果沒有GeoIP數據，則提示地理定位發布條件";
 
 // Interface Settings
 $GLOBALS['strInventory'] = "系統管理";

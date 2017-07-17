@@ -79,7 +79,6 @@ $GLOBALS['strRunningOn'] = "paleista per";
 $GLOBALS['strAndPlain'] = "Ir";
 
 //  Deliver Limitations
-$GLOBALS['strDeliveryLimitations'] = "Atsiuntimo apribojimai";
 
 //  Append codes
 

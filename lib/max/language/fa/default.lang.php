@@ -133,8 +133,6 @@ $GLOBALS['strHighAds'] = "
 قرارداد کمپین تبلیغات";
 $GLOBALS['strECPMAds'] = "eCPM کمپین تبلیغات";
 $GLOBALS['strLowAds'] = "تبلیغات کمپین باقی ماندهs";
-$GLOBALS['strLimitations'] = "محدودیات";
-$GLOBALS['strNoLimitations'] = "هیج محدوذیتی وجود ندارد";
 $GLOBALS['strCapping'] = "
 سر پوش";
 
@@ -621,13 +619,10 @@ $GLOBALS['strHardcodedLinks'] = "
 $GLOBALS['strCompressSWF'] = "فشرده سازی فایل SWF برای دانلود سریع تر (فلش 6 بازیکن مورد نیاز)";
 $GLOBALS['strOverwriteSource'] = "پارامتر منبع جاینوشت";
 
-// Display limitations
+// Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "گزینه های تحویل";
-$GLOBALS['strACL'] = "تحویل";
-$GLOBALS['strACLAdd'] = "اضافه کردن محدودیت تحویل";
-$GLOBALS['strApplyLimitationsTo'] = "درخواست محدودیت ";
+$GLOBALS['strACL'] = "گزینه های تحویل";
 $GLOBALS['strAllBannersInCampaign'] = "همه تبلیغات در این کمپین";
-$GLOBALS['strRemoveAllLimitations'] = "حذف تمام محدودیت";
 $GLOBALS['strEqualTo'] = "برابر است با";
 $GLOBALS['strDifferentFrom'] = "متفاوت است";
 $GLOBALS['strLaterThan'] = "است بعد از";
@@ -648,7 +643,6 @@ $GLOBALS['strDomain'] = "دامنه";
 $GLOBALS['strSource'] = "منبع";
 $GLOBALS['strBrowser'] = "مرورگر";
 $GLOBALS['strOS'] = "سیستم عامل";
-$GLOBALS['strDeliveryLimitations'] = "محدودیت های تحویل";
 
 $GLOBALS['strDeliveryCappingReset'] = "تنظیم مجدد نمایش شمارنده پس از:";
 $GLOBALS['strDeliveryCappingTotal'] = "در مجموع";
@@ -834,7 +828,6 @@ $GLOBALS['strAdvancedReports'] = "گزارش های پیشرفته";
 $GLOBALS['strStartDate'] = "آغاز تاریخ";
 $GLOBALS['strEndDate'] = "پایان تاریخ";
 $GLOBALS['strPeriod'] = "دوره";
-$GLOBALS['strLimitations'] = "محدودیات";
 $GLOBALS['strWorksheets'] = "آموزشی";
 
 // Admin_UI_Fields
@@ -997,20 +990,9 @@ $GLOBALS['strInactiveAgenciesHidden'] = "اکانت های غیر فعال مخ�
 $GLOBALS['strSwitchAccount'] = "انتقال به این حساب کاربری";
 
 // Channels
-$GLOBALS['strChannel'] = "کانال هدف";
-$GLOBALS['strChannels'] = "کانال های هدف";
-$GLOBALS['strChannelManagement'] = "مدیریت کانال هدف";
-$GLOBALS['strAddNewChannel'] = "اضافه کردن کانال هدف جدید";
-$GLOBALS['strAddNewChannel_Key'] = "اضافه کردن کانال هدف جدید";
 $GLOBALS['strChannelToWebsite'] = "به سایت";
-$GLOBALS['strNoChannels'] = "در حال حاضر هیچ کانال هدفی تعریف نشده است.";
-$GLOBALS['strNoChannelsAddWebsite'] = "هیچ کانال هدفی تعریف نشده است . برای ساخت کانال هدف, <a href='affiliate-edit.php'>یک سایت جدید اضافه کنید</a> first.";
-$GLOBALS['strEditChannelLimitations'] = "ویرایش محدودیت های کانال هدف";
-$GLOBALS['strChannelProperties'] = "مشخصات کانال هدف";
 $GLOBALS['strChannelLimitations'] = "تنظیمات تحویل";
-$GLOBALS['strConfirmDeleteChannel'] = "آیا واقعا میخواهید این کانال هدف را حذف کنید؟";
-$GLOBALS['strConfirmDeleteChannels'] = "آیا واقعا میخواهید این کانال های هدف را پاک کنید؟";
-$GLOBALS['strChannelsOfWebsite'] = 'در'; //this is added between page name and website name eg. 'Targeting channels in www.example.com'
+$GLOBALS['strChannelsOfWebsite'] = 'در'; //this is added between page name and website name eg. 'delivery rule sets in www.example.com'
 
 // Tracker Variables
 $GLOBALS['strVariableName'] = "نام متغیر";
@@ -1122,12 +1104,6 @@ $GLOBALS['strZoneLinkedCampaign'] = "کمپین به منطقه متصل شد <a
 $GLOBALS['strZoneRemovedBanner'] = "بنر از منطقه جدا شد <a href='%s'>%s</a>";
 $GLOBALS['strZoneRemovedCampaign'] = "کمپین از منطقه غیر لینک شد <a href='%s'>%s</a>";
 
-$GLOBALS['strChannelHasBeenAdded'] = "کانال هدف <a href='%s'>%s</a> افزوده شد, <a href='%s'>تغییر تنظیمات تحویل</a>";
-$GLOBALS['strChannelHasBeenUpdated'] = "کانال هدف <a href='%s'>%s</a> بروزرسانی شد";
-$GLOBALS['strChannelAclHasBeenUpdated'] = "تنظیمات تحویل برای کانال هدف <a href='%s'>%s</a> بروزرسانی شد";
-$GLOBALS['strChannelHasBeenDeleted'] = "کانال هدف <b>%s</b> حذف شد";
-$GLOBALS['strChannelsHaveBeenDeleted'] = "همه ی کانال های هدف انتخاب شده حذف گردیدند.";
-$GLOBALS['strChannelHasBeenDuplicated'] = "کانال هدف <a href='%s'>%s</a> کپی شد به <a href='%s'>%s</a>";
 
 $GLOBALS['strUserPreferencesUpdated'] = "شما <b>%s</b> تنظیمات بروزرسانی شد";
 $GLOBALS['strEmailChanged'] = "ایمیل شما تغییر کرد";

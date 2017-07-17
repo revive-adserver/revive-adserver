@@ -109,8 +109,6 @@ $GLOBALS['strDashboardErrorHelp'] = "إذا تكرر هذا الخطأ الرج�
 $GLOBALS['strPriority'] = "الأهمية";
 $GLOBALS['strPriorityLevel'] = "مستوى الأهمية";
 $GLOBALS['strOverrideAds'] = "تجاوز إعلانات الحملة";
-$GLOBALS['strLimitations'] = "المحددات";
-$GLOBALS['strNoLimitations'] = "بدون تحديد";
 $GLOBALS['strCapping'] = "تغطية";
 
 // Properties
@@ -401,11 +399,9 @@ $GLOBALS['strHardcodedLinks'] = "روابط ضمن الكود البرمجي";
 $GLOBALS['strCompressSWF'] = "ضغط ملف SWF لتحميل أسرع (يحتاج لمشغل فلاش 6 أو أعلى)";
 $GLOBALS['strOverwriteSource'] = "الكتابة على المتغيرات الأصلية";
 
-// Display limitations
+// Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "خيارات التوصيل";
-$GLOBALS['strACL'] = "التوصيل";
-$GLOBALS['strApplyLimitationsTo'] = "طبق الحدود إلى";
-$GLOBALS['strRemoveAllLimitations'] = "إزالة كل الحدود";
+$GLOBALS['strACL'] = "خيارات التوصيل";
 $GLOBALS['strEqualTo'] = "يساوي";
 $GLOBALS['strDifferentFrom'] = "مختلف عن";
 $GLOBALS['strGreaterThan'] = "أكبر من";
@@ -415,7 +411,6 @@ $GLOBALS['strOR'] = "أو";                         // logical operator
 $GLOBALS['strOnlyDisplayWhen'] = "إعرض البنر فقط عندما";
 $GLOBALS['strWeekDays'] = "أيام الاسبوع";
 $GLOBALS['strSource'] = "المصدر";
-$GLOBALS['strDeliveryLimitations'] = "حدود التوصيل";
 
 $GLOBALS['strDeliveryCappingReset'] = "قم بتصفير العداد بعد :";
 $GLOBALS['strDeliveryCappingTotal'] = "في المجموع";
@@ -539,7 +534,6 @@ $GLOBALS['strEstimated'] = "تاريخ الانتهاء المتوقع";
 $GLOBALS['strCampaignStop'] = "سجل الحملة الإعلانية";
 
 // Reports
-$GLOBALS['strLimitations'] = "المحددات";
 
 // Admin_UI_Fields
 $GLOBALS['strAllAdvertisers'] = "كل المعلنين";
@@ -631,11 +625,7 @@ $GLOBALS['strInactiveAgenciesHidden'] = "تم إخفاء مناطق العرض �
 
 // Channels
 $GLOBALS['strChannelToWebsite'] = "كل المواقع";
-$GLOBALS['strNoChannels'] = "لم يتم تعريف أي بنرات";
-$GLOBALS['strNoChannelsAddWebsite'] = "لا يوجد حتى الآن أية مواقع. لإضافة منطقة إعلانية، يجب <a href='affiliate-edit.php'>إضافة موقع جديد</a> قبل ذلك.";
 $GLOBALS['strChannelLimitations'] = "خيارات التوصيل";
-$GLOBALS['strConfirmDeleteChannel'] = "هل تريد حذف هذا البنر ";
-$GLOBALS['strConfirmDeleteChannels'] = "هل تريد حذف هذا البنر ";
 
 // Tracker Variables
 $GLOBALS['strVariableDescription'] = "الوصف";

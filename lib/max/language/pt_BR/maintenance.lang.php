@@ -104,16 +104,8 @@ $GLOBALS['strRunningOn'] = "rodando em um";
 $GLOBALS['strAndPlain'] = "e";
 
 //  Deliver Limitations
-$GLOBALS['strDeliveryLimitations'] = "Limitações de entrega";
-$GLOBALS['strAllBannerChannelCompiled'] = "Todos valores de limiteções de banners/canais foram re-compilados";
-$GLOBALS['strBannerChannelResult'] = "Este são os resultados da validação da compilação de limites de banners/canais";
-$GLOBALS['strChannelCompiledLimitationsValid'] = "Todos limites compilados para os canais são válidos";
-$GLOBALS['strBannerCompiledLimitationsValid'] = "Todos limites compilados para os banners são válidos";
 $GLOBALS['strErrorsFound'] = "Erros foram encontrados";
-$GLOBALS['strRepairCompiledLimitations'] = "Inconsistências foram encontradas acima, você pode corrigir estas usando o botão abaixo, isso irá recompilar as limitações de todos os banners/canais do sistema<br />";
 $GLOBALS['strRecompile'] = "Re-compilar";
-$GLOBALS['strDeliveryEngineDisagreeNotice'] = "Em algumas situações o núcleo de entrega pode discordar com o ACL armazenado, use o link a seguir para validar os ACLsna base de dados";
-$GLOBALS['strCheckACLs'] = "Verificar ACLs (Camadas de controle de acesso)";
 
 //  Append codes
 $GLOBALS['strAppendCodesDesc'] = "Em algumas situações o núcleo de entrega pode discordar com o código de rastreamento armazenado, use o link a seguir para validar os códigos na base de dados";

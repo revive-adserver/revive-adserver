@@ -90,7 +90,6 @@ $GLOBALS['strRunningOn'] = "kører på";
 $GLOBALS['strAndPlain'] = "og";
 
 //  Deliver Limitations
-$GLOBALS['strDeliveryLimitations'] = "Leverings begræsninger";
 
 //  Append codes
 

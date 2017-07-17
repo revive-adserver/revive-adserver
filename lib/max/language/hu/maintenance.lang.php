@@ -94,7 +94,6 @@ $GLOBALS['strRunningOn'] = "Futtatási környezet: ";
 $GLOBALS['strAndPlain'] = ", ";
 
 //  Deliver Limitations
-$GLOBALS['strDeliveryLimitations'] = "Továbbítás korlátozásai";
 
 //  Append codes
 

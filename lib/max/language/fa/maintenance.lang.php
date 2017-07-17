@@ -147,18 +147,8 @@ $GLOBALS['strRunningOn'] = "در حال اجرا";
 $GLOBALS['strAndPlain'] = "و";
 
 //  Deliver Limitations
-$GLOBALS['strDeliveryLimitations'] = "
-محدودیت های تحویل";
-$GLOBALS['strAllBannerChannelCompiled'] = "همه کانال ها / تبلیغ با ارزش محدود دوباره کامپایل شدند . ";
-$GLOBALS['strBannerChannelResult'] = "این نتایج حاصل از کامپایا اعتبار محدود بنر / کانال است .";
-$GLOBALS['strChannelCompiledLimitationsValid'] = "
-تمام محدودیت کانال وارد شده معتبر هستند";
-$GLOBALS['strBannerCompiledLimitationsValid'] = "تمام محدودیت بنرهای وارد شده معتبر هستند";
 $GLOBALS['strErrorsFound'] = "خطاهایی پیدا شد ";
-$GLOBALS['strRepairCompiledLimitations'] = "برخی از تناقضات بالا پیدا شد، شما می توانید این با استفاده از دکمه زیر تعمیر، این محدودیت کامپایلر برای هر بنر / کانال در سیستم کامپایل را<br />";
 $GLOBALS['strRecompile'] = "کامپایل مجدد";
-$GLOBALS['strDeliveryEngineDisagreeNotice'] = "تحت برخی شرایط موتور تحویل گیرنده می تواند با ACL های دریافتی برای تبلیغات و کانال ها مخالفت کند ، برای معتبر سازی ACL ها در پایگاه داده خود به لینک زیر بروید ";
-$GLOBALS['strCheckACLs'] = "ACL ها را چک کنید";
 
 //  Append codes
 $GLOBALS['strAppendCodesDesc'] = " تحت برخی شرایط موتور تحویل می توانید با کدهای اضافه ذخیره شده برای رهگیری اختلاف نظر دارند، از لینک های زیر استفاده کنید به اعتبار کدهای پیوست در پایگاه داده ";

@@ -106,16 +106,8 @@ $GLOBALS['strRunningOn'] = "動作環境";
 $GLOBALS['strAndPlain'] = "および";
 
 //  Deliver Limitations
-$GLOBALS['strDeliveryLimitations'] = "配信先";
-$GLOBALS['strAllBannerChannelCompiled'] = "すべての広告及びチャンネルの制限値が再集計されました。";
-$GLOBALS['strBannerChannelResult'] = "これらはバナーとチャンネルの再集計結果です。";
-$GLOBALS['strChannelCompiledLimitationsValid'] = "すべてのチャンネルの再集計は有効です";
-$GLOBALS['strBannerCompiledLimitationsValid'] = "すべてのバナーの再集計は有効です";
 $GLOBALS['strErrorsFound'] = "エラーがあります";
-$GLOBALS['strRepairCompiledLimitations'] = "いくつか内容に矛盾があります。下記のボタンを使用して問題を修正してください。この設定は、すべてのバナー及びチャンネルの再集計に対する上限値を設定し直します。<br />";
 $GLOBALS['strRecompile'] = "再集計";
-$GLOBALS['strDeliveryEngineDisagreeNotice'] = "何らかの状況下において、配信エンジンがトラックコードを拒否しました。以下のリンクをたどって修正をして下さい。";
-$GLOBALS['strCheckACLs'] = "ACLをチェックする";
 
 //  Append codes
 $GLOBALS['strAppendCodesDesc'] = "何らかの状況下において、配信エンジンがトラックコードを拒否しました。以下のリンクをたどって修正をして下さい。";

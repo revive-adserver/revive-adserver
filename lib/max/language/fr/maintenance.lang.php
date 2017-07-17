@@ -111,16 +111,8 @@ $GLOBALS['strRunningOn'] = "exécuté sur";
 $GLOBALS['strAndPlain'] = "et";
 
 //  Deliver Limitations
-$GLOBALS['strDeliveryLimitations'] = "Limitations de distribution";
-$GLOBALS['strAllBannerChannelCompiled'] = "Toutes les valeurs de limitations compilées de bannières/canaux ont été recompilées";
-$GLOBALS['strBannerChannelResult'] = "Voici les résultats de la validation des limitations compilées de bannières/canaux";
-$GLOBALS['strChannelCompiledLimitationsValid'] = "Toutes les limitations compilées de canaux sont valides";
-$GLOBALS['strBannerCompiledLimitationsValid'] = "Toutes les limitations compilées de bannières sont valides";
 $GLOBALS['strErrorsFound'] = "Erreurs trouvées";
-$GLOBALS['strRepairCompiledLimitations'] = "Quelques inconsistances ont été trouvées ci-dessus, vous pouvez les réparer en utilisant le bouton ci-dessous, ceci recompilera les limitations compilées pour chaque bannière/canal du système<br />";
 $GLOBALS['strRecompile'] = "Recompiler";
-$GLOBALS['strDeliveryEngineDisagreeNotice'] = "Dans certaines circonstances, le moteur de distribution peut entrer en conflit avec les limitations stockées pour les bannières et les canaux, utilisez le lien suivant pour valider les limitations dans la base de données";
-$GLOBALS['strCheckACLs'] = "Vérifier les limitations";
 
 //  Append codes
 $GLOBALS['strAppendCodesDesc'] = "Dans certaines circonstances, le moteur de distribution peut entrer en conflit avec les codes ajoutés stockés pour les suiveurs, utilisez le lien suivant pour valider les codes ajoutés dans la base de données";

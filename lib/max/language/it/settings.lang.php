@@ -175,9 +175,6 @@ $GLOBALS['strDeliveryFilenamesSinglePageCallJS'] = "Single Page Call (JavaScript
 $GLOBALS['strDeliveryCaching'] = "Impostazioni cache per la consegna dei banner";
 $GLOBALS['strDeliveryCacheLimit'] = "Intervallo di tempo fra due aggiornamenti della cache (in secondi)";
 $GLOBALS['strDeliveryCacheStore'] = "Tipo di cache per la consegna dei banner";
-$GLOBALS['strDeliveryAcls'] = "Valuta le limitazioni di consegna dei banner durante la consegna";
-$GLOBALS['strDeliveryAclsDirectSelection'] = "Valuta le limitazioni di consegna durante la \"selezione diretta\"";
-$GLOBALS['strDeliveryObfuscate'] = "Offusca il canale durante la consegna delle inserzioni";
 $GLOBALS['strDeliveryExecPhp'] = "Permetti di eseguire codice PHP all'interno delle inserzioni<br />(Attenzione: Potrebbe introdurre rischi di sicurezza)";
 $GLOBALS['strDeliveryCtDelimiter'] = "Delimitatore tracciamento click di terze parti";
 $GLOBALS['strGlobalDefaultBannerUrl'] = "URL dell'immagine banner predefinito globale";
@@ -195,7 +192,6 @@ $GLOBALS['defaultLanguage'] = "Lingua di sistema predefinita<br />(Ogni utente p
 $GLOBALS['strGeotargetingSettings'] = "Targeting geografico";
 $GLOBALS['strGeotargeting'] = "Targeting geografico";
 $GLOBALS['strGeotargetingType'] = "Tipo di Modulo Targeting Geografico";
-$GLOBALS['strGeoShowUnavailable'] = "Mostra le limitazioni sulla consegna geotargetizzata anche se le informazioni GeoIP non sono presenti";
 
 // Interface Settings
 $GLOBALS['strInventory'] = "Inventario";

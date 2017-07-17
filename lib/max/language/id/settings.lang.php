@@ -121,8 +121,6 @@ $GLOBALS['strDeliveryFilenamesFrontController'] = "Kontrol depan";
 $GLOBALS['strDeliveryFilenamesFlash'] = "Pencakupan Flash (Alamat URL lengkap diizinkan)";
 $GLOBALS['strDeliveryCaching'] = "Penyetelan global untuk caching penyampaian";
 $GLOBALS['strDeliveryCacheLimit'] = "Time Between Cache Updates (seconds)";
-$GLOBALS['strDeliveryAcls'] = "Evaluasikan limitasi dari penyampaian banner pada saat penyampaian";
-$GLOBALS['strDeliveryObfuscate'] = "Mengkaburkan saluran pada saat penyampaian iklan";
 $GLOBALS['strDeliveryExecPhp'] = "Izinkan eksekusi kode PHP dalam iklan<br />(Perhatian: Resiko Keamanan)";
 $GLOBALS['strP3PSettings'] = "Kebijaksanaan keleluasaan pribadi global P3P";
 $GLOBALS['strUseP3P'] = "Gunakan kebijaksanaan P3P";
@@ -136,7 +134,6 @@ $GLOBALS['defaultLanguage'] = "Anggapan Bahasa yang digunakan<br />(Setiap pengg
 // Geotargeting Settings
 $GLOBALS['strGeotargeting'] = "Penyetelan Global Geotargeting";
 $GLOBALS['strGeotargetingType'] = "Jenis modul Geotargeting";
-$GLOBALS['strGeoShowUnavailable'] = "Tampilkan limitasi penyampaian dari geotargeting meskipun data GeoIP tidak tersedia";
 
 // Interface Settings
 $GLOBALS['strInventory'] = "Inventori";

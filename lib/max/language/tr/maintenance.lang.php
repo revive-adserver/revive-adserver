@@ -64,7 +64,6 @@ $GLOBALS['strSecurityUpdate'] = "	<b>Bu güncellemeyi yüklemeniz şiddetle tavs
 
 
 //  Deliver Limitations
-$GLOBALS['strDeliveryLimitations'] = "Teslimat Kısıtlamaları";
 
 //  Append codes
 

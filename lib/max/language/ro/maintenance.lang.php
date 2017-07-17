@@ -109,16 +109,8 @@ $GLOBALS['strRunningOn'] = "rulând pe";
 $GLOBALS['strAndPlain'] = "şi";
 
 //  Deliver Limitations
-$GLOBALS['strDeliveryLimitations'] = "Limitări Livare";
-$GLOBALS['strAllBannerChannelCompiled'] = "Toate valorile de limitare compilate ale banner-ului/canalului au fost recompilate";
-$GLOBALS['strBannerChannelResult'] = "Aici sunt rezultatele validării limitării compilate ale banner-ului/canalului";
-$GLOBALS['strChannelCompiledLimitationsValid'] = "Toate limitările compilate ale canalului sunt valide";
-$GLOBALS['strBannerCompiledLimitationsValid'] = "Toate limitările compilate ale banner-ului sunt valide";
 $GLOBALS['strErrorsFound'] = "Au fost găsite erori";
-$GLOBALS['strRepairCompiledLimitations'] = "Au fost găsite unele incompatibilităţi deasupra, le poţi repara folosind butonul de mai jos, acesta va recompila limitarea compilată pentru fiecare banner/canal din sistem<br />";
 $GLOBALS['strRecompile'] = "Recompilează";
-$GLOBALS['strDeliveryEngineDisagreeNotice'] = "În unele circumstanţe motorul de livrare poate dezaproba ACL-urile stocate pentru bannere şi canale, foloseşte următorul link pentru a valida ACL-urile din baza de date";
-$GLOBALS['strCheckACLs'] = "Verifică ACL-uri";
 
 //  Append codes
 $GLOBALS['strAppendCodesDesc'] = "În unele circumstanţe motorul de livrare poate dezaproba codul alăturat contoarelor, foloseşte următorul link pentru a valida codul alăturat din baza de date";

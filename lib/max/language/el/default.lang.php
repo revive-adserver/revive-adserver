@@ -98,8 +98,6 @@ $GLOBALS['strNotice'] = "Σημείωση";
 // Priority
 $GLOBALS['strPriority'] = "Προτεραιότητα";
 $GLOBALS['strPriorityLevel'] = "Επίπεδο Προτεραιότητας";
-$GLOBALS['strLimitations'] = "Περιορισμοί";
-$GLOBALS['strNoLimitations'] = "Χωρίς περιορισμούς";
 $GLOBALS['strCapping'] = "Υπερκάληψη";
 
 // Properties
@@ -247,7 +245,7 @@ $GLOBALS['strWeight'] = "Ύψος";
 
 // Banner (swf)
 
-// Display limitations
+// Display Delviery Rules
 $GLOBALS['strAND'] = "ΚΑΙ";                          // logical operator
 $GLOBALS['strOR'] = "Ή";                         // logical operator
 $GLOBALS['strSource'] = "Πηγή";
@@ -319,7 +317,6 @@ $GLOBALS['strBreakdownByHour'] = "Ώρα";
 $GLOBALS['strCampaignStop'] = "Ιστορικό Καμπάνιας";
 
 // Reports
-$GLOBALS['strLimitations'] = "Περιορισμοί";
 
 // Admin_UI_Fields
 $GLOBALS['strAllAdvertisers'] = "Όλοι οι διαφημιζόμενοι";

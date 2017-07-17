@@ -109,16 +109,8 @@ $GLOBALS['strRunningOn'] = "запущенную на";
 $GLOBALS['strAndPlain'] = "и";
 
 //  Deliver Limitations
-$GLOBALS['strDeliveryLimitations'] = "Ограничения показов";
-$GLOBALS['strAllBannerChannelCompiled'] = "Все ограничения каналов и баннеров были пересчитаны";
-$GLOBALS['strBannerChannelResult'] = "Ниже приведены результаты проверки ограничений баннеров и каналов";
-$GLOBALS['strChannelCompiledLimitationsValid'] = "Все ограничения канала корректны";
-$GLOBALS['strBannerCompiledLimitationsValid'] = "Все ограничения баннера корректны";
 $GLOBALS['strErrorsFound'] = "Найдены ошибки";
-$GLOBALS['strRepairCompiledLimitations'] = "Были найдены несоответствия, которые вы можете исправить нажав кнопку ниже.<br />";
 $GLOBALS['strRecompile'] = "Пересчитать";
-$GLOBALS['strDeliveryEngineDisagreeNotice'] = "При некоторых обстоятельствах механизм доставки может некорректно работать с правами доступа к баннерам и каналам, используйте следующие ссылки для проверки прав доступа в БД.";
-$GLOBALS['strCheckACLs'] = "Проверить права доступа";
 
 //  Append codes
 $GLOBALS['strAppendCodesDesc'] = "При некоторых обстоятельствах механизм доставки может некорректно добавлять коды трекеров, используйте следующие ссылки для проверки кодов в БД.";

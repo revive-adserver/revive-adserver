@@ -108,8 +108,6 @@ $GLOBALS['strPriority'] = "Öncelik";
 $GLOBALS['strPriorityLevel'] = "Öncelik düzeyi";
 $GLOBALS['strECPMAds'] = "eBGBM Kampanya Reklamı";
 $GLOBALS['strLowAds'] = "Boşta Kalan Gösterim Kampanyası";
-$GLOBALS['strLimitations'] = "Kısıtlamalar";
-$GLOBALS['strNoLimitations'] = "Kısıtlama yok";
 $GLOBALS['strCapping'] = "Başlıklamak";
 
 // Properties
@@ -344,12 +342,9 @@ $GLOBALS['strHardcodedLinks'] = "Elle girilmiş, sabit bağlantılar";
 $GLOBALS['strCompressSWF'] = "Daha hızlı yüklenmesi için SWF dosyasını sıkıştır (Flash 6 player gerekli)";
 $GLOBALS['strOverwriteSource'] = "Kaynak parametresinin üzerine yaz";
 
-// Display limitations
+// Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "Teslimat Seçenekleri";
-$GLOBALS['strACL'] = "Teslimat";
-$GLOBALS['strACLAdd'] = "Yeni Sınırlama Ekle";
-$GLOBALS['strApplyLimitationsTo'] = "Kısıtlamaları şunun için uygula:";
-$GLOBALS['strRemoveAllLimitations'] = "Tüm kısıtlamaları kaldır";
+$GLOBALS['strACL'] = "Teslimat Seçenekleri";
 $GLOBALS['strEqualTo'] = "eşittir";
 $GLOBALS['strDifferentFrom'] = "farklıdır";
 $GLOBALS['strGreaterThan'] = "daha fazladır";
@@ -359,7 +354,6 @@ $GLOBALS['strOR'] = "VEYA";                         // logical operator
 $GLOBALS['strOnlyDisplayWhen'] = "Bu bannerı yalnızca şu durumda göster:";
 $GLOBALS['strWeekDays'] = "Haftaiçi";
 $GLOBALS['strSource'] = "Kaynak";
-$GLOBALS['strDeliveryLimitations'] = "Teslimat Kısıtlamaları";
 
 $GLOBALS['strDeliveryCappingReset'] = "Görüntüleme sayaçlarını şundan sonra sıfırla:";
 $GLOBALS['strDeliveryCappingTotal'] = "toplam";
@@ -504,7 +498,6 @@ $GLOBALS['strEstimated'] = "Tahmini bitiş tarihi";
 $GLOBALS['strCampaignStop'] = "Kampanya Geçmişi";
 
 // Reports
-$GLOBALS['strLimitations'] = "Kısıtlamalar";
 
 // Admin_UI_Fields
 $GLOBALS['strAllAdvertisers'] = "Tüm reklamverenler";
@@ -626,19 +619,8 @@ $GLOBALS['strHideInactiveAgencies'] = "Etkin olmayan hesapları gizle";
 $GLOBALS['strInactiveAgenciesHidden'] = "etkin olmayan hesap(lar) gizlendi";
 
 // Channels
-$GLOBALS['strChannel'] = "Hedefleme Kanalı";
-$GLOBALS['strChannels'] = "Hedefleme Kanalları";
-$GLOBALS['strChannelManagement'] = "Hedefleme Kanalı Yönetimi";
-$GLOBALS['strAddNewChannel'] = "Yeni hedefleme kanalı ekle";
-$GLOBALS['strAddNewChannel_Key'] = "Ye<u>n</u>i hedefleme kanalı ekle";
 $GLOBALS['strChannelToWebsite'] = "Web sitesi yok";
-$GLOBALS['strNoChannels'] = "Tanımlanmış hedefleme kanalı yok";
-$GLOBALS['strNoChannelsAddWebsite'] = "Henüz tanımlı bir web sitesi yok. Bir alan yaratmak için öncelikle <a href='affiliate-edit.php'>yeni bir web sitesi yarat</a>malısınız.";
-$GLOBALS['strEditChannelLimitations'] = "Hedefleme kanalı kısıtlamalarını düzenle";
-$GLOBALS['strChannelProperties'] = "Hedefleme Kanalı özellikleri";
 $GLOBALS['strChannelLimitations'] = "Teslimat Seçenekleri";
-$GLOBALS['strConfirmDeleteChannel'] = "Bu hedefleme kanalını silmek istediğinize emin misiniz?";
-$GLOBALS['strConfirmDeleteChannels'] = "Bu hedefleme kanalını silmek istediğinize emin misiniz?";
 
 // Tracker Variables
 $GLOBALS['strVariableName'] = "Değişken Adı";

@@ -117,8 +117,6 @@ $GLOBALS['strOverrideAds'] = "Outrepasser la publicité de la campagne";
 $GLOBALS['strHighAds'] = "Publicités sous contrat";
 $GLOBALS['strECPMAds'] = "Publicité de la campagne eCPM";
 $GLOBALS['strLowAds'] = "Publicités restantes";
-$GLOBALS['strLimitations'] = "Limites";
-$GLOBALS['strNoLimitations'] = "Aucune limitation";
 $GLOBALS['strCapping'] = "Plafonner";
 
 // Properties
@@ -454,13 +452,10 @@ $GLOBALS['strHardcodedLinks'] = "Liens codés en dur";
 $GLOBALS['strCompressSWF'] = "Compresser le fichier SWF pour un téléchargement plus rapide (Flash Player 6 requis)";
 $GLOBALS['strOverwriteSource'] = "Écraser le paramètre source";
 
-// Display limitations
+// Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "Options de distribution";
-$GLOBALS['strACL'] = "Distribution";
-$GLOBALS['strACLAdd'] = "Ajouter une limitation de distribution";
-$GLOBALS['strApplyLimitationsTo'] = "Appliquer les limitations à";
+$GLOBALS['strACL'] = "Options de distribution";
 $GLOBALS['strAllBannersInCampaign'] = "Toutes les bannières dans cette campagne";
-$GLOBALS['strRemoveAllLimitations'] = "Supprimer toutes les limitations";
 $GLOBALS['strEqualTo'] = "est égal à";
 $GLOBALS['strDifferentFrom'] = "est différent de";
 $GLOBALS['strGreaterThan'] = "est plus grand que";
@@ -469,7 +464,6 @@ $GLOBALS['strAND'] = "ET";                          // logical operator
 $GLOBALS['strOR'] = "OU";                         // logical operator
 $GLOBALS['strOnlyDisplayWhen'] = "Afficher seulement cette bannière quand :";
 $GLOBALS['strWeekDays'] = "Jours de la semaine";
-$GLOBALS['strDeliveryLimitations'] = "Limitations de distribution";
 
 $GLOBALS['strDeliveryCappingReset'] = "Réinitialiser les compteurs d'affichages après :";
 $GLOBALS['strDeliveryCappingTotal'] = "au total";
@@ -645,7 +639,6 @@ $GLOBALS['strCampaignStop'] = "Arrêt de la campagne";
 // Reports
 $GLOBALS['strAdvancedReports'] = "Rapports détaillés";
 $GLOBALS['strPeriod'] = "Période";
-$GLOBALS['strLimitations'] = "Limites";
 
 // Admin_UI_Fields
 $GLOBALS['strAllAdvertisers'] = "Tous les annonceurs";
@@ -823,20 +816,9 @@ $GLOBALS['strInactiveAgenciesHidden'] = "compte(s) inactif(s) masqué(s)";
 $GLOBALS['strSwitchAccount'] = "Basculer vers ce compte";
 
 // Channels
-$GLOBALS['strChannel'] = "Canal de ciblage";
-$GLOBALS['strChannels'] = "Canaux de ciblage";
-$GLOBALS['strChannelManagement'] = "Gestion des canaux de ciblage";
-$GLOBALS['strAddNewChannel'] = "Ajouter un canal de ciblage";
-$GLOBALS['strAddNewChannel_Key'] = "Ajouter un <u>n</u>ouveau canal de ciblage";
 $GLOBALS['strChannelToWebsite'] = "vers le site web";
-$GLOBALS['strNoChannels'] = "Il n'y a actuellement aucun canal de ciblage défini";
-$GLOBALS['strNoChannelsAddWebsite'] = "Il n'y a actuellement aucuns canaux ciblés définis, parce qu'il n'y a pas de sites. Pour créer un canal ciblé, <a href='affiliate-edit.php'>ajouter un nouveau site web</a> d'abord.";
-$GLOBALS['strEditChannelLimitations'] = "Éditer les limitations du canal de ciblage";
-$GLOBALS['strChannelProperties'] = "Propriétés du canal de ciblage";
 $GLOBALS['strChannelLimitations'] = "Options de distribution";
-$GLOBALS['strConfirmDeleteChannel'] = "Voulez-vous vraiment supprimer ce canal de ciblage ?";
-$GLOBALS['strConfirmDeleteChannels'] = "Voulez-vous vraiment supprimer ce canal ciblé ?";
-$GLOBALS['strChannelsOfWebsite'] = 'dans'; //this is added between page name and website name eg. 'Targeting channels in www.example.com'
+$GLOBALS['strChannelsOfWebsite'] = 'dans'; //this is added between page name and website name eg. 'delivery rule sets in www.example.com'
 
 // Tracker Variables
 $GLOBALS['strVariableName'] = "Nom de la variable";
@@ -894,8 +876,6 @@ $GLOBALS['strCampaignNoDataTimeSpan'] = "Aucune campagne n'a démarré ou termin
 $GLOBALS['strCampaignAuditTrailSetup'] = "Activer la piste d'audit pour commencer à afficher les campagnes";
 
 $GLOBALS['strUnsavedChanges'] = "Vous n'avez pas sauvé les modifications de cette page, assurez-vous de cliquez sur \"Sauver les changements\" quand vous aurez terminé";
-$GLOBALS['strDeliveryLimitationsDisagree'] = "ATTENTION : Les limitations du moteur de distribution <strong>NE SONT PAS EN ACCORD</strong> avec les limitations affichées ci-dessous<br />Veuillez cliquer sur sauver les changements pour mettre à jour les règles du moteur de distribution";
-$GLOBALS['strDeliveryLimitationsInputErrors'] = "Certaines des limitations de distribution rapportent des valeurs incorrectes :";
 
 //confirmation messages
 $GLOBALS['strYouAreNowWorkingAsX'] = "Vous travaillez maintenant en tant que <b>%s</b>";
@@ -956,19 +936,12 @@ $GLOBALS['strZoneLinkedCampaign'] = "La campagne a été liée à la zone <a hre
 $GLOBALS['strZoneRemovedBanner'] = "La bannière a été déliée de la zone <a href='%s'>%s</a>";
 $GLOBALS['strZoneRemovedCampaign'] = "La campagne a été déliée de la zone <a href='%s'>%s</a>";
 
-$GLOBALS['strChannelHasBeenAdded'] = "Le canal ciblé <a href='%s'>%s</a> a été ajouté, <a href='%s'>changer les options de distribution</a>";
-$GLOBALS['strChannelHasBeenUpdated'] = "Le canal ciblé <a href='%s'>%s</a> a été mis à jour";
-$GLOBALS['strChannelAclHasBeenUpdated'] = "Les options de distribution pour le canal ciblé <a href='%s'>%s</a> ont été mises à jour";
-$GLOBALS['strChannelHasBeenDeleted'] = "Le canal ciblé <b>%s</b> a été supprimé";
-$GLOBALS['strChannelsHaveBeenDeleted'] = "Tous les canaux ciblés sélectionnés ont été supprimés";
-$GLOBALS['strChannelHasBeenDuplicated'] = "Le canal ciblé <a href='%s'>%s</a> a été copié vers <a href='%s'>%s</a>";
 
 $GLOBALS['strUserPreferencesUpdated'] = "Vos <b>%s</b> préferences ont été mises à jour";
 $GLOBALS['strEmailChanged'] = "Votre e-mail a été changé";
 $GLOBALS['strPasswordChanged'] = "Votre mot de passe a été changé";
 $GLOBALS['strXPreferencesHaveBeenUpdated'] = "<b>%s</b> a été mis à jour";
 $GLOBALS['strXSettingsHaveBeenUpdated'] = "<b>%s</b> a été mis à jour";
-$GLOBALS['strTZPreferencesWarning'] = "Cependant l'activation et l'échéance de la campagne n'ont pas été mises à jour, les limites horaires non plus.<br />Il vous faudra les mettre à jour à la main si vous souhaitez les concorder avec le nouveau fuseau horaire";
 
 // Report error messages
 

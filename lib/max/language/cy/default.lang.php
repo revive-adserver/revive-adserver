@@ -90,8 +90,6 @@ $GLOBALS['strNotice'] = "Hysbysiad";
 // Priority
 $GLOBALS['strPriority'] = "Blaenoriaeth";
 $GLOBALS['strPriorityLevel'] = "Lefel blaenoriaeth";
-$GLOBALS['strLimitations'] = "Cyfyngiadau";
-$GLOBALS['strNoLimitations'] = "Dim cyfyngiadau";
 $GLOBALS['strCapping'] = "Terfyn Uchaf";
 
 // Properties
@@ -321,11 +319,9 @@ $GLOBALS['strHardcodedLinks'] = "Dolenni cod-caled";
 $GLOBALS['strCompressSWF'] = "Cywasgu ffeil SWF ar gyfer lawrlwytho cynt (Chwaraewr Flash 6 yn ofynnol)";
 $GLOBALS['strOverwriteSource'] = "Trosysgrifo paramedr ffynhonnell";
 
-// Display limitations
+// Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "Dewisiadau Trosglwyddiad";
-$GLOBALS['strACL'] = "Trosglwyddo";
-$GLOBALS['strApplyLimitationsTo'] = "Cymhwyso cyfyngiadau at";
-$GLOBALS['strRemoveAllLimitations'] = "Diddymu pob cyfyngiad";
+$GLOBALS['strACL'] = "Dewisiadau Trosglwyddiad";
 $GLOBALS['strEqualTo'] = "yn hafal i";
 $GLOBALS['strDifferentFrom'] = "yn wahanol i";
 $GLOBALS['strGreaterThan'] = "yn fwy na";
@@ -335,7 +331,6 @@ $GLOBALS['strOR'] = "NEU";                         // logical operator
 $GLOBALS['strOnlyDisplayWhen'] = "Dangos y faner yma yn unig pan:";
 $GLOBALS['strWeekDays'] = "Dyddiau o'r wythnos";
 $GLOBALS['strSource'] = "Ffynhonnell";
-$GLOBALS['strDeliveryLimitations'] = "Cyfyngiadau Trosglwyddo";
 
 $GLOBALS['strDeliveryCappingReset'] = "Ailosod rhifydd golwg ar ôl:";
 $GLOBALS['strDeliveryCappingTotal'] = "mewn cyfanswm";
@@ -478,7 +473,6 @@ $GLOBALS['strEstimated'] = "Dyddiad dod i ben amcangyfrifol";
 $GLOBALS['strCampaignStop'] = "Hanes ymgyrch";
 
 // Reports
-$GLOBALS['strLimitations'] = "Cyfyngiadau";
 
 // Admin_UI_Fields
 $GLOBALS['strAllAdvertisers'] = "Pob hysbysebwr";
@@ -589,10 +583,7 @@ $GLOBALS['strInactiveAgenciesHidden'] = "cyfrif(on) anweithredol wedi cuddio";
 
 // Channels
 $GLOBALS['strChannelToWebsite'] = "Pob gwefan";
-$GLOBALS['strNoChannelsAddWebsite'] = "Nid oes unrhyw wefan wedi cael ei ddiffinio hyd yma. I greu ardal, <a href='affiliate-edit.php'>ychwanegwch wefan newydd</a> yn gyntaf.";
 $GLOBALS['strChannelLimitations'] = "Dewisiadau Trosglwyddiad";
-$GLOBALS['strConfirmDeleteChannel'] = "Ydych chi wir am ddileu yr ymgyrch yma?";
-$GLOBALS['strConfirmDeleteChannels'] = "Ydych chi wir am ddileu yr ymgyrch yma?";
 
 // Tracker Variables
 $GLOBALS['strVariableDescription'] = "Disgrifiad";

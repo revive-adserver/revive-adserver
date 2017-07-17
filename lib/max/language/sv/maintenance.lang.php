@@ -61,7 +61,6 @@ $GLOBALS['strRunningOn'] = "körs på";
 $GLOBALS['strAndPlain'] = "och";
 
 //  Deliver Limitations
-$GLOBALS['strDeliveryLimitations'] = "Leveransbegränsningar";
 
 //  Append codes
 

@@ -86,7 +86,6 @@ $GLOBALS['strRunningOn'] = "運行的";
 $GLOBALS['strAndPlain'] = "與";
 
 //  Deliver Limitations
-$GLOBALS['strDeliveryLimitations'] = "發布限制";
 
 //  Append codes
 

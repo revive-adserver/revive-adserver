@@ -126,8 +126,6 @@ $GLOBALS['strOverrideAds'] = "Banner provenienti da campagne \"Override\"";
 $GLOBALS['strHighAds'] = "Banner provenienti da campagne a contratto";
 $GLOBALS['strECPMAds'] = "Banner provenienti da campagne eCPM";
 $GLOBALS['strLowAds'] = "Banner provenienti da campagne Remnant";
-$GLOBALS['strLimitations'] = "Limitazioni";
-$GLOBALS['strNoLimitations'] = "Nessuna limitazione";
 $GLOBALS['strCapping'] = "Capping";
 
 // Properties
@@ -471,13 +469,10 @@ $GLOBALS['strHardcodedLinks'] = "Link codificati all'interno del file";
 $GLOBALS['strCompressSWF'] = "Comprimi il file SWF per uno scaricamento più veloce (plug-in Flash 6 necessario)";
 $GLOBALS['strOverwriteSource'] = "Sovrascrivi parametro sorgente";
 
-// Display limitations
+// Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "Impostazioni di consegna";
-$GLOBALS['strACL'] = "Consegna";
-$GLOBALS['strACLAdd'] = "Aggiungi nuova limitazione";
-$GLOBALS['strApplyLimitationsTo'] = "Applica limitazioni a";
+$GLOBALS['strACL'] = "Impostazioni di consegna";
 $GLOBALS['strAllBannersInCampaign'] = "Tutti i banner in questa campagna";
-$GLOBALS['strRemoveAllLimitations'] = "Rimuovi tutte le limitazioni";
 $GLOBALS['strEqualTo'] = "è uguale a";
 $GLOBALS['strDifferentFrom'] = "è differente da";
 $GLOBALS['strLaterThan'] = "è successiva a";
@@ -495,7 +490,6 @@ $GLOBALS['strWeekDays'] = "Giorni della settimana";
 $GLOBALS['strTime'] = "Ora";
 $GLOBALS['strDomain'] = "Dominio";
 $GLOBALS['strSource'] = "Risorsa";
-$GLOBALS['strDeliveryLimitations'] = "Limitazioni consegna";
 
 $GLOBALS['strDeliveryCappingReset'] = "Azzera contatore visualizzazioni dopo:";
 $GLOBALS['strDeliveryCappingTotal'] = "in totale";
@@ -679,7 +673,6 @@ $GLOBALS['strAdvancedReports'] = "Report avanzati";
 $GLOBALS['strStartDate'] = "Data Inzio";
 $GLOBALS['strEndDate'] = "Data Fine";
 $GLOBALS['strPeriod'] = "Periodo";
-$GLOBALS['strLimitations'] = "Limitazioni";
 $GLOBALS['strWorksheets'] = "Fogli di lavoro";
 
 // Admin_UI_Fields
@@ -869,20 +862,9 @@ $GLOBALS['strInactiveAgenciesHidden'] = "account non attivi, nascosti";
 $GLOBALS['strSwitchAccount'] = "Passa a questo account";
 
 // Channels
-$GLOBALS['strChannel'] = "Canale di targeting";
-$GLOBALS['strChannels'] = "Canali di targeting";
-$GLOBALS['strChannelManagement'] = "Gestione canale di targeting";
-$GLOBALS['strAddNewChannel'] = "Aggiungi un nuovo canale di targeting";
-$GLOBALS['strAddNewChannel_Key'] = "Aggiungi un <n>n</n>uovo canale di targeting";
 $GLOBALS['strChannelToWebsite'] = "Nessun sito";
-$GLOBALS['strNoChannels'] = "Non è stato definito alcun canale di targeting";
-$GLOBALS['strNoChannelsAddWebsite'] = "Non è stato definito alcun editore. Per creare una zona, prima <a href='affiliate-edit.php'>aggiungi un editore</a>.";
-$GLOBALS['strEditChannelLimitations'] = "Modifica le limitazioni del canale di targeting";
-$GLOBALS['strChannelProperties'] = "Proprietà del canale di targeting";
 $GLOBALS['strChannelLimitations'] = "Impostazioni di consegna";
-$GLOBALS['strConfirmDeleteChannel'] = "Vuoi davvero cancellare questo canale di targeting?";
-$GLOBALS['strConfirmDeleteChannels'] = "Vuoi davvero cancellare questo canale di targeting?";
-$GLOBALS['strChannelsOfWebsite'] = 'in'; //this is added between page name and website name eg. 'Targeting channels in www.example.com'
+$GLOBALS['strChannelsOfWebsite'] = 'in'; //this is added between page name and website name eg. 'delivery rule sets in www.example.com'
 
 // Tracker Variables
 $GLOBALS['strVariableName'] = "Nome variabile";
@@ -939,8 +921,6 @@ $GLOBALS['strCampaignNoDataTimeSpan'] = "Nessuna campagna avviata o finita duran
 $GLOBALS['strCampaignAuditTrailSetup'] = "Attiva Audit Trail per iniziare a vedere le campagne";
 
 $GLOBALS['strUnsavedChanges'] = "I cambiamenti effettuati su questa pagina non sono stati salvati, accertati di premere \"Salva cambiamenti\" al termine";
-$GLOBALS['strDeliveryLimitationsDisagree'] = "ATTENZIONE: Alcune limitazioni del motore di distribuzione <strong>non permettono</strong> le limitazioni elencate di seuito<br /> Per favore premi &quot;salva cambiamenti&quot; per aggiornare le regole di distribuzione del motore.";
-$GLOBALS['strDeliveryLimitationsInputErrors'] = "Alcune limitazioni di distribuzione hanno riportato dei valori incorretti:";
 
 //confirmation messages
 
