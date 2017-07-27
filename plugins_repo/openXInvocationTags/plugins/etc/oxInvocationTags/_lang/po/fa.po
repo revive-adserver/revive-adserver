@@ -1,390 +1,224 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: revive-adserver\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-25 09:12+0100\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-KeywordsList: translate\n"
+"POT-Creation-Date: 2008-07-29 18:41+0100\n"
 "Last-Translator: mbeccati <matteo@beccati.com>\n"
 "Language-Team: Persian\n"
 "Language: fa_IR\n"
+"MIME-Version: 1.0\n"
+"Language: en\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: crowdin.com\n"
-"X-Poedit-SearchPath-0: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/\n"
 "X-Crowdin-Project: revive-adserver\n"
 "X-Crowdin-Language: fa\n"
 "X-Crowdin-File: /plugins_repo/openXInvocationTags/plugins/etc/oxInvocationTags/_lang/po/en.po\n"
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adframe.class.php:53
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/async.class.php:37
+msgid "Asynchronous JS Tag"
+msgstr ""
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adframe.class.php:36
 msgid "iFrame Tag"
 msgstr "برچسب iFrame"
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adframe.class.php:115
-msgid "\n"
-"  * If iFrames are not supported by the viewer's browser, then this\n"
-"  * tag only shows image banners. There is no width or height in these\n"
-"  * banners, so if you want these tags to allocate space for the ad\n"
-"  * before it shows, you will need to add this information to the <img>\n"
-"  * tag."
-msgstr "\n"
-"* اگر iFrames توسط مرورگر بازدید کنندگان پشتیبانی نشد ، پس این \n"
-"* برچسب فقط تبلیغات تصویری را نشان می دهد . هیچ عرض یا پهنایی در این تبلیغات وجود ندارد \n"
-"*پس ، اگر می خواهید که برای این برچسب فضایی اختصاص داده شود برای تبلیغات \n"
-"* قبل از این که نمایش داده شود ، شما باید این اطلاعات به \n"
-"* برچسب اضافه کنید . "
-
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adframe.class.php:204
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adframe.class.php:193
 msgid "Placement Comment"
 msgstr "محل قرارگیری نطر"
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adjs.class.php:53
-msgid "Javascript Tag"
-msgstr "برچسب Javascript"
-
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adjs.class.php:116
-#, php-format
-msgid "\n"
-"  * This noscript section of this tag only shows image banners. There\n"
-"  * is no width or height in these banners, so if you want these tags to\n"
-"  * allocate space for the ad before it shows, you will need to add this\n"
-"  * information to the <img> tag.\n"
-"  *\n"
-"  * If you do not want to deal with the intricities of the noscript\n"
-"  * section, delete the tag (from <noscript>... to </noscript>). On\n"
-"  * average, the noscript tag is called from less than 1% of internet\n"
-"  * users."
-msgstr ""
-
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adlayer.class.php:62
-msgid "Interstitial or Floating DHTML Tag"
-msgstr "بینابینی یا شناوری برچسب DHTML"
-
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adlayer.class.php:119
-msgid "\n"
-"  * Replace all instances of {random} with\n"
-"  * a generated random number (or timestamp).\n"
-"  *"
-msgstr "\n"
-"* تمام نمونه های {random} را با \n"
-"* یک عدد تصادفی (یا یک زمان تصادفی) جایگذاری کنید \n"
-"*"
-
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adlayer.class.php:123
-msgid "\n"
-"  * Don't forget to replace the '{clickurl}' text with\n"
-"  * the click tracking URL if this ad is to be delivered through a 3rd\n"
-"  * party (non-Max) adserver.\n"
-"  *"
-msgstr "\n"
-"* فراموش نشود که متن '{clickurl}' با \n"
-"* کلیک ردیابی URL، اگر این تبلیغ یک سرور تبلیغاتی 3rd-party \n"
-"* باشد ، جایگزین کنید .\n"
-"*"
-
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adlayer.class.php:128
-#, php-format
-msgid "\n"
-"  * This tag has been generated for use on a non-SSL page. If this tag\n"
-"  * is to be placed on an SSL page, change the\n"
-"  *   'http://%s/...'\n"
-"  * to\n"
-"  *   'https://%s/...'\n"
-"  *"
-msgstr "\n"
-"* این برچسب برای استفاده از صفحه های بدون SSL تولید شده است . اگر این برچسب \n"
-"*باید در SSL جایگذاری شود، \n"
-"* 'http://%s/...' \n"
-"* را به \n"
-"*  'https://%s/...'\n"
-"* تغییر دهید . \n"
-"*"
-
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adlayer.class.php:139
-#, php-format
-msgid "\n"
-"  *------------------------------------------------------------*\n"
-"  * This interstitial invocation code requires the images from:\n"
-"  * /www/images/layerstyles/%s/...\n"
-"  * To be accessible via: http(s)://%s/layerstyles/%s/...\n"
-"  *------------------------------------------------------------*"
-msgstr "\n"
-" *------------------------------------------------------------*\n"
-"  * این کد نیایش بینابینی به تصویر از آدرس زیر نیازمند است: \n"
-"  \n"
-"  * /www/images/layerstyles/%s/...\n"
-"  * تا قابل دسترسی باشد از: http(s)://%s/layerstyles/%s/...\n"
-"  *------------------------------------------------------------*"
-
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adlayer.class.php:242
-msgid "Style"
-msgstr "استایل"
-
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adview.class.php:53
-msgid "Image Tag"
-msgstr "برچسب تصویر"
-
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adview.class.php:111
-msgid "\n"
-"  * This tag only shows image banners. There is no width or height in\n"
-"  * these banners, so if you want these tags to allocate space for the\n"
-"  * ad before it shows, you will need to add this information to the\n"
-"  * <img> tag."
-msgstr "\n"
-"* این برچسب فقط تبلیغات تصویری را نشان می دهد . هیچ طول و عرضی در این\n"
-"* تبلیغات وجود ندارد ، پس برای تخصص دادن حافظه به این بر چسب برای تبلیغ قبل از اینکه مشاهده شود \n"
-"* باید این اطلاعات را به بر چسب <img>اضافه کنید . \n"
-"*"
-
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adviewnocookies.class.php:57
-msgid "No Cookie Image Tag"
-msgstr "برچسب تصویر بدون کوکی"
-
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/local.class.php:49
-msgid "Local Mode Tag"
-msgstr "برچسب حالت محلی"
-
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/local.class.php:146
-msgid "Assign the $phpAds_raw['html'] variable to your template"
-msgstr "معرفی کردن مقدار  $phpAds_raw['html'] به قالب تان"
-
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/popup.class.php:59
-msgid "Popup Tag"
-msgstr "برچسب پنجره "
-
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/popup.class.php:120
-msgid "\n"
-"  -- Don't forget to replace the 'Insert_Clicktrack_URL_Here' text with\n"
-"  -- the click tracking URL if this ad is to be delivered through a 3rd\n"
-"  -- party (non-Max) adserver.\n"
-"  --\n"
-"  -- Don't forget to replace the 'Insert_Random_Number_Here' text with\n"
-"  -- a cache-buster random number each time you deliver the tag through\n"
-"  -- a 3rd party (non-Max) adserver.\n"
-"  --"
-msgstr "\n"
-"--فراموش نشود که متن 'Insert_Clicktrack_URL_Here' با \n"
-"--  اگر این تبلیغ یک سرور تبلیغاتی 3rd party (non-max) فراخوانی شود . \n"
-"-- کلیک جست و جو URL جایگزین کنید .\n"
-"--\n"
-"-- فراموش نکنید که هر بار که یک بر چسب از یک سرور 3rdparty(non max) \n"
-"-- متن  'Insert_Random_Number_Here' با عدد تصادفی  cache-buster \n"
-"-- جایگزین کنید . \n"
-"--"
-
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/popup.class.php:129
-#, php-format
-msgid "\n"
-"  -- This tag has been generated for use on a non-SSL page. If this tag\n"
-"  -- is to be placed on an SSL page, change all instances of\n"
-"  --   'http://%s/...'\n"
-"  -- to\n"
-"  --   'https://%s/...'\n"
-"  --"
-msgstr "\n"
-"-- این برچسب برای استفاده در صفحه ی بدون SSL نولید شده سات . اگر این بر چسب \n"
-"-- لازم بود که در صفحه SSL درج شود ، تمامی موارد \n"
-"  --   'http://%s/...'\n"
-"  -- را به\n"
-"  --   'https://%s/...'\n"
-"  -- تغییر دهید "
-
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/spc.class.php:91
-msgid "Publisher code - Single Page Call"
-msgstr "کد ناشر - فراخوانی یک صفحه"
-
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/spc.class.php:237
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/spc.class.php:411
-msgid "Option - noscript"
-msgstr "گزینه - بدون script"
-
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/spc.class.php:241
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/spc.class.php:426
-msgid "Option - SSL"
-msgstr "گزینه-SSL"
-
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/xmlrpc.class.php:54
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/xmlrpc.class.php:36
 msgid "XML-RPC Tag"
 msgstr "XML-برچسب RPC"
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/xmlrpc.class.php:160
-msgid "\n"
-"  * As the PHP script below tries to set cookies, it must be called\n"
-"  * before any output is sent to the user's browser. Once the script\n"
-"  * has finished running, the HTML code needed to display the ad is\n"
-"  * stored in the $adArray array (so that multiple ads can be obtained\n"
-"  * by using mulitple tags). Once all ads have been obtained, and all\n"
-"  * cookies set, then you can send output to the user's browser, and\n"
-"  * print out the contents of $adArray where appropriate.\n"
-"  *\n"
-"  * Example code for printing from $adArray is at the end of the tag -\n"
-"  * you will need to remove this before using the tag in production.\n"
-"  * Remember to ensure that the PEAR::XML-RPC package is installed\n"
-"  * and available to this script, and to copy over the\n"
-"  * lib/xmlrpc/php/openads-xmlrpc.inc.php library file. You may need to\n"
-"  * alter the 'include_path' value immediately below.\n"
-"  */"
-msgstr "\n"
-" * همان گونه که script PHP زیر تلاش می کند که کوکی ها را وارد کند، باید قبل از اینکه خروجی ای \n"
-"* به مرورگر کاربر فرستاده شود ، فراخوانی شود . هنگامی که اجرای script تمام شود، به کد HTML نیاز است تا تبلیغ \n"
-"* ذخیره شده در آرایه ی  $adArray (پس می تواند شامل تبلیغات چند گانه با استفاده از برچسب های چندگانه باشد )نشان داده شود.\n"
-"* وقتی که تمام تبلیغات در بر گرفته شدند ، و تمامی کوکی ها تنظیم شدند\n"
-"* ، آنگاه شما می توانید خروجی را به مرورگر کاربر بفرستید ، و \n"
-"* تمام محتویات   $adArray را در جایی که مناسب است پرینت کنید . \n"
-"*\n"
-"* کد نمونه برای پرینت کردن از  $adArray در انتهای بر چسب است -\n"
-"* شما باید این برچسب را قبل از استفاده از تگ پاک کنید \n"
-"* به یاد داشته باشید که از وجود پکیج(بسته) PEAR::XML-RPC اطمینان پیدا کنید \n"
-".  \n"
-"* و برای اسکریپت معرفی کنید ، و کل کتابخانه lib/xmlrpc/php/openads-xmlrpc.inc.php \n"
-"* را کپی کنید .  شاید نیاز بشود که \n"
-"* ارزش  'include_path' را سریعا کاهش دهید . \n"
-"  */"
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/spc.class.php:80
+msgid "Publisher code - Single Page Call"
+msgstr "کد ناشر - فراخوانی یک صفحه"
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:70
-msgid "Smooth movement"
-msgstr "حرکت صاف"
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/spc.class.php:229
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/spc.class.php:403
+msgid "Option - noscript"
+msgstr "گزینه - بدون script"
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:78
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:99
-msgid "Speed"
-msgstr "سرعت"
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/spc.class.php:233
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/spc.class.php:418
+msgid "Option - SSL"
+msgstr "گزینه-SSL"
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:91
-msgid "Hide the banner when the cursor is not moving"
-msgstr "مخفی کردن بنر وقتی که مکان نما در حال حرکت نیست"
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adjs.class.php:37
+msgid "Javascript Tag"
+msgstr "برچسب Javascript"
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:99
-msgid "Delay before banner is hidden"
-msgstr "تاخیر قبل از مخفی شدن بنر"
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adview.class.php:36
+msgid "Image Tag"
+msgstr "برچسب تصویر"
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:104
-msgid "Transparancy of the hidden banner"
-msgstr "شفافیت بنر مخفی شده"
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adlayer.class.php:45
+msgid "Interstitial or Floating DHTML Tag"
+msgstr "بینابینی یا شناوری برچسب DHTML"
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:117
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:119
-msgid "Horizontal shift"
-msgstr "انتقال افقی"
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adlayer.class.php:235
+msgid "Style"
+msgstr "استایل"
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:122
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:112
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:124
-msgid "Vertical shift"
-msgstr "انتقال عمودی"
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/popup.class.php:42
+msgid "Popup Tag"
+msgstr "برچسب پنجره "
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:82
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/local.class.php:32
+msgid "Local Mode Tag"
+msgstr "برچسب حالت محلی"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/local.class.php:136
+msgid "Assign the \\$phpAds_raw['html'] variable to your template"
+msgstr ""
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adviewnocookies.class.php:41
+msgid "No Cookie Image Tag"
+msgstr "برچسب تصویر بدون کوکی"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:67
 msgid "Direction"
 msgstr "جهت"
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:84
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:69
 msgid "Left to right"
 msgstr "چپ به راست"
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:85
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:70
 msgid "Right to left"
 msgstr "راست به چپ"
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:90
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:75
 msgid "Looping"
 msgstr "به صورت چرخشی"
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:92
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:77
 msgid "Always active"
 msgstr "همیشه فعال"
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:107
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:84
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:61
+msgid "Speed"
+msgstr "سرعت"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:92
 msgid "Pause"
 msgstr "توقف"
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:117
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:97
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:105
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:108
+msgid "Vertical shift"
+msgstr "انتقال عمودی"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:102
 msgid "Limited"
 msgstr "محدود"
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:125
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:110
 msgid "Left margin"
 msgstr "حاشیه سمت چپمح"
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:130
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:115
 msgid "Right margin"
 msgstr "حاشیه سمت راست"
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:135
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:120
 msgid "Transparent background"
 msgstr "پس زمینه شفاف"
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:145
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:131
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:130
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:115
 msgid "Background color"
 msgstr "رنگ پس زمینه"
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:56
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:53
+msgid "Smooth movement"
+msgstr "حرکت صاف"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:74
+msgid "Hide the banner when the cursor is not moving"
+msgstr "مخفی کردن بنر وقتی که مکان نما در حال حرکت نیست"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:82
+msgid "Delay before banner is hidden"
+msgstr "تاخیر قبل از مخفی شدن بنر"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:87
+msgid "Transparancy of the hidden banner"
+msgstr "شفافیت بنر مخفی شده"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:100
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:103
+msgid "Horizontal shift"
+msgstr "انتقال افقی"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:41
 msgid "[Close]"
 msgstr "[بستن]"
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:65
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:50
 msgid "Alignment"
 msgstr "تراز"
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:67
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:79
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:52
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:63
 msgid "Left"
 msgstr "چپ"
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:68
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:80
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:53
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:64
 msgid "Center"
 msgstr "مرکز"
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:69
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:81
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:54
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:65
 msgid "Right"
 msgstr "راست"
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:75
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:60
 msgid "Close text"
 msgstr "متن دکمه بستن"
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:80
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:65
 msgid "Automatically collapse after"
 msgstr "به طور اتوماتیک متلاشی شود بعد از"
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:85
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:114
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:70
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:98
 msgid "Banner padding"
 msgstr "لایه گذاری بنر"
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:77
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:61
 msgid "Horizontal alignment"
 msgstr "تراز افقی"
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:87
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:71
 msgid "Vertical alignment"
 msgstr "تراز عمودی"
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:89
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:73
 msgid "Top"
 msgstr "بالا"
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:90
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:74
 msgid "Middle"
 msgstr "میانی"
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:91
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:75
 msgid "Bottom"
 msgstr "دکمه"
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:97
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:81
 msgid "Show close button"
 msgstr "نشان دادن دکمه [بستن]"
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:105
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:89
 msgid "Automatically close after"
 msgstr "اتوماتیک بسته شود بعد از"
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:144
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:128
 msgid "Border color"
 msgstr "رنگ حاشیه"
 

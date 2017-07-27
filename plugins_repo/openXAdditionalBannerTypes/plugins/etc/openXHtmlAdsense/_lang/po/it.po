@@ -1,84 +1,80 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: revive-adserver\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-18 14:02+0100\n"
+"POT-Creation-Date: 2008-07-29 18:41+0100\n"
+"Last-Translator: mbeccati <matteo@beccati.com>\n"
+"Language-Team: Italian\n"
+"Language: it_IT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-KeywordsList: translate\n"
-"Last-Translator: mbeccati <matteo@beccati.com>\n"
-"Language-Team: Italian\n"
-"Language: it_IT\n"
 "X-Generator: crowdin.com\n"
-"X-Poedit-SearchPath-0: plugins_repo/openXAdditionalBannerTypes/extensions/bannerTypeHtml/openXHtmlAdsense/\n"
 "X-Crowdin-Project: revive-adserver\n"
 "X-Crowdin-Language: it\n"
 "X-Crowdin-File: /plugins_repo/openXAdditionalBannerTypes/plugins/etc/openXHtmlAdsense/_lang/po/en.po\n"
 
-#: plugins_repo/openXAdditionalBannerTypes/extensions/bannerTypeHtml/openXHtmlAdsense//adsense.class.php:48
+#: plugins_repo/openXAdditionalBannerTypes/plugins/bannerTypeHtml/openXHtmlAdsense/adsense.class.php:34
 msgid "Google Adsense HTML Banner"
 msgstr "Banner Google Adsense HTML"
 
-#: plugins_repo/openXAdditionalBannerTypes/extensions/bannerTypeHtml/openXHtmlAdsense//adsense.class.php:80
+#: plugins_repo/openXAdditionalBannerTypes/plugins/bannerTypeHtml/openXHtmlAdsense/adsense.class.php:66
 msgid "Google Adsense Publisher Id"
 msgstr ""
 
-#: plugins_repo/openXAdditionalBannerTypes/extensions/bannerTypeHtml/openXHtmlAdsense//adsense.class.php:82
+#: plugins_repo/openXAdditionalBannerTypes/plugins/bannerTypeHtml/openXHtmlAdsense/adsense.class.php:68
 msgid "Banner display"
 msgstr ""
 
-#: plugins_repo/openXAdditionalBannerTypes/extensions/bannerTypeHtml/openXHtmlAdsense//adsense.class.php:84
+#: plugins_repo/openXAdditionalBannerTypes/plugins/bannerTypeHtml/openXHtmlAdsense/adsense.class.php:70
 msgid "Text Button 125x125"
 msgstr ""
 
-#: plugins_repo/openXAdditionalBannerTypes/extensions/bannerTypeHtml/openXHtmlAdsense//adsense.class.php:85
+#: plugins_repo/openXAdditionalBannerTypes/plugins/bannerTypeHtml/openXHtmlAdsense/adsense.class.php:71
 msgid "Text Banner 468x60"
 msgstr "Banner di Testo 468x60"
 
-#: plugins_repo/openXAdditionalBannerTypes/extensions/bannerTypeHtml/openXHtmlAdsense//adsense.class.php:86
+#: plugins_repo/openXAdditionalBannerTypes/plugins/bannerTypeHtml/openXHtmlAdsense/adsense.class.php:72
 msgid "Text Half Banner 234x60"
 msgstr ""
 
-#: plugins_repo/openXAdditionalBannerTypes/extensions/bannerTypeHtml/openXHtmlAdsense//adsense.class.php:87
+#: plugins_repo/openXAdditionalBannerTypes/plugins/bannerTypeHtml/openXHtmlAdsense/adsense.class.php:73
 msgid "Text Vertical Banner 120x240"
 msgstr "Banner di Testo Verticale 120x240"
 
-#: plugins_repo/openXAdditionalBannerTypes/extensions/bannerTypeHtml/openXHtmlAdsense//adsense.class.php:88
+#: plugins_repo/openXAdditionalBannerTypes/plugins/bannerTypeHtml/openXHtmlAdsense/adsense.class.php:74
 msgid "Text Leaderboard 728x90"
 msgstr ""
 
-#: plugins_repo/openXAdditionalBannerTypes/extensions/bannerTypeHtml/openXHtmlAdsense//adsense.class.php:89
+#: plugins_repo/openXAdditionalBannerTypes/plugins/bannerTypeHtml/openXHtmlAdsense/adsense.class.php:75
 msgid "Text Skyscraper 120x600"
 msgstr ""
 
-#: plugins_repo/openXAdditionalBannerTypes/extensions/bannerTypeHtml/openXHtmlAdsense//adsense.class.php:90
+#: plugins_repo/openXAdditionalBannerTypes/plugins/bannerTypeHtml/openXHtmlAdsense/adsense.class.php:76
 msgid "Text Wide Skyscraper 160x600"
 msgstr ""
 
-#: plugins_repo/openXAdditionalBannerTypes/extensions/bannerTypeHtml/openXHtmlAdsense//adsense.class.php:91
+#: plugins_repo/openXAdditionalBannerTypes/plugins/bannerTypeHtml/openXHtmlAdsense/adsense.class.php:77
 msgid "Text Small Rectangle 180x150"
 msgstr ""
 
-#: plugins_repo/openXAdditionalBannerTypes/extensions/bannerTypeHtml/openXHtmlAdsense//adsense.class.php:92
+#: plugins_repo/openXAdditionalBannerTypes/plugins/bannerTypeHtml/openXHtmlAdsense/adsense.class.php:78
 msgid "Text Medium Rectangle 300x250"
 msgstr ""
 
-#: plugins_repo/openXAdditionalBannerTypes/extensions/bannerTypeHtml/openXHtmlAdsense//adsense.class.php:93
+#: plugins_repo/openXAdditionalBannerTypes/plugins/bannerTypeHtml/openXHtmlAdsense/adsense.class.php:79
 msgid "Text Large Rectangle 336x280"
 msgstr ""
 
-#: plugins_repo/openXAdditionalBannerTypes/extensions/bannerTypeHtml/openXHtmlAdsense//adsense.class.php:94
+#: plugins_repo/openXAdditionalBannerTypes/plugins/bannerTypeHtml/openXHtmlAdsense/adsense.class.php:80
 msgid "Text Square 250x250"
 msgstr ""
 
-#: plugins_repo/openXAdditionalBannerTypes/extensions/bannerTypeHtml/openXHtmlAdsense//adsense.class.php:95
+#: plugins_repo/openXAdditionalBannerTypes/plugins/bannerTypeHtml/openXHtmlAdsense/adsense.class.php:81
 msgid "Text Small Square 200x200"
 msgstr "Testo piccolo quadrato 200x200"
 
-#: plugins_repo/openXAdditionalBannerTypes/extensions/bannerTypeHtml/openXHtmlAdsense//adsense.class.php:97
+#: plugins_repo/openXAdditionalBannerTypes/plugins/bannerTypeHtml/openXHtmlAdsense/adsense.class.php:83
 msgid "Ad Format"
 msgstr "Formato dell'annuncio"
 
