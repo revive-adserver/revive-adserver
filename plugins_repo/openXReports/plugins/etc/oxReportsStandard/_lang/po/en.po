@@ -1,213 +1,207 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Revive Adserver: plugins_repo/openXReports/plugins/etc/oxReportsStandard/_lang/po/en.po\n"
-"POT-Creation-Date: 2008-07-29 18:41+0100\n"
-"PO-Revision-Date: 2017-07-27 18:48+0100\n"
-"Last-Translator: Revive Adserver Team <noreply@revive-adserver.com>\n"
-"Language-Team: Revive Adserver Team <noreply@revive-adserver.com\n"
-"Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: (n != 1)\n"
 
-
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:70
-msgid "Advertising Analysis Report"
-msgstr "Advertising Analysis Report"
+msgid = "Advertising Analysis Report"
+msgstr = "Advertising Analysis Report"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:71
-msgid "This report shows a breakdown of advertising for a particular advertiser or website, by day, campaign, and zone."
-msgstr "This report shows a breakdown of advertising for a particular advertiser or website, by day, campaign, and zone."
+msgid = "This report shows a breakdown of advertising for a particular advertiser or website, by day, campaign, and zone."
+msgstr = "This report shows a breakdown of advertising for a particular advertiser or website, by day, campaign, and zone."
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:73
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:100
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:121
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:46
-msgid "Standard Reports"
-msgstr "Standard Reports"
+msgid = "Standard Reports"
+msgstr = "Standard Reports"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:96
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:261
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:136
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:304
-msgid "Daily Breakdown"
-msgstr "Daily Breakdown"
+msgid = "Daily Breakdown"
+msgstr = "Daily Breakdown"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:97
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:311
-msgid "Campaign Breakdown"
-msgstr "Campaign Breakdown"
+msgid = "Campaign Breakdown"
+msgstr = "Campaign Breakdown"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:99
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:363
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:138
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:380
-msgid "Zone Breakdown"
-msgstr "Zone Breakdown"
+msgid = "Zone Breakdown"
+msgstr = "Zone Breakdown"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:97
-msgid "Campaign Analysis Report"
-msgstr "Campaign Analysis Report"
+msgid = "Campaign Analysis Report"
+msgstr = "Campaign Analysis Report"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:98
-msgid "This report shows a breakdown of advertising for a particular campaign, by day, banner, and zone."
-msgstr "This report shows a breakdown of advertising for a particular campaign, by day, banner, and zone."
+msgid = "This report shows a breakdown of advertising for a particular campaign, by day, banner, and zone."
+msgstr = "This report shows a breakdown of advertising for a particular campaign, by day, banner, and zone."
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:137
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:342
-msgid "Ad Breakdown"
-msgstr "Ad Breakdown"
+msgid = "Ad Breakdown"
+msgstr = "Ad Breakdown"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:118
-msgid "Conversion Tracking Report"
-msgstr "Conversion Tracking Report"
+msgid = "Conversion Tracking Report"
+msgstr = "Conversion Tracking Report"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:119
-msgid "A detailed breakdown of all conversion activity by advertiser or website."
-msgstr "A detailed breakdown of all conversion activity by advertiser or website."
+msgid = "A detailed breakdown of all conversion activity by advertiser or website."
+msgstr = "A detailed breakdown of all conversion activity by advertiser or website."
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:161
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:323
-msgid "Performance by Day"
-msgstr "Performance by Day"
+msgid = "Performance by Day"
+msgstr = "Performance by Day"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:162
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:338
-msgid "Connection Summary by Day"
-msgstr "Connection Summary by Day"
+msgid = "Connection Summary by Day"
+msgstr = "Connection Summary by Day"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:163
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:431
-msgid "Variable Summary by Day"
-msgstr "Variable Summary by Day"
+msgid = "Variable Summary by Day"
+msgstr = "Variable Summary by Day"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:164
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:550
-msgid "Variable Summary by Variable"
-msgstr "Variable Summary by Variable"
+msgid = "Variable Summary by Variable"
+msgstr = "Variable Summary by Variable"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:165
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:643
-msgid "Connection Detail"
-msgstr "Connection Detail"
+msgid = "Connection Detail"
+msgstr = "Connection Detail"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:354
-msgid "Total Connections"
-msgstr "Total Connections"
+msgid = "Total Connections"
+msgstr = "Total Connections"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:357
-msgid " Connections"
-msgstr " Connections"
+msgid = " Connections"
+msgstr = " Connections"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:656
-msgid "Connection ID"
-msgstr "Connection ID"
+msgid = "Connection ID"
+msgstr = "Connection ID"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:658
-msgid "Connection Date / Time"
-msgstr "Connection Date / Time"
+msgid = "Connection Date / Time"
+msgstr = "Connection Date / Time"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:680
-msgid "Approval Status"
-msgstr "Approval Status"
+msgid = "Approval Status"
+msgstr = "Approval Status"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:682
-msgid "Comment"
-msgstr "Comment"
+msgid = "Comment"
+msgstr = "Comment"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:688
-msgid "Advertiser Name"
-msgstr "Advertiser Name"
+msgid = "Advertiser Name"
+msgstr = "Advertiser Name"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:692
-msgid "Ad Name"
-msgstr "Ad Name"
+msgid = "Ad Name"
+msgstr = "Ad Name"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:694
-msgid "Website Name"
-msgstr "Website Name"
+msgid = "Website Name"
+msgstr = "Website Name"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:696
-msgid "Zone Name"
-msgstr "Zone Name"
+msgid = "Zone Name"
+msgstr = "Zone Name"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:698
-msgid "Connection Type"
-msgstr "Connection Type"
+msgid = "Connection Type"
+msgstr = "Connection Type"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:700
-msgid "Connecting Value Date / Time"
-msgstr "Connecting Value Date / Time"
+msgid = "Connecting Value Date / Time"
+msgstr = "Connecting Value Date / Time"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:702
-msgid "IP Address"
-msgstr "IP Address"
+msgid = "IP Address"
+msgstr = "IP Address"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:43
-msgid "Campaign Delivery Report"
-msgstr "Campaign Delivery Report"
+msgid = "Campaign Delivery Report"
+msgstr = "Campaign Delivery Report"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:44
-msgid "This report shows delivery statistics for all campaigns which were live during the specified period, highlighting campaigns which are underperforming."
-msgstr "This report shows delivery statistics for all campaigns which were live during the specified period, highlighting campaigns which are underperforming."
+msgid = "This report shows delivery statistics for all campaigns which were live during the specified period, highlighting campaigns which are underperforming."
+msgstr = "This report shows delivery statistics for all campaigns which were live during the specified period, highlighting campaigns which are underperforming."
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:70
-msgid "Period"
-msgstr "Period"
+msgid = "Period"
+msgstr = "Period"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:75
-msgid "Limitations"
-msgstr "Limitations"
+msgid = "Limitations"
+msgstr = "Limitations"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:153
-msgid "Type"
-msgstr "Type"
+msgid = "Type"
+msgstr = "Type"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:163
-msgid "Booked Impressions"
-msgstr "Booked Impressions"
+msgid = "Booked Impressions"
+msgstr = "Booked Impressions"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:165
-msgid "Delivered Impressions"
-msgstr "Delivered Impressions"
+msgid = "Delivered Impressions"
+msgstr = "Delivered Impressions"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:167
-msgid "% Complete"
-msgstr "% Complete"
+msgid = "% Complete"
+msgstr = "% Complete"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:169
-msgid "Overall +/-"
-msgstr "Overall +/-"
+msgid = "Overall +/-"
+msgstr = "Overall +/-"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:171
-msgid "Current +/-"
-msgstr "Current +/-"
+msgid = "Current +/-"
+msgstr = "Current +/-"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:478
-msgid "Targeted"
-msgstr "Targeted"
+msgid = "Targeted"
+msgstr = "Targeted"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:480
-msgid "Run of Site"
-msgstr "Run of Site"
+msgid = "Run of Site"
+msgstr = "Run of Site"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:496
-msgid "Running"
-msgstr "Running"
+msgid = "Running"
+msgstr = "Running"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:498
-msgid "Stopped"
-msgstr "Stopped"
+msgid = "Stopped"
+msgstr = "Stopped"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:515
-msgid "Override"
-msgstr "Override"
+msgid = "Override"
+msgstr = "Override"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:517
-msgid "Remnant"
-msgstr "Remnant"
+msgid = "Remnant"
+msgstr = "Remnant"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:519
-msgid "Contract"
-msgstr "Contract"
+msgid = "Contract"
+msgstr = "Contract"
