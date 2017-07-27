@@ -66,10 +66,14 @@ foreach ($trans as $file => $msgs) {
 msgid ""
 msgstr ""
 "Project-Id-Version: Revive Adserver: {$file}\\n"
+"Last-Translator: Revive Adserver Team <noreply@revive-adserver.com>\\n"
+"Language-Team: English\\n"
+"Language: en_GB\\n"
 "MIME-Version: 1.0\\n"
 "Content-Type: text/plain; charset=UTF-8\\n"
 "Content-Transfer-Encoding: 8bit\\n"
 "Plural-Forms: (n != 1)\\n"
+
 
 EOF;
 
@@ -81,11 +85,12 @@ EOF;
             $po .= "#: {$line}\n";
         }
 
-        $id = str_replace('\\n', "\\n\"\n\"", addcslashes($msgid, "\0..\37\""));
-        $po .= "msgid = \"{$id}\"\nmsgstr = \"{$id}\"\n";
+        $id = str_replace('\\n', "\\n\"\n\"", addcslashes($msgid, "\0..\37\"\\"));
+        $po .= "msgid \"{$id}\"\nmsgstr \"{$id}\"\n";
     }
 
     $po = str_replace("\r", "", $po);
 
     file_put_contents($file, $po);
 }
+
