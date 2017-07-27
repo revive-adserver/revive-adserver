@@ -1,332 +1,224 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: revive-adserver\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-25 09:12+0100\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=6; plural=(n == 0) ? 0 : ((n == 1) ? 1 : ((n == 2) ? 2 : ((n == 3) ? 3 : ((n == 6) ? 4 : 5))));\n"
-"X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-KeywordsList: translate\n"
+"POT-Creation-Date: 2008-07-29 18:41+0100\n"
 "Last-Translator: mbeccati <matteo@beccati.com>\n"
 "Language-Team: Welsh\n"
 "Language: cy_GB\n"
+"MIME-Version: 1.0\n"
+"Language: en\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=(n == 0) ? 0 : ((n == 1) ? 1 : ((n == 2) ? 2 : ((n == 3) ? 3 : ((n == 6) ? 4 : 5))));\n"
 "X-Generator: crowdin.com\n"
-"X-Poedit-SearchPath-0: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/\n"
 "X-Crowdin-Project: revive-adserver\n"
 "X-Crowdin-Language: cy\n"
 "X-Crowdin-File: /plugins_repo/openXInvocationTags/plugins/etc/oxInvocationTags/_lang/po/en.po\n"
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adframe.class.php:53
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/async.class.php:37
+msgid "Asynchronous JS Tag"
+msgstr ""
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adframe.class.php:36
 msgid "iFrame Tag"
 msgstr ""
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adframe.class.php:115
-msgid "\n"
-"  * If iFrames are not supported by the viewer's browser, then this\n"
-"  * tag only shows image banners. There is no width or height in these\n"
-"  * banners, so if you want these tags to allocate space for the ad\n"
-"  * before it shows, you will need to add this information to the <img>\n"
-"  * tag."
-msgstr ""
-
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adframe.class.php:204
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adframe.class.php:193
 msgid "Placement Comment"
 msgstr ""
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adjs.class.php:53
-msgid "Javascript Tag"
-msgstr ""
-
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adjs.class.php:116
-#, php-format
-msgid "\n"
-"  * This noscript section of this tag only shows image banners. There\n"
-"  * is no width or height in these banners, so if you want these tags to\n"
-"  * allocate space for the ad before it shows, you will need to add this\n"
-"  * information to the <img> tag.\n"
-"  *\n"
-"  * If you do not want to deal with the intricities of the noscript\n"
-"  * section, delete the tag (from <noscript>... to </noscript>). On\n"
-"  * average, the noscript tag is called from less than 1% of internet\n"
-"  * users."
-msgstr ""
-
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adlayer.class.php:62
-msgid "Interstitial or Floating DHTML Tag"
-msgstr ""
-
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adlayer.class.php:119
-msgid "\n"
-"  * Replace all instances of {random} with\n"
-"  * a generated random number (or timestamp).\n"
-"  *"
-msgstr ""
-
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adlayer.class.php:123
-msgid "\n"
-"  * Don't forget to replace the '{clickurl}' text with\n"
-"  * the click tracking URL if this ad is to be delivered through a 3rd\n"
-"  * party (non-Max) adserver.\n"
-"  *"
-msgstr ""
-
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adlayer.class.php:128
-#, php-format
-msgid "\n"
-"  * This tag has been generated for use on a non-SSL page. If this tag\n"
-"  * is to be placed on an SSL page, change the\n"
-"  *   'http://%s/...'\n"
-"  * to\n"
-"  *   'https://%s/...'\n"
-"  *"
-msgstr ""
-
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adlayer.class.php:139
-#, php-format
-msgid "\n"
-"  *------------------------------------------------------------*\n"
-"  * This interstitial invocation code requires the images from:\n"
-"  * /www/images/layerstyles/%s/...\n"
-"  * To be accessible via: http(s)://%s/layerstyles/%s/...\n"
-"  *------------------------------------------------------------*"
-msgstr ""
-
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adlayer.class.php:242
-msgid "Style"
-msgstr ""
-
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adview.class.php:53
-msgid "Image Tag"
-msgstr ""
-
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adview.class.php:111
-msgid "\n"
-"  * This tag only shows image banners. There is no width or height in\n"
-"  * these banners, so if you want these tags to allocate space for the\n"
-"  * ad before it shows, you will need to add this information to the\n"
-"  * <img> tag."
-msgstr ""
-
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/adviewnocookies.class.php:57
-msgid "No Cookie Image Tag"
-msgstr ""
-
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/local.class.php:49
-msgid "Local Mode Tag"
-msgstr ""
-
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/local.class.php:146
-msgid "Assign the $phpAds_raw['html'] variable to your template"
-msgstr ""
-
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/popup.class.php:59
-msgid "Popup Tag"
-msgstr ""
-
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/popup.class.php:120
-msgid "\n"
-"  -- Don't forget to replace the 'Insert_Clicktrack_URL_Here' text with\n"
-"  -- the click tracking URL if this ad is to be delivered through a 3rd\n"
-"  -- party (non-Max) adserver.\n"
-"  --\n"
-"  -- Don't forget to replace the 'Insert_Random_Number_Here' text with\n"
-"  -- a cache-buster random number each time you deliver the tag through\n"
-"  -- a 3rd party (non-Max) adserver.\n"
-"  --"
-msgstr ""
-
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/popup.class.php:129
-#, php-format
-msgid "\n"
-"  -- This tag has been generated for use on a non-SSL page. If this tag\n"
-"  -- is to be placed on an SSL page, change all instances of\n"
-"  --   'http://%s/...'\n"
-"  -- to\n"
-"  --   'https://%s/...'\n"
-"  --"
-msgstr ""
-
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/spc.class.php:91
-msgid "Publisher code - Single Page Call"
-msgstr ""
-
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/spc.class.php:237
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/spc.class.php:411
-msgid "Option - noscript"
-msgstr ""
-
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/spc.class.php:241
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/spc.class.php:426
-msgid "Option - SSL"
-msgstr ""
-
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/xmlrpc.class.php:54
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/xmlrpc.class.php:36
 msgid "XML-RPC Tag"
 msgstr ""
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/xmlrpc.class.php:160
-msgid "\n"
-"  * As the PHP script below tries to set cookies, it must be called\n"
-"  * before any output is sent to the user's browser. Once the script\n"
-"  * has finished running, the HTML code needed to display the ad is\n"
-"  * stored in the $adArray array (so that multiple ads can be obtained\n"
-"  * by using mulitple tags). Once all ads have been obtained, and all\n"
-"  * cookies set, then you can send output to the user's browser, and\n"
-"  * print out the contents of $adArray where appropriate.\n"
-"  *\n"
-"  * Example code for printing from $adArray is at the end of the tag -\n"
-"  * you will need to remove this before using the tag in production.\n"
-"  * Remember to ensure that the PEAR::XML-RPC package is installed\n"
-"  * and available to this script, and to copy over the\n"
-"  * lib/xmlrpc/php/openads-xmlrpc.inc.php library file. You may need to\n"
-"  * alter the 'include_path' value immediately below.\n"
-"  */"
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/spc.class.php:80
+msgid "Publisher code - Single Page Call"
 msgstr ""
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:70
-msgid "Smooth movement"
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/spc.class.php:229
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/spc.class.php:403
+msgid "Option - noscript"
 msgstr ""
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:78
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:99
-msgid "Speed"
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/spc.class.php:233
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/spc.class.php:418
+msgid "Option - SSL"
 msgstr ""
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:91
-msgid "Hide the banner when the cursor is not moving"
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adjs.class.php:37
+msgid "Javascript Tag"
 msgstr ""
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:99
-msgid "Delay before banner is hidden"
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adview.class.php:36
+msgid "Image Tag"
 msgstr ""
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:104
-msgid "Transparancy of the hidden banner"
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adlayer.class.php:45
+msgid "Interstitial or Floating DHTML Tag"
 msgstr ""
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:117
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:119
-msgid "Horizontal shift"
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adlayer.class.php:235
+msgid "Style"
 msgstr ""
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:122
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:112
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:124
-msgid "Vertical shift"
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/popup.class.php:42
+msgid "Popup Tag"
 msgstr ""
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:82
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/local.class.php:32
+msgid "Local Mode Tag"
+msgstr ""
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/local.class.php:136
+msgid "Assign the \\$phpAds_raw['html'] variable to your template"
+msgstr ""
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adviewnocookies.class.php:41
+msgid "No Cookie Image Tag"
+msgstr ""
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:67
 msgid "Direction"
 msgstr ""
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:84
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:69
 msgid "Left to right"
 msgstr ""
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:85
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:70
 msgid "Right to left"
 msgstr ""
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:90
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:75
 msgid "Looping"
 msgstr ""
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:92
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:77
 msgid "Always active"
 msgstr ""
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:107
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:84
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:61
+msgid "Speed"
+msgstr ""
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:92
 msgid "Pause"
 msgstr "Saib"
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:117
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:97
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:105
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:108
+msgid "Vertical shift"
+msgstr ""
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:102
 msgid "Limited"
 msgstr ""
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:125
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:110
 msgid "Left margin"
 msgstr ""
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:130
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:115
 msgid "Right margin"
 msgstr ""
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:135
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:120
 msgid "Transparent background"
 msgstr ""
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:145
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:131
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:130
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:115
 msgid "Background color"
 msgstr ""
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:56
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:53
+msgid "Smooth movement"
+msgstr ""
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:74
+msgid "Hide the banner when the cursor is not moving"
+msgstr ""
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:82
+msgid "Delay before banner is hidden"
+msgstr ""
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:87
+msgid "Transparancy of the hidden banner"
+msgstr ""
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:100
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:103
+msgid "Horizontal shift"
+msgstr ""
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:41
 msgid "[Close]"
 msgstr ""
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:65
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:50
 msgid "Alignment"
 msgstr ""
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:67
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:79
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:52
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:63
 msgid "Left"
 msgstr ""
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:68
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:80
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:53
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:64
 msgid "Center"
 msgstr ""
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:69
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:81
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:54
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:65
 msgid "Right"
 msgstr ""
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:75
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:60
 msgid "Close text"
 msgstr ""
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:80
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:65
 msgid "Automatically collapse after"
 msgstr ""
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:85
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:114
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:70
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:98
 msgid "Banner padding"
 msgstr ""
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:77
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:61
 msgid "Horizontal alignment"
 msgstr ""
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:87
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:71
 msgid "Vertical alignment"
 msgstr ""
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:89
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:73
 msgid "Top"
 msgstr ""
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:90
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:74
 msgid "Middle"
 msgstr ""
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:91
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:75
 msgid "Bottom"
 msgstr ""
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:97
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:81
 msgid "Show close button"
 msgstr ""
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:105
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:89
 msgid "Automatically close after"
 msgstr ""
 
-#: plugins_repo/openXInvocationTags/extensions/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:144
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:128
 msgid "Border color"
 msgstr ""
 
