@@ -13,3 +13,11 @@ msgstr ""
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Channel.class.php:46
 msgid "Is all of"
 msgstr "Is all of"
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Domainlist.class.php:64
+msgid "Enter domains below to remove matching entries from the list"
+msgstr "Enter domains below to remove matching entries from the list"
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Domainlist.class.php:67
+msgid "Remove Domains"
+msgstr "Remove Domains"
