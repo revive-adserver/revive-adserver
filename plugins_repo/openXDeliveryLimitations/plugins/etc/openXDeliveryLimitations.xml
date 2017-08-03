@@ -3,14 +3,14 @@
 
 <plugin>
     <name>openXDeliveryLimitations</name>
-    <displayName>Delivery Limitations Plugin</displayName>
+    <displayName>Delivery Rules Plugin</displayName>
     <creationDate>2016-09-13</creationDate>
     <author>Revive Adserver</author>
     <authorEmail>revive@revive-adserver.com</authorEmail>
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>LICENSE.txt</license>
     <description>Plugin that provides the ability to target delivery of ads.</description>
-    <version>2.0.0</version>
+    <version>2.2.0</version>
     <type>package</type>
 
     <install>
@@ -21,7 +21,6 @@
             <group name="Site"  >3</group>
             <group name="Time"  >4</group>
         </contents>
-
 
     </install>
 
