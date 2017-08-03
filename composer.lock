@@ -4,21 +4,81 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "aa9e97a4c7717d3ac812973a137bd20e",
-    "content-hash": "ff4b1e58fabc1230f472640d5dff5dde",
+    "content-hash": "c4252f81dfcfb2e8a9039e84d41ad01d",
     "packages": [
         {
-            "name": "sinergi/browser-detector",
-            "version": "6.0.5",
+            "name": "jeremykendall/php-domain-parser",
+            "version": "2.0.3",
             "source": {
                 "type": "git",
-                "url": "https://github.com/sinergi/php-browser-detector.git",
-                "reference": "7fcda47cf2690fb978c8cee3ba7304b7dca1bcc7"
+                "url": "https://github.com/jeremykendall/php-domain-parser.git",
+                "reference": "29c8dfd8fc55bb90c98fb531eab6c138093e7bbe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sinergi/php-browser-detector/zipball/7fcda47cf2690fb978c8cee3ba7304b7dca1bcc7",
-                "reference": "7fcda47cf2690fb978c8cee3ba7304b7dca1bcc7",
+                "url": "https://api.github.com/repos/jeremykendall/php-domain-parser/zipball/29c8dfd8fc55bb90c98fb531eab6c138093e7bbe",
+                "reference": "29c8dfd8fc55bb90c98fb531eab6c138093e7bbe",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-intl": "*",
+                "ext-mbstring": "*",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "mikey179/vfsstream": "~1.4",
+                "phpunit/phpunit": "~4.4"
+            },
+            "bin": [
+                "bin/parse",
+                "bin/pdp-psl"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Pdp\\": "src/"
+                },
+                "files": [
+                    "src/pdp-parse-url.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jeremy Kendall",
+                    "homepage": "http://about.me/jeremykendall",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Contributors",
+                    "homepage": "https://github.com/jeremykendall/php-domain-parser/graphs/contributors"
+                }
+            ],
+            "description": "Public Suffix List based URL parsing implemented in PHP.",
+            "homepage": "https://github.com/jeremykendall/php-domain-parser",
+            "keywords": [
+                "Public Suffix List",
+                "domain parsing",
+                "url parsing"
+            ],
+            "time": "2015-02-16T12:45:33+00:00"
+        },
+        {
+            "name": "sinergi/browser-detector",
+            "version": "6.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sinergi/php-browser-detector.git",
+                "reference": "e1bee473663bb82e5ff58a3a2c0bf81c8671de5a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sinergi/php-browser-detector/zipball/e1bee473663bb82e5ff58a3a2c0bf81c8671de5a",
+                "reference": "e1bee473663bb82e5ff58a3a2c0bf81c8671de5a",
                 "shasum": ""
             },
             "require": {
@@ -28,11 +88,6 @@
                 "phpunit/phpunit": "^4.8 || ^5.0"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-develop": "6.1-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Sinergi\\BrowserDetector\\": "src"
@@ -44,9 +99,7 @@
             ],
             "authors": [
                 {
-                    "name": "Chris Schuld",
-                    "email": "chris@chrisschuld.com",
-                    "homepage": "http://chrisschuld.com"
+                    "name": "Chris Schuld"
                 },
                 {
                     "name": "Gabriel Bull",
@@ -61,22 +114,22 @@
                 "operating system",
                 "os"
             ],
-            "time": "2016-07-28 15:35:24"
+            "time": "2016-12-28T16:31:30+00:00"
         }
     ],
     "packages-dev": [
         {
             "name": "symfony/finder",
-            "version": "v3.1.4",
+            "version": "v3.3.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
-                "reference": "e568ef1784f447a0e54dcb6f6de30b9747b0f577"
+                "reference": "baea7f66d30854ad32988c11a09d7ffd485810c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/e568ef1784f447a0e54dcb6f6de30b9747b0f577",
-                "reference": "e568ef1784f447a0e54dcb6f6de30b9747b0f577",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/baea7f66d30854ad32988c11a09d7ffd485810c4",
+                "reference": "baea7f66d30854ad32988c11a09d7ffd485810c4",
                 "shasum": ""
             },
             "require": {
@@ -85,7 +138,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.1-dev"
+                    "dev-master": "3.3-dev"
                 }
             },
             "autoload": {
@@ -112,7 +165,7 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "https://symfony.com",
-            "time": "2016-08-26 12:04:02"
+            "time": "2017-06-01T21:01:25+00:00"
         }
     ],
     "aliases": [],

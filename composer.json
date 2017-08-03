@@ -19,7 +19,8 @@
         }
     },
     "require": {
-        "sinergi/browser-detector": "^6.0"
+        "sinergi/browser-detector": "^6.0",
+        "jeremykendall/php-domain-parser": "~2.0"
     },
     "require-dev": {
         "symfony/finder": "^3.1"
