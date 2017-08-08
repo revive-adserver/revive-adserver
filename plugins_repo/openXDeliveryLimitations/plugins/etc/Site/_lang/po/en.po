@@ -14,10 +14,18 @@ msgstr ""
 msgid "Is all of"
 msgstr "Is all of"
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Domainlist.class.php:64
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Registerabledomainlist.class.php:73
 msgid "Enter domains below to remove matching entries from the list"
 msgstr "Enter domains below to remove matching entries from the list"
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Domainlist.class.php:67
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Registerabledomainlist.class.php:76
 msgid "Remove Domains"
 msgstr "Remove Domains"
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Registerabledomainlist.class.php:93
+msgid "WARNING"
+msgstr "WARNING"
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Registerabledomainlist.class.php:94
+msgid "The Registerable Domain List delivery rule cannot be used; it requires that the PHP <i>intl</i> extension be installed."
+msgstr "The Registerable Domain List delivery rule cannot be used; it requires that the PHP <i>intl</i> extension be installed."
