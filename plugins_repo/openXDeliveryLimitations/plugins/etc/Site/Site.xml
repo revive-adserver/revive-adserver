@@ -20,12 +20,12 @@
             <file path="{ADMINPATH}/lib/">updateList.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Site/">Channel.class.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Site/">Channel.delivery.php</file>
-            <file path="{MODULEPATH}deliveryLimitations/Site/">Domainlist.class.php</file>
-            <file path="{MODULEPATH}deliveryLimitations/Site/">Domainlist.delivery.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Site/">Pageurl.class.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Site/">Pageurl.delivery.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Site/">Referingpage.class.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Site/">Referingpage.delivery.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Site/">Registerabledomainlist.class.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Site/">Registerabledomainlist.delivery.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Site/">Source.class.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Site/">Source.delivery.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Site/">Variable.class.php</file>
@@ -35,9 +35,9 @@
 
         <components>
             <component><name>Channel</name></component>
-            <component><name>Domainlist</name></component>
             <component><name>Pageurl</name></component>
             <component><name>Referingpage</name></component>
+            <component><name>Registerabledomainlist</name></component>
             <component><name>Source</name></component>
             <component><name>Variable</name></component>
         </components>
