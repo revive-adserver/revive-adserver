@@ -38,9 +38,6 @@ function MAX_checkSite_Registerabledomainlist($limitation, $op, $aParams = array
     if ($hostname === false) {
         return false;
     }
-    if (extension_loaded('intl')) {
-        $hostname = idn_to_ascii($hostname);
-    }
     return MAX_limitationsMatchStringValue($hostname, $limitation, $op);
 }
 
