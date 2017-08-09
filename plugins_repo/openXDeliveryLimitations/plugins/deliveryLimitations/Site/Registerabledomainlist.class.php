@@ -18,14 +18,14 @@ require_once RV_PATH . '/lib/max/Plugin/Translation.php';
  * whitelist/blacklist of the domain name of the website the ad is on.
  *
  * Valid comparison operators:
- * =~, !~
+ * =x, !x
  *
  * @package    OpenXPlugin
  * @subpackage DeliveryLimitations
  */
 class Plugins_DeliveryLimitations_Site_Registerabledomainlist extends Plugins_DeliveryLimitations
 {
-    var $defaultComparison = '=~';
+    var $defaultComparison = '=x';
 
     /**
      * Override the parent contstructor to:
@@ -35,8 +35,8 @@ class Plugins_DeliveryLimitations_Site_Registerabledomainlist extends Plugins_De
     function __construct()
     {
         $this->aOperations = array(
-            '=~' => MAX_Plugin_Translation::translate('Whitelist - Only deliver on these registerable domains', $oPlugin->module, $oPlugin->package),
-            '!~' => MAX_Plugin_Translation::translate('Blacklist - Do not deliver on these registerable domains', $oPlugin->module, $oPlugin->package)
+            '=x' => MAX_Plugin_Translation::translate('Whitelist - Only deliver on these registerable domains', $oPlugin->module, $oPlugin->package),
+            '!x' => MAX_Plugin_Translation::translate('Blacklist - Do not deliver on these registerable domains', $oPlugin->module, $oPlugin->package)
         );
         $aConf = $GLOBALS['_MAX']['CONF'];
         $this->nameEnglish = 'Site - Registerable Domain List';
@@ -97,6 +97,46 @@ class Plugins_DeliveryLimitations_Site_Registerabledomainlist extends Plugins_De
     }
 
     /**
+     * Override the parent _preCompile() method for how the data as displayed
+     * in the UI should be transformed for use in compiled delivery rule
+     * evaluation. Specifically:
+     *
+     * - Convert registerable domains into puny-code format;
+     * - Appennd an end-string regex marker (\z) to the end of each registerable
+     *   domain, to anchor the point of matching to the end of the hostname;
+     * - Ensure that domain dots are treated as literal dots; and
+     * - Replace newline separation in the string with alternate regex markers
+     *   (|).
+     * 
+     * @param string $sData The input data string.
+     * @return string The transformed string.
+     */
+    function _preCompile($sData) {
+        $aData = explode("\n", $sData);
+        $aCompiledData = [];
+        foreach ($aData as $key => $registerableDomain) {
+            if (extension_loaded('intl')) {
+                $registerableDomain = idn_to_ascii($registerableDomain);
+            }
+            $registerableDomain .= '\z';
+            $registerableDomain = preg_replace('/\./', '\\\.', $registerableDomain);
+            array_push($aCompiledData, $registerableDomain);
+        }       
+        return implode($aCompiledData, "|");
+    }
+
+   /**
+    * Override the parent compile() method, because the parent doesn't
+    * correctly call the _preCompile() method.
+    *
+    * @return string The delivery limitation in compiled form.
+    */
+    function compile()
+    {
+        return $this->compileData($this->_preCompile($this->data));
+    }
+
+    /**
      * Override the parent getData() method, to call the _sanitiseData() method
      * on the provided data before returning it.
      *
@@ -118,10 +158,7 @@ class Plugins_DeliveryLimitations_Site_Registerabledomainlist extends Plugins_De
      *      - If the result of parsing is false, the URL was badly broken,
      *        so the line is ignored;
      *      - Otherwise, if a registerable domain was located in the URL, then
-     *        the line is added to the output list.
-     * 
-     *  - Converts the domain to UTF8 (if PHP intl extension installed);
-     *
+     *        the line is added to the output list;
      *  - Deduplicates the list of registerable domains; and
      *  - Sorts the registerable domains into ascending order.
      * 
@@ -141,15 +178,12 @@ class Plugins_DeliveryLimitations_Site_Registerabledomainlist extends Plugins_De
                 $url = strtolower($url);
                 $oHost = $oParser->parseHost($url);
                 if ($oHost !== false) {
-                    $registrableDomain = $oHost->registerableDomain;
-                    if (is_string($registrableDomain) && strlen($registrableDomain)) {
-                        array_push($aSanitisedData, $registrableDomain);
+                    $registerableDomain = $oHost->registerableDomain;
+                    if (is_string($registerableDomain) && strlen($registerableDomain)) {
+                        array_push($aSanitisedData, $registerableDomain);
                     }
                 }
             }
-
-            // $domain = function_exists('idn_to_utf8') ? idn_to_utf8($domain) : $domain;
-
             $aSanitisedData = array_unique($aSanitisedData);
             sort($aSanitisedData);
         }
