@@ -58,6 +58,8 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     $aCheckboxes['ui_show_banner_preview'] = true;
     $aElements[] = 'ui_hide_inactive';
     $aCheckboxes['ui_hide_inactive'] = true;
+    $aElements[] = 'ui_html_wyswyg_enabled';
+    $aCheckboxes['ui_html_wyswyg_enabled'] = true;
     $aElements[] = 'ui_show_matching_banners';
     $aCheckboxes['ui_show_matching_banners'] = true;
     $aElements[] = 'ui_show_matching_banners_parents';
@@ -152,6 +154,14 @@ $aSettings = array (
                 'type'  => 'checkbox',
                 'name'  => 'ui_show_banner_preview',
                 'text'  => $strShowBannerPreview
+            ),
+            array (
+                'type'  => 'break'
+            ),
+            array (
+                'type'  => 'checkbox',
+                'name'  => 'ui_html_wyswyg_enabled',
+                'text'  => $strUseWyswygHtmlEditorByDefault,
             ),
             array (
                 'type'  => 'break'

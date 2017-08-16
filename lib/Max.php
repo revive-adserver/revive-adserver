@@ -22,15 +22,13 @@ require_once OX_PATH . '/lib/pear/PEAR.php';
  */
 class MAX
 {
-
     /**
      * Converts error code constants into equivalent strings.
      *
-     * @access public
      * @param integer $errorCode The error code.
      * @return string Text representing the error code.
      */
-    function errorConstantToString($errorCode)
+    public static function errorConstantToString($errorCode)
     {
         $aErrorCodes = array(
             MAX_ERROR_INVALIDARGS           => 'invalid arguments',
@@ -61,14 +59,15 @@ class MAX
             return 'PEAR';
         }
     }
-
     /**
      * A method to convert PEAR_Error objects to strings.
      *
-     * @static
      * @param PEAR_Error $oError A {@link PEAR_Error} object
+     * @param string     $additionalInfo
+     *
+     * @return string
      */
-    function errorObjToString($oError, $additionalInfo = null)
+    public static function errorObjToString($oError, $additionalInfo = null)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $message = htmlspecialchars($oError->getMessage());
@@ -103,7 +102,7 @@ EOF;
      * @param integer $behaviour Optional behaviour (i.e. PEAR_ERROR_DIE to halt on this error).
      * @return PEAR_Error $error A (@link PEAR_Error} object.
      */
-    function raiseError($message, $type = null, $behaviour = null)
+    public static function raiseError($message, $type = null, $behaviour = null)
     {
         // If fatal
         if ($behaviour == PEAR_ERROR_DIE) {
@@ -126,7 +125,7 @@ EOF;
      * @param string $file An optional file name.
      * @return string The URL to the file.
      */
-    function constructURL($type, $file = null)
+    public static function constructURL($type, $file = null)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         // Prepare the base URL
@@ -151,8 +150,6 @@ EOF;
         // Return the URL
         return $GLOBALS['_MAX']['HTTP'] . $path . $file;
     }
-
-
 }
 
 /**

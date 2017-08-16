@@ -4,8 +4,53 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "c4252f81dfcfb2e8a9039e84d41ad01d",
+    "content-hash": "de0b100be58dfa4e72e261851437e3ad",
     "packages": [
+        {
+            "name": "figdice/asseteer",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gabrielzerbib/asseteer.git",
+                "reference": "0a3028e3e1931055793f6701e48a871bd902cadf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gabrielzerbib/asseteer/zipball/0a3028e3e1931055793f6701e48a871bd902cadf",
+                "reference": "0a3028e3e1931055793f6701e48a871bd902cadf",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "asseteer\\": "./"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Gabriel Zerbib",
+                    "email": "gabriel@figdice.org"
+                }
+            ],
+            "description": "Post-install resource copy script for Composer",
+            "homepage": "https://github.com/gabrielzerbib/asseteer",
+            "keywords": [
+                "composer",
+                "deploy",
+                "install",
+                "javascript",
+                "resources",
+                "stylesheet"
+            ],
+            "time": "2015-10-09 09:29:23"
+        },
         {
             "name": "jeremykendall/php-domain-parser",
             "version": "2.0.3",
@@ -69,16 +114,16 @@
         },
         {
             "name": "sinergi/browser-detector",
-            "version": "6.1.2",
+            "version": "6.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sinergi/php-browser-detector.git",
-                "reference": "e1bee473663bb82e5ff58a3a2c0bf81c8671de5a"
+                "reference": "7fcda47cf2690fb978c8cee3ba7304b7dca1bcc7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sinergi/php-browser-detector/zipball/e1bee473663bb82e5ff58a3a2c0bf81c8671de5a",
-                "reference": "e1bee473663bb82e5ff58a3a2c0bf81c8671de5a",
+                "url": "https://api.github.com/repos/sinergi/php-browser-detector/zipball/7fcda47cf2690fb978c8cee3ba7304b7dca1bcc7",
+                "reference": "7fcda47cf2690fb978c8cee3ba7304b7dca1bcc7",
                 "shasum": ""
             },
             "require": {
@@ -88,6 +133,11 @@
                 "phpunit/phpunit": "^4.8 || ^5.0"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-develop": "6.1-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Sinergi\\BrowserDetector\\": "src"
@@ -99,7 +149,9 @@
             ],
             "authors": [
                 {
-                    "name": "Chris Schuld"
+                    "name": "Chris Schuld",
+                    "email": "chris@chrisschuld.com",
+                    "homepage": "http://chrisschuld.com"
                 },
                 {
                     "name": "Gabriel Bull",
@@ -114,22 +166,68 @@
                 "operating system",
                 "os"
             ],
-            "time": "2016-12-28T16:31:30+00:00"
+            "time": "2016-07-28T15:35:24+00:00"
+        },
+        {
+            "name": "tinymce/tinymce",
+            "version": "4.6.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tinymce/tinymce-dist.git",
+                "reference": "a874c512a61a353e80809f5e4ffb5e12869aa177"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tinymce/tinymce-dist/zipball/a874c512a61a353e80809f5e4ffb5e12869aa177",
+                "reference": "a874c512a61a353e80809f5e4ffb5e12869aa177",
+                "shasum": ""
+            },
+            "type": "component",
+            "extra": {
+                "component": {
+                    "scripts": [
+                        "tinymce.js",
+                        "plugins/*/plugin.js",
+                        "themes/*/theme.js"
+                    ],
+                    "files": [
+                        "tinymce.min.js",
+                        "plugins/*/plugin.min.js",
+                        "themes/*/theme.min.js",
+                        "skins/**"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-2.1"
+            ],
+            "description": "Web based JavaScript HTML WYSIWYG editor control.",
+            "homepage": "http://www.tinymce.com",
+            "keywords": [
+                "editor",
+                "html",
+                "javascript",
+                "richtext",
+                "tinymce",
+                "wysiwyg"
+            ],
+            "time": "2017-08-02T14:08:17+00:00"
         }
     ],
     "packages-dev": [
         {
             "name": "symfony/finder",
-            "version": "v3.3.6",
+            "version": "v3.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
-                "reference": "baea7f66d30854ad32988c11a09d7ffd485810c4"
+                "reference": "e568ef1784f447a0e54dcb6f6de30b9747b0f577"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/baea7f66d30854ad32988c11a09d7ffd485810c4",
-                "reference": "baea7f66d30854ad32988c11a09d7ffd485810c4",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/e568ef1784f447a0e54dcb6f6de30b9747b0f577",
+                "reference": "e568ef1784f447a0e54dcb6f6de30b9747b0f577",
                 "shasum": ""
             },
             "require": {
@@ -138,7 +236,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.3-dev"
+                    "dev-master": "3.1-dev"
                 }
             },
             "autoload": {
@@ -165,12 +263,14 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "https://symfony.com",
-            "time": "2017-06-01T21:01:25+00:00"
+            "time": "2016-08-26T12:04:02+00:00"
         }
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "figdice/asseteer": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

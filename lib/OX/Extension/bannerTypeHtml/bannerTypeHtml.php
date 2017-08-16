@@ -55,6 +55,10 @@ class Plugins_BannerTypeHTML extends OX_Component
      */
     function buildForm(&$form, &$row)
     {
+        if (!function_exists('_adRenderBuildImageUrlPrefix')) {
+                require_once (MAX_PATH . '/lib/max/Delivery/adRender.php');
+        }
+
         $form->setAttribute("onSubmit", "return max_formValidateHtml(this.banner)");
         $header = $form->createElement('header', 'header_html', $GLOBALS['strHTMLBanner']." -  banner code");
         $header->setAttribute('icon', 'icon-banner-html.gif');
@@ -69,14 +73,35 @@ class Plugins_BannerTypeHTML extends OX_Component
             $adPluginsList[$adPluginKey] = $adPluginName;
         }
 
+        $imgUrlPrefixJs = json_encode(_adRenderBuildImageUrlPrefix());
+
+        $useTinyMCE = !empty($GLOBALS['_MAX']['PREF']['ui_html_wyswyg_enabled']) &&
+            !preg_match('#<(?:script|iframe)#i', $row['htmltemplate']);
+
         $htmlG['textarea'] =  $form->createElement('textarea', 'htmltemplate', null,
             array(
-                'class' =>'code', 'cols'=>'45', 'rows'=>'10', 'wrap'=>'off',
-                'dir' => 'ltr', 'style'=>'width:550px;'
+                'class' =>'code', 'cols'=>'70', 'rows'=>'10', 'wrap'=>'off',
+                'dir' => 'ltr', 'style'=>'width:728px;'
             ));
         $aSelectAttributes = array('id'=>'adserver', 'style' => 'margin-left: 15px;width:230px');
+        $aSelectLabel = sprintf(
+            '%1$s <a href="%3$s" title="%2$s""><img src="%4$s" alt="%2$s"></a>',
+            $GLOBALS['strUseWyswygHtmlEditor'],
+            $GLOBALS['strChangeDefault'],
+            htmlspecialchars(MAX::constructURL(MAX_URL_ADMIN, 'account-preferences-user-interface.php')),
+            htmlspecialchars(MAX::constructURL(MAX_URL_ADMIN, 'assets/images/help-book.gif'))
+        );
+        $htmlG['tinyMCE'] = HTML_QuickForm::createElement('checkbox', 'tinymce', $aSelectLabel, '', ['id'=>'tinymce', 'onclick' => "rv_tinymce('#htmltemplate', this.checked, {$imgUrlPrefixJs})"]);
         $htmlG['select'] = HTML_QuickForm::createElement('select', 'adserver', $GLOBALS['strAlterHTML'], $adPluginsList, $aSelectAttributes);
-        $form->addGroup($htmlG, 'html_banner_g', null, array("<br>", ""), false);
+        $htmlG['js'] = HTML_QuickForm::createElement('html', '', <<<EOF
+<script>
+jQuery(function() {
+    rv_tinymce("#htmltemplate", jQuery('#tinymce')[0].checked, {$imgUrlPrefixJs});
+});
+</script>
+EOF
+        );
+        $form->addGroup($htmlG, 'html_banner_g', null, array("<br>", "<br><br>", ''), false);
 
         $form->addElement('advcheckbox', 'iframe_friendly', $GLOBALS['strIframeFriendly']);
 
@@ -112,6 +137,10 @@ class Plugins_BannerTypeHTML extends OX_Component
         $form->addGroupRule('size', array(
             'width' => array($widthRequiredRule, $numericRule),
             'height' => array($heightRequiredRule, $numericRule)));
+
+        $form->setDefaults([
+            'tinymce' => $useTinyMCE,
+        ]);
     }
 
     function preprocessForm($insert, $bannerid, &$aFields, &$aVariables)

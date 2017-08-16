@@ -534,6 +534,8 @@ $GLOBALS['strDoNotAlterHtml'] = "Do not alter HTML";
 $GLOBALS['strGenericOutputAdServer'] = "Generic";
 $GLOBALS['strSwfTransparency'] = "Allow transparent background";
 $GLOBALS['strBackToBanners'] = "Back to banners";
+$GLOBALS['strUseWyswygHtmlEditor'] = "Use WYSWYG HTML Editor";
+$GLOBALS['strChangeDefault'] = "Change default";
 
 // Banner (advanced)
 $GLOBALS['strBannerPrependHTML'] = "Always prepend the following HTML code to this banner";

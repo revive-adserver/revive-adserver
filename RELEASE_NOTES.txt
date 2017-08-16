@@ -57,6 +57,13 @@ What's New in Revive Adserver 4.1.0
  * Added new security feature to invalidate all the active sessions of the
    current user when changing or recovering the password.
 
+ * Added the option to use TinyMCE as WYSWYG HTML editor when creating and
+   editing HTML banners. The editor is switched off by default, for
+   increased backwards compatibility, but it can be enabled by default via
+   the user interface account preferences. Such preference is however
+   ignored when editing HTML ads containing scripts or iframes in order to
+   avoid inadvertently altering 3rd party tags.
+
  Bug Fixes
  ---------
 

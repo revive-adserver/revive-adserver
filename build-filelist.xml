@@ -27,8 +27,10 @@
     <exclude name="etc/changesfantasy/**"/>
     <include name="etc/permanentcache/**"/>
     <include name="lib/**"/>
-    <exclude name="lib/simpletest/**"/>
     <exclude name="lib/ant/**"/>
+    <exclude name="lib/simpletest/**"/>
+    <exclude name="lib/vendor/figdice/**"/>
+    <exclude name="lib/vendor/tinymce/**"/>
     <include name="maintenance/**"/>
     <include name="plugins/**"/>
     <include name="scripts/maintenance/**"/>
@@ -86,6 +88,8 @@
     <include name="etc/changesfantasy/**"/>
     <include name="lib/ant/**"/>
     <include name="lib/simpletest/**"/>
+    <include name="lib/vendor/figdice/**"/>
+    <include name="lib/vendor/tinymce/**"/>
     <exclude name="plugins/**"/>
     <include name="scripts/db_dataobject/**"/>
     <include name="scripts/delivery/**"/>

@@ -20,9 +20,28 @@
     },
     "require": {
         "sinergi/browser-detector": "^6.0",
+        "figdice/asseteer": "dev-master",
+        "tinymce/tinymce": "^4.6",
         "jeremykendall/php-domain-parser": "~2.0"
     },
     "require-dev": {
         "symfony/finder": "^3.1"
+    },
+    "extra": {
+        "post-install-asseteer": [
+            {
+                "vendor": "tinymce",
+                "target": "www/admin/assets",
+                "filters": [ "\\.min.(js|css)$", "\\.(eot|ttf|svg|woff)" ]
+            }
+        ]
+    },
+    "scripts" :{
+        "post-install-cmd": [
+            "asseteer\\AssetInstaller::postInstall"
+        ],
+        "post-update-cmd": [
+            "asseteer\\AssetInstaller::postInstall"
+        ]
     }
 }

@@ -9,6 +9,7 @@
 +---------------------------------------------------------------------------+
   
 -->*}
+<script src="assets/tinymce/tinymce.min.js"></script>
 {if !$bannerId}
 <form action='banner-edit.php' method='POST'>
     <input type='hidden' name='clientid' value='{$clientId}'>
@@ -115,7 +116,45 @@
         var obj = findObj(id);
         if (obj) { obj.style.display = 'none'; }
     }
-{/literal}
+
+    function rv_tinymce(sel, enable, imgurl)
+    {
+        var r = function (str) {
+            return new RegExp(str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"), 'g');
+        };
+
+        if (enable) {
+            if (imgurl) {
+                jQuery(sel).val(jQuery(sel).val().replace(r('{img_url_prefix}'), imgurl));
+            }
+
+            tinymce.init({
+                selector: sel,
+                branding: false,
+                plugins: 'code colorpicker contextmenu directionality image imagetools link lists media preview searchreplace table textcolor',
+                toolbar_items_size : 'small',
+                toolbar: 'undo redo | styleselect | bold italic | link image | forecolor backcolor | code',
+                menubar: false,
+                extended_valid_elements:'script[language|type|src]',
+                forced_root_block: false,
+                images_upload_url: '{/literal}banner-async-upload.php?clientid={$clientId}&campaignid={$campaignId}&bannerid={$bannerId}{literal}',
+                images_upload_base_path: imgurl,
+                images_upload_credentials: true,
+                relative_urls : false,
+                remove_script_host: false,
+                allow_unsafe_link_target: true,
+                content_style: "body { margin: 0; padding: 0 }"
+            });
+        } else {
+            tinymce.remove(sel);
+
+            if (imgurl) {
+                jQuery(sel).val(jQuery(sel).val().replace(r(imgurl), '{img_url_prefix}'));
+            }
+        }
+    }
+
+    {/literal}
 //-->
 </script>
 
