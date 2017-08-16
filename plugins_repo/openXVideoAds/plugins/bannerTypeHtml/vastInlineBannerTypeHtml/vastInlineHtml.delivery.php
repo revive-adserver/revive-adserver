@@ -62,7 +62,7 @@ function Plugin_BannerTypeHTML_vastBannerTypeHtml_vastHtml_Delivery_postAdRender
 
 function Plugin_bannerTypeHtml_vastInlineBannerTypeHtml_vastInlineHtml_Delivery_adRender(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $richMedia=true, $loc, $referer)
 {
-    return deliverVastAd('vastInline', $aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $loc, $referer);
+    return deliverVastAd('vastInline', $aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $richMedia, $loc, $referer);
 }
 
 // End of functions
