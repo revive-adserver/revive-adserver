@@ -12,6 +12,8 @@
 
 // Set text direction and characterset
 
+$GLOBALS['phpAds_DecimalPoint'] = ".";
+$GLOBALS['phpAds_ThousandsSeperator'] = ",";
 
 // Date & time configuration
 
@@ -21,6 +23,8 @@
 /* Translations                                          */
 /* ------------------------------------------------------- */
 
+$GLOBALS['strHome'] = "Trang chủ";
+$GLOBALS['strHelp'] = "Trợ giúp";
 $GLOBALS['strStartOver'] = "Bắt đầu lại";
 $GLOBALS['strShortcuts'] = "Phím tắt";
 $GLOBALS['strActions'] = "Các hành động";
@@ -34,6 +38,7 @@ $GLOBALS['strAppendTrackerCode'] = "Thêm Mã Theo Dõi";
 $GLOBALS['strOverview'] = "Tổng thể";
 $GLOBALS['strSearch'] = "<u>S</u>earch";
 $GLOBALS['strDetails'] = "Chi tiết";
+$GLOBALS['strUpdateSettings'] = "Cập nhật cài đặt";
 $GLOBALS['strCheckForUpdates'] = "Kiểm tra bản cập nhật";
 $GLOBALS['strWhenCheckingForUpdates'] = "Khi kiểm tra Cập Nhật";
 $GLOBALS['strCompact'] = "Nhỏ gọn";
@@ -65,13 +70,52 @@ $GLOBALS['strAll'] = "tất cả";
 $GLOBALS['strAverage'] = "Trung bình";
 $GLOBALS['strOverall'] = "Tổng thể";
 $GLOBALS['strTotal'] = "Tổng cộng";
+$GLOBALS['strFrom'] = "Từ";
+$GLOBALS['strTo'] = "Đến";
+$GLOBALS['strAdd'] = "Thêm mới";
+$GLOBALS['strLinkedTo'] = "Liên kết đến";
+$GLOBALS['strDaysLeft'] = "Ngày còn lại";
+$GLOBALS['strCheckAllNone'] = "Chọn tất cả/Bỏ chọn";
+$GLOBALS['strKiloByte'] = "KB";
+$GLOBALS['strExpandAll'] = "Xây dựng";
+$GLOBALS['strShowAll'] = "Hiện Tất cả";
+$GLOBALS['strFieldStartDateBeforeEnd'] = "Ngày Bắt đầu phải lớn hơn ngày Kết thúc";
+$GLOBALS['strFieldContainsErrors'] = "Các trường sau đây lỗi:";
+$GLOBALS['strFieldFixBeforeContinue1'] = "Trước khi bạn có thể tiếp tục bạn cần";
+$GLOBALS['strFieldFixBeforeContinue2'] = "khắc phục các lỗi này.";
+$GLOBALS['strMiscellaneous'] = "Hỗn hợp";
+$GLOBALS['strCollectedAllStats'] = "Tất cả thống kê";
+$GLOBALS['strCollectedToday'] = "Hôm nay";
+$GLOBALS['strCollectedYesterday'] = "Ngày hôm qua";
+$GLOBALS['strCollectedThisWeek'] = "Tuần này";
+$GLOBALS['strCollectedLastWeek'] = "Tuần trước";
+$GLOBALS['strCollectedThisMonth'] = "Tháng này";
+$GLOBALS['strCollectedLastMonth'] = "Tháng trước";
+$GLOBALS['strCollectedLast7Days'] = "7 ngày qua";
+$GLOBALS['strCollectedSpecificDates'] = "Chọn ngày";
+$GLOBALS['strValue'] = "Giá trị";
+$GLOBALS['strWarning'] = "Cảnh báo";
+$GLOBALS['strNotice'] = "Chú ý";
 
 // Dashboard
+$GLOBALS['strDashboardCantBeDisplayed'] = "Bảng điều khiển có thể không hiển thị được";
+$GLOBALS['strNoCheckForUpdates'] = "Bảng điều khiển không thể hiển thị trừ khi các <br /> kiểm tra cho Cập Nhật cài đặt được kích hoạt.";
+$GLOBALS['strEnableCheckForUpdates'] = "Vui lòng kích hoạt các thiết lập <a href='account-settings-update.php' target='_top'> kiểm tra bản Cập Nhật</a> trên các <br/> <a href='account-settings-update.php' target='_top'> Cập Nhật cài đặt</a> trang.";
 // Dashboard Errors
+$GLOBALS['strDashboardErrorCode'] = "code";
+$GLOBALS['strDashboardSystemMessage'] = "Thông báo hệ thống";
+$GLOBALS['strDashboardErrorHelp'] = "Nếu lặp đi lặp lại lỗi này xin vui lòng mô tả vấn đề của bạn chi tiết và đăng nó trên <a href='http://forum.revive-adserver.com/'> forum.revive-adserver.com/</a>.";
 
 // Priority
+$GLOBALS['strPriority'] = "Độ ưu tiên";
+$GLOBALS['strPriorityLevel'] = "Mức độ ưu tiên";
+$GLOBALS['strOverrideAds'] = "Ghi đè lên các chiến dịch quảng cáo";
+$GLOBALS['strHighAds'] = "Hợp đồng chiến dịch quảng cáo độc quyền";
 
 // Properties
+$GLOBALS['strName'] = "Tên";
+$GLOBALS['strSize'] = "Kích thước";
+$GLOBALS['strWidth'] = "Chiều Rộng";
 $GLOBALS['strHeight'] = "Chiều cao";
 $GLOBALS['strTarget'] = "Mục tiêu";
 $GLOBALS['strLanguage'] = "Ngôn ngữ";
@@ -97,8 +141,33 @@ $GLOBALS['strToLinkProvideEmail'] = "Để thêm người sử dụng, cung cấ
 $GLOBALS['strToLinkProvideUsername'] = "Để thêm người sử dụng, cung cấp tên người dùng";
 $GLOBALS['strUserLinkedToAccount'] = "Người dùng đã được thêm vào tài khoản";
 $GLOBALS['strUserAccountUpdated'] = "Trương mục người dùng Cập Nhật";
+$GLOBALS['strUserUnlinkedFromAccount'] = "Người dùng đã được removed thành công";
+$GLOBALS['strUserWasDeleted'] = "Người dùng đã bị xóa";
+$GLOBALS['strLinkUserHelpEmail'] = "địa chỉ Email";
+$GLOBALS['strLastLoggedIn'] = "Lần đăng nhập cuối";
+$GLOBALS['strDateLinked'] = "Ngày liên kết";
 
 // Login & Permissions
+$GLOBALS['strUserAccess'] = "Người dùng được phép truy cập";
+$GLOBALS['strAdminAccess'] = "Truy cập quản trị";
+$GLOBALS['strUserProperties'] = "Thông tin chi tiết người dùng";
+$GLOBALS['strPermissions'] = "Quyền";
+$GLOBALS['strAuthentification'] = "Xác thực";
+$GLOBALS['strWelcomeTo'] = "Chào mừng đến với";
+$GLOBALS['strEnterUsername'] = "Nhập tên tài khoản và mật khẩu của bạn";
+$GLOBALS['strEnterBoth'] = "Xin vui lòng điền vào cả tên đăng nhập và mật khẩu";
+$GLOBALS['strEnableCookies'] = "Bạn cần phải bật cookie trước khi bạn có thể sử dụng {$PRODUCT_NAME}";
+$GLOBALS['strSessionIDNotMatch'] = "Phiên cookie lỗi, xin vui lòng đăng nhập lại";
+$GLOBALS['strLogin'] = "Đăng nhập";
+$GLOBALS['strLogout'] = "Đăng xuất";
+$GLOBALS['strUsername'] = "Tài khoản";
+$GLOBALS['strPassword'] = "Mật khẩu";
+$GLOBALS['strPasswordRepeat'] = "Nhập lại mật khẩu";
+$GLOBALS['strAccessDenied'] = "Truy cập bị từ chối";
+$GLOBALS['strUsernameOrPasswordWrong'] = "Tên đăng nhập hoặc mật khẩu không được chính xác. Xin vui lòng thử lại.";
+$GLOBALS['strPasswordWrong'] = "Mật khẩu không chính xác";
+$GLOBALS['strNotAdmin'] = "Tài khoản của bạn không có quyền để sử dụng tính năng này, bạn có thể đăng nhập vào các tài khoản khác để sử dụng nó.";
+$GLOBALS['strDuplicateClientName'] = "Tên đăng nhập đã tồn tại. Vui lòng chọn tên đăng nhập khác.";
 
 // General advertising
 $GLOBALS['strStatsVariables'] = "Các biến số";
@@ -106,22 +175,50 @@ $GLOBALS['strStatsVariables'] = "Các biến số";
 // Finance
 
 // Time and date related
+$GLOBALS['strWeek'] = "Tuần";
+$GLOBALS['strWeeks'] = "Nhiều tuần";
+$GLOBALS['strSingleMonth'] = "Tháng";
+$GLOBALS['strMonths'] = "Nhiều tháng";
+$GLOBALS['strDayOfWeek'] = "Ngày trong tuần";
 
 
 if (!isset($GLOBALS['strDayFullNames'])) {
     $GLOBALS['strDayFullNames'] = array();
 }
+$GLOBALS['strDayFullNames'][0] = 'Chủ Nhật';
+$GLOBALS['strDayFullNames'][1] = 'Thứ hai';
+$GLOBALS['strDayFullNames'][2] = 'Thứ Ba';
+$GLOBALS['strDayFullNames'][3] = 'Thứ Tư';
+$GLOBALS['strDayFullNames'][4] = 'Thứ năm';
+$GLOBALS['strDayFullNames'][5] = 'Thứ Sáu';
+$GLOBALS['strDayFullNames'][6] = 'Thứ Bảy';
 
 if (!isset($GLOBALS['strDayShortCuts'])) {
     $GLOBALS['strDayShortCuts'] = array();
 }
+$GLOBALS['strDayShortCuts'][0] = 'Chủ nhật';
+$GLOBALS['strDayShortCuts'][1] = 'Thứ hai';
+$GLOBALS['strDayShortCuts'][2] = 'Thứ ba';
+$GLOBALS['strDayShortCuts'][3] = 'Thứ tư';
+$GLOBALS['strDayShortCuts'][4] = 'Thứ năm';
+$GLOBALS['strDayShortCuts'][5] = 'Thứ sáu';
+$GLOBALS['strDayShortCuts'][6] = 'Thứ bảy';
 
+$GLOBALS['strHour'] = "Giờ";
+$GLOBALS['strSeconds'] = "giây";
+$GLOBALS['strMinutes'] = "phút";
+$GLOBALS['strHours'] = "giờ";
 
 // Advertiser
+$GLOBALS['strClient'] = "Nhà quảng cáo";
+$GLOBALS['strClients'] = "Nhà quảng cáo";
+$GLOBALS['strClientsAndCampaigns'] = "Nhà quảng cáo & chiến dịch";
+$GLOBALS['strAddClient'] = "Thêm nhà quảng cáo mới";
 
 // Advertisers properties
 
 // Campaign
+$GLOBALS['strHiddenAdvertiser'] = "Nhà quảng cáo";
 
 // Campaign-zone linking page
 
@@ -174,6 +271,10 @@ if (!isset($GLOBALS['strCappingZone'])) {
 $GLOBALS['strStatusDuplicate'] = "Tạo bản sao";
 
 // Statistics
+$GLOBALS['strBreakdownByWeek'] = "Tuần";
+$GLOBALS['strBreakdownByMonth'] = "Tháng";
+$GLOBALS['strBreakdownByDow'] = "Ngày trong tuần";
+$GLOBALS['strBreakdownByHour'] = "Giờ";
 
 // Expiration
 
@@ -193,6 +294,7 @@ $GLOBALS['strStatusDuplicate'] = "Tạo bản sao";
 // Email
 
 // Priority
+$GLOBALS['strPriority'] = "Độ ưu tiên";
 
 // Preferences
 
@@ -241,6 +343,8 @@ $GLOBALS['strVariableDescription'] = "Mô tả";
 
 // Reserved keys
 // Do not change these unless absolutely needed
+$GLOBALS['keyNextItem'] = ".";
+$GLOBALS['keyPreviousItem'] = ",";
 
 // Other keys
 // Please make sure you underline the key you

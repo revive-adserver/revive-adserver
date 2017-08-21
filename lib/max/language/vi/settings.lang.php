@@ -11,6 +11,7 @@
  */
 
 // Installer translation strings
+$GLOBALS['strWarning'] = "Cảnh báo";
 
 
 
@@ -37,6 +38,8 @@
 // Debug Logging Settings
 
 // Delivery Settings
+$GLOBALS['strTypeFTPUsername'] = "Đăng nhập";
+$GLOBALS['strTypeFTPPassword'] = "Mật khẩu";
 
 // General Settings
 

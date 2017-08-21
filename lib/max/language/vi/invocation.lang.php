@@ -10,14 +10,24 @@
   +---------------------------------------------------------------------------+
  */
 
-// Set translation strings
-$GLOBALS['strMaintenance'] = "Bảo trì";
+// Other
 
-// Audit
-$GLOBALS['strDelete'] = "Xoá";
-$GLOBALS['strAdvertiser'] = "Nhà quảng cáo";
-$GLOBALS['strValue'] = "Giá trị";
+// Measures
 
-if (!isset($GLOBALS['strUserlog'])) {
-    $GLOBALS['strUserlog'] = array();
-}
+// Common Invocation Parameters
+
+// Iframe
+
+// PopUp
+
+// XML-RPC
+
+// Support for 3rd party server clicktracking
+
+// Support for cachebusting code
+
+// IMG invocation selected for tracker with appended code
+$GLOBALS['strWarning'] = "Cảnh báo";
+
+// Local Invocation
+
