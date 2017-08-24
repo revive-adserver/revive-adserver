@@ -81,7 +81,7 @@ class Plugins_DeliveryLimitations_Site_Registerabledomainlist extends Plugins_De
 
     /**
      * A private method for displaying the UI for the delivery rule when
-     * the PHP intil extension is not loaded, and the deliver rule is not
+     * the PHP intil extension is not loaded, and the delivery rule is not
      * able to be used.
      */
     function _displayIntlMissingWarning()
@@ -102,7 +102,7 @@ class Plugins_DeliveryLimitations_Site_Registerabledomainlist extends Plugins_De
      * evaluation. Specifically:
      *
      * - Convert registerable domains into puny-code format;
-     * - Appennd an end-string regex marker (\z) to the end of each registerable
+     * - Append an end-string regex marker (\z) to the end of each registerable
      *   domain, to anchor the point of matching to the end of the hostname;
      * - Ensure that domain dots are treated as literal dots; and
      * - Replace newline separation in the string with alternate regex markers
@@ -140,7 +140,7 @@ class Plugins_DeliveryLimitations_Site_Registerabledomainlist extends Plugins_De
      * Override the parent getData() method, to call the _sanitiseData() method
      * on the provided data before returning it.
      *
-     * @return string A "\n" separated string of sanitised page domains.
+     * @return string A "\n" separated string of sanitised registerable domains.
      */
     function getData()
     {
@@ -162,7 +162,7 @@ class Plugins_DeliveryLimitations_Site_Registerabledomainlist extends Plugins_De
      *  - Deduplicates the list of registerable domains; and
      *  - Sorts the registerable domains into ascending order.
      * 
-     * @param string $data A "\n" separated string of input page registerable
+     * @param string $data A "\n" separated string of input registerable
      *                      domains and/or URLs.
      * @return string A "\n" separated string of registerable domains.
      */
