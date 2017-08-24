@@ -115,6 +115,7 @@ class Plugins_DeliveryLimitations_Site_Registerabledomainlist extends Plugins_De
         $aData = explode("\n", $sData);
         $aCompiledData = [];
         foreach ($aData as $key => $registerableDomain) {
+            $registerableDomain = trim($registerableDomain);
             if (extension_loaded('intl')) {
                 $registerableDomain = idn_to_ascii($registerableDomain);
             }
