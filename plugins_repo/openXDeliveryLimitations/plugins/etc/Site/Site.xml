@@ -20,6 +20,8 @@
             <file path="{ADMINPATH}/lib/">updateList.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Site/">Channel.class.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Site/">Channel.delivery.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Site/">Hostnamelist.class.php</file>
+            <file path="{MODULEPATH}deliveryLimitations/Site/">Hostnamelist.delivery.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Site/">Pageurl.class.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Site/">Pageurl.delivery.php</file>
             <file path="{MODULEPATH}deliveryLimitations/Site/">Referingpage.class.php</file>
@@ -35,6 +37,7 @@
 
         <components>
             <component><name>Channel</name></component>
+            <component><name>Hostname</name></component>
             <component><name>Pageurl</name></component>
             <component><name>Referingpage</name></component>
             <component><name>Registerabledomainlist</name></component>
