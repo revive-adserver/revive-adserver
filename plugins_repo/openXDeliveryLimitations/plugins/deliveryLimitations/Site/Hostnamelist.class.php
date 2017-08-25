@@ -25,7 +25,7 @@ require_once RV_PATH . '/lib/max/Plugin/Translation.php';
  */
 class Plugins_DeliveryLimitations_Site_Hostnamelist extends Plugins_DeliveryLimitations
 {
-    var $defaultComparison = '==';
+    var $defaultComparison = '=~';
 
     /**
      * Override the parent contstructor to:
@@ -35,8 +35,8 @@ class Plugins_DeliveryLimitations_Site_Hostnamelist extends Plugins_DeliveryLimi
     function __construct()
     {
         $this->aOperations = array(
-            '==' => MAX_Plugin_Translation::translate('Whitelist - Only deliver on these hostnames', $oPlugin->module, $oPlugin->package),
-            '!=' => MAX_Plugin_Translation::translate('Blacklist - Do not deliver on these hostnames', $oPlugin->module, $oPlugin->package)
+            '=~' => MAX_Plugin_Translation::translate('Whitelist - Only deliver on these hostnames', $oPlugin->module, $oPlugin->package),
+            '!~' => MAX_Plugin_Translation::translate('Blacklist - Do not deliver on these hostnames', $oPlugin->module, $oPlugin->package)
         );
         $aConf = $GLOBALS['_MAX']['CONF'];
         $this->nameEnglish = 'Site - Hostname List';

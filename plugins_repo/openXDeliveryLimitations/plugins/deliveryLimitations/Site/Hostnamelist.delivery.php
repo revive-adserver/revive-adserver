@@ -39,10 +39,10 @@ function MAX_checkSite_Hostnamelist($limitation, $op, $aParams = array())
         return false;
     }
     $aLookup = unserialize($limitation);
-    if ($op == '==' && isset($aLookup[$hostname])) {
+    if ($op == '=~' && isset($aLookup[$hostname])) {
         return true;
     }
-    if ($op == '!=' && !isset($aLookup[$hostname])) {
+    if ($op == '!~' && !isset($aLookup[$hostname])) {
         return true;
     }
     return false;
