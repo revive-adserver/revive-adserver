@@ -20,6 +20,7 @@ $GLOBALS['strDelete'] = "מחק";
 $GLOBALS['strAdvertiser'] = "מפרסם";
 $GLOBALS['strPublisher'] = "אתר אינטרנט";
 $GLOBALS['strCampaign'] = "קמפיין";
+$GLOBALS['strZone'] = "איזור";
 $GLOBALS['strType'] = "סוג";
 $GLOBALS['strAction'] = "פעולה";
 $GLOBALS['strValue'] = "ערך";

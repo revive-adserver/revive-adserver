@@ -47,11 +47,11 @@ msgstr ""
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adjs.class.php:37
 msgid "Javascript Tag"
-msgstr ""
+msgstr "תג Javascript"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adview.class.php:36
 msgid "Image Tag"
-msgstr ""
+msgstr "תג התמונה"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adlayer.class.php:45
 msgid "Interstitial or Floating DHTML Tag"
