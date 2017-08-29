@@ -50,6 +50,10 @@ What's New in Revive Adserver 4.1.0
 
      * Targeting Channels are now Delivery Rule Sets.
 
+ * New Site delivery runes added to the core Delivery Rules plugin to allow
+   whitelist/blacklist delivery based on hostnames or registerable domain
+   names.
+
  Bug Fixes
  ---------
 
