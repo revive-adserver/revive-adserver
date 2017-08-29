@@ -217,8 +217,10 @@ $aSettings = array(
                 'type'      => 'select',
                 'name'      => 'store_mode',
                 'text'      => $strTypeWebMode,
-                'items'     => array('local' => $strTypeWebModeLocal,
-                'ftp'       => $strTypeWebModeFtp),
+                'items'     => [
+                    0 => $strTypeWebModeLocal,
+                    1 => $strTypeWebModeFtp,
+                ],
                 'depends'   => 'allowedBanners_web==1',
             ),
             array (

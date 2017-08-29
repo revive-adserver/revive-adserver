@@ -4,21 +4,199 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "aa9e97a4c7717d3ac812973a137bd20e",
-    "content-hash": "ff4b1e58fabc1230f472640d5dff5dde",
+    "content-hash": "d691246d94b87f970915787100762dcf",
     "packages": [
         {
-            "name": "sinergi/browser-detector",
-            "version": "6.0.5",
+            "name": "league/flysystem",
+            "version": "1.0.40",
             "source": {
                 "type": "git",
-                "url": "https://github.com/sinergi/php-browser-detector.git",
-                "reference": "7fcda47cf2690fb978c8cee3ba7304b7dca1bcc7"
+                "url": "https://github.com/thephpleague/flysystem.git",
+                "reference": "3828f0b24e2c1918bb362d57a53205d6dc8fde61"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sinergi/php-browser-detector/zipball/7fcda47cf2690fb978c8cee3ba7304b7dca1bcc7",
-                "reference": "7fcda47cf2690fb978c8cee3ba7304b7dca1bcc7",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/3828f0b24e2c1918bb362d57a53205d6dc8fde61",
+                "reference": "3828f0b24e2c1918bb362d57a53205d6dc8fde61",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9"
+            },
+            "conflict": {
+                "league/flysystem-sftp": "<1.0.6"
+            },
+            "require-dev": {
+                "ext-fileinfo": "*",
+                "mockery/mockery": "~0.9",
+                "phpspec/phpspec": "^2.2",
+                "phpunit/phpunit": "~4.8"
+            },
+            "suggest": {
+                "ext-fileinfo": "Required for MimeType",
+                "league/flysystem-aws-s3-v2": "Allows you to use S3 storage with AWS SDK v2",
+                "league/flysystem-aws-s3-v3": "Allows you to use S3 storage with AWS SDK v3",
+                "league/flysystem-azure": "Allows you to use Windows Azure Blob storage",
+                "league/flysystem-cached-adapter": "Flysystem adapter decorator for metadata caching",
+                "league/flysystem-copy": "Allows you to use Copy.com storage",
+                "league/flysystem-eventable-filesystem": "Allows you to use EventableFilesystem",
+                "league/flysystem-rackspace": "Allows you to use Rackspace Cloud Files",
+                "league/flysystem-sftp": "Allows you to use SFTP server storage via phpseclib",
+                "league/flysystem-webdav": "Allows you to use WebDAV storage",
+                "league/flysystem-ziparchive": "Allows you to use ZipArchive adapter",
+                "spatie/flysystem-dropbox": "Allows you to use Dropbox storage"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\Flysystem\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Frank de Jonge",
+                    "email": "info@frenky.net"
+                }
+            ],
+            "description": "Filesystem abstraction: Many filesystems, one API.",
+            "keywords": [
+                "Cloud Files",
+                "WebDAV",
+                "abstraction",
+                "aws",
+                "cloud",
+                "copy.com",
+                "dropbox",
+                "file systems",
+                "files",
+                "filesystem",
+                "filesystems",
+                "ftp",
+                "rackspace",
+                "remote",
+                "s3",
+                "sftp",
+                "storage"
+            ],
+            "time": "2017-04-28T10:15:08+00:00"
+        },
+        {
+            "name": "league/flysystem-ziparchive",
+            "version": "1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/flysystem-ziparchive.git",
+                "reference": "c6d7c7ea23a57ee802d533ab9eb9f19dd5c5fc45"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/flysystem-ziparchive/zipball/c6d7c7ea23a57ee802d533ab9eb9f19dd5c5fc45",
+                "reference": "c6d7c7ea23a57ee802d533ab9eb9f19dd5c5fc45",
+                "shasum": ""
+            },
+            "require": {
+                "ext-zip": "*",
+                "league/flysystem": "~1.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "0.9.*",
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\Flysystem\\ZipArchive\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Frank de Jonge",
+                    "email": "info@frenky.net"
+                }
+            ],
+            "description": "Flysystem adapter for ZipArchive's",
+            "time": "2016-12-20T08:36:16+00:00"
+        },
+        {
+            "name": "psr/container",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/container.git",
+                "reference": "b7ce3b176482dbbc1245ebf52b181af44c2cf55f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/container/zipball/b7ce3b176482dbbc1245ebf52b181af44c2cf55f",
+                "reference": "b7ce3b176482dbbc1245ebf52b181af44c2cf55f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Container\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common Container Interface (PHP FIG PSR-11)",
+            "homepage": "https://github.com/php-fig/container",
+            "keywords": [
+                "PSR-11",
+                "container",
+                "container-interface",
+                "container-interop",
+                "psr"
+            ],
+            "time": "2017-02-14T16:28:37+00:00"
+        },
+        {
+            "name": "sinergi/browser-detector",
+            "version": "6.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sinergi/php-browser-detector.git",
+                "reference": "e1bee473663bb82e5ff58a3a2c0bf81c8671de5a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sinergi/php-browser-detector/zipball/e1bee473663bb82e5ff58a3a2c0bf81c8671de5a",
+                "reference": "e1bee473663bb82e5ff58a3a2c0bf81c8671de5a",
                 "shasum": ""
             },
             "require": {
@@ -28,11 +206,6 @@
                 "phpunit/phpunit": "^4.8 || ^5.0"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-develop": "6.1-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Sinergi\\BrowserDetector\\": "src"
@@ -44,9 +217,7 @@
             ],
             "authors": [
                 {
-                    "name": "Chris Schuld",
-                    "email": "chris@chrisschuld.com",
-                    "homepage": "http://chrisschuld.com"
+                    "name": "Chris Schuld"
                 },
                 {
                     "name": "Gabriel Bull",
@@ -61,22 +232,152 @@
                 "operating system",
                 "os"
             ],
-            "time": "2016-07-28 15:35:24"
-        }
-    ],
-    "packages-dev": [
+            "time": "2016-12-28T16:31:30+00:00"
+        },
         {
-            "name": "symfony/finder",
-            "version": "v3.1.4",
+            "name": "symfony/config",
+            "version": "v3.3.4",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/finder.git",
-                "reference": "e568ef1784f447a0e54dcb6f6de30b9747b0f577"
+                "url": "https://github.com/symfony/config.git",
+                "reference": "a094618deb9a3fe1c3cf500a796e167d0495a274"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/e568ef1784f447a0e54dcb6f6de30b9747b0f577",
-                "reference": "e568ef1784f447a0e54dcb6f6de30b9747b0f577",
+                "url": "https://api.github.com/repos/symfony/config/zipball/a094618deb9a3fe1c3cf500a796e167d0495a274",
+                "reference": "a094618deb9a3fe1c3cf500a796e167d0495a274",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9",
+                "symfony/filesystem": "~2.8|~3.0"
+            },
+            "conflict": {
+                "symfony/dependency-injection": "<3.3",
+                "symfony/finder": "<3.3"
+            },
+            "require-dev": {
+                "symfony/dependency-injection": "~3.3",
+                "symfony/finder": "~3.3",
+                "symfony/yaml": "~3.0"
+            },
+            "suggest": {
+                "symfony/yaml": "To use the yaml reference dumper"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Config\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Config Component",
+            "homepage": "https://symfony.com",
+            "time": "2017-06-16T12:40:34+00:00"
+        },
+        {
+            "name": "symfony/dependency-injection",
+            "version": "v3.3.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/dependency-injection.git",
+                "reference": "986a633c92220ecb22ad06820a1df126c7a4f9eb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/986a633c92220ecb22ad06820a1df126c7a4f9eb",
+                "reference": "986a633c92220ecb22ad06820a1df126c7a4f9eb",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9",
+                "psr/container": "^1.0"
+            },
+            "conflict": {
+                "symfony/config": "<3.3.1",
+                "symfony/finder": "<3.3",
+                "symfony/yaml": "<3.3"
+            },
+            "provide": {
+                "psr/container-implementation": "1.0"
+            },
+            "require-dev": {
+                "symfony/config": "~3.3",
+                "symfony/expression-language": "~2.8|~3.0",
+                "symfony/yaml": "~3.3"
+            },
+            "suggest": {
+                "symfony/config": "",
+                "symfony/expression-language": "For using expressions in service container configuration",
+                "symfony/finder": "For using double-star glob patterns or when GLOB_BRACE portability is required",
+                "symfony/proxy-manager-bridge": "Generate service proxies to lazy load them",
+                "symfony/yaml": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\DependencyInjection\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony DependencyInjection Component",
+            "homepage": "https://symfony.com",
+            "time": "2017-06-20T14:01:46+00:00"
+        },
+        {
+            "name": "symfony/filesystem",
+            "version": "v3.3.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/filesystem.git",
+                "reference": "311fa718389efbd8b627c272b9324a62437018cc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/311fa718389efbd8b627c272b9324a62437018cc",
+                "reference": "311fa718389efbd8b627c272b9324a62437018cc",
                 "shasum": ""
             },
             "require": {
@@ -85,7 +386,58 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.1-dev"
+                    "dev-master": "3.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Filesystem\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Filesystem Component",
+            "homepage": "https://symfony.com",
+            "time": "2017-06-24T09:29:48+00:00"
+        }
+    ],
+    "packages-dev": [
+        {
+            "name": "symfony/finder",
+            "version": "v3.3.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/finder.git",
+                "reference": "baea7f66d30854ad32988c11a09d7ffd485810c4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/baea7f66d30854ad32988c11a09d7ffd485810c4",
+                "reference": "baea7f66d30854ad32988c11a09d7ffd485810c4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.3-dev"
                 }
             },
             "autoload": {
@@ -112,7 +464,7 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "https://symfony.com",
-            "time": "2016-08-26 12:04:02"
+            "time": "2017-06-01T21:01:25+00:00"
         }
     ],
     "aliases": [],

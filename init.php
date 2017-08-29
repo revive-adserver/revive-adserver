@@ -57,11 +57,11 @@ function init()
     // Set up the UI constants
     setupConstants();
 
-    // PSR Autoloader
-    include MAX_PATH.'/lib/vendor/autoload.php';
-
     // Set up the common configuration variables
     setupConfigVariables();
+
+    // Bootstrap PSR Autoloader and DI container
+    $GLOBALS['_MAX']['DI'] = include MAX_PATH.'/bootstrap.php';
 
     // Disable all notices and warnings, as lots of code still
     // generates PHP warnings - especially E_STRICT notices from PEAR
