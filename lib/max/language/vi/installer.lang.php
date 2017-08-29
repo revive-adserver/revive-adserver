@@ -10,14 +10,25 @@
   +---------------------------------------------------------------------------+
  */
 
-// Set translation strings
-$GLOBALS['strMaintenance'] = "Bảo trì";
+/** status messages * */
 
-// Audit
-$GLOBALS['strDelete'] = "Xoá";
-$GLOBALS['strAdvertiser'] = "Nhà quảng cáo";
-$GLOBALS['strValue'] = "Giá trị";
+/** welcome step * */
 
-if (!isset($GLOBALS['strUserlog'])) {
-    $GLOBALS['strUserlog'] = array();
-}
+/** check step * */
+
+
+$GLOBALS['strWarning'] = "Cảnh báo";
+
+/** admin login step * */
+
+/** database step * */
+
+
+/** config step * */
+
+/** jobs step * */
+
+
+/** finish step * */
+
+
