@@ -1033,7 +1033,7 @@ $GLOBALS['strAddNewChannel_Key'] = "Add <u>n</u>ew Delivery Rule Set";
 $GLOBALS['strChannelToWebsite'] = "to website";
 $GLOBALS['strNoChannels'] = "There are currently no delivery rule sets defined";
 $GLOBALS['strNoChannelsAddWebsite'] = "There are currently no delivery rule sets defined, because there are no websites. To create a delivery rule set, <a href='affiliate-edit.php'>add a new website</a> first.";
-$GLOBALS['strEditChannelLimitations'] = "Edit delivery options for the delivery rule set";
+$GLOBALS['strEditChannelLimitations'] = "Edit delivery rules for the delivery rule set";
 $GLOBALS['strChannelProperties'] = "Delivery Rule Set Properties";
 $GLOBALS['strChannelLimitations'] = "Delivery Options";
 $GLOBALS['strConfirmDeleteChannel'] = "Do you really want to delete this delivery rule set?";
@@ -1170,7 +1170,7 @@ $GLOBALS['strZoneLinkedCampaign'] = "Campaign has been linked to zone <a href='%
 $GLOBALS['strZoneRemovedBanner'] = "Banner has been unlinked from zone <a href='%s'>%s</a>";
 $GLOBALS['strZoneRemovedCampaign'] = "Campaign has been unlinked from zone <a href='%s'>%s</a>";
 
-$GLOBALS['strChannelHasBeenAdded'] = "Delivery rule set <a href='%s'>%s</a> has been added. <a href='%s'>Set the delivery options.</a>";
+$GLOBALS['strChannelHasBeenAdded'] = "Delivery rule set <a href='%s'>%s</a> has been added. <a href='%s'>Set the delivery rules.</a>";
 $GLOBALS['strChannelHasBeenUpdated'] = "Delivery rule set <a href='%s'>%s</a> has been updated";
 $GLOBALS['strChannelAclHasBeenUpdated'] = "Delivery options for the delivery rule set<a href='%s'>%s</a> have been updated";
 $GLOBALS['strChannelHasBeenDeleted'] = "Delivery rule set <b>%s</b> has been deleted";
