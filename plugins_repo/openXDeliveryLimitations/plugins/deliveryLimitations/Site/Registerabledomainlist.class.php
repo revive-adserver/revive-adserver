@@ -62,6 +62,9 @@ class Plugins_DeliveryLimitations_Site_Registerabledomainlist extends Plugins_De
     function _displayMainUI()
     {
     	global $tabindex;
+        // require_once is used here so that the JavaScript that updates lists
+        // is only included once in the HTML, no matter times the plugin is
+        // used for a single banner
         require_once RV_PATH . '/www/admin/plugins/Site/lib/updateList.php';
         echo
             "<div style=\"float: left;\">" .
