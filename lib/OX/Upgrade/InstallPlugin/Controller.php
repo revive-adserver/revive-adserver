@@ -127,7 +127,7 @@ class OX_Upgrade_InstallPlugin_Controller
             case "openXBannerTypes":
                 return "Banner Types Plugin";
             case "openXDeliveryLimitations":
-                return "Delivery Limitations Plugin";
+                return "Delivery Rules Plugin";
             case "openX3rdPartyServers":
                 return "3rd Party Servers Plugin";
             case "openXReports":
