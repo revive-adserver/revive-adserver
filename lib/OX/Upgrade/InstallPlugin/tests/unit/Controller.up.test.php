@@ -75,7 +75,7 @@ class OX_Upgrade_InstallPlugin_ControllerTest extends UnitTestCase
             case "openXBannerTypes":
                 return "Banner Types Plugin";
             case "openXDeliveryLimitations":
-                return "Delivery Limitations Plugin";
+                return "Delivery Rules Plugin";
             case "openX3rdPartyServers":
                 return "3rd Party Servers Plugin";
             case "openXReports":
