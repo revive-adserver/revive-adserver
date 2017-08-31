@@ -13,3 +13,32 @@ msgstr ""
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Channel.class.php:46
 msgid "Is all of"
 msgstr "Is all of"
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Hostnamelist.class.php:76
+msgid "Enter hostnames below to remove matching entries from the list"
+msgstr "Enter hostnames below to remove matching entries from the list"
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Hostnamelist.class.php:79
+msgid "Remove Hostnames"
+msgstr "Remove Hostnames"
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Hostnamelist.class.php:96
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Registerabledomainlist.class.php:96
+msgid "WARNING"
+msgstr "WARNING"
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Hostnamelist.class.php:97
+msgid "The Hostname List delivery rule cannot be used; it requires that the PHP <i>intl</i> extension be installed."
+msgstr "The Hostname List delivery rule cannot be used; it requires that the PHP <i>intl</i> extension be installed."
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Registerabledomainlist.class.php:76
+msgid "Enter domains below to remove matching entries from the list"
+msgstr "Enter domains below to remove matching entries from the list"
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Registerabledomainlist.class.php:79
+msgid "Remove Domains"
+msgstr "Remove Domains"
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Registerabledomainlist.class.php:97
+msgid "The Registerable Domain List delivery rule cannot be used; it requires that the PHP <i>intl</i> extension be installed."
+msgstr "The Registerable Domain List delivery rule cannot be used; it requires that the PHP <i>intl</i> extension be installed."
