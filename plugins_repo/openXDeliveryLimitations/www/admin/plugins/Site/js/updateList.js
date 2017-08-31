@@ -1,4 +1,4 @@
-function updateList(mainListName, removeListName, removeMessageId) {
+function deliveryRules_Site_UpdateList(mainListName, removeListName, removeMessageId) {
 
     var mainList = $('textarea[name="'+mainListName+'"]');
     var removeList = $('textarea[name="'+removeListName+'"]');

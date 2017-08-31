@@ -76,7 +76,7 @@ class Plugins_DeliveryLimitations_Site_Hostnamelist extends Plugins_DeliveryLimi
               "<p>" . $this->translate('Enter hostnames below to remove matching entries from the list') . "</p>" .
               "<textarea rows='10' cols='50' name='removelist[{$this->executionorder}][data]' tabindex='".($tabindex++)."'></textarea>" .
               "<br /><br />" .
-              "<input id='removeDomains' type='button' value='" . $this->translate('Remove Hostnames') . "' onclick='updateList(\"acl[{$this->executionorder}][data]\", \"removelist[{$this->executionorder}][data]\", \"removeMessage{$this->executionorder}\");' />" .
+              "<input id='removeDomains' type='button' value='" . $this->translate('Remove Hostnames') . "' onclick='deliveryRules_Site_UpdateList(\"acl[{$this->executionorder}][data]\", \"removelist[{$this->executionorder}][data]\", \"removeMessage{$this->executionorder}\");' />" .
               "<br /><br />" .
               "<div id='removeMessage{$this->executionorder}'></div>" .
             "</div>";        
