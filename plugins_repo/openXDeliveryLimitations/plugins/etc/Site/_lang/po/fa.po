@@ -1,7 +1,6 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: revive-adserver\n"
-"POT-Creation-Date: 2008-07-29 18:41+0100\n"
 "Last-Translator: mbeccati <matteo@beccati.com>\n"
 "Language-Team: Persian\n"
 "Language: fa_IR\n"
@@ -17,4 +16,33 @@ msgstr ""
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Channel.class.php:46
 msgid "Is all of"
 msgstr "همه ی "
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Hostnamelist.class.php:76
+msgid "Enter hostnames below to remove matching entries from the list"
+msgstr ""
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Hostnamelist.class.php:79
+msgid "Remove Hostnames"
+msgstr ""
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Hostnamelist.class.php:96
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Registerabledomainlist.class.php:96
+msgid "WARNING"
+msgstr ""
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Hostnamelist.class.php:97
+msgid "The Hostname List delivery rule cannot be used; it requires that the PHP <i>intl</i> extension be installed."
+msgstr ""
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Registerabledomainlist.class.php:76
+msgid "Enter domains below to remove matching entries from the list"
+msgstr ""
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Registerabledomainlist.class.php:79
+msgid "Remove Domains"
+msgstr ""
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Registerabledomainlist.class.php:97
+msgid "The Registerable Domain List delivery rule cannot be used; it requires that the PHP <i>intl</i> extension be installed."
+msgstr ""
 

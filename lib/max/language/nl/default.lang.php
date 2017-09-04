@@ -1025,7 +1025,6 @@ $GLOBALS['strAddNewChannel_Key'] = "Voeg <u>n</u>ieuwe Verzameling Uitleveringsr
 $GLOBALS['strChannelToWebsite'] = "naar website";
 $GLOBALS['strNoChannels'] = "Er bestaan geen verzamelingen uitleveringsregels";
 $GLOBALS['strNoChannelsAddWebsite'] = "Er zijn nu geen verzamelingen uitleveringsregels beschikbaar, omdat er geen websites zijn. Om een verzameling uitleveringsregels te maken, dient u eerst <a href='affiliate-edit.php'>een nieuwe website toe te voegen</a>.";
-$GLOBALS['strEditChannelLimitations'] = "Bewerk Uitleveringsregels voor de verzameling Uitleveringsregels";
 $GLOBALS['strChannelProperties'] = "Eigenschappen van de verzameling uitleveringsregels";
 $GLOBALS['strChannelLimitations'] = "Uitleveringsbeperkingen";
 $GLOBALS['strConfirmDeleteChannel'] = "Weet u zeker dat u deze Verzameling Uitleveringsregels wilt verwijderen?";
@@ -1162,7 +1161,6 @@ $GLOBALS['strZoneLinkedCampaign'] = "Campagne is gekoppeld aan zone <a href='%s'
 $GLOBALS['strZoneRemovedBanner'] = "Banner is ontkoppeld van zone <a href='%s'>%s</a>";
 $GLOBALS['strZoneRemovedCampaign'] = "Campagne is ontkoppeld van zone <a href='%s'>%s</a>";
 
-$GLOBALS['strChannelHasBeenAdded'] = "Verzameling uitleveringsregels <a href='%s'>%s</a> is toegevoegd. <a href='%s'>Stel de uitleveringsregels in.</a>";
 $GLOBALS['strChannelHasBeenUpdated'] = "Verzameling uitleveringsregels <a href='%s'>%s</a> is bijgewerkt";
 $GLOBALS['strChannelAclHasBeenUpdated'] = "De uitleveringsregels voor de verzameling <a href='%s'>%s</a> zijn bijgewerkt";
 $GLOBALS['strChannelHasBeenDeleted'] = "Verzameling uitleveringsregels <b>%s</b> is verwijderd";
