@@ -586,7 +586,7 @@ class DB
      */
     function isError($value)
     {
-        return is_a($value, 'DB_Error');
+        return is_a($value, 'DB_Error') || is_a($value, 'MDB2_Error');
     }
 
     // }}}

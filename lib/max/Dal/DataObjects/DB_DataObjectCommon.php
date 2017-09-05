@@ -888,6 +888,11 @@ class DB_DataObjectCommon extends DB_DataObject
 
     function _mergeIniFiles($aFiles)
     {
+        if (empty($aFiles)) {
+            $this->debug("Empty parameter supplied to _mergeIniFiles","databaseStructure",1);
+            return false;
+        }
+
         $aResult = array();
         foreach ($aFiles as $ini)
         {
