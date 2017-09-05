@@ -4160,11 +4160,11 @@ if (isset($aContext['client']['exclude'][$aAd['client_id']])) {
 OX_Delivery_logMessage('List of excluded clients contains bannerid '.$aAd['ad_id'], 7);
 return false;
 }
-if (sizeof($aContext['banner']['include']) && !isset($aContext['banner']['include'][$aAd['ad_id']])) {
+if (!empty($aContext['banner']['include']) && !isset($aContext['banner']['include'][$aAd['ad_id']])) {
 OX_Delivery_logMessage('List of included banners does not contain bannerid '.$aAd['ad_id'], 7);
 return false;
 }
-if (sizeof($aContext['campaign']['include']) && !isset($aContext['campaign']['include'][$aAd['placement_id']])) {
+if (!empty($aContext['campaign']['include']) && !isset($aContext['campaign']['include'][$aAd['placement_id']])) {
 OX_Delivery_logMessage('List of included campaigns does not contain bannerid '.$aAd['ad_id'], 7);
 return false;
 }
