@@ -27,14 +27,14 @@ class migration_tables_core_122Test extends MigrationTest
         $this->initDatabase(121, array('clients', 'campaigns'));
 
         $aCampaigns = array(
-            array('clientid' => 3, 'parent' => 1, 'views' => '100', target => '1000'),
-            array('clientid' => 4, 'parent' => 1, 'views' => '200', target => '1'),
-            array('clientid' => 5, 'parent' => 1, 'views' => '200', target => '0'),
+            array('clientid' => 3, 'parent' => 1, 'views' => '100', 'target' => '1000'),
+            array('clientid' => 4, 'parent' => 1, 'views' => '200', 'target' => '1'),
+            array('clientid' => 5, 'parent' => 1, 'views' => '200', 'target' => '0'),
         );
         $cCampaigns = count($aCampaigns);
         $aAValues = array(
-            array('clientid' => 1, 'parent' => 0, 'views' => '0', target => '0'),
-            array('clientid' => 2, 'parent' => 0, 'views' => '0', target => '0'),
+            array('clientid' => 1, 'parent' => 0, 'views' => '0', 'target' => '0'),
+            array('clientid' => 2, 'parent' => 0, 'views' => '0', 'target' => '0'),
         );
         $aAValues = array_merge($aAValues, $aCampaigns);
         foreach ($aAValues as $aValues) {

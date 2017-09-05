@@ -149,17 +149,15 @@ function phpAds_clearSession()
 /* Register the data in the session array                */
 /*-------------------------------------------------------*/
 
-function phpAds_SessionDataRegister($key, $value='')
+function phpAds_SessionDataRegister($key, $value = '')
 {
 	global $session;
 
-    $conf = $GLOBALS['_MAX']['CONF'];
-
-    if (OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED)
-    {
+    if (defined('OA_INSTALLATION_STATUS') && OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED)  {
 		phpAds_SessionStart();
 	}
-	if (is_array($key) && $value=='') {
+
+	if (is_array($key) && $value == '') {
 		foreach (array_keys($key) as $name) {
 			$session[$name] = $key[$name];
 		}
@@ -167,8 +165,7 @@ function phpAds_SessionDataRegister($key, $value='')
 		$session[$key] = $value;
 	}
 
-    if (OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED)
-    {
+    if (defined('OA_INSTALLATION_STATUS') && OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED) {
 	   phpAds_SessionDataStore();
 	}
 }
@@ -215,15 +212,19 @@ function phpAds_SessionDataDestroy()
 
 function phpAds_SessionGetToken($tokenName = 'token')
 {
-    if (OA_INSTALLATION_STATUS != OA_INSTALLATION_STATUS_INSTALLED) {
+    global $session;
+
+    if (defined('OA_INSTALLATION_STATUS') && OA_INSTALLATION_STATUS != OA_INSTALLATION_STATUS_INSTALLED) {
         return false;
     }
-    global $session;
+
     phpAds_SessionStart();
+
     if (empty($session[$tokenName])) {
         $session[$tokenName] = md5(uniqid('phpads', 1));
         phpAds_SessionDataStore();
     }
+
     return $session[$tokenName];
 }
 

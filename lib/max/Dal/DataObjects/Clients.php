@@ -72,7 +72,7 @@ class DataObjects_Clients extends DB_DataObjectCommon
                 'reportdeactivate' => 'f',
                 'updated' => '%DATE_TIME%',
                 'advertiser_limitation' => 0,
-                'type' => ADVERTISER_TYPE_DEFAULT,
+                'type' => self::ADVERTISER_TYPE_DEFAULT,
                 );
 
     /* the code above is auto generated do not remove the tag below */

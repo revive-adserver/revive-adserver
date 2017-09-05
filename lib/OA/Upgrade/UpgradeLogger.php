@@ -23,6 +23,11 @@ class OA_UpgradeLogger
     var $logFile;
 
     /**
+     * @var array
+     */
+    private $logBuffer = [];
+
+    /**
      * php5 class constructor
      *
      * simpletest throws a BadGroupTest error
