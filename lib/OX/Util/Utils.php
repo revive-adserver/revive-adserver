@@ -32,26 +32,20 @@ class OX_Util_Utils
      *        -2 (Low)      OX_CAMPAIGN_TYPE_ECPM
      *
      * @param int $priority
-     * @return unknown
+     * @return int
      */
    static function getCampaignType($priority)
    {
-       if (priority == null || priority == "") {
-           return null;
-       }
-
-       if ($priority == 0) {
+       if ($priority === 0) {
            return OX_CAMPAIGN_TYPE_REMNANT;
-       }
-       else if ($priority == -1) {
+       } else if ($priority === -1) {
            return OX_CAMPAIGN_TYPE_OVERRIDE;
-       }
-       else if ($priority == -2) {
+       } else if ($priority === -2) {
            return OX_CAMPAIGN_TYPE_ECPM;
-       }
-       else if ($priority > 0) {
+       } else if ($priority > 0) {
            return OX_CAMPAIGN_TYPE_CONTRACT_NORMAL;
        }
+
        return null;
    }
 
@@ -66,7 +60,7 @@ class OX_Util_Utils
      *         0 (Low)      strRemnant
      *
      * @param int $priority
-     * @return translation key for a given campaign type
+     * @return string translation key for a given campaign type
      */
    static function getCampaignTypeTranslationKey($priority)
    {
@@ -99,7 +93,7 @@ class OX_Util_Utils
      *         0 (Low)      strRemnant
      *
      * @param int $priority
-     * @return translation key for a given campaign type description
+     * @return string translation key for a given campaign type description
      */
    static function getCampaignTypeDescriptionTranslationKey($priority)
    {
@@ -125,15 +119,18 @@ class OX_Util_Utils
      * Returns campaign type name based on given priority.
      *
      * @param int $priority
-     * @return name for given campaign type
+     * @return string name for given campaign type
      */
    static function getCampaignTypeName($priority)
    {
        $key = OX_Util_Utils::getCampaignTypeTranslationKey($priority);
+
        if ($key) {
            $name = $GLOBALS[$key];
+           return $name;
        }
-       return $name;
+
+       return null;
    }
 
     /**
@@ -167,22 +164,26 @@ class OX_Util_Utils
                return 'strCampaignStatusRejected';
             break;
        }
+
        return null;
    }
 
     /**
      * Returns campaign status translated text based on given status.
      *
-     * @param int $priority
-     * @return name for given campaign type
+     * @param int $status
+     * @return string name for given campaign type
      */
    static function getCampaignStatusName($status)
    {
        $key = OX_Util_Utils::getCampaignStatusTranslationKey($status);
+
        if ($key) {
            $name = $GLOBALS[$key];
+           return $name;
        }
-       return $name;
+
+       return null;
    }
 
    /**
@@ -195,9 +196,9 @@ class OX_Util_Utils
     * @param int $conversions the number of conversions.
     * @param string $startDate start date of the campaign. Required for tenancy.
     * @param string $endDate end date of the campaign. Required for tenancy.
-    * @param double defaultClickRatio click ratio to use when there are no impressions.
+    * @param double $defaultClickRatio click ratio to use when there are no impressions.
     *                                 If null, uses the value in the config file.
-    * @param double defaultConversionRatio conversion ratio to use when there are no impressions.
+    * @param double $defaultConversionRatio conversion ratio to use when there are no impressions.
     *                                 If null, uses the value in the config file.
     *
     * @return double the eCPM

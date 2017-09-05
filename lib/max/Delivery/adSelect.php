@@ -934,14 +934,13 @@ function _controlTrafficEnabled (&$aAds)
     return $control_enabled;
 }
 
-
 /**
- * Enter description here...
+ * @param array  $aAd
+ * @param array  $aContext
+ * @param string $source
+ * @param bool   $richMedia
  *
- * @param unknown_type $aAd
- * @param unknown_type $context
- * @param unknown_type $source
- * @param unknown_type $richMedia
+ * @return bool
  */
 function _adSelectCheckCriteria($aAd, $aContext, $source, $richMedia)
 {
@@ -975,13 +974,13 @@ function _adSelectCheckCriteria($aAd, $aContext, $source, $richMedia)
         return false;
     }
 
-    if (sizeof($aContext['banner']['include']) && !isset($aContext['banner']['include'][$aAd['ad_id']])) {
+    if (!empty($aContext['banner']['include']) && !isset($aContext['banner']['include'][$aAd['ad_id']])) {
         // Includelist banners
         OX_Delivery_logMessage('List of included banners does not contain bannerid '.$aAd['ad_id'], 7);
         return false;
     }
 
-    if (sizeof($aContext['campaign']['include']) && !isset($aContext['campaign']['include'][$aAd['placement_id']])) {
+    if (!empty($aContext['campaign']['include']) && !isset($aContext['campaign']['include'][$aAd['placement_id']])) {
         // Includelist campaigns
         OX_Delivery_logMessage('List of included campaigns does not contain bannerid '.$aAd['ad_id'], 7);
         return false;

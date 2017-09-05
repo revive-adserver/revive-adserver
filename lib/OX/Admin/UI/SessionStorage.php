@@ -71,7 +71,6 @@ class OX_Admin_UI_SessionStorage implements OX_Admin_UI_Storage
 
     protected function initStorage()
     {
-        session_set_cookie_params(0);
         if ($this->id) {
             session_name($this->id);
         }
@@ -83,10 +82,8 @@ class OX_Admin_UI_SessionStorage implements OX_Admin_UI_Storage
     {
         $this->initStorage();
         $_SESSION = array();
-        session_set_cookie_params(0);
         session_name($this->id);
         session_destroy();
-        setcookie($this->id, '');
     }
 }
 

@@ -29,7 +29,7 @@ class OA_Task_Runner
      * The collection of Task objects
      * @var array
      */
-    var $aTasks;
+    var $aTasks = [];
 
     /**
      * A method to run the run() method of each task in the collection,
@@ -58,7 +58,7 @@ class OA_Task_Runner
      * @param string $className An optional string specifying the class name of a task
      *                       already in the collection, which this task is to be inserted
      *                       to run just after or replace.
-     * @param boolean order -1 if the task is to be added before the specified class name,
+     * @param boolean $order -1 if the task is to be added before the specified class name,
      *                      1 if the task is to be added after the specified class name,
      *                      0 if the task is to replace the specified class name.
      * @return boolean Returns true on add success, false on failure.

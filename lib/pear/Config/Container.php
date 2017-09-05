@@ -60,7 +60,7 @@ class Config_Container {
     * Array of attributes for this item
     * @var  array
     */
-    var $attributes;
+    var $attributes = [];
 
     /**
     * Unique id to differenciate nodes

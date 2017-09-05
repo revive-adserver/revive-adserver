@@ -1507,7 +1507,7 @@ class XML_RPC_Message extends XML_RPC_Base
         $data = substr($data, 0, strpos($data, "</methodResponse>") + 17);
         $this->response_payload = $data;
 
-        if (!xml_parse($parser_resource, $data, sizeof($data))) {
+        if (!xml_parse($parser_resource, $data, true)) {
             // thanks to Peter Kocks <peter.kocks@baygate.com>
             if (xml_get_current_line_number($parser_resource) == 1) {
                 $errstr = 'XML error at line 1, check URL';
