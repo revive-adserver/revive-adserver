@@ -71,7 +71,7 @@ class OX_Admin_UI_SessionStorage implements OX_Admin_UI_Storage
 
     protected function initStorage()
     {
-        if ($this->id) {
+        if ($this->id && $this->id !== session_name()) {
             session_name($this->id);
         }
         session_start();
