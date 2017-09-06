@@ -795,7 +795,7 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
                         'install'=>array('schema'=>array('mdb2schema'=>'fooschema')),
                         );
         $oManager->setReturnValueAt(0,'parseXML', $aComponentGroup1);
-        $oManager->setReturnValueAt(0,'getSchemaInfo', '999',['foo']);
+        $oManager->setReturnValueAt(0,'getSchemaInfo', '999',['fooschema']);
 
         $aResult = $oManager->getComponentGroupInfo('testPlugin');
         $this->assertIsA($aResult, 'array');

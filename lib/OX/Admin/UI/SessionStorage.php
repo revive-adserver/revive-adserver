@@ -82,7 +82,6 @@ class OX_Admin_UI_SessionStorage implements OX_Admin_UI_Storage
     {
         $this->initStorage();
         $_SESSION = array();
-        session_name($this->id);
         session_destroy();
     }
 }
