@@ -761,7 +761,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             }
 
         }
-        if (count($aGroupsOld))
+        if (!empty($aGroupsOld))
         {
             return $this->_uninstallComponentGroups($aGroupsOld);
         }

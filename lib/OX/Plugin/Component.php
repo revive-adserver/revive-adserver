@@ -350,7 +350,7 @@ class OX_Component
         $className = self::_getComponentClassName($extension, $group, $component);
 
         // PHP4/5 compatibility for get_class_methods.
-        $aClassMethods = array_map(strtolower, (get_class_methods($className)));
+        $aClassMethods = array_map('strtolower', (get_class_methods($className)));
         if (!$aClassMethods) {
             $aClassMethods = array();
         }

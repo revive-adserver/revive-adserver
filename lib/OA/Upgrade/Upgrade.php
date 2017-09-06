@@ -987,7 +987,7 @@ class OA_Upgrade
             return false;
         }
         $this->oLogger->logClear();
-        if (count($this->oIntegrity->aTasksConstructiveAll)>0)
+        if (!empty($this->oIntegrity->aTasksConstructiveAll))
         {
             $this->oLogger->logError('database integrity check detected problems with the database');
             foreach ($this->oIntegrity->aTasksConstructiveAll AS $elem => &$aTasks)

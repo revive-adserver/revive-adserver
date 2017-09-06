@@ -480,12 +480,12 @@
          *    Replaces wildcard matches with wildcard
          *    expectations in the argument list.
          *    @param array $args      Raw argument list.
-         *    @return array           Argument list with
+         *    @return array|false     Argument list with
          *                            expectations.
          *    @access private
          */
         function _replaceWildcards($args) {
-            if ($args === false) {
+            if (!is_array($args)) {
                 return false;
             }
             for ($i = 0; $i < count($args); $i++) {

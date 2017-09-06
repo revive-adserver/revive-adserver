@@ -158,7 +158,7 @@ class OX_PluginExport
                             $aResult[] = $group.' : '.$tblSrc.' backup failed';
                             $this->aErrors[] = 'error creating backup '.$tblSrc.' : '.$result->getUserInfo();
                         }
-                        if (count(OA_DB_Table::listOATablesCaseSensitive($tblTgt) == 1))
+                        if (count(OA_DB_Table::listOATablesCaseSensitive($tblTgt)) == 1)
                         {
                             $aResult[] = $group.' : '.$tblSrc.' copied to '.$tblTgt;
                         }

@@ -409,9 +409,9 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
                              );
         $oManager = new $oMockManager($this);
 
-        $oManager->setReturnValueAt(0,'task1', true, 'foo');
+        $oManager->setReturnValueAt(0,'task1', true, ['foo']);
         $oManager->expectCallCount('task1',1);
-        $oManager->setReturnValueAt(0,'task2', true, 'bar');
+        $oManager->setReturnValueAt(0,'task2', true, ['bar']);
         $oManager->expectCallCount('task2',1);
 
         $aTaskList[] = array(
@@ -439,9 +439,9 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
                              );
         $oManager = new $oMockManager($this);
 
-        $oManager->setReturnValueAt(0,'task1', false, 'foo');
+        $oManager->setReturnValueAt(0,'task1', false, ['foo']);
         $oManager->expectCallCount('task1',1);
-        $oManager->setReturnValueAt(0,'task2', true, 'bar');
+        $oManager->setReturnValueAt(0,'task2', true, ['bar']);
         $oManager->expectCallCount('task2',0);
 
         $aTaskList[] = array(
@@ -472,14 +472,14 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
                              );
         $oManager = new $oMockManager($this);
 
-        $oManager->setReturnValueAt(0,'task1', true, 'foo');
+        $oManager->setReturnValueAt(0,'task1', true, ['foo']);
         $oManager->expectCallCount('task1',1);
-        $oManager->setReturnValueAt(0,'task2', false, 'bar');
+        $oManager->setReturnValueAt(0,'task2', false, ['bar']);
         $oManager->expectCallCount('task2',1);
 
-        $oManager->setReturnValueAt(0,'untask1', true, 'foo');
+        $oManager->setReturnValueAt(0,'untask1', true, ['foo']);
         $oManager->expectCallCount('untask1',1);
-        $oManager->setReturnValueAt(0,'untask2', true, 'bar');
+        $oManager->setReturnValueAt(0,'untask2', true, ['bar']);
         $oManager->expectCallCount('untask2',1);
 
 
@@ -519,14 +519,14 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
                              );
         $oManager = new $oMockManager($this);
 
-        $oManager->setReturnValueAt(0,'task1', true, 'foo');
+        $oManager->setReturnValueAt(0,'task1', true, ['foo']);
         $oManager->expectCallCount('task1',1);
-        $oManager->setReturnValueAt(0,'task2', false, 'bar');
+        $oManager->setReturnValueAt(0,'task2', false, ['bar']);
         $oManager->expectCallCount('task2',1);
 
-        $oManager->setReturnValueAt(0,'untask1', true, 'foo');
+        $oManager->setReturnValueAt(0,'untask1', true, ['foo']);
         $oManager->expectCallCount('untask1',0);
-        $oManager->setReturnValueAt(0,'untask2', false, 'bar');
+        $oManager->setReturnValueAt(0,'untask2', false, ['bar']);
         $oManager->expectCallCount('untask2',1);
 
 
@@ -627,7 +627,7 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
                                      )
                              );
         $oVerCtrl = new $mockVerCtrl($this);
-        $oVerCtrl->setReturnValueAt(0,'getApplicationVersion', '0.1','foo');
+        $oVerCtrl->setReturnValueAt(0,'getApplicationVersion', '0.1',['foo']);
         $oVerCtrl->expectCallCount('getApplicationVersion',1);
 
         Mock::generatePartial(
@@ -753,7 +753,7 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
                                      )
                              );
         $oVerCtrl = new $mockVerCtrl($this);
-        $oVerCtrl->setReturnValueAt(0,'getSchemaVersion', '999','foo');
+        $oVerCtrl->setReturnValueAt(0,'getSchemaVersion', '999',['foo']);
         $oVerCtrl->expectCallCount('getSchemaVersion',1);
 
         Mock::generatePartial(
@@ -795,7 +795,7 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
                         'install'=>array('schema'=>array('mdb2schema'=>'fooschema')),
                         );
         $oManager->setReturnValueAt(0,'parseXML', $aComponentGroup1);
-        $oManager->setReturnValueAt(0,'getSchemaInfo', '999','foo');
+        $oManager->setReturnValueAt(0,'getSchemaInfo', '999',['foo']);
 
         $aResult = $oManager->getComponentGroupInfo('testPlugin');
         $this->assertIsA($aResult, 'array');
@@ -905,8 +905,8 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
                                      )
                              );
         $oVerCtrl = new $mockVerCtrl($this);
-        $oVerCtrl->setReturnValueAt(0,'removeVariable', true, 'test');
-        $oVerCtrl->setReturnValueAt(0,'removeVariable', false, 'test');
+        $oVerCtrl->setReturnValueAt(0,'removeVariable', true, ['test']);
+        $oVerCtrl->setReturnValueAt(0,'removeVariable', false, ['test']);
         $oVerCtrl->expectCallCount('removeVariable',2);
 
         Mock::generatePartial(
@@ -938,8 +938,8 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
                                      )
                              );
         $oVerCtrl = new $mockVerCtrl($this);
-        $oVerCtrl->setReturnValueAt(0,'removeVersion', true, 'test');
-        $oVerCtrl->setReturnValueAt(1,'removeVersion', false, 'test');
+        $oVerCtrl->setReturnValueAt(0,'removeVersion', true, ['test']);
+        $oVerCtrl->setReturnValueAt(1,'removeVersion', false, ['test']);
         $oVerCtrl->expectCallCount('removeVersion',2);
 
         Mock::generatePartial(

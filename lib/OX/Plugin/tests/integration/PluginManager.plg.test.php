@@ -262,7 +262,7 @@ class Test_OX_PluginManager extends UnitTestCase
 
         //install
         $this->assertTrue($oPkgMgr->installPackage(array('tmp_name'=>$file, 'name'=>'testPluginPackage.zip')));
-        if (count($oPkgMgr->aErrors))
+        if (!empty($oPkgMgr->aErrors))
         {
             foreach ($oPkgMgr->aErrors AS $error)
             {
