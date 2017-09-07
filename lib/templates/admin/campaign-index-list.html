@@ -47,6 +47,26 @@
                 });
 
                 //-->
+               <!-- //submitForm for pages-->
+                function submitForm() {
+                    var form = document.getElementById('campaignForm');
+                    var url  = 'advertiser-campaigns.php';
+                    var aUrl = [];
+                    var advertiserId = {/literal}{$clientId};{literal}
+                    aUrl.push('advertiserId=' + advertiserId);
+
+                    var setPerPage = form.setPerPage.options[form.setPerPage.selectedIndex].value;
+                    aUrl.push('setPerPage=' + setPerPage);
+
+                    var params = aUrl.join('&');
+                    if (aUrl.length > 0) {
+                        url = url + '?' + params;
+                    }
+                    document.location.href = url;
+                    return false;
+                }
+            //-->
+
                 </script>
                 {/literal}
             </li>
@@ -231,3 +251,8 @@
 {/if}
     </table>
 </div>
+<form id="campaignForm" name="campaignForm" method="POST">
+    <div class="filters">
+        {t str=ItemsPerPage}: {$pager->pagerSelect}&nbsp;{if !empty($pager->links)}{$pager->links}{/if}
+    </div>
+</form>

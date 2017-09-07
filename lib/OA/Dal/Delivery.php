@@ -343,6 +343,7 @@ function OA_Dal_Delivery_getPublisherZones($publisherid) {
  * The function to get and return the ads linked to a zone
  *
  * @param  int   $zoneid The id of the zone to get linked ads for
+ * @param  array $limits array('limit' => $limit ,'offset'=> $offset) for SQL pagination
  *
  * @todo   Refactor this query (and others) to use OA_Dal_Delivery_buildQuery()
  * @return array|false
@@ -355,7 +356,7 @@ function OA_Dal_Delivery_getPublisherZones($publisherid) {
  *                    their priorities calculated on the basis of the campaign
  *                    and creative weights
  */
-function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
+function OA_Dal_Delivery_getZoneLinkedAds($zoneid, $limits = null) {
 
     $conf = $GLOBALS['_MAX']['CONF'];
 
@@ -377,6 +378,21 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
         'ads'   => 0,
         'lAds'  => 0
     );
+
+    //------ for page ---------
+    $limit = null;
+    $offset = null;
+    $limit_q = ""; // query limit
+    if($limits){
+        $limit = $limits['limit'];
+        $offset = $limits['offset'];
+    }
+    if (isset($limit) && is_numeric($limit)  && is_numeric($offset)) {
+        $limit_q = " LIMIT ".$limit. " OFFSET ".$offset;
+    } elseif (!empty($limit)) {
+        $limit_q = " LIMIT ".$limit." OFFSET 0";
+    }
+
 
     $query = "
         SELECT
@@ -451,7 +467,7 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
             d.status <= 0
           AND
             c.status <= 0
-    ";
+    ".$limit_q;
 
 //    $query = OA_Dal_Delivery_buildQuery('', '', '');
     $rAds = OA_Dal_Delivery_query($query);
@@ -506,6 +522,45 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
     }
     $aRows['priority'] = $totals;
     return $aRows;
+}
+
+/**
+ * The function to get total active ads linked for a zone
+ *
+ * @param  int   $zoneid The id of the zone
+ * @return int   total ads
+ *
+ */
+function OA_Dal_Delivery_getTotalZoneLinkedAds($zoneid) {
+    $conf = $GLOBALS['_MAX']['CONF'];
+    $total = 0;
+    $zoneid = (int)$zoneid;
+    $query = "
+        SELECT
+            count(d.bannerid) as totalAds
+        FROM
+            ".$conf['table']['prefix'].$conf['table']['banners']." AS d JOIN
+            ".$conf['table']['prefix'].$conf['table']['ad_zone_assoc']." AS az ON (d.bannerid = az.ad_id) JOIN
+            ".$conf['table']['prefix'].$conf['table']['zones']." AS z ON (az.zone_id = z.zoneid) JOIN
+            ".$conf['table']['prefix'].$conf['table']['campaigns']." AS c ON (c.campaignid = d.campaignid) LEFT JOIN
+            ".$conf['table']['prefix'].$conf['table']['clients']." AS m ON (m.clientid = c.clientid) LEFT JOIN
+            ".$conf['table']['prefix'].$conf['table']['agency']." AS a ON (a.agencyid = m.agencyid)
+        WHERE
+            az.zone_id = {$zoneid}
+          AND
+            d.status <= 0
+          AND
+            c.status <= 0
+    ";
+
+    $rsZones = DBC::NewRecordSet($query);
+    if (PEAR::isError($rsZones)) {
+        return $rsZones;
+    }
+    $aZones = $rsZones->getAll();
+    $total = $aZones[0];
+
+    return $total;
 }
 
 
