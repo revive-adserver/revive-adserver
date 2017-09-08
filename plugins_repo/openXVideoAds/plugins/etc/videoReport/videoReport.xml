@@ -29,7 +29,6 @@
             <file path="{ADMINPATH}/templates/">video-report.html</file>
             <file path="{ADMINPATH}/templates/">table.html</file>
             <file path="{ADMINPATH}/templates/">row.html</file>
-            <file path="{ADMINPATH}/templates/">players.html</file>
             <file path="{ADMINPATH}/js/">json2.js</file>
             <file path="{ADMINPATH}/lib/">expressInstall.swf</file>
             <file path="{ADMINPATH}/lib/">open-flash-chart.swf</file>
