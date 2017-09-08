@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>623</version>
+  <comments>Add FK from sessions to users</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>623</version>
+      <change>
+        <table>
+          <name>session</name>
+          <add>
+            <field>
+              <name>user_id</name>
+              <type>openads_mediumint</type>
+              <length>9</length>
+              <notnull></notnull>
+              <default></default>
+              <was>user_id</was>
+            </field>
+          </add>
+          <index>
+            <add>
+              <name>session_user_id_key</name>
+              <was>session_user_id_key</was>
+              <indexfield>
+                <name>user_id</name>
+                <sorting>ascending</sorting>
+              </indexfield>
+            </add>
+              <add>
+                <name>session_lastused_key</name>
+                <was>session_lastused_key</was>
+                <indexfield>
+                  <name>lastused</name>
+                  <sorting>ascending</sorting>
+                </indexfield>
+              </add>
+            </index>
+          </table>
+        </change>
+      </changeset>
+    </constructive>
+    <destructive>
+      <changeset>
+        <name>openads</name>
+        <version>623</version>
+      </changeset>
+    </destructive>
+  </instructionset>
