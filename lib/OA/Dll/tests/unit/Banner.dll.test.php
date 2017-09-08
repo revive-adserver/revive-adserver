@@ -169,7 +169,7 @@ class OA_Dll_BannerTest extends DllUnitTestCase
         $doImages = OA_Dal::staticGetDO('images', $doBanners->filename);
         $this->assertEqual($doImages->contents, $this->binarySwf);
 
-        $GLOBALS['_MAX']['CONF']['store']['mode']   = 'local';
+        $GLOBALS['_MAX']['CONF']['store']['mode']   = 0;
         $GLOBALS['_MAX']['CONF']['store']['webDir'] = MAX_PATH . '/var';
 
         // Add gif (Web stored)

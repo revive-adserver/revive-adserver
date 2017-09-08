@@ -201,4 +201,10 @@ function setupIncludePath()
     set_include_path($oxPearPath . PATH_SEPARATOR . $oxZendPath . PATH_SEPARATOR . get_include_path());
 }
 
-?>
+/**
+ * @return \Psr\Container\ContainerInterface
+ */
+function RV_getContainer()
+{
+    return $GLOBALS['_MAX']['DI'];
+}

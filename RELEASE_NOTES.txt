@@ -64,6 +64,9 @@ What's New in Revive Adserver 4.1.0
    ignored when editing HTML ads containing scripts or iframes in order to
    avoid inadvertently altering 3rd party tags.
 
+ * Added (beta) support for HTML5 banners, allowing the upload of
+   IAB compliant ZIP files.
+
  Bug Fixes
  ---------
 

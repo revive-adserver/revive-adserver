@@ -494,14 +494,17 @@ class DB_DataObjectCommon extends DB_DataObject
             $basename = $this->$columnName;
         }
 
+        // Get existing names as array keys
         $doCheck = $this->factory($this->_tableName);
-        $names = $doCheck->getUniqueValuesFromColumn($columnName);
+        $names = array_flip($doCheck->getUniqueValuesFromColumn($columnName));
+
         // Get unique name
         $i = 2;
-        while (in_array($basename.' ('.$i.')', $names)) {
-            $i++;
-        }
-        return $basename.' ('.$i.')';
+        do {
+            $name = $basename.' ('.$i++.')';
+        } while (isset($names[$name]));
+
+        return $name;
     }
 
     /**

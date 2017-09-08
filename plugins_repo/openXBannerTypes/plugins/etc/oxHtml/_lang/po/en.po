@@ -13,3 +13,4 @@ msgstr ""
 #: plugins_repo/openXBannerTypes/plugins/bannerTypeHtml/oxHtml/genericHtml.class.php:35
 msgid "Generic HTML Banner"
 msgstr "Generic HTML Banner"
+

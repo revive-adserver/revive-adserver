@@ -571,8 +571,11 @@ function buildBannerForm($type, $aBanner, &$oComponent=null, $formDisabled=false
 
 function addUploadGroup($form, $aBanner, $vars)
 {
-        $uploadG = array();
-        if (isset($vars['fileName']) && $vars['fileName'] != '') {
+        $uploadG = [];
+
+        $update = !empty($vars['fileName']);
+
+        if ($update) {
             $uploadG['radio1'] = $form->createElement('radio', $vars['radioName'], null, (empty($vars['imageName']) ? '' : "<img src='".OX::assetPath()."/images/".$vars['imageName']."' align='absmiddle'> ").$vars['fileName']." <i dir=".$GLOBALS['phpAds_TextDirection'].">(".$vars['fileSize'].")</i>", 'f');
             $uploadG['radio2'] = $form->createElement('radio', $vars['radioName'], null, null, 't');
             $uploadG['upload'] = $form->createElement('file', $vars['uploadName'], null, array("onchange" => "selectFile(this, ".($vars['handleSWF'] ? 'true' : 'false').")", "style" => "width: 250px;"));
@@ -584,9 +587,8 @@ function addUploadGroup($form, $aBanner, $vars)
             }
 
             $form->addGroup($uploadG, $vars['uploadName'].'_group', $vars['updateLabel'], array("<br>", "", "<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"), false);
-        }
-        else { //add new creative
-            $uploadG['hidden'] = $form->createElement("hidden", $vars['radioName'], "t");
+        } else { //add new creative
+            $uploadG['hidden'] = $form->createElement("hidden", $vars['radioName']);
             $uploadG['upload'] = $form->createElement('file', $vars['uploadName'], null, array("onchange" => "selectFile(this, ".($vars['handleSWF'] ? 'true' : 'false').")", "size" => 26, "style" => "width: 250px"));
             if ($vars['handleSWF']) {
                 $uploadG['checkSWF'] = $form->createElement("checkbox", "checkswf", null, $GLOBALS['strCheckSWF']);
@@ -604,7 +606,10 @@ function addUploadGroup($form, $aBanner, $vars)
             }
 
         }
-        $form->setDefaults(array("checkswf" => "t")); //TODO does not work??
+        $form->setDefaults(array(
+            $vars['radioName'] => $update ? 'f' : 't',
+            'checkswf' => 't'
+        ));
 }
 
 
@@ -877,18 +882,18 @@ function _getContentTypeIconImageName($contentType)
     return $imageName;
 }
 
+function _getPrettySize($size)
+{
+    $kb = round($size / 1024);
+
+    if ($kb > 0) {
+        return "{$kb} KB";
+    }
+
+    return "{$size} B";
+}
 
 function _getBannerSizeText($type, $filename)
 {
-    $size = phpAds_ImageSize($type, $filename);
-    if (round($size / 1024) == 0) {
-         $size = $size." bytes";
-    }
-    else {
-         $size = round($size / 1024)." Kb";
-    }
-
-    return $size;
+    return _getPrettySize(phpAds_ImageSize($type, $filename));
 }
-
-?>

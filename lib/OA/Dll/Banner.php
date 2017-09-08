@@ -152,7 +152,7 @@ class OA_Dll_Banner extends OA_Dll
                 if (!$this->_validateImage($oBanner->aImage, $this->oImage)) {
                     return false;
                 }
-                $contentType = $this->oImage->contentType == 'swf';
+                $contentType = $this->oImage->contentType;
             } elseif (!isset($oBanner->bannerId)) {
                 $this->raiseError('Field \'aImage\' must not be empty');
                 return false;
