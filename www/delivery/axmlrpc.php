@@ -27,6 +27,14 @@
 
 function parseDeliveryIniFile($configPath = null, $configFile = null, $sections = true)
 {
+$fixMysqli = function($conf) {
+if ('mysql' === $conf['database']['type'] && !extension_loaded('mysql') && extension_loaded('mysqli')) {
+$conf['database']['type'] = 'mysqli';
+} elseif ('mysqli' === $conf['database']['type'] && !extension_loaded('mysqli') && extension_loaded('mysql')) {
+$conf['database']['type'] = 'mysql';
+}
+return $conf;
+};
 if (!$configPath) {
 $configPath = MAX_PATH . '/var';
 }
@@ -41,7 +49,7 @@ $realconf = @parse_ini_file(MAX_PATH . '/var/' . $conf['realConfig'] . '.conf.ph
 $conf = mergeConfigFiles($realconf, $conf);
 }
 if (!empty($conf)) {
-return $conf;
+return $fixMysqli($conf);
 } elseif ($configFile === '.plugin') {
 $pluginType = basename($configPath);
 $defaultConfig = MAX_PATH . '/plugins/' . $pluginType . '/default.plugin.conf.php';
@@ -58,7 +66,7 @@ if (isset($conf['realConfig'])) {
 $conf = @parse_ini_file(MAX_PATH . '/var/' . $conf['realConfig'] . '.conf.php', $sections);
 }
 if (!empty($conf)) {
-return $conf;
+return $fixMysqli($conf);
 }
 if (file_exists(MAX_PATH . '/var/INSTALLED')) {
 echo "Revive Adserver has been installed, but no configuration file was found.\n";
