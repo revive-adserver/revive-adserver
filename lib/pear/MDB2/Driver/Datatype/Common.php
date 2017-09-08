@@ -840,6 +840,27 @@ class MDB2_Driver_Datatype_Common extends MDB2_Module_Common
     {
         $type = !empty($current['type']) ? $current['type'] : null;
 
+        $compareCommons = function ($change) use ($current, $previous)
+        {
+            $previous_notnull = !empty($previous['notnull']) ? $previous['notnull'] : false;
+            $notnull = !empty($current['notnull']) ? $current['notnull'] : false;
+            if ($previous_notnull != $notnull) {
+                $change['notnull'] = true;
+            }
+
+            if (empty($current['autoincrement'])) {
+                $previous_default = array_key_exists('default', $previous) ? $previous['default'] :
+                    ($previous_notnull ? '' : null);
+                $default = array_key_exists('default', $current) ? $current['default'] :
+                    ($notnull ? '' : null);
+                if ($previous_default !== $default) {
+                    $change['default'] = true;
+                }
+            }
+
+            return $change;
+        };
+
         if (!method_exists($this, "_compare{$type}Definition")) {
 
             $db =& $this->getDBInstance();
@@ -849,7 +870,8 @@ class MDB2_Driver_Datatype_Common extends MDB2_Module_Common
                 if (!empty($db->options['datatype_map_callback'][$type])) {
                     $parameter = array('current' => $current, 'previous' => $previous);
                     $change =  call_user_func_array($db->options['datatype_map_callback'][$type], array(&$db, __FUNCTION__, $parameter));
-                    return $change;
+
+                    return $compareCommons($change);
                 }
             }
             else if (PEAR::isError($db)) {
@@ -870,21 +892,7 @@ class MDB2_Driver_Datatype_Common extends MDB2_Module_Common
             $change['type'] = true;
         }
 
-        $previous_notnull = !empty($previous['notnull']) ? $previous['notnull'] : false;
-        $notnull = !empty($current['notnull']) ? $current['notnull'] : false;
-        if ($previous_notnull != $notnull) {
-            $change['notnull'] = true;
-        }
-
-        $previous_default = array_key_exists('default', $previous) ? $previous['default'] :
-            ($previous_notnull ? '' : null);
-        $default = array_key_exists('default', $current) ? $current['default'] :
-            ($notnull ? '' : null);
-        if ($previous_default !== $default) {
-            $change['default'] = true;
-        }
-
-        return $change;
+        return $compareCommons($change);
     }
 
     // }}}

@@ -57,44 +57,4 @@ require_once 'MDB2/Driver/Datatype/mysql.php';
  */
 class MDB2_Driver_Datatype_mysqli extends MDB2_Driver_Datatype_mysql
 {
-
-    // {{{ mapPrepareDatatype()
-
-    /**
-     * Maps an MDB2 datatype to native prepare type
-     *
-     * @param string $type
-     * @return string
-     * @access public
-     */
-    function mapPrepareDatatype($type)
-    {
-        $db =& $this->getDBInstance();
-        if (PEAR::isError($db)) {
-            return $db;
-        }
-
-        if (!empty($db->options['datatype_map'][$type])) {
-            $type = $db->options['datatype_map'][$type];
-            if (!empty($db->options['datatype_map_callback'][$type])) {
-                $parameter = array('type' => $type);
-                return call_user_func_array($db->options['datatype_map_callback'][$type], array(&$db, __FUNCTION__, $parameter));
-            }
-        }
-
-        switch ($type) {
-            case 'integer':
-                return 'i';
-            case 'float':
-                return 'd';
-            case 'blob':
-                return 'b';
-            default:
-                break;
-        }
-        return 's';
-    }
-
-    // }}}
 }
-?>

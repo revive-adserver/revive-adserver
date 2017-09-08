@@ -398,7 +398,6 @@ class MDB2_Usage_TestCase extends MDB2_TestCase {
         $result =& $stmt->execute(array());
         if (PEAR::isError($result)) {
             $this->assertTrue(!PEAR::isError($result), 'Could not execute prepared statement with no placeholders. Error: '.$result->getUserinfo());
-            break;
         }
         $row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
         if (!is_array($row)) {
@@ -415,7 +414,6 @@ class MDB2_Usage_TestCase extends MDB2_TestCase {
         $result =& $stmt->execute(array($row_data['user_id']));
         if (PEAR::isError($result)) {
             $this->assertTrue(!PEAR::isError($result), 'Could not execute prepared with quoted text fields around a placeholder. Error: '.$result->getUserinfo());
-            break;
         }
         $row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
         if (!is_array($row)) {
@@ -451,7 +449,6 @@ class MDB2_Usage_TestCase extends MDB2_TestCase {
         $result =& $stmt->execute(array('username' => $row_data['user_name']));
         if (PEAR::isError($result)) {
             $this->assertTrue(!PEAR::isError($result), 'Could not execute prepared where the same named parameter is used twice. Error: '.$result->getUserinfo());
-            break;
         }
         $row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
         if (!is_array($row)) {
