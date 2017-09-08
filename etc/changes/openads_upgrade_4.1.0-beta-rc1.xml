@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<upgrade>
+    <name>Revive Adserver</name>
+    <creationDate>2017-09-08</creationDate>
+    <author>Matteo Beccati</author>
+    <authorEmail>revive@revive-adserver.com</authorEmail>
+    <authorUrl>http://www.revive-adserver.com</authorUrl>
+    <license>LICENSE.txt</license>
+    <description>Revive Adserver Upgrade 4.1.0-beta-rc1</description>
+    <versionFrom></versionFrom>
+    <versionTo>4.1.0-beta-rc1</versionTo>
+
+    <database>
+        <package>
+            <version>622</version>
+            <stamp>622</stamp>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_622.xml</file>
+            <file>changes_tables_core_622.xml</file>
+            <file>migration_tables_core_622.php</file>
+        </package>
+    </database>
+
+
+</upgrade>

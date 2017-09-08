@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>622</version>
+  <comments>Fixed defaults that were changed back in 3.x</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>622</version>
+      <change>
+        <table>
+          <name>clients</name>
+        <change>
+          <field>
+            <name>report</name>
+            <default>f</default>
+          </field>
+          <field>
+            <name>reportdeactivate</name>
+            <default>f</default>
+          </field>
+        </change>
+      </table>
+    </change>
+  </changeset>
+</constructive>
+<destructive>
+  <changeset>
+    <name>openads</name>
+    <version>622</version>
+  </changeset>
+</destructive>
+</instructionset>
