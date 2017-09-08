@@ -54,6 +54,9 @@ What's New in Revive Adserver 4.1.0
    whitelist/blacklist delivery based on hostnames or registerable domain
    names.
 
+ * Added new security feature to invalidate all the active sessions of the
+   current user when changing or recovering the password.
+
  Bug Fixes
  ---------
 

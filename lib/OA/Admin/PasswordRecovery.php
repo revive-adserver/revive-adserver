@@ -119,7 +119,7 @@ class OA_Admin_PasswordRecovery
             } elseif ($this->_dal->checkRecoveryId($vars['id'])) {
                 $this->_dal->saveNewPasswordAndLogin($vars['id'], $vars['newpassword']);
 
-                phpAds_SessionRegenerateId();
+                phpAds_SessionRegenerateId(true);
                 OX_Admin_Redirect::redirect();
             } else {
                 $this->displayRecoveryRequestForm($GLOBALS['strPwdRecWrongId']);

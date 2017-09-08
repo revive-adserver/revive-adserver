@@ -75,8 +75,10 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         if ($doUsers->update() === false) {
             // Unable to update the preferences
             $aErrormessage[0][] = $strUnableToWritePrefs;
-        }
-        else {
+        } else {
+            // Regenerate session ID and clear all other sessions
+            phpAds_SessionRegenerateId(true);
+
             $translation = new OX_Translation ();
             $translated_message = $translation->translate($GLOBALS['strPasswordChanged']);
             OA_Admin_UI::queueMessage($translated_message, 'local', 'confirm', 0);

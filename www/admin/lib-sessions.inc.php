@@ -18,6 +18,7 @@ if(!isset($GLOBALS['_MAX']['FILES']['/lib/max/Delivery/cookie.php'])) {
     require_once MAX_PATH . '/lib/max/Delivery/cookie.php';
 }
 require_once MAX_PATH . '/lib/max/Dal/Admin/Session.php';
+require_once MAX_PATH . '/lib/OA/Permission.php';
 
 /**
  * Fetch sessiondata from the database
@@ -89,7 +90,7 @@ function phpAds_SessionStart()
         $sessionId = phpAds_SessionGenerateId();
 
         $dal = new MAX_Dal_Admin_Session();
-        $dal->storeSerializedSession(serialize($session), $sessionId);
+        $dal->storeSerializedSession(serialize($session), $sessionId, OA_Permission::getUserId());
 	}
 
 	return $_COOKIE['sessionID'];
@@ -112,19 +113,21 @@ function phpAds_SessionGenerateId()
 /* Re-generate the sessionid                             */
 /*-------------------------------------------------------*/
 
-function phpAds_SessionRegenerateId()
+function phpAds_SessionRegenerateId($deleteAllUserSessions = false)
 {
     global $session;
 
     $dal = new MAX_Dal_Admin_Session();
 
-    if (!empty($_COOKIE['sessionID'])) {
+    if ($deleteAllUserSessions && !empty($session['user'])) {
+        $dal->deleteUserSessions($session['user']->aUser['user_id']);
+    } elseif (!empty($_COOKIE['sessionID'])) {
         $dal->deleteSession($_COOKIE['sessionID']);
     }
 
     if (!empty($session['__authentic__'])) {
         $sessionId = phpAds_SessionGenerateId();
-        $dal->storeSerializedSession(serialize($session), $sessionId);
+        $dal->storeSerializedSession(serialize($session), $sessionId, OA_Permission::getUserId());
 
         return $sessionId;
     }
@@ -182,7 +185,7 @@ function phpAds_SessionDataStore()
     if (isset($_COOKIE['sessionID']) && $_COOKIE['sessionID'] != '') {
         $session_id = $_COOKIE['sessionID'];
         $serialized_session_data = serialize($session);
-        $dal->storeSerializedSession($serialized_session_data, $session_id);
+        $dal->storeSerializedSession($serialized_session_data, $session_id, OA_Permission::getUserId());
     }
 
     // Garbage collect old sessions, 1 out of 100 requests, roughly

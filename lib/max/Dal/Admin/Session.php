@@ -66,39 +66,35 @@ class MAX_Dal_Admin_Session extends MAX_Dal_Common
     /**
      * @param string $serialized_session_data
      * @param string $session_id
-     *
-     * @todo Use ANSI SQL syntax, such as an UPDATE/INSERT cycle.
-     * @todo Push down REPLACE INTO into a MySQL-specific DAL.
      */
-    function storeSerializedSession($serialized_session_data, $session_id)
+    function storeSerializedSession($serialized_session_data, $session_id, $user_id = null)
     {
         $doSession = OA_Dal::staticGetDO('session', $session_id);
         if ($doSession) {
             $doSession->sessiondata = $serialized_session_data;
+            $doSession->user_id = $user_id;
             $doSession->update();
         } else {
             $doSession = OA_Dal::factoryDO('session');
             // It's an md5, so 32 chars max
             $doSession->sessionid = substr($session_id, 0, 32);
             $doSession->sessiondata = $serialized_session_data;
+            $doSession->user_id = $user_id;
             $doSession->insert();
         }
     }
 
     /**
      * Remove many unused sessions from storage.
-     *
-     * @todo Use ANSI SQL syntax, such as NOW() + INTERVAL '12' HOUR
      */
     function pruneOldSessions()
     {
-        $tableS = $this->oDbh->quoteIdentifier( $this->getTablePrefix().'session',true);
-        $query = "
-                DELETE FROM {$tableS}
-                WHERE
-                    UNIX_TIMESTAMP('". OA::getNowUTC() ."') - UNIX_TIMESTAMP(lastused) > 43200
-                ";
-        $this->oDbh->query($query);
+        $qTbl = $this->oDbh->quoteIdentifier( $this->getTablePrefix().'session', true);
+
+        $dateTime = new \DateTime('now -12hours', new \DateTimeZone('UTC'));
+        $qDateTime = $this->oDbh->quote($dateTime->format('Y-m-d H:i:s'));
+
+        $this->oDbh->exec("DELETE FROM {$qTbl} WHERE lastused < {$qDateTime}");
     }
 
     /**
@@ -110,6 +106,18 @@ class MAX_Dal_Admin_Session extends MAX_Dal_Common
         if ($doSession) {
             $doSession->delete();
         }
+    }
+
+    /**
+     * Remove all the sessions for a user.
+     */
+    function deleteUserSessions($userId)
+    {
+        $userId = (int)$userId;
+
+        $qTbl = $this->oDbh->quoteIdentifier( $this->getTablePrefix().'session', true);
+
+        $this->oDbh->exec("DELETE FROM {$qTbl} WHERE user_id = {$userId}");
     }
 
 }
