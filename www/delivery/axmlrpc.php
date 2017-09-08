@@ -247,6 +247,10 @@ $oxPearPath = MAX_PATH . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'pe
 $oxZendPath = MAX_PATH . DIRECTORY_SEPARATOR . 'lib';
 set_include_path($oxPearPath . PATH_SEPARATOR . $oxZendPath . PATH_SEPARATOR . get_include_path());
 }
+function RV_getContainer()
+{
+return $GLOBALS['_MAX']['DI'];
+}
 
 OX_increaseMemoryLimit(OX_getMinimumRequiredMemory());
 if (!defined('E_DEPRECATED')) {
@@ -255,7 +259,12 @@ define('E_DEPRECATED', 0);
 setupServerVariables();
 setupDeliveryConfigVariables();
 $conf = $GLOBALS['_MAX']['CONF'];
-include MAX_PATH.'/lib/vendor/autoload.php';
+
+require_once __DIR__ . '/composer/autoload_real.php';
+
+return ComposerAutoloaderInit3600c68d0d7c21e08fb865e82dd334c1::getLoader();
+
+$GLOBALS['_MAX']['DI'] = new \RV\Container($GLOBALS['_MAX']['CONF'], true);
 $GLOBALS['_OA']['invocationType'] = array_search(basename($_SERVER['SCRIPT_FILENAME']), $conf['file']);
 if (!empty($conf['debug']['production'])) {
 error_reporting(E_ALL & ~(E_NOTICE | E_WARNING | E_DEPRECATED | E_STRICT));
@@ -3113,7 +3122,7 @@ require_once OX_PATH . '/lib/pear/PEAR.php';
 
 class MAX
 {
-function errorConstantToString($errorCode)
+public static function errorConstantToString($errorCode)
 {
 $aErrorCodes = array(
 MAX_ERROR_INVALIDARGS => 'invalid arguments',
@@ -3144,7 +3153,7 @@ return strtoupper($aErrorCodes[$errorCode]);
 return 'PEAR';
 }
 }
-function errorObjToString($oError, $additionalInfo = null)
+public static function errorObjToString($oError, $additionalInfo = null)
 {
 $aConf = $GLOBALS['_MAX']['CONF'];
 $message = htmlspecialchars($oError->getMessage());
@@ -3168,7 +3177,7 @@ $output = <<<EOF
 EOF;
 return $output;
 }
-function raiseError($message, $type = null, $behaviour = null)
+public static function raiseError($message, $type = null, $behaviour = null)
 {
 if ($behaviour == PEAR_ERROR_DIE) {
 $errorType = MAX::errorConstantToString($type);
@@ -3179,7 +3188,7 @@ exit();
 $error = PEAR::raiseError($message, $type, $behaviour);
 return $error;
 }
-function constructURL($type, $file = null)
+public static function constructURL($type, $file = null)
 {
 $aConf = $GLOBALS['_MAX']['CONF'];
 if ($type == MAX_URL_ADMIN) {
@@ -3349,7 +3358,8 @@ $time = (float)$usec + (float)$sec;
 $random = MAX_getRandomNumber();
 global $cookie_random;  $cookie_random = $random;
 $clickUrl = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick, true);
-$urlPrefix = substr(MAX_commonGetDeliveryUrl(), 0, -1);
+$urlPrefix = rtrim(MAX_commonGetDeliveryUrl(), '/');
+$imgUrlPrefix = rtrim(_adRenderBuildImageUrlPrefix(), '/');
 $code = str_replace('{clickurl}', $clickUrl, $code); 
 if (strpos($code, '{logurl}') !== false) {
 $logUrl = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&');
@@ -3357,13 +3367,19 @@ $code = str_replace('{logurl}', $logUrl, $code);  }
 if (strpos($code, '{logurl_enc}') !== false) {
 $logUrl_enc = urlencode(_adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&'));
 $code = str_replace('{logurl_enc}', $logUrl_enc, $code);  }
+if (strpos($code, '{imgurl}') !== false) {
+$imgUrl = _adRenderBuildImageUrlPrefix();
+$code = str_replace('{imgurl}', $imgUrl, $code);  }
+if (strpos($code, '{imgurl_enc}') !== false) {
+$imgUrl_enc = urlencode(_adRenderBuildImageUrlPrefix());
+$code = str_replace('{imgurl_enc}', $logUrl, $code);  }
 if (strpos($code, '{clickurlparams}')) {
 $maxparams = _adRenderBuildParams($aBanner, $zoneId, $source, urlencode($ct0), $logClick, true);
 $code = str_replace('{clickurlparams}', $maxparams, $code);  }
-$search = array('{timestamp}','{random}','{target}','{url_prefix}','{bannerid}','{zoneid}','{source}', '{pageurl}', '{width}', '{height}', '{websiteid}', '{campaignid}', '{advertiserid}', '{referer}');
+$search = array('{timestamp}','{random}','{target}','{url_prefix}','{img_url_prefix}','{bannerid}','{zoneid}','{source}', '{pageurl}', '{width}', '{height}', '{websiteid}', '{campaignid}', '{advertiserid}', '{referer}');
 $locReplace = isset($GLOBALS['loc']) ? $GLOBALS['loc'] : '';
 $websiteid = (!empty($aBanner['affiliate_id'])) ? $aBanner['affiliate_id'] : '0';
-$replace = array($time, $random, $target, $urlPrefix, $aBanner['ad_id'], $zoneId, $source, urlencode($locReplace), $aBanner['width'], $aBanner['height'], $websiteid, $aBanner['campaign_id'], $aBanner['client_id'], $referer);
+$replace = array($time, $random, $target, $urlPrefix, $imgUrlPrefix, $aBanner['ad_id'], $zoneId, $source, urlencode($locReplace), $aBanner['width'], $aBanner['height'], $websiteid, $aBanner['campaign_id'], $aBanner['client_id'], $referer);
 preg_match_all('#{([a-zA-Z0-9_]*?)(_enc)?}#', $code, $macros);
 for ($i=0;$i<count($macros[1]);$i++) {
 if (!in_array($macros[0][$i], $search) && isset($_REQUEST[$macros[1][$i]])) {
