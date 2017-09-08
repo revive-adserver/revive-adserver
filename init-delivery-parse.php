@@ -26,6 +26,16 @@
  */
 function parseDeliveryIniFile($configPath = null, $configFile = null, $sections = true)
 {
+    $fixMysqli = function($conf) {
+        if ('mysql' === $conf['database']['type'] && !extension_loaded('mysql') && extension_loaded('mysqli')) {
+            $conf['database']['type'] = 'mysqli';
+        } elseif ('mysqli' === $conf['database']['type'] && !extension_loaded('mysqli') && extension_loaded('mysql')) {
+            $conf['database']['type'] = 'mysql';
+        }
+
+        return $conf;
+    };
+
     // Set up the configuration .ini file path location
     if (!$configPath) {
         $configPath = MAX_PATH . '/var';
@@ -42,7 +52,7 @@ function parseDeliveryIniFile($configPath = null, $configFile = null, $sections 
         $conf = mergeConfigFiles($realconf, $conf);
     }
     if (!empty($conf)) {
-        return $conf;
+        return $fixMysqli($conf);
     } elseif ($configFile === '.plugin') {
         // For plugins, if no configuration file is found, return the sane default values
         $pluginType = basename($configPath);
@@ -63,7 +73,7 @@ function parseDeliveryIniFile($configPath = null, $configFile = null, $sections 
         $conf = @parse_ini_file(MAX_PATH . '/var/' . $conf['realConfig'] . '.conf.php', $sections);
     }
     if (!empty($conf)) {
-        return $conf;
+        return $fixMysqli($conf);
     }
     // Check to ensure Max hasn't been installed
     if (file_exists(MAX_PATH . '/var/INSTALLED')) {

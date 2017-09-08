@@ -67,6 +67,10 @@ What's New in Revive Adserver 4.1.0
  * Added (beta) support for HTML5 banners, allowing the upload of
    IAB compliant ZIP files.
 
+ * Added automatic switch to mysqli when mysql is selected as database type
+   in the configuration file but the extension is not available, or the
+   other way around.
+
  Bug Fixes
  ---------
 

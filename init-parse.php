@@ -31,6 +31,16 @@
  */
 function parseIniFile($configPath = null, $configFile = null, $sections = true, $type = '.php')
 {
+    $fixMysqli = function($conf) {
+        if ('mysql' === $conf['database']['type'] && !extension_loaded('mysql') && extension_loaded('mysqli')) {
+            $conf['database']['type'] = 'mysqli';
+        } elseif ('mysqli' === $conf['database']['type'] && !extension_loaded('mysqli') && extension_loaded('mysql')) {
+            $conf['database']['type'] = 'mysql';
+        }
+
+        return $conf;
+    };
+
     // Set up the configuration .ini file path location
     if (is_null($configPath)) {
         $configPath = MAX_PATH . '/var';
@@ -79,7 +89,7 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true, 
         // Is this a real config file?
         if (!isset($conf['realConfig'])) {
             // Yes, return the parsed configuration file
-            return $conf;
+            return $fixMysqli($conf);
         }
         // Parse and return the real configuration .ini file
         if (file_exists($configPath . '/' . $conf['realConfig'] . $configFile . '.conf' . $type)) {
@@ -87,7 +97,7 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true, 
             $mergedConf = mergeConfigFiles($realConfig, $conf);
             // if not multiple levels of configs
             if (!isset($mergedConf['realConfig'])) {
-                return $mergedConf;
+                return $fixMysqli($mergedConf);
             }
         }
     } elseif ($configFile === '.plugin') {
@@ -108,7 +118,7 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true, 
         // Is this a real config file?
         if (!isset($conf['realConfig'])) {
             // Yes, return the parsed configuration file
-            return $conf;
+            return $fixMysqli($conf);
         }
         // Parse and return the real configuration .ini file
         if (file_exists($configPath . '/' . $conf['realConfig'] . $configFile . '.conf' . $type)) {
@@ -116,7 +126,7 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true, 
             $mergedConf = mergeConfigFiles($realConfig, $conf);
             // if not multiple levels of configs
             if (!isset($mergedConf['realConfig'])) {
-                return $mergedConf;
+                return $fixMysqli($mergedConf);
             }
         }
     }

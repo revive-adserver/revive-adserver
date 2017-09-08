@@ -19,6 +19,7 @@ require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
 require_once MAX_PATH . '/lib/OA/Preferences.php';
 require_once MAX_PATH . '/lib/OA/Permission.php';
 require_once MAX_PATH . '/lib/OA/Auth.php';
+
 Language_Loader::load('default');
 
 $oDbh = OA_DB::singleton();
@@ -29,14 +30,16 @@ if (PEAR::isError($oDbh))
         phpAds_PageHeader(OA_Auth::login($checkRedirectFunc));
         phpAds_ShowBreak();
         echo "<br /><img src='" . OX::assetPath() . "/images/info.gif' align='absmiddle'>&nbsp;";
-        echo $strNoAdminInterface;
+        echo $GLOBALS['strNoAdminInterface'];
         phpAds_PageFooter();
         exit;
     }
-    $translation = new OX_Translation();
-    $translation->htmlSpecialChars = true;
-    $translated_message = $translation->translate ($GLOBALS['strErrorCantConnectToDatabase'], array(PRODUCT_NAME));
-    phpAds_Die ($GLOBALS['strErrorDatabaseConnetion'], $translated_message);
+
+    phpAds_Die ($GLOBALS['strErrorDatabaseConnection'], sprintf(
+        $GLOBALS['strErrorCantConnectToDatabase'],
+        PRODUCT_NAME,
+        $GLOBALS['_MAX']['CONF']['database']['type'])
+    );
 }
 
 // First thing to do is clear the $session variable to

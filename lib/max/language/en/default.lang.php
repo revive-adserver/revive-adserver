@@ -832,15 +832,15 @@ $GLOBALS['strThirdPartyComment'] = "
   *";
 
 // Errors
-$GLOBALS['strErrorDatabaseConnetion'] = "Database connection error.";
-$GLOBALS['strErrorCantConnectToDatabase'] = "A fatal error occurred %s can't connect to the database. Because
+$GLOBALS['strErrorDatabaseConnection'] = "Database connection error.";
+$GLOBALS['strErrorCantConnectToDatabase'] = "A fatal error occurred %1\$s can't connect to the database. Because
                                                    of this it isn't possible to use the administrator interface. The delivery
                                                    of banners might also be affected. Possible reasons for the problem are:
                                                    <ul>
                                                      <li>The database server isn't functioning at the moment</li>
                                                      <li>The location of the database server has changed</li>
                                                      <li>The username or password used to contact the database server are not correct</li>
-                                                     <li>PHP has not loaded the MySQL Extension</li>
+                                                     <li>PHP has not loaded the <i>%2\$s</i> extension</li>
                                                    </ul>";
 $GLOBALS['strNoMatchesFound'] = "No matches were found";
 $GLOBALS['strErrorOccurred'] = "An error occurred";
