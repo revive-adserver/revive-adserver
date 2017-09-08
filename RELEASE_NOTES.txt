@@ -87,6 +87,10 @@ What's New in Revive Adserver 4.1.0
 
  * Fixed incompatibility with PHP 7.1+ during delivery of Video Ads.
 
+ * Fixed an issue with Google AdSense and Yahoo! 3rd party tag click tracking
+   options still available when upgrading from a previous version even though
+   they had been removed from the plugin.
+
  Non-Backwards Compatible Changes
  --------------------------------
 
