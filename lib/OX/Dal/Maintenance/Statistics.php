@@ -343,7 +343,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
         // Prepare the select column statements array
         $aSelectColumnStatements = array();
         foreach ($aMigrationDetails['destination'] as $key => $value) {
-            $aSelectColumnStatements[] = $this->oDbh->quoteIdentifier($aMigrationDetails['source'][$key], true) . ' AS ' . $this->oDbh->quoteIdentifier($value, true);
+            $aSelectColumnStatements[] = $this->oDbh->quoteIdentifier($aMigrationDetails['source'][$key]) . ' AS ' . $this->oDbh->quoteIdentifier($value, true);
         }
         foreach ($aMigrationDetails['extrasDestination'] as $key => $value) {
             if (is_numeric($aMigrationDetails['extrasValue'][$key])) {
@@ -513,7 +513,7 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                 $aSelectColumnStatements[] = $this->oDbh->quote($aRow[$value], 'text') . ' AS ' . $this->oDbh->quoteIdentifier($value, true);
             }
             foreach ($aMigrationDetails['destination'] as $key => $value) {
-                $aSelectColumnStatements[] = $this->oDbh->quoteIdentifier($aMigrationDetails['source'][$key], true) . ' AS ' . $this->oDbh->quoteIdentifier($value, true);
+                $aSelectColumnStatements[] = $this->oDbh->quoteIdentifier($aMigrationDetails['source'][$key]) . ' AS ' . $this->oDbh->quoteIdentifier($value, true);
             }
 
             // Prepare the where statementes array

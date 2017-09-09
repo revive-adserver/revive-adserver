@@ -91,6 +91,10 @@ What's New in Revive Adserver 4.1.0
    options still available when upgrading from a previous version even though
    they had been removed from the plugin.
 
+ * Fixed incompatibility with MySQL 8 (MariaDB 10.2, etc.), as "window" has
+   become a reserved word, but wasn't properly quoted as identifier during
+   maintenance when using conversions.
+
  Non-Backwards Compatible Changes
  --------------------------------
 
