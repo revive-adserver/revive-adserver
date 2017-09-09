@@ -11,6 +11,7 @@ phpinfo.php
 /var/*.xml
 /var/cache/*.html
 /var/cache/*.php
+/var/cache/*.meta
 /var/cache/cache_*
 /var/cache/minify_*
 /var/plugins/DataObjects/*.bak

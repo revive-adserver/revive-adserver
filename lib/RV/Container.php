@@ -12,19 +12,14 @@
 
 namespace RV;
 
-use League\Flysystem\Adapter;
-use League\Flysystem\Filesystem;
 use Psr\Container\ContainerInterface as PsrContainerInterface;
-use RV\DependencyInjection\Compiler\Html5ZipManagerPass;
-use RV\Manager\Html5ZipManager;
-use RV\Parser\Html5\AdobeEdgeParser;
-use RV\Parser\Html5\MetaParser;
-use Symfony\Component\Config\ConfigCache;
-use Symfony\Component\DependencyInjection\Compiler\PassConfig;
+use RV\Config\ConfigCache;
+use RV\Config\AdminServiceConfigurator;
+use Symfony\Component\DependencyInjection\Config\ContainerParametersResource;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
-use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Component\Filesystem\Exception\IOException;
 
 class Container implements PsrContainerInterface
 {
@@ -39,17 +34,26 @@ class Container implements PsrContainerInterface
      * @param array  $aConf
      * @param bool   $isDelivery
      * @param string $hostname
-     * @param bool   $isDebug
      */
-    public function __construct(array $aConf, $isDelivery = false, $hostname = null, $isDebug = false)
+    public function __construct(array $aConf, $isDelivery = false, $hostname = null)
     {
-        $containerConfigCache = $this->getConfigCache($hostname, $isDelivery, $isDebug);
+        $container = $this->initContainerWithParameters($aConf);
 
-        if ('test' === $hostname || !$containerConfigCache->isFresh()) {
-            $this->rebuildCachedContainer($containerConfigCache, $aConf);
+        $configCache = $this->getConfigCache($hostname, $isDelivery);
+
+        if ('test' === $hostname || !$configCache->isFresh()) {
+            try {
+                $this->rebuildCachedContainer(
+                    self::addServices($container, $isDelivery),
+                    $configCache
+                );
+            } catch (IOException $e) {
+                // The cache couldn't be written, keep the builder instead
+                return;
+            }
         }
 
-        require_once $containerConfigCache->getPath();
+        require_once $configCache->getPath();
         $this->container = new \ReviveAdserverCachedContainer();
     }
 
@@ -72,140 +76,97 @@ class Container implements PsrContainerInterface
     /**
      * Get the ConfigCache for the specified hostname.
      *
-     * @param string $hostname
-     * @param bool   $isDelivery
-     * @param bool   $isDebug
+     * @param string             $hostname
+     * @param bool               $isDelivery
      *
      * @return ConfigCache
      */
-    public function getConfigCache($hostname = "", $isDelivery = false, $isDebug = false)
+    public function getConfigCache($hostname = "", $isDelivery = false)
     {
         $filename =
             MAX_PATH.
             '/var/cache/'.
             ($hostname ?: OX_getHostName()).
             ($isDelivery ? '_delivery' : '_admin').
-            ($isDebug ? '_debug' : '').
             '_container.php';
 
-        return new ConfigCache($filename, $isDebug);
+        return new ConfigCache($filename, $this->container);
     }
 
     /**
      * Rebuilds the container cache file.
      *
-     * @param ConfigCache $containerConfigCache
-     * @param array       $aConf
-     * @param bool        $isDelivery
-     */
-    public function rebuildCachedContainer(ConfigCache $containerConfigCache, array $aConf, $isDelivery = false)
-    {
-        $containerBuilder = $this->buildContainer($aConf);
-        $containerBuilder->compile();
-
-        $dumper = new PhpDumper($containerBuilder);
-        $containerConfigCache->write(
-            $dumper->dump(array('class' => 'ReviveAdserverCachedContainer')),
-            $containerBuilder->getResources()
-        );
-    }
-
-    /**
-     * Guess what, this builds the container.
+     * @param ContainerBuilder $container
+     * @param ConfigCache      $configCache
      *
-     * @param array $aConf
-     * @param bool  $isDelivery
-     *
-     * @return ContainerBuilder
+     * @return ContainerInterface
      */
-    private function buildContainer(array $aConf, $isDelivery = false)
+    public function rebuildCachedContainer(ContainerBuilder $container, ConfigCache $configCache)
     {
-        $container = new ContainerBuilder();
+        $container->compile();
 
-        self::setParametersFromConfArray($container, $aConf);
-
-        $this->addDeliveryServices($container);
-
-        if (!$isDelivery) {
-            $this->addAdminServices($container);
+        $dumper = new PhpDumper($container);
+        try {
+            $configCache->write(
+                $dumper->dump(array('class' => 'ReviveAdserverCachedContainer')),
+                $container->getResources()
+            );
+        } catch (\Exception $e) {
+            // Ignore issues
         }
 
         return $container;
     }
 
     /**
-     * Adds services used both by delivery and admin.
+     * Build a basinc container, loading parameters form the config file.
      *
-     * @param ContainerBuilder $container
-     *
-     * @return ContainerBuilder
-     */
-    private function addDeliveryServices(ContainerBuilder $container)
-    {
-        // Nothing just yet
-
-        return $container;
-    }
-
-    /**
-     * Adds services used only by admin that shouldn't be loaded during delivery.
-     *
-     * @param ContainerBuilder $container
-     *
-     * @return ContainerBuilder
-     */
-    private function addAdminServices(ContainerBuilder $container)
-    {
-        $container
-            ->register('filesystem.adapter.local', Adapter\Local::class)
-            ->addArgument('%store.webDir%')
-            ->addArgument(0);
-
-        $container
-            ->register('filesystem.adapter.ftp', Adapter\Ftp::class)
-            ->addArgument([
-                'host' => '%store.ftpHost%',
-                'username' => '%store.ftpUsername%',
-                'password' => '%store.ftpPassword%',
-                'root' => '%store.ftpPath%',
-                'passive' => '%store.ftpPassive%',
-            ]);
-
-        $container
-            ->register('filesystem', Filesystem::class)
-            ->addArgument(new Reference($container->getParameter('store.mode') ?
-                'filesystem.adapter.ftp' : // store.mode 1: FTP
-                'filesystem.adapter.local' // store.mode 0: Local
-            ));
-
-        $container
-            ->addCompilerPass(new Html5ZipManagerPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 0)
-            ->register('html5.zip.manager', Html5ZipManager::class)
-            ->addArgument(new Reference('filesystem'));
-
-        $container
-            ->register('html5.parser.meta', MetaParser::class)
-            ->addTag('html5.parser', ['priority' => 0]);
-
-        $container
-            ->register('html5.parser.adobe_edge', AdobeEdgeParser::class)
-            ->addTag('html5.parser', ['priority' => 5]);
-
-        return $container;
-    }
-
-    /**
-     * Copies the configuration array into DI parameters as "section.key".
-     *
-     * @param ContainerInterface $container
      * @param array $aConf
+     *
+     * @return ContainerBuilder
      */
-    private static function setParametersFromConfArray(ContainerInterface $container, array $aConf)
+    private function initContainerWithParameters(array $aConf)
     {
+        $this->container = new ContainerBuilder();
+
+        $paramResource = $this->getParametersResource($aConf);
+
+        foreach ($paramResource->getParameters() as $key => $value) {
+            $this->container->setParameter($key, $value);
+        }
+
+        return $this->container->addResource($paramResource);
+    }
+
+    /**
+     * @param array $aConf
+     *
+     * @return ContainerParametersResource
+     */
+    private function getParametersResource(array $aConf)
+    {
+        $parameters = [];
         foreach ($aConf as $section => $array) {
             foreach ($array as $key => $value) {
-                $container->setParameter("{$section}.{$key}", $value);
+                $parameters["{$section}.{$key}"] = $value;
             }
         }
+
+        return new ContainerParametersResource($parameters);
+    }
+
+    /**
+     * @param ContainerBuilder $container
+     * @param bool             $isDelivery
+     *
+     * @return ContainerBuilder
+     */
+    private static function addServices(ContainerBuilder $container, $isDelivery)
+    {
+        if (!$isDelivery) {
+            $container = AdminServiceConfigurator::configure($container);
+        }
+
+        return $container;
     }
 }

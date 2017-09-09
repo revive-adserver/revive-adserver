@@ -31,7 +31,7 @@ if (!empty($GLOBALS['_MAX']['CONF'])) {
     $GLOBALS['_MAX']['CONF']['store']['webDir'] = MAX_PATH.'/var';
 
     // Set up DI container
-    $GLOBALS['_MAX']['DI'] = new \RV\Container($GLOBALS['_MAX']['CONF'], false, 'test', true);
+    $GLOBALS['_MAX']['DI'] = new \RV\Container($GLOBALS['_MAX']['CONF'], false, 'test');
 }
 
 /**
