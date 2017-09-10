@@ -267,12 +267,7 @@ define('E_DEPRECATED', 0);
 setupServerVariables();
 setupDeliveryConfigVariables();
 $conf = $GLOBALS['_MAX']['CONF'];
-
-require_once __DIR__ . '/composer/autoload_real.php';
-
-return ComposerAutoloaderInit3600c68d0d7c21e08fb865e82dd334c1::getLoader();
-
-$GLOBALS['_MAX']['DI'] = new \RV\Container($GLOBALS['_MAX']['CONF'], true);
+include MAX_PATH.'/lib/vendor/autoload.php';
 $GLOBALS['_OA']['invocationType'] = array_search(basename($_SERVER['SCRIPT_FILENAME']), $conf['file']);
 if (!empty($conf['debug']['production'])) {
 error_reporting(E_ALL & ~(E_NOTICE | E_WARNING | E_DEPRECATED | E_STRICT));
