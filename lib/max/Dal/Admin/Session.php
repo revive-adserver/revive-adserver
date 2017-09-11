@@ -72,14 +72,24 @@ class MAX_Dal_Admin_Session extends MAX_Dal_Common
         $doSession = OA_Dal::staticGetDO('session', $session_id);
         if ($doSession) {
             $doSession->sessiondata = $serialized_session_data;
-            $doSession->user_id = $user_id;
+
+            // We could be upgrading from a version that doesn't have the user_id field
+            if (!defined('phpAds_installing')) {
+                $doSession->user_id = $user_id;
+            }
+
             $doSession->update();
         } else {
             $doSession = OA_Dal::factoryDO('session');
             // It's an md5, so 32 chars max
             $doSession->sessionid = substr($session_id, 0, 32);
             $doSession->sessiondata = $serialized_session_data;
-            $doSession->user_id = $user_id;
+
+            // We could be upgrading from a version that doesn't have the user_id field
+            if (!defined('phpAds_installing')) {
+                $doSession->user_id = $user_id;
+            }
+
             $doSession->insert();
         }
     }
