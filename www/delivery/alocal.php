@@ -3076,19 +3076,6 @@ $limitations = OA_Delivery_Cache_store_return($sName, $limitations);
 }
 return $limitations;
 }
-function MAX_cacheGetGoogleJavaScript($cached = true)
-{
-$sName = OA_Delivery_Cache_getName(__FUNCTION__);
-if (!$cached || ($output = OA_Delivery_Cache_fetch($sName)) === false) {
-$file = '/lib/max/Delivery/google.php';
-if(!isset($GLOBALS['_MAX']['FILES'][$file])) {
-include MAX_PATH . $file;
-}
-$output = MAX_googleGetJavaScript();
-$output = OA_Delivery_Cache_store_return($sName, $output);
-}
-return $output;
-}
 function OA_cacheGetPublisherZones($affiliateid, $cached = true)
 {
 $sName = OA_Delivery_Cache_getName(__FUNCTION__, $affiliateid);
