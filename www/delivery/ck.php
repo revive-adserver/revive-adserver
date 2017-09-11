@@ -2158,6 +2158,9 @@ OX_Delivery_Common_hook('logRequest', array($adId, $zoneId, $aAd, _viewersHostOk
 function MAX_Delivery_log_logAdImpression($adId, $zoneId)
 {
 if (empty($GLOBALS['_MAX']['CONF']['logging']['adImpressions'])) { return true; }
+if (MAX_commonIsAdActionBlockedBecauseInactive($adId)) {
+return true;
+}
 OX_Delivery_Common_hook('logImpression', array($adId, $zoneId, _viewersHostOkayToLog($adId, $zoneId)));
 }
 function MAX_Delivery_log_logAdClick($adId, $zoneId)
@@ -2632,6 +2635,16 @@ $GLOBALS['_MAX']['CONF']['var']['blockLoggingClick'],
 );
 if (strtolower($charset) == 'unicode') { $charset = 'utf-8'; }
 }
+function MAX_commonIsAdActionBlockedBecauseInactive($adId)
+{
+if (!empty($GLOBALS['_MAX']['CONF']['logging']['blockInactiveBanners'])) {
+$aAdInfo = MAX_cacheGetAd($adId);
+if ($aAdInfo['status'] != OA_ENTITY_STATUS_RUNNING || $aAdInfo['campaign_status'] != OA_ENTITY_STATUS_RUNNING) {
+return true;
+}
+}
+return false;
+}
 function MAX_commonDisplay1x1()
 {
 MAX_header('Content-Type: image/gif');
@@ -3076,19 +3089,6 @@ $limitations = OA_Delivery_Cache_store_return($sName, $limitations);
 }
 return $limitations;
 }
-function MAX_cacheGetGoogleJavaScript($cached = true)
-{
-$sName = OA_Delivery_Cache_getName(__FUNCTION__);
-if (!$cached || ($output = OA_Delivery_Cache_fetch($sName)) === false) {
-$file = '/lib/max/Delivery/google.php';
-if(!isset($GLOBALS['_MAX']['FILES'][$file])) {
-include MAX_PATH . $file;
-}
-$output = MAX_googleGetJavaScript();
-$output = OA_Delivery_Cache_store_return($sName, $output);
-}
-return $output;
-}
 function OA_cacheGetPublisherZones($affiliateid, $cached = true)
 {
 $sName = OA_Delivery_Cache_getName(__FUNCTION__, $affiliateid);
@@ -3277,11 +3277,8 @@ $creativeId[$i] = intval($creativeId[$i]);
 $creativeId[$i] = 0;
 }
 if (($adId[$i] > 0 || $adId[$i] == -1) && ($conf['logging']['adClicks']) && !(isset($_GET['log']) && ($_GET['log'] == 'no'))) {
-if (isset($GLOBALS['conf']['logging']['blockInactiveBannerClicks'])) {
-$aAdInfo = MAX_cacheGetAd($adId[$i]);
-if ($aAdInfo['status'] != OA_ENTITY_STATUS_RUNNING || $aAdInfo['campaign_status'] != OA_ENTITY_STATUS_RUNNING) {
+if (MAX_commonIsAdActionBlockedBecauseInactive($adId[$i])) {
 return;
-}
 }
 if (!MAX_Delivery_log_isClickBlocked($adId[$i], $aBlockLoggingClick)) {
 if (isset($GLOBALS['conf']['logging']['blockAdClicksWindow']) && $GLOBALS['conf']['logging']['blockAdClicksWindow'] != 0) {
