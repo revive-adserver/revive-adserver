@@ -92,6 +92,9 @@
                 <th class='{ox_column_class item=name order=up default=1}'>
                     {ox_column_title item=name order=up default=1 str=Name url=campaign-banners.php}
                 </th>
+                <th class='{ox_column_class item=updated order=up default=0}'>
+                    {ox_column_title item=updated order=up default=0 str=Updated url=campaign-banners.php}
+                </th>
                 <th>
                     &nbsp;
                 </th>
@@ -157,6 +160,9 @@
                       <span class='inlineIcon {ox_banner_icon type=$banner.type active=$banner.active}'>{$banner.description|escape:html}</span>
                     {/if}
                   {ox_entity_id type="Banner" id=$bannerId}
+                </td>
+                <td>
+                    {ox_column_updated updated=$banner.updated}
                 </td>
                 <td>
                     {$banner.preview}

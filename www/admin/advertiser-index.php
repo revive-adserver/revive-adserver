@@ -22,6 +22,8 @@ require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/OX/Admin/UI/ViewHooks.php';
 
+require_once RV_PATH . '/lib/RV/Admin/DateTimeFormat.php';
+
 function _isBannerAssignedToCampaign($aBannerData)
 {
     return $aBannerData['campaignid'] > 0;
@@ -110,14 +112,21 @@ elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     }
 }
 
+if (!empty($clients)) {
+    foreach ($clients as $ckey => $client) {
+        if (!empty($client['updated'])) {
+            $client['updated'] = RV_Admin_DateTimeFormat::formatUTCDateTime($client['updated']);
+        }
+    }
+}
+
 $aCount = array(
     'advertisers'        => count($clients),
     'advertisers_hidden' => 0
 );
 
 
-if ($hideinactive && !empty($clients) && !empty($campaigns) &&
-    !empty($banners)) {
+if ($hideinactive && !empty($clients) && !empty($campaigns) && !empty($banners)) {
 
     // Build Tree
     foreach ($banners as $bkey => $banner) {

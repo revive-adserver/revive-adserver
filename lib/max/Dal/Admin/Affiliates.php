@@ -17,8 +17,9 @@ class MAX_Dal_Admin_Affiliates extends MAX_Dal_Common
     var $table = 'affiliates';
 
     var $orderListName = array(
-        'name' => 'name',
-        'id'   => 'affiliateid'
+        'name'    => 'name',
+        'id'      => 'affiliateid',
+        'updated' => 'updated',
     );
 
 	function getAffiliateByKeyword($keyword, $agencyId = null)
@@ -64,7 +65,8 @@ class MAX_Dal_Admin_Affiliates extends MAX_Dal_Common
             SELECT
                 w.affiliateid AS website_id,
                 w.website     AS website_url,
-                w.name        AS website_name
+                w.name        AS website_name,
+                w.updated     AS updated
             FROM
                 {$tableW} AS w
             WHERE
@@ -76,6 +78,7 @@ class MAX_Dal_Admin_Affiliates extends MAX_Dal_Common
             $aWebsiteZone = $rsAffiliates->toArray();
             $aWebsitesAndZones[$aWebsiteZone['website_id']]['name'] = $aWebsiteZone['website_name'];
             $aWebsitesAndZones[$aWebsiteZone['website_id']]['url'] =  $aWebsiteZone['website_url'];
+            $aWebsitesAndZones[$aWebsiteZone['website_id']]['updated'] =  $aWebsiteZone['updated'];
             $aWebsitesAndZones[$aWebsiteZone['website_id']]['zones'] = array();
         }
         

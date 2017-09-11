@@ -17,6 +17,8 @@ require_once '../../init.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 
+require_once RV_PATH . '/lib/RV/Admin/DateTimeFormat.php';
+
 // Register input variables
 phpAds_registerGlobalUnslashed('hideinactive', 'listorder', 'orderdirection',
                                'pubid', 'url', 'formId');
@@ -63,6 +65,14 @@ $oTpl = new OA_Admin_Template('website-index.html');
 
 $dalAffiliates = OA_Dal::factoryDAL('affiliates');
 $aWebsitesZones = $dalAffiliates->getWebsitesAndZonesByAgencyId();
+
+if (!empty($aWebsitesZones)) {
+    foreach ($aWebsitesZones as $wkey => $aWebsite) {
+        if (!empty($aWebsite['updated'])) {
+            $aWebsitesZones[$wkey]['updated'] = RV_Admin_DateTimeFormat::formatUTCDateTime($aWebsite['updated']);
+        }
+    }
+}
 
 $itemsPerPage = 250;
 $oPager = OX_buildPager($aWebsitesZones, $itemsPerPage);

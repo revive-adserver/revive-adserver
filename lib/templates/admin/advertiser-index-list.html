@@ -90,6 +90,9 @@
                 <th class='{ox_column_class item=name order=up default=1}'>
                     {ox_column_title item=name order=up default=1 str=Name url=advertiser-index.php}
                 </th>
+                <th class='{ox_column_class item=updated order=up default=0}'>
+                    {ox_column_title item=updated order=up default=0 str=Updated url=advertiser-index.php}
+                </th>
                 <th class='last alignRight'>&nbsp;
 
                 </th>
@@ -145,6 +148,9 @@
                     <a href='advertiser-edit.php?clientid={$clientId}' class='inlineIcon iconAdvertiser'>{$client.clientname|escape:html}</a>
                     {ox_entity_id type="Advertiser" id=$clientId}
                   {/if}
+                </td>
+                <td>
+                    {ox_column_updated updated=$client.updated}
                 </td>
                 <td class='alignRight horizontalActions'>
                     <ul class='rowActions'>

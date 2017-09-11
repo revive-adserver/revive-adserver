@@ -22,8 +22,9 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
     var $table = 'banners';
 
     var $orderListName = array(
-        'name' => 'description',
-        'id'   => 'bannerid',
+        'name'    => 'description',
+        'id'      => 'bannerid',
+        'updated' => 'updated',
     );
 
     /**

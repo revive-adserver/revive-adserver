@@ -64,6 +64,8 @@ class OA_Admin_Template extends Smarty
 
         $this->register_function('ox_column_title', array('OA_Admin_Template',  '_function_ox_column_title'));
         $this->register_function('ox_column_class', array('OA_Admin_Template',  '_function_ox_column_class'));
+        $this->register_function('ox_column_updated', array('OA_Admin_Template',  '_function_ox_column_updated'));
+
         $this->register_function('ox_campaign_type', array('OA_Admin_Template',  '_function_ox_campaign_type'));
         $this->register_function('ox_campaign_status', array('OA_Admin_Template',  '_function_ox_campaign_status'));
         $this->register_function('ox_campaign_icon', array('OA_Admin_Template',  '_function_ox_campaign_icon'));
@@ -72,6 +74,7 @@ class OA_Admin_Template extends Smarty
         $this->register_function('ox_zone_size', array('OA_Admin_Template',  '_function_ox_zone_size'));
         $this->register_function('ox_zone_icon', array('OA_Admin_Template',  '_function_ox_zone_icon'));
         $this->register_function('ox_tracker_type', array('OA_Admin_Template',  '_function_ox_tracker_type'));
+
         $this->register_function('ox_entity_id', array('OA_Admin_Template',  '_function_ox_entity_id'));
 
         $this->register_function('boldSearchPhrase', array('OA_Admin_Template', '_function_boldSearchPhrase'));
@@ -440,6 +443,16 @@ class OA_Admin_Template extends Smarty
         }
     }
 
+    function _function_ox_column_updated($aParams, &$smarty)
+    {
+        if (isset($aParams['updated'])) {
+            $updated = $aParams['updated'];
+            return "<span class='updated'>".trim($updated). "</span>";
+        } else {
+            $smarty->trigger_error("t: missing 'updated' parameter");
+        }
+    }
+
     function _function_ox_banner_size($aParams, &$smarty)
     {
         global $phpAds_IAB;
@@ -558,30 +571,30 @@ class OA_Admin_Template extends Smarty
         }
     }
 
-		function _function_ox_campaign_type($aParams, &$smarty)
-		{
-			if (isset($aParams['type'])) {
-				$type = $aParams['type'];
-				$translation = new OX_Translation ();
+    function _function_ox_campaign_type($aParams, &$smarty)
+    {
+        if (isset($aParams['type'])) {
+            $type = $aParams['type'];
+            $translation = new OX_Translation();
 
-                if ($type == OX_CAMPAIGN_TYPE_OVERRIDE) {
-					return "<span class='campaign-type campaign-override'>" . $translation->translate('Override') . "</span>";
-                } elseif ($type == OX_CAMPAIGN_TYPE_CONTRACT_NORMAL) {
-					return "<span class='campaign-type campaign-contract'>" . $translation->translate('Contract') . "</span>";
-				} elseif ($type == OX_CAMPAIGN_TYPE_REMNANT || $type == OX_CAMPAIGN_TYPE_ECPM){
-					return "<span class='campaign-type campaign-remnant'>" . $translation->translate('Remnant') . "</span>";
-                }
-                return "<span class='campaign-type campaign-contract'>".$type. "</span>";
-			} else {
-				$smarty->trigger_error("t: missing 'type' parameter");
-			}
-		}
+            if ($type == OX_CAMPAIGN_TYPE_OVERRIDE) {
+                return "<span class='campaign-type campaign-override'>" . $translation->translate('Override') . "</span>";
+            } elseif ($type == OX_CAMPAIGN_TYPE_CONTRACT_NORMAL) {
+                return "<span class='campaign-type campaign-contract'>" . $translation->translate('Contract') . "</span>";
+            } elseif ($type == OX_CAMPAIGN_TYPE_REMNANT || $type == OX_CAMPAIGN_TYPE_ECPM){
+                return "<span class='campaign-type campaign-remnant'>" . $translation->translate('Remnant') . "</span>";
+            }
+            return "<span class='campaign-type campaign-contract'>".$type. "</span>";
+        } else {
+            $smarty->trigger_error("t: missing 'type' parameter");
+        }
+    }
 
     function _function_ox_campaign_status($aParams, &$smarty)
     {
         if (isset($aParams['status'])) {
             $status = $aParams['status'];
-            $translation = new OX_Translation ();
+            $translation = new OX_Translation();
 
             switch ($status) {
                 case OA_ENTITY_STATUS_PENDING:

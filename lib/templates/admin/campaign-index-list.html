@@ -95,8 +95,11 @@
                 <th class='{ox_column_class item=status order=up default=0}'>
                     {ox_column_title item=status order=up default=0 str=Status url=advertiser-campaigns.php}
                 </th>
-                <th>
-                    Type
+                <th class='{ox_column_class item=type order=up default=0}'>
+                    {ox_column_title item=type order=up default=0 str=Type url=advertiser-campaigns.php}
+                </th>
+                <th class='{ox_column_class item=updated order=up default=0}'>
+                    {ox_column_title item=updated order=up default=0 str=Updated url=advertiser-campaigns.php}
                 </th>
                 <th>&nbsp;
 
@@ -173,6 +176,9 @@
                 </td>
                 <td>
                     {ox_campaign_type type=$campaign.type}
+                </td>
+                <td>
+                    {ox_column_updated updated=$campaign.updated}
                 </td>
                 <td class='alignRight verticalActions'>
                   {if $campaign.system != true}
