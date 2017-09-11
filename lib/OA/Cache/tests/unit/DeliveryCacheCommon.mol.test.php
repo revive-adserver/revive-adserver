@@ -318,24 +318,6 @@ class test_OA_Cache_DeliveryCacheCommon extends DeliveryCacheUnitTestCase
     }
 
     /**
-     * Method tests invalidateGetGoogleJavaScriptCache method
-     */
-    function test_invalidateGetGoogleJavaScriptCache(){
-        $cachedData = MAX_cacheGetGoogleJavaScript();
-
-        $currentClick = $GLOBALS['_MAX']['CONF']['file']['click'];
-        $GLOBALS['_MAX']['CONF']['file']['click'] = 'newclick.php';
-
-        // Expect no changes in cache
-        $this->assertEqual(MAX_cacheGetGoogleJavaScript(), $cachedData);
-        $this->oDeliveryCacheCommon->invalidateGetGoogleJavaScriptCache();
-        // Now expect changes in cache
-        $this->assertNotEqual(MAX_cacheGetGoogleJavaScript(), $cachedData);
-
-        $GLOBALS['_MAX']['CONF']['file']['click'] = $currentClick;
-    }
-
-    /**
      * Method tests invalidatePublisherZonesCache method
      */
     function test_invalidatePublisherZonesCache() {

@@ -260,7 +260,6 @@ class test_OA_Cache_DeliveryCacheManager extends DeliveryCacheUnitTestCase
         $doAppVar->insert();
 
         // Remember current cache
-        $cachedJSData          = MAX_cacheGetGoogleJavaScript();
         $cachedTZData          = MAX_cacheGetAccountTZs();
         $cachedMaintenanceData = MAX_cacheCheckIfMaintenanceShouldRun();
 
@@ -289,14 +288,12 @@ class test_OA_Cache_DeliveryCacheManager extends DeliveryCacheUnitTestCase
         DataGenerator::generateOne($doAccountPreferenceAssoc);
 
         // Expect no changes in cache files
-        $this->assertEqual(MAX_cacheGetGoogleJavaScript(), $cachedJSData);
         $this->assertEqual(MAX_cacheGetAccountTZs(), $cachedTZData);
         $this->assertEqual(MAX_cacheCheckIfMaintenanceShouldRun(), $cachedMaintenanceData);
 
         $this->oDeliveryCacheManager->invalidateSystemSettingsCache();
 
         // Now expect changes in cache files
-        $this->assertNotEqual(MAX_cacheGetGoogleJavaScript(), $cachedJSData);
         $this->assertNotEqual(MAX_cacheGetAccountTZs(), $cachedTZData);
         $this->assertNotEqual(MAX_cacheCheckIfMaintenanceShouldRun(), $cachedMaintenanceData);
 
