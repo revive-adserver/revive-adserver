@@ -98,6 +98,7 @@ class OA_Environment_Manager
         $this->aInfo['PHP']['expected']['zlib']                 = true;
         $this->aInfo['PHP']['expected']['mysql']                = true;
         $this->aInfo['PHP']['expected']['spl']                  = true;
+        $this->aInfo['PHP']['expected']['json']                 = true;
         $this->aInfo['PHP']['expected']['mbstring']             = false;
         $this->aInfo['PHP']['expected']['timeout']              = false;
         $this->aInfo['COOKIES']['expected']['enabled']          = true;
@@ -161,6 +162,8 @@ class OA_Environment_Manager
         $aResult['mysqli']               = extension_loaded('mysqli');
         $aResult['pgsql']                = extension_loaded('pgsql');
         $aResult['spl']                  = extension_loaded('spl');
+        $aResult['json']                 = extension_loaded('json');
+
         // Check mbstring.func_overload
         $aResult['mbstring.func_overload'] = false;
         if (extension_loaded('mbstring')) {
@@ -423,6 +426,9 @@ class OA_Environment_Manager
         }
         if (!$this->aInfo['PHP']['actual']['spl']) {
             $this->aInfo['PHP']['error']['spl'] = 'The spl extension must be loaded';
+        }
+        if (!$this->aInfo['PHP']['actual']['json']) {
+            $this->aInfo['PHP']['error']['json'] = 'The json extension must be loaded';
         }
         if ($this->aInfo['PHP']['actual']['mbstring.func_overload']) {
             $this->aInfo['PHP']['error']['mbstring.func_overload'] = 'mbstring function overloading must be disabled';

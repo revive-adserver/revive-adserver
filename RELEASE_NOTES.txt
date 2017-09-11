@@ -64,6 +64,9 @@ What's New in Revive Adserver 4.1.0
    ignored when editing HTML ads containing scripts or iframes in order to
    avoid inadvertently altering 3rd party tags.
 
+ * Added the new {img_url_prefix} magic macro that will print the configured
+   http/https images url during delivery, depending on the calling protocol.
+
  * Added (beta) support for HTML5 banners, allowing the upload of
    IAB compliant ZIP files.
 
@@ -98,6 +101,8 @@ What's New in Revive Adserver 4.1.0
  * Fixed incompatibility with MySQL 8 (MariaDB 10.2, etc.), as "window" has
    become a reserved word, but wasn't properly quoted as identifier during
    maintenance when using conversions.
+
+ * Added missing check for the json PHP extension during install/upgrade.
 
  Non-Backwards Compatible Changes
  --------------------------------
