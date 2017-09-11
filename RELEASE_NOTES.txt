@@ -50,29 +50,29 @@ What's New in Revive Adserver 4.1.0
 
      * Targeting Channels are now Delivery Rule Sets.
 
- * New Site delivery runes added to the core Delivery Rules plugin to allow
+ * New Site Delivery Rules added to the core Delivery Rules plugin to allow
    whitelist/blacklist delivery based on hostnames or registerable domain
    names.
 
  * Added new security feature to invalidate all the active sessions of the
    current user when changing or recovering the password.
 
- * Added the option to use TinyMCE as WYSWYG HTML editor when creating and
+ * Added the option to use TinyMCE as a WYSIWYG HTML editor when creating and
    editing HTML banners. The editor is switched off by default, for
    increased backwards compatibility, but it can be enabled by default via
-   the user interface account preferences. Such preference is however
-   ignored when editing HTML ads containing scripts or iframes in order to
-   avoid inadvertently altering 3rd party tags.
+   the user interface account preferences. This preference is ignored when
+   editing HTML ads containing scripts or iframes in order to avoid
+   inadvertently altering 3rd party tags.
 
- * Added the new {img_url_prefix} magic macro that will print the configured
-   http/https images url during delivery, depending on the calling protocol.
+ * Added a new {img_url_prefix} magic macro that will print the configured
+   http/https images URL during delivery, depending on the calling protocol.
 
- * Added (beta) support for HTML5 banners, allowing the upload of
-   IAB compliant ZIP files.
+ * Added (beta) support for HTML5 banners, allowing the upload of banners in
+   IAB compliant ZIP file formats.
 
- * Added automatic switch to mysqli when mysql is selected as database type
-   in the configuration file but the extension is not available, or the
-   other way around.
+ * Added automatic switch to the mysqli driver when mysql is selected as the
+   database type in the configuration file, but the mysql extension is not
+   available (and vice versa).
 
  * Added support for ordering advertisers, campaigns, banners, websites and
    zones by the date each was last updated on the main index page for each, to
