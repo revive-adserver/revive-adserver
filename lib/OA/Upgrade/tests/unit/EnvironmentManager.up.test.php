@@ -87,7 +87,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $result = $oEnvironmentManager->_checkCriticalPHP();
         // Check the results
         $this->assertEqual($result, OA_ENV_ERROR_PHP_VERSION);
-        $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
+        $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array(), array('version'));
 
         // Prepare a new OA_Environment_Manager class
         $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
