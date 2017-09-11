@@ -11,7 +11,7 @@
 */
 
 /**
- * A class to deal with the conwersion between difrent number formats
+ * A class to deal with the conversion between different number formats
  *
  * @package    OpenXAdmin
  */
