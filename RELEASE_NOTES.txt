@@ -27,8 +27,11 @@ What's New in Revive Adserver 4.1.0
  New Features
  ------------
 
- * Added new optional feature to block the logging of clicks & re-direction
-   of the browser to the target page when the click URL of an inactive banner
+ * Added new optional feature to block:
+     - the logging of impressions;
+     - the logging of clicks; and
+     - the re-direction of the browser to the target page
+   when the the logging script/click script of an inactive banner
    is accessed. This feature is enabled by default for new installations, but
    users upgrading will need to enable the feature as an administrator user
    under the Configuration > Global Settings > Banner Logging Settings section.

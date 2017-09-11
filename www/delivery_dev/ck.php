@@ -79,17 +79,12 @@ for ($i = 0; $i < count($adId); $i++) {
         $creativeId[$i] = 0;
     }
     if (($adId[$i] > 0 || $adId[$i] == -1) && ($conf['logging']['adClicks']) && !(isset($_GET['log']) && ($_GET['log'] == 'no'))) {
-        // If no-click/redirect on inactive banners is enabled, check to see
-        // if the banner is active. If not, exit click processing at this point,
-        // without recording the click or performing redirection
-        if (isset($GLOBALS['conf']['logging']['blockInactiveBannerClicks'])) {
-            $aAdInfo = MAX_cacheGetAd($adId[$i]);
-            if ($aAdInfo['status'] != OA_ENTITY_STATUS_RUNNING || $aAdInfo['campaign_status'] != OA_ENTITY_STATUS_RUNNING) {
-                // The ad and/or campaign is inactive - exit processing at this
-                // stage, so that the click is not logged, and the click does
-                // not redirect in the browser
-                return;
-            }
+        // Check to see if the ad click logging action/ad click redirect action
+        // is blocked (as a result of the settings & banner inactivity), and if
+        // so, exit click processing at this point, without recording the click
+        // or performing redirection
+        if (MAX_commonIsAdActionBlockedBecauseInactive($adId[$i])) {
+            return;
         }
         // Don't log the click if click blocking is enabled for the banner
         if (!MAX_Delivery_log_isClickBlocked($adId[$i], $aBlockLoggingClick)) {

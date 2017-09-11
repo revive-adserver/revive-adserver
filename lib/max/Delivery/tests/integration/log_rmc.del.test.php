@@ -11,6 +11,7 @@
 */
 
 require_once MAX_PATH . '/lib/max/Delivery/log.php';
+require_once MAX_PATH . '/lib/max/Delivery/cache.php';
 require_once LIB_PATH . '/OperationInterval.php';
 
 /**
