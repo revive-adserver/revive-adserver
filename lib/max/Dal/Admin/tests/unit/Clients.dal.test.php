@@ -229,7 +229,7 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
         $this->assertTrue(is_array($aClients));
         $this->assertEqual(count($aClients), 1);
         $this->assertTrue(is_array($aClients[1]));
-        $this->assertEqual(count($aClients[1]), 2);
+        $this->assertEqual(count($aClients[1]), 3);
         $this->assertEqual($aClients[1]['clientname'], 'Advertiser 1');
         $this->assertEqual($aClients[1]['type'], DataObjects_Clients::ADVERTISER_TYPE_DEFAULT);
 
@@ -252,10 +252,10 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
         $aClients = $this->dalClients->getAllAdvertisers('name', 'up');
         $this->assertTrue(is_array($aClients));
         $this->assertEqual(count($aClients), 2);
-        $this->assertEqual(count($aClients[1]), 2);
+        $this->assertEqual(count($aClients[1]), 3);
         $this->assertEqual($aClients[1]['clientname'], 'Advertiser 1');
         $this->assertEqual($aClients[1]['type'], DataObjects_Clients::ADVERTISER_TYPE_DEFAULT);
-        $this->assertEqual(count($aClients[3]), 2);
+        $this->assertEqual(count($aClients[3]), 3);
         $this->assertEqual($aClients[3]['clientname'], 'Advertiser 3');
         $this->assertEqual($aClients[3]['type'], DataObjects_Clients::ADVERTISER_TYPE_DEFAULT);
         $aClients = $this->dalClients->getAllAdvertisers('name', 'up', null,
@@ -263,39 +263,39 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
         $this->assertTrue(is_array($aClients));
         $this->assertEqual(count($aClients), 3);
         $this->assertTrue(is_array($aClients[1]));
-        $this->assertEqual(count($aClients[1]), 2);
+        $this->assertEqual(count($aClients[1]), 3);
         $this->assertEqual($aClients[1]['clientname'], 'Advertiser 1');
         $this->assertEqual($aClients[1]['type'], DataObjects_Clients::ADVERTISER_TYPE_DEFAULT);
         $this->assertTrue(is_array($aClients[2]));
-        $this->assertEqual(count($aClients[2]), 2);
+        $this->assertEqual(count($aClients[2]), 3);
         $this->assertEqual($aClients[2]['clientname'], 'Advertiser 2');
         $this->assertEqual($aClients[2]['type'], DataObjects_Clients::ADVERTISER_TYPE_MARKET);
-        $this->assertEqual(count($aClients[3]), 2);
+        $this->assertEqual(count($aClients[3]), 3);
         $this->assertEqual($aClients[3]['clientname'], 'Advertiser 3');
         $this->assertEqual($aClients[3]['type'], DataObjects_Clients::ADVERTISER_TYPE_DEFAULT);
         // Test ordering in REVERSE of the order, as popping elements off end of array!
         reset($aClients);
         $aValue = array_pop($aClients);
         $this->assertTrue(is_array($aValue));
-        $this->assertEqual(count($aValue), 2);
+        $this->assertEqual(count($aValue), 3);
         $this->assertEqual($aValue['clientname'], 'Advertiser 3');
         $aValue = array_pop($aClients);
         $this->assertTrue(is_array($aValue));
-        $this->assertEqual(count($aValue), 2);
+        $this->assertEqual(count($aValue), 3);
         $this->assertEqual($aValue['clientname'], 'Advertiser 1');
         $aValue = array_pop($aClients);
         $this->assertTrue(is_array($aValue));
-        $this->assertEqual(count($aValue), 2);
+        $this->assertEqual(count($aValue), 3);
         $this->assertEqual($aValue['clientname'], 'Advertiser 2');
 
         // Test 4
         $aClients = $this->dalClients->getAllAdvertisers('name', 'down');
         $this->assertTrue(is_array($aClients));
         $this->assertEqual(count($aClients), 2);
-        $this->assertEqual(count($aClients[1]), 2);
+        $this->assertEqual(count($aClients[1]), 3);
         $this->assertEqual($aClients[1]['clientname'], 'Advertiser 1');
         $this->assertEqual($aClients[1]['type'], DataObjects_Clients::ADVERTISER_TYPE_DEFAULT);
-        $this->assertEqual(count($aClients[3]), 2);
+        $this->assertEqual(count($aClients[3]), 3);
         $this->assertEqual($aClients[3]['clientname'], 'Advertiser 3');
         $this->assertEqual($aClients[3]['type'], DataObjects_Clients::ADVERTISER_TYPE_DEFAULT);
         $aClients = $this->dalClients->getAllAdvertisers('name', 'down', null,
@@ -303,29 +303,29 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
         $this->assertTrue(is_array($aClients));
         $this->assertEqual(count($aClients), 3);
         $this->assertTrue(is_array($aClients[1]));
-        $this->assertEqual(count($aClients[1]), 2);
+        $this->assertEqual(count($aClients[1]), 3);
         $this->assertEqual($aClients[1]['clientname'], 'Advertiser 1');
         $this->assertEqual($aClients[1]['type'], DataObjects_Clients::ADVERTISER_TYPE_DEFAULT);
         $this->assertTrue(is_array($aClients[2]));
-        $this->assertEqual(count($aClients[2]), 2);
+        $this->assertEqual(count($aClients[2]), 3);
         $this->assertEqual($aClients[2]['clientname'], 'Advertiser 2');
         $this->assertEqual($aClients[2]['type'], DataObjects_Clients::ADVERTISER_TYPE_MARKET);
-        $this->assertEqual(count($aClients[3]), 2);
+        $this->assertEqual(count($aClients[3]), 3);
         $this->assertEqual($aClients[3]['clientname'], 'Advertiser 3');
         $this->assertEqual($aClients[3]['type'], DataObjects_Clients::ADVERTISER_TYPE_DEFAULT);
         // Test ordering in REVERSE of the order, as popping elements off end of array!
         reset($aClients);
         $aValue = array_pop($aClients);
         $this->assertTrue(is_array($aValue));
-        $this->assertEqual(count($aValue), 2);
+        $this->assertEqual(count($aValue), 3);
         $this->assertEqual($aValue['clientname'], 'Advertiser 1');
         $aValue = array_pop($aClients);
         $this->assertTrue(is_array($aValue));
-        $this->assertEqual(count($aValue), 2);
+        $this->assertEqual(count($aValue), 3);
         $this->assertEqual($aValue['clientname'], 'Advertiser 3');
         $aValue = array_pop($aClients);
         $this->assertTrue(is_array($aValue));
-        $this->assertEqual(count($aValue), 2);
+        $this->assertEqual(count($aValue), 3);
         $this->assertEqual($aValue['clientname'], 'Advertiser 2');
 
         // Test 5
@@ -333,7 +333,7 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
         $this->assertTrue(is_array($aClients));
         $this->assertEqual(count($aClients), 1);
         $this->assertTrue(is_array($aClients[1]));
-        $this->assertEqual(count($aClients[1]), 2);
+        $this->assertEqual(count($aClients[1]), 3);
         $this->assertEqual($aClients[1]['clientname'], 'Advertiser 1');
         $this->assertEqual($aClients[1]['type'], DataObjects_Clients::ADVERTISER_TYPE_DEFAULT);
 
@@ -361,7 +361,7 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
         $this->assertTrue(is_array($aClients));
         $this->assertEqual(count($aClients), 1);
         $this->assertTrue(is_array($aClients[1]));
-        $this->assertEqual(count($aClients[1]), 2);
+        $this->assertEqual(count($aClients[1]), 3);
         $this->assertEqual($aClients[1]['clientname'], 'Advertiser 1');
         $this->assertEqual($aClients[1]['type'], DataObjects_Clients::ADVERTISER_TYPE_DEFAULT);
 
