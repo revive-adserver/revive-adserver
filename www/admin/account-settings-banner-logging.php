@@ -61,10 +61,10 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
          )
     );
     
-    // Block Inactive Banner Clicks Settings
+    // Block Inactive Banner Settings
     $aElements += array(
-         'logging_blockInactiveBannerClicks'=> array(
-             'logging'                => 'blockInactiveBannerClicks',
+         'logging_blockInactiveBanners'=> array(
+             'logging'                => 'blockInactiveBanners',
              'bool'                   => 'true',
          )
      );
@@ -177,8 +177,8 @@ $aSettings = array (
         'items' => array (
             array (
                 'type'    => 'checkbox',
-                'name'    => 'logging_blockInactiveBannerClicks',
-                'text'    => $strBlockInactiveBannerClicks,
+                'name'    => 'logging_blockInactiveBanners',
+                'text'    => $strBlockInactiveBanners,
             ),
             array (
                 'type'    => 'break'

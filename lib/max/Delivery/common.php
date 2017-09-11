@@ -445,6 +445,30 @@ function MAX_commonInitVariables()
 }
 
 /**
+ * A function that determines if ad impression logging/click logging/click
+ * URL re-direction should be blocked, because the option to do so is enabled
+ * and the banner is inactive.
+ *
+ * Returns true if the ad action is blocked; false if the ad ad action is not
+ * blocked.
+ *
+ * @param int $adId The ad ID.
+ * @return bool
+ */
+function MAX_commonIsAdActionBlockedBecauseInactive($adId)
+{
+    if (!empty($GLOBALS['_MAX']['CONF']['logging']['blockInactiveBanners'])) {
+        $aAdInfo = MAX_cacheGetAd($adId);
+        if ($aAdInfo['status'] != OA_ENTITY_STATUS_RUNNING || $aAdInfo['campaign_status'] != OA_ENTITY_STATUS_RUNNING) {
+            // The ad and/or campaign is inactive - therefore the ad action
+            // is blocked
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
  * Display a 1x1 pixel gif.  Include the appropriate image headers
  */
 function MAX_commonDisplay1x1()
