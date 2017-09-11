@@ -19,8 +19,9 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
     var $table = 'clients';
 
     var $orderListName = array(
-        'name' => 'clientname',
-        'id'   => 'clientid',
+        'name'    => 'clientname',
+        'id'      => 'clientid',
+        'updated' => 'updated',
     );
 
 	/**
@@ -113,7 +114,7 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
         $doClients->whereInAdd('type', $aIncludeSystemTypes);
         $doClients->orderBy('(type='.DataObjects_Clients::ADVERTISER_TYPE_DEFAULT.') ASC');
         $doClients->addListOrderBy($listorder, $orderdirection);
-        return $doClients->getAll(array('clientname', 'type'), $indexWitkPk = true, $flatten = false);
+        return $doClients->getAll(array('clientname', 'type', 'updated'), $indexWitkPk = true, $flatten = false);
     }
 
     /**

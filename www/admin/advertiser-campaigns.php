@@ -26,6 +26,8 @@ require_once MAX_PATH . '/lib/pear/Date.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
 require_once MAX_PATH . '/lib/OX/Admin/UI/ViewHooks.php';
 
+require_once RV_PATH . '/lib/RV/Admin/DateTimeFormat.php';
+
 phpAds_registerGlobalUnslashed('hideinactive', 'listorder', 'orderdirection');
 
 // Security check
@@ -118,26 +120,20 @@ foreach ($aCampaigns as $campaignId => $aCampaign) {
     $aCampaign['conversions']  = phpAds_formatNumber($aCampaign['conversions']);
 
     if (!empty($aCampaign['activate_time'])) {
-        $oActivateDate = new Date($aCampaign['activate_time']);
-        $oTz = $oActivateDate->tz;
-        $oActivateDate->setTZbyID('UTC');
-        $oActivateDate->convertTZ($oTz);
-        $aCampaign['activate']  = $oActivateDate->format($date_format);
-    }
-    else {
-        $aCampaign['activate']  = '-';
+        $aCampaign['activate'] = RV_Admin_DateTimeFormat::formatUTCDate($aCampaign['activate_time']);
+    } else {
+        $aCampaign['activate'] = '-';
     }
 
     if (!empty($aCampaign['expire_time'])) {
-        $oExpireDate = new Date($aCampaign['expire_time']);
-        $oTz = $oExpireDate->tz;
-        $oExpireDate->setTZbyID('UTC');
-        $oExpireDate->convertTZ($oTz);
-        $aCampaign['expire']    = $oExpireDate->format($date_format);
+        $aCampaign['expire'] = RV_Admin_DateTimeFormat::formatUTCDate($aCampaign['expire_time']);
+    } else {
+        $aCampaign['expire'] = '-';
     }
-    else {
-        $aCampaign['expire']    = '-';
-    }
+    
+    if (!empty($aCampaign['updated'])) {
+        $aCampaign['updated'] = RV_Admin_DateTimeFormat::formatUTCDateTime($aCampaign['updated']);
+    }    
 
     if ($aCampaign['type'] == DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CONTRACT) {
         $aCampaign['system'] = true;

@@ -70,6 +70,9 @@
                 <th class='{ox_column_class item=size order=up default=0}'>
                     {ox_column_title item=size order=up default=0 str=Size url=affiliate-zones.php}
                 </th>
+                <th class='{ox_column_class item=update order=up default=0}'>
+                    {ox_column_title item=update order=up default=0 str=Updated url=affiliate-zones.php}
+                </th>
                 <th>
                   {t str=Description}
                 </th>
@@ -128,6 +131,9 @@
                 </td>
                 <td>
                     {ox_zone_size width=$zone.width height=$zone.height delivery=$zone.delivery}
+                </td>
+                <td>
+                    {ox_column_updated updated=$zone.updated}
                 </td>
                 <td>
                     {$zone.description|escape:html|default:'&nbsp;'}

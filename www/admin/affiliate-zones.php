@@ -22,6 +22,8 @@ require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/lib/max/Delivery/cache.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
 
+require_once RV_PATH . '/lib/RV/Admin/DateTimeFormat.php';
+
 // Register input variables
 phpAds_registerGlobal ('listorder', 'orderdirection');
 
@@ -123,6 +125,10 @@ while ($doZones->fetch() && $row_zones = $doZones->toArray()) {
 	}
 
 	$aZones[$row_zones['zoneid']]['active'] = $aZoneAds['count_active'] > 0;
+
+    if (!empty($row_zones['updated'])) {
+        $aZones[$row_zones['zoneid']]['updated'] = RV_Admin_DateTimeFormat::formatUTCDateTime($row_zones['updated']);
+    }
 }
 
 $oTpl->assign('affiliateId', $affiliateid);

@@ -71,6 +71,10 @@ What's New in Revive Adserver 4.1.0
    in the configuration file but the extension is not available, or the
    other way around.
 
+ * Added support for ordering advertisers, campaigns, banners, websites and
+   zones by the date each was last updated on the main index page for each, to
+   make finding recently updated entities easier in large installations.
+
  Bug Fixes
  ---------
 

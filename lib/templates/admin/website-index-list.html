@@ -70,6 +70,9 @@
                 <th class='{ox_column_class item=name order=up default=1}'>
                     {ox_column_title item=name order=up default=1 str=Name url=website-index.php}
                 </th>
+                <th class='{ox_column_class item=updated order=up default=0}'>
+                    {ox_column_title item=updated order=up default=0 str=Updated url=website-index.php}
+                </th>
                 {if $showAdDirect}
                 <th>
                     {t str=AdvertiserSignup}
@@ -121,6 +124,9 @@
                 <td>
                     <a href='affiliate-edit.php?affiliateid={$key}' class='inlineIcon iconWebsite'>{$affiliate.name|escape:html}</a>
                     {ox_entity_id type="Website" id=$key}
+                </td>
+                <td>
+                    {ox_column_updated updated=$affiliate.updated}
                 </td>
                 {if $showAdDirect}
                 <td>
