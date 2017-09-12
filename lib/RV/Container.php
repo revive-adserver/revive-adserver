@@ -39,7 +39,7 @@ class Container implements PsrContainerInterface
     {
         $container = $this->initContainerWithParameters($aConf);
 
-        $configCache = $this->getConfigCache($hostname, $isDelivery);
+        $configCache = $this->getConfigCache($container, $hostname, $isDelivery);
 
         if ('test' === $hostname || !$configCache->isFresh()) {
             try {
@@ -48,7 +48,9 @@ class Container implements PsrContainerInterface
                     $configCache
                 );
             } catch (IOException $e) {
-                // The cache couldn't be written, keep the builder instead
+                // The cache couldn't be written, use the builder instead
+                $this->container = $container;
+
                 return;
             }
         }
@@ -76,12 +78,13 @@ class Container implements PsrContainerInterface
     /**
      * Get the ConfigCache for the specified hostname.
      *
-     * @param string             $hostname
-     * @param bool               $isDelivery
+     * @param ContainerBuilder $container
+     * @param string           $hostname
+     * @param bool             $isDelivery
      *
      * @return ConfigCache
      */
-    public function getConfigCache($hostname = "", $isDelivery = false)
+    public function getConfigCache(ContainerBuilder $container, $hostname = "", $isDelivery = false)
     {
         $filename =
             MAX_PATH.
@@ -90,7 +93,7 @@ class Container implements PsrContainerInterface
             ($isDelivery ? '_delivery' : '_admin').
             '_container.php';
 
-        return new ConfigCache($filename, $this->container);
+        return new ConfigCache($filename, $container);
     }
 
     /**
@@ -99,6 +102,8 @@ class Container implements PsrContainerInterface
      * @param ContainerBuilder $container
      * @param ConfigCache      $configCache
      *
+     * @throws IOException
+     *
      * @return ContainerInterface
      */
     public function rebuildCachedContainer(ContainerBuilder $container, ConfigCache $configCache)
@@ -106,14 +111,10 @@ class Container implements PsrContainerInterface
         $container->compile();
 
         $dumper = new PhpDumper($container);
-        try {
-            $configCache->write(
-                $dumper->dump(array('class' => 'ReviveAdserverCachedContainer')),
-                $container->getResources()
-            );
-        } catch (\Exception $e) {
-            // Ignore issues
-        }
+        $configCache->write(
+            $dumper->dump(array('class' => 'ReviveAdserverCachedContainer')),
+            $container->getResources()
+        );
 
         return $container;
     }
@@ -127,15 +128,15 @@ class Container implements PsrContainerInterface
      */
     private function initContainerWithParameters(array $aConf)
     {
-        $this->container = new ContainerBuilder();
+        $container = new ContainerBuilder();
 
         $paramResource = $this->getParametersResource($aConf);
 
         foreach ($paramResource->getParameters() as $key => $value) {
-            $this->container->setParameter($key, $value);
+            $container->setParameter($key, $value);
         }
 
-        return $this->container->addResource($paramResource);
+        return $container->addResource($paramResource);
     }
 
     /**
