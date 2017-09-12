@@ -81,7 +81,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         // Prepare a new OA_Environment_Manager class
         $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
-        // Set a valid version of PHP
+        // Set an invalid version of PHP
         $oEnvironmentManager->aInfo['PHP']['actual']['version'] = '5.5.9';
         // Test critical PHP settings
         $result = $oEnvironmentManager->_checkCriticalPHP();
