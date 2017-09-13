@@ -68,7 +68,7 @@ class OX_Admin_UI_Install_InstallUtils
         // These values must be the same as used for the
         // data access layer file names!
         $aTypes = array ();
-        if (extension_loaded('mysql')) {
+        if (extension_loaded('mysql') || extension_loaded('mysqli')) {
             $aTypes['MYISAM'] = 'MyISAM';
             $aTypes['INNODB'] = 'InnoDB';
         }
