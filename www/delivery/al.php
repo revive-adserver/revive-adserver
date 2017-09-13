@@ -2639,9 +2639,7 @@ function MAX_commonIsAdActionBlockedBecauseInactive($adId)
 {
 if (!empty($GLOBALS['_MAX']['CONF']['logging']['blockInactiveBanners'])) {
 $aAdInfo = MAX_cacheGetAd($adId);
-if ($aAdInfo['status'] != OA_ENTITY_STATUS_RUNNING || $aAdInfo['campaign_status'] != OA_ENTITY_STATUS_RUNNING) {
-return true;
-}
+return $aAdInfo['status'] || $aAdInfo['campaign_status'];
 }
 return false;
 }
