@@ -458,13 +458,13 @@ function MAX_commonInitVariables()
 function MAX_commonIsAdActionBlockedBecauseInactive($adId)
 {
     if (!empty($GLOBALS['_MAX']['CONF']['logging']['blockInactiveBanners'])) {
+        // Check if the ad and/or campaign is inactive - therefore the ad action is blocked
         $aAdInfo = MAX_cacheGetAd($adId);
-        if ($aAdInfo['status'] != OA_ENTITY_STATUS_RUNNING || $aAdInfo['campaign_status'] != OA_ENTITY_STATUS_RUNNING) {
-            // The ad and/or campaign is inactive - therefore the ad action
-            // is blocked
-            return true;
-        }
+
+        // OA_ENTITY_STATUS_RUNNING == 0, but the constant is not set during delivery, so we use a shortcut:
+        return $aAdInfo['status'] || $aAdInfo['campaign_status'];
     }
+
     return false;
 }
 
