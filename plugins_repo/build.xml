@@ -93,6 +93,72 @@
         </move>
     </target>
 
+    <target name="update-creation-date">
+		<fail unless="name" message="[name] property is not given via -Dname=[folder] e.g. -Dname=openXTests"/>
+		<property name="sourcepath" value="${name}/plugins/etc" />
+		<fail message="directory provided by -Dname=${name} does not exist (Looked for ${sourcepath})">
+			<condition>
+				<not>
+					<available file="${sourcepath}"/>
+				</not>
+			</condition>
+		</fail>
+
+        <tstamp>
+            <format property="date" pattern="yyyy-MM-dd" />
+        </tstamp>
+
+        <echo>Updating ${sourcepath} folder with date ${date}</echo>
+
+        <replaceregexp>
+            <regexp pattern="&lt;creationDate&gt;.*&lt;/creationDate&gt;"/>
+            <substitution expression="&lt;creationDate&gt;${date}&lt;/creationDate&gt;"/>
+            <fileset dir="${sourcepath}">
+                <include name="*.xml"/>
+                <include name="*/*.xml"/>
+           </fileset>
+        </replaceregexp>
+
+    </target>
+
+    <target name="update-version">
+		<fail unless="name" message="[name] property is not given via -Dname=[folder] e.g. -Dname=openXTests"/>
+		<fail unless="version" message="version property is not given via -Dversion=[version] e.g. -Dversion=1.5.0-rc1"/>
+		<property name="sourcepath" value="${name}" />
+		<!--fail message="directory provided by -Dname=${name} does not exist (Looked for ${sourcepath})">
+			<condition>
+				<not>
+					<available file="${sourcepath}"/>
+				</not>
+			</condition>
+		</fail-->
+
+        <tstamp>
+            <format property="date" pattern="yyyy-MM-dd" />
+        </tstamp>
+
+        <echo>Updating ${sourcepath} folder with version ${version} and date ${date}</echo>
+
+        <replaceregexp>
+            <regexp pattern="&lt;version&gt;.*&lt;/version&gt;"/>
+            <substitution expression="&lt;version&gt;${version}&lt;/version&gt;"/>
+            <fileset dir="${sourcepath}">
+                <include name="**/plugins/etc/*.xml"/>
+                <include name="**/plugins/etc/*/*.xml"/>
+           </fileset>
+        </replaceregexp>
+
+        <replaceregexp>
+            <regexp pattern="&lt;creationDate&gt;.*&lt;/creationDate&gt;"/>
+            <substitution expression="&lt;creationDate&gt;${date}&lt;/creationDate&gt;"/>
+            <fileset dir="${sourcepath}">
+                <include name="**/plugins/etc/*.xml"/>
+                <include name="**/plugins/etc/*/*.xml"/>
+           </fileset>
+        </replaceregexp>
+
+    </target>
+
 	<target name="help" description="Print help text.">
 		<echo>Usage: ant [release|bundle|package|package-defaults] -Dname=[FOLDER]</echo>
 		<echo>- release: package and move file to release folder</echo>
