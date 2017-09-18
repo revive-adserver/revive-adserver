@@ -577,8 +577,6 @@ $GLOBALS['strAutoDetect'] = "Auto-detectează";
 
 
 // Errors
-$GLOBALS['strErrorDatabaseConnetion'] = "Eroare de conexiune la baza de date.";
-$GLOBALS['strErrorCantConnectToDatabase'] = "A intervenit o eroare privind %s, ce nu se poate conecta la baza de date. Din cauza acestei erori nu este posibilă utilizarea interfeţei de administrare. Livrarea bannerelor ar putea să fie afectată de asemenea. Motive probabile pentru această problemă ar fi: <ul> <li>Serverul bazei de date nu funcţionează în acest moment</li> <li>Locaţia serverului bazei de date a fost schimbată</li> <li>Utilizatorul şi parola folosite pentru conectarea la baza de date nu sunt corecte</li> <li>PHP nu a încărcat extensia MySQL</li> </ul>";
 $GLOBALS['strNoMatchesFound'] = "Nu a fost găsită nici o potrivire";
 $GLOBALS['strErrorOccurred'] = "A intervenit o eroare";
 $GLOBALS['strErrorDBPlain'] = "A intervenit o eroare în timpul accesării bazei de date";

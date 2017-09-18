@@ -708,8 +708,6 @@ $GLOBALS['strCacheBusterComment'] = "  * Ersetzen Sie alle Vorkommen von {random
 
 
 // Errors
-$GLOBALS['strErrorDatabaseConnetion'] = "Datenbankverbindungsfehler.";
-$GLOBALS['strErrorCantConnectToDatabase'] = "Es wurde ein schwerwiegender Fehler festgestellt: %s kann keine Verbindung zur Datenbank herstellen. Aus diesem Grund ist es nicht möglich die Benutzeroberfläche des Administrators zu verwenden. Die Bannerauslieferung könnte ebenfalls betroffen sein. Mögliche Ursachen für dieses Problem sind:<ul><li>Der Datenbankserver ist heruntergefahren oder nicht verfügbar</li><li>Die Adresse des Datenbankservers hat sich geändert</li><li>Der Benutzername oder das Passwort für die datenbank hat sich geändert</li><li>PHP hat die Datenbankextension (MySQL) nicht geladen</li></ul>";
 $GLOBALS['strNoMatchesFound'] = "Kein Objekt gefunden";
 $GLOBALS['strErrorOccurred'] = "Ein Fehler ist aufgetreten";
 $GLOBALS['strErrorDBPlain'] = "Beim Zugriff auf die Datenbank ist ein Fehler aufgetreten ";

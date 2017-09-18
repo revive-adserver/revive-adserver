@@ -702,8 +702,6 @@ $GLOBALS['strAutoDetect'] = "Riconoscimento automatico";
 
 
 // Errors
-$GLOBALS['strErrorDatabaseConnetion'] = "Errore nella connessione al database";
-$GLOBALS['strErrorCantConnectToDatabase'] = "Errore fatale %s non può collegarsi al database. Per tanto non è possibile usare l'interfaccia amministrativa. Inoltre può essere stata compromessa la distribuzione dei banner. Possibili cause del problema:<ul><li>Il server database in questo momento non funziona</li> <li>L'indirizzo del server database è cambiato</li> <li>Le credenziali di accesso al server database non sono corrette</li> <li>L'estensione MySQL di PHP non è stata caricata</li> </ul>";
 $GLOBALS['strNoMatchesFound'] = "Nessuna corrispondenza trovata";
 $GLOBALS['strErrorOccurred'] = "Segnalazione Errore";
 $GLOBALS['strErrorDBPlain'] = "Si è verificato un errore nell'accesso al database";

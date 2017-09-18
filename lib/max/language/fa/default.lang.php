@@ -858,7 +858,6 @@ $GLOBALS['strAutoDetect'] = "تشخیص خودکار";
 
 
 // Errors
-$GLOBALS['strErrorDatabaseConnetion'] = "خطای اتصال به دیتابیس";
 $GLOBALS['strNoMatchesFound'] = "هیچ چیز مطابی پیدا نشد";
 $GLOBALS['strErrorOccurred'] = "یخ خطا اتفاق افتاد";
 $GLOBALS['strErrorDBPlain'] = "یک خطا هنگام اتصال به دیتابیس اتفاق افتاد";
