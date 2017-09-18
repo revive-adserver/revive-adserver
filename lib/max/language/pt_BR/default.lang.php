@@ -655,8 +655,6 @@ $GLOBALS['strAutoDetect'] = "Auto-detectar";
 
 
 // Errors
-$GLOBALS['strErrorDatabaseConnetion'] = "Erro de conexão ao banco de dados.";
-$GLOBALS['strErrorCantConnectToDatabase'] = "Um erro fatal ocorreu o %s não pode conectar à base de dados. Por este motivo é impossível utilizar a interface de administração. A entrega de banners pode ter sido afetada. Possíveis causas deste problema podem ser: <ul> <li>O servidor de banco de dados não esta funcionando no momento</li> <li>A base de dados foi amovida para outra localidade</li> <li>O nome de usuário ou senha utilizados para acessar a base não estão corretos</li> <li>O PHP não carregou a extensão de MySQL</li> </ul>";
 $GLOBALS['strNoMatchesFound'] = "Nenhum resultado encontrado";
 $GLOBALS['strErrorOccurred'] = "Um erro ocorreu";
 $GLOBALS['strErrorDBPlain'] = "Um erro ocorreu ao acessar a base de dados";

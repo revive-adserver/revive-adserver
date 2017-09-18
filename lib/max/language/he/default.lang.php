@@ -668,7 +668,6 @@ $GLOBALS['strCacheBusterComment'] = "  * להחליף את כל המופעים �
 
 
 // Errors
-$GLOBALS['strErrorDatabaseConnetion'] = "שגיאת התחברות למסד נתונים.";
 $GLOBALS['strNoMatchesFound'] = "לא נמצאו תוצאות";
 $GLOBALS['strErrorOccurred'] = "אירעה שגיאה";
 $GLOBALS['strErrorDBPlain'] = "ארעה שגיאה בגישה לבסיס הנתונים";

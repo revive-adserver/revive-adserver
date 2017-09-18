@@ -720,8 +720,6 @@ $GLOBALS['strThirdPartyComment'] = "
 *";
 
 // Errors
-$GLOBALS['strErrorDatabaseConnetion'] = "Error de conexión a la Base de Datos.";
-$GLOBALS['strErrorCantConnectToDatabase'] = "Un error fatal se ha producido en %s y no es posible conectarse a la base de datos. Por esta razón no es posible conectarse con la interfaz de administración. La entrega de banners también puede verse afectada. Algunas posibles razones para el problema son: <ul> <li>El servidor de la base de datos puede no estar funcionando en este momento</li> <li>La dirección del servidor de la base de datos ha cambiado</li> <li>El nombre de usuario o clave usados para ingresar en la base de datos no es el correcto</li> <li>PHP no ha cargado la extensión MySQL</li> </ul>";
 $GLOBALS['strNoMatchesFound'] = "No se han encontrado resultados.";
 $GLOBALS['strErrorOccurred'] = "Ha ocurrido un error";
 $GLOBALS['strErrorDBPlain'] = "Ha ocurrido un error al intentar acceder a la base de datos";

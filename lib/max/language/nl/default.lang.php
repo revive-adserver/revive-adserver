@@ -824,16 +824,6 @@ $GLOBALS['strThirdPartyComment'] = "
   *";
 
 // Errors
-$GLOBALS['strErrorDatabaseConnetion'] = "Database verbindingsfout.";
-$GLOBALS['strErrorCantConnectToDatabase'] = "Er is een fatale fout opgetreden, %s kan geen verbinding maken met de database. Daarom
-                                                   is het niet mogelijk om de beheerapplicatie te gebruiken. De uitlevering
-                                                   van banners is misschien ook niet mogelijk. Redenen voor dit problem kunnen zijn:
-                                                   <ul>
-                                                     <li>De database server functioneert momenteel niet</li>
-                                                     <li>De locatie van de database server is veranderd</li>
-                                                     <li>De gebruikersnaam en/of wachtwoord, die worden gebruikt om met de database te verbinden, zijn niet juist</li>
-                                                     <li>De MySQL Extension is niet geladen in PHP</li>
-                                                   </ul>";
 $GLOBALS['strNoMatchesFound'] = "Geen resultaten gevonden";
 $GLOBALS['strErrorOccurred'] = "Er is een fout opgetreden";
 $GLOBALS['strErrorDBPlain'] = "Er is een probleem opgetreden tijdens het benaderen van de database";

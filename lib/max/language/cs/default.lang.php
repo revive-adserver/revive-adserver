@@ -674,7 +674,6 @@ $GLOBALS['strAutoDetect'] = "Automatický výběr";
 
 
 // Errors
-$GLOBALS['strErrorDatabaseConnetion'] = "Chyba připojení k databázi.";
 $GLOBALS['strNoMatchesFound'] = "Žedné odpovídající záznamy nebyly nalezeny";
 $GLOBALS['strErrorOccurred'] = "Nastala chyba";
 $GLOBALS['strErrorDBPlain'] = "Nastala chyba při přístupu do databáze";

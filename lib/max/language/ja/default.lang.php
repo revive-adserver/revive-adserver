@@ -591,7 +591,6 @@ $GLOBALS['strAutoDetect'] = "自動検出";
 
 
 // Errors
-$GLOBALS['strErrorCantConnectToDatabase'] = "重大なエラーが発生しました。{$PRODUCT_NAME}はデータベースに接続できません。このため、管理者インタフェースにアクセスできません。バナー配信に影響があるかもしれません。想定される理由は次のとおりです:<ul><li>データベースサーバが一時的に利用できない状態になっている</li><li>データベースサーバのホスト名やIPアドレスが変更された</li><li>データベース接続用ユーザ名とパスワードが間違っている</li><li>PHPがMySQL拡張プラグインをロードしていない</li></ul>";
 $GLOBALS['strNoMatchesFound'] = "一致するものは見つかりません";
 $GLOBALS['strErrorOccurred'] = "エラーが発生しました";
 $GLOBALS['strErrorDBPlain'] = "データベースにアクセス中にエラーが発生しました。";

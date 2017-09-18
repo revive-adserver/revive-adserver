@@ -646,8 +646,6 @@ $GLOBALS['strCacheBusterComment'] = "* Zamenjaj vse primere {random} z * naklju�
 
 
 // Errors
-$GLOBALS['strErrorDatabaseConnetion'] = "Napaka povezave podatkovne baze.";
-$GLOBALS['strErrorCantConnectToDatabase'] = "Prišlo je do težke napake. %s se ne more povezati s podatkovno bazo. Zaradi tega ni mogoče uporabljati administratorskega vmesnika. Dostava pasic je verjetno tudi onemogočena. Verjetni razlogi za ta problem so lahko: <ul> <li>Strežnik podatkovne baze trenutno ne deluje</li> <li>Lokacija strežnika podatkovne baze je bila spremenjena</li> <li>Uporabniško ime in geslo za povezavo s strežnikom nista pravilna</li> <li>PHP se ni naložil v MySQL razširitev</li> </ul>";
 $GLOBALS['strNoMatchesFound'] = "Ni zadetkov";
 $GLOBALS['strErrorOccurred'] = "Prišlo je do napake";
 $GLOBALS['strErrorDBPlain'] = "Prišlo je do napake pri dostopanju do podatkovne baze.";

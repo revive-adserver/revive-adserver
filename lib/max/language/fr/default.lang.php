@@ -669,8 +669,6 @@ $GLOBALS['strCacheBusterComment'] = "* Remplacez toutes les cas de {random} avec
 
 
 // Errors
-$GLOBALS['strErrorDatabaseConnetion'] = "Erreur de connexion à la base de données.";
-$GLOBALS['strErrorCantConnectToDatabase'] = "Une erreur fatale est survenue %s ne peut pas se connecter à la base de données. Pour cette raison il est impossible d'utiliser l'interface d'administration. La distribution des bannières pourrait aussi être affectée. Les causes possibles de ce problème sont : <ul> <li>Le serveur de base de données ne fonctionne pas pour le moment</li> <li>L'emplacement du serveur de base de données a changé</li> <li>L'identifiant ou le mot de passe utilisés pour contacter la base de données sont incorrects</li> <li>PHP n'a pas chargé l'extension MySQL</li> </ul>";
 $GLOBALS['strNoMatchesFound'] = "Aucun résultat correspondant trouvé";
 $GLOBALS['strErrorOccurred'] = "Une erreur est survenue";
 $GLOBALS['strErrorDBPlain'] = "Une erreur est survenue lors de l'accès à la base de données";

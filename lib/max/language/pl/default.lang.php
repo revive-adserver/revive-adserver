@@ -587,8 +587,6 @@ $GLOBALS['strAutoDetect'] = "Automatyczne wykrywanie";
 
 
 // Errors
-$GLOBALS['strErrorDatabaseConnetion'] = "Błąd połączenia z bazą danych.";
-$GLOBALS['strErrorCantConnectToDatabase'] = "Błąd krytyczny. %s nie może połączyć się z bazą danych. Interfejs administratora jest niedostępny. Dostarczanie banerów również może zostać zakłócone. Przyczyny zaistniałego problemu mogą być następujące: <ul> <li>Serwer bazy danych nie działa w danej chwili</li> <li>Lokalizacja serwera bazy danych uległa zmianie</li> <li>Nazwa użytkownika bądź hasło używane do łączenia się z serwerem bazy danych jest niepoprawne</li> <li>PHP nie załadował rozwinięcia MySQL.";
 $GLOBALS['strNoMatchesFound'] = "Nie znaleziono pasujących elementów";
 $GLOBALS['strErrorOccurred'] = "Wystąpił błąd";
 $GLOBALS['strErrorDBPlain'] = "Wystąpił błąd podczas wywoływania bazy danych";
