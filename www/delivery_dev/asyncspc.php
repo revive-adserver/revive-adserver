@@ -38,11 +38,15 @@ if (preg_match('/[^a-zA-Z0-9_-]/', $prefix)) {
 // Derive the source parameter
 $source = MAX_commonDeriveSource($source);
 
-$spc_output = array();
+$spc_output = [];
 
 if(!empty($zones)) {
     $zones = explode('|', $zones);
     foreach ($zones as $id => $thisZoneid) {
+        if (empty($thisZoneid)) {
+            continue;
+        }
+
         $zonename = $prefix.$id;
 
         // Clear deiveryData between iterations

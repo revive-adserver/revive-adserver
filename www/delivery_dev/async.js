@@ -8,46 +8,95 @@
             var rv = win.reviveAsync[ID] = {
                 id: Object.keys(win.reviveAsync).length,
                 name: "<?php echo $product; ?>",
+                seq: 0,
 
-                start: function () {
-                    var callback = function () {
+                /**
+                 * Initialise the async delivery mechanism.
+                 */
+                main: function () {
+                    var domCallback = function () {
+                        var done = false;
+
                         try {
-                            if (!rv.done) {
-                                doc.removeEventListener("DOMContentLoaded", callback, false);
-                                win.removeEventListener("load", callback, false);
+                            // Ensure we execute the following just once
+                            if (!done) {
+                                done = true;
 
-                                rv.done= true;
-                                rv.apply(rv.detect());
+                                // Clear main event listeners
+                                doc.removeEventListener("DOMContentLoaded", domCallback, false);
+                                win.removeEventListener("load", domCallback, false);
+
+                                // Listen for the start and refresh events
+                                rv.addEventListener('start', rv.start);
+                                rv.addEventListener('refresh', rv.refresh);
+
+                                // Start delivery
+                                rv.dispatchEvent('start', {
+                                    start: true
+                                });
                             }
                         } catch (e) {
                             console.log(e);
                         }
                     };
 
+                    // Library has been initialized, someone (e.g. Tag Manager) might need to know
+                    rv.dispatchEvent('init');
+
+                    // Wait for the DOM to be loaded or execute asynchronously if we were late to the party
                     if (doc.readyState === "complete") {
-                        setTimeout(callback);
+                        setTimeout(domCallback);
                     } else {
-                        doc.addEventListener("DOMContentLoaded", callback, false);
-                        win.addEventListener("load", callback, false);
+                        doc.addEventListener("DOMContentLoaded", domCallback, false);
+                        win.addEventListener("load", domCallback, false);
                     }
+                },
+
+                /**
+                 * The start event handler. Delivery can be prevented by setting e.detail.start = false.
+                 *
+                 * @param {CustomEvent} e
+                 */
+                start: function (e)
+                {
+                    if (e.detail && e.detail.hasOwnProperty('start') && !e.detail.start) {
+                        return;
+                    }
+
+                    rv.removeEventListener('start', rv.start);
+
+                    rv.dispatchEvent('refresh');
+                },
+
+                /**
+                 * The refresh event handler.
+                 *
+                 * @param {CustomEvent} e
+                 */
+                refresh: function (e)
+                {
+                    rv.apply(rv.detect());
                 },
 
                 /**
                  * Perform the AJAX call.
                  *
-                 * @param string url
-                 * @param object data
+                 * @param {string} url
+                 * @param {Object} data
                  */
                 ajax: function (url, data) {
                     var xhr = new XMLHttpRequest();
 
                     xhr.onreadystatechange = function() {
-                        if (this.readyState == 4 ) {
-                            if (this.status == 200) {
+                        if (4 === this.readyState) {
+                            if (200 === this.status) {
                                 rv.spc(JSON.parse(this.responseText));
                             }
                         }
                     };
+
+                    // Pre-ajax hook
+                    this.dispatchEvent('send', data);
 
                     xhr.open("GET", url + "?" + rv.encode(data).join("&"), true);
                     xhr.withCredentials = true;
@@ -55,9 +104,10 @@
                 },
 
                 /**
+                 * Utility method to generate the query string.
                  *
-                 * @param object data the input hash
-                 * @param string arr the variable "array" name (optional)
+                 * @param {Object} data the input hash
+                 * @param {string} arrayName the variable "array" name (optional)
                  * @returns {Array}
                  */
                 encode: function (data, arrayName){
@@ -67,7 +117,7 @@
                         if (data.hasOwnProperty(k)) {
                             var key = arrayName ? arrayName + "[" + k + "]" : k;
 
-                            if ((/string|number|boolean/).test(typeof data[k])) {
+                            if ((/^(string|number|boolean)$/).test(typeof data[k])) {
                                 qs.push(encodeURIComponent(key) + "=" + encodeURIComponent(data[k]));
                             } else {
                                 var a = rv.encode(data[k], key);
@@ -81,11 +131,16 @@
                     return qs;
                 },
 
+                /**
+                 * Start the asynchronous process to fill the <ins> tags.
+                 *
+                 * @param {Array} data
+                 */
                 apply: function (data) {
                     if (data.zones.length) {
-                        var url = doc.location.protocol == 'http:' ?
-                              "<?php echo MAX_commonConstructDeliveryUrl($GLOBALS['_MAX']['CONF']['file']['asyncspc']); ?>" :
-                              "<?php echo MAX_commonConstructSecureDeliveryUrl($GLOBALS['_MAX']['CONF']['file']['asyncspc']); ?>";
+                        var url = 'http:' === doc.location.protocol ?
+                            "<?php echo MAX_commonConstructDeliveryUrl($GLOBALS['_MAX']['CONF']['file']['asyncspc']); ?>" :
+                            "<?php echo MAX_commonConstructSecureDeliveryUrl($GLOBALS['_MAX']['CONF']['file']['asyncspc']); ?>";
 
                         data.zones = data.zones.join("|");
                         data.loc = doc.location.href;
@@ -97,32 +152,55 @@
                     }
                 },
 
+                /**
+                 * Search the DOM for <ins> tags that need to be filled.
+                 *
+                 * @returns {{zones: Array, prefix: string}}
+                 */
                 detect: function () {
-                    var elements = doc.querySelectorAll("ins[data-" + rv.name + "-id='" + ID + "']");
+                    var elements = doc.querySelectorAll("ins[" + rv.getDataAttr("id") + "='" + ID + "']");
                     var data = {
                         zones: [],
                         prefix: rv.name + "-" + rv.id + "-"
                     };
 
                     for (var idx = 0; idx < elements.length; idx++) {
-                        var i = elements[idx];
+                        var zoneidAttr = rv.getDataAttr("zoneid"),
+                            seqAttr = rv.getDataAttr("seq"),
+                            i = elements[idx],
+                            seq;
 
-                        if (i.hasAttribute("data-" + rv.name + "-zoneid")) {
-                            var regex = new RegExp("^data-" + rv.name + "-(.*)$"),
+                        if (i.hasAttribute(seqAttr)) {
+                            seq = i.getAttribute(seqAttr);
+                        } else {
+                            seq = rv.seq++;
+                            i.setAttribute(seqAttr, seq);
+                            i.id = data.prefix + seq;
+                        }
+
+                        if (i.hasAttribute(zoneidAttr)) {
+                            var loadedAttr = rv.getDataAttr("loaded"),
+                                regex = new RegExp("^" + rv.getDataAttr("(.*)") + "$"),
                                 m;
+
+                            if (i.hasAttribute(loadedAttr) && i.getAttribute(loadedAttr)) {
+                                // The tag has already been loaded, skip
+                                continue;
+                            }
+
+                            i.setAttribute(rv.getDataAttr("loaded"), "1");
 
                             for (var j = 0; j < i.attributes.length; j++) {
                                 if (m = i.attributes[j].name.match(regex)) {
-                                    if (m[1] == 'zoneid') {
-                                        data.zones[idx] = i.attributes[j].value;
-                                        i.id = data.prefix + idx;
-                                    } else if (m[1] != 'id') {
+                                    if ('zoneid' === m[1]) {
+                                        data.zones[seq] = i.attributes[j].value;
+                                    } else if (!(/^(id|seq|loaded)$/).test(m[1])) {
                                         data[m[1]] = i.attributes[j].value;
                                     }
                                 }
                             }
                         }
-                    };
+                    }
 
                     return data;
                 },
@@ -130,8 +208,8 @@
                 /**
                  * Create and return a new iframe.
                  *
-                 * @param object data
-                 * @returns JQuery
+                 * @param {Object} data
+                 * @returns {Element}
                  */
                 createFrame: function (data) {
                     var i = doc.createElement('IFRAME'), s = i.style;
@@ -147,10 +225,10 @@
                 },
 
                 /**
-                 * Inject the HTML into the iframe
+                 * Inject the HTML into the iframe.
                  *
-                 * @param Element iframe
-                 * @param string html
+                 * @param {Element} iframe
+                 * @param {string} html
                  */
                 loadFrame: function (iframe, html) {
                     var d = iframe.contentDocument || iframe.contentWindow.document;
@@ -158,7 +236,7 @@
                     d.open();
                     d.writeln('<!DOCTYPE html>');
                     d.writeln('<html>');
-                    d.writeln('<head><base target="_top"></head>');
+                    d.writeln('<head><base target="_top"><meta charset="UTF-8"></head>');
                     d.writeln('<body border="0" margin="0" style="margin: 0; padding: 0">');
                     d.writeln(html);
                     d.writeln('</body>');
@@ -169,22 +247,25 @@
                 /**
                  * The AJAX Callback.
                  *
-                 * @param object data
+                 * @param {Object} data
                  */
                 spc: function (data) {
+                    // Post-ajax hook
+                    this.dispatchEvent('receive', data);
+
                     for (var id in data) {
                         if (data.hasOwnProperty(id)) {
                             var d = data[id];
                             var ins = doc.getElementById(id);
 
                             if (ins) {
-                                var newIns = doc.createElement('INS');
+                                var newIns = ins.cloneNode(false);
 
                                 if (d.iframeFriendly) {
-                                    var i = rv.createFrame(d);
-                                    newIns.appendChild(i);
+                                    var ifr = rv.createFrame(d);
+                                    newIns.appendChild(ifr);
                                     ins.parentNode.replaceChild(newIns, ins);
-                                    rv.loadFrame(i, d.html);
+                                    rv.loadFrame(ifr, d.html);
                                 } else {
                                     newIns.style.textDecoration = 'none';
                                     newIns.innerHTML = d.html;
@@ -208,10 +289,66 @@
                             }
                         }
                     }
+                },
+
+                /**
+                 * Returnrs the data HTML attribute name.
+                 *
+                 * @param {string} name
+                 * @returns {string}
+                 */
+                getDataAttr: function (name) {
+                    return 'data-' + rv.name + '-' + name;
+                },
+
+                /**
+                 * Returns the custom event name.
+                 *
+                 * @param {string} eventName
+                 * @returns {string}
+                 */
+                getEventName: function (eventName)
+                {
+                    return this.name + '-' + ID + '-' + eventName;
+                },
+
+                /**
+                 * Listen for a custom event.
+                 *
+                 * @param {string} eventName
+                 * @param {EventListener|Function} callback
+                 */
+                addEventListener: function (eventName, callback)
+                {
+                    doc.addEventListener(this.getEventName(eventName), callback);
+                },
+
+                /**
+                 * Remove an existing listener.
+                 *
+                 * @param {string} eventName
+                 * @param {EventListener|Function} callback
+                 */
+                removeEventListener: function (eventName, callback)
+                {
+                    doc.removeEventListener(this.getEventName(eventName), callback, true);
+                },
+
+                /**
+                 * Dispatch a custom event.
+                 *
+                 * @param {string} eventName
+                 * @param {Object} [data]
+                 */
+                dispatchEvent: function (eventName, data) {
+                    doc.dispatchEvent(new CustomEvent(this.getEventName(eventName), {
+                        detail: data || {}
+                    }));
                 }
             };
 
-            rv.start();
+            // Register the DOM event listeners or start if the DOM is already loaded
+            rv.main();
         }
     } catch (e) {
         if (console.log) {
