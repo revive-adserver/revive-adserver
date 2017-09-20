@@ -81,6 +81,10 @@ What's New in Revive Adserver 4.1.0-rc2
    zones by the date each was last updated on the main index page for each, to
    make finding recently updated entities easier in large installations.
 
+ * Added custom events to the Javascript Async delivery, allowing the website
+   to better interact with Revive Adserver, e.g. to refresh some ad placements
+   or modifying the data that is sent to and received from the ad server.
+
  Bug Fixes
  ---------
 
