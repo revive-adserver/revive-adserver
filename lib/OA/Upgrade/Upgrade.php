@@ -75,14 +75,47 @@ class OA_Upgrade
      */
     var $oLogger;
 
+    /**
+     * @var OA_UpgradePackageParser
+     */
     var $oParser;
+
+    /**
+     * @var OA_DB_Upgrade
+     */
     var $oDBUpgrader;
+
+    /**
+     * @var OA_Version_Controller
+     */
     var $oVersioner;
+
+    /**
+     * @var OA_UpgradeAuditor
+     */
     var $oAuditor;
+
+    /**
+     * @var OA_Environment_Manager
+     */
     var $oSystemMgr;
+
+    /**
+     * @var MDB2_Driver_Common
+     */
     var $oDbh;
+
+    /**
+     * @var OA_phpAdsNew
+     */
     var $oPAN;
+
+    /**
+     * @var OA_Upgrade_Config
+     */
     var $oConfiguration;
+
+    /** @var OA_DB_Integrity */
     var $oIntegrity;
 
     var $aPackageList = array();

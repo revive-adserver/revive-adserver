@@ -469,28 +469,36 @@ class OA_DB_Upgrade
     {
         $this->_logOnly('running integrity check');
         $this->_logOnly('comparing database '.$this->oSchema->db->connected_database_name.' with schema '.$this->file_schema);
+
         // compare the schema and implemented definitions
         $aDefinitionOld = $this->_getDefinitionFromDatabase();
-        if ($this->_isPearError($aDefinitionOld, 'error getting database definition'))
-        {
+
+        if ($this->_isPearError($aDefinitionOld, 'error getting database definition')) {
             return false;
         }
+
         $aDefinitionNew = $this->_stripPrefixesFromDatabaseDefinition($this->aDefinitionNew);
+
         OA_DB::setCaseSensitive();
         $aDiffs = $this->oSchema->compareDefinitions($aDefinitionNew, $aDefinitionOld);
         OA_DB::disableCaseSensitive();
-        if ($this->_isPearError($aDiffs, 'error comparing definitions'))
-        {
+
+        if ($this->_isPearError($aDiffs, 'error comparing definitions')) {
             return false;
         }
-        $aOptions = array (
-                            'output_mode'   =>    'file',
-                            'output'        =>    $filename,
-                            'end_of_line'   =>    "\n",
-                            'xsl_file'      =>    "xsl/mdb2_schema.xsl",
-                            'custom_tags'   =>    array(),
-                            'split'         =>    true,
-                          );
+
+        // Ignore some changes
+        $aDiffs = $this->skipPgsqlDateChanges($aDiffs);
+
+        $aOptions = [
+            'output_mode'   =>    'file',
+            'output'        =>    $filename,
+            'end_of_line'   =>    "\n",
+            'xsl_file'      =>    "xsl/mdb2_schema.xsl",
+            'custom_tags'   =>    array(),
+            'split'         =>    true,
+        ];
+
         if ($this->_isPearError($this->oSchema->dumpChangeset($aDiffs, $aOptions), 'error writing changeset'))
         {
             return false;
@@ -2544,6 +2552,50 @@ class OA_DB_Upgrade
         return true;
     }
 
-}
+    /**
+     * On Postgres we have historically been skipping default and not null constraints on openads_datetime and
+     * openads_date custom types, in order to avoid errors in an application that was mostly built upon the
+     * overly permissive MySQL typing, which silently allows any input and eventually converts it to the
+     * 0000-00-00 date.
+     *
+     * We now fixed a bug (feature?) that was causing default and not null constraint changes to be completely
+     * ignored, so we have to filter them out to avoid database integrity errors. At least until we actually fix them
+     * for good.
+     *
+     * @todo there are a couple of "better fix this" to-dos in lib/OA/DB/CustomDatatypes/pgsql.php
+     *
+     * @param array $aDiffs
+     *
+     * @return array
+     */
+    private function skipPgsqlDateChanges($aDiffs)
+    {
+        if (!empty($aDiffs['tables']['change']) && $this->oTable->oDbh instanceof MDB2_Driver_pgsql) {
+            $aDiffs['tables']['change'] = array_filter($aDiffs['tables']['change'], function ($tblDiff) {
+                if (empty($tblDiff['change'])) {
+                    return true;
+                }
 
-?>
+                foreach ($tblDiff['change'] as $field => $fldDiff) {
+                    if ('openads_datetime' === $fldDiff['definition']['type'] ||
+                        'openads_date' === $fldDiff['definition']['type']
+                    ) {
+                        unset($tblDiff['change'][$field]);
+                    }
+                }
+
+                if (empty($tblDiff['change'])) {
+                    unset($tblDiff['change']);
+                }
+
+                return !empty($tblDiff);
+            });
+        }
+
+        if (empty($aDiffs['tables']['change'])) {
+            unset($aDiffs['tables']['change']);
+        }
+
+        return $aDiffs;
+    }
+}
