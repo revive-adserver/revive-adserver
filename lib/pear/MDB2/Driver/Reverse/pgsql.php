@@ -105,7 +105,7 @@ class MDB2_Driver_Reverse_pgsql extends MDB2_Driver_Reverse_Common
         if (!empty($column['attnotnull']) && $column['attnotnull'] == 't') {
             $notnull = true;
         }
-        $default = null;
+        $default = false;
         if ($column['atthasdef'] === 't'
             && !preg_match("/nextval\('([^']+)'/", $column['default'])
         ) {
@@ -115,9 +115,12 @@ class MDB2_Driver_Reverse_pgsql extends MDB2_Driver_Reverse_Common
             } elseif ($column['type'] == 'bool') {
                 // Convert boolean defaults
                 $default = $default == 'true' ? 't' : 'f';
-            } elseif (preg_match("/^'(.*)'::(?:character varying|bpchar|text)$/", $default, $m)) {
+            } elseif (preg_match("/^'(.*)'::([a-z0-9 ]+)$/", $default, $m)) {
                 // Make sure that casted expressions are correcty handled
                 $default = $m[1];
+            } elseif (preg_match("/^NULL::([a-z0-9 ]+)$/", $default, $m)) {
+                // Make sure that casted NULLs are correcty handled
+                $default = null;
             }
         }
         $autoincrement = false;
@@ -145,7 +148,6 @@ class MDB2_Driver_Reverse_pgsql extends MDB2_Driver_Reverse_Common
             if ($type == 'clob' || $type == 'blob') {
                 unset($definition[$key]['default']);
             } elseif ($type == 'decimal') {
-                $precision =
                 $definition[$key]['length'] = ($definition[$key]['length'] >> 16).','.
                     ($definition[$key]['length'] & 0xFF);
             }
