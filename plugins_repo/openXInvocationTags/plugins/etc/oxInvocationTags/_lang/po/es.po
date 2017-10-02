@@ -17,11 +17,11 @@ msgstr ""
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/async.class.php:37
 msgid "Asynchronous JS Tag"
-msgstr ""
+msgstr "Etiqueta JS asincrónica"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adframe.class.php:36
 msgid "iFrame Tag"
-msgstr ""
+msgstr "Etiqueta iFrame"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adframe.class.php:193
 msgid "Placement Comment"
@@ -29,7 +29,7 @@ msgstr ""
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/xmlrpc.class.php:36
 msgid "XML-RPC Tag"
-msgstr ""
+msgstr "Etiqueta XML-RPC"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/spc.class.php:80
 msgid "Publisher code - Single Page Call"
@@ -38,12 +38,12 @@ msgstr ""
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/spc.class.php:229
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/spc.class.php:403
 msgid "Option - noscript"
-msgstr ""
+msgstr "Opción - noscript"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/spc.class.php:233
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/spc.class.php:418
 msgid "Option - SSL"
-msgstr ""
+msgstr "Opción - SSL"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adjs.class.php:37
 msgid "Javascript Tag"
@@ -63,11 +63,11 @@ msgstr "Estilo"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/popup.class.php:42
 msgid "Popup Tag"
-msgstr ""
+msgstr "Etiqueta de Popup"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/local.class.php:32
 msgid "Local Mode Tag"
-msgstr ""
+msgstr "Etiqueta de Modo Local"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/local.class.php:136
 msgid "Assign the \\$phpAds_raw['html'] variable to your template"
@@ -135,11 +135,11 @@ msgstr "Color de fondo"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:53
 msgid "Smooth movement"
-msgstr ""
+msgstr "Movimiento suave"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:74
 msgid "Hide the banner when the cursor is not moving"
-msgstr ""
+msgstr "Ocultar el banner cuando el cursor no se esta moviendo"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:82
 msgid "Delay before banner is hidden"
@@ -147,7 +147,7 @@ msgstr ""
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:87
 msgid "Transparancy of the hidden banner"
-msgstr ""
+msgstr "Transparencia del banner oculto"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:100
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:103
@@ -188,7 +188,7 @@ msgstr "Colapsar automáticamente despues de"
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:70
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:98
 msgid "Banner padding"
-msgstr ""
+msgstr "Padding del banner"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:61
 msgid "Horizontal alignment"
