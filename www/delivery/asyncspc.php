@@ -4342,10 +4342,13 @@ MAX_sendStatusCode(400);
 exit;
 }
 $source = MAX_commonDeriveSource($source);
-$spc_output = array();
+$spc_output = [];
 if(!empty($zones)) {
 $zones = explode('|', $zones);
 foreach ($zones as $id => $thisZoneid) {
+if (empty($thisZoneid)) {
+continue;
+}
 $zonename = $prefix.$id;
 unset($GLOBALS['_MAX']['deliveryData']);
 $what = 'zone:'.$thisZoneid;
