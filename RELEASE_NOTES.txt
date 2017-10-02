@@ -17,7 +17,7 @@ Revive Adserver. Please read these notes before reporting any bugs.
 What's New in Revive Adserver 4.1.0-rc2
 ---------------------------------------
 
- * Release date: t.b.d.
+ * Release date: 2017-10-03
 
  Security Updates
  ----------------
