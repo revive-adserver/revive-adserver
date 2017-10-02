@@ -105,6 +105,7 @@ $GLOBALS['strRunningOn'] = "funcionando bajo";
 $GLOBALS['strAndPlain'] = "y";
 
 //  Deliver Limitations
+$GLOBALS['strDeliveryLimitations'] = "Reglas de Entrega";
 $GLOBALS['strErrorsFound'] = "Errores encontrados";
 $GLOBALS['strRecompile'] = "Recompilar";
 
