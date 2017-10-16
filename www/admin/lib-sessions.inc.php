@@ -186,11 +186,11 @@ function phpAds_SessionDataStore()
         $session_id = $_COOKIE['sessionID'];
         $serialized_session_data = serialize($session);
         $dal->storeSerializedSession($serialized_session_data, $session_id, OA_Permission::getUserId());
-    }
 
-    // Garbage collect old sessions, 1 out of 100 requests, roughly
-    if (mt_rand(1, 100) == 42) {
-        $dal->pruneOldSessions();
+        // Garbage collect old sessions, 1 out of 100 requests, roughly
+        if (mt_rand(1, 100) == 42) {
+            $dal->pruneOldSessions();
+        }
     }
 }
 
