@@ -6,7 +6,7 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
-Release Notes: Revive Adserver 4.1.0
+Release Notes: Revive Adserver 4.1.1
 ====================================
 
 These release notes cover what's new, system requirements, download and
@@ -14,10 +14,10 @@ installation instructions, known issues and frequently asked questions for
 Revive Adserver. Please read these notes before reporting any bugs.
 
 
-What's New in Revive Adserver 4.1.0
+What's New in Revive Adserver 4.1.1
 -----------------------------------
 
- * Release date: 2017-10-18
+ * Release date: t.b.d.
 
  Security Updates
  ----------------
@@ -27,95 +27,17 @@ What's New in Revive Adserver 4.1.0
  New Features
  ------------
 
- * Added new optional feature to block:
-     - the logging of impressions;
-     - the logging of clicks; and
-     - the re-direction of the browser to the target page
-   when the the logging script/click script of an inactive banner
-   is accessed. This feature is enabled by default for new installations, but
-   users upgrading will need to enable the feature as an administrator user
-   under the Configuration > Global Settings > Banner Logging Settings section.
-
- * Updated the pages under the Statistics tab to all be called "Statistics" 
-   pages in the UI, instead of (in some places), "History" pages.
-
- * Invocation tags are now generated with a much shorter comment, and, by
-   default, no longer include the large block of comments in the tag. (The
-   comments can be switched on for a given tag, if required, during tag
-   generation.)
-
- * In the user interface, a number of terms have been renamed, to bring the
-   language used into line with modern terms:
-
-     * ACLs are now Delivery Options;
-
-     * Delivery Limitations are now Delivery Rules;
-
-     * Targeting Channels are now Delivery Rule Sets.
-
- * New Site Delivery Rules added to the core Delivery Rules plugin to allow
-   whitelist/blacklist delivery based on hostnames or registerable domain
-   names.
-
- * Added new security feature to invalidate all the active sessions of the
-   current user when changing or recovering the password.
-
- * Added the option to use TinyMCE as a WYSIWYG HTML editor when creating and
-   editing HTML banners. The editor is switched off by default, for
-   increased backwards compatibility, but it can be enabled by default via
-   the user interface account preferences. This preference is ignored when
-   editing HTML ads containing scripts or iframes in order to avoid
-   inadvertently altering 3rd party tags.
-
- * Added a new {img_url_prefix} magic macro that will print the configured
-   http/https images URL during delivery, depending on the calling protocol.
-
- * Added (beta) support for HTML5 banners, allowing the upload of banners in
-   IAB compliant ZIP file formats.
-
- * Added automatic switch to the mysqli driver when mysql is selected as the
-   database type in the configuration file, but the mysql extension is not
-   available (and vice versa).
-
- * Added support for ordering advertisers, campaigns, banners, websites and
-   zones by the date each was last updated on the main index page for each, to
-   make finding recently updated entities easier in large installations.
-
- * Added custom events to the Javascript Async delivery, allowing the website
-   to better interact with Revive Adserver, e.g. to refresh some ad placements
-   or modifying the data that is sent to and received from the ad server.
+  * None
 
  Bug Fixes
  ---------
 
- * Fixed display of shortcuts to advertisers, campaigns, banners, websites,
-   zones, etc. on the statistics pages.
-
- * Added missing check for access to the required PHP scandir() function in the
-   pre-initialisation system.
-
- * Fixed invalid PHP comment in the local mode invocation tags.
-
- * Fixed incompatibility with "N;M;/path" syntax in session.save_path detection
-   during installation.
-
- * Fixed incompatibility with PHP 7.1+ during delivery of Video Ads.
-
- * Fixed an issue with Google AdSense and Yahoo! 3rd party tag click tracking
-   options still available when upgrading from a previous version even though
-   they had been removed from the plugin.
-
- * Fixed incompatibility with MySQL 8 (MariaDB 10.2, etc.), as "window" has
-   become a reserved word, but wasn't properly quoted as identifier during
-   maintenance when using conversions.
-
- * Added missing check for the json PHP extension during install/upgrade.
+  * None
 
  Non-Backwards Compatible Changes
  --------------------------------
 
- * Support for PHP 5.5 has been dropped and Revive Adserver now requires at
-   least PHP 5.6.0.
+ * None
 
 
 System Requirements
