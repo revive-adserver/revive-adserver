@@ -487,8 +487,8 @@ class OA_DB_Upgrade
             return false;
         }
 
-        // Ignore some changes
-        $aDiffs = $this->skipPgsqlDateChanges($aDiffs);
+        // Ignore differences in default values and not null constraints (see #900)
+        $aDiffs = $this->skipDefaultAndNotNulls($aDiffs);
 
         $aOptions = [
             'output_mode'   =>    'file',
@@ -2553,14 +2553,12 @@ class OA_DB_Upgrade
     }
 
     /**
-     * On Postgres we have historically been skipping default and not null constraints on openads_datetime and
-     * openads_date custom types, in order to avoid errors in an application that was mostly built upon the
-     * overly permissive MySQL typing, which silently allows any input and eventually converts it to the
-     * 0000-00-00 date.
+     * We have historically been skipping integrity check for default and not null constraints and unfortunately
+     * the old migrations aren't accurate. Which means that a 2.0.11 or 2.6 upgraded to 2.8.11 has a schema with some
+     * different defaults / not nulls from a fresh 2.8.11 install.
      *
-     * We now fixed a bug (feature?) that was causing default and not null constraint changes to be completely
-     * ignored, so we have to filter them out to avoid database integrity errors. At least until we actually fix them
-     * for good.
+     * Also openads_datetime and openads_date are created allowing NULLs and without a default (vs zero dates on MySQL)
+     * and integrity check would fail on those too.
      *
      * @todo there are a couple of "better fix this" to-dos in lib/OA/DB/CustomDatatypes/pgsql.php
      *
@@ -2568,18 +2566,19 @@ class OA_DB_Upgrade
      *
      * @return array
      */
-    private function skipPgsqlDateChanges($aDiffs)
+    private function skipDefaultAndNotNulls($aDiffs)
     {
-        if (!empty($aDiffs['tables']['change']) && $this->oTable->oDbh instanceof MDB2_Driver_pgsql) {
+        if (!empty($aDiffs['tables']['change'])) {
             $aDiffs['tables']['change'] = array_filter($aDiffs['tables']['change'], function ($tblDiff) {
                 if (empty($tblDiff['change'])) {
                     return true;
                 }
 
                 foreach ($tblDiff['change'] as $field => $fldDiff) {
-                    if ('openads_datetime' === $fldDiff['definition']['type'] ||
-                        'openads_date' === $fldDiff['definition']['type']
-                    ) {
+                    unset($tblDiff['change'][$field]['default']);
+                    unset($tblDiff['change'][$field]['notnull']);
+
+                    if (1 === count($tblDiff['change'][$field])) {
                         unset($tblDiff['change'][$field]);
                     }
                 }
