@@ -62,6 +62,11 @@ class OA_Permission_User
 
     function __wakeup()
     {
+        if (defined('phpAds_installing')) {
+            // We could be upgrading from a version that doesn't have all the necessary tables
+            return;
+        }
+
         $aAccounts[$this->aAccount['account_id']] = true;
 
         if (!empty($this->aUser['is_admin'])) {

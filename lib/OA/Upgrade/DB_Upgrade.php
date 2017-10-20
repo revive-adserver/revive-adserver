@@ -379,6 +379,11 @@ class OA_DB_Upgrade
      */
     function upgrade($versionFrom='')
     {
+        if (!$this->oTable->oDbh instanceof MDB2_Driver_pgsql) {
+            // Ensure upgrades are run in compatibility mode
+            $this->oTable->oDbh->exec("SET SESSION sql_mode='MYSQL40'");
+        }
+
         $this->_logOnly('verifying '.$this->timingStr.' changes');
         $result = $this->oSchema->verifyAlterDatabase($this->aChanges[$this->timingStr]);
         if (!$this->_isPearError($result, 'MDB2_SCHEMA verification failed'))
