@@ -20,7 +20,6 @@ require_once MAX_PATH.'/lib/OA/Upgrade/phpAdsNew.php';
  */
 class Test_OA_phpAdsNew extends UnitTestCase
 {
-
     /**
      * The constructor method.
      */
@@ -44,12 +43,7 @@ class Test_OA_phpAdsNew extends UnitTestCase
         {
             $this->assertEqual($oPAN->engine,'PANENGINE','mysql storage engine not detected');
         }
-//      no longer matters if engine type is found
-//      the sql statements should be separated so as to ensure that the engine is not used for pgsql
-//        else if ($GLOBALS['_MAX']['CONF']['database']['type']=='pgsql')
-//        {
-//            $this->assertEqual($oPAN->engine,'','engine incorrectly detected for pgsql');
-//        }
+
         $this->assertEqual($oPAN->prefix,'panprefix_','prefix not detected');
 
     }
@@ -155,6 +149,8 @@ class Test_OA_phpAdsNew extends UnitTestCase
 
     function _getMigrationExpectations()
     {
+        $mysqlExt = extension_loaded('mysql') ? 'mysql' : 'mysqli';
+
         $i = -1;
         $aResult[++$i]['desc']                          = 'Test '.$i.' : pan tcp localhost (mysql)';
 
@@ -167,7 +163,7 @@ class Test_OA_phpAdsNew extends UnitTestCase
         $aResult[$i]['target']['database']['host']      ='localhost';
         $aResult[$i]['target']['database']['port']      = '3306';
         $aResult[$i]['target']['database']['socket']    = '';
-        $aResult[$i]['target']['database']['type']      =  'mysql';
+        $aResult[$i]['target']['database']['type']      = $mysqlExt;
         $aResult[$i]['target']['table']['type']         = 'MYISAM';
 
         $aResult[++$i]['desc']                          = 'Test '.$i.' : pan tcp localhost (pgsql)';
@@ -181,7 +177,7 @@ class Test_OA_phpAdsNew extends UnitTestCase
         $aResult[$i]['target']['database']['host']      ='localhost';
         $aResult[$i]['target']['database']['port']      = '5432';
         $aResult[$i]['target']['database']['socket']    = '';
-        $aResult[$i]['target']['database']['type']      =  'pgsql';
+        $aResult[$i]['target']['database']['type']      = 'pgsql';
         $aResult[$i]['target']['table']['type']         = '';
 
 
@@ -196,7 +192,7 @@ class Test_OA_phpAdsNew extends UnitTestCase
         $aResult[$i]['target']['database']['host']      ='localhost';
         $aResult[$i]['target']['database']['port']      = '5432';
         $aResult[$i]['target']['database']['socket']    = '';
-        $aResult[$i]['target']['database']['type']      =  'pgsql';
+        $aResult[$i]['target']['database']['type']      = 'pgsql';
         $aResult[$i]['target']['table']['type']         = '';
 
         $aResult[++$i]['desc']                          = 'Test '.$i.' : pan unix default (mysql)';
@@ -210,7 +206,7 @@ class Test_OA_phpAdsNew extends UnitTestCase
         $aResult[$i]['target']['database']['host']      ='localhost';
         $aResult[$i]['target']['database']['port']      = '3306';
         $aResult[$i]['target']['database']['socket']    = '';
-        $aResult[$i]['target']['database']['type']      =  'mysql';
+        $aResult[$i]['target']['database']['type']      = $mysqlExt;
         $aResult[$i]['target']['table']['type']         = 'MYISAM';
 
         $aResult[++$i]['desc']                          = 'Test '.$i.' : pan unix custom (mysql)';
@@ -224,7 +220,7 @@ class Test_OA_phpAdsNew extends UnitTestCase
         $aResult[$i]['target']['database']['host']      ='localhost';
         $aResult[$i]['target']['database']['port']      = '3306';
         $aResult[$i]['target']['database']['socket']    = '/var/lib/mysql/mysql.sock';
-        $aResult[$i]['target']['database']['type']      =  'mysql';
+        $aResult[$i]['target']['database']['type']      = $mysqlExt;
         $aResult[$i]['target']['table']['type']         = 'MYISAM';
 
         $aResult[++$i]['desc']                          = 'Test '.$i.' : pan unix custom (pgsql)';
@@ -238,7 +234,7 @@ class Test_OA_phpAdsNew extends UnitTestCase
         $aResult[$i]['target']['database']['host']      ='localhost';
         $aResult[$i]['target']['database']['port']      = '5432';
         $aResult[$i]['target']['database']['socket']    = '/tmp/pgsocket';
-        $aResult[$i]['target']['database']['type']      =  'pgsql';
+        $aResult[$i]['target']['database']['type']      = 'pgsql';
         $aResult[$i]['target']['table']['type']         = '';
 
         $aResult[++$i]['desc']                          = 'Test '.$i.' : v0.1 tcp localhost (mysql)';
@@ -251,7 +247,7 @@ class Test_OA_phpAdsNew extends UnitTestCase
         $aResult[$i]['target']['database']['host']      ='localhost';
         $aResult[$i]['target']['database']['port']      = '3306';
         $aResult[$i]['target']['database']['socket']    = '';
-        $aResult[$i]['target']['database']['type']      =  'mysql';
+        $aResult[$i]['target']['database']['type']      = $mysqlExt;
         $aResult[$i]['target']['table']['type']         = 'INNODB';
 
         $aResult[++$i]['desc']                          = 'Test '.$i.' : v0.1 unix localhost (mysql)';
@@ -264,31 +260,12 @@ class Test_OA_phpAdsNew extends UnitTestCase
         $aResult[$i]['target']['database']['host']      ='localhost';
         $aResult[$i]['target']['database']['port']      = '3306';
         $aResult[$i]['target']['database']['socket']    = '/var/lib/mysql/mysql.sock';
-        $aResult[$i]['target']['database']['type']      =  'mysql';
+        $aResult[$i]['target']['database']['type']      = $mysqlExt;
         $aResult[$i]['target']['table']['type']         = 'INNODB';
 
         return $aResult;
     }
 
-/* need to mock PAN db installation
-    ...but, the dbh is called via static method
-    function test_getPANversion()
-    {
-        $oPAN = new OA_phpAdsNew();
-
-        $this->_putPanConfigFile();
-
-        Mock::generatePartial(
-            'MDB2_Driver_Common',
-            $mockDbh = 'MDB2_Driver_Common'.rand(),
-            array('')
-        );
-
-        $oUpgrade->mockDbh = new $mockDbh($this);
-        $result = $oPAN->getPANversion();
-        $this->_deletePanConfigFile();
-    }
-*/
 }
 
 ?>
