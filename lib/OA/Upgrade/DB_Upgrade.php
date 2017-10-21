@@ -2574,9 +2574,9 @@ class OA_DB_Upgrade
     private function skipDefaultAndNotNulls($aDiffs)
     {
         if (!empty($aDiffs['tables']['change'])) {
-            $aDiffs['tables']['change'] = array_filter($aDiffs['tables']['change'], function ($tblDiff) {
+            foreach ($aDiffs['tables']['change'] as $tbl => &$tblDiff) {
                 if (empty($tblDiff['change'])) {
-                    return true;
+                    continue;
                 }
 
                 foreach ($tblDiff['change'] as $field => $fldDiff) {
@@ -2591,13 +2591,11 @@ class OA_DB_Upgrade
                 if (empty($tblDiff['change'])) {
                     unset($tblDiff['change']);
                 }
+            }
 
+            $aDiffs['tables']['change'] = array_filter($aDiffs['tables']['change'], function ($tblDiff) {
                 return !empty($tblDiff);
             });
-        }
-
-        if (empty($aDiffs['tables']['change'])) {
-            unset($aDiffs['tables']['change']);
         }
 
         return $aDiffs;
