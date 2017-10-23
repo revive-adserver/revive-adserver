@@ -108,7 +108,7 @@ class OA_phpAdsNew
             $aResult['delivery']['execPhp'] = $phpAds_config['type_html_php'];
 
             if (!empty($phpAds_config['table_type'])) {
-                $aResult['database']['type']    = 'mysql';
+                $aResult['database']['type']    = extension_loaded('mysql') ? 'mysql' : 'mysqli';
                 $aResult['table']['type']       = $phpAds_config['table_type'];
             } else {
                 $aResult['database']['type']    = 'pgsql';
