@@ -44,7 +44,7 @@ class OX_Util_Utils
 
        if (0 === $priority) {
            return OX_CAMPAIGN_TYPE_REMNANT;
-       } else if (1 === $priority) {
+       } else if (-1 === $priority) {
            return OX_CAMPAIGN_TYPE_OVERRIDE;
        } else if (-2 === $priority) {
            return OX_CAMPAIGN_TYPE_ECPM;
