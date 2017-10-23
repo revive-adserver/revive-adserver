@@ -32,7 +32,13 @@ What's New in Revive Adserver 4.1.1
  Bug Fixes
  ---------
 
-  * None
+  * Removed newly added database integrity check for default values and not null constraints, that was preventing
+    successful upgrades when the database itself was created before 2.8.x.
+
+  * Fixed various issues preventing a direct upgrade from phpAdsNew 2.0.11-pr1 and possibly earlier 2.4/2.6 versions.
+
+  * Fixed an issue that was causing the campaign radio button on the campaign edit screen to be empty and the
+    bottom half of the form to disappear when editing an existing campaign.
 
  Non-Backwards Compatible Changes
  --------------------------------
