@@ -36,11 +36,17 @@ class OX_Util_Utils
      */
    static function getCampaignType($priority)
    {
-       if ($priority === 0) {
+       if (null === $priority || '' === $priority) {
+           return null;
+       }
+
+       $priority = (int)$priority;
+
+       if (0 === $priority) {
            return OX_CAMPAIGN_TYPE_REMNANT;
-       } else if ($priority === -1) {
+       } else if (1 === $priority) {
            return OX_CAMPAIGN_TYPE_OVERRIDE;
-       } else if ($priority === -2) {
+       } else if (-2 === $priority) {
            return OX_CAMPAIGN_TYPE_ECPM;
        } else if ($priority > 0) {
            return OX_CAMPAIGN_TYPE_CONTRACT_NORMAL;
