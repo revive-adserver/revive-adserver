@@ -136,7 +136,12 @@ class Plugins_InvocationTags_OxInvocationTags_adframe extends Plugins_Invocation
 
         if (empty($mi->frame_width )) { $mi->frame_width  = $mi->width; }
         if (empty($mi->frame_height)) { $mi->frame_height = $mi->height; }
-        $buffer .= "<iframe id='{$uniqueid}' name='{$uniqueid}' src='".MAX_commonConstructDeliveryUrl($conf['file']['frame']);
+        $buffer .= "<iframe id='{$uniqueid}' name='{$uniqueid}'";
+        if ($GLOBALS['_MAX']['SSL_REQUEST']) { 
+          $buffer .= " src='".MAX_commonConstructSecureDeliveryUrl($conf['file']['frame']);
+        } else {
+          $buffer .= " src='".MAX_commonConstructDeliveryUrl($conf['file']['frame']);
+        }
         if (sizeof($mi->parameters) > 0) {
             $buffer .= "?".implode ("&amp;", $mi->parameters);
         }
