@@ -203,6 +203,7 @@ class OA_Environment_Manager
     function checkFilePermission($file, $recurse)
     {
         if ((!file_exists($file)) || (!$this->isWritable($file))) {
+            OA::debug('Unwritable ' . ((is_dir($file) ? 'folder ' : 'file ')) . $file);
             return false;
         }
         $recurseWritable = true;
@@ -215,7 +216,6 @@ class OA_Environment_Manager
                     }
                     $thisFile = $file . '/' . $f;
                     if (!$this->checkFilePermission($thisFile, $recurse)) {
-                        OA::debug('Unwritable ' . ((is_dir($thisFile) ? 'folder ' : 'file ')) . $thisFile);
                         $recurseWritable = false;
                     }
                 }
