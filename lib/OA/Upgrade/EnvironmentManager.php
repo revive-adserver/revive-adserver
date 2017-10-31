@@ -39,47 +39,38 @@ define('OA_MEMORY_UNLIMITED', 'Unlimited');
 
 class OA_Environment_Manager
 {
-
     var $aInfo = array();
 
     function __construct()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        global $installing;
-        if (!$installing)
-        {
+
+        if (empty($GLOBALS['installing'])) {
             $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem(MAX_PATH.'/var');
-        }
-        else
-        {
+            $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem(MAX_PATH.'/var/cache', true);
+            $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem(MAX_PATH.'/var/plugins', true);
+            $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem(MAX_PATH.'/var/templates_compiled', true);
+        } else {
             $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem(MAX_PATH.'/var',true);
         }
-        $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem(MAX_PATH.'/var/cache', true);
-        $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem(MAX_PATH.'/var/plugins', true);
-        $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem(MAX_PATH.'/var/templates_compiled', true);
+
         $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem(MAX_PATH.'/plugins', true);
         $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem(MAX_PATH.'/www/admin/plugins', true);
 
         // if CONF file hasn't been created yet, use the default images folder
-        if (!empty($conf['store']['webDir']))
-        {
+        if (!empty($conf['store']['webDir'])) {
             $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem($conf['store']['webDir']);
-        }
-        else
-        {
+        } else {
             $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem(MAX_PATH.'/www/images');
         }
 
-        if (!empty($conf['delivery']['cachePath']))
-        {
+        if (!empty($conf['delivery']['cachePath'])) {
             $this->aInfo['PERMS']['expected'][] = $this->buildFilePermArrayItem($conf['delivery']['cachePath']);
         }
 
         // Fix directory separator
-        if (DIRECTORY_SEPARATOR != '/')
-        {
-            foreach ($this->aInfo['PERMS']['expected'] as $idx => $aValue)
-            {
+        if (DIRECTORY_SEPARATOR != '/') {
+            foreach ($this->aInfo['PERMS']['expected'] as $idx => $aValue) {
                 $this->aInfo['PERMS']['expected'][$idx]['file'] = str_replace('/', DIRECTORY_SEPARATOR, $aValue['file']);
             }
         }

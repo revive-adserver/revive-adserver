@@ -32,7 +32,8 @@ What's New in Revive Adserver 4.1.2
  Bug Fixes
  ---------
 
-  * None
+  * Fixed an issue that was sometimes preventing file/folder permission errors
+    from being written to the debug log.
 
  Non-Backwards Compatible Changes
  --------------------------------
