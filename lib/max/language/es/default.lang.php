@@ -491,7 +491,6 @@ $GLOBALS['strDoNotAlterHtml'] = "No alterar HTML";
 $GLOBALS['strGenericOutputAdServer'] = "Genérico";
 $GLOBALS['strSwfTransparency'] = "Permitir fondo transparente";
 $GLOBALS['strBackToBanners'] = "Volver a banners";
-$GLOBALS['strUseWyswygHtmlEditor'] = "Utilice el Editor del HTML WYSWYG";
 
 // Banner (advanced)
 $GLOBALS['strBannerPrependHTML'] = "Siempre anteponga el siguiente código HTML a este banner";
