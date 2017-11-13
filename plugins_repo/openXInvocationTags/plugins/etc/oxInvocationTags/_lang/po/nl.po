@@ -4,7 +4,7 @@ msgstr ""
 "POT-Creation-Date: 2008-07-29 18:41+0100\n"
 "Last-Translator: mbeccati <matteo@beccati.com>\n"
 "Language-Team: Dutch\n"
-"Language: nl_NL\n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Language: en\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,7 +17,7 @@ msgstr ""
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/async.class.php:37
 msgid "Asynchronous JS Tag"
-msgstr ""
+msgstr "Asynchrone JS Tag"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adframe.class.php:36
 msgid "iFrame Tag"
@@ -71,7 +71,7 @@ msgstr "Local Mode Tag"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/local.class.php:136
 msgid "Assign the \\$phpAds_raw['html'] variable to your template"
-msgstr ""
+msgstr "De \\$phpAds_raw['html'] variabele toewijzen aan uw sjabloon"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adviewnocookies.class.php:41
 msgid "No Cookie Image Tag"
