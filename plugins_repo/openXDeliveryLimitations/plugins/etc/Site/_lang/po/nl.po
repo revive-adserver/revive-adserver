@@ -19,30 +19,30 @@ msgstr "Is alle"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Hostnamelist.class.php:76
 msgid "Enter hostnames below to remove matching entries from the list"
-msgstr ""
+msgstr "Voer hieronder hostnames in om overeenkomstige items uit de lijst te verwijderen"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Hostnamelist.class.php:79
 msgid "Remove Hostnames"
-msgstr ""
+msgstr "Hostnames verwijderen"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Hostnamelist.class.php:96
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Registerabledomainlist.class.php:96
 msgid "WARNING"
-msgstr ""
+msgstr "WAARSCHUWING"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Hostnamelist.class.php:97
 msgid "The Hostname List delivery rule cannot be used; it requires that the PHP <i>intl</i> extension be installed."
-msgstr ""
+msgstr "De Hostname Lijst uitleveringsregel kan niet gebruikt worden; Het vereist dat de PHP <i>intl</i> extensie geinstalleerd is."
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Registerabledomainlist.class.php:76
 msgid "Enter domains below to remove matching entries from the list"
-msgstr ""
+msgstr "Voer hieronder domeinnamen in om overeenkomstige items uit de lijst te verwijderen"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Registerabledomainlist.class.php:79
 msgid "Remove Domains"
-msgstr ""
+msgstr "Domeinen verwijderen"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Registerabledomainlist.class.php:97
 msgid "The Registerable Domain List delivery rule cannot be used; it requires that the PHP <i>intl</i> extension be installed."
-msgstr ""
+msgstr "De Registreerbare Domain List uitleveringsregel kan niet gebruikt worden; het vereist dat de PHP <i>intl</i> extensie geinstalleerd is."
 
