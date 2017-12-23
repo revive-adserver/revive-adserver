@@ -11,13 +11,12 @@ msgstr ""
 
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:40
-#: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:137
-msgid "Manager Account Breakdown"
-msgstr "Manager Account Breakdown"
+msgid "Account Breakdown"
+msgstr "Account Breakdown"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:41
-msgid "Lists Adviews/AdClicks/AdSales totals for a given month."
-msgstr "Lists Adviews/AdClicks/AdSales totals for a given month."
+msgid "Lists Impression/Click/Conversion totals for a given month."
+msgstr "Lists Impression/Click/Conversion totals for a given month."
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:43
 msgid "Admin Reports"
@@ -26,3 +25,7 @@ msgstr "Admin Reports"
 #: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:128
 msgid "Manager"
 msgstr "Manager"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:137
+msgid "Manager Account Breakdown"
+msgstr "Manager Account Breakdown"
