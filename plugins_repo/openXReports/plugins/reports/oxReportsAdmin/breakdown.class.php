@@ -134,7 +134,7 @@ class Plugins_Reports_OxReportsAdmin_Breakdown extends Plugins_Reports
         $aData = $this->_fetchData();
         // Add the worksheet
         $this->createSubReport(
-            $this->translate("Manager Account Breakdown"),
+            $this->translate("Account Breakdown"),
             $aHeaders,
             $aData
         );
