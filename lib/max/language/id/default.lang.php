@@ -16,6 +16,7 @@ $GLOBALS['phpAds_DecimalPoint'] = ",";
 $GLOBALS['phpAds_ThousandsSeperator'] = ".";
 
 // Date & time configuration
+$GLOBALS['day_format'] = "%d-%m";
 
 // Formats used by PEAR Spreadsheet_Excel_Writer packate
 
@@ -23,10 +24,12 @@ $GLOBALS['phpAds_ThousandsSeperator'] = ".";
 /* Translations                                          */
 /* ------------------------------------------------------- */
 
+$GLOBALS['strHome'] = "Rumah";
 $GLOBALS['strHelp'] = "Bantuan";
 $GLOBALS['strStartOver'] = "Mulai dari semula";
 $GLOBALS['strShortcuts'] = "Jalan Pintas";
 $GLOBALS['strActions'] = "Aksi";
+$GLOBALS['strAndXMore'] = "dan %s lebih";
 $GLOBALS['strAdminstration'] = "Inventori";
 $GLOBALS['strMaintenance'] = "Pemeliharaan";
 $GLOBALS['strProbability'] = "Kemungkinan";
@@ -36,10 +39,13 @@ $GLOBALS['strAppendTrackerCode'] = "Tempelkan kode pelacak";
 $GLOBALS['strOverview'] = "Pandangan Menyeluruh";
 $GLOBALS['strSearch'] = "<u>C</u>ari";
 $GLOBALS['strDetails'] = "Perincian";
+$GLOBALS['strUpdateSettings'] = "Perbarui Setelan";
 $GLOBALS['strCheckForUpdates'] = "Periksa adanya Update";
+$GLOBALS['strWhenCheckingForUpdates'] = "Saat memeriksa pembaruan";
 $GLOBALS['strCompact'] = "Kompak";
 $GLOBALS['strUser'] = "Pengguna";
 $GLOBALS['strDuplicate'] = "Mendobelkan";
+$GLOBALS['strCopyOf'] = "Salinan dari";
 $GLOBALS['strMoveTo'] = "Pindahkan ke";
 $GLOBALS['strDelete'] = "Hapus";
 $GLOBALS['strActivate'] = "Aktifkan";
@@ -50,27 +56,33 @@ $GLOBALS['strUp'] = "Keatas";
 $GLOBALS['strDown'] = "Kebawah";
 $GLOBALS['strSave'] = "Simpan";
 $GLOBALS['strCancel'] = "Batal";
+$GLOBALS['strBack'] = "Kembali";
 $GLOBALS['strPrevious'] = "Sebelumnya";
 $GLOBALS['strNext'] = "Berikutnya";
 $GLOBALS['strYes'] = "Ya";
 $GLOBALS['strNo'] = "Tidak";
 $GLOBALS['strNone'] = "Belum ditentukan";
 $GLOBALS['strCustom'] = "Langgam";
-$GLOBALS['strUnknown'] = "Tidak dikenal";
+$GLOBALS['strDefault'] = "Kegagalan";
+$GLOBALS['strUnknown'] = "Tidak diketahui";
 $GLOBALS['strUnlimited'] = "Tidak terbatas";
 $GLOBALS['strUntitled'] = "Tanpa nama";
+$GLOBALS['strAll'] = "semua";
 $GLOBALS['strAverage'] = "Rata-rata";
 $GLOBALS['strOverall'] = "Seluruhnya";
 $GLOBALS['strTotal'] = "Jumlah";
 $GLOBALS['strFrom'] = "Dari";
 $GLOBALS['strTo'] = "ke";
+$GLOBALS['strAdd'] = "Menambahkan";
 $GLOBALS['strLinkedTo'] = "dihubungkan pada";
 $GLOBALS['strDaysLeft'] = "Hari yang tersisa";
 $GLOBALS['strCheckAllNone'] = "Pilih semua / tdk satupun";
+$GLOBALS['strKiloByte'] = "KB";
 $GLOBALS['strExpandAll'] = "<u>M</u>eluaskan semua";
 $GLOBALS['strCollapseAll'] = "<u>M</u>elipatkan semua";
 $GLOBALS['strShowAll'] = "Tampilkan semua";
 $GLOBALS['strNoAdminInterface'] = "Pelayanan tidak dapat dicapai...";
+$GLOBALS['strFieldStartDateBeforeEnd'] = "'Dari' tanggal pasti lebih awal dari tanggal 'To'";
 $GLOBALS['strFieldContainsErrors'] = "Kotak berikut berisi kesalahan:";
 $GLOBALS['strFieldFixBeforeContinue1'] = "Sebelum melanjut Anda perlu";
 $GLOBALS['strFieldFixBeforeContinue2'] = "perbaiki kesalahan tersebut.";
@@ -85,16 +97,27 @@ $GLOBALS['strCollectedLastMonth'] = "Bulan terakhir";
 $GLOBALS['strCollectedLast7Days'] = "7 hari terakhir";
 $GLOBALS['strCollectedSpecificDates'] = "Tanggal-tanggal tertentu";
 $GLOBALS['strValue'] = "Nilai";
+$GLOBALS['strWarning'] = "Peringatan";
 $GLOBALS['strNotice'] = "Untuk diperhatikan";
 
 // Dashboard
+$GLOBALS['strDashboardCantBeDisplayed'] = "Dasbor tidak dapat ditampilkan";
+$GLOBALS['strNoCheckForUpdates'] = "Dashboard tidak dapat ditampilkan kecuali <br/> cek untuk pengaturan update diaktifkan.";
+$GLOBALS['strEnableCheckForUpdates'] = "Aktifkan setelan <a href='akun-pengaturan-pembaruan.php' target='_top'>periksa pembaruan</a> di target<br/><a href='akun-settings-update.php' ='_top'>pengaturan pembaruan</a> halaman.";
 // Dashboard Errors
+$GLOBALS['strDashboardErrorCode'] = "kode";
+$GLOBALS['strDashboardSystemMessage'] = "Pesan sistem";
+$GLOBALS['strDashboardErrorHelp'] = "Jika kesalahan ini terulang, jelaskan masalah Anda secara mendetail dan kirimkan di <a href='http://forum.revive-adserver.com/'> forum.revive-adserver.com/ </a>.";
 
 // Priority
 $GLOBALS['strPriority'] = "Prioritas";
 $GLOBALS['strPriorityLevel'] = "Tingkat Prioritas";
+$GLOBALS['strOverrideAds'] = "Tangguhkan Iklan Promosi";
 $GLOBALS['strHighAds'] = "Iklan dengan prioritas tinggi";
+$GLOBALS['strECPMAds'] = "eCPM Iklan Kampanye";
 $GLOBALS['strLowAds'] = "Iklan dengan prioritas rendah";
+$GLOBALS['strLimitations'] = "Aturan pengiriman";
+$GLOBALS['strNoLimitations'] = "Tidak ada aturan pengiriman";
 $GLOBALS['strCapping'] = "Pemangkasan";
 
 // Properties
@@ -102,13 +125,36 @@ $GLOBALS['strName'] = "Nama";
 $GLOBALS['strSize'] = "Ukuran";
 $GLOBALS['strWidth'] = "Lebar";
 $GLOBALS['strHeight'] = "Tinggi";
+$GLOBALS['strTarget'] = "Target";
 $GLOBALS['strLanguage'] = "Bahasa";
 $GLOBALS['strDescription'] = "Deskripsi";
 $GLOBALS['strVariables'] = "Variabel";
+$GLOBALS['strID'] = "ID";
 $GLOBALS['strComments'] = "Komentar";
 
 // User access
+$GLOBALS['strWorkingAs'] = "Bekerja sebagai";
+$GLOBALS['strWorkingAs'] = "Bekerja sebagai";
+$GLOBALS['strSwitchTo'] = "Beralih ke";
+$GLOBALS['strUseSearchBoxToFindMoreAccounts'] = "Gunakan kotak telusur pengalih untuk menemukan lebih banyak akun";
+$GLOBALS['strWorkingFor'] = "%s untuk...";
+$GLOBALS['strNoAccountWithXInNameFound'] = "Tidak ada akun dengan nama \" %s \" yang ditemukan";
+$GLOBALS['strRecentlyUsed'] = "Baru - baru ini digunakan";
+$GLOBALS['strLinkUser'] = "Tambahkan pengguna";
+$GLOBALS['strLinkUser_Key'] = "Tambahkan <u>u</u> ser";
+$GLOBALS['strUsernameToLink'] = "Username pengguna untuk ditambahkan";
+$GLOBALS['strNewUserWillBeCreated'] = "Pengguna baru akan dibuat";
+$GLOBALS['strToLinkProvideEmail'] = "Untuk menambahkan pengguna, berikan email pengguna";
+$GLOBALS['strToLinkProvideUsername'] = "Untuk menambahkan pengguna, berikan username";
+$GLOBALS['strUserLinkedToAccount'] = "Pengguna telah ditambahkan ke akun";
+$GLOBALS['strUserAccountUpdated'] = "Akun pengguna diperbarui";
+$GLOBALS['strUserUnlinkedFromAccount'] = "Pengguna telah dihapus dari akun";
+$GLOBALS['strUserWasDeleted'] = "Pengguna telah dihapus";
+$GLOBALS['strUserNotLinkedWithAccount'] = "Pengguna tersebut tidak terkait dengan akun";
+$GLOBALS['strCantDeleteOneAdminUser'] = "Anda tidak dapat menghapus pengguna. Setidaknya satu pengguna perlu dihubungkan dengan akun admin.";
 $GLOBALS['strLinkUserHelpUser'] = "Nama Pengguna";
+$GLOBALS['strLinkUserHelpEmail'] = "alamat email";
+$GLOBALS['strLastLoggedIn'] = "Terakhir masuk";
 
 // Login & Permissions
 $GLOBALS['strUserProperties'] = "Properties dari Banner";
@@ -116,6 +162,8 @@ $GLOBALS['strAuthentification'] = "Autentifikasi";
 $GLOBALS['strWelcomeTo'] = "Selamat Datang di";
 $GLOBALS['strEnterUsername'] = "Silakan masukan Nama dan Kata Sandi Anda untuk Login";
 $GLOBALS['strEnterBoth'] = "Silakan masukan Nama <i>dan</i> Kata Sandi";
+$GLOBALS['strEnableCookies'] = "Anda harus mengaktifkan cookies sebelum bisa menggunakannya {$PRODUCT_NAME}";
+$GLOBALS['strSessionIDNotMatch'] = "Kesalahan cookie sesi, masuk lagi";
 $GLOBALS['strUsername'] = "Nama Pengguna";
 $GLOBALS['strPassword'] = "Kata Sandi";
 $GLOBALS['strPasswordRepeat'] = "Ulangi Kata Sandi";
@@ -125,8 +173,11 @@ $GLOBALS['strPasswordWrong'] = "Kata Sandi salah";
 $GLOBALS['strNotAdmin'] = "Kemungkinan privilese Anda kurang";
 $GLOBALS['strDuplicateClientName'] = "Nama Pengguna yang dipilih sudah ada. Silakan gunakan nama pengguna yang lain.";
 $GLOBALS['strInvalidPassword'] = "Kata Sandi Anda tidak berlaku. Silakan gunakan kata sandi lain.";
+$GLOBALS['strInvalidEmail'] = "Email tidak diformat dengan benar, harap cantumkan alamat email yang benar.";
 $GLOBALS['strNotSamePasswords'] = "Pasangan Kata Sandi tidak sesuai";
 $GLOBALS['strRepeatPassword'] = "Ulangi Kata Sandi";
+$GLOBALS['strDeadLink'] = "Tautan Anda tidak valid.";
+$GLOBALS['strNoAdvertiser'] = "Pengiklan pilihan tidak ada. Coba <a href='{link}'>link</a> ini";
 
 // General advertising
 $GLOBALS['strRequests'] = "Permintaan";
@@ -139,6 +190,7 @@ $GLOBALS['strTotalConversions'] = "Jumlah Konversi";
 $GLOBALS['strDateTime'] = "Tanggal Waktu";
 $GLOBALS['strTrackerID'] = "ID Pelacak";
 $GLOBALS['strTrackerName'] = "Nama Pelacak";
+$GLOBALS['strTrackerAlwaysAppend'] = "Selalu tampilkan kode yang ditambahkan, meskipun tidak ada konversi yang dicatat oleh pelacak?";
 $GLOBALS['strBanners'] = "Banner";
 $GLOBALS['strCampaigns'] = "Kampanye";
 $GLOBALS['strCampaignID'] = "ID Kampanye";
@@ -181,10 +233,12 @@ $GLOBALS['strClients'] = "Pemasang Iklan";
 $GLOBALS['strClientsAndCampaigns'] = "Pemasang Iklan & Kampanye";
 $GLOBALS['strAddClient'] = "Tambah Pemasang Iklan baru";
 $GLOBALS['strClientProperties'] = "Properties dari Pemasang Iklan";
+$GLOBALS['strNoClients'] = "Saat ini tidak ada pengiklan yang ditentukan. Untuk membuat kampanye, <a href='advertiser-edit.php'>tambahkan pengiklan baru</a> terlebih dulu.";
 $GLOBALS['strConfirmDeleteClient'] = "Apakah Anda benar ingin hapus Pemasang Iklan yang ini?";
 $GLOBALS['strConfirmDeleteClients'] = "Apakah Anda benar ingin hapus Pemasang Iklan yang ini?";
 $GLOBALS['strHideInactive'] = "Sembunyikan yang tidak aktif";
 $GLOBALS['strInactiveAdvertisersHidden'] = "Pemasang Iklan yang tidak aktif disembunyikan";
+$GLOBALS['strAdvertiserSignup'] = "Daftar Pengiklan";
 $GLOBALS['strAdvertiserCampaigns'] = "Pemasang Iklan & Kampanye";
 
 // Advertisers properties
@@ -196,16 +250,22 @@ $GLOBALS['strSendDeactivationWarning'] = "Kirim peringatan bila kampanye tidak a
 $GLOBALS['strAllowClientModifyBanner'] = "Izinkan pengguna ini untuk merubah banner yang dimiliki";
 $GLOBALS['strAllowClientDisableBanner'] = "Izinkan pengguna ini untuk hentikan banner yang dimiliki";
 $GLOBALS['strAllowClientActivateBanner'] = "Izinkan pengguna ini untuk aktifkan banner yang dimiliki";
+$GLOBALS['strAllowCreateAccounts'] = "Izinkan pengguna ini membuat akun baru";
+$GLOBALS['strAdvertiserLimitation'] = "Tampilkan hanya satu banner dari pengiklan ini di halaman web";
+$GLOBALS['strAllowAuditTrailAccess'] = "Izinkan pengguna mengakses jejak audit";
 
 // Campaign
 $GLOBALS['strCampaign'] = "Kampanye";
 $GLOBALS['strCampaigns'] = "Kampanye";
 $GLOBALS['strAddCampaign'] = "Tambah kampanye baru";
 $GLOBALS['strAddCampaign_Key'] = "Tambah kampanye <u>b</u>aru";
+$GLOBALS['strCampaignForAdvertiser'] = "untuk pengiklan";
 $GLOBALS['strLinkedCampaigns'] = "Kampanye yang diikat";
 $GLOBALS['strCampaignProperties'] = "Properties dari Kampanye";
 $GLOBALS['strCampaignOverview'] = "Rekapitulasi Kampanye";
+$GLOBALS['strCampaignHistory'] = "Statistik Kampanye";
 $GLOBALS['strNoCampaigns'] = "Pada saat ini tidak ada kampanye yang ditentukan";
+$GLOBALS['strNoCampaignsAddAdvertiser'] = "Saat ini tidak ada kampanye yang ditentukan, karena tidak ada pengiklan. Untuk membuat kampanye, <a href='advertiser-edit.php'>tambahkan pengiklan baru</a> terlebih dulu.";
 $GLOBALS['strConfirmDeleteCampaign'] = "Apakah benar Anda ingin menghapus semua kampanye ini?";
 $GLOBALS['strConfirmDeleteCampaigns'] = "Apakah benar Anda ingin menghapus semua kampanye ini?";
 $GLOBALS['strShowParentAdvertisers'] = "Tampilkan pemasang iklan induk";
@@ -244,6 +304,33 @@ $GLOBALS['strConversionsBooked'] = "Jumlah konversi yang dipesan";
 $GLOBALS['strCampaignWeight'] = "Bobot Kampanye";
 $GLOBALS['strAnonymous'] = "Sembunyikan pemasang iklan dan penerbit dari kampanye ini.";
 $GLOBALS['strTargetPerDay'] = "per hari.";
+$GLOBALS['strCampaignWarningRemnantNoWeight'] = "Jenis kampanye ini telah ditetapkan ke Sisa,
+tapi bobotnya diset ke nol atau belum
+ditentukan. Ini akan menyebabkan kampanye menjadi
+dinonaktifkan dan spanduknya tidak akan dikirim
+sampai berat telah ditetapkan ke nomor yang valid.
+
+Apakah anda yakin ingin melanjutkan?";
+$GLOBALS['strCampaignWarningEcpmNoRevenue'] = "Kampanye ini menggunakan pengoptimalan eCPM
+namun 'pendapatan' diset ke nol atau belum ditentukan.
+Hal ini akan menyebabkan kampanye dinonaktifkan
+dan spanduknya tidak akan dikirim sampai
+pendapatan telah ditetapkan ke nomor yang valid.
+
+Apakah anda yakin ingin melanjutkan?";
+$GLOBALS['strCampaignWarningOverrideNoWeight'] = "Jenis kampanye ini telah disetel ke Override,
+tapi bobotnya diset ke nol atau belum
+ditentukan. Ini akan menyebabkan kampanye menjadi
+dinonaktifkan dan spanduknya tidak akan dikirim
+sampai berat telah ditetapkan ke nomor yang valid.
+
+Apakah anda yakin ingin melanjutkan?";
+$GLOBALS['strCampaignWarningNoTarget'] = "Jenis kampanye ini telah ditetapkan ke Kontrak,
+tapi Batas per hari tidak ditentukan.
+Hal ini akan menyebabkan kampanye dinonaktifkan dan
+spanduknya tidak akan dikirim sampai batas yang valid per hari telah ditetapkan.
+
+Apakah anda yakin ingin melanjutkan?";
 $GLOBALS['strCampaignStatusInactive'] = "aktif";
 $GLOBALS['strCampaignStatusPaused'] = "Istirahat";
 $GLOBALS['strCampaignStatusRestarted'] = "Restart";
@@ -251,12 +338,27 @@ $GLOBALS['strCampaignStatusDeleted'] = "Hapus";
 $GLOBALS['strCampaignType'] = "Nama Kampanye";
 $GLOBALS['strType'] = "Jenis";
 $GLOBALS['strContract'] = "Alamat";
+$GLOBALS['strOverrideInfo'] = "Mengabaikan kampanye adalah jenis kampanye khusus khusus untuk
+    timpa (prioritas prioritas) kampanye Sisa dan Kontrak. Penimpaan kampanye umumnya digunakan bersama
+    aturan penargetan dan / atau pembatasan tertentu untuk memastikan bahwa spanduk kampanye selalu ditampilkan secara pasti
+    lokasi, untuk pengguna tertentu, dan mungkin beberapa kali, sebagai bagian dari promosi tertentu. (Kampanye ini
+    tipe sebelumnya dikenal sebagai 'Kontrak (Eksklusif)'.)";
 $GLOBALS['strStandardContract'] = "Alamat";
+$GLOBALS['strStandardContractInfo'] = "Kampanye kontrak adalah untuk menyampaikan tayangan dengan lancar
+    diperlukan untuk mencapai persyaratan kinerja kritis waktu tertentu. Artinya, kampanye Kontrak untuk kapan
+    pengiklan telah membayar secara khusus untuk memberikan sejumlah tayangan, klik, dan / atau konversi
+    dicapai antara dua tanggal, atau per hari.";
+$GLOBALS['strRemnantInfo'] = "Jenis kampanye default. Kampanye tersisa memiliki banyak perbedaan
+    pilihan pengiriman, dan sebaiknya Anda selalu memiliki setidaknya satu kampanye tersisa yang terkait dengan setiap zona, untuk memastikannya
+    selalu ada sesuatu untuk ditunjukkan. Gunakan kampanye Sisa untuk menampilkan spanduk rumah, spanduk iklan-jaringan, atau bahkan
+    periklanan langsung yang telah terjual, namun dimana tidak ada persyaratan kinerja time-critical untuk
+    kampanye untuk mematuhi.";
 
 // Tracker
 $GLOBALS['strTracker'] = "Pelacak";
 $GLOBALS['strTrackers'] = "Pelacak";
 $GLOBALS['strAddTracker'] = "Tambah pelacak baru";
+$GLOBALS['strTrackerForAdvertiser'] = "untuk pengiklan";
 $GLOBALS['strNoTrackers'] = "Pada saat ini belum ada pelacak yang ditetapkan";
 $GLOBALS['strConfirmDeleteTrackers'] = "Apakah Anda sudah yakin ingin menghapus seluruh pelacak?";
 $GLOBALS['strConfirmDeleteTracker'] = "Apakah Anda sudah yakin ingin menghapus seluruh pelacak?";
@@ -270,6 +372,7 @@ $GLOBALS['strClick'] = "Klik";
 $GLOBALS['strView'] = "Pandangan";
 $GLOBALS['strConversionType'] = "Jenis konversi";
 $GLOBALS['strLinkCampaignsByDefault'] = "Hubungkan kampanye baru secara Default";
+$GLOBALS['strIPAddress'] = "Alamat IP";
 
 // Banners (General)
 $GLOBALS['strBanners'] = "Banner";
@@ -466,6 +569,7 @@ $GLOBALS['strEstimated'] = "Perkiraan habisnya masa berlaku";
 $GLOBALS['strCampaignStop'] = "Sejarah Kampanye";
 
 // Reports
+$GLOBALS['strPeriod'] = "Periode";
 
 // Admin_UI_Fields
 $GLOBALS['strAllAdvertisers'] = "Semua pemasang iklan";
@@ -559,6 +663,7 @@ $GLOBALS['strEIPS_short'] = "CPM";
 $GLOBALS['strECPM_short'] = "CPM";
 $GLOBALS['strECPC_short'] = "CPC";
 $GLOBALS['strECPS_short'] = "CPM";
+$GLOBALS['strID_short'] = "ID";
 $GLOBALS['strClicks_short'] = "AdClick";
 
 // Global Settings
