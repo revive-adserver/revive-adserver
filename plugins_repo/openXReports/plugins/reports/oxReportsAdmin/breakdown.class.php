@@ -37,8 +37,8 @@ class Plugins_Reports_OxReportsAdmin_Breakdown extends Plugins_Reports
      */
     function initInfo()
     {
-        $this->_name         = $this->translate("Account Breakdown");
-        $this->_description  = $this->translate("Lists Impression/Click/Conversion totals for a given month.");
+        $this->_name         = $this->translate("Manager Account Breakdown");
+        $this->_description  = $this->translate("Lists Adviews/AdClicks/AdSales totals for a given month.");
         $this->_category     = 'admin';
         $this->_categoryName = $this->translate("Admin Reports");
         $this->_author       = 'Chris Nutting';
