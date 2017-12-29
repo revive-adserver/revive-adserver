@@ -11,7 +11,6 @@ msgstr ""
 
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:40
-#: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:137
 msgid "Account Breakdown"
 msgstr "Account Breakdown"
 
@@ -26,3 +25,7 @@ msgstr "Admin Reports"
 #: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:128
 msgid "Manager"
 msgstr "Manager"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:137
+msgid "Manager Account Breakdown"
+msgstr "Manager Account Breakdown"
