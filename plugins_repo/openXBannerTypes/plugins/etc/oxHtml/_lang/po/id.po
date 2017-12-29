@@ -15,13 +15,13 @@ msgstr ""
 
 #: plugins_repo/openXBannerTypes/plugins/bannerTypeHtml/oxHtml/html5.class.php:40
 msgid "HTML5 Banner (ZIP package)"
-msgstr ""
+msgstr "HTML5 Spanduk (Paket ZIP)"
 
 #: plugins_repo/openXBannerTypes/plugins/bannerTypeHtml/oxHtml/html5.class.php:56
 msgid "Upload an HTML5 banner"
-msgstr ""
+msgstr "Unggah spanduk HTML5"
 
 #: plugins_repo/openXBannerTypes/plugins/bannerTypeHtml/oxHtml/genericHtml.class.php:35
 msgid "Generic HTML Banner"
-msgstr "Banner HTML Generik"
+msgstr "Spanduk HTML Generik"
 
