@@ -18,12 +18,15 @@ $GLOBALS['strAdministrator'] = "Yönetici";
 // Audit
 $GLOBALS['strDeleted'] = "Sil";
 $GLOBALS['strDelete'] = "Sil";
+$GLOBALS['strFilters'] = "Filtreler";
 $GLOBALS['strAdvertiser'] = "Reklamveren";
 $GLOBALS['strPublisher'] = "Web sitesi";
 $GLOBALS['strCampaign'] = "Kampanya";
 $GLOBALS['strZone'] = "Alan";
 $GLOBALS['strType'] = "Tip";
 $GLOBALS['strAction'] = "Eylem";
+$GLOBALS['strParameter'] = "Değişkenler";
+$GLOBALS['strValue'] = "Değer";
 
 if (!isset($GLOBALS['strUserlog'])) {
     $GLOBALS['strUserlog'] = array();

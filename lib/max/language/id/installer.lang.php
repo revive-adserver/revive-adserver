@@ -17,6 +17,7 @@
 /** check step * */
 
 
+$GLOBALS['strWarning'] = "Peringatan";
 $GLOBALS['strSyscheckStatus'] = "Keadaan";
 
 /** admin login step * */

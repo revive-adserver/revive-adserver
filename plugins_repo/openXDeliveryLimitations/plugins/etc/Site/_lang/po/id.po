@@ -1,48 +1,48 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: revive-adserver\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-16 14:32+0100\n"
+"Last-Translator: mbeccati <matteo@beccati.com>\n"
+"Language-Team: Indonesian\n"
+"Language: id_ID\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-KeywordsList: translate\n"
-"Last-Translator: mbeccati <matteo@beccati.com>\n"
-"Language-Team: Indonesian\n"
-"Language: id_ID\n"
 "X-Generator: crowdin.com\n"
-"X-Poedit-SearchPath-0: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site/\n"
 "X-Crowdin-Project: revive-adserver\n"
 "X-Crowdin-Language: id\n"
 "X-Crowdin-File: /plugins_repo/openXDeliveryLimitations/plugins/etc/Site/_lang/po/en.po\n"
 
-#: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site//Channel.class.php:62
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Channel.class.php:46
 msgid "Is all of"
-msgstr ""
+msgstr "Apakah semua"
 
-#: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site//Channel.class.php:72
-msgid "Channel"
-msgstr ""
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Hostnamelist.class.php:76
+msgid "Enter hostnames below to remove matching entries from the list"
+msgstr "Masukkan nama host di bawah ini untuk menghapus entri yang cocok dari daftar"
 
-#: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site//Referingpage.class.php:59
-msgid "Refering Page"
-msgstr ""
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Hostnamelist.class.php:79
+msgid "Remove Hostnames"
+msgstr "Hapus nama host"
 
-#: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site//Source.class.php:59
-msgid "Source"
-msgstr "Sumber"
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Hostnamelist.class.php:96
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Registerabledomainlist.class.php:96
+msgid "WARNING"
+msgstr "PERINGATAN"
 
-#: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site//Pageurl.class.php:66
-msgid "Page URL"
-msgstr ""
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Hostnamelist.class.php:97
+msgid "The Hostname List delivery rule cannot be used; it requires that the PHP <i>intl</i> extension be installed."
+msgstr "Aturan pengiriman Daftar Nama Host tidak dapat digunakan; mengharuskan ekstensi PHP<i>intl</i> dipasang."
 
-#: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site//Variable.class.php:58
-msgid "Variable"
-msgstr ""
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Registerabledomainlist.class.php:76
+msgid "Enter domains below to remove matching entries from the list"
+msgstr "Masukkan domain di bawah ini untuk menghapus entri yang cocok dari daftar"
 
-#: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Site//Variable.class.php:71
-msgid "Site:Variable: Name contains unallowed character(s)"
-msgstr ""
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Registerabledomainlist.class.php:79
+msgid "Remove Domains"
+msgstr "Hapus Domain"
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Registerabledomainlist.class.php:97
+msgid "The Registerable Domain List delivery rule cannot be used; it requires that the PHP <i>intl</i> extension be installed."
+msgstr "Aturan pengiriman Daftar Domain Registerable tidak dapat digunakan; mengharuskan ekstensi PHP <i>intl</i> dipasang."
 

@@ -16,35 +16,35 @@ msgstr ""
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Netspeed.res.inc.php:19
 msgid "Unknown"
-msgstr "Tidak dikenal"
+msgstr "Tidak diketahui"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Netspeed.res.inc.php:20
 msgid "Dial-up"
-msgstr ""
+msgstr "Panggilan"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Netspeed.res.inc.php:21
 msgid "Broadband"
-msgstr ""
+msgstr "Broadband"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Netspeed.res.inc.php:22
 msgid "Corporate"
-msgstr ""
+msgstr "Perusahaan"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:44
 msgid "Is within"
-msgstr ""
+msgstr "Ada di dalam"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:45
 msgid "Is not within"
-msgstr ""
+msgstr "Tidak di"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:88
 msgid "Latitude"
-msgstr ""
+msgstr "Lintang"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:94
 msgid "Longitude"
-msgstr ""
+msgstr "Garis bujur"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/City.class.php:75
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Region.class.php:76
@@ -53,13 +53,13 @@ msgstr "Negara"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/City.class.php:90
 msgid "City(s)"
-msgstr ""
+msgstr "Kota"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/City.res.inc.php:27
 msgid "---Any---"
-msgstr ""
+msgstr "---Apa saja---"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Region.class.php:92
 msgid "Region(s)"
-msgstr ""
+msgstr "Wilayah(s)"
 
