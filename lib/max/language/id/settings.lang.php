@@ -110,6 +110,7 @@ $GLOBALS['strTypeWebModeFtp'] = "Server FTP eksternal";
 $GLOBALS['strTypeWebDir'] = "Direktori lokal";
 $GLOBALS['strTypeFTPHost'] = "Host FTP";
 $GLOBALS['strTypeFTPDirectory'] = "Direktori Host";
+$GLOBALS['strTypeFTPUsername'] = "Masuk";
 $GLOBALS['strTypeFTPPassword'] = "Kata Sandi";
 $GLOBALS['strTypeFTPPassive'] = "Gunakan FTP pasif";
 $GLOBALS['strTypeFTPErrorDir'] = "Direktori dari hosti FTP tidak ada";
