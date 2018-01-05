@@ -161,7 +161,7 @@ function MAX_AclSave($acls, $aEntities, $page = false)
 
     if (!empty($acls))
     {
-        foreach ($acls as $acl)
+        foreach ($acls as $index => $acl)
         {
             $deliveryLimitationPlugin =& OA_aclGetComponentFromRow($acl);
 
@@ -177,8 +177,20 @@ function MAX_AclSave($acls, $aEntities, $page = false)
             {
                 return false;
             }
+            // It's possible that ACLS data is processed by the delivery rule
+            // plugin, which may result in the already caluclated $sLimitation
+            // value from the raw ACLS data being incorrect post-processing.
+            // So, update the original $acls array with the new, processed
+            // data, before moving on to the next one, so that $sLimitation can
+            // be re-calculated later
+            $acls[$index]['data'] = $doAcls->data;
         }
     }
+
+    // As per the comment above, re-calculate $sLimitation using the potentially
+    // processed ACLS data
+    $sLimitation = OA_aclGetSLimitationFromAAcls($acls);
+
     $doTable->acl_plugins = MAX_AclGetPlugins($acls);
     $doTable->compiledlimitation = $sLimitation;
     $doTable->acls_updated = OA::getNowUTC();
