@@ -16,7 +16,7 @@ msgstr ""
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:70
 msgid "Advertising Analysis Report"
-msgstr ""
+msgstr "Reklamcılık Analizi Raporu"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:71
 msgid "This report shows a breakdown of advertising for a particular advertiser or website, by day, campaign, and zone."
@@ -96,11 +96,11 @@ msgstr ""
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:354
 msgid "Total Connections"
-msgstr ""
+msgstr "Toplam Bağlantılar"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:357
 msgid " Connections"
-msgstr ""
+msgstr " Bağlantılar"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:656
 msgid "Connection ID"
@@ -112,11 +112,11 @@ msgstr ""
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:680
 msgid "Approval Status"
-msgstr ""
+msgstr "Onay Durumu"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:682
 msgid "Comment"
-msgstr ""
+msgstr "Yorum"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:688
 msgid "Advertiser Name"
@@ -124,11 +124,11 @@ msgstr ""
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:692
 msgid "Ad Name"
-msgstr ""
+msgstr "Reklam Adı"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:694
 msgid "Website Name"
-msgstr ""
+msgstr "Web Sitesi Adı"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:696
 msgid "Zone Name"
@@ -136,19 +136,19 @@ msgstr ""
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:698
 msgid "Connection Type"
-msgstr ""
+msgstr "Bağlantı Türü"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:700
 msgid "Connecting Value Date / Time"
-msgstr ""
+msgstr "Bağlanma Değeri Tarih / Saat"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:702
 msgid "IP Address"
-msgstr ""
+msgstr "IP Adresi"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:43
 msgid "Campaign Delivery Report"
-msgstr ""
+msgstr "Kampanya Teslim Raporu"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:44
 msgid "This report shows delivery statistics for all campaigns which were live during the specified period, highlighting campaigns which are underperforming."
@@ -204,7 +204,7 @@ msgstr ""
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:515
 msgid "Override"
-msgstr ""
+msgstr "Geçersiz kıl"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:517
 msgid "Remnant"

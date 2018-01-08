@@ -13,11 +13,13 @@
 /** status messages * */
 
 /** welcome step * */
+$GLOBALS['strWelcomeTitle'] = "{$PRODUCT_NAME} 'e hoş geldiniz";
 $GLOBALS['strInstallIntro'] = "{$PRODUCT_NAME} ürününü seçtiğiniz için teşekkür ederiz. Bu sihirbaz, {$PRODUCT_NAME} ürününü yükleme işlemi boyunca size rehberlik edecektir.";
 $GLOBALS['strUpgradeIntro'] = "{$PRODUCT_NAME} ürününü seçtiğiniz için teşekkür ederiz. Bu sihirbaz size {$PRODUCT_NAME} ürününü geliştirme süreci boyunca rehberlik edecektir.";
 $GLOBALS['strTermsIntro'] = "{$PRODUCT_NAME}, bir Açık Kaynak lisansı, GNU Genel Kamu Lisansı uyarınca özgürce dağıtılır. Kuruluma devam etmek için lütfen aşağıdaki belgeleri inceleyin ve kabul edin.";
 
 /** check step * */
+$GLOBALS['strSystemCheck'] = "Sistem kontrolü";
 $GLOBALS['strSystemCheckIntro'] = "Yükleme sihirbazı, yükleme işleminin başarıyla tamamlanabildiğinden emin olmak için web sunucusu ayarlarınıza yönelik bir kontrol gerçekleştirdi.<br>Yükleme işlemini tamamlamak için lütfen vurguladığınız sorunları kontrol edin.";
 
 $GLOBALS['strAppCheckErrors'] = "{$PRODUCT_NAME} ürününün önceki kurulumlarını tespit ederken hatalar bulundu";
@@ -26,7 +28,13 @@ $GLOBALS['strAppCheckDbIntegrityError'] = "Veritabanınızla ilgili bütünlük 
 $GLOBALS['strSyscheckProgressMessage'] = "Sistem parametreleri denetleniyor...";
 $GLOBALS['strError'] = "Hata";
 $GLOBALS['strWarning'] = "Uyarı";
+$GLOBALS['strOK'] = "TAMAM";
+$GLOBALS['strSyscheckName'] = "Ismi kontrol et";
 $GLOBALS['strSyscheckStatus'] = "Durum";
+$GLOBALS['strSyscheckSeeFullReport'] = "Detaylı sistem kontrolü göster";
+$GLOBALS['strSyscheckSeeShortReport'] = "Yalnızca hataları ve uyarıları göster";
+$GLOBALS['strBrowserCookies'] = 'Tarayıcı Çerezleri';
+$GLOBALS['strPHPConfiguration'] = 'PHP Yapılandırması';
 
 /** admin login step * */
 $GLOBALS['strAdminLoginIntro'] = "Devam etmek için lütfen {$PRODUCT_NAME} sistem yöneticisi hesabının oturum açma bilgilerinizi girin.";
@@ -40,15 +48,22 @@ $GLOBALS['strDbUpgradeIntro'] = "{$PRODUCT_NAME} ürününü yüklediğinizde a�
 $GLOBALS['strConfigureInstallIntro'] = "Lütfen yerel {$PRODUCT_NAME} sistem yönetici hesabınız için istenen oturum açma bilgilerini girin.";
 $GLOBALS['strConfigureUpgradeTitle'] = "Yapılandırma Ayarları";
 $GLOBALS['strConfigureUpgradeIntro'] = "Önceki {$PRODUCT_NAME} yükleme yolunu belirtin.";
+$GLOBALS['strConfigSeeMoreFields'] = "Daha fazla yapılandırma alanına bakın...";
+$GLOBALS['strPreviousInstallTitle'] = "Önceki kurulum";
 $GLOBALS['strPathToPrevious'] = "Önceki {$PRODUCT_NAME} yükleme yolu";
 $GLOBALS['strPathToPreviousError'] = "Bir veya daha fazla eklenti dosyası bulunamadı, daha fazla bilgi için install.log dosyasını kontrol edin";
+$GLOBALS['strConfigureProgressMessage'] = "{$PRODUCT_NAME} 'i yapılandırma...";
 
 /** jobs step * */
 
 
 /** finish step * */
+$GLOBALS['strFinishInstallTitle'] = "{$PRODUCT_NAME} kurulumunuz tamamlandı.";
 $GLOBALS['strFinishUpgradeWithErrorsTitle'] = "{$PRODUCT_NAME} güncellemeniz tamamlandı. Lütfen vurgulanan sorunları kontrol edin.";
+$GLOBALS['strFinishUpgradeTitle'] = "{$PRODUCT_NAME} güncellemeniz tamamlandı.";
 $GLOBALS['strFinishInstallWithErrorsTitle'] = "{$PRODUCT_NAME} kurulumunuz tamamlandı. Lütfen vurgulanan sorunları kontrol edin.";
+$GLOBALS['strDetailedTaskErrorList'] = "Bulunan hataların ayrıntılı listesi";
+$GLOBALS['strPluginInstallFailed'] = "Eklenti kurulumu \"%s\" başarısız oldu:";
 $GLOBALS['strContinueToLogin'] = "{$PRODUCT_NAME} örneğinize giriş yapmak için \"Devam Et\" i tıklayın.";
 
 $GLOBALS['strUnableCreateConfFile'] = "Yapılandırma dosyanızı oluşturamıyoruz. Lütfen {$PRODUCT_NAME} var klasörünün izinlerini tekrar kontrol edin.";
