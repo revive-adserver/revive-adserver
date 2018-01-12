@@ -33,8 +33,11 @@ $GLOBALS['strSystemCheckBadPHPConfig'] = "Geçerli PHP yapılandırmanız {$PROD
 
 $GLOBALS['strDeliveryUrlPrefix'] = "Teslimat Motoru";
 $GLOBALS['strDeliveryUrlPrefixSSL'] = "Teslimat Motoru";
+$GLOBALS['strImagesUrlPrefix'] = "Resim Mağazası URL'si";
+$GLOBALS['strImagesUrlPrefixSSL'] = "Resim Mağazası URL'si (SSL)";
 
 
+$GLOBALS['strUpgrade'] = "Yükselt";
 
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
@@ -89,11 +92,15 @@ $GLOBALS['strEmailAddresses'] = "E-posta 'Kimden' adresi";
 $GLOBALS['strUseManagerDetails'] = 'Raporları Reklamverene veya Web sitesi hesaplarına e-postayla gönderirken, sahibi olduğunuz hesabın yukarıdaki Adı, E-posta Adresi ve Şirket adı yerine Kişi, E-posta ve Adı\'nı kullanın.';
 $GLOBALS['strQmailPatch'] = "qmail patchini kullanın";
 $GLOBALS['strEnableQmailPatch'] = "qmail patchini kullanın";
+$GLOBALS['strEmailHeader'] = "E-posta başlıkları";
 
 // Audit Trail Settings
 $GLOBALS['strEnableAuditForZoneLinking'] = "Bölge bağlama ekranında Denetim İznini etkinleştirin (büyük miktarda bölgeyi bağlamak büyük performans gerektirir)";
 
 // Debug Logging Settings
+$GLOBALS['strDebugMethodNames'] = "Hata ayıklama günlüğüne yöntem adları ekleyin";
+$GLOBALS['strDebugLineNumbers'] = "Satır numaralarını hata ayıklama günlüğüne ekle";
+$GLOBALS['strDebugType'] = "Hata Ayıklama Günlüğü Türü";
 $GLOBALS['strDebugTypeFile'] = "Dosya";
 
 // Delivery Settings
@@ -107,14 +114,34 @@ $GLOBALS['strTypeFTPHost'] = "FTP Sunucu";
 $GLOBALS['strTypeFTPDirectory'] = "Sunucu klasörü";
 $GLOBALS['strTypeFTPUsername'] = "Giriş";
 $GLOBALS['strTypeFTPPassword'] = "Parola";
+$GLOBALS['strTypeFTPPassive'] = "Pasif FTP kullan";
 $GLOBALS['strTypeFTPErrorConnect'] = "FTP Sunucusuna bağlanılamadı, Giriş veya Parola doğru değil";
+$GLOBALS['strTypeFTPErrorNoSupport'] = "PHP kurulumunuz FTP'yi desteklemez.";
 $GLOBALS['strTypeFTPErrorUpload'] = "FTP Sunucusuna dosya yüklenemedi, Ana Dizin için uygun hakları ayarlayın kontrol edin";
+$GLOBALS['strDeliveryFilenamesAdClick'] = "Reklam Tıklaması";
+$GLOBALS['strDeliveryFilenamesAdConversionVars'] = "Reklam Dönüştürme Değişkenleri";
+$GLOBALS['strDeliveryFilenamesAdContent'] = "Reklam İçeriği";
+$GLOBALS['strDeliveryFilenamesAdConversion'] = "Reklam Dönüştürme";
+$GLOBALS['strDeliveryFilenamesAdConversionJS'] = "Reklam Dönüştürme (JavaScript)";
+$GLOBALS['strDeliveryFilenamesAdFrame'] = "Reklam Çerçevesi";
+$GLOBALS['strDeliveryFilenamesAdImage'] = "Reklam Resmi";
+$GLOBALS['strDeliveryFilenamesAdJS'] = "Reklam (JavaScript)";
+$GLOBALS['strDeliveryFilenamesAdLayer'] = "Reklam Katmanı";
+$GLOBALS['strDeliveryFilenamesAdLog'] = "Reklam Günlüğü";
+$GLOBALS['strDeliveryFilenamesAdPopup'] = "Reklam Açılır Penceresi";
+$GLOBALS['strDeliveryFilenamesAdView'] = "Reklam Görünümü";
+$GLOBALS['strDeliveryFilenamesXMLRPC'] = "XML RPC Çağrısı";
+$GLOBALS['strDeliveryFilenamesLocal'] = "Yerel Çağrı";
+$GLOBALS['strDeliveryExecPhp'] = "Reklamlarda PHP kodunun çalıştırılmasına izin ver<br/>(Uyarı: Güvenlik riski)";
 $GLOBALS['strP3PSettings'] = "P3P Gizlilik Politikaları";
 $GLOBALS['strUseP3P'] = "P3P Politikalarını kullan";
 $GLOBALS['strP3PCompactPolicy'] = "P3P Yoğunlaştırılmış politika";
 $GLOBALS['strP3PPolicyLocation'] = "P3P Politika yeri";
 
 // General Settings
+$GLOBALS['generalSettings'] = "Global Genel Sistem Ayarları";
+$GLOBALS['uiEnabled'] = "Kullanıcı Arayüzü Etkin";
+$GLOBALS['defaultLanguage'] = "Varsayılan Sistem Dili<br/>(Her kullanıcı kendi dilini seçebilir)";
 
 // Geotargeting Settings
 
@@ -128,12 +155,14 @@ $GLOBALS['strShowBannerPreview'] = "Sayfanın en üstünde uyan banner önizleme
 $GLOBALS['strHideInactive'] = "Etkin olmayanları gizle";
 $GLOBALS['strGUIShowMatchingBanners'] = "<i>İlişkili Bannerlar</i> sayfalarında uyan bannerları göster";
 $GLOBALS['strGUIShowParentCampaigns'] = "<i>ilişkili Bannerlar</i> sayfasında ebeveyn bannerları göster";
+$GLOBALS['strShowEntityId'] = "Varlık tanımlayıcılarını göster";
 $GLOBALS['strStatisticsDefaults'] = "İstatistikler";
 $GLOBALS['strBeginOfWeek'] = "Haftanın Başlangıcı";
 $GLOBALS['strPercentageDecimals'] = "Yüzdelik Basamağı";
 $GLOBALS['strWeightDefaults'] = "öntanımlı ağırlık";
 $GLOBALS['strDefaultBannerWeight'] = "öntanımlı banner ağırlığı";
 $GLOBALS['strDefaultCampaignWeight'] = "öntanımlı kampanya ağırlığı";
+$GLOBALS['strConfirmationUI'] = "Kullanıcı Arayüzünde Onaylama";
 
 // Invocation Settings
 
@@ -162,6 +191,10 @@ $GLOBALS['strGeneralSettings'] = "Genel Ayarlar";
 $GLOBALS['strAppName'] = "Uygulama Adı";
 $GLOBALS['strMyHeader'] = "Altbilgi";
 $GLOBALS['strMyFooter'] = "Altbilgi";
+$GLOBALS['requireSSL'] = "Kullanıcı Arabiriminde SSL Erişimini Zorla";
+$GLOBALS['strGuiHeaderBackgroundColor'] = "Başlık arka planının rengi";
+$GLOBALS['strGuiActiveTabColor'] = "Etkin sekmenin rengi";
+$GLOBALS['strGuiHeaderTextColor'] = "Başlıktaki metnin rengi";
 $GLOBALS['strGzipContentCompression'] = "Sıkıştırma için GZIP içeriğini kullan";
 
 // Regenerate Platfor Hash script
