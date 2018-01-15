@@ -24,15 +24,15 @@ msgstr ""
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:58
 msgid "My New Plugin"
-msgstr ""
+msgstr "Yeni Eklentim"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:81
 msgid "New Plugin"
-msgstr ""
+msgstr "Yeni Eklenti"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:83
 msgid "Plugin Name"
-msgstr ""
+msgstr "Eklenti Adı"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:84
 msgid "Author Email"
