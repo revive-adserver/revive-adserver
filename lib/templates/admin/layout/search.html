@@ -44,13 +44,13 @@
 {include file=layout/branding.html}
 
 	<div id='oaSearch'>
-		<form name='search' action='admin-search.php' method='post'>
-	    <input type='hidden' name='client' value='{$client}'>
-	    <input type='hidden' name='campaign' value='{$campaign}'>
-	    <input type='hidden' name='banner' value='{$banner}'>
-	    <input type='hidden' name='zone' value='{$zone}'>
-	    <input type='hidden' name='affiliate' value='{$affiliate}'>
-	    <input type='hidden' name='compact' value='{$compact}'>
+		<form name='search' action='admin-search.php' method='get'>
+	    <input type='hidden' name='client' value='{$clien|escape}'>
+	    <input type='hidden' name='campaign' value='{$campaign|escape}'>
+	    <input type='hidden' name='banner' value='{$banner|escape}'>
+	    <input type='hidden' name='zone' value='{$zone|escape}'>
+	    <input type='hidden' name='affiliate' value='{$affiliate|escape}'>
+	    <input type='hidden' name='compact' value='{$compact|escape}'>
 	    <input value="{$keyword|escape}" type='text' name='keyword' class='search' accesskey='{t key=Search}'><input class="submit" type="submit" value="&nbsp" >
     </form>
 	</div>

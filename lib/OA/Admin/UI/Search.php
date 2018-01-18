@@ -19,9 +19,13 @@ class OA_Admin_UI_Search extends OA_Admin_UI
         $this->oTpl = new OA_Admin_Template('layout/search.html');
     }
 
-    function showHeader($keyword)
+    function showHeader($keyword, $parameters)
     {
         $this->oTpl->assign('keyword', $keyword);
+
+        foreach ($parameters as $key=> $value) {
+            $this->oTpl->assign($key, $value);
+        }
 
         parent::showHeader(0);
     }
