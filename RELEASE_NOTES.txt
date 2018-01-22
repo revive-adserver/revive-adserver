@@ -35,6 +35,10 @@ What's New in Revive Adserver 4.1.2
   * Fixed an issue that was sometimes preventing file/folder permission errors
     from being written to the debug log.
 
+  * Fixed an issue with the Campaign Banners page was not working when the
+    banner preview was enabled an the campaign contained a mix of HTML5 and
+    regular HTML banners.
+
  Non-Backwards Compatible Changes
  --------------------------------
 

@@ -435,10 +435,10 @@ function _adRenderFlash(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=fal
 function _adRenderHtml(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $richMedia=true, $loc='', $referer='', $context=array())
 {
     // This is a wrapper to the "parent" bannerTypeHtml function
-    $aConf = $GLOBALS['_MAX']['CONF'];
     if (!function_exists('Plugin_BannerTypeHtml_delivery_adRender')) {
-        @include LIB_PATH . '/Extension/bannerTypeHtml/bannerTypeHtmlDelivery.php';
+        _includeDeliveryPluginFile('/lib/OX/Extension/bannerTypeHtml/bannerTypeHtmlDelivery.php');
     }
+
     return Plugin_BannerTypeHtml_delivery_adRender($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $richMedia, $loc, $referer);
 }
 
@@ -450,7 +450,7 @@ function _adRenderHtml(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=fals
  * @param string  $source       The "source" parameter passed into the adcall
  * @param string  $ct0          The 3rd party click tracking URL to redirect to after logging
  * @param int     $withText     Should "text below banner" be appended to the generated code
- * @param bookean $logClick     Should this click be logged (clicks in admin should not be logged)
+ * @param boolean $logClick     Should this click be logged (clicks in admin should not be logged)
  * @param boolean $logView      Should this view be logged (views in admin should not be logged
  *                              also - 3rd party callback logging should not be logged at view time)
  * @param boolean $useAlt       Should the backup file be used for this code
