@@ -20,7 +20,9 @@ $GLOBALS['strChooseSection'] = "Bölüm Seçiniz";
 
 
 
+$GLOBALS['strAutomaticMaintenanceHasRun'] = "<b>Otomatik bakım doğru çalışıyor.</b>";
 
+$GLOBALS['strAutoMantenaceEnabled'] = "Ancak, otomatik bakım hala etkin durumdadır. En iyi performans için <a href='account-settings-maintenance.php'>otomatik bakımı devre dışı bırak</a>malısınız.";
 
 // Priority
 $GLOBALS['strRecalculatePriority'] = "Öncelikleri hesapla";
@@ -34,6 +36,7 @@ $GLOBALS['strBannerCacheExplaination'] = "	Banner hafızası bannerı göstermek
 	ve bannerı bünyesinde bulundurur.";
 
 // Cache
+$GLOBALS['strDeliveryCacheSharedMem'] = "Paylaşılan bellek şu anda teslimat önbelleğini saklamak için kullanılmaktadır.";
 $GLOBALS['strDeliveryCacheDatabase'] = "Veritabanı şu anda teslimat önbelleklerinin saklanması için kullanılmaktadır.";
 $GLOBALS['strDeliveryCacheFiles'] = "Teslim ön belleği şu anda sunucunuzdaki birden çok dosyaya depolanıyor.";
 
@@ -79,6 +82,7 @@ $GLOBALS['strCurrentlyUsing'] = "Kullanmakta olduğunuz";
 $GLOBALS['strAndPlain'] = "ve";
 
 //  Deliver Limitations
+$GLOBALS['strDeliveryLimitations'] = "Teslimat Kuralları";
 $GLOBALS['strBannerCompiledLimitationsValid'] = "Afişler için derlenmiş teslimat kuralları geçerlidir";
 $GLOBALS['strErrorsFound'] = "Hatalar bulundu";
 $GLOBALS['strRepairCompiledLimitations'] = "Yukarıda bazı tutarsızlıklar bulundu, bunları aşağıdaki düğmeyi kullanarak onarabilirsiniz; bu derlenmiş sınırlamayı sistemdeki her afiş / yayınlama kuralı için derleyecektir <br/>";

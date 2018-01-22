@@ -45,10 +45,18 @@ $GLOBALS['strPopUpAfterSec'] = "Sonra";
 $GLOBALS['strAutoCloseAfter'] = "Süre sonra otomatik kapat";
 $GLOBALS['strPopUpTop'] = "Başlangıç konumu (üst)";
 $GLOBALS['strPopUpLeft'] = "Başlangıç konumu (sol)";
+$GLOBALS['strWindowOptions'] = "Pencere seçenekleri";
+$GLOBALS['strShowToolbars'] = "Araç Çubukları";
+$GLOBALS['strShowLocation'] = "Konum";
+$GLOBALS['strShowMenubar'] = "Menü çubuğu";
 $GLOBALS['strShowStatus'] = "Durum";
+$GLOBALS['strWindowResizable'] = "Boyutlandırılabilir";
+$GLOBALS['strShowScrollbars'] = "Kaydırma çubukları";
 
 // XML-RPC
 $GLOBALS['strXmlRpcLanguage'] = "Sunucu Dili";
+$GLOBALS['strXmlRpcProtocol'] = "XML-RPC Sunucusu ile bağlantı kurmak için HTTPS'yi kullanın";
+$GLOBALS['strXmlRpcTimeout'] = "XML-RPC Zaman Aşımı (Saniye)";
 
 // Support for 3rd party server clicktracking
 

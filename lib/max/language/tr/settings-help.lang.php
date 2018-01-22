@@ -101,6 +101,7 @@ $GLOBALS['phpAds_hlp_ignore_hosts'] = "Bazı bilgisayarlardan görüntülemeleri
 
 $GLOBALS['phpAds_hlp_begin_of_week'] = "Çoğu insan için hafta Pazartesi günü ile başlar, ancak Pazar günü ile başlamak isterseniz yapabilirsiniz.";
 
+$GLOBALS['phpAds_hlp_percentage_decimals'] = "İstatistik sayfalarında kaç tane ondalık basamak gösterileceğini belirtir.";
 
 $GLOBALS['phpAds_hlp_warn_admin'] = "{$PRODUCT_NAME}, bir kampanyada yalnızca sınırlı sayıda görüntüleme, tıklama veya dönüşüm kaldığında size e-posta gönderebilir. Bu varsayılan olarak açıktır.";
 
