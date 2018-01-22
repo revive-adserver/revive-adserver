@@ -36,7 +36,8 @@ EOF;
 
     /**
      * An array containing all the allowed (lowercase) extension as key. If a file with a non-listed extension is
-     * found, an exception will be thrown. Extensions with false as a value are skipped during the copy.
+     * found, an exception will be thrown. Files with an extension that is listed with false as a value here
+     * are not copied to the images folder.
      *
      * @var array
      */
@@ -56,6 +57,12 @@ EOF;
         'woff' => true,
         'woff2' => true,
         'eot' => true,
+        'svg' => true,
+        'json' => true,
+        'xml' => true,
+        'txt' => true,
+        'md' => true,
+
         'ds_store' => false,
         'ini' => false,
     ];

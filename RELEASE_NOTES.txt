@@ -41,6 +41,10 @@ What's New in Revive Adserver 4.1.2
 
   * Fixed an issue with saving account preferences on MYSQL 5.7+.
 
+  * Improved HTML5 banner compatibility by whitelisting a few more common file
+    extensions, e.g. ".svg", ".txt", ".json", ".xml".
+
+
  Non-Backwards Compatible Changes
  --------------------------------
 
