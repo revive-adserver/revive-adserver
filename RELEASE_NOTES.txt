@@ -39,6 +39,8 @@ What's New in Revive Adserver 4.1.2
     banner preview was enabled an the campaign contained a mix of HTML5 and
     regular HTML banners.
 
+  * Fixed an issue with saving account preferences on MYSQL 5.7+.
+
  Non-Backwards Compatible Changes
  --------------------------------
 
