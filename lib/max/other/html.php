@@ -1141,6 +1141,8 @@ function MAX_displayPlacementAdSelectionViewForm($publisherId, $zoneId, $view, $
 
 function MAX_displayAcls($acls, $aParams)
 {
+    global $session;
+    
     $tabindex =& $GLOBALS['tabindex'];
     $page = basename($_SERVER['SCRIPT_NAME']);
     $conf = $GLOBALS['_MAX']['CONF'];
@@ -1167,12 +1169,22 @@ function MAX_displayAcls($acls, $aParams)
     $aErrors = OX_AclCheckInputsFields($acls, $page);
     if (!empty($GLOBALS['action'])) {
         // We are part way through making changes, show a message
-        //echo "<br>";
         echo "<div class='errormessage'><img class='errormessage' src='" . OX::assetPath() . "/images/warning.gif' align='absmiddle'>";
         echo "<span class='tab-s'>{$GLOBALS['strUnsavedChanges']}</span><br>";
         echo "</div>";
-    }
-    elseif (!MAX_AclValidate($page, $aParams)) {
+    } elseif ($session['aclsDbError']) {
+        unset($session['aclsDbError']);
+        phpAds_SessionDataStore();
+        echo "<div class='errormessage'><img class='errormessage' src='" . OX::assetPath() . "/images/warning.gif' align='absmiddle'>";
+        echo "<span class='tab-r'>{$GLOBALS['strDeliveryRulesDbError']}</span><br>";
+        echo "</div>";
+    } elseif ($session['aclsTruncation']) {
+        unset($session['aclsTruncation']);
+        phpAds_SessionDataStore();
+        echo "<div class='errormessage'><img class='errormessage' src='" . OX::assetPath() . "/images/warning.gif' align='absmiddle'>";
+        echo "<span class='tab-r'>{$GLOBALS['strDeliveryRulesTruncation']}</span><br>";
+        echo "</div>";
+    } elseif (!MAX_AclValidate($page, $aParams)) {
         echo "<div class='errormessage'><img class='errormessage' src='" . OX::assetPath() . "/images/warning.gif' align='absmiddle'>";
         echo "<span class='tab-r'>{$GLOBALS['strDeliveryLimitationsDisagree']}</span><br>";
         echo "</div>";

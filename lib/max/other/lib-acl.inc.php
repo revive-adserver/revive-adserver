@@ -14,7 +14,8 @@ require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/lib-banner.inc.php';
 require_once LIB_PATH . '/Plugin/Component.php';
 require_once MAX_PATH . '/lib/max/Dal/Admin/Acls.php';
-if(!isset($GLOBALS['_MAX']['FILES']['/lib/max/Delivery/remotehost.php'])) {
+
+if (!isset($GLOBALS['_MAX']['FILES']['/lib/max/Delivery/remotehost.php'])) {
     // Required by PHP5.1.2
     require_once MAX_PATH . '/lib/max/Delivery/remotehost.php';
 }
@@ -22,7 +23,6 @@ if(!isset($GLOBALS['_MAX']['FILES']['/lib/max/Delivery/remotehost.php'])) {
 // Initialize the client info to enable client targeting options
 MAX_remotehostProxyLookup();
 MAX_remotehostReverseLookup();
-//MAX_remotehostSetClientInfo();  // moved to plugin
 MAX_remotehostSetGeoInfo();
 
 /**
@@ -112,7 +112,13 @@ function OA_aclGetSLimitationFromAAcls($acls)
 
 function MAX_AclSave($acls, $aEntities, $page = false)
 {
-    //$conf = $GLOBALS['_MAX']['CONF'];
+    global $session;
+
+    $mysqlInUse = false;
+    if ($GLOBALS['_MAX']['CONF']['database']['type'] == 'mysql' || $GLOBALS['_MAX']['CONF']['database']['type'] == 'mysqli') {
+        $mysqlInUse = true;
+    }
+
     $oDbh =& OA_DB::singleton();
 
     if ($page === false) {
@@ -125,7 +131,6 @@ function MAX_AclSave($acls, $aEntities, $page = false)
             $table      = 'banners';
             $aclsTable  = 'acls';
             $fieldId    = 'bannerid';
-
             break;
         }
 
@@ -133,7 +138,6 @@ function MAX_AclSave($acls, $aEntities, $page = false)
             $table      = 'channel';
             $aclsTable  = 'acls_channel';
             $fieldId    = 'channelid';
-
             break;
         }
 
@@ -150,51 +154,78 @@ function MAX_AclSave($acls, $aEntities, $page = false)
     $doTable->$fieldId = $aclsObjectId;
     $found = $doTable->find(true);
 
-    if ($sLimitation == $doTable->compiledlimitation)
-    {
+    if ($sLimitation == $doTable->compiledlimitation) {
         return true; // No changes to the ACL
     }
 
-    $doAcls = OA_Dal::factoryDO($aclsTable);
-    $doAcls->whereAdd($fieldId.' = '.$aclsObjectId);
-    $doAcls->delete(true);
-
-    if (!empty($acls))
-    {
-        foreach ($acls as $index => $acl)
-        {
-            $deliveryLimitationPlugin =& OA_aclGetComponentFromRow($acl);
-
-            $doAcls = OA_Dal::factoryDO($aclsTable);
-            $doAcls->$fieldId   = $aclsObjectId;
-            $doAcls->logical    = $acl['logical'];
-            $doAcls->type       = $acl['type'];
-            $doAcls->comparison = $acl['comparison'];
-            $doAcls->data       = $deliveryLimitationPlugin->getData();
-            $doAcls->executionorder = $acl['executionorder'];
-            $id = $doAcls->insert();
-            if (!$id)
-            {
-                return false;
-            }
-            // It's possible that ACLS data is processed by the delivery rule
-            // plugin, which may result in the already caluclated $sLimitation
-            // value from the raw ACLS data being incorrect post-processing.
-            // So, update the original $acls array with the new, processed
-            // data, before moving on to the next one, so that $sLimitation can
-            // be re-calculated later
-            $acls[$index]['data'] = $doAcls->data;
+    if ($mysqlInUse) {
+        // Store the original ACLS table info, in case of data truncation
+        $originalAcls = array();
+        $doAcls = OA_Dal::factoryDO($aclsTable);
+        $doAcls->whereAdd($fieldId.' = '.$aclsObjectId);
+        $doAcls->find();
+        while ($doAcls->fetch()) {
+            $originalAcls[] = $doAcls->toArray();
         }
     }
 
-    // As per the comment above, re-calculate $sLimitation using the potentially
-    // processed ACLS data
+    // Delete the current master delivery rule data from the DB
+    if (MAX_AclDeleteValues($aclsTable, $fieldId, $aclsObjectId) === false) {
+        $session['aclsDbError'] = true;
+        return false;
+    }
+    // Add the new master delivery rule data to the DB
+    if (MAX_AclAddValues($acls, $aclsTable, $fieldId, $aclsObjectId) === false) {
+        $session['aclsDbError'] = true;
+        return false;
+    }
+    // As per the comment in the MAX_AclAddValues() function, re-calculate
+    // $sLimitation using the potentially processed $acls data
     $sLimitation = OA_aclGetSLimitationFromAAcls($acls);
+    // Update the compiled delivery rule data in the DB
+    if (MAX_UpdateCompiledRules($doTable, $acls, $sLimitation) === false) {
+        $session['aclsDbError'] = true;
+        return false;
+    }
 
-    $doTable->acl_plugins = MAX_AclGetPlugins($acls);
-    $doTable->compiledlimitation = $sLimitation;
-    $doTable->acls_updated = OA::getNowUTC();
-    $doTable->update();
+    if ($mysqlInUse) {
+        // Check for truncation issues by comparing the original supplied
+        // $acls value with what is now in the banners or channels table -
+        // although truncation can happen in the acls or acls_channel table,
+        // the compiled form is the longer, and truncation there will happen
+        // first
+        $aclsObjectId = $aEntities[$fieldId];
+        $sLimitation = OA_aclGetSLimitationFromAAcls($acls);
+
+        $doTable = OA_Dal::factoryDO($table);
+        $doTable->$fieldId = $aclsObjectId;
+        $found = $doTable->find(true);
+
+        if ($sLimitation != $doTable->compiledlimitation) {
+            // Delete the current master delivery rule data from the DB
+            if (MAX_AclDeleteValues($aclsTable, $fieldId, $aclsObjectId) === false) {
+                $session['aclsDbError'] = true;
+                return false;
+            }
+            // Add the old, original master delivery rule data to the DB
+            if (MAX_AclAddValues($originalAcls, $aclsTable, $fieldId, $aclsObjectId) === false) {
+                $session['aclsDbError'] = true;
+                return false;
+            }
+            // As per the comment in the MAX_AclAddValues() function, re-calculate
+            // $sLimitation using the potentially processed $acls data
+            $sLimitation = OA_aclGetSLimitationFromAAcls($originalAcls);
+            // Update the compiled delivery rule data in the DB
+            if (MAX_UpdateCompiledRules($doTable, $originalAcls, $sLimitation) === false) {
+                $session['aclsDbError'] = true;
+                return false;
+            }
+            // Set the data truncation flag so that a warning will show, and
+            // return
+            $session['aclsTruncation'] = true;
+            return false;
+        }
+    }
 
     // When a channel limitation changes - All banners with this channel must be re-learnt
     if ($page == 'channel-acl.php') {
@@ -210,15 +241,12 @@ function MAX_AclSave($acls, $aEntities, $page = false)
               AND (data = '{$aclsObjectId}' OR data LIKE '%,{$aclsObjectId}' OR data LIKE '%,{$aclsObjectId},%' OR data LIKE '{$aclsObjectId},%')
         ";
         $res = $oDbh->query($query);
-        if (PEAR::isError($res))
-        {
+        if (PEAR::isError($res)) {
             return $res;
         }
-        while ($row = $res->fetchRow())
-        {
+        while ($row = $res->fetchRow()) {
             $doBanners = OA_Dal::staticGetDO('banners', $row['bannerid']);
-            if ($doBanners->bannerid == $row['bannerid'])
-            {
+            if ($doBanners->bannerid == $row['bannerid']) {
                 $doBanners->acls_updated = OA::getNowUTC();
                 $doBanners->update();
             }
@@ -227,24 +255,62 @@ function MAX_AclSave($acls, $aEntities, $page = false)
     return true;
 }
 
+function MAX_AclDeleteValues($aclsTable, $fieldId, $aclsObjectId)
+{
+    $doAcls = OA_Dal::factoryDO($aclsTable);
+    $doAcls->whereAdd($fieldId.' = '.$aclsObjectId);
+    return $doAcls->delete(true);
+}
+
+function MAX_AclAddValues($acls, $aclsTable, $fieldId, $aclsObjectId)
+{
+    if (!empty($acls)) {
+        foreach ($acls as $index => $acl) {
+            $deliveryLimitationPlugin =& OA_aclGetComponentFromRow($acl);
+
+            $doAcls = OA_Dal::factoryDO($aclsTable);
+            $doAcls->$fieldId       = $aclsObjectId;
+            $doAcls->logical        = $acl['logical'];
+            $doAcls->type           = $acl['type'];
+            $doAcls->comparison     = $acl['comparison'];
+            $doAcls->data           = $deliveryLimitationPlugin->getData();
+            $doAcls->executionorder = $acl['executionorder'];
+            $id = $doAcls->insert();
+            if (!$id) {
+                return false;
+            }
+            // It's possible that ACLS data is processed by the delivery rule
+            // plugin, which may result in the already caluclated $sLimitation
+            // value from the raw ACLS data being incorrect post-processing.
+            // So, update the original $acls array with the new, processed
+            // data, before moving on to the next one, so that $sLimitation can
+            // be re-calculated later
+            $acls[$index]['data'] = $doAcls->data;
+        }
+    }
+    return true;
+}
+
+function MAX_UpdateCompiledRules($doTable, $acls, $sLimitation)
+{
+    $doTable->acl_plugins = MAX_AclGetPlugins($acls);
+    $doTable->compiledlimitation = $sLimitation;
+    $doTable->acls_updated = OA::getNowUTC();
+    return $doTable->update();
+}
+
 function MAX_AclGetCompiled($aAcls)
 {
-    if (empty($aAcls))
-    {
+    if (empty($aAcls)) {
         return "true";
-    }
-    else
-    {
+    } else {
         ksort($aAcls);
         $compiledAcls = array();
-        foreach ($aAcls as $acl)
-        {
+        foreach ($aAcls as $acl) {
             $deliveryLimitationPlugin =& OA_aclGetComponentFromRow($acl);
-            if ($deliveryLimitationPlugin)
-            {
+            if ($deliveryLimitationPlugin) {
                 $compiled = $deliveryLimitationPlugin->compile();
-                if (!empty($compiledAcls))
-                {
+                if (!empty($compiledAcls)) {
                     $compiledAcls[] = $acl['logical'];
                 }
                 $compiledAcls[] = $compiled;
@@ -330,11 +396,9 @@ function MAX_AclValidate($page, $aParams) {
 
     if (($newCompiledLimitation == $compiledLimitation) && ($newAclPlugins == $acl_plugins)) {
         return true;
-    }
-    elseif (($compiledLimitation === 'true' || $compiledLimitation === '') && ($newCompiledLimitation === 'true' && empty($newAclPlugins))) {
+    } elseif (($compiledLimitation === 'true' || $compiledLimitation === '') && ($newCompiledLimitation === 'true' && empty($newAclPlugins))) {
         return true;
-    }
-    else {
+    } else {
         return false;
     }
 }
@@ -415,8 +479,7 @@ function &OA_aclGetComponentFromType($type)
 function &OA_aclGetComponentFromRow($row)
 {
     $oPlugin =& OA_aclGetComponentFromType($row['type']);
-    if (!$oPlugin)
-    {
+    if (!$oPlugin) {
         return false;
     }
     $oPlugin->init($row);
@@ -496,17 +559,13 @@ function OA_aclRecompileAclsForTable($aclsTable, $idColumn, $page, $objectTable,
 function OA_aclRecompileBanners($upgrade = false)
 {
     $conf =& $GLOBALS['_MAX']['CONF'];
-
-    return
-        OA_aclRecompileAclsForTable('acls', 'bannerid', 'banner-acl.php', $conf['table']['banners'], $upgrade);
+    return OA_aclRecompileAclsForTable('acls', 'bannerid', 'banner-acl.php', $conf['table']['banners'], $upgrade);
 }
 
 function OA_aclRecompileCampaigns($upgrade = false)
 {
     $conf =& $GLOBALS['_MAX']['CONF'];
-
-    return
-        OA_aclRecompileAclsForTable('acls_channel', 'channelid', 'channel-acl.php', $conf['table']['channel'], $upgrade);
+    return OA_aclRecompileAclsForTable('acls_channel', 'channelid', 'channel-acl.php', $conf['table']['channel'], $upgrade);
 }
 
 /**
