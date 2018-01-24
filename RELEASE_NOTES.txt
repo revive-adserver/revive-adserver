@@ -44,6 +44,9 @@ What's New in Revive Adserver 4.1.2
   * Improved HTML5 banner compatibility by whitelisting a few more common file
     extensions, e.g. ".svg", ".txt", ".json", ".xml".
 
+  * Fixed an issue with failing to warn users about silent delivery rule data
+    truncation when using MySQL.
+
 
  Non-Backwards Compatible Changes
  --------------------------------

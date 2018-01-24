@@ -1111,6 +1111,8 @@ $GLOBALS['strCampaignAuditTrailSetup'] = "Activate Audit Trail to start viewing 
 
 $GLOBALS['strUnsavedChanges'] = "You have unsaved changes on this page, make sure you press &quot;Save Changes&quot; when finished";
 $GLOBALS['strDeliveryLimitationsDisagree'] = "WARNING: The cached delivery rules <strong>DO NOT AGREE</strong> with the delivery rules shown below<br />Please hit save changes to update the cached delivery rules";
+$GLOBALS['strDeliveryRulesDbError'] = "WARNING: When saving the delivery rules, a database error occured. Please check the delivery rules below carefully, and update, if required.";
+$GLOBALS['strDeliveryRulesTruncation'] = "WARNING: When saving the delivery rules, MySQL truncated the data, so the original values were restored. Please reduce your rule size, and try again.";
 $GLOBALS['strDeliveryLimitationsInputErrors'] = "Some delivery rules report incorrect values:";
 
 //confirmation messages
