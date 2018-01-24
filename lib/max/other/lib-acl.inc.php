@@ -14,7 +14,8 @@ require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/lib-banner.inc.php';
 require_once LIB_PATH . '/Plugin/Component.php';
 require_once MAX_PATH . '/lib/max/Dal/Admin/Acls.php';
-if(!isset($GLOBALS['_MAX']['FILES']['/lib/max/Delivery/remotehost.php'])) {
+
+if (!isset($GLOBALS['_MAX']['FILES']['/lib/max/Delivery/remotehost.php'])) {
     // Required by PHP5.1.2
     require_once MAX_PATH . '/lib/max/Delivery/remotehost.php';
 }
@@ -22,7 +23,6 @@ if(!isset($GLOBALS['_MAX']['FILES']['/lib/max/Delivery/remotehost.php'])) {
 // Initialize the client info to enable client targeting options
 MAX_remotehostProxyLookup();
 MAX_remotehostReverseLookup();
-//MAX_remotehostSetClientInfo();  // moved to plugin
 MAX_remotehostSetGeoInfo();
 
 /**
@@ -131,7 +131,6 @@ function MAX_AclSave($acls, $aEntities, $page = false)
             $table      = 'banners';
             $aclsTable  = 'acls';
             $fieldId    = 'bannerid';
-
             break;
         }
 
@@ -139,7 +138,6 @@ function MAX_AclSave($acls, $aEntities, $page = false)
             $table      = 'channel';
             $aclsTable  = 'acls_channel';
             $fieldId    = 'channelid';
-
             break;
         }
 
@@ -156,8 +154,7 @@ function MAX_AclSave($acls, $aEntities, $page = false)
     $doTable->$fieldId = $aclsObjectId;
     $found = $doTable->find(true);
 
-    if ($sLimitation == $doTable->compiledlimitation)
-    {
+    if ($sLimitation == $doTable->compiledlimitation) {
         return true; // No changes to the ACL
     }
 
@@ -175,12 +172,12 @@ function MAX_AclSave($acls, $aEntities, $page = false)
     // Delete the current master delivery rule data from the DB
     if (MAX_AclDeleteValues($aclsTable, $fieldId, $aclsObjectId) === false) {
         $session['aclsDbError'] = true;
-        return;
+        return false;
     }
     // Add the new master delivery rule data to the DB
     if (MAX_AclAddValues($acls, $aclsTable, $fieldId, $aclsObjectId) === false) {
         $session['aclsDbError'] = true;
-        return;
+        return false;
     }
     // As per the comment in the MAX_AclAddValues() function, re-calculate
     // $sLimitation using the potentially processed $acls data
@@ -188,7 +185,7 @@ function MAX_AclSave($acls, $aEntities, $page = false)
     // Update the compiled delivery rule data in the DB
     if (MAX_UpdateCompiledRules($doTable, $acls, $sLimitation) === false) {
         $session['aclsDbError'] = true;
-        return;
+        return false;
     }
 
     if ($mysqlInUse) {
@@ -204,17 +201,16 @@ function MAX_AclSave($acls, $aEntities, $page = false)
         $doTable->$fieldId = $aclsObjectId;
         $found = $doTable->find(true);
 
-        if ($sLimitation != $doTable->compiledlimitation)
-        {
+        if ($sLimitation != $doTable->compiledlimitation) {
             // Delete the current master delivery rule data from the DB
             if (MAX_AclDeleteValues($aclsTable, $fieldId, $aclsObjectId) === false) {
                 $session['aclsDbError'] = true;
-                return;
+                return false;
             }
             // Add the old, original master delivery rule data to the DB
             if (MAX_AclAddValues($originalAcls, $aclsTable, $fieldId, $aclsObjectId) === false) {
                 $session['aclsDbError'] = true;
-                return;
+                return false;
             }
             // As per the comment in the MAX_AclAddValues() function, re-calculate
             // $sLimitation using the potentially processed $acls data
@@ -222,12 +218,12 @@ function MAX_AclSave($acls, $aEntities, $page = false)
             // Update the compiled delivery rule data in the DB
             if (MAX_UpdateCompiledRules($doTable, $originalAcls, $sLimitation) === false) {
                 $session['aclsDbError'] = true;
-                return;
+                return false;
             }
             // Set the data truncation flag so that a warning will show, and
             // return
             $session['aclsTruncation'] = true;
-            return;
+            return false;
         }
     }
 
@@ -245,15 +241,12 @@ function MAX_AclSave($acls, $aEntities, $page = false)
               AND (data = '{$aclsObjectId}' OR data LIKE '%,{$aclsObjectId}' OR data LIKE '%,{$aclsObjectId},%' OR data LIKE '{$aclsObjectId},%')
         ";
         $res = $oDbh->query($query);
-        if (PEAR::isError($res))
-        {
+        if (PEAR::isError($res)) {
             return $res;
         }
-        while ($row = $res->fetchRow())
-        {
+        while ($row = $res->fetchRow()) {
             $doBanners = OA_Dal::staticGetDO('banners', $row['bannerid']);
-            if ($doBanners->bannerid == $row['bannerid'])
-            {
+            if ($doBanners->bannerid == $row['bannerid']) {
                 $doBanners->acls_updated = OA::getNowUTC();
                 $doBanners->update();
             }
@@ -271,10 +264,8 @@ function MAX_AclDeleteValues($aclsTable, $fieldId, $aclsObjectId)
 
 function MAX_AclAddValues($acls, $aclsTable, $fieldId, $aclsObjectId)
 {
-    if (!empty($acls))
-    {
-        foreach ($acls as $index => $acl)
-        {
+    if (!empty($acls)) {
+        foreach ($acls as $index => $acl) {
             $deliveryLimitationPlugin =& OA_aclGetComponentFromRow($acl);
 
             $doAcls = OA_Dal::factoryDO($aclsTable);
@@ -285,8 +276,7 @@ function MAX_AclAddValues($acls, $aclsTable, $fieldId, $aclsObjectId)
             $doAcls->data           = $deliveryLimitationPlugin->getData();
             $doAcls->executionorder = $acl['executionorder'];
             $id = $doAcls->insert();
-            if (!$id)
-            {
+            if (!$id) {
                 return false;
             }
             // It's possible that ACLS data is processed by the delivery rule
@@ -311,22 +301,16 @@ function MAX_UpdateCompiledRules($doTable, $acls, $sLimitation)
 
 function MAX_AclGetCompiled($aAcls)
 {
-    if (empty($aAcls))
-    {
+    if (empty($aAcls)) {
         return "true";
-    }
-    else
-    {
+    } else {
         ksort($aAcls);
         $compiledAcls = array();
-        foreach ($aAcls as $acl)
-        {
+        foreach ($aAcls as $acl) {
             $deliveryLimitationPlugin =& OA_aclGetComponentFromRow($acl);
-            if ($deliveryLimitationPlugin)
-            {
+            if ($deliveryLimitationPlugin) {
                 $compiled = $deliveryLimitationPlugin->compile();
-                if (!empty($compiledAcls))
-                {
+                if (!empty($compiledAcls)) {
                     $compiledAcls[] = $acl['logical'];
                 }
                 $compiledAcls[] = $compiled;
@@ -412,11 +396,9 @@ function MAX_AclValidate($page, $aParams) {
 
     if (($newCompiledLimitation == $compiledLimitation) && ($newAclPlugins == $acl_plugins)) {
         return true;
-    }
-    elseif (($compiledLimitation === 'true' || $compiledLimitation === '') && ($newCompiledLimitation === 'true' && empty($newAclPlugins))) {
+    } elseif (($compiledLimitation === 'true' || $compiledLimitation === '') && ($newCompiledLimitation === 'true' && empty($newAclPlugins))) {
         return true;
-    }
-    else {
+    } else {
         return false;
     }
 }
@@ -497,8 +479,7 @@ function &OA_aclGetComponentFromType($type)
 function &OA_aclGetComponentFromRow($row)
 {
     $oPlugin =& OA_aclGetComponentFromType($row['type']);
-    if (!$oPlugin)
-    {
+    if (!$oPlugin) {
         return false;
     }
     $oPlugin->init($row);
@@ -578,17 +559,13 @@ function OA_aclRecompileAclsForTable($aclsTable, $idColumn, $page, $objectTable,
 function OA_aclRecompileBanners($upgrade = false)
 {
     $conf =& $GLOBALS['_MAX']['CONF'];
-
-    return
-        OA_aclRecompileAclsForTable('acls', 'bannerid', 'banner-acl.php', $conf['table']['banners'], $upgrade);
+    return OA_aclRecompileAclsForTable('acls', 'bannerid', 'banner-acl.php', $conf['table']['banners'], $upgrade);
 }
 
 function OA_aclRecompileCampaigns($upgrade = false)
 {
     $conf =& $GLOBALS['_MAX']['CONF'];
-
-    return
-        OA_aclRecompileAclsForTable('acls_channel', 'channelid', 'channel-acl.php', $conf['table']['channel'], $upgrade);
+    return OA_aclRecompileAclsForTable('acls_channel', 'channelid', 'channel-acl.php', $conf['table']['channel'], $upgrade);
 }
 
 /**
