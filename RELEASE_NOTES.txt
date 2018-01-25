@@ -47,6 +47,9 @@ What's New in Revive Adserver 4.1.2
   * Fixed an issue with failing to warn users about silent delivery rule data
     truncation when using MySQL.
 
+  * Fixed an issue with incorrect timezone conversion during DST switches,
+    potentially affecting campaign activation/deactivation times.
+
 
  Non-Backwards Compatible Changes
  --------------------------------
