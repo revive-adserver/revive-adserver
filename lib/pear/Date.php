@@ -104,7 +104,7 @@ class Date
     var $partsecond;
     /**
      * timezone for this date
-     * @var object Date_TimeZone
+     * @var Date_TimeZone
      */
     var $tz;
 
@@ -515,28 +515,30 @@ class Date
     /**
      * Converts this date to a new time zone
      *
-     * Converts this date to a new time zone.
-     * WARNING: This may not work correctly if your system does not allow
-     * putenv() or if localtime() does not work in your environment.  See
-     * Date::TimeZone::inDaylightTime() for more information.
+     * Converts this date to a new time zone, rewritten for Revive Adserver.
      *
      * @access public
-     * @param object Date_TimeZone $tz the Date::TimeZone object for the conversion time zone
+     * @param Date_TimeZone $tz the Date::TimeZone object for the conversion time zone
      */
     function convertTZ($tz)
     {
-        // convert to UTC
-        if ($this->tz->getOffset($this) > 0) {
-            $this->subtractSeconds(intval(abs($this->tz->getOffset($this)) / 1000));
-        } else {
-            $this->addSeconds(intval(abs($this->tz->getOffset($this)) / 1000));
-        }
-        // convert UTC to new timezone
-        if ($tz->getOffset($this) > 0) {
-            $this->addSeconds(intval(abs($tz->getOffset($this)) / 1000));
-        } else {
-            $this->subtractSeconds(intval(abs($tz->getOffset($this)) / 1000));
-        }
+        $gezTz = function (Date_TimeZone $tz) {
+            try {
+                return new \DateTimeZone($tz->getID());
+            } catch (\Exception $e) {
+                return new \DateTimeZone($tz->getShortName());
+            }
+        };
+
+        $dateTime = new \DateTime(
+            $this->format('%Y-%m-%d %H:%M:%S'),
+            $gezTz($this->tz)
+        );
+
+        $dateTime->setTimezone($gezTz($tz));
+
+        $this->setDate($dateTime->format('Y-m-d H:i:s'));
+
         $this->tz = $tz;
     }
 

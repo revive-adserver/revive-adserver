@@ -100,6 +100,8 @@ class Date_TimeZone
      */
     function __construct($id)
     {
+        var_dump($id);
+
         global $_DATE_TIMEZONE_DATA;
         if(Date_TimeZone::isValidID($id)) {
             $this->id = $id;
@@ -3639,8 +3641,8 @@ if(isset($_DATE_TIMEZONE_DEFAULT)
     Date_TimeZone::setDefault(getenv('PHP_TZ'));
 } elseif (getenv('TZ') && Date_TimeZone::isValidID(getenv('TZ'))) {
     Date_TimeZone::setDefault(getenv('TZ'));
-} elseif (Date_TimeZone::isValidID(date('T'))) {
-    Date_TimeZone::setDefault(date('T'));
+} elseif (Date_TimeZone::isValidID(date('e'))) {
+    Date_TimeZone::setDefault(date('e'));
 } else {
     Date_TimeZone::setDefault('UTC');
 }
