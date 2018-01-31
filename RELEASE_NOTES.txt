@@ -35,11 +35,11 @@ What's New in Revive Adserver 4.1.2
   * Fixed an issue that was sometimes preventing file/folder permission errors
     from being written to the debug log.
 
-  * Fixed an issue with the Campaign Banners page was not working when the
-    banner preview was enabled an the campaign contained a mix of HTML5 and
-    regular HTML banners.
+  * Fixed an issue with the Campaign Banners page not working when the banner
+    preview was enabled and the campaign contained a mix of HTML5 and regular
+    HTML banners.
 
-  * Fixed an issue with saving account preferences on MYSQL 5.7+.
+  * Fixed an issue with saving account preferences on MySQL 5.7+.
 
   * Improved HTML5 banner compatibility by whitelisting a few more common file
     extensions, e.g. ".svg", ".txt", ".json", ".xml".
@@ -47,8 +47,16 @@ What's New in Revive Adserver 4.1.2
   * Fixed an issue with failing to warn users about silent delivery rule data
     truncation when using MySQL.
 
+  * Fixed an issue with the core delivery rule code failing to take into account
+    changes to data made by delivery rule plugins, causing the UI to report
+    an issue with delivery rules, when in fact, the rules were working.
+
   * Fixed an issue with incorrect timezone conversion during DST switches,
     potentially affecting campaign activation/deactivation times.
+
+  * Fixed a broken help link for video banner invocation in the UI.
+
+  * Various language updates and corrections.
 
 
  Non-Backwards Compatible Changes
