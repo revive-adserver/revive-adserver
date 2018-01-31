@@ -100,8 +100,6 @@ class Date_TimeZone
      */
     function __construct($id)
     {
-        var_dump($id);
-
         global $_DATE_TIMEZONE_DATA;
         if(Date_TimeZone::isValidID($id)) {
             $this->id = $id;
