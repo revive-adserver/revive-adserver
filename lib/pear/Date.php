@@ -162,9 +162,9 @@ class Date
             $this->year       = $regs[1];
             $this->month      = $regs[2];
             $this->day        = $regs[3];
-            $this->hour       = isset($regs[5])?$regs[5]:0;
-            $this->minute     = isset($regs[6])?$regs[6]:0;
-            $this->second     = isset($regs[7])?$regs[7]:0;
+            $this->hour       = isset($regs[5])?(int)$regs[5]:0;
+            $this->minute     = isset($regs[6])?(int)$regs[6]:0;
+            $this->second     = isset($regs[7])?(int)$regs[7]:0;
             $this->partsecond = isset($regs[8])?(float)$regs[8]:(float)0;
 
             // if an offset is defined, convert time to UTC

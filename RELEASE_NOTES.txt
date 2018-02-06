@@ -32,7 +32,8 @@ What's New in Revive Adserver 4.1.3
  Bug Fixes
  ---------
 
-  * None
+  * Fixed an issue that prevented properly displaying hourly breakdown
+    statistic screens.
 
  Non-Backwards Compatible Changes
  --------------------------------
