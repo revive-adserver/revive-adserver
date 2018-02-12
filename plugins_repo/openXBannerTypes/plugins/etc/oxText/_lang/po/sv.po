@@ -1,0 +1,19 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: revive-adserver\n"
+"Last-Translator: mbeccati <matteo@beccati.com>\n"
+"Language-Team: Swedish\n"
+"Language: sv_SE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: crowdin.com\n"
+"X-Crowdin-Project: revive-adserver\n"
+"X-Crowdin-Language: sv-SE\n"
+"X-Crowdin-File: /plugins_repo/openXBannerTypes/plugins/etc/oxText/_lang/po/en.po\n"
+
+#: plugins_repo/openXBannerTypes/plugins/bannerTypeText/oxText/genericText.class.php:35
+msgid "Generic Text Banner"
+msgstr "Generisk Textbanner"
+

@@ -1,12 +1,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: revive-adserver\n"
-"POT-Creation-Date: 2008-07-29 18:41+0100\n"
 "Last-Translator: mbeccati <matteo@beccati.com>\n"
 "Language-Team: Swedish\n"
-"Language: sv\n"
+"Language: sv_SE\n"
 "MIME-Version: 1.0\n"
-"Language: en\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -17,19 +15,19 @@ msgstr ""
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/async.class.php:37
 msgid "Asynchronous JS Tag"
-msgstr ""
+msgstr "Asynchronous JS Tagg"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adframe.class.php:36
 msgid "iFrame Tag"
-msgstr ""
+msgstr "iFrame Tagg"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adframe.class.php:193
 msgid "Placement Comment"
-msgstr ""
+msgstr "Placering Kommentar"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/xmlrpc.class.php:36
 msgid "XML-RPC Tag"
-msgstr ""
+msgstr "XML-RPC Tagg"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/spc.class.php:80
 msgid "Publisher code - Single Page Call"
@@ -38,24 +36,24 @@ msgstr ""
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/spc.class.php:229
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/spc.class.php:403
 msgid "Option - noscript"
-msgstr ""
+msgstr "Alternativ - noscript"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/spc.class.php:233
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/spc.class.php:418
 msgid "Option - SSL"
-msgstr ""
+msgstr "Alternativ - SSL"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adjs.class.php:37
 msgid "Javascript Tag"
-msgstr ""
+msgstr "JavaScript-tagg"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adview.class.php:36
 msgid "Image Tag"
-msgstr ""
+msgstr "Bildtagg"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adlayer.class.php:45
 msgid "Interstitial or Floating DHTML Tag"
-msgstr ""
+msgstr "Interstitiell eller flytande DHTML tagg"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adlayer.class.php:235
 msgid "Style"
@@ -63,96 +61,96 @@ msgstr "Stil"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/popup.class.php:42
 msgid "Popup Tag"
-msgstr ""
+msgstr "Popup-tagg"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/local.class.php:32
 msgid "Local Mode Tag"
-msgstr ""
+msgstr "Lokalt läge tagg"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/local.class.php:136
 msgid "Assign the \\$phpAds_raw['html'] variable to your template"
-msgstr ""
+msgstr "Tilldela \\$phpAds_raw['html'] variabel till din mall"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adviewnocookies.class.php:41
 msgid "No Cookie Image Tag"
-msgstr ""
+msgstr "Ingen Cookie bildtagg"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:67
 msgid "Direction"
-msgstr ""
+msgstr "Riktning"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:69
 msgid "Left to right"
-msgstr ""
+msgstr "Vänster till höger"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:70
 msgid "Right to left"
-msgstr ""
+msgstr "Höger till vänster"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:75
 msgid "Looping"
-msgstr ""
+msgstr "Looping"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:77
 msgid "Always active"
-msgstr ""
+msgstr "Alltid aktiv"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:84
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:61
 msgid "Speed"
-msgstr ""
+msgstr "Hastighet"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:92
 msgid "Pause"
-msgstr ""
+msgstr "Pausa"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:97
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:105
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:108
 msgid "Vertical shift"
-msgstr ""
+msgstr "Vertikal Skiftning"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:102
 msgid "Limited"
-msgstr ""
+msgstr "Begränsad"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:110
 msgid "Left margin"
-msgstr ""
+msgstr "Vänstermarginal"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:115
 msgid "Right margin"
-msgstr ""
+msgstr "Högermarginal"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:120
 msgid "Transparent background"
-msgstr ""
+msgstr "Genomskinlig bakgrund"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:130
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:115
 msgid "Background color"
-msgstr ""
+msgstr "Bakgrundsfärg"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:53
 msgid "Smooth movement"
-msgstr ""
+msgstr "Jämn rörelse"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:74
 msgid "Hide the banner when the cursor is not moving"
-msgstr ""
+msgstr "Dölj bannern när markören inte rör sig"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:82
 msgid "Delay before banner is hidden"
-msgstr ""
+msgstr "Fördröjning före banner är gömd"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:87
 msgid "Transparancy of the hidden banner"
-msgstr ""
+msgstr "Transparens av dolda banners"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:100
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:103
 msgid "Horizontal shift"
-msgstr ""
+msgstr "Horisontell Skiftning"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:41
 msgid "[Close]"
@@ -160,65 +158,65 @@ msgstr ""
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:50
 msgid "Alignment"
-msgstr ""
+msgstr "Justering"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:52
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:63
 msgid "Left"
-msgstr ""
+msgstr "Vänster"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:53
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:64
 msgid "Center"
-msgstr ""
+msgstr "Centrerad"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:54
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:65
 msgid "Right"
-msgstr ""
+msgstr "Höger"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:60
 msgid "Close text"
-msgstr ""
+msgstr "Stäng text"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:65
 msgid "Automatically collapse after"
-msgstr ""
+msgstr "Kollapsa automatiskt efter"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:70
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:98
 msgid "Banner padding"
-msgstr ""
+msgstr "Bannerstoppning"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:61
 msgid "Horizontal alignment"
-msgstr ""
+msgstr "Horisontell justering"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:71
 msgid "Vertical alignment"
-msgstr ""
+msgstr "Vertikal justering"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:73
 msgid "Top"
-msgstr ""
+msgstr "Topp"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:74
 msgid "Middle"
-msgstr ""
+msgstr "Mitten"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:75
 msgid "Bottom"
-msgstr ""
+msgstr "Längst ned"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:81
 msgid "Show close button"
-msgstr ""
+msgstr "Visa stängknappen"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:89
 msgid "Automatically close after"
-msgstr ""
+msgstr "Stäng automatiskt efter"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:128
 msgid "Border color"
-msgstr ""
+msgstr "Kantfärg"
 

@@ -1,7 +1,6 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: revive-adserver\n"
-"POT-Creation-Date: 2008-07-29 18:41+0100\n"
 "Last-Translator: mbeccati <matteo@beccati.com>\n"
 "Language-Team: Portuguese, Brazilian\n"
 "Language: pt_BR\n"
