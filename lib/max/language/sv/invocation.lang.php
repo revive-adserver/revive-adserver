@@ -37,6 +37,7 @@ $GLOBALS['strIframeMakeTransparent'] = "Gör iframe transparent";
 $GLOBALS['strIframeIncludeNetscape4'] = "Inkludera Netscape 4 kompatibel ilayer";
 
 // PopUp
+$GLOBALS['strShowStatus'] = "Status";
 
 // XML-RPC
 

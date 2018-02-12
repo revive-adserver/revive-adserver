@@ -1,12 +1,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: revive-adserver\n"
-"POT-Creation-Date: 2008-07-29 18:41+0100\n"
 "Last-Translator: mbeccati <matteo@beccati.com>\n"
 "Language-Team: Swedish\n"
-"Language: sv\n"
+"Language: sv_SE\n"
 "MIME-Version: 1.0\n"
-"Language: en\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -47,11 +45,11 @@ msgstr ""
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adjs.class.php:37
 msgid "Javascript Tag"
-msgstr ""
+msgstr "JavaScript-tagg"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adview.class.php:36
 msgid "Image Tag"
-msgstr ""
+msgstr "Bildtagg"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adlayer.class.php:45
 msgid "Interstitial or Floating DHTML Tag"
