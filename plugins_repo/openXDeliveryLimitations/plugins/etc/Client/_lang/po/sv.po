@@ -1,0 +1,42 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: revive-adserver\n"
+"Last-Translator: mbeccati <matteo@beccati.com>\n"
+"Language-Team: Swedish\n"
+"Language: sv_SE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: crowdin.com\n"
+"X-Crowdin-Project: revive-adserver\n"
+"X-Crowdin-Language: sv-SE\n"
+"X-Crowdin-File: /plugins_repo/openXDeliveryLimitations/plugins/etc/Client/_lang/po/en.po\n"
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/OsVersion.class.php:64
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/BrowserVersion.class.php:63
+msgid "is any version of"
+msgstr "är någon version av"
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/OsVersion.class.php:79
+msgid "Operating System"
+msgstr "Operativsystem"
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/OsVersion.class.php:91
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/BrowserVersion.class.php:89
+msgid "Version"
+msgstr "Version"
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/OsVersion.class.php:141
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/BrowserVersion.class.php:136
+msgid "Version should be a number"
+msgstr "Versionen ska vara ett nummer"
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/OsVersion.class.php:146
+msgid "Version is not valid"
+msgstr "Versionen är inte giltig"
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/BrowserVersion.class.php:77
+msgid "Browser"
+msgstr "Webbläsare"
+

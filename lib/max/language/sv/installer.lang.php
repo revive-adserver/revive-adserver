@@ -18,6 +18,7 @@
 
 
 $GLOBALS['strWarning'] = "Varning";
+$GLOBALS['strSyscheckStatus'] = "Status";
 
 /** admin login step * */
 
