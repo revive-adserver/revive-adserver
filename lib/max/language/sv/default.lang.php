@@ -234,6 +234,11 @@ if (!isset($GLOBALS['strDayShortCuts'])) {
 }
 $GLOBALS['strDayShortCuts'][0] = 'Sö';
 $GLOBALS['strDayShortCuts'][1] = 'Må';
+$GLOBALS['strDayShortCuts'][2] = 'Tis';
+$GLOBALS['strDayShortCuts'][3] = 'Ons';
+$GLOBALS['strDayShortCuts'][4] = 'Tor';
+$GLOBALS['strDayShortCuts'][5] = 'Fre';
+$GLOBALS['strDayShortCuts'][6] = 'Lör';
 
 $GLOBALS['strHour'] = "Timme";
 $GLOBALS['strSeconds'] = "sekunder";
@@ -255,6 +260,7 @@ $GLOBALS['strAdvertiserCampaigns'] = "Annonsörer & kampanjer";
 
 // Advertisers properties
 $GLOBALS['strContact'] = "Kontakt";
+$GLOBALS['strContactName'] = "Kontaktens namn";
 $GLOBALS['strEMail'] = "Epost";
 $GLOBALS['strSendAdvertisingReport'] = "Eposta leveransrapport för kampanj";
 $GLOBALS['strNoDaysBetweenReports'] = "Antal dagar mellan leveransrapport för kampanj";
@@ -262,6 +268,7 @@ $GLOBALS['strSendDeactivationWarning'] = "Eposta när en kampanj automatiskt akt
 $GLOBALS['strAllowClientModifyBanner'] = "Tillåt användaren att redigera egna annonser";
 $GLOBALS['strAllowClientDisableBanner'] = "Tillåt användaren att avaktivera egna annonser";
 $GLOBALS['strAllowClientActivateBanner'] = "Tillåt användaren att aktivera egna annonser";
+$GLOBALS['strAllowCreateAccounts'] = "Tillåt användaren att skapa nya konton";
 $GLOBALS['strAllowAuditTrailAccess'] = "Låt den här användaren få åtkomst till revisionsspårning";
 
 // Campaign
@@ -269,9 +276,11 @@ $GLOBALS['strCampaign'] = "Kampanj";
 $GLOBALS['strCampaigns'] = "Kampanj";
 $GLOBALS['strAddCampaign'] = "Lägg till ny kampanj";
 $GLOBALS['strAddCampaign_Key'] = "Lägg till <u>n</u>y kampanj";
+$GLOBALS['strCampaignForAdvertiser'] = "för annonsören";
 $GLOBALS['strLinkedCampaigns'] = "Länkade kampanjer";
 $GLOBALS['strCampaignProperties'] = "Kampanjegenskaper";
 $GLOBALS['strCampaignOverview'] = "Kampanjöversikt";
+$GLOBALS['strCampaignHistory'] = "Kampanjstatistik";
 $GLOBALS['strNoCampaigns'] = "Det finns för närvarande inga kampanjer definierade för denna annonsör.";
 $GLOBALS['strConfirmDeleteCampaign'] = "Vill du verkligen radera den här kampanjen?";
 $GLOBALS['strConfirmDeleteCampaigns'] = "Vill du verkligen radera den här kampanjen?";
@@ -322,9 +331,11 @@ $GLOBALS['strCampaignStatusInactive'] = "aktiv";
 $GLOBALS['strCampaignStatusRunning'] = "Körs";
 $GLOBALS['strCampaignStatusPaused'] = "Pause";
 $GLOBALS['strCampaignStatusAwaiting'] = "Väntar";
+$GLOBALS['strCampaignStatusExpired'] = "Avslutad";
 $GLOBALS['strCampaignStatusApproval'] = "Väntar på godkännande »";
 $GLOBALS['strCampaignStatusRejected'] = "Avvisad";
 $GLOBALS['strCampaignStatusAdded'] = "Tillagd";
+$GLOBALS['strCampaignStatusStarted'] = "Startad";
 $GLOBALS['strCampaignStatusRestarted'] = "Starta om";
 $GLOBALS['strCampaignStatusDeleted'] = "Radera";
 $GLOBALS['strCampaignType'] = "Kampanjnamn";
@@ -340,6 +351,7 @@ $GLOBALS['strCookies'] = "Kakor";
 // Tracker
 $GLOBALS['strTrackers'] = "Tracker";
 $GLOBALS['strAddTracker'] = "Lägg till ny spårning";
+$GLOBALS['strTrackerForAdvertiser'] = "för annonsören";
 $GLOBALS['strNoTrackers'] = "Det finns för närvarande inga spårare definierade för denna annonsör";
 $GLOBALS['strConfirmDeleteTrackers'] = "Will du verkligen kasta denna tracker?";
 $GLOBALS['strConfirmDeleteTracker'] = "Vill du verkligen radera denna spårare?";
@@ -354,6 +366,7 @@ $GLOBALS['strClick'] = "Klicka";
 $GLOBALS['strView'] = "Visa";
 $GLOBALS['strArrival'] = "Ankomst";
 $GLOBALS['strManual'] = "Manuell";
+$GLOBALS['strImpression'] = "Visningar";
 $GLOBALS['strConversionType'] = "Konversionstyp";
 $GLOBALS['strLinkCampaignsByDefault'] = "Länka nyskapade kampanjer som standard";
 $GLOBALS['strIPAddress'] = "IP Adress";
@@ -362,7 +375,7 @@ $GLOBALS['strIPAddress'] = "IP Adress";
 $GLOBALS['strBanner'] = "Annons";
 $GLOBALS['strBanners'] = "Banners";
 $GLOBALS['strAddBanner'] = "Lägg till ny annons";
-$GLOBALS['strAddBanner_Key'] = "Lägg till<u>n</u>y annons";
+$GLOBALS['strAddBanner_Key'] = "Lägg till <u>n</u>y annons";
 $GLOBALS['strBannerToCampaign'] = "Din kampanj";
 $GLOBALS['strShowBanner'] = "Visa annonser";
 $GLOBALS['strBannerProperties'] = "Annonsegenskaper";
@@ -402,6 +415,7 @@ $GLOBALS['strBannerWeight'] = "Bannervikt";
 $GLOBALS['strAdserverTypeGeneric'] = "Generisk HTML banner";
 $GLOBALS['strGenericOutputAdServer'] = "Generisk";
 $GLOBALS['strSwfTransparency'] = "Tillåt transparent bakgrund";
+$GLOBALS['strBackToBanners'] = "Tillbaka till banners";
 $GLOBALS['strUseWyswygHtmlEditor'] = "Använd WYSIWYG HTML Editor";
 
 // Banner (advanced)
@@ -418,14 +432,24 @@ $GLOBALS['strModifyBannerAcl'] = "Leveransinställningar";
 $GLOBALS['strACL'] = "Leveransinställningar";
 $GLOBALS['strEqualTo'] = "är lika med";
 $GLOBALS['strDifferentFrom'] = "skiljer sig från";
+$GLOBALS['strLaterThan'] = "är senare än";
+$GLOBALS['strLaterThanOrEqual'] = "är senare än eller lika med";
+$GLOBALS['strEarlierThan'] = "är tidigare än";
+$GLOBALS['strEarlierThanOrEqual'] = "är tidigare än eller lika med";
 $GLOBALS['strContains'] = "innehåller";
+$GLOBALS['strNotContains'] = "innehåller inte";
 $GLOBALS['strGreaterThan'] = "är större än";
 $GLOBALS['strLessThan'] = "är mindre än";
+$GLOBALS['strGreaterOrEqualTo'] = "är större eller lika med";
+$GLOBALS['strLessOrEqualTo'] = "är mindre eller lika med";
 $GLOBALS['strAND'] = "OCH";                          // logical operator
 $GLOBALS['strOR'] = "ELLER";                         // logical operator
 $GLOBALS['strOnlyDisplayWhen'] = "Visa endast den här annonsen när:";
 $GLOBALS['strWeekDays'] = "Veckodagar";
+$GLOBALS['strTime'] = "Tid";
+$GLOBALS['strDomain'] = "Domän";
 $GLOBALS['strSource'] = "Källa";
+$GLOBALS['strBrowser'] = "Webbläsare";
 $GLOBALS['strOS'] = "OS";
 $GLOBALS['strDeliveryLimitations'] = "Leveransregler";
 
@@ -585,16 +609,21 @@ $GLOBALS['strItemsPerPage'] = "Objekt per sida";
 $GLOBALS['strShowGraphOfStatistics'] = "Visa <u>G</u>raf för statistiken";
 $GLOBALS['strExportStatisticsToExcel'] = "<u>E</u>xportera statistik till Excel";
 $GLOBALS['strGDnotEnabled'] = "Du måste ha GD aktiverat i PHP för att visa grafer. <br />Vänligen besök <a href='http://www.php.net/gd' target='_blank'>http://www.php.net/gd</a> för mer information, inklusive hur man installerar GD på servern.";
+$GLOBALS['strStatsArea'] = "Område";
 
 // Expiration
 $GLOBALS['strNoExpiration'] = "Inget utgångsdatum angivet";
 $GLOBALS['strEstimated'] = "Estimerad utgångsdatum";
+$GLOBALS['strDaysAgo'] = "dagar sedan";
 $GLOBALS['strCampaignStop'] = "Kampanjhistorik";
 
 // Reports
 $GLOBALS['strAdvancedReports'] = "Avancerade rapporter";
+$GLOBALS['strStartDate'] = "Startdatum";
+$GLOBALS['strEndDate'] = "Slutdatum";
 $GLOBALS['strPeriod'] = "Period";
 $GLOBALS['strLimitations'] = "Leveransregler";
+$GLOBALS['strWorksheets'] = "Kalkylblad";
 
 // Admin_UI_Fields
 $GLOBALS['strAllAdvertisers'] = "Alla annonsörer";
@@ -618,6 +647,8 @@ $GLOBALS['strParameters'] = "Taginställningar";
 $GLOBALS['strFrameSize'] = "Ramstorlek";
 $GLOBALS['strBannercode'] = "Bannerkod";
 $GLOBALS['strBackToTheList'] = "Gå tillbaks till rapportlistan";
+$GLOBALS['strCharset'] = "Teckenuppsättning";
+$GLOBALS['strAutoDetect'] = "Identifiera automatiskt";
 
 
 // Errors
@@ -637,9 +668,12 @@ $GLOBALS['strDatesConflict'] = "datumen i konflikt med:";
 // Email
 $GLOBALS['strSirMadam'] = "Herr/fru";
 $GLOBALS['strMailSubject'] = "Rapport för annonsör";
+$GLOBALS['strMailHeader'] = "Bäste {contact},";
 $GLOBALS['strMailBannerStats'] = "Nedan finner du bannerstatistik för {klientnamn}:";
 $GLOBALS['strMailBannerActivatedSubject'] = "Kampanjen aktiverad";
 $GLOBALS['strMailBannerDeactivatedSubject'] = "Kampanjen avaktiverad";
+$GLOBALS['strMailBannerActivated'] = "Din kampanj nedan har aktiverats pga
+kampanjens aktiveringsdatum har nåtts.";
 $GLOBALS['strMailBannerDeactivated'] = "Din kampanj nedan har avaktiverats p.g.a";
 $GLOBALS['strClientDeactivated'] = "Denna kampanj är för närvarande inte aktiv p.g.a";
 $GLOBALS['strBeforeActivate'] = "aktiveringsdatumet har inte nåtts";
