@@ -211,5 +211,5 @@ msgstr ""
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:519
 msgid "Contract"
-msgstr "İletişim"
+msgstr "Sözleşme"
 
