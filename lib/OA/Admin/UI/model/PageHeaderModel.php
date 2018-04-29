@@ -101,7 +101,7 @@ class OA_Admin_UI_Model_PageHeaderModel
         $this->title = $title;
         $this->iconClass = $iconClass;
         $this->pageType = $pageType;
-        $this->aEntityBreadcrumbs = $aBreadcrumbs;
+        $this->aEntityBreadcrumbs = (array) $aBreadcrumbs;
         $this->hasEntityList == false;
     }
     
@@ -242,7 +242,7 @@ class OA_Admin_UI_Model_PageHeaderModel
      */
     public function setEntityBreadcrumbs($aEntityBreadcrumbs)
     {
-        $this->aEntityBreadcrumbs = $aEntityBreadcrumbs;
+        $this->aEntityBreadcrumbs = (array) $aEntityBreadcrumbs;
     }
     
     
@@ -260,7 +260,7 @@ class OA_Admin_UI_Model_PageHeaderModel
      */
     public function setHasEntityList($hasEntityList)
     {
-        $this->hasEntityList = $hasEntityList;
+        $this->hasEntityList = (bool) $hasEntityList;
     }
         
     
