@@ -118,7 +118,7 @@ $GLOBALS['strDashboardErrorHelp'] = "Bu hata tekrarlanırsa lütfen sorununuzu a
 $GLOBALS['strPriority'] = "Öncelik";
 $GLOBALS['strPriorityLevel'] = "Öncelik düzeyi";
 $GLOBALS['strOverrideAds'] = "Kampanya Reklamlarını Geçersiz Kılma";
-$GLOBALS['strHighAds'] = "Kampanya Reklamları Sözleşmesi";
+$GLOBALS['strHighAds'] = "Sözleşmeli Kampanya Reklamları";
 $GLOBALS['strECPMAds'] = "eBGBM Kampanya Reklamı";
 $GLOBALS['strLowAds'] = "Boşta Kalan Gösterim Kampanyası";
 $GLOBALS['strLimitations'] = "Teslimat kuralları";
@@ -369,10 +369,10 @@ $GLOBALS['strCampaignStatusRestarted'] = "Yeniden başlat";
 $GLOBALS['strCampaignStatusDeleted'] = "Sil";
 $GLOBALS['strCampaignType'] = "Kampanya Adı";
 $GLOBALS['strType'] = "Tip";
-$GLOBALS['strContract'] = "İletişim";
+$GLOBALS['strContract'] = "Sözleşme";
 $GLOBALS['strOverride'] = "Geçersiz kıl";
 $GLOBALS['strOverrideInfo'] = "Geçersiz kılma kampanyaları, Kalıntı ve Sözleşme kampanyalarını geçersiz kılmak (yani öncelikli olmak için) özel bir kampanya türüdür. Geçersiz kılma kampanyaları genellikle, belirli bir tanıtımın parçası olarak kampanya afişlerinin belirli yerlerde, belirli kullanıcılarda ve belki de belirli bir sayıda gösterildiğinden emin olmak için belirli hedefleme ve / veya üst sınır kurallarıyla birlikte kullanılır. (Bu kampanya türü daha önce 'Sözleşme (Münhasır)' olarak biliniyordu.)";
-$GLOBALS['strStandardContract'] = "İletişim";
+$GLOBALS['strStandardContract'] = "Sözleşme";
 $GLOBALS['strStandardContractInfo'] = "Sözleşme kampanyaları, belirli bir zaman kritik performans gereksinimi elde etmek için gereken gösterimleri sorunsuz bir şekilde sunmak içindir. Yani, Sözleşme kampanyaları, bir reklamverenin belli bir sayıda gösterim, tıklama ve / veya dönüşüm elde etmesini ya iki tarih ya da günlük olarak gerçekleştirilmesini sağlar.";
 $GLOBALS['strRemnantInfo'] = "Varsayılan kampanya türü. Kalıntı kampanyalarda çok sayıda farklı dağıtım seçeneği bulunur ve her zaman göstermek için bir şeyler olduğundan emin olmak için ideal olarak her bölgeye bağlı en az bir Kalıcı kampanya oluşturmalısınız. Evdeki afişleri, reklam ağı afişlerini veya satılan doğrudan reklamları görüntülemek için kalıcı kampanyaları kullanın; ancak kampanyanın uyması gereken zaman açısından kritik bir performans gereksinimi bulunmamaktadır.";
 $GLOBALS['strECPMInfo'] = "Bu, bitiş tarihi veya belirli bir sınırla sınırlandırılabilen standart bir kampanyadır. Mevcut ayarlara göre, eBGBM'yi kullanarak önceliklendirilir.";
@@ -808,8 +808,17 @@ $GLOBALS['strCurrentPassword'] = "Mevcut Şifre";
 $GLOBALS['strChooseNewPassword'] = "Yeni bir parola seçin";
 $GLOBALS['strReenterNewPassword'] = "Yeni Şifreyi Tekrar Girin";
 $GLOBALS['strAccountPreferences'] = "Hesap Tercihleri";
+$GLOBALS['strFullName'] = "Tam adı";
+$GLOBALS['strEmailAddress'] = "E-posta adresi";
+$GLOBALS['strUserDetails'] = "Kullanıcı Ayrıntıları";
+$GLOBALS['strUserInterfacePreferences'] = "Kullanıcı Arabirim Tercihleri";
+$GLOBALS['strColumnName'] = "Sütun adı";
+$GLOBALS['strShowColumn'] = "Sütunu göster";
+$GLOBALS['strCustomColumnName'] = "Özel sütun adı";
+$GLOBALS['strColumnRank'] = "Sütun sırası";
 
 // Long names
+$GLOBALS['strRevenue'] = "Gelir";
 $GLOBALS['strNumberOfItems'] = "Öğe sayısı";
 $GLOBALS['strERPM'] = "CPM";
 $GLOBALS['strERPC'] = "CPC";
@@ -820,6 +829,7 @@ $GLOBALS['strEIPS'] = "CPM";
 $GLOBALS['strECPM'] = "CPM";
 $GLOBALS['strECPC'] = "CPC";
 $GLOBALS['strECPS'] = "CPM";
+$GLOBALS['strPendingConversions'] = "Bekleyen dönüşümler";
 $GLOBALS['strImpressionSR'] = "Gösterimler";
 
 // Short names
@@ -833,14 +843,19 @@ $GLOBALS['strECPM_short'] = "CPM";
 $GLOBALS['strECPC_short'] = "CPC";
 $GLOBALS['strECPS_short'] = "CPM";
 $GLOBALS['strID_short'] = "ID [Sıra No]";
+$GLOBALS['strImpressions_short'] = "Göst.";
 $GLOBALS['strClicks_short'] = "Tıklamalar";
 $GLOBALS['strCTR_short'] = "TGO";
+$GLOBALS['strConversions_short'] = "Dön.";
+$GLOBALS['strPendingConversions_short'] = "Bek. dön.";
 
 // Global Settings
+$GLOBALS['strConfiguration'] = "Yapılandırma";
 $GLOBALS['strGlobalSettings'] = "Genel Ayarlar";
 $GLOBALS['strGeneralSettings'] = "Genel Ayarlar";
 $GLOBALS['strMainSettings'] = "Ana Ayarlar";
 $GLOBALS['strPlugins'] = "Eklentiler";
+$GLOBALS['strChooseSection'] = 'Bölüm seçin';
 
 // Product Updates
 $GLOBALS['strProductUpdates'] = "Ürün Güncellemeleri";
@@ -911,12 +926,14 @@ $GLOBALS['strPwdRecResetLink'] = "Şifre yenileme bağlantısı";
 $GLOBALS['strPwdRecEmailPwdRecovery'] = "%s şifre yenilemesi";
 
 // Audit
+$GLOBALS['strBinaryData'] = "İkili veri";
 $GLOBALS['strAuditTrailDisabled'] = "Denetim İzi, sistem yöneticisi tarafından devre dışı bırakıldı. Başka olay kaydedilmez ve Denetim İzi listesinde gösterilir.";
 
 // Widget - Audit
 $GLOBALS['strAuditNoData'] = "Seçtiğiniz zaman aralığında hiçbir kullanıcı etkinliği kaydedilmedi.";
 
 // Widget - Campaign
+$GLOBALS['strCampaignGoTo'] = "Kampanyalar sayfasına git";
 $GLOBALS['strCampaignNoRecordsAdmin'] = "<li>Görüntülenecek hiçbir kampanya etkinliği yok.</li>";
 
 $GLOBALS['strCampaignNoDataTimeSpan'] = "Seçtiğiniz zaman aralığında başlamış veya bitmiş hiçbir kampanya yok";
