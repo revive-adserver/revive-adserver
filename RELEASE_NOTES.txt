@@ -32,7 +32,8 @@ What's New in Revive Adserver 4.1.4
  Bug Fixes
  ---------
 
-  * None
+  * Fixed an issue with evaluating very large delivery rules that caused
+    an internal error with the PCRE library.
 
  Non-Backwards Compatible Changes
  --------------------------------
