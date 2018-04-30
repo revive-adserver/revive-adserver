@@ -183,9 +183,9 @@ function MAX_limitationsMatchStringValue($value, $limitation, $op)
     } elseif ($op == '!~') {
         return !MAX_stringContains($value, $limitation);
     } elseif ($op == '=x') {
-        return preg_match(_getSRegexpDelimited($limitation), $value);
+        return _safe_preg_match($limitation, $value);
     } else {
-        return !preg_match(_getSRegexpDelimited($limitation), $value);
+        return !_safe_preg_match($limitation, $value);
     }
 }
 
@@ -470,6 +470,34 @@ function MAX_limitationsGetCountry($aData)
 function MAX_limitationsSetCountry(&$aData, $sCountry)
 {
     $aData[0] = $sCountry;
+}
+
+/**
+ * A safe way of calling preg_match where the $limitation value may be too
+ * long for the PCRE library's internal limitations
+ *
+ * @param $limitation The non-delimited regular expression string which may
+ *                    be too long
+ * @param $value The string to search with the non-delimited regular
+ *               expression
+ */
+function _safe_preg_match($limitation, $value)
+{
+    if (strlen($limitation) < 10000) {
+        return preg_match(_getSRegexpDelimited($limitation), $value);
+    } else {
+        $limitationMiddle = floor(strlen($limitation) / 2);
+        $limitationSplitPoint = strpos($limitation, '|', $limitationMiddle);
+        $firstLimitation = substr($limitation, 0, $limitationSplitPoint);
+        if (_safe_preg_match($firstLimitation, $value)) {
+            return true;
+        }
+        $secondLimitation = substr($limitation, $limitationSplitPoint + 1);
+        if (_safe_preg_match($secondLimitation, $value)) {
+            return true;
+        }
+        return false;
+    }
 }
 
 /**
