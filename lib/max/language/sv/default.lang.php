@@ -669,7 +669,7 @@ $GLOBALS['strDatesConflict'] = "datumen i konflikt med:";
 $GLOBALS['strSirMadam'] = "Herr/fru";
 $GLOBALS['strMailSubject'] = "Rapport för annonsör";
 $GLOBALS['strMailHeader'] = "Bäste {contact},";
-$GLOBALS['strMailBannerStats'] = "Nedan finner du bannerstatistik för {klientnamn}:";
+$GLOBALS['strMailBannerStats'] = "Nedan finner du bannerstatistik för {clientname}:";
 $GLOBALS['strMailBannerActivatedSubject'] = "Kampanjen aktiverad";
 $GLOBALS['strMailBannerDeactivatedSubject'] = "Kampanjen avaktiverad";
 $GLOBALS['strMailBannerActivated'] = "Din kampanj nedan har aktiverats pga
@@ -682,14 +682,16 @@ $GLOBALS['strNoMoreImpressions'] = "det finns inga fler visningar";
 $GLOBALS['strNoMoreClicks'] = "det finns inga fler klick";
 $GLOBALS['strNoMoreConversions'] = "det finns inga fler försäljningar";
 $GLOBALS['strWeightIsNull'] = "dess vikt är satt till noll";
-$GLOBALS['strMailReportPeriod'] = "Denna rapport inkluderar statistik från {startdatum} till {slutdatum}";
-$GLOBALS['strMailReportPeriodAll'] = "Denna rapport inkluderar all statistik t.o.m {slutdatum}";
+$GLOBALS['strMailReportPeriod'] = "Rapporten innehåller statistik från {startdate} upp till {enddate}.";
+$GLOBALS['strMailReportPeriodAll'] = "Denna rapport innehåller alla statistik upp till {enddate}.";
 $GLOBALS['strNoStatsForCampaign'] = "Det finns ingen statistik tillgänglig för denna kampanj";
-$GLOBALS['strImpendingCampaignExpiry'] = "Förestående utgång av kampanj";
+$GLOBALS['strImpendingCampaignExpiry'] = "Kommande utgång av kampanj";
 $GLOBALS['strYourCampaign'] = "Din kampanj";
 $GLOBALS['strTheCampiaignBelongingTo'] = "Kampanjen tillhör";
-$GLOBALS['strImpendingCampaignExpiryDateBody'] = "{klientnamn} som visas nedan avslutas {datum}.";
-$GLOBALS['strImpendingCampaignExpiryImpsBody'] = "{klientnamn} som visas nedan har färre än {gräns} visningar kvar.";
+$GLOBALS['strImpendingCampaignExpiryDateBody'] = "{clientname} som visas nedan avslutas {date}.";
+$GLOBALS['strImpendingCampaignExpiryImpsBody'] = "{clientname} som visas nedan har färre än {limit} visningar kvar.";
+$GLOBALS['strImpendingCampaignExpiryBody'] = "Som ett resultat av det kommer kampanjen snart att avaktiveras automatiskt och då kommer
+följande banners i kampanjen också att avaktiveras:";
 
 // Priority
 $GLOBALS['strPriority'] = "Prioritering";

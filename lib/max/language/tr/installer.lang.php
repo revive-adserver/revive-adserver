@@ -28,21 +28,33 @@ $GLOBALS['strAppCheckDbIntegrityError'] = "Veritabanınızla ilgili bütünlük 
 $GLOBALS['strSyscheckProgressMessage'] = "Sistem parametreleri denetleniyor...";
 $GLOBALS['strError'] = "Hata";
 $GLOBALS['strWarning'] = "Uyarı";
-$GLOBALS['strOK'] = "TAMAM";
+$GLOBALS['strOK'] = "Tamam";
 $GLOBALS['strSyscheckName'] = "Ismi kontrol et";
+$GLOBALS['strSyscheckValue'] = "Şu anki değer";
 $GLOBALS['strSyscheckStatus'] = "Durum";
-$GLOBALS['strSyscheckSeeFullReport'] = "Detaylı sistem kontrolü göster";
+$GLOBALS['strSyscheckSeeFullReport'] = "Ayrıntılı sistem kontrolünü göster";
 $GLOBALS['strSyscheckSeeShortReport'] = "Yalnızca hataları ve uyarıları göster";
 $GLOBALS['strBrowserCookies'] = 'Tarayıcı Çerezleri';
 $GLOBALS['strPHPConfiguration'] = 'PHP Yapılandırması';
+$GLOBALS['strCheckError'] = 'hata';
+$GLOBALS['strCheckErrors'] = 'hata';
+$GLOBALS['strCheckWarning'] = 'uyarı';
+$GLOBALS['strCheckWarnings'] = 'uyarı';
 
 /** admin login step * */
+$GLOBALS['strAdminLoginTitle'] = "Lütfen {$PRODUCT_NAME} yöneticisi olarak giriş yapın";
 $GLOBALS['strAdminLoginIntro'] = "Devam etmek için lütfen {$PRODUCT_NAME} sistem yöneticisi hesabının oturum açma bilgilerinizi girin.";
 $GLOBALS['strLoginProgressMessage'] = 'Oturum açılıyor...';
 
 /** database step * */
+$GLOBALS['strDbUpgradeTitle'] = "Veritabanınız tespit edildi";
 $GLOBALS['strDbUpgradeIntro'] = "{$PRODUCT_NAME} ürününü yüklediğinizde aşağıdaki veritabanı tespit edildi. Lütfen bunun doğru olduğunu onaylayın ve devam etmek için \"Devam et\" seçeneğini tıklayın.";
+$GLOBALS['strDbProgressMessageInstall'] = 'Veritabanı yükleniyor...';
+$GLOBALS['strDbProgressMessageUpgrade'] = 'Veritabanı yükseltiliyor...';
+$GLOBALS['strDBInstallSuccess'] = "Veritabanı başarıyla oluşturuldu";
+$GLOBALS['strDBUpgradeSuccess'] = "Veritabanı başarıyla yükseltildi";
 
+$GLOBALS['strDetectedVersion'] = "{$PRODUCT_NAME} sürümü tespit edildi";
 
 /** config step * */
 $GLOBALS['strConfigureInstallIntro'] = "Lütfen yerel {$PRODUCT_NAME} sistem yönetici hesabınız için istenen oturum açma bilgilerini girin.";
