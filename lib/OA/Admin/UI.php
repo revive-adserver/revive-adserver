@@ -491,7 +491,7 @@ class OA_Admin_UI
         }
 
         global $ox_left_menu_sub;
-        if (count($ox_left_menu_sub)) {
+        if (!empty($ox_left_menu_sub)) {
             $currentLeftSub = $ox_left_menu_sub['current'];
 
             foreach($ox_left_menu_sub['items'] as $k => $v) {
