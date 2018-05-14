@@ -5,6 +5,7 @@ All notable changes to Revive Adserver will be documented in this file.
 ## [6.1.0]
 
 ### Fixes
+- Fixed extra space below banners served by asynchronous tags ([#973](https://github.com/revive-adserver/revive-adserver/pull/973))
 - Avoided full banner table scans when auditing duplicated SQL images ([#1788](https://github.com/revive-adserver/revive-adserver/pull/1788))
 - Users with only trafficker permissions could see a JavaScript alert error when linking or unlinking campaigns or banners to a zone ([#1698](https://github.com/revive-adserver/revive-adserver/issues/1698))
 - Users with only trafficker permissions could link campaigns belonging to a different agency to their zones ([#1700](https://github.com/revive-adserver/revive-adserver/issues/1700))
