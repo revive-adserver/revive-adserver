@@ -132,6 +132,19 @@ class Test_DeliveryRemotehost extends UnitTestCase
         $_SERVER = $serverSave;
     }
 
+    function test_MAX_remotehostAnonymise()
+    {
+        $GLOBALS['_MAX']['CONF']['privacy']['anonymiseIp'] = false;
+        $_SERVER['REMOTE_ADDR'] = '127.0.0.127';
+        MAX_remotehostAnonymise();
+        $this->assertEqual($_SERVER['REMOTE_ADDR'], '127.0.0.127');
+
+        $GLOBALS['_MAX']['CONF']['privacy']['anonymiseIp'] = true;
+        $_SERVER['REMOTE_ADDR'] = '127.0.0.127';
+        MAX_remotehostAnonymise();
+        $this->assertEqual($_SERVER['REMOTE_ADDR'], '127.0.0.0');
+    }
+
     /**
      * @todo future test case
      * A function to perform a reverse lookup of the hostname from the IP address,

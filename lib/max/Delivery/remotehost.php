@@ -36,6 +36,7 @@ function MAX_remotehostSetInfo($run = false)
 {
     if (empty($GLOBALS['_OA']['invocationType']) || $run || ($GLOBALS['_OA']['invocationType'] != 'xmlrpc')) {
         MAX_remotehostProxyLookup();
+        MAX_remotehostAnonymise();
         MAX_remotehostReverseLookup();
         //MAX_remotehostSetClientInfo();  // now moved into plugin
         MAX_remotehostSetGeoInfo();
@@ -157,6 +158,16 @@ function MAX_remotehostSetGeoInfo()
         if (!empty($aComponent[1]) && (!empty($aConf['pluginGroupComponents'][$aComponent[1]]))) {
             $GLOBALS['_MAX']['CLIENT_GEO'] = OX_Delivery_Common_hook('getGeoInfo', array(), $type);
         }
+    }
+}
+
+/**
+ * A function to anonymise the IP address if required, by zeroing its last byte.
+ */
+function MAX_remotehostAnonymise()
+{
+    if (!empty($GLOBALS['_MAX']['CONF']['privacy']['anonymiseIp'])) {
+        $_SERVER['REMOTE_ADDR'] = preg_replace('/\d+$/', '0', $_SERVER['REMOTE_ADDR']);
     }
 }
 
