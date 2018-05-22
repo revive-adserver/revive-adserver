@@ -64,25 +64,51 @@ class Test_DeliveryCookie extends UnitTestCase
     function test_MAX_cookieGetUniqueViewerID()
     {
         $conf =& $GLOBALS['_MAX']['CONF'];
+        $privacyViewerId = '01000111010001000101000001010010';
+
+        // Privacy mode ON
+        $conf['privacy']['disableViewerId'] = true;
 
         // Test that the a value is not set if $create=false
         unset($_COOKIE[$conf['var']['viewerId']]);
+        unset($GLOBALS['_MAX']['COOKIE']['newViewerId']);
         $this->assertFalse(MAX_cookieGetUniqueViewerID(false));
-
-        // Test that a valid viewer ID is created if $create is not passed in
-        unset($_COOKIE[$conf['var']['viewerId']]);
-        $viewerId = MAX_cookieGetUniqueViewerID();
-        $this->assertIsA($viewerId, 'string');
-        $this->assertTrue(strlen($viewerId) == 32);
+        $this->assertFalse(isset($GLOBALS['_MAX']['COOKIE']['newViewerId']));
 
         // Test that a valid viewer ID is created if $create is set to true
         unset($_COOKIE[$conf['var']['viewerId']]);
+        unset($GLOBALS['_MAX']['COOKIE']['newViewerId']);
+        $viewerId = MAX_cookieGetUniqueViewerID(true);
+        $this->assertEqual($viewerId, $privacyViewerId);
+        $this->assertTrue($GLOBALS['_MAX']['COOKIE']['newViewerId'], true);
+
+        // Test that an old viewer ID sent by the browser is replaced with the constant when privacy mode is on
+        $_COOKIE[$conf['var']['viewerId']] = '00001111222233334444555566667777';
+        unset($GLOBALS['_MAX']['COOKIE']['newViewerId']);
+        $this->assertEqual(MAX_cookieGetUniqueViewerID(), $privacyViewerId);
+        $this->assertFalse(isset($GLOBALS['_MAX']['COOKIE']['newViewerId']));
+
+        // Privacy mode OFF
+        $conf['privacy']['disableViewerId'] = false;
+
+        // Test that the a value is not set if $create=false
+        unset($_COOKIE[$conf['var']['viewerId']]);
+        unset($GLOBALS['_MAX']['COOKIE']['newViewerId']);
+        $this->assertFalse(MAX_cookieGetUniqueViewerID(false));
+        $this->assertFalse(isset($GLOBALS['_MAX']['COOKIE']['newViewerId']));
+
+        // Test that a valid viewer ID is created if $create is set to true
+        unset($_COOKIE[$conf['var']['viewerId']]);
+        unset($GLOBALS['_MAX']['COOKIE']['newViewerId']);
         $viewerId = MAX_cookieGetUniqueViewerID(true);
         $this->assertIsA($viewerId, 'string');
         $this->assertTrue(strlen($viewerId) == 32);
+        $this->assertTrue($GLOBALS['_MAX']['COOKIE']['newViewerId'], true);
 
+        $_COOKIE[$conf['var']['viewerId']] = $viewerId;
+        unset($GLOBALS['_MAX']['COOKIE']['newViewerId']);
         $this->assertEqual(MAX_cookieGetUniqueViewerID(), $viewerId);
-
+        $this->assertFalse(isset($GLOBALS['_MAX']['COOKIE']['newViewerId']));
     }
 
     /**
@@ -152,7 +178,7 @@ class Test_DeliveryCookie extends UnitTestCase
      * To self with the additional querystring parameter "ct=1" (cookieTest = 1) to indicate that a
      *
      */
-    function test_MAX_cookieAddViewerIdAndRedirect() {
+    function test_MAX_cookieSetViewerIdAndRedirect() {
         $conf =& $GLOBALS['_MAX']['CONF'];
         // Disable the p3p policies because those are tested elsewhere and we need the redirect header to be [0]
         $conf['p3p']['policies'] = false;
@@ -181,10 +207,10 @@ class Test_DeliveryCookie extends UnitTestCase
     {
         $conf =& $GLOBALS['_MAX']['CONF'];
 
-        // The cookieFluch function requires variables which are initialised in common.php
+        // The cookieFlush function requires variables which are initialised in common.php
         MAX_commonInitVariables();
-        // Test that a very long cookie is truncated to below the 2048 character limit.
 
+        // Test that a very long cookie is truncated to below the 2048 character limit.
         $_COOKIE[$conf['var']['blockAd']] = array();
         for ($i = 0; $i < 1000; $i++) {
             $_COOKIE[$conf['var']['blockAd']][$i] = time();

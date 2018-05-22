@@ -62,6 +62,10 @@ function MAX_cookieAdd($name, $value, $expire = 0)
 function MAX_cookieSetViewerIdAndRedirect($viewerId) {
     $aConf = $GLOBALS['_MAX']['CONF'];
 
+    if (!empty($aConf['privacy']['disableViewerId'])) {
+        return;
+    }
+
     MAX_cookieAdd($aConf['var']['viewerId'], $viewerId, _getTimeYearFromNow());
     MAX_cookieFlush();
 
@@ -174,16 +178,31 @@ function _isBlockCookie($cookieName)
 function MAX_cookieGetUniqueViewerId($create = true)
 {
     static $uniqueViewerId = null;
-    if(!is_null($uniqueViewerId)) {
-        return $uniqueViewerId;
+
+    ###START_STRIP_DELIVERY
+    if (!defined('TEST_ENVIRONMENT_RUNNING')) {
+        ###END_STRIP_DELIVERY
+        if (null !== $uniqueViewerId) {
+            return $uniqueViewerId;
+        }
+        ###START_STRIP_DELIVERY
     }
+    ###END_STRIP_DELIVERY
+
     $conf = $GLOBALS['_MAX']['CONF'];
+
+    // Set the privacy viewer ID according to the settings
+    $privacyViewerId = empty($conf['privacy']['disableViewerId']) ? null : '01000111010001000101000001010010';
+
     if (isset($_COOKIE[$conf['var']['viewerId']])) {
-        $uniqueViewerId = $_COOKIE[$conf['var']['viewerId']];
+        $uniqueViewerId = $privacyViewerId ?: $_COOKIE[$conf['var']['viewerId']];
     } elseif ($create) {
-        $uniqueViewerId = md5(uniqid('', true));  // Need to find a way to generate this...
+        $uniqueViewerId = $privacyViewerId ?: md5(uniqid('', true));
         $GLOBALS['_MAX']['COOKIE']['newViewerId'] = true;
+    } else {
+        $uniqueViewerId = null;
     }
+
     return $uniqueViewerId;
 }
 
@@ -333,7 +352,7 @@ function MAX_cookieClientCookieFlush()
         while (list($name,$v) = each ($GLOBALS['_MAX']['COOKIE']['CACHE'])) {
             list($value, $expire) = $v;
             // Treat the viewerId cookie differently, (always set in client)
-            if ($name == $conf['var']['viewerId']) {
+            if ($name === $conf['var']['viewerId']) {
                 MAX_cookieClientCookieSet($name, $value, $expire, '/', !empty($conf['cookie']['viewerIdDomain']) ? $conf['cookie']['viewerIdDomain'] : $domain);
             } else {
                 MAX_cookieSet($name, $value, $expire, '/', $domain);
