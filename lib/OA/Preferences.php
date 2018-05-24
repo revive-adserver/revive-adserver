@@ -459,11 +459,16 @@ class OA_Preferences
             }
             // Register the HTML element value
             phpAds_registerGlobalUnslashed($preferenceName);
-
-            if (isset($aCheckboxes[$preferenceName])) {
-                // Convert checkbox preferences to 0 or 1
-                $GLOBALS[$preferenceName] = empty($GLOBALS[$preferenceName]) ? '0' : '1';
-            } elseif (isset($GLOBALS[$preferenceName])) {
+            // Is the HTML element value a checkbox, and unset?
+            if (isset($aCheckboxes[$preferenceName]) && !isset($GLOBALS[$preferenceName])) {
+                // Set the value of the element to the false string ""
+                $GLOBALS[$preferenceName] = '';
+            } else if (isset($aCheckboxes[$preferenceName]) && $GLOBALS[$preferenceName]) {
+                // Set the value of the element to the true string "1"
+                $GLOBALS[$preferenceName] = '1';
+            }
+            // Was the HTML element value set?
+            if (isset($GLOBALS[$preferenceName])) {
                 // Is the preference value different from the parent value?
                 if (!isset($aParentPreferences[$preferenceName]) ||
                            $GLOBALS[$preferenceName] != $aParentPreferences[$preferenceName]) {
