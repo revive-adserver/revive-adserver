@@ -6,7 +6,7 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
-Release Notes: Revive Adserver 4.1.4
+Release Notes: Revive Adserver 4.1.5
 ====================================
 
 These release notes cover what's new, system requirements, download and
@@ -14,10 +14,10 @@ installation instructions, known issues and frequently asked questions for
 Revive Adserver. Please read these notes before reporting any bugs.
 
 
-What's New in Revive Adserver 4.1.4
+What's New in Revive Adserver 4.1.5
 -----------------------------------
 
- * Release date: 2018-05-24
+ * Release date: t.b.d
 
  Security Updates
  ----------------
@@ -27,16 +27,12 @@ What's New in Revive Adserver 4.1.4
  New Features
  ------------
 
-  * Added new privacy settings under banner delivery to optionally stop tagging viewers via a cookie with a unique
-    identifier (OAID) and to anonymise IP addresses, in order to better comply with GDPR regulations.
+ * None
 
  Bug Fixes
  ---------
 
-  * Fixed an issue with evaluating very large delivery rules that caused
-    an internal error with the PCRE library.
-    
-  * Reverted a change introduced in v4.1.2 that was preventing preferences from being properly saved.
+  * None
 
  Non-Backwards Compatible Changes
  --------------------------------
