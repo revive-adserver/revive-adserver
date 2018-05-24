@@ -221,7 +221,7 @@ OA_setTimeZone('UTC');
 }
 function OA_setTimeZoneLocal()
 {
-$tz = !empty($GLOBALS['_MAX']['PREF']['timezone']) ? $GLOBALS['_MAX']['PREF']['timezone'] : 'GMT';
+$tz = !empty($GLOBALS['_MAX']['PREF']['timezone']) ? $GLOBALS['_MAX']['PREF']['timezone'] : 'UTC';
 OA_setTimeZone($tz);
 }
 function OX_getHostName()
@@ -300,6 +300,9 @@ $GLOBALS['_MAX']['COOKIE']['CACHE'][$name] = array($value, $expire);
 }
 function MAX_cookieSetViewerIdAndRedirect($viewerId) {
 $aConf = $GLOBALS['_MAX']['CONF'];
+if (!empty($aConf['privacy']['disableViewerId'])) {
+return;
+}
 MAX_cookieAdd($aConf['var']['viewerId'], $viewerId, _getTimeYearFromNow());
 MAX_cookieFlush();
 if ($GLOBALS['_MAX']['SSL_REQUEST']) {
@@ -368,14 +371,19 @@ $GLOBALS['_MAX']['CONF']['var']['blockLoggingClick'],
 function MAX_cookieGetUniqueViewerId($create = true)
 {
 static $uniqueViewerId = null;
-if(!is_null($uniqueViewerId)) {
+ if (null !== $uniqueViewerId) {
 return $uniqueViewerId;
 }
+
 $conf = $GLOBALS['_MAX']['CONF'];
+$privacyViewerId = empty($conf['privacy']['disableViewerId']) ? null : '01000111010001000101000001010010';
 if (isset($_COOKIE[$conf['var']['viewerId']])) {
-$uniqueViewerId = $_COOKIE[$conf['var']['viewerId']];
+$uniqueViewerId = $privacyViewerId ?: $_COOKIE[$conf['var']['viewerId']];
 } elseif ($create) {
-$uniqueViewerId = md5(uniqid('', true));  $GLOBALS['_MAX']['COOKIE']['newViewerId'] = true;
+$uniqueViewerId = $privacyViewerId ?: md5(uniqid('', true));
+$GLOBALS['_MAX']['COOKIE']['newViewerId'] = true;
+} else {
+$uniqueViewerId = null;
 }
 return $uniqueViewerId;
 }
@@ -456,7 +464,7 @@ if (!empty($GLOBALS['_MAX']['COOKIE']['CACHE'])) {
 reset($GLOBALS['_MAX']['COOKIE']['CACHE']);
 while (list($name,$v) = each ($GLOBALS['_MAX']['COOKIE']['CACHE'])) {
 list($value, $expire) = $v;
-if ($name == $conf['var']['viewerId']) {
+if ($name === $conf['var']['viewerId']) {
 MAX_cookieClientCookieSet($name, $value, $expire, '/', !empty($conf['cookie']['viewerIdDomain']) ? $conf['cookie']['viewerIdDomain'] : $domain);
 } else {
 MAX_cookieSet($name, $value, $expire, '/', $domain);
@@ -527,6 +535,7 @@ function MAX_remotehostSetInfo($run = false)
 {
 if (empty($GLOBALS['_OA']['invocationType']) || $run || ($GLOBALS['_OA']['invocationType'] != 'xmlrpc')) {
 MAX_remotehostProxyLookup();
+MAX_remotehostAnonymise();
 MAX_remotehostReverseLookup();
 MAX_remotehostSetGeoInfo();
 }
@@ -604,6 +613,12 @@ $aComponent = explode(':', $aConf['geotargeting']['type']);
 if (!empty($aComponent[1]) && (!empty($aConf['pluginGroupComponents'][$aComponent[1]]))) {
 $GLOBALS['_MAX']['CLIENT_GEO'] = OX_Delivery_Common_hook('getGeoInfo', array(), $type);
 }
+}
+}
+function MAX_remotehostAnonymise()
+{
+if (!empty($GLOBALS['_MAX']['CONF']['privacy']['anonymiseIp'])) {
+$_SERVER['REMOTE_ADDR'] = preg_replace('/\d+$/', '0', $_SERVER['REMOTE_ADDR']);
 }
 }
 function MAX_remotehostPrivateAddress($ip)
