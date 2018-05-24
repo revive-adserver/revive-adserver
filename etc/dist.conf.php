@@ -153,6 +153,10 @@ policies                            = true
 compactPolicy                       = CUR ADM OUR NOR STA NID
 policyLocation                      =
 
+[privacy]
+disableViewerId                     = false
+anonymiseIp                         = false
+
 ;------------------------------------------------------------------------------------------;
 ; User Interface Settings                                                                  ;
 ;------------------------------------------------------------------------------------------;

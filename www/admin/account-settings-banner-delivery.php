@@ -80,6 +80,17 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     $aElements += array(
         'delivery_clicktracking' => array('delivery' => 'clicktracking')
     );
+    // Privacy Settings
+    $aElements += array(
+        'privacy_disableViewerId' => array(
+            'privacy'  => 'disableViewerId',
+            'bool' => true
+        ),
+        'privacy_anonymiseIp' => array(
+            'privacy'  => 'anonymiseIp',
+            'bool' => true
+        ),
+    );
     // P3P Privacy Policies
     $aElements += array(
         'p3p_policies' => array(
@@ -294,6 +305,24 @@ $aSettings = array(
                 'text'    => $strEnable3rdPartyTrackingByDefault,
                 'items'   => $availableOutputAdServerNames
             )
+        )
+    ),
+    array (
+        'text' 	=> $strPrivacySettings,
+        'items'	=> array (
+            array (
+                'type'    => 'checkbox',
+                'name'    => 'privacy_disableViewerId',
+                'text'	  => $strDisableViewerId
+            ),
+            array (
+                'type'    => 'break'
+            ),
+            array (
+                'type' 	  => 'checkbox',
+                'name' 	  => 'privacy_anonymiseIp',
+                'text' 	  => $strAnonymiseIp,
+            ),
         )
     ),
     array (

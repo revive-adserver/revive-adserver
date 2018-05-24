@@ -195,6 +195,9 @@ $GLOBALS['strP3PSettings'] = "P3P Privacy Policies";
 $GLOBALS['strUseP3P'] = "Use P3P Policies";
 $GLOBALS['strP3PCompactPolicy'] = "P3P Compact Policy";
 $GLOBALS['strP3PPolicyLocation'] = "P3P Policy Location";
+$GLOBALS['strPrivacySettings'] = "Privacy Settings";
+$GLOBALS['strDisableViewerId'] = "Disable unique Viewer Id cookie";
+$GLOBALS['strAnonymiseIp'] = "Anonymise viewer IP addresses";
 
 // General Settings
 $GLOBALS['generalSettings'] = "Global General System Settings";
