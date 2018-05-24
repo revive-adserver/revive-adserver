@@ -27,13 +27,16 @@ What's New in Revive Adserver 4.1.4
  New Features
  ------------
 
-  * None
+  * Added new privacy settings under banner delivery to optionally stop tagging viewers via a cookie with a unique
+    identifier (OAID) and to anonymise IP addresses, in order to better comply with GDPR regulations.
 
  Bug Fixes
  ---------
 
   * Fixed an issue with evaluating very large delivery rules that caused
     an internal error with the PCRE library.
+    
+  * Reverted a change introduced in v4.1.2 that was preventing preferences from being properly saved.
 
  Non-Backwards Compatible Changes
  --------------------------------
