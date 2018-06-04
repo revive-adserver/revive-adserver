@@ -1103,6 +1103,8 @@ $GLOBALS['strCampaignAuditTrailSetup'] = "Activeer de Audit Trail om campagnes t
 
 $GLOBALS['strUnsavedChanges'] = "U hebt niet-opgeslagen wijzigingen op deze pagina, zorg ervoor dat u klikt op &quot;Wijzigingen opslaan&quot; als u klaar bent";
 $GLOBALS['strDeliveryLimitationsDisagree'] = "Waarschuwing: de opgeslagen uitleveringsregels <strong>zijn niet in overeenstemming</strong> met de uitleveringsregels die hieronder worden getoond<br />Sla de wijzigingen op om de opgeslagen uitleveringsregels bij te werken";
+$GLOBALS['strDeliveryRulesDbError'] = "WAARSCHUWING: bij het opslaan van de uitleveringsregels, is een database fout opgetreden. Controleer de onderstaande uitleveringsregels aub zorgvuldig, en werk deze bij, indien nodig.";
+$GLOBALS['strDeliveryRulesTruncation'] = "WAARSCHUWING: bij het opslaan van de uitleveringsregels, heeft MySQL de data ingekort, waardoor de oorspronkelijke instellingen zijn hersteld. Verklein aub de omvang van uw regels, en probeer het opnieuw.";
 $GLOBALS['strDeliveryLimitationsInputErrors'] = "Sommige Uitleveringsregels rapporten onjuiste waarden:";
 
 //confirmation messages
