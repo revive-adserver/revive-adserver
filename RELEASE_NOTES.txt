@@ -67,6 +67,9 @@ What's New in Revive Adserver 4.2.0
   * Restored english US translation, in order to have the "month/day" date
     format as an option.
 
+  * Fixed issue with manually rebuilding banner cache when using the user
+    language preferences are not set to english.
+
 
  Non-Backwards Compatible Changes
  --------------------------------
