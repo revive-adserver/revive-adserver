@@ -32,7 +32,8 @@ What's New in Revive Adserver 4.1.5
  Bug Fixes
  ---------
 
-  * None
+  * Restored english US translation, in order to have the "month/day" date
+    format as an option.
 
  Non-Backwards Compatible Changes
  --------------------------------
