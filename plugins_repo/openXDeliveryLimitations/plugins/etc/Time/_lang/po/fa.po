@@ -16,13 +16,13 @@ msgstr ""
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Time//Hour.class.php:68
 msgid "Hour of day"
-msgstr ""
+msgstr "ساعت روز"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Time//Day.class.php:68
 msgid "Day of week"
-msgstr "روز هفتهk"
+msgstr "روز هفته"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Time//Date.class.php:79
 msgid "Date"
-msgstr "زمان"
+msgstr "تاریخ"
 
