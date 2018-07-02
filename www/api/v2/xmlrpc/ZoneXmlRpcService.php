@@ -229,14 +229,14 @@ class ZoneXmlRpcService extends BaseZoneService
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
-                array(&$sessionId, &$zoneId, &$oStartDate, &$oEndDate, &$localTZ),
-                array(true, true, false, false, false), $oParams, $oResponseWithError)) {
+                array(&$sessionId, &$zoneId, &$oStartDate, &$oEndDate, &$localTZ, &$timeZone),
+                array(true, true, false, false, false, false), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
 
         $rsStatisticsData = null;
         if ($this->_oZoneServiceImp->getZoneCampaignStatistics($sessionId,
-                $zoneId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData)) {
+                $zoneId, $oStartDate, $oEndDate, $localTZ, $timeZone, $rsStatisticsData)) {
 
             return XmlRpcUtils::arrayOfStructuresResponse(array('advertiserId' => 'integer',
                                                                 'advertiserName' => 'string',

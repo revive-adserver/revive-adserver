@@ -418,6 +418,7 @@ class OA_Dll_Campaign extends OA_Dll
      * @param date $oEndDate The date to which to get statistics (inclusive)
      * @param bool $localTZ Should stats be using the manager TZ or UTC?
      * @param array &$rsStatisticsData The data returned by the function
+     * @param string $timeZone Timezone sent by the client that makes the request (optional)
      * <ul>
      *   <li><b>day date</b>  The day
      *   <li><b>requests integer</b>  The number of requests for the day
@@ -429,7 +430,7 @@ class OA_Dll_Campaign extends OA_Dll
      * @return boolean  True if the operation was successful and false if not.
      *
      */
-    function getCampaignDailyStatistics($campaignId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
+    function getCampaignDailyStatistics($campaignId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData, $timeZone = null)
     {
         if (!$this->checkStatisticsPermissions($campaignId)) {
             return false;
@@ -438,7 +439,7 @@ class OA_Dll_Campaign extends OA_Dll
         if ($this->_validateForStatistics($campaignId, $oStartDate, $oEndDate)) {
             $dalCampaign = new OA_Dal_Statistics_Campaign;
             $rsStatisticsData = $dalCampaign->getCampaignDailyStatistics($campaignId,
-                $oStartDate, $oEndDate, $localTZ);
+                $oStartDate, $oEndDate, $localTZ, $timeZone);
 
             return true;
         } else {
@@ -541,6 +542,7 @@ class OA_Dll_Campaign extends OA_Dll
      * @param date $oEndDate The date to which to get statistics (inclusive)
      * @param bool $localTZ Should stats be using the manager TZ or UTC?
      * @param array &$rsStatisticsData The data returned by the function
+     * @param string $timeZone Timezone sent by the client that makes the request (optional)
      * <ul>
      *   <li><b>publisherID integer</b> The ID of the publisher
      *   <li><b>publisherName string (255)</b> The name of the publisher
@@ -555,7 +557,7 @@ class OA_Dll_Campaign extends OA_Dll
      * @return boolean  True if the operation was successful and false if not.
      *
      */
-    function getCampaignZoneStatistics($campaignId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
+    function getCampaignZoneStatistics($campaignId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData, $timeZone = null)
     {
         if (!$this->checkStatisticsPermissions($campaignId)) {
             return false;
@@ -564,7 +566,7 @@ class OA_Dll_Campaign extends OA_Dll
         if ($this->_validateForStatistics($campaignId, $oStartDate, $oEndDate)) {
             $dalCampaign = new OA_Dal_Statistics_Campaign;
             $rsStatisticsData = $dalCampaign->getCampaignZoneStatistics($campaignId,
-                $oStartDate, $oEndDate, $localTZ);
+                $oStartDate, $oEndDate, $localTZ, $timeZone);
 
             return true;
         } else {
@@ -580,6 +582,7 @@ class OA_Dll_Campaign extends OA_Dll
      * @param date $oEndDate The date to which to get statistics (inclusive)
      * @param bool $localTZ Should stats be using the manager TZ or UTC?
      * @param array &$rsStatisticsData The data returned by the function each row containing
+     * @param string $timeZone Timezone sent by the client that makes the request (optional)
      * <ul>
      *  <li><b>campaignID integer</b> The ID of the campaign</li>
      *  <li><b>trackerID integer</b> The ID of the tracker</li>
@@ -595,7 +598,7 @@ class OA_Dll_Campaign extends OA_Dll
      *
      */
     public function getCampaignConversionStatistics(
-        $campaignId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
+        $campaignId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData, $timeZone = null)
     {
         if (!$this->checkStatisticsPermissions($campaignId)) {
             return false;
@@ -604,7 +607,7 @@ class OA_Dll_Campaign extends OA_Dll
         if ($this->_validateForStatistics($campaignId, $oStartDate, $oEndDate)) {
             $dalCampaign = new OA_Dal_Statistics_Campaign;
             $rsStatisticsData = $dalCampaign->getCampaignConversionStatistics(
-                $campaignId, $oStartDate, $oEndDate, $localTZ);
+                $campaignId, $oStartDate, $oEndDate, $localTZ, $timeZone);
 
             return true;
         } else {

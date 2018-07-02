@@ -142,6 +142,7 @@ class OA_Dal_Statistics_Zone extends OA_Dal_Statistics
     * @param date $oStartDate The date from which to get statistics (inclusive)
     * @param date $oEndDate The date to which to get statistics (inclusive)
     * @param bool $localTZ Should stats be using the manager TZ or UTC?
+    * @param string $timeZone Client TZ that is making the request
     *
     * @return RecordSet
     *   <ul>
@@ -156,13 +157,15 @@ class OA_Dal_Statistics_Zone extends OA_Dal_Statistics
     *   </ul>
     *
     */
-    function getZoneCampaignStatistics($zoneId, $oStartDate, $oEndDate, $localTZ = false)
+    function getZoneCampaignStatistics($zoneId, $oStartDate, $oEndDate, $localTZ = false, $timeZone = null)
     {
         $zoneId         = $this->oDbh->quote($zoneId, 'integer');
         $tableClients   = $this->quoteTableName('clients');
         $tableCampaigns = $this->quoteTableName('campaigns');
         $tableBanners   = $this->quoteTableName('banners');
         $tableSummary   = $this->quoteTableName('data_summary_ad_hourly');
+
+        $dateField = (isset($timeZone)) ? "CONVERT_TZ(s.date_time, 'UTC','" . $timeZone . "')" : "s.date_time";
 
 		$query = "
             SELECT
@@ -190,7 +193,7 @@ class OA_Dal_Statistics_Zone extends OA_Dal_Statistics
                 AND
                 b.bannerid = s.ad_id
 
-                " . $this->getWhereDate($oStartDate, $oEndDate, $localTZ) . "
+                " . $this->getWhereDate($oStartDate, $oEndDate, $localTZ, $dateField, $timeZone) . "
             GROUP BY
                 m.campaignid, m.campaignname,
                 c.clientid, c.clientname
