@@ -165,7 +165,7 @@ class OA_Dal_Statistics_Zone extends OA_Dal_Statistics
         $tableBanners   = $this->quoteTableName('banners');
         $tableSummary   = $this->quoteTableName('data_summary_ad_hourly');
 
-        $dateField = (isset($timeZone)) ? "CONVERT_TZ(s.date_time, 'UTC','" . $timeZone . "')" : "s.date_time";
+        $dateField = 's.date_time';
 
 		$query = "
             SELECT
@@ -428,7 +428,7 @@ class OA_Dal_Statistics_Zone extends OA_Dal_Statistics
                 AND
                 b.campaignid = c.campaignid
 
-                " . $this->getWhereDate($oStartDate, $oEndDate, $localTZ) . "
+                " . $this->getWhereDate($oStartDate, $oEndDate) . "
             GROUP BY
                 s.zone_id
             HAVING
@@ -496,7 +496,7 @@ class OA_Dal_Statistics_Zone extends OA_Dal_Statistics
                 AND
                 b.campaignid = c.campaignid
 
-                " . $this->getWhereDate($oStartDate, $oEndDate, $localTZ) . "
+                " . $this->getWhereDate($oStartDate, $oEndDate) . "
             GROUP BY
                 s.zone_id
             HAVING
@@ -558,7 +558,7 @@ class OA_Dal_Statistics_Zone extends OA_Dal_Statistics
                     AND
                     b.bannerid = s.ad_id
 
-                    " . $this->getWhereDate($oStartDate, $oEndDate, $localTZ) . "
+                    " . $this->getWhereDate($oStartDate, $oEndDate) . "
                 GROUP BY
                     s.zone_id
                 HAVING
@@ -575,7 +575,7 @@ class OA_Dal_Statistics_Zone extends OA_Dal_Statistics
                 WHERE
                     s.zone_id IN (" . implode(',', $aZonesIds) . ")
 
-                    " . $this->getWhereDate($oStartDate, $oEndDate, $localTZ) . "
+                    " . $this->getWhereDate($oStartDate, $oEndDate) . "
                 GROUP BY
                     s.zone_id
                 HAVING

@@ -52,7 +52,7 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
         $tableBanners   = $this->quoteTableName('banners');
         $tableSummary   = $this->quoteTableName('data_summary_ad_hourly');
 
-        $dateField = (isset($timeZone)) ? "CONVERT_TZ(s.date_time, 'UTC','" . $timeZone . "')" : "s.date_time";
+        $dateField = 's.date_time';
 
         $aConf = $GLOBALS['_MAX']['CONF'];
 
@@ -246,7 +246,7 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
         $tableAffiliates = $this->quoteTableName('affiliates');
         $tableSummary    = $this->quoteTableName('data_summary_ad_hourly');
 
-        $dateField = (isset($timeZone)) ? "CONVERT_TZ(s.date_time, 'UTC','" . $timeZone . "')" : "s.date_time";
+        $dateField = 's.date_time';
 
 		$query = "
             SELECT
@@ -318,7 +318,7 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
         $tableDataIntermadiateAdVariableValue = $this->quoteTableName('data_intermediate_ad_variable_value');
 
         $localTZ = false;
-        $dateField = (isset($timeZone)) ? "CONVERT_TZ(d.tracker_date_time, 'UTC','" . $timeZone . "')" : "d.tracker_date_time";
+        $dateField = 'd.tracker_date_time';
         $orderBy = (isset($timeZone)) ? "ORDER BY d.tracker_date_time" : "";
 
 
@@ -358,7 +358,7 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
             $aResult[$row['conversionid']] = array('campaignID' => $row['campaignid'],
                                                    'trackerID' =>  $row['trackerid'],
                                                    'bannerID' => $row['bannerid'],
-                                                   'conversionTime' => $row['tracker_date_time'],
+                                                   'conversionTime' => $this->setDateTimeZone($row['tracker_date_time'], $localTZ, $timeZone)->format('Y-m-d H:i:s'),
                                                    'conversionStatus' => $row['conversionstatus'],
                                                    'userIp' => $row['userip'],
                                                    'action' => $row['action'],

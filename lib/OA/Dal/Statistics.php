@@ -177,6 +177,27 @@ class OA_Dal_Statistics extends OA_Dal
             true);
     }
 
+
+
+    /**
+     * A private method used to return a copy of a DateTime with converted to specific time zone.
+     *
+     * @param DateTime $dateTime
+     * @param bool $localTZ
+     * @param string $timeZone
+     * @return DateTime
+     */
+    function setDateTimeZone($dateTime, $localTZ = false, $timeZone = null)
+    {
+        $oTz = isset($timeZone) ? new DateTimeZone($timeZone) : $this->getTimeZone($localTZ);
+
+        $oDateCopy = new DateTime($dateTime, new DateTimeZone('UTC'));
+        $oDateCopy->setTimezone($oTz);
+
+        return $oDateCopy;
+    }
+
+
 }
 
 ?>
