@@ -32,7 +32,8 @@ What's New in Revive Adserver 4.1.5
  Bug Fixes
  ---------
 
-  * None
+  * Fixed PHP 7.3 incompatible usage of continue statements within switch
+    constructs.
 
  Non-Backwards Compatible Changes
  --------------------------------
