@@ -4,19 +4,19 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "069cfd2e87eba97dae223844365ed355",
+    "content-hash": "922d54c4cd1dbbc859315143354bc3e2",
     "packages": [
         {
             "name": "figdice/asseteer",
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/gabrielzerbib/asseteer.git",
+                "url": "https://github.com/revive-adserver/asseteer.git",
                 "reference": "0a3028e3e1931055793f6701e48a871bd902cadf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gabrielzerbib/asseteer/zipball/0a3028e3e1931055793f6701e48a871bd902cadf",
+                "url": "https://api.github.com/repos/revive-adserver/asseteer/zipball/0a3028e3e1931055793f6701e48a871bd902cadf",
                 "reference": "0a3028e3e1931055793f6701e48a871bd902cadf",
                 "shasum": ""
             },
@@ -571,7 +571,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "backendtea@gmail.com"
+                    "email": "BackEndTea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",

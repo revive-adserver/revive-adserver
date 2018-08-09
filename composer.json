@@ -37,12 +37,18 @@
         "symfony/finder": "^3.4",
         "friendsofphp/php-cs-fixer": "^2.15"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/revive-adserver/asseteer"
+        }
+    ],
     "extra": {
         "post-install-asseteer": [
             {
                 "vendor": "tinymce",
                 "target": "www/admin/assets",
-                "filters": [ "\\.min.(js|css)$", "\\.(eot|ttf|svg|woff)" ]
+                "filters": [ "(\\.min|index)\\.(js|css)$", "\\.(eot|ttf|svg|woff)" ]
             }
         ]
     },
