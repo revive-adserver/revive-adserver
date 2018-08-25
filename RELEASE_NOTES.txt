@@ -19,21 +19,27 @@ What's New in Revive Adserver 4.1.5
 
  * Release date: t.b.d
 
+
  Security Updates
  ----------------
 
  * None
+
 
  New Features
  ------------
 
  * None
 
+
  Bug Fixes
  ---------
 
   * Fixed PHP 7.3 incompatible usage of continue statements within switch
     constructs.
+
+  * Fixed incorrect text for the "Site - Delivery Rule Set" delivery rule.
+
 
  Non-Backwards Compatible Changes
  --------------------------------

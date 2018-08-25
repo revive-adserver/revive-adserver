@@ -1176,7 +1176,7 @@ $GLOBALS['strZoneRemovedCampaign'] = "Campaign has been unlinked from zone <a hr
 
 $GLOBALS['strChannelHasBeenAdded'] = "Delivery rule set <a href='%s'>%s</a> has been added. <a href='%s'>Set the delivery rules.</a>";
 $GLOBALS['strChannelHasBeenUpdated'] = "Delivery rule set <a href='%s'>%s</a> has been updated";
-$GLOBALS['strChannelAclHasBeenUpdated'] = "Delivery options for the delivery rule set<a href='%s'>%s</a> have been updated";
+$GLOBALS['strChannelAclHasBeenUpdated'] = "Delivery options for the delivery rule set <a href='%s'>%s</a> have been updated";
 $GLOBALS['strChannelHasBeenDeleted'] = "Delivery rule set <b>%s</b> has been deleted";
 $GLOBALS['strChannelsHaveBeenDeleted'] = "All selected delivery rule sets have been deleted";
 $GLOBALS['strChannelHasBeenDuplicated'] = "Delivery rule set <a href='%s'>%s</a> has been copied to <a href='%s'>%s</a>";
