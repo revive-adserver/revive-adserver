@@ -29,7 +29,10 @@ What's New in Revive Adserver 4.1.5
  New Features
  ------------
 
- * None
+ * Renamed the "Legacy" Browser and Operating System delivery rules, which
+   have been retained so far for compatibility for users upgrading from
+   earlier versions, to "Deprecated", in preparation for removing these
+   delivery rules in a future major release.
 
 
  Bug Fixes
