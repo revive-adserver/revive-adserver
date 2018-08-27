@@ -1168,7 +1168,6 @@ $GLOBALS['strZoneRemovedCampaign'] = "Campagne is ontkoppeld van zone <a href='%
 
 $GLOBALS['strChannelHasBeenAdded'] = "Verzameling uitleveringsregels <a href='%s'>%s</a> is toegevoegd. <a href='%s'>Stel de uitleveringsregels in.</a>";
 $GLOBALS['strChannelHasBeenUpdated'] = "Verzameling uitleveringsregels <a href='%s'>%s</a> is bijgewerkt";
-$GLOBALS['strChannelAclHasBeenUpdated'] = "De uitleveringsregels voor de verzameling <a href='%s'>%s</a> zijn bijgewerkt";
 $GLOBALS['strChannelHasBeenDeleted'] = "Verzameling uitleveringsregels <b>%s</b> is verwijderd";
 $GLOBALS['strChannelsHaveBeenDeleted'] = "Alle geselecteerde verzamelingen uitleveringsregels zijn verwijderd";
 $GLOBALS['strChannelHasBeenDuplicated'] = "Verzameling uitleveringsregels <a href='%s'>%s</a> is gekopieerd naar <a href='%s'>%s</a>";
