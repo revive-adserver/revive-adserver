@@ -18,7 +18,7 @@ $GLOBALS['strAdministrator'] = "Adminisztrátor";
 // Audit
 $GLOBALS['strDeleted'] = "Töröl";
 $GLOBALS['strUpdated'] = "frissítve";
-$GLOBALS['strDelete'] = "Töröl";
+$GLOBALS['strDelete'] = "Törlés";
 $GLOBALS['strFilters'] = "Szűrők";
 $GLOBALS['strAdvertiser'] = "Hirdető";
 $GLOBALS['strPublisher'] = "Weboldal";
