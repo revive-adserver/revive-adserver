@@ -127,7 +127,7 @@ msgstr ""
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:694
 msgid "Website Name"
-msgstr ""
+msgstr "Weboldal neve"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:696
 msgid "Zone Name"
@@ -135,7 +135,7 @@ msgstr "Zóna neve"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:698
 msgid "Connection Type"
-msgstr "Konverzió típusa"
+msgstr "Kapcsolat típusa"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:700
 msgid "Connecting Value Date / Time"
@@ -155,7 +155,7 @@ msgstr ""
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:70
 msgid "Period"
-msgstr ""
+msgstr "Periódus"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:75
 msgid "Limitations"
@@ -199,7 +199,7 @@ msgstr "Fut"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:498
 msgid "Stopped"
-msgstr ""
+msgstr "Leállított"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:515
 msgid "Override"
@@ -211,5 +211,5 @@ msgstr ""
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:519
 msgid "Contract"
-msgstr ""
+msgstr "Szerződés"
 

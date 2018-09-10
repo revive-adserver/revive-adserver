@@ -1077,7 +1077,6 @@ $GLOBALS['strZoneRemovedCampaign'] = "La campaña ha sido desvinculada de la zon
 
 $GLOBALS['strChannelHasBeenAdded'] = "El conjunto de reglas de entrega <a href='%s'>%s</a> ha sido agregado. <a href='%s'>Establecer las reglas de entrega.</a>";
 $GLOBALS['strChannelHasBeenUpdated'] = "El conjunto de reglas de entrega <a href='%s'>%s</a> ha sido actualizado";
-$GLOBALS['strChannelAclHasBeenUpdated'] = "Se han actualizado las opciones de entrega para el conjunto de reglas de entrega <a href='%s'>%s</a>";
 $GLOBALS['strChannelHasBeenDeleted'] = "Se ha suprimido el conjunto de reglas de entrega <b>%s</b>";
 $GLOBALS['strChannelsHaveBeenDeleted'] = "Se han eliminado todos los conjuntos de reglas de entrega seleccionados";
 $GLOBALS['strChannelHasBeenDuplicated'] = "El conjunto de reglas de entrega <a href='%s'>%s</a> ha sido copiado a <a href='%s'>%s</a>";
