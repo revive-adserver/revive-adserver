@@ -179,6 +179,43 @@ class ZoneXmlRpcService extends BaseZoneService
     }
 
     /**
+     * The zoneHourlyStatistics method returns hourly statistics for a zone
+     * for a specified period, or returns an error message.
+     *
+     * @access public
+     *
+     * @param XML_RPC_Message &$oParams
+     *
+     * @return generated result (data or error)
+     */
+    function zoneHourlyStatistics(&$oParams)
+    {
+        $oResponseWithError = null;
+        if (!XmlRpcUtils::getScalarValues(
+                array(&$sessionId, &$zoneId, &$oStartDate, &$oEndDate, &$localTZ),
+                array(true, true, false, false, false), $oParams, $oResponseWithError)) {
+           return $oResponseWithError;
+        }
+
+        $rsStatisticsData = null;
+        if ($this->_oZoneServiceImp->getZoneHourlyStatistics($sessionId,
+                $zoneId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData)) {
+
+            return XmlRpcUtils::arrayOfStructuresResponse(array('day' => 'date',
+                                                                'hour' => 'integer',
+                                                                'requests' => 'integer',
+                                                                'impressions' => 'integer',
+                                                                'clicks' => 'integer',
+                                                                'revenue' => 'float',
+                                                                ), $rsStatisticsData);
+
+        } else {
+
+            return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
+        }
+    }
+
+    /**
      * The zoneAdvertiserStatistics method returns advertiser statistics for a zone
      * for a specified period, or returns an error message.
      *

@@ -223,6 +223,34 @@ class BannerServiceImpl extends BaseServiceImpl
     }
 
     /**
+     * The getBannerHourlyStatistics method returns hourly statistics for a
+     * banner for a specified period.
+     *
+     * @access public
+     *
+     * @param string $sessionId
+     * @param integer $bannerId
+     * @param date $oStartDate
+     * @param date $oEndDate
+     * @param bool $localTZ
+     * @param array &$aData  return data
+     *
+     * @return boolean
+     */
+    function getBannerHourlyStatistics($sessionId, $bannerId, $oStartDate, $oEndDate, $localTZ, &$aData)
+    {
+        if ($this->verifySession($sessionId)) {
+
+            return $this->_validateResult(
+                $this->_dllBanner->getBannerHourlyStatistics(
+                    $bannerId, $oStartDate, $oEndDate, $localTZ, $aData));
+        } else {
+
+            return false;
+        }
+    }
+
+    /**
      * The getBannerPublisherStatistics method returns publisher statistics for
      * a banner for a specified period.
      *
