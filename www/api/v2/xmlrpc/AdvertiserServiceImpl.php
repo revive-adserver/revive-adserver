@@ -176,6 +176,34 @@ class AdvertiserServiceImpl extends BaseServiceImpl
     }
 
     /**
+     * The getAdvertiserHourlyStatistics method returns hourly statistics for an
+     * advertiser for a specified period.
+     *
+     * @access public
+     *
+     * @param string $sessionId
+     * @param integer $advertiserId
+     * @param date $oStartDate
+     * @param date $oEndDate
+     * @param bool $localTZ
+     * @param array &$aData  return data
+     *
+     * @return boolean
+     */
+    function getAdvertiserHourlyStatistics($sessionId, $advertiserId, $oStartDate, $oEndDate, $localTZ, &$aData)
+    {
+        if ($this->verifySession($sessionId)) {
+
+            return $this->_validateResult(
+                $this->_dllAdvertiser->getAdvertiserHourlyStatistics(
+                    $advertiserId, $oStartDate, $oEndDate, $localTZ, $aData));
+        } else {
+
+            return false;
+        }
+    }
+
+    /**
      * The getAdvertiserCampaignStatistics method returns campaign statistics
      * for an advertiser for a specified period.
      *

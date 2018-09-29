@@ -246,6 +246,42 @@ class BannerXmlRpcService extends BaseBannerService
         }
     }
 
+    /**
+     * The bannerHourlyStatistics method returns hourly statistics for a banner
+     * for a specified period, or returns an error message.
+     *
+     * @access public
+     *
+     * @param  XML_RPC_Message &$oParams
+     *
+     * @return generated result (data or error)
+     */
+    function bannerHourlyStatistics(&$oParams)
+    {
+        $oResponseWithError = null;
+        if (!XmlRpcUtils::getScalarValues(
+                array(&$sessionId, &$bannerId, &$oStartDate, &$oEndDate, &$localTZ),
+                array(true, true, false, false, false), $oParams, $oResponseWithError)) {
+           return $oResponseWithError;
+        }
+
+        $aData = null;
+        if ($this->_oBannerServiceImp->getBannerHourlyStatistics($sessionId,
+                $bannerId, $oStartDate, $oEndDate, $localTZ, $aData)) {
+
+            return XmlRpcUtils::arrayOfStructuresResponse(array('day' => 'date',
+                                                                'hour' => 'integer',
+                                                                'requests' => 'integer',
+                                                                'impressions' => 'integer',
+                                                                'clicks' => 'integer',
+                                                                'revenue' => 'float',
+                                                                ), $aData);
+
+        } else {
+
+            return XmlRpcUtils::generateError($this->_oBannerServiceImp->getLastError());
+        }
+    }
 
     /**
      * The bannerPublisherStatistics method returns publisher statistics for a banner

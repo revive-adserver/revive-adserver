@@ -71,6 +71,16 @@ $dispatches = array(
         ),
         'docstring' => 'Generate Advertiser Daily Statistics'
     ),
+    'ox.advertiserHourlyStatistics' => array(
+        'function'  => array($fc, 'advertiserHourlyStatistics'),
+        'signature' => array(
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'),
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
+            array('array', 'string', 'int', 'dateTime.iso8601'),
+            array('array', 'string', 'int')
+        ),
+        'docstring' => 'Generate Advertiser Hourly Statistics'
+    ),
     'ox.advertiserCampaignStatistics' => array(
         'function'  => array($fc, 'advertiserCampaignStatistics'),
         'signature' => array(
@@ -160,6 +170,17 @@ $dispatches = array(
             array('array', 'string', 'int')
         ),
         'docstring' => 'Generate Agency Daily Statistics'
+    ),
+
+    'ox.agencyHourlyStatistics' => array(
+        'function'  => array($fc, 'agencyHourlyStatistics'),
+        'signature' => array(
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'),
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
+            array('array', 'string', 'int', 'dateTime.iso8601'),
+            array('array', 'string', 'int')
+        ),
+        'docstring' => 'Generate Agency Hourly Statistics'
     ),
 
     'ox.agencyAdvertiserStatistics' => array(
@@ -285,6 +306,17 @@ $dispatches = array(
         'docstring' => 'Generate Banner Daily Statistics'
     ),
 
+    'ox.bannerHourlyStatistics' => array(
+        'function'  => array($fc, 'bannerHourlyStatistics'),
+        'signature' => array(
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'),
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
+            array('array', 'string', 'int', 'dateTime.iso8601'),
+            array('array', 'string', 'int')
+        ),
+        'docstring' => 'Generate Banner Hourly Statistics'
+    ),
+
     'ox.bannerPublisherStatistics' => array(
         'function'  => array($fc, 'bannerPublisherStatistics'),
         'signature' => array(
@@ -358,6 +390,17 @@ $dispatches = array(
             array('array', 'string', 'int')
         ),
         'docstring' => 'Generate campaign Daily Statistics'
+    ),
+
+    'ox.campaignHourlyStatistics' => array(
+        'function'  => array($fc, 'campaignHourlyStatistics'),
+        'signature' => array(
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'),
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
+            array('array', 'string', 'int', 'dateTime.iso8601'),
+            array('array', 'string', 'int')
+        ),
+        'docstring' => 'Generate campaign Hourly Statistics'
     ),
 
     'ox.campaignBannerStatistics' => array(
@@ -519,6 +562,17 @@ $dispatches = array(
             array('array', 'string', 'int')
         ),
         'docstring' => 'Generate Publisher Daily Statistics'
+    ),
+
+    'ox.publisherHourlyStatistics' => array(
+        'function'  => array($fc, 'publisherHourlyStatistics'),
+        'signature' => array(
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'),
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
+            array('array', 'string', 'int', 'dateTime.iso8601'),
+            array('array', 'string', 'int')
+        ),
+        'docstring' => 'Generate Publisher Hourly Statistics'
     ),
 
     'ox.publisherZoneStatistics' => array(
@@ -782,6 +836,17 @@ $dispatches = array(
             array('array', 'string', 'int')
         ),
         'docstring' => 'Generate Zone Daily Statistics'
+    ),
+
+    'ox.zoneHourlyStatistics' => array(
+        'function'  => array($fc, 'zoneHourlyStatistics'),
+        'signature' => array(
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'),
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
+            array('array', 'string', 'int', 'dateTime.iso8601'),
+            array('array', 'string', 'int')
+        ),
+        'docstring' => 'Generate Zone Hourly Statistics'
     ),
 
     'ox.zoneAdvertiserStatistics' => array(
