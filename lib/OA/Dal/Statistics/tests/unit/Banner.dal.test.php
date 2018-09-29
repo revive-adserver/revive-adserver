@@ -96,6 +96,54 @@ class OA_Dal_Statistics_BannerTest extends DalStatisticsUnitTestCase
     }
 
     /**
+     * Test banner hourly statistics.
+     *
+     */
+    function testGetBannerHourlyStatistics()
+    {
+        $doAgency     = OA_Dal::factoryDO('agency');
+        $doAdvertiser = OA_Dal::factoryDO('clients');
+        $doCampaign   = OA_Dal::factoryDO('campaigns');
+        $doBanner     = OA_Dal::factoryDO('banners');
+        $this->generateBannerWithParents($doAgency, $doAdvertiser, $doCampaign, $doBanner);
+
+        $doDataSummaryAdHourly                = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doDataSummaryAdHourly->requests      = 7;
+        $doDataSummaryAdHourly->impressions   = 8;
+        $doDataSummaryAdHourly->clicks        = 9;
+        $doDataSummaryAdHourly->total_revenue = 10.0000;
+        $doDataSummaryAdHourly->date_time     = '2007-08-20';
+        $this->generateDataSummaryAdHourlyForBanner($doDataSummaryAdHourly, $doBanner);
+
+        // 1. Get data existing range
+        $aData = $this->_dalBannerStatistics->getBannerHourlyStatistics(
+            $doBanner->bannerid, new Date('2001-12-01'),  new Date('2007-09-19'));
+
+        $this->assertEqual(count($aData), 1, 'Some records should be returned');
+        $aRow = current($aData);
+
+        // 2. Check return fields names
+        $this->assertFieldExists($aRow, 'day');
+        $this->assertFieldExists($aRow, 'hour');
+        $this->assertFieldExists($aRow, 'requests');
+        $this->assertFieldExists($aRow, 'impressions');
+        $this->assertFieldExists($aRow, 'clicks');
+        $this->assertFieldExists($aRow, 'revenue');
+
+        // 3. Check return fields value
+        $this->assertFieldEqual($aRow, 'requests', 7);
+        $this->assertFieldEqual($aRow, 'impressions', 8);
+        $this->assertFieldEqual($aRow, 'clicks', 9);
+        $this->assertFieldEqual($aRow, 'revenue', 10.0000);
+
+        // 4. Get data in not existing range
+        $aData = $this->_dalBannerStatistics->getBannerHourlyStatistics(
+            $doBanner->bannerid,  new Date('2001-12-01'),  new Date('2006-09-19'));
+
+        $this->assertEqual(count($aData), 0, 'Recordset should be empty');
+    }
+
+    /**
      * Test banner publisher statistics.
      *
      */

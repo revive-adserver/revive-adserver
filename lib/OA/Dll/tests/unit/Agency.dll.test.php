@@ -332,6 +332,14 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
     }
 
     /**
+     * A method to test getAgencyHourlyStatistics.
+     */
+    function testHourlyStatistics()
+    {
+        $this->_testStatistics('getAgencyHourlyStatistics');
+    }
+
+    /**
      * A method to test getAgencyAdvertiserStatistics.
      */
     function testAdvertiserStatistics()

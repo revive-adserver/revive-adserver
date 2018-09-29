@@ -521,6 +521,14 @@ class OA_Dll_BannerTest extends DllUnitTestCase
     }
 
     /**
+     * A method to test getBannerHourlyStatistics.
+     */
+    function testHourlyStatistics()
+    {
+        $this->_testStatistics('getBannerHourlyStatistics');
+    }
+
+    /**
      * A method to test getBannerPublisherStatistics.
      */
     function testPublisherStatistics()
