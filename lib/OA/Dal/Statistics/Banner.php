@@ -123,7 +123,9 @@ class OA_Dal_Statistics_Banner extends OA_Dal_Statistics
             GROUP BY
                 day,
                 hour
-            ORDER BY hour
+            ORDER BY
+                day,
+                hour
         ";
 
         return $this->getHourlyStatsAsArray($query, $localTZ);
