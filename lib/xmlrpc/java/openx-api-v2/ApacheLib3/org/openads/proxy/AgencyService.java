@@ -31,6 +31,7 @@ class AgencyService extends AbstractService {
 	private static final String AGENCY_BANNER_STATISTICS_METHOD = "ox.agencyBannerStatistics";
 	private static final String AGENCY_CAMPAIGN_STATISTICS_METHOD = "ox.agencyCampaignStatistics";
 	private static final String AGENCY_DAILY_STATISTICS_METHOD = "ox.agencyDailyStatistics";
+	private static final String AGENCY_HOURLY_STATISTICS_METHOD = "ox.agencyHourlyStatistics";
 	private static final String AGENCY_PUBLISHER_STATISTICS_METHOD = "ox.agencyPublisherStatistics";
 	private static final String AGENCY_ZONE_STATISTICS_METHOD = "ox.agencyZoneStatistics";
 
@@ -437,6 +438,70 @@ class AgencyService extends AbstractService {
 	}
 
 	/**
+	 * Agency hourly statistics.
+	 *
+	 * @param id the id
+	 *
+	 * @return the Map[]
+	 *
+	 * @throws XmlRpcException the xml rpc exception
+	 */
+	public Map[] agencyHourlyStatistics(Integer id) throws XmlRpcException {
+		return objectToArrayMaps(execute(AGENCY_HOURLY_STATISTICS_METHOD, id));
+	}
+
+	/**
+	 * Agency hourly statistics.
+	 *
+	 * @param id the id
+	 * @param startDate the start date
+	 *
+	 * @return the Map[]
+	 *
+	 * @throws XmlRpcException the xml rpc exception
+	 */
+	public Map[] agencyHourlyStatistics(Integer id, Date startDate)
+			throws XmlRpcException {
+		return objectToArrayMaps(execute(AGENCY_HOURLY_STATISTICS_METHOD, id,
+				startDate));
+	}
+
+	/**
+	 * Agency hourly statistics.
+	 *
+	 * @param id the id
+	 * @param startDate the start date
+	 * @param endDate the end date
+	 *
+	 * @return the Map[]
+	 *
+	 * @throws XmlRpcException the xml rpc exception
+	 */
+	public Map[] agencyHourlyStatistics(Integer id, Date startDate, Date endDate)
+			throws XmlRpcException {
+		return objectToArrayMaps(execute(AGENCY_HOURLY_STATISTICS_METHOD, id,
+				startDate, endDate));
+	}
+
+	/**
+	 * Agency hourly statistics.
+	 *
+	 * @param id the id
+	 * @param startDate the start date
+	 * @param endDate the end date
+	 * @param useLocalTimeZone
+	 *
+	 * @return the Map[]
+	 *
+	 * @throws XmlRpcException the xml rpc exception
+	 */
+	public Map[] agencyHourlyStatistics(Integer id, Date startDate, Date endDate, Boolean useLocalTimeZone)
+			throws XmlRpcException {
+		return objectToArrayMaps(execute(AGENCY_HOURLY_STATISTICS_METHOD, id,
+				startDate, endDate, useLocalTimeZone));
+	}
+
+	/**
 	 * Agency publisher statistics.
 	 *
 	 * @param id the id
@@ -461,7 +526,7 @@ class AgencyService extends AbstractService {
 	 */
 	public Map[] agencyPublisherStatistics(Integer id, Date startDate)
 			throws XmlRpcException {
-		return objectToArrayMaps(execute(AGENCY_DAILY_STATISTICS_METHOD, id,
+		return objectToArrayMaps(execute(AGENCY_PUBLISHER_STATISTICS_METHOD, id,
 				startDate));
 	}
 
@@ -478,7 +543,7 @@ class AgencyService extends AbstractService {
 	 */
 	public Map[] agencyPublisherStatistics(Integer id, Date startDate,
 			Date endDate) throws XmlRpcException {
-		return objectToArrayMaps(execute(AGENCY_DAILY_STATISTICS_METHOD, id,
+		return objectToArrayMaps(execute(AGENCY_PUBLISHER_STATISTICS_METHOD, id,
 				startDate, endDate));
 	}
 
@@ -496,7 +561,7 @@ class AgencyService extends AbstractService {
 	 */
 	public Map[] agencyPublisherStatistics(Integer id, Date startDate,
 			Date endDate, Boolean useLocalTimeZone) throws XmlRpcException {
-		return objectToArrayMaps(execute(AGENCY_DAILY_STATISTICS_METHOD, id,
+		return objectToArrayMaps(execute(AGENCY_PUBLISHER_STATISTICS_METHOD, id,
 				startDate, endDate, useLocalTimeZone));
 	}
 }

@@ -28,6 +28,7 @@ class BannerService extends AbstractService{
 	private static final String GET_BANNER_LIST_BY_CAMPAIGN_ID_METHOD = "ox.getBannerListByCampaignId";
 	private static final String GET_BANNER_METHOD = "ox.getBanner";
 	private static final String BANNER_DAILY_STATISTICS_METHOD = "ox.bannerDailyStatistics";
+	private static final String BANNER_HOURLY_STATISTICS_METHOD = "ox.bannerHourlyStatistics";
 	private static final String BANNER_PUBLISHER_STATISTICS_METHOD = "ox.bannerPublisherStatistics";
 	private static final String BANNER_ZONE_STATISTICS_METHOD = "ox.bannerZoneStatistics";
 
@@ -174,6 +175,69 @@ class BannerService extends AbstractService{
 	public Map[] bannerDailyStatistics(Integer id, Date startDate,
 			Date endDate, Boolean useLocalTimeZone) throws XmlRpcException {
 		return objectToArrayMaps( execute(BANNER_DAILY_STATISTICS_METHOD, id, startDate,
+				endDate, useLocalTimeZone));
+	}
+
+	/**
+	 * Banner hourly statistics.
+	 *
+	 * @param id the id
+	 *
+	 * @return the Map[]
+	 *
+	 * @throws XmlRpcException the xml rpc exception
+	 */
+	public Map[] bannerHourlyStatistics(Integer id) throws XmlRpcException {
+		return objectToArrayMaps( execute(BANNER_HOURLY_STATISTICS_METHOD, id));
+	}
+
+	/**
+	 * Banner hourly statistics.
+	 *
+	 * @param id the id
+	 * @param startDate the start date
+	 *
+	 * @return the Map[]
+	 *
+	 * @throws XmlRpcException the xml rpc exception
+	 */
+	public Map[] bannerHourlyStatistics(Integer id, Date startDate)
+			throws XmlRpcException {
+		return objectToArrayMaps( execute(BANNER_HOURLY_STATISTICS_METHOD, id, startDate));
+	}
+
+	/**
+	 * Banner hourly statistics.
+	 *
+	 * @param id the id
+	 * @param startDate the start date
+	 * @param endDate the end date
+	 *
+	 * @return the Map[]
+	 *
+	 * @throws XmlRpcException the xml rpc exception
+	 */
+	public Map[] bannerHourlyStatistics(Integer id, Date startDate,
+			Date endDate) throws XmlRpcException {
+		return objectToArrayMaps( execute(BANNER_HOURLY_STATISTICS_METHOD, id, startDate,
+				endDate));
+	}
+
+	/**
+	 * Banner hourly statistics.
+	 *
+	 * @param id the id
+	 * @param startDate the start date
+	 * @param endDate the end date
+	 * @param useLocalTimeZone
+	 *
+	 * @return the Map[]
+	 *
+	 * @throws XmlRpcException the xml rpc exception
+	 */
+	public Map[] bannerHourlyStatistics(Integer id, Date startDate,
+			Date endDate, Boolean useLocalTimeZone) throws XmlRpcException {
+		return objectToArrayMaps( execute(BANNER_HOURLY_STATISTICS_METHOD, id, startDate,
 				endDate, useLocalTimeZone));
 	}
 
