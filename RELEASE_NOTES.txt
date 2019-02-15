@@ -43,6 +43,9 @@ What's New in Revive Adserver 4.1.5
 
   * Fixed incorrect text for the "Site - Delivery Rule Set" delivery rule.
 
+  * Fixed JS error when using the resizable iframe invocation type and no
+    banner is delivered.
+
 
  Non-Backwards Compatible Changes
  --------------------------------
