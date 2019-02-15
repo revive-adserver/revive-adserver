@@ -4388,16 +4388,18 @@ $outputHtml .= "
     ";
 }
 if (isset($resize) && $resize == 1) {
+$bannerWidth = empty($banner['width']) ? 0 : $banner['width'];
+$bannerHeight = empty($banner['height']) ? 0 : $banner['height'];
 $outputHtml .= "<script type='text/javascript'>\n";
 $outputHtml .= "<!--// <![CDATA[ \n";
 $outputHtml .= "\tfunction MAX_adjustframe(frame) {\n";
 $outputHtml .= "\t\tif (document.all) {\n";
-$outputHtml .= "\t\t\tparent.document.all[frame.name].width = ".$banner['width'].";\n";
-$outputHtml .= "\t\t\tparent.document.all[frame.name].height = ".$banner['height'].";\n";
+$outputHtml .= "\t\t\tparent.document.all[frame.name].width = ".$bannerWidth.";\n";
+$outputHtml .= "\t\t\tparent.document.all[frame.name].height = ".$bannerHeight.";\n";
 $outputHtml .= "\t\t}\n";
 $outputHtml .= "\t\telse if (document.getElementById) {\n";
-$outputHtml .= "\t\t\tparent.document.getElementById(frame.name).width = ".$banner['width'].";\n";
-$outputHtml .= "\t\t\tparent.document.getElementById(frame.name).height = ".$banner['height'].";\n";
+$outputHtml .= "\t\t\tparent.document.getElementById(frame.name).width = ".$bannerWidth.";\n";
+$outputHtml .= "\t\t\tparent.document.getElementById(frame.name).height = ".$bannerHeight.";\n";
 $outputHtml .= "\t\t}\n";
 $outputHtml .= "\t}\n";
 $outputHtml .= "// ]]> -->\n";
