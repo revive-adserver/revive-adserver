@@ -36,6 +36,9 @@ What's New in Revive Adserver 4.2.0
 
  * Improved how the user/account management permission is named in the UI.
 
+ * The Zone Probability screen now includes a link to the parent campaign
+   for each banner.
+
 
  Bug Fixes
  ---------
@@ -47,6 +50,9 @@ What's New in Revive Adserver 4.2.0
 
   * Fixed JS error when using the resizable iframe invocation type and no
     banner is delivered.
+
+  * The background row highlighting on the Zone Probability screen has
+    been fixed.
 
 
  Non-Backwards Compatible Changes
