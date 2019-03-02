@@ -34,6 +34,8 @@ What's New in Revive Adserver 4.2.0
    earlier versions, to "Deprecated", in preparation for removing these
    delivery rules in a future major release.
 
+ * Improved how the user/account management permission is named in the UI.
+
 
  Bug Fixes
  ---------
