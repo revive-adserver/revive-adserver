@@ -6,7 +6,7 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
-Release Notes: Revive Adserver 4.1.5
+Release Notes: Revive Adserver 4.2.0
 ====================================
 
 These release notes cover what's new, system requirements, download and
@@ -14,7 +14,7 @@ installation instructions, known issues and frequently asked questions for
 Revive Adserver. Please read these notes before reporting any bugs.
 
 
-What's New in Revive Adserver 4.1.5
+What's New in Revive Adserver 4.2.0
 -----------------------------------
 
  * Release date: t.b.d
@@ -34,9 +34,15 @@ What's New in Revive Adserver 4.1.5
    earlier versions, to "Deprecated", in preparation for removing these
    delivery rules in a future major release.
 
+ * Improved how the user/account management permission is named in the UI.
+
+ * The Zone Probability screen now includes a link to the parent campaign
+   for each banner.
+
  * Replaced the old "weight" measure on the Zone Probability screen with
    the actual Campaign and Banner weights, to improve clarity around
    probabilities of banner display in a zone.
+
 
 
  Bug Fixes
@@ -46,6 +52,12 @@ What's New in Revive Adserver 4.1.5
     constructs.
 
   * Fixed incorrect text for the "Site - Delivery Rule Set" delivery rule.
+
+  * Fixed JS error when using the resizable iframe invocation type and no
+    banner is delivered.
+
+  * The background row highlighting on the Zone Probability screen has
+    been fixed.
 
 
  Non-Backwards Compatible Changes
