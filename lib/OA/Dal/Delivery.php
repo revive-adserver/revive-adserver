@@ -420,6 +420,7 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
             az.priority_factor AS priority_factor,
             az.to_be_delivered AS to_be_delivered,
             c.campaignid AS campaign_id,
+            c.campaignname AS campaign_name,
             c.priority AS campaign_priority,
             c.weight AS campaign_weight,
             c.companion AS campaign_companion,
