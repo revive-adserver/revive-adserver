@@ -39,6 +39,11 @@ What's New in Revive Adserver 4.2.0
  * The Zone Probability screen now includes a link to the parent campaign
    for each banner.
 
+ * Replaced the old "weight" measure on the Zone Probability screen with
+   the actual Campaign and Banner weights, to improve clarity around
+   probabilities of banner display in a zone.
+
+
 
  Bug Fixes
  ---------
