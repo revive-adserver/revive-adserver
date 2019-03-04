@@ -287,7 +287,6 @@ $GLOBALS['strSendDeactivationWarning'] = "שלח אזהרה אם התעמולה 
 $GLOBALS['strAllowClientModifyBanner'] = "אפשר למשתמש זה לשנות את הבאנרים שלו";
 $GLOBALS['strAllowClientDisableBanner'] = "אפשר למשתמש זה לשתק באנרים בעצמו";
 $GLOBALS['strAllowClientActivateBanner'] = "אפשר למשתמש זה להפעיל באנרים בעצמו";
-$GLOBALS['strAllowCreateAccounts'] = "אפשר למשתמש זה ליצור חשבונות חדשים";
 $GLOBALS['strAdvertiserLimitation'] = "הצג רק באנר אחד ממפרסם זה בדף אינטרנט";
 $GLOBALS['strAllowAuditTrailAccess'] = "אפשר למשתמש זה לגשת לדוח ביקורת";
 

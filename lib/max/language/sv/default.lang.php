@@ -272,7 +272,6 @@ $GLOBALS['strSendDeactivationWarning'] = "Eposta när en kampanj automatiskt akt
 $GLOBALS['strAllowClientModifyBanner'] = "Tillåt användaren att redigera egna annonser";
 $GLOBALS['strAllowClientDisableBanner'] = "Tillåt användaren att avaktivera egna annonser";
 $GLOBALS['strAllowClientActivateBanner'] = "Tillåt användaren att aktivera egna annonser";
-$GLOBALS['strAllowCreateAccounts'] = "Tillåt användaren att skapa nya konton";
 $GLOBALS['strAllowAuditTrailAccess'] = "Låt den här användaren få åtkomst till revisionsspårning";
 
 // Campaign

@@ -283,7 +283,6 @@ $GLOBALS['strSendDeactivationWarning'] = "Zaslat upozornění při deaktivaci ka
 $GLOBALS['strAllowClientModifyBanner'] = "Povolit uživateli měnit vlastní bannery";
 $GLOBALS['strAllowClientDisableBanner'] = "Povolit uživateli deaktivovat vlastní bannery";
 $GLOBALS['strAllowClientActivateBanner'] = "Povolit uživateli aktivovat vlastní bannery";
-$GLOBALS['strAllowCreateAccounts'] = "Povolit tomuto uživateli vytvářet nové účty";
 $GLOBALS['strAdvertiserLimitation'] = "Na webové stránce zobrazit pouze jeden banner od tohoto inzerenta";
 $GLOBALS['strAllowAuditTrailAccess'] = "Povolit tomuto uživateli přístup auditu";
 

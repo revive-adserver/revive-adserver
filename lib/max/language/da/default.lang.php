@@ -210,7 +210,6 @@ $GLOBALS['strSendDeactivationWarning'] = "E-mail når en kampagne automatisk er 
 $GLOBALS['strAllowClientModifyBanner'] = "Tillad denne bruger at modificere egne bannere";
 $GLOBALS['strAllowClientDisableBanner'] = "Tillad denne bruger at deaktivere egne bannere";
 $GLOBALS['strAllowClientActivateBanner'] = "Tillad denne bruger at aktivere egen bannere";
-$GLOBALS['strAllowCreateAccounts'] = "Tillad at denne bruger opretter nye kontoer";
 
 // Campaign
 $GLOBALS['strCampaign'] = "Kampagne";

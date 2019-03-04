@@ -286,7 +286,6 @@ $GLOBALS['strSendDeactivationWarning'] = "Enviar un Alerta cuando una campaña s
 $GLOBALS['strAllowClientModifyBanner'] = "Permitir a este usuario modificar sus propios banners";
 $GLOBALS['strAllowClientDisableBanner'] = "Permitir a este usuario desactivar sus propios banners";
 $GLOBALS['strAllowClientActivateBanner'] = "Permitir a este usuario activar sus propios banners";
-$GLOBALS['strAllowCreateAccounts'] = "Permitir a este usuario crear cuentas nuevas";
 $GLOBALS['strAdvertiserLimitation'] = "Mostrar sólo un banner de este anunciante en una misma página web";
 $GLOBALS['strAllowAuditTrailAccess'] = "Permitir a este usuario acceder al audit trail";
 

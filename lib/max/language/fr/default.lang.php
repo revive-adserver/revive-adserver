@@ -259,7 +259,6 @@ $GLOBALS['strSendDeactivationWarning'] = "Envoyer un e-mail quand la campagne es
 $GLOBALS['strAllowClientModifyBanner'] = "Autoriser cet utilisateur à modifier ses propres bannières";
 $GLOBALS['strAllowClientDisableBanner'] = "Autoriser cet utilisateur à désactiver ses propres bannières";
 $GLOBALS['strAllowClientActivateBanner'] = "Autoriser cet utilisateur à activer ses propres bannières";
-$GLOBALS['strAllowCreateAccounts'] = "Autoriser cet utilisateur à créer de nouveaux comptes";
 $GLOBALS['strAdvertiserLimitation'] = "N'afficher qu'une bannière de cet annonceur sur la page web";
 $GLOBALS['strAllowAuditTrailAccess'] = "Autoriser cet utiliser à accéder à la piste d'audit";
 
