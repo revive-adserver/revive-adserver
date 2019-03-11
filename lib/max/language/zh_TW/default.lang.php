@@ -204,7 +204,6 @@ $GLOBALS['strEMail'] = "電子郵件";
 $GLOBALS['strAllowClientModifyBanner'] = "允許用戶修改自己版面";
 $GLOBALS['strAllowClientDisableBanner'] = "允許用戶修改自己版面";
 $GLOBALS['strAllowClientActivateBanner'] = "允許用戶修改自己版面";
-$GLOBALS['strAllowCreateAccounts'] = "允許本用戶創建新賬號";
 
 // Campaign
 $GLOBALS['strCampaign'] = "項目";

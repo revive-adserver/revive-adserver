@@ -32,6 +32,8 @@ $GLOBALS['strHome'] = "Accueil";
 $GLOBALS['strHelp'] = "Aide";
 $GLOBALS['strStartOver'] = "Recommencer";
 $GLOBALS['strShortcuts'] = "Raccourcis";
+$GLOBALS['strActions'] = "Actions";
+$GLOBALS['strAndXMore'] = "et %s plus";
 $GLOBALS['strAdminstration'] = "Inventaire";
 $GLOBALS['strMaintenance'] = "Entretien";
 $GLOBALS['strProbability'] = "Probabilité";
@@ -69,6 +71,7 @@ $GLOBALS['strDefault'] = "Par défaut";
 $GLOBALS['strUnknown'] = "Inconnu";
 $GLOBALS['strUnlimited'] = "Illimité";
 $GLOBALS['strUntitled'] = "Sans titre";
+$GLOBALS['strAll'] = "tout";
 $GLOBALS['strAverage'] = "Moyen";
 $GLOBALS['strOverall'] = "Ensemble";
 $GLOBALS['strTotal'] = "Totalité";
@@ -117,6 +120,8 @@ $GLOBALS['strOverrideAds'] = "Outrepasser la publicité de la campagne";
 $GLOBALS['strHighAds'] = "Publicités sous contrat";
 $GLOBALS['strECPMAds'] = "Publicité de la campagne eCPM";
 $GLOBALS['strLowAds'] = "Publicités restantes";
+$GLOBALS['strLimitations'] = "Règles de livraison";
+$GLOBALS['strNoLimitations'] = "Pas de règles de livraison";
 $GLOBALS['strCapping'] = "Plafonner";
 
 // Properties
@@ -133,8 +138,10 @@ $GLOBALS['strComments'] = "Commentaires";
 
 // User access
 $GLOBALS['strWorkingAs'] = "Travaille en tant que";
+$GLOBALS['strWorkingAs_Key'] = "<u>T</u>availler comme";
 $GLOBALS['strWorkingAs'] = "Travaille en tant que";
 $GLOBALS['strSwitchTo'] = "Passer à";
+$GLOBALS['strUseSearchBoxToFindMoreAccounts'] = "Utilisez le champ de recherche du menu défilant pour trouver plus de comptes";
 $GLOBALS['strWorkingFor'] = "%s pour…";
 $GLOBALS['strNoAccountWithXInNameFound'] = "Aucun compte trouvé avec \"%s\" dans son nom";
 $GLOBALS['strRecentlyUsed'] = "Récemment utilisé";
@@ -150,6 +157,7 @@ $GLOBALS['strUserUnlinkedFromAccount'] = "L'utilisateur a été retiré du compt
 $GLOBALS['strUserWasDeleted'] = "L'utilisateur a été supprimé";
 $GLOBALS['strUserNotLinkedWithAccount'] = "Un tel utilisateur n'est lié au compte";
 $GLOBALS['strCantDeleteOneAdminUser'] = "Vous ne pouvez pas supprimer un utilisateur. Au moins un utilisateur doit être lié avec le compte admin.";
+$GLOBALS['strLinkUserHelp'] = "Pour ajouter un <b>utilisateur existant</b>, tapez le %1\$s et cliquez %2\$s <br />Pour ajouter un <b>nouvel utilisateur</b>, tapez le %1\$s désiré et cliquez %2\$s";
 $GLOBALS['strLinkUserHelpUser'] = "identifiant";
 $GLOBALS['strLinkUserHelpEmail'] = "adresse e-mail";
 $GLOBALS['strLastLoggedIn'] = "Dernière connexion";
@@ -164,6 +172,7 @@ $GLOBALS['strAuthentification'] = "Authentification";
 $GLOBALS['strWelcomeTo'] = "Bienvenue sur";
 $GLOBALS['strEnterUsername'] = "Entrez vos identifiant et mot de passe pour vous connecter";
 $GLOBALS['strEnterBoth'] = "Veuillez entrer vos identifiant et mot de passe";
+$GLOBALS['strEnableCookies'] = "Vous devez activer les cookies avant de pouvoir utiliser {$PRODUCT_NAME}";
 $GLOBALS['strSessionIDNotMatch'] = "Erreur de cookie de session, veuillez vous reconnecter";
 $GLOBALS['strLogin'] = "Connexion";
 $GLOBALS['strLogout'] = "Déconnexion";
@@ -185,6 +194,7 @@ $GLOBALS['strNoAdvertiser'] = "L'annonceur sélectionné n'existe pas. Essayez p
 
 // General advertising
 $GLOBALS['strRequests'] = "Requêtes";
+$GLOBALS['strImpressions'] = "Impressions";
 $GLOBALS['strClicks'] = "Clics";
 $GLOBALS['strCTR'] = "CTR";
 $GLOBALS['strTotalClicks'] = "Total de clics";
@@ -225,10 +235,24 @@ $GLOBALS['strDayOfWeek'] = "Jour de la semaine";
 if (!isset($GLOBALS['strDayFullNames'])) {
     $GLOBALS['strDayFullNames'] = array();
 }
+$GLOBALS['strDayFullNames'][0] = 'Dimanche';
+$GLOBALS['strDayFullNames'][1] = 'Lundi';
+$GLOBALS['strDayFullNames'][2] = 'Mardi';
+$GLOBALS['strDayFullNames'][3] = 'Mercredi';
+$GLOBALS['strDayFullNames'][4] = 'Jeudi';
+$GLOBALS['strDayFullNames'][5] = 'Vendredi';
+$GLOBALS['strDayFullNames'][6] = 'Samedi';
 
 if (!isset($GLOBALS['strDayShortCuts'])) {
     $GLOBALS['strDayShortCuts'] = array();
 }
+$GLOBALS['strDayShortCuts'][0] = 'Di';
+$GLOBALS['strDayShortCuts'][1] = 'Lu';
+$GLOBALS['strDayShortCuts'][2] = 'Ma';
+$GLOBALS['strDayShortCuts'][3] = 'Me';
+$GLOBALS['strDayShortCuts'][4] = 'Je';
+$GLOBALS['strDayShortCuts'][5] = 'Ve';
+$GLOBALS['strDayShortCuts'][6] = 'Sa';
 
 $GLOBALS['strHour'] = "Heure";
 $GLOBALS['strSeconds'] = "secondes";
@@ -241,6 +265,7 @@ $GLOBALS['strClients'] = "Annonceurs";
 $GLOBALS['strClientsAndCampaigns'] = "Annonceurs & Campagnes";
 $GLOBALS['strAddClient'] = "Ajouter un nouvel annonceur";
 $GLOBALS['strClientProperties'] = "Propriétés de l'annonceur";
+$GLOBALS['strClientHistory'] = "Statistiques de l'annonceur";
 $GLOBALS['strNoClients'] = "Il n'y a actuellement aucun annonceur défini. Pour créer une campagne, commencez par <a href='advertiser-edit.php'>ajouter un nouvel annonceur</a>.";
 $GLOBALS['strConfirmDeleteClient'] = "Voulez-vous vraiment supprimer cet annonceur ?";
 $GLOBALS['strConfirmDeleteClients'] = "Voulez-vous vraiment supprimer les annonceurs sélectionnés ?";
@@ -259,7 +284,7 @@ $GLOBALS['strSendDeactivationWarning'] = "Envoyer un e-mail quand la campagne es
 $GLOBALS['strAllowClientModifyBanner'] = "Autoriser cet utilisateur à modifier ses propres bannières";
 $GLOBALS['strAllowClientDisableBanner'] = "Autoriser cet utilisateur à désactiver ses propres bannières";
 $GLOBALS['strAllowClientActivateBanner'] = "Autoriser cet utilisateur à activer ses propres bannières";
-$GLOBALS['strAllowCreateAccounts'] = "Autoriser cet utilisateur à créer de nouveaux comptes";
+$GLOBALS['strAllowCreateAccounts'] = "Autoriser cet utilisateur à gérer les utilisateurs de ce compte";
 $GLOBALS['strAdvertiserLimitation'] = "N'afficher qu'une bannière de cet annonceur sur la page web";
 $GLOBALS['strAllowAuditTrailAccess'] = "Autoriser cet utiliser à accéder à la piste d'audit";
 
@@ -272,6 +297,7 @@ $GLOBALS['strCampaignForAdvertiser'] = "Pour l'annonceur";
 $GLOBALS['strLinkedCampaigns'] = "Campagnes liées";
 $GLOBALS['strCampaignProperties'] = "Propriétés de la campagne";
 $GLOBALS['strCampaignOverview'] = "Vue d'ensemble des campagnes";
+$GLOBALS['strCampaignHistory'] = "Statistiques des campagnes";
 $GLOBALS['strNoCampaigns'] = "Il n'y a actuellement aucune campagne définie pour cet annonceur.";
 $GLOBALS['strNoCampaignsAddAdvertiser'] = "Il n'y a pas de campagnes à présent parce qu'il n'y a pas d'annonceurs. Pour créer une campagne, <a href='advertiser-edit.php'>ajouter un nouvel annonceur</a> premièrement.";
 $GLOBALS['strConfirmDeleteCampaign'] = "Voulez-vous vraiment supprimer cette campagne ?";
@@ -290,9 +316,11 @@ $GLOBALS['strHiddenAdvertiser'] = "Annonceur";
 $GLOBALS['strHiddenTracker'] = "Suiveur";
 $GLOBALS['strHiddenWebsite'] = "Site internet";
 $GLOBALS['strHiddenZone'] = "Zone";
+$GLOBALS['strCampaignDelivery'] = "Livraison de la campagne";
 $GLOBALS['strCompanionPositioning'] = "Positionnement accompagné";
 $GLOBALS['strSelectUnselectAll'] = "Sélectionner / désélectionner tout";
 $GLOBALS['strCampaignsOfAdvertiser'] = "de"; //this is added between page name and advertiser name eg. 'Campaigns of Advertiser 1'
+$GLOBALS['strShowCappedNoCookie'] = "Afficher les annonces plafonnées si les cookies sont désactivés";
 
 // Campaign-zone linking page
 $GLOBALS['strCalculatedForAllCampaigns'] = "Calculé pour toutes les campagnes";
@@ -333,6 +361,34 @@ $GLOBALS['strConversionsBooked'] = "Conversions réservées";
 $GLOBALS['strCampaignWeight'] = "Régler le poids de la campagne";
 $GLOBALS['strAnonymous'] = "Masquer l'annonceur et les sites web de cette campagne.";
 $GLOBALS['strTargetPerDay'] = "par jour.";
+$GLOBALS['strCampaignWarningRemnantNoWeight'] = "Le type de cette campagne a été déclaré Autre,
+mais son poids est nul ou n'a pas été
+spécifié. Cela provoquera la désactivation de la
+campagne et ses bannières ne seront pas distribuées
+jusqu'à ce que le poids ait une valeur correcte.
+
+Êtes-vous certain de vouloir continuer ?";
+$GLOBALS['strCampaignWarningEcpmNoRevenue'] = "Cette campagne utilise l'optimisation du Cpm
+mais les 'revenus' ont une valeur de zéro ou restent indéfinis.
+Ceci fera désactiver la campagne
+et ses bannières ne seront pas livrées tant
+que les revenus soient définis.
+
+Souhaitez-vous toujours continuer?";
+$GLOBALS['strCampaignWarningOverrideNoWeight'] = "Le type de cette campagne a été déclaré Autre,
+mais son poids est nul ou n'a pas été
+spécifié. Cela provoquera la désactivation de la
+campagne et ses bannières ne seront pas distribuées
+jusqu'à ce que le poids ait une valeur correcte.
+
+Êtes-vous certain de vouloir continuer ?";
+$GLOBALS['strCampaignWarningNoTarget'] = "La priorité de cette campagne a été déclarée Contractuelle,
+mais la limite quotidienne n'a pas été spécifiée.
+Cela provoquera la désactivation de la campagne et
+ses bannières ne seront pas distribuées jusqu'à ce qu'une
+limite quotidienne correcte ait une valeur correcte.
+
+Êtes-vous certain de vouloir continuer ?";
 $GLOBALS['strCampaignStatusPending'] = "Suspendue";
 $GLOBALS['strCampaignStatusInactive'] = "Inactif";
 $GLOBALS['strCampaignStatusRunning'] = "En cours";
@@ -348,10 +404,14 @@ $GLOBALS['strCampaignStatusDeleted'] = "Supprimée";
 $GLOBALS['strCampaignType'] = "Type de campagne";
 $GLOBALS['strType'] = "Type";
 $GLOBALS['strContract'] = "Contrat";
+$GLOBALS['strOverride'] = "Remplacer";
+$GLOBALS['strOverrideInfo'] = "Les campagnes de remplacement sont un type de campagne spécial destiné à remplacer (par exemple, la priorité par rapport aux) campagnes restantes et à contrat. 
+Les campagnes de remplacement sont généralement utilisées avec des règles de ciblage et / ou de plafonnement spécifiques pour garantir que les bannières de campagne sont toujours affichées à certains emplacements, pour certains utilisateurs, et peut-être un certain nombre de fois, dans le cadre d'une promotion spécifique. (Ce type de campagne était auparavant appelé \"Contrat (exclusif)\".)";
 $GLOBALS['strStandardContract'] = "Contrat";
 $GLOBALS['strStandardContractInfo'] = "Cette campagne est limitée à la journée et continuera d'être délivrée de façon égale jusqu'à ce que la date de fin ou que la limite spécifiée sois atteinte";
 $GLOBALS['strRemnant'] = "Restant";
 $GLOBALS['strRemnantInfo'] = "C'est une campagne standard qui sera définie à la fois par une date de fin et par une limite spécifique";
+$GLOBALS['strECPMInfo'] = "Il s'agit d'une campagne standard qui peut être contrainte avec une date de fin ou une limite spécifique. En fonction des paramètres actuels, elle sera prioritisée en utilisant eCPM.";
 $GLOBALS['strPricing'] = "Définition du prix";
 $GLOBALS['strPricingModel'] = "Modèle de définition de prix";
 $GLOBALS['strSelectPricingModel'] = "\\-- sélectionner le modèle --";
@@ -383,9 +443,13 @@ $GLOBALS['strConversionWindow'] = "Fenêtre de conversion";
 $GLOBALS['strUniqueWindow'] = "Fenêtre unique";
 $GLOBALS['strClick'] = "Clic";
 $GLOBALS['strView'] = "Affichage";
+$GLOBALS['strArrival'] = "Arrivée";
+$GLOBALS['strManual'] = "Manuel";
+$GLOBALS['strImpression'] = "Impressions";
 $GLOBALS['strConversionType'] = "Type de conversion";
 $GLOBALS['strLinkCampaignsByDefault'] = "Lier les nouvelles campagnes créées par défaut";
 $GLOBALS['strBackToTrackers'] = "Retour aux traceurs";
+$GLOBALS['strIPAddress'] = "Adresse IP";
 
 // Banners (General)
 $GLOBALS['strBanner'] = "Bannière";
@@ -395,6 +459,7 @@ $GLOBALS['strAddBanner_Key'] = "Ajouter une <u>n</u>ouvelle bannière";
 $GLOBALS['strBannerToCampaign'] = "vers la campagne";
 $GLOBALS['strShowBanner'] = "Afficher la bannière";
 $GLOBALS['strBannerProperties'] = "Propriétés de la bannière";
+$GLOBALS['strBannerHistory'] = "Statistiques des bannières";
 $GLOBALS['strNoBanners'] = "Il n'y a actuellement aucune bannière définie pour cette campagne.";
 $GLOBALS['strNoBannersAddCampaign'] = "Il n'y a pas actuellement de bannières définies, parce qu'il n'existe pas de campagne. Pour créer une bannière, <a href='campaign-edit.php?clientid=%s'>ajouter une nouvelle campagne</a> d'abord.";
 $GLOBALS['strNoBannersAddAdvertiser'] = "Il n'y a actuellement aucunes bannières définies, parce qu'il n'y a pas d'annonceurs. Pour créer une bannière, commencez par <a href='affiliate-edit.php'>ajouter un nouvel annonceur</a>.";
@@ -416,6 +481,11 @@ $GLOBALS['strCampaignPreferences'] = "Préférences de campagne";
 $GLOBALS['strDefaultBanners'] = "Bannières par défaut";
 $GLOBALS['strDefaultBannerUrl'] = "URL de l'Image par défaut";
 $GLOBALS['strDefaultBannerDestination'] = "URL de destination par défaut";
+$GLOBALS['strAllowedBannerTypes'] = "Types de bannières autorisés";
+$GLOBALS['strTypeSqlAllow'] = "Autoriser les bannières locales SQL";
+$GLOBALS['strTypeWebAllow'] = "Autoriser les bannières locales du serveur web";
+$GLOBALS['strTypeUrlAllow'] = "Autoriser les bannières externes";
+$GLOBALS['strTypeHtmlAllow'] = "Autoriser les bannières HTML";
 
 // Banner (Properties)
 $GLOBALS['strChooseBanner'] = "Veuillez chosir le type de bannière";
@@ -624,6 +694,9 @@ $GLOBALS['strBreakdownByMonth'] = "Mois";
 $GLOBALS['strBreakdownByDow'] = "Jour de la semaine";
 $GLOBALS['strBreakdownByHour'] = "Heure";
 $GLOBALS['strItemsPerPage'] = "Objets par page";
+$GLOBALS['strDistributionHistoryBanner'] = "Statistiques de distribution (Bannière)";
+$GLOBALS['strDistributionHistoryWebsite'] = "Statistiques de distribution (Site web)";
+$GLOBALS['strDistributionHistoryZone'] = "Statistiques de distribution (Zone)";
 $GLOBALS['strShowGraphOfStatistics'] = "Afficher le <u>g</u>raphique des statistiques";
 $GLOBALS['strExportStatisticsToExcel'] = "<u>E</u>xporter les statistiques vers Excel";
 $GLOBALS['strGDnotEnabled'] = "Vous devez avoir GD activé dans PHP pour afficher les graphiques. <br />Veuillez visiter <a href='http://www.php.net/gd' target='_blank'>http://www.php.net/gd</a> pour plus d'informations, y compris comment installer GD sur votre serveur.";
@@ -638,7 +711,11 @@ $GLOBALS['strCampaignStop'] = "Arrêt de la campagne";
 
 // Reports
 $GLOBALS['strAdvancedReports'] = "Rapports détaillés";
+$GLOBALS['strStartDate'] = "Date de début";
+$GLOBALS['strEndDate'] = "Date de fin";
 $GLOBALS['strPeriod'] = "Période";
+$GLOBALS['strLimitations'] = "Règles de livraison";
+$GLOBALS['strWorksheets'] = "Feuilles de travail";
 
 // Admin_UI_Fields
 $GLOBALS['strAllAdvertisers'] = "Tous les annonceurs";
@@ -666,6 +743,8 @@ $GLOBALS['strBackToTheList'] = "Retourner à la liste des rapports";
 $GLOBALS['strCharset'] = "Jeu de caractères";
 $GLOBALS['strAutoDetect'] = "Détection automatique";
 $GLOBALS['strCacheBusterComment'] = "* Remplacez toutes les cas de {random} avec * un nombre généré aléatoirement (ou avec un horodatage). *";
+$GLOBALS['strSSLBackupComment'] = "
+* L'image de sauvegarde de cette balise a été générée pour être utilisée sur une page 	* non-SSL. Ci cette balise doit être placée sur une page SSL, changez le 	*   'http://%s/...' 	* par 	*   'https://%s/...' 	*";
 
 
 // Errors

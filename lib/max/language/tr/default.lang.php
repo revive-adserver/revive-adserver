@@ -277,7 +277,6 @@ $GLOBALS['strSendDeactivationWarning'] = "Bir kampanya otomatik olarak etkin old
 $GLOBALS['strAllowClientModifyBanner'] = "Bu kullanıcı kendi bannerlarını düzenleyebilsin";
 $GLOBALS['strAllowClientDisableBanner'] = "Bu kullanıcı kendi bannerlarının etkinliğini kaldırabilsin";
 $GLOBALS['strAllowClientActivateBanner'] = "Bu kullanıcı kendi bannerlarını etkinleştirebilsin";
-$GLOBALS['strAllowCreateAccounts'] = "Bu kullanıcının yeni hesap oluşturmasına izin ver";
 $GLOBALS['strAdvertiserLimitation'] = "Bu reklamverenden yalnızca bir web sayfasında afiş görüntüleme";
 $GLOBALS['strAllowAuditTrailAccess'] = "Bu kullanıcının denetim izine erişimine izin ver";
 

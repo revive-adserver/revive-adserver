@@ -239,7 +239,6 @@ $GLOBALS['strSendDeactivationWarning'] = "Wyślij ostrzeżenie, gdy kampania jes
 $GLOBALS['strAllowClientModifyBanner'] = "Zezwól temu użytkownikowi na modyfikację własnych banerów";
 $GLOBALS['strAllowClientDisableBanner'] = "Zezwól temu użytkownikowi na dezaktywowanie własnych banerów";
 $GLOBALS['strAllowClientActivateBanner'] = "Zezwól temu użytkownikowi na aktywowanie własnych banerów";
-$GLOBALS['strAllowCreateAccounts'] = "Zezwól temu użytkownikowi na tworzenie nowych kont";
 $GLOBALS['strAdvertiserLimitation'] = "Wyświetlaj tylko jeden baner tego reklamodawcy na danej stronie";
 $GLOBALS['strAllowAuditTrailAccess'] = "Zezwól temu użytkownikowi na dostęp do audytu";
 

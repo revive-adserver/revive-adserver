@@ -241,7 +241,6 @@ $GLOBALS['strSendDeactivationWarning'] = "Pošlji e-pošto, ko se kampanja samod
 $GLOBALS['strAllowClientModifyBanner'] = "Dovoli temu uporabniku spremembo lastnih pasic";
 $GLOBALS['strAllowClientDisableBanner'] = "Dovoli temu uporabniku deaktivacijo lastnih pasic";
 $GLOBALS['strAllowClientActivateBanner'] = "Dovoli temu uporabniku aktivacijo lastnih pasic";
-$GLOBALS['strAllowCreateAccounts'] = "Dovoli temu uporabniku ustvarjanje novih računov";
 $GLOBALS['strAdvertiserLimitation'] = "Prikaži samo eno pasico tega oglaševalca na spletni strani";
 $GLOBALS['strAllowAuditTrailAccess'] = "Dovoli temu uporabniku dostop do pregledne poti";
 
