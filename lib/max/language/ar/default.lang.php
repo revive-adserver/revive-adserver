@@ -257,7 +257,6 @@ $GLOBALS['strSendDeactivationWarning'] = "إرسال بريد إلكتروني �
 $GLOBALS['strAllowClientModifyBanner'] = "السماح لهذا العضو بتعديل الإعلانات الخاصة به";
 $GLOBALS['strAllowClientDisableBanner'] = "السماح لهذا العضو بتعطيل الإعلانات الخاصة به";
 $GLOBALS['strAllowClientActivateBanner'] = "السماح لهذا العضو بتفعيل الإعلانات الخاصة به";
-$GLOBALS['strAllowCreateAccounts'] = "السماح لهذا المستخدم بإنشاء حسابات جديدة";
 $GLOBALS['strAllowAuditTrailAccess'] = "السماح لهذا المستخدم الوصول إلى سجل المراجعة";
 
 // Campaign

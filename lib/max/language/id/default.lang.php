@@ -284,7 +284,6 @@ $GLOBALS['strSendDeactivationWarning'] = "Kirim peringatan bila kampanye tidak a
 $GLOBALS['strAllowClientModifyBanner'] = "Izinkan pengguna ini untuk merubah banner yang dimiliki";
 $GLOBALS['strAllowClientDisableBanner'] = "Izinkan pengguna ini untuk hentikan banner yang dimiliki";
 $GLOBALS['strAllowClientActivateBanner'] = "Izinkan pengguna ini untuk aktifkan banner yang dimiliki";
-$GLOBALS['strAllowCreateAccounts'] = "Izinkan pengguna ini membuat akun baru";
 $GLOBALS['strAdvertiserLimitation'] = "Tampilkan hanya satu banner dari pengiklan ini di halaman web";
 $GLOBALS['strAllowAuditTrailAccess'] = "Izinkan pengguna mengakses jejak audit";
 

@@ -230,7 +230,6 @@ $GLOBALS['strSendDeactivationWarning'] = "Trimite e-mail atunci când o campanie
 $GLOBALS['strAllowClientModifyBanner'] = "Permite acestui utilizator să-şi modifice propriile bannere";
 $GLOBALS['strAllowClientDisableBanner'] = "Permite acestui utilizator să-şi dezactiveze propriile bannere";
 $GLOBALS['strAllowClientActivateBanner'] = "Permite acestui utilizator să-şi activeze propriile bannere";
-$GLOBALS['strAllowCreateAccounts'] = "Permite acestui utilizator să creeze conturi noi";
 $GLOBALS['strAdvertiserLimitation'] = "Afişează doar un banner al acestui advertiser pe o pagină web";
 $GLOBALS['strAllowAuditTrailAccess'] = "Permite acestui utilizator să acceseze Urmărirea Bilanţului";
 

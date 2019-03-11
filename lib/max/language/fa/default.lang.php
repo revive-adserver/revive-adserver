@@ -310,7 +310,6 @@ $GLOBALS['strAllowClientModifyBanner'] = "
 به این کاربر اجازه تغییر آگهی ها خود را بدهید";
 $GLOBALS['strAllowClientDisableBanner'] = "به این کاربر اجازه غیر فعال کردن آگهی ها خود را بدهید";
 $GLOBALS['strAllowClientActivateBanner'] = "به این کاربر اجازه فعال شدن آگهی ها خود را بدهید";
-$GLOBALS['strAllowCreateAccounts'] = "به این کاربر اجازه ایجاد حساب جدید را بدهید";
 $GLOBALS['strAdvertiserLimitation'] = "نمایش تنها یک بنر از این تبلیغ کننده در صفحه وب";
 $GLOBALS['strAllowAuditTrailAccess'] = "به این کاربر اجازه دسترسی به دنباله حسابرسی بدهید";
 

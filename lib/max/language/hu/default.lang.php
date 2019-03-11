@@ -252,7 +252,6 @@ $GLOBALS['strSendDeactivationWarning'] = "Figyelmeztetés küldése a kampány d
 $GLOBALS['strAllowClientModifyBanner'] = "A felhasználó módosíthatja a reklámait";
 $GLOBALS['strAllowClientDisableBanner'] = "A felhasználó deaktiválhatja a saját reklámait";
 $GLOBALS['strAllowClientActivateBanner'] = "A felhasználó aktiválhatja a saját reklámait";
-$GLOBALS['strAllowCreateAccounts'] = "Engedélyezi, hogy ez a felhasználó új fiókokat hozzon létre";
 
 // Campaign
 $GLOBALS['strCampaign'] = "Kampány";

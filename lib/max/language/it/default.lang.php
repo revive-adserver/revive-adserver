@@ -287,7 +287,6 @@ $GLOBALS['strSendDeactivationWarning'] = "Spedisci un avvertimento quando la cam
 $GLOBALS['strAllowClientModifyBanner'] = "Permetti a questo utente di modificare i propri banner";
 $GLOBALS['strAllowClientDisableBanner'] = "Permetti a questo utente di disattivare i propri banner";
 $GLOBALS['strAllowClientActivateBanner'] = "Permetti a questo utente di attivare i propri banner";
-$GLOBALS['strAllowCreateAccounts'] = "Permetti a questo utente di creare nuovi account";
 $GLOBALS['strAdvertiserLimitation'] = "Mostra solo un banner di questo editore sulla stessa pagina web";
 $GLOBALS['strAllowAuditTrailAccess'] = "Permetti a questo utente di accedere all'Audit Trail";
 

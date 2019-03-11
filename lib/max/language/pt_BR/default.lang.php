@@ -281,7 +281,6 @@ $GLOBALS['strSendDeactivationWarning'] = "Enviar e-mail quando a campanha for au
 $GLOBALS['strAllowClientModifyBanner'] = "Permitir que este usuário altere seus banners";
 $GLOBALS['strAllowClientDisableBanner'] = "Permitir que este usuário desative seus próprios banners";
 $GLOBALS['strAllowClientActivateBanner'] = "Permitir que este usuário ative seus próprios banners";
-$GLOBALS['strAllowCreateAccounts'] = "Permitir que este usuário crie novas contas";
 $GLOBALS['strAdvertiserLimitation'] = "Mostre apenas um anúncio deste anunciante em uma página";
 $GLOBALS['strAllowAuditTrailAccess'] = "Permitir que este usuário acesse o rastro de auditoria";
 
