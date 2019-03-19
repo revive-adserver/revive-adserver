@@ -113,7 +113,7 @@ $oTpl = new OA_Admin_Template('campaign-index.html');
 
 // Get clients & campaign and build the tree
 $dalCampaigns = OA_Dal::factoryDAL('campaigns');
-$aCampaigns = $dalCampaigns->getClientCampaigns($clientid, $listorder, $orderdirection, array(DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CONTRACT));
+$aCampaigns = $dalCampaigns->getClientCampaigns($clientid, $listorder, $orderdirection);
 foreach ($aCampaigns as $campaignId => $aCampaign) {
     $aCampaign['impressions']  = phpAds_formatNumber($aCampaign['views']);
     $aCampaign['clicks']       = phpAds_formatNumber($aCampaign['clicks']);
@@ -164,16 +164,41 @@ $aCount = array(
     'campaigns_hidden' => 0,
 );
 
+$dalBanners = OA_Dal::factoryDAL('banners');
 $campaignshidden = 0;
 if (isset($aCampaigns) && is_array($aCampaigns) && count($aCampaigns) > 0) {
 	reset ($aCampaigns);
-	while (list ($key, $campaign) = each ($aCampaigns)) {
+	foreach ($aCampaigns as $campaignId => $campaign) {
 		$aCount['campaigns']++;
-		if ($hideinactive == true && ($campaign['status'] != OA_ENTITY_STATUS_RUNNING || $campaign['status'] == OA_ENTITY_STATUS_RUNNING &&
-			count($campaign['banners']) == 0 && count($campaign['banners']) < $campaign['count'])) {
-			$aCount['campaigns_hidden']++;
-			unset($aCampaigns[$key]);
-		}
+		if ($hideinactive) {
+		    // Inactive Campaigns should be hidden
+            if ($campaign['status'] != OA_ENTITY_STATUS_RUNNING && $campaign['status'] != OA_ENTITY_STATUS_AWAITING) {
+                // The Campaign is not in the Running or Awaiting state - hide it
+                $aCount['campaigns_hidden']++;
+                unset($aCampaigns[$campaignId]);
+            }
+            if (isset($aCampaigns[$campaignId])) {
+                // The Campaign is in the Running or Awaiting state - check if it should be hidden due to banners
+                $aBanners = array();
+                $aBanners = $dalBanners->getAllBannersUnderCampaign($campaignId, $listorder, $orderdirection);
+                if (empty($aBanners)) {
+                    // The Campaign has no banners - hide it
+                    $aCount['campaigns_hidden']++;
+                    unset($aCampaigns[$campaignId]);
+                } else {
+                    // Does the Campaign have any Banners in the Running or Awaiting state?
+                    foreach ($aBanners as $bannerId => $banner) {
+                        if (OA_ENTITY_STATUS_RUNNING == $banner['status'] || OA_ENTITY_STATUS_AWAITING == $banner['status']) {
+                            // This Banner is in the Running or Awaiting state - don't hide
+                            break;
+                        }
+                        // No Banners in the Running or Awaiting state were found - hide it
+                        $aCount['campaigns_hidden']++;
+                        unset($aCampaigns[$campaignId]);
+                    }
+                }
+            }
+        }
 	}
 }
 

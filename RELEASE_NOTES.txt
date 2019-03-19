@@ -29,6 +29,10 @@ What's New in Revive Adserver 4.2.0
  New Features
  ------------
 
+ * Updated the definition of "Active" Advertisers and Campaigns in the UI
+   to also include Advertisers and Campaigns which will become active in
+   the future (i.e. in the "Awaiting" state), to help with their management.
+
  * Renamed the "Legacy" Browser and Operating System delivery rules, which
    have been retained so far for compatibility for users upgrading from
    earlier versions, to "Deprecated", in preparation for removing these
