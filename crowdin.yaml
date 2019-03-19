@@ -9,6 +9,7 @@ files:
         languages_mapping:
             two_letters_code:
                 'en-US': en_US
+                'en-UK': en
                 'es-ES': es
                 'ru-UA': uk
                 'sv-SE': sv
@@ -25,6 +26,7 @@ files:
         languages_mapping:
             two_letters_code:
                 'en-US': en_US
+                'en-UK': en
                 'es-ES': es
                 'ru-UA': uk
                 'sv-SE': sv
