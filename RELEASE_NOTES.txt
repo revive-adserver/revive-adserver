@@ -47,6 +47,7 @@ What's New in Revive Adserver 4.2.0
    the actual Campaign and Banner weights, to improve clarity around
    probabilities of banner display in a zone.
 
+ * Added support for hourly statistics to the XML-RPC API.
 
 
  Bug Fixes
