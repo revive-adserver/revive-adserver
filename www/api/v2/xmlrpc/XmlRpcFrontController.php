@@ -74,6 +74,12 @@ class XmlRpcFrontController
         return $service->advertiserDailyStatistics($message);
     }
 
+    public function advertiserHourlyStatistics($message)
+    {
+        $service = new AdvertiserXmlRpcService();
+        return $service->advertiserHourlyStatistics($message);
+    }
+
     public function advertiserPublisherStatistics($message)
     {
         $service = new AdvertiserXmlRpcService();
@@ -141,6 +147,12 @@ class XmlRpcFrontController
         return $service->agencyDailyStatistics($message);
     }
 
+    public function agencyHourlyStatistics($message)
+    {
+        $service = new AgencyXmlRpcService();
+        return $service->agencyHourlyStatistics($message);
+    }
+
     public function agencyPublisherStatistics($message)
     {
         $service = new AgencyXmlRpcService();
@@ -188,6 +200,12 @@ class XmlRpcFrontController
     {
         $service = new BannerXmlRpcService();
         return $service->bannerDailyStatistics($message);
+    }
+
+    public function bannerHourlyStatistics($message)
+    {
+        $service = new BannerXmlRpcService();
+        return $service->bannerHourlyStatistics($message);
     }
 
     public function bannerPublisherStatistics($message)
@@ -255,6 +273,12 @@ class XmlRpcFrontController
     {
         $service = new CampaignXmlRpcService();
         return $service->campaignDailyStatistics($message);
+    }
+
+    public function campaignHourlyStatistics($message)
+    {
+        $service = new CampaignXmlRpcService();
+        return $service->campaignHourlyStatistics($message);
     }
 
     public function campaignPublisherStatistics($message)
@@ -401,6 +425,12 @@ class XmlRpcFrontController
     {
         $service = new PublisherXmlRpcService();
         return $service->publisherDailyStatistics($message);
+    }
+
+    public function publisherHourlyStatistics($message)
+    {
+        $service = new PublisherXmlRpcService();
+        return $service->publisherHourlyStatistics($message);
     }
 
     public function publisherZoneStatistics($message)
@@ -615,6 +645,12 @@ class XmlRpcFrontController
     {
         $service = new ZoneXmlRpcService();
         return $service->zoneDailyStatistics($message);
+    }
+
+    public function zoneHourlyStatistics($message)
+    {
+        $service = new ZoneXmlRpcService();
+        return $service->zoneHourlyStatistics($message);
     }
 }
 

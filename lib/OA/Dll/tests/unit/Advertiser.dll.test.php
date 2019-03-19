@@ -273,6 +273,14 @@ class OA_Dll_AdvertiserTest extends DllUnitTestCase
     }
 
     /**
+     * A method to test getAdvertiserHourlyStatistics.
+     */
+    function testHourlyStatistics()
+    {
+        $this->_testStatistics('getAdvertiserHourlyStatistics');
+    }
+
+    /**
      * A method to test getAdvertiserCampaignStatistics.
      */
     function testCampaignStatistics()

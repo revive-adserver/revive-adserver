@@ -586,7 +586,6 @@ public class OpenAdsApiXmlRpcProxy {
 		return agencyService.agencyCampaignStatistics(id, startDate, endDate, useLocalTimeZone);
 	}
 
-
 	/**
 	 * Agency daily statistics.
 	 *
@@ -663,6 +662,84 @@ public class OpenAdsApiXmlRpcProxy {
 			throws XmlRpcException {
 		verifyLogon();
 		return agencyService.agencyDailyStatistics(id, startDate, endDate, useLocalTimeZone);
+	}
+
+	/**
+	 * Agency hourly statistics.
+	 *
+	 * @param id
+	 *            the id
+	 *
+	 * @return the Map[]
+	 *
+	 * @throws XmlRpcException
+	 *             the xml rpc exception
+	 */
+	public Map[] agencyHourlyStatistics(Integer id) throws XmlRpcException {
+		verifyLogon();
+		return agencyService.agencyHourlyStatistics(id);
+	}
+
+	/**
+	 * Agency hourly statistics.
+	 *
+	 * @param id
+	 *            the id
+	 * @param startDate
+	 *            the start date
+	 *
+	 * @return the Map[]
+	 *
+	 * @throws XmlRpcException
+	 *             the xml rpc exception
+	 */
+	public Map[] agencyHourlyStatistics(Integer id, Date startDate)
+			throws XmlRpcException {
+		verifyLogon();
+		return agencyService.agencyHourlyStatistics(id, startDate);
+	}
+
+	/**
+	 * Agency hourly statistics.
+	 *
+	 * @param id
+	 *            the id
+	 * @param startDate
+	 *            the start date
+	 * @param endDate
+	 *            the end date
+	 *
+	 * @return the Map[]
+	 *
+	 * @throws XmlRpcException
+	 *             the xml rpc exception
+	 */
+	public Map[] agencyHourlyStatistics(Integer id, Date startDate, Date endDate)
+			throws XmlRpcException {
+		verifyLogon();
+		return agencyService.agencyHourlyStatistics(id, startDate, endDate);
+	}
+
+	/**
+	 * Agency hourly statistics.
+	 *
+	 * @param id
+	 *            the id
+	 * @param startDate
+	 *            the start date
+	 * @param endDate
+	 *            the end date
+	 * @param useLocalTimeZone
+	 *
+	 * @return the Map[]
+	 *
+	 * @throws XmlRpcException
+	 *             the xml rpc exception
+	 */
+	public Map[] agencyHourlyStatistics(Integer id, Date startDate, Date endDate, Boolean useLocalTimeZone)
+			throws XmlRpcException {
+		verifyLogon();
+		return agencyService.agencyHourlyStatistics(id, startDate, endDate, useLocalTimeZone);
 	}
 
 	/**
@@ -1102,7 +1179,6 @@ public class OpenAdsApiXmlRpcProxy {
 				endDate, useLocalTimeZone);
 	}
 
-
 	/**
 	 * Advertiser daily statistics.
 	 *
@@ -1180,6 +1256,86 @@ public class OpenAdsApiXmlRpcProxy {
 			Date endDate, Boolean useLocalTimeZone) throws XmlRpcException {
 		verifyLogon();
 		return advertiserService.advertiserDailyStatistics(id, startDate,
+				endDate, useLocalTimeZone);
+	}
+
+	/**
+	 * Advertiser hourly statistics.
+	 *
+	 * @param id
+	 *            the id
+	 *
+	 * @return the Map[]
+	 *
+	 * @throws XmlRpcException
+	 *             the xml rpc exception
+	 */
+	public Map[] advertiserHourlyStatistics(Integer id) throws XmlRpcException {
+		verifyLogon();
+		return advertiserService.advertiserHourlyStatistics(id);
+	}
+
+	/**
+	 * Advertiser hourly statistics.
+	 *
+	 * @param id
+	 *            the id
+	 * @param startDate
+	 *            the start date
+	 *
+	 * @return the Map[]
+	 *
+	 * @throws XmlRpcException
+	 *             the xml rpc exception
+	 */
+	public Map[] advertiserHourlyStatistics(Integer id, Date startDate)
+			throws XmlRpcException {
+		verifyLogon();
+		return advertiserService.advertiserHourlyStatistics(id, startDate);
+	}
+
+	/**
+	 * Advertiser hourly statistics.
+	 *
+	 * @param id
+	 *            the id
+	 * @param startDate
+	 *            the start date
+	 * @param endDate
+	 *            the end date
+	 *
+	 * @return the Map[]
+	 *
+	 * @throws XmlRpcException
+	 *             the xml rpc exception
+	 */
+	public Map[] advertiserHourlyStatistics(Integer id, Date startDate,
+			Date endDate) throws XmlRpcException {
+		verifyLogon();
+		return advertiserService.advertiserHourlyStatistics(id, startDate,
+				endDate);
+	}
+
+	/**
+	 * Advertiser hourly statistics.
+	 *
+	 * @param id
+	 *            the id
+	 * @param startDate
+	 *            the start date
+	 * @param endDate
+	 *            the end date
+	 * @param useLocalTimeZone
+	 *
+	 * @return the Map[]
+	 *
+	 * @throws XmlRpcException
+	 *             the xml rpc exception
+	 */
+	public Map[] advertiserHourlyStatistics(Integer id, Date startDate,
+			Date endDate, Boolean useLocalTimeZone) throws XmlRpcException {
+		verifyLogon();
+		return advertiserService.advertiserHourlyStatistics(id, startDate,
 				endDate, useLocalTimeZone);
 	}
 
@@ -1623,6 +1779,84 @@ public class OpenAdsApiXmlRpcProxy {
 	}
 
 	/**
+	 * Campaign hourly statistics.
+	 *
+	 * @param id
+	 *            the id
+	 *
+	 * @return the Map[]
+	 *
+	 * @throws XmlRpcException
+	 *             the xml rpc exception
+	 */
+	public Map[] campaignHourlyStatistics(Integer id) throws XmlRpcException {
+		verifyLogon();
+		return campaignService.campaignHourlyStatistics(id);
+	}
+
+	/**
+	 * Campaign hourly statistics.
+	 *
+	 * @param id
+	 *            the id
+	 * @param startDate
+	 *            the start date
+	 *
+	 * @return the Map[]
+	 *
+	 * @throws XmlRpcException
+	 *             the xml rpc exception
+	 */
+	public Map[] campaignHourlyStatistics(Integer id, Date startDate)
+			throws XmlRpcException {
+		verifyLogon();
+		return campaignService.campaignHourlyStatistics(id, startDate);
+	}
+
+	/**
+	 * Campaign hourly statistics.
+	 *
+	 * @param id
+	 *            the id
+	 * @param startDate
+	 *            the start date
+	 * @param endDate
+	 *            the end date
+	 *
+	 * @return the Map[]
+	 *
+	 * @throws XmlRpcException
+	 *             the xml rpc exception
+	 */
+	public Map[] campaignHourlyStatistics(Integer id, Date startDate,
+			Date endDate) throws XmlRpcException {
+		verifyLogon();
+		return campaignService.campaignHourlyStatistics(id, startDate, endDate);
+	}
+
+	/**
+	 * Campaign hourly statistics.
+	 *
+	 * @param id
+	 *            the id
+	 * @param startDate
+	 *            the start date
+	 * @param endDate
+	 *            the end date
+	 * @param useLocalTimeZone
+	 *
+	 * @return the Map[]
+	 *
+	 * @throws XmlRpcException
+	 *             the xml rpc exception
+	 */
+	public Map[] campaignHourlyStatistics(Integer id, Date startDate,
+			Date endDate, Boolean useLocalTimeZone) throws XmlRpcException {
+		verifyLogon();
+		return campaignService.campaignHourlyStatistics(id, startDate, endDate, useLocalTimeZone);
+	}
+
+	/**
 	 * Campaign publisher statistics.
 	 *
 	 * @param id
@@ -1911,7 +2145,6 @@ public class OpenAdsApiXmlRpcProxy {
 		return bannerService.bannerZoneStatistics(id, startDate, endDate, useLocalTimeZone);
 	}
 
-
 	/**
 	 * Banner daily statistics.
 	 *
@@ -1988,6 +2221,84 @@ public class OpenAdsApiXmlRpcProxy {
 			throws XmlRpcException {
 		verifyLogon();
 		return bannerService.bannerDailyStatistics(id, startDate, endDate, useLocalTimeZone);
+	}
+
+	/**
+	 * Banner hourly statistics.
+	 *
+	 * @param id
+	 *            the id
+	 *
+	 * @return the Map[]
+	 *
+	 * @throws XmlRpcException
+	 *             the xml rpc exception
+	 */
+	public Map[] bannerHourlyStatistics(Integer id) throws XmlRpcException {
+		verifyLogon();
+		return bannerService.bannerHourlyStatistics(id);
+	}
+
+	/**
+	 * Banner hourly statistics.
+	 *
+	 * @param id
+	 *            the id
+	 * @param startDate
+	 *            the start date
+	 *
+	 * @return the Map[]
+	 *
+	 * @throws XmlRpcException
+	 *             the xml rpc exception
+	 */
+	public Map[] bannerHourlyStatistics(Integer id, Date startDate)
+			throws XmlRpcException {
+		verifyLogon();
+		return bannerService.bannerHourlyStatistics(id, startDate);
+	}
+
+	/**
+	 * Banner hourly statistics.
+	 *
+	 * @param id
+	 *            the id
+	 * @param startDate
+	 *            the start date
+	 * @param endDate
+	 *            the end date
+	 *
+	 * @return the Map[]
+	 *
+	 * @throws XmlRpcException
+	 *             the xml rpc exception
+	 */
+	public Map[] bannerHourlyStatistics(Integer id, Date startDate, Date endDate)
+			throws XmlRpcException {
+		verifyLogon();
+		return bannerService.bannerHourlyStatistics(id, startDate, endDate);
+	}
+
+	/**
+	 * Banner hourly statistics.
+	 *
+	 * @param id
+	 *            the id
+	 * @param startDate
+	 *            the start date
+	 * @param endDate
+	 *            the end date
+	 * @param useLocalTimeZone
+	 *
+	 * @return the Map[]
+	 *
+	 * @throws XmlRpcException
+	 *             the xml rpc exception
+	 */
+	public Map[] bannerHourlyStatistics(Integer id, Date startDate, Date endDate, Boolean useLocalTimeZone)
+			throws XmlRpcException {
+		verifyLogon();
+		return bannerService.bannerHourlyStatistics(id, startDate, endDate, useLocalTimeZone);
 	}
 
 
@@ -2492,6 +2803,84 @@ public class OpenAdsApiXmlRpcProxy {
 	}
 
 	/**
+	 * Zone hourly statistics.
+	 *
+	 * @param id
+	 *            the id
+	 *
+	 * @return the Map[]
+	 *
+	 * @throws XmlRpcException
+	 *             the xml rpc exception
+	 */
+	public Map[] zoneHourlyStatistics(Integer id) throws XmlRpcException {
+		verifyLogon();
+		return zoneService.zoneHourlyStatistics(id);
+	}
+
+	/**
+	 * Zone hourly statistics.
+	 *
+	 * @param id
+	 *            the id
+	 * @param startDate
+	 *            the start date
+	 *
+	 * @return the Map[]
+	 *
+	 * @throws XmlRpcException
+	 *             the xml rpc exception
+	 */
+	public Map[] zoneHourlyStatistics(Integer id, Date startDate)
+			throws XmlRpcException {
+		verifyLogon();
+		return zoneService.zoneHourlyStatistics(id, startDate);
+	}
+
+	/**
+	 * Zone hourly statistics.
+	 *
+	 * @param id
+	 *            the id
+	 * @param startDate
+	 *            the start date
+	 * @param endDate
+	 *            the end date
+	 *
+	 * @return the Map[]
+	 *
+	 * @throws XmlRpcException
+	 *             the xml rpc exception
+	 */
+	public Map[] zoneHourlyStatistics(Integer id, Date startDate, Date endDate)
+			throws XmlRpcException {
+		verifyLogon();
+		return zoneService.zoneHourlyStatistics(id, startDate, endDate);
+	}
+
+	/**
+	 * Zone hourly statistics.
+	 *
+	 * @param id
+	 *            the id
+	 * @param startDate
+	 *            the start date
+	 * @param endDate
+	 *            the end date
+	 * @param useLocalTimeZone
+	 *
+	 * @return the Map[]
+	 *
+	 * @throws XmlRpcException
+	 *             the xml rpc exception
+	 */
+	public Map[] zoneHourlyStatistics(Integer id, Date startDate, Date endDate, Boolean useLocalTimeZone)
+			throws XmlRpcException {
+		verifyLogon();
+		return zoneService.zoneHourlyStatistics(id, startDate, endDate, useLocalTimeZone);
+	}
+
+	/**
 	 * This method adds an publisher to the system.
 	 *
 	 * @param params -
@@ -2764,7 +3153,6 @@ public class OpenAdsApiXmlRpcProxy {
 				endDate, useLocalTimeZone);
 	}
 
-
 	/**
 	 * Publisher daily statistics.
 	 *
@@ -2841,6 +3229,84 @@ public class OpenAdsApiXmlRpcProxy {
 			Date endDate, Boolean useLocalTimeZone) throws XmlRpcException {
 		verifyLogon();
 		return publisherService.publisherDailyStatistics(id, startDate, endDate, useLocalTimeZone);
+	}
+
+	/**
+	 * Publisher hourly statistics.
+	 *
+	 * @param id
+	 *            the id
+	 *
+	 * @return the Map[]
+	 *
+	 * @throws XmlRpcException
+	 *             the xml rpc exception
+	 */
+	public Map[] publisherHourlyStatistics(Integer id) throws XmlRpcException {
+		verifyLogon();
+		return publisherService.publisherHourlyStatistics(id);
+	}
+
+	/**
+	 * Publisher hourly statistics.
+	 *
+	 * @param id
+	 *            the id
+	 * @param startDate
+	 *            the start date
+	 *
+	 * @return the Map[]
+	 *
+	 * @throws XmlRpcException
+	 *             the xml rpc exception
+	 */
+	public Map[] publisherHourlyStatistics(Integer id, Date startDate)
+			throws XmlRpcException {
+		verifyLogon();
+		return publisherService.publisherHourlyStatistics(id, startDate);
+	}
+
+	/**
+	 * Publisher hourly statistics.
+	 *
+	 * @param id
+	 *            the id
+	 * @param startDate
+	 *            the start date
+	 * @param endDate
+	 *            the end date
+	 *
+	 * @return the Map[]
+	 *
+	 * @throws XmlRpcException
+	 *             the xml rpc exception
+	 */
+	public Map[] publisherHourlyStatistics(Integer id, Date startDate,
+			Date endDate) throws XmlRpcException {
+		verifyLogon();
+		return publisherService.publisherHourlyStatistics(id, startDate, endDate);
+	}
+
+	/**
+	 * Publisher hourly statistics.
+	 *
+	 * @param id
+	 *            the id
+	 * @param startDate
+	 *            the start date
+	 * @param endDate
+	 *            the end date
+	 * @param useLocalTimeZone
+	 *
+	 * @return the Map[]
+	 *
+	 * @throws XmlRpcException
+	 *             the xml rpc exception
+	 */
+	public Map[] publisherHourlyStatistics(Integer id, Date startDate,
+			Date endDate, Boolean useLocalTimeZone) throws XmlRpcException {
+		verifyLogon();
+		return publisherService.publisherHourlyStatistics(id, startDate, endDate, useLocalTimeZone);
 	}
 
 	/**

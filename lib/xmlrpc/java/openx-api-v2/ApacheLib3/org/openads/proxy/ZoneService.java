@@ -27,6 +27,7 @@ class ZoneService extends AbstractService {
 	private static final String DELETE_ZONE_METHOD = "ox.deleteZone";
 	private final static String ZONE_ADVERTISER_STATISTICS_METHOD = "ox.zoneAdvertiserStatistics";
 	private static final String ZONE_DAILY_STATISTICS_METHOD = "ox.zoneDailyStatistics";
+	private static final String ZONE_HOURLY_STATISTICS_METHOD = "ox.zoneHourlyStatistics";
 	private final static String ZONE_CAMPAIGN_STATISTICS_METHOD = "ox.zoneCampaignStatistics";
 	private final static String ZONE_BANNER_STATISTICS_METHOD = "ox.zoneBannerStatistics";
 	private static final String GET_ZONE_LIST_BY_PUBLISHER_ID_METHOD = "ox.getZoneListByPublisherId";
@@ -369,6 +370,70 @@ class ZoneService extends AbstractService {
 	public Map[] zoneDailyStatistics(Integer id, Date startDate, Date endDate, Boolean useLocalTimeZone)
 			throws XmlRpcException {
 		return objectToArrayMaps(execute(ZONE_DAILY_STATISTICS_METHOD, id,
+				startDate, endDate, useLocalTimeZone));
+	}
+
+	/**
+	 * Zone hourly statistics.
+	 *
+	 * @param id the id
+	 *
+	 * @return the Map[]
+	 *
+	 * @throws XmlRpcException the xml rpc exception
+	 */
+	public Map[] zoneHourlyStatistics(Integer id) throws XmlRpcException {
+		return objectToArrayMaps(execute(ZONE_HOURLY_STATISTICS_METHOD, id));
+	}
+
+	/**
+	 * Zone hourly statistics.
+	 *
+	 * @param id the id
+	 * @param startDate the start date
+	 *
+	 * @return the Map[]
+	 *
+	 * @throws XmlRpcException the xml rpc exception
+	 */
+	public Map[] zoneHourlyStatistics(Integer id, Date startDate)
+			throws XmlRpcException {
+		return objectToArrayMaps(execute(ZONE_HOURLY_STATISTICS_METHOD, id,
+				startDate));
+	}
+
+	/**
+	 * Zone hourly statistics.
+	 *
+	 * @param id the id
+	 * @param startDate the start date
+	 * @param endDate the end date
+	 *
+	 * @return the Map[]
+	 *
+	 * @throws XmlRpcException the xml rpc exception
+	 */
+	public Map[] zoneHourlyStatistics(Integer id, Date startDate, Date endDate)
+			throws XmlRpcException {
+		return objectToArrayMaps(execute(ZONE_HOURLY_STATISTICS_METHOD, id,
+				startDate, endDate));
+	}
+
+	/**
+	 * Zone hourly statistics.
+	 *
+	 * @param id the id
+	 * @param startDate the start date
+	 * @param endDate the end date
+	 * @param useLocalTimeZone
+	 *
+	 * @return the Map[]
+	 *
+	 * @throws XmlRpcException the xml rpc exception
+	 */
+	public Map[] zoneHourlyStatistics(Integer id, Date startDate, Date endDate, Boolean useLocalTimeZone)
+			throws XmlRpcException {
+		return objectToArrayMaps(execute(ZONE_HOURLY_STATISTICS_METHOD, id,
 				startDate, endDate, useLocalTimeZone));
 	}
 

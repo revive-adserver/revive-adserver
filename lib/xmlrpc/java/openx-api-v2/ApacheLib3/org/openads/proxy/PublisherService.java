@@ -30,6 +30,7 @@ class PublisherService extends AbstractService {
 	private final static String PUBLISHER_ZONE_STATISTICS_METHOD = "ox.publisherZoneStatistics";
 	private final static String PUBLISHER_CAMPAIGN_STATISTICS_METHOD = "ox.publisherCampaignStatistics";
 	private static final String PUBLISHER_DAILY_STATISTICS_METHOD = "ox.publisherDailyStatistics";
+	private static final String PUBLISHER_HOURLY_STATISTICS_METHOD = "ox.publisherHourlyStatistics";
 	private final static String PUBLISHER_BANNER_STATISTICS_METHOD = "ox.publisherBannerStatistics";
 	private final static String PUBLISHER_ADVERTISER_STATISTICS_METHOD = "ox.publisherAdvertiserStatistics";
 
@@ -310,6 +311,69 @@ class PublisherService extends AbstractService {
 				startDate, endDate, useLocalTimeZone));
 	}
 
+	/**
+	 * Publisher hourly statistics.
+	 *
+	 * @param id the id
+	 *
+	 * @return the Map[]
+	 *
+	 * @throws XmlRpcException the xml rpc exception
+	 */
+	public Map[] publisherHourlyStatistics(Integer id) throws XmlRpcException {
+		return objectToArrayMaps(execute(PUBLISHER_HOURLY_STATISTICS_METHOD, id));
+	}
+
+	/**
+	 * Publisher hourly statistics.
+	 *
+	 * @param id the id
+	 * @param startDate the start date
+	 *
+	 * @return the Map[]
+	 *
+	 * @throws XmlRpcException the xml rpc exception
+	 */
+	public Map[] publisherHourlyStatistics(Integer id, Date startDate)
+			throws XmlRpcException {
+		return objectToArrayMaps(execute(PUBLISHER_HOURLY_STATISTICS_METHOD, id,
+				startDate));
+	}
+
+	/**
+	 * Publisher hourly statistics.
+	 *
+	 * @param id the id
+	 * @param startDate the start date
+	 * @param endDate the end date
+	 *
+	 * @return the Map[]
+	 *
+	 * @throws XmlRpcException the xml rpc exception
+	 */
+	public Map[] publisherHourlyStatistics(Integer id, Date startDate,
+			Date endDate) throws XmlRpcException {
+		return objectToArrayMaps(execute(PUBLISHER_HOURLY_STATISTICS_METHOD, id,
+				startDate, endDate));
+	}
+
+	/**
+	 * Publisher hourly statistics.
+	 *
+	 * @param id the id
+	 * @param startDate the start date
+	 * @param endDate the end date
+	 * @param useLocalTimeZone
+	 *
+	 * @return the Map[]
+	 *
+	 * @throws XmlRpcException the xml rpc exception
+	 */
+	public Map[] publisherHourlyStatistics(Integer id, Date startDate,
+			Date endDate, Boolean useLocalTimeZone) throws XmlRpcException {
+		return objectToArrayMaps(execute(PUBLISHER_HOURLY_STATISTICS_METHOD, id,
+				startDate, endDate, useLocalTimeZone));
+	}
 
 	/**
 	 * Publisher banner statistics.

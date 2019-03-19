@@ -77,6 +77,61 @@ class OA_Dal_Statistics_Banner extends OA_Dal_Statistics
     }
 
    /**
+    * This method returns statistics for a given banner, broken down by day and hour.
+    *
+    * @access public
+    *
+    * @param integer $bannerId The ID of the banner to view statistics
+    * @param date $oStartDate The date from which to get statistics (inclusive)
+    * @param date $oEndDate The date to which to get statistics (inclusive)
+    * @param bool $localTZ Should stats be using the manager TZ or UTC?
+    *
+    * @return array Each row containing:
+    *   <ul>
+    *   <li><b>day date</b> The day
+    *   <li><b>requests integer</b> The number of requests for the day
+    *   <li><b>impressions integer</b> The number of impressions for the day
+    *   <li><b>clicks integer</b> The number of clicks for the day
+    *   <li><b>revenue decimal</b> The revenue earned for the day
+    *   </ul>
+    *
+    */
+    function getBannerHourlyStatistics($bannerId, $oStartDate, $oEndDate, $localTZ = false)
+    {
+        $bannerId     = $this->oDbh->quote($bannerId, 'integer');
+        $tableBanners = $this->quoteTableName('banners');
+        $tableSummary = $this->quoteTableName('data_summary_ad_hourly');
+
+        $aConf = $GLOBALS['_MAX']['CONF'];
+
+		$query = "
+            SELECT
+                SUM(s.impressions) AS impressions,
+                SUM(s.clicks) AS clicks,
+                SUM(s.requests) AS requests,
+                SUM(s.total_revenue) AS revenue,
+                DATE_FORMAT(s.date_time, '%Y-%m-%d') AS day,
+                HOUR(s.date_time) AS hour
+            FROM
+                $tableBanners AS b,
+                $tableSummary AS s
+            WHERE
+                b.bannerid = $bannerId
+                AND
+                b.bannerid = s.ad_id
+                " . $this->getWhereDate($oStartDate, $oEndDate, $localTZ) . "
+            GROUP BY
+                day,
+                hour
+            ORDER BY
+                day,
+                hour
+        ";
+
+        return $this->getHourlyStatsAsArray($query, $localTZ);
+    }
+
+   /**
     * This method returns statistics for a given banner, broken down by publisher.
     *
     * @access public

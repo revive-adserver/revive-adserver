@@ -96,6 +96,54 @@ class OA_Dal_Statistics_PublisherTest extends DalStatisticsUnitTestCase
     }
 
     /**
+     * Test publisher hourly statistics.
+     *
+     */
+    function testGetPublisherHourlyStatistics()
+    {
+        $doAgency    = OA_Dal::factoryDO('agency');
+        $doPublisher = OA_Dal::factoryDO('affiliates');
+        $doZone      = OA_Dal::factoryDO('zones');
+        $this->generateZoneWithParents($doAgency, $doPublisher, $doZone);
+
+        $doDataSummaryAdHourly                = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doDataSummaryAdHourly->impressions   = 1;
+        $doDataSummaryAdHourly->requests      = 2;
+        $doDataSummaryAdHourly->total_revenue = 3;
+        $doDataSummaryAdHourly->clicks        = 4;
+        $doDataSummaryAdHourly->date_time     = '2007-08-20';
+        $this->generateDataSummaryAdHourlyForZone($doDataSummaryAdHourly, $doZone);
+
+        // 1. Get data existing range
+        $aData = $this->_dalPublisherStatistics->getPublisherHourlyStatistics(
+            $doPublisher->affiliateid, new Date('2007-08-20'),  new Date('2007-08-20'));
+
+            $this->assertEqual(count($aData), 1, 'Some records should be returned');
+        $aRow = current($aData);
+
+        // 2. Check return fields names
+        $this->assertFieldExists($aRow, 'day');
+        $this->assertFieldExists($aRow, 'hour');
+        $this->assertFieldExists($aRow, 'requests');
+        $this->assertFieldExists($aRow, 'impressions');
+        $this->assertFieldExists($aRow, 'clicks');
+        $this->assertFieldExists($aRow, 'revenue');
+
+        // 3. Check return fields value
+        $this->assertFieldEqual($aRow, 'impressions', 1);
+        $this->assertFieldEqual($aRow, 'requests', 2);
+        $this->assertFieldEqual($aRow, 'revenue', 3);
+        $this->assertFieldEqual($aRow, 'clicks', 4);
+        $this->assertFieldEqual($aRow, 'day', '2007-08-20');
+
+        // 4. Get data in not existing range
+        $aData = $this->_dalPublisherStatistics->getPublisherHourlyStatistics(
+            $doPublisher->affiliateid,  new Date('2001-12-01'),  new Date('2006-09-19'));
+
+        $this->assertEqual(count($aData), 0, 'Recordset should be empty');
+    }
+
+    /**
      * Test publisher zone statistics.
      *
      */

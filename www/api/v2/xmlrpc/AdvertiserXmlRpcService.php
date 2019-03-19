@@ -180,6 +180,43 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
     }
 
     /**
+     * The advertiserHourlyStatistics method returns hourly statistics for an advertiser
+     * for a specified period, or returns an error message.
+     *
+     * @access public
+     *
+     * @param  XML_RPC_Message &$oParams
+     *
+     * @return XML_RPC_Response  data or error
+     */
+    function advertiserHourlyStatistics(&$oParams)
+    {
+        $oResponseWithError = null;
+        if (!XmlRpcUtils::getScalarValues(
+                array(&$sessionId, &$advertiserId, &$oStartDate, &$oEndDate, &$localTZ),
+                array(true, true, false, false, false), $oParams, $oResponseWithError)) {
+           return $oResponseWithError;
+        }
+
+        $aData = null;
+        if ($this->_oAdvertiserServiceImp->getAdvertiserHourlyStatistics($sessionId,
+                $advertiserId, $oStartDate, $oEndDate, $localTZ, $aData)) {
+
+            return XmlRpcUtils::arrayOfStructuresResponse(array('day' => 'date',
+                                                                'hour' => 'integer',
+                                                                'requests' => 'integer',
+                                                                'impressions' => 'integer',
+                                                                'clicks' => 'integer',
+                                                                'revenue' => 'float',
+                                                                ), $aData);
+
+        } else {
+
+            return XmlRpcUtils::generateError($this->_oAdvertiserServiceImp->getLastError());
+        }
+    }
+
+    /**
      * The advertiserCampaignStatistics method returns campaign statistics for
      * an advertiser for a specified period, or returns an error message.
      *
