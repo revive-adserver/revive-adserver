@@ -176,6 +176,34 @@ class ZoneServiceImpl extends BaseServiceImpl
     }
 
     /**
+     * The getZoneHourlyStatistics method returns hourly statistics for a zone
+     * for a specified period.
+     *
+     * @access public
+     *
+     * @param string $sessionId
+     * @param integer $zoneId
+     * @param date $oStartDate
+     * @param date $oEndDate
+     * @param bool $localTZ
+     * @param array &$aData  return data
+     *
+     * @return boolean
+     */
+    function getZoneHourlyStatistics($sessionId, $zoneId, $oStartDate, $oEndDate, $localTZ, &$aData)
+    {
+        if ($this->verifySession($sessionId)) {
+
+            return $this->_validateResult(
+                $this->_dllZone->getZoneHourlyStatistics(
+                    $zoneId, $oStartDate, $oEndDate, $localTZ, $aData));
+        } else {
+
+            return false;
+        }
+    }
+
+    /**
      * The getZoneAdvertiserStatistics method returns advertiser statistics for a
      * zone for a specified period.
      *

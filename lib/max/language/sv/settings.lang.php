@@ -16,6 +16,9 @@ $GLOBALS['strDatabaseSettings'] = "Inställningar för databas";
 $GLOBALS['strAdminAccount'] = "Administratörens konto";
 $GLOBALS['strAdvancedSettings'] = "Avancerade inställningar";
 $GLOBALS['strWarning'] = "Varning";
+$GLOBALS['strBtnContinue'] = "Fortsätt";
+$GLOBALS['strBtnRetry'] = "Försök igen";
+$GLOBALS['strTablesType'] = "Tabelltyp";
 
 
 
@@ -24,6 +27,7 @@ $GLOBALS['strDeliveryUrlPrefix'] = "Visningsmotor";
 $GLOBALS['strDeliveryUrlPrefixSSL'] = "Visningsmotor";
 
 
+$GLOBALS['strUpgrade'] = "Uppgradera";
 
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
@@ -33,12 +37,18 @@ $GLOBALS['strDeliveryUrlPrefixSSL'] = "Visningsmotor";
 $GLOBALS['strChooseSection'] = "Välj sektion";
 
 // Configuration Settings
+$GLOBALS['strConfigurationSettings'] = "Konfigurationsinställningar";
 
 // Administrator Settings
+$GLOBALS['strInvalidUsername'] = "Ogiltigt användarnamn";
 $GLOBALS['strBasicInformation'] = "Grundläggande Information";
+$GLOBALS['strEnableDashboard'] = "Aktivera instrumentpanel";
+$GLOBALS['strTimezone'] = "Tidszon";
 
 // Database Settings
 $GLOBALS['strDatabaseSettings'] = "Inställningar för databas";
+$GLOBALS['strDbType'] = "Databastyp";
+$GLOBALS['strDbName'] = "Databasens namn";
 
 // Email Settings
 $GLOBALS['strEmailSettings'] = "Huvudsakliga inställningar";

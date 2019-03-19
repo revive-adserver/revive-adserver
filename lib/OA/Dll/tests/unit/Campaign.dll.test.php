@@ -298,6 +298,14 @@ class OA_Dll_CampaignTest extends DllUnitTestCase
     /**
      * A method to test getCampaignZoneStatistics.
      */
+    function testHourlyStatistics()
+    {
+        $this->_testStatistics('getCampaignHourlyStatistics');
+    }
+
+    /**
+     * A method to test getCampaignZoneStatistics.
+     */
     function testBannerStatistics()
     {
         $this->_testStatistics('getCampaignBannerStatistics');

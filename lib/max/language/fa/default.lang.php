@@ -15,8 +15,11 @@ $GLOBALS['phpAds_TextDirection'] = "rtl";
 $GLOBALS['phpAds_TextAlignRight'] = "left";
 $GLOBALS['phpAds_TextAlignLeft'] = "right";
 
+$GLOBALS['phpAds_DecimalPoint'] = ".";
+$GLOBALS['phpAds_ThousandsSeperator'] = ",";
 
 // Date & time configuration
+$GLOBALS['day_format'] = "%d-%m";
 
 // Formats used by PEAR Spreadsheet_Excel_Writer packate
 
@@ -193,7 +196,7 @@ $GLOBALS['strEnterBoth'] = "لطفا هم نام کاربری و هم رمز ر�
 $GLOBALS['strSessionIDNotMatch'] = "خطا در کوکی ، لطفا دوباره وارد شوید";
 $GLOBALS['strLogin'] = "ورود";
 $GLOBALS['strLogout'] = "خروج";
-$GLOBALS['strUsername'] = "نام کاربر ";
+$GLOBALS['strUsername'] = "نام کاربری";
 $GLOBALS['strPassword'] = "رمز ";
 $GLOBALS['strPasswordRepeat'] = "دوباره رمز را وارد کنید";
 $GLOBALS['strAccessDenied'] = "دسترسی قطع شد";
@@ -216,6 +219,7 @@ $GLOBALS['strImpressions'] = "احساسs";
 $GLOBALS['strClicks'] = "کلیک";
 $GLOBALS['strConversions'] = "
 تبدیل";
+$GLOBALS['strCTRShort'] = "نرخ کلیک";
 $GLOBALS['strCTR'] = "کلیک از طریق نسبت";
 $GLOBALS['strTotalClicks'] = "مجموع کلیک ها";
 $GLOBALS['strTotalConversions'] = "مجموع مکالمات";
@@ -237,6 +241,8 @@ $GLOBALS['strStatsVariables'] = "مقادیر";
 
 // Finance
 $GLOBALS['strFinanceMT'] = "مدت اجاره";
+$GLOBALS['strFinanceCTR'] = "نرخ کلیک";
+$GLOBALS['strFinanceCR'] = "کپی رایت";
 
 // Time and date related
 $GLOBALS['strDate'] = "زمان";
@@ -263,6 +269,13 @@ $GLOBALS['strDayFullNames'][6] = 'شنبه';
 if (!isset($GLOBALS['strDayShortCuts'])) {
     $GLOBALS['strDayShortCuts'] = array();
 }
+$GLOBALS['strDayShortCuts'][0] = 'یکشنبه';
+$GLOBALS['strDayShortCuts'][1] = 'دوشنبه';
+$GLOBALS['strDayShortCuts'][2] = 'سه شنبه';
+$GLOBALS['strDayShortCuts'][3] = 'چهارشنبه';
+$GLOBALS['strDayShortCuts'][4] = 'پنجشنبه';
+$GLOBALS['strDayShortCuts'][5] = 'جمعه';
+$GLOBALS['strDayShortCuts'][6] = 'شنبه';
 
 $GLOBALS['strHour'] = "ساعت";
 $GLOBALS['strSeconds'] = "ثانیه ها";
@@ -275,6 +288,7 @@ $GLOBALS['strClients'] = "تبلیغات کننده ها";
 $GLOBALS['strClientsAndCampaigns'] = "تبلیغات کننده ها و کمپین ها";
 $GLOBALS['strAddClient'] = "تبلیغ ککننده جدید اضافه کنید";
 $GLOBALS['strClientProperties'] = "ویژگی های تبلیغ کننده ";
+$GLOBALS['strClientHistory'] = "آمار تبلیغ کننده";
 $GLOBALS['strNoClients'] = "در حال حاضر هیچ تبلیغ تعریف شده وجود ندارد.برای ایجاد یک کمپین, ابتدا <a href='advertiser-edit.php'>اضافه کنید تبلیغ کننده جدید</a>.";
 $GLOBALS['strConfirmDeleteClient'] = "آیا واقعا میخواهید این تبلیغ کننده را حذف کنید؟";
 $GLOBALS['strConfirmDeleteClients'] = "
@@ -296,7 +310,6 @@ $GLOBALS['strAllowClientModifyBanner'] = "
 به این کاربر اجازه تغییر آگهی ها خود را بدهید";
 $GLOBALS['strAllowClientDisableBanner'] = "به این کاربر اجازه غیر فعال کردن آگهی ها خود را بدهید";
 $GLOBALS['strAllowClientActivateBanner'] = "به این کاربر اجازه فعال شدن آگهی ها خود را بدهید";
-$GLOBALS['strAllowCreateAccounts'] = "به این کاربر اجازه ایجاد حساب جدید را بدهید";
 $GLOBALS['strAdvertiserLimitation'] = "نمایش تنها یک بنر از این تبلیغ کننده در صفحه وب";
 $GLOBALS['strAllowAuditTrailAccess'] = "به این کاربر اجازه دسترسی به دنباله حسابرسی بدهید";
 
@@ -311,6 +324,7 @@ $GLOBALS['strCampaignProperties'] = "
 خواص کمپین";
 $GLOBALS['strCampaignOverview'] = "
 نمای کلی کمپین";
+$GLOBALS['strCampaignHistory'] = "آمار کمپین";
 $GLOBALS['strNoCampaigns'] = "در حال حاضر هیچ کمپین تعریف شده برای این تبلیغ کنندگان وجود دارد.";
 $GLOBALS['strNoCampaignsAddAdvertiser'] = "در حال حاضر هیچ کمپین تعریف شده وجود ندارد, زیرا هیچ تبلیغ کننده وجود دارد. 
 برای ایجاد یک کمپین, <a href='advertiser-edit.php'>aاضافه کردن تبلیغ کنندگان جدید</a> ابتدا.";
@@ -537,6 +551,7 @@ $GLOBALS['strAddBanner_Key'] = "<u>جدید</u> اضافه کردن تبلیغا
 $GLOBALS['strBannerToCampaign'] = "به کمپین";
 $GLOBALS['strShowBanner'] = "تبلیغ را نشان بده";
 $GLOBALS['strBannerProperties'] = "خواص تبلیغات";
+$GLOBALS['strBannerHistory'] = "آمار بنر";
 $GLOBALS['strNoBanners'] = "
 در حال حاضر هیچ تبلیغات تعریف شده برای این کمپین وجود ندارد.";
 $GLOBALS['strNoBannersAddCampaign'] = "در حال حاضر هیچ تبلیغات تعریف شده است، زیرا هیچ کمپین وجود دارد. برای ایجاد یک بنر، <a href='campaign-edit.php?clientid=%s'>کمپینی را اضافه کنید</a> ابتدا";
@@ -634,6 +649,8 @@ $GLOBALS['strNotContains'] = "را شامل نمی شود";
 $GLOBALS['strGreaterThan'] = "
 بزرگتر است از";
 $GLOBALS['strLessThan'] = "کمتر است از";
+$GLOBALS['strGreaterOrEqualTo'] = "بزرگتر یا مساوی";
+$GLOBALS['strLessOrEqualTo'] = "کمتر یا مساوی";
 $GLOBALS['strAND'] = "و";                          // logical operator
 $GLOBALS['strOR'] = "یا";                         // logical operator
 $GLOBALS['strOnlyDisplayWhen'] = "زمانی این بنر را نشان بده که :";
@@ -672,6 +689,7 @@ $GLOBALS['strAffiliates'] = "وب سایت ها";
 $GLOBALS['strAffiliatesAndZones'] = "وب سایت ها و مناطق";
 $GLOBALS['strAddNewAffiliate'] = "اضافه کردن وب سایت جدید";
 $GLOBALS['strAffiliateProperties'] = "خواص وب سایت";
+$GLOBALS['strAffiliateHistory'] = "آمار وب سایت";
 $GLOBALS['strNoAffiliates'] = "در حال حاضر هیچ وب سایت های تعریف شده وجود دارد. برای ایجاد یک منطقه, <a href='affiliate-edit.php'>یک وب سایت جدید ایجاد کنید</a> در ابتدا.";
 $GLOBALS['strConfirmDeleteAffiliate'] = "آیا واقعا میخواهید این وب سایت را حذف کنید؟";
 $GLOBALS['strConfirmDeleteAffiliates'] = "آیا شما واقعا می خواهید وب سایت های انتخاب شده را حذف کنید؟";
@@ -803,6 +821,11 @@ $GLOBALS['strShortcutShowStatuses'] = "نمایش وضعیت ها";
 $GLOBALS['strStats'] = "آمار";
 $GLOBALS['strNoStats'] = "در حال حاضر هیچ آماری وحود ندارد";
 $GLOBALS['strNoStatsForPeriod'] = "هیچ آماری برای دوره ی  %s تا %s وجود ندارد";
+$GLOBALS['strGlobalHistory'] = "آمار کلی";
+$GLOBALS['strDailyHistory'] = "آمار روزانه";
+$GLOBALS['strDailyStats'] = "آمار روزانه";
+$GLOBALS['strWeeklyHistory'] = "آمار هفتگی";
+$GLOBALS['strMonthlyHistory'] = "آمار ماهانه";
 $GLOBALS['strTotalThisPeriod'] = "کل این دوره";
 $GLOBALS['strPublisherDistribution'] = "توزیع وب سایت";
 $GLOBALS['strCampaignDistribution'] = "توضیع کمپین";
@@ -858,6 +881,7 @@ $GLOBALS['strAutoDetect'] = "تشخیص خودکار";
 
 
 // Errors
+$GLOBALS['strErrorDatabaseConnection'] = "خطای اتصال پایگاه داده.";
 $GLOBALS['strNoMatchesFound'] = "هیچ چیز مطابی پیدا نشد";
 $GLOBALS['strErrorOccurred'] = "یخ خطا اتفاق افتاد";
 $GLOBALS['strErrorDBPlain'] = "یک خطا هنگام اتصال به دیتابیس اتفاق افتاد";
@@ -908,6 +932,8 @@ $GLOBALS['strNoConversionLoggedInInterval'] = "هیچ مشاهده تبلیغا�
 $GLOBALS['strMailReportPeriod'] = "این گزارش شامل آماری از {startdate} تا {enddate}می باشد.";
 $GLOBALS['strMailReportPeriodAll'] = "این گزارش شامل�? همه آمار تا {enddate} می باشد.";
 $GLOBALS['strNoStatsForCampaign'] = "هیچ آماری برای این  موجود نمی باشد";
+$GLOBALS['strYourCampaign'] = "کمپین شما";
+$GLOBALS['strTheCampiaignBelongingTo'] = "کمپین متعلق به";
 
 // Priority
 $GLOBALS['strPriority'] = "
@@ -939,6 +965,7 @@ $GLOBALS['strCustomColumnName'] = "نام ردیف دلخواه";
 $GLOBALS['strColumnRank'] = "رتبه ردیف";
 
 // Long names
+$GLOBALS['strRevenue'] = "درآمد";
 $GLOBALS['strNumberOfItems'] = "تعداد آیتم ها";
 $GLOBALS['strPendingConversions'] = "مکالمات در حال پردازش";
 $GLOBALS['strImpressionSR'] = "آثار";
@@ -947,6 +974,7 @@ $GLOBALS['strClickSR'] = "کلیک SR";
 // Short names
 $GLOBALS['strID_short'] = "شناسه";
 $GLOBALS['strClicks_short'] = "کلیک ها";
+$GLOBALS['strCTR_short'] = "نرخ کلیک";
 $GLOBALS['strClickSR_short'] = "کلیک SR";
 
 // Global Settings
@@ -1006,6 +1034,7 @@ $GLOBALS['strString'] = "رشته";
 $GLOBALS['strAddVariable'] = "اضافه کردن متغیر";
 $GLOBALS['strVariableRejectEmpty'] = "پس زدن در صورت خالی بودن ؟";
 $GLOBALS['strTrackerType'] = "نام تراکر";
+$GLOBALS['strTrackerTypeCustom'] = "کد سفارشی جاوا اسکریپت";
 
 // Password recovery
 $GLOBALS['strForgotPassword'] = "رمز خود را فراموش کردید؟";
@@ -1120,6 +1149,8 @@ $GLOBALS['strReportErrorUnknownCode'] = "ارور ناممشخص کد #";
 
 // Reserved keys
 // Do not change these unless absolutely needed
+$GLOBALS['keyNextItem'] = ".";
+$GLOBALS['keyPreviousItem'] = ",";
 
 // Other keys
 // Please make sure you underline the key you

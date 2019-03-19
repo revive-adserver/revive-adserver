@@ -96,6 +96,54 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
     }
 
     /**
+     * Test zone hourly statistics.
+     *
+     */
+    function testGetZoneHourlyStatistics()
+    {
+        $doAgency    = OA_Dal::factoryDO('agency');
+        $doPublisher = OA_Dal::factoryDO('affiliates');
+        $doZone      = OA_Dal::factoryDO('zones');
+        $this->generateZoneWithParents($doAgency, $doPublisher, $doZone);
+
+        $doDataSummaryAdHourly                = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doDataSummaryAdHourly->impressions   = 121;
+        $doDataSummaryAdHourly->requests      = 223;
+        $doDataSummaryAdHourly->total_revenue = 433;
+        $doDataSummaryAdHourly->clicks        = 9894;
+        $doDataSummaryAdHourly->date_time     = '2006-06-06';
+        $this->generateDataSummaryAdHourlyForZone($doDataSummaryAdHourly, $doZone);
+
+        // 1. Get data existing range
+        $aData = $this->_dalZoneStatistics->getZoneHourlyStatistics(
+            $doZone->zoneid, new Date('2005-08-20'),  new Date('2007-08-20'));
+
+        $this->assertEqual(count($aData), 1, 'Some records should be returned');
+        $aRow = current($aData);
+
+        // 2. Check return fields names
+        $this->assertFieldExists($aRow, 'day');
+        $this->assertFieldExists($aRow, 'hour');
+        $this->assertFieldExists($aRow, 'requests');
+        $this->assertFieldExists($aRow, 'impressions');
+        $this->assertFieldExists($aRow, 'clicks');
+        $this->assertFieldExists($aRow, 'revenue');
+
+        // 3. Check return fields value
+        $this->assertFieldEqual($aRow, 'impressions', 121);
+        $this->assertFieldEqual($aRow, 'requests', 223);
+        $this->assertFieldEqual($aRow, 'revenue', 433);
+        $this->assertFieldEqual($aRow, 'clicks', 9894);
+        $this->assertFieldEqual($aRow, 'day', '2006-06-06');
+
+        // 4. Get data in not existing range
+        $aData = $this->_dalZoneStatistics->getZoneHourlyStatistics(
+            $doZone->zoneid,  new Date('2001-12-01'),  new Date('2006-01-19'));
+
+        $this->assertEqual(count($aData), 0, 'Recordset should be empty');
+    }
+
+    /**
      * Test zone advertiser statistics.
      *
      */

@@ -296,7 +296,7 @@ $GLOBALS['strSendDeactivationWarning'] = "Email when a campaign is automatically
 $GLOBALS['strAllowClientModifyBanner'] = "Allow this user to modify their own banners";
 $GLOBALS['strAllowClientDisableBanner'] = "Allow this user to deactivate their own banners";
 $GLOBALS['strAllowClientActivateBanner'] = "Allow this user to activate their own banners";
-$GLOBALS['strAllowCreateAccounts'] = "Allow this user to create new accounts";
+$GLOBALS['strAllowCreateAccounts'] = "Allow this user to manage this account's users";
 $GLOBALS['strAdvertiserLimitation'] = "Display only one banner from this advertiser on a web page";
 $GLOBALS['strAllowAuditTrailAccess'] = "Allow this user to access the audit trail";
 
@@ -528,7 +528,9 @@ $GLOBALS['strTextBelow'] = "Text below image";
 $GLOBALS['strWeight'] = "Weight";
 $GLOBALS['strAlt'] = "Alt text";
 $GLOBALS['strStatusText'] = "Status text";
+$GLOBALS['strCampaignsWeight'] = "Campaign's Weight";
 $GLOBALS['strBannerWeight'] = "Banner weight";
+$GLOBALS['strBannersWeight'] = "Banner's Weight";
 $GLOBALS['strAdserverTypeGeneric'] = "Generic HTML Banner";
 $GLOBALS['strDoNotAlterHtml'] = "Do not alter HTML";
 $GLOBALS['strGenericOutputAdServer'] = "Generic";
@@ -1176,7 +1178,7 @@ $GLOBALS['strZoneRemovedCampaign'] = "Campaign has been unlinked from zone <a hr
 
 $GLOBALS['strChannelHasBeenAdded'] = "Delivery rule set <a href='%s'>%s</a> has been added. <a href='%s'>Set the delivery rules.</a>";
 $GLOBALS['strChannelHasBeenUpdated'] = "Delivery rule set <a href='%s'>%s</a> has been updated";
-$GLOBALS['strChannelAclHasBeenUpdated'] = "Delivery options for the delivery rule set<a href='%s'>%s</a> have been updated";
+$GLOBALS['strChannelAclHasBeenUpdated'] = "Delivery options for the delivery rule set <a href='%s'>%s</a> have been updated";
 $GLOBALS['strChannelHasBeenDeleted'] = "Delivery rule set <b>%s</b> has been deleted";
 $GLOBALS['strChannelsHaveBeenDeleted'] = "All selected delivery rule sets have been deleted";
 $GLOBALS['strChannelHasBeenDuplicated'] = "Delivery rule set <a href='%s'>%s</a> has been copied to <a href='%s'>%s</a>";

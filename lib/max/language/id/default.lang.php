@@ -284,7 +284,6 @@ $GLOBALS['strSendDeactivationWarning'] = "Kirim peringatan bila kampanye tidak a
 $GLOBALS['strAllowClientModifyBanner'] = "Izinkan pengguna ini untuk merubah banner yang dimiliki";
 $GLOBALS['strAllowClientDisableBanner'] = "Izinkan pengguna ini untuk hentikan banner yang dimiliki";
 $GLOBALS['strAllowClientActivateBanner'] = "Izinkan pengguna ini untuk aktifkan banner yang dimiliki";
-$GLOBALS['strAllowCreateAccounts'] = "Izinkan pengguna ini membuat akun baru";
 $GLOBALS['strAdvertiserLimitation'] = "Tampilkan hanya satu banner dari pengiklan ini di halaman web";
 $GLOBALS['strAllowAuditTrailAccess'] = "Izinkan pengguna mengakses jejak audit";
 
@@ -1162,7 +1161,6 @@ $GLOBALS['strZoneRemovedCampaign'] = "Kampanye telah dibatalkan dari zona <a hre
 
 $GLOBALS['strChannelHasBeenAdded'] = "Aturan pengiriman ditetapkan <a href='%s'>%s</a> telah ditambahkan. <a href='%s'>Tetapkan aturan pengiriman.</a>";
 $GLOBALS['strChannelHasBeenUpdated'] = "Aturan pengiriman ditetapkan <a href='%s'>%s</a> telah diperbarui";
-$GLOBALS['strChannelAclHasBeenUpdated'] = "Opsi pengiriman untuk aturan pengiriman ditetapkan<a href='%s'>%s</a> telah diperbarui";
 $GLOBALS['strChannelHasBeenDeleted'] = "Aturan pengiriman ditetapkan <b>%s</b> sudah dihapus";
 $GLOBALS['strChannelsHaveBeenDeleted'] = "Semua kumpulan aturan pengiriman yang dipilih telah dihapus";
 $GLOBALS['strChannelHasBeenDuplicated'] = "Aturan pengiriman ditetapkan <a href='%s'>%s</a> telah disalin ke <a href='%s'>%s</a>";

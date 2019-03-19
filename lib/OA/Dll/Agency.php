@@ -369,6 +369,45 @@ class OA_Dll_Agency extends OA_Dll
     }
 
     /**
+     * This method returns hourly statistics for an agency for a specified period.
+     *
+     * @access public
+     *
+     * @param integer $agencyId The ID of the agency to view statistics for
+     * @param date $oStartDate The date from which to get statistics (inclusive)
+     * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param array &$rsStatisticsData The data returned by the function
+     * <ul>
+     *   <li><b>day date</b>  The day
+     *   <li><b>requests integer</b>  The number of requests for the day
+     *   <li><b>impressions integer</b>  The number of impressions for the day
+     *   <li><b>clicks integer</b>  The number of clicks for the day
+     *   <li><b>revenue decimal</b>  The revenue earned for the day
+     * </ul>
+     *
+     * @return boolean  True if the operation was successful and false if not.
+     *
+     */
+    function getAgencyHourlyStatistics($agencyId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
+    {
+        if (!$this->checkPermissions(
+            array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER),
+            'agency', $agencyId)) {
+            return false;
+        }
+
+        if ($this->_validateForStatistics($agencyId, $oStartDate, $oEndDate)) {
+            $dalAgency = new OA_Dal_Statistics_Agency;
+            $rsStatisticsData = $dalAgency->getAgencyHourlyStatistics($agencyId,
+                $oStartDate, $oEndDate, $localTZ);
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * This method returns advertiser statistics for an agency for a specified period.
      *
      * @access public

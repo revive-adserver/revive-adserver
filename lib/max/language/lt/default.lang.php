@@ -209,7 +209,6 @@ $GLOBALS['strSendDeactivationWarning'] = "Siųsti el. pranešimą, kai kampanija
 $GLOBALS['strAllowClientModifyBanner'] = "Leisti šiam vartotojui keisti savo pačio banerius";
 $GLOBALS['strAllowClientDisableBanner'] = "Leisti šiam vartotojui išjungti savo pačio banerius";
 $GLOBALS['strAllowClientActivateBanner'] = "Leisti šiam vartotojui aktyvuoti savo pačio banerius";
-$GLOBALS['strAllowCreateAccounts'] = "Leisti šiam vartotojui kurti naujas sąskaitas";
 $GLOBALS['strAdvertiserLimitation'] = "Rodyti tik banerį ";
 
 // Campaign

@@ -27,7 +27,7 @@ $GLOBALS['week_format'] = "%Y-%W";
 /* Translations                                          */
 /* ------------------------------------------------------- */
 
-$GLOBALS['strHome'] = "Kezdőlap";
+$GLOBALS['strHome'] = "Főoldal";
 $GLOBALS['strHelp'] = "Segítség";
 $GLOBALS['strStartOver'] = "Újrakezdés";
 $GLOBALS['strShortcuts'] = "Gyorsgombok";
@@ -48,15 +48,15 @@ $GLOBALS['strCompact'] = "Tömör";
 $GLOBALS['strUser'] = "Felhasználó";
 $GLOBALS['strDuplicate'] = "Duplikál";
 $GLOBALS['strMoveTo'] = "Mozgat";
-$GLOBALS['strDelete'] = "Töröl";
+$GLOBALS['strDelete'] = "Törlés";
 $GLOBALS['strActivate'] = "Aktivál";
 $GLOBALS['strConvert'] = "Konvertál";
 $GLOBALS['strRefresh'] = "Frissít";
 $GLOBALS['strSaveChanges'] = "Változtatások mentése";
-$GLOBALS['strUp'] = "Föl";
+$GLOBALS['strUp'] = "Fel";
 $GLOBALS['strDown'] = "Le";
 $GLOBALS['strSave'] = "Mentés";
-$GLOBALS['strCancel'] = "Mégse";
+$GLOBALS['strCancel'] = "Mégsem";
 $GLOBALS['strBack'] = "Vissza";
 $GLOBALS['strPrevious'] = "Előző";
 $GLOBALS['strNext'] = "Következő";
@@ -91,9 +91,9 @@ $GLOBALS['strMiscellaneous'] = "Vegyes";
 $GLOBALS['strCollectedAllStats'] = "Minden statisztika";
 $GLOBALS['strCollectedToday'] = "Ma";
 $GLOBALS['strCollectedYesterday'] = "Tegnap";
-$GLOBALS['strCollectedThisWeek'] = "Aktuális hét";
-$GLOBALS['strCollectedLastWeek'] = "Előző hét";
-$GLOBALS['strCollectedThisMonth'] = "Aktuális hónap";
+$GLOBALS['strCollectedThisWeek'] = "Ezen a héten";
+$GLOBALS['strCollectedLastWeek'] = "Előző héten";
+$GLOBALS['strCollectedThisMonth'] = "Ebben a hónapban";
 $GLOBALS['strCollectedLastMonth'] = "Előző hónap";
 $GLOBALS['strCollectedLast7Days'] = "Előző 7 nap";
 $GLOBALS['strCollectedSpecificDates'] = "Egyedi dátumok";
@@ -194,11 +194,11 @@ $GLOBALS['strFinanceCR'] = "CR";
 // Time and date related
 $GLOBALS['strDate'] = "Dátum";
 $GLOBALS['strDay'] = "Nap";
-$GLOBALS['strDays'] = "Nap";
+$GLOBALS['strDays'] = "Napok";
 $GLOBALS['strWeek'] = "Hét";
-$GLOBALS['strWeeks'] = "Hét";
+$GLOBALS['strWeeks'] = "Hetek";
 $GLOBALS['strSingleMonth'] = "Hónap";
-$GLOBALS['strMonths'] = "Hónap";
+$GLOBALS['strMonths'] = "Hónapok";
 $GLOBALS['strDayOfWeek'] = "A hét napja";
 
 
@@ -252,7 +252,6 @@ $GLOBALS['strSendDeactivationWarning'] = "Figyelmeztetés küldése a kampány d
 $GLOBALS['strAllowClientModifyBanner'] = "A felhasználó módosíthatja a reklámait";
 $GLOBALS['strAllowClientDisableBanner'] = "A felhasználó deaktiválhatja a saját reklámait";
 $GLOBALS['strAllowClientActivateBanner'] = "A felhasználó aktiválhatja a saját reklámait";
-$GLOBALS['strAllowCreateAccounts'] = "Engedélyezi, hogy ez a felhasználó új fiókokat hozzon létre";
 
 // Campaign
 $GLOBALS['strCampaign'] = "Kampány";
@@ -274,7 +273,8 @@ $GLOBALS['strECPMInformation'] = "eCPM prioritás";
 $GLOBALS['strHiddenCampaign'] = "Kampány";
 $GLOBALS['strHiddenAdvertiser'] = "Hirdető";
 $GLOBALS['strHiddenWebsite'] = "Weboldal";
-$GLOBALS['strHiddenZone'] = "Zónák";
+$GLOBALS['strHiddenZone'] = "Zóna";
+$GLOBALS['strCampaignDelivery'] = "Kampány továbbítás";
 $GLOBALS['strSelectUnselectAll'] = "Összes kijelöl / visszavon";
 $GLOBALS['strCampaignsOfAdvertiser'] = "itt:"; //this is added between page name and advertiser name eg. 'Campaigns of Advertiser 1'
 
@@ -320,10 +320,13 @@ $GLOBALS['strCampaignStatusRestarted'] = "Újraindítva";
 $GLOBALS['strCampaignStatusDeleted'] = "Törölt";
 $GLOBALS['strCampaignType'] = "Kampány típus";
 $GLOBALS['strType'] = "Típus";
+$GLOBALS['strContract'] = "Szerződés";
+$GLOBALS['strStandardContract'] = "Szerződés";
 $GLOBALS['strPricing'] = "Árazás";
 $GLOBALS['strPricingModel'] = "Árazási modell";
 $GLOBALS['strSelectPricingModel'] = "--válassz modellt--";
 $GLOBALS['strRatePrice'] = "Egységár";
+$GLOBALS['strLimit'] = "Korlát";
 $GLOBALS['strCannotSetBothDateAndLimit'] = "Nem állíthat be egyszerre záró dátumot és limit is Remnant és Exclusive kampány esetén. <br> Ha be kell állítani a záró dátumot is és a limitet is a megjelenésre/kattintásra/konverzióra, akkor használj no-exclusive kampányt.";
 $GLOBALS['strWhyDisabled'] = "Miért van letiltva?";
 $GLOBALS['strCookies'] = "Cookie-k";
@@ -345,7 +348,7 @@ $GLOBALS['strIPAddress'] = "IP cím";
 // Banners (General)
 $GLOBALS['strBanner'] = "Reklám";
 $GLOBALS['strBanners'] = "Reklámok";
-$GLOBALS['strAddBanner'] = "Új reklám";
+$GLOBALS['strAddBanner'] = "Új banner hozzáadása";
 $GLOBALS['strAddBanner_Key'] = "Ú<u>j</u> reklám";
 $GLOBALS['strShowBanner'] = "Reklám megnézése";
 $GLOBALS['strBannerProperties'] = "Reklám tulajdonságai";
@@ -464,7 +467,7 @@ $GLOBALS['strCountry'] = "Ország";
 $GLOBALS['strWebsiteZones'] = "Weboldal zónái";
 
 // Zone
-$GLOBALS['strZone'] = "Zónák";
+$GLOBALS['strZone'] = "Zóna";
 $GLOBALS['strZones'] = "Zónák";
 $GLOBALS['strAddNewZone'] = "Új zóna";
 $GLOBALS['strAddNewZone_Key'] = "Ú<u>j</u> zóna";
@@ -483,6 +486,7 @@ $GLOBALS['strShowMatchingBanners'] = "Egyező reklámok megjelenítése";
 $GLOBALS['strHideMatchingBanners'] = "Egyező reklámok elrejtése";
 $GLOBALS['strInactiveZonesHidden'] = "inaktív zóna elrejtve";
 $GLOBALS['strZonesOfWebsite'] = 'itt:'; //this is added between page name and website name eg. 'Zones in www.example.com'
+$GLOBALS['strBackToZones'] = "Vissza a zónákhoz";
 
 
 // Advanced zone settings
@@ -522,11 +526,15 @@ $GLOBALS['strStatusDuplicate'] = "Duplikál";
 $GLOBALS['strStatusIgnore'] = "Kihagyás";
 $GLOBALS['strConnectionType'] = "Típus";
 $GLOBALS['strConnTypeSale'] = "Eladás";
-$GLOBALS['strConnTypeSignUp'] = "Regisztrálás";
+$GLOBALS['strConnTypeSignUp'] = "Regisztráció";
 
 // Statistics
 $GLOBALS['strStats'] = "Statisztikák";
 $GLOBALS['strNoStats'] = "Jelenleg nincs statisztika";
+$GLOBALS['strDailyHistory'] = "Napi statisztikák";
+$GLOBALS['strDailyStats'] = "Napi statisztikák";
+$GLOBALS['strWeeklyHistory'] = "Heti statisztikák";
+$GLOBALS['strMonthlyHistory'] = "Havi statisztikák";
 $GLOBALS['strTotalThisPeriod'] = "Időszak összes";
 $GLOBALS['strViewBreakdown'] = "Megnéz";
 $GLOBALS['strBreakdownByDay'] = "Nap";
@@ -545,6 +553,7 @@ $GLOBALS['strCampaignStop'] = "Kampány vége";
 // Reports
 $GLOBALS['strStartDate'] = "Kezdő dátum";
 $GLOBALS['strEndDate'] = "Befejezés dátuma";
+$GLOBALS['strPeriod'] = "Periódus";
 
 // Admin_UI_Fields
 $GLOBALS['strAllAdvertisers'] = "Összes hirdető";
@@ -620,7 +629,7 @@ $GLOBALS['strImpressionSR'] = "Megjelenés";
 
 // Short names
 $GLOBALS['strID_short'] = "Azonosító";
-$GLOBALS['strClicks_short'] = "Kattintás";
+$GLOBALS['strClicks_short'] = "Kattintások";
 $GLOBALS['strCTR_short'] = "CTR- Átkattintás";
 
 // Global Settings
@@ -659,9 +668,11 @@ $GLOBALS['strNoVarsToTrack'] = "Nincsenek változók követési kódban.";
 $GLOBALS['strVariableRejectEmpty'] = "Az üres érték legyen elutasítva?";
 $GLOBALS['strTrackingSettings'] = "Követőkód beállításai";
 $GLOBALS['strTrackerType'] = "Követőkód típusa";
+$GLOBALS['strTrackerTypeCustom'] = "Egyedi JS kód";
 
 // Password recovery
 $GLOBALS['strForgotPassword'] = "Elfelejtette a jelszavát?";
+$GLOBALS['strPwdRecWrongId'] = "Hibás ID";
 
 // Audit
 
@@ -694,6 +705,7 @@ $GLOBALS['strEmailChanged'] = "Az e-mail címed megváltozott";
 
 // Reserved keys
 // Do not change these unless absolutely needed
+$GLOBALS['keyUp'] = "u";
 $GLOBALS['keyNextItem'] = ",";
 $GLOBALS['keyPreviousItem'] = ".";
 
@@ -701,6 +713,9 @@ $GLOBALS['keyPreviousItem'] = ".";
 // Please make sure you underline the key you
 // used in the string in default.lang.php
 $GLOBALS['keySearch'] = "k";
+$GLOBALS['keyCollapseAll'] = "c";
 $GLOBALS['keyExpandAll'] = "k";
 $GLOBALS['keyAddNew'] = "j";
 $GLOBALS['keyNext'] = "j";
+$GLOBALS['keyPrevious'] = "p";
+$GLOBALS['keyLinkUser'] = "u";

@@ -29,6 +29,7 @@ class CampaignService extends AbstractService {
 	private static final String GET_CAMPAIGN_LIST_BY_ADVERTISER_ID_METHOD = "ox.getCampaignListByAdvertiserId";
 	private static final String CAMPAIGN_ZONE_STATISTICS_METHOD = "ox.campaignZoneStatistics";
 	private static final String CAMPAIGN_DAILY_STATISTICS_METHOD = "ox.campaignDailyStatistics";
+	private static final String CAMPAIGN_HOURLY_STATISTICS_METHOD = "ox.campaignHourlyStatistics";
 	private static final String CAMPAIGN_PUBLISHER_STATISTICS_METHOD = "ox.campaignPublisherStatistics";
 	private static final String CAMPAIGN_BANNER_STATISTICS_METHOD = "ox.campaignBannerStatistics";
 
@@ -175,6 +176,69 @@ class CampaignService extends AbstractService {
 	public Map[] campaignDailyStatistics(Integer id, Date startDate,
 			Date endDate, Boolean useLocalTimeZone) throws XmlRpcException {
 		return objectToArrayMaps( execute(CAMPAIGN_DAILY_STATISTICS_METHOD, id, startDate,
+				endDate, useLocalTimeZone));
+	}
+
+	/**
+	 * Campaign hourly statistics.
+	 *
+	 * @param id the id
+	 *
+	 * @return the Map[]
+	 *
+	 * @throws XmlRpcException the xml rpc exception
+	 */
+	public Map[] campaignHourlyStatistics(Integer id) throws XmlRpcException {
+		return objectToArrayMaps( execute(CAMPAIGN_HOURLY_STATISTICS_METHOD, id));
+	}
+
+	/**
+	 * Campaign hourly statistics.
+	 *
+	 * @param id the id
+	 * @param startDate the start date
+	 *
+	 * @return the Map[]
+	 *
+	 * @throws XmlRpcException the xml rpc exception
+	 */
+	public Map[] campaignHourlyStatistics(Integer id, Date startDate)
+			throws XmlRpcException {
+		return objectToArrayMaps( execute(CAMPAIGN_HOURLY_STATISTICS_METHOD, id, startDate));
+	}
+
+	/**
+	 * Campaign hourly statistics.
+	 *
+	 * @param id the id
+	 * @param startDate the start date
+	 * @param endDate the end date
+	 *
+	 * @return the Map[]
+	 *
+	 * @throws XmlRpcException the xml rpc exception
+	 */
+	public Map[] campaignHourlyStatistics(Integer id, Date startDate,
+			Date endDate) throws XmlRpcException {
+		return objectToArrayMaps( execute(CAMPAIGN_HOURLY_STATISTICS_METHOD, id, startDate,
+				endDate));
+	}
+
+	/**
+	 * Campaign hourly statistics.
+	 *
+	 * @param id the id
+	 * @param startDate the start date
+	 * @param endDate the end date
+	 * @param useLocalTimeZone
+	 *
+	 * @return the Map[]
+	 *
+	 * @throws XmlRpcException the xml rpc exception
+	 */
+	public Map[] campaignHourlyStatistics(Integer id, Date startDate,
+			Date endDate, Boolean useLocalTimeZone) throws XmlRpcException {
+		return objectToArrayMaps( execute(CAMPAIGN_HOURLY_STATISTICS_METHOD, id, startDate,
 				endDate, useLocalTimeZone));
 	}
 

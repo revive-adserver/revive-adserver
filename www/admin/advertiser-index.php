@@ -98,8 +98,7 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
         $campaigns = $dalCampaigns->getAllCampaigns($listorder, $orderdirection);
         $banners = $dalBanners->getAllBanners($listorder, $orderdirection);
     }
-}
-elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+} elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     $agency_id = OA_Permission::getEntityId();
     $clients = $dalClients->getAllAdvertisersForAgency($agency_id, $listorder, $orderdirection);
     if ($hideinactive) {
@@ -127,31 +126,31 @@ $aCount = array(
 
 
 if ($hideinactive && !empty($clients) && !empty($campaigns) && !empty($banners)) {
-
-    // Build Tree
+    // Inactive Advertisers should be hidden
     foreach ($banners as $bkey => $banner) {
-        if (_isBannerAssignedToCampaign($banner) &&
-            (OA_ENTITY_STATUS_RUNNING == $banner['status'])) {
-
+        if (
+                _isBannerAssignedToCampaign($banner) &&
+                (OA_ENTITY_STATUS_RUNNING == $banner['status'] || OA_ENTITY_STATUS_AWAITING == $banner['status'])
+        ) {
+            // This Banner is in the Running or Awaiting state - update the list of
+            // Campaigns to record that this Campaign has an active Banner
             $campaigns[$banner['campaignid']]['has_active_banners'] = true;
         }
     }
-
     foreach ($campaigns as $ckey => $campaign) {
-        if ((OA_ENTITY_STATUS_RUNNING == $campaign['status']) &&
-            array_key_exists('has_active_banners', $campaign)) {
-
-            $clients[$campaign['clientid']]['has_active_campaigns'] =
-                true;
+        if (
+                array_key_exists('has_active_banners', $campaign) &&
+                (OA_ENTITY_STATUS_RUNNING == $campaign['status'] || OA_ENTITY_STATUS_AWAITING == $campaign['status'])
+        ) {
+            // This Campaign has at least one active Banner AND is in the Running or Awaiting state -
+            // update the list of Advertisers to record that this Advertiser has an active Campaign
+            $clients[$campaign['clientid']]['has_active_campaigns'] = true;
         }
     }
-
+    // Update the list of Advertisers to hide those not marked as active by the above
     foreach (array_keys($clients) as $clientid) {
         $client = &$clients[$clientid];
-
-        if (!array_key_exists('has_active_campaigns', $client)
-            // we do not hide the Market advertiser
-            && $client['type'] != DataObjects_Clients::ADVERTISER_TYPE_MARKET) {
+        if (!array_key_exists('has_active_campaigns', $client)) {
             unset($clients[$clientid]);
             $aCount['advertisers_hidden']++;
         }

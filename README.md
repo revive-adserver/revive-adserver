@@ -17,11 +17,19 @@
 
 **DO NOT DOWNLOAD AS A ZIP FILE FROM GITHUB**
 
-Download the latest version from: http://www.revive-adserver.com/download/
+Download the latest version from: https://www.revive-adserver.com/download/
 
 Revive Adserver as available from github as a zip file is not suitable for installation on a server. It contains a number of files that are for development only, and are removed during the release packaging process.
 
-Please ONLY download Revive Adserver as a release package from the Revive Adserver website at http://www.revive-adserver.com/.
+Please ONLY download Revive Adserver as a release package from the Revive Adserver website at https://www.revive-adserver.com/.
+
+
+
+# Hosted edition
+
+If you'd like to use the Revive Adserver software without having to download, install, configure, and maintain it yourself, there is also a Hosted edition.
+
+You can find out more about the Hosted edition, and subscribe at https://www.revive-adserver.net/.
 
 
 

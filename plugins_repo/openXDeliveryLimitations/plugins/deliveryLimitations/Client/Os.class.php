@@ -34,7 +34,7 @@ class Plugins_DeliveryLimitations_Client_Os extends Plugins_DeliveryLimitations_
     function __construct()
     {
         parent::__construct();
-        $this->nameEnglish = 'Client - Operating system (Legacy)';
+        $this->nameEnglish = 'Client - Operating system (Deprecated)';
     }
 
     function init($data)

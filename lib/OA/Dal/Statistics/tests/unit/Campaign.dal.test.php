@@ -118,6 +118,88 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
     }
 
     /**
+     * Test campaign hourly statistics.
+     *
+     */
+    function testGetCampaignHourlyStatistics()
+    {
+        $doAgency     = OA_Dal::factoryDO('agency');
+        $doAdvertiser = OA_Dal::factoryDO('clients');
+        $doCampaign   = OA_Dal::factoryDO('campaigns');
+        $doBanner     = OA_Dal::factoryDO('banners');
+        $this->generateBannerWithParents($doAgency, $doAdvertiser, $doCampaign, $doBanner);
+
+        $doDataSummaryAdHourly                = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doDataSummaryAdHourly->impressions   = 1;
+        $doDataSummaryAdHourly->requests      = 2;
+        $doDataSummaryAdHourly->total_revenue = 3;
+        $doDataSummaryAdHourly->clicks        = 4;
+        $doDataSummaryAdHourly->date_time     = '2007-08-08 00:00';
+        $this->generateDataSummaryAdHourlyForBanner($doDataSummaryAdHourly, $doBanner);
+
+        $doDataSummaryAdHourly                = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doDataSummaryAdHourly->impressions   = 11;
+        $doDataSummaryAdHourly->requests      = 12;
+        $doDataSummaryAdHourly->total_revenue = 13;
+        $doDataSummaryAdHourly->clicks        = 14;
+        $doDataSummaryAdHourly->date_time     = '2007-08-08 00:00';
+        $this->generateDataSummaryAdHourlyForBanner($doDataSummaryAdHourly, $doBanner);
+
+        $doDataSummaryAdHourly                = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doDataSummaryAdHourly->impressions   = 11;
+        $doDataSummaryAdHourly->requests      = 12;
+        $doDataSummaryAdHourly->total_revenue = 13;
+        $doDataSummaryAdHourly->clicks        = 14;
+        $doDataSummaryAdHourly->date_time     = '2007-08-08 01:00';
+        $this->generateDataSummaryAdHourlyForBanner($doDataSummaryAdHourly, $doBanner);
+
+        $doDataSummaryAdHourly                = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doDataSummaryAdHourly->impressions   = 1;
+        $doDataSummaryAdHourly->requests      = 0;
+        $doDataSummaryAdHourly->total_revenue = 0;
+        $doDataSummaryAdHourly->clicks        = 0;
+        $doDataSummaryAdHourly->date_time     = '2007-08-12 00:00';
+        $dayForRecord3                        = '2007-08-12';
+        $this->generateDataSummaryAdHourlyForBanner($doDataSummaryAdHourly, $doBanner);
+
+        // 1. Get data existing range
+        $aData = $this->_dalCampaignStatistics->getCampaignHourlyStatistics(
+            $doCampaign->campaignid, new Date('2007-08-01'),  new Date('2007-08-20'));
+
+        var_export($aData);
+
+        $this->assertEqual(count($aData), 3, '3 records should be returned');
+        $aRow1 = current($aData);
+        $aRow2 = next($aData);
+        $aRow3 = next($aData);
+
+        $this->ensureRowSequence($aRow3, $aRow2, 'day', $dayForRecord3);
+
+        // 2. Check return fields names
+        $this->assertFieldExists($aRow1, 'day');
+        $this->assertFieldExists($aRow1, 'hour');
+        $this->assertFieldExists($aRow1, 'requests');
+        $this->assertFieldExists($aRow1, 'impressions');
+        $this->assertFieldExists($aRow1, 'clicks');
+        $this->assertFieldExists($aRow1, 'revenue');
+
+        // 3. Check return fields value
+        $this->assertFieldEqual($aRow1, 'requests', 14);
+        $this->assertFieldEqual($aRow2, 'impressions', 11);
+        $this->assertFieldEqual($aRow2, 'requests', 12);
+        $this->assertFieldEqual($aRow2, 'revenue', 13);
+        $this->assertFieldEqual($aRow2, 'clicks', 14);
+        $this->assertFieldEqual($aRow3, 'requests', 0);
+        $this->assertFieldEqual($aRow3, 'day', $dayForRecord3);
+
+        // 4. Get data in not existing range
+        $aData = $this->_dalCampaignStatistics->getCampaignHourlyStatistics(
+            $doCampaign->campaignid, new Date('2007-01-01'),  new Date('2007-01-20'));
+
+        $this->assertEqual(count($aData), 0, 'Recordset should be empty');
+    }
+
+    /**
      * Test campaign banner statistics.
      *
      */

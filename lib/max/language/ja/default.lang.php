@@ -243,7 +243,6 @@ $GLOBALS['strSendDeactivationWarning'] = "キャンペーンがアクティブ�
 $GLOBALS['strAllowClientModifyBanner'] = "このユーザによるバナー修正を許可する";
 $GLOBALS['strAllowClientDisableBanner'] = "このユーザによるバナーの非アクティブ化を許可する";
 $GLOBALS['strAllowClientActivateBanner'] = "このユーザによるバナーのアクティブ化を許可する";
-$GLOBALS['strAllowCreateAccounts'] = "このユーザによる新規契約の追加を許可する";
 $GLOBALS['strAdvertiserLimitation'] = "この広告主のバナーだけをウェブページに表示する";
 $GLOBALS['strAllowAuditTrailAccess'] = "このユーザに監査証跡の閲覧権限を与える";
 

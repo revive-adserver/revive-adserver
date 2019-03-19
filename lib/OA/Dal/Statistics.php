@@ -99,7 +99,7 @@ class OA_Dal_Statistics extends OA_Dal
     /**
      * A method that runs the supplied query and returns data grouped by day either in UTC or manager's TZ
      *
-     * The query needs to return "day" and "hour" fields. Any other field will be aggregated with a SUM()
+     * The query needs to return "day" and "hour" fields. Any other field will be aggregated.
      *
      * @param string $query
      * @param bool $localTZ
@@ -124,8 +124,10 @@ class OA_Dal_Statistics extends OA_Dal
                 $oDate->convertTZ($oTz);
                 $aRow['day'] = $oDate->format('%Y-%m-%d');
             }
-            // Remove day & hour
+
+            // Remove hour
             unset($aRow['hour']);
+
             // Add entry
             if (!isset($aResult[$aRow['day']])) {
                 $aResult[$aRow['day']] = $aRow;
@@ -138,6 +140,43 @@ class OA_Dal_Statistics extends OA_Dal
                     $aResult[$aRow['day']][$k] += $v;
                 }
             }
+        }
+
+        return array_values($aResult);
+    }
+
+    /**
+     * A method that runs the supplied query and returns data grouped by day and hour either in UTC or manager's TZ
+     *
+     * The query needs to return "day" and "hour" fields. Any other field will be aggregated.
+     *
+     * @param string $query
+     * @param bool $localTZ
+     * @return array
+     */
+    function getHourlyStatsAsArray($query, $localTZ = false)
+    {
+        $oTz  = $this->getTimeZone($localTZ);
+        if ($oTz->getShortName() == 'UTC') {
+            // Disable TZ conversion
+            $oTz = false;
+        } else {
+            $oUTC = new Date_TimeZone('UTC');
+        }
+        $aResult = array();
+        $oResult = $this->oDbh->query($query);
+
+        while ($aRow = $oResult->fetchRow()) {
+            if ($oTz) {
+                $oDate = new Date($aRow['day']);
+                $oDate->setHour($aRow['hour']);
+                $oDate->setTZ($oUTC);
+                $oDate->convertTZ($oTz);
+                $aRow['day'] = $oDate->format('%Y-%m-%d');
+            }
+
+            // Add entry
+            $aResult [ sizeof($aResult) ] = $aRow;
         }
 
         return array_values($aResult);

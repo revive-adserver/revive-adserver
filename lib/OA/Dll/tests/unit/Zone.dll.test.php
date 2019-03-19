@@ -303,6 +303,14 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
     }
 
     /**
+     * A method to test getZoneHourlyStatistics.
+     */
+    function testHourlyStatistics()
+    {
+        $this->_testStatistics('getZoneHourlyStatistics');
+    }
+
+    /**
      * A method to test getZoneAdvertiserStatistics.
      */
     function testAdvertiserStatistics()

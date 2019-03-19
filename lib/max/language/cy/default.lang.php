@@ -194,7 +194,6 @@ $GLOBALS['strSendDeactivationWarning'] = "Ebostio pan mae ymgyrch wedi ysgogi/da
 $GLOBALS['strAllowClientModifyBanner'] = "Caniatáu y defnyddiwr i newid ei faneri";
 $GLOBALS['strAllowClientDisableBanner'] = "Caniatáu y defnyddiwr i ddad-ysgogi ei faneri";
 $GLOBALS['strAllowClientActivateBanner'] = "Caniatáu y defnyddiwr i ysgogi ei faneri";
-$GLOBALS['strAllowCreateAccounts'] = "Caniatáu i'r defnyddiwr greu cyfrifon newydd";
 $GLOBALS['strAllowAuditTrailAccess'] = "Caniatáu i'r defnyddiwr gyrchu y trywydd archwilio";
 
 // Campaign

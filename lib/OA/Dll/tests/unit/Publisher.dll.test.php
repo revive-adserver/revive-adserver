@@ -274,6 +274,14 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
     }
 
     /**
+     * A method to test getPublisherHourlyStatistics.
+     */
+    function testHourlyStatistics()
+    {
+        $this->_testStatistics('getPublisherHourlyStatistics');
+    }
+
+    /**
      * A method to test getPublisherZoneStatistics.
      */
     function testZoneStatistics()

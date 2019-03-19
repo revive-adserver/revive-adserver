@@ -174,6 +174,34 @@ class PublisherServiceImpl extends BaseServiceImpl
     }
 
     /**
+     * The getPublisherHourlyStatistics method returns hourly statistics for a
+     * publisher for a specified period.
+     *
+     * @access public
+     *
+     * @param string $sessionId
+     * @param integer $publisherId
+     * @param date $oStartDate
+     * @param date $oEndDate
+     * @param bool $localTZ
+     * @param array &$aData  return data
+     *
+     * @return boolean
+     */
+    function getPublisherHourlyStatistics($sessionId, $publisherId, $oStartDate, $oEndDate, $localTZ, &$aData)
+    {
+        if ($this->verifySession($sessionId)) {
+
+            return $this->_validateResult(
+                $this->_dllPublisher->getPublisherHourlyStatistics(
+                    $publisherId, $oStartDate, $oEndDate, $localTZ, $aData));
+        } else {
+
+            return false;
+        }
+    }
+
+    /**
      * The getPublisherZoneStatistics method returns zone statistics for a
      * publisher for a specified period.
      *

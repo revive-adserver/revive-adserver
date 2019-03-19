@@ -187,6 +187,7 @@ $GLOBALS['strRequests'] = "Begäran";
 $GLOBALS['strImpressions'] = "Visningar";
 $GLOBALS['strClicks'] = "Klick";
 $GLOBALS['strConversions'] = "Konverteringar";
+$GLOBALS['strCTRShort'] = "CTR";
 $GLOBALS['strCTR'] = "CTR";
 $GLOBALS['strTotalClicks'] = "Totala klick";
 $GLOBALS['strTotalConversions'] = "Totala konverteringar";
@@ -205,7 +206,10 @@ $GLOBALS['strWindowDelay'] = "Fönsterdröjsmål";
 $GLOBALS['strStatsVariables'] = "Variabler";
 
 // Finance
+$GLOBALS['strFinanceCPM'] = "CPM";
+$GLOBALS['strFinanceCPC'] = "CPC";
 $GLOBALS['strFinanceMT'] = "Månadsavgift";
+$GLOBALS['strFinanceCTR'] = "CTR";
 
 // Time and date related
 $GLOBALS['strDate'] = "Datum";
@@ -268,7 +272,6 @@ $GLOBALS['strSendDeactivationWarning'] = "Eposta när en kampanj automatiskt akt
 $GLOBALS['strAllowClientModifyBanner'] = "Tillåt användaren att redigera egna annonser";
 $GLOBALS['strAllowClientDisableBanner'] = "Tillåt användaren att avaktivera egna annonser";
 $GLOBALS['strAllowClientActivateBanner'] = "Tillåt användaren att aktivera egna annonser";
-$GLOBALS['strAllowCreateAccounts'] = "Tillåt användaren att skapa nya konton";
 $GLOBALS['strAllowAuditTrailAccess'] = "Låt den här användaren få åtkomst till revisionsspårning";
 
 // Campaign
@@ -300,7 +303,13 @@ $GLOBALS['strSelectUnselectAll'] = "Markera / avmarkera alla";
 $GLOBALS['strCampaignsOfAdvertiser'] = "av"; //this is added between page name and advertiser name eg. 'Campaigns of Advertiser 1'
 
 // Campaign-zone linking page
+$GLOBALS['strCalculatedForAllCampaigns'] = "Beräknad för alla kampanjer";
+$GLOBALS['strCalculatedForThisCampaign'] = "Beräknad för denna kampanj";
+$GLOBALS['strLinkingZonesProblem'] = "Ett problemet uppstod när zonen skulle länkas";
+$GLOBALS['strUnlinkingZonesProblem'] = "Ett problem uppstod när zonen skulle avlänkas";
 $GLOBALS['strZonesSearch'] = "Sök";
+$GLOBALS['strNoWebsitesAndZones'] = "Inga webbsidor eller zoner";
+$GLOBALS['strLinked'] = "Länkad";
 $GLOBALS['strAvailable'] = "Tillgängligt";
 $GLOBALS['strShowing'] = "Visar";
 $GLOBALS['strEditZone'] = "Redigera zon";
@@ -326,6 +335,13 @@ $GLOBALS['strConversionsBooked'] = "Bokade konverteringar";
 $GLOBALS['strCampaignWeight'] = "Kampanj vikt";
 $GLOBALS['strAnonymous'] = "Dölj kampanjens annonsörer och sajter.";
 $GLOBALS['strTargetPerDay'] = "per dag.";
+$GLOBALS['strCampaignWarningRemnantNoWeight'] = "Kampanjens prioriteringar är satta till låg,
+men vikten är satt till noll eller har inte
+specificerats. Kampanjen kommer att
+avaktiveras och dess banners kommer ej att levereras
+tills vikten sätts till giltigt nummer.
+
+Vill du fortsätta?";
 $GLOBALS['strCampaignStatusPending'] = "Pågående";
 $GLOBALS['strCampaignStatusInactive'] = "aktiv";
 $GLOBALS['strCampaignStatusRunning'] = "Körs";
@@ -345,6 +361,8 @@ $GLOBALS['strOverride'] = "Åsidosätt";
 $GLOBALS['strStandardContract'] = "Kontakt";
 $GLOBALS['strPricing'] = "Prissättning";
 $GLOBALS['strPricingModel'] = "Prismodell";
+$GLOBALS['strSelectPricingModel'] = "--Välj modell--";
+$GLOBALS['strMinimumImpressions'] = "Lägsta antal dagliga visningar";
 $GLOBALS['strLimit'] = "Gräns";
 $GLOBALS['strCookies'] = "Kakor";
 
@@ -727,6 +745,7 @@ $GLOBALS['strECPC_short'] = "CPC";
 $GLOBALS['strECPS_short'] = "CPM";
 $GLOBALS['strID_short'] = "ID";
 $GLOBALS['strClicks_short'] = "Klick";
+$GLOBALS['strCTR_short'] = "CTR";
 
 // Global Settings
 $GLOBALS['strGlobalSettings'] = "Allmänna inställningar";

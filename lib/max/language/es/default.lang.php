@@ -286,7 +286,6 @@ $GLOBALS['strSendDeactivationWarning'] = "Enviar un Alerta cuando una campaña s
 $GLOBALS['strAllowClientModifyBanner'] = "Permitir a este usuario modificar sus propios banners";
 $GLOBALS['strAllowClientDisableBanner'] = "Permitir a este usuario desactivar sus propios banners";
 $GLOBALS['strAllowClientActivateBanner'] = "Permitir a este usuario activar sus propios banners";
-$GLOBALS['strAllowCreateAccounts'] = "Permitir a este usuario crear cuentas nuevas";
 $GLOBALS['strAdvertiserLimitation'] = "Mostrar sólo un banner de este anunciante en una misma página web";
 $GLOBALS['strAllowAuditTrailAccess'] = "Permitir a este usuario acceder al audit trail";
 
@@ -1077,7 +1076,6 @@ $GLOBALS['strZoneRemovedCampaign'] = "La campaña ha sido desvinculada de la zon
 
 $GLOBALS['strChannelHasBeenAdded'] = "El conjunto de reglas de entrega <a href='%s'>%s</a> ha sido agregado. <a href='%s'>Establecer las reglas de entrega.</a>";
 $GLOBALS['strChannelHasBeenUpdated'] = "El conjunto de reglas de entrega <a href='%s'>%s</a> ha sido actualizado";
-$GLOBALS['strChannelAclHasBeenUpdated'] = "Se han actualizado las opciones de entrega para el conjunto de reglas de entrega <a href='%s'>%s</a>";
 $GLOBALS['strChannelHasBeenDeleted'] = "Se ha suprimido el conjunto de reglas de entrega <b>%s</b>";
 $GLOBALS['strChannelsHaveBeenDeleted'] = "Se han eliminado todos los conjuntos de reglas de entrega seleccionados";
 $GLOBALS['strChannelHasBeenDuplicated'] = "El conjunto de reglas de entrega <a href='%s'>%s</a> ha sido copiado a <a href='%s'>%s</a>";

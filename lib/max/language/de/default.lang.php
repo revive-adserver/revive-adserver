@@ -283,7 +283,6 @@ $GLOBALS['strSendDeactivationWarning'] = "Versenden eine Benachrichtigungsmail, 
 $GLOBALS['strAllowClientModifyBanner'] = "Werbetreibender darf eigene Banner verändern";
 $GLOBALS['strAllowClientDisableBanner'] = "Werbetreibender darf eigene Banner deaktivieren";
 $GLOBALS['strAllowClientActivateBanner'] = "Werbetreibender darf eigene Banner aktiveren";
-$GLOBALS['strAllowCreateAccounts'] = "Erlaube diesem Benutzer neue Benutzerkonten anzulegen";
 $GLOBALS['strAdvertiserLimitation'] = "Zeige nur Banner von diesem Werbetreibenden auf der Seite";
 $GLOBALS['strAllowAuditTrailAccess'] = "Diesem Benutzer die Ansicht des Prüfprotokolls erlauben";
 

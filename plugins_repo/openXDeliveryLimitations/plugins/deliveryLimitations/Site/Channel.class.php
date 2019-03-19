@@ -37,7 +37,7 @@ class Plugins_DeliveryLimitations_Site_Channel extends Plugins_DeliveryLimitatio
     function __construct()
     {
         parent::__construct();
-        $this->nameEnglish = 'Site - Channel';
+        $this->nameEnglish = 'Site - Delivery Rule Set';
     }
 
     function init($data)

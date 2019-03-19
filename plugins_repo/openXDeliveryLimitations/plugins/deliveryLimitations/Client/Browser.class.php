@@ -42,7 +42,7 @@ class Plugins_DeliveryLimitations_Client_Browser extends Plugins_DeliveryLimitat
     function __construct()
     {
         parent::__construct();
-        $this->nameEnglish = 'Client - Browser (Legacy)';
+        $this->nameEnglish = 'Client - Browser (Deprecated)';
     }
 
     /**

@@ -399,7 +399,45 @@ class OA_Dll_Zone extends OA_Dll
     }
 
     /**
-     * This method returns daily statistics for a zone for a specified period.
+     * This method returns hourly statistics for a zone for a specified period.
+     *
+     * @access public
+     *
+     * @param integer $zoneId The ID of the zone to view statistics
+     * @param date $oStartDate The date from which to get statistics (inclusive)
+     * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param bool $localTZ Should stats be using the manager TZ or UTC?
+     * @param array $rsStatisticsData The data returned by the function
+     *   <ul>
+     *   <li><b>day date</b> The day
+     *   <li><b>requests integer</b> The number of requests for the day
+     *   <li><b>impressions integer</b> The number of impressions for the day
+     *   <li><b>clicks integer</b> The number of clicks for the day
+     *   <li><b>revenue decimal</b> The revenue earned for the day
+     *   </ul>
+     *
+     * @return boolean True if the operation was successful and false if not.
+     *
+     */
+    function getZoneHourlyStatistics($zoneId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
+    {
+        if (!$this->checkStatisticsPermissions($zoneId)) {
+            return false;
+        }
+
+        if ($this->_validateForStatistics($zoneId, $oStartDate, $oEndDate)) {
+            $dalZone = new OA_Dal_Statistics_Zone;
+            $rsStatisticsData = $dalZone->getZoneHourlyStatistics($zoneId,
+                $oStartDate, $oEndDate, $localTZ);
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * This method returns advertiser statistics for a zone for a specified period.
      *
      * @access public
      *
