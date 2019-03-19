@@ -64,6 +64,9 @@ What's New in Revive Adserver 4.2.0
   * The background row highlighting on the Zone Probability screen has
     been fixed.
 
+  * Restored english US translation, in order to have the "month/day" date
+    format as an option.
+
 
  Non-Backwards Compatible Changes
  --------------------------------
