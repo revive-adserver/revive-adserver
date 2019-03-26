@@ -1,0 +1,27 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: revive-adserver\n"
+"Last-Translator: mbeccati <matteo@beccati.com>\n"
+"Language-Team: Chinese Simplified\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: crowdin.com\n"
+"X-Crowdin-Project: revive-adserver\n"
+"X-Crowdin-Language: zh-CN\n"
+"X-Crowdin-File: /plugins_repo/openXBannerTypes/plugins/etc/oxHtml/_lang/po/en.po\n"
+
+#: plugins_repo/openXBannerTypes/plugins/bannerTypeHtml/oxHtml/html5.class.php:40
+msgid "HTML5 Banner (ZIP package)"
+msgstr ""
+
+#: plugins_repo/openXBannerTypes/plugins/bannerTypeHtml/oxHtml/html5.class.php:56
+msgid "Upload an HTML5 banner"
+msgstr ""
+
+#: plugins_repo/openXBannerTypes/plugins/bannerTypeHtml/oxHtml/genericHtml.class.php:35
+msgid "Generic HTML Banner"
+msgstr "通用 HTML Banner"
+
