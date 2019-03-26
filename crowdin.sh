@@ -7,7 +7,7 @@ fi
 
 sed -i $'s/{\$\([^}]*\)}/{{\\1}}/g' lib/max/language/*/*.lang.php
 
-crowdin-cli $*
+crowdin $*
 
 sed -i $'s/{{\([^}]*\)}}/{$\\1}/g' lib/max/language/*/*.lang.php
 
