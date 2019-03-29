@@ -77,7 +77,11 @@ What's New in Revive Adserver 4.2.0
  Non-Backwards Compatible Changes
  --------------------------------
 
- * None
+ * Revive Adserver now requires at least PHP 7.0.8.
+
+ * Revive Adserver now required the zip extension, whose presence was
+   already needed by the HTML5 banner support, but previously not
+   enforced.
 
 
 System Requirements
