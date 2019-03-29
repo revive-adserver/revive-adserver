@@ -168,8 +168,8 @@ compactPolicy                       = CUR ADM OUR NOR STA NID
 policyLocation                      =
 
 [privacy]
-disableViewerId                     = false
-anonymiseIp                         = false
+disableViewerId                     = true
+anonymiseIp                         = true
 
 ;------------------------------------------------------------------------------------------;
 ; User Interface Settings                                                                  ;
