@@ -415,10 +415,8 @@ class Test_OA_Environment_Manager extends UnitTestCase
         // Create a new OA_Environment_Manager instance
         $oEnvironmentManager = new OA_Environment_Manager();
         // Set a valid enfironment
-        $oEnvironmentManager->aInfo['PHP']['actual']['version']              = '5.6.0';
+        $oEnvironmentManager->aInfo['PHP']['actual']['version']              = '7.0.8';
         $oEnvironmentManager->aInfo['PHP']['actual']['memory_limit']         = '';
-        $oEnvironmentManager->aInfo['PHP']['actual']['safe_mode']            = '0';
-        $oEnvironmentManager->aInfo['PHP']['actual']['magic_quotes_runtime'] = '0';
         $oEnvironmentManager->aInfo['PHP']['actual']['file_uploads']         = '1';
         $oEnvironmentManager->aInfo['PHP']['actual']['pcre']                 = '1';
         $oEnvironmentManager->aInfo['PHP']['actual']['xml']                  = '1';
@@ -426,6 +424,8 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $oEnvironmentManager->aInfo['PHP']['actual']['mysql']                = '1';
         $oEnvironmentManager->aInfo['PHP']['actual']['pgsql']                = '1';
         $oEnvironmentManager->aInfo['PHP']['actual']['spl']                  = '1';
+        $oEnvironmentManager->aInfo['PHP']['actual']['json']                 = '1';
+        $oEnvironmentManager->aInfo['PHP']['actual']['zip']                 = '1';
         $oEnvironmentManager->aInfo['PHP']['actual']['timeout']              = '0';
         // Return the valid OA_Environment_Manager instance
         return $oEnvironmentManager;

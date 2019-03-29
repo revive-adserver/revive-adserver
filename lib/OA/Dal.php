@@ -451,7 +451,12 @@ class OA_Dal
                 ".$oDbh->quote($eol)."
         	$fieldList
         ";
+
+        self::enableLoadDataInfile($oDbh, true);
+
         $result = $oDbh->exec($query);
+
+        self::enableLoadDataInfile($oDbh, false);
 
         @unlink($filePath);
 
@@ -559,6 +564,19 @@ class OA_Dal
         return count($aValues);
     }
 
-}
+    /**
+     * Enable or disable LOAD DATA INFILE on MYSQL.
+     *
+     * @param MDB2_Driver_Common $oDbh
+     * @param bool $enabled
+     */
+    private static function enableLoadDataInfile(MDB2_Driver_Common $oDbh, bool $enabled)
+    {
+        if ('mysqli' !== $oDbh->dbsyntax) {
+            return;
+        }
 
-?>
+        mysqli_options($oDbh->getConnection(), MYSQLI_OPT_LOCAL_INFILE, $enabled);
+    }
+
+}
