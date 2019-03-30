@@ -49,8 +49,8 @@ What's New in Revive Adserver 4.2.0
 
  * Added support for hourly statistics to the XML-RPC API.
 
- * IP anonymisation and targeting OAID cookie disabled by default on
-   new installations.
+ * IP anonymisation enabled and targeting OAID cookie disabled by default
+   on new installations.
 
 
  Bug Fixes
