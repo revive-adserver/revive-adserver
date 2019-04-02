@@ -325,20 +325,22 @@ class OA_Admin_UI_UserAccess
 
     /**
      * Unlinks user from account and if necessary deletes user account.
-     * Sets apropriate message
+     * Sets appropriate message
      *
-     * @param integer $accountId  Account ID
-     * @param integer $userId  User ID
+     * @param integer $userId User ID
+     * @param integer $accountId Account ID
      */
-    function unlinkUserFromAccount($accountId, $userId)
+    function unlinkUserFromAccount($userId, $accountId)
     {
         if (OA_Permission::isUserLinkedToAccount($accountId, $userId)) {
+            /** @var DataObjects_Account_user_assoc $doAccount_user_assoc */
             $doAccount_user_assoc = OA_Dal::factoryDO('account_user_assoc');
             $doAccount_user_assoc->account_id = $accountId;
             $doAccount_user_assoc->user_id = $userId;
             $doAccount_user_assoc->delete();
             OA_Session::setMessage($GLOBALS['strUserUnlinkedFromAccount']);
 
+            /** @var DataObjects_Users $doUsers */
             $doUsers = OA_Dal::staticGetDO('users', $userId);
             // delete user account if he is not linked anymore to any account
             if ($doUsers->countLinkedAccounts() == 0) {
@@ -360,11 +362,21 @@ class OA_Admin_UI_UserAccess
      */
     function resetUserDefaultAccount($userId, $accountId)
     {
-        $linkedAccounts = OA_Permission::getLinkedAccounts(false, $userId);
+        /** @var DataObjects_Users $doUsers */
         $doUsers = OA_Dal::staticGetDO('users', $userId);
         if ($doUsers->default_account_id == $accountId) {
-            $doUsers->default_account_id = array_shift($linkedAccounts);
-            $doUsers->update();
+            /** @var DataObjects_Account_user_assoc $doAccount_user_assoc */
+            $doAccount_user_assoc = OA_Dal::factoryDO('account_user_assoc');
+            $doAccount_user_assoc->user_id = $userId;
+            $doAccount_user_assoc->orderBy('account_id');
+            $doAccount_user_assoc->limit(1);
+
+            if ($doAccount_user_assoc->find()) {
+                $doAccount_user_assoc->fetch();
+
+                $doUsers->default_account_id = $doAccount_user_assoc->account_id;
+                $doUsers->update();
+            }
         }
     }
 
@@ -405,5 +417,3 @@ class OA_Admin_UI_UserAccess
     }
 
 }
-
-?>

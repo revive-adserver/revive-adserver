@@ -37,7 +37,7 @@ OA_Permission::checkSessionToken();
 if (!empty($accountId) && !empty($userid))
 {
     if (OA_Admin_UI_UserAccess::countNumberOfUserLinkedToAccount($accountId) > 1) {
-        OA_Admin_UI_UserAccess::unlinkUserFromAccount($accountId, $userid);
+        OA_Admin_UI_UserAccess::unlinkUserFromAccount($userid, $accountId);
     } else {
         OA_Session::setMessage($GLOBALS['strCantDeleteOneAdminUser']);
     }
