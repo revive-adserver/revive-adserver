@@ -81,7 +81,7 @@ class Test_DeliveryAdSelect extends UnitTestCase {
         $loc		  =	0;
         $referer	  = 'http://some.referrer.com/';
 
-        $return       = MAX_adSelect($what, $campaignid, $target, $source, $withtext, $charset, $context, $richmedia, $ct0, $loc, $referer);
+        $return       = MAX_adSelect($what, $campaignid, $target, $source, $withText, $charset, $context, $richMedia, $ct0, $loc, $referer);
 
         $this->assertTrue(TRUE);
     }

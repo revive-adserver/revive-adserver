@@ -38,7 +38,7 @@ OA_Permission::checkSessionToken();
 
 if (!empty($accountId) && !empty($userid))
 {
-    OA_Admin_UI_UserAccess::unlinkUserFromAccount($accountId, $userid);
+    OA_Admin_UI_UserAccess::unlinkUserFromAccount($userid, $accountId);
 }
 
 if (empty($returnurl)) {

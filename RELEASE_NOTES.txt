@@ -49,6 +49,9 @@ What's New in Revive Adserver 4.2.0
 
  * Added support for hourly statistics to the XML-RPC API.
 
+ * IP anonymisation enabled and targeting OAID cookie disabled by default
+   on new installations.
+
 
  Bug Fixes
  ---------
@@ -67,6 +70,9 @@ What's New in Revive Adserver 4.2.0
   * Restored english US translation, in order to have the "month/day" date
     format as an option.
 
+  * Fixed issue with manually rebuilding banner cache when using the user
+    language preferences are not set to english.
+    
   * Fixed an issue saving the User Interface Preferences under some
     circumstances.
 
@@ -74,7 +80,11 @@ What's New in Revive Adserver 4.2.0
  Non-Backwards Compatible Changes
  --------------------------------
 
- * None
+ * Revive Adserver now requires at least PHP 7.0.8.
+
+ * Revive Adserver now required the zip extension, whose presence was
+   already needed by the HTML5 banner support, but previously not
+   enforced.
 
 
 System Requirements

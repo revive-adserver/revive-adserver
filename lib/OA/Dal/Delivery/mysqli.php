@@ -49,24 +49,24 @@ function OA_Dal_Delivery_connect($database = 'database') {
     $dbName = $dbConf['name'];
 
     if ($dbConf['protocol'] == 'unix' && !empty($dbConf['socket'])) {
-        $dbLink = mysqli_connect($dbPersistent.'localhost', $dbUser, $dbPassword, $dbName, $dbPort, $dbConf['socket']);
+        $dbLink = @mysqli_connect($dbPersistent.'localhost', $dbUser, $dbPassword, $dbName, $dbPort, $dbConf['socket']);
     } else {
-        $dbLink = mysqli_connect($dbPersistent.$dbHost, $dbUser, $dbPassword, $dbName, $dbPort);
+        $dbLink = @mysqli_connect($dbPersistent.$dbHost, $dbUser, $dbPassword, $dbName, $dbPort);
     }
 
     if ($dbLink) {
         if (!empty($dbConf['mysql4_compatibility'])) {
-            mysqli_query($dbLink, "SET SESSION sql_mode='MYSQL40'");
+            @mysqli_query($dbLink, "SET SESSION sql_mode='MYSQL40'");
         }
 
         if (!empty($conf['databaseCharset']['checkComplete']) && !empty($conf['databaseCharset']['clientCharset'])) {
-            mysqli_query($dbLink, "SET NAMES '{$conf['databaseCharset']['clientCharset']}'");
+            @mysqli_query($dbLink, "SET NAMES '{$conf['databaseCharset']['clientCharset']}'");
         }
 
         return $dbLink;
     }
 
-    OX_Delivery_logMessage('DB connection error: ' . mysqli_error($dbLink), 4);
+    OX_Delivery_logMessage('DB connection error: ' . mysqli_connect_error(), 4);
     return false;
 }
 

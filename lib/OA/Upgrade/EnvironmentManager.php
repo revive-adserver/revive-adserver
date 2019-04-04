@@ -79,9 +79,7 @@ class OA_Environment_Manager
         $this->aInfo['PERMS']['actual']   = array();
         $this->aInfo['FILES']['actual']   = array();
 
-        $this->aInfo['PHP']['expected']['version']              = '5.6.0';
-        $this->aInfo['PHP']['expected']['magic_quotes_runtime'] = '0';
-        $this->aInfo['PHP']['expected']['safe_mode']            = '0';
+        $this->aInfo['PHP']['expected']['version']              = '7.0.8';
         $this->aInfo['PHP']['expected']['file_uploads']         = '1';
         $this->aInfo['PHP']['expected']['register_argc_argv']   = '1';
         $this->aInfo['PHP']['expected']['pcre']                 = true;
@@ -90,6 +88,7 @@ class OA_Environment_Manager
         $this->aInfo['PHP']['expected']['mysql']                = true;
         $this->aInfo['PHP']['expected']['spl']                  = true;
         $this->aInfo['PHP']['expected']['json']                 = true;
+        $this->aInfo['PHP']['expected']['zip']                  = true;
         $this->aInfo['PHP']['expected']['mbstring']             = false;
         $this->aInfo['PHP']['expected']['timeout']              = false;
         $this->aInfo['COOKIES']['expected']['enabled']          = true;
@@ -154,6 +153,7 @@ class OA_Environment_Manager
         $aResult['pgsql']                = extension_loaded('pgsql');
         $aResult['spl']                  = extension_loaded('spl');
         $aResult['json']                 = extension_loaded('json');
+        $aResult['zip']                  = extension_loaded('zip');
 
         // Check mbstring.func_overload
         $aResult['mbstring.func_overload'] = false;
@@ -383,20 +383,6 @@ class OA_Environment_Manager
         // Ensure that the original memory_limit is not displayed in the systems screen
         unset($this->aInfo['PHP']['actual']['original_memory_limit']);
 
-        // Test the PHP configuration's safe_mode value
-        if ($this->aInfo['PHP']['actual']['safe_mode'])
-        {
-            $result = OA_ENV_ERROR_PHP_SAFEMODE;
-            $this->aInfo['PHP']['error']['safe_mode'] = 'The safe_mode option must be OFF';
-        }
-
-        // Test the PHP configuration's magic_quotes_runtime value
-        if ($this->aInfo['PHP']['actual']['magic_quotes_runtime'])
-        {
-            $result = OA_ENV_ERROR_PHP_MAGICQ;
-            $this->aInfo['PHP']['error']['magic_quotes_runtime'] = 'The magic_quotes_runtime option must be OFF';
-        }
-
         // Test the PHP configuration's file_uploads value
         if (!$this->aInfo['PHP']['actual']['file_uploads']) {
             $this->aInfo['PHP']['error']['file_uploads'] = 'The file_uploads option must be ON';
@@ -421,6 +407,9 @@ class OA_Environment_Manager
         }
         if (!$this->aInfo['PHP']['actual']['json']) {
             $this->aInfo['PHP']['error']['json'] = 'The json extension must be loaded';
+        }
+        if (!$this->aInfo['PHP']['actual']['zip']) {
+            $this->aInfo['PHP']['error']['zip'] = 'The zip extension must be loaded';
         }
         if ($this->aInfo['PHP']['actual']['mbstring.func_overload']) {
             $this->aInfo['PHP']['error']['mbstring.func_overload'] = 'mbstring function overloading must be disabled';

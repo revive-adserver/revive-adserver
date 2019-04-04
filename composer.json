@@ -11,7 +11,10 @@
     ],
     "minimum-stability": "stable",
     "config": {
-        "vendor-dir": "lib/vendor"
+        "vendor-dir": "lib/vendor",
+        "platform": {
+            "php": "7.0.8"
+        }
     },
     "autoload": {
         "psr-4": {
@@ -19,8 +22,8 @@
         }
     },
     "require": {
-        "symfony/config": "^3.3",
-        "symfony/dependency-injection": "^3.3",
+        "symfony/config": "^3.4",
+        "symfony/dependency-injection": "^3.4",
         "league/flysystem": "^1.0",
         "league/flysystem-ziparchive": "^1.0",
 
@@ -31,7 +34,7 @@
         "tinymce/tinymce": "^4.6"
     },
     "require-dev": {
-        "symfony/finder": "^3.3"
+        "symfony/finder": "^3.4"
     },
     "extra": {
         "post-install-asseteer": [

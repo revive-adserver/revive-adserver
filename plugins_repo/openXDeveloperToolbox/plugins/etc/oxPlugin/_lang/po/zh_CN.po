@@ -1,0 +1,89 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: revive-adserver\n"
+"POT-Creation-Date: 2008-07-29 18:41+0100\n"
+"Last-Translator: mbeccati <matteo@beccati.com>\n"
+"Language-Team: Chinese Simplified\n"
+"Language: zh\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: crowdin.com\n"
+"X-Crowdin-Project: revive-adserver\n"
+"X-Crowdin-Language: zh-CN\n"
+"X-Crowdin-File: /plugins_repo/openXDeveloperToolbox/plugins/etc/oxPlugin/_lang/po/en.po\n"
+
+#: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:53
+msgid "myPlugin"
+msgstr "我的插件"
+
+#: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:58
+msgid "My New Plugin"
+msgstr "我的新插件"
+
+#: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:81
+msgid "New Plugin"
+msgstr "新插件"
+
+#: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:83
+msgid "Plugin Name"
+msgstr "插件名称"
+
+#: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:84
+msgid "Author Email"
+msgstr "作者邮箱"
+
+#: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:85
+msgid "Author Name"
+msgstr "作者姓名"
+
+#: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:86
+msgid "Author URL"
+msgstr "作者 URL"
+
+#: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:87
+msgid "Licence Info"
+msgstr "授权信息"
+
+#: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:88
+msgid "Description"
+msgstr "详细描述"
+
+#: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:89
+msgid "Major"
+msgstr ""
+
+#: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:90
+msgid "Minor"
+msgstr ""
+
+#: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:91
+msgid "Build"
+msgstr ""
+
+#: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:95
+msgid "Status"
+msgstr "状态"
+
+#: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:97
+msgid "Version"
+msgstr "版本"
+
+#: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:104
+msgid "Group Name"
+msgstr "群组名称"
+
+#: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:105
+msgid "Has Schema"
+msgstr ""
+
+#: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:106
+#, php-format
+msgid "Extends %s"
+msgstr ""
+
+#: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:109
+msgid "Submit"
+msgstr "提交"
+

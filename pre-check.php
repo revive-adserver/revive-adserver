@@ -295,17 +295,13 @@ function RV_checkSystemInitialRequirements(&$aErrors){
         }
     }
 
-    // Check PHP version, as use of the minimum required version of PHP >= 5.6.0
+    // Check PHP version, as use of anything below the minimum required version of PHP
     // may result in parse errors, which we want to avoid
-    $errorMessage = "PHP version 5.6.0, or greater, was not detected.";
-    if (function_exists('version_compare')) {
-        $result = version_compare(phpversion(), '5.6.0', '<');
-        if ($result) {
-            $aErrors[] = $errorMessage;
-            $isSystemOK = false;
-            if ($return === true) {
-                $return = -3;
-            }
+    if (PHP_VERSION_ID < 70008) {
+        $aErrors[] = "PHP version 7.0.8, or greater, was not detected.";
+        $isSystemOK = false;
+        if ($return === true) {
+            $return = -3;
         }
     }
 
@@ -317,10 +313,9 @@ function RV_checkSystemInitialRequirements(&$aErrors){
         $memoryCanBeSet = OX_checkMemoryCanBeSet();
         if (!$memoryCanBeSet) {
             $minimumRequiredMemoryInMB = $minimumRequiredMemory / 1048576;
-            $errorMessage = 'The PHP "memory_limit" value is set to less than the required minimum of ' .
-                            $minimumRequiredMemoryInMB . 'MB, but because the built in PHP function "ini_set" ' .
-                            'has been disabled, the memory limit cannot be automatically increased.';
-            $aErrors[] = $errorMessage;
+            $aErrors[] = 'The PHP "memory_limit" value is set to less than the required minimum of ' .
+                         $minimumRequiredMemoryInMB . 'MB, but because the built in PHP function "ini_set" ' .
+                         'has been disabled, the memory limit cannot be automatically increased.';
             $isSystemOK = false;
             if ($return === true) {
                 $return = -4;

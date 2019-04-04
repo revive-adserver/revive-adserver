@@ -26,7 +26,7 @@ class OA_Session
      * @param string $message
      * @static
      */
-    function setMessage($message)
+    public static function setMessage($message)
     {
         $aArgs = func_get_args();
         if (count($aArgs) > 1) {
@@ -44,7 +44,7 @@ class OA_Session
      * @return string
      * @static
      */
-    function getMessage()
+    public static function getMessage()
     {
         global $session;
         $message = isset($session['message']) ? $session['message'] : null;
@@ -54,5 +54,3 @@ class OA_Session
     }
 
 }
-
-?>
