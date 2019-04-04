@@ -72,6 +72,9 @@ What's New in Revive Adserver 4.2.0
 
   * Fixed issue with manually rebuilding banner cache when using the user
     language preferences are not set to english.
+    
+  * Fixed an issue saving the User Interface Preferences under some
+    circumstances.
 
 
  Non-Backwards Compatible Changes

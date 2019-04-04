@@ -1749,7 +1749,8 @@ class OA_Upgrade
                 throw new Exception("error creating access to default agency account, account id: $agencyAccountId, user ID: $userId");
             }
 
-            $this->putDefaultPreferences($adminAccountId);
+            OA_Preferences::putDefaultPreferences($adminAccountId);
+
             if (!$this->putTimezoneAccountPreference($aPrefs))
             {
                 // rollback if fails
@@ -1897,45 +1898,6 @@ class OA_Upgrade
         }
         return true;
     }
-
-    /**
-     * A method to inser initialise the preferences table and insert the default prefs
-     *
-     * @param int $adminAccountId
-     * @return bool
-     * @throws Exception on errors
-     */
-    function putDefaultPreferences($adminAccountId)
-    {
-        // Preferences handling
-        $oPreferences = new OA_Preferences();
-        $aPrefs = $oPreferences->getPreferenceDefaults();
-
-        // Insert default prefs
-        foreach ($aPrefs as $prefName => &$aPref) {
-            $doPreferences = OA_Dal::factoryDO('preferences');
-            $doPreferences->preference_name = $prefName;
-            $doPreferences->account_type = empty($aPref['account_type']) ? '' : $aPref['account_type'];
-            $preferenceId = $doPreferences->insert();
-
-            if (!$preferenceId) {
-                throw new Exception("error adding preference entry: $prefName");
-            }
-
-            $doAPA = OA_Dal::factoryDO('account_preference_assoc');
-            $doAPA->account_id    = $adminAccountId;
-            $doAPA->preference_id = $preferenceId;
-            $doAPA->value         = $aPref['default'];
-            $result = $doAPA->insert();
-
-            if (!$result) {
-                throw new Exception("error adding preference default for $prefName: '".$aPref['default']."'");
-            }
-        }
-
-        return true;
-    }
-
 
     /**
      * this can be used to run custom scripts
