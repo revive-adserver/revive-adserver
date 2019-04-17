@@ -479,7 +479,7 @@ class OA_Admin_Option
                             $value = implode($aItem['merge'], $aValues);
             			}
 
-            			if ($aItem[type] != 'break') {
+            			if ($aItem['type'] != 'break') {
             			    $showBreak = true;
             			}
             		}
