@@ -133,11 +133,13 @@ class Test_OA_DB extends UnitTestCase
 
     function testSingleton()
     {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+
         $oDbh = OA_DB::singleton();
         $this->assertNotNull($oDbh);
         $this->assertFalse(PEAR::isError($oDbh));
 
-        $dsn = "mysql://scott:tiger@non-existent-host:666/non-existent-database";
+        $dsn = "{$aConf['database']['type']}://scott:tiger@non-existent-host:666/non-existent-database";
         RV::disableErrorHandling();
         $oDbh =& OA_DB::singleton($dsn);
         RV::enableErrorHandling();
