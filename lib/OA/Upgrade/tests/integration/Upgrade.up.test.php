@@ -494,10 +494,10 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->assertEqual($this->_getTestAppVarValue('tables_core', '997'), '997', '');
 
         $this->_createTestAppVarRecord('oa_version','2.3.00');
-        $oUpgrade->versionInitialSchema['tables_core'] = 997;
-        $oUpgrade->versionInitialApplication = '2.3.00';
 
         $oUpgrade  = new OA_Upgrade();
+        $oUpgrade->versionInitialSchema['tables_core'] = 997;
+        $oUpgrade->versionInitialApplication = '2.3.00';
         $oUpgrade->upgradePath = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
         $oUpgrade->oDBUpgrader->path_changes = $oUpgrade->upgradePath;
         $oUpgrade->oDBUpgrader->path_schema = $oUpgrade->upgradePath;
