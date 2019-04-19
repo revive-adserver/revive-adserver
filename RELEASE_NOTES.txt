@@ -17,13 +17,14 @@ Revive Adserver. Please read these notes before reporting any bugs.
 What's New in Revive Adserver 4.2.0
 -----------------------------------
 
- * Release date: t.b.d
+ * Release date: 23 April 2019
 
 
  Security Updates
  ----------------
 
- * None
+ * Fixed multiple vulnerabilities, for more information, visit:
+   https://www.revive-adserver.com/security/revive-sa-2019-001
 
 
  New Features
@@ -82,9 +83,18 @@ What's New in Revive Adserver 4.2.0
 
  * Revive Adserver now requires at least PHP 7.0.8.
 
- * Revive Adserver now required the zip extension, whose presence was
+ * Revive Adserver now requires the zip extension, whose presence was
    already needed by the HTML5 banner support, but previously not
    enforced.
+
+ * XML-RPC invocation is deprecated and requires manually renaming
+   www/delivery/axmlrpc.txt to www/delivery/axmlrpc.php in order to
+   restore XML-RPC invocation functionality. However, this is not
+   recommended, and users are advised to move to another form of delivery
+   and remove the axmlrpc.php file again as soon as practicable.
+
+ * Removed an unnecessary and undocumented XML-RPC delivery script,
+   called www/delivery/dxmlrpc.php.
 
 
 System Requirements
