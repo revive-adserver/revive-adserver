@@ -10,6 +10,4 @@
 +---------------------------------------------------------------------------+
 */
 
-require('./www/delivery/axmlrpc.php');
-
-?>
+@include('./www/delivery/axmlrpc.php');

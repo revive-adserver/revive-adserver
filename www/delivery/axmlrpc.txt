@@ -4737,11 +4737,11 @@ $loc =
 OX_getHostName().
 $_SERVER['REQUEST_URI'];
 $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
-if (is_numeric($what)) {
+if (ctype_digit($what)) {
 $zones = OA_cacheGetPublisherZones($what);
 $nz = false;
 } else {
-$zones = unserialize($what);
+parse_str($what, $zones);
 $nz = true;
 }
 $spc_output = array();

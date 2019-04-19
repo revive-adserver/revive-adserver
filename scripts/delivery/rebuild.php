@@ -32,7 +32,17 @@ define('OX_PATH',  dirname(dirname(dirname(__FILE__))));
 define('LIB_PATH', MAX_PATH.'/lib/OX');
 define('RV_PATH', MAX_PATH);
 
-$ignored_files = array('template.php');
+$ignored_files = [
+    'template.php',
+];
+
+$renamed_files = [
+    'axmlrpc.php' => 'axmlrpc.txt',
+];
+
+$blacklist = [
+    'asyncjs.php',
+];
 
 /**
  * Function to get values for timing the compilation
@@ -61,10 +71,6 @@ require_once LIB_PATH . '/Util/CodeMunger.php';
 $oCodeMunger = new OX_Util_CodeMunger();
 $oCodeMunger->setHeader($header);
 
-$blacklist = array(
-    'asyncjs.php',
-);
-
 // Process all files in the www/delivery_dev folder (except those being
 // explicitly ignored)
 while (false !== ($file = readdir($DIR_INPUT))) {
@@ -85,7 +91,9 @@ while (false !== ($file = readdir($DIR_INPUT))) {
         continue;
     }
 
-    $FILE_OUT = @fopen($output_dir . $file, 'w');
+    $destfile = isset($renamed_files[$file]) ? $renamed_files[$file] : $file;
+
+    $FILE_OUT = @fopen($output_dir . $destfile, 'w');
     if (!is_resource($FILE_OUT)) {
         echo "  => Unable to open output file for writing: {$output_dir}{$file}\n";
         continue;
@@ -97,7 +105,7 @@ while (false !== ($file = readdir($DIR_INPUT))) {
     } elseif (in_array($file, $blacklist)) {
         echo "  => {$file} blacklisted, copying as-is\n";
     } else {
-        echo "  => Processing php file: {$file}\n";
+        echo "  => Processing php file: {$destfile}\n";
         $munge = true;
     }
 
