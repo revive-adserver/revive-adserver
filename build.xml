@@ -73,6 +73,7 @@
     <touch file="should_not_exist"/>
     <mkdir dir="build/test-results"/>
     <mkdir dir="build/test-reports"/>
+    <touch file="var/UPGRADE"/>
   </target>
 
   <target name="init-timestamp" unless="cctimestamp">
@@ -81,7 +82,7 @@
   </target>
 
   <target name="init-label" unless="label">
-    <property name="label" value="trunk"/>
+    <property name="label" value="master"/>
   </target>
 
   <target name="init-version" unless="version" depends="init-timestamp, init-label">
@@ -157,11 +158,7 @@
 
   <target name="package" depends="generate-delivery, generate-xml-cache, checkconsistency, prepare-distribution, package-bzip2, package-gz, package-zip"/>
 
-  <target name="write-origin-id" depends="prepare-version-info" if="originid">
-    <echo message="${originid}" file="${dir.test.results}/${release}/etc/origin.txt" append="no"/>
-  </target>
-
-  <target name="repackage" if="originid" depends="write-origin-id,package-bzip2,package-gz,package-zip"/>
+  <target name="repackage" if="originid" depends="package-bzip2,package-gz,package-zip"/>
 
   <target name="build" depends="package" description="Run this if you want your own release files built."/>
 
