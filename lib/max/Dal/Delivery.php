@@ -30,11 +30,7 @@ function MAX_Dal_Delivery_Include()
     }
     $included = true;
     $conf = $GLOBALS['_MAX']['CONF'];
-    if (isset($conf['origin']['type']) && is_readable(MAX_PATH . '/lib/OA/Dal/Delivery/' . strtolower($conf['origin']['type']) . '.php')) {
-        require(MAX_PATH . '/lib/OA/Dal/Delivery/' . strtolower($conf['origin']['type']) . '.php');
-    } else {
-        require(MAX_PATH . '/lib/OA/Dal/Delivery/' . strtolower($conf['database']['type']) . '.php');
-    }
+
+    require(MAX_PATH . '/lib/OA/Dal/Delivery/' . strtolower($conf['database']['type']) . '.php');
 }
 
-?>
