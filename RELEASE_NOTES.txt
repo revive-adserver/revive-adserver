@@ -6,7 +6,7 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
-Release Notes: Revive Adserver 4.2.0
+Release Notes: Revive Adserver 4.3.0
 ====================================
 
 These release notes cover what's new, system requirements, download and
@@ -14,87 +14,34 @@ installation instructions, known issues and frequently asked questions for
 Revive Adserver. Please read these notes before reporting any bugs.
 
 
-What's New in Revive Adserver 4.2.0
+What's New in Revive Adserver 4.3.0
 -----------------------------------
 
- * Release date: 23 April 2019
+ * Release date: t.b.d.
 
 
  Security Updates
  ----------------
 
- * Fixed multiple vulnerabilities, for more information, visit:
-   https://www.revive-adserver.com/security/revive-sa-2019-001
+ * None
 
 
  New Features
  ------------
 
- * Updated the definition of "Active" Advertisers and Campaigns in the UI
-   to also include Advertisers and Campaigns which will become active in
-   the future (i.e. in the "Awaiting" state), to help with their management.
-
- * Renamed the "Legacy" Browser and Operating System delivery rules, which
-   have been retained so far for compatibility for users upgrading from
-   earlier versions, to "Deprecated", in preparation for removing these
-   delivery rules in a future major release.
-
- * Improved how the user/account management permission is named in the UI.
-
- * The Zone Probability screen now includes a link to the parent campaign
-   for each banner.
-
- * Replaced the old "weight" measure on the Zone Probability screen with
-   the actual Campaign and Banner weights, to improve clarity around
-   probabilities of banner display in a zone.
-
- * Added support for hourly statistics to the XML-RPC API.
-
- * IP anonymisation enabled and targeting OAID cookie disabled by default
-   on new installations.
+ * None
 
 
  Bug Fixes
  ---------
 
-  * Fixed PHP 7.3 incompatible usage of continue statements within switch
-    constructs.
-
-  * Fixed incorrect text for the "Site - Delivery Rule Set" delivery rule.
-
-  * Fixed JS error when using the resizable iframe invocation type and no
-    banner is delivered.
-
-  * The background row highlighting on the Zone Probability screen has
-    been fixed.
-
-  * Restored english US translation, in order to have the "month/day" date
-    format as an option.
-
-  * Fixed issue with manually rebuilding banner cache when using the user
-    language preferences are not set to english.
-    
-  * Fixed an issue saving the User Interface Preferences under some
-    circumstances.
+ * None
 
 
  Non-Backwards Compatible Changes
  --------------------------------
 
- * Revive Adserver now requires at least PHP 7.0.8.
-
- * Revive Adserver now requires the zip extension, whose presence was
-   already needed by the HTML5 banner support, but previously not
-   enforced.
-
- * XML-RPC invocation is deprecated and requires manually renaming
-   www/delivery/axmlrpc.txt to www/delivery/axmlrpc.php in order to
-   restore XML-RPC invocation functionality. However, this is not
-   recommended, and users are advised to move to another form of delivery
-   and remove the axmlrpc.php file again as soon as practicable.
-
- * Removed an unnecessary and undocumented XML-RPC delivery script,
-   called www/delivery/dxmlrpc.php.
+ * None
 
 
 System Requirements
