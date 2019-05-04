@@ -38,7 +38,7 @@ What's New in Revive Adserver 4.3.0
  * Fixed an issue with some of the required PHP extensions for Revive Adserver
    not displaying in the pre-install/upgrade check screen.
 
-* Fixed issue with the "Active Campaigns" filter incorrectly hiding campaigns
+ * Fixed issue with the "Active Campaigns" filter incorrectly hiding campaigns
    depending on the order of active or inactive banners found for the campaign.
 
 
