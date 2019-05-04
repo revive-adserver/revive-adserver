@@ -165,7 +165,6 @@ $aCount = array(
 );
 
 $dalBanners = OA_Dal::factoryDAL('banners');
-$campaignshidden = 0;
 if (isset($aCampaigns) && is_array($aCampaigns) && count($aCampaigns) > 0) {
 	reset ($aCampaigns);
 	foreach ($aCampaigns as $campaignId => $campaign) {
