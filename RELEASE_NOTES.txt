@@ -35,7 +35,8 @@ What's New in Revive Adserver 4.3.0
  Bug Fixes
  ---------
 
- * None
+ * Fixed issue with the "Active Campaigns" filter incorrectly hiding campaigns
+   depending on the order of active or inactive banners found for the campaign.
 
 
  Non-Backwards Compatible Changes

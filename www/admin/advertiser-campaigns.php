@@ -165,7 +165,6 @@ $aCount = array(
 );
 
 $dalBanners = OA_Dal::factoryDAL('banners');
-$campaignshidden = 0;
 if (isset($aCampaigns) && is_array($aCampaigns) && count($aCampaigns) > 0) {
 	reset ($aCampaigns);
 	foreach ($aCampaigns as $campaignId => $campaign) {
@@ -187,12 +186,17 @@ if (isset($aCampaigns) && is_array($aCampaigns) && count($aCampaigns) > 0) {
                     unset($aCampaigns[$campaignId]);
                 } else {
                     // Does the Campaign have any Banners in the Running or Awaiting state?
+                    $activeBanners = false;
                     foreach ($aBanners as $bannerId => $banner) {
                         if (OA_ENTITY_STATUS_RUNNING == $banner['status'] || OA_ENTITY_STATUS_AWAITING == $banner['status']) {
-                            // This Banner is in the Running or Awaiting state - don't hide
+                            // This Banner is in the Running or Awaiting state - don't hide the campaign
+                            $activeBanners = true;
+                            // No need to test any more banners - one Running or Awaiting banner is enough
                             break;
                         }
-                        // No Banners in the Running or Awaiting state were found - hide it
+                    }
+                    if (!$activeBanners) {
+                        // No Banners in the Running or Awaiting state were found - hide the campaign
                         $aCount['campaigns_hidden']++;
                         unset($aCampaigns[$campaignId]);
                     }
