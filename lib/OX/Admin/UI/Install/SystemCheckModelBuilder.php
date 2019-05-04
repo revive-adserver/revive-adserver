@@ -89,12 +89,21 @@ class OX_Admin_UI_Install_SystemCheckModelBuilder
         $aSection = $this->buildCheckSectionMessages($aEnvCookie, $aSection);
         $aResult['cookies'] = $aSection;
 
-        //PHP section
+        // PHP section
         $aEnvPhp = $aSysInfo['PHP'];
-        //for some reason installer discards timzone check and does its own..
+        $aSection = $this->buildCheckSection($aEnvPhp, $GLOBALS['strPHPConfiguration']);
+
+        // PHP version
+        $aSection['checks']['version'] = array(
+            'name' => 'version',
+            'value'=> $aEnvPhp['actual']['version'],
+            'hasWarning' => !empty($aEnvPhp['warning']['version']),
+            'hasError' => !empty($aEnvPhp['error']['version']),
+        );
+
+        // For some reason installer discards timzone check and does its own..
         $timezone = OX_Admin_Timezones::getTimezone();
         $timezoneErr = 'System/Localtime' == $timezone;
-        $aSection = $this->buildCheckSection($aEnvPhp, $GLOBALS['strPHPConfiguration']);
         $aSection['hasWarning'] = $timezoneErr;
         $aSection['checks']['timezone'] =  array(
             'name' => 'timezone',
@@ -103,13 +112,7 @@ class OX_Admin_UI_Install_SystemCheckModelBuilder
             'warnings' => $timezoneErr ? array($GLOBALS['strTimezoneLocal']) : null
         );
 
-        $aSection['checks']['version'] = array(
-            'name' => 'version',
-            'value'=> $aEnvPhp['actual']['version'],
-            'hasWarning' => !empty($aEnvPhp['warning']['version']),
-            'hasError' => !empty($aEnvPhp['error']['version']),
-        );
-
+        // Memory limit
         $memLimit = $aEnvPhp['actual']['memory_limit'];
         $memLimit = ($memLimit !='' ? $memLimit : 'Not Set');
         if(is_numeric($memLimit)) {
@@ -123,23 +126,35 @@ class OX_Admin_UI_Install_SystemCheckModelBuilder
             'error' => $aEnvPhp['error']['memory_limit'],
         );
 
+        // Safe mode, magic quotes, register_argc_argv
         $aSection['checks']['safe_mode'] = $this->buildCheckEntry('safe_mode', $aEnvPhp, 0, 'OFF', 'ON');
         $aSection['checks']['magic_quotes_runtime'] = $this->buildCheckEntry('magic_quotes_runtime', $aEnvPhp, 0, 'OFF', 'ON');
-        $aSection['checks']['file_uploads'] = $this->buildCheckEntry('file_uploads', $aEnvPhp, 0, 'OFF', 'ON');
-        $aSection['checks']['timeout'] = $this->buildCheckEntry('timeout', $aEnvPhp, false, 'OFF', $aEnvPhp['actual']['timeout']);
         $aSection['checks']['register_argc_argv'] = $this->buildCheckEntry('register_argc_argv', $aEnvPhp, 0, 'OFF', 'ON');
         if ($aEnvPhp['actual']['register_argc_argv'] == 0) {
                 $aSection['checks']['register_argc_argv']['warning'] = $GLOBALS['strWarningRegisterArgcArv'];
         }
+
+        // PHP configuration's file_uploads value
+        $aSection['checks']['file_uploads'] = $this->buildCheckEntry('file_uploads', $aEnvPhp, 0, 'OFF', 'ON');
+
+        // Required PHP extensions
+        $aSection['checks']['json'] = $this->buildExtensionCheckEntry('json', $aEnvPhp);
         $aSection['checks']['pcre'] = $this->buildExtensionCheckEntry('pcre', $aEnvPhp);
-        $aSection['checks']['xml'] = $this->buildExtensionCheckEntry('xml', $aEnvPhp);
-        $aSection['checks']['zlib'] = $this->buildExtensionCheckEntry('zlib', $aEnvPhp);
         $aSection['checks']['spl'] = $this->buildExtensionCheckEntry('spl', $aEnvPhp);
+        $aSection['checks']['xml'] = $this->buildExtensionCheckEntry('xml', $aEnvPhp);
+        $aSection['checks']['zip'] = $this->buildExtensionCheckEntry('zip', $aEnvPhp);
+        $aSection['checks']['zlib'] = $this->buildExtensionCheckEntry('zlib', $aEnvPhp);
+
+        // Disabled mbstring function overloading
         $aSection['checks']['mbstring.func_overload'] = $this->buildCheckEntry('mbstring.func_overload', $aEnvPhp, true, 'NOT OK', 'OK');
 
+        // At least one of the required database extensions are loaded
         $aSection['checks']['mysql'] = $this->buildExtensionCheckEntry('mysql', $aEnvPhp);
         $aSection['checks']['mysqli'] = $this->buildExtensionCheckEntry('mysqli', $aEnvPhp);
         $aSection['checks']['pgsql'] = $this->buildExtensionCheckEntry('pgsql', $aEnvPhp);
+
+        // Ability to set timeouts
+        $aSection['checks']['timeout'] = $this->buildCheckEntry('timeout', $aEnvPhp, false, 'OFF', $aEnvPhp['actual']['timeout']);
 
         $aSection = $this->buildCheckSectionMessages($aEnvPhp, $aSection);
         $aResult['php'] = $aSection;
