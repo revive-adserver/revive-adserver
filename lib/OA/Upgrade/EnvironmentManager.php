@@ -380,6 +380,7 @@ class OA_Environment_Manager
                 "this limit. If possible, please increase the 'memory_limit' value in your server's php.ini file to a minimum of " .
                 (OX_getMemoryLimitSizeInBytes() / 1048576) . " MB before continuing.";
         }
+
         // Ensure that the original memory_limit is not displayed in the systems screen
         unset($this->aInfo['PHP']['actual']['original_memory_limit']);
 
@@ -389,31 +390,37 @@ class OA_Environment_Manager
         }
 
         // Test the required PHP extensions are loaded
+        if (!$this->aInfo['PHP']['actual']['json']) {
+            $this->aInfo['PHP']['error']['json'] = 'The json extension must be loaded';
+        }
         if (!$this->aInfo['PHP']['actual']['pcre']) {
             $this->aInfo['PHP']['error']['pcre'] = 'The pcre extension must be loaded';
-        }
-        if (!$this->aInfo['PHP']['actual']['xml']) {
-            $this->aInfo['PHP']['error']['xml'] = 'The xml extension must be loaded';
-        }
-        if (!$this->aInfo['PHP']['actual']['zlib']) {
-            $this->aInfo['PHP']['error']['zlib'] = 'The zlib extension must be loaded';
-        }
-        if (!($this->aInfo['PHP']['actual']['mysql'] || $this->aInfo['PHP']['actual']['mysqli'] || $this->aInfo['PHP']['actual']['pgsql'])) {
-            $this->aInfo['PHP']['error']['mysql'] = $this->aInfo['PHP']['error']['mysqli'] = $this->aInfo['PHP']['error']['pgsql'] =
-                'At least one of these database extensions must be loaded';
         }
         if (!$this->aInfo['PHP']['actual']['spl']) {
             $this->aInfo['PHP']['error']['spl'] = 'The spl extension must be loaded';
         }
-        if (!$this->aInfo['PHP']['actual']['json']) {
-            $this->aInfo['PHP']['error']['json'] = 'The json extension must be loaded';
+        if (!$this->aInfo['PHP']['actual']['xml']) {
+            $this->aInfo['PHP']['error']['xml'] = 'The xml extension must be loaded';
         }
         if (!$this->aInfo['PHP']['actual']['zip']) {
             $this->aInfo['PHP']['error']['zip'] = 'The zip extension must be loaded';
         }
+        if (!$this->aInfo['PHP']['actual']['zlib']) {
+            $this->aInfo['PHP']['error']['zlib'] = 'The zlib extension must be loaded';
+        }
+
+        // Test that mbstring function overloading is disabled
         if ($this->aInfo['PHP']['actual']['mbstring.func_overload']) {
             $this->aInfo['PHP']['error']['mbstring.func_overload'] = 'mbstring function overloading must be disabled';
         }
+
+        // Test that at least one of the required database extensions are loaded
+        if (!($this->aInfo['PHP']['actual']['mysql'] || $this->aInfo['PHP']['actual']['mysqli'] || $this->aInfo['PHP']['actual']['pgsql'])) {
+            $this->aInfo['PHP']['error']['mysql'] = $this->aInfo['PHP']['error']['mysqli'] = $this->aInfo['PHP']['error']['pgsql'] =
+                'At least one of these database extensions must be loaded';
+        }
+
+        // Test the ability to set timeouts
         if ($this->aInfo['PHP']['actual']['timeout']) {
             $this->aInfo['PHP']['error']['timeout'] = 'The PHP function set_time_limit() has been disabled and '
                 .'max_execution_time is set to '.$this->aInfo['PHP']['actual']['timeout']

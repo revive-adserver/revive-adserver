@@ -35,7 +35,8 @@ What's New in Revive Adserver 4.3.0
  Bug Fixes
  ---------
 
- * None
+ * Fixed an issue with some of the required PHP extensions for Revive Adserver
+   not displaying in the pre-install/upgrade check screen.
 
 
  Non-Backwards Compatible Changes
