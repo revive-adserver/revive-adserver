@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: revive-adserver\n"
-"Last-Translator: mbeccati <matteo@beccati.com>\n"
+"Last-Translator: Matteo Beccati (mbeccati)\n"
 "Language-Team: Indonesian\n"
 "Language: id_ID\n"
 "MIME-Version: 1.0\n"
