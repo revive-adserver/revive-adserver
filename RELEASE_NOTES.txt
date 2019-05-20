@@ -6,7 +6,7 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
-Release Notes: Revive Adserver 4.3.0
+Release Notes: Revive Adserver 4.2.1
 ====================================
 
 These release notes cover what's new, system requirements, download and
@@ -14,16 +14,19 @@ installation instructions, known issues and frequently asked questions for
 Revive Adserver. Please read these notes before reporting any bugs.
 
 
-What's New in Revive Adserver 4.3.0
+What's New in Revive Adserver 4.2.1
 -----------------------------------
 
- * Release date: t.b.d.
+ * Release date: 2019-05-21
 
 
  Security Updates
  ----------------
 
- * None
+ * Replaced weak pseudo random number generation with a crypto safe
+   alternative in the generation of the password recovery links, which now
+   also have a maximum validity of one hour. This helps preventing attackers
+   from gaining unauthorised access to Revive Adserver user accounts.
 
 
  New Features

@@ -45,7 +45,7 @@ class OA_Dal_PasswordRecovery extends OA_Dal
      * Generate and save a recovery ID for a user
      *
      * @param int user ID
-     * @return array generated recovery ID
+     * @return string generated recovery ID
      */
     function generateRecoveryId($userId)
     {
@@ -53,10 +53,10 @@ class OA_Dal_PasswordRecovery extends OA_Dal
         
         // Make sure that recoveryId is unique in password_recovery table
         do {
-            $recoveryId = strtoupper(md5(uniqid('', true)));
-            $recoveryId = substr(chunk_split($recoveryId, 8, '-'), -23, 22);
+            $recoveryId = strtoupper(bin2hex(random_bytes(12)));
+            $recoveryId = substr(chunk_split($recoveryId, 8, "-"), 0, -1);
             $doPwdRecovery->recovery_id = $recoveryId;
-        } while ($doPwdRecovery->find()>0);
+        } while ($doPwdRecovery->find() > 0);
 
         $doPwdRecovery = OA_Dal::factoryDO('password_recovery');
         $doPwdRecovery->whereAdd('user_id = '.DBC::makeLiteral($userId));
@@ -83,6 +83,11 @@ class OA_Dal_PasswordRecovery extends OA_Dal
     {
         $doPwdRecovery = OA_Dal::factoryDO('password_recovery');
         $doPwdRecovery->recovery_id = $recoveryId;
+
+        $now = $doPwdRecovery->quote(OA::getNowUTC());
+        $oneHourInterval = OA_Dal::quoteInterval(1, 'hour');
+
+        $doPwdRecovery->whereAdd("updated >= DATE_SUB({$now}, {$oneHourInterval})");
 
         return (bool)$doPwdRecovery->count();
     }
