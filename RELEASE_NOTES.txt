@@ -6,7 +6,7 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
-Release Notes: Revive Adserver 4.2.1
+Release Notes: Revive Adserver 4.2.2
 ====================================
 
 These release notes cover what's new, system requirements, download and
@@ -14,19 +14,16 @@ installation instructions, known issues and frequently asked questions for
 Revive Adserver. Please read these notes before reporting any bugs.
 
 
-What's New in Revive Adserver 4.2.1
+What's New in Revive Adserver 4.2.2
 -----------------------------------
 
- * Release date: 2019-05-21
+ * Release date: t.b.d.
 
 
  Security Updates
  ----------------
 
- * Replaced weak pseudo random number generation with a crypto safe
-   alternative in the generation of the password recovery links, which now
-   also have a maximum validity of one hour. This helps preventing attackers
-   from gaining unauthorised access to Revive Adserver user accounts.
+ * None
 
 
  New Features
@@ -38,11 +35,7 @@ What's New in Revive Adserver 4.2.1
  Bug Fixes
  ---------
 
- * Fixed an issue with some of the required PHP extensions for Revive Adserver
-   not displaying in the pre-install/upgrade check screen.
-
- * Fixed issue with the "Active Campaigns" filter incorrectly hiding campaigns
-   depending on the order of active or inactive banners found for the campaign.
+ * None
 
 
  Non-Backwards Compatible Changes
