@@ -117,7 +117,9 @@ $GLOBALS['strDashboardErrorHelp'] = "Si este error se ha repetido por favor desc
 // Priority
 $GLOBALS['strPriority'] = "Prioridad";
 $GLOBALS['strPriorityLevel'] = "Nivel de prioridad";
+$GLOBALS['strOverrideAds'] = "Ignorar Anuncios de Campaña";
 $GLOBALS['strHighAds'] = "Publicidades con contrato";
+$GLOBALS['strECPMAds'] = "Publicidades con Contrato";
 $GLOBALS['strLowAds'] = "Publicidades remanentes";
 $GLOBALS['strLimitations'] = "Reglas de entrega";
 $GLOBALS['strNoLimitations'] = "No hay reglas de entrega";
@@ -286,6 +288,7 @@ $GLOBALS['strSendDeactivationWarning'] = "Enviar un Alerta cuando una campaña s
 $GLOBALS['strAllowClientModifyBanner'] = "Permitir a este usuario modificar sus propios banners";
 $GLOBALS['strAllowClientDisableBanner'] = "Permitir a este usuario desactivar sus propios banners";
 $GLOBALS['strAllowClientActivateBanner'] = "Permitir a este usuario activar sus propios banners";
+$GLOBALS['strAllowCreateAccounts'] = "Permitir a este usuario administrar los usuarios de esta cuenta";
 $GLOBALS['strAdvertiserLimitation'] = "Mostrar sólo un banner de este anunciante en una misma página web";
 $GLOBALS['strAllowAuditTrailAccess'] = "Permitir a este usuario acceder al audit trail";
 
@@ -313,6 +316,7 @@ $GLOBALS['strRemnantEcpmDescription'] = "El eCPM es calculado automáticamente b
 $GLOBALS['strHiddenCampaign'] = "Campaña";
 $GLOBALS['strHiddenAd'] = "Anuncio";
 $GLOBALS['strHiddenAdvertiser'] = "Anunciante";
+$GLOBALS['strHiddenTracker'] = "Rastreador";
 $GLOBALS['strHiddenWebsite'] = "Página web";
 $GLOBALS['strHiddenZone'] = "Zona";
 $GLOBALS['strCampaignDelivery'] = "Entrega de campaña";
@@ -387,6 +391,7 @@ $GLOBALS['strCampaignStatusDeleted'] = "Borrado";
 $GLOBALS['strCampaignType'] = "Nombre de la Campaña";
 $GLOBALS['strType'] = "Tipo";
 $GLOBALS['strContract'] = "Contacto";
+$GLOBALS['strOverride'] = "Ignorar";
 $GLOBALS['strOverrideInfo'] = "Las campañas de sustitución son un tipo de campaña especial específicamente para anular (es decir, tener prioridad sobre) las campañas Remanentes y Contrato. Las campañas de sustitución se utilizan generalmente con reglas específicas de segmentación y / o límite para garantizar que los banners de la campaña siempre se muestren en determinadas ubicaciones, para determinados usuarios y tal vez un cierto número de veces, como parte de una promoción específica. (Esta campaña era conocida anteriormente como 'Contrato (Exclusivo)'.)";
 $GLOBALS['strStandardContract'] = "Contacto";
 $GLOBALS['strStandardContractInfo'] = "Las campañas de contrato son para entregar con facilidad las impresiones necesarias para lograr un requisito de desempeño crítico especificado. Es decir, las campañas de contrato son para cuando un anunciante ha pagado específicamente para tener un número determinado de impresiones, clics y / o conversiones que se logrará entre dos fechas o por día.";
@@ -407,6 +412,7 @@ $GLOBALS['strCampaignBanners'] = "Banners de campañas";
 $GLOBALS['strCookies'] = "\"Cookies\"";
 
 // Tracker
+$GLOBALS['strTracker'] = "Rastreador";
 $GLOBALS['strTrackers'] = "Seguidores";
 $GLOBALS['strTrackerPreferences'] = "Preferencias del tracker";
 $GLOBALS['strAddTracker'] = "Añadir nuevo tracker";
@@ -418,14 +424,17 @@ $GLOBALS['strTrackerProperties'] = "Propiedades de trackers";
 $GLOBALS['strDefaultStatus'] = "Estado por defecto";
 $GLOBALS['strStatus'] = "Estado";
 $GLOBALS['strLinkedTrackers'] = "Trackers enlazados";
+$GLOBALS['strTrackerInformation'] = "Información del rastreador";
 $GLOBALS['strConversionWindow'] = "Ventana de conversión";
 $GLOBALS['strUniqueWindow'] = "Ventana de único";
 $GLOBALS['strClick'] = "Clic";
 $GLOBALS['strView'] = "Vista";
+$GLOBALS['strArrival'] = "Llegada";
 $GLOBALS['strManual'] = "Manual";
 $GLOBALS['strImpression'] = "Impresión";
 $GLOBALS['strConversionType'] = "Tipo de Conversión";
 $GLOBALS['strLinkCampaignsByDefault'] = "Enlazar campañas nuevas por defecto";
+$GLOBALS['strBackToTrackers'] = "Volver a Rastreadores";
 $GLOBALS['strIPAddress'] = "Dirección IP";
 
 // Banners (General)
@@ -484,13 +493,16 @@ $GLOBALS['strTextBelow'] = "Texto posterior a la imagen";
 $GLOBALS['strWeight'] = "Peso";
 $GLOBALS['strAlt'] = "Texto alternativo";
 $GLOBALS['strStatusText'] = "Texto de barra de estado";
+$GLOBALS['strCampaignsWeight'] = "Peso de la campaña";
 $GLOBALS['strBannerWeight'] = "Peso del banner";
+$GLOBALS['strBannersWeight'] = "Peso del banner";
 $GLOBALS['strAdserverTypeGeneric'] = "Banner HTML genérico";
 $GLOBALS['strDoNotAlterHtml'] = "No alterar HTML";
 $GLOBALS['strGenericOutputAdServer'] = "Genérico";
 $GLOBALS['strSwfTransparency'] = "Permitir fondo transparente";
 $GLOBALS['strBackToBanners'] = "Volver a banners";
 $GLOBALS['strUseWyswygHtmlEditor'] = "Utilice el Editor del HTML WYSIWYG";
+$GLOBALS['strChangeDefault'] = "Cambiar a por defecto";
 
 // Banner (advanced)
 $GLOBALS['strBannerPrependHTML'] = "Siempre anteponga el siguiente código HTML a este banner";
@@ -500,6 +512,7 @@ $GLOBALS['strBannerAppendHTML'] = "Añada siempre el siguiente código HTML a es
 $GLOBALS['strCheckSWF'] = "Comprobar enlaces <i>hard-coded</i> en el archivo Flash";
 $GLOBALS['strConvertSWFLinks'] = "Convertir enlaces Flash";
 $GLOBALS['strHardcodedLinks'] = "Enlaces <i>hard-coded</i>";
+$GLOBALS['strConvertSWF'] = "<br />El archivo Flash que acaba de subir contiene urls codificadas. {$PRODUCT_NAME} no podrá rastrear el número de clicks de este banner a menos que convierta dichas urls. Simplemente haga click en <b>Convertir</b>, de otro modo haga click en <b>Cancelar</b>.<br /><br />Tenga en cuenta que al hacer click en <b>Convertir</b> el archivo Flash que acaba de subir será físicamente alterado. <br />Se recomienda mantener una copia del archivo original. <br /> Sin importar en que versión haya sido creado este banner, el archivo resultante necesitará la versión 4 de Flash Player (o superior) para ser mostrado correctamente.<br /><br />";
 $GLOBALS['strCompressSWF'] = "Comprimir el archivo SWF para descargarlo más rápidamente (Reproductor Flash 6 es requerido)";
 $GLOBALS['strOverwriteSource'] = "Sobreescribir parámetro de origen";
 
@@ -686,6 +699,7 @@ $GLOBALS['strStatusOnHold'] = "En espera";
 $GLOBALS['strStatusIgnore'] = "Ignorar";
 $GLOBALS['strConnectionType'] = "Tipo";
 $GLOBALS['strConnTypeSale'] = "Venta";
+$GLOBALS['strConnTypeLead'] = "Dirigir";
 $GLOBALS['strConnTypeSignUp'] = "Alta";
 $GLOBALS['strShortcutEditStatuses'] = "Editar estados";
 $GLOBALS['strShortcutShowStatuses'] = "Mostrar estados";
@@ -758,6 +772,9 @@ $GLOBALS['strTrackercode'] = "C&oacute;digo del tracker";
 $GLOBALS['strBackToTheList'] = "Volver a la lista de informes";
 $GLOBALS['strCharset'] = "Juego de caracteres";
 $GLOBALS['strAutoDetect'] = "Autodetectar";
+$GLOBALS['strCacheBusterComment'] = "  * Reemplazar todas las instancias de {random} con
+  * un número aleatorio generado (o marca de tiempo).
+  *";
 
 $GLOBALS['strThirdPartyComment'] = "
 * No olvide de reemplazar el texto de '{clickurl}' con 
