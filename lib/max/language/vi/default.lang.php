@@ -78,7 +78,9 @@ $GLOBALS['strDaysLeft'] = "Ngày còn lại";
 $GLOBALS['strCheckAllNone'] = "Chọn tất cả/Bỏ chọn";
 $GLOBALS['strKiloByte'] = "KB";
 $GLOBALS['strExpandAll'] = "Xây dựng";
+$GLOBALS['strCollapseAll'] = "<u>T</u>hu gọn tất cả";
 $GLOBALS['strShowAll'] = "Hiện Tất cả";
+$GLOBALS['strNoAdminInterface'] = "Màn hình quản trị đã được tắt để bảo trì.  Điều này không ảnh hưởng đến việc phân phối các chiến dịch của bạn.";
 $GLOBALS['strFieldStartDateBeforeEnd'] = "Ngày Bắt đầu phải lớn hơn ngày Kết thúc";
 $GLOBALS['strFieldContainsErrors'] = "Các trường sau đây lỗi:";
 $GLOBALS['strFieldFixBeforeContinue1'] = "Trước khi bạn có thể tiếp tục bạn cần";
@@ -111,6 +113,11 @@ $GLOBALS['strPriority'] = "Độ ưu tiên";
 $GLOBALS['strPriorityLevel'] = "Mức độ ưu tiên";
 $GLOBALS['strOverrideAds'] = "Ghi đè lên các chiến dịch quảng cáo";
 $GLOBALS['strHighAds'] = "Hợp đồng chiến dịch quảng cáo độc quyền";
+$GLOBALS['strECPMAds'] = "eCPM Chiến dịch quảng cáo";
+$GLOBALS['strLowAds'] = "Chiến dịch quảng cáo còn lại";
+$GLOBALS['strLimitations'] = "Quy tắc giao hàng";
+$GLOBALS['strNoLimitations'] = "Không có quy tắc giao hàng";
+$GLOBALS['strCapping'] = "Đóng nắp";
 
 // Properties
 $GLOBALS['strName'] = "Tên";
