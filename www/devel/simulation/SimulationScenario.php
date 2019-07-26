@@ -360,7 +360,7 @@ class SimulationScenario
             $requestSave    = $_REQUEST;
             $getSave        = $_GET;
             $_GET           = array();
-            $request        = MAX_querystringParseStr($beaconURL, &$aRequest, '&amp;');
+            $request        = MAX_querystringParseStr($beaconURL, $aRequest, '&amp;');
             $_REQUEST       = $aRequest;
             chdir(MAX_PATH . '/www/delivery');
             include('./lg.php');

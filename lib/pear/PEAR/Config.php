@@ -2092,7 +2092,7 @@ class PEAR_Config extends PEAR
                     continue;
                 }
                 $this->_registry[$layer] =
-                    &new PEAR_Registry($this->get('php_dir', $layer, 'pear.php.net'));
+                    new PEAR_Registry($this->get('php_dir', $layer, 'pear.php.net'));
                 $this->_registry[$layer]->setConfig($this);
                 $this->_regInitialized[$layer] = false;
             }
