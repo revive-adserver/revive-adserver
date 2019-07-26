@@ -43,7 +43,7 @@ function MAX_querystringConvertParams()
     $paramPos = strpos($qs, $paramStr);
     if (is_numeric($paramPos)) {
         $qs = urldecode(substr($qs, $paramPos + strlen($paramStr)));
-        $delim = $qs{0};
+        $delim = $qs[0];
         if (is_numeric($delim)) {
             $delim = substr($qs, 1, $delim);
         }

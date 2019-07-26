@@ -146,7 +146,7 @@ class Config_Container_IniCommented {
         $pos = 0; // position in $text
 
         do {
-            $char = $text{$pos};
+            $char = $text[$pos];
             $state = $this->_getQACEvent($stack);
 
             if ($tokens[$state]) {

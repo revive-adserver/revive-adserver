@@ -321,7 +321,7 @@ and uninstall).
         $root = preg_replace(array('!\\\\+!', '!/+!', "!$ds2+!"),
                              array('/', '/', '/'),
                             $root);
-        if ($root{0} != '/') {
+        if ($root[0] != '/') {
             if (isset($options['windows'])) {
                 if (!preg_match('/^[A-Za-z]:/', $root)) {
                     return PEAR::raiseError('Root directory must be an absolute path beginning ' .
@@ -343,7 +343,7 @@ and uninstall).
         }
         $params[1] = realpath($params[1]);
         $config = new PEAR_Config($params[1], '#no#system#config#', false, false);
-        if ($root{strlen($root) - 1} == '/') {
+        if ($root[strlen($root) - 1] == '/') {
             $root = substr($root, 0, strlen($root) - 1);
         }
         $config->noRegistry();

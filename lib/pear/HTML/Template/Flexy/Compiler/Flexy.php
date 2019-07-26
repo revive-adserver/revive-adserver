@@ -634,7 +634,7 @@ class HTML_Template_Flexy_Compiler_Flexy extends HTML_Template_Flexy_Compiler {
                 $ret .= ",";
             }
             $s =1;
-            if ($a{0} == '#') {
+            if ($a[0] == '#') {
                 if (is_numeric(substr($a, 1, -1))) {
                     $ret .= substr($a, 1, -1);
                 } else {
@@ -938,13 +938,13 @@ class HTML_Template_Flexy_Compiler_Flexy extends HTML_Template_Flexy_Compiler {
         $original = $element->getAttribute('ALT');
         if (($element->tag == 'IMG') && is_string($original) && strlen($original)) {
             $this->addStringToGettext($original);
-            $quote = $element->ucAttributes['ALT']{0};
+            $quote = $element->ucAttributes['ALT'][0];
             $element->ucAttributes['ALT'] = $quote  . $this->translateString($original). $quote;
         }
         $original = $element->getAttribute('TITLE');
         if (($element->tag == 'A') && is_string($original) && strlen($original)) {
             $this->addStringToGettext($original);
-            $quote = $element->ucAttributes['TITLE']{0};
+            $quote = $element->ucAttributes['TITLE'][0];
             $element->ucAttributes['TITLE'] = $quote  . $this->translateString($original). $quote;
         }
 
@@ -955,7 +955,7 @@ class HTML_Template_Flexy_Compiler_Flexy extends HTML_Template_Flexy_Compiler {
             $bits =  explode(':', $element->tag);
             $namespace = $bits[0];
         }
-        if ($namespace{0} == '/') {
+        if ($namespace[0] == '/') {
             $namespace = substr($namespace, 1);
         }
         if (empty($this->tagHandlers[$namespace])) {

@@ -98,12 +98,12 @@ class PEAR_PackageFile
      */
     function &parserFactory($version)
     {
-        if (!in_array($version{0}, array('1', '2'))) {
+        if (!in_array($version[0], array('1', '2'))) {
             $a = false;
             return $a;
         }
-        include_once 'PEAR/PackageFile/Parser/v' . $version{0} . '.php';
-        $version = $version{0};
+        include_once 'PEAR/PackageFile/Parser/v' . $version[0] . '.php';
+        $version = $version[0];
         $class = "PEAR_PackageFile_Parser_v$version";
         $a = new $class;
         return $a;
@@ -125,12 +125,12 @@ class PEAR_PackageFile
      */
     function &factory($version)
     {
-        if (!in_array($version{0}, array('1', '2'))) {
+        if (!in_array($version[0], array('1', '2'))) {
             $a = false;
             return $a;
         }
-        include_once 'PEAR/PackageFile/v' . $version{0} . '.php';
-        $version = $version{0};
+        include_once 'PEAR/PackageFile/v' . $version[0] . '.php';
+        $version = $version[0];
         $class = $this->getClassPrefix() . $version;
         $a = new $class;
         return $a;

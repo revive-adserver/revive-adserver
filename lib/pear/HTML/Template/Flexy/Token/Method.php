@@ -66,7 +66,7 @@ class HTML_Template_Flexy_Token_Method extends HTML_Template_Flexy_Token {
         $method = $value[0];
         if (substr($value[0],0,3) == 'if:') {
             $this->isConditional = true;
-            if ($value[0]{3} == '!') {
+            if ($value[0][3] == '!') {
                 $this->isNegative = '!';
                 $method = substr($value[0],4);
             } else {

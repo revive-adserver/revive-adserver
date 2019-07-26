@@ -160,7 +160,7 @@ class HTML_Template_Flexy_Token_Tag extends HTML_Template_Flexy_Token {
             return $v;
         }
 
-        switch($v{0}) {
+        switch($v[0]) {
             case "\"":
             case "'":
                 return substr($v,1,-1);

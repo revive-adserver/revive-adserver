@@ -35,7 +35,7 @@ What's New in Revive Adserver 4.2.2
  Bug Fixes
  ---------
 
- * None
+ * Fixed compatibility with PHP 7.4
 
 
  Non-Backwards Compatible Changes

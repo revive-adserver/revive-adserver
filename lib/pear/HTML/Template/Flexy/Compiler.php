@@ -134,7 +134,7 @@ class HTML_Template_Flexy_Compiler {
                 if (!$name) {  // empty!?
                     continue;
                 }
-                if ($name{0} == '.') {
+                if ($name[0] == '.') {
                     continue;
                 }
 

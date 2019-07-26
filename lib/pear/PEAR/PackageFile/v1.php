@@ -1199,7 +1199,7 @@ class PEAR_PackageFile_v1
                     $this->_validateError(PEAR_PACKAGEFILE_ERROR_INVALID_FILEROLE,
                         array('file' => $file, 'role' => $fa['role'], 'roles' => PEAR_Common::getFileRoles()));
                 }
-                if ($file{0} == '.' && $file{1} == '/') {
+                if ($file[0] == '.' && $file[1] == '/') {
                     $this->_validateError(PEAR_PACKAGEFILE_ERROR_INVALID_FILENAME,
                         array('file' => $file));
                 }
@@ -1575,7 +1575,7 @@ class PEAR_PackageFile_v1
             foreach ($methods as $method) {
                 $function = "$class::$method";
                 $key = "function;$function";
-                if ($method{0} == '_' || !strcasecmp($method, $class) ||
+                if ($method[0] == '_' || !strcasecmp($method, $class) ||
                     isset($this->_packageInfo['provides'][$key])) {
                     continue;
                 }
@@ -1586,7 +1586,7 @@ class PEAR_PackageFile_v1
 
         foreach ($srcinfo['declared_functions'] as $function) {
             $key = "function;$function";
-            if ($function{0} == '_' || isset($this->_packageInfo['provides'][$key])) {
+            if ($function[0] == '_' || isset($this->_packageInfo['provides'][$key])) {
                 continue;
             }
             if (!strstr($function, '::') && strncasecmp($function, $pn, $pnl)) {

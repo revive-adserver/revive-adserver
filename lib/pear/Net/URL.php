@@ -178,7 +178,7 @@ class Net_URL
                         break;
 
                     case 'path':
-                        if ($value{0} == '/') {
+                        if ($value[0] == '/') {
                             $this->path = $value;
                         } else {
                             $path = dirname($this->path) == DIRECTORY_SEPARATOR ? '' : dirname($this->path);

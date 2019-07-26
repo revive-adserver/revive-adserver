@@ -414,7 +414,7 @@ class PEAR_PackageFile_v2_Validator
             foreach ($tags as $i => $tag) {
                 if (!is_array($tag) || !isset($tag['attribs'])) {
                     foreach ($choice['attribs'] as $attrib) {
-                        if ($attrib{0} != '?') {
+                        if ($attrib[0] != '?') {
                             $ret &= $this->_tagHasNoAttribs($choice['tag'],
                                 $context);
                             continue 2;
@@ -422,7 +422,7 @@ class PEAR_PackageFile_v2_Validator
                     }
                 }
                 foreach ($choice['attribs'] as $attrib) {
-                    if ($attrib{0} != '?') {
+                    if ($attrib[0] != '?') {
                         if (!isset($tag['attribs'][$attrib])) {
                             $ret &= $this->_tagMissingAttribute($choice['tag'],
                                 $attrib, $context);
@@ -445,9 +445,9 @@ class PEAR_PackageFile_v2_Validator
             }
             return $ret;
         }
-        $multi = $key{0};
+        $multi = $key[0];
         if ($multi == '+' || $multi == '*') {
-            $ret['multiple'] = $key{0};
+            $ret['multiple'] = $key[0];
             $key = substr($key, 1);
         }
         if (count($attrs = explode('->', $key)) > 1) {
@@ -1064,8 +1064,8 @@ class PEAR_PackageFile_v2_Validator
             foreach ($list['file'] as $i => $file)
             {
                 if (isset($file['attribs']) && isset($file['attribs']['name']) &&
-                      $file['attribs']['name']{0} == '.' &&
-                        $file['attribs']['name']{1} == '/') {
+                      $file['attribs']['name'][0] == '.' &&
+                        $file['attribs']['name'][1] == '/') {
                     // name is something like "./doc/whatever.txt"
                     $this->_invalidFileName($file['attribs']['name']);
                 }
@@ -2043,7 +2043,7 @@ class PEAR_PackageFile_v2_Validator
             foreach ($methods as $method) {
                 $function = "$class::$method";
                 $key = "function;$function";
-                if ($method{0} == '_' || !strcasecmp($method, $class) ||
+                if ($method[0] == '_' || !strcasecmp($method, $class) ||
                     isset($providesret[$key])) {
                     continue;
                 }
@@ -2054,7 +2054,7 @@ class PEAR_PackageFile_v2_Validator
 
         foreach ($srcinfo['declared_functions'] as $function) {
             $key = "function;$function";
-            if ($function{0} == '_' || isset($providesret[$key])) {
+            if ($function[0] == '_' || isset($providesret[$key])) {
                 continue;
             }
             if (!strstr($function, '::') && strncasecmp($function, $pn, $pnl)) {

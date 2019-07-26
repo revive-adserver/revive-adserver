@@ -152,7 +152,7 @@ class PEAR_Autoloader extends PEAR
         $methods = get_class_methods($classname);
         foreach ($methods as $method) {
             // don't import priviate methods and constructors
-            if ($method{0} != '_' && $method != $classname) {
+            if ($method[0] != '_' && $method != $classname) {
                 $this->_method_map[$method] = $obj;
             }
         }

@@ -209,7 +209,7 @@ class HTML_Template_Flexy_Tree {
                 continue;
             }
             $tag = strtoupper($res[$i]->tag);
-            if ($tag{0} != '/') { // it's not a close tag..
+            if ($tag[0] != '/') { // it's not a close tag..
 
 
                 if (!isset($stack[$tag])) {

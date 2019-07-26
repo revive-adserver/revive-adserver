@@ -745,7 +745,7 @@ http://pear.php.net/dtd/package-2.0.xsd',
                     }
                 }
 
-                if (is_string($value) && $value && ($value{strlen($value) - 1} == "\n")) {
+                if (is_string($value) && $value && ($value[strlen($value) - 1] == "\n")) {
                     $value .= str_repeat($this->options['indent'], $this->_tagDepth);
                 }
                 $tmp .= $this->_createXMLTag(array(
@@ -1492,7 +1492,7 @@ class PEAR_PackageFile_Generator_v2_XML_Util {
     function isValidName($string)
     {
         // check for invalid chars
-        if (!preg_match("/^[[:alnum:]_\-.]\\z/", $string{0})) {
+        if (!preg_match("/^[[:alnum:]_\-.]\\z/", $string[0])) {
             return PEAR_PackageFile_Generator_v2_XML_Util::raiseError( "XML names may only start with letter or underscore", PEAR_PackageFile_Generator_v2_XML_Util_ERROR_INVALID_START );
         }
 

@@ -236,7 +236,7 @@ class System
             } elseif($opt[0] == 'm') {
                 // if the mode is clearly an octal number (starts with 0)
                 // convert it to decimal
-                if (strlen($opt[1]) && $opt[1]{0} == '0') {
+                if (strlen($opt[1]) && $opt[1][0] == '0') {
                     $opt[1] = octdec($opt[1]);
                 } else {
                     // convert to int
@@ -551,7 +551,7 @@ class System
                     break;
                 case '-name':
                     if (OS_WINDOWS) {
-                        if ($args[$i+1]{0} == '\\') {
+                        if ($args[$i+1][0] == '\\') {
                             // prepend drive
                             $args[$i+1] = addslashes(substr(getcwd(), 0, 2) . $args[$i + 1]);
                         }

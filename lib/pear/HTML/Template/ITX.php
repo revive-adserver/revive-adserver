@@ -642,7 +642,7 @@ class HTML_Template_ITX extends HTML_Template_IT
 
             while ($head != '' && $args2 = $this->getValue($head, ',')) {
                 $arg2 = trim($args2);
-                $args[] = ('"' == $arg2{0} || "'" == $arg2{0}) ?
+                $args[] = ('"' == $arg2[0] || "'" == $arg2[0]) ?
                                     substr($arg2, 1, -1) : $arg2;
                 if ($arg2 == $head) {
                     break;

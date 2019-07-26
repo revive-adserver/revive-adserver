@@ -612,7 +612,7 @@ class PEAR_Common extends PEAR
             foreach ($methods as $method) {
                 $function = "$class::$method";
                 $key = "function;$function";
-                if ($method{0} == '_' || !strcasecmp($method, $class) ||
+                if ($method[0] == '_' || !strcasecmp($method, $class) ||
                     isset($this->pkginfo['provides'][$key])) {
                     continue;
                 }
@@ -623,7 +623,7 @@ class PEAR_Common extends PEAR
 
         foreach ($srcinfo['declared_functions'] as $function) {
             $key = "function;$function";
-            if ($function{0} == '_' || isset($this->pkginfo['provides'][$key])) {
+            if ($function[0] == '_' || isset($this->pkginfo['provides'][$key])) {
                 continue;
             }
             if (!strstr($function, '::') && strncasecmp($function, $pn, $pnl)) {

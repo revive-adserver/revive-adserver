@@ -540,7 +540,7 @@ class XML_Tree extends XML_Parser
         }
         
         //  check for invalid starting character
-        if (!preg_match("/[[:alpha:]_]/", $name{0})) {
+        if (!preg_match("/[[:alpha:]_]/", $name[0])) {
             return new PEAR_Error( ucfirst($type) . " ('$name') has an invalid name, an XML name may only start with a letter or underscore");
         }
 

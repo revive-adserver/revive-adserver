@@ -215,7 +215,7 @@ function phpAds_SWFInfo($buffer)
 							)
 						/sx', $buffer, $m))
 	{
-		if ($m[0]{0} == chr(0x83))
+		if ($m[0][0] == chr(0x83))
 		{
 			$parameter_url = $m[1];
 			$parameter_target = $m[2];
@@ -315,13 +315,13 @@ function phpAds_SWFConvert($buffer, $compress, $allowed)
 			$object_tag = substr($recordheader, 0, 2);
 			$expected_len = strlen($geturl_part) + $len;
 
-			$tag_type = (ord($object_tag{1}) << 2 | (ord($object_tag{0}) & ~0x3F) >> 6) & 0xFF;
+			$tag_type = (ord($object_tag[1]) << 2 | (ord($object_tag[0]) & ~0x3F) >> 6) & 0xFF;
 
 			if (!in_array($tag_type, $allowed_types))
 				continue;
 
 			// Check for long RECORDHEADER
-			if ($len > 6 && (ord($object_tag{0}) & 0x3F) == 0x3F)
+			if ($len > 6 && (ord($object_tag[0]) & 0x3F) == 0x3F)
 			{
 				$object_extended = true;
 				$object_len = unpack('V', substr($recordheader, 2, 4));
@@ -331,7 +331,7 @@ function phpAds_SWFConvert($buffer, $compress, $allowed)
 			else
 			{
 				$object_extended = false;
-				$object_len = ord($object_tag{0}) & 0x3F;
+				$object_len = ord($object_tag[0]) & 0x3F;
 				$expected_len -= 2;
 			}
 
@@ -412,9 +412,9 @@ function phpAds_SWFConvert($buffer, $compress, $allowed)
 		$replacement = substr($replacement, $object_extended ? 6 : 2);
 
 		if ($object_len2 < 0x3F)
-			$replacement = chr(($object_tag{0} && 0xC0) | $object_len2).$object_tag{1}.$replacement;
+			$replacement = chr(($object_tag[0] && 0xC0) | $object_len2).$object_tag[1].$replacement;
 		else
-			$replacement = chr(ord($object_tag{0}) | 0x3F).$object_tag{1}.pack('V', $object_len2).$replacement;
+			$replacement = chr(ord($object_tag[0]) | 0x3F).$object_tag[1].pack('V', $object_len2).$replacement;
 
 		// Check for DefineSprite
 		$definesprite_part = substr($previous_part, -strlen($recordheader) - 10, 10);
@@ -429,7 +429,7 @@ function phpAds_SWFConvert($buffer, $compress, $allowed)
 
 			$original = $definesprite_part.$original;
 
-			$replacement = chr(ord($object_tag{0}) | 0x3F).$object_tag{1}.pack('V', $object_len).$m[2].$replacement;
+			$replacement = chr(ord($object_tag[0]) | 0x3F).$object_tag[1].pack('V', $object_len).$m[2].$replacement;
 		}
 
 		// Is this link allowed to be converted?

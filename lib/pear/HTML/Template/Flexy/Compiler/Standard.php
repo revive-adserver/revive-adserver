@@ -461,7 +461,7 @@ class HTML_Template_Flexy_Compiler_Standard extends HTML_Template_Flexy_Compiler
         $suffix = '';
         $modifier = strlen(trim($element->modifier)) ? $element->modifier : ' ';
 
-        switch ($modifier{0}) {
+        switch ($modifier[0]) {
             case 'h':
                 break;
             case 'u':
@@ -587,7 +587,7 @@ class HTML_Template_Flexy_Compiler_Standard extends HTML_Template_Flexy_Compiler
                 $ret .= ",";
             }
             $s =1;
-            if ($a{0} == '#') {
+            if ($a[0] == '#') {
                 $ret .= '"'. addslashes(substr($a,1,-1)) . '"';
                 continue;
             }
@@ -885,7 +885,7 @@ class HTML_Template_Flexy_Compiler_Standard extends HTML_Template_Flexy_Compiler
             $bits =  explode(':',$element->tag);
             $namespace = $bits[0];
         }
-        if ($namespace{0} == '/') {
+        if ($namespace[0] == '/') {
             $namespace = substr($namespace,1);
         }
         if (empty($this->tagHandlers[$namespace])) {

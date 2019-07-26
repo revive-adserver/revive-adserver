@@ -204,7 +204,7 @@ class PEAR_Builder extends PEAR_Common
 
         $ret = true;
         while (($ent = readdir($d)) !== false) {
-            if ($ent{0} == '.')
+            if ($ent[0] == '.')
                 continue;
 
             $full = $dirname . DIRECTORY_SEPARATOR . $ent;

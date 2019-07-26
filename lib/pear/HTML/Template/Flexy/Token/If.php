@@ -44,7 +44,7 @@ class HTML_Template_Flexy_Token_If extends HTML_Template_Flexy_Token{
     */
     function setValue($value) {
         //var_dump($value);
-        if (strlen($value) && $value{0} == '!') {
+        if (strlen($value) && $value[0] == '!') {
             $this->isNegative = '!';
             $value = substr($value,1);
         }

@@ -322,7 +322,7 @@ class OA_phpAdsNew
     				$buf = fread($fp, $SEGMENT_RECORD_LENGTH);
     				for ($j = 0; $j < $SEGMENT_RECORD_LENGTH; $j++)
     				{
-    					$databaseSegments |= (ord($buf{$j}) << ($j << 3));
+    					$databaseSegments |= (ord($buf[$j]) << ($j << 3));
     				}
     				if ($databaseType == $GEOIP_ORG_EDITION ||
     					$databaseType == $GEOIP_ISP_EDITION)

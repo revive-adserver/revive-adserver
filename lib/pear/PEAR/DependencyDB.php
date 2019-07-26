@@ -171,7 +171,7 @@ class PEAR_DependencyDB
             if ($depdb['_version'] < $this->_version) {
                 $this->rebuildDB();
             }
-            if ($depdb['_version']{0} > $this->_version{0}) {
+            if ($depdb['_version'][0] > $this->_version[0]) {
                 return PEAR::raiseError('Dependency database is version ' .
                     $depdb['_version'] . ', and we are version ' .
                     $this->_version . ', cannot continue');

@@ -72,7 +72,7 @@ class HTML_Template_Flexy_Compiler_Regex {
             $this->flexy->debug("METHODS:");
             $this->flexy->debug(serialize($methods)."<BR>");
             foreach($methods as $method) {
-                if ($method{0} == "_") {
+                if ($method[0] == "_") {
                     continue; // private
                 }
                 if ($method  == $class) {

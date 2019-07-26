@@ -166,7 +166,7 @@ class PEAR_Command_Common extends PEAR
         while (list($option, $info) = each($this->commands[$command]['options'])) {
             $larg = $sarg = '';
             if (isset($info['arg'])) {
-                if ($info['arg']{0} == '(') {
+                if ($info['arg'][0] == '(') {
                     $larg = '==';
                     $sarg = '::';
                     $arg = substr($info['arg'], 1, -1);

@@ -482,7 +482,7 @@ class Image_Color
     {
         $c = array();
 
-        if ($color{0} == '#') {
+        if ($color[0] == '#') {
             $c = Image_Color::hex2rgb($color);
         } else {
              $c = Image_Color::namedColor2RGB($color);

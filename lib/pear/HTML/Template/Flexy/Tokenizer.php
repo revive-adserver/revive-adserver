@@ -243,7 +243,7 @@ class HTML_Template_Flexy_Tokenizer
     function yy_advance ()
     {
         if ($this->yy_buffer_index < $this->yy_buffer_read) {
-            return ord($this->yy_buffer{$this->yy_buffer_index++});
+            return ord($this->yy_buffer[$this->yy_buffer_index++]);
         }
         return YY_EOF;
     }
@@ -252,12 +252,12 @@ class HTML_Template_Flexy_Tokenizer
     function yy_move_end ()
     {
         if ($this->yy_buffer_end > $this->yy_buffer_start &&
-            '\n' == $this->yy_buffer{$this->yy_buffer_end-1})
+            '\n' == $this->yy_buffer[$this->yy_buffer_end-1])
         {
             $this->yy_buffer_end--;
         }
         if ($this->yy_buffer_end > $this->yy_buffer_start &&
-            '\r' == $this->yy_buffer{$this->yy_buffer_end-1})
+            '\r' == $this->yy_buffer[$this->yy_buffer_end-1])
         {
             $this->yy_buffer_end--;
         }
@@ -270,10 +270,10 @@ class HTML_Template_Flexy_Tokenizer
     function yy_mark_start ()
     {
         for ($i = $this->yy_buffer_start; $i < $this->yy_buffer_index; $i++) {
-            if ($this->yy_buffer{$i} == "\n" && !$this->yy_last_was_cr) {
+            if ($this->yy_buffer[$i] == "\n" && !$this->yy_last_was_cr) {
                 $this->yyline++; $this->yyEndOfLine = $this->yychar;
             }
-            if ($this->yy_buffer{$i} == "\r") {
+            if ($this->yy_buffer[$i] == "\r") {
                 $this->yyline++; $this->yyEndOfLine = $this->yychar;
                 $this->yy_last_was_cr=true;
             } else {
@@ -295,8 +295,8 @@ class HTML_Template_Flexy_Tokenizer
     {
         $this->yy_buffer_index = $this->yy_buffer_end;
         $this->yy_at_bol = ($this->yy_buffer_end > $this->yy_buffer_start) &&
-            ($this->yy_buffer{$this->yy_buffer_end-1} == '\r' ||
-            $this->yy_buffer{$this->yy_buffer_end-1} == '\n');
+            ($this->yy_buffer[$this->yy_buffer_end-1] == '\r' ||
+            $this->yy_buffer[$this->yy_buffer_end-1] == '\n');
     }
 
 
@@ -3445,7 +3445,7 @@ case 33:
 {
     $this->value =  '';
     $n = $this->yytext();
-    if ($n{0} != "{") {
+    if ($n[0] != "{") {
         $n = substr($n,2);
     }
     $this->flexyMethod = substr($n,1,-1);
@@ -3457,12 +3457,12 @@ case 33:
 case 34:
 {
     $n = $this->yytext();
-    if ($n{0} != '{') {
+    if ($n[0] != '{') {
         $n = substr($n,3);
     } else {
         $n = substr($n,1);
     }
-    if ($n{strlen($n)-1} != '}') {
+    if ($n[strlen($n)-1] != '}') {
         $n = substr($n,0,-3);
     } else {
         $n = substr($n,0,-1);
@@ -3716,7 +3716,7 @@ case 70:
 case 71:
 {
     $t = $this->yytext();
-    if ($t{strlen($t)-1} == ",") {
+    if ($t[strlen($t)-1] == ",") {
         // add argument
         $this->flexyArgs[] = substr($t,0,-1);
         return HTML_TEMPLATE_FLEXY_TOKEN_NONE;
@@ -3727,7 +3727,7 @@ case 71:
 case 72:
 {
     $t = $this->yytext();
-    if ($t{strlen($t)-1} == ",") {
+    if ($t[strlen($t)-1] == ",") {
         // add argument
         $this->flexyArgs[] = '#' . substr($t,0,-1) . '#';
         return HTML_TEMPLATE_FLEXY_TOKEN_NONE;
@@ -3746,7 +3746,7 @@ case 72:
 case 73:
 {
     $t = $this->yytext();
-    if ($t{strlen($t)-1} == ",") {
+    if ($t[strlen($t)-1] == ",") {
         // add argument
         $this->flexyArgs[] = substr($t,0,-1);
         return HTML_TEMPLATE_FLEXY_TOKEN_NONE;
@@ -3765,7 +3765,7 @@ case 73:
 case 74:
 {
     $t = $this->yytext();
-    if ($t{1} == ':') {
+    if ($t[1] == ':') {
         $this->flexyMethod .= substr($t,1,-1);
     }
     $this->value = $this->createToken('Method'  , array($this->flexyMethod,$this->flexyArgs));
@@ -4088,7 +4088,7 @@ case 120:
 case 121:
 {
     $t = $this->yytext();
-    if ($t{strlen($t)-1} == ",") {
+    if ($t[strlen($t)-1] == ",") {
         // add argument
         $this->flexyArgs[] = substr($t,0,-1);
         return HTML_TEMPLATE_FLEXY_TOKEN_NONE;

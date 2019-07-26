@@ -156,12 +156,12 @@ class HTML_Template_Flexy_Compiler_SmartyConvertor extends HTML_Template_Flexy_C
     function _compileTag($str)
     {
         // skip comments
-        if (($str{0} == '*') && (substr($str,-1,1) == '*')) {
+        if (($str[0] == '*') && (substr($str,-1,1) == '*')) {
             return '';
         }
 
 
-        switch($str{0}) {
+        switch($str[0]) {
             case '$':
                 // its a var
                 return $this->_convertVar($str);
@@ -304,7 +304,7 @@ class HTML_Template_Flexy_Compiler_SmartyConvertor extends HTML_Template_Flexy_C
             if (count($bits) != 2) {
                 continue;
             }
-            $ret[$bits[0]] = ($bits[1]{0} == '"') ? substr($bits[1],1,-1) : $bits[1];
+            $ret[$bits[0]] = ($bits[1][0] == '"') ? substr($bits[1],1,-1) : $bits[1];
         }
         return $ret;
     }

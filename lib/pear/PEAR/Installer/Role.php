@@ -225,7 +225,7 @@ class PEAR_Installer_Role
             return PEAR::raiseError("registerRoles: opendir($dir) failed");
         }
         while ($entry = readdir($dp)) {
-            if ($entry{0} == '.' || substr($entry, -4) != '.xml') {
+            if ($entry[0] == '.' || substr($entry, -4) != '.xml') {
                 continue;
             }
             $class = "PEAR_Installer_Role_".substr($entry, 0, -4);
