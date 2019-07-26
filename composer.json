@@ -34,7 +34,8 @@
         "tinymce/tinymce": "^4.6"
     },
     "require-dev": {
-        "symfony/finder": "^3.4"
+        "symfony/finder": "^3.4",
+        "friendsofphp/php-cs-fixer": "^2.15"
     },
     "extra": {
         "post-install-asseteer": [
