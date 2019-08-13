@@ -15,20 +15,4 @@
  * @subpackage DeliveryLimitations
  */
 
-if (!isset($GLOBALS['_MAX']['_GEOCACHE']['city'])) {
-    $pathPlugins = dirname(__FILE__);
-    require $pathPlugins.'/data/res-iso3166.inc.php';
-    require $pathPlugins.'/Country.res.inc.php';
-
-    foreach ($OA_Geo_ISO3166_MaxMind as $k => $v) {
-        unset($res[$k]);
-    }
-
-    $res = array('' => $this->translate('---Any---')) + $res;
-
-    $GLOBALS['_MAX']['_GEOCACHE']['city'] = $res;
-} else {
-    $res = $GLOBALS['_MAX']['_GEOCACHE']['city'];
-}
-
-?>
+require __DIR__.'/Country.res.inc.php';

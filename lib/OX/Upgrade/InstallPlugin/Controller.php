@@ -25,7 +25,9 @@ class OX_Upgrade_InstallPlugin_Controller
 
     private static $DEPRECATED_PLUGINS = array(
         'openXMarket',
-        'openXWorkflow'
+        'openXWorkflow',
+        'openXMaxMindGeoIP',
+        'openXMaxMindModGeoIP',
     );
 
     /**
@@ -121,7 +123,7 @@ class OX_Upgrade_InstallPlugin_Controller
      * @param string $pluginName The original, filename-based plugin name
      * @return string The new plugin name, or the original if no match found.
      */
-    static function openxToRevivePluginName($pluginName)
+    public static function openxToRevivePluginName($pluginName)
     {
         switch ($pluginName) {
             case "openXBannerTypes":
@@ -134,14 +136,14 @@ class OX_Upgrade_InstallPlugin_Controller
                 return "Reports Plugin";
             case "openXDeliveryCacheStore":
                 return "Banner Delivery Cache Store Plugin";
-            case "openXMaxMindGeoIP":
-                return "MaxMind GeoIP Plugin";
             case "openXInvocationTags":
                 return "Invocation Tags Plugin";
             case "openXDeliveryLog":
                 return "Banner Delivery Logging Plugin";
             case "openXVideoAds":
                 return "IAB VAST Plugin";
+            case "reviveMaxMindGeoIP2":
+                return "MaxMind GeoIP2 Plugin";
         }
         return $pluginName;
     }

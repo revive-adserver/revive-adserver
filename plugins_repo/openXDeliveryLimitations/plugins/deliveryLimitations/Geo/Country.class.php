@@ -31,6 +31,8 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
  */
 class Plugins_DeliveryLimitations_Geo_Country extends Plugins_DeliveryLimitations_CommaSeparatedData
 {
+    use \RV\Extension\DeliveryLimitations\GeoLimitationTrait;
+
     function __construct()
     {
         parent::__construct();
@@ -44,8 +46,7 @@ class Plugins_DeliveryLimitations_Geo_Country extends Plugins_DeliveryLimitation
      */
     function isAllowed($page = false)
     {
-        return ((isset($GLOBALS['_MAX']['GEO_DATA']['country_code']))
-            || $GLOBALS['_MAX']['CONF']['geotargeting']['showUnavailable']);
+        return $this->hasCapability('country_code');
     }
 
     /**
@@ -65,5 +66,3 @@ class Plugins_DeliveryLimitations_Geo_Country extends Plugins_DeliveryLimitation
         echo "</div>";
     }
 }
-
-?>

@@ -29,7 +29,6 @@ class Plugins_DeliveryLimitations_Site_Referingpage extends Plugins_DeliveryLimi
     function __construct()
     {
         parent::__construct();
-        $this->columnName = 'referer';
         $this->nameEnglish = 'Site - Referring Page';
     }
 

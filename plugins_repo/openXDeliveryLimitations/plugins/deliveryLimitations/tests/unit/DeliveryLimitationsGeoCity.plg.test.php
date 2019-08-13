@@ -38,33 +38,33 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Geo_City extends UnitTestCase
     {
         $oPlugin = &OX_Component::factory('deliveryLimitations', 'Geo', 'City');
         $rawData = 'GB|London, Manchester';
-        $oPlugin->init(array('data' => $rawData, 'comparison' => '=='));
+        $oPlugin->init(['data' => $rawData, 'comparison' => '==']);
         $this->assertEqual('MAX_checkGeo_City(\'gb|london,manchester\', \'==\')', $oPlugin->compile());
         $this->assertEqual($rawData, $oPlugin->getData());
-        $oPlugin->init(array('data' => array('GB', 'London, Manchester'), 'comparison' => '=='));
+        $oPlugin->init(['data' => ['GB', 'London, Manchester'], 'comparison' => '==']);
         $this->assertEqual('MAX_checkGeo_City(\'gb|london,manchester\', \'==\')', $oPlugin->compile());
     }
 
     function testMAX_checkGeo_City()
     {
-        $this->assertTrue(MAX_checkGeo_City('PL|Poznan,Wroclaw', '=~', array('country_code' => 'PL', 'city' => 'Poznan')));
-        $this->assertTrue(MAX_checkGeo_City('pl|poznan,wroclaw', '=~', array('country_code' => 'PL', 'city' => 'Poznan')));
-        $this->assertFalse(MAX_checkGeo_City('pl|poznan,wroclaw', '=~', array('country_code' => 'PL', 'city' => 'Warszawa')));
-        $this->assertFalse(MAX_checkGeo_City('pl|poznan,wroclaw,szczecinek', '=~', array('country_code' => 'PL', 'city' => 'Szczecin')));
-        $this->assertFalse(MAX_checkGeo_City('pl|', '=~', array('country_code' => 'PL', 'city' => 'Szczecin')));
+        $this->assertTrue(MAX_checkGeo_City('PL|Poznan,Wroclaw', '=~', ['country' => 'PL', 'city' => 'Poznan']));
+        $this->assertTrue(MAX_checkGeo_City('pl|poznan,wroclaw', '=~', ['country' => 'PL', 'city' => 'Poznan']));
+        $this->assertFalse(MAX_checkGeo_City('pl|poznan,wroclaw', '=~', ['country' => 'PL', 'city' => 'Warszawa']));
+        $this->assertFalse(MAX_checkGeo_City('pl|poznan,wroclaw,szczecinek', '=~', ['country' => 'PL', 'city' => 'Szczecin']));
+        $this->assertFalse(MAX_checkGeo_City('pl|', '=~', ['country' => 'PL', 'city' => 'Szczecin']));
 
         // Since we now support !city matching, these need testing, trying inverting the tests
-        $this->assertFalse(MAX_checkGeo_City('PL|Poznan,Wroclaw', '!~', array('country_code' => 'PL', 'city' => 'Poznan')));
-        $this->assertFalse(MAX_checkGeo_City('pl|poznan,wroclaw', '!~', array('country_code' => 'PL', 'city' => 'Poznan')));
-        $this->assertTrue(MAX_checkGeo_City('pl|poznan,wroclaw', '!~', array('country_code' => 'PL', 'city' => 'Warszawa')));
-        $this->assertTrue(MAX_checkGeo_City('pl|poznan,wroclaw,szczecinek', '!~', array('country_code' => 'PL', 'city' => 'Szczecin')));
-        $this->assertTrue(MAX_checkGeo_City('pl|', '!~', array('country_code' => 'PL', 'city' => 'Szczecin')));
+        $this->assertFalse(MAX_checkGeo_City('PL|Poznan,Wroclaw', '!~', ['country' => 'PL', 'city' => 'Poznan']));
+        $this->assertFalse(MAX_checkGeo_City('pl|poznan,wroclaw', '!~', ['country' => 'PL', 'city' => 'Poznan']));
+        $this->assertTrue(MAX_checkGeo_City('pl|poznan,wroclaw', '!~', ['country' => 'PL', 'city' => 'Warszawa']));
+        $this->assertTrue(MAX_checkGeo_City('pl|poznan,wroclaw,szczecinek', '!~', ['country' => 'PL', 'city' => 'Szczecin']));
+        $this->assertTrue(MAX_checkGeo_City('pl|', '!~', ['country' => 'PL', 'city' => 'Szczecin']));
 }
 
     function testGetName()
     {
         $oPlugin = &OX_Component::factory('deliveryLimitations', 'Geo', 'City');
-        $oPlugin->init(array()); // Assume it is called in the production after talking to Andrew
+        $oPlugin->init([]); // Assume it is called in the production after talking to Andrew
         $this->assertEqual('Geo - Country / City', $oPlugin->displayName);
     }
 }

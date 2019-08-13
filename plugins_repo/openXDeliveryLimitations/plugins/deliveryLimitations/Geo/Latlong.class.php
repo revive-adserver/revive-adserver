@@ -31,6 +31,8 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
  */
 class Plugins_DeliveryLimitations_Geo_Latlong extends Plugins_DeliveryLimitations_CommaSeparatedData
 {
+    use \RV\Extension\DeliveryLimitations\GeoLimitationTrait;
+
     function __construct()
     {
         parent::__construct();
@@ -53,8 +55,7 @@ class Plugins_DeliveryLimitations_Geo_Latlong extends Plugins_DeliveryLimitation
      */
     function isAllowed($page = false)
     {
-        return ((isset($GLOBALS['_MAX']['GEO_DATA']['latitude']))
-            || $GLOBALS['_MAX']['CONF']['geotargeting']['showUnavailable']);
+        return $this->hasCapability('latitude');
     }
 
      /**
@@ -68,7 +69,7 @@ class Plugins_DeliveryLimitations_Geo_Latlong extends Plugins_DeliveryLimitation
         if (is_array($data['data'])) {
             foreach( $data['data'] as $number) {
                 if(!is_numeric($number) || strpos($data['data'][0],',') !== false)
-                return MAX_Plugin_Translation::translate('Geo:Latitude/Longitude: One of the parameter is not a number', $this->extension, $this->group);
+                return $this->translate('Geo:Latitude/Longitude: One of the parameter is not a number', $this->extension, $this->group);
             }
         }
         return true;

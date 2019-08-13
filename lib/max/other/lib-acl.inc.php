@@ -15,6 +15,8 @@ require_once MAX_PATH . '/www/admin/lib-banner.inc.php';
 require_once LIB_PATH . '/Plugin/Component.php';
 require_once MAX_PATH . '/lib/max/Dal/Admin/Acls.php';
 
+/* @TODO REMOVE ME!
+
 if (!isset($GLOBALS['_MAX']['FILES']['/lib/max/Delivery/remotehost.php'])) {
     // Required by PHP5.1.2
     require_once MAX_PATH . '/lib/max/Delivery/remotehost.php';
@@ -29,7 +31,7 @@ MAX_remotehostSetGeoInfo();
  * @todo I believe the following is unnecessary with the "MAX_remotehostSetGeoInfo()" above
  * However the isAllowed() methods for the Geo-Plugins will have to be updated
  */
-
+/*
 // Register the geotargeting information if necessary
 if (!isset($GLOBALS['_MAX']['GEO_DATA']) && (!empty($conf['geotargeting']['type']) && $conf['geotargeting']['type'] != 'none')) {
     $oGeoComponent = OX_Component::factoryByComponentIdentifier($conf['geotargeting']['type']);
@@ -44,6 +46,7 @@ if (!isset($GLOBALS['_MAX']['GEO_DATA']) && (!empty($conf['geotargeting']['type'
         $GLOBALS['_MAX']['GEO_DATA'] = $oGeoComponent->getGeoInfo();
     }
 }
+*/
 
 function MAX_AclAdjust($acl, $action)
 {
@@ -562,7 +565,7 @@ function OA_aclRecompileBanners($upgrade = false)
     return OA_aclRecompileAclsForTable('acls', 'bannerid', 'banner-acl.php', $conf['table']['banners'], $upgrade);
 }
 
-function OA_aclRecompileCampaigns($upgrade = false)
+function OA_aclRecompileChannels($upgrade = false)
 {
     $conf =& $GLOBALS['_MAX']['CONF'];
     return OA_aclRecompileAclsForTable('acls_channel', 'channelid', 'channel-acl.php', $conf['table']['channel'], $upgrade);
@@ -584,7 +587,7 @@ function MAX_AclReCompileAll($upgrade = false)
     if (PEAR::isError($result)) {
         return $result;
     }
-    $result = OA_aclRecompileCampaigns($upgrade);
+    $result = OA_aclRecompileChannels($upgrade);
     if (PEAR::isError($result)) {
         return $result;
     }

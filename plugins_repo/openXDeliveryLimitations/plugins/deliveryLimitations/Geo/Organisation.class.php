@@ -24,11 +24,11 @@ require_once LIB_PATH . '/Extension/deliveryLimitations/DeliveryLimitations.php'
  */
 class Plugins_DeliveryLimitations_Geo_Organisation extends Plugins_DeliveryLimitations
 {
+    use \RV\Extension\DeliveryLimitations\GeoLimitationTrait;
 
     function __construct()
     {
         parent::__construct();
-        $this->columnName = 'geo_organisation';
         $this->nameEnglish = 'Geo - ISP/Organisation';
     }
 
@@ -39,8 +39,7 @@ class Plugins_DeliveryLimitations_Geo_Organisation extends Plugins_DeliveryLimit
      */
     function isAllowed($page = false)
     {
-        return ((isset($GLOBALS['_MAX']['GEO_DATA']['organisation']))
-            || $GLOBALS['_MAX']['CONF']['geotargeting']['showUnavailable']);
+        return $this->hasCapability('isp');
     }
 
 }

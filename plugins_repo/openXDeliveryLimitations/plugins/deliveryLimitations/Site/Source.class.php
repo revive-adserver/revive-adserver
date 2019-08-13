@@ -29,7 +29,6 @@ class Plugins_DeliveryLimitations_Site_Source extends Plugins_DeliveryLimitation
     function __construct()
     {
         parent::__construct();
-        $this->columnName = 'channel';
         $this->nameEnglish = 'Site - Source';
     }
 

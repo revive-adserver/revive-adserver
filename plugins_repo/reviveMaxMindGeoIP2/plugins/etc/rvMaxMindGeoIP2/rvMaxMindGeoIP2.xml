@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href=""?>
+
+<plugin>
+    <name>rvMaxMindGeoIP2</name>
+    <displayName>MaxMind GeoIP2 Plugin</displayName>
+    <creationDate>2018-09-03</creationDate>
+    <author>Revive Adserver</author>
+    <authorEmail>revive@revive-adserver.com</authorEmail>
+    <authorUrl>http://www.revive-adserver.com</authorUrl>
+    <license>LICENSE.txt</license>
+    <description>Plugin that provides access to MaxMind GeoIP2 Geotargeting data for use in banner targeting.</description>
+    <version>0.9.2</version>
+    <oxversion>5.0.0-dev</oxversion>
+    <extends>geoTargeting</extends>
+
+    <install>
+
+        <files>
+            <file path="{MODULEPATH}etc/rvMaxMindGeoIP2/">composer.json</file>
+            <file path="{MODULEPATH}geoTargeting/rvMaxMindGeoIP2/lib/">MaxMindGeoIP2.php</file>
+            <file path="{MODULEPATH}geoTargeting/rvMaxMindGeoIP2/lib/">MaxMindGeoLite2Downloader.php</file>
+            <file path="{MODULEPATH}geoTargeting/rvMaxMindGeoIP2/">rvMaxMindGeoIP2.class.php</file>
+            <file path="{MODULEPATH}geoTargeting/rvMaxMindGeoIP2/">rvMaxMindGeoIP2.delivery.php</file>
+        </files>
+
+        <configuration>
+            <setting key="mmdb_paths" type="textarea" label="Path to GeoIP2 MMDB files (one per line)" required="0" size="64" visible="1"></setting>
+        </configuration>
+
+        <components>
+           <component>
+               <name>rvMaxMindGeoIP2</name>
+           </component>
+        </components>
+
+    </install>
+
+</plugin>

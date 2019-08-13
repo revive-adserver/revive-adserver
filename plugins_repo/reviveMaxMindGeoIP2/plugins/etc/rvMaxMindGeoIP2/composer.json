@@ -1,0 +1,9 @@
+{
+    "name": "revive-adserver/rv-max-mind-geo-ip2",
+    "description": "Revive Adserver MaxMind GeoIP2 Plugin",
+    "type": "library",
+    "license": "GPL",
+    "require": {
+        "maxmind-db/reader": "^1.3"
+    }
+}

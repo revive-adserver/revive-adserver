@@ -71,29 +71,7 @@ class OX_Upgrade_InstallPlugin_ControllerTest extends UnitTestCase
 
     function _correctPluginName($pluginName)
     {
-        switch ($pluginName) {
-            case "openXBannerTypes":
-                return "Banner Types Plugin";
-            case "openXDeliveryLimitations":
-                return "Delivery Rules Plugin";
-            case "openX3rdPartyServers":
-                return "3rd Party Servers Plugin";
-            case "openXReports":
-                return "Reports Plugin";
-            case "openXDeliveryCacheStore":
-                return "Banner Delivery Cache Store Plugin";
-            case "openXMaxMindGeoIP":
-                return "MaxMind GeoIP Plugin";
-            case "openXInvocationTags":
-                return "Invocation Tags Plugin";
-            case "openXDeliveryLog":
-                return "Banner Delivery Logging Plugin";
-            case "openXVideoAds":
-                return "IAB VAST Plugin";
-        }
-        return $pluginName;
+        return OX_Upgrade_InstallPlugin_Controller::openxToRevivePluginName($pluginName);
     }
 
 }
-
-?>

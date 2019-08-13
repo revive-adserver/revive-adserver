@@ -50,7 +50,7 @@ class OX_Component
      *       they should be added to the refactoredExtensions until this whole section can be removed
      * @return mixed The instantiated component object, or false on error.
      */
-    static function factory($extension, $group, $component = null)
+    public static function factory($extension, $group, $component = null)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         if ($component === null) {
@@ -71,7 +71,7 @@ class OX_Component
         return $obj;
     }
 
-    function factoryByComponentIdentifier($componentIdentifier)
+    public static function factoryByComponentIdentifier($componentIdentifier)
     {
         $aParts = self::parseComponentIdentifier($componentIdentifier);
         if (!$aParts) {
@@ -447,7 +447,7 @@ class OX_Component
      * @param string $componentIdentifier
      * @return mixed An array on success, or a PEAR error otherwise
      */
-    function parseComponentIdentifier($componentIdentifier)
+    public static function parseComponentIdentifier($componentIdentifier)
     {
         if (!preg_match('/^([a-zA-Z0-9]+):([a-zA-Z0-9]+)(?::([a-zA-Z0-9]+))?$/D', $componentIdentifier, $m)) {
             return false;

@@ -41,7 +41,6 @@ class Plugins_DeliveryLimitations extends OX_Component
     var $executionorder;
     var $count;
     var $res;
-    var $columnName = '';
     var $nameEnglish = '';
     var $defaultComparison = '==';
 
