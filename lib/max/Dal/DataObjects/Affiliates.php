@@ -206,6 +206,31 @@ class DataObjects_Affiliates extends DB_DataObjectCommon
         return $result;
     }
 
+    function duplicate()
+    {
+        // Get unique name
+        $this->name = $GLOBALS['strCopyOf'] . ' ' . $this->name;
+
+        $old_affiliateid = $this->affiliateid;
+        $this->affiliateid = null;
+        $new_affiliateid = $this->insert();
+
+        if (!empty($new_affiliateid)) {
+            // Duplicate the zones
+            $doZones = OA_Dal::factoryDO('zones');
+            $doZones->affiliateid = $old_affiliateid;
+            $doZones->find();
+            while($doZones->fetch()) {
+                $doOriginalZones = OA_Dal::factoryDO('zones');
+                $doOriginalZones->get($doZones->zoneid);
+                $new_zoneid = $doOriginalZones->duplicate($new_affiliateid);
+            }
+        }
+    
+        return $new_affiliateid;
+    }
+
+
     /**
      * build an affiliates specific audit array
      *
