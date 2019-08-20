@@ -29,7 +29,8 @@ What's New in Revive Adserver 4.2.2
  New Features
  ------------
 
- * None
+ * Extended the screens for managing user access to accounts to display the most
+   recent login time of users.
 
 
  Bug Fixes
