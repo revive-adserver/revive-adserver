@@ -77,14 +77,13 @@ $oTpl->assign('unlinkPage', 'advertiser-user-unlink.php');
 
 $doUsers = OA_Dal::factoryDO('users');
 $aUsers =  $doUsers->getAccountUsersByEntity('clients', $clientid);
-$datetime_format = $date_format . " " . $time_format;
 foreach ($aUsers as $key => $aValue) {
     // Date of last login is stored in UTC, so needs to be converted into the current user's
     // local timezone, and then converted into the user's desired date/time format
     $aUsers[$key]['date_last_login'] = RV_Admin_DateTimeFormat::formatUTCDateTime($aValue['date_last_login']);
     // Date created/linked is stored in the local user's timezone at time of creation/linking,
     // so only conversion into the user's desired date/time format is needed
-    $aUsers[$key]['date_created'] = RV_Admin_DateTimeFormat::formatDateTime($aValue['date_created']);
+    $aUsers[$key]['date_created'] = RV_Admin_DateTimeFormat::formatLocalDateTime($aValue['date_created']);
 }
 $oTpl->assign('users', array('aUsers' => $aUsers));
 $oTpl->display();
