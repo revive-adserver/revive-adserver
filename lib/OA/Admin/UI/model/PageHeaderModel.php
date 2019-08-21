@@ -96,7 +96,7 @@ class OA_Admin_UI_Model_PageHeaderModel
      * A header constructor
      *
      */
-    public function __construct($title = null, $iconClass = null, $pageType = 'default', $aBreadcrumbs = null)
+    public function __construct($title = null, $iconClass = null, $pageType = 'default', $aBreadcrumbs = [])
     {
         $this->title = $title;
         $this->iconClass = $iconClass;
