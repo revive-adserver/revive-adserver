@@ -132,7 +132,7 @@ class Plugins_InvocationTags_OxInvocationTags_Spc extends Plugins_InvocationTags
             }
         }
 
-        if(count($aZones) == 0) {
+        if(empty($aZones)) {
             return 'No Zones Available!';
         }
 
