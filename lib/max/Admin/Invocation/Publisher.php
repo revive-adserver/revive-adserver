@@ -35,7 +35,7 @@ class MAX_Admin_Invocation_Publisher extends MAX_Admin_Invocation {
      *
      * @return string  Generated invocation form
      */
-    function placeInvocationForm($extra = '', $zone_invocation = false)
+    function placeInvocationForm($extra = '', $zone_invocation = false, $aParams = null)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $pref = $GLOBALS['_MAX']['PREF'];
