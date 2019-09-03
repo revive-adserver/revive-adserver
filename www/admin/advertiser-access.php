@@ -81,10 +81,9 @@ foreach ($aUsers as $key => $aValue) {
     // Date of last login is stored in UTC, so needs to be converted into the current user's
     // local timezone, and then converted into the user's desired date/time format
     $aUsers[$key]['date_last_login'] = RV_Admin_DateTimeFormat::formatUTCDateTime($aValue['date_last_login']);
-    // Date created/linked is stored in the local user's timezone at time of creation/linking,
-    // so only conversion into the user's desired date format is needed - date only is used to
-    // indicate that this is not a 100% accurate value, just an indication of the value
-    $aUsers[$key]['date_created'] = RV_Admin_DateTimeFormat::formatLocalDate($aValue['date_created']);
+    // Date created/linked is stored in UTC, so needs to be converted into the current user's
+    // local timezone, and then converted into the user's desired date/time format
+    $aUsers[$key]['date_created'] = RV_Admin_DateTimeFormat::formatUTCDateTime($aValue['date_created']);
 }
 $oTpl->assign('users', array('aUsers' => $aUsers));
 $oTpl->display();

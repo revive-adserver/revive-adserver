@@ -60,14 +60,15 @@ class DataObjects_Users extends DB_DataObjectCommon
      */
     function insert()
     {
+        $now = gmdate(OA_DATETIME_FORMAT);
         if (isset($this->username)) {
             $this->username = strtolower($this->username);
         }
         if (empty($this->date_created)) {
-            $this->date_created = $this->formatDate(new Date());
+            $this->date_created = $now;
         }
         if (empty($this->email_updated)) {
-            $this->email_updated = $this->formatDate(new Date());
+            $this->email_updated = $now;
         }
         return parent::insert();
     }
