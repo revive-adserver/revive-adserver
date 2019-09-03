@@ -29,7 +29,8 @@ What's New in Revive Adserver 4.2.2
  New Features
  ------------
 
- * None
+ * Extended the screens for managing user access to accounts to display the most
+   recent login time of users.
 
 
  Bug Fixes
@@ -41,7 +42,12 @@ What's New in Revive Adserver 4.2.2
  Non-Backwards Compatible Changes
  --------------------------------
 
- * None
+ * The date and time that new user accounts are created / email address is update
+   has changed to UTC format in the database with this release. As timezone
+   information was not stored with the previous values, these cannot be safely
+   converted to UTC format. As a result, all user account creation / email address
+   update values stored before upgrading to this release may not be accurate - but
+   only by up to 13 hours.
 
 
 System Requirements

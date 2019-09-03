@@ -25,11 +25,8 @@
       <td style="width: 25%">{t str=EMail}</td>
     {/if}
       <td style="width: 20%">{t str=ContactName}</td>
-    {if $sso}
       <td style="width: 15%">{t str=LastLoggedIn}</td>
-    {else}
       <td style="width: 15%">{t str=DateLinked}</td>
-    {/if}
       <td style="width: 25%"></td>
     </tr>
 
@@ -50,11 +47,8 @@
         <td><a href="{$editPage}?userid={$user.user_id}{if $entityIdName}&amp;{$entityIdName}={$entityIdValue}{/if}">{$user.email_address|escape}</a></td>
       {/if}
         <td>{$user.contact_name|escape}</td>
-      {if $sso}
         <td>{$user.date_last_login}</td>
-      {else}
         <td>{$user.date_created}</td>
-      {/if}
         <td class="last">
           <a href="{$editPage}?userid={$user.user_id}{if $entityIdName}&amp;{$entityIdName}={$entityIdValue}{/if}" class="permissions" style="padding-right: 10px">{t str=Permissions}</a>
           <a href="{$unlinkPage}?userid={$user.user_id}{if $entityIdName}&amp;{$entityIdName}={$entityIdValue}{/if}&amp;{rv_add_session_token}" class="unlink{if $user.toDelete} unlink-last{else} unlink-normal{/if}">{t str=Remove}</a>

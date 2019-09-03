@@ -481,7 +481,7 @@ class Plugins_Authentication extends OX_Component
     function changeEmail(&$doUsers, $emailAddress, $password)
     {
         $doUsers->email_address = $emailAddress;
-        $doUsers->email_updated = $doUsers->formatDate(new Date());
+        $doUsers->email_updated = gmdate(OA_DATETIME_FORMAT);
         return true;
     }
 
