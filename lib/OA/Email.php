@@ -600,12 +600,17 @@ class OA_Email
                             // was crossed to the point where it's about to expire,
                             // so send those emails, baby!
                             foreach ($aUsers as $aUser) {
+                                Language_Loader::load('default', $aUser['language']);
+                                $user_date_format = $date_format;
+                                if ($GLOBALS['date_format']) {
+                                    $user_date_format = $GLOBALS['date_format'];
+                                }
                                 $aEmail = $this->prepareCampaignImpendingExpiryEmail(
                                     $aUser,
                                     $aCampaign['clientid'],
                                     $aCampaign['campaignid'],
                                     'date',
-                                    $oEndDate->format($date_format),
+                                    $oEndDate->format($user_date_format),
                                     $accountType
                                 );
                                 if ($aEmail !== false) {

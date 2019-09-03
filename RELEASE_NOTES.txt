@@ -38,6 +38,9 @@ What's New in Revive Adserver 4.2.2
 
  * Fixed compatibility with PHP 7.4
 
+ * Fixed an issue with emails about campaigns about to expire due to end date not
+   using the user's preferred date format.
+
 
  Non-Backwards Compatible Changes
  --------------------------------
