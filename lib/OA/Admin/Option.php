@@ -403,7 +403,7 @@ class OA_Admin_Option
             					}
             				}
             			}
-            			if ($aItem[type] != 'break') {
+            			if ($aItem['type'] != 'break') {
             			    $showBreak = true;
             			}
             		} else {
