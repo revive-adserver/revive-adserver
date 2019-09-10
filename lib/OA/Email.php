@@ -600,8 +600,11 @@ class OA_Email
                             // was crossed to the point where it's about to expire,
                             // so send those emails, baby!
                             foreach ($aUsers as $aUser) {
-                                Language_Loader::load('default', $aUser['language']);
                                 $user_date_format = $date_format;
+                                // Load the appropriate language details for the email recipient,
+                                // and use their date format if present, otherwise use the default
+                                // from above...
+                                Language_Loader::load('default', $aUser['language']);
                                 if ($GLOBALS['date_format']) {
                                     $user_date_format = $GLOBALS['date_format'];
                                 }
@@ -613,6 +616,9 @@ class OA_Email
                                     $oEndDate->format($user_date_format),
                                     $accountType
                                 );
+                                // Restore the non-user specific translation strings
+                                require MAX_PATH . '/scripts/maintenance/translationStrings.php';
+                                // Send the email...
                                 if ($aEmail !== false) {
                                     if ($this->sendMail($aEmail['subject'], $aEmail['contents'], $aUser['email_address'], $aUser['contact_name'], $aFromDetails)) {
                                         $copiesSent++;
