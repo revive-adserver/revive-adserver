@@ -600,24 +600,18 @@ class OA_Email
                             // was crossed to the point where it's about to expire,
                             // so send those emails, baby!
                             foreach ($aUsers as $aUser) {
-                                $user_date_format = $date_format;
                                 // Load the appropriate language details for the email recipient,
                                 // and use their date format if present, otherwise use the default
                                 // from above...
                                 Language_Loader::load('default', $aUser['language']);
-                                if ($GLOBALS['date_format']) {
-                                    $user_date_format = $GLOBALS['date_format'];
-                                }
                                 $aEmail = $this->prepareCampaignImpendingExpiryEmail(
                                     $aUser,
                                     $aCampaign['clientid'],
                                     $aCampaign['campaignid'],
                                     'date',
-                                    $oEndDate->format($user_date_format),
+                                    $oEndDate->format($date_format),
                                     $accountType
                                 );
-                                // Restore the non-user specific translation strings
-                                require MAX_PATH . '/scripts/maintenance/translationStrings.php';
                                 // Send the email...
                                 if ($aEmail !== false) {
                                     if ($this->sendMail($aEmail['subject'], $aEmail['contents'], $aUser['email_address'], $aUser['contact_name'], $aFromDetails)) {
@@ -667,7 +661,7 @@ class OA_Email
     {
         OA::debug('   - Preparing "impending expiry" report for advertiser ID ' . $advertiserId . '.', PEAR_LOG_DEBUG);
 
-        Language_Loader::load('default',$aUser['language']);
+        Language_Loader::load('default', $aUser['language']);
 
         // Load the required strings
         global $strImpendingCampaignExpiryDateBody, $strImpendingCampaignExpiryImpsBody, $strMailHeader,

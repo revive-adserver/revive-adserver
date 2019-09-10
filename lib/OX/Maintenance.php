@@ -11,12 +11,8 @@
 */
 
 require_once RV_PATH . '/lib/RV.php';
-
 require_once MAX_PATH . '/lib/Max.php';
-require_once MAX_PATH . '/scripts/maintenance/translationStrings.php';
-
 require_once OX_PATH . '/lib/OX.php';
-
 
 if (!isset($GLOBALS['_MAX']['FILES']['/lib/max/Delivery/cache.php']) && !is_callable('MAX_commonGetDeliveryUrl')) {
     require_once(MAX_PATH . '/lib/max/Delivery/cache.php');
@@ -54,6 +50,8 @@ class OX_Maintenance
 
         OA_Preferences::loadAdminAccountPreferences();
         $this->aPref = $GLOBALS['_MAX']['PREF'];
+
+        Language_Loader::load('default');
 
         // Get a connection to the datbase
         $this->oDbh =& OA_DB::singleton();
