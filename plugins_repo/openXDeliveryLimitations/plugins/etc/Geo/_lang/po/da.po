@@ -13,40 +13,44 @@ msgstr ""
 "X-Crowdin-Language: da\n"
 "X-Crowdin-File: /plugins_repo/openXDeliveryLimitations/plugins/etc/Geo/_lang/po/en.po\n"
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Netspeed.res.inc.php:19
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/ConnectionType.res.inc.php:19
 msgid "Unknown"
 msgstr ""
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Netspeed.res.inc.php:20
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/ConnectionType.res.inc.php:20
 msgid "Dial-up"
 msgstr ""
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Netspeed.res.inc.php:21
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/ConnectionType.res.inc.php:21
 msgid "Broadband"
 msgstr ""
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Netspeed.res.inc.php:22
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/ConnectionType.res.inc.php:22
 msgid "Corporate"
 msgstr ""
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:44
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/ConnectionType.res.inc.php:23
+msgid "Cellular"
+msgstr ""
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:46
 msgid "Is within"
 msgstr ""
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:45
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:47
 msgid "Is not within"
 msgstr ""
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:88
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:89
 msgid "Latitude"
 msgstr ""
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:94
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:95
 msgid "Longitude"
 msgstr ""
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/City.class.php:75
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Region.class.php:76
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Subdivision1.class.php:76
 msgid "Country"
 msgstr "Land"
 
@@ -54,11 +58,7 @@ msgstr "Land"
 msgid "City(s)"
 msgstr ""
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/City.res.inc.php:27
-msgid "---Any---"
-msgstr ""
-
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Region.class.php:92
-msgid "Region(s)"
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Subdivision1.class.php:95
+msgid "Subdivision(s)"
 msgstr ""
 
