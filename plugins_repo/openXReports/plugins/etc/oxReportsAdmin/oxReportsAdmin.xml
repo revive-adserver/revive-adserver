@@ -4,13 +4,13 @@
 <plugin>
     <name>oxReportsAdmin</name>
     <displayName>Administrator Reports Plugin</displayName>
-    <creationDate>2014-04-08</creationDate>
+    <creationDate>2019-09-11</creationDate>
     <author>Revive Adserver</author>
     <authorEmail>revive@revive-adserver.com</authorEmail>
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>LICENSE.txt</license>
     <description>Plugin that provides administrator reports.</description>
-    <version>1.5.4</version>
+    <version>1.6.0</version>
     <oxversion>3.2.0-beta-rc3</oxversion>
     <extends>reports</extends>
 

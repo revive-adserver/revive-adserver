@@ -4,13 +4,13 @@
 <plugin>
     <name>oxLogRequest</name>
     <displayName>Banner Request Logging Plugin</displayName>
-    <creationDate>2014-03-10</creationDate>
+    <creationDate>2019-09-11</creationDate>
     <author>Revive Adserver</author>
     <authorEmail>revive@revive-adserver.com</authorEmail>
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>LICENSE.txt</license>
     <description>Plugin that provides logging of banner requests.</description>
-    <version>1.1.2</version>
+    <version>1.5.0</version>
     <oxversion>3.2.0-beta-rc3</oxversion>
     <extends>deliveryLog</extends>
 
