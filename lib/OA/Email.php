@@ -600,6 +600,10 @@ class OA_Email
                             // was crossed to the point where it's about to expire,
                             // so send those emails, baby!
                             foreach ($aUsers as $aUser) {
+                                // Load the appropriate language details for the email recipient,
+                                // and use their date format if present, otherwise use the default
+                                // from above...
+                                Language_Loader::load('default', $aUser['language']);
                                 $aEmail = $this->prepareCampaignImpendingExpiryEmail(
                                     $aUser,
                                     $aCampaign['clientid'],
@@ -608,6 +612,7 @@ class OA_Email
                                     $oEndDate->format($date_format),
                                     $accountType
                                 );
+                                // Send the email...
                                 if ($aEmail !== false) {
                                     if ($this->sendMail($aEmail['subject'], $aEmail['contents'], $aUser['email_address'], $aUser['contact_name'], $aFromDetails)) {
                                         $copiesSent++;
@@ -656,7 +661,7 @@ class OA_Email
     {
         OA::debug('   - Preparing "impending expiry" report for advertiser ID ' . $advertiserId . '.', PEAR_LOG_DEBUG);
 
-        Language_Loader::load('default',$aUser['language']);
+        Language_Loader::load('default', $aUser['language']);
 
         // Load the required strings
         global $strImpendingCampaignExpiryDateBody, $strImpendingCampaignExpiryImpsBody, $strMailHeader,
