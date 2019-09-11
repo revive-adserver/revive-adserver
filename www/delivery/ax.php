@@ -603,6 +603,7 @@ $_SERVER['REMOTE_HOST'] = $_SERVER['REMOTE_ADDR'];
 }
 function MAX_remotehostSetGeoInfo()
 {
+$GLOBALS['_MAX']['GEO_IP'] = '24.24.24.24';
 if (!function_exists('parseDeliveryIniFile')) {
 
 }
