@@ -6,18 +6,18 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
-Release Notes: Revive Adserver 4.2.2
-====================================
+Release Notes: Revive Adserver 5.0.0-RC1
+========================================
 
 These release notes cover what's new, system requirements, download and
 installation instructions, known issues and frequently asked questions for
 Revive Adserver. Please read these notes before reporting any bugs.
 
 
-What's New in Revive Adserver 4.2.2
------------------------------------
+What's New in Revive Adserver 5.0.0-RC1
+---------------------------------------
 
- * Release date: t.b.d.
+ * Release date: 2019-09-13
 
 
  Security Updates
@@ -32,11 +32,17 @@ What's New in Revive Adserver 4.2.2
  * Extended the screens for managing user access to accounts to display the most
    recent login time of users.
 
+ * Replaced the legacy MaxMind GeoIP plugin with a new version which is compatible
+   with the newer GeoIP2 database format, as legacy GeoIP is now unsupported.
+
+ * Added possibility to duplicate websites.
+
 
  Bug Fixes
  ---------
 
- * Fixed compatibility with PHP 7.4
+ * Fixed compatibility with PHP 7.4 and improved compatibility with other PHP
+   versions.
 
  * Fixed an issue with emails about campaigns about to expire due to end date not
    using the user's preferred date format.
@@ -51,6 +57,18 @@ What's New in Revive Adserver 4.2.2
    converted to UTC format. As a result, all user account creation / email address
    update values stored before upgrading to this release may not be accurate - but
    only by up to 13 hours.
+
+ * There are several changes between the legacy GeoIP and GeoIP2 databases and the
+   upgrade process will try to migrate the rules in the best possible way:
+     - "Regions" have been split into two levels of subdivisions and the ISO-3166
+       database has been updated. Depending on the country, the old delivery rule
+       will be transformed in the appropriate subdivision level and geopolitical
+       changes applied to the best of our knowledge.
+     - "Area code" is no longer returned. Any such delivery rule will be deleted.
+
+ * The way the Geotargeting plugins work has been revamped. As such, third party
+   geotargeting plugins or plugins depending on geotargeting information might
+   require to be updated accordingly.
 
 
 System Requirements
