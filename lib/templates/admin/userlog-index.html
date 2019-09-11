@@ -30,7 +30,7 @@
 	        <select style="width:25%" id="publisherId" name="publisherId" onchange="submitForm();">
 	            {html_options options=$aPublisher selected=$publisherId}
 	        </select>
-	        {if count($aZone) gt 0}
+	        {if isset($aZone) && count($aZone) gt 0}
 	        <select style="width:25%" id="zoneId" name="zoneId" onchange="submitForm();">
 	            {html_options options=$aZone selected=$zoneId}
 	        </select>

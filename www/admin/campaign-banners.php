@@ -215,6 +215,8 @@ if (isset($banners) && is_array($banners) && count($banners) > 0) {
             $banners[$key]['url_trimmed'] = substr_replace($banner['url'], ' ...', 40);
         }
     }
+} else {
+    $banners = [];
 }
 
 $oTpl->assign('clientId', $clientid);

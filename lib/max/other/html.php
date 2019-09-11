@@ -1659,14 +1659,14 @@ function MAX_displayNavigationChannel($pageName, $aOtherChannels, $aEntities)
         if (!empty($channelId)) {
             $builder = new OA_Admin_UI_Model_InventoryPageHeaderModelBuilder();
             $oHeaderModel = $builder->buildEntityHeader(array(
-                array("name" => $publisherName, url => $publisherEditUrl),
+                array("name" => $publisherName, 'url' => $publisherEditUrl),
                 array("name" => $channelName)), "channel", "edit");
             phpAds_PageHeader($tabValue, $oHeaderModel);
         }
         else {
             $builder = new OA_Admin_UI_Model_InventoryPageHeaderModelBuilder();
             $oHeaderModel = $builder->buildEntityHeader(array(
-                array("name" => $publisherName, url => $publisherEditUrl),
+                array("name" => $publisherName, 'url' => $publisherEditUrl),
                 array("name" => $channelName)), "channel", "edit-new");
             phpAds_PageHeader($tabValue, $oHeaderModel);
         }

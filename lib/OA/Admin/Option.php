@@ -333,7 +333,7 @@ class OA_Admin_Option
             	$showBreak = true;
             } else {
             	// Show the section header
-            	$this->_showStartSection($aSection['text'], NULL, $disableSubmit, $imgPath);
+            	$this->_showStartSection($aSection['text'], [], $disableSubmit, $imgPath);
             }
 
             $sectionHasRequiredField = false;
