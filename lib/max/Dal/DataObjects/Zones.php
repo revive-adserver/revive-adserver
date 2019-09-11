@@ -131,21 +131,24 @@ class DataObjects_Zones extends DB_DataObjectCommon
 
     /**
      * Duplicates the zone.
-     * @param string $new_affiliateId only when the zone is
-     *        duplicated as consequence of a affiliate duplication
+     *
+     * @param int $newAffiliateId Duplicate the zone to a different website
+     *
      * @return int  the new zoneid
      *
      */
-    function duplicate($new_affiliateId = null)
+    function duplicate($newAffiliateId = null)
     {
         // Get unique name
         $this->zonename = $GLOBALS['strCopyOf'] . ' ' . $this->zonename;
-        if ($new_affiliateId != null) {
-        	$this->affiliateid = $new_affiliateId;
+	    
+        if (null !== $newAffiliateId) {
+        	$this->affiliateid = $newAffiliateId;
         }
 
         $this->zoneid = null;
         $newZoneid = $this->insert();
+	
         return $newZoneid;
     }
 
