@@ -129,13 +129,26 @@ class DataObjects_Zones extends DB_DataObjectCommon
     	return parent::delete($useWhere, $cascadeDelete, $parentid);
     }
 
-    function duplicate()
+    /**
+     * Duplicates the zone.
+     *
+     * @param int $newAffiliateId Duplicate the zone to a different website
+     *
+     * @return int  the new zoneid
+     *
+     */
+    function duplicate($newAffiliateId = null)
     {
         // Get unique name
         $this->zonename = $GLOBALS['strCopyOf'] . ' ' . $this->zonename;
+	    
+        if (null !== $newAffiliateId) {
+        	$this->affiliateid = $newAffiliateId;
+        }
 
         $this->zoneid = null;
         $newZoneid = $this->insert();
+	
         return $newZoneid;
     }
 

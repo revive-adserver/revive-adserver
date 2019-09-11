@@ -176,6 +176,9 @@ div.breadcrumb .inlineIcon {
 .iconWebsiteAddLarge {
   background-image: url("../images/icon-website-add-large.png");
 }
+.iconWebsiteDuplicate {
+  background-image: url("../images/icon-website-duplicate.png");  
+}
 .iconWebsiteUserAdd {
   background-image: url("../images/icon-website-add.png");  
 }

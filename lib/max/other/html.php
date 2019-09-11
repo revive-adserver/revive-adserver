@@ -1853,6 +1853,11 @@ function addBannerPageTools($advertiserId, $campaignId, $bannerId, $aOtherCampai
 
 function addWebsitePageTools($websiteId)
 {
+    $token = phpAds_SessionGetToken();
+    
+    if (!empty($websiteId) && (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER))) {
+        addPageLinkTool($GLOBALS["strDuplicate"], MAX::constructUrl(MAX_URL_ADMIN, "affiliate-duplicate.php?token=".urlencode($token)."&affiliateid=$websiteId"), "iconWebsiteDuplicate");
+    }
     if (!empty($websiteId) && (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)
         || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)
         || OA_Permission::hasPermission(OA_PERM_ZONE_ADD))) {

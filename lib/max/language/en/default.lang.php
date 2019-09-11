@@ -1163,6 +1163,7 @@ $GLOBALS['strWebsiteHasBeenAdded'] = "Website <a href='%s'>%s</a> has been added
 $GLOBALS['strWebsiteHasBeenUpdated'] = "Website <a href='%s'>%s</a> has been updated";
 $GLOBALS['strWebsiteHasBeenDeleted'] = "Website <b>%s</b> has been deleted";
 $GLOBALS['strWebsitesHaveBeenDeleted'] = "All selected website have been deleted";
+$GLOBALS['strWebsiteHasBeenDuplicated'] = "Website <a href='%s'>%s</a> has been copied to <a href='%s'>%s</a>";
 
 $GLOBALS['strZoneHasBeenAdded'] = "Zone <a href='%s'>%s</a> has been added";
 $GLOBALS['strZoneHasBeenUpdated'] = "Zone <a href='%s'>%s</a> has been updated";
