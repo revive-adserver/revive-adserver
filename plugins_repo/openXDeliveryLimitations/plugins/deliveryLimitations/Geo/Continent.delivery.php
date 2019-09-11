@@ -27,7 +27,7 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
  */
 function MAX_checkGeo_Continent($limitation, $op, $aParams = array())
 {
-    return MAX_limitationsMatchArrayClientGeo('country_code', $limitation, $op, $aParams);
+    return MAX_limitationsMatchArrayClientGeo('continent', $limitation, $op, $aParams);
 }
 
 ?>

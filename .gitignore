@@ -14,11 +14,7 @@ phpinfo.php
 /var/cache/*.meta
 /var/cache/cache_*
 /var/cache/minify_*
-/var/plugins/DataObjects/*.bak
-/var/plugins/DataObjects/*.ini
-/var/plugins/DataObjects/*.php
-/var/plugins/log/*
-/var/plugins/recover/*
+/var/plugins
 /var/templates_compiled/*.php
 /var/templates_compiled/*.serial
 /www/admin/plugins/*

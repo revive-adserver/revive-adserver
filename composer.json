@@ -31,7 +31,9 @@
         "jeremykendall/php-domain-parser": "~2.0",
 
         "figdice/asseteer": "dev-master",
-        "tinymce/tinymce": "^4.6"
+        "tinymce/tinymce": "^4.6",
+        "wikimedia/composer-merge-plugin": "^1.4",
+        "guzzlehttp/guzzle": "^6.3"
     },
     "require-dev": {
         "symfony/finder": "^3.4",
@@ -50,7 +52,19 @@
                 "target": "www/admin/assets",
                 "filters": [ "(\\.min|index)\\.(js|css)$", "\\.(eot|ttf|svg|woff)" ]
             }
-        ]
+        ],
+        "merge-plugin": {
+            "include": [
+                "plugins_repo/*/plugins/etc/*/composer.json"
+            ],
+            "recurse": true,
+            "replace": false,
+            "ignore-duplicates": false,
+            "merge-dev": true,
+            "merge-extra": false,
+            "merge-extra-deep": false,
+            "merge-scripts": false
+        }
     },
     "scripts" :{
         "post-install-cmd": [

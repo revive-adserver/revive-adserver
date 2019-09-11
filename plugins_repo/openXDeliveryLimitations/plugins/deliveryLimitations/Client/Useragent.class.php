@@ -29,7 +29,6 @@ class Plugins_DeliveryLimitations_Client_Useragent extends Plugins_DeliveryLimit
     function __construct()
     {
         parent::__construct();
-        $this->columnName = 'user_agent';
         $this->nameEnglish = 'Client - Useragent';
     }
 }

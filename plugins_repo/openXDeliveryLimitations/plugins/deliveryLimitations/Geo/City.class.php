@@ -32,6 +32,8 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
  */
 class Plugins_DeliveryLimitations_Geo_City extends Plugins_DeliveryLimitations
 {
+    use \RV\Extension\DeliveryLimitations\GeoLimitationTrait;
+
     function __construct()
     {
         parent::__construct();
@@ -53,8 +55,7 @@ class Plugins_DeliveryLimitations_Geo_City extends Plugins_DeliveryLimitations
      */
     function isAllowed($page = false)
     {
-        return ((isset($GLOBALS['_MAX']['GEO_DATA']['city']))
-            || $GLOBALS['_MAX']['CONF']['geotargeting']['showUnavailable']);
+        return $this->hasCapability('city');
     }
 
     /**
@@ -67,14 +68,13 @@ class Plugins_DeliveryLimitations_Geo_City extends Plugins_DeliveryLimitations
         $this->data = $this->_expandData($this->data);
         $tabindex =& $GLOBALS['tabindex'];
 
-
         // The city plugin is slightly different since we need to allow for multiple city names in different countries
         echo "
             <table border='0' cellpadding='2'>
                 <tr>
                     <th>" . $this->translate('Country') . "</th>
                     <td>
-                        <select name='acl[{$this->executionorder}][data][]' {$disabled}>";
+                        <select name='acl[{$this->executionorder}][data][]'>";
                         foreach ($this->res as $countryCode => $countryName) {
                             $selected = ($this->data[0] == $countryCode) ? 'selected="selected"' : '';
                             echo "<option value='{$countryCode}' {$selected}>{$countryName}</option>";

@@ -10,27 +10,11 @@
 +---------------------------------------------------------------------------+
 */
 
-require_once dirname(__FILE__) . '/data/res-continent.inc.php';
-
 /**
  * @package    OpenXPlugin
  * @subpackage DeliveryLimitations
  */
-if (!isset($GLOBALS['_MAX']['_GEOCACHE']['continent'])) {
-    global $OA_Geo_continent, $OA_Geo_cont_name;
-    $res = array();
 
-    foreach ($OA_Geo_cont_name as $k => $v) {
-        $res[$k] = array($v);
-    }
+require __DIR__.'/data/res-continent.inc.php';
 
-    foreach ($OA_Geo_continent as $k => $v) {
-        $res[$v][] = $k;
-    }
-
-    $GLOBALS['_MAX']['_GEOCACHE']['continent'] = $res;
-} else {
-    $res = $GLOBALS['_MAX']['_GEOCACHE']['continent'];
-}
-
-?>
+$res = $RV_Geo_Continent;

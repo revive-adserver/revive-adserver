@@ -4,13 +4,13 @@
 <plugin>
     <name>Client</name>
     <displayName>Client Delivery Rules Plugin</displayName>
-    <creationDate>2016-09-13</creationDate>
+    <creationDate>2018-09-03</creationDate>
     <author>Revive Adserver</author>
     <authorEmail>revive@revive-adserver.com</authorEmail>
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>LICENSE.txt</license>
     <description>Plugin that provides the ability to limit delivery of ads by client.</description>
-    <version>2.2.1</version>
+    <version>3.0.0</version>
     <oxversion>4.1.0-dev</oxversion>
     <extends>deliveryLimitations</extends>
 

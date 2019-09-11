@@ -24,11 +24,11 @@ require_once LIB_PATH . '/Extension/deliveryLimitations/DeliveryLimitations.php'
  */
 class Plugins_DeliveryLimitations_Geo_Postalcode extends Plugins_DeliveryLimitations
 {
+    use \RV\Extension\DeliveryLimitations\GeoLimitationTrait;
 
     function __construct()
     {
         parent::__construct();
-        $this->columnName = 'geo_postal_code';
         $this->nameEnglish = 'Geo - US/Canada Postal Code';
     }
 
@@ -39,8 +39,7 @@ class Plugins_DeliveryLimitations_Geo_Postalcode extends Plugins_DeliveryLimitat
      */
     function isAllowed($page = false)
     {
-        return ((isset($GLOBALS['_MAX']['GEO_DATA']['postal_code']))
-            || $GLOBALS['_MAX']['CONF']['geotargeting']['showUnavailable']);
+        return $this->hasCapability('postal_code');
     }
 }
 

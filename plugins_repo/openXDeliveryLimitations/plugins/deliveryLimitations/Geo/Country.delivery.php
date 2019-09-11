@@ -29,5 +29,3 @@ function MAX_checkGeo_Country($limitation, $op, $aParams = array())
 {
     return MAX_limitationsMatchArrayClientGeo('country_code', $limitation, $op, $aParams);
 }
-
-?>

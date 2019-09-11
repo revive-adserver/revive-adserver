@@ -25,18 +25,18 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
  * @param array $aParams An array of additional parameters to be checked
  * @return boolean Whether this impression's city passes this limitation's test.
  */
-function MAX_checkGeo_City($limitation, $op, $aParams = array())
+function MAX_checkGeo_City($limitation, $op, $aParams = [])
 {
     if (empty($aParams)) {
         $aParams = $GLOBALS['_MAX']['CLIENT_GEO'];
     }
-    if ($aParams && $aParams['city'] && $aParams['country_code']) {
-        $aLimitation = array ( substr($limitation, 0, strpos($limitation, '|')),
+    if ($aParams && $aParams['city'] && $aParams['country']) {
+        $aLimitation = [substr($limitation, 0, strpos($limitation, '|')),
                                substr($limitation, strpos($limitation, '|')+1)
-                              );
+        ];
         $sCities = $aLimitation[1];
         if (!empty($aLimitation[0])) {
-            return MAX_limitationsMatchStringValue($aParams['country_code'], $aLimitation[0], '==')
+            return MAX_limitationsMatchStringValue($aParams['country'], $aLimitation[0], '==')
                    && MAX_limitationsMatchArrayValue($aParams['city'], $sCities, $op);
         } else {
             return MAX_limitationsMatchArrayValue($aParams['city'], $sCities, $op);
