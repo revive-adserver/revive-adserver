@@ -66,14 +66,6 @@ $oTpl = new OA_Admin_Template('website-index.html');
 $dalAffiliates = OA_Dal::factoryDAL('affiliates');
 $aWebsitesZones = $dalAffiliates->getWebsitesAndZonesByAgencyId();
 
-if (!empty($aWebsitesZones)) {
-    foreach ($aWebsitesZones as $wkey => $aWebsite) {
-        if (!empty($aWebsite['updated'])) {
-            $aWebsitesZones[$wkey]['updated'] = RV_Admin_DateTimeFormat::formatUTCDateTime($aWebsite['updated']);
-        }
-    }
-}
-
 $itemsPerPage = 250;
 $oPager = OX_buildPager($aWebsitesZones, $itemsPerPage);
 $oTopPager = OX_buildPager($aWebsitesZones, $itemsPerPage, false);

@@ -47,8 +47,8 @@
         <td><a href="{$editPage}?userid={$user.user_id}{if $entityIdName}&amp;{$entityIdName}={$entityIdValue}{/if}">{$user.email_address|escape}</a></td>
       {/if}
         <td>{$user.contact_name|escape}</td>
-        <td>{$user.date_last_login}</td>
-        <td>{$user.date_created}</td>
+        <td>{$user.date_last_login|utc_to_local}</td>
+        <td>{$user.date_created|utc_to_local}</td>
         <td class="last">
           <a href="{$editPage}?userid={$user.user_id}{if $entityIdName}&amp;{$entityIdName}={$entityIdValue}{/if}" class="permissions" style="padding-right: 10px">{t str=Permissions}</a>
           <a href="{$unlinkPage}?userid={$user.user_id}{if $entityIdName}&amp;{$entityIdName}={$entityIdValue}{/if}&amp;{rv_add_session_token}" class="unlink{if $user.toDelete} unlink-last{else} unlink-normal{/if}">{t str=Remove}</a>
