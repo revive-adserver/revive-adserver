@@ -130,10 +130,6 @@ foreach ($aCampaigns as $campaignId => $aCampaign) {
     } else {
         $aCampaign['expire'] = '-';
     }
-    
-    if (!empty($aCampaign['updated'])) {
-        $aCampaign['updated'] = RV_Admin_DateTimeFormat::formatUTCDateTime($aCampaign['updated']);
-    }    
 
     if ($aCampaign['type'] == DataObjects_Campaigns::CAMPAIGN_TYPE_MARKET_CONTRACT) {
         $aCampaign['system'] = true;

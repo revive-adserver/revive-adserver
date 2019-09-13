@@ -18,6 +18,7 @@ require_once MAX_PATH . '/lib/OA/Dll.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
 require_once MAX_PATH . '/lib/OX/Translation.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
+require_once MAX_PATH . '/lib/RV/Admin/DateTimeFormat.php';
 
 /**
  * A UI templating class.
@@ -54,6 +55,8 @@ class OA_Admin_Template extends Smarty
 
         $this->caching = 0;
         $this->cache_lifetime = 3600;
+
+        $this->register_modifier('utc_to_local', array('OA_Admin_Template',  '_modifier_utc_to_local'));
 
         $this->register_function('t', array('OA_Admin_Template',  '_function_t'));
 
@@ -234,6 +237,15 @@ class OA_Admin_Template extends Smarty
         $smarty->trigger_error("t: missing 'str' or 'key' parameters: ".$aParams['str']);
     }
 
+    function _modifier_utc_to_local($input, $type = null)
+    {
+        switch ($type) {
+            case 'date':
+                return RV_Admin_DateTimeFormat::formatUTCDate($input);
+            default:
+                return RV_Admin_DateTimeFormat::formatUTCDateTime($input);
+        }
+    }
 
     function _function_showCampaignType($aParams, &$smarty)
     {
@@ -447,7 +459,7 @@ class OA_Admin_Template extends Smarty
     {
         if (isset($aParams['updated'])) {
             $updated = $aParams['updated'];
-            return "<span class='updated'>".trim($updated). "</span>";
+            return "<span class='updated'>".$this->_modifier_utc_to_local($updated). "</span>";
         } else {
             $smarty->trigger_error("t: missing 'updated' parameter");
         }

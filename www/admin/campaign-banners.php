@@ -189,10 +189,6 @@ while ($doBanners->fetch() && $row = $doBanners->toArray()) {
         $bannerCode = '';
     }
     $banners[$row['bannerid']]['preview'] = $bannerCode;
-
-    if (!empty($row['updated'])) {
-        $banners[$row['bannerid']]['updated'] = RV_Admin_DateTimeFormat::formatUTCDateTime($row['updated']);
-    }
 }
 
 $aCount = array(

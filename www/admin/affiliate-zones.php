@@ -125,10 +125,6 @@ while ($doZones->fetch() && $row_zones = $doZones->toArray()) {
 	}
 
 	$aZones[$row_zones['zoneid']]['active'] = $aZoneAds['count_active'] > 0;
-
-    if (!empty($row_zones['updated'])) {
-        $aZones[$row_zones['zoneid']]['updated'] = RV_Admin_DateTimeFormat::formatUTCDateTime($row_zones['updated']);
-    }
 }
 
 $oTpl->assign('affiliateId', $affiliateid);
