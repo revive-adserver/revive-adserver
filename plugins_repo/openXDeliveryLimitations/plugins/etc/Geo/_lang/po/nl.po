@@ -31,7 +31,7 @@ msgstr "Zakelijk"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/ConnectionType.res.inc.php:23
 msgid "Cellular"
-msgstr ""
+msgstr "Mobiel"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:46
 msgid "Is within"
@@ -60,5 +60,5 @@ msgstr "Plaats(en)"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Subdivision1.class.php:95
 msgid "Subdivision(s)"
-msgstr ""
+msgstr "Subdivisie(s)"
 
