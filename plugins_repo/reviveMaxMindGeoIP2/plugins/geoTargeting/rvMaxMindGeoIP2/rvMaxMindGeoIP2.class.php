@@ -45,10 +45,15 @@ class Plugins_GeoTargeting_rvMaxMindGeoIP2_RvMaxMindGeoIP2 extends OX_Component 
 
     function onEnable()
     {
-        if (empty($GLOBALS['_MAX']['CONF']['rvMaxMindGeoIP2']['mmdb_paths'])) {
+        if (MaxMindGeoIP2::hasCustomConfig()) {
+            return true;
+        }
+
+        try {
             $downloader = new MaxMindGeoLite2Downloader();
             $downloader->updateGeoLiteDatabase();
-
+        } catch (\Exception $e) {
+            OA::debug("An error occurred trying to download the latest GeoIP2 database: {$e->getMessage()}");
         }
 
         return true;

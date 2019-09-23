@@ -219,14 +219,22 @@ class MaxMindGeoIP2
         return $aGeoInfo;
     }
 
+    public static function getMmdbPaths(): string
+    {
+        return trim($GLOBALS['_MAX']['CONF']['rvMaxMindGeoIP2']['mmdb_paths'] ?? '') ?: self::DEFAULT_MMDB;
+    }
+
+    public static function hasCustomConfig(): string
+    {
+        return self::DEFAULT_MMDB !== self::getMmdbPaths();
+    }
+
     /**
      * @return \Generator|Reader[]
      */
     private static function getReaders(): \Generator
     {
-        $mmdbPaths = $GLOBALS['_MAX']['CONF']['rvMaxMindGeoIP2']['mmdb_paths'] ?? self::DEFAULT_MMDB;
-
-        foreach (preg_split('/\s+/', $mmdbPaths, -1, PREG_SPLIT_NO_EMPTY) as $mmdb) {
+        foreach (preg_split('/\s+/', self::getMmdbPaths(), -1, PREG_SPLIT_NO_EMPTY) as $mmdb) {
             try {
                 yield new Reader($mmdb);
             } catch (\Throwable $e) {

@@ -89,8 +89,10 @@ class OX_Maintenance
             $this->updateLastRun();
             // Record the current time, and register with the OA_ServiceLocator
             $oDate = new Date();
-            $oServiceLocator =& OA_ServiceLocator::instance();
+            $oServiceLocator = OA_ServiceLocator::instance();
             $oServiceLocator->register('now', $oDate);
+            // Register the class instance itself
+            $oServiceLocator->register('Maintenance_Controller', $this);
             // Check the operation interval is valid
             $result = OX_OperationInterval::checkOperationIntervalValue($this->aConf['maintenance']['operationInterval']);
             if (PEAR::isError($result)) {

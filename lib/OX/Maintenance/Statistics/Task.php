@@ -37,7 +37,7 @@ class OX_Maintenance_Statistics_Task extends OA_Task
      * A reference to the object (that extends the
      * OA_Maintenance_Statistics_Common class) that is running the task.
      *
-     * @var OA_Maintenance_Statistics_Common
+     * @var OX_Maintenance_Statistics
      */
     var $oController;
 

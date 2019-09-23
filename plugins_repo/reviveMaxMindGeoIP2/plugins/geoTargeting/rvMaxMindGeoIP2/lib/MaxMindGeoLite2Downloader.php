@@ -39,18 +39,20 @@ class MaxMindGeoLite2Downloader
         @unlink($this->tempName);
     }
 
-    public function updateGeoLiteDatabase()
+    public function updateGeoLiteDatabase(): bool
     {
         $md5Path = self::FULL_PATH.self::GEOLITE2_CITY_TAR_GZ.'.md5';
 
         if (!$this->lock()) {
-            return;
+            return false;
         }
 
         $md5 = $this->download(basename($md5Path));
 
         if ($md5 === @file_get_contents($md5Path)) {
-            return;
+            $this->unlock();
+
+            return false;
         }
 
         $this->tempName = tempnam(self::FULL_PATH, 'tmp');
@@ -63,6 +65,8 @@ class MaxMindGeoLite2Downloader
         file_put_contents($md5Path, $md5);
 
         $this->unlock();
+
+        return true;
     }
 
     private function lock(): bool

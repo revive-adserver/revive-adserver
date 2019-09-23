@@ -10,8 +10,8 @@
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>LICENSE.txt</license>
     <description>Plugin that provides access to MaxMind GeoIP2 Geotargeting data for use in banner targeting.</description>
-    <version>1.0.1</version>
-    <oxversion>5.0.0-dev</oxversion>
+    <version>1.0.2</version>
+    <oxversion>5.0.0-rc2</oxversion>
     <extends>geoTargeting</extends>
 
     <install>
@@ -29,9 +29,9 @@
         </configuration>
 
         <components>
-           <component>
-               <name>rvMaxMindGeoIP2</name>
-           </component>
+            <component>
+                <name>rvMaxMindGeoIP2</name>
+            </component>
         </components>
 
     </install>
