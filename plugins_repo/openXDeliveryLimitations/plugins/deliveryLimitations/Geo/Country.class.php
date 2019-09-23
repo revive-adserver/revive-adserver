@@ -46,7 +46,7 @@ class Plugins_DeliveryLimitations_Geo_Country extends Plugins_DeliveryLimitation
      */
     function isAllowed($page = false)
     {
-        return $this->hasCapability('country_code');
+        return $this->hasCapability('country');
     }
 
     /**
