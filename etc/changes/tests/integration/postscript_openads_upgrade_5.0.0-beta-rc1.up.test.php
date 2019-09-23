@@ -21,7 +21,7 @@ require_once MAX_PATH . '/lib/OA/Upgrade/Upgrade.php';
  */
 class Test_postscript_5_0_0_beta_rc1 extends MigrationTest
 {
-    public function test_runScript()
+    public function test_DatabaseMigration()
     {
         $prefix = $this->getPrefix();
         $this->initDatabase(623, ['acls', 'acls_channel']);
@@ -55,6 +55,34 @@ class Test_postscript_5_0_0_beta_rc1 extends MigrationTest
             $this->oDbh->queryAll("SELECT * FROM {$tblAclsChannel} ORDER BY channelid, executionorder"),
             $this->getChannelAcls()
         );
+    }
+
+    public function test_configMigration()
+    {
+        $migration = new RV_UpgradePostscript_5_0_0_beta_rc1;
+
+        $method = new \ReflectionMethod('RV_UpgradePostscript_5_0_0_beta_rc1', 'migrateConfiguration');
+        $method->setAccessible(true);
+
+        // No geotargeting type change
+        $GLOBALS['_MAX']['CONF']['geotargeting']['type'] = 'foo:bar';
+        $method->invoke($migration);
+        $this->assertEqual($GLOBALS['_MAX']['CONF']['geotargeting']['type'], 'foo:bar');
+
+        // Geotargeting type changed if GeoIP
+        $GLOBALS['_MAX']['CONF']['geotargeting']['type'] = 'geoTargeting:oxMaxMindGeoIP:oxMaxMindGeoIP';
+        $method->invoke($migration);
+        $this->assertEqual($GLOBALS['_MAX']['CONF']['geotargeting']['type'], 'geoTargeting:rvMaxMindGeoIP2:rvMaxMindGeoIP2');
+
+        // Geotargeting type changed if ModGeoIP
+        $GLOBALS['_MAX']['CONF']['geotargeting']['type'] = 'geoTargeting:oxMaxMindModGeoIP:oxMaxMindModGeoIP';
+        $method->invoke($migration);
+        $this->assertEqual($GLOBALS['_MAX']['CONF']['geotargeting']['type'], 'geoTargeting:rvMaxMindGeoIP2:rvMaxMindGeoIP2');
+
+        // Check old plugin settings being removed
+        $GLOBALS['_MAX']['CONF']['oxMaxMindGeoIP'] = ['foo' => 'bar'];
+        $method->invoke($migration);
+        $this->assertFalse(isset($GLOBALS['_MAX']['CONF']['oxMaxMindGeoIP']));
     }
 
     private function getAcls()

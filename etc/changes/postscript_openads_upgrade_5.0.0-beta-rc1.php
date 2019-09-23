@@ -57,20 +57,18 @@ class RV_UpgradePostscript_5_0_0_beta_rc1
             'geoTargeting:oxMaxMindModGeoIP:oxMaxMindModGeoIP' => true,
         ];
 
-        $currentType = $oSettings->aConf['geotargeting']['type'];
+        unset($oSettings->aConf['oxMaxMindGeoIP']);
+        $this->logOnly("Removing old MaxMind GeoIP settings");
 
-        if (!isset($plugins[$currentType])) {
-            $this->logOnly("No need to update the configuration file geotargeting settings: '{$currentType}'");
+        if (isset($plugins[$oSettings->aConf['geotargeting']['type']])) {
+            $oSettings->aConf['geotargeting']['type'] = 'geoTargeting:rvMaxMindGeoIP2:rvMaxMindGeoIP2';
 
-            return;
+            $this->logOnly("Updating geotargeting settings to MaxMind GeoIP2");
         }
-
-        $oSettings->aConf['geotargeting']['type'] = 'geoTargeting:rvMaxMindGeoIP2:rvMaxMindGeoIP2';
-
         if ($oSettings->writeConfigChange()) {
-            $this->logOnly("Updated the configuration file geotargeting settings");
+            $this->logOnly("Updated the configuration file");
         } else {
-            $this->logError("Failed to update the configuration file geotargeting settings");
+            $this->logError("Failed to update the configuration file");
         }
     }
 
@@ -165,12 +163,16 @@ class RV_UpgradePostscript_5_0_0_beta_rc1
 
     private function logOnly($msg)
     {
-        $this->oUpgrade->oLogger->logOnly($msg);
+        if (isset($this->oUpgrade->oLogger)) {
+            $this->oUpgrade->oLogger->logOnly($msg);
+        }
     }
 
 
     private function logError($msg)
     {
-        $this->oUpgrade->oLogger->logError($msg);
+        if (isset($this->oUpgrade->oLogger)) {
+            $this->oUpgrade->oLogger->logError($msg);
+        }
     }
 }
