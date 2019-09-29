@@ -51,7 +51,7 @@ What's New in Revive Adserver 5.0.0-RC2
  Non-Backwards Compatible Changes
  --------------------------------
 
- * The date and time that new user accounts are created / email address is update
+ * The date and time that new user accounts are created / email address is updated
    has changed to UTC format in the database with this release. As timezone
    information was not stored with the previous values, these cannot be safely
    converted to UTC format. As a result, all user account creation / email address
