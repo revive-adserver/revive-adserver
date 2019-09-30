@@ -7,7 +7,7 @@
 +---------------------------------------------------------------------------+
 
 Release Notes: Revive Adserver 5.0.0
-========================================
+====================================
 
 These release notes cover what's new, system requirements, download and
 installation instructions, known issues and frequently asked questions for
@@ -15,7 +15,7 @@ Revive Adserver. Please read these notes before reporting any bugs.
 
 
 What's New in Revive Adserver 5.0.0
----------------------------------------
+-----------------------------------
 
  * Release date: September 30, 2019
 
