@@ -305,8 +305,9 @@
                                     }
 
                                     ins.parentNode.replaceChild(newIns, ins);
-                                    this.dispatchEvent('loaded', id);
                                 }
+                                
+                                this.dispatchEvent('loaded', id);
                             }
                         }
                     }
