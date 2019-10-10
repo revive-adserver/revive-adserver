@@ -261,6 +261,8 @@
                     d.writeln('</body>');
                     d.writeln('</html>');
                     d.close();
+
+                    this.dispatchEvent('loaded');
                 },
 
                 /**
