@@ -262,7 +262,6 @@
                     d.writeln('</html>');
                     d.close();
 
-                    this.dispatchEvent('loaded');
                 },
 
                 /**
@@ -306,6 +305,7 @@
                                     }
 
                                     ins.parentNode.replaceChild(newIns, ins);
+                                    this.dispatchEvent('loaded', id);
                                 }
                             }
                         }
