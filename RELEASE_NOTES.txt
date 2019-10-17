@@ -35,7 +35,8 @@ What's New in Revive Adserver 5.0.1
  Bug Fixes
  ---------
 
- * None
+ * Improved performance of delivery rules validation and recompilation, which was
+   causing upgrade failures under some circumstances.
 
 
  Non-Backwards Compatible Changes

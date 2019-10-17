@@ -29,6 +29,9 @@ if (!file_exists(MAX_PATH.'/var/UPGRADE')) {
     exit;
 }
 
+// Some post-upgrade tasks could take a long time!
+@set_time_limit(0);
+
 $aErrors = array();
 $result = array('name'=>@$_REQUEST['task'],'status'=>'Invalid Request','errors'=>&$aErrors, 'type' => 'task');
 if (OA_Upgrade_Login::checkLogin(false))

@@ -130,32 +130,27 @@ function MAX_AclSave($acls, $aEntities, $page = false)
 
     switch ($page) {
         case 'banner-acl.php' :
-        case 'market-campaign-acl.php' : {
             $table      = 'banners';
             $aclsTable  = 'acls';
             $fieldId    = 'bannerid';
             break;
-        }
 
-        case 'channel-acl.php': {
+        case 'channel-acl.php':
             $table      = 'channel';
             $aclsTable  = 'acls_channel';
             $fieldId    = 'channelid';
             break;
-        }
 
-        default: {
+        default:
             return false;
-        }
     }
-
 
     $aclsObjectId = $aEntities[$fieldId];
     $sLimitation = OA_aclGetSLimitationFromAAcls($acls);
 
     $doTable = OA_Dal::factoryDO($table);
     $doTable->$fieldId = $aclsObjectId;
-    $found = $doTable->find(true);
+    $doTable->find(true);
 
     if ($sLimitation == $doTable->compiledlimitation) {
         return true; // No changes to the ACL
@@ -310,7 +305,7 @@ function MAX_AclGetCompiled($aAcls)
         ksort($aAcls);
         $compiledAcls = array();
         foreach ($aAcls as $acl) {
-            $deliveryLimitationPlugin =& OA_aclGetComponentFromRow($acl);
+            $deliveryLimitationPlugin = OA_aclGetComponentFromRow($acl);
             if ($deliveryLimitationPlugin) {
                 $compiled = $deliveryLimitationPlugin->compile();
                 if (!empty($compiledAcls)) {
@@ -318,6 +313,7 @@ function MAX_AclGetCompiled($aAcls)
                 }
                 $compiledAcls[] = $compiled;
             }
+            unset($deliveryLimitationPlugin);
         }
         return implode(' ', $compiledAcls);
     }
@@ -350,41 +346,62 @@ function MAX_AclGetPlugins($acls) {
  *                        channel limitation.
  * @return boolean True if the limitations are correctly compiled, false otherwise.
  */
-function MAX_AclValidate($page, $aParams) {
-    $conf =& $GLOBALS['_MAX']['CONF'];
-    $oDbh =& OA_DB::singleton();
+function MAX_AclValidate($page, $aParams)
+{
+    // Use prepared statements to improve performance when rebuilding in bulk
+    static $statements = [], $aclStatement;
 
-    if (PEAR::isError($oDbh)) {
+    if (!isset($statements[$page])) {
+        $oDbh = OA_DB::singleton();
+        $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+
+        switch ($page) {
+            case 'banner-acl.php':
+                $qTable = $oDbh->quoteIdentifier($prefix.'banners', true);
+                $qAclsTable = $oDbh->quoteIdentifier($prefix.'acls', true);
+                $qId = $oDbh->quoteIdentifier('bannerid', true);
+                $var = ":bannerid";
+                break;
+            case 'channel-acl.php':
+                $qTable = $oDbh->quoteIdentifier($prefix.'channel', true);
+                $qAclsTable = $oDbh->quoteIdentifier($prefix.'acls_channel', true);
+                $qId = $oDbh->quoteIdentifier('channelid', true);
+                $var = ":channelid";
+                break;
+        }
+
+        $statements[$page] = [
+            $oDbh->prepare("SELECT compiledlimitation, acl_plugins FROM {$qTable} WHERE {$qId} = {$var}"),
+            $oDbh->prepare("SELECT * FROM {$qAclsTable} WHERE {$qId} = {$var} ORDER BY executionorder"),
+        ];
+    }
+
+    /** @var MDB2_Statement_Common $oStmt */
+    /** @var MDB2_Statement_Common $oStmtAcl */
+    list($oStmt, $oStmtAcl) = $statements[$page];
+
+    /** @var MDB2_Result_Common $oResult */
+    $oResult = $oStmt->execute($aParams);
+
+    if (PEAR::isError($oResult)) {
         return false;
     }
 
-    switch($page) {
-        case 'banner-acl.php':
-        case 'market-campaign-acl.php':
-            $doEntityTable = OA_Dal::factoryDO('banners');
-            $doEntityTable->bannerid = $aParams['bannerid'];
-            $doAclTable = OA_Dal::factoryDO('acls');
-            $doAclTable->bannerid = $aParams['bannerid'];
-        break;
-        case 'channel-acl.php':
-            $doEntityTable = OA_Dal::factoryDO('channel');
-            $doEntityTable->channelid = $aParams['channelid'];
-            $doAclTable = OA_Dal::factoryDO('acls_channel');
-            $doAclTable->channelid = $aParams['channelid'];
-        break;
+    $aData = $oResult->fetchRow();
+
+    $compiledLimitation = $aData['compiledlimitation'];
+    $aclPlugins        = $aData['acl_plugins'];
+
+    $oResult = $oStmtAcl->execute($aParams);
+
+    if (PEAR::isError($oResult)) {
+        return false;
     }
 
-    $doEntityTable->find();
-    $doEntityTable->fetch();
-    $aData = $doEntityTable->toArray();
-    $compiledLimitation = $aData['compiledlimitation'];
-    $acl_plugins        = $aData['acl_plugins'];
+    $aAcls = [];
 
-    $aAcls = array();
-    $doAclTable->orderBy('executionorder');
-    $doAclTable->find();
-    while ($doAclTable->fetch()) {
-        $aData = $doAclTable->toArray();
+    /** @var array $aData */
+    while ($aData = $oResult->fetchRow()) {
         $deliveryLimitationPlugin = OA_aclGetComponentFromRow($aData);
         if ($deliveryLimitationPlugin) {
             $deliveryLimitationPlugin->init($aData);
@@ -397,7 +414,7 @@ function MAX_AclValidate($page, $aParams) {
     $newCompiledLimitation = MAX_AclGetCompiled($aAcls);
     $newAclPlugins         = MAX_AclGetPlugins($aAcls);
 
-    if (($newCompiledLimitation == $compiledLimitation) && ($newAclPlugins == $acl_plugins)) {
+    if (($newCompiledLimitation == $compiledLimitation) && ($newAclPlugins == $aclPlugins)) {
         return true;
     } elseif (($compiledLimitation === 'true' || $compiledLimitation === '') && ($newCompiledLimitation === 'true' && empty($newAclPlugins))) {
         return true;
@@ -479,9 +496,9 @@ function &OA_aclGetComponentFromType($type)
  *
  * @param array $row
  */
-function &OA_aclGetComponentFromRow($row)
+function OA_aclGetComponentFromRow($row)
 {
-    $oPlugin =& OA_aclGetComponentFromType($row['type']);
+    $oPlugin = OA_aclGetComponentFromType($row['type']);
     if (!$oPlugin) {
         return false;
     }
@@ -502,8 +519,10 @@ function OA_aclRecompileAclsForTable($aclsTable, $idColumn, $page, $objectTable,
 {
     $dbh =& OA_DB::singleton();
     $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
-    $table = $dbh->quoteIdentifier($prefix.$objectTable, true);
-    $result = $dbh->exec("UPDATE {$table} SET compiledlimitation = '', acl_plugins = ''");
+    $qTable = $dbh->quoteIdentifier($prefix.$objectTable, true);
+    $qAclsTable = $dbh->quoteIdentifier($prefix.$aclsTable, true);
+    $qIdColumn = $dbh->quoteIdentifier($idColumn, true);
+    $result = $dbh->exec("UPDATE {$qTable} SET compiledlimitation = '', acl_plugins = '' WHERE NOT EXISTS(SELECT 1 FROM $qAclsTable a WHERE a.{$qIdColumn} = {$qTable}.{$qIdColumn})");
     if (PEAR::isError($result)) {
         return $result;
     }
@@ -551,7 +570,7 @@ function OA_aclRecompileAclsForTable($aclsTable, $idColumn, $page, $objectTable,
         if (!$result || $row[$idColumn] != $rsAcls->get($idColumn)) {
             // Yes, we need to save!
             $aEntities = array($idColumn => $row[$idColumn]);
-            MAX_AclSave($aAcls, $aEntities, $page);
+            OA_aclRecompile($aAcls, $aEntities, $page);
             $aAcls = array();
         }
     } while ($result);
@@ -572,6 +591,49 @@ function OA_aclRecompileChannels($upgrade = false)
 }
 
 /**
+ * A function to rebuild compiled limitations.
+ *
+ * @param array $aAcls
+ * @param array $aParams
+ * @param string $page
+ *
+ * @return bool
+ */
+function OA_aclRecompile($aAcls, $aParams, $page)
+{
+    // Use prepared statements to improve performance when rebuilding in bulk
+    static $statements = [];
+
+    if (!isset($statements[$page])) {
+        $oDbh = OA_DB::singleton();
+        $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+
+        switch ($page) {
+            case 'banner-acl.php':
+                $qTable = $oDbh->quoteIdentifier($prefix.'banners', true);
+                $qId = $oDbh->quoteIdentifier('bannerid', true);
+                $var = ":bannerid";
+                break;
+            case 'channel-acl.php':
+                $qTable = $oDbh->quoteIdentifier($prefix.'channel', true);
+                $qId = $oDbh->quoteIdentifier('channelid', true);
+                $var = ":channelid";
+                break;
+        }
+
+        $statements[$page] = $oDbh->prepare("UPDATE {$qTable} SET compiledlimitation = :compiledlimitation, acl_plugins = :acl_plugins WHERE {$qId} = {$var}");
+    }
+
+    /** @var MDB2_Statement_Common $stmt */
+    $stmt = $statements[$page];
+
+    $aParams['compiledlimitation'] = MAX_AclGetCompiled($aAcls);
+    $aParams['acl_plugins'] = MAX_AclGetPlugins($aAcls);
+
+    return (bool)$stmt->execute($aParams);
+}
+
+/**
  * This function iterates over all the ACLs in the system, and recompiles the compiledlimitation
  * string across all banners and channels
  *
@@ -583,11 +645,12 @@ function MAX_AclReCompileAll($upgrade = false)
     $audit = $GLOBALS['_MAX']['CONF']['audit'];
     $GLOBALS['_MAX']['CONF']['audit'] = false;
 
-    $result = OA_aclRecompileBanners($upgrade);
+    $result = OA_aclRecompileChannels($upgrade);
     if (PEAR::isError($result)) {
         return $result;
     }
-    $result = OA_aclRecompileChannels($upgrade);
+
+    $result = OA_aclRecompileBanners($upgrade);
     if (PEAR::isError($result)) {
         return $result;
     }

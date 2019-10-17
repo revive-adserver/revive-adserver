@@ -40,6 +40,9 @@ phpAds_MaintenanceSelection("acls");
 if (!empty($action) && ($action == 'Recompile')) {
     OA_Permission::checkSessionToken();
 
+    // This could take a long time!
+    @set_time_limit(0);
+
     MAX_AclReCompileAll();
     echo "<strong>$strAllBannerChannelCompiled</strong><br />";
 }
