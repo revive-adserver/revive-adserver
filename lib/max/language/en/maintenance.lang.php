@@ -123,7 +123,7 @@ $GLOBALS['strBannerChannelResult'] = "Here are the results of the banner/deliver
 $GLOBALS['strChannelCompiledLimitationsValid'] = "All compiled delivery rules for delivery rule sets are valid";
 $GLOBALS['strBannerCompiledLimitationsValid'] = "All compiled delivery rules for banners are valid";
 $GLOBALS['strErrorsFound'] = "Errors found";
-$GLOBALS['strRepairCompiledLimitations'] = "Some inconsistancies were found above, you can repair these using the button below, this will recompile the compiled limitation for every banner/delivery rule set in the system<br />";
+$GLOBALS['strRepairCompiledLimitations'] = "Some inconsistencies were found above, you can repair these using the button below, this will recompile the compiled limitation for every banner/delivery rule set in the system<br />";
 $GLOBALS['strRecompile'] = "Recompile";
 $GLOBALS['strDeliveryEngineDisagreeNotice'] = "Under some circumstances the delivery engine can disagree with the stored delivery rules for banners and delivery rule sets, use the folowing link to validate the delivery rules in the database";
 $GLOBALS['strCheckACLs'] = "Check delivery rules";
@@ -134,7 +134,7 @@ $GLOBALS['strCheckAppendCodes'] = "Check Append codes";
 $GLOBALS['strAppendCodesRecompiled'] = "All compiled append codes values have been recompiled";
 $GLOBALS['strAppendCodesResult'] = "Here are the results of the compiled append codes validation";
 $GLOBALS['strAppendCodesValid'] = "All tracker compiled appendcodes are valid";
-$GLOBALS['strRepairAppenedCodes'] = "Some inconsistancies were found above, you can repair these using the button below, this will recompile the append codes for every tracker in the system";
+$GLOBALS['strRepairAppenedCodes'] = "Some inconsistencies were found above, you can repair these using the button below, this will recompile the append codes for every tracker in the system";
 
 $GLOBALS['strPlugins'] = "Plugins";
 $GLOBALS['strPluginsPrecis'] = "Diagnose and repair problems with {$PRODUCT_NAME} plugins";
