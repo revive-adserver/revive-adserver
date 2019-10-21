@@ -14,8 +14,8 @@ class MaxMindGeoIP2Maintenance extends \OX_Maintenance_Statistics_Task
 
         /** @var \OX_Maintenance $oMaint */
         $oMaint = $oServiceLocator->get('Maintenance_Controller');
-        if (!$oMaint->isMidnightMaintenance($oMaint->getLastRun())) {
-            \OA::debug("- Waiting for next midnight maintenance", PEAR_LOG_DEBUG);
+        if (!$oMaint->isMidnightMaintenance()) {
+            \OA::debug("- Waiting for next midnight maintenance");
             return true;
         }
 
@@ -25,7 +25,7 @@ class MaxMindGeoIP2Maintenance extends \OX_Maintenance_Statistics_Task
             if ($downloader->updateGeoLiteDatabase()) {
                 \OA::debug("- Downloaded latest GeoLite2 database");
             } else {
-                \OA::debug("- Latest GeoLite2 database already installed", PEAR_LOG_DEBUG);
+                \OA::debug("- Latest GeoLite2 database already installed");
             }
         } catch (\Exception $e) {
             \OA::debug("- An error occurred: {$e->getMessage()}", PEAR_LOG_WARNING);

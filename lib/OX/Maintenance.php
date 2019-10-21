@@ -44,6 +44,9 @@ class OX_Maintenance
     var $aConf;
     var $aPref;
 
+    /** @var Date */
+    private $oLastRun;
+
     function __construct()
     {
         $this->aConf = $GLOBALS['_MAX']['CONF'];
@@ -84,7 +87,7 @@ class OX_Maintenance
             // Set UTC timezone
             OA_setTimeZoneUTC();
             // Get last run
-            $oLastRun = $this->getLastRun();
+            $this->oLastRun = $this->getLastRun();
             // Update the timestamp for old maintenance code and auto-maintenance
             $this->updateLastRun();
             // Record the current time, and register with the OA_ServiceLocator
@@ -105,7 +108,7 @@ class OX_Maintenance
             $this->_runMSE();
             // Run the "midnight" tasks, if required
             $runSync = false;
-            if ($this->isMidnightMaintenance($oLastRun)) {
+            if ($this->isMidnightMaintenance()) {
                 $this->_runMidnightTasks();
                 $runSync = true;
             }
@@ -185,11 +188,14 @@ class OX_Maintenance
      * A method to check if midnight tasks should run
      *
      * @param Date $oLastRun
+     *
      * @return boolean
      */
-    function isMidnightMaintenance($oLastRun)
+    function isMidnightMaintenance(Date $oLastRun = null)
     {
         global $serverTimezone;
+
+        $oLastRun = $oLastRun ?? $this->oLastRun;
 
         if (empty($oLastRun)) {
             return true;
