@@ -115,7 +115,6 @@ $GLOBALS['strCheckAppendCodes'] = "Chequear códigos agregados";
 $GLOBALS['strAppendCodesRecompiled'] = "Todos los valores de los códigos compilados agregados han sido recompilados";
 $GLOBALS['strAppendCodesResult'] = "Aquí están los resultados de la validación de códigos agregados";
 $GLOBALS['strAppendCodesValid'] = "Todos los trackers de los códigos agregados compilados son válidos";
-$GLOBALS['strRepairAppenedCodes'] = "Se encontraron algunas inconsistencias arriba, puede repararlas usando el botón de abajo, esto recompilará los códigos agregados para cada tracker en el sistema";
 
 $GLOBALS['strPlugins'] = "Plugins";
 $GLOBALS['strPluginsPrecis'] = "Diagnosticar y reparar problemas con plugins de {$PRODUCT_NAME}";

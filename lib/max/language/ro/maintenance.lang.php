@@ -118,6 +118,5 @@ $GLOBALS['strCheckAppendCodes'] = "Verifica codurile alăturate";
 $GLOBALS['strAppendCodesRecompiled'] = "Toate valorile codurilor alăturate compilate au fost recompilate";
 $GLOBALS['strAppendCodesResult'] = "Aici sunt rezultatele validării codurilor alăturate compilate";
 $GLOBALS['strAppendCodesValid'] = "Toate codurile alăturate ale contorului compilate sunt valide";
-$GLOBALS['strRepairAppenedCodes'] = "Au fost găsite unele incompatibilităţi mai sus, le poţi repara folosind butonul de mai jos, acesta va recompila codurile alăturate pentru fiecare contor din sistem";
 
 

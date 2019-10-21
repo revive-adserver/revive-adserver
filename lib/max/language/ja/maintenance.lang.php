@@ -115,6 +115,5 @@ $GLOBALS['strCheckAppendCodes'] = "追加コードを確認";
 $GLOBALS['strAppendCodesRecompiled'] = "すべて追加コードの値が再集計されました。";
 $GLOBALS['strAppendCodesResult'] = "追加コードのチェック集計結果";
 $GLOBALS['strAppendCodesValid'] = "全ての追跡コードは正常です。";
-$GLOBALS['strRepairAppenedCodes'] = "何らかの問題が見つかりました。以下のボタンを使用して修正してください。これは全ての追跡コードの値を再集計します。";
 
 

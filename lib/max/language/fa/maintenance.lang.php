@@ -157,7 +157,6 @@ $GLOBALS['strAppendCodesRecompiled'] = "همه الحاق ارزش کدهای و
 $GLOBALS['strAppendCodesResult'] = "
 نتایج حاصل از کامپایل اعتبار سنجی کد اضافه عبارتند از";
 $GLOBALS['strAppendCodesValid'] = "تمام کدهای ردیاب کامپایل الحاق معتبر هستند";
-$GLOBALS['strRepairAppenedCodes'] = "برخی از تناقضات بالا پیدا شد، شما می توانید تعمیر این با استفاده از دکمه زیر تعمیر کنید ، این کد اضافه برای هر ردیاب در سیستم کامپایل مجدد خوانده می شود . ";
 
 $GLOBALS['strPlugins'] = "پلاگین";
 $GLOBALS['strPluginsPrecis'] = "

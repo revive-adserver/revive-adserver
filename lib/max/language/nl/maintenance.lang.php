@@ -128,7 +128,6 @@ $GLOBALS['strBannerChannelResult'] = "Dit zijn de resultaten van de controle van
 $GLOBALS['strChannelCompiledLimitationsValid'] = "Alle gecompileerde uitleveringsregels in verzamelingen uitleveringsregels zijn geldig";
 $GLOBALS['strBannerCompiledLimitationsValid'] = "Alle gecompileerde uitleveringsregels van banners zijn geldig";
 $GLOBALS['strErrorsFound'] = "Fouten gevonden";
-$GLOBALS['strRepairCompiledLimitations'] = "Er zijn enkele inconsistenties aangetroffen (zie boven), u kunt deze herstellen met de onderstaande knop, dit zal de de gecompileerde uitleveringsregels voor alle banners en alle verzamelingen opnieuwe compileren<br />";
 $GLOBALS['strRecompile'] = "Opnieuw compileren";
 $GLOBALS['strDeliveryEngineDisagreeNotice'] = "Onder bepaalde omstandigheden kunnen er verschillen zijn tussen de opgeslagen uitleveringsregels voor banners en verzamelingen, gebruik de volgende link om de uitleveringsregels in de database te valideren";
 $GLOBALS['strCheckACLs'] = "Controleer Uitleveringsregels";
@@ -139,7 +138,6 @@ $GLOBALS['strCheckAppendCodes'] = "Controleer toegevoegde codes";
 $GLOBALS['strAppendCodesRecompiled'] = "Alle gecompileerde toegevoegde codes zijn opnieuw gecompileerd";
 $GLOBALS['strAppendCodesResult'] = "Hier zijn de resultaten van de validatie van de gecompileerde toegevoegde codes";
 $GLOBALS['strAppendCodesValid'] = "Alle gecompileerde toegevoegde codes voor trackers zijn in orde";
-$GLOBALS['strRepairAppenedCodes'] = "Er zijn enkele inconsistenties gevonden (zie boven), u kunt deze herstellen met de onderstaande knop, dit zal de toegevoegde codes opnieuw compileren voor elke tracker in het systeem";
 
 $GLOBALS['strPlugins'] = "Plugins";
 $GLOBALS['strPluginsPrecis'] = "Diagnosticeren en herstellen van problemen met {$PRODUCT_NAME} plugins";

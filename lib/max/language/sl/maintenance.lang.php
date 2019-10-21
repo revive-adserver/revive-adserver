@@ -120,7 +120,6 @@ $GLOBALS['strCheckAppendCodes'] = "Preveri pripojitveni zbirnik";
 $GLOBALS['strAppendCodesRecompiled'] = "Vse zbrane pripojitvene vrednosti zbirnika so bile znova sestavljene";
 $GLOBALS['strAppendCodesResult'] = "Tukaj so rezultati veljavnosti zbranih pripojitvenih zbirnikov";
 $GLOBALS['strAppendCodesValid'] = "Vsi zbrani pripojitveni zbirniki sledilnika so veljavni";
-$GLOBALS['strRepairAppenedCodes'] = "Zgoraj je bilo najdenih nekaj nedoslednosti. Te lahko odpravite s klikom na spodnji gumb.";
 
 $GLOBALS['strPlugins'] = "Vtičniki";
 $GLOBALS['strPluginsPrecis'] = "Diagnosticiraj in popravi težave z OpenX vtičniki";

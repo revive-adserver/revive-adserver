@@ -119,7 +119,6 @@ $GLOBALS['strCheckAppendCodes'] = "Sprawdź dołączone kody";
 $GLOBALS['strAppendCodesRecompiled'] = "Wszystkie skompilowane wartości dla dodawanych kodów zostały zrekompilowane";
 $GLOBALS['strAppendCodesResult'] = "Oto wyniki walidacji skompilowanch kodów dodanych";
 $GLOBALS['strAppendCodesValid'] = "Wszystkie skompilowane kody trackera są ważne";
-$GLOBALS['strRepairAppenedCodes'] = "Stwierdzono pewne nieprawidłowości powyżej, można naprawić te, korzystając z przycisku poniżej, aby ponownie skompilować kody dodane dla każdego trackera w systemie";
 
 $GLOBALS['strPlugins'] = "Moduły dodatkowe";
 

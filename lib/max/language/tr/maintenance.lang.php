@@ -85,13 +85,11 @@ $GLOBALS['strAndPlain'] = "ve";
 $GLOBALS['strDeliveryLimitations'] = "Teslimat Kuralları";
 $GLOBALS['strBannerCompiledLimitationsValid'] = "Afişler için derlenmiş teslimat kuralları geçerlidir";
 $GLOBALS['strErrorsFound'] = "Hatalar bulundu";
-$GLOBALS['strRepairCompiledLimitations'] = "Yukarıda bazı tutarsızlıklar bulundu, bunları aşağıdaki düğmeyi kullanarak onarabilirsiniz; bu derlenmiş sınırlamayı sistemdeki her afiş / yayınlama kuralı için derleyecektir <br/>";
 $GLOBALS['strDeliveryEngineDisagreeNotice'] = "Bazı durumlarda dağıtım motoru, afişler ve teslimat kuralı setleri için saklanan teslimat kurallarıyla aynı fikirde olamaz, veritabanındaki teslimat kurallarını doğrulamak için aşağıdaki bağlantıyı kullanın";
 
 //  Append codes
 $GLOBALS['strAppendCodesDesc'] = "Bazı durumlarda, teslim motoru izleyiciler için depolanmış ek kodları ile anlaşamaz, veritabanındaki ek kodlarını doğrulamak için aşağıdaki link kullanılır";
 $GLOBALS['strAppendCodesResult'] = "Aşağıda, derlenmiş ek kodlarının doğrulanmasının sonuçları verilmiştir";
-$GLOBALS['strRepairAppenedCodes'] = "Yukarıda bazı tutarsızlıklar bulundu, bunları aşağıdaki düğmeyi kullanarak onarabilirsiniz, bu sistemdeki her izci için ek kodlarını derleyecektir";
 
 $GLOBALS['strPlugins'] = "Eklentiler";
 

@@ -112,6 +112,5 @@ $GLOBALS['strCheckAppendCodes'] = "Verificar códigos anexados";
 $GLOBALS['strAppendCodesRecompiled'] = "Todos códigos anexados foram re-compilados";
 $GLOBALS['strAppendCodesResult'] = "Estes são os resultados da validação da compilação de códigos anexados";
 $GLOBALS['strAppendCodesValid'] = "Todos códigos compilados para os rastreadores são válidos";
-$GLOBALS['strRepairAppenedCodes'] = "Algumas inconsistências foram encontradas acima, você pode reparar estas utilizando botão abaixo, isso irá recompilar todos os códigos de todos rastreadores no sistema";
 
 

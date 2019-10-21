@@ -138,7 +138,6 @@ $GLOBALS['strBannerChannelResult'] = "Berikut adalah hasil dari aturan banner/de
 $GLOBALS['strChannelCompiledLimitationsValid'] = "Semua aturan pengiriman yang dikompilasi untuk aturan pengiriman berlaku";
 $GLOBALS['strBannerCompiledLimitationsValid'] = "Semua aturan pengiriman yang disatukan untuk banner berlaku";
 $GLOBALS['strErrorsFound'] = "Kesalahan ditemukan";
-$GLOBALS['strRepairCompiledLimitations'] = "Beberapa ketidakkonsistenan ditemukan di atas, Anda dapat memperbaiki ini dengan menggunakan tombol di bawah ini, ini akan mengkompilasi ulang batasan yang dikompilasi untuk setiap aturan banner/pengiriman yang diatur dalam sistem<br/>";
 $GLOBALS['strRecompile'] = "Kompilasi ulang";
 $GLOBALS['strDeliveryEngineDisagreeNotice'] = "Dalam keadaan tertentu, mesin pengiriman tidak dapat menyetujui peraturan pengiriman yang tersimpan untuk spanduk dan rangkaian aturan pengiriman, gunakan tautan berikut untuk memvalidasi aturan pengiriman di basis data";
 $GLOBALS['strCheckACLs'] = "Periksa aturan pengiriman";
@@ -149,7 +148,6 @@ $GLOBALS['strCheckAppendCodes'] = "Periksa kode Append";
 $GLOBALS['strAppendCodesRecompiled'] = "Semua nilai kode append yang dikompilasi telah dikompilasi ulang";
 $GLOBALS['strAppendCodesResult'] = "Berikut adalah hasil dari validasi kode append yang dikompilasi";
 $GLOBALS['strAppendCodesValid'] = "Semua appendcode yang dilacak tracker valid";
-$GLOBALS['strRepairAppenedCodes'] = "Beberapa ketidakkonsistenan ditemukan di atas, Anda dapat memperbaiki ini dengan menggunakan tombol di bawah ini, ini akan mengkompilasi ulang kode tambahan untuk setiap pelacak di sistem";
 
 $GLOBALS['strPlugins'] = "Plugin";
 $GLOBALS['strPluginsPrecis'] = "Diagnosa dan perbaiki masalah dengan plugin {$PRODUCT_NAME}";

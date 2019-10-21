@@ -120,7 +120,6 @@ $GLOBALS['strCheckAppendCodes'] = "Vérifier les codes ajoutés";
 $GLOBALS['strAppendCodesRecompiled'] = "Toutes les valeurs de codes ajoutés compilées ont été recompilées.";
 $GLOBALS['strAppendCodesResult'] = "Voici les résultats de la validation des codes ajoutés compilés";
 $GLOBALS['strAppendCodesValid'] = "Tous les codes ajoutés compilés des suiveurs sont valides";
-$GLOBALS['strRepairAppenedCodes'] = "Quelques inconsistances ont été trouvées ci-dessus, vous pouvez les réparer en utilisant le bouton ci-dessous, ceci recompilera les codes ajoutés pour chaque suiveur du système";
 
 $GLOBALS['strPlugins'] = "Extensions";
 $GLOBALS['strPluginsPrecis'] = "Diagnostique et répare les problèmes des plugins OpenX";

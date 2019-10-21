@@ -118,6 +118,5 @@ $GLOBALS['strCheckAppendCodes'] = "Проверить коды";
 $GLOBALS['strAppendCodesRecompiled'] = "Все коды были пересчитаны";
 $GLOBALS['strAppendCodesResult'] = "Результаты пересчета кодов";
 $GLOBALS['strAppendCodesValid'] = "Все коды корректны";
-$GLOBALS['strRepairAppenedCodes'] = "Были найдены некоторые несовпадения. для их коррекции нажмите пожалуйста кнопку ниже.";
 
 
