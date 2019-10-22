@@ -148,6 +148,7 @@ $GLOBALS['strAndPlain'] = "و";
 
 //  Deliver Limitations
 $GLOBALS['strErrorsFound'] = "خطاهایی پیدا شد ";
+$GLOBALS['strRepairCompiledLimitations'] = "برخی از تناقضات بالا پیدا شد، شما می توانید این با استفاده از دکمه زیر تعمیر، این محدودیت کامپایلر برای هر بنر / کانال در سیستم کامپایل را<br />";
 $GLOBALS['strRecompile'] = "کامپایل مجدد";
 
 //  Append codes

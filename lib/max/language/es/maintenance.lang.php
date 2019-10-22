@@ -107,6 +107,7 @@ $GLOBALS['strAndPlain'] = "y";
 //  Deliver Limitations
 $GLOBALS['strDeliveryLimitations'] = "Reglas de Entrega";
 $GLOBALS['strErrorsFound'] = "Errores encontrados";
+$GLOBALS['strRepairCompiledLimitations'] = "Se encontraron algunas incosistencias anteriormente, puede repararlas usando el botón de abajo, este recompilará las limitaciones compiladas para cada banner/canal en el sistema<br />";
 $GLOBALS['strRecompile'] = "Recompilar";
 
 //  Append codes

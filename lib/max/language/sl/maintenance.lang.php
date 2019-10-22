@@ -112,6 +112,7 @@ $GLOBALS['strAndPlain'] = "in";
 
 //  Deliver Limitations
 $GLOBALS['strErrorsFound'] = "Najdene napake";
+$GLOBALS['strRepairCompiledLimitations'] = "Zgoraj je bilo najdenih nekaj nedoslednosti. Te lahko odpravite s klikom na spodnjim gumbom, ki bo znova sestavil zbrane omejitve za vsako pasico/kanal v sistemu<br />";
 $GLOBALS['strRecompile'] = "Znova sestavi";
 
 //  Append codes

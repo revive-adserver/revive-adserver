@@ -110,6 +110,7 @@ $GLOBALS['strAndPlain'] = "и";
 
 //  Deliver Limitations
 $GLOBALS['strErrorsFound'] = "Найдены ошибки";
+$GLOBALS['strRepairCompiledLimitations'] = "Были найдены несоответствия, которые вы можете исправить нажав кнопку ниже.<br />";
 $GLOBALS['strRecompile'] = "Пересчитать";
 
 //  Append codes

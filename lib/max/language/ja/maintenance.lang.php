@@ -107,6 +107,7 @@ $GLOBALS['strAndPlain'] = "および";
 
 //  Deliver Limitations
 $GLOBALS['strErrorsFound'] = "エラーがあります";
+$GLOBALS['strRepairCompiledLimitations'] = "いくつか内容に矛盾があります。下記のボタンを使用して問題を修正してください。この設定は、すべてのバナー及びチャンネルの再集計に対する上限値を設定し直します。<br />";
 $GLOBALS['strRecompile'] = "再集計";
 
 //  Append codes

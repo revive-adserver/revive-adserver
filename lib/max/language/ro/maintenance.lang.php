@@ -110,6 +110,7 @@ $GLOBALS['strAndPlain'] = "şi";
 
 //  Deliver Limitations
 $GLOBALS['strErrorsFound'] = "Au fost găsite erori";
+$GLOBALS['strRepairCompiledLimitations'] = "Au fost găsite unele incompatibilităţi deasupra, le poţi repara folosind butonul de mai jos, acesta va recompila limitarea compilată pentru fiecare banner/canal din sistem<br />";
 $GLOBALS['strRecompile'] = "Recompilează";
 
 //  Append codes
