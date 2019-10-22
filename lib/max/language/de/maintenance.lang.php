@@ -108,6 +108,7 @@ $GLOBALS['strAndPlain'] = "und";
 
 //  Deliver Limitations
 $GLOBALS['strErrorsFound'] = "Fehler gefunden";
+$GLOBALS['strRepairCompiledLimitations'] = "Obige Inkonsistenzen wurden ermittelt. Sie können diese reparieren durch die Verwendung des unten stehenden Buttons. Hierbei wird das System die Auslieferungsbeschränkungen jedes Banners und jeder Gruppe im System neu übersetzen.<br />";
 $GLOBALS['strRecompile'] = "Neu übersetzen";
 
 //  Append codes

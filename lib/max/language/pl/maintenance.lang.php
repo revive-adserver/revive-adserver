@@ -111,6 +111,7 @@ $GLOBALS['strAndPlain'] = "i";
 
 //  Deliver Limitations
 $GLOBALS['strErrorsFound'] = "Znaleziono błędy";
+$GLOBALS['strRepairCompiledLimitations'] = "Stwierdzono pewne nieprawidłowości powyżej, można naprawić je, korzystając z przycisku poniżej, aby ponownie skompilować ograniczenia dla każdego banera/kanału systemu<br />";
 $GLOBALS['strRecompile'] = "Przekompiluj";
 
 //  Append codes
