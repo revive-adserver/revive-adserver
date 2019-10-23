@@ -18,7 +18,8 @@
     },
     "autoload": {
         "psr-4": {
-            "RV\\": "lib/RV/"
+            "RV\\": "lib/RV/",
+            "RV_Plugins\\": "plugins/"
         }
     },
     "require": {
