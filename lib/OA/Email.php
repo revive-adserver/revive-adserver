@@ -1188,8 +1188,10 @@ class OA_Email
 
         // If not Agency details send email using Administrator's details
         if (empty($fromDetails)) {
-            $fromDetails['name'] = $aConf['email']['fromName'];
-            $fromDetails['emailAddress'] = $aConf['email']['fromAddress'];
+            $fromDetails = [
+                'name' => $aConf['email']['fromName'],
+                'emailAddress' => $aConf['email']['fromAddress'],
+            ];
         }
 
     	// For the time being we're sending plain text emails only, so decode any HTML entities
