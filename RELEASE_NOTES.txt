@@ -37,7 +37,8 @@ What's New in Revive Adserver 5.0.1
 
  * Improved performance of delivery rules validation and recompilation, which was
    causing upgrade failures under some circumstances.
-
+ * Fixed an issue that caused the From e-mail header to be malformed when sending
+   campaign expiration and other e-emails.
 
  Non-Backwards Compatible Changes
  --------------------------------
