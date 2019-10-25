@@ -235,6 +235,7 @@
 
                     i.scrolling = "no";
                     i.frameBorder = 0;
+                    i.allow = "autoplay";
                     i.width = data.width > 0 ? data.width : 0;
                     i.height = data.height > 0 ? data.height : 0;
                     s.border = 0;
