@@ -35,14 +35,17 @@ What's New in Revive Adserver 5.0.1
  Bug Fixes
  ---------
 
- * Improved performance of delivery rules validation and recompilation, which was
-   causing upgrade failures under some circumstances.
+ * Improved performance of delivery rules validation and recompilation, which
+   was causing upgrade failures under some circumstances.
 
- * Fixed an issue that caused the From e-mail header to be malformed when sending
-   campaign expiration and other e-mails.
+ * Fixed an issue that caused the From e-mail header to be malformed when
+   sending campaign expiration and other e-mails.
 
- * Fixed an issue preventing the MaxMind GeoLite2 City database from being updated
-   during midnight maintenance.
+ * Fixed an issue preventing the MaxMind GeoLite2 City database from being
+   updated during midnight maintenance.
+
+ * Added several missing entries to the ISO-3166 Subdivision delivery rule,
+   including subdivisions in Belgium, Spain, Switzerland and other countries.
 
  Non-Backwards Compatible Changes
  --------------------------------

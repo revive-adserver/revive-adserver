@@ -108,6 +108,22 @@ $RV_Geo_ISO3166_2_S2 = [
             'BD-57' => 'Sherpur',
         ],
     ],
+    'BE' => [
+        'BE-VLG' => [
+            'BE-VAN' => 'Antwerpen',
+            'BE-VLI' => 'Limburg',
+            'BE-VOV' => 'Oost-Vlaanderen',
+            'BE-VBR' => 'Vlaams-Brabant',
+            'BE-VWV' => 'West-Vlaanderen',
+        ],
+        'BE-WAL' => [
+            'BE-WBR' => 'Brabant wallon',
+            'BE-WHT' => 'Hainaut',
+            'BE-WLG' => 'Liège',
+            'BE-WLX' => 'Luxembourg',
+            'BE-WNA' => 'Namur',
+        ],
+    ],
     'BF' => [
         'BF-01' => [
             'BF-BAL' => 'Balé',
@@ -422,7 +438,10 @@ $RV_Geo_ISO3166_2_S2 = [
             'ES-CC' => 'Cáceres',
         ],
         'ES-CT' => [
-            'ES-B' => 'Barcelona',
+            'ES-B' => 'Barcelona [Barcelona]',
+            'ES-GI' => 'Girona [Gerona]',
+            'ES-L' => 'Lleida [Lérida]',
+            'ES-T' => 'Tarragona [Tarragona]',
         ],
         'ES-CL' => [
             'ES-BU' => 'Burgos',
@@ -461,6 +480,17 @@ $RV_Geo_ISO3166_2_S2 = [
         ],
         'ES-PV' => [
             'ES-VI' => 'Álava',
+            'ES-BI' => 'Bizkaia',
+            'ES-SS' => 'Gipuzkoa',
+        ],
+        'ES-GA' => [
+            'ES-C' => 'A Coruña [La Coruña]',
+            'ES-LU' => 'Lugo [Lugo]',
+            'ES-OR' => 'Ourense [Orense]',
+            'ES-PO' => 'Pontevedra [Pontevedra]',
+        ],
+        'ES-IB' => [
+            'ES-PM' => 'Balears [Baleares]',
         ],
     ],
     'FJ' => [
@@ -603,12 +633,21 @@ $RV_Geo_ISO3166_2_S2 = [
             'FR-94' => 'Val-de-Marne',
             'FR-78' => 'Yvelines',
         ],
+        'FR-GUA' => [
+            'FR-GP' => 'Guadeloupe (see also separate country code entry under GP)',
+        ],
+        'FR-LRE' => [
+            'FR-RE' => 'La Réunion (see also separate country code entry under RE)',
+        ],
         'FR-PDL' => [
             'FR-44' => 'Loire-Atlantique',
             'FR-49' => 'Maine-et-Loire',
             'FR-53' => 'Mayenne',
             'FR-72' => 'Sarthe',
             'FR-85' => 'Vendée',
+        ],
+        'FR-MAY' => [
+            'FR-YT' => 'Mayotte (see also separate country code entry under YT)',
         ],
     ],
     'GB' => [
