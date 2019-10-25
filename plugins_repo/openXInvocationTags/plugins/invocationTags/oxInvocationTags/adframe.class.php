@@ -150,6 +150,7 @@ class Plugins_InvocationTags_OxInvocationTags_adframe extends Plugins_Invocation
         if (isset($mi->transparent) && $mi->transparent == '1') {
             $buffer .= " allowtransparency='true'";
         }
+        $buffer .= " allow='autoplay'";
         $buffer .= ">";
         if (isset($mi->refresh) && $mi->refresh != '') {
             unset ($mi->parameters['refresh']);
