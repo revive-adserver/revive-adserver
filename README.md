@@ -54,4 +54,5 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ------------------------------------------------------------------------
 
 This product uses GeoLite2 data created by MaxMind, available from the 
-https://www.maxmind.com/ website. See also https://www.revive-adserver.com/blog/new-geotargeting-plugin-in-revive-adserver-v5-an-overview/
+https://www.maxmind.com/ website. See also:
+https://www.revive-adserver.com/blog/new-geotargeting-plugin-in-revive-adserver-v5-an-overview/
