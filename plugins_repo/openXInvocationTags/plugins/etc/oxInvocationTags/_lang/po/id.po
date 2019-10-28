@@ -21,7 +21,7 @@ msgstr "Asinkron JS Menandai"
 msgid "iFrame Tag"
 msgstr "iFrame Menandai"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adframe.class.php:193
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adframe.class.php:194
 msgid "Placement Comment"
 msgstr "Komentar penempatan"
 
