@@ -89,11 +89,14 @@ $GLOBALS['strCollectedThisMonth'] = "Τρέχον Μήνας";
 $GLOBALS['strCollectedLastMonth'] = "Προηγούμενος Μήνας";
 $GLOBALS['strCollectedLast7Days'] = "Τελευταίες 7 ημέρες";
 $GLOBALS['strCollectedSpecificDates'] = "Συγκεκριμένες ημερομηνίες";
+$GLOBALS['strValue'] = "Τιμή";
 $GLOBALS['strWarning'] = "Προειδοποίηση";
 $GLOBALS['strNotice'] = "Σημείωση";
 
 // Dashboard
 // Dashboard Errors
+$GLOBALS['strDashboardErrorCode'] = "κώδικας";
+$GLOBALS['strDashboardSystemMessage'] = "Μήνυμα συστήματος";
 
 // Priority
 $GLOBALS['strPriority'] = "Προτεραιότητα";

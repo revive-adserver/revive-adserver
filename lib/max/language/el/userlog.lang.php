@@ -22,6 +22,7 @@ $GLOBALS['strCampaign'] = "Καμπάνια";
 $GLOBALS['strZone'] = "Ζώνη";
 $GLOBALS['strType'] = "Τύπος";
 $GLOBALS['strAction'] = "Ενέργεια";
+$GLOBALS['strValue'] = "Τιμή";
 
 if (!isset($GLOBALS['strUserlog'])) {
     $GLOBALS['strUserlog'] = array();
