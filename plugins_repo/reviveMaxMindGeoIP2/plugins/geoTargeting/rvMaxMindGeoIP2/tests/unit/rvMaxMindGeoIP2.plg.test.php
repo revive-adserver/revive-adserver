@@ -12,7 +12,7 @@
 
 require_once __DIR__ . '/../../lib/MaxMindGeoIP2.php';
 
-use RV_Plugins\geoTargeting\rvMaxMindGeoIP2\MaxMindGeoIP2;
+use RV_Plugins\geoTargeting\rvMaxMindGeoIP2\lib\MaxMindGeoIP2;
 
 /**
  * A class for testing the RvMaxMindGeoIP2 delivery component.
