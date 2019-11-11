@@ -5,7 +5,8 @@ require_once LIB_PATH . '/Extension/maintenanceStatisticsTask/MaintenanceStatist
 require_once __DIR__.'/../../geoTargeting/rvMaxMindGeoIP2/lib/MaxMindGeoIP2.php';
 require_once __DIR__.'/../../geoTargeting/rvMaxMindGeoIP2/lib/MaxMindGeoIP2Maintenance.php';
 
-use RV_Plugins\geoTargeting\rvMaxMindGeoIP2\MaxMindGeoIP2;
+use RV_Plugins\geoTargeting\rvMaxMindGeoIP2\lib\MaxMindGeoIP2;
+use RV_Plugins\geoTargeting\rvMaxMindGeoIP2\lib\MaxMindGeoIP2Maintenance;
 
 class Plugins_MaintenanceStatisticsTask_rvMaxMindGeoIP2Maintenance_rvMaxMindGeoIP2Maintenance extends Plugins_MaintenanceStatisticsTask
 {
@@ -17,6 +18,6 @@ class Plugins_MaintenanceStatisticsTask_rvMaxMindGeoIP2Maintenance_rvMaxMindGeoI
             return null;
         }
 
-        return new \RV_Plugins\geoTargeting\rvMaxMindGeoIP2\MaxMindGeoIP2Maintenance();
+        return new MaxMindGeoIP2Maintenance();
     }
 }

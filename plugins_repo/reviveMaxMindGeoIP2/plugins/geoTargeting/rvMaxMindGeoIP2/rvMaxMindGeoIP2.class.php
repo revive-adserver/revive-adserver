@@ -13,9 +13,8 @@
 require_once __DIR__.'/rvMaxMindGeoIP2.delivery.php';
 require_once __DIR__.'/lib/MaxMindGeoLite2Downloader.php';
 
-
-use RV_Plugins\geoTargeting\rvMaxMindGeoIP2\MaxMindGeoIP2;
-use RV_Plugins\geoTargeting\rvMaxMindGeoIP2\MaxMindGeoLite2Downloader;
+use RV_Plugins\geoTargeting\rvMaxMindGeoIP2\lib\MaxMindGeoIP2;
+use RV_Plugins\geoTargeting\rvMaxMindGeoIP2\lib\MaxMindGeoLite2Downloader;
 
 /**
  * Class to get GeoTargeting information from MaxMind GeoIP2 or GeoLite2 databases.

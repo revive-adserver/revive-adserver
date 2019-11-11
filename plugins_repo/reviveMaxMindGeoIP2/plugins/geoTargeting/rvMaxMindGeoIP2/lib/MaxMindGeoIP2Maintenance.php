@@ -1,6 +1,6 @@
 <?php
 
-namespace RV_Plugins\geoTargeting\rvMaxMindGeoIP2;
+namespace RV_Plugins\geoTargeting\rvMaxMindGeoIP2\lib;
 
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 require_once LIB_PATH . '/Maintenance.php';

@@ -1,6 +1,6 @@
 <?php
 
-namespace RV_Plugins\geoTargeting\rvMaxMindGeoIP2;
+namespace RV_Plugins\geoTargeting\rvMaxMindGeoIP2\lib;
 
 use MaxMind\Db\Reader;
 

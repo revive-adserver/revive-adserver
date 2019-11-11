@@ -12,7 +12,7 @@
 
 require_once __DIR__.'/lib/MaxMindGeoIP2.php';
 
-use RV_Plugins\geoTargeting\rvMaxMindGeoIP2\MaxMindGeoIP2;
+use RV_Plugins\geoTargeting\rvMaxMindGeoIP2\lib\MaxMindGeoIP2;
 
 /**
  * Get the geo-information for this IP address using the GeoIP plugin
