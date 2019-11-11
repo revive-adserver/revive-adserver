@@ -349,7 +349,7 @@ function MAX_AclGetPlugins($acls) {
 function MAX_AclValidate($page, $aParams)
 {
     // Use prepared statements to improve performance when rebuilding in bulk
-    static $statements = [], $aclStatement;
+    static $statements = [];
 
     if (!isset($statements[$page])) {
         $oDbh = OA_DB::singleton();
@@ -360,21 +360,24 @@ function MAX_AclValidate($page, $aParams)
                 $qTable = $oDbh->quoteIdentifier($prefix.'banners', true);
                 $qAclsTable = $oDbh->quoteIdentifier($prefix.'acls', true);
                 $qId = $oDbh->quoteIdentifier('bannerid', true);
-                $var = ":bannerid";
+                $var = "bannerid";
                 break;
             case 'channel-acl.php':
                 $qTable = $oDbh->quoteIdentifier($prefix.'channel', true);
                 $qAclsTable = $oDbh->quoteIdentifier($prefix.'acls_channel', true);
                 $qId = $oDbh->quoteIdentifier('channelid', true);
-                $var = ":channelid";
+                $var = "channelid";
                 break;
         }
 
         $statements[$page] = [
-            $oDbh->prepare("SELECT compiledlimitation, acl_plugins FROM {$qTable} WHERE {$qId} = {$var}"),
-            $oDbh->prepare("SELECT * FROM {$qAclsTable} WHERE {$qId} = {$var} ORDER BY executionorder"),
+            $oDbh->prepare("SELECT compiledlimitation, acl_plugins FROM {$qTable} WHERE {$qId} = :{$var}"),
+            $oDbh->prepare("SELECT * FROM {$qAclsTable} WHERE {$qId} = :{$var} ORDER BY executionorder"),
         ];
     }
+
+    // Keep only the parameter we need
+    $aParams = [$var => $aParams[$var] ?? null];
 
     /** @var MDB2_Statement_Common $oStmt */
     /** @var MDB2_Statement_Common $oStmtAcl */
@@ -612,16 +615,16 @@ function OA_aclRecompile($aAcls, $aParams, $page)
             case 'banner-acl.php':
                 $qTable = $oDbh->quoteIdentifier($prefix.'banners', true);
                 $qId = $oDbh->quoteIdentifier('bannerid', true);
-                $var = ":bannerid";
+                $var = "bannerid";
                 break;
             case 'channel-acl.php':
                 $qTable = $oDbh->quoteIdentifier($prefix.'channel', true);
                 $qId = $oDbh->quoteIdentifier('channelid', true);
-                $var = ":channelid";
+                $var = "channelid";
                 break;
         }
 
-        $statements[$page] = $oDbh->prepare("UPDATE {$qTable} SET compiledlimitation = :compiledlimitation, acl_plugins = :acl_plugins WHERE {$qId} = {$var}");
+        $statements[$page] = $oDbh->prepare("UPDATE {$qTable} SET compiledlimitation = :compiledlimitation, acl_plugins = :acl_plugins WHERE {$qId} = :{$var}");
     }
 
     /** @var MDB2_Statement_Common $stmt */
