@@ -35,7 +35,12 @@ What's New in Revive Adserver 5.0.2
  Bug Fixes
  ---------
 
- * None
+ * Fixed warning message always showing in the delivery rules screen.
+
+ * Fixed non working country delivery rule.
+
+ * Fixed midnight maintenance error when the GeoIP2 plugin tried to download
+   the database updates.
 
 
  Non-Backwards Compatible Changes
