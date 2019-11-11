@@ -25,14 +25,14 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Geo_Country extends UnitTestCase
     function test_checkGeoCountry()
     {
         // =~ and !~ - Single country
-        $this->assertTrue(MAX_checkGeo_Country('GB',    '=~', array('country_code' => 'GB')));
-        $this->assertTrue(MAX_checkGeo_Country('GB',   '!~', array('country_code' => 'US')));
+        $this->assertTrue(MAX_checkGeo_Country('GB',    '=~', array('country' => 'GB')));
+        $this->assertTrue(MAX_checkGeo_Country('GB',   '!~', array('country' => 'US')));
 
         // =~ and !~ - Multiple country
-        $this->assertTrue(MAX_checkGeo_Country('GB,US', '=~', array('country_code' => 'GB')));
-        $this->assertTrue(MAX_checkGeo_Country('GB,US', '=~', array('country_code' => 'US')));
-        $this->assertTrue(MAX_checkGeo_Country('GB,US', '!~', array('country_code' => 'FR')));
-        $this->assertFalse(MAX_checkGeo_Country('GB,US', '!~', array('country_code' => 'US')));
+        $this->assertTrue(MAX_checkGeo_Country('GB,US', '=~', array('country' => 'GB')));
+        $this->assertTrue(MAX_checkGeo_Country('GB,US', '=~', array('country' => 'US')));
+        $this->assertTrue(MAX_checkGeo_Country('GB,US', '!~', array('country' => 'FR')));
+        $this->assertFalse(MAX_checkGeo_Country('GB,US', '!~', array('country' => 'US')));
     }
 }
 
