@@ -35,7 +35,7 @@ You can find out more about the Hosted edition, and subscribe at https://www.rev
 
 # License
 
-Revive Adserver is copyright; please see the COPYRIGHT file.
+Revive Adserver is copyrighted; please see the COPYRIGHT file.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
