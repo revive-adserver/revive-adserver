@@ -283,7 +283,7 @@ $GLOBALS['strSendDeactivationWarning'] = "Versenden eine Benachrichtigungsmail, 
 $GLOBALS['strAllowClientModifyBanner'] = "Werbetreibender darf eigene Banner verändern";
 $GLOBALS['strAllowClientDisableBanner'] = "Werbetreibender darf eigene Banner deaktivieren";
 $GLOBALS['strAllowClientActivateBanner'] = "Werbetreibender darf eigene Banner aktiveren";
-$GLOBALS['strAdvertiserLimitation'] = "Zeige nur Banner von diesem Werbetreibenden auf der Seite";
+$GLOBALS['strAdvertiserLimitation'] = "Nur ein einziges Banner von diesem Werbetreibenden auf einer Webseite anzeigen";
 $GLOBALS['strAllowAuditTrailAccess'] = "Diesem Benutzer die Ansicht des Prüfprotokolls erlauben";
 
 // Campaign
@@ -468,10 +468,13 @@ $GLOBALS['strWeight'] = "Gewichtung";
 $GLOBALS['strAlt'] = "Alt-Text";
 $GLOBALS['strStatusText'] = "Status-Text";
 $GLOBALS['strBannerWeight'] = "Bannergewichtung";
+$GLOBALS['strBannersWeight'] = "Bannergewichtung";
 $GLOBALS['strAdserverTypeGeneric'] = "Standard HTML-Banner";
+$GLOBALS['strDoNotAlterHtml'] = "HTML nicht ändern";
 $GLOBALS['strGenericOutputAdServer'] = "Generisch";
 $GLOBALS['strSwfTransparency'] = "Transparenten Hintergrund zulassen";
 $GLOBALS['strBackToBanners'] = "Zurück zu den Bannern";
+$GLOBALS['strUseWyswygHtmlEditor'] = "WYSIWYG HTML-Editor verwenden";
 
 // Banner (advanced)
 
@@ -487,6 +490,8 @@ $GLOBALS['strModifyBannerAcl'] = "Auslieferungsoptionen";
 $GLOBALS['strACL'] = "Auslieferungsoptionen";
 $GLOBALS['strEqualTo'] = "ist gleich";
 $GLOBALS['strDifferentFrom'] = "ist ungleich";
+$GLOBALS['strLaterThan'] = "ist später als";
+$GLOBALS['strEarlierThan'] = "ist früher als";
 $GLOBALS['strContains'] = "enthält";
 $GLOBALS['strNotContains'] = "beinhaltet nicht";
 $GLOBALS['strGreaterThan'] = "ist größer als";
@@ -495,6 +500,7 @@ $GLOBALS['strAND'] = "UND";                          // logical operator
 $GLOBALS['strOR'] = "ODER";                         // logical operator
 $GLOBALS['strOnlyDisplayWhen'] = "Diesen Banner nur anzeigen, wenn:";
 $GLOBALS['strWeekDays'] = "Wochentage";
+$GLOBALS['strTime'] = "Zeit";
 $GLOBALS['strSource'] = "Quelle";
 
 $GLOBALS['strDeliveryCappingReset'] = "Rücksetzen AdView-Zählers nach";
@@ -708,10 +714,12 @@ $GLOBALS['strCacheBusterComment'] = "  * Ersetzen Sie alle Vorkommen von {random
 
 
 // Errors
+$GLOBALS['strErrorDatabaseConnection'] = "Datenbankverbindungsfehler.";
 $GLOBALS['strNoMatchesFound'] = "Kein Objekt gefunden";
 $GLOBALS['strErrorOccurred'] = "Ein Fehler ist aufgetreten";
 $GLOBALS['strErrorDBPlain'] = "Beim Zugriff auf die Datenbank ist ein Fehler aufgetreten ";
 $GLOBALS['strErrorDBSerious'] = "Ein schwerwiegendes Problem mit der Datenbank wurde erkannt";
+$GLOBALS['strErrorDBNoDataPlain'] = "Aufgrund eines Fehlers mit der Datenbank konnte {$PRODUCT_NAME} weder aus der Datenbank lesen noch in sie schreiben. ";
 $GLOBALS['strErrorDBCorrupt'] = "Die Datenbanktabelle ist wahrscheinlich zerstört und mu&szlig wiederhergestellt werden. Informationen über die Wiederherstellung zerstörter Tabellen finden sich im Handbuch.";
 $GLOBALS['strErrorDBContact'] = "Bitte nehmen Sie Kontakt mit dem Systemverwalter Ihres Servers auf und schildern Sie ihm das Problem. Nur er kann helfen.";
 $GLOBALS['strErrorLinkingBanner'] = "Es gab Fehler bei der Verknüpfung von Bannern mit Zonen:";
