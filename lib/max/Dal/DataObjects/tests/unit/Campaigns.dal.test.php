@@ -86,7 +86,7 @@ class DataObjects_CampaignsTest extends DalUnitTestCase
     {
         $ndv = OX_DATAOBJECT_NULL;
 
-        $expire = '2020-01-01';
+        $expire = '2030-01-01';
 
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->expire_time = $expire_time;
@@ -534,7 +534,7 @@ class DataObjects_CampaignsTest extends DalUnitTestCase
     function testUpdateHighWithNoTargetSet()
     {
         //test for OX-3635
-        $expire = '2020-01-01';
+        $expire = '2030-01-01';
 
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->name = 'Some test campaign';
