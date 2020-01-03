@@ -445,7 +445,10 @@ $GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'] = array();
 }
 $GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'][$name] = array($value, $expire);
 } else {
-@setcookie($name, $value, $expire, $path, $domain);
+$secure = !empty($GLOBALS['_MAX']['SSL_REQUEST']);
+$samesite = $secure ? 'none' : 'lax';
+$cookie = new \Symfony\Component\HttpFoundation\Cookie($name, $value, $expire, $path, $domain, $secure, false, false, $samesite);
+MAX_header("Set-Cookie: {$cookie}");
 }
 }
 function MAX_cookieClientCookieUnset($name)
