@@ -18,6 +18,12 @@ class Plugins_MaintenanceStatisticsTask_rvMaxMindGeoIP2Maintenance_rvMaxMindGeoI
             return null;
         }
 
+        if (!MaxMindGeoIP2::getLicenseKey()) {
+            \OA::debug("MaxMind GeoIP2 license key missing, skipping auto-update", PEAR_LOG_DEBUG);
+
+            return null;
+        }
+
         return new MaxMindGeoIP2Maintenance();
     }
 }
