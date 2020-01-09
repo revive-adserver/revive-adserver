@@ -34,7 +34,8 @@
         "figdice/asseteer": "dev-master",
         "tinymce/tinymce": "^4.6",
         "wikimedia/composer-merge-plugin": "^1.4",
-        "guzzlehttp/guzzle": "^6.3"
+        "guzzlehttp/guzzle": "^6.3",
+        "symfony/http-foundation": "^3.4"
     },
     "require-dev": {
         "symfony/finder": "^3.4",

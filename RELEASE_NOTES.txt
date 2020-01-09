@@ -29,7 +29,8 @@ What's New in Revive Adserver 5.0.3
  New Features
  ------------
 
- * None
+ * Added support for the SameSite cookie directive which will soon be required
+   by browsers in order to allow 3rd party cookies.
 
 
  Bug Fixes
