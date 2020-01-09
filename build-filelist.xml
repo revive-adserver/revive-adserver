@@ -11,6 +11,7 @@
     <include name="LICENSE.txt"/>
     <include name="README.md"/>
     <include name="RELEASE_NOTES.txt"/>
+    <include name="SECURITY.md"/>
     <include name="*.php"/>
     <include name="*.js"/>
     <include name="robots.txt"/>
