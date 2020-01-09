@@ -35,7 +35,8 @@ What's New in Revive Adserver 5.0.3
  Bug Fixes
  ---------
 
- * None
+ * Updated MaxMind2 database updates downloader to use a license key,
+   according to their EULA changes.
 
 
  Non-Backwards Compatible Changes

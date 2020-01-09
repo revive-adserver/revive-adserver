@@ -3,15 +3,19 @@
 namespace RV_Plugins\geoTargeting\rvMaxMindGeoIP2\lib;
 
 use GuzzleHttp\Client;
+use Psr\Http\Message\ResponseInterface;
 
 class MaxMindGeoLite2Downloader
 {
     const RELATIVE_PATH = 'var/plugins/rvMaxMindGeoIP2/';
     const FULL_PATH = MAX_PATH.'/'.self::RELATIVE_PATH;
 
-    const GEOLITE2_BASE_URI = 'https://geolite.maxmind.com/download/geoip/database/';
-    const GEOLITE2_CITY_TAR_GZ = 'GeoLite2-City.tar.gz';
-    const GEOLITE2_CITY_MMDB = 'GeoLite2-City.mmdb';
+    const GEOLITE2_DOWNLOAD_URI = 'https://download.maxmind.com/app/geoip_download';
+    const GEOLITE2_SUFFIX_TAR_GZ = '.tar.gz';
+    const GEOLITE2_SUFFIX_MD5 = self::GEOLITE2_SUFFIX_TAR_GZ.'.md5';
+    const GEOLITE2_DBNAME = 'GeoLite2-City';
+    const GEOLITE2_CITY_TAR_GZ = self::GEOLITE2_DBNAME.'.tar.gz';
+    const GEOLITE2_CITY_MMDB = self::GEOLITE2_DBNAME.'.mmdb';
 
     /** @var Client  */
     private $client;
@@ -24,9 +28,7 @@ class MaxMindGeoLite2Downloader
 
     public function __construct()
     {
-        $this->client = new Client([
-            'base_uri' => self::GEOLITE2_BASE_URI,
-        ]);
+        $this->client = new Client();
     }
 
     public function __destruct()
@@ -35,19 +37,19 @@ class MaxMindGeoLite2Downloader
             return;
         }
 
-        @unlink($this->tempName.'.tgz');
+        @unlink($this->tempName.self::GEOLITE2_SUFFIX_TAR_GZ);
         @unlink($this->tempName);
     }
 
     public function updateGeoLiteDatabase(): bool
     {
-        $md5Path = self::FULL_PATH.self::GEOLITE2_CITY_TAR_GZ.'.md5';
+        $md5Path = self::FULL_PATH.self::GEOLITE2_DBNAME.self::GEOLITE2_SUFFIX_MD5;
 
         if (!$this->lock()) {
             return false;
         }
 
-        $md5 = $this->download(basename($md5Path));
+        $md5 = $this->download(self::GEOLITE2_SUFFIX_MD5);
 
         if ($md5 === @file_get_contents($md5Path)) {
             $this->unlock();
@@ -56,9 +58,9 @@ class MaxMindGeoLite2Downloader
         }
 
         $this->tempName = tempnam(self::FULL_PATH, 'tmp');
-        $tarGzPath = $this->tempName.'.tgz';
+        $tarGzPath = $this->tempName.self::GEOLITE2_SUFFIX_TAR_GZ;
 
-        $this->downloadTo(self::GEOLITE2_CITY_TAR_GZ, $tarGzPath);
+        $this->downloadTo(self::GEOLITE2_SUFFIX_TAR_GZ, $tarGzPath);
 
         $this->decompress($tarGzPath);
 
@@ -92,20 +94,34 @@ class MaxMindGeoLite2Downloader
         @unlink($lockFileName);
     }
 
-    private function download(string $url): string
+    private function download(string $suffix): string
     {
-        $response = $this->client->get($url);
-
-        return (string) $response->getBody();
+        return (string) $this->clientGet($suffix)->getBody();
     }
 
-    private function downloadTo(string $url, string $destFile): bool
+    private function downloadTo(string $suffix, string $destFile): bool
     {
-        $response = $this->client->get($url, [
+        $response = $this->clientGet($suffix, [
             'sink' => $destFile,
         ]);
 
         return 200 === $response->getStatusCode();
+    }
+
+    private function clientGet(string $suffix, $options = []): ResponseInterface
+    {
+        $options = array_merge(
+            [
+                'query' => [
+                    'edition_id' => self::GEOLITE2_DBNAME,
+                    'suffix' => ltrim($suffix, '.'),
+                    'license_key' => MaxMindGeoIP2::getLicenseKey(),
+                ],
+            ],
+            $options
+        );
+
+        return $this->client->get(self::GEOLITE2_DOWNLOAD_URI, $options);
     }
 
     private function decompress(string $tarGzPath): bool
