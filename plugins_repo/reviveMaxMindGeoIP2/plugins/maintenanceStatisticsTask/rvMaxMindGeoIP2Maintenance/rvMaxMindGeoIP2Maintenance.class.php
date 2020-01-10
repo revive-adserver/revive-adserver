@@ -13,13 +13,13 @@ class Plugins_MaintenanceStatisticsTask_rvMaxMindGeoIP2Maintenance_rvMaxMindGeoI
     function addMaintenanceStatisticsTask()
     {
         if (MaxMindGeoIP2::hasCustomConfig()) {
-            \OA::debug("MaxMind GeoIP2 custom configuration detected, skipping auto-update", PEAR_LOG_DEBUG);
+            \OA::debug("MaxMind GeoIP2 custom configuration detected, skipping auto-update", PEAR_LOG_INFO);
 
             return null;
         }
 
         if (!MaxMindGeoIP2::getLicenseKey()) {
-            \OA::debug("MaxMind GeoIP2 license key missing, skipping auto-update", PEAR_LOG_DEBUG);
+            \OA::debug("MaxMind GeoIP2 license key missing, skipping auto-update", PEAR_LOG_INFO);
 
             return null;
         }

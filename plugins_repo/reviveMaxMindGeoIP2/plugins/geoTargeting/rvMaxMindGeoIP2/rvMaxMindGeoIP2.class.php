@@ -52,7 +52,7 @@ class Plugins_GeoTargeting_rvMaxMindGeoIP2_RvMaxMindGeoIP2 extends OX_Component 
             $downloader = new MaxMindGeoLite2Downloader();
             $downloader->updateGeoLiteDatabase();
         } catch (\Exception $e) {
-            OA::debug("An error occurred trying to download the latest GeoIP2 database: {$e->getMessage()}");
+            OA::debug("An error occurred trying to download the latest GeoIP2 database: {$e->getMessage()}", PEAR_LOG_WARNING);
         }
 
         return true;
