@@ -6,7 +6,7 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
-Release Notes: Revive Adserver 5.0.3
+Release Notes: Revive Adserver 5.0.4
 ====================================
 
 These release notes cover what's new, system requirements, download and
@@ -14,10 +14,10 @@ installation instructions, known issues and frequently asked questions for
 Revive Adserver. Please read these notes before reporting any bugs.
 
 
-What's New in Revive Adserver 5.0.3
+What's New in Revive Adserver 5.0.4
 -----------------------------------
 
- * Release date: January 14, 2020
+ * Release date: t.d.b.
 
 
  Security Updates
@@ -29,15 +29,13 @@ What's New in Revive Adserver 5.0.3
  New Features
  ------------
 
- * Added support for the SameSite cookie directive which will soon be required
-   by browsers in order to allow 3rd party cookies.
+ * None
 
 
  Bug Fixes
  ---------
 
- * Updated MaxMind2 database updates downloader to use a license key,
-   according to their EULA changes.
+ * None
 
 
  Non-Backwards Compatible Changes
