@@ -304,10 +304,13 @@ function MAX_Delivery_cookie_setCapping($type, $id, $block = 0, $cap = 0, $sessi
  * @param int    $expire- The expiry time (unix timestamp) of this cookie
  * @param string $path  - The (optional) path that this cookie is valid for
  * @param string $domain- The (optional) domain to set this cookie under
+ * @param bool   $secure- If null, autodetect
+ * @param bool   $httpOnly
+ * @param string $sameSite
  *
  * @return null
  */
-function MAX_cookieClientCookieSet($name, $value, $expire, $path = '/', $domain = null)
+function MAX_cookieClientCookieSet($name, $value, $expire, $path = '/', $domain = null, $secure = null, $httpOnly = false, $sameSite = 'none')
 {
     ###START_STRIP_DELIVERY
     if(empty($GLOBALS['is_simulation']) && !defined('TEST_ENVIRONMENT_RUNNING')) {
@@ -318,12 +321,20 @@ function MAX_cookieClientCookieSet($name, $value, $expire, $path = '/', $domain 
             }
             $GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'][$name] = array($value, $expire);
         } else {
-            $secure = !empty($GLOBALS['_MAX']['SSL_REQUEST']);
-            $samesite = $secure ? 'none' : 'lax';
+            $secure = $secure ?? !empty($GLOBALS['_MAX']['SSL_REQUEST']);
 
-            $cookie = new \Symfony\Component\HttpFoundation\Cookie($name, $value, $expire, $path, $domain, $secure, false, false, $samesite);
-
-            MAX_header("Set-Cookie: {$cookie}");
+            if (PHP_VERSION_ID < 70300) {
+                @setcookie($name, $value, $expire, $path.'; samesite='.$sameSite, $domain, $secure, $httpOnly);
+            } else {
+                @setcookie($name, $value, [
+                    'expire' => $expire,
+                    'path' => $path,
+                    'domain' => $domain,
+                    'secure' => $secure,
+                    'httponly' => $httpOnly,
+                    'samesite' => $sameSite,
+                ]);
+            }
         }
     ###START_STRIP_DELIVERY
     } else {
