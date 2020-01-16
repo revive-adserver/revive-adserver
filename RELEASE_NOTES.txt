@@ -17,7 +17,7 @@ Revive Adserver. Please read these notes before reporting any bugs.
 What's New in Revive Adserver 5.0.4
 -----------------------------------
 
- * Release date: t.d.b.
+ * Release date: t.b.d.
 
 
  Security Updates
@@ -35,7 +35,8 @@ What's New in Revive Adserver 5.0.4
  Bug Fixes
  ---------
 
- * None
+ * Fixed cookie based features (e.g. frequency capping) inadvertently
+   broken in the 5.0.3 release.
 
 
  Non-Backwards Compatible Changes
