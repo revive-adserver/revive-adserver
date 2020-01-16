@@ -65,7 +65,7 @@ function phpAds_SessionSetAdminCookie($name, $value)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
 
-    $cookie = new \Symfony\Component\HttpFoundation\Cookie(
+    MAX_cookieClientCookieSet(
         $name,
         $value,
         0,
@@ -73,11 +73,8 @@ function phpAds_SessionSetAdminCookie($name, $value)
         empty($_SERVER['HTTP_HOST']) ? null : preg_replace('#:\d+$#', '', $_SERVER['HTTP_HOST']),
         !empty($conf['openads']['requireSSL']),
         true,
-        false,
         'strict'
     );
-
-    MAX_header("Set-Cookie: {$cookie}");
 }
 
 /*-------------------------------------------------------*/

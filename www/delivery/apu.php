@@ -437,7 +437,7 @@ if ($block > 0 || $setBlock) {
 MAX_cookieAdd("_{$conf['var']['block' . $type]}[{$id}]", MAX_commonGetTimeNow(), _getTimeThirtyDaysFromNow());
 }
 }
-function MAX_cookieClientCookieSet($name, $value, $expire, $path = '/', $domain = null)
+function MAX_cookieClientCookieSet($name, $value, $expire, $path = '/', $domain = null, $secure = null, $httpOnly = false, $sameSite = 'none')
 {
  if (isset($GLOBALS['_OA']['invocationType']) && $GLOBALS['_OA']['invocationType'] == 'xmlrpc') {
 if (!isset($GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'])) {
@@ -445,10 +445,19 @@ $GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'] = array();
 }
 $GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'][$name] = array($value, $expire);
 } else {
-$secure = !empty($GLOBALS['_MAX']['SSL_REQUEST']);
-$samesite = $secure ? 'none' : 'lax';
-$cookie = new \Symfony\Component\HttpFoundation\Cookie($name, $value, $expire, $path, $domain, $secure, false, false, $samesite);
-MAX_header("Set-Cookie: {$cookie}");
+$secure = $secure ?? !empty($GLOBALS['_MAX']['SSL_REQUEST']);
+if (PHP_VERSION_ID < 70300) {
+@setcookie($name, $value, $expire, $path.'; samesite='.$sameSite, $domain, $secure, $httpOnly);
+} else {
+@setcookie($name, $value, [
+'expire' => $expire,
+'path' => $path,
+'domain' => $domain,
+'secure' => $secure,
+'httponly' => $httpOnly,
+'samesite' => $sameSite,
+]);
+}
 }
 }
 function MAX_cookieClientCookieUnset($name)
