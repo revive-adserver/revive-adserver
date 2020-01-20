@@ -80,11 +80,16 @@ if (isset($refresh) && is_numeric($refresh) && $refresh > 0) {
     parse_str($_SERVER['QUERY_STRING'], $qs);
     $dest .= (!array_key_exists('loc', $qs)) ? "&loc=" . urlencode($loc) : '';
 
+    $refresh = (int)$refresh;
+    // JS needs to be escaped twice: the setTimeout argument is evaluated at runtime
+    $jsDest = addcslashes(addcslashes($dest, "\0..\37\"\\"), "'\\");
+    $htmlDest = htmlspecialchars($dest, ENT_QUOTES);
+
     // Try to use JS location.replace since browsers deal with this and history much better than meta-refresh
 	$outputHtml .= "
     <script type='text/javascript'><!--// <![CDATA[
-        setTimeout('window.location.replace(\"{$dest}\")', " . ($refresh * 1000) . ");
-    // ]]> --></script><noscript><meta http-equiv='refresh' content='".$refresh.";url={$dest}'></noscript>
+        setTimeout('window.location.replace(\"{$jsDest}\")', " . ($refresh * 1000) . ");
+    // ]]> --></script><noscript><meta http-equiv='refresh' content='".$refresh.";url={$htmlDest}'></noscript>
     ";
 }
 
