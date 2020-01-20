@@ -4390,10 +4390,13 @@ if (isset($refresh) && is_numeric($refresh) && $refresh > 0) {
 $dest = MAX_commonGetDeliveryUrl($conf['file']['frame']).'?'.$_SERVER['QUERY_STRING'];
 parse_str($_SERVER['QUERY_STRING'], $qs);
 $dest .= (!array_key_exists('loc', $qs)) ? "&loc=" . urlencode($loc) : '';
+$refresh = (int)$refresh;
+$jsDest = addcslashes(addcslashes($dest, "\0..\37\"\\"), "'\\");
+$htmlDest = htmlspecialchars($dest, ENT_QUOTES);
 $outputHtml .= "
     <script type='text/javascript'><!--// <![CDATA[
-        setTimeout('window.location.replace(\"{$dest}\")', " . ($refresh * 1000) . ");
-    // ]]> --></script><noscript><meta http-equiv='refresh' content='".$refresh.";url={$dest}'></noscript>
+        setTimeout('window.location.replace(\"{$jsDest}\")', " . ($refresh * 1000) . ");
+    // ]]> --></script><noscript><meta http-equiv='refresh' content='".$refresh.";url={$htmlDest}'></noscript>
     ";
 }
 if (isset($resize) && $resize == 1) {
