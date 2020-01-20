@@ -17,13 +17,13 @@ Revive Adserver. Please read these notes before reporting any bugs.
 What's New in Revive Adserver 5.0.4
 -----------------------------------
 
- * Release date: t.b.d.
+ * Release date: January 21, 2020
 
 
  Security Updates
  ----------------
 
- * None
+ * Fixed reflected XSS vulnerability in afr.php.
 
 
  New Features
