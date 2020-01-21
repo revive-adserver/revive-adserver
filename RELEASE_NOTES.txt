@@ -6,7 +6,7 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
-Release Notes: Revive Adserver 5.0.4
+Release Notes: Revive Adserver 5.0.5
 ====================================
 
 These release notes cover what's new, system requirements, download and
@@ -14,16 +14,16 @@ installation instructions, known issues and frequently asked questions for
 Revive Adserver. Please read these notes before reporting any bugs.
 
 
-What's New in Revive Adserver 5.0.4
+What's New in Revive Adserver 5.0.5
 -----------------------------------
 
- * Release date: January 21, 2020
+ * Release date: t.b.d.
 
 
  Security Updates
  ----------------
 
- * Fixed reflected XSS vulnerability in afr.php.
+ * None
 
 
  New Features
@@ -35,8 +35,7 @@ What's New in Revive Adserver 5.0.4
  Bug Fixes
  ---------
 
- * Fixed cookie based features (e.g. frequency capping) inadvertently
-   broken in the 5.0.3 release.
+ * None
 
 
  Non-Backwards Compatible Changes
