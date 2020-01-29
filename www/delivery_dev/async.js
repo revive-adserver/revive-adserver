@@ -251,17 +251,24 @@
                  * @param {string} html
                  */
                 loadFrame: function (iframe, html) {
-                    var d = iframe.contentDocument || iframe.contentWindow.document;
-
-                    d.open();
-                    d.writeln('<!DOCTYPE html>');
-                    d.writeln('<html>');
-                    d.writeln('<head><base target="_top"><meta charset="UTF-8"></head>');
-                    d.writeln('<body border="0" margin="0" style="margin: 0; padding: 0">');
-                    d.writeln(html);
-                    d.writeln('</body>');
-                    d.writeln('</html>');
-                    d.close();
+                    // No pretty newlines anymore, but we only need to do this once
+                    var srcdoc = '<!DOCTYPE html>';
+                    srcdoc += '<html>';
+                    srcdoc += '<head><base target="_top"><meta charset="UTF-8"></head>';
+                    srcdoc += '<body border="0" margin="0" style="margin: 0;padding: 0;">';
+                    srcdoc += html;
+                    srcdoc += '<body>';
+                    srcdoc += '</html>';
+                    
+                    if('srcdoc' in iframe) {
+                        // iframe.setAttribute('seamless', ''); This would also set the seamless attribute (https://www.w3schools.com/tags/att_iframe_seamless.asp)
+                        iframe.srcdoc = srcdoc; // If srcdoc is supported we can just assign it
+                    } else {
+                        var d = iframe.contentDocument || iframe.contentWindow.document;
+                        d.open();
+                        d.write(srcdoc); // If srcdoc is not supported write entire srcdoc string to document
+                        d.close();
+                    }
                 },
 
                 /**
