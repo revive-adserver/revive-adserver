@@ -299,18 +299,18 @@ function MAX_Delivery_cookie_setCapping($type, $id, $block = 0, $cap = 0, $sessi
 /**
  * This function sets a cookie in the client's browser
  *
- * @param string $name  - The name of the cookie to set
- * @param mixed  $value - The value to set for this cookie
- * @param int    $expire- The expiry time (unix timestamp) of this cookie
- * @param string $path  - The (optional) path that this cookie is valid for
- * @param string $domain- The (optional) domain to set this cookie under
- * @param bool   $secure- If null, autodetect
+ * @param string $name      - The name of the cookie to set
+ * @param mixed  $value     - The value to set for this cookie
+ * @param int    $expires   - The expiry time (unix timestamp) of this cookie
+ * @param string $path      - The (optional) path that this cookie is valid for
+ * @param string $domain    - The (optional) domain to set this cookie under
+ * @param bool   $secure    - If null, autodetect
  * @param bool   $httpOnly
  * @param string $sameSite
  *
  * @return null
  */
-function MAX_cookieClientCookieSet($name, $value, $expire, $path = '/', $domain = null, $secure = null, $httpOnly = false, $sameSite = 'none')
+function MAX_cookieClientCookieSet($name, $value, $expires, $path = '/', $domain = null, $secure = null, $httpOnly = false, $sameSite = 'none')
 {
     ###START_STRIP_DELIVERY
     if(empty($GLOBALS['is_simulation']) && !defined('TEST_ENVIRONMENT_RUNNING')) {
@@ -319,15 +319,15 @@ function MAX_cookieClientCookieSet($name, $value, $expire, $path = '/', $domain 
             if (!isset($GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'])) {
                 $GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'] = array();
             }
-            $GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'][$name] = array($value, $expire);
+            $GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'][$name] = array($value, $expires);
         } else {
             $secure = $secure ?? !empty($GLOBALS['_MAX']['SSL_REQUEST']);
 
             if (PHP_VERSION_ID < 70300) {
-                @setcookie($name, $value, $expire, $path.'; samesite='.$sameSite, $domain, $secure, $httpOnly);
+                @setcookie($name, $value, $expires, $path.'; samesite='.$sameSite, $domain, $secure, $httpOnly);
             } else {
                 @setcookie($name, $value, [
-                    'expire' => $expire,
+                    'expires' => $expires,
                     'path' => $path,
                     'domain' => $domain,
                     'secure' => $secure,
