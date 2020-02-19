@@ -260,7 +260,7 @@
                     srcdoc += '<body>';
                     srcdoc += '</html>';
                     
-                    if('srcdoc' in iframe) {
+                    if ('srcdoc' in iframe) {
                         // iframe.setAttribute('seamless', ''); This would also set the seamless attribute (https://www.w3schools.com/tags/att_iframe_seamless.asp)
                         iframe.srcdoc = srcdoc; // If srcdoc is supported we can just assign it
                     } else {
