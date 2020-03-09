@@ -463,11 +463,6 @@ class Test_OA_Environment_Manager extends UnitTestCase
         } else {
             $this->assertNull($oEnvironmentManager->aInfo['PHP']['error']['safe_mode']);
         }
-        if (in_array('magic_quotes_runtime', $aErrors)) {
-            $this->assertNotNull($oEnvironmentManager->aInfo['PHP']['error']['magic_quotes_runtime']);
-        } else {
-            $this->assertNull($oEnvironmentManager->aInfo['PHP']['error']['magic_quotes_runtime']);
-        }
         if (in_array('file_uploads', $aErrors)) {
             $this->assertNotNull($oEnvironmentManager->aInfo['PHP']['error']['file_uploads']);
         } else {

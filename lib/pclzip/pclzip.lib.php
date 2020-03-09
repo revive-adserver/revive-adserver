@@ -5423,27 +5423,6 @@
     //--(MAGIC-PclTrace)--//PclTraceFctStart(__FILE__, __LINE__, 'PclZip::privSwapBackMagicQuotes', "");
     $v_result=1;
 
-    // ----- Look if function exists
-    if (   (!function_exists("get_magic_quotes_runtime"))
-	    || (!function_exists("set_magic_quotes_runtime"))) {
-      //--(MAGIC-PclTrace)--//PclTraceFctMessage(__FILE__, __LINE__, 3, "Functions *et_magic_quotes_runtime are not supported");
-      //--(MAGIC-PclTrace)--//PclTraceFctEnd(__FILE__, __LINE__, $v_result);
-      return $v_result;
-	}
-
-    // ----- Look if something to do
-    if ($this->magic_quotes_status != -1) {
-      //--(MAGIC-PclTrace)--//PclTraceFctMessage(__FILE__, __LINE__, 3, "magic_quote not modified");
-      //--(MAGIC-PclTrace)--//PclTraceFctEnd(__FILE__, __LINE__, $v_result);
-      return $v_result;
-	}
-
-	// ----- Swap back magic_quotes
-	if ($this->magic_quotes_status == 1) {
-      //--(MAGIC-PclTrace)--//PclTraceFctMessage(__FILE__, __LINE__, 3, "Enable back magic_quotes");
-  	  @set_magic_quotes_runtime($this->magic_quotes_status);
-	}
-
     // ----- Return
     //--(MAGIC-PclTrace)--//PclTraceFctEnd(__FILE__, __LINE__, $v_result);
     return $v_result;

@@ -111,15 +111,8 @@ function MAX_commonConstructPartialDeliveryUrl($file, $ssl = false)
  */
 function MAX_commonRemoveSpecialChars(&$var)
 {
-    static $magicQuotes;
-    if (!isset($magicQuotes)) {
-        $magicQuotes = get_magic_quotes_gpc();
-    }
     if (isset($var)) {
         if (!is_array($var)) {
-            if ($magicQuotes) {
-                $var = stripslashes($var);
-            }
             $var = strip_tags($var);
             $var = str_replace(array("\n", "\r"), array('', ''), $var);
             $var = trim($var);

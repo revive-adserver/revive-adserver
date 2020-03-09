@@ -373,11 +373,11 @@ function MAX_getValue($key, $default = null)
 function MAX_commonGetValue($key, $default = null)
 {
     $value = $default;
+
     if (isset($_REQUEST[$key])) {
         $value = $_REQUEST[$key];
-        if (!get_magic_quotes_gpc()) {
-            return MAX_commonSlashArray($value);
-        }
+
+        return MAX_commonSlashArray($value);
     }
 
     return $value;
@@ -413,12 +413,11 @@ function MAX_commonGetValueUnslashed($key, $default = null)
 function _commonGetValueUnslashed($aValues, $sKey, $oDefault = null)
 {
     $value = $oDefault;
+
     if (isset($aValues[$sKey])) {
         $value = $aValues[$sKey];
-        if (get_magic_quotes_gpc()) {
-            return MAX_commonUnslashArray($value);
-        }
     }
+
     return $value;
 }
 
@@ -464,7 +463,7 @@ function MAX_getStoredValue($key, $default, $pageName=null, $allowEmpty = false)
     $value = $default;
     if (isset($_REQUEST[$key]) && (!empty($_REQUEST[$key]) || $allowEmpty)) {
         $value = $_REQUEST[$key];
-        if (!get_magic_quotes_gpc()) MAX_addslashes($value);
+        MAX_addslashes($value);
     } elseif (isset($session['prefs']['GLOBALS'][$key])) {
         $value = $session['prefs']['GLOBALS'][$key];
     } elseif (isset($session['prefs'][$pageName][$key])) {
@@ -583,9 +582,7 @@ function MAX_getStoredArray($key, $default)
     $value = $default;
     if (isset($_REQUEST[$key])) {
         $value = explode(',',$_REQUEST[$key]);
-        if (!get_magic_quotes_gpc()) {
-            MAX_addslashes($value);
-        }
+        MAX_addslashes($value);
     } elseif (isset($session['prefs'][$pageName][$key])) {
         $value = explode(',',$session['prefs'][$pageName][$key]);
     }
