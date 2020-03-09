@@ -772,9 +772,7 @@ class OX_Admin_UI_Install_InstallController
         $syncEnabled = true;
 
         // 1) Import any plugins present from the previous install
-        $path = isset($previousInstallationPath)
-            ? $previousInstallationPath : '';
-        $path = get_magic_quotes_gpc() ? stripslashes($path) : $path;
+        $path = $previousInstallationPath ?? '';
         if ($path && ($path != MAX_PATH)) {
             $importOK = OX_Admin_UI_Install_InstallUtils::importPlugins($path);
             if (!$importOK) {

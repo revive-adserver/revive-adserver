@@ -241,9 +241,7 @@ class HTTP_ConditionalGet {
         if (!isset($_SERVER['HTTP_IF_NONE_MATCH'])) {
             return false;
         }
-        $cachedEtagList = get_magic_quotes_gpc()
-            ? stripslashes($_SERVER['HTTP_IF_NONE_MATCH'])
-            : $_SERVER['HTTP_IF_NONE_MATCH'];
+        $cachedEtagList = $_SERVER['HTTP_IF_NONE_MATCH'];
         $cachedEtags = explode(',', $cachedEtagList);
         foreach ($cachedEtags as $cachedEtag) {
             if (trim($cachedEtag) == $this->_etag) {

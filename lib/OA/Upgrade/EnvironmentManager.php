@@ -140,7 +140,6 @@ class OA_Environment_Manager
             $aResult['original_memory_limit'] = OA_MEMORY_UNLIMITED;
         }
 
-        $aResult['magic_quotes_runtime'] = get_magic_quotes_runtime();
         $aResult['safe_mode']            = ini_get('safe_mode');
         $aResult['date.timezone']        = (ini_get('date.timezone') ? ini_get('date.timezone') : getenv('TZ'));
         $aResult['register_argc_argv']   = ini_get('register_argc_argv');
@@ -300,9 +299,6 @@ class OA_Environment_Manager
      *
      *  - The PHP configuration's safe_mode value
      *      Sets: $this->aInfo['PHP']['error']['safe_mode']
-     *
-     *  - The PHP configuration's magic_quotes_runtime value
-     *      Sets: $this->aInfo['PHP']['error']['magic_quotes_runtime']
      *
      *  - The PHP configuration's file_uploads value
      *      Sets: $this->aInfo['PHP']['error']['file_uploads']

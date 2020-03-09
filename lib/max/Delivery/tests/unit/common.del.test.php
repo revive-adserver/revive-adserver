@@ -142,15 +142,8 @@ class Test_DeliveryCommon extends UnitTestCase
 	function test_MAX_commonRemoveSpecialChars()
 	{
 		$this->sendMessage('test_MAX_commonRemoveSpecialChars');
-		if (get_magic_quotes_gpc())
-		{
-			$strIn0	= "Mr O\'Reilly<br />".chr(13).chr(10);
-			$strIn1	= "\'Mr Reilly\'\r\n";
-		}
-		else {
-			$strIn0	= "Mr O'Reilly<br />".chr(13).chr(10);
-			$strIn1	= "'Mr Reilly'\r\n";
-		}
+        $strIn0	= "Mr O'Reilly<br />".chr(13).chr(10);
+        $strIn1	= "'Mr Reilly'\r\n";
 
 		$strRe0 = "Mr O'Reilly";
 		$strRe1 = "'Mr Reilly'";
