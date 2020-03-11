@@ -17,13 +17,16 @@ Revive Adserver. Please read these notes before reporting any bugs.
 What's New in Revive Adserver 5.0.5
 -----------------------------------
 
- * Release date: t.b.d.
+ * Release date: March 12, 2020
 
 
  Security Updates
  ----------------
 
- * None
+ * Fixed issue allowing to bypass the check on the old password when editing
+   an account.
+
+ * Fixed open redirection vulnerabilities in the *-modify.php scripts.x
 
 
  New Features
