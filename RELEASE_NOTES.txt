@@ -35,7 +35,8 @@ What's New in Revive Adserver 5.0.5
  Bug Fixes
  ---------
 
- * None
+ * Fixed issue with setting cookies on PHP 7.3+ introduced with the latest
+   cookie changes.
 
 
  Non-Backwards Compatible Changes
