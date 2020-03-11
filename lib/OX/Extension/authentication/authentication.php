@@ -128,8 +128,8 @@ class Plugins_Authentication extends OX_Component
         }
 
         $doUser = OA_Dal::factoryDO('users');
-        $doUser->username = $username;
-        $doUser->password = md5($password);
+        $doUser->username = $username ?: '';
+        $doUser->password = md5($password) ?: '';
 
         $doUser->find();
 
