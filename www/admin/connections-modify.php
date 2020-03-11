@@ -53,6 +53,9 @@ $aParams['bannerid']   = $bannerId;
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
 
+// CVE-2013-5954 - see OA_Permission::checkSessionToken() method for details
+OA_Permission::checkSessionToken();
+
 if (!empty($day)) {
     // Reset period
     $period_preset = '';

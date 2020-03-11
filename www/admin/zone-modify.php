@@ -27,13 +27,14 @@ OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
 OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
 OA_Permission::enforceAccessToObject('zones', $zoneid);
 
+// CVE-2013-5954 - see OA_Permission::checkSessionToken() method for details
+OA_Permission::checkSessionToken();
+
 /*-------------------------------------------------------*/
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
 if (isset($zoneid) && $zoneid != '') {
-    OA_Permission::checkSessionToken();
-
     if (isset($newaffiliateid) && $newaffiliateid != '') {
         // A publisher cannot move a zone to another publisher!
         OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);

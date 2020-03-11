@@ -32,14 +32,15 @@ OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
 OA_Permission::enforceAccessToObject('clients', $clientid);
 OA_Permission::enforceAccessToObject('trackers', $trackerid);
 
+// CVE-2013-5954 - see OA_Permission::checkSessionToken() method for details
+OA_Permission::checkSessionToken();
+
 /*-------------------------------------------------------*/
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
 if (!empty($trackerid))
 {
-    OA_Permission::checkSessionToken();
-    
     if (!empty($moveto))
     {
         // Delete any campaign-tracker links

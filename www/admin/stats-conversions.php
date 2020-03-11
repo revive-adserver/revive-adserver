@@ -268,6 +268,7 @@ if (!empty($aConversions)) {
             echo "<input type='hidden' name='period_end' value='".htmlspecialchars($period_end, ENT_QUOTES)."'>"."\n";
         }
         echo "<input type='hidden' name='returnurl' value='stats.php'>"."\n";
+        echo "<input type='hidden' name='token' value='".phpAds_SessionGetToken()."'>"."\n";
         echo "<input type='hidden' name='entity' value='conversions'>"."\n";
         echo "<input type='hidden' name='setPerPage' value='".htmlspecialchars($setPerPage, ENT_QUOTES)."'>"."\n";
         echo "<input type='hidden' name='pageID' value='".htmlspecialchars($pageID, ENT_QUOTES)."'>"."\n";

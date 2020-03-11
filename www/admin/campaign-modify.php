@@ -38,13 +38,14 @@ else if (!empty($newclientid)) {
     OA_Permission::enforceAccessToObject('clients', $newclientid, false, OA_Permission::OPERATION_EDIT);
 }
 
+// CVE-2013-5954 - see OA_Permission::checkSessionToken() method for details
+OA_Permission::checkSessionToken();
+
 /*-------------------------------------------------------*/
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
 if (!empty($campaignid)) {
-    OA_Permission::checkSessionToken();
-
     if (!empty($duplicate)) {
     	// Duplicate the campaign
     	$doCampaigns = OA_Dal::factoryDO('campaigns');

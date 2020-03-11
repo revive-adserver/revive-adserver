@@ -25,6 +25,9 @@ phpAds_registerGlobal('newaffiliateid', 'returnurl', 'duplicate');
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
 OA_Permission::enforceAccessToObject('channel', $channelid);
 
+// CVE-2013-5954 - see OA_Permission::checkSessionToken() method for details
+OA_Permission::checkSessionToken();
+
 $affiliateid    = (int) $affiliateid;
 $channelid      = (int) $channelid;
 
@@ -34,8 +37,6 @@ if (empty($returnurl)) {
 
 // Security check
 if (isset($channelid) && $channelid != '') {
-    OA_Permission::checkSessionToken();
-
     if (isset($duplicate) && $duplicate == 'true') {
 
         //get channel old channel name
