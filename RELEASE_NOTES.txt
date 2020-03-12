@@ -6,7 +6,7 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
-Release Notes: Revive Adserver 5.0.5
+Release Notes: Revive Adserver 5.0.6
 ====================================
 
 These release notes cover what's new, system requirements, download and
@@ -14,19 +14,16 @@ installation instructions, known issues and frequently asked questions for
 Revive Adserver. Please read these notes before reporting any bugs.
 
 
-What's New in Revive Adserver 5.0.5
+What's New in Revive Adserver 5.0.6
 -----------------------------------
 
- * Release date: March 12, 2020
+ * Release date: t.b.d.
 
 
  Security Updates
  ----------------
 
- * Fixed issue allowing to bypass the check on the old password when editing
-   an account.
-
- * Fixed open redirection vulnerabilities in the *-modify.php scripts.x
+ * None
 
 
  New Features
@@ -38,8 +35,7 @@ What's New in Revive Adserver 5.0.5
  Bug Fixes
  ---------
 
- * Fixed issue with setting cookies on PHP 7.3+ introduced with the latest
-   cookie changes.
+ * None
 
 
  Non-Backwards Compatible Changes
