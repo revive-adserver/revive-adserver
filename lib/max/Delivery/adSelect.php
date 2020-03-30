@@ -1108,7 +1108,7 @@ function _adSelectBuildContext($aBanner, $context = array()) {
 	//prepare information for check exists calls
 	$data = [];
         foreach ($context as $c){
-            if(!in_array(key($c), $data[current($c)])){
+            if(!isset($data[current($c)][key($c)])){
                 $data[current($c)][] = key($c);
             }
         }
@@ -1119,12 +1119,12 @@ function _adSelectBuildContext($aBanner, $context = array()) {
             $value = 'companionid:'.$companionCampaign;
             if ($aBanner['placement_id'] == $companionCampaign) {
                 $context[] = array('==' => $value);
-		if(!in_array('==', $data[$value])){
+		if(!isset($data[$value]['=='])){
                     $data[$value][] = '==';
                 }
             } else {
                 // Did we previously deliver an ad from this campaign?
-                if (empty($data[$value]) ||  !in_array('==', $data[$value])) {
+                if(!isset($data[$value]['=='])){
                     $context[] = array('!=' => $value);
                 }
             }
