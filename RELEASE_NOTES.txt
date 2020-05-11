@@ -37,6 +37,8 @@ What's New in Revive Adserver 5.1.0
 
  * Removed usage of the *et_magic_quotes_gpc() deprecated functions.
 
+ * Optimised ad selection context build algorithm.
+
 
  Non-Backwards Compatible Changes
  --------------------------------
