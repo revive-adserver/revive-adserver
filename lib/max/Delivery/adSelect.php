@@ -1105,6 +1105,13 @@ function _adSelectBuildContextArray(&$aLinkedAds, $adArrayVar, $context, $compan
  */
 function _adSelectBuildContext($aBanner, $context = array()) {
     if (!empty($aBanner['zone_companion'])) {
+	//prepare information for check exists calls
+	$data = [];
+        foreach ($context as $c){
+            if(!isset($data[current($c)][key($c)])){
+                $data[current($c)][] = key($c);
+            }
+        }
         // This zone call has companion banners linked to it.
         // So pass into the next call that we would like a banner from this campaign
         // and not from the other companion linked campaigns
@@ -1112,11 +1119,12 @@ function _adSelectBuildContext($aBanner, $context = array()) {
             $value = 'companionid:'.$companionCampaign;
             if ($aBanner['placement_id'] == $companionCampaign) {
                 $context[] = array('==' => $value);
+		if(!isset($data[$value]['=='])){
+                    $data[$value][] = '==';
+                }
             } else {
                 // Did we previously deliver an ad from this campaign?
-                $key = array_search(array('==', $value), $context);
-                if ($key === false) {
-                    // Nope, we must exclude the campaign then!
+                if(!isset($data[$value]['=='])){
                     $context[] = array('!=' => $value);
                 }
             }
