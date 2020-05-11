@@ -39,6 +39,9 @@ What's New in Revive Adserver 5.1.0
 
  * Optimised ad selection context build algorithm.
 
+ * Improved compatibility of Asychronous JS invocation with single page
+   applications, by using the srcdoc attribute when possible.
+
 
  Non-Backwards Compatible Changes
  --------------------------------
