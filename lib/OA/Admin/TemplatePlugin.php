@@ -41,13 +41,20 @@ class OA_Plugin_Template
      */
     var $_tabIndex = 0;
 
+    /**
+     * @var string
+     */
+    private $adminGroupName;
+
     function __construct($templateName, $adminGroupName)
     {
-        $this->init($templateName, $adminGroupName);
+        $this->adminGroupName = $adminGroupName;
+
+        parent::__construct($templateName);
     }
 
 
-    function init($templateName, $adminGroupName)
+    function init($templateName)
     {
         parent::init($templateName);
 
@@ -57,7 +64,7 @@ class OA_Plugin_Template
         $pluginBaseDir = $this->get_template_vars('pluginBaseDir'); //with trailing /
         $pluginTemplateDir = $this->get_template_vars('pluginTemplateDir'); //with trailing /
 
-        $absoluteTemplateDir = $pluginBaseDir.$adminGroupName.$pluginTemplateDir;
+        $absoluteTemplateDir = $pluginBaseDir.$this->adminGroupName.$pluginTemplateDir;
 
         $this->template_dir = is_dir($absoluteTemplateDir)
             ? $absoluteTemplateDir : $pluginTemplateDir;
