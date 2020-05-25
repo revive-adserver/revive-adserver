@@ -889,5 +889,5 @@ $GLOBALS['keySearch'] = "П";
 $GLOBALS['keyCollapseAll'] = "З";
 $GLOBALS['keyExpandAll'] = "Р";
 $GLOBALS['keyAddNew'] = "н";
-$GLOBALS['keyNext'] = "н";
+$GLOBALS['keyNext'] = "С";
 $GLOBALS['keyPrevious'] = "П";

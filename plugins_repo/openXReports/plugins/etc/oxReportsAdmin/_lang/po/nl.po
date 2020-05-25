@@ -14,12 +14,12 @@ msgstr ""
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:40
 #: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:137
-msgid "Manager Account Breakdown"
-msgstr "Onderverdeling per account"
+msgid "Account Breakdown"
+msgstr "Account uitsplitsing"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:41
-msgid "Lists Adviews/AdClicks/AdSales totals for a given month."
-msgstr "Rapport met impressies, kliks en verkopen voor een bepaalde maand."
+msgid "Lists Impression/Click/Conversion totals for a given month."
+msgstr "Vermeldt totaal aantal Impressies/Kliks/Conversies voor een bepaalde maand."
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:43
 msgid "Admin Reports"

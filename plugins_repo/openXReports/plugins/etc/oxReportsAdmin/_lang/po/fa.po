@@ -14,12 +14,12 @@ msgstr ""
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:40
 #: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:137
-msgid "Manager Account Breakdown"
-msgstr "اکانت مدیر از کار افتاده است"
+msgid "Account Breakdown"
+msgstr ""
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:41
-msgid "Lists Adviews/AdClicks/AdSales totals for a given month."
-msgstr "لیست بادید تبلیغات/کلیک های تبلیغات/فروش تبلیغات در مجموع برای یک ماه."
+msgid "Lists Impression/Click/Conversion totals for a given month."
+msgstr ""
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:43
 msgid "Admin Reports"
