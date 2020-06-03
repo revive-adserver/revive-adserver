@@ -4,17 +4,11 @@
  *
  * PHP versions 4 and 5
  *
- * LICENSE: This source file is subject to version 3.0 of the PHP license
- * that is available through the world-wide-web at the following URI:
- * http://www.php.net/license/3_0.txt.  If you did not receive a copy of
- * the PHP License and are unable to obtain it through the web, please
- * send a note to license@php.net so we can mail you a copy immediately.
- *
  * @category   pear
  * @package    PEAR
  * @author     Greg Beaver <cellog@php.net>
- * @copyright  1997-2006 The PHP Group
- * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @copyright  1997-2009 The Authors
+ * @license    http://opensource.org/licenses/bsd-license.php New BSD License
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 1.4.0a1
  */
@@ -28,9 +22,9 @@ require_once 'PEAR/XMLParser.php';
  * @category   pear
  * @package    PEAR
  * @author     Greg Beaver <cellog@php.net>
- * @copyright  1997-2006 The PHP Group
- * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.5.4
+ * @copyright  1997-2009 The Authors
+ * @license    http://opensource.org/licenses/bsd-license.php New BSD License
+ * @version    Release: 1.10.12
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a1
  */
@@ -41,19 +35,19 @@ class PEAR_Installer_Role
      *
      * Never call this directly, it is called by the PEAR_Config constructor
      * @param PEAR_Config
-     * @access private
-     * @static
      */
-    function initializeConfig(&$config)
+    public static function initializeConfig(&$config)
     {
         if (!isset($GLOBALS['_PEAR_INSTALLER_ROLES'])) {
             PEAR_Installer_Role::registerRoles();
         }
+
         foreach ($GLOBALS['_PEAR_INSTALLER_ROLES'] as $class => $info) {
             if (!$info['config_vars']) {
                 continue;
             }
-            $config->_addConfigVars($info['config_vars']);
+
+            $config->_addConfigVars($class, $info['config_vars']);
         }
     }
 
@@ -62,21 +56,23 @@ class PEAR_Installer_Role
      * @param string role name
      * @param PEAR_Config
      * @return PEAR_Installer_Role_Common
-     * @static
      */
-    function &factory($pkg, $role, &$config)
+    public static function &factory($pkg, $role, &$config)
     {
         if (!isset($GLOBALS['_PEAR_INSTALLER_ROLES'])) {
             PEAR_Installer_Role::registerRoles();
         }
+
         if (!in_array($role, PEAR_Installer_Role::getValidRoles($pkg->getPackageType()))) {
             $a = false;
             return $a;
         }
+
         $a = 'PEAR_Installer_Role_' . ucfirst($role);
         if (!class_exists($a)) {
             require_once str_replace('_', '/', $a) . '.php';
         }
+
         $b = new $a($config);
         return $b;
     }
@@ -88,26 +84,29 @@ class PEAR_Installer_Role
      * @param string
      * @param bool clear cache
      * @return array
-     * @static
      */
-    function getValidRoles($release, $clear = false)
+    public static function getValidRoles($release, $clear = false)
     {
         if (!isset($GLOBALS['_PEAR_INSTALLER_ROLES'])) {
             PEAR_Installer_Role::registerRoles();
         }
+
         static $ret = array();
         if ($clear) {
             $ret = array();
         }
+
         if (isset($ret[$release])) {
             return $ret[$release];
         }
+
         $ret[$release] = array();
         foreach ($GLOBALS['_PEAR_INSTALLER_ROLES'] as $role => $okreleases) {
             if (in_array($release, $okreleases['releasetypes'])) {
                 $ret[$release][] = strtolower(str_replace('PEAR_Installer_Role_', '', $role));
             }
         }
+
         return $ret[$release];
     }
 
@@ -119,25 +118,29 @@ class PEAR_Installer_Role
      * roles are actually fully bundled releases of a package
      * @param bool clear cache
      * @return array
-     * @static
      */
-    function getInstallableRoles($clear = false)
+    public static function getInstallableRoles($clear = false)
     {
         if (!isset($GLOBALS['_PEAR_INSTALLER_ROLES'])) {
             PEAR_Installer_Role::registerRoles();
         }
+
         static $ret;
         if ($clear) {
             unset($ret);
         }
-        if (!isset($ret)) {
-            $ret = array();
-            foreach ($GLOBALS['_PEAR_INSTALLER_ROLES'] as $role => $okreleases) {
-                if ($okreleases['installable']) {
-                    $ret[] = strtolower(str_replace('PEAR_Installer_Role_', '', $role));
-                }
+
+        if (isset($ret)) {
+            return $ret;
+        }
+
+        $ret = array();
+        foreach ($GLOBALS['_PEAR_INSTALLER_ROLES'] as $role => $okreleases) {
+            if ($okreleases['installable']) {
+                $ret[] = strtolower(str_replace('PEAR_Installer_Role_', '', $role));
             }
         }
+
         return $ret;
     }
 
@@ -149,25 +152,29 @@ class PEAR_Installer_Role
      * so a tests file tests/file.phpt is installed into PackageName/tests/filepath.php
      * @param bool clear cache
      * @return array
-     * @static
      */
-    function getBaseinstallRoles($clear = false)
+    public static function getBaseinstallRoles($clear = false)
     {
         if (!isset($GLOBALS['_PEAR_INSTALLER_ROLES'])) {
             PEAR_Installer_Role::registerRoles();
         }
+
         static $ret;
         if ($clear) {
             unset($ret);
         }
-        if (!isset($ret)) {
-            $ret = array();
-            foreach ($GLOBALS['_PEAR_INSTALLER_ROLES'] as $role => $okreleases) {
-                if ($okreleases['honorsbaseinstall']) {
-                    $ret[] = strtolower(str_replace('PEAR_Installer_Role_', '', $role));
-                }
+
+        if (isset($ret)) {
+            return $ret;
+        }
+
+        $ret = array();
+        foreach ($GLOBALS['_PEAR_INSTALLER_ROLES'] as $role => $okreleases) {
+            if ($okreleases['honorsbaseinstall']) {
+                $ret[] = strtolower(str_replace('PEAR_Installer_Role_', '', $role));
             }
         }
+
         return $ret;
     }
 
@@ -176,25 +183,29 @@ class PEAR_Installer_Role
      * like the "php" role.
      * @param bool clear cache
      * @return array
-     * @static
      */
-    function getPhpRoles($clear = false)
+    public static function getPhpRoles($clear = false)
     {
         if (!isset($GLOBALS['_PEAR_INSTALLER_ROLES'])) {
             PEAR_Installer_Role::registerRoles();
         }
+
         static $ret;
         if ($clear) {
             unset($ret);
         }
-        if (!isset($ret)) {
-            $ret = array();
-            foreach ($GLOBALS['_PEAR_INSTALLER_ROLES'] as $role => $okreleases) {
-                if ($okreleases['phpfile']) {
-                    $ret[] = strtolower(str_replace('PEAR_Installer_Role_', '', $role));
-                }
+
+        if (isset($ret)) {
+            return $ret;
+        }
+
+        $ret = array();
+        foreach ($GLOBALS['_PEAR_INSTALLER_ROLES'] as $role => $okreleases) {
+            if ($okreleases['phpfile']) {
+                $ret[] = strtolower(str_replace('PEAR_Installer_Role_', '', $role));
             }
         }
+
         return $ret;
     }
 
@@ -207,27 +218,29 @@ class PEAR_Installer_Role
      *               included.
      *
      * @return bool TRUE on success, a PEAR error on failure
-     * @access public
-     * @static
      */
-    function registerRoles($dir = null)
+    public static function registerRoles($dir = null)
     {
         $GLOBALS['_PEAR_INSTALLER_ROLES'] = array();
         $parser = new PEAR_XMLParser;
         if ($dir === null) {
             $dir = dirname(__FILE__) . '/Role';
         }
+
         if (!file_exists($dir) || !is_dir($dir)) {
-            return PEAR::raiseError("registerRoles: opendir($dir) failed");
+            return PEAR::raiseError("registerRoles: opendir($dir) failed: does not exist/is not directory");
         }
+
         $dp = @opendir($dir);
         if (empty($dp)) {
-            return PEAR::raiseError("registerRoles: opendir($dir) failed");
+            return PEAR::raiseError("registerRoles: opendir($dir) failed: $php_errmsg");
         }
+
         while ($entry = readdir($dp)) {
             if ($entry[0] == '.' || substr($entry, -4) != '.xml') {
                 continue;
             }
+
             $class = "PEAR_Installer_Role_".substr($entry, 0, -4);
             // List of roles
             if (!isset($GLOBALS['_PEAR_INSTALLER_ROLES'][$class])) {
@@ -237,9 +250,11 @@ class PEAR_Installer_Role
                 if (!is_array($data['releasetypes'])) {
                     $data['releasetypes'] = array($data['releasetypes']);
                 }
+
                 $GLOBALS['_PEAR_INSTALLER_ROLES'][$class] = $data;
             }
         }
+
         closedir($dp);
         ksort($GLOBALS['_PEAR_INSTALLER_ROLES']);
         PEAR_Installer_Role::getBaseinstallRoles(true);
@@ -249,4 +264,3 @@ class PEAR_Installer_Role
         return true;
     }
 }
-?>

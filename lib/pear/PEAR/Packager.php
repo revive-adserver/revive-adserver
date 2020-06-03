@@ -4,19 +4,13 @@
  *
  * PHP versions 4 and 5
  *
- * LICENSE: This source file is subject to version 3.0 of the PHP license
- * that is available through the world-wide-web at the following URI:
- * http://www.php.net/license/3_0.txt.  If you did not receive a copy of
- * the PHP License and are unable to obtain it through the web, please
- * send a note to license@php.net so we can mail you a copy immediately.
- *
  * @category   pear
  * @package    PEAR
  * @author     Stig Bakken <ssb@php.net>
  * @author     Tomas V. V. Cox <cox@idecnet.com>
  * @author     Greg Beaver <cellog@php.net>
- * @copyright  1997-2006 The PHP Group
- * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @copyright  1997-2009 The Authors
+ * @license    http://opensource.org/licenses/bsd-license.php New BSD License
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 0.1
  */
@@ -34,9 +28,9 @@ require_once 'System.php';
  * @category   pear
  * @package    PEAR
  * @author     Greg Beaver <cellog@php.net>
- * @copyright  1997-2006 The PHP Group
- * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.5.4
+ * @copyright  1997-2009 The Authors
+ * @license    http://opensource.org/licenses/bsd-license.php New BSD License
+ * @version    Release: 1.10.12
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 0.1
  */
@@ -46,7 +40,6 @@ class PEAR_Packager extends PEAR_Common
      * @var PEAR_Registry
      */
     var $_registry;
-    // {{{ package()
 
     function package($pkgfile = null, $compress = true, $pkg2 = null)
     {
@@ -54,9 +47,10 @@ class PEAR_Packager extends PEAR_Common
         if (empty($pkgfile)) {
             $pkgfile = 'package.xml';
         }
+
         PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
-        $pkg = new PEAR_PackageFile($this->config, $this->debug);
-        $pf = &$pkg->fromPackageFile($pkgfile, PEAR_VALIDATE_NORMAL);
+        $pkg  = new PEAR_PackageFile($this->config, $this->debug);
+        $pf   = &$pkg->fromPackageFile($pkgfile, PEAR_VALIDATE_NORMAL);
         $main = &$pf;
         PEAR::staticPopErrorHandling();
         if (PEAR::isError($pf)) {
@@ -65,12 +59,13 @@ class PEAR_Packager extends PEAR_Common
                     $this->log(0, 'Error: ' . $error['message']);
                 }
             }
+
             $this->log(0, $pf->getMessage());
             return $this->raiseError("Cannot package, errors in package file");
-        } else {
-            foreach ($pf->getValidationWarnings() as $warning) {
-                $this->log(1, 'Warning: ' . $warning['message']);
-            }
+        }
+
+        foreach ($pf->getValidationWarnings() as $warning) {
+            $this->log(1, 'Warning: ' . $warning['message']);
         }
 
         // }}}
@@ -87,40 +82,46 @@ class PEAR_Packager extends PEAR_Common
                 }
                 $this->log(0, $pf2->getMessage());
                 return $this->raiseError("Cannot package, errors in second package file");
-            } else {
-                foreach ($pf2->getValidationWarnings() as $warning) {
-                    $this->log(1, 'Warning: ' . $warning['message']);
-                }
             }
+
+            foreach ($pf2->getValidationWarnings() as $warning) {
+                $this->log(1, 'Warning: ' . $warning['message']);
+            }
+
             if ($pf2->getPackagexmlVersion() == '2.0' ||
-                  $pf2->getPackagexmlVersion() == '2.1') {
-                $main = &$pf2;
+                  $pf2->getPackagexmlVersion() == '2.1'
+            ) {
+                $main  = &$pf2;
                 $other = &$pf;
             } else {
-                $main = &$pf;
+                $main  = &$pf;
                 $other = &$pf2;
             }
+
             if ($main->getPackagexmlVersion() != '2.0' &&
                   $main->getPackagexmlVersion() != '2.1') {
                 return PEAR::raiseError('Error: cannot package two package.xml version 1.0, can ' .
                     'only package together a package.xml 1.0 and package.xml 2.0');
             }
+
             if ($other->getPackagexmlVersion() != '1.0') {
                 return PEAR::raiseError('Error: cannot package two package.xml version 2.0, can ' .
                     'only package together a package.xml 1.0 and package.xml 2.0');
             }
         }
+
         $main->setLogger($this);
         if (!$main->validate(PEAR_VALIDATE_PACKAGING)) {
             foreach ($main->getValidationWarnings() as $warning) {
                 $this->log(0, 'Error: ' . $warning['message']);
             }
             return $this->raiseError("Cannot package, errors in package");
-        } else {
-            foreach ($main->getValidationWarnings() as $warning) {
-                $this->log(1, 'Warning: ' . $warning['message']);
-            }
         }
+
+        foreach ($main->getValidationWarnings() as $warning) {
+            $this->log(1, 'Warning: ' . $warning['message']);
+        }
+
         if ($pkg2) {
             $other->setLogger($this);
             $a = false;
@@ -128,25 +129,30 @@ class PEAR_Packager extends PEAR_Common
                 foreach ($other->getValidationWarnings() as $warning) {
                     $this->log(0, 'Error: ' . $warning['message']);
                 }
+
                 foreach ($main->getValidationWarnings() as $warning) {
                     $this->log(0, 'Error: ' . $warning['message']);
                 }
+
                 if ($a) {
                     return $this->raiseError('The two package.xml files are not equivalent!');
                 }
+
                 return $this->raiseError("Cannot package, errors in package");
-            } else {
-                foreach ($other->getValidationWarnings() as $warning) {
-                    $this->log(1, 'Warning: ' . $warning['message']);
-                }
             }
+
+            foreach ($other->getValidationWarnings() as $warning) {
+                $this->log(1, 'Warning: ' . $warning['message']);
+            }
+
             $gen = &$main->getDefaultGenerator();
             $tgzfile = $gen->toTgz2($this, $other, $compress);
             if (PEAR::isError($tgzfile)) {
                 return $tgzfile;
             }
+
             $dest_package = basename($tgzfile);
-            $pkgdir = dirname($pkgfile);
+            $pkgdir       = dirname($pkgfile);
 
             // TAR the Package -------------------------------------------
             $this->log(1, "Package $dest_package done");
@@ -156,6 +162,12 @@ class PEAR_Packager extends PEAR_Common
                 $this->log(1, 'Tag the released code with "pear cvstag ' .
                     $main->getPackageFile() . '"');
                 $this->log(1, "(or set the CVS tag $cvstag by hand)");
+            } elseif (file_exists("$pkgdir/.svn")) {
+                $svnversion = preg_replace('/[^a-z0-9]/i', '.', $pf->getVersion());
+                $svntag = $pf->getName() . "-$svnversion";
+                $this->log(1, 'Tag the released code with "pear svntag ' .
+                    $main->getPackageFile() . '"');
+                $this->log(1, "(or set the SVN tag $svntag by hand)");
             }
         } else { // this branch is executed for single packagefile packaging
             $gen = &$pf->getDefaultGenerator();
@@ -164,8 +176,9 @@ class PEAR_Packager extends PEAR_Common
                 $this->log(0, $tgzfile->getMessage());
                 return $this->raiseError("Cannot package, errors in package");
             }
+
             $dest_package = basename($tgzfile);
-            $pkgdir = dirname($pkgfile);
+            $pkgdir       = dirname($pkgfile);
 
             // TAR the Package -------------------------------------------
             $this->log(1, "Package $dest_package done");
@@ -174,25 +187,14 @@ class PEAR_Packager extends PEAR_Common
                 $cvstag = "RELEASE_$cvsversion";
                 $this->log(1, "Tag the released code with `pear cvstag $pkgfile'");
                 $this->log(1, "(or set the CVS tag $cvstag by hand)");
+            } elseif (file_exists("$pkgdir/.svn")) {
+                $svnversion = preg_replace('/[^a-z0-9]/i', '.', $pf->getVersion());
+                $svntag = $pf->getName() . "-$svnversion";
+                $this->log(1, "Tag the released code with `pear svntag $pkgfile'");
+                $this->log(1, "(or set the SVN tag $svntag by hand)");
             }
         }
+
         return $dest_package;
     }
-
-    // }}}
 }
-
-// {{{ md5_file() utility function
-if (!function_exists('md5_file')) {
-    function md5_file($file) {
-        if (!$fd = @fopen($file, 'r')) {
-            return false;
-        }
-        fclose($fd);
-        $md5 = md5(file_get_contents($file));
-        return $md5;
-    }
-}
-// }}}
-
-?>

@@ -4,17 +4,11 @@
  *
  * PHP versions 4 and 5
  *
- * LICENSE: This source file is subject to version 3.0 of the PHP license
- * that is available through the world-wide-web at the following URI:
- * http://www.php.net/license/3_0.txt.  If you did not receive a copy of
- * the PHP License and are unable to obtain it through the web, please
- * send a note to license@php.net so we can mail you a copy immediately.
- *
  * @category   pear
  * @package    PEAR
  * @author     Greg Beaver <cellog@php.net>
- * @copyright  1997-2006 The PHP Group
- * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @copyright  1997-2009 The Authors
+ * @license    http://opensource.org/licenses/bsd-license.php New BSD License
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 1.4.0a8
  */
@@ -26,9 +20,9 @@ require_once 'PEAR/PackageFile/v2.php';
  * @category   pear
  * @package    PEAR
  * @author     Greg Beaver <cellog@php.net>
- * @copyright  1997-2006 The PHP Group
- * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.5.4
+ * @copyright  1997-2009 The Authors
+ * @license    http://opensource.org/licenses/bsd-license.php New BSD License
+ * @version    Release: 1.10.12
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a8
  */
@@ -247,7 +241,7 @@ class PEAR_PackageFile_v2_rw extends PEAR_PackageFile_v2
                 }
             }
             foreach ($info as $i => $maintainer) {
-                if ($maintainer['user'] == $handle) {
+                if (is_array($maintainer) && $maintainer['user'] == $handle) {
                     $found = $i;
                     break 2;
                 }
@@ -1226,21 +1220,26 @@ class PEAR_PackageFile_v2_rw extends PEAR_PackageFile_v2
                                    'zendextbin', 'bundle'))) {
             return false;
         }
+
         if (in_array($type, array('zendextsrc', 'zendextbin'))) {
             $this->_setPackageVersion2_1();
         }
+
         if ($type != 'bundle') {
             $type .= 'release';
         }
+
         foreach (array('phprelease', 'extbinrelease', 'extsrcrelease',
                        'zendextsrcrelease', 'zendextbinrelease', 'bundle') as $test) {
             unset($this->_packageInfo[$test]);
         }
+
         if (!isset($this->_packageInfo[$type])) {
             // ensure that the release tag is set up
             $this->_packageInfo = $this->_insertBefore($this->_packageInfo, array('changelog'),
                 array(), $type);
         }
+
         $this->_packageInfo[$type] = array();
         return true;
     }
@@ -1360,14 +1359,17 @@ class PEAR_PackageFile_v2_rw extends PEAR_PackageFile_v2
         if ($this->getPackageType() != 'extsrc' && $this->getPackageType() != 'zendextsrc') {
             return false;
         }
+
         $r = &$this->_getCurrentRelease(false);
         if ($r === null) {
             return false;
         }
+
         $opt = array('attribs' => array('name' => $name, 'prompt' => $prompt));
         if ($default !== null) {
-            $opt['default'] = $default;
+            $opt['attribs']['default'] = $default;
         }
+
         $this->_isValid = 0;
         $r = $this->_mergeTag($r, $opt,
             array(
@@ -1599,4 +1601,3 @@ class PEAR_PackageFile_v2_rw extends PEAR_PackageFile_v2
         unset($this->_packageInfo['changelog']);
     }
 }
-?>

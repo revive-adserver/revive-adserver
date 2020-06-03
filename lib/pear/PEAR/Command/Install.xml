@@ -26,23 +26,28 @@
    </soft>
    <nobuild>
     <shortopt>B</shortopt>
-    <doc>don&apos;t build C extensions</doc>
+    <doc>don&#039;t build C extensions</doc>
    </nobuild>
+   <configureoptions>
+    <shortopt>D</shortopt>
+    <arg>OPTION1=VALUE[ OPTION2=VALUE]</arg>
+   </configureoptions>
    <nocompress>
     <shortopt>Z</shortopt>
     <doc>request uncompressed files when downloading</doc>
    </nocompress>
    <installroot>
     <shortopt>R</shortopt>
+    <doc>root directory used when installing files (ala PHP&#039;s INSTALL_ROOT), use packagingroot for RPM</doc>
     <arg>DIR</arg>
-    <doc>root directory used when installing files (ala PHP&apos;s INSTALL_ROOT), use packagingroot for RPM</doc>
    </installroot>
    <packagingroot>
     <shortopt>P</shortopt>
-    <arg>DIR</arg>
     <doc>root directory used when packaging files, like RPM packaging</doc>
+    <arg>DIR</arg>
    </packagingroot>
    <ignore-errors>
+    <shortopt></shortopt>
     <doc>force install even if there were errors</doc>
    </ignore-errors>
    <alldeps>
@@ -75,7 +80,7 @@ anywhere on the net.
 package.xml.  Useful for testing, or for wrapping a PEAR package in
 another package manager such as RPM.
 
-&quot;Package[-version/state][.tar]&quot; : queries your default channel&apos;s server
+&quot;Package[-version/state][.tar]&quot; : queries your default channel&#039;s server
 ({config master_server}) and downloads the newest package with
 the preferred quality/state ({config preferred_state}).
 
@@ -95,6 +100,11 @@ four ways of specifying packages.
   <function>doInstall</function>
   <shortcut>up</shortcut>
   <options>
+   <channel>
+    <shortopt>c</shortopt>
+    <doc>upgrade packages from a specific channel</doc>
+    <arg>CHAN</arg>
+   </channel>
    <force>
     <shortopt>f</shortopt>
     <doc>overwrite newer installed packages</doc>
@@ -113,7 +123,7 @@ four ways of specifying packages.
    </register-only>
    <nobuild>
     <shortopt>B</shortopt>
-    <doc>don&apos;t build C extensions</doc>
+    <doc>don&#039;t build C extensions</doc>
    </nobuild>
    <nocompress>
     <shortopt>Z</shortopt>
@@ -121,10 +131,11 @@ four ways of specifying packages.
    </nocompress>
    <installroot>
     <shortopt>R</shortopt>
+    <doc>root directory used when installing files (ala PHP&#039;s INSTALL_ROOT)</doc>
     <arg>DIR</arg>
-    <doc>root directory used when installing files (ala PHP&apos;s INSTALL_ROOT)</doc>
    </installroot>
    <ignore-errors>
+    <shortopt></shortopt>
     <doc>force install even if there were errors</doc>
    </ignore-errors>
    <alldeps>
@@ -156,10 +167,15 @@ More than one package may be specified at once.
 </doc>
  </upgrade>
  <upgrade-all>
-  <summary>Upgrade All Packages</summary>
-  <function>doInstall</function>
+  <summary>Upgrade All Packages [Deprecated in favor of calling upgrade with no parameters]</summary>
+  <function>doUpgradeAll</function>
   <shortcut>ua</shortcut>
   <options>
+   <channel>
+    <shortopt>c</shortopt>
+    <doc>upgrade packages from a specific channel</doc>
+    <arg>CHAN</arg>
+   </channel>
    <nodeps>
     <shortopt>n</shortopt>
     <doc>ignore dependencies, upgrade anyway</doc>
@@ -170,7 +186,7 @@ More than one package may be specified at once.
    </register-only>
    <nobuild>
     <shortopt>B</shortopt>
-    <doc>don&apos;t build C extensions</doc>
+    <doc>don&#039;t build C extensions</doc>
    </nobuild>
    <nocompress>
     <shortopt>Z</shortopt>
@@ -178,17 +194,21 @@ More than one package may be specified at once.
    </nocompress>
    <installroot>
     <shortopt>R</shortopt>
+    <doc>root directory used when installing files (ala PHP&#039;s INSTALL_ROOT), use packagingroot for RPM</doc>
     <arg>DIR</arg>
-    <doc>root directory used when installing files (ala PHP&apos;s INSTALL_ROOT)</doc>
    </installroot>
    <ignore-errors>
+    <shortopt></shortopt>
     <doc>force install even if there were errors</doc>
    </ignore-errors>
    <loose>
+    <shortopt></shortopt>
     <doc>do not check for recommended dependency version</doc>
    </loose>
   </options>
   <doc>
+WARNING: This function is deprecated in favor of using the upgrade command with no params
+
 Upgrades all packages that have a newer release available.  Upgrades are
 done only if there is a release available of the state specified in
 &quot;preferred_state&quot; (currently {config preferred_state}), or a state considered
@@ -210,10 +230,11 @@ more stable.
    </register-only>
    <installroot>
     <shortopt>R</shortopt>
+    <doc>root directory used when installing files (ala PHP&#039;s INSTALL_ROOT)</doc>
     <arg>DIR</arg>
-    <doc>root directory used when installing files (ala PHP&apos;s INSTALL_ROOT)</doc>
    </installroot>
    <ignore-errors>
+    <shortopt></shortopt>
     <doc>force install even if there were errors</doc>
    </ignore-errors>
    <offline>
@@ -234,8 +255,8 @@ channel not in your default channel ({config default_channel})
   <options>
    <destination>
     <shortopt>d</shortopt>
-    <arg>DIR</arg>
     <doc>Optional destination directory for unpacking (defaults to current path or &quot;ext&quot; if exists)</doc>
+    <arg>DIR</arg>
    </destination>
    <force>
     <shortopt>f</shortopt>

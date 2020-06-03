@@ -4,18 +4,12 @@
  *
  * PHP versions 4 and 5
  *
- * LICENSE: This source file is subject to version 3.0 of the PHP license
- * that is available through the world-wide-web at the following URI:
- * http://www.php.net/license/3_0.txt.  If you did not receive a copy of
- * the PHP License and are unable to obtain it through the web, please
- * send a note to license@php.net so we can mail you a copy immediately.
- *
  * @category   pear
  * @package    PEAR
  * @author     Tomas V. V. Cox <cox@idecnet.com>
  * @author     Greg Beaver <cellog@php.net>
- * @copyright  1997-2006 The PHP Group
- * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @copyright  1997-2009 The Authors
+ * @license    http://opensource.org/licenses/bsd-license.php New BSD License
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 1.4.0a1
  */
@@ -33,9 +27,9 @@ $GLOBALS['_PEAR_DEPENDENCYDB_INSTANCE'] = array();
  * @package    PEAR
  * @author     Greg Beaver <cellog@php.net>
  * @author     Tomas V.V.Cox <cox@idec.net.com>
- * @copyright  1997-2006 The PHP Group
- * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.5.4
+ * @copyright  1997-2009 The Authors
+ * @license    http://opensource.org/licenses/bsd-license.php New BSD License
+ * @version    Release: 1.10.12
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a1
  */
@@ -94,22 +88,21 @@ class PEAR_DependencyDB
      * @param PEAR_Config
      * @param string|false full path to the dependency database, or false to use default
      * @return PEAR_DependencyDB|PEAR_Error
-     * @static
      */
-    function &singleton(&$config, $depdb = false)
+    public static function &singleton(&$config, $depdb = false)
     {
-        if (!isset($GLOBALS['_PEAR_DEPENDENCYDB_INSTANCE']
-              [$config->get('php_dir', null, 'pear.php.net')])) {
+        $phpdir = $config->get('php_dir', null, 'pear.php.net');
+        if (!isset($GLOBALS['_PEAR_DEPENDENCYDB_INSTANCE'][$phpdir])) {
             $a = new PEAR_DependencyDB;
-            $GLOBALS['_PEAR_DEPENDENCYDB_INSTANCE']
-              [$config->get('php_dir', null, 'pear.php.net')] = &$a;
+            $GLOBALS['_PEAR_DEPENDENCYDB_INSTANCE'][$phpdir] = &$a;
             $a->setConfig($config, $depdb);
-            if (PEAR::isError($e = $a->assertDepsDB())) {
+            $e = $a->assertDepsDB();
+            if (PEAR::isError($e)) {
                 return $e;
             }
         }
-        return $GLOBALS['_PEAR_DEPENDENCYDB_INSTANCE']
-              [$config->get('php_dir', null, 'pear.php.net')];
+
+        return $GLOBALS['_PEAR_DEPENDENCYDB_INSTANCE'][$phpdir];
     }
 
     /**
@@ -124,13 +117,18 @@ class PEAR_DependencyDB
         } else {
             $this->_config = &$config;
         }
+
         $this->_registry = &$this->_config->getRegistry();
         if (!$depdb) {
-            $this->_depdb = $this->_config->get('php_dir', null, 'pear.php.net') .
-                DIRECTORY_SEPARATOR . '.depdb';
+            $dir = $this->_config->get('metadata_dir', null, 'pear.php.net');
+            if (!$dir) {
+                $dir = $this->_config->get('php_dir', null, 'pear.php.net');
+            }
+            $this->_depdb =  $dir . DIRECTORY_SEPARATOR . '.depdb';
         } else {
             $this->_depdb = $depdb;
         }
+
         $this->_lockfile = dirname($this->_depdb) . DIRECTORY_SEPARATOR . '.depdblock';
     }
     // }}}
@@ -144,13 +142,15 @@ class PEAR_DependencyDB
                 if ($dir != '.' && file_exists($dir)) {
                     if (is_writeable($dir)) {
                         return true;
-                    } else {
-                        return false;
                     }
+
+                    return false;
                 }
             }
+
             return false;
         }
+
         return is_writeable($this->_depdb);
     }
 
@@ -165,17 +165,19 @@ class PEAR_DependencyDB
     {
         if (!is_file($this->_depdb)) {
             $this->rebuildDB();
-        } else {
-            $depdb = $this->_getDepDB();
-            // Datatype format has been changed, rebuild the Deps DB
-            if ($depdb['_version'] < $this->_version) {
-                $this->rebuildDB();
-            }
-            if ($depdb['_version'][0] > $this->_version[0]) {
-                return PEAR::raiseError('Dependency database is version ' .
-                    $depdb['_version'] . ', and we are version ' .
-                    $this->_version . ', cannot continue');
-            }
+            return;
+        }
+
+        $depdb = $this->_getDepDB();
+        // Datatype format has been changed, rebuild the Deps DB
+        if ($depdb['_version'] < $this->_version) {
+            $this->rebuildDB();
+        }
+
+        if ($depdb['_version'][0] > $this->_version[0]) {
+            return PEAR::raiseError('Dependency database is version ' .
+                $depdb['_version'] . ', and we are version ' .
+                $this->_version . ', cannot continue');
         }
     }
 
@@ -194,9 +196,11 @@ class PEAR_DependencyDB
             $channel = strtolower($pkg['channel']);
             $package = strtolower($pkg['package']);
         }
+
         if (isset($data['packages'][$channel][$package])) {
             return $data['packages'][$channel][$package];
         }
+
         return false;
     }
 
@@ -212,23 +216,31 @@ class PEAR_DependencyDB
         if (is_object($pkg)) {
             $channel = strtolower($pkg->getChannel());
             $package = strtolower($pkg->getPackage());
-        } else {
+        } else if (is_array($pkg)) {
             $channel = strtolower($pkg['channel']);
             $package = strtolower($pkg['package']);
+        } else {
+            return false;
         }
+
         $depend = $this->getDependentPackages($pkg);
         if (!$depend) {
             return false;
         }
+
         $dependencies = array();
         foreach ($depend as $info) {
             $temp = $this->getDependencies($info);
             foreach ($temp as $dep) {
-                if (strtolower($dep['dep']['channel']) == strtolower($channel) &&
-                      strtolower($dep['dep']['name']) == strtolower($package)) {
+                if (
+                    isset($dep['dep'], $dep['dep']['channel'], $dep['dep']['name']) &&
+                    strtolower($dep['dep']['channel']) == $channel &&
+                    strtolower($dep['dep']['name']) == $package
+                ) {
                     if (!isset($dependencies[$info['channel']])) {
                         $dependencies[$info['channel']] = array();
                     }
+
                     if (!isset($dependencies[$info['channel']][$info['package']])) {
                         $dependencies[$info['channel']][$info['package']] = array();
                     }
@@ -236,6 +248,7 @@ class PEAR_DependencyDB
                 }
             }
         }
+
         return $dependencies;
     }
 
@@ -253,10 +266,12 @@ class PEAR_DependencyDB
             $channel = strtolower($pkg['channel']);
             $package = strtolower($pkg['package']);
         }
+
         $data = $this->_getDepDB();
         if (isset($data['dependencies'][$channel][$package])) {
             return $data['dependencies'][$channel][$package];
         }
+
         return false;
     }
 
@@ -281,6 +296,7 @@ class PEAR_DependencyDB
             $channel = strtolower($parent['channel']);
             $package = strtolower($parent['package']);
         }
+
         if (is_object($child)) {
             $depchannel = strtolower($child->getChannel());
             $deppackage = strtolower($child->getPackage());
@@ -288,13 +304,16 @@ class PEAR_DependencyDB
             $depchannel = strtolower($child['channel']);
             $deppackage = strtolower($child['package']);
         }
+
         if (isset($checked[$channel][$package][$depchannel][$deppackage])) {
             return false; // avoid endless recursion
         }
+
         $checked[$channel][$package][$depchannel][$deppackage] = true;
         if (!isset($this->_cache['dependencies'][$channel][$package])) {
             return false;
         }
+
         foreach ($this->_cache['dependencies'][$channel][$package] as $info) {
             if (isset($info['dep']['uri'])) {
                 if (is_object($child)) {
@@ -308,11 +327,13 @@ class PEAR_DependencyDB
                 }
                 return false;
             }
-            if (strtolower($info['dep']['channel']) == strtolower($depchannel) &&
-                  strtolower($info['dep']['name']) == strtolower($deppackage)) {
+
+            if (strtolower($info['dep']['channel']) == $depchannel &&
+                  strtolower($info['dep']['name']) == $deppackage) {
                 return true;
             }
         }
+
         foreach ($this->_cache['dependencies'][$channel][$package] as $info) {
             if (isset($info['dep']['uri'])) {
                 if ($this->_dependsOn(array(
@@ -328,6 +349,7 @@ class PEAR_DependencyDB
                 }
             }
         }
+
         return false;
     }
 
@@ -361,50 +383,51 @@ class PEAR_DependencyDB
             $channel = strtolower($pkg['channel']);
             $package = strtolower($pkg['package']);
         }
+
         if (!isset($data['dependencies'][$channel][$package])) {
             return true;
         }
+
         foreach ($data['dependencies'][$channel][$package] as $dep) {
-            $found = false;
-            if (isset($dep['dep']['uri'])) {
-                $depchannel = '__uri';
-            } else {
-                $depchannel = strtolower($dep['dep']['channel']);
-            }
-            if (isset($data['packages'][$depchannel][strtolower($dep['dep']['name'])])) {
-                foreach ($data['packages'][$depchannel][strtolower($dep['dep']['name'])] as
-                      $i => $info) {
-                    if ($info['channel'] == $channel &&
-                          $info['package'] == $package) {
+            $found      = false;
+            $depchannel = isset($dep['dep']['uri']) ? '__uri' : strtolower($dep['dep']['channel']);
+            $depname    = strtolower($dep['dep']['name']);
+            if (isset($data['packages'][$depchannel][$depname])) {
+                foreach ($data['packages'][$depchannel][$depname] as $i => $info) {
+                    if ($info['channel'] == $channel && $info['package'] == $package) {
                         $found = true;
                         break;
                     }
                 }
             }
+
             if ($found) {
-                unset($data['packages'][$depchannel][strtolower($dep['dep']['name'])][$i]);
-                if (!count($data['packages'][$depchannel][strtolower($dep['dep']['name'])])) {
-                    unset($data['packages'][$depchannel][strtolower($dep['dep']['name'])]);
+                unset($data['packages'][$depchannel][$depname][$i]);
+                if (!count($data['packages'][$depchannel][$depname])) {
+                    unset($data['packages'][$depchannel][$depname]);
                     if (!count($data['packages'][$depchannel])) {
                         unset($data['packages'][$depchannel]);
                     }
                 } else {
-                    $data['packages'][$depchannel][strtolower($dep['dep']['name'])] =
-                        array_values(
-                            $data['packages'][$depchannel][strtolower($dep['dep']['name'])]);
+                    $data['packages'][$depchannel][$depname] =
+                        array_values($data['packages'][$depchannel][$depname]);
                 }
             }
         }
+
         unset($data['dependencies'][$channel][$package]);
         if (!count($data['dependencies'][$channel])) {
             unset($data['dependencies'][$channel]);
         }
+
         if (!count($data['dependencies'])) {
             unset($data['dependencies']);
         }
+
         if (!count($data['packages'])) {
             unset($data['packages']);
         }
+
         $this->_writeDepDB($data);
     }
 
@@ -419,17 +442,27 @@ class PEAR_DependencyDB
             // allow startup for read-only with older Registry
             return $depdb;
         }
+
         $packages = $this->_registry->listAllPackages();
+        if (PEAR::isError($packages)) {
+            return $packages;
+        }
+
         foreach ($packages as $channel => $ps) {
             foreach ($ps as $package) {
                 $package = $this->_registry->getPackage($package, $channel);
+                if (PEAR::isError($package)) {
+                    return $package;
+                }
                 $this->_setPackageDeps($depdb, $package);
             }
         }
+
         $error = $this->_writeDepDB($depdb);
         if (PEAR::isError($error)) {
             return $error;
         }
+
         $this->_cache = $depdb;
         return true;
     }
@@ -442,40 +475,47 @@ class PEAR_DependencyDB
      */
     function _lock($mode = LOCK_EX)
     {
-        if (!preg_match('/Windows 9/Di', php_uname())) {
-            if ($mode != LOCK_UN && is_resource($this->_lockFp)) {
-                // XXX does not check type of lock (LOCK_SH/LOCK_EX)
-                return true;
+        if (stristr(php_uname(), 'Windows 9')) {
+            return true;
+        }
+
+        if ($mode != LOCK_UN && is_resource($this->_lockFp)) {
+            // XXX does not check type of lock (LOCK_SH/LOCK_EX)
+            return true;
+        }
+
+        $open_mode = 'w';
+        // XXX People reported problems with LOCK_SH and 'w'
+        if ($mode === LOCK_SH) {
+            if (!file_exists($this->_lockfile)) {
+                touch($this->_lockfile);
+            } elseif (!is_file($this->_lockfile)) {
+                return PEAR::raiseError('could not create Dependency lock file, ' .
+                    'it exists and is not a regular file');
             }
-            $open_mode = 'w';
-            // XXX People reported problems with LOCK_SH and 'w'
-            if ($mode === LOCK_SH) {
-                if (!file_exists($this->_lockfile)) {
-                    touch($this->_lockfile);
-                } elseif (!is_file($this->_lockfile)) {
-                    return PEAR::raiseError('could not create Dependency lock file, ' .
-                        'it exists and is not a regular file');
-                }
-                $open_mode = 'r';
+            $open_mode = 'r';
+        }
+
+        if (!is_resource($this->_lockFp)) {
+            $this->_lockFp = @fopen($this->_lockfile, $open_mode);
+        }
+
+        if (!is_resource($this->_lockFp)) {
+            return PEAR::raiseError("could not create Dependency lock file" .
+                                     (isset($php_errormsg) ? ": " . $php_errormsg : ""));
+        }
+
+        if (!(int)flock($this->_lockFp, $mode)) {
+            switch ($mode) {
+                case LOCK_SH: $str = 'shared';    break;
+                case LOCK_EX: $str = 'exclusive'; break;
+                case LOCK_UN: $str = 'unlock';    break;
+                default:      $str = 'unknown';   break;
             }
 
-            if (!is_resource($this->_lockFp)) {
-                $this->_lockFp = @fopen($this->_lockfile, $open_mode);
-            }
-            if (!is_resource($this->_lockFp)) {
-                return PEAR::raiseError("could not create Dependency lock file" .
-                                         (isset($php_errormsg) ? ": " . $php_errormsg : ""));
-            }
-            if (!(int)flock($this->_lockFp, $mode)) {
-                switch ($mode) {
-                    case LOCK_SH: $str = 'shared';    break;
-                    case LOCK_EX: $str = 'exclusive'; break;
-                    case LOCK_UN: $str = 'unlock';    break;
-                    default:      $str = 'unknown';   break;
-                }
-                return PEAR::raiseError("could not acquire $str lock ($this->_lockfile)");
-            }
+            return PEAR::raiseError("could not acquire $str lock ($this->_lockfile)");
         }
+
         return true;
     }
 
@@ -503,13 +543,16 @@ class PEAR_DependencyDB
         if (!$this->hasWriteAccess()) {
             return array('_version' => $this->_version);
         }
+
         if (isset($this->_cache)) {
             return $this->_cache;
         }
+
         if (!$fp = fopen($this->_depdb, 'r')) {
             $err = PEAR::raiseError("Could not open dependencies file `".$this->_depdb."'");
             return $err;
         }
+
         clearstatcache();
         fclose($fp);
         $data = unserialize(file_get_contents($this->_depdb));
@@ -528,10 +571,12 @@ class PEAR_DependencyDB
         if (PEAR::isError($e = $this->_lock(LOCK_EX))) {
             return $e;
         }
+
         if (!$fp = fopen($this->_depdb, 'wb')) {
             $this->_unlock();
             return PEAR::raiseError("Could not open dependencies file `".$this->_depdb."' for writing");
         }
+
         fwrite($fp, serialize($deps));
         fclose($fp);
         $this->_unlock();
@@ -555,70 +600,89 @@ class PEAR_DependencyDB
         } else {
             $deps = $pkg->getDeps(true);
         }
+
         if (!$deps) {
             return;
         }
+
         if (!is_array($data)) {
             $data = array();
         }
+
         if (!isset($data['dependencies'])) {
             $data['dependencies'] = array();
         }
-        if (!isset($data['dependencies'][strtolower($pkg->getChannel())])) {
-            $data['dependencies'][strtolower($pkg->getChannel())] = array();
+
+        $channel = strtolower($pkg->getChannel());
+        $package = strtolower($pkg->getPackage());
+
+        if (!isset($data['dependencies'][$channel])) {
+            $data['dependencies'][$channel] = array();
         }
-        $data['dependencies'][strtolower($pkg->getChannel())][strtolower($pkg->getPackage())]
-            = array();
+
+        $data['dependencies'][$channel][$package] = array();
         if (isset($deps['required']['package'])) {
             if (!isset($deps['required']['package'][0])) {
                 $deps['required']['package'] = array($deps['required']['package']);
             }
+
             foreach ($deps['required']['package'] as $dep) {
                 $this->_registerDep($data, $pkg, $dep, 'required');
             }
         }
+
         if (isset($deps['optional']['package'])) {
             if (!isset($deps['optional']['package'][0])) {
                 $deps['optional']['package'] = array($deps['optional']['package']);
             }
+
             foreach ($deps['optional']['package'] as $dep) {
                 $this->_registerDep($data, $pkg, $dep, 'optional');
             }
         }
+
         if (isset($deps['required']['subpackage'])) {
             if (!isset($deps['required']['subpackage'][0])) {
                 $deps['required']['subpackage'] = array($deps['required']['subpackage']);
             }
+
             foreach ($deps['required']['subpackage'] as $dep) {
                 $this->_registerDep($data, $pkg, $dep, 'required');
             }
         }
+
         if (isset($deps['optional']['subpackage'])) {
             if (!isset($deps['optional']['subpackage'][0])) {
                 $deps['optional']['subpackage'] = array($deps['optional']['subpackage']);
             }
+
             foreach ($deps['optional']['subpackage'] as $dep) {
                 $this->_registerDep($data, $pkg, $dep, 'optional');
             }
         }
+
         if (isset($deps['group'])) {
             if (!isset($deps['group'][0])) {
                 $deps['group'] = array($deps['group']);
             }
+
             foreach ($deps['group'] as $group) {
                 if (isset($group['package'])) {
                     if (!isset($group['package'][0])) {
                         $group['package'] = array($group['package']);
                     }
+
                     foreach ($group['package'] as $dep) {
                         $this->_registerDep($data, $pkg, $dep, 'optional',
                             $group['attribs']['name']);
                     }
                 }
+
                 if (isset($group['subpackage'])) {
                     if (!isset($group['subpackage'][0])) {
                         $group['subpackage'] = array($group['subpackage']);
                     }
+
                     foreach ($group['subpackage'] as $dep) {
                         $this->_registerDep($data, $pkg, $dep, 'optional',
                             $group['attribs']['name']);
@@ -626,12 +690,11 @@ class PEAR_DependencyDB
                 }
             }
         }
-        if ($data['dependencies'][strtolower($pkg->getChannel())]
-              [strtolower($pkg->getPackage())] == array()) {
-            unset($data['dependencies'][strtolower($pkg->getChannel())]
-              [strtolower($pkg->getPackage())]);
-            if (!count($data['dependencies'][strtolower($pkg->getChannel())])) {
-                unset($data['dependencies'][strtolower($pkg->getChannel())]);
+
+        if ($data['dependencies'][$channel][$package] == array()) {
+            unset($data['dependencies'][$channel][$package]);
+            if (!count($data['dependencies'][$channel])) {
+                unset($data['dependencies'][$channel]);
             }
         }
     }
@@ -646,55 +709,58 @@ class PEAR_DependencyDB
     function _registerDep(&$data, &$pkg, $dep, $type, $group = false)
     {
         $info = array(
-            'dep' => $dep,
-            'type' => $type,
-            'group' => $group);
+            'dep'   => $dep,
+            'type'  => $type,
+            'group' => $group
+        );
 
-        if (isset($dep['channel'])) {
-            $depchannel = $dep['channel'];
-        } else {
-            $depchannel = '__uri';
-        }
+        $dep  = array_map('strtolower', $dep);
+        $depchannel = isset($dep['channel']) ? $dep['channel'] : '__uri';
         if (!isset($data['dependencies'])) {
             $data['dependencies'] = array();
         }
-        if (!isset($data['dependencies'][strtolower($pkg->getChannel())])) {
-            $data['dependencies'][strtolower($pkg->getChannel())] = array();
+
+        $channel = strtolower($pkg->getChannel());
+        $package = strtolower($pkg->getPackage());
+
+        if (!isset($data['dependencies'][$channel])) {
+            $data['dependencies'][$channel] = array();
         }
-        if (!isset($data['dependencies'][strtolower($pkg->getChannel())][strtolower($pkg->getPackage())])) {
-            $data['dependencies'][strtolower($pkg->getChannel())][strtolower($pkg->getPackage())] = array();
+
+        if (!isset($data['dependencies'][$channel][$package])) {
+            $data['dependencies'][$channel][$package] = array();
         }
-        $data['dependencies'][strtolower($pkg->getChannel())][strtolower($pkg->getPackage())][]
-            = $info;
-        if (isset($data['packages'][strtolower($depchannel)][strtolower($dep['name'])])) {
+
+        $data['dependencies'][$channel][$package][] = $info;
+        if (isset($data['packages'][$depchannel][$dep['name']])) {
             $found = false;
-            foreach ($data['packages'][strtolower($depchannel)][strtolower($dep['name'])]
-                  as $i => $p) {
-                if ($p['channel'] == strtolower($pkg->getChannel()) &&
-                      $p['package'] == strtolower($pkg->getPackage())) {
+            foreach ($data['packages'][$depchannel][$dep['name']] as $i => $p) {
+                if ($p['channel'] == $channel && $p['package'] == $package) {
                     $found = true;
                     break;
                 }
-            }
-            if (!$found) {
-                $data['packages'][strtolower($depchannel)][strtolower($dep['name'])][]
-                    = array('channel' => strtolower($pkg->getChannel()),
-                            'package' => strtolower($pkg->getPackage()));
             }
         } else {
             if (!isset($data['packages'])) {
                 $data['packages'] = array();
             }
-            if (!isset($data['packages'][strtolower($depchannel)])) {
-                $data['packages'][strtolower($depchannel)] = array();
+
+            if (!isset($data['packages'][$depchannel])) {
+                $data['packages'][$depchannel] = array();
             }
-            if (!isset($data['packages'][strtolower($depchannel)][strtolower($dep['name'])])) {
-                $data['packages'][strtolower($depchannel)][strtolower($dep['name'])] = array();
+
+            if (!isset($data['packages'][$depchannel][$dep['name']])) {
+                $data['packages'][$depchannel][$dep['name']] = array();
             }
-            $data['packages'][strtolower($depchannel)][strtolower($dep['name'])][]
-                = array('channel' => strtolower($pkg->getChannel()),
-                        'package' => strtolower($pkg->getPackage()));
+
+            $found = false;
+        }
+
+        if (!$found) {
+            $data['packages'][$depchannel][$dep['name']][] = array(
+                'channel' => $channel,
+                'package' => $package
+            );
         }
     }
 }
-?>

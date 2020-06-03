@@ -4,17 +4,11 @@
  *
  * PHP versions 4 and 5
  *
- * LICENSE: This source file is subject to version 3.0 of the PHP license
- * that is available through the world-wide-web at the following URI:
- * http://www.php.net/license/3_0.txt.  If you did not receive a copy of
- * the PHP License and are unable to obtain it through the web, please
- * send a note to license@php.net so we can mail you a copy immediately.
- *
  * @category   pear
  * @package    PEAR
  * @author     Greg Beaver <cellog@php.net>
- * @copyright  1997-2006 The PHP Group
- * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @copyright  1997-2009 The Authors
+ * @license    http://opensource.org/licenses/bsd-license.php New BSD License
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 1.4.0a1
  */
@@ -35,9 +29,9 @@ require_once 'PEAR/Validator/PECL.php';
  * @category   pear
  * @package    PEAR
  * @author     Greg Beaver <cellog@php.net>
- * @copyright  1997-2006 The PHP Group
- * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.5.4
+ * @copyright  1997-2009 The Authors
+ * @license    http://opensource.org/licenses/bsd-license.php New BSD License
+ * @version    Release: 1.10.12
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a1
  */
@@ -90,9 +84,8 @@ class PEAR_Validate
      * to the PEAR naming convention, so the method is final and static.
      * @param string
      * @final
-     * @static
      */
-    function validGroupName($name)
+    public static function validGroupName($name)
     {
         return (bool) preg_match('/^' . _PEAR_COMMON_PACKAGE_NAME_PREG . '\\z/', $name);
     }
@@ -101,10 +94,9 @@ class PEAR_Validate
      * Determine whether $state represents a valid stability level
      * @param string
      * @return bool
-     * @static
      * @final
      */
-    function validState($state)
+    public static function validState($state)
     {
         return in_array($state, array('snapshot', 'devel', 'alpha', 'beta', 'stable'));
     }
@@ -112,10 +104,9 @@ class PEAR_Validate
     /**
      * Get a list of valid stability levels
      * @return array
-     * @static
      * @final
      */
-    function getValidStates()
+    public static function getValidStates()
     {
         return array('snapshot', 'devel', 'alpha', 'beta', 'stable');
     }
@@ -125,10 +116,9 @@ class PEAR_Validate
      * by version_compare
      * @param string
      * @return bool
-     * @static
      * @final
      */
-    function validVersion($ver)
+    public static function validVersion($ver)
     {
         return (bool) preg_match(PEAR_COMMON_PACKAGE_VERSION_PREG, $ver);
     }
@@ -212,7 +202,8 @@ class PEAR_Validate
                   $this->_packagexml->getExtends()) {
                 $version = $this->_packagexml->getVersion() . '';
                 $name = $this->_packagexml->getPackage();
-                $test = array_shift($a = explode('.', $version));
+                $a = explode('.', $version);
+                $test = array_shift($a);
                 if ($test == '0') {
                     return true;
                 }
@@ -457,7 +448,6 @@ class PEAR_Validate
                 return false;
             }
 
-
             if ($this->_state == PEAR_VALIDATE_PACKAGING &&
                   $this->_packagexml->getDate() != date('Y-m-d')) {
                 $this->_addWarning('date', 'Release Date "' .
@@ -476,8 +466,8 @@ class PEAR_Validate
             // default of no time value set
             return true;
         }
-        // packager automatically sets time, so only validate if
-        // pear validate is called
+
+        // packager automatically sets time, so only validate if pear validate is called
         if ($this->_state = PEAR_VALIDATE_NORMAL) {
             if (!preg_match('/\d\d:\d\d:\d\d/',
                   $this->_packagexml->getTime())) {
@@ -485,12 +475,15 @@ class PEAR_Validate
                     $this->_packagexml->getTime() . '"');
                 return false;
             }
-            if (strtotime($this->_packagexml->getTime()) == -1) {
+
+            $result = preg_match('|\d{2}\:\d{2}\:\d{2}|', $this->_packagexml->getTime(), $matches);
+            if ($result === false || empty($matches)) {
                 $this->_addFailure('time', 'invalid release time "' .
                     $this->_packagexml->getTime() . '"');
                 return false;
             }
         }
+
         return true;
     }
 
@@ -630,4 +623,3 @@ class PEAR_Validate
         return true;
     }
 }
-?>

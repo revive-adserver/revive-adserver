@@ -3,7 +3,12 @@
   <summary>Build an Extension From C Source</summary>
   <function>doBuild</function>
   <shortcut>b</shortcut>
-  <options />
+  <options>
+   <configureoptions>
+    <shortopt>D</shortopt>
+    <arg>OPTION1=VALUE[ OPTION2=VALUE]</arg>
+   </configureoptions>
+  </options>
   <doc>[package.xml]
 Builds one or more extensions contained in a package.</doc>
  </build>

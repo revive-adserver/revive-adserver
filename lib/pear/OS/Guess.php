@@ -4,18 +4,12 @@
  *
  * PHP versions 4 and 5
  *
- * LICENSE: This source file is subject to version 3.0 of the PHP license
- * that is available through the world-wide-web at the following URI:
- * http://www.php.net/license/3_0.txt.  If you did not receive a copy of
- * the PHP License and are unable to obtain it through the web, please
- * send a note to license@php.net so we can mail you a copy immediately.
- *
  * @category   pear
  * @package    PEAR
  * @author     Stig Bakken <ssb@php.net>
  * @author     Gregory Beaver <cellog@php.net>
- * @copyright  1997-2005 The PHP Group
- * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @copyright  1997-2009 The Authors
+ * @license    http://opensource.org/licenses/bsd-license.php New BSD License
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since PEAR 0.1
  */
@@ -90,9 +84,9 @@
  * @package    PEAR
  * @author     Stig Bakken <ssb@php.net>
  * @author     Gregory Beaver <cellog@php.net>
- * @copyright  1997-2005 The PHP Group
- * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.5.4
+ * @copyright  1997-2009 The Authors
+ * @license    http://opensource.org/licenses/bsd-license.php New BSD License
+ * @version    Release: 1.10.12
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 0.1
  */
@@ -127,16 +121,16 @@ class OS_Guess
         if ($uname === null) {
             $uname = php_uname();
         }
-        $parts = preg_split('/[[:space:]]+/D', trim($uname));
+        $parts = preg_split('/\s+/', trim($uname));
         $n = count($parts);
 
-        $release = $machine = $cpu = '';
-        $sysname = $parts[0];
+        $release  = $machine = $cpu = '';
+        $sysname  = $parts[0];
         $nodename = $parts[1];
-        $cpu = $parts[$n-1];
+        $cpu      = $parts[$n-1];
         $extra = '';
         if ($cpu == 'unknown') {
-            $cpu = $parts[$n-2];
+            $cpu = $parts[$n - 2];
         }
 
         switch ($sysname) {
@@ -157,7 +151,7 @@ class OS_Guess
             case 'Linux' :
                 $extra = $this->_detectGlibcVersion();
                 // use only the first two digits from the kernel version
-                $release = preg_replace('/^([[:digit:]]+\.[[:digit:]]+).*/D', '\1', $parts[2]);
+                $release = preg_replace('/^([0-9]+\.[0-9]+).*/', '\1', $parts[2]);
                 break;
             case 'Mac' :
                 $sysname = 'darwin';
@@ -175,13 +169,12 @@ class OS_Guess
                         $cpu = 'powerpc';
                     }
                 }
-                $release = preg_replace('/^([[:digit:]]+\.[[:digit:]]+).*/D', '\1', $parts[2]);
+                $release = preg_replace('/^([0-9]+\.[0-9]+).*/', '\1', $parts[2]);
                 break;
             default:
-                $release = preg_replace('/-.*/D', '', $parts[2]);
+                $release = preg_replace('/-.*/', '', $parts[2]);
                 break;
         }
-
 
         if (isset($sysmap[$sysname])) {
             $sysname = $sysmap[$sysname];
@@ -202,9 +195,22 @@ class OS_Guess
         }
         $major = $minor = 0;
         include_once "System.php";
+
+        if (@is_link('/lib64/libc.so.6')) {
+            // Let's try reading the libc.so.6 symlink
+            if (preg_match('/^libc-(.*)\.so$/', basename(readlink('/lib64/libc.so.6')), $matches)) {
+                list($major, $minor) = explode('.', $matches[1]);
+            }
+        } else if (@is_link('/lib/libc.so.6')) {
+            // Let's try reading the libc.so.6 symlink
+            if (preg_match('/^libc-(.*)\.so$/', basename(readlink('/lib/libc.so.6')), $matches)) {
+                list($major, $minor) = explode('.', $matches[1]);
+            }
+        }
         // Use glibc's <features.h> header file to
         // get major and minor version number:
-        if (@file_exists('/usr/include/features.h') &&
+        if (!($major && $minor) &&
+              @file_exists('/usr/include/features.h') &&
               @is_readable('/usr/include/features.h')) {
             if (!@file_exists('/usr/bin/cpp') || !@is_executable('/usr/bin/cpp')) {
                 $features_file = fopen('/usr/include/features.h', 'rb');
@@ -222,6 +228,7 @@ class OS_Guess
                         }
                         continue;
                     }
+
                     if (strpos($line, '__GLIBC_MINOR__'))  {
                         // got the minor version number
                         // #define __GLIBC_MINOR__ version
@@ -239,6 +246,7 @@ class OS_Guess
                 }
                 return $glibc = 'glibc' . trim($glibc_major) . "." . trim($glibc_minor) ;
             } // no cpp
+
             $tmpfile = System::mktemp("glibctest");
             $fp = fopen($tmpfile, "w");
             fwrite($fp, "#include <features.h>\n__GLIBC__ __GLIBC_MINOR__\n");
@@ -248,6 +256,7 @@ class OS_Guess
                 if ($line[0] == '#' || trim($line) == '') {
                     continue;
                 }
+
                 if (list($major, $minor) = explode(' ', trim($line))) {
                     break;
                 }
@@ -255,15 +264,11 @@ class OS_Guess
             pclose($cpp);
             unlink($tmpfile);
         } // features.h
-        if (!($major && $minor) && @is_link('/lib/libc.so.6')) {
-            // Let's try reading the libc.so.6 symlink
-            if (preg_match('/^libc-(.*)\.so$/D', basename(readlink('/lib/libc.so.6')), $matches)) {
-                list($major, $minor) = explode('.', $matches[1]);
-            }
-        }
+
         if (!($major && $minor)) {
             return $glibc = '';
         }
+
         return $glibc = "glibc{$major}.{$minor}";
     }
 
@@ -302,11 +307,7 @@ class OS_Guess
 
     function matchSignature($match)
     {
-        if (is_array($match)) {
-            $fragments = $match;
-        } else {
-            $fragments = explode('-', $match);
-        }
+        $fragments = is_array($match) ? $match : explode('-', $match);
         $n = count($fragments);
         $matches = 0;
         if ($n > 0) {
@@ -327,7 +328,7 @@ class OS_Guess
     function _matchFragment($fragment, $value)
     {
         if (strcspn($fragment, '*?') < strlen($fragment)) {
-            $reg = '/^' . str_replace(array('*', '?', '/'), array('.*', '.', '\\/'), $fragment) . '$/Di';
+            $reg = '/^' . str_replace(array('*', '?', '/'), array('.*', '.', '\\/'), $fragment) . '\\z/';
             return preg_match($reg, $value);
         }
         return ($fragment == '*' || !strcasecmp($fragment, $value));
@@ -340,4 +341,3 @@ class OS_Guess
  * c-basic-offset: 4
  * End:
  */
-?>

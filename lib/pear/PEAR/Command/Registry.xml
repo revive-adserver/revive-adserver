@@ -13,6 +13,10 @@
     <shortopt>a</shortopt>
     <doc>list installed packages from all channels</doc>
    </allchannels>
+   <channelinfo>
+    <shortopt>i</shortopt>
+    <doc>output fully channel-aware data, even on failure</doc>
+   </channelinfo>
   </options>
   <doc>&lt;package&gt;
 If invoked without parameters, this command lists the PEAR packages

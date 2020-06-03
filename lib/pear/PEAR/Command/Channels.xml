@@ -50,8 +50,8 @@ channel.xml.
    </force>
    <channel>
     <shortopt>c</shortopt>
-    <arg>CHANNEL</arg>
     <doc>will force download of new channel.xml if an existing channel name is used</doc>
+    <arg>CHANNEL</arg>
    </channel>
   </options>
   <doc>[&lt;channel.xml&gt;|&lt;channel name&gt;]
@@ -87,7 +87,37 @@ alias.
   <shortcut>di</shortcut>
   <options />
   <doc>[&lt;channel.xml&gt;|&lt;channel name&gt;]
-Initialize a Channel from its server and create the local channel.xml.
+Initialize a channel from its server and create a local channel.xml.
+If &lt;channel name&gt; is in the format &quot;&lt;username&gt;:&lt;password&gt;@&lt;channel&gt;&quot; then
+&lt;username&gt; and &lt;password&gt; will be set as the login username/password for
+&lt;channel&gt;. Use caution when passing the username/password in this way, as
+it may allow other users on your computer to briefly view your username/
+password via the system&#039;s process list.
 </doc>
  </channel-discover>
+ <channel-login>
+  <summary>Connects and authenticates to remote channel server</summary>
+  <function>doLogin</function>
+  <shortcut>cli</shortcut>
+  <options />
+  <doc>&lt;channel name&gt;
+Log in to a remote channel server.  If &lt;channel name&gt; is not supplied,
+the default channel is used. To use remote functions in the installer
+that require any kind of privileges, you need to log in first.  The
+username and password you enter here will be stored in your per-user
+PEAR configuration (~/.pearrc on Unix-like systems).  After logging
+in, your username and password will be sent along in subsequent
+operations on the remote server.</doc>
+ </channel-login>
+ <channel-logout>
+  <summary>Logs out from the remote channel server</summary>
+  <function>doLogout</function>
+  <shortcut>clo</shortcut>
+  <options />
+  <doc>&lt;channel name&gt;
+Logs out from a remote channel server.  If &lt;channel name&gt; is not supplied,
+the default channel is used. This command does not actually connect to the
+remote server, it only deletes the stored username and password from your user
+configuration.</doc>
+ </channel-logout>
 </commands>
