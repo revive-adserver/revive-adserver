@@ -98,11 +98,10 @@ class OA_Creative_File extends OA_Creative
 
     function getContentTypeByExtension($alt = false)
     {
-        return OA_Creative_File::staticGetContentTypeByExtension(
-            $this->fileName, $alt);
+        return self::staticGetContentTypeByExtension($this->fileName, $alt);
     }
 
-    function staticGetContentTypeByExtension($fileName, $alt = false)
+    public static function staticGetContentTypeByExtension($fileName, $alt = false)
     {
         $contentType = '';
 
@@ -112,10 +111,10 @@ class OA_Creative_File extends OA_Creative
             case 'jpg':  $contentType = 'jpeg'; break;
             case 'png':  $contentType = 'png';  break;
             case 'gif':  $contentType = 'gif';  break;
-            case 'swf':  $contentType = $alt ? '' : 'swf';  break;
-            case 'dcr':  $contentType = $alt ? '' : 'dcr';  break;
-            case 'rpm':  $contentType = $alt ? '' : 'rpm';  break;
-            case 'mov':  $contentType = $alt ? '' : 'mov';  break;
+            case 'swf':  $contentType = $alt ? '' : 'swf'; break;
+            case 'dcr':  $contentType = $alt ? '' : 'dcr'; break;
+            case 'rpm':  $contentType = $alt ? '' : 'rpm'; break;
+            case 'mov':  $contentType = $alt ? '' : 'mov'; break;
         }
         return $contentType;
     }
@@ -155,7 +154,7 @@ class OA_Creative_File extends OA_Creative
         $oCreative = new $className($fileName);
 
         $result = $oCreative->loadFile($filePath);
-        if (PEAR::isError($result)) {
+        if ((new PEAR)->isError($result)) {
             return $result;
         }
 
@@ -183,7 +182,7 @@ class OA_Creative_File extends OA_Creative
         }
 
         // Get new instance
-        $oCreative = &OA_Creative_File::factory($filePath, $fileName);
+        $oCreative = $this->factory($filePath, $fileName);
 
         // Cleanup
         @fclose($fp);
@@ -240,7 +239,7 @@ class OA_Creative_File extends OA_Creative
         }
 
         // Get new instance
-        $oCreative = &OA_Creative_File::factory($filePath, $fileName);
+        $oCreative = $this->factory($filePath, $fileName);
 
         // Cleanup
         if (isset($tmpName)) {
@@ -250,5 +249,3 @@ class OA_Creative_File extends OA_Creative
         return $oCreative;
     }
 }
-
-?>
