@@ -195,6 +195,9 @@ $GLOBALS['strP3PSettings'] = "Kebijaksanaan keleluasaan pribadi global P3P";
 $GLOBALS['strUseP3P'] = "Gunakan kebijaksanaan P3P";
 $GLOBALS['strP3PCompactPolicy'] = "Kebijakan P3P Compact";
 $GLOBALS['strP3PPolicyLocation'] = "Lokasi dari kebijaksanaan P3P";
+$GLOBALS['strPrivacySettings'] = "Privacy Settings";
+$GLOBALS['strDisableViewerId'] = "Disable unique Viewer Id cookie";
+$GLOBALS['strAnonymiseIp'] = "Anonymise viewer IP addresses";
 
 // General Settings
 $GLOBALS['generalSettings'] = "Penyetelan Global Umum";

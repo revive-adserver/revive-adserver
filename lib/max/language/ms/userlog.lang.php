@@ -17,10 +17,36 @@ $GLOBALS['strAdministrator'] = "Pentadbir";
 
 // Audit
 $GLOBALS['strDeleted'] = "Padam";
+$GLOBALS['strInserted'] = "inserted";
+$GLOBALS['strUpdated'] = "updated";
 $GLOBALS['strDelete'] = "Padam";
+$GLOBALS['strHas'] = "has";
+$GLOBALS['strFilters'] = "Filters";
+$GLOBALS['strAdvertiser'] = "Advertiser";
+$GLOBALS['strPublisher'] = "Website";
+$GLOBALS['strCampaign'] = "Campaign";
 $GLOBALS['strZone'] = "Tiada";
+$GLOBALS['strType'] = "Type";
+$GLOBALS['strAction'] = "Action";
+$GLOBALS['strParameter'] = "Parameter";
+$GLOBALS['strValue'] = "Value";
+$GLOBALS['strReturnAuditTrail'] = "Return to Audit Trail";
+$GLOBALS['strAuditTrail'] = "Audit trail";
+$GLOBALS['strMaintenanceLog'] = "Maintenance log";
+$GLOBALS['strAuditResultsNotFound'] = "No events found matching the selected criteria";
+$GLOBALS['strCollectedAllEvents'] = "All events";
+$GLOBALS['strClear'] = "Clear";
 
 if (!isset($GLOBALS['strUserlog'])) {
     $GLOBALS['strUserlog'] = array();
 }
+$GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Report for advertiser {id} send by email";
+$GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Campaign {id} activated";
+$GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Auto clean of database";
+$GLOBALS['strUserlog'][phpAds_actionBatchStatistics] = "Statistics compiled";
+$GLOBALS['strUserlog'][phpAds_actionDeactivationMailed] = "Deactivation notification for campaign {id} send by email";
+$GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "Campaign {id} deactivated";
+$GLOBALS['strUserlog'][phpAds_actionPriorityCalculation] = "Priority recalculated";
+$GLOBALS['strUserlog'][phpAds_actionPublisherReportMailed] = "Report for website {id} send by email";
+$GLOBALS['strUserlog'][phpAds_actionWarningMailed] = "Deactivation warning for campaign {id} send by email";
 $GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "Amaran penyahaktifan untuk kempen {id} dihantar melalui emel";

@@ -17,6 +17,8 @@ $GLOBALS['strChooseTypeOfInvocation'] = "Lütfen banner çağırma tipini seçin
 $GLOBALS['strChooseTypeOfBannerInvocation'] = "Lütfen banner çağırma tipini seçiniz";
 
 // Measures
+$GLOBALS['strAbbrPixels'] = "px";
+$GLOBALS['strAbbrSeconds'] = "sec";
 
 // Common Invocation Parameters
 $GLOBALS['strInvocationWhat'] = "Banner seçimi";
@@ -27,6 +29,7 @@ $GLOBALS['strInvocationWithText'] = "Banner altında yazı göster";
 $GLOBALS['strInvocationDontShowAgain'] = "Aynı sayfada bannerı tekrar gösterme";
 $GLOBALS['strInvocationDontShowAgainCampaign'] = "Aynı sayfada aynı kampanyadan başka bir banner gösterme";
 $GLOBALS['strInvocationTemplate'] = "Şablon içerisinde kullanım için bannerı bir değişken içinde sakla.";
+$GLOBALS['strInvocationBannerID'] = "Banner ID";
 $GLOBALS['strInvocationComments'] = "Yorumlarla birlikte";
 
 // Iframe
@@ -39,6 +42,8 @@ $GLOBALS['strIframeGoogleClickTracking'] = "Google AdSense tıklamalarını izle
 // PopUp
 $GLOBALS['strPopUpStyle'] = "Pop-up tipi";
 $GLOBALS['strPopUpStylePopUp'] = "Açılır pencere";
+$GLOBALS['strPopUpStylePopUnder'] = "Pop-under";
+$GLOBALS['strPopUpCreateInstance'] = "Instance when the pop-up is created";
 $GLOBALS['strPopUpImmediately'] = "Hemen";
 $GLOBALS['strPopUpOnClose'] = "Sayfa kapandığında";
 $GLOBALS['strPopUpAfterSec'] = "Sonra";
@@ -59,12 +64,20 @@ $GLOBALS['strXmlRpcProtocol'] = "XML-RPC Sunucusu ile bağlantı kurmak için HT
 $GLOBALS['strXmlRpcTimeout'] = "XML-RPC Zaman Aşımı (Saniye)";
 
 // Support for 3rd party server clicktracking
+$GLOBALS['str3rdPartyTrack'] = "Support 3rd Party Server Clicktracking";
 
 // Support for cachebusting code
+$GLOBALS['strCacheBuster'] = "Insert Cache-Busting code";
 
 // IMG invocation selected for tracker with appended code
 $GLOBALS['strWarning'] = "Uyarı";
 $GLOBALS['strImgWithAppendWarning'] = "Bu izleyici eklenmiş kodu ekledi, eklenen kod <strong>yalnızca</strong> JavaScript etiketleri ile çalışacak";
 
 // Local Invocation
+$GLOBALS['strWarningLocalInvocation'] = "<span class='tab-s'><strong>Warning:</strong> Local mode invocation will ONLY work if the site calling the code
+is on the same physical machine as the adserver</span><br />
+Check that the MAX_PATH defined in the code below points to the base directory of your MAX installation<br />
+and that you have a config file for the domain of the site showing the ads (in MAX_PATH/var)";
 
+$GLOBALS['strIABNoteLocalInvocation'] = "<b>Note:</b> Local Mode invocation tags mean banner requests come from the web server, rather than the client. As a result, statistics are not compliant with IAB guidelines for ad impression measurement.";
+$GLOBALS['strIABNoteXMLRPCInvocation'] = "<b>Note:</b> XML-RPC invocation tags mean banner requests come from the web server, rather than the client. As a result, statistics are not compliant with IAB guidelines for ad impression measurement.";

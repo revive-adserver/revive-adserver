@@ -111,9 +111,16 @@ $GLOBALS['strRunningOn'] = "teče na";
 $GLOBALS['strAndPlain'] = "in";
 
 //  Deliver Limitations
+$GLOBALS['strDeliveryLimitations'] = "Delivery Rules";
+$GLOBALS['strAllBannerChannelCompiled'] = "All banner/delivery rule set compiled delivery rule values have been recompiled";
+$GLOBALS['strBannerChannelResult'] = "Here are the results of the banner/delivery rule set compiled delivery rule validation";
+$GLOBALS['strChannelCompiledLimitationsValid'] = "All compiled delivery rules for delivery rule sets are valid";
+$GLOBALS['strBannerCompiledLimitationsValid'] = "All compiled delivery rules for banners are valid";
 $GLOBALS['strErrorsFound'] = "Najdene napake";
 $GLOBALS['strRepairCompiledLimitations'] = "Zgoraj je bilo najdenih nekaj nedoslednosti. Te lahko odpravite s klikom na spodnjim gumbom, ki bo znova sestavil zbrane omejitve za vsako pasico/kanal v sistemu<br />";
 $GLOBALS['strRecompile'] = "Znova sestavi";
+$GLOBALS['strDeliveryEngineDisagreeNotice'] = "Under some circumstances the delivery engine can disagree with the stored delivery rules for banners and delivery rule sets, use the folowing link to validate the delivery rules in the database";
+$GLOBALS['strCheckACLs'] = "Check delivery rules";
 
 //  Append codes
 $GLOBALS['strAppendCodesDesc'] = "Po nekaterimi pogoji dostavno orodje ne deluje pravilno z shranjenim zbirnikom za sledilnike. Uporabite naslednjo povezavo za potrditev zbrinika v podatkovni bazi";
