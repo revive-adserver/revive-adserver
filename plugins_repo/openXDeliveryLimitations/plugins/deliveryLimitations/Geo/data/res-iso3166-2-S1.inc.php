@@ -4039,8 +4039,8 @@ $RV_Geo_ISO3166_2_S1 = [
         'YE-AM' => '‘Amrān',
     ],
     'ZA' => [
-        'ZA-GT' => 'Gauteng',
-        'ZA-NL' => 'KwaZulu-Natal',
+        'ZA-GP' => 'Gauteng',
+        'ZA-KZN' => 'KwaZulu-Natal',
         'ZA-LP' => 'Limpopo',
         'ZA-MP' => 'Mpumalanga',
         'ZA-NC' => 'Noord-Kaap',
