@@ -895,7 +895,6 @@ $GLOBALS['strEmailRequired'] = "Das Eingabefeld e-Mail muss ausgefüllt sein";
 $GLOBALS['strPwdRecWrongId'] = "Falsche ID";
 $GLOBALS['strPwdRecEnterEmail'] = "Geben Sie nachfolgend Ihre eMail Adresse ein";
 $GLOBALS['strPwdRecEnterPassword'] = "Geben Sie nachfolgend Ihr neues Passwort ein";
-$GLOBALS['strPwdRecResetLink'] = "Link zum Passwort zurücksetzen";
 $GLOBALS['strPwdRecEmailPwdRecovery'] = "%s Passwort wiederherstellen";
 $GLOBALS['strProceed'] = "Weiter >";
 $GLOBALS['strNotifyPageMessage'] = "Ihnen wurde ein Link zum Zurücksetzen des Passworts per E-Mail zugeschickt, bitte warten Sie einige Minuten auf die Zustellung.<br />Sollte die E-Mail nicht eintreffen, überprüfen Sie bitte auch Ihren Spam-Ordner.<br /><a href='index.php'>Zurück zur Login-Seite.</a>";

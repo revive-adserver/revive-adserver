@@ -789,7 +789,6 @@ $GLOBALS['strEmailRequired'] = "请输入您的 Email";
 $GLOBALS['strPwdRecWrongId'] = "错误 ID";
 $GLOBALS['strPwdRecEnterEmail'] = "请输入您的 Email";
 $GLOBALS['strPwdRecEnterPassword'] = "请输入您的新密码";
-$GLOBALS['strPwdRecResetLink'] = "点击链接开始重置密码";
 $GLOBALS['strPwdRecEmailPwdRecovery'] = "%s 找回密码";
 $GLOBALS['strProceed'] = "继续 >";
 $GLOBALS['strNotifyPageMessage'] = "已经将重置密码的链接通过 Email 发送给您。如果您没有收到链接，请检查您的“垃圾邮件”文件夹。<br />

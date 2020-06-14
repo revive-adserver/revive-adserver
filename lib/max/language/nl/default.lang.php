@@ -1066,7 +1066,6 @@ $GLOBALS['strEmailRequired'] = "E-mail is een verplicht veld";
 $GLOBALS['strPwdRecWrongId'] = "Verkeerde ID";
 $GLOBALS['strPwdRecEnterEmail'] = "Voer hieronder uw e-mail adres in";
 $GLOBALS['strPwdRecEnterPassword'] = "Voer uw nieuwe wachtwoord hieronder in";
-$GLOBALS['strPwdRecResetLink'] = "Wachtwoord reset link";
 $GLOBALS['strPwdRecEmailPwdRecovery'] = "%s wachtwoord herstel";
 $GLOBALS['strProceed'] = "Doorgaan >";
 $GLOBALS['strNotifyPageMessage'] = "Er is een e-mail aan u verstuurd, met daarin een link die u in staat stelt

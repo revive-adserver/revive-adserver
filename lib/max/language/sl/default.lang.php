@@ -824,7 +824,6 @@ $GLOBALS['strEmailRequired'] = "Polje za vnos e-pošte je potrebno obvezno izpol
 $GLOBALS['strPwdRecWrongId'] = "Napačen ID";
 $GLOBALS['strPwdRecEnterEmail'] = "Spodaj vpišite naslov svoje elektronske pošte";
 $GLOBALS['strPwdRecEnterPassword'] = "Spodaj vpišite vaše novo geslo";
-$GLOBALS['strPwdRecResetLink'] = "Povezava na ponastavitev gesla";
 $GLOBALS['strPwdRecEmailPwdRecovery'] = "%s ponastavitev gesla";
 $GLOBALS['strProceed'] = "Nadaljuj >";
 $GLOBALS['strNotifyPageMessage'] = "Poslano vam je bilo elektronsko sporočilo z povezavo, ki vam bo omogočila ponastavitev gesla in prijavo v sistem.<br />Prosimo, počakajte nekaj minut, da se sporočilo dostavi.<br />Če ga niste prejeli, preverite mapo z nezaželjeno pošto.<br /><a href='index.php'>Vrnitev na prijavno stran.</a>";

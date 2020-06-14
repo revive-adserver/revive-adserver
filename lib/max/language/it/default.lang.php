@@ -893,7 +893,6 @@ $GLOBALS['strEmailRequired'] = "Email è un campo richiesto";
 $GLOBALS['strPwdRecWrongId'] = "ID errato";
 $GLOBALS['strPwdRecEnterEmail'] = "Inserisci il tuo indirizzo e-mail qui sotto";
 $GLOBALS['strPwdRecEnterPassword'] = "Inserisci qui sotto la nuova password";
-$GLOBALS['strPwdRecResetLink'] = "Link reset della password";
 $GLOBALS['strPwdRecEmailPwdRecovery'] = "%s password recuperata";
 $GLOBALS['strNotifyPageMessage'] = "Ti è stata spedita una email con un link che ti permetterà di reimpostare la password ed entrare nel sistema.<br />Attendi pochi minutil l'arrivo della email.<br />Se non la ricevi entro breve, controlla che non sia finita nella posta indesiderata.<br /><a href='index.php'>Torna alla pagina di accesso.</a>";
 

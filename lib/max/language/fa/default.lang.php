@@ -1043,7 +1043,6 @@ $GLOBALS['strEmailRequired'] = "ایمیل یک فیلد ضروری است";
 $GLOBALS['strPwdRecWrongId'] = "آی دی اشتباه";
 $GLOBALS['strPwdRecEnterEmail'] = "در زیر ایمیل خود را وارد کنید";
 $GLOBALS['strPwdRecEnterPassword'] = "در زیر پسورد جدید خود را وارد کنید";
-$GLOBALS['strPwdRecResetLink'] = "لینک پسورد مجدد";
 $GLOBALS['strPwdRecEmailPwdRecovery'] = "%s بازیابی رمز";
 $GLOBALS['strProceed'] = "ادامه >";
 $GLOBALS['strNotifyPageMessage'] = "یک ایمیل برای شما ارسال شدکه حاوی لینک نوسازی رمز شما می باشد . لطفا منتظر ایمیل بمانید<br />

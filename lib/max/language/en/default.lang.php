@@ -1074,7 +1074,6 @@ $GLOBALS['strEmailRequired'] = "Email is a required field";
 $GLOBALS['strPwdRecWrongId'] = "Wrong ID";
 $GLOBALS['strPwdRecEnterEmail'] = "Enter your email address below";
 $GLOBALS['strPwdRecEnterPassword'] = "Enter your new password below";
-$GLOBALS['strPwdRecResetLink'] = "Password reset link";
 $GLOBALS['strPwdRecEmailPwdRecovery'] = "%s password recovery";
 $GLOBALS['strProceed'] = "Proceed >";
 $GLOBALS['strNotifyPageMessage'] = "An e-mail has been sent to you, which includes a link that will allow you

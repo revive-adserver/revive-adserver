@@ -753,7 +753,6 @@ $GLOBALS['strGeneric'] = "כללי";
 $GLOBALS['strForgotPassword'] = "שכחת סיסמא?";
 $GLOBALS['strPasswordRecovery'] = "שחזור סיסמא";
 $GLOBALS['strEmailRequired'] = "דוא''ל הוא שדה חובה";
-$GLOBALS['strPwdRecResetLink'] = "קישור לאיפוס סיסמא";
 $GLOBALS['strPwdRecEmailPwdRecovery'] = "%s איפוס סיסמא";
 
 // Audit

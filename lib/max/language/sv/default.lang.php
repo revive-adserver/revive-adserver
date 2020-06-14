@@ -804,7 +804,6 @@ $GLOBALS['strEmailRequired'] = "Email måste fyllas i";
 $GLOBALS['strPwdRecWrongId'] = "Fel ID";
 $GLOBALS['strPwdRecEnterEmail'] = "Skriv in din mailadress nedan";
 $GLOBALS['strPwdRecEnterPassword'] = "Skriv ditt nya lösenord nedan";
-$GLOBALS['strPwdRecResetLink'] = "Länk för att återställa lösenordet";
 $GLOBALS['strPwdRecEmailPwdRecovery'] = "% lösenord återhämtning";
 $GLOBALS['strProceed'] = "Gå vidare >";
 

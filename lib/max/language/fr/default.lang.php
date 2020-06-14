@@ -927,7 +927,6 @@ $GLOBALS['strEmailRequired'] = "Le champ e-mail est requis";
 $GLOBALS['strPwdRecWrongId'] = "ID erroné";
 $GLOBALS['strPwdRecEnterEmail'] = "Entrez votre adresse e-mail ci-dessous";
 $GLOBALS['strPwdRecEnterPassword'] = "Entrez votre nouveau mot de passe ci-dessous";
-$GLOBALS['strPwdRecResetLink'] = "Lien de réinitialisation du mot de passe";
 $GLOBALS['strPwdRecEmailPwdRecovery'] = "Récupération de mot de passe %s";
 $GLOBALS['strNotifyPageMessage'] = "Un e-mail vous a été envoyé, incluant un lien qui vous permettra de réinitialiser votre mot de passe et de vous connecter.<br />Veuillez donner quelques minutes à l'email pour arriver.<br /> Si vous ne recevez pas l'e-mail, vérifier votre dossier de messages indésirables.<br /><a href='index.php'>Retourner à la page de connexion principale.</a>";
 
