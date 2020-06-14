@@ -29,7 +29,7 @@ What's New in Revive Adserver 5.1.0
  New Features
  ------------
 
- * None
+ * Redesigned the email sent to users when a password reset request is made.
 
 
  Bug Fixes
