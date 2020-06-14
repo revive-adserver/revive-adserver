@@ -1083,23 +1083,20 @@ $GLOBALS['strNotifyPageMessage'] = "An e-mail has been sent to you, which includ
 $GLOBALS['strPwdRecEmailPwdRecovery'] = "%s Password Recovery";
 $GLOBALS['strPwdRecEmailBody'] = "Dear {name},
 
-A request was recently made to reset the password for your {$PRODUCT_NAME} account.
+A request was recently made to reset {$PRODUCT_NAME} password.
 
-No changes have been made to your account yet.
-
-If this request was made by you, then you can reset the password for your account with username
-'{username}' by clicking on the link below:
+If this request was made by you, then you can reset the password for your username '{username}'
+by clicking on the following link:
 
 {reset_link}
 
-Note: You may receive multiple emails as a result of your password reset request, in the event
-that you have more than one account in this {$PRODUCT_NAME} system associated with your email.
+If you submitted the password reset request by mistake, or if you didn't make a request at all,
+simply ignore this email. No changes have been made to your password and the password reset link
+will expire automatically.
 
-If you did not request that your account password be reset, then you can safely ignore this email,
-as the password link will expire after a while. However, if you notice that you are getting this
-email on a regular basis, please contact the support team for your {$PRODUCT_NAME} system,
-as regular attempts to reset your account password that are not being made by you may indicate
-an attempt to gain access to your account.
+If you continue to receive these password reset mails, then it may indicate that someone is
+attempting to gain access to your username. In that case, please contact the support team or
+system administrator for your {$PRODUCT_NAME} system, and notify them of the situation.
 
 {admin_signature}";
 
