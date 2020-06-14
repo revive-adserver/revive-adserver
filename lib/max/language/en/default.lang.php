@@ -1074,12 +1074,34 @@ $GLOBALS['strEmailRequired'] = "Email is a required field";
 $GLOBALS['strPwdRecWrongId'] = "Wrong ID";
 $GLOBALS['strPwdRecEnterEmail'] = "Enter your email address below";
 $GLOBALS['strPwdRecEnterPassword'] = "Enter your new password below";
-$GLOBALS['strPwdRecEmailPwdRecovery'] = "%s password recovery";
 $GLOBALS['strProceed'] = "Proceed >";
 $GLOBALS['strNotifyPageMessage'] = "An e-mail has been sent to you, which includes a link that will allow you
                                          to re-set your password and log in.<br />Please allow a few minutes for the e-mail to arrive.<br />
                                          If you do not receive the e-mail, please check your spam folder.<br />
                                          <a href=\"index.php\">Return the the main login page.</a>";
+
+$GLOBALS['strPwdRecEmailPwdRecovery'] = "%s Password Recovery";
+$GLOBALS['strPwdRecEmailBody'] = "Dear {name},
+
+A request was recently made to reset the password for your {$PRODUCT_NAME} account.
+
+No changes have been made to your account yet.
+
+If this request was made by you, then you can reset the password for your account with username
+'{username}' by clicking on the link below:
+
+{reset_link}
+
+Note: You may receive multiple emails as a result of your password reset request, in the event
+that you have more than one account in this {$PRODUCT_NAME} system associated with your email.
+
+If you did not request that your account password be reset, then you can safely ignore this email,
+as the password link will expire after a while. However, if you notice that you are getting this
+email on a regular basis, please contact the support team for your {$PRODUCT_NAME} system,
+as regular attempts to reset your account password that are not being made by you may indicate
+an attempt to gain access to your account.
+
+{admin_signature}";
 
 // Audit
 $GLOBALS['strAdditionalItems'] = "and additional items";

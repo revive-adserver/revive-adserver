@@ -217,37 +217,66 @@ class OA_Admin_PasswordRecovery
     function sendRecoveryEmail($email)
     {
         $aConf = &$GLOBALS['_MAX']['CONF'];
-        $aPref = $GLOBALS['_MAX']['PREF'];
+        $sent = 0;
 
+        // Find all users matching the specified email address -
+        // the email address may be associated with multiple users
         $aUsers = $this->_dal->searchMatchingUsers($email);
 
-        $aEmails = array();
+        // Send a separate password reset link in an email for each
+        // of the users found that match the email address
         foreach ($aUsers as $u) {
-            $aEmails[$u['email_address']][] = $u;
-        }
+            // Generate the password reset email subject
+            $emailSubject = sprintf($GLOBALS['strPwdRecEmailPwdRecovery'], PRODUCT_NAME);
 
-        $sent = 0;
-        foreach ($aEmails as $email => $aUsers) {
-            $text = '';
-            foreach ($aUsers as $u) {
-                $recoveryId = $this->_dal->generateRecoveryId($u['user_id']);
-
-                $header = $GLOBALS['strUser']." {$u['contact_name']}";
-                $text .= $header."\n".str_repeat('-', strlen($header))."\n";
-                $text .= $GLOBALS['strUsername'].": {$u['username']}\n";
-                $text .= $GLOBALS['strPwdRecResetLink'].": ";
-                $text .= Max::constructURL(MAX_URL_ADMIN, "password-recovery.php?id={$recoveryId}")."\n\n";
+            // Set the name and email address that the password reset email
+            // is to be sent from. Ideally, this will be the administrative
+            // account of the Revive Adserver installation - but fall back
+            // to the user's own email address if required
+            if (!empty($aConf['email']['fromName'])) {
+                $emailFromName = $aConf['email']['fromName'];
+            } else {
+                $emailFromName = $email;
+            }
+            if (!empty($aConf['email']['fromAddress'])) {
+                // Use the administrative account details
+                $emailFromAddress = $aConf['email']['fromAddress'];
+            } else {
+                $emailFromAddress = $email;
             }
 
-            // Hack
-            $aConf['email']['admin_name'] = $aPref['admin_fullname'];
-            $aConf['email']['admin']      = $aPref['admin_email'];
+            // Generate the password reset URL for this user
+            $recoveryId = $this->_dal->generateRecoveryId($u['user_id']);
+            $recoveryUrl = Max::constructURL(MAX_URL_ADMIN, "password-recovery.php?id={$recoveryId}");
 
+            // Load the appropriate language details for the email recipient
+            Language_Loader::load('default', $u['language']);
+
+            // Generate the body of the password reset email for this user
+            $emailBody = $GLOBALS['strPwdRecEmailBody'];
+            $emailBody = str_replace('{name}', $u['contact_name'], $emailBody);
+            $emailBody = str_replace('{username}', $u['username'], $emailBody);
+            $emailBody = str_replace('{reset_link}', $recoveryUrl, $emailBody);
+            if (!empty($aConf['email']['fromName']) && !empty($aConf['email']['fromAddress'])) {
+                $adminSignature = "Sincerely,\n\n{$aConf['email']['fromName']}\n{$aConf['email']['fromAddress']}";
+            } else if (!empty($aConf['email']['fromName'])) {
+                $adminSignature = "Sincerely,\n\n{$aConf['email']['fromName']}";
+            } else if (!empty($aConf['email']['fromAddress'])) {
+                $adminSignature = "Sincerely,\n\n{$aConf['email']['fromAddress']}";
+            } else {
+                $adminSignature = "";
+            }
+            $emailBody = str_replace('{admin_signature}', $adminSignature, $emailBody);
+
+            // Send the password reset email
             $oEmail = new OA_Email();
-            $oEmail->sendMail(sprintf($GLOBALS['strPwdRecEmailPwdRecovery'], $aPref['name']), $text, $email, $u['username']);
+            $oEmail->sendMail($emailSubject, $emailBody, $emailFromAddress, $emailFromName);
+
+            // Iterate the number of emails sent
             $sent++;
         }
 
+        // Return the number of emails sent
         return $sent;
     }
 }
