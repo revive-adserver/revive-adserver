@@ -111,9 +111,16 @@ $GLOBALS['strRunningOn'] = "exécuté sur";
 $GLOBALS['strAndPlain'] = "et";
 
 //  Deliver Limitations
+$GLOBALS['strDeliveryLimitations'] = "Delivery Rules";
+$GLOBALS['strAllBannerChannelCompiled'] = "All banner/delivery rule set compiled delivery rule values have been recompiled";
+$GLOBALS['strBannerChannelResult'] = "Here are the results of the banner/delivery rule set compiled delivery rule validation";
+$GLOBALS['strChannelCompiledLimitationsValid'] = "All compiled delivery rules for delivery rule sets are valid";
+$GLOBALS['strBannerCompiledLimitationsValid'] = "All compiled delivery rules for banners are valid";
 $GLOBALS['strErrorsFound'] = "Erreurs trouvées";
 $GLOBALS['strRepairCompiledLimitations'] = "Quelques inconsistances ont été trouvées ci-dessus, vous pouvez les réparer en utilisant le bouton ci-dessous, ceci recompilera les limitations compilées pour chaque bannière/canal du système<br />";
 $GLOBALS['strRecompile'] = "Recompiler";
+$GLOBALS['strDeliveryEngineDisagreeNotice'] = "Under some circumstances the delivery engine can disagree with the stored delivery rules for banners and delivery rule sets, use the folowing link to validate the delivery rules in the database";
+$GLOBALS['strCheckACLs'] = "Check delivery rules";
 
 //  Append codes
 $GLOBALS['strAppendCodesDesc'] = "Dans certaines circonstances, le moteur de distribution peut entrer en conflit avec les codes ajoutés stockés pour les suiveurs, utilisez le lien suivant pour valider les codes ajoutés dans la base de données";
@@ -126,5 +133,6 @@ $GLOBALS['strRepairAppenedCodes'] = "Quelques inconsistances ont été trouvées
 $GLOBALS['strPlugins'] = "Extensions";
 $GLOBALS['strPluginsPrecis'] = "Diagnostique et répare les problèmes des plugins OpenX";
 
+$GLOBALS['strMenus'] = "Menus";
 $GLOBALS['strMenusPrecis'] = "Reconstruire le cache du menu";
 $GLOBALS['strMenusCachedOk'] = "Le cache du menu a été reconstruit";

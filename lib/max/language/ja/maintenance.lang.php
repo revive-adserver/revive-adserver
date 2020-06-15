@@ -84,7 +84,11 @@ $GLOBALS['strUpdateServerDown'] = "未知の理由によって、アップデー
 
 $GLOBALS['strNoNewVersionAvailable'] = "あなたの{$PRODUCT_NAME}は最新です。現在のところ、新しいバージョンは存在しません。";
 
+$GLOBALS['strServerCommunicationError'] = "    <b>Communication with the update server timed out, so {$PRODUCT_NAME} is not
+    able to check if a newer version is available at this stage. Please try again later.</b>";
 
+$GLOBALS['strCheckForUpdatesDisabled'] = "    <b>Check for updates is disabled. Please enable via the
+    <a href='account-settings-update.php'>update settings</a> screen.</b>";
 
 $GLOBALS['strNewVersionAvailable'] = "	<b>最新バージョンの{$PRODUCT_NAME}が利用可能です。</b><br />
 	バグフィックスと最新機能追加のため、このアップデートをインストールすることを推奨します。<br />
@@ -106,9 +110,16 @@ $GLOBALS['strRunningOn'] = "動作環境";
 $GLOBALS['strAndPlain'] = "および";
 
 //  Deliver Limitations
+$GLOBALS['strDeliveryLimitations'] = "Delivery Rules";
+$GLOBALS['strAllBannerChannelCompiled'] = "All banner/delivery rule set compiled delivery rule values have been recompiled";
+$GLOBALS['strBannerChannelResult'] = "Here are the results of the banner/delivery rule set compiled delivery rule validation";
+$GLOBALS['strChannelCompiledLimitationsValid'] = "All compiled delivery rules for delivery rule sets are valid";
+$GLOBALS['strBannerCompiledLimitationsValid'] = "All compiled delivery rules for banners are valid";
 $GLOBALS['strErrorsFound'] = "エラーがあります";
 $GLOBALS['strRepairCompiledLimitations'] = "いくつか内容に矛盾があります。下記のボタンを使用して問題を修正してください。この設定は、すべてのバナー及びチャンネルの再集計に対する上限値を設定し直します。<br />";
 $GLOBALS['strRecompile'] = "再集計";
+$GLOBALS['strDeliveryEngineDisagreeNotice'] = "Under some circumstances the delivery engine can disagree with the stored delivery rules for banners and delivery rule sets, use the folowing link to validate the delivery rules in the database";
+$GLOBALS['strCheckACLs'] = "Check delivery rules";
 
 //  Append codes
 $GLOBALS['strAppendCodesDesc'] = "何らかの状況下において、配信エンジンがトラックコードを拒否しました。以下のリンクをたどって修正をして下さい。";
@@ -118,4 +129,9 @@ $GLOBALS['strAppendCodesResult'] = "追加コードのチェック集計結果";
 $GLOBALS['strAppendCodesValid'] = "全ての追跡コードは正常です。";
 $GLOBALS['strRepairAppenedCodes'] = "何らかの問題が見つかりました。以下のボタンを使用して修正してください。これは全ての追跡コードの値を再集計します。";
 
+$GLOBALS['strPlugins'] = "Plugins";
+$GLOBALS['strPluginsPrecis'] = "Diagnose and repair problems with {$PRODUCT_NAME} plugins";
 
+$GLOBALS['strMenus'] = "Menus";
+$GLOBALS['strMenusPrecis'] = "Rebuild the menu cache";
+$GLOBALS['strMenusCachedOk'] = "Menu cache has been rebuilt";

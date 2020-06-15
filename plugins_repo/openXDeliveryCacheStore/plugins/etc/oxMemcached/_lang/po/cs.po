@@ -18,17 +18,17 @@ msgstr "memcached"
 
 #: plugins_repo/openXDeliveryCacheStore/plugins/deliveryCacheStore/oxMemcached/oxMemcached.class.php:48
 msgid "Either the Memcached or Memcache extensions are required"
-msgstr ""
+msgstr "Je vyžadováno Memcached nebo Memcache rozšíření"
 
 #: plugins_repo/openXDeliveryCacheStore/plugins/deliveryCacheStore/oxMemcached/oxMemcached.class.php:60
 msgid "Empty server list"
-msgstr ""
+msgstr "Prázdný seznam serverů"
 
 #: plugins_repo/openXDeliveryCacheStore/plugins/deliveryCacheStore/oxMemcached/oxMemcached.class.php:81
 msgid "Invalid expire time"
-msgstr ""
+msgstr "Neplatný čas expirace."
 
 #: plugins_repo/openXDeliveryCacheStore/plugins/deliveryCacheStore/oxMemcached/oxMemcached.class.php:86
 msgid "Could not connect to memcached"
-msgstr ""
+msgstr "Nelze se připojit k serveru"
 

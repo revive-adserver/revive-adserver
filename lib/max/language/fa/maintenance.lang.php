@@ -147,9 +147,16 @@ $GLOBALS['strRunningOn'] = "در حال اجرا";
 $GLOBALS['strAndPlain'] = "و";
 
 //  Deliver Limitations
+$GLOBALS['strDeliveryLimitations'] = "Delivery Rules";
+$GLOBALS['strAllBannerChannelCompiled'] = "All banner/delivery rule set compiled delivery rule values have been recompiled";
+$GLOBALS['strBannerChannelResult'] = "Here are the results of the banner/delivery rule set compiled delivery rule validation";
+$GLOBALS['strChannelCompiledLimitationsValid'] = "All compiled delivery rules for delivery rule sets are valid";
+$GLOBALS['strBannerCompiledLimitationsValid'] = "All compiled delivery rules for banners are valid";
 $GLOBALS['strErrorsFound'] = "خطاهایی پیدا شد ";
 $GLOBALS['strRepairCompiledLimitations'] = "برخی از تناقضات بالا پیدا شد، شما می توانید این با استفاده از دکمه زیر تعمیر، این محدودیت کامپایلر برای هر بنر / کانال در سیستم کامپایل را<br />";
 $GLOBALS['strRecompile'] = "کامپایل مجدد";
+$GLOBALS['strDeliveryEngineDisagreeNotice'] = "Under some circumstances the delivery engine can disagree with the stored delivery rules for banners and delivery rule sets, use the folowing link to validate the delivery rules in the database";
+$GLOBALS['strCheckACLs'] = "Check delivery rules";
 
 //  Append codes
 $GLOBALS['strAppendCodesDesc'] = " تحت برخی شرایط موتور تحویل می توانید با کدهای اضافه ذخیره شده برای رهگیری اختلاف نظر دارند، از لینک های زیر استفاده کنید به اعتبار کدهای پیوست در پایگاه داده ";

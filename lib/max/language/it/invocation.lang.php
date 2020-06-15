@@ -41,6 +41,8 @@ $GLOBALS['strIframeGoogleClickTracking'] = "Includi il codice per monitorare i c
 
 // PopUp
 $GLOBALS['strPopUpStyle'] = "Tipo di Pop-up";
+$GLOBALS['strPopUpStylePopUp'] = "Pop-up";
+$GLOBALS['strPopUpStylePopUnder'] = "Pop-under";
 $GLOBALS['strPopUpCreateInstance'] = "Apertura Pop-up";
 $GLOBALS['strPopUpImmediately'] = "Immediata";
 $GLOBALS['strPopUpOnClose'] = "Alla chiusura della pagina";
@@ -72,4 +74,10 @@ $GLOBALS['strWarning'] = "Attenzione";
 $GLOBALS['strImgWithAppendWarning'] = "Questo tracker ha aggiunto il codice, il codice aggiunto funzionerà <strong>solo</strong> con tag JavaScript";
 
 // Local Invocation
+$GLOBALS['strWarningLocalInvocation'] = "<span class='tab-s'><strong>Warning:</strong> Local mode invocation will ONLY work if the site calling the code
+is on the same physical machine as the adserver</span><br />
+Check that the MAX_PATH defined in the code below points to the base directory of your MAX installation<br />
+and that you have a config file for the domain of the site showing the ads (in MAX_PATH/var)";
 
+$GLOBALS['strIABNoteLocalInvocation'] = "<b>Note:</b> Local Mode invocation tags mean banner requests come from the web server, rather than the client. As a result, statistics are not compliant with IAB guidelines for ad impression measurement.";
+$GLOBALS['strIABNoteXMLRPCInvocation'] = "<b>Note:</b> XML-RPC invocation tags mean banner requests come from the web server, rather than the client. As a result, statistics are not compliant with IAB guidelines for ad impression measurement.";

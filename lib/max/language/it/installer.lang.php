@@ -64,6 +64,10 @@ $GLOBALS['strDbUpgradeIntro'] = "Il seguente database è stato rilevato per l'in
 $GLOBALS['strDbProgressMessageInstall'] = 'Installazione del database in corso...';
 $GLOBALS['strDbProgressMessageUpgrade'] = 'Aggiornamento database in corso...';
 $GLOBALS['strDbSeeMoreFields'] = 'Guarda più campi del database...';
+$GLOBALS['strDbTimeZoneWarning'] = "<p>As of this version {$PRODUCT_NAME} stores dates in UTC time rather than in server time.</p>
+                                                   <p>If you want historical statistics to be displayed with the correct timezone, upgrade your data manually.  Learn more <a target='help' href='%s'>here</a>.
+                                                      Your statistics values will remain accurate even if you leave your data untouched.
+                                                   </p>";
 $GLOBALS['strDbTimeZoneNoWarnings'] = "Non visualizzare avvisi di fuso orario in futuro";
 $GLOBALS['strDBInstallSuccess'] = "Database creato con successo";
 $GLOBALS['strDBUpgradeSuccess'] = "Database aggiornato con successo";
@@ -109,3 +113,6 @@ $GLOBALS['strUnableToCreateAdmin'] = "Non riusciamo a creare un account amminist
 $GLOBALS['strTimezoneLocal'] = "{$PRODUCT_NAME} ha rilevato che la tua installazione PHP sta reimpostando \"Sistema/OraLocale\" come fuso orario del tuo server. Questo è a causa di una patch a PHP applicata da alcuni distrubutori Linux.
 Sfortunatamente, questo non è un fuso orario valido di PHP. Modifica il tuo file php.ini e imposta la \"Data.FusoOrario\" al valore corretto per il tuo server.";
 
+$GLOBALS['strInstallNonBlockingErrors'] = "An error occurred when performing installation tasks. Please check the 
+<a class=\"show-errors\" href=\"#\">error list</a> and install log at \\'%s\\' for details.
+You will still be able to login to your {$PRODUCT_NAME} instance.";
