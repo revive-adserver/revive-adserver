@@ -18,5 +18,5 @@ msgstr "Souborová mezipaměťová cache"
 
 #: plugins_repo/openXDeliveryCacheStore/plugins/deliveryCacheStore/oxCacheFile/oxCacheFile.class.php:43
 msgid "Unable to write to"
-msgstr ""
+msgstr "Nelze zapisovat do"
 

@@ -88,6 +88,8 @@ $GLOBALS['strNoNewVersionAvailable'] = "	Ваша версия {$PRODUCT_NAME} �
 
 $GLOBALS['strServerCommunicationError'] = "<b>Связи с сервером обновлений нет, поэтому {$PRODUCT_NAME} не в состоянии проверить, доступна ли новас версия в данный момент. Пожалуйста, повторите попытку позже.</b>";
 
+$GLOBALS['strCheckForUpdatesDisabled'] = "    <b>Check for updates is disabled. Please enable via the
+    <a href='account-settings-update.php'>update settings</a> screen.</b>";
 
 $GLOBALS['strNewVersionAvailable'] = "	<b>Доступна новас версия </b><br /> Рекомендуется установить это обновление,
 	поскольку оно может исправить некоторые существующие проблемы и добавить новую функциональность. За дополнительной
@@ -109,9 +111,16 @@ $GLOBALS['strRunningOn'] = "запущенную на";
 $GLOBALS['strAndPlain'] = "и";
 
 //  Deliver Limitations
+$GLOBALS['strDeliveryLimitations'] = "Delivery Rules";
+$GLOBALS['strAllBannerChannelCompiled'] = "All banner/delivery rule set compiled delivery rule values have been recompiled";
+$GLOBALS['strBannerChannelResult'] = "Here are the results of the banner/delivery rule set compiled delivery rule validation";
+$GLOBALS['strChannelCompiledLimitationsValid'] = "All compiled delivery rules for delivery rule sets are valid";
+$GLOBALS['strBannerCompiledLimitationsValid'] = "All compiled delivery rules for banners are valid";
 $GLOBALS['strErrorsFound'] = "Найдены ошибки";
 $GLOBALS['strRepairCompiledLimitations'] = "Были найдены несоответствия, которые вы можете исправить нажав кнопку ниже.<br />";
 $GLOBALS['strRecompile'] = "Пересчитать";
+$GLOBALS['strDeliveryEngineDisagreeNotice'] = "Under some circumstances the delivery engine can disagree with the stored delivery rules for banners and delivery rule sets, use the folowing link to validate the delivery rules in the database";
+$GLOBALS['strCheckACLs'] = "Check delivery rules";
 
 //  Append codes
 $GLOBALS['strAppendCodesDesc'] = "При некоторых обстоятельствах механизм доставки может некорректно добавлять коды трекеров, используйте следующие ссылки для проверки кодов в БД.";
@@ -121,4 +130,9 @@ $GLOBALS['strAppendCodesResult'] = "Результаты пересчета ко
 $GLOBALS['strAppendCodesValid'] = "Все коды корректны";
 $GLOBALS['strRepairAppenedCodes'] = "Были найдены некоторые несовпадения. для их коррекции нажмите пожалуйста кнопку ниже.";
 
+$GLOBALS['strPlugins'] = "Plugins";
+$GLOBALS['strPluginsPrecis'] = "Diagnose and repair problems with {$PRODUCT_NAME} plugins";
 
+$GLOBALS['strMenus'] = "Menus";
+$GLOBALS['strMenusPrecis'] = "Rebuild the menu cache";
+$GLOBALS['strMenusCachedOk'] = "Menu cache has been rebuilt";

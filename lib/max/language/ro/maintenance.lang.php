@@ -88,6 +88,8 @@ $GLOBALS['strNoNewVersionAvailable'] = "	Versiunea ta de {$PRODUCT_NAME} este ce
 
 $GLOBALS['strServerCommunicationError'] = "<b>Comunicaţia cu serverul de actualizare nu a putut fi stabilită în timp util, astfel {$PRODUCT_NAME} nu poate verifica dacă o versiune mai nouă este disponibilă în acest moment. Te rugăm să încerci din nou mai târziu.</b>";
 
+$GLOBALS['strCheckForUpdatesDisabled'] = "    <b>Check for updates is disabled. Please enable via the
+    <a href='account-settings-update.php'>update settings</a> screen.</b>";
 
 $GLOBALS['strNewVersionAvailable'] = "	<b>Este disponibilă o noua versiune de {$PRODUCT_NAME}.</b><br />Este recomandat să instalezi această actualizare,
 	deoarece ar putea corecta unele probleme existente şi va adăuga noi facilităţi. Pentru mai multe informaţii
@@ -109,9 +111,16 @@ $GLOBALS['strRunningOn'] = "rulând pe";
 $GLOBALS['strAndPlain'] = "şi";
 
 //  Deliver Limitations
+$GLOBALS['strDeliveryLimitations'] = "Delivery Rules";
+$GLOBALS['strAllBannerChannelCompiled'] = "All banner/delivery rule set compiled delivery rule values have been recompiled";
+$GLOBALS['strBannerChannelResult'] = "Here are the results of the banner/delivery rule set compiled delivery rule validation";
+$GLOBALS['strChannelCompiledLimitationsValid'] = "All compiled delivery rules for delivery rule sets are valid";
+$GLOBALS['strBannerCompiledLimitationsValid'] = "All compiled delivery rules for banners are valid";
 $GLOBALS['strErrorsFound'] = "Au fost găsite erori";
 $GLOBALS['strRepairCompiledLimitations'] = "Au fost găsite unele incompatibilităţi deasupra, le poţi repara folosind butonul de mai jos, acesta va recompila limitarea compilată pentru fiecare banner/canal din sistem<br />";
 $GLOBALS['strRecompile'] = "Recompilează";
+$GLOBALS['strDeliveryEngineDisagreeNotice'] = "Under some circumstances the delivery engine can disagree with the stored delivery rules for banners and delivery rule sets, use the folowing link to validate the delivery rules in the database";
+$GLOBALS['strCheckACLs'] = "Check delivery rules";
 
 //  Append codes
 $GLOBALS['strAppendCodesDesc'] = "În unele circumstanţe motorul de livrare poate dezaproba codul alăturat contoarelor, foloseşte următorul link pentru a valida codul alăturat din baza de date";
@@ -121,4 +130,9 @@ $GLOBALS['strAppendCodesResult'] = "Aici sunt rezultatele validării codurilor a
 $GLOBALS['strAppendCodesValid'] = "Toate codurile alăturate ale contorului compilate sunt valide";
 $GLOBALS['strRepairAppenedCodes'] = "Au fost găsite unele incompatibilităţi mai sus, le poţi repara folosind butonul de mai jos, acesta va recompila codurile alăturate pentru fiecare contor din sistem";
 
+$GLOBALS['strPlugins'] = "Plugins";
+$GLOBALS['strPluginsPrecis'] = "Diagnose and repair problems with {$PRODUCT_NAME} plugins";
 
+$GLOBALS['strMenus'] = "Menus";
+$GLOBALS['strMenusPrecis'] = "Rebuild the menu cache";
+$GLOBALS['strMenusCachedOk'] = "Menu cache has been rebuilt";

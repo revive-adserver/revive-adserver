@@ -15,25 +15,25 @@ msgstr ""
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/OsVersion.class.php:64
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/BrowserVersion.class.php:63
 msgid "is any version of"
-msgstr ""
+msgstr "je libovolná verze"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/OsVersion.class.php:79
 msgid "Operating System"
-msgstr ""
+msgstr "Operační systém"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/OsVersion.class.php:91
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/BrowserVersion.class.php:89
 msgid "Version"
-msgstr ""
+msgstr "Verze"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/OsVersion.class.php:141
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/BrowserVersion.class.php:136
 msgid "Version should be a number"
-msgstr ""
+msgstr "Verze by měla být číslo"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/OsVersion.class.php:146
 msgid "Version is not valid"
-msgstr ""
+msgstr "Verze není platná"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/BrowserVersion.class.php:77
 msgid "Browser"

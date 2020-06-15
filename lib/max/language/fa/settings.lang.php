@@ -20,6 +20,7 @@ $GLOBALS['strBtnContinue'] = "ادامه »";
 $GLOBALS['strBtnRecover'] = "بازیابی »";
 $GLOBALS['strBtnAgree'] = "موافقم »";
 $GLOBALS['strBtnRetry'] = "دوباری";
+$GLOBALS['strWarningRegisterArgcArv'] = "The PHP configuration variable register_argc_argv needs to be turned on to run maintenance from the command line.";
 $GLOBALS['strTablesPrefix'] = " پیشوند نام های جدول ";
 $GLOBALS['strTablesType'] = "نوع جدول";
 
@@ -30,6 +31,7 @@ $GLOBALS['strProductUpToDateTitle'] = "{$PRODUCT_NAME} بروزرسانی شده
 $GLOBALS['strOaUpToDate'] = "ساختمان فایل و پایگاه داده شما از جدیدترین نسخه استفاده می کنند و بنابراین به بروزرسانی نیاز ندارند . لطفا روی ادامه کلیک کنید تا به پنل ادمین وارد شوید";
 $GLOBALS['strOaUpToDateCantRemove'] = " فایل آپدیت همچنان در داخل فولدر 'var' است . ما قادر به حذف این فایل نیستیم زیرا دسترسی وجود ندارد . لطفا خودتان این فایل را حذف کنید ";
 $GLOBALS['strErrorWritePermissions'] = "ارور های اجازه ی فایل یافت شدند, و باید قبل از ادامه درست شوند.<br />برای حل مشکلات در سیستم عامل linux, دستورات زیر را وارد کنید(s):";
+$GLOBALS['strErrorFixPermissionsRCommand'] = "<i>chmod -R a+w %s</i>";
 $GLOBALS['strNotWriteable'] = "قابلیت نوشتن ندارد";
 $GLOBALS['strDirNotWriteableError'] = "دایرکتوری باید نوشتنی باشد";
 
@@ -182,6 +184,9 @@ $GLOBALS['strDeliveryFilenamesSinglePageCallJS'] = "فراخوانی یک صفح
 $GLOBALS['strDeliveryCaching'] = "تنظیمات کش تحویل بنر";
 $GLOBALS['strDeliveryCacheLimit'] = "زمان بین بروزرسانی کش بنر(ثانیه)";
 $GLOBALS['strDeliveryCacheStore'] = "نوع ذخیره سازی کش تویل بنر";
+$GLOBALS['strDeliveryAcls'] = "Evaluate banner delivery rules during delivery";
+$GLOBALS['strDeliveryAclsDirectSelection'] = "Evaluate banner delivery rules for direct selected ads";
+$GLOBALS['strDeliveryObfuscate'] = "Obfuscate delivery rule set when delivering ads";
 $GLOBALS['strDeliveryExecPhp'] = "اجازه داده به کد php برای اجرا
 
 (اخطار : ریسک امنیتی)";
@@ -191,6 +196,9 @@ $GLOBALS['strP3PSettings'] = "P3P سیاست حفظ حریم خصوصی";
 $GLOBALS['strUseP3P'] = "استفاده از P3P سیاست";
 $GLOBALS['strP3PCompactPolicy'] = "P3P سیاست جمع و جور";
 $GLOBALS['strP3PPolicyLocation'] = "P3P سیاست محل سکونت";
+$GLOBALS['strPrivacySettings'] = "Privacy Settings";
+$GLOBALS['strDisableViewerId'] = "Disable unique Viewer Id cookie";
+$GLOBALS['strAnonymiseIp'] = "Anonymise viewer IP addresses";
 
 // General Settings
 $GLOBALS['generalSettings'] = "تنظیمات سیستم عمومی جهانی";
@@ -202,6 +210,7 @@ $GLOBALS['defaultLanguage'] = "زبان اولیه ی سیستمe
 $GLOBALS['strGeotargetingSettings'] = "Geotargeting سیستم";
 $GLOBALS['strGeotargeting'] = "Geotargeting تنظیمات";
 $GLOBALS['strGeotargetingType'] = "Geotargeting نوع مدل";
+$GLOBALS['strGeoShowUnavailable'] = "Show geotargeting delivery rules even if GeoIP data unavailable";
 
 // Interface Settings
 $GLOBALS['strInventory'] = "فهرست";
@@ -210,6 +219,7 @@ $GLOBALS['strShowBannerInfo'] = "نمایش اطلاعات اضافی بنر د�
 $GLOBALS['strShowCampaignPreview'] = "پیش نمایش تمام بنر ها در صفحه بنر ها";
 $GLOBALS['strShowBannerHTML'] = "نمایش بنر واقعی به جای کد HTML ساده برای پیشمایش بنر HTML ";
 $GLOBALS['strShowBannerPreview'] = "نمایش پیش نمایش بنر در بالای صفحات که با بنر ها سر و کار دارد";
+$GLOBALS['strUseWyswygHtmlEditorByDefault'] = "Use the WYSIWYG HTML Editor by default when creating or editing HTML banners";
 $GLOBALS['strHideInactive'] = "پنهان کردن اعضای غیر فعال از تمام صفحات نمایش";
 $GLOBALS['strGUIShowMatchingBanners'] = "نمایش بنر های مچ شده در صفحه های لینک شده بنر";
 $GLOBALS['strGUIShowParentCampaigns'] = "نمایش کمپین های پدر در صفحات بنر لینک شده";
@@ -255,12 +265,15 @@ $GLOBALS['strInactivatedCampaigns'] = "لیست کمپین هایی که بر ا
 $GLOBALS['strMaintenanceSettings'] = "تنظیمات نگهداری";
 $GLOBALS['strConversionTracking'] = "تنظیمات پیگیری تغییرات";
 $GLOBALS['strEnableConversionTracking'] = "فعال سازی پیگیری تغییرات";
+$GLOBALS['strBlockInactiveBanners'] = "Don't count ad impressions, clicks or re-direct the user to the target URL if the viewer clicks on a banner that is inactive";
 $GLOBALS['strBlockAdClicks'] = "نشمردن کلیک تبلیغات اگر بیننده روی همان جفت منطقه/تبلیغ در زمانی مشخص کلیک کرده";
 $GLOBALS['strMaintenanceOI'] = "تعمیر و نگهداری عملیات فاصله (دقیقه)";
 $GLOBALS['strPrioritySettings'] = "تنظیمات اولویت ها";
 $GLOBALS['strPriorityInstantUpdate'] = "بروزرسانی اولویت تبلیغات بلافاصله بعد از اعمال تغییرات در UI";
 $GLOBALS['strPriorityIntentionalOverdelivery'] = "ارائه ی بیش از حد قرارداد کمپین ها به صورت عمدی
 (% over-delivery)";
+$GLOBALS['strDefaultImpConvWindow'] = "Default Ad Impression Conversion Window (seconds)";
+$GLOBALS['strDefaultCliConvWindow'] = "Default Ad Click Conversion Window (seconds)";
 $GLOBALS['strAdminEmailHeaders'] = "اضافه کردن هدر های داده شده به هر یک از ایمیل های فرستاده شده از {$PRODUCT_NAME}";
 $GLOBALS['strWarnLimit'] = "ارسال ارور هر وقت تاثیرات باقی مانده کمتر از تاثیرات مشخص شده در اینجا";
 $GLOBALS['strWarnLimitDays'] = "ارسال ارور هر وقت روز های باقی مانده کمتر از روز های مشخص شده در اینجا";
