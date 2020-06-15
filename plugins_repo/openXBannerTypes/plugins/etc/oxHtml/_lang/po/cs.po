@@ -9,16 +9,18 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;\n"
 "X-Crowdin-Project: revive-adserver\n"
+"X-Crowdin-Project-ID: 78987\n"
 "X-Crowdin-Language: cs\n"
 "X-Crowdin-File: /plugins_repo/openXBannerTypes/plugins/etc/oxHtml/_lang/po/en.po\n"
+"X-Crowdin-File-ID: 168\n"
 
 #: plugins_repo/openXBannerTypes/plugins/bannerTypeHtml/oxHtml/html5.class.php:40
 msgid "HTML5 Banner (ZIP package)"
-msgstr ""
+msgstr "HTML5 banner (balíček ZIP)"
 
 #: plugins_repo/openXBannerTypes/plugins/bannerTypeHtml/oxHtml/html5.class.php:56
 msgid "Upload an HTML5 banner"
-msgstr ""
+msgstr "Nahrát HTML5 banner"
 
 #: plugins_repo/openXBannerTypes/plugins/bannerTypeHtml/oxHtml/genericHtml.class.php:35
 msgid "Generic HTML Banner"

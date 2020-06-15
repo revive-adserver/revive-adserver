@@ -10,8 +10,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Crowdin-Project: revive-adserver\n"
+"X-Crowdin-Project-ID: 78987\n"
 "X-Crowdin-Language: it\n"
 "X-Crowdin-File: /plugins_repo/openXDeliveryLimitations/plugins/etc/Time/_lang/po/en.po\n"
+"X-Crowdin-File-ID: 175\n"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Time//Hour.class.php:68
 msgid "Hour of day"

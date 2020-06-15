@@ -9,8 +9,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;\n"
 "X-Crowdin-Project: revive-adserver\n"
+"X-Crowdin-Project-ID: 78987\n"
 "X-Crowdin-Language: cs\n"
 "X-Crowdin-File: /plugins_repo/demoExtension/plugins/etc/demoBannerTypeHtml/_lang/po/en.po\n"
+"X-Crowdin-File-ID: 165\n"
 
 #: plugins_repo/demoExtension/plugins/bannerTypeHtml/demoBannerTypeHtml/demoHtml.class.php:35
 msgid "Demonstration Plugin HTML Banner Type"
@@ -18,5 +20,5 @@ msgstr "Demonstrace Pluginu typ HTML Banner"
 
 #: plugins_repo/demoExtension/plugins/bannerTypeHtml/demoBannerTypeHtml/demoHtml.class.php:48
 msgid "Please enter http://www.revive-adserver.com"
-msgstr ""
+msgstr "Zadejte prosím http://www.revive-adserver.com"
 

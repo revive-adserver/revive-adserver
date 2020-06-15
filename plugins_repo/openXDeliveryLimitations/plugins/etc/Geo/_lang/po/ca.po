@@ -9,8 +9,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Crowdin-Project: revive-adserver\n"
+"X-Crowdin-Project-ID: 78987\n"
 "X-Crowdin-Language: ca\n"
 "X-Crowdin-File: /plugins_repo/openXDeliveryLimitations/plugins/etc/Geo/_lang/po/en.po\n"
+"X-Crowdin-File-ID: 173\n"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/ConnectionType.res.inc.php:19
 msgid "Unknown"
