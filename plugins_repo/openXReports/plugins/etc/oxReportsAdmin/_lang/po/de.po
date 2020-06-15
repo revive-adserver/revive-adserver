@@ -9,8 +9,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Crowdin-Project: revive-adserver\n"
+"X-Crowdin-Project-ID: 78987\n"
 "X-Crowdin-Language: de\n"
 "X-Crowdin-File: /plugins_repo/openXReports/plugins/etc/oxReportsAdmin/_lang/po/en.po\n"
+"X-Crowdin-File-ID: 180\n"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:40
 #: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:137

@@ -9,8 +9,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;\n"
 "X-Crowdin-Project: revive-adserver\n"
+"X-Crowdin-Project-ID: 78987\n"
 "X-Crowdin-Language: cs\n"
 "X-Crowdin-File: /plugins_repo/openXDeliveryLimitations/plugins/etc/Geo/_lang/po/en.po\n"
+"X-Crowdin-File-ID: 173\n"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/ConnectionType.res.inc.php:19
 msgid "Unknown"
@@ -18,19 +20,19 @@ msgstr "Neznámé"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/ConnectionType.res.inc.php:20
 msgid "Dial-up"
-msgstr ""
+msgstr "Vytáčené spojení"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/ConnectionType.res.inc.php:21
 msgid "Broadband"
-msgstr ""
+msgstr "Širokopásmové připojení"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/ConnectionType.res.inc.php:22
 msgid "Corporate"
-msgstr ""
+msgstr "Firemní"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/ConnectionType.res.inc.php:23
 msgid "Cellular"
-msgstr ""
+msgstr "Mobilní"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:46
 msgid "Is within"
@@ -42,11 +44,11 @@ msgstr ""
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:89
 msgid "Latitude"
-msgstr ""
+msgstr "Zeměpisná šířka"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:95
 msgid "Longitude"
-msgstr ""
+msgstr "Zeměpisná délka"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/City.class.php:75
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Subdivision1.class.php:76
@@ -55,9 +57,9 @@ msgstr "Země"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/City.class.php:90
 msgid "City(s)"
-msgstr ""
+msgstr "Město(a)"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Subdivision1.class.php:95
 msgid "Subdivision(s)"
-msgstr ""
+msgstr "Divize"
 

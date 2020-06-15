@@ -10,12 +10,14 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;\n"
 "X-Crowdin-Project: revive-adserver\n"
+"X-Crowdin-Project-ID: 78987\n"
 "X-Crowdin-Language: cs\n"
 "X-Crowdin-File: /plugins_repo/openXDeliveryLimitations/plugins/etc/Time/_lang/po/en.po\n"
+"X-Crowdin-File-ID: 175\n"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Time//Hour.class.php:68
 msgid "Hour of day"
-msgstr ""
+msgstr "Čas"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Time//Day.class.php:68
 msgid "Day of week"

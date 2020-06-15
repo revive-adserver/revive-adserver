@@ -9,17 +9,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;\n"
 "X-Crowdin-Project: revive-adserver\n"
+"X-Crowdin-Project-ID: 78987\n"
 "X-Crowdin-Language: cs\n"
 "X-Crowdin-File: /plugins_repo/openXReports/plugins/etc/oxReportsAdmin/_lang/po/en.po\n"
+"X-Crowdin-File-ID: 180\n"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:40
 #: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:137
 msgid "Account Breakdown"
-msgstr ""
+msgstr "Rozdělení účtu"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:41
 msgid "Lists Impression/Click/Conversion totals for a given month."
-msgstr ""
+msgstr "Seznam zobrazení/kliknutí/konverze celkem za daný měsíc."
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:43
 msgid "Admin Reports"
