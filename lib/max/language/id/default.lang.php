@@ -1059,6 +1059,7 @@ $GLOBALS['strEmailRequired'] = "Pengisian alamat E-mail diwajibkan!";
 $GLOBALS['strPwdRecWrongId'] = "ID tidak dikenal";
 $GLOBALS['strPwdRecEnterEmail'] = "Silakan masukkan alamat E-Mail Anda dibawah ini";
 $GLOBALS['strPwdRecEnterPassword'] = "Silakan masukkan alamat E-Mail baru yang terhubung dengan kata sandi Anda dibawah ini";
+$GLOBALS['strPwdRecResetLink'] = "Atur ulang kata sandi";
 $GLOBALS['strPwdRecEmailPwdRecovery'] = "%s pemulihan kata sandi";
 $GLOBALS['strProceed'] = "Lanjut &gt;";
 $GLOBALS['strNotifyPageMessage'] = "E-mail telah dikirim kepada Anda, yang mencakup tautan yang memungkinkan Anda

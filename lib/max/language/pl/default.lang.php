@@ -751,6 +751,7 @@ $GLOBALS['strEmailRequired'] = "Adres e-mail jest obligatoryjny";
 $GLOBALS['strPwdRecWrongId'] = "ID niepoprawne";
 $GLOBALS['strPwdRecEnterEmail'] = "Wprowadź adres e-mail poniżej";
 $GLOBALS['strPwdRecEnterPassword'] = "Wprowadź nowe hasło poniżej";
+$GLOBALS['strPwdRecResetLink'] = "Link do zresetowania hasła";
 $GLOBALS['strPwdRecEmailPwdRecovery'] = "%s odzyskiwanie hasła";
 $GLOBALS['strNotifyPageMessage'] = "Na Twój adres e-mail wyslaliśmy wiadomość zawierającą link, który pozwoli Ci zresetować hasło i zalogować się.<br />E-mail powinien pojawić się w Twojej skrzynce w ciągu kilku minut.<br />Jeśli nie otrzymasz tej wiadomości, sprawdź swój folder Spam.<br /><a href='index.php'>Powrót do strony logowania.</a>";
 

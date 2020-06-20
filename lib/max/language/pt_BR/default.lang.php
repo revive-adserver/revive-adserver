@@ -821,6 +821,7 @@ $GLOBALS['strEmailRequired'] = "E-mail é um campo obrigatório";
 $GLOBALS['strPwdRecWrongId'] = "ID incorreto";
 $GLOBALS['strPwdRecEnterEmail'] = "Digite seu e-mail abaixo";
 $GLOBALS['strPwdRecEnterPassword'] = "Digite sua nova senha abaixo";
+$GLOBALS['strPwdRecResetLink'] = "Link para resetar a senha";
 $GLOBALS['strPwdRecEmailPwdRecovery'] = "%s recuperação de senha";
 $GLOBALS['strProceed'] = "Prosseguir >";
 $GLOBALS['strNotifyPageMessage'] = "Um e-mail foi enviado para o endereço informado, nele esta incluso um link que irá permitir a re-configuração de sua senha.<br />Permita alguns minutos para o e-mail chegar.<br />Caso não receba o e-mail, verifique a pasta de spam.<br /><a href='index.php'>Voltar para página de login.</a>";

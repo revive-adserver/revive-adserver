@@ -756,6 +756,7 @@ $GLOBALS['strEmailRequired'] = "メールアドレスは必須です。";
 $GLOBALS['strPwdRecWrongId'] = "メールアドレスが間違っています。";
 $GLOBALS['strPwdRecEnterEmail'] = "メールアドレスを入力してください";
 $GLOBALS['strPwdRecEnterPassword'] = "新しいパスワードを入力してください";
+$GLOBALS['strPwdRecResetLink'] = "パスワードをリセットするには、次のURLをクリックしてください。";
 $GLOBALS['strPwdRecEmailPwdRecovery'] = "%s ログインパスワードのリカバリ";
 $GLOBALS['strProceed'] = "続ける &gt;";
 $GLOBALS['strNotifyPageMessage'] = "パスワードをリセットするためのメールが送信されました。<br />もし届いてない場合は迷惑メールと見なされているか、Eメールの設定を見直して下さい。<br /><a href='index.php'>トップに戻る</a>";

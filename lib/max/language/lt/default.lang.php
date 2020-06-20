@@ -653,6 +653,7 @@ $GLOBALS['strEmailRequired'] = "Privaloma užpildyti elektroninį lauką";
 $GLOBALS['strPwdRecWrongId'] = "Neteisingas ID ";
 $GLOBALS['strPwdRecEnterEmail'] = "Įveskite savo elektroninio pašto adresą žemiau";
 $GLOBALS['strPwdRecEnterPassword'] = "Įveskite savo slaptažodį žemiau";
+$GLOBALS['strPwdRecResetLink'] = "Slaptažodžio pakeitimo nuoroda";
 $GLOBALS['strPwdRecEmailPwdRecovery'] = "%s slaptažodžio grąžinimas";
 $GLOBALS['strProceed'] = "Tęskite >";
 
