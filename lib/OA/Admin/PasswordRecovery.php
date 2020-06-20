@@ -258,11 +258,11 @@ class OA_Admin_PasswordRecovery
             $emailBody = str_replace('{username}', $u['username'], $emailBody);
             $emailBody = str_replace('{reset_link}', $recoveryUrl, $emailBody);
             if (!empty($aConf['email']['fromName']) && !empty($aConf['email']['fromAddress'])) {
-                $adminSignature = "Sincerely,\n\n{$aConf['email']['fromName']}\n{$aConf['email']['fromAddress']}";
+                $adminSignature = "{$GLOBALS['strPwdRecEmailSincerely']}\n\n{$aConf['email']['fromName']}\n{$aConf['email']['fromAddress']}";
             } else if (!empty($aConf['email']['fromName'])) {
-                $adminSignature = "Sincerely,\n\n{$aConf['email']['fromName']}";
+                $adminSignature = "{$GLOBALS['strPwdRecEmailSincerely']}\n\n{$aConf['email']['fromName']}";
             } else if (!empty($aConf['email']['fromAddress'])) {
-                $adminSignature = "Sincerely,\n\n{$aConf['email']['fromAddress']}";
+                $adminSignature = "{$GLOBALS['strPwdRecEmailSincerely']}\n\n{$aConf['email']['fromAddress']}";
             } else {
                 $adminSignature = "";
             }

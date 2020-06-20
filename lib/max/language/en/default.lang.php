@@ -1099,6 +1099,7 @@ attempting to gain access to your username. In that case, please contact the sup
 system administrator for your {$PRODUCT_NAME} system, and notify them of the situation.
 
 {admin_signature}";
+$GLOBALS['strPwdRecEmailSincerely'] = "Sincerely,";
 
 // Audit
 $GLOBALS['strAdditionalItems'] = "and additional items";
