@@ -1,7 +1,5 @@
-.idea
 composer.phar
 phpinfo.php
-/nbproject
 /build
 /plugins
 /should_not_exist
