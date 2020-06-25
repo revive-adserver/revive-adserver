@@ -9,8 +9,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Crowdin-Project: revive-adserver\n"
+"X-Crowdin-Project-ID: 78987\n"
 "X-Crowdin-Language: it\n"
 "X-Crowdin-File: /plugins_repo/openXDeliveryCacheStore/plugins/etc/oxCacheFile/_lang/po/en.po\n"
+"X-Crowdin-File-ID: 170\n"
 
 #: plugins_repo/openXDeliveryCacheStore/plugins/deliveryCacheStore/oxCacheFile/oxCacheFile.class.php:31
 msgid "File based cache"

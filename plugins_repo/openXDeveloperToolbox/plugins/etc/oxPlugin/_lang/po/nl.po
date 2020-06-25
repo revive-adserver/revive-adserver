@@ -10,8 +10,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Crowdin-Project: revive-adserver\n"
+"X-Crowdin-Project-ID: 78987\n"
 "X-Crowdin-Language: nl\n"
 "X-Crowdin-File: /plugins_repo/openXDeveloperToolbox/plugins/etc/oxPlugin/_lang/po/en.po\n"
+"X-Crowdin-File-ID: 176\n"
 
 #: plugins_repo/openXDeveloperToolbox/www/admin/plugins/oxPlugin//oxPlugin-index.php:53
 msgid "myPlugin"

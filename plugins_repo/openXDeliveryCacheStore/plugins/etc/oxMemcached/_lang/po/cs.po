@@ -9,8 +9,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;\n"
 "X-Crowdin-Project: revive-adserver\n"
+"X-Crowdin-Project-ID: 78987\n"
 "X-Crowdin-Language: cs\n"
 "X-Crowdin-File: /plugins_repo/openXDeliveryCacheStore/plugins/etc/oxMemcached/_lang/po/en.po\n"
+"X-Crowdin-File-ID: 171\n"
 
 #: plugins_repo/openXDeliveryCacheStore/plugins/deliveryCacheStore/oxMemcached/oxMemcached.class.php:33
 msgid "memcached"
@@ -18,17 +20,17 @@ msgstr "memcached"
 
 #: plugins_repo/openXDeliveryCacheStore/plugins/deliveryCacheStore/oxMemcached/oxMemcached.class.php:48
 msgid "Either the Memcached or Memcache extensions are required"
-msgstr ""
+msgstr "Je vyžadováno Memcached nebo Memcache rozšíření"
 
 #: plugins_repo/openXDeliveryCacheStore/plugins/deliveryCacheStore/oxMemcached/oxMemcached.class.php:60
 msgid "Empty server list"
-msgstr ""
+msgstr "Prázdný seznam serverů"
 
 #: plugins_repo/openXDeliveryCacheStore/plugins/deliveryCacheStore/oxMemcached/oxMemcached.class.php:81
 msgid "Invalid expire time"
-msgstr ""
+msgstr "Neplatný čas expirace."
 
 #: plugins_repo/openXDeliveryCacheStore/plugins/deliveryCacheStore/oxMemcached/oxMemcached.class.php:86
 msgid "Could not connect to memcached"
-msgstr ""
+msgstr "Nelze se připojit k serveru"
 
