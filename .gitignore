@@ -1,7 +1,6 @@
 composer.phar
 phpinfo.php
 /crowdin.yml
-/nbproject
 /build
 /plugins
 /should_not_exist
