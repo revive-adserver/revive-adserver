@@ -1080,23 +1080,23 @@ $GLOBALS['strNotifyPageMessage'] = "An e-mail has been sent to you, which includ
                                          If you do not receive the e-mail, please check your spam folder.<br />
                                          <a href=\"index.php\">Return the the main login page.</a>";
 
-$GLOBALS['strPwdRecEmailPwdRecovery'] = "%s Password Recovery";
+$GLOBALS['strPwdRecEmailPwdRecovery'] = "Reset Your %s Password";
 $GLOBALS['strPwdRecEmailBody'] = "Dear {name},
 
-A request was recently made to reset {$PRODUCT_NAME} password.
+You, or someone pretending to be you, recently requested that your {$PRODUCT_NAME} password be reset.
 
-If this request was made by you, then you can reset the password for your username '{username}'
-by clicking on the following link:
+If this request was made by you, then you can reset the password for your username '{username}' by
+clicking on the following link:
 
 {reset_link}
 
-If you submitted the password reset request by mistake, or if you didn't make a request at all,
-simply ignore this email. No changes have been made to your password and the password reset link
-will expire automatically.
+If you submitted the password reset request by mistake, or if you didn't make a request at all, simply
+ignore this email. No changes have been made to your password and the password reset link will expire
+automatically.
 
-If you continue to receive these password reset mails, then it may indicate that someone is
-attempting to gain access to your username. In that case, please contact the support team or
-system administrator for your {$PRODUCT_NAME} system, and notify them of the situation.
+If you continue to receive these password reset mails, then it may indicate that someone is attempting
+to gain access to your username. In that case, please contact the support team or system administrator
+for your {$PRODUCT_NAME} system, and notify them of the situation.
 
 {admin_signature}";
 $GLOBALS['strPwdRecEmailSincerely'] = "Sincerely,";
