@@ -1078,7 +1078,7 @@ $GLOBALS['strProceed'] = "Proceed >";
 $GLOBALS['strNotifyPageMessage'] = "An e-mail has been sent to you, which includes a link that will allow you
                                          to reset your password and log in.<br />Please allow a few minutes for the e-mail to arrive.<br />
                                          If you do not receive the e-mail, please check your spam folder.<br />
-                                         <a href=\"index.php\">Return the the main login page.</a>";
+                                         <a href=\"index.php\">Return to the main login page.</a>";
 
 $GLOBALS['strPwdRecEmailPwdRecovery'] = "Reset Your %s Password";
 $GLOBALS['strPwdRecEmailBody'] = "Dear {name},
