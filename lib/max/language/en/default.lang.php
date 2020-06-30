@@ -1069,14 +1069,14 @@ $GLOBALS['strVariableCode'] = "Javascript tracking code";
 
 // Password recovery
 $GLOBALS['strForgotPassword'] = "Forgot your password?";
-$GLOBALS['strPasswordRecovery'] = "Password recovery";
+$GLOBALS['strPasswordRecovery'] = "Password reset";
 $GLOBALS['strEmailRequired'] = "Email is a required field";
 $GLOBALS['strPwdRecWrongId'] = "Wrong ID";
 $GLOBALS['strPwdRecEnterEmail'] = "Enter your email address below";
 $GLOBALS['strPwdRecEnterPassword'] = "Enter your new password below";
 $GLOBALS['strProceed'] = "Proceed >";
 $GLOBALS['strNotifyPageMessage'] = "An e-mail has been sent to you, which includes a link that will allow you
-                                         to re-set your password and log in.<br />Please allow a few minutes for the e-mail to arrive.<br />
+                                         to reset your password and log in.<br />Please allow a few minutes for the e-mail to arrive.<br />
                                          If you do not receive the e-mail, please check your spam folder.<br />
                                          <a href=\"index.php\">Return the the main login page.</a>";
 
