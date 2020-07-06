@@ -64,7 +64,7 @@ $GLOBALS['strNo'] = "아니오";
 $GLOBALS['strNone'] = "없�?�";
 $GLOBALS['strCustom'] = "사용�? 지정";
 $GLOBALS['strDefault'] = "기본설정";
-$GLOBALS['strUnknown'] = "알수없음";
+$GLOBALS['strUnknown'] = "알려지지 않�?�";
 $GLOBALS['strUnlimited'] = "제한없�?�";
 $GLOBALS['strUntitled'] = "제목없�?�";
 $GLOBALS['strAll'] = "전체";
@@ -293,8 +293,8 @@ $GLOBALS['strAddBanner_Key'] = "새 배너 추가(<u>n</u>)";
 $GLOBALS['strShowBanner'] = "배너 보기";
 $GLOBALS['strBannerProperties'] = "배너 속성";
 $GLOBALS['strNoBanners'] = "이 캠페인에 등록된 배너가 없습니다.";
-$GLOBALS['strConfirmDeleteBanner'] = "해당 배너를 삭제하시면 통계내역도 함께 삭제됩니다.\n정말 이 배너를 삭제 하시겠습니까?";
-$GLOBALS['strConfirmDeleteBanners'] = "해당 배너를 삭제하시면 통계내역도 함께 삭제됩니다.\n정말 선택된 배너를 삭제 하시겠습니까?";
+$GLOBALS['strConfirmDeleteBanner'] = "해당 배너를 삭제하시면 통계내역도 함께 삭제됩니다.\\n정말 이 배너를 삭제 하시겠습니까?";
+$GLOBALS['strConfirmDeleteBanners'] = "해당 배너를 삭제하시면 통계내역도 함께 삭제됩니다.\\n정말 선택된 배너를 삭제 하시겠습니까?";
 $GLOBALS['strShowParentCampaigns'] = "상위 캠페인 표시";
 $GLOBALS['strHideParentCampaigns'] = "상위 캠페인 숨김";
 $GLOBALS['strHideInactiveBanners'] = "비활성화 된 배너 숨김";
@@ -380,7 +380,7 @@ $GLOBALS['strCountry'] = "국가";
 $GLOBALS['strWebsiteZones'] = "광고게시 웹사이트 영역";
 
 // Zone
-$GLOBALS['strZone'] = "영역";
+$GLOBALS['strZone'] = "광고영역";
 $GLOBALS['strZones'] = "영역";
 $GLOBALS['strAddNewZone'] = "새 광고영역 추가";
 $GLOBALS['strAddNewZone_Key'] = "새 광고영역 추가 (<u>n</u>)";
@@ -527,13 +527,14 @@ $GLOBALS['strConfirmDeleteAgency'] = "�?� �?역�?� 삭제합니까?";
 $GLOBALS['strInactiveAgenciesHidden'] = "배너가 숨겨져 있습니다.";
 
 // Channels
-$GLOBALS['strChannelLimitations'] = "전달유지 옵션";
+$GLOBALS['strChannelLimitations'] = "전송 옵션";
 
 // Tracker Variables
 $GLOBALS['strVariableDescription'] = "설명";
 $GLOBALS['strVariableDataType'] = "데이터 형식";
 
 // Password recovery
+
 
 // Audit
 

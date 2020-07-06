@@ -625,13 +625,12 @@ $GLOBALS['strVariableCode'] = "JavaScript跟蹤代碼";
 
 // Password recovery
 $GLOBALS['strForgotPassword'] = "忘記密碼？";
-$GLOBALS['strPasswordRecovery'] = "密碼恢復";
 $GLOBALS['strEmailRequired'] = "電子郵件為必填項";
 $GLOBALS['strPwdRecWrongId'] = "錯誤ID";
 $GLOBALS['strPwdRecEnterEmail'] = "請填入你的郵件地址";
 $GLOBALS['strPwdRecEnterPassword'] = "請填入新密碼";
-$GLOBALS['strPwdRecEmailPwdRecovery'] = "%s 密碼重置";
 $GLOBALS['strProceed'] = "繼續>";
+
 
 // Audit
 $GLOBALS['strHas'] = "具備";

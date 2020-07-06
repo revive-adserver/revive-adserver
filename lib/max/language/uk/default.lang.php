@@ -828,14 +828,11 @@ $GLOBALS['strVariableCode'] = "Код отслеживания JS";
 
 // Password recovery
 $GLOBALS['strForgotPassword'] = "Забыли пароль?";
-$GLOBALS['strPasswordRecovery'] = "Восстановление пароля";
 $GLOBALS['strEmailRequired'] = "Поле \"E-mail\" обязательно для заполнения";
 $GLOBALS['strPwdRecWrongId'] = "Неправильный ID";
 $GLOBALS['strPwdRecEnterEmail'] = "Введите ваш адрес электронной почты";
 $GLOBALS['strPwdRecEnterPassword'] = "Введите ваш новый пароль";
-$GLOBALS['strPwdRecResetLink'] = "Ссылка для сброса пароля";
-$GLOBALS['strPwdRecEmailPwdRecovery'] = "%s восстановление пароля";
-$GLOBALS['strNotifyPageMessage'] = "Вам было отправлено письмо, которое позволит сбросить ваш старый пароль и авторизоваться.<br />Подождите несколько минут и проверьте ваш почтовый ящик.<br />Если вы не получите письмо в течение нескольких минут - проверьте вашу папку со СПАМом.<br /><a href='index.php'>Вернуться на страницу авторизации.</a>";
+
 
 // Audit
 $GLOBALS['strAdditionalItems'] = "добавить дополнительные элементы";
@@ -889,5 +886,5 @@ $GLOBALS['keySearch'] = "П";
 $GLOBALS['keyCollapseAll'] = "З";
 $GLOBALS['keyExpandAll'] = "Р";
 $GLOBALS['keyAddNew'] = "н";
-$GLOBALS['keyNext'] = "С";
+$GLOBALS['keyNext'] = "н";
 $GLOBALS['keyPrevious'] = "П";

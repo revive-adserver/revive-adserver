@@ -46,13 +46,11 @@ $GLOBALS['strImagesUrlPrefixSSL'] = "画像ストレージURL(SSL)";
 /* ------------------------------------------------------- */
 
 // Global
-$GLOBALS['strChooseSection'] = "セクションの選択";
 $GLOBALS['strUnableToWriteConfig'] = "設定ファイルに書き込む事ができませんでした。";
 $GLOBALS['strUnableToWritePrefs'] = "データベースに設定を反映できませんでした。";
 $GLOBALS['strImageDirLockedDetected'] = "指定した<b>画像ストレージ</b>への書き込みができません。<br>ディレクトリのパーミッションを変更するか、新しくディレクトリを作成してください。";
 
 // Configuration Settings
-$GLOBALS['strConfigurationSettings'] = "設定";
 
 // Administrator Settings
 $GLOBALS['strAdminUsername'] = "管理者  ユーザ名";

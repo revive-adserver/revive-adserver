@@ -54,7 +54,6 @@ $GLOBALS['strUnableToWritePrefs'] = "無法向數據庫提交屬性更改 ";
 $GLOBALS['strImageDirLockedDetected'] = "<b>圖片文件夾</b>不可寫<br>在修改文件夾權限之前無法修改或創建相關文件夾。";
 
 // Configuration Settings
-$GLOBALS['strConfigurationSettings'] = "配置設置";
 
 // Administrator Settings
 $GLOBALS['strAdminUsername'] = "管理員用戶名";

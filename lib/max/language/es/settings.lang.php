@@ -52,7 +52,7 @@ $GLOBALS['strUpgrade'] = "Actualización";
 /* ------------------------------------------------------- */
 
 // Global
-$GLOBALS['strChooseSection'] = "Elija la Sección";
+$GLOBALS['strChooseSection'] = "Elija la sección";
 $GLOBALS['strEditConfigNotPossible'] = "No es posible editar todas las configuraciones porque el archivo de configuración está bloqueado por motivos de seguridad. 
    Si desea realizar cambios, puede que necesite desbloquear primero el archivo de configuración para esta instalación.";
 $GLOBALS['strEditConfigPossible'] = "Es posible editar todas las configuraciones porque el archivo de configuración no está bloqueado, pero esto podría conducir a problemas de seguridad. 
@@ -190,7 +190,7 @@ $GLOBALS['strWarnClient'] = "Enviar un aviso al anunciante cada vez que una camp
 
 // UI Settings
 $GLOBALS['strGuiSettings'] = "Opciones de la interfaz de usuario";
-$GLOBALS['strGeneralSettings'] = "Configuración General";
+$GLOBALS['strGeneralSettings'] = "Configuraci&oacute;n general";
 $GLOBALS['strAppName'] = "Nombre de la aplicación";
 $GLOBALS['strMyHeader'] = "Ubicación del archivo header";
 $GLOBALS['strMyFooter'] = "Ubicación del archivo footer";

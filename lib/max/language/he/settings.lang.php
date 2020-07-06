@@ -14,7 +14,7 @@
 $GLOBALS['strInstall'] = "התקן";
 $GLOBALS['strDatabaseSettings'] = "קביעות בסיס נתוני�?";
 $GLOBALS['strAdvancedSettings'] = "קביעות מתקדמות";
-$GLOBALS['strWarning'] = "�?זהרה";
+$GLOBALS['strWarning'] = "אזהרה";
 $GLOBALS['strTablesType'] = "סוגי הטבל�?ות";
 
 
@@ -28,7 +28,6 @@ $GLOBALS['strTablesType'] = "סוגי הטבל�?ות";
 /* ------------------------------------------------------- */
 
 // Global
-$GLOBALS['strChooseSection'] = "בחר מחלקה";
 
 // Configuration Settings
 
@@ -68,8 +67,8 @@ $GLOBALS['strTypeWebModeFtp'] = "שרת FTP חיצוני";
 $GLOBALS['strTypeWebDir'] = "תיקייה מקומית";
 $GLOBALS['strTypeFTPHost'] = "מ�?רח FTP";
 $GLOBALS['strTypeFTPDirectory'] = "תיקיית FTP";
-$GLOBALS['strTypeFTPUsername'] = "ש�? משתמש";
-$GLOBALS['strTypeFTPPassword'] = "סיסמ�?";
+$GLOBALS['strTypeFTPUsername'] = "התחבר";
+$GLOBALS['strTypeFTPPassword'] = "סיסמא";
 $GLOBALS['strTypeFTPErrorDir'] = "תקיית המ�?רח �?ינה קיימת";
 $GLOBALS['strTypeFTPErrorConnect'] = "ל�? ניתן להתחבר לשרת ה-FTP, ש�? המשתמש �?ו הסיסמ�? שגויי�?";
 $GLOBALS['strTypeFTPErrorHost'] = "ש�? השרת המ�?רח �?ת ה-FTP שגוי";
@@ -81,10 +80,9 @@ $GLOBALS['strP3PPolicyLocation'] = "מיקו�? פוליסת ה-P3P";
 // General Settings
 
 // Geotargeting Settings
-$GLOBALS['strGeotargeting'] = "Geotargeting - מיקוד גי�?וגרפי";
 
 // Interface Settings
-$GLOBALS['strInventory'] = "מצ�?י";
+$GLOBALS['strInventory'] = "מלאי";
 $GLOBALS['strShowCampaignInfo'] = " הצג מידע נוסף עבור קמפיין בעמוד <i>סקירת קמפיין</i>";
 $GLOBALS['strShowBannerInfo'] = " הצג מידע נוסף עבור ב�?נר בעמוד <i>סקירת ב�?נרי�?</i>";
 $GLOBALS['strShowCampaignPreview'] = " תצוגה מקדמת של כל הב�?נרי�? בעמוד <i>סקירת ב�?נרי�?</i>";

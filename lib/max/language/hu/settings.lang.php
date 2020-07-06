@@ -119,7 +119,7 @@ $GLOBALS['strTypeWebModeFtp'] = "Külső FTP szerver";
 $GLOBALS['strTypeWebDir'] = "Helyi könyvtár";
 $GLOBALS['strTypeFTPHost'] = "FTP kiszolgáló";
 $GLOBALS['strTypeFTPDirectory'] = "Kiszolgáló könyvtár";
-$GLOBALS['strTypeFTPUsername'] = "Login név (FTP felhasználó)";
+$GLOBALS['strTypeFTPUsername'] = "Bejelentkezés";
 $GLOBALS['strTypeFTPPassword'] = "Jelszó";
 $GLOBALS['strTypeFTPPassive'] = "Passzív kapcsolat használata";
 $GLOBALS['strTypeFTPErrorDir'] = "Az FTP kiszolgáló könyvtár nem létezik";
@@ -211,7 +211,7 @@ $GLOBALS['strWarnAgency'] = "Figyelmeztetés küldése az ügynökségnek ha a k
 
 // UI Settings
 $GLOBALS['strGuiSettings'] = "Felhasználói felület beállításai";
-$GLOBALS['strGeneralSettings'] = "�?ltalános beállítások";
+$GLOBALS['strGeneralSettings'] = "Általános beállítások";
 $GLOBALS['strAppName'] = "Alkalmazás neve";
 $GLOBALS['strMyHeader'] = "Fejléc fájl helye";
 $GLOBALS['strMyFooter'] = "Lábléc fájl helye";

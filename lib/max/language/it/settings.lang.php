@@ -50,13 +50,13 @@ $GLOBALS['strImagesUrlPrefixSSL'] = "URL memorizzazione immagini (SSL)";
 /* ------------------------------------------------------- */
 
 // Global
-$GLOBALS['strChooseSection'] = "Scegli la sezione";
+$GLOBALS['strChooseSection'] = "Scegli sezione";
 $GLOBALS['strUnableToWriteConfig'] = "Impossibile salvare le modifiche nel file di configurazione";
 $GLOBALS['strUnableToWritePrefs'] = "Impossibile salvare le preferenze nel database";
 $GLOBALS['strImageDirLockedDetected'] = "IL server non può scrivere nella <b>Cartelle delle Immagini</b>. <br>Non è possibile procedere fino a che i permessi della cartella non sono cambiati o la cartelle non è stata creata.";
 
 // Configuration Settings
-$GLOBALS['strConfigurationSettings'] = "Configurazione impostazioni";
+$GLOBALS['strConfigurationSettings'] = "Impostazioni di configurazione";
 
 // Administrator Settings
 $GLOBALS['strAdminUsername'] = "Amministratore  Nome utente";

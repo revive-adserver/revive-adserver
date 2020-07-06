@@ -478,7 +478,7 @@ $GLOBALS['strBannerHistory'] = "Banner statistieken";
 $GLOBALS['strNoBanners'] = "Er zijn momenteel geen banners gedefinieerd voor deze campagne.";
 $GLOBALS['strNoBannersAddCampaign'] = "Er zijn momenteel geen websites beschikbaar. Om een zone aan te maken, <a href='affiliate-edit.php'>voeg eerst een nieuwe website toe</a> .";
 $GLOBALS['strNoBannersAddAdvertiser'] = "Er zijn momenteel geen banners beschikbaar. Om een banner aan te maken, <a href='affiliate-edit.php'>voeg eerst een nieuwe adverteerder toe</a> .";
-$GLOBALS['strConfirmDeleteBanner'] = "Verwijderen van deze banner zal ook bijbehorende statistieken verwijderen. \nWeet u zeker dat u deze banner wilt verwijderen?";
+$GLOBALS['strConfirmDeleteBanner'] = "Verwijderen van deze banner zal ook bijbehorende statistieken verwijderen. \\nWeet u zeker dat u deze banner wilt verwijderen?";
 $GLOBALS['strConfirmDeleteBanners'] = "Weet u zeker dat u deze banner wilt verwijderen?";
 $GLOBALS['strShowParentCampaigns'] = "Toon bovenliggende campagnes";
 $GLOBALS['strHideParentCampaigns'] = "Verberg bovenliggende campagnes";
@@ -972,7 +972,7 @@ $GLOBALS['strECPS_short'] = "ECPS";
 $GLOBALS['strID_short'] = "ID";
 $GLOBALS['strRequests_short'] = "Req.";
 $GLOBALS['strImpressions_short'] = "Impr.";
-$GLOBALS['strClicks_short'] = "Klikken";
+$GLOBALS['strClicks_short'] = "Kliks";
 $GLOBALS['strCTR_short'] = "CTR";
 $GLOBALS['strConversions_short'] = "Conv.";
 $GLOBALS['strPendingConversions_short'] = "Wacht. conv.";
@@ -1026,7 +1026,7 @@ $GLOBALS['strChannels'] = "Verzamelingen Uitleveringsregels";
 $GLOBALS['strChannelManagement'] = "Beheer van verzamelingen Uitleveringsregels";
 $GLOBALS['strAddNewChannel'] = "Nieuwe Verzameling Uitleveringsregels";
 $GLOBALS['strAddNewChannel_Key'] = "Voeg <u>n</u>ieuwe Verzameling Uitleveringsregels toe";
-$GLOBALS['strChannelToWebsite'] = "naar website";
+$GLOBALS['strChannelToWebsite'] = "aan website";
 $GLOBALS['strNoChannels'] = "Er bestaan geen verzamelingen uitleveringsregels";
 $GLOBALS['strNoChannelsAddWebsite'] = "Er zijn nu geen verzamelingen uitleveringsregels beschikbaar, omdat er geen websites zijn. Om een verzameling uitleveringsregels te maken, dient u eerst <a href='affiliate-edit.php'>een nieuwe website toe te voegen</a>.";
 $GLOBALS['strEditChannelLimitations'] = "Bewerk de uitleveringsregels voor de verzameling uitleveringsregels";
@@ -1038,7 +1038,7 @@ $GLOBALS['strChannelsOfWebsite'] = 'in'; //this is added between page name and w
 
 // Tracker Variables
 $GLOBALS['strVariableName'] = "Naam van de variabele";
-$GLOBALS['strVariableDescription'] = "Omschrijving";
+$GLOBALS['strVariableDescription'] = "Beschrijving";
 $GLOBALS['strVariableDataType'] = "Gegevenstype";
 $GLOBALS['strVariablePurpose'] = "Doel";
 $GLOBALS['strGeneric'] = "Generiek";
@@ -1061,18 +1061,37 @@ $GLOBALS['strVariableCode'] = "JavaScript tracking-code";
 
 // Password recovery
 $GLOBALS['strForgotPassword'] = "Wachtwoord vergeten?";
-$GLOBALS['strPasswordRecovery'] = "Wachtwoord herstellen";
+$GLOBALS['strPasswordRecovery'] = "Wachtwoord opnieuw instellen";
 $GLOBALS['strEmailRequired'] = "E-mail is een verplicht veld";
 $GLOBALS['strPwdRecWrongId'] = "Verkeerde ID";
 $GLOBALS['strPwdRecEnterEmail'] = "Voer hieronder uw e-mail adres in";
 $GLOBALS['strPwdRecEnterPassword'] = "Voer uw nieuwe wachtwoord hieronder in";
-$GLOBALS['strPwdRecResetLink'] = "Wachtwoord reset link";
-$GLOBALS['strPwdRecEmailPwdRecovery'] = "%s wachtwoord herstel";
 $GLOBALS['strProceed'] = "Doorgaan >";
-$GLOBALS['strNotifyPageMessage'] = "Er is een e-mail aan u verstuurd, met daarin een link die u in staat stelt
-                                         uw wachtwoord te herstellen en in te loggen.<br />Het kan enkele minuten duren voordat deze e-mail aankomt.<br />
-                                         Als u de e-mail niet heeft ontvangen, kijk dan svp ook even in uw spam.<br />
+$GLOBALS['strNotifyPageMessage'] = "Er is een e-mail naar u gestuurd, met daarin een link die u in staat stelt
+                                         om uw wachtwoord opnieuw in te stellen.<br />Het kan een paar minuten duren voor de e-ail aankomt.<br />
+                                         Als u de e-mail niet ontvangt, kijk dan alstublieft in uw spam-map.<br />
                                          <a href=\"index.php\">Terug naar de inlogpagina.</a>";
+
+$GLOBALS['strPwdRecEmailPwdRecovery'] = "Uw wachtwoord voor %s opnieuw instellen";
+$GLOBALS['strPwdRecEmailBody'] = "Beste {name},
+
+U, of iemand die zich als u voordoet, heeft onlangs gevraagd om uw wachtwoord voor {$PRODUCT_NAME} opnieuw in te stellen.
+
+Als u dit verzoek zelf heeft gedaan, dan kunt u het wachtwoord voor uw gebruikersnaam '{username}' opnieuw instellen door op de volgende link te klikken:
+
+{reset_link}
+
+Als u dit verzoek om het wachtwoord opnieuw in te stellen per ongeluk heeft gedaan, of als u helemaal
+geen verzoek heeft gedaan, dan kunt u deze mail gewoon negeren. Er is niets veranderd aan uw wachtwoord
+en deze password reset link zal vanzelf vervallen.
+
+Als u deze password reset emails blijft ontvangen, dan kan dat er op duiden dat iemand probeert om
+toegang te krijgen tot uw gebruikersnaam. Neem in dat geval contact op met uw support afdeling of de
+systeembeheerder van uw {$PRODUCT_NAME} systeem, en laat hen weten over deze situatie.
+
+{admin_signature}
+";
+$GLOBALS['strPwdRecEmailSincerely'] = "Met vriendelijke groet,";
 
 // Audit
 $GLOBALS['strAdditionalItems'] = "en extra items";
@@ -1206,7 +1225,7 @@ $GLOBALS['keySearch'] = "z";
 $GLOBALS['keyCollapseAll'] = "u";
 $GLOBALS['keyExpandAll'] = "i";
 $GLOBALS['keyAddNew'] = "v";
-$GLOBALS['keyNext'] = "g";
+$GLOBALS['keyNext'] = "v";
 $GLOBALS['keyPrevious'] = "r";
 $GLOBALS['keyLinkUser'] = "o";
 $GLOBALS['keyWorkingAs'] = "w";

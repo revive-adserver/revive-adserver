@@ -51,7 +51,6 @@ $GLOBALS['strUnableToWritePrefs'] = "تعذر حفظ التعديلات في ق�
 $GLOBALS['strImageDirLockedDetected'] = "<b>ملجد الصور</b>غير قابل للكتابة. <br> يجب عليك إنشاء المجلد او تعديل صلاحياته قبل الاستمرار";
 
 // Configuration Settings
-$GLOBALS['strConfigurationSettings'] = "تعديل الاعدادات";
 
 // Administrator Settings
 $GLOBALS['strAdminUsername'] = "اسم المستخدم للمدير";

@@ -15,7 +15,7 @@ $GLOBALS['strInstall'] = "Installer";
 $GLOBALS['strDatabaseSettings'] = "Base de données {$phpAds_dbmsname}";
 $GLOBALS['strAdminAccount'] = "Compte administrateur";
 $GLOBALS['strAdvancedSettings'] = "Paramètres avancés";
-$GLOBALS['strWarning'] = "Attention";
+$GLOBALS['strWarning'] = "Avertissement";
 $GLOBALS['strBtnContinue'] = "Continuer »";
 $GLOBALS['strBtnRecover'] = "Reprendre »";
 $GLOBALS['strBtnAgree'] = "J'accepte »";
@@ -46,13 +46,11 @@ $GLOBALS['strImagesUrlPrefixSSL'] = "URL de stockage des images (SSL)";
 /* ------------------------------------------------------- */
 
 // Global
-$GLOBALS['strChooseSection'] = "Choisir la section";
 $GLOBALS['strUnableToWriteConfig'] = "Impossible d'écrire les modifications dans le fichier de configuration";
 $GLOBALS['strUnableToWritePrefs'] = "Impossible d'appliquer les préférences dans la base de données";
 $GLOBALS['strImageDirLockedDetected'] = "Le <b>dossier images</b> indiqué n'est pas accessible en écriture par le serveur. <br>Vous ne pourrez pas poursuivre tant que vous n'aurez pas changé les permissions ou créé le dossier.";
 
 // Configuration Settings
-$GLOBALS['strConfigurationSettings'] = "Paramètres de configuration";
 
 // Administrator Settings
 $GLOBALS['strAdminUsername'] = "Identifiant de l'administrateur";
