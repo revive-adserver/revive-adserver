@@ -529,7 +529,6 @@ $GLOBALS['strSelectPublisher'] = "Webサイトを選択してください";
 $GLOBALS['strSelectZone'] = "ゾーンを選択してください";
 $GLOBALS['strStatusPending'] = "保留";
 $GLOBALS['strStatusDuplicate'] = "複製する";
-$GLOBALS['strConnectionType'] = "タイプ";
 $GLOBALS['strShortcutEditStatuses'] = "ステータスを変更する";
 $GLOBALS['strShortcutShowStatuses'] = "ステータスを見る";
 
@@ -751,15 +750,12 @@ $GLOBALS['strVariableCode'] = "トラッカー用Javascriptコード";
 
 // Password recovery
 $GLOBALS['strForgotPassword'] = "パスワードを忘れた？";
-$GLOBALS['strPasswordRecovery'] = "パスワードのリカバリ";
 $GLOBALS['strEmailRequired'] = "メールアドレスは必須です。";
 $GLOBALS['strPwdRecWrongId'] = "メールアドレスが間違っています。";
 $GLOBALS['strPwdRecEnterEmail'] = "メールアドレスを入力してください";
 $GLOBALS['strPwdRecEnterPassword'] = "新しいパスワードを入力してください";
-$GLOBALS['strPwdRecResetLink'] = "パスワードをリセットするには、次のURLをクリックしてください。";
-$GLOBALS['strPwdRecEmailPwdRecovery'] = "%s ログインパスワードのリカバリ";
 $GLOBALS['strProceed'] = "続ける &gt;";
-$GLOBALS['strNotifyPageMessage'] = "パスワードをリセットするためのメールが送信されました。<br />もし届いてない場合は迷惑メールと見なされているか、Eメールの設定を見直して下さい。<br /><a href='index.php'>トップに戻る</a>";
+
 
 // Audit
 $GLOBALS['strAdditionalItems'] = "追加内容";

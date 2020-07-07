@@ -14,7 +14,7 @@
 $GLOBALS['strCopyToClipboard'] = "کپی به کلیپ بورد";
 $GLOBALS['strCopy'] = "کپی";
 $GLOBALS['strChooseTypeOfInvocation'] = "لطفا نوع نیایش را انتخاب کنید";
-$GLOBALS['strChooseTypeOfBannerInvocation'] = "لطفا نوع نیایش بنر را انتخاب کنید";
+$GLOBALS['strChooseTypeOfBannerInvocation'] = "لطفا نوع بنر را انتخاب کنید invocation";
 
 // Measures
 $GLOBALS['strAbbrSeconds'] = "ثانیه";
@@ -69,7 +69,7 @@ $GLOBALS['str3rdPartyTrack'] = "حمایت از سرور های 3rd party  بر�
 $GLOBALS['strCacheBuster'] = "کد کش-باستیگ را وارد کنید";
 
 // IMG invocation selected for tracker with appended code
-$GLOBALS['strWarning'] = "هشدار";
+$GLOBALS['strWarning'] = "اخطار";
 $GLOBALS['strImgWithAppendWarning'] = "این ردیاب کداضافی دارد ,این کد اضافی  <strong>فقط</strong> با برچسب جاوا اسکریپت کار می کند";
 
 // Local Invocation

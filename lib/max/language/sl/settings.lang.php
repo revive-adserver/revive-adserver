@@ -52,7 +52,6 @@ $GLOBALS['strUnableToWritePrefs'] = "Podatkovni bazi je bilo nemožno izročiti 
 $GLOBALS['strImageDirLockedDetected'] = "Strežnik ne more zapisovati v <b>Mapo z slikami</b>. <br>Ne morete nadaljevati, dokler ne spremenite dovoljenj za to mapo ali pa ustvarite novo.";
 
 // Configuration Settings
-$GLOBALS['strConfigurationSettings'] = "Konfiguracijske nastavitve";
 
 // Administrator Settings
 $GLOBALS['strAdminUsername'] = "Administrator  Uporabniško ime";

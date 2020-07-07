@@ -13,7 +13,7 @@
 // Other
 $GLOBALS['strCopyToClipboard'] = "클립보드에 복사";
 $GLOBALS['strChooseTypeOfInvocation'] = "호출할 배너 종류를 선택하세요.";
-$GLOBALS['strChooseTypeOfBannerInvocation'] = "호출할 배너 종류를 선택하세요.";
+$GLOBALS['strChooseTypeOfBannerInvocation'] = "배너 유형을 선택해 주십시오.";
 
 // Measures
 

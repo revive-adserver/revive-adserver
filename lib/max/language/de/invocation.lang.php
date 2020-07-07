@@ -54,7 +54,7 @@ $GLOBALS['strWindowOptions'] = "Window-Optionen";
 $GLOBALS['strShowToolbars'] = "Werkzeugleiste";
 $GLOBALS['strShowLocation'] = "Standortleiste";
 $GLOBALS['strShowMenubar'] = "Menüleiste";
-$GLOBALS['strShowStatus'] = "Statusleiste";
+$GLOBALS['strShowStatus'] = "Status";
 $GLOBALS['strWindowResizable'] = "Göße anpassen";
 $GLOBALS['strShowScrollbars'] = "Scroll-Leiste";
 

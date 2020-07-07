@@ -1054,18 +1054,12 @@ $GLOBALS['strVariableCode'] = "Kode pelacak berbasis Javascript";
 
 // Password recovery
 $GLOBALS['strForgotPassword'] = "Lupa kata sandi Anda?";
-$GLOBALS['strPasswordRecovery'] = "Pemulihan kata sandi";
 $GLOBALS['strEmailRequired'] = "Pengisian alamat E-mail diwajibkan!";
 $GLOBALS['strPwdRecWrongId'] = "ID tidak dikenal";
 $GLOBALS['strPwdRecEnterEmail'] = "Silakan masukkan alamat E-Mail Anda dibawah ini";
 $GLOBALS['strPwdRecEnterPassword'] = "Silakan masukkan alamat E-Mail baru yang terhubung dengan kata sandi Anda dibawah ini";
-$GLOBALS['strPwdRecResetLink'] = "Atur ulang kata sandi";
-$GLOBALS['strPwdRecEmailPwdRecovery'] = "%s pemulihan kata sandi";
 $GLOBALS['strProceed'] = "Lanjut &gt;";
-$GLOBALS['strNotifyPageMessage'] = "E-mail telah dikirim kepada Anda, yang mencakup tautan yang memungkinkan Anda
-                                         untuk mengatur ulang kata sandi Anda dan login. <br /> Mohon tunggu beberapa menit agar e-mail sampai tiba. <br />
-                                         Jika Anda tidak menerima e-mail, periksa folder spam Anda. <br />
-                                         <a href=\"index.php\">Kembalikan halaman login utama. </a>";
+
 
 // Audit
 $GLOBALS['strAdditionalItems'] = "dan item tambahan";

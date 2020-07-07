@@ -59,7 +59,6 @@ $GLOBALS['strNo'] = "Nei";
 $GLOBALS['strNone'] = "Ingen";
 $GLOBALS['strCustom'] = "Egendefinert";
 $GLOBALS['strDefault'] = "Standard";
-$GLOBALS['strUnknown'] = "Ukjent";
 $GLOBALS['strUnlimited'] = "Ubegrenset";
 $GLOBALS['strUntitled'] = "Uten navn";
 $GLOBALS['strAll'] = "alle";
@@ -366,6 +365,7 @@ $GLOBALS['strClicks_short'] = "Klikk";
 $GLOBALS['strVariableDescription'] = "Beskrivelse";
 
 // Password recovery
+
 
 // Audit
 

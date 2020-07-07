@@ -18,16 +18,8 @@ $GLOBALS['strAdministrator'] = "Administrador/a";
 $GLOBALS['strDeleted'] = "s'ha suprimit";
 $GLOBALS['strInserted'] = "s'ha inserit";
 $GLOBALS['strUpdated'] = "s'ha actualitzat";
-$GLOBALS['strDelete'] = "Suprimeix";
 $GLOBALS['strFilters'] = "Filtres";
-$GLOBALS['strAdvertiser'] = "Anunciant";
-$GLOBALS['strPublisher'] = "Pàgina web";
-$GLOBALS['strCampaign'] = "Campanya";
-$GLOBALS['strZone'] = "Zona";
-$GLOBALS['strType'] = "Tipus";
-$GLOBALS['strAction'] = "Acció";
 $GLOBALS['strParameter'] = "Paràmetre";
-$GLOBALS['strValue'] = "Valor";
 
 if (!isset($GLOBALS['strUserlog'])) {
     $GLOBALS['strUserlog'] = array();

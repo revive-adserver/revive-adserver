@@ -153,7 +153,7 @@ $GLOBALS['strTypeWebDir'] = "دایرکتوری محلی";
 $GLOBALS['strTypeFTPHost'] = "میزبان ftp";
 $GLOBALS['strTypeFTPDirectory'] = "دایرکتوری میزبان";
 $GLOBALS['strTypeFTPUsername'] = "ورود";
-$GLOBALS['strTypeFTPPassword'] = "پسورد";
+$GLOBALS['strTypeFTPPassword'] = "رمز ";
 $GLOBALS['strTypeFTPPassive'] = "استفاده از passive ftp";
 $GLOBALS['strTypeFTPErrorDir'] = "دایرکتوری میزبان ftp موجود نمی باشد";
 $GLOBALS['strTypeFTPErrorConnect'] = "وصل شدن به سرور ftp امکان پذیر نمی باشد ، یوزر یا پسورد اشتباه است";
@@ -200,7 +200,7 @@ $GLOBALS['defaultLanguage'] = "زبان اولیه ی سیستمe
 
 // Geotargeting Settings
 $GLOBALS['strGeotargetingSettings'] = "Geotargeting سیستم";
-$GLOBALS['strGeotargeting'] = "Geotargeting تنظیمات";
+$GLOBALS['strGeotargeting'] = "Geotargeting سیستم";
 $GLOBALS['strGeotargetingType'] = "Geotargeting نوع مدل";
 
 // Interface Settings
@@ -214,7 +214,7 @@ $GLOBALS['strHideInactive'] = "پنهان کردن اعضای غیر فعال ا
 $GLOBALS['strGUIShowMatchingBanners'] = "نمایش بنر های مچ شده در صفحه های لینک شده بنر";
 $GLOBALS['strGUIShowParentCampaigns'] = "نمایش کمپین های پدر در صفحات بنر لینک شده";
 $GLOBALS['strShowEntityId'] = "نمایش شناسایی کننده ی وجودیت";
-$GLOBALS['strStatisticsDefaults'] = "استاتیک ها";
+$GLOBALS['strStatisticsDefaults'] = "آمار";
 $GLOBALS['strBeginOfWeek'] = "شروع هفته";
 $GLOBALS['strPercentageDecimals'] = "اعشار درصد ها";
 $GLOBALS['strWeightDefaults'] = "وزن اولیه";
@@ -270,7 +270,7 @@ $GLOBALS['strWarnAgency'] = "ارسال ارور به اکانت هر وقت ک�
 
 // UI Settings
 $GLOBALS['strGuiSettings'] = "تنظیمات رابط کاربری";
-$GLOBALS['strGeneralSettings'] = "تنظیمات کلی";
+$GLOBALS['strGeneralSettings'] = "تنظیمات عمومی";
 $GLOBALS['strAppName'] = "نام برنامه";
 $GLOBALS['strMyHeader'] = "محل فایل هدر";
 $GLOBALS['strMyFooter'] = "محل فایل فوتر";

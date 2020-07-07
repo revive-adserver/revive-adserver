@@ -20,7 +20,6 @@ $GLOBALS['strDeleted'] = "Smazat";
 $GLOBALS['strInserted'] = "vloženo";
 $GLOBALS['strUpdated'] = "aktualizováno";
 $GLOBALS['strDelete'] = "Smazat";
-$GLOBALS['strHas'] = "má";
 $GLOBALS['strFilters'] = "Filtry";
 $GLOBALS['strAdvertiser'] = "Inzerent";
 $GLOBALS['strPublisher'] = "Webová stránka";

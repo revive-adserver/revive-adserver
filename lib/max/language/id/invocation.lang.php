@@ -70,7 +70,7 @@ $GLOBALS['str3rdPartyTrack'] = "Dukungan untuk pelacakan klik dari Server pihak 
 $GLOBALS['strCacheBuster'] = "Menambahkan kode Cache-Busting";
 
 // IMG invocation selected for tracker with appended code
-$GLOBALS['strWarning'] = "Perhatian";
+$GLOBALS['strWarning'] = "Peringatan";
 $GLOBALS['strImgWithAppendWarning'] = "Pelacak ini mengandung kode tempelan. Kode tempelan <strong>hanya</strong> berfungsi dengan JavaScript tags";
 
 // Local Invocation

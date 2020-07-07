@@ -219,7 +219,6 @@ $GLOBALS['strFinanceCPM'] = "CPM";
 $GLOBALS['strFinanceCPC'] = "CPC";
 $GLOBALS['strFinanceCPA'] = "CPA";
 $GLOBALS['strFinanceMT'] = "Location mensuelle";
-$GLOBALS['strFinanceCTR'] = "CTR";
 
 // Time and date related
 $GLOBALS['strDate'] = "Date";
@@ -430,7 +429,7 @@ $GLOBALS['strTracker'] = "Suiveur";
 $GLOBALS['strTrackers'] = "Suiveurs";
 $GLOBALS['strTrackerPreferences'] = "Préférences du suivi";
 $GLOBALS['strAddTracker'] = "Ajouter un nouveau traceur";
-$GLOBALS['strTrackerForAdvertiser'] = "pour l'annonceur";
+$GLOBALS['strTrackerForAdvertiser'] = "Pour l'annonceur";
 $GLOBALS['strNoTrackers'] = "Il n'y a actuellement aucun traceur défini pour cet annonceur";
 $GLOBALS['strConfirmDeleteTrackers'] = "Voulez-vous vraiment supprimer les traceurs sélectionnés ?";
 $GLOBALS['strConfirmDeleteTracker'] = "Voulez-vous vraiment supprimer ce traceur ?";
@@ -449,7 +448,6 @@ $GLOBALS['strImpression'] = "Impressions";
 $GLOBALS['strConversionType'] = "Type de conversion";
 $GLOBALS['strLinkCampaignsByDefault'] = "Lier les nouvelles campagnes créées par défaut";
 $GLOBALS['strBackToTrackers'] = "Retour aux traceurs";
-$GLOBALS['strIPAddress'] = "Adresse IP";
 
 // Banners (General)
 $GLOBALS['strBanner'] = "Bannière";
@@ -555,7 +553,7 @@ if (!isset($GLOBALS['strCappingZone'])) {
 $GLOBALS['strCappingZone']['limit'] = "Limiter les affichages de la zone à :";
 
 // Website
-$GLOBALS['strAffiliate'] = "Site web";
+$GLOBALS['strAffiliate'] = "Site internet";
 $GLOBALS['strAffiliates'] = "Sites web";
 $GLOBALS['strAffiliatesAndZones'] = "Sites web & Zones";
 $GLOBALS['strAddNewAffiliate'] = "Ajouter un nouveau site web";
@@ -714,7 +712,6 @@ $GLOBALS['strAdvancedReports'] = "Rapports détaillés";
 $GLOBALS['strStartDate'] = "Date de début";
 $GLOBALS['strEndDate'] = "Date de fin";
 $GLOBALS['strPeriod'] = "Période";
-$GLOBALS['strLimitations'] = "Règles de livraison";
 $GLOBALS['strWorksheets'] = "Feuilles de travail";
 
 // Admin_UI_Fields
@@ -893,7 +890,7 @@ $GLOBALS['strInactiveAgenciesHidden'] = "compte(s) inactif(s) masqué(s)";
 $GLOBALS['strSwitchAccount'] = "Basculer vers ce compte";
 
 // Channels
-$GLOBALS['strChannelToWebsite'] = "vers le site web";
+$GLOBALS['strChannelToWebsite'] = "vers le site internet";
 $GLOBALS['strChannelLimitations'] = "Options de distribution";
 $GLOBALS['strChannelsOfWebsite'] = 'dans'; //this is added between page name and website name eg. 'delivery rule sets in www.example.com'
 
@@ -922,14 +919,11 @@ $GLOBALS['strVariableCode'] = "Code de suivi Javascript";
 
 // Password recovery
 $GLOBALS['strForgotPassword'] = "Mot de passe oublié ?";
-$GLOBALS['strPasswordRecovery'] = "Récupération du mot de passe";
 $GLOBALS['strEmailRequired'] = "Le champ e-mail est requis";
 $GLOBALS['strPwdRecWrongId'] = "ID erroné";
 $GLOBALS['strPwdRecEnterEmail'] = "Entrez votre adresse e-mail ci-dessous";
 $GLOBALS['strPwdRecEnterPassword'] = "Entrez votre nouveau mot de passe ci-dessous";
-$GLOBALS['strPwdRecResetLink'] = "Lien de réinitialisation du mot de passe";
-$GLOBALS['strPwdRecEmailPwdRecovery'] = "Récupération de mot de passe %s";
-$GLOBALS['strNotifyPageMessage'] = "Un e-mail vous a été envoyé, incluant un lien qui vous permettra de réinitialiser votre mot de passe et de vous connecter.<br />Veuillez donner quelques minutes à l'email pour arriver.<br /> Si vous ne recevez pas l'e-mail, vérifier votre dossier de messages indésirables.<br /><a href='index.php'>Retourner à la page de connexion principale.</a>";
+
 
 // Audit
 $GLOBALS['strAdditionalItems'] = "et les objets supplémentaires";
@@ -1037,4 +1031,3 @@ $GLOBALS['keyPreviousItem'] = " ";
 $GLOBALS['keySearch'] = "r";
 $GLOBALS['keyCollapseAll'] = "t";
 $GLOBALS['keyExpandAll'] = "d";
-$GLOBALS['keyNext'] = "s";

@@ -123,7 +123,6 @@ $GLOBALS['strAppendCodesResult'] = "Tukaj so rezultati veljavnosti zbranih pripo
 $GLOBALS['strAppendCodesValid'] = "Vsi zbrani pripojitveni zbirniki sledilnika so veljavni";
 $GLOBALS['strRepairAppenedCodes'] = "Zgoraj je bilo najdenih nekaj nedoslednosti. Te lahko odpravite s klikom na spodnji gumb.";
 
-$GLOBALS['strPlugins'] = "Vtičniki";
 $GLOBALS['strPluginsPrecis'] = "Diagnosticiraj in popravi težave z OpenX vtičniki";
 
 $GLOBALS['strMenus'] = "Meniji";

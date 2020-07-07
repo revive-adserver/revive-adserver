@@ -52,13 +52,12 @@ $GLOBALS['strUpgrade'] = "Programmaktualisierung (Upgrade)";
 /* ------------------------------------------------------- */
 
 // Global
-$GLOBALS['strChooseSection'] = "Bereichsauswahl";
 $GLOBALS['strUnableToWriteConfig'] = "Die Änderungen konnten nicht in die Konfigurationsdatei übernommen werden";
 $GLOBALS['strUnableToWritePrefs'] = "Die Voreinstellungen konnten nicht in die Datenbank geschrieben werden.";
 $GLOBALS['strImageDirLockedDetected'] = "Für das angegebene <b>Banner-Verzeichnis</b> hat der Server keine Schreibrechte.<br>Sie können den Vorgang erst fortsetzen wenn Sie die Verzeichnisrechte ändern oder das Verzeichnis anlegen.";
 
 // Configuration Settings
-$GLOBALS['strConfigurationSettings'] = "Einstellungen der Konfiguration";
+$GLOBALS['strConfigurationSettings'] = "Konfigurationseinstellungen";
 
 // Administrator Settings
 $GLOBALS['strAdminUsername'] = "Benutzername (Admin)";
@@ -243,7 +242,7 @@ $GLOBALS['strWarnAgency'] = "Warnung per E-Mail an die Agentur kurz bevor eine K
 
 // UI Settings
 $GLOBALS['strGuiSettings'] = "Konfiguration Benutzerbereich (Inhaber des AdServers)";
-$GLOBALS['strGeneralSettings'] = "Allgemeine Grundeinstellungen des Systems";
+$GLOBALS['strGeneralSettings'] = "Allgemeine Einstellungen";
 $GLOBALS['strAppName'] = "Name oder Bezeichnung der Anwendung";
 $GLOBALS['strMyHeader'] = "Kopfzeile im Admin-Bereich";
 $GLOBALS['strMyFooter'] = "Fußzeile im Admin-Bereich";

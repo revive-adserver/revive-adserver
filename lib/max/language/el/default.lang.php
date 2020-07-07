@@ -59,7 +59,6 @@ $GLOBALS['strNo'] = "Όχι";
 $GLOBALS['strNone'] = "Κανένα";
 $GLOBALS['strCustom'] = "Παραμετροποιημένο";
 $GLOBALS['strDefault'] = "Προεπιλογή";
-$GLOBALS['strUnknown'] = "Άγνωστο";
 $GLOBALS['strUnlimited'] = "Απεριόριστο";
 $GLOBALS['strUntitled'] = "Χωρίς Τίτλο";
 $GLOBALS['strAll'] = "όλα";
@@ -392,6 +391,7 @@ $GLOBALS['strChannelToWebsite'] = "Όλες οι ιστοσελίδες";
 $GLOBALS['strVariableDescription'] = "Περιγραφή";
 
 // Password recovery
+
 
 // Audit
 

@@ -58,7 +58,6 @@ $GLOBALS['strNo'] = "Tidak";
 $GLOBALS['strNone'] = "Tiada";
 $GLOBALS['strCustom'] = "Boleh ubah";
 $GLOBALS['strDefault'] = "Lalai";
-$GLOBALS['strUnknown'] = "Tidak diketahui";
 $GLOBALS['strUnlimited'] = "Tiada had";
 $GLOBALS['strUntitled'] = "Tiada tajuk";
 $GLOBALS['strAll'] = "semua";
@@ -271,6 +270,7 @@ $GLOBALS['strChooseSection'] = 'Pilih bahagian';
 // Tracker Variables
 
 // Password recovery
+
 
 // Audit
 

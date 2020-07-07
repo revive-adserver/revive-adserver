@@ -44,7 +44,7 @@ $GLOBALS['strUpgrade'] = "Yükselt";
 /* ------------------------------------------------------- */
 
 // Global
-$GLOBALS['strChooseSection'] = "Bölüm Seçiniz";
+$GLOBALS['strChooseSection'] = "Bölüm seçin";
 $GLOBALS['strEditConfigNotPossible'] = "Güvenlik nedeniyle yapılandırma dosyası kilitlendiğinden tüm ayarları düzenlemek mümkün değildir.
      Değişiklik yapmak istiyorsanız, önce bu kurulum için yapılandırma dosyasının kilidini açmanız gerekebilir.";
 $GLOBALS['strEditConfigPossible'] = "Yapılandırma dosyası kilitlenmediğinden tüm ayarları düzenlemek mümkündür, ancak bu güvenlik sorunlarına neden olabilir.
