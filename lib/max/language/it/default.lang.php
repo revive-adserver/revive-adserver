@@ -400,7 +400,6 @@ $GLOBALS['strManual'] = "Manuale";
 $GLOBALS['strImpression'] = "Impressione";
 $GLOBALS['strConversionType'] = "Tipo di conversione";
 $GLOBALS['strLinkCampaignsByDefault'] = "Collega automaticamente le nuove campagne appena create";
-$GLOBALS['strIPAddress'] = "Indirizzo IP";
 
 // Banners (General)
 $GLOBALS['strBanner'] = "Banner";
@@ -888,14 +887,11 @@ $GLOBALS['strVariableCode'] = "Codice tracciamento Javascript";
 
 // Password recovery
 $GLOBALS['strForgotPassword'] = "Hai dimenticato la password?";
-$GLOBALS['strPasswordRecovery'] = "Recupero password";
 $GLOBALS['strEmailRequired'] = "Email è un campo richiesto";
 $GLOBALS['strPwdRecWrongId'] = "ID errato";
 $GLOBALS['strPwdRecEnterEmail'] = "Inserisci il tuo indirizzo e-mail qui sotto";
 $GLOBALS['strPwdRecEnterPassword'] = "Inserisci qui sotto la nuova password";
-$GLOBALS['strPwdRecResetLink'] = "Link reset della password";
-$GLOBALS['strPwdRecEmailPwdRecovery'] = "%s password recuperata";
-$GLOBALS['strNotifyPageMessage'] = "Ti è stata spedita una email con un link che ti permetterà di reimpostare la password ed entrare nel sistema.<br />Attendi pochi minutil l'arrivo della email.<br />Se non la ricevi entro breve, controlla che non sia finita nella posta indesiderata.<br /><a href='index.php'>Torna alla pagina di accesso.</a>";
+
 
 // Audit
 $GLOBALS['strAdditionalItems'] = "e oggetti aggiuntivi";
@@ -962,7 +958,7 @@ $GLOBALS['keySearch'] = "c";
 $GLOBALS['keyCollapseAll'] = "h";
 $GLOBALS['keyExpandAll'] = "e";
 $GLOBALS['keyAddNew'] = "n";
-$GLOBALS['keyNext'] = "s";
+$GLOBALS['keyNext'] = "n";
 $GLOBALS['keyPrevious'] = "p";
 $GLOBALS['keyLinkUser'] = "u";
 $GLOBALS['keyWorkingAs'] = "l";

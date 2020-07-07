@@ -622,7 +622,7 @@ $GLOBALS['strConfirmDeleteAgency'] = "Vil du virkelig slette denne zone?";
 $GLOBALS['strInactiveAgenciesHidden'] = "inaktive zone(r) er skjult";
 
 // Channels
-$GLOBALS['strChannelToWebsite'] = "til website";
+$GLOBALS['strChannelToWebsite'] = "Alle websider";
 $GLOBALS['strChannelLimitations'] = "Leverings optioner";
 $GLOBALS['strChannelsOfWebsite'] = 'i'; //this is added between page name and website name eg. 'delivery rule sets in www.example.com'
 
@@ -649,13 +649,12 @@ $GLOBALS['strVariableCode'] = "Javascript sporer kode";
 
 // Password recovery
 $GLOBALS['strForgotPassword'] = "Glemt dit password?";
-$GLOBALS['strPasswordRecovery'] = "Password genskabes";
 $GLOBALS['strEmailRequired'] = "Email er et krævet felt";
 $GLOBALS['strPwdRecWrongId'] = "Forkert ID";
 $GLOBALS['strPwdRecEnterEmail'] = "Skriv din email adresse nedefor";
 $GLOBALS['strPwdRecEnterPassword'] = "Skriv dit nye password nedenfor";
-$GLOBALS['strPwdRecEmailPwdRecovery'] = "%s password genskabes";
 $GLOBALS['strProceed'] = "Fortsæt >";
+
 
 // Audit
 $GLOBALS['strBinaryData'] = "Binær date";

@@ -48,7 +48,6 @@ $GLOBALS['strUnableToWritePrefs'] = "Ude af stand til at binde referencer til da
 $GLOBALS['strImageDirLockedDetected'] = "Den leverede <b>Billede Mappe</b> er ikke skrivebar af serveren. <br>Du kan ikke fortsætte indtil du enten ændrer adgangstilladdelse til mappen eller opretter mappen.";
 
 // Configuration Settings
-$GLOBALS['strConfigurationSettings'] = "Konfigurations opsætning";
 
 // Administrator Settings
 $GLOBALS['strAdminUsername'] = "Administrator  brugernavn";

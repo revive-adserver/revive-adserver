@@ -31,7 +31,6 @@ $GLOBALS['strUpgrade'] = "업그레이드";
 /* ------------------------------------------------------- */
 
 // Global
-$GLOBALS['strChooseSection'] = "�?역 선�?";
 
 // Configuration Settings
 $GLOBALS['strConfigurationSettings'] = "구성 설정";
@@ -71,7 +70,7 @@ $GLOBALS['strTypeWebSettings'] = "로컬 배너(웹서버) 설정";
 $GLOBALS['strTypeWebMode'] = "저장 방법";
 $GLOBALS['strTypeWebModeLocal'] = "로컬 디렉토리";
 $GLOBALS['strTypeWebModeFtp'] = "외부 FTP 서버";
-$GLOBALS['strTypeWebDir'] = "로컬 디렉터리";
+$GLOBALS['strTypeWebDir'] = "로컬 디렉토리";
 $GLOBALS['strTypeFTPHost'] = "FTP 호스트";
 $GLOBALS['strTypeFTPDirectory'] = "호스트 디렉터리";
 $GLOBALS['strTypeFTPUsername'] = "로그인";
@@ -88,7 +87,7 @@ $GLOBALS['strGeotargetingSettings'] = "지역별 광고설정";
 $GLOBALS['strGeotargeting'] = "지역별 광고설정";
 
 // Interface Settings
-$GLOBALS['strInventory'] = "광고목록";
+$GLOBALS['strInventory'] = "목�?";
 $GLOBALS['strShowCampaignInfo'] = "<i>캠페�?� 목�?</i> 페�?�지�? 캠페�?� 정보를 �?세히 보여�?니다.";
 $GLOBALS['strShowBannerInfo'] = "<i>배너 목�?</i> 페�?�지�? 배너 정보를 �?세히 보여�?니다.";
 $GLOBALS['strShowCampaignPreview'] = "<i>배너 목�?</i> 페�?�지�? 배너�?� 미리보기를 모�? 표시합니다.";

@@ -49,7 +49,6 @@ $GLOBALS['strUnableToWritePrefs'] = "Neįmanoma nustatyti pirmenybių duomenų b
 $GLOBALS['strImageDirLockedDetected'] = "Pateiktas <b>Paveikslėlių aplankas</b> nėra įrašomas per serverį. <br> Jūs negalite tęsti kol nepakeitėte aplankų galimų leidimų arba nesukūrėte naujo aplanko.";
 
 // Configuration Settings
-$GLOBALS['strConfigurationSettings'] = "Konfigūracijos nustatymai";
 
 // Administrator Settings
 $GLOBALS['strAdminUsername'] = "Administratoriaus vartotojo avrdas";

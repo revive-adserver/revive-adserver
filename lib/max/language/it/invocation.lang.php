@@ -52,7 +52,7 @@ $GLOBALS['strWindowOptions'] = "Opzioni finestra";
 $GLOBALS['strShowToolbars'] = "Barra degli strumenti";
 $GLOBALS['strShowLocation'] = "Barra dell'indirizzo";
 $GLOBALS['strShowMenubar'] = "Barra dei menu";
-$GLOBALS['strShowStatus'] = "Barra di stato";
+$GLOBALS['strShowStatus'] = "Stato";
 $GLOBALS['strWindowResizable'] = "Ridimensionabile";
 $GLOBALS['strShowScrollbars'] = "Barre di scorrimento";
 

@@ -188,7 +188,7 @@ $GLOBALS['strStatsVariables'] = "Változók";
 $GLOBALS['strFinanceCPM'] = "CPM";
 $GLOBALS['strFinanceCPC'] = "CPC (kattintás alapú)";
 $GLOBALS['strFinanceCPA'] = "CPA (konverzió alapú)";
-$GLOBALS['strFinanceCTR'] = "CTR";
+$GLOBALS['strFinanceCTR'] = "CTR- Átkattintás";
 $GLOBALS['strFinanceCR'] = "CR";
 
 // Time and date related
@@ -255,7 +255,7 @@ $GLOBALS['strAllowClientActivateBanner'] = "A felhasználó aktiválhatja a saj�
 
 // Campaign
 $GLOBALS['strCampaign'] = "Kampány";
-$GLOBALS['strCampaigns'] = "Kampányok";
+$GLOBALS['strCampaigns'] = "Kampány";
 $GLOBALS['strAddCampaign'] = "Új kampány";
 $GLOBALS['strAddCampaign_Key'] = "Ú<u>j</u> kampány";
 $GLOBALS['strLinkedCampaigns'] = "Hozzákapcsolt kampányok";
@@ -629,7 +629,7 @@ $GLOBALS['strImpressionSR'] = "Megjelenés";
 
 // Short names
 $GLOBALS['strID_short'] = "Azonosító";
-$GLOBALS['strClicks_short'] = "Kattintások";
+$GLOBALS['strClicks_short'] = "Kattintás";
 $GLOBALS['strCTR_short'] = "CTR- Átkattintás";
 
 // Global Settings
@@ -673,6 +673,7 @@ $GLOBALS['strTrackerTypeCustom'] = "Egyedi JS kód";
 // Password recovery
 $GLOBALS['strForgotPassword'] = "Elfelejtette a jelszavát?";
 $GLOBALS['strPwdRecWrongId'] = "Hibás ID";
+
 
 // Audit
 

@@ -119,7 +119,6 @@ $GLOBALS['strAppendCodesResult'] = "Hier sind die Ergebnisse der Überprüfung d
 $GLOBALS['strAppendCodesValid'] = "Alle Tracker Code Anhänge sind korrekt";
 $GLOBALS['strRepairAppenedCodes'] = "Obige Inkonsistenzen wurden ermittelt. Sie können diese reparieren durch die Verwendung des unten stehenden Buttons. Hierbei wird das System die Code Anhänge jedes Trackers im System neu übersetzen.";
 
-$GLOBALS['strPlugins'] = "Plugins";
 $GLOBALS['strPluginsPrecis'] = "Probleme mit den OpenX-Plugins überprüfen und reparieren";
 
 $GLOBALS['strMenus'] = "Menüs";

@@ -63,7 +63,6 @@ $GLOBALS['strNo'] = "لا";
 $GLOBALS['strNone'] = "المنطقة";
 $GLOBALS['strCustom'] = "مخصص";
 $GLOBALS['strDefault'] = "افتراضي";
-$GLOBALS['strUnknown'] = "مجهول";
 $GLOBALS['strUnlimited'] = "غير محدود";
 $GLOBALS['strUntitled'] = "بدون عنوان";
 $GLOBALS['strAll'] = "الكل";
@@ -632,6 +631,7 @@ $GLOBALS['strGeneric'] = "عام";
 $GLOBALS['strTrackerType'] = "اسم المتتبع";
 
 // Password recovery
+
 
 // Audit
 $GLOBALS['strBinaryData'] = "معلومات Binary";

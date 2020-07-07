@@ -38,7 +38,7 @@ $GLOBALS['strAppCheckDbIntegrityError'] = "ما مسائل صداقت با پا�
 $GLOBALS['strSyscheckProgressMessage'] = "
 بررسی پارامترهای سیستم ...";
 $GLOBALS['strError'] = "خطا";
-$GLOBALS['strWarning'] = "هشدار";
+$GLOBALS['strWarning'] = "اخطار";
 $GLOBALS['strOK'] = "خب";
 $GLOBALS['strSyscheckName'] = "نام را بررسی کنید";
 $GLOBALS['strSyscheckValue'] = "ارزش فعلی";

@@ -370,7 +370,6 @@ $GLOBALS['strCampaignStatusRestarted'] = "הותחל מחדש";
 $GLOBALS['strCampaignStatusDeleted'] = "נמחק";
 $GLOBALS['strCampaignType'] = "סוג קמפיין";
 $GLOBALS['strType'] = "סוג";
-$GLOBALS['strContract'] = "חוזה";
 $GLOBALS['strOverride'] = "לדרוס";
 $GLOBALS['strPricing'] = "תימחור";
 $GLOBALS['strPricingModel'] = "מודל תימחור";
@@ -506,7 +505,7 @@ if (!isset($GLOBALS['strCappingZone'])) {
 $GLOBALS['strCappingZone']['limit'] = "להגביל צפיית באיזורים ל:";
 
 // Website
-$GLOBALS['strAffiliate'] = "מפיץ";
+$GLOBALS['strAffiliate'] = "אתר אינטרנט";
 $GLOBALS['strAffiliates'] = "מפיצים";
 $GLOBALS['strAffiliatesAndZones'] = "מפיצים ואיזורים";
 $GLOBALS['strAddNewAffiliate'] = "הוסף אתר  חדש";
@@ -520,7 +519,7 @@ $GLOBALS['strShowParentAffiliates'] = "הצג אתרי אב";
 $GLOBALS['strHideParentAffiliates'] = "הסתר אתרי אב";
 
 // Website (properties)
-$GLOBALS['strWebsite'] = "אתר";
+$GLOBALS['strWebsite'] = "אתר אינטרנט";
 $GLOBALS['strWebsiteURL'] = "כתובת אתר";
 $GLOBALS['strAllowAffiliateModifyZones'] = "אפשר למשתמש זה לשנות אזורים";
 $GLOBALS['strAllowAffiliateLinkBanners'] = "אפשר למשתמש זה לקשר באנרים לאזורים שלו";
@@ -605,7 +604,7 @@ $GLOBALS['strSelectPlacement'] = "בחר קמפיין";
 $GLOBALS['strSelectAd'] = "בחר באנר";
 $GLOBALS['strSelectPublisher'] = "בחר אתר אינטרנט";
 $GLOBALS['strSelectZone'] = "בחר איזור";
-$GLOBALS['strStatusPending'] = "ממתין";
+$GLOBALS['strStatusPending'] = "ממתינים";
 $GLOBALS['strStatusApproved'] = "אישור";
 $GLOBALS['strStatusDisapproved'] = "לא אושר";
 $GLOBALS['strStatusDuplicate'] = "שכפל";
@@ -625,7 +624,7 @@ $GLOBALS['strCampaignDistribution'] = "היתפלגות קמפיין";
 $GLOBALS['strBreakdownByDay'] = "יום";
 $GLOBALS['strBreakdownByWeek'] = "שבוע";
 $GLOBALS['strBreakdownByMonth'] = "חודש";
-$GLOBALS['strBreakdownByDow'] = "יום בשבוע";
+$GLOBALS['strBreakdownByDow'] = "יו םבשבוע";
 $GLOBALS['strBreakdownByHour'] = "שעה";
 $GLOBALS['strItemsPerPage'] = "פריטים לעמוד";
 
@@ -640,7 +639,6 @@ $GLOBALS['strCampaignStop'] = "קמפיין נעצר";
 $GLOBALS['strAdvancedReports'] = "דו''חות מתקדמים";
 $GLOBALS['strStartDate'] = "התחלה";
 $GLOBALS['strEndDate'] = "סוף";
-$GLOBALS['strPeriod'] = "נקודה";
 $GLOBALS['strLimitations'] = "כללי משלוח";
 
 // Admin_UI_Fields
@@ -751,10 +749,8 @@ $GLOBALS['strGeneric'] = "כללי";
 
 // Password recovery
 $GLOBALS['strForgotPassword'] = "שכחת סיסמא?";
-$GLOBALS['strPasswordRecovery'] = "שחזור סיסמא";
 $GLOBALS['strEmailRequired'] = "דוא''ל הוא שדה חובה";
-$GLOBALS['strPwdRecResetLink'] = "קישור לאיפוס סיסמא";
-$GLOBALS['strPwdRecEmailPwdRecovery'] = "%s איפוס סיסמא";
+
 
 // Audit
 
@@ -791,5 +787,5 @@ $GLOBALS['keySearch'] = "ח";
 $GLOBALS['keyCollapseAll'] = "מ";
 $GLOBALS['keyExpandAll'] = "פ";
 $GLOBALS['keyAddNew'] = "ח";
-$GLOBALS['keyNext'] = "ב";
+$GLOBALS['keyNext'] = "ח";
 $GLOBALS['keyPrevious'] = "ק";
