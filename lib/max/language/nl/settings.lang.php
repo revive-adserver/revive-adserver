@@ -153,7 +153,7 @@ $GLOBALS['strTypeWebModeFtp'] = "Externe FTP-Server";
 $GLOBALS['strTypeWebDir'] = "Lokale map";
 $GLOBALS['strTypeFTPHost'] = "FTP server";
 $GLOBALS['strTypeFTPDirectory'] = "Server map";
-$GLOBALS['strTypeFTPUsername'] = "Gebruikersnaam";
+$GLOBALS['strTypeFTPUsername'] = "Inloggen";
 $GLOBALS['strTypeFTPPassword'] = "Wachtwoord";
 $GLOBALS['strTypeFTPPassive'] = "Passieve FTP gebruiken";
 $GLOBALS['strTypeFTPErrorDir'] = "De server map bestaat niet";
@@ -278,7 +278,7 @@ $GLOBALS['strWarnAgency'] = "Stuur een waarschuwing naar de beheerder wanneer er
 
 // UI Settings
 $GLOBALS['strGuiSettings'] = "Gebruikersinterface instellingen";
-$GLOBALS['strGeneralSettings'] = "Algemene instellingen";
+$GLOBALS['strGeneralSettings'] = "Algemene Instellingen";
 $GLOBALS['strAppName'] = "Applicatienaam";
 $GLOBALS['strMyHeader'] = "Header bestandslocatie";
 $GLOBALS['strMyFooter'] = "Footer Bestandslocatie";

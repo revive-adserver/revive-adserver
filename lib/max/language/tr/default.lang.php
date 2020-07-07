@@ -916,13 +916,11 @@ $GLOBALS['strVariableCode'] = "Javascript izleme kodu";
 
 // Password recovery
 $GLOBALS['strForgotPassword'] = "Şifrenizi mi unuttunuz?";
-$GLOBALS['strPasswordRecovery'] = "Şifre yenileme";
 $GLOBALS['strEmailRequired'] = "Eposta alanı gereklidir";
 $GLOBALS['strPwdRecWrongId'] = "Yanlış ID";
 $GLOBALS['strPwdRecEnterEmail'] = "Eposta adresinizi girin";
 $GLOBALS['strPwdRecEnterPassword'] = "Yeni şifrenizi girin";
-$GLOBALS['strPwdRecResetLink'] = "Şifre yenileme bağlantısı";
-$GLOBALS['strPwdRecEmailPwdRecovery'] = "%s şifre yenilemesi";
+
 
 // Audit
 $GLOBALS['strBinaryData'] = "İkili veri";

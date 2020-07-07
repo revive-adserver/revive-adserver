@@ -422,7 +422,6 @@ $GLOBALS['strClick'] = "Klick";
 $GLOBALS['strConversionType'] = "Konversionstyp";
 $GLOBALS['strLinkCampaignsByDefault'] = "Verlinke neu erstellte Kampagnen automatisch";
 $GLOBALS['strBackToTrackers'] = "Zurück zu den Trackern";
-$GLOBALS['strIPAddress'] = "IP Adresse";
 
 // Banners (General)
 $GLOBALS['strBanner'] = "Banner";
@@ -863,7 +862,7 @@ $GLOBALS['strInactiveAgenciesHidden'] = "deaktivierte Benutzerkonten verborgen";
 $GLOBALS['strSwitchAccount'] = "Zu diesem Benutzerzugang wechseln";
 
 // Channels
-$GLOBALS['strChannelToWebsite'] = "zur Webseite";
+$GLOBALS['strChannelToWebsite'] = "Zur Webseite";
 $GLOBALS['strChannelLimitations'] = "Auslieferungsoptionen";
 
 // Tracker Variables
@@ -890,15 +889,12 @@ $GLOBALS['strTrackerTypeCustom'] = "Eigener JS code";
 
 // Password recovery
 $GLOBALS['strForgotPassword'] = "Passwort vergessen?";
-$GLOBALS['strPasswordRecovery'] = "Password wiederherstellen";
 $GLOBALS['strEmailRequired'] = "Das Eingabefeld e-Mail muss ausgefüllt sein";
 $GLOBALS['strPwdRecWrongId'] = "Falsche ID";
 $GLOBALS['strPwdRecEnterEmail'] = "Geben Sie nachfolgend Ihre eMail Adresse ein";
 $GLOBALS['strPwdRecEnterPassword'] = "Geben Sie nachfolgend Ihr neues Passwort ein";
-$GLOBALS['strPwdRecResetLink'] = "Link zum Passwort zurücksetzen";
-$GLOBALS['strPwdRecEmailPwdRecovery'] = "%s Passwort wiederherstellen";
 $GLOBALS['strProceed'] = "Weiter >";
-$GLOBALS['strNotifyPageMessage'] = "Ihnen wurde ein Link zum Zurücksetzen des Passworts per E-Mail zugeschickt, bitte warten Sie einige Minuten auf die Zustellung.<br />Sollte die E-Mail nicht eintreffen, überprüfen Sie bitte auch Ihren Spam-Ordner.<br /><a href='index.php'>Zurück zur Login-Seite.</a>";
+
 
 // Audit
 $GLOBALS['strAdditionalItems'] = "und weitere Einträge";
@@ -1005,6 +1001,4 @@ $GLOBALS['keyPreviousItem'] = ".";
 // used in the string in default.lang.php
 $GLOBALS['keyCollapseAll'] = "z";
 $GLOBALS['keyExpandAll'] = "a";
-$GLOBALS['keyNext'] = "w";
 $GLOBALS['keyPrevious'] = "z";
-$GLOBALS['keyLinkUser'] = "b";

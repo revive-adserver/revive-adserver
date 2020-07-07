@@ -174,6 +174,7 @@ $GLOBALS['strPeriod'] = "Període";
 
 // Password recovery
 
+
 // Audit
 
 // Widget - Audit

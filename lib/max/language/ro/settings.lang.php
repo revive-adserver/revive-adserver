@@ -52,7 +52,6 @@ $GLOBALS['strUnableToWritePrefs'] = "Nu pot introduce aceste preferinţe în baz
 $GLOBALS['strImageDirLockedDetected'] = "<b>Dosarul de Imagini</b> furnizat nu poate fi scris de către server. <br>Nu poţi continua până când nu modifici permisiunile sau creezi acel dosar.";
 
 // Configuration Settings
-$GLOBALS['strConfigurationSettings'] = "Setări configurare";
 
 // Administrator Settings
 $GLOBALS['strAdminUsername'] = "Utilizator Administrator";

@@ -53,7 +53,7 @@ $GLOBALS['strUpgrade'] = "Meningkatkan";
 /* ------------------------------------------------------- */
 
 // Global
-$GLOBALS['strChooseSection'] = "Pilih Bagian";
+$GLOBALS['strChooseSection'] = "Pilih bagian";
 $GLOBALS['strEditConfigNotPossible'] = "Tidak mungkin mengedit semua pengaturan karena file konfigurasi terkunci karena alasan keamanan.
      Jika Anda ingin melakukan perubahan, Anda mungkin perlu membuka file konfigurasi untuk penginstalan ini terlebih dahulu.";
 $GLOBALS['strEditConfigPossible'] = "Hal ini dimungkinkan untuk mengedit semua pengaturan karena file konfigurasi tidak terkunci, namun hal ini dapat menyebabkan masalah keamanan.
@@ -63,7 +63,7 @@ $GLOBALS['strUnableToWritePrefs'] = "Gagal mengirim preferensi kepada database";
 $GLOBALS['strImageDirLockedDetected'] = "<b>Direktori Gambar</b> yang diberikan tidak bisa ditulis oleh server. <br>Anda tidak dapat melanjut sebelum permissions dari direktori tersebut diubah atau direktori tersebut dibuatkan.";
 
 // Configuration Settings
-$GLOBALS['strConfigurationSettings'] = "Penyetelan konfigurasi";
+$GLOBALS['strConfigurationSettings'] = "Pengaturan konfigurasi";
 
 // Administrator Settings
 $GLOBALS['strAdminUsername'] = "Nama pengguna Administrator";
@@ -203,7 +203,7 @@ $GLOBALS['defaultLanguage'] = "Anggapan Bahasa yang digunakan<br />(Setiap pengg
 
 // Geotargeting Settings
 $GLOBALS['strGeotargetingSettings'] = "Pengaturan Penargetan Geografis";
-$GLOBALS['strGeotargeting'] = "Penyetelan Global Geotargeting";
+$GLOBALS['strGeotargeting'] = "Pengaturan Penargetan Geografis";
 $GLOBALS['strGeotargetingType'] = "Jenis modul Geotargeting";
 $GLOBALS['strGeoShowUnavailable'] = "Tampilkan aturan pengiriman geotargeting meskipun data GeoIP tidak tersedia";
 

@@ -388,7 +388,6 @@ $GLOBALS['strView'] = "Visualizar";
 $GLOBALS['strConversionType'] = "Tipo de conversão";
 $GLOBALS['strLinkCampaignsByDefault'] = "vincular campanhas novas por padrão";
 $GLOBALS['strBackToTrackers'] = "Voltar para rastreadores";
-$GLOBALS['strIPAddress'] = "Endereço IP";
 
 // Banners (General)
 $GLOBALS['strBanner'] = "Anúncio";
@@ -551,9 +550,6 @@ $GLOBALS['strWarnChangeZoneSize'] = 'Alterar o tamanho da zona irá remover vín
 $GLOBALS['strWarnChangeBannerSize'] = 'Alterar o tamanho do banner irá remover seu vínculo de qualquer zona que não for compatível com o novo tamanho, se a <strong>campanha</strong> deste banner estiver ligada a uma zona do novo tamanho, o banner será automaticamente vinculado.';
 $GLOBALS['strZonesOfWebsite'] = 'em'; //this is added between page name and website name eg. 'Zones in www.example.com'
 
-$GLOBALS['strIab']['IAB_Rectangle(180x150)*'] = "IAB Rectangle (180 x 150) *";
-$GLOBALS['strIab']['IAB_MediumRectangle(300x250)*'] = "IAB Medium Rectangle (300 x 250) *";
-$GLOBALS['strIab']['IAB_WideSkyscraper(160x600)*'] = "IAB Wide Skyscraper (160 x 600) *";
 
 // Advanced zone settings
 $GLOBALS['strAdvanced'] = "Avançado";
@@ -751,7 +747,6 @@ $GLOBALS['strClickSR_short'] = "Cliques SR";
 $GLOBALS['strGlobalSettings'] = "Configurações global";
 $GLOBALS['strGeneralSettings'] = "Configurações gerais";
 $GLOBALS['strMainSettings'] = "Principais configurações";
-$GLOBALS['strChooseSection'] = 'Escolher seção';
 
 // Product Updates
 $GLOBALS['strProductUpdates'] = "Atualizações do produto";
@@ -816,15 +811,12 @@ $GLOBALS['strVariableCode'] = "Código de rastreamento em Javascript";
 
 // Password recovery
 $GLOBALS['strForgotPassword'] = "Esqueceu sua senha?";
-$GLOBALS['strPasswordRecovery'] = "Recuperação de senha";
 $GLOBALS['strEmailRequired'] = "E-mail é um campo obrigatório";
 $GLOBALS['strPwdRecWrongId'] = "ID incorreto";
 $GLOBALS['strPwdRecEnterEmail'] = "Digite seu e-mail abaixo";
 $GLOBALS['strPwdRecEnterPassword'] = "Digite sua nova senha abaixo";
-$GLOBALS['strPwdRecResetLink'] = "Link para resetar a senha";
-$GLOBALS['strPwdRecEmailPwdRecovery'] = "%s recuperação de senha";
 $GLOBALS['strProceed'] = "Prosseguir >";
-$GLOBALS['strNotifyPageMessage'] = "Um e-mail foi enviado para o endereço informado, nele esta incluso um link que irá permitir a re-configuração de sua senha.<br />Permita alguns minutos para o e-mail chegar.<br />Caso não receba o e-mail, verifique a pasta de spam.<br /><a href='index.php'>Voltar para página de login.</a>";
+
 
 // Audit
 $GLOBALS['strAdditionalItems'] = "e itens adicionais";

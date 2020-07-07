@@ -12,7 +12,7 @@
 
 // Set translation strings
 $GLOBALS['strDeliveryEngine'] = "Dostarczanie";
-$GLOBALS['strMaintenance'] = "Utrzymanie";
+$GLOBALS['strMaintenance'] = "Konserwacja";
 
 // Audit
 $GLOBALS['strDeleted'] = "usunięto";

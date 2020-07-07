@@ -733,15 +733,12 @@ $GLOBALS['strVariableCode'] = "Cod Javascript de contorizare";
 
 // Password recovery
 $GLOBALS['strForgotPassword'] = "Ţi-ai uitat parola?";
-$GLOBALS['strPasswordRecovery'] = "Recuperare parolă";
 $GLOBALS['strEmailRequired'] = "Email este un câmp obligatoriu";
 $GLOBALS['strPwdRecWrongId'] = "ID greşit";
 $GLOBALS['strPwdRecEnterEmail'] = "Scrie adresa de email mai jos";
 $GLOBALS['strPwdRecEnterPassword'] = "Scrie noua parolă mai jos";
-$GLOBALS['strPwdRecResetLink'] = "Link pentru resetare parolă";
-$GLOBALS['strPwdRecEmailPwdRecovery'] = "%s recuperare parolă";
 $GLOBALS['strProceed'] = "Înaintează >";
-$GLOBALS['strNotifyPageMessage'] = "A fost trimis un e-mail către tine, ce conţine o adresă (legătură) de accesat ce-ţi va permite să-ţi resetezi parola şi să te autentifici.<br />Te rugăm să aştepţi câteva minute pentru ca e-mail-ul să ajungă la timp.<br />Dacă nu primeşti e-mail-ul, te rugăm să verifici în dosarul spam.<br /><a href='index.php'>Întoarce-te la pagina principală de autentificare.</a>";
+
 
 // Audit
 $GLOBALS['strAdditionalItems'] = "şi facilităţi suplimentare";

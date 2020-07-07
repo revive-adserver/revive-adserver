@@ -20,7 +20,7 @@ $GLOBALS['strAbbrSeconds'] = "vteřin";
 
 // Common Invocation Parameters
 $GLOBALS['strInvocationWhat'] = "Volba banneru";
-$GLOBALS['strInvocationCampaignID'] = "Skrytá kampaň";
+$GLOBALS['strInvocationCampaignID'] = "Kampaň";
 $GLOBALS['strInvocationTarget'] = "Cílový frame";
 $GLOBALS['strInvocationSource'] = "Zdroj";
 $GLOBALS['strInvocationWithText'] = "Zobrazit text pod bannerem";
@@ -48,7 +48,7 @@ $GLOBALS['strWindowOptions'] = "Parametry okna";
 $GLOBALS['strShowToolbars'] = "Panel nástrojů";
 $GLOBALS['strShowLocation'] = "Umístění";
 $GLOBALS['strShowMenubar'] = "Menu";
-$GLOBALS['strShowStatus'] = "Stavový řádek";
+$GLOBALS['strShowStatus'] = "Stav";
 $GLOBALS['strWindowResizable'] = "Měnitelná velikost";
 $GLOBALS['strShowScrollbars'] = "Skrolovatelný";
 

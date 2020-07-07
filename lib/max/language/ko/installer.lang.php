@@ -41,7 +41,6 @@ $GLOBALS['strWarning'] = "경고";
 $GLOBALS['strOK'] = "예";
 $GLOBALS['strSyscheckName'] = "이름 확인";
 $GLOBALS['strSyscheckValue'] = "현재 값";
-$GLOBALS['strSyscheckStatus'] = "상태";
 $GLOBALS['strSyscheckSeeFullReport'] = "자세한 시스템 체크 표시";
 $GLOBALS['strSyscheckSeeShortReport'] = "오류 및 경고만 표시";
 $GLOBALS['strBrowserCookies'] = '브라우저 쿠키';

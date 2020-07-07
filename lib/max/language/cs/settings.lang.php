@@ -15,7 +15,7 @@ $GLOBALS['strInstall'] = "Instalace";
 $GLOBALS['strDatabaseSettings'] = "Nastavení databáze";
 $GLOBALS['strAdminAccount'] = "Účet správce systému";
 $GLOBALS['strAdvancedSettings'] = "Rozsirena nastaveni databaze";
-$GLOBALS['strWarning'] = "Upozornění";
+$GLOBALS['strWarning'] = "Varování";
 $GLOBALS['strBtnContinue'] = "Pokračovat»";
 $GLOBALS['strBtnRecover'] = "Obnovit»";
 $GLOBALS['strBtnAgree'] = "Souhlasím»";
@@ -44,7 +44,6 @@ $GLOBALS['strUpgrade'] = "Aktualizace";
 /* ------------------------------------------------------- */
 
 // Global
-$GLOBALS['strChooseSection'] = "Vyberte sekci";
 
 // Configuration Settings
 $GLOBALS['strConfigurationSettings'] = "Nastavení konfigurace";
@@ -151,7 +150,7 @@ $GLOBALS['strWarnAgency'] = "Poslat upozornění partnerovi kdykoliv je kampaň 
 
 // UI Settings
 $GLOBALS['strGuiSettings'] = "Nastavení uživatelského rozhraní";
-$GLOBALS['strGeneralSettings'] = "Základní nastavení";
+$GLOBALS['strGeneralSettings'] = "Obecná nastavení";
 $GLOBALS['strAppName'] = "Název aplikace";
 $GLOBALS['strMyHeader'] = "Umístění souboru hlavičky";
 $GLOBALS['strMyFooter'] = "Umístění souboru patičky";

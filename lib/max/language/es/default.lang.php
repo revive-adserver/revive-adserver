@@ -1003,15 +1003,12 @@ $GLOBALS['strVariableCode'] = "Código Javascript de tracking";
 
 // Password recovery
 $GLOBALS['strForgotPassword'] = "¿Ha olvidado su contraseña?";
-$GLOBALS['strPasswordRecovery'] = "Recuperar contraseña";
 $GLOBALS['strEmailRequired'] = "E-mail es un campo requerido";
 $GLOBALS['strPwdRecWrongId'] = "ID erróneo";
 $GLOBALS['strPwdRecEnterEmail'] = "Introduzca su dirección e-mail a continuación";
 $GLOBALS['strPwdRecEnterPassword'] = "Introduzca su nueva contraseña a continuación";
-$GLOBALS['strPwdRecResetLink'] = "Enlace de reset de contraseña";
-$GLOBALS['strPwdRecEmailPwdRecovery'] = "Recuperación de contraseña %s";
 $GLOBALS['strProceed'] = "Continuar >";
-$GLOBALS['strNotifyPageMessage'] = "Se le ha enviado un e-mail, el cual incluye un enlace que le permitirá restaurar su contraseña y entrar en el sistema.<br />Por favor de varios minutos al e-mail para recibirlo.<br />Si no recibe el e-mail, por favor revise su carpeta de spam.<br /><a href='index.php'>Volver a la página principal de entrada al sistema.</a>";
+
 
 // Audit
 $GLOBALS['strAdditionalItems'] = "e ítems adicionales";
@@ -1127,4 +1124,4 @@ $GLOBALS['keyExpandAll'] = "e";
 $GLOBALS['keyAddNew'] = "n";
 $GLOBALS['keyNext'] = "n";
 $GLOBALS['keyPrevious'] = "p";
-$GLOBALS['keyLinkUser'] = "Enlace del Usuario";
+$GLOBALS['keyLinkUser'] = "u";

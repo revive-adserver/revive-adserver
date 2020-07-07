@@ -28,7 +28,6 @@ $GLOBALS['strWindowOptions'] = "Vindusvalg";
 $GLOBALS['strShowToolbars'] = "Verktøylinjer";
 $GLOBALS['strShowLocation'] = "Posisjon";
 $GLOBALS['strShowMenubar'] = "Menybar";
-$GLOBALS['strShowStatus'] = "Status";
 
 // XML-RPC
 

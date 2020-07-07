@@ -772,6 +772,7 @@ $GLOBALS['strNoVarsToTrack'] = "Žádné proměnné ke sledování.";
 $GLOBALS['strPwdRecEnterEmail'] = "Zadejte vaši e-mailovou adresu";
 $GLOBALS['strPwdRecEnterPassword'] = "Zadejte své nové heslo";
 
+
 // Audit
 $GLOBALS['strFor'] = "pro";
 
