@@ -419,9 +419,12 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
             "{$n}class {$this->classname} extends {$this->_extends} {$n}{{$n}",
             $input);
 
-        return preg_replace(
+        $full = preg_replace(
             '/(\n|\r\n)\s*###START_AUTOCODE(\n|\r\n).*(\n|\r\n)\s*###END_AUTOCODE(\n|\r\n)/s',
-            $body,$input);
+            $body, $input);
+
+        // Remove trailing whitespace
+        return preg_replace('#[ \t]+$#m', '', $full);
     }
 
     /**
@@ -568,13 +571,13 @@ class OA_DB_DataObject_Generator extends DB_DataObject_Generator
         $result = '';
         if (!empty($aDefaults))
         {
-            $result = "\n".'    var $defaultValues = array('. "\n";
+            $result = "\n".'    var $defaultValues = ['. "\n";
                     foreach($aDefaults as $k=>$v)
                     {
-                        $result .= '                \''.addslashes($k).'\' => ' . $v . ",\n";
+                        $result .= '        \''.addslashes($k).'\' => ' . $v . ",\n";
 
                     }
-            $result .= "                );\n";
+            $result .= "    ];\n";
         }
         return $result;
     }
