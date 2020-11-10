@@ -242,17 +242,18 @@ class ZoneServiceImpl extends BaseServiceImpl
      * @param date $oStartDate
      * @param date $oEndDate
      * @param bool $localTZ
+     * @param string $timeZone
      * @param recordSet &$rsStatisticsData  return data
      *
      * @return boolean
      */
-    function getZoneCampaignStatistics($sessionId, $zoneId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
+    function getZoneCampaignStatistics($sessionId, $zoneId, $oStartDate, $oEndDate, $localTZ, $timeZone, &$rsStatisticsData)
     {
         if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllZone->getZoneCampaignStatistics(
-                    $zoneId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData));
+                    $zoneId, $oStartDate, $oEndDate, $localTZ,  $rsStatisticsData, $timeZone));
         } else {
 
             return false;

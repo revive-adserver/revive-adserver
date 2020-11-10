@@ -384,7 +384,7 @@ $dispatches = array(
     'ox.campaignDailyStatistics' => array(
         'function'  => array($fc, 'campaignDailyStatistics'),
         'signature' => array(
-            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'),
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean', 'string'),
             array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
             array('array', 'string', 'int', 'dateTime.iso8601'),
             array('array', 'string', 'int')
@@ -428,7 +428,7 @@ $dispatches = array(
     'ox.campaignZoneStatistics' => array(
         'function'  => array($fc, 'campaignZoneStatistics'),
         'signature' => array(
-            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'),
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean', 'string'),
             array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
             array('array', 'string', 'int', 'dateTime.iso8601'),
             array('array', 'string', 'int')
@@ -439,7 +439,7 @@ $dispatches = array(
     'ox.campaignConversionStatistics' => array(
         'function'  => array($fc, 'campaignConversionStatistics'),
         'signature' => array(
-            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'),
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean', 'string'),
             array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
             array('array', 'string', 'int', 'dateTime.iso8601'),
             array('array', 'string', 'int')
@@ -863,7 +863,7 @@ $dispatches = array(
     'ox.zoneCampaignStatistics' => array(
         'function'  => array($fc, 'zoneCampaignStatistics'),
         'signature' => array(
-            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean'),
+            array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601', 'boolean', 'string'),
             array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
             array('array', 'string', 'int', 'dateTime.iso8601'),
             array('array', 'string', 'int')

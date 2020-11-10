@@ -33,6 +33,7 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
     * @param date $oStartDate The date from which to get statistics (inclusive)
     * @param date $oEndDate The date to which to get statistics (inclusive)
     * @param bool $localTZ Should stats be using the manager TZ or UTC?
+    * @param string $timeZone Timezone sent by the client that makes the request (optional)
     *
     * @return array Each row containing:
     * <ul>
@@ -44,12 +45,14 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
     * </ul>
     *
     */
-    function getCampaignDailyStatistics($campaignId, $oStartDate, $oEndDate, $localTZ = false)
+    function getCampaignDailyStatistics($campaignId, $oStartDate, $oEndDate, $localTZ = false, $timeZone = null)
     {
         $campaignId     = $this->oDbh->quote($campaignId, 'integer');
         $tableCampaigns = $this->quoteTableName('campaigns');
         $tableBanners   = $this->quoteTableName('banners');
         $tableSummary   = $this->quoteTableName('data_summary_ad_hourly');
+
+        $dateField = 's.date_time';
 
         $aConf = $GLOBALS['_MAX']['CONF'];
 
@@ -72,7 +75,7 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
                 m.campaignid = b.campaignid
                 AND
                 b.bannerid = s.ad_id
-                " . $this->getWhereDate($oStartDate, $oEndDate, $localTZ) . "
+                " . $this->getWhereDate($oStartDate, $oEndDate, $localTZ, $dateField, $timeZone) . "
             GROUP BY
                 day,
                 hour
@@ -279,6 +282,7 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
     * @param date $oStartDate The date from which to get statistics (inclusive)
     * @param date $oEndDate The date to which to get statistics (inclusive)
     * @param bool $localTZ Should stats be using the manager TZ or UTC?
+    * @param string $timeZone Timezone sent by the client that makes the request (optional)
     *
     * @return RecordSet
     * <ul>
@@ -293,7 +297,7 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
     * </ul>
     *
     */
-    function getCampaignZoneStatistics($campaignId, $oStartDate, $oEndDate, $localTZ = false)
+    function getCampaignZoneStatistics($campaignId, $oStartDate, $oEndDate, $localTZ = false, $timeZone = null)
     {
         $campaignId      = $this->oDbh->quote($campaignId, 'integer');
         $tableCampaigns  = $this->quoteTableName('campaigns');
@@ -301,6 +305,8 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
         $tableZones      = $this->quoteTableName('zones');
         $tableAffiliates = $this->quoteTableName('affiliates');
         $tableSummary    = $this->quoteTableName('data_summary_ad_hourly');
+
+        $dateField = 's.date_time';
 
 		$query = "
             SELECT
@@ -332,7 +338,7 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
                 p.affiliateid = z.affiliateid
                 AND
                 z.zoneid = s.zone_id
-                " . $this->getWhereDate($oStartDate, $oEndDate, $localTZ) . "
+                " . $this->getWhereDate($oStartDate, $oEndDate, $localTZ, $dateField, $timeZone) . "
             GROUP BY
                 p.affiliateid, p.name,
                 z.zoneid, z.zonename
@@ -348,6 +354,7 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
      * @param date $oStartDate The date from which to get statistics (inclusive)
      * @param date $oEndDate The date to which to get statistics (inclusive)
      * @param bool $localTZ Should stats be using the manager TZ or UTC?
+     * @param string $timeZone Timezone sent by the client that makes the request (optional)
      *
      * @return MDB2_Result_Common
      *<ul>
@@ -363,7 +370,7 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
      *                             with each variable as an array('variableName' => 'variableValue')
      *</ul>
      */
-    public function getCampaignConversionStatistics($campaignId, $oStartDate, $oEndDate, $localTZ = false)
+    public function getCampaignConversionStatistics($campaignId, $oStartDate, $oEndDate, $localTZ = false, $timeZone = null)
     {
         $tableBanners = $this->quoteTableName('banners');
         $tableVariables = $this->quoteTableName('variables');
@@ -372,6 +379,9 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
 
         $localTZ = false;
         $dateField = 'd.tracker_date_time';
+        $orderBy = (isset($timeZone)) ? "ORDER BY d.tracker_date_time" : "";
+
+
 
         $query = "
             SELECT
@@ -379,7 +389,7 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
                 b.campaignid as campaignid,
                 d.tracker_id as trackerid,
                 d.ad_id as bannerid,
-                d.tracker_date_time as tracker_date_time,
+                {$dateField} as tracker_date_time,
                 d.connection_date_time as connection_date_time,
                 d.connection_status as conversionstatus,
                 d.tracker_ip_address as userip,
@@ -393,9 +403,11 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
                 left JOIN {$tableVariables} AS v ON (i.tracker_variable_id = v.variableid)
             WHERE
                 TRUE " . // Bit of a hack due to how getWhereDate works.
-                $this->getWhereDate($oStartDate, $oEndDate, $localTZ, $dateField) . "
+                $this->getWhereDate($oStartDate, $oEndDate, $localTZ, $dateField, $timeZone) . "
                 AND b.campaignid = " . $campaignId . "
-            ";
+            " . $orderBy;
+
+
 
         RV::disableErrorHandling();
         $rsResult = $this->oDbh->query($query);
@@ -406,7 +418,7 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
             $aResult[$row['conversionid']] = array('campaignID' => $row['campaignid'],
                                                    'trackerID' =>  $row['trackerid'],
                                                    'bannerID' => $row['bannerid'],
-                                                   'conversionTime' => $row['tracker_date_time'],
+                                                   'conversionTime' => $this->setDateTimeZone($row['tracker_date_time'], $localTZ, $timeZone)->format('Y-m-d H:i:s'),
                                                    'conversionStatus' => $row['conversionstatus'],
                                                    'userIp' => $row['userip'],
                                                    'action' => $row['action'],

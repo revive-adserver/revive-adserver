@@ -486,6 +486,7 @@ class OA_Dll_Zone extends OA_Dll
      * @param date $oEndDate The date to which to get statistics (inclusive)
      * @param bool $localTZ Should stats be using the manager TZ or UTC?
      * @param array $rsStatisticsData The data returned by the function
+     * @param string $timeZone Timezone sent by the client that makes the request (optional)
      *   <ul>
      *   <li><b>campaignID integer</b> The ID of the campaign
      *   <li><b>campaignName string</b> The name of the campaign
@@ -500,7 +501,7 @@ class OA_Dll_Zone extends OA_Dll
      * @return boolean True if the operation was successful and false if not.
      *
      */
-    function getZoneCampaignStatistics($zoneId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
+    function getZoneCampaignStatistics($zoneId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData, $timeZone = null)
     {
         if (!$this->checkStatisticsPermissions($zoneId)) {
             return false;
@@ -509,7 +510,7 @@ class OA_Dll_Zone extends OA_Dll
         if ($this->_validateForStatistics($zoneId, $oStartDate, $oEndDate)) {
             $dalZone = new OA_Dal_Statistics_Zone;
             $rsStatisticsData = $dalZone->getZoneCampaignStatistics($zoneId,
-                $oStartDate, $oEndDate, $localTZ);
+                $oStartDate, $oEndDate, $localTZ, $timeZone);
 
             return true;
         } else {

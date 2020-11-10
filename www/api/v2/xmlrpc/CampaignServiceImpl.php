@@ -158,17 +158,18 @@ class CampaignServiceImpl extends BaseServiceImpl
      * @param date $oStartDate
      * @param date $oEndDate
      * @param bool $localTZ
+     * @param string $timeZone
      * @param recordSet &$rsStatisticsData  return data
      *
      * @return boolean
      */
-    function getCampaignDailyStatistics($sessionId, $campaignId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
+    function getCampaignDailyStatistics($sessionId, $campaignId, $oStartDate, $oEndDate, $localTZ, $timeZone, &$rsStatisticsData)
     {
         if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllCampaign->getCampaignDailyStatistics(
-                    $campaignId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData));
+                    $campaignId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData, $timeZone));
         } else {
 
             return false;
@@ -270,17 +271,18 @@ class CampaignServiceImpl extends BaseServiceImpl
      * @param date $oStartDate
      * @param date $oEndDate
      * @param bool $localTZ
+     * @param string $timeZone
      * @param recordSet &$rsStatisticsData  return data
      *
      * @return boolean
      */
-    function getCampaignZoneStatistics($sessionId, $campaignId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
+    function getCampaignZoneStatistics($sessionId, $campaignId, $oStartDate, $oEndDate, $localTZ, $timeZone, &$rsStatisticsData)
     {
         if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllCampaign->getCampaignZoneStatistics(
-                    $campaignId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData));
+                    $campaignId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData, $timeZone));
         } else {
 
             return false;
@@ -343,18 +345,19 @@ class CampaignServiceImpl extends BaseServiceImpl
      * @param date $oStartDate
      * @param date $oEndDate
      * @param bool $localTZ
+     * @param string $timeZone
      * @param recordSet &$rsStatisticsData  return data
      *
      * @return boolean
      */
     public function getCampaignConversionStatistics(
-        $sessionId, $campaignId, $oStartDate, $oEndDate, $localTZ, &$rsStatisticsData)
+        $sessionId, $campaignId, $oStartDate, $oEndDate, $localTZ, $timeZone, &$rsStatisticsData)
     {
         if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllCampaign->getCampaignConversionStatistics(
-                    $campaignId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData));
+                    $campaignId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData, $timeZone));
         } else {
 
             return false;

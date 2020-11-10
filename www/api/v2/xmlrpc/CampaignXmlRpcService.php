@@ -165,14 +165,14 @@ class CampaignXmlRpcService extends BaseCampaignService
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
-                array(&$sessionId, &$campaignId, &$oStartDate, &$oEndDate, &$localTZ),
-                array(true, true, false, false, false), $oParams, $oResponseWithError)) {
+                array(&$sessionId, &$campaignId, &$oStartDate, &$oEndDate, &$localTZ, &$timeZone),
+                array(true, true, false, false, false, false), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
 
         $aData = null;
         if ($this->_oCampaignServiceImp->getCampaignDailyStatistics($sessionId,
-                $campaignId, $oStartDate, $oEndDate, $localTZ, $aData)) {
+                $campaignId, $oStartDate, $oEndDate, $localTZ, $timeZone, $aData)) {
 
             return XmlRpcUtils::arrayOfStructuresResponse(array('day' => 'date',
                                                         'requests' => 'integer',
@@ -311,14 +311,14 @@ class CampaignXmlRpcService extends BaseCampaignService
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
-                array(&$sessionId, &$campaignId, &$oStartDate, &$oEndDate, &$localTZ),
-                array(true, true, false, false, false), $oParams, $oResponseWithError)) {
+                array(&$sessionId, &$campaignId, &$oStartDate, &$oEndDate, &$localTZ, &$timeZone),
+                array(true, true, false, false, false, false), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
 
         $rsStatisticsData = null;
         if ($this->_oCampaignServiceImp->getCampaignZoneStatistics($sessionId,
-                $campaignId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData)) {
+                $campaignId, $oStartDate, $oEndDate, $localTZ, $timeZone, $rsStatisticsData)) {
 
             return XmlRpcUtils::arrayOfStructuresResponse(array('publisherId' => 'integer',
                                                         'publisherName' => 'string',
@@ -405,14 +405,14 @@ class CampaignXmlRpcService extends BaseCampaignService
     {
         $oResponseWithError = null;
         if (!XmlRpcUtils::getScalarValues(
-                array(&$sessionId, &$campaignId, &$oStartDate, &$oEndDate, &$localTZ),
-                array(true, true, false, false, false), $oParams, $oResponseWithError)) {
+                array(&$sessionId, &$campaignId, &$oStartDate, &$oEndDate, &$localTZ, &$timeZone),
+                array(true, true, false, false, false, false), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
 
         $rsStatisticsData = null;
         if ($this->_oCampaignServiceImp->getCampaignConversionStatistics($sessionId,
-                $campaignId, $oStartDate, $oEndDate, $localTZ, $rsStatisticsData)) {
+                $campaignId, $oStartDate, $oEndDate, $localTZ, $timeZone,$rsStatisticsData)) {
 
             return XmlRpcUtils::arrayOfStructuresResponse(
                 array('campaignID' => 'integer',

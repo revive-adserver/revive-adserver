@@ -25,31 +25,47 @@ class OA_Dal_Statistics extends OA_Dal
     /**
      * Get SQL where for statistics methods.
      *
-     *  @access public
+     * @access public
      *
-     * @param Date   $oStartDate
-     * @param Date   $oEndDate
-     * @param bool   $localTZ
+     * @param Date $oStartDate
+     * @param Date $oEndDate
+     * @param bool $localTZ
      * @param string $dateField
      *
      * @return string
      */
-    function getWhereDate($oStartDate, $oEndDate, $localTZ = false, $dateField = 's.date_time')
+    function getWhereDate($oStartDate, $oEndDate, $localTZ = false, $dateField = 's.date_time', $timeZone = null)
     {
         $where = '';
+
+        $hour = null;
+        $minute = null;
+        $second = null;
+
         if (isset($oStartDate)) {
-            $oStart = $this->setTimeAndReturnUTC($oStartDate, $localTZ, 0, 0, 0);
+
+            $hour = isset($timeZone) ? $oStartDate->hour : 0;
+            $minute = isset($timeZone) ? $oStartDate->minute : 0;
+            $second = isset($timeZone) ? $oStartDate->second : 0;
+
+            $oStart = $this->setTimeAndReturnUTC($oStartDate, $localTZ, $hour, $minute, $second, $timeZone);
             $where .= '
-                AND ' .
-                $dateField .' >= '.$this->oDbh->quote($oStart->getDate(DATE_FORMAT_ISO), 'timestamp');
+                    AND ' .
+                $dateField . ' >= ' . $this->oDbh->quote($oStart->getDate(DATE_FORMAT_ISO), 'timestamp');
         }
 
         if (isset($oEndDate)) {
-            $oEnd = $this->setTimeAndReturnUTC($oEndDate, $localTZ, 23, 59, 59);
+
+            $hour = isset($timeZone) ? $oEndDate->hour : 23;
+            $minute = isset($timeZone) ? $oEndDate->minute : 59;
+            $second = isset($timeZone) ? $oEndDate->second : 59;
+
+            $oEnd = $this->setTimeAndReturnUTC($oEndDate, $localTZ, $hour, $minute, $second, $timeZone);
             $where .= '
-                AND ' .
-                $dateField .' <= '.$this->oDbh->quote($oEnd->getDate(DATE_FORMAT_ISO), 'timestamp');
+                    AND ' .
+                $dateField . ' <= ' . $this->oDbh->quote($oEnd->getDate(DATE_FORMAT_ISO), 'timestamp');
         }
+
         return $where;
     }
 
@@ -82,9 +98,9 @@ class OA_Dal_Statistics extends OA_Dal
      * @param int $second
      * @return Date
      */
-    private function setTimeAndReturnUTC($oDate, $localTZ = false, $hour = 0, $minute = 0, $second = 0)
+    private function setTimeAndReturnUTC($oDate, $localTZ = false, $hour = 0, $minute = 0, $second = 0, $timeZone = null)
     {
-        $oTz = $this->getTimeZone($localTZ);
+        $oTz = isset($timeZone) ? new DateTimeZone($timeZone) : $this->getTimeZone($localTZ);
 
         $oDateCopy = new Date($oDate);
         $oDateCopy->setHour($hour);
@@ -107,7 +123,7 @@ class OA_Dal_Statistics extends OA_Dal
      */
     function getDailyStatsAsArray($query, $localTZ = false)
     {
-        $oTz  = $this->getTimeZone($localTZ);
+        $oTz = $this->getTimeZone($localTZ);
         if ($oTz->getShortName() == 'UTC') {
             // Disable TZ conversion
             $oTz = false;
@@ -185,8 +201,8 @@ class OA_Dal_Statistics extends OA_Dal
     /**
      * Add quote for table name.
      *
-	 * @access public
-	 *
+     * @access public
+     *
      * @param string $tableName
      *
      * @return string  quotes table name
@@ -196,9 +212,30 @@ class OA_Dal_Statistics extends OA_Dal
         $aConf = $GLOBALS['_MAX']['CONF'];
 
         return $this->oDbh->quoteIdentifier(
-                            $aConf['table']['prefix'].$aConf['table'][$tableName],
-                            true);
+            $aConf['table']['prefix'] . $aConf['table'][$tableName],
+            true);
     }
+
+
+
+    /**
+     * A private method used to return a copy of a DateTime with converted to specific time zone.
+     *
+     * @param DateTime $dateTime
+     * @param bool $localTZ
+     * @param string $timeZone
+     * @return DateTime
+     */
+    function setDateTimeZone($dateTime, $localTZ = false, $timeZone = null)
+    {
+        $oTz = isset($timeZone) ? new DateTimeZone($timeZone) : $this->getTimeZone($localTZ);
+
+        $oDateCopy = new DateTime($dateTime, new DateTimeZone('UTC'));
+        $oDateCopy->setTimezone($oTz);
+
+        return $oDateCopy;
+    }
+
 
 }
 
