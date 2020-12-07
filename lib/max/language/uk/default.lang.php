@@ -619,6 +619,7 @@ $GLOBALS['strDaysAgo'] = "дней назад";
 $GLOBALS['strCampaignStop'] = "Історія кампаній";
 
 // Reports
+$GLOBALS['strAdvancedReports'] = "Расширенные отчеты";
 $GLOBALS['strPeriod'] = "Период";
 
 // Admin_UI_Fields
