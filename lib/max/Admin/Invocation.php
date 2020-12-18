@@ -37,7 +37,7 @@ class MAX_Admin_Invocation {
         'cacheBuster'      => 1,
     );
 
-    function getAllowedVariables()
+    function getAllowedVariables(&$invocationTag = null)
     {
         $aVariables = array(
             // IDs
@@ -107,10 +107,10 @@ class MAX_Admin_Invocation {
      *
      * @param array $aParams The invocation parameters. If null, variables will be fetched from $GLOBALS
      */
-    function assignVariables($aParams = null)
+    function assignVariables($aParams = null, &$invocationTag = null)
     {
         // Get all variables
-        $globalVariables = $this->getAllowedVariables();
+        $globalVariables = $this->getAllowedVariables($invocationTag);
 
         // Check if we need to fetch variables from the global scope
         if (!isset($aParams)) {
@@ -120,7 +120,7 @@ class MAX_Admin_Invocation {
             foreach($globalVariables as $makeMeGlobal) {
                 global $$makeMeGlobal;
                 // If values are unset, populate them from the Plugin/Parent object if present
-                if (isset($$makeMeGlobal)) {
+                if (!isset($$makeMeGlobal)) {
                     // Check the plugin first, fall-back to the parent
                     if (isset($invocationTag->defaultOptionValues[$makeMeGlobal])) {
                         $$makeMeGlobal = $invocationTag->defaultOptionValues[$makeMeGlobal];
@@ -156,9 +156,6 @@ class MAX_Admin_Invocation {
     {
         $conf = $GLOBALS['_MAX']['CONF'];
 
-        // register all the variables
-        $this->assignVariables($aParams);
-
         if($invocationTag === null) {
             $invocationTag = OX_Component::factoryByComponentIdentifier($this->codetype);
         }
@@ -167,6 +164,9 @@ class MAX_Admin_Invocation {
             exit();
         }
 
+        // register all the variables
+        $this->assignVariables($aParams, $invocationTag);
+        
         // pass global variables as object attributes
         $invocationTag->setInvocation($this);
 
