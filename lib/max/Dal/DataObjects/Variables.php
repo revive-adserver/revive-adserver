@@ -40,17 +40,17 @@ class DataObjects_Variables extends DB_DataObjectCommon
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Variables',$k,$v); }
 
-    var $defaultValues = array(
-                'trackerid' => 0,
-                'name' => '',
-                'datatype' => 'numeric',
-                'reject_if_empty' => 0,
-                'is_unique' => 0,
-                'unique_window' => 0,
-                'variablecode' => '',
-                'hidden' => 'f',
-                'updated' => '%DATE_TIME%',
-                );
+    var $defaultValues = [
+        'trackerid' => 0,
+        'name' => '',
+        'datatype' => 'numeric',
+        'reject_if_empty' => 0,
+        'is_unique' => 0,
+        'unique_window' => 0,
+        'variablecode' => '',
+        'hidden' => 'f',
+        'updated' => '%DATE_TIME%',
+    ];
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

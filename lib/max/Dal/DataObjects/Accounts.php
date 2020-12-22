@@ -26,16 +26,16 @@ class DataObjects_Accounts extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'accounts';                        // table name
-    public $account_id;                      // MEDIUMINT(9) => openads_mediumint => 129 
-    public $account_type;                    // VARCHAR(16) => openads_varchar => 130 
-    public $account_name;                    // VARCHAR(255) => openads_varchar => 2 
+    public $account_id;                      // MEDIUMINT(9) => openads_mediumint => 129
+    public $account_type;                    // VARCHAR(16) => openads_varchar => 130
+    public $account_name;                    // VARCHAR(255) => openads_varchar => 2
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Accounts',$k,$v); }
 
-    var $defaultValues = array(
-                'account_type' => '',
-                );
+    var $defaultValues = [
+        'account_type' => '',
+    ];
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
@@ -69,13 +69,13 @@ class DataObjects_Accounts extends DB_DataObjectCommon
     function deleteCascade($linkedRefs, $primaryKey, $parentid)
     {
         $result = parent::deleteCascade($linkedRefs, $primaryKey, $parentid);
-        // Delete users or link them to other accounts 
+        // Delete users or link them to other accounts
         if ($result) {
             return $this->_relinkOrDeleteUsers();
         }
         return $result;
     }
-    
+
     /**
      * Returns ADMIN account ID
      *
@@ -112,7 +112,7 @@ class DataObjects_Accounts extends DB_DataObjectCommon
             $aAuditFields['key_desc']     = $this->account_name;
         }
     }
-    
+
     /**
      * On cascade deleting check if linked users should be deleted
      * or can be relinked to other account

@@ -41,14 +41,14 @@ class DataObjects_Users extends DB_DataObjectCommon
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Users',$k,$v); }
 
-    var $defaultValues = array(
-                'contact_name' => '',
-                'email_address' => '',
-                'active' => 1,
-                'sso_user_id' => OX_DATAOBJECT_NULL,
-                'date_last_login' => OX_DATAOBJECT_NULL,
-                'email_updated' => OX_DATAOBJECT_NULL,
-                );
+    var $defaultValues = [
+        'contact_name' => '',
+        'email_address' => '',
+        'active' => 1,
+        'sso_user_id' => OX_DATAOBJECT_NULL,
+        'date_last_login' => OX_DATAOBJECT_NULL,
+        'email_updated' => OX_DATAOBJECT_NULL,
+    ];
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

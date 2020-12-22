@@ -20,7 +20,7 @@ require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 
 // Register input variables
-phpAds_registerGlobal('expand', 'collapse', 'hideinactive', 'listorder',
+phpAds_registerGlobal('hideinactive', 'listorder',
                       'orderdirection');
 
 // Security check
@@ -81,10 +81,15 @@ if (isset($session['prefs']['agency-index.php']['nodes'])) {
 $dalAgency = OA_Dal::factoryDAL('agency');
 $aManagers = $dalAgency->getAllManagers($listorder, $orderdirection);
 
-foreach ($aManagers as $k => $v) {
-    $aManagers[$k]['expand'] = 0;
-    $aManagers[$k]['count'] = 0;
-    $aManagers[$k]['hideinactive'] = 0;
+// total number of agencies
+$agencyCount = count($aManagers);
+
+if ($hideinactive) {
+    $aManagers = array_filter($aManagers, function ($agency) {
+        return !$agency['status'];
+    });
+
+    $inactiveCount = $agencyCount - count($aManagers);
 }
 
 echo "\t\t\t\t<table border='0' width='100%' cellpadding='0' cellspacing='0'>\n";
@@ -97,12 +102,12 @@ if (($listorder == "name") || ($listorder == ""))
 {
     if  (($orderdirection == "") || ($orderdirection == "down"))
     {
-        echo " <a href='agency-index.php?orderdirection=up'>";
+        echo " <a href='agency-index.php?listorder=name&orderdirection=up'>";
         echo "<img src='" . OX::assetPath() . "/images/caret-ds.gif' border='0' alt='' title=''>";
     }
     else
     {
-        echo " <a href='agency-index.php?orderdirection=down'>";
+        echo " <a href='agency-index.php?listorder=name&orderdirection=down'>";
         echo "<img src='" . OX::assetPath() . "/images/caret-u.gif' border='0' alt='' title=''>";
     }
     echo "</a>";
@@ -117,12 +122,31 @@ if ($listorder == "id")
 {
     if  (($orderdirection == "") || ($orderdirection == "down"))
     {
-        echo " <a href='agency-index.php?orderdirection=up'>";
+        echo " <a href='agency-index.php?listorder=id&orderdirection=up'>";
         echo "<img src='" . OX::assetPath() . "/images/caret-ds.gif' border='0' alt='' title=''>";
     }
     else
     {
-        echo " <a href='agency-index.php?orderdirection=down'>";
+        echo " <a href='agency-index.php?listorder=id&orderdirection=down'>";
+        echo "<img src='" . OX::assetPath() . "/images/caret-u.gif' border='0' alt='' title=''>";
+    }
+    echo "</a>";
+}
+
+echo "</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n";
+echo "\t\t\t\t\t</td>\n";
+echo "\t\t\t\t\t<td height='25'><b><a href='agency-index.php?listorder=status'>{$GLOBALS['strStatus']}</a>";
+
+if ($listorder == "status")
+{
+    if  (($orderdirection == "") || ($orderdirection == "down"))
+    {
+        echo " <a href='agency-index.php?listorder=status&orderdirection=up'>";
+        echo "<img src='" . OX::assetPath() . "/images/caret-ds.gif' border='0' alt='' title=''>";
+    }
+    else
+    {
+        echo " <a href='agency-index.php?listorder=status&orderdirection=down'>";
         echo "<img src='" . OX::assetPath() . "/images/caret-u.gif' border='0' alt='' title=''>";
     }
     echo "</a>";
@@ -137,7 +161,7 @@ echo "\t\t\t\t\t<td height='25'>&nbsp;</td>\n";
 echo "\t\t\t\t</tr>\n";
 
 echo "\t\t\t\t<tr height='1'>\n";
-echo "\t\t\t\t\t<td colspan='6' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td>\n";
+echo "\t\t\t\t\t<td colspan='7' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td>\n";
 echo "\t\t\t\t</tr>\n";
 
 
@@ -148,7 +172,7 @@ if (!isset($aManagers) || !is_array($aManagers) || count($aManagers) == 0)
     echo "\t\t\t\t</tr>\n";
 
     echo "\t\t\t\t<tr>\n";
-    echo "\t\t\t\t\t<td colspan='6' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td>\n";
+    echo "\t\t\t\t\t<td colspan='7' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td>\n";
     echo "\t\t\t\t<tr>\n";
 }
 else
@@ -164,12 +188,25 @@ else
         echo "\t\t\t\t\t<td height='25'>\n";
         echo "\t\t\t\t\t\t<img src='" . OX::assetPath() . "/images/spacer.gif' height='16' width='16' align='absmiddle'>\n";
 
-        echo "\t\t\t\t\t\t<img src='" . OX::assetPath() . "/images/icon-advertiser.gif' align='absmiddle'>\n";
+        $icon = $agency['status'] ? 'icon-advertiser-d.gif' : 'icon-advertiser.gif';
+
+        echo "\t\t\t\t\t\t<img src='" . OX::assetPath() . "/images/{$icon}' align='absmiddle'>\n";
         echo "\t\t\t\t\t\t<a href='agency-edit.php?agencyid=".$agency['agencyid']."'>".htmlspecialchars($agency['name'])."</a>\n";
         echo "\t\t\t\t\t</td>\n";
 
         // ID
         echo "\t\t\t\t\t<td height='25'>".$agency['agencyid']."</td>\n";
+
+        // Status
+        echo "\t\t\t\t\t<td height='25'>";
+
+        switch ($agency['status']) {
+            case OA_ENTITY_STATUS_RUNNING: echo $GLOBALS['strAgencyStatusRunning']; break;
+            case OA_ENTITY_STATUS_PAUSED: echo $GLOBALS['strAgencyStatusPaused']; break;
+            case OA_ENTITY_STATUS_INACTIVE: echo $GLOBALS['strAgencyStatusInactive']; break;
+        }
+
+        echo "</td>\n";
 
         echo "\t\t\t\t\t<td height='25'>&nbsp;</td>\n";
         echo "\t\t\t\t\t<td height='25'>&nbsp;</td>\n";
@@ -193,20 +230,20 @@ else
         echo "\t\t\t\t</tr>\n";
 
         echo "\t\t\t\t<tr height='1'>\n";
-        echo "\t\t\t\t\t<td colspan='6' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td>\n";
+        echo "\t\t\t\t\t<td colspan='7' bgcolor='#888888'><img src='" . OX::assetPath() . "/images/break.gif' height='1' width='100%'></td>\n";
         echo "\t\t\t\t</tr>\n";
         $i++;
     }
 }
 
 echo "\t\t\t\t<tr>\n";
-echo "\t\t\t\t\t<td height='25' colspan='4' align='".$phpAds_TextAlignLeft."' nowrap>";
+echo "\t\t\t\t\t<td height='25' colspan='5' align='".$phpAds_TextAlignLeft."' nowrap>";
 
 if ($hideinactive == true)
 {
     echo "&nbsp;&nbsp;<img src='" . OX::assetPath() . "/images/icon-activate.gif' align='absmiddle' border='0'>";
     echo "&nbsp;<a href='agency-index.php?hideinactive=0'>".$strShowAll."</a>";
-    echo "&nbsp;&nbsp;|&nbsp;&nbsp;" . $strInactiveAgenciesHidden;
+    echo "&nbsp;&nbsp;|&nbsp;&nbsp;{$inactiveCount} {$strInactiveAgenciesHidden}";
 }
 else
 {
@@ -222,8 +259,6 @@ echo "\t\t\t\t</tr>\n";
 echo "\t\t\t\t</table>\n";
 
 
-// total number of agencies
-$agencyCount = count($aManagers);
 
 echo "\t\t\t\t<br /><br /><br /><br />\n";
 echo "\t\t\t\t<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>\n";

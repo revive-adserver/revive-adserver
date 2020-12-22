@@ -783,7 +783,7 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->assertTrue($doAgency->fetch());
         $this->assertEqual($doAgency->name, 'Default manager');
         $this->assertEqual($doAgency->email, $aAdmin['email']);
-        $this->assertEqual($doAgency->active, 1);
+        $this->assertEqual($doAgency->status, 0);
 
         // Default preferences + custom timezone are set
         $oPreferences = new OA_Preferences();

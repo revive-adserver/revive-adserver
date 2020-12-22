@@ -271,9 +271,9 @@ class Config_Container_IniCommented {
                            strpos($content, '\\') !== false )  // OPENX FIX :)
                 {
                     // leave unquoted*/
-                } elseif ( strpos($content, '"') !== false ) // OPENX FIX :)
-                {
-                    // can't do anything with double quotes, they will break parse_ini_file()
+                } elseif ( strpos($content, '"') !== false ) {
+                    // Quote backslashes and double quotes
+                    $content = '"'.addcslashes($content, '"\\').'"';
                 } elseif (
                             strlen(trim($content)) < strlen($content) ||
                             preg_match( '/[\W]/', $content, $aMatches)   // OPENX FIX :)

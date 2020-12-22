@@ -22,18 +22,18 @@ class DataObjects_Session extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'session';                         // table name
-    public $sessionid;                       // VARCHAR(32) => openads_varchar => 130 
-    public $sessiondata;                     // TEXT() => openads_text => 162 
-    public $lastused;                        // DATETIME() => openads_datetime => 14 
-    public $user_id;                         // MEDIUMINT(9) => openads_mediumint => 1 
+    public $sessionid;                       // VARCHAR(32) => openads_varchar => 130
+    public $sessiondata;                     // TEXT() => openads_text => 162
+    public $lastused;                        // DATETIME() => openads_datetime => 14
+    public $user_id;                         // MEDIUMINT(9) => openads_mediumint => 1
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Session',$k,$v); }
 
-    var $defaultValues = array(
-                'sessionid' => '',
-                'sessiondata' => '',
-                );
+    var $defaultValues = [
+        'sessionid' => '',
+        'sessiondata' => '',
+    ];
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

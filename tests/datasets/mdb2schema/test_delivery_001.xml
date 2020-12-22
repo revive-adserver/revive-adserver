@@ -23611,11 +23611,6 @@
     </field>
 
     <field>
-     <name>active</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>updated</name>
      <value>2008-01-29 11:05:12</value>
     </field>
@@ -23655,11 +23650,6 @@
     </field>
 
     <field>
-     <name>active</name>
-     <value>0</value>
-    </field>
-
-    <field>
      <name>updated</name>
      <value>2008-01-29 11:05:12</value>
     </field>
@@ -23696,11 +23686,6 @@
     <field>
      <name>logout_url</name>
      <value></value>
-    </field>
-
-    <field>
-     <name>active</name>
-     <value>0</value>
     </field>
 
     <field>

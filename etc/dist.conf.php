@@ -139,6 +139,8 @@ assetClientCacheExpire              = 3600  ; Used to create the browser caching
 [defaultBanner]
 imageUrl                            =       ; If banner was deleted and ai.php script
                                             ; is called use this imageUrl
+suspendedAccountHtmlBanner          =       ; If account is suspended, show this HTML snippet
+inactiveAccountHtmlBanner           =       ; If account is inactive, show this HTML snippet
 
 [p3p]
 policies                            = true

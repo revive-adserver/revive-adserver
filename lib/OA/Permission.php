@@ -377,7 +377,7 @@ class OA_Permission
     public static function switchAccount($accountId, $hasAccess = false)
     {
         if ($hasAccess || self::hasAccess($accountId)) {
-            $oUser = &self::getCurrentUser();
+            $oUser = self::getCurrentUser();
             $oUser->loadAccountData($accountId);
         }
 
@@ -750,22 +750,35 @@ class OA_Permission
      */
     public static function getLinkedAccounts($groupByType = false, $sort = false)
     {
-        $doAccount_user_Assoc = OA_Dal::factoryDO('account_user_assoc');
-        $doAccount_user_Assoc->user_id = self::getUserId();
-        $doAccounts = OA_Dal::factoryDO('accounts');
-        $doAccounts->orderBy('account_name');
-        $doAccount_user_Assoc->joinAdd($doAccounts);
-        $doAccount_user_Assoc->find();
+        $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
 
-        $aAccountsByType = array();
-        while($doAccount_user_Assoc->fetch()) {
-            $aAccountsByType[$doAccount_user_Assoc->account_type][$doAccount_user_Assoc->account_id] =
-                $doAccount_user_Assoc->account_name;
+        $oDbh = OA_DB::singleton();
+
+        $sql = "
+            SELECT
+                a.account_type,
+                a.account_id,
+                a.account_name,
+                m.status
+            FROM
+                {$prefix}accounts a JOIN
+                {$prefix}account_user_assoc au USING (account_id) LEFT JOIN
+                {$prefix}agency m USING (account_id)
+            WHERE
+                au.user_id = ".$oDbh->quote(self::getUserId())."
+            ";
+
+        $aAccountsByType = [];
+        foreach ($oDbh->queryAll($sql) as $row) {
+            $aAccountsByType[$row['account_type']][$row['account_id']] = self::generateAccountName($row);
         }
-        uksort($aAccountsByType, array('OA_Permission', '_accountTypeSort'));
+
         if (isset($aAccountsByType[OA_ACCOUNT_ADMIN])) {
             $aAccountsByType = self::mergeAdminAccounts($aAccountsByType);
         }
+
+        uksort($aAccountsByType, array('OA_Permission', '_accountTypeSort'));
+
         if (!$groupByType) {
             $aAccounts = array();
             foreach ($aAccountsByType as $accountType => $aAccount) {
@@ -775,11 +788,13 @@ class OA_Permission
             }
             return $aAccounts;
         }
+
         if ($sort) {
             foreach ($aAccountsByType as $accountType => $aAccount) {
                 natcasesort($aAccountsByType[$accountType]);
             }
         }
+
         return $aAccountsByType;
     }
 
@@ -800,19 +815,31 @@ class OA_Permission
         return $a - $b;
     }
 
-
     static function mergeAdminAccounts($aAccountsByType)
     {
-        $doAccounts = OA_Dal::factoryDO('accounts');
-        $doAccounts->account_type = OA_ACCOUNT_MANAGER;
-        $doAccounts->find();
-        while ($doAccounts->fetch()) {
-            $aAccountsByType[$doAccounts->account_type][$doAccounts->account_id] =
-                $doAccounts->account_name;
+        $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+
+        $oDbh = OA_DB::singleton();
+
+        $sql = "
+            SELECT
+                a.account_type,
+                a.account_id,
+                a.account_name,
+                m.status
+            FROM
+                {$prefix}accounts a LEFT JOIN
+                {$prefix}agency m USING (account_id)
+            WHERE
+                a.account_type = ".$oDbh->quote(OA_ACCOUNT_MANAGER)."
+            ";
+
+        foreach ($oDbh->queryAll($sql) as $row) {
+            $aAccountsByType[$row['account_type']][$row['account_id']] = self::generateAccountName($row);
         }
+
         return $aAccountsByType;
     }
-
 
     /**
      * A method to retrieve the current user object from a session
@@ -1312,6 +1339,20 @@ class OA_Permission
         return $hasAccess === NULL ? true : $hasAccess;
     }
 
-}
+    private static function generateAccountName($row)
+    {
+        $name = $row['account_name'];
 
-?>
+        switch ($row['status']) {
+            case OA_ENTITY_STATUS_PAUSED:
+                $name .= " ({$GLOBALS['strAgencyStatusPaused']})";
+                break;
+
+            case OA_ENTITY_STATUS_INACTIVE:
+                $name .= " ({$GLOBALS['strAgencyStatusInactive']})";
+                break;
+        }
+
+        return $name;
+    }
+}

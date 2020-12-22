@@ -31,24 +31,24 @@ class DataObjects_Agency extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'agency';                          // table name
-    public $agencyid;                        // MEDIUMINT(9) => openads_mediumint => 129 
-    public $name;                            // VARCHAR(255) => openads_varchar => 130 
-    public $contact;                         // VARCHAR(255) => openads_varchar => 2 
-    public $email;                           // VARCHAR(64) => openads_varchar => 130 
-    public $logout_url;                      // VARCHAR(255) => openads_varchar => 2 
-    public $active;                          // SMALLINT(1) => openads_smallint => 17 
-    public $updated;                         // DATETIME() => openads_datetime => 142 
-    public $account_id;                      // MEDIUMINT(9) => openads_mediumint => 1 
+    public $agencyid;                        // MEDIUMINT(9) => openads_mediumint => 129
+    public $name;                            // VARCHAR(255) => openads_varchar => 130
+    public $contact;                         // VARCHAR(255) => openads_varchar => 2
+    public $email;                           // VARCHAR(64) => openads_varchar => 130
+    public $logout_url;                      // VARCHAR(255) => openads_varchar => 2
+    public $updated;                         // DATETIME() => openads_datetime => 142
+    public $account_id;                      // MEDIUMINT(9) => openads_mediumint => 1
+    public $status;                          // SMALLINT(6) => openads_smallint => 129
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Agency',$k,$v); }
 
-    var $defaultValues = array(
-                'name' => '',
-                'email' => '',
-                'active' => 0,
-                'updated' => '%DATE_TIME%',
-                );
+    var $defaultValues = [
+        'name' => '',
+        'email' => '',
+        'updated' => '%DATE_TIME%',
+        'status' => 0,
+    ];
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
@@ -95,7 +95,7 @@ class DataObjects_Agency extends DB_DataObjectCommon
                 $obj->afterAgencyCreate($agencyid);
             }
         }
-        
+
         return $agencyid;
     }
 

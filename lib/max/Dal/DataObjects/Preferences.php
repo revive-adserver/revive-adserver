@@ -29,10 +29,10 @@ class DataObjects_Preferences extends DB_DataObjectCommon
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Preferences',$k,$v); }
 
-    var $defaultValues = array(
-                'preference_name' => '',
-                'account_type' => '',
-                );
+    var $defaultValues = [
+        'preference_name' => '',
+        'account_type' => '',
+    ];
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

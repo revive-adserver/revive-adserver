@@ -28,9 +28,9 @@ class DataObjects_Account_user_assoc extends DB_DataObjectCommon
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Account_user_assoc',$k,$v); }
 
-    var $defaultValues = array(
-                'linked' => '%NO_DATE_TIME%',
-                );
+    var $defaultValues = [
+        'linked' => '%NO_DATE_TIME%',
+    ];
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

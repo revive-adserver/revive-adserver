@@ -49,20 +49,20 @@ class DataObjects_Trackers extends DB_DataObjectCommon
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Trackers',$k,$v); }
 
-    var $defaultValues = array(
-                'trackername' => '',
-                'description' => '',
-                'clientid' => 0,
-                'viewwindow' => 0,
-                'clickwindow' => 0,
-                'blockwindow' => 0,
-                'status' => 1,
-                'type' => 1,
-                'linkcampaigns' => 'f',
-                'variablemethod' => self::TRACKER_VARIABLE_METHOD_DEFAULT,
-                'appendcode' => '',
-                'updated' => '%DATE_TIME%',
-                );
+    var $defaultValues = [
+        'trackername' => '',
+        'description' => '',
+        'clientid' => 0,
+        'viewwindow' => 0,
+        'clickwindow' => 0,
+        'blockwindow' => 0,
+        'status' => 1,
+        'type' => 1,
+        'linkcampaigns' => 'f',
+        'variablemethod' => 'default',
+        'appendcode' => '',
+        'updated' => '%DATE_TIME%',
+    ];
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

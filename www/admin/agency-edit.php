@@ -95,6 +95,14 @@ function buildAgencyForm($aAgency)
     $form->addElement('text', 'contact', $GLOBALS['strContact']);
     $form->addElement('text', 'email', $GLOBALS['strEMail']);
 
+    $aRadioStatus = [
+        $form->createElement('radio', 'status', '', $GLOBALS['strAgencyStatusRunning'], OA_ENTITY_STATUS_RUNNING),
+        $form->createElement('radio', 'status', '', $GLOBALS['strAgencyStatusPaused'], OA_ENTITY_STATUS_PAUSED),
+        $form->createElement('radio', 'status', '', $GLOBALS['strAgencyStatusInactive'], OA_ENTITY_STATUS_INACTIVE),
+    ];
+
+    $form->addGroup($aRadioStatus, 'agency_status', $GLOBALS['strStatus'], "<br/>");
+
     //we want submit to be the last element in its own separate section
     $form->addElement('controls', 'form-controls');
     $form->addElement('submit', 'submit', $GLOBALS['strSaveChanges']);
@@ -136,6 +144,7 @@ function processForm($aAgency, $form)
     $agency['contact']        = $aFields['contact'];
     $agency['email']          = $aFields['email'];
     $agency['logout_url']     = $aFields['logout_url'];
+    $agency['status']         = $aFields['status'];
 
     // Permissions
     $doAgency = OA_Dal::factoryDO('agency');

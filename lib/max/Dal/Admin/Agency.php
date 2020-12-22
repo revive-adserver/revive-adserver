@@ -21,7 +21,8 @@ class MAX_Dal_Admin_Agency extends MAX_Dal_Common
 
     var $orderListName = array(
         'name' => 'name',
-        'id'   => 'agencyid'
+        'id'   => 'agencyid',
+        'status' => 'status',
     );
 
     /**
@@ -58,7 +59,7 @@ class MAX_Dal_Admin_Agency extends MAX_Dal_Common
     {
         $doAgency = OA_Dal::factoryDO('agency');
         $doAgency->addListOrderBy($listorder, $orderdirection);
-        return $doAgency->getAll(array('name', 'agencyid', 'account_id'), $indexWitkPk = true, $flatten = false);
+        return $doAgency->getAll(array('name', 'agencyid', 'account_id', 'status'), $indexWitkPk = true, $flatten = false);
     }
 
 }

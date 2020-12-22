@@ -29,11 +29,11 @@ class DataObjects_Campaigns_trackers extends DB_DataObjectCommon
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Campaigns_trackers',$k,$v); }
 
-    var $defaultValues = array(
-                'campaignid' => 0,
-                'trackerid' => 0,
-                'status' => 1,
-                );
+    var $defaultValues = [
+        'campaignid' => 0,
+        'trackerid' => 0,
+        'status' => 1,
+    ];
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

@@ -58,7 +58,7 @@ class SqlBuilder
             break;
 
         case 'agency' :
-            $aColumns += array('g.agencyid' => 'agency_id', 'g.name' => 'name', 'g.active' => 'active');
+            $aColumns += array('g.agencyid' => 'agency_id', 'g.name' => 'name', 'g.status' => 'status');
             if ($allFields) $aColumns += array(
                 'g.contact' => 'contact',
                 'g.email' => 'email',

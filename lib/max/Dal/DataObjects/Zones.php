@@ -60,29 +60,29 @@ class DataObjects_Zones extends DB_DataObjectCommon
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Zones',$k,$v); }
 
-    var $defaultValues = array(
-                'zonename' => '',
-                'description' => '',
-                'delivery' => 0,
-                'zonetype' => 0,
-                'category' => '',
-                'width' => 0,
-                'height' => 0,
-                'ad_selection' => '',
-                'chain' => '',
-                'prepend' => '',
-                'append' => '',
-                'appendtype' => 0,
-                'forceappend' => 'f',
-                'inventory_forecast_type' => 0,
-                'updated' => '%DATE_TIME%',
-                'block' => 0,
-                'capping' => 0,
-                'session_capping' => 0,
-                'what' => '',
-                'pricing' => 'CPM',
-                'show_capped_no_cookie' => 0,
-                );
+    var $defaultValues = [
+        'zonename' => '',
+        'description' => '',
+        'delivery' => 0,
+        'zonetype' => 0,
+        'category' => '',
+        'width' => 0,
+        'height' => 0,
+        'ad_selection' => '',
+        'chain' => '',
+        'prepend' => '',
+        'append' => '',
+        'appendtype' => 0,
+        'forceappend' => 'f',
+        'inventory_forecast_type' => 0,
+        'updated' => '%DATE_TIME%',
+        'block' => 0,
+        'capping' => 0,
+        'session_capping' => 0,
+        'what' => '',
+        'pricing' => 'CPM',
+        'show_capped_no_cookie' => 0,
+    ];
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
@@ -141,14 +141,14 @@ class DataObjects_Zones extends DB_DataObjectCommon
     {
         // Get unique name
         $this->zonename = $GLOBALS['strCopyOf'] . ' ' . $this->zonename;
-	    
+
         if (null !== $newAffiliateId) {
         	$this->affiliateid = $newAffiliateId;
         }
 
         $this->zoneid = null;
         $newZoneid = $this->insert();
-	
+
         return $newZoneid;
     }
 

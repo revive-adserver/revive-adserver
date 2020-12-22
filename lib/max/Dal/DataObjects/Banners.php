@@ -41,8 +41,8 @@ class DataObjects_Banners extends DB_DataObjectCommon
     public $storagetype;                     // ENUM('sql','web','url','html','network','txt') => openads_enum => 130
     public $filename;                        // VARCHAR(255) => openads_varchar => 130
     public $imageurl;                        // VARCHAR(255) => openads_varchar => 130
-    public $htmltemplate;                    // MEDIUMTEXT() => openads_text => 162
-    public $htmlcache;                       // MEDIUMTEXT() => openads_text => 162
+    public $htmltemplate;                    // MEDIUMTEXT() => openads_mediumtext => 162
+    public $htmlcache;                       // MEDIUMTEXT() => openads_mediumtext => 162
     public $width;                           // SMALLINT(6) => openads_smallint => 129
     public $height;                          // SMALLINT(6) => openads_smallint => 129
     public $weight;                          // TINYINT(4) => openads_tinyint => 129
@@ -78,43 +78,43 @@ class DataObjects_Banners extends DB_DataObjectCommon
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Banners',$k,$v); }
 
-    var $defaultValues = array(
-                'campaignid' => 0,
-                'contenttype' => 'gif',
-                'pluginversion' => 0,
-                'storagetype' => 'sql',
-                'filename' => '',
-                'imageurl' => '',
-                'htmltemplate' => '',
-                'htmlcache' => '',
-                'width' => 0,
-                'height' => 0,
-                'weight' => 1,
-                'seq' => 0,
-                'target' => '',
-                'url' => '',
-                'alt' => '',
-                'statustext' => '',
-                'bannertext' => '',
-                'description' => '',
-                'adserver' => '',
-                'block' => 0,
-                'capping' => 0,
-                'session_capping' => 0,
-                'compiledlimitation' => '',
-                'append' => '',
-                'bannertype' => 0,
-                'alt_filename' => '',
-                'alt_imageurl' => '',
-                'alt_contenttype' => 'gif',
-                'updated' => '%DATE_TIME%',
-                'acls_updated' => '%NO_DATE_TIME%',
-                'keyword' => '',
-                'transparent' => 0,
-                'status' => 0,
-                'prepend' => '',
-                'iframe_friendly' => 1,
-                );
+    var $defaultValues = [
+        'campaignid' => 0,
+        'contenttype' => 'gif',
+        'pluginversion' => 0,
+        'storagetype' => 'sql',
+        'filename' => '',
+        'imageurl' => '',
+        'htmltemplate' => '',
+        'htmlcache' => '',
+        'width' => 0,
+        'height' => 0,
+        'weight' => 1,
+        'seq' => 0,
+        'target' => '',
+        'url' => '',
+        'alt' => '',
+        'statustext' => '',
+        'bannertext' => '',
+        'description' => '',
+        'adserver' => '',
+        'block' => 0,
+        'capping' => 0,
+        'session_capping' => 0,
+        'compiledlimitation' => '',
+        'append' => '',
+        'bannertype' => 0,
+        'alt_filename' => '',
+        'alt_imageurl' => '',
+        'alt_contenttype' => 'gif',
+        'updated' => '%DATE_TIME%',
+        'acls_updated' => '%NO_DATE_TIME%',
+        'keyword' => '',
+        'transparent' => 0,
+        'status' => 0,
+        'prepend' => '',
+        'iframe_friendly' => 1,
+    ];
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

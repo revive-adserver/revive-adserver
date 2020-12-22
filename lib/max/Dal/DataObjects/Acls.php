@@ -32,14 +32,14 @@ class DataObjects_Acls extends DB_DataObjectCommon
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Acls',$k,$v); }
 
-    var $defaultValues = array(
-                'bannerid' => 0,
-                'logical' => 'and',
-                'type' => '',
-                'comparison' => '==',
-                'data' => '',
-                'executionorder' => 0,
-                );
+    var $defaultValues = [
+        'bannerid' => 0,
+        'logical' => 'and',
+        'type' => '',
+        'comparison' => '==',
+        'data' => '',
+        'executionorder' => 0,
+    ];
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

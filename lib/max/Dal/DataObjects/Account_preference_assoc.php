@@ -28,9 +28,9 @@ class DataObjects_Account_preference_assoc extends DB_DataObjectCommon
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Account_preference_assoc',$k,$v); }
 
-    var $defaultValues = array(
-                'value' => '',
-                );
+    var $defaultValues = [
+        'value' => '',
+    ];
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

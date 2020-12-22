@@ -21,19 +21,19 @@ class DataObjects_Password_recovery extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'password_recovery';               // table name
-    public $user_type;                       // VARCHAR(64) => openads_varchar => 130 
-    public $user_id;                         // INT(10) => openads_int => 129 
-    public $recovery_id;                     // VARCHAR(64) => openads_varchar => 130 
-    public $updated;                         // DATETIME() => openads_datetime => 142 
+    public $user_type;                       // VARCHAR(64) => openads_varchar => 130
+    public $user_id;                         // INT(10) => openads_int => 129
+    public $recovery_id;                     // VARCHAR(64) => openads_varchar => 130
+    public $updated;                         // DATETIME() => openads_datetime => 142
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Password_recovery',$k,$v); }
 
-    var $defaultValues = array(
-                'user_type' => '',
-                'recovery_id' => '',
-                'updated' => '%DATE_TIME%',
-                );
+    var $defaultValues = [
+        'user_type' => '',
+        'recovery_id' => '',
+        'updated' => '%DATE_TIME%',
+    ];
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

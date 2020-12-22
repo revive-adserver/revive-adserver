@@ -28,10 +28,10 @@ class DataObjects_Images extends DB_DataObjectCommon
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Images',$k,$v); }
 
-    var $defaultValues = array(
-                'filename' => '',
-                'contents' => '',
-                );
+    var $defaultValues = [
+        'filename' => '',
+        'contents' => '',
+    ];
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

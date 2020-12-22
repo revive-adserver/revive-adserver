@@ -40,13 +40,13 @@ class DataObjects_Channel extends DB_DataObjectCommon
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Channel',$k,$v); }
 
-    var $defaultValues = array(
-                'agencyid' => 0,
-                'affiliateid' => 0,
-                'compiledlimitation' => '',
-                'updated' => '%DATE_TIME%',
-                'acls_updated' => '%NO_DATE_TIME%',
-                );
+    var $defaultValues = [
+        'agencyid' => 0,
+        'affiliateid' => 0,
+        'compiledlimitation' => '',
+        'updated' => '%DATE_TIME%',
+        'acls_updated' => '%NO_DATE_TIME%',
+    ];
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

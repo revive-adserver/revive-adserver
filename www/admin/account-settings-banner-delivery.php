@@ -74,7 +74,9 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             'bool'     => true
         ),
         'delivery_ctDelimiter' => array('delivery' => 'ctDelimiter'),
-        'defaultBanner_imageUrl' => array('defaultBanner' => 'imageUrl')
+        'defaultBanner_imageUrl' => array('defaultBanner' => 'imageUrl'),
+        'defaultBanner_suspendedAccountHtmlBanner' => array('defaultBanner' => 'suspendedAccountHtmlBanner'),
+        'defaultBanner_inactiveAccountHtmlBanner' => array('defaultBanner' => 'inactiveAccountHtmlBanner'),
     );
     // Invocation Defaults
     $aElements += array(
@@ -293,7 +295,23 @@ $aSettings = array(
                 'name'    => 'defaultBanner_imageUrl',
                 'text'    => $strGlobalDefaultBannerUrl,
                 'check'   => 'url'
-            )
+            ),
+            array (
+                'type'    => 'break'
+            ),
+            array (
+                'type'    => 'textarea',
+                'name'    => 'defaultBanner_suspendedAccountHtmlBanner',
+                'text'    => $strGlobalDefaultBannerSuspendedAccount,
+            ),
+            array (
+                'type'    => 'break'
+            ),
+            array (
+                'type'    => 'textarea',
+                'name'    => 'defaultBanner_inactiveAccountHtmlBanner',
+                'text'    => $strGlobalDefaultBannerInactiveAccount,
+            ),
         )
     ),
     array (

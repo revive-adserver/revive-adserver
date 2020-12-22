@@ -793,14 +793,6 @@ class OA_Admin_Option
         global $tabindex;
 
         $aItem['tabindex'] = $tabindex++;
-        if (isset($aItem['decode']) && $aItem['decode'])
-        {
-            $aItem['value'] = htmlspecialchars_decode($value);
-        }
-        else
-        {
-            $aItem['value'] = htmlspecialchars($value);
-        }
         $aItem['value'] = $value;
 
         if (!isset($aItem['size'])) {
@@ -815,7 +807,7 @@ class OA_Admin_Option
         global $tabindex;
 
         $aItem['tabindex'] = $tabindex++;
-        $aItem['value'] = htmlspecialchars($value);
+        $aItem['value'] = $value;
         $aItem['type'] = $type;
 
         if (!isset($aItem['size'])) {
@@ -830,7 +822,7 @@ class OA_Admin_Option
         global $tabindex;
 
         $aItem['tabindex'] = $tabindex++;
-        $aItem['value'] = htmlspecialchars($value);
+        $aItem['value'] = $value;
 
         if (!isset($aItem['rows'])) {
             $aItem['rows'] = 5;
@@ -864,10 +856,6 @@ class OA_Admin_Option
         $aItem['tabindex'] = $tabindex++;
         $aItem['value'] = $value;
         $aItem['showSubmitButton'] = $showSubmitButton;
-        foreach ($aItem['items'] as $k => $v) {
-            $k = htmlspecialchars($k);
-            $aItem['items'][$k] = $v;
-        }
         $this->aOption[] = array('select.html' => $aItem);
     }
 

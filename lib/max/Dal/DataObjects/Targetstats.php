@@ -21,22 +21,22 @@ class DataObjects_Targetstats extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'targetstats';                     // table name
-    public $day;                             // DATE() => openads_date => 134 
-    public $campaignid;                      // MEDIUMINT(9) => openads_mediumint => 129 
-    public $target;                          // INT(11) => openads_int => 129 
-    public $views;                           // INT(11) => openads_int => 129 
-    public $modified;                        // TINYINT(4) => openads_tinyint => 129 
+    public $day;                             // DATE() => openads_date => 134
+    public $campaignid;                      // MEDIUMINT(9) => openads_mediumint => 129
+    public $target;                          // INT(11) => openads_int => 129
+    public $views;                           // INT(11) => openads_int => 129
+    public $modified;                        // TINYINT(4) => openads_tinyint => 129
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Targetstats',$k,$v); }
 
-    var $defaultValues = array(
-                'day' => '%NO_DATE_TIME%',
-                'campaignid' => 0,
-                'target' => 0,
-                'views' => 0,
-                'modified' => 0,
-                );
+    var $defaultValues = [
+        'day' => '%NO_DATE_TIME%',
+        'campaignid' => 0,
+        'target' => 0,
+        'views' => 0,
+        'modified' => 0,
+    ];
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

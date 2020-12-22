@@ -129,7 +129,8 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
             z.affiliateid AS publisher_id,
             a.agencyid AS agency_id,
             a.account_id AS trafficker_account_id,
-            m.account_id AS manager_account_id
+            m.account_id AS manager_account_id,
+            m.status AS account_status
         FROM
             ".OX_escapeIdentifier($aConf['table']['prefix'].$aConf['table']['zones'])." AS z,
             ".OX_escapeIdentifier($aConf['table']['prefix'].$aConf['table']['affiliates'])." AS a,
@@ -150,6 +151,21 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
     if (empty($aZoneInfo)) {
         // The zone does not exist!
         return false;
+    }
+
+    // Is the account active? We need to check the actual values, as the constants are not defined during delivery
+    switch ($aZoneInfo['account_status']) {
+        case 4: // OA_ENTITY_STATUS_INACTIVE
+            return [
+                'default' => true,
+                'default_banner_html' => $aConf['defaultBanner']['inactiveAccountHtmlBanner'],
+            ];
+
+        case 1: // OA_ENTITY_STATUS_PAUSED
+            return [
+                'default' => true,
+                'default_banner_html' => $aConf['defaultBanner']['suspendedAccountHtmlBanner'],
+            ];
     }
 
     // Set the default banner preference information for the zone
@@ -377,6 +393,11 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
         'ads'   => 0,
         'lAds'  => 0
     );
+
+    if (!empty($aRows['default'])) {
+        // Default banner to be displayed, we shouldn't perform ad selection
+        return $aRows;
+    }
 
     $query = "
         SELECT

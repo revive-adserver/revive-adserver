@@ -32,12 +32,12 @@ class DataObjects_Ad_zone_assoc extends DB_DataObjectCommon
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Ad_zone_assoc',$k,$v); }
 
-    var $defaultValues = array(
-                'priority' => 0,
-                'link_type' => 1,
-                'priority_factor' => 0,
-                'to_be_delivered' => 1,
-                );
+    var $defaultValues = [
+        'priority' => 0,
+        'link_type' => 1,
+        'priority_factor' => 0,
+        'to_be_delivered' => 1,
+    ];
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

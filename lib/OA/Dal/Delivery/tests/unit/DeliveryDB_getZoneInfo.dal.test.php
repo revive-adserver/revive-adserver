@@ -40,13 +40,18 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
 
     function test_DeliveryDB_getZoneInfo()
     {
+        $GLOBALS['_MAX']['CONF']['defaultBanner']['inactiveAccountHtmlBanner'] = '<h1>Inactive!</h1>';
+        $GLOBALS['_MAX']['CONF']['defaultBanner']['suspendedAccountHtmlBanner'] = '<h1>Paused!</h1>';
+
         // Create the admin account
+        /** @var DataObjects_Accounts $doAccounts */
         $doAccounts = OA_Dal::factoryDO('accounts');
         $doAccounts->account_name = 'System Administrator';
         $doAccounts->account_type = OA_ACCOUNT_ADMIN;
         $adminAccountId = DataGenerator::generateOne($doAccounts);
 
         // Create a manager "agency" and account
+        /** @var DataObjects_Agency $doAgency */
         $doAgency = OA_Dal::factoryDO('agency');
         $doAgency->name = 'Manager Account';
         $doAgency->contact = 'Andrew Hill';
@@ -55,13 +60,14 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
 
         // Get the account ID for the manager "agency"
         $doAgency = OA_Dal::factoryDO('agency');
-        $doAgency->agency_id = $managerAgencyId;
+        $doAgency->agencyid = $managerAgencyId;
         $doAgency->find();
         $doAgency->fetch();
         $aAgency = $doAgency->toArray();
         $managerAccountId = $aAgency['account_id'];
 
         // Create a trafficker "affiliate" and account, owned by the manager
+        /** @var DataObjects_Affiliates $doAffiliates */
         $doAffiliates = OA_Dal::factoryDO('affiliates');
         $doAffiliates->name = 'Trafficker Account';
         $doAffiliates->contact = 'Andrew Hill';
@@ -108,7 +114,7 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
         //         or preference associations
         $aResult = OA_Dal_Delivery_getZoneInfo($zoneId);
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 21);
+        $this->assertEqual(count($aResult), 22);
         $this->assertEqual($aResult['zone_id'], $zoneId);
         $this->assertEqual($aResult['name'], 'Zone 1');
         $this->assertEqual($aResult['type'], 0);
@@ -128,7 +134,7 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
         //         no preference associations
         $aResult = OA_Dal_Delivery_getZoneInfo($zoneId);
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 21);
+        $this->assertEqual(count($aResult), 22);
         $this->assertEqual($aResult['zone_id'], $zoneId);
         $this->assertEqual($aResult['name'], 'Zone 1');
         $this->assertEqual($aResult['type'], 0);
@@ -149,7 +155,7 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
         //         one preference associations
         $aResult = OA_Dal_Delivery_getZoneInfo($zoneId);
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 21);
+        $this->assertEqual(count($aResult), 22);
         $this->assertEqual($aResult['zone_id'], $zoneId);
         $this->assertEqual($aResult['name'], 'Zone 1');
         $this->assertEqual($aResult['type'], 0);
@@ -165,11 +171,11 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
         $doPreferences->account_type    = OA_ACCOUNT_TRAFFICKER;
         $defaultBannerDestinationUrlPrefrenceID = DataGenerator::generateOne($doPreferences);
 
-        // Test 6: Test with an existing zone, tow preferences and
+        // Test 6: Test with an existing zone, two preferences and
         //         one preference associations
         $aResult = OA_Dal_Delivery_getZoneInfo($zoneId);
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 22);
+        $this->assertEqual(count($aResult), 23);
         $this->assertEqual($aResult['zone_id'], $zoneId);
         $this->assertEqual($aResult['name'], 'Zone 1');
         $this->assertEqual($aResult['type'], 0);
@@ -192,7 +198,7 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
         //         two preference associations
         $aResult = OA_Dal_Delivery_getZoneInfo($zoneId);
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 22);
+        $this->assertEqual(count($aResult), 23);
         $this->assertEqual($aResult['zone_id'], $zoneId);
         $this->assertEqual($aResult['name'], 'Zone 1');
         $this->assertEqual($aResult['type'], 0);
@@ -215,7 +221,7 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
         //         three preference associations
         $aResult = OA_Dal_Delivery_getZoneInfo($zoneId);
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 22);
+        $this->assertEqual(count($aResult), 23);
         $this->assertEqual($aResult['zone_id'], $zoneId);
         $this->assertEqual($aResult['name'], 'Zone 1');
         $this->assertEqual($aResult['type'], 0);
@@ -238,7 +244,7 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
         //         three preference associations
         $aResult = OA_Dal_Delivery_getZoneInfo($zoneId);
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 22);
+        $this->assertEqual(count($aResult), 23);
         $this->assertEqual($aResult['zone_id'], $zoneId);
         $this->assertEqual($aResult['name'], 'Zone 1');
         $this->assertEqual($aResult['type'], 0);
@@ -260,7 +266,7 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
         //          four preference associations
         $aResult = OA_Dal_Delivery_getZoneInfo($zoneId);
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 23);
+        $this->assertEqual(count($aResult), 24);
         $this->assertEqual($aResult['zone_id'], $zoneId);
         $this->assertEqual($aResult['name'], 'Zone 1');
         $this->assertEqual($aResult['type'], 0);
@@ -284,7 +290,7 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
         //          five preference associations
         $aResult = OA_Dal_Delivery_getZoneInfo($zoneId);
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 23);
+        $this->assertEqual(count($aResult), 24);
         $this->assertEqual($aResult['zone_id'], $zoneId);
         $this->assertEqual($aResult['name'], 'Zone 1');
         $this->assertEqual($aResult['type'], 0);
@@ -308,7 +314,7 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
         //          six preference associations
         $aResult = OA_Dal_Delivery_getZoneInfo($zoneId);
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 23);
+        $this->assertEqual(count($aResult), 24);
         $this->assertEqual($aResult['zone_id'], $zoneId);
         $this->assertEqual($aResult['name'], 'Zone 1');
         $this->assertEqual($aResult['type'], 0);
@@ -320,6 +326,33 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
         $this->assertEqual($aResult['default_banner_image_url'], 'http://www.fornax.net/blog/uploads/bt.jpg');
         $this->assertEqual($aResult['default_banner_destination_url'], 'http://www.openx.org/');
 
+        // Test 13: Test with an existing zone, inactive agency
+        $doAgency = OA_Dal::factoryDO('agency');
+        $doAgency->agencyid = $managerAgencyId;
+        $doAgency->find();
+        $doAgency->fetch();
+        $doAgency->status = OA_ENTITY_STATUS_INACTIVE;
+        $doAgency->update();
+
+        $aResult = OA_Dal_Delivery_getZoneInfo($zoneId);
+        $this->assertTrue(is_array($aResult));
+        $this->assertEqual(count($aResult), 2);
+        $this->assertEqual($aResult['default'], true);
+        $this->assertEqual($aResult['default_banner_html'], $GLOBALS['_MAX']['CONF']['defaultBanner']['inactiveAccountHtmlBanner']);
+
+        // Test 14: Test with an existing zone, inactive agency
+        $doAgency = OA_Dal::factoryDO('agency');
+        $doAgency->agencyid = $managerAgencyId;
+        $doAgency->find();
+        $doAgency->fetch();
+        $doAgency->status = OA_ENTITY_STATUS_PAUSED;
+        $doAgency->update();
+
+        $aResult = OA_Dal_Delivery_getZoneInfo($zoneId);
+        $this->assertTrue(is_array($aResult));
+        $this->assertEqual(count($aResult), 2);
+        $this->assertEqual($aResult['default'], true);
+        $this->assertEqual($aResult['default_banner_html'], $GLOBALS['_MAX']['CONF']['defaultBanner']['suspendedAccountHtmlBanner']);
     }
 
 }

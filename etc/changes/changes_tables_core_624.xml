@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>624</version>
+  <comments>agency status</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>624</version>
+      <change>
+        <table>
+          <name>agency</name>
+          <add>
+            <field>
+              <name>status</name>
+              <type>openads_smallint</type>
+              <length>6</length>
+              <notnull>1</notnull>
+              <default>0</default>
+              <was>status</was>
+            </field>
+          </add>
+        </table>
+      </change>
+    </changeset>
+  </constructive>
+  <destructive>
+    <changeset>
+      <name>openads</name>
+      <version>624</version>
+      <change>
+        <table>
+          <name>agency</name>
+        <remove>
+          <field>
+            <name>active</name>
+          </field>
+        </remove>
+      </table>
+    </change>
+  </changeset>
+</destructive>
+</instructionset>

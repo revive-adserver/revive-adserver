@@ -1027,6 +1027,9 @@ $GLOBALS['strConfirmDeleteAgency'] = "Do you really want to delete this account?
 $GLOBALS['strHideInactiveAgencies'] = "Hide inactive accounts";
 $GLOBALS['strInactiveAgenciesHidden'] = "inactive account(s) hidden";
 $GLOBALS['strSwitchAccount'] = "Switch to this account";
+$GLOBALS['strAgencyStatusRunning'] = "Active";
+$GLOBALS['strAgencyStatusInactive'] = "Inactive";
+$GLOBALS['strAgencyStatusPaused'] = "Suspended";
 
 // Channels
 $GLOBALS['strChannel'] = "Delivery Rule Set";
