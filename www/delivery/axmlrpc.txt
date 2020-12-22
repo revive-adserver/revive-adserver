@@ -751,7 +751,8 @@ $query = "
             z.affiliateid AS publisher_id,
             a.agencyid AS agency_id,
             a.account_id AS trafficker_account_id,
-            m.account_id AS manager_account_id
+            m.account_id AS manager_account_id,
+            m.status AS account_status
         FROM
             ".OX_escapeIdentifier($aConf['table']['prefix'].$aConf['table']['zones'])." AS z,
             ".OX_escapeIdentifier($aConf['table']['prefix'].$aConf['table']['affiliates'])." AS a,
@@ -769,6 +770,16 @@ return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTIO
 $aZoneInfo = OA_Dal_Delivery_fetchAssoc($rZoneInfo);
 if (empty($aZoneInfo)) {
 return false;
+}
+switch ($aZoneInfo['account_status']) {
+case 4:  return [
+'default' => true,
+'default_banner_html' => $aConf['defaultBanner']['inactiveAccountHtmlBanner'],
+];
+case 1:  return [
+'default' => true,
+'default_banner_html' => $aConf['defaultBanner']['suspendedAccountHtmlBanner'],
+];
 }
 $query = "
         SELECT
@@ -931,6 +942,9 @@ $totals = array(
 'ads' => 0,
 'lAds' => 0
 );
+if (!empty($aRows['default'])) {
+return $aRows;
+}
 $query = "
         SELECT
             d.bannerid AS ad_id,
@@ -3929,25 +3943,30 @@ $outputbuffer = join("\n", OX_Delivery_Common_hook('blankAdSelect', array($zoneI
 }
 if (!empty($outputbuffer)) {
 $outputbuffer = $g_prepend . $outputbuffer . $g_append;
-$output = array('html' => $outputbuffer, 'bannerid' => '' );
+$output = ['html' => $outputbuffer, 'bannerid' => ''];
 } elseif (!empty($row['default'])) {
+if (!empty($row['default_banner_html'])) {
+$outputbuffer = $g_prepend . $row['default_banner_html'] . $g_append;
+$output = ['html' => $outputbuffer, 'bannerid' => ''];
+} else {
 if (empty($target)) {
 $target = '_blank';  }
 $outputbuffer = $g_prepend . '<a href=\'' . $row['default_banner_destination_url'] . '\' target=\'' .
 $target . '\'><img src=\'' . $row['default_banner_image_url'] .
 '\' border=\'0\' alt=\'\'></a>' . $g_append;
-$output = array('html' => $outputbuffer, 'bannerid' => '', 'default_banner_image_url' => $row['default_banner_image_url'] );
+$output = ['html' => $outputbuffer, 'bannerid' => '', 'default_banner_image_url' => $row['default_banner_image_url']];
+}
 } elseif (!empty($conf['defaultBanner']['imageUrl'])) {
 if (empty($target)) {
 $target = '_blank';  }
 $outputbuffer = "{$g_prepend}<img src='{$conf['defaultBanner']['imageUrl']}' border='0' alt=''>{$g_append}";
-$output = array('html' => $outputbuffer, 'bannerid' => '', 'default_banner_image_url' => $conf['defaultBanner']['imageUrl']);
+$output = ['html' => $outputbuffer, 'bannerid' => '', 'default_banner_image_url' => $conf['defaultBanner']['imageUrl']];
 } else {
 $outputbuffer = $g_prepend . $g_append;
-$output = array('html' => $outputbuffer, 'bannerid' => '' );
+$output = ['html' => $outputbuffer, 'bannerid' => ''];
 }
 }
-OX_Delivery_Common_hook('postAdSelect', array(&$output));
+OX_Delivery_Common_hook('postAdSelect', [&$output]);
 return $output;
 }
 function _adSelectDirect($what, $campaignid = '', $context = array(), $source = '', $richMedia = true, $lastpart = true)
@@ -3982,6 +4001,7 @@ return $zoneId;
 }
 function _adSelectZone($zoneId, $context = array(), $source = '', $richMedia = true)
 {
+$aConf = $GLOBALS['_MAX']['CONF'];
 if ($zoneId === 0) { return false; }
 global $g_append, $g_prepend;
 while (!in_array($zoneId, $GLOBALS['_MAX']['followedChain'])) {
@@ -3990,6 +4010,12 @@ $appendedThisZone = false;
 $aZoneInfo = MAX_cacheGetZoneInfo($zoneId);
 if (empty($aZoneInfo)) {
 return false;
+}
+if (!empty($aZoneInfo['default'])) {
+return [
+'default' => true,
+'default_banner_html' => $aZoneInfo['default_banner_html'] ?? '',
+];
 }
 if ($zoneId != 0 && MAX_limitationsIsZoneForbidden($zoneId, $aZoneInfo)) {
 $zoneId = _getNextZone($zoneId, $aZoneInfo);
@@ -4027,11 +4053,11 @@ $zoneId = _getNextZone($zoneId, $aZoneInfo);
 }
 }
 if (!empty($aZoneInfo['default_banner_image_url'])) {
-return array(
+return [
 'default' => true,
 'default_banner_image_url' => $aZoneInfo['default_banner_image_url'],
 'default_banner_destination_url' => $aZoneInfo['default_banner_destination_url']
-);
+];
 }
 return false;
 }

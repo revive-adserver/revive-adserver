@@ -751,7 +751,8 @@ $query = "
             z.affiliateid AS publisher_id,
             a.agencyid AS agency_id,
             a.account_id AS trafficker_account_id,
-            m.account_id AS manager_account_id
+            m.account_id AS manager_account_id,
+            m.status AS account_status
         FROM
             ".OX_escapeIdentifier($aConf['table']['prefix'].$aConf['table']['zones'])." AS z,
             ".OX_escapeIdentifier($aConf['table']['prefix'].$aConf['table']['affiliates'])." AS a,
@@ -769,6 +770,16 @@ return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTIO
 $aZoneInfo = OA_Dal_Delivery_fetchAssoc($rZoneInfo);
 if (empty($aZoneInfo)) {
 return false;
+}
+switch ($aZoneInfo['account_status']) {
+case 4:  return [
+'default' => true,
+'default_banner_html' => $aConf['defaultBanner']['inactiveAccountHtmlBanner'],
+];
+case 1:  return [
+'default' => true,
+'default_banner_html' => $aConf['defaultBanner']['suspendedAccountHtmlBanner'],
+];
 }
 $query = "
         SELECT
@@ -931,6 +942,9 @@ $totals = array(
 'ads' => 0,
 'lAds' => 0
 );
+if (!empty($aRows['default'])) {
+return $aRows;
+}
 $query = "
         SELECT
             d.bannerid AS ad_id,
