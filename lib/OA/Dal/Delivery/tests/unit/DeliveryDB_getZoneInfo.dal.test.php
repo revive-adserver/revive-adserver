@@ -40,6 +40,7 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
 
     function test_DeliveryDB_getZoneInfo()
     {
+        $GLOBALS['_MAX']['CONF']['defaultBanner']['invalidZoneHtmlBanner'] = '<h1>No-zone!</h1>';
         $GLOBALS['_MAX']['CONF']['defaultBanner']['inactiveAccountHtmlBanner'] = '<h1>Inactive!</h1>';
         $GLOBALS['_MAX']['CONF']['defaultBanner']['suspendedAccountHtmlBanner'] = '<h1>Paused!</h1>';
 
@@ -85,7 +86,12 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
 
         // Test 1: Test with no zone present
         $aResult = OA_Dal_Delivery_getZoneInfo(1);
-        $this->assertFalse($aResult);
+        $this->assertTrue(is_array($aResult));
+        $this->assertEqual(count($aResult), 4);
+        $this->assertEqual($aResult['default'], true);
+        $this->assertEqual($aResult['default_banner_html'], $GLOBALS['_MAX']['CONF']['defaultBanner']['invalidZoneHtmlBanner']);
+        $this->assertTrue($aResult['skip_log_request']);
+        $this->assertTrue($aResult['skip_log_blank']);
 
         // Create a zone
         $doZones = OA_Dal::factoryDO('zones');
@@ -108,7 +114,12 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
 
         // Test 2: Test with a non-existing zone
         $aResult = OA_Dal_Delivery_getZoneInfo($zoneId + 1);
-        $this->assertFalse($aResult);
+        $this->assertTrue(is_array($aResult));
+        $this->assertEqual(count($aResult), 4);
+        $this->assertEqual($aResult['default'], true);
+        $this->assertEqual($aResult['default_banner_html'], $GLOBALS['_MAX']['CONF']['defaultBanner']['invalidZoneHtmlBanner']);
+        $this->assertTrue($aResult['skip_log_request']);
+        $this->assertTrue($aResult['skip_log_blank']);
 
         // Test 3: Test with an existing zone, no preferences
         //         or preference associations
@@ -336,9 +347,10 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
 
         $aResult = OA_Dal_Delivery_getZoneInfo($zoneId);
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 2);
+        $this->assertEqual(count($aResult), 3);
         $this->assertEqual($aResult['default'], true);
         $this->assertEqual($aResult['default_banner_html'], $GLOBALS['_MAX']['CONF']['defaultBanner']['inactiveAccountHtmlBanner']);
+        $this->assertTrue($aResult['skip_log_blank']);
 
         // Test 14: Test with an existing zone, inactive agency
         $doAgency = OA_Dal::factoryDO('agency');
@@ -350,9 +362,10 @@ class Test_OA_Dal_DeliveryDB_getZoneInfo extends UnitTestCase
 
         $aResult = OA_Dal_Delivery_getZoneInfo($zoneId);
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 2);
+        $this->assertEqual(count($aResult), 3);
         $this->assertEqual($aResult['default'], true);
         $this->assertEqual($aResult['default_banner_html'], $GLOBALS['_MAX']['CONF']['defaultBanner']['suspendedAccountHtmlBanner']);
+        $this->assertTrue($aResult['skip_log_blank']);
     }
 
 }

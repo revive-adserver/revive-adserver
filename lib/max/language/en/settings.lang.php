@@ -191,6 +191,7 @@ $GLOBALS['strDeliveryObfuscate'] = "Obfuscate delivery rule set when delivering 
 $GLOBALS['strDeliveryExecPhp'] = "Allow PHP code in ads to be executed<br />(Warning: Security risk)";
 $GLOBALS['strDeliveryCtDelimiter'] = "3rd Party Click Tracking Delimiter";
 $GLOBALS['strGlobalDefaultBannerUrl'] = "Global default Banner Image URL";
+$GLOBALS['strGlobalDefaultBannerInvalidZone'] = "Global default HTML Banner for non-existing zones";
 $GLOBALS['strGlobalDefaultBannerSuspendedAccount'] = "Global default HTML Banner for suspended accounts";
 $GLOBALS['strGlobalDefaultBannerInactiveAccount'] = "Global default HTML Banner for inactive accounts";
 $GLOBALS['strP3PSettings'] = "P3P Privacy Policies";

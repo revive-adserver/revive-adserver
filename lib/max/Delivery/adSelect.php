@@ -201,9 +201,11 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
 
 	            $row = _adSelectDirect($what, $campaignid, $context, $source, $richmedia, $remaining == '');
 	        }
+
 	        if (is_array($row) && empty($row['default'])) {
 	            // Log the ad request
 	            MAX_Delivery_log_logAdRequest($row['bannerid'], $row['zoneid'], $row);
+
 	            if (($row['adserver'] == 'max' || $row['adserver'] == '3rdPartyServers:ox3rdPartyServers:max')
 	                && preg_match("#{$conf['webpath']['delivery']}.*zoneid=([0-9]+)#", $row['htmltemplate'], $matches) && !stristr($row['htmltemplate'], $conf['file']['popup'])) {
 	                // The ad selected was an OpenX HTML ad on the same server... do internal redirecty stuff
@@ -214,9 +216,12 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
 	                $found = true;
 	            }
 	        } else {
+                if (empty($row['skip_log_request'])) {
                     // Log the ad request
                     MAX_Delivery_log_logAdRequest(null, $originalZoneId, null);
-                    $what  = $remaining;
+                }
+
+                $what  = $remaining;
 	        }
 	    }
     }
@@ -246,6 +251,7 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
             'logUrl'        => $row['logUrl'],
             'aSearch'       => $row['aSearch'],
             'aReplace'      => $row['aReplace'],
+            'aMagicMacros'  => $row['aMagicMacros'],
             'bannerContent' => $row['bannerContent'],
             'clickwindow'   => $row['clickwindow'],
             'aRow'          => $row,
@@ -281,8 +287,10 @@ function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $with
     } else {
 
         if (!empty($zoneId)) {
-            // Blank impression beacon as global append
-            $g_append = MAX_adRenderBlankBeacon($zoneId, $source, $loc, $referer).$g_append;
+            if (empty($row['skip_log_blank'])) {
+                // Blank impression beacon as global append
+                $g_append = MAX_adRenderBlankBeacon($zoneId, $source, $loc, $referer).$g_append;
+            }
 
             // Try to fill the impression with a fallback from plugins
             $outputbuffer = join("\n", OX_Delivery_Common_hook('blankAdSelect', array($zoneId, $context, $source, $richmedia)) ?: []);
@@ -419,7 +427,7 @@ function _adSelectZone($zoneId, $context = array(), $source = '', $richMedia = t
         $aZoneInfo = MAX_cacheGetZoneInfo($zoneId);
 
         if (empty($aZoneInfo)) {
-            // the zone does not exist, sorry!
+            // something went wrong, sorry!
             return false;
         }
 
@@ -427,6 +435,8 @@ function _adSelectZone($zoneId, $context = array(), $source = '', $richMedia = t
             return [
                 'default' => true,
                 'default_banner_html' => $aZoneInfo['default_banner_html'] ?? '',
+                'skip_log_request' => !empty($aZoneInfo['skip_log_request']),
+                'skip_log_blank' => !empty($aZoneInfo['skip_log_blank']),
             ];
         }
 

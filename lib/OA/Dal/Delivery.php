@@ -146,11 +146,17 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
     if (!OA_Dal_Delivery_isValidResult($rZoneInfo)) {
         return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTION_ERROR : false;
     }
+
     $aZoneInfo = OA_Dal_Delivery_fetchAssoc($rZoneInfo);
 
     if (empty($aZoneInfo)) {
         // The zone does not exist!
-        return false;
+        return [
+            'default' => true,
+            'default_banner_html' => $aConf['defaultBanner']['invalidZoneHtmlBanner'] ?? '',
+            'skip_log_request' => true,
+            'skip_log_blank' => true,
+        ];
     }
 
     // Is the account active? We need to check the actual values, as the constants are not defined during delivery
@@ -158,13 +164,15 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
         case 4: // OA_ENTITY_STATUS_INACTIVE
             return [
                 'default' => true,
-                'default_banner_html' => $aConf['defaultBanner']['inactiveAccountHtmlBanner'],
+                'default_banner_html' => $aConf['defaultBanner']['inactiveAccountHtmlBanner'] ?? '',
+                'skip_log_blank' => true,
             ];
 
         case 1: // OA_ENTITY_STATUS_PAUSED
             return [
                 'default' => true,
-                'default_banner_html' => $aConf['defaultBanner']['suspendedAccountHtmlBanner'],
+                'default_banner_html' => $aConf['defaultBanner']['suspendedAccountHtmlBanner'] ?? '',
+                'skip_log_blank' => true,
             ];
     }
 

@@ -37,7 +37,11 @@ What's New in Revive Adserver 5.1.0
  * Redesigned the email sent to users when a password reset request is made.
 
  * Added agency status, allowing to suspend or deactivate manager accounts,
-   optionally showing custom messages diring delivery for such accounts.
+   optionally showing custom messages during delivery for such accounts. No
+   blank impressions will be logged in such cases.
+
+ * Added optional custom messages during delivery when a non existing zone is
+   requested. No requests, nor blank impressions will be logged either.
 
 
  Bug Fixes
