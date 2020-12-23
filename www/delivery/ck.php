@@ -2322,7 +2322,7 @@ $okToLog = false;
 }
 return $okToLog;
 }
-function MAX_Delivery_log_getArrGetVariable($name)
+function MAX_Delivery_log_getArrGetVariable(string $name)
 {
 $varName = $GLOBALS['_MAX']['CONF']['var'][$name];
 return isset($_GET[$varName]) ? explode($GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $_GET[$varName]) : array();
@@ -2866,6 +2866,22 @@ $functionName .= '_' . $hook;
 }
 return $functionName;
 }
+function OX_Delivery_Common_getClickSignature(int $adId, int $zoneId, string $destination): string
+{
+if (empty($GLOBALS['_MAX']['CONF']['delivery']['secret'])) {
+throw new InvalidArgumentException('Empty delivery secret');
+}
+$secret = join("\t", [
+base64_decode($GLOBALS['_MAX']['CONF']['delivery']['secret']),
+$adId,
+$zoneId
+]);
+return hash_hmac(
+'sha256',
+$destination,
+$secret
+);
+}
 function _includeDeliveryPluginFile($fileName)
 {
 if (!in_array($fileName, array_keys($GLOBALS['_MAX']['FILES']))) {
@@ -3198,10 +3214,18 @@ $aGet[$name] = $value;
 $_GET = $aGet;
 $_REQUEST = $_GET + $_POST + $_COOKIE;
 }
-function MAX_querystringGetDestinationUrl($adId = null)
+function MAX_querystringGetDestinationUrl(int $adId = 0, int $zoneId = 0)
 {
 $conf = $GLOBALS['_MAX']['CONF'];
-$dest = isset($_REQUEST[$conf['var']['dest']]) ? $_REQUEST[$conf['var']['dest']] : '';
+$dest = $_REQUEST[$conf['var']['dest']] ?? '';
+$sig = $_REQUEST[$conf['var']['signature']] ?? '';
+try {
+if (!empty($dest) && $sig !== OX_Delivery_Common_getClickSignature($adId, $zoneId, $dest)) {
+$dest = '';
+}
+} catch (InvalidArgumentException $e) {
+$dest = '';
+}
 if (empty($dest) && !empty($adId)) {
 $aAd = MAX_cacheGetAd($adId);
 if (!empty($aAd)) {
@@ -3209,11 +3233,11 @@ $dest = $aAd['url'];
 }
 }
 if (empty($dest)) {
-return;
+return null;
 }
-$aVariables = array();
+$aVariables = [];
 $aValidVariables = array_values($conf['var']);
-$componentParams = OX_Delivery_Common_hook('addUrlParams', array(array('bannerid' => $adId)));
+$componentParams = OX_Delivery_Common_hook('addUrlParams', [['bannerid' => $adId]]);
 if (!empty($componentParams) && is_array($componentParams)) {
 foreach ($componentParams as $params) {
 if (!empty($params) && is_array($params)) {
@@ -3320,7 +3344,7 @@ MAX_Delivery_log_setLastAction($i, $adId, $zoneId, $lastClick, 'click');
 }
 MAX_cookieAdd($conf['var']['viewerId'], $viewerId, time() + $conf['cookie']['permCookieSeconds']);
 MAX_cookieFlush();
-$destination = MAX_querystringGetDestinationUrl($adId[0]);
+$destination = MAX_querystringGetDestinationUrl($adId[0], $zoneId[0]);
 if (!empty($destination) && empty($_GET['trackonly'])) {
 if (!preg_match('/[\r\n]/', $destination)) {
 MAX_redirect($destination);

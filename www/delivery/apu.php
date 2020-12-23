@@ -2322,7 +2322,7 @@ $okToLog = false;
 }
 return $okToLog;
 }
-function MAX_Delivery_log_getArrGetVariable($name)
+function MAX_Delivery_log_getArrGetVariable(string $name)
 {
 $varName = $GLOBALS['_MAX']['CONF']['var'][$name];
 return isset($_GET[$varName]) ? explode($GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $_GET[$varName]) : array();
@@ -2866,6 +2866,22 @@ $functionName .= '_' . $hook;
 }
 return $functionName;
 }
+function OX_Delivery_Common_getClickSignature(int $adId, int $zoneId, string $destination): string
+{
+if (empty($GLOBALS['_MAX']['CONF']['delivery']['secret'])) {
+throw new InvalidArgumentException('Empty delivery secret');
+}
+$secret = join("\t", [
+base64_decode($GLOBALS['_MAX']['CONF']['delivery']['secret']),
+$adId,
+$zoneId
+]);
+return hash_hmac(
+'sha256',
+$destination,
+$secret
+);
+}
 function _includeDeliveryPluginFile($fileName)
 {
 if (!in_array($fileName, array_keys($GLOBALS['_MAX']['FILES']))) {
@@ -3236,75 +3252,97 @@ return !empty($GLOBALS['_MAX']['COOKIE']['newViewerId']) && $filterActive;
 }
 
 
-function MAX_adRender(&$aBanner, $zoneId=0, $source='', $target='', $ct0='', $withText=false, $charset = '', $logClick=true, $logView=true, $richMedia=true, $loc='', $referer='', &$context = array())
+function MAX_adRender(array &$aBanner, int $zoneId = 0, string $source = '', string $target = '', string $ct0 = '', bool $withText = false, string $charset = '', bool $logClick = true, bool $logView = true, bool $richMedia = true, string $loc = '', string $referer = null, array &$context = [])
 {
-$conf = $GLOBALS['_MAX']['CONF'];
+$aBanner['bannerContent'] = "";
 if (empty($target)) {
 $target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
 }
 $target = htmlspecialchars($target, ENT_QUOTES);
 $source = htmlspecialchars($source, ENT_QUOTES);
-$aBanner['bannerContent'] = "";
-OX_Delivery_Common_hook('preAdRender', array(&$aBanner, &$zoneId, &$source, &$ct0, &$withText, &$logClick, &$logView, null, &$richMedia, &$loc, &$referer));
+OX_Delivery_Common_hook('preAdRender', [&$aBanner, &$zoneId, &$source, &$ct0, &$withText, &$logClick, &$logView, null, &$richMedia, &$loc, &$referer]);
 $functionName = _getAdRenderFunction($aBanner, $richMedia);
-$code = OX_Delivery_Common_hook('adRender', array(&$aBanner, &$zoneId, &$source, &$ct0, &$withText, &$logClick, &$logView, null, &$richMedia, &$loc, &$referer), $functionName);
-list($usec, $sec) = explode(' ', microtime());
-$time = (float)$usec + (float)$sec;
-$random = MAX_getRandomNumber();
-global $cookie_random;  $cookie_random = $random;
-$clickUrl = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick, true);
+$code = OX_Delivery_Common_hook('adRender', [&$aBanner, &$zoneId, &$source, &$ct0, &$withText, &$logClick, &$logView, null, &$richMedia, &$loc, &$referer], $functionName);
 $urlPrefix = rtrim(MAX_commonGetDeliveryUrl(), '/');
 $imgUrlPrefix = rtrim(_adRenderBuildImageUrlPrefix(), '/');
-$code = str_replace('{clickurl}', $clickUrl, $code); 
-if (strpos($code, '{logurl}') !== false) {
-$logUrl = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&');
-$code = str_replace('{logurl}', $logUrl, $code);  }
-if (strpos($code, '{logurl_enc}') !== false) {
-$logUrl_enc = urlencode(_adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&'));
-$code = str_replace('{logurl_enc}', $logUrl_enc, $code);  }
-if (strpos($code, '{imgurl}') !== false) {
-$imgUrl = _adRenderBuildImageUrlPrefix();
-$code = str_replace('{imgurl}', $imgUrl, $code);  }
-if (strpos($code, '{imgurl_enc}') !== false) {
-$imgUrl_enc = urlencode(_adRenderBuildImageUrlPrefix());
-$code = str_replace('{imgurl_enc}', $logUrl, $code);  }
-if (strpos($code, '{clickurlparams}')) {
-$maxparams = _adRenderBuildParams($aBanner, $zoneId, $source, urlencode($ct0), $logClick, true);
-$code = str_replace('{clickurlparams}', $maxparams, $code);  }
-$search = array('{timestamp}','{random}','{target}','{url_prefix}','{img_url_prefix}','{bannerid}','{zoneid}','{source}', '{pageurl}', '{width}', '{height}', '{websiteid}', '{campaignid}', '{advertiserid}', '{referer}');
-$locReplace = isset($GLOBALS['loc']) ? $GLOBALS['loc'] : '';
-$websiteid = (!empty($aBanner['affiliate_id'])) ? $aBanner['affiliate_id'] : '0';
-$replace = array($time, $random, $target, $urlPrefix, $imgUrlPrefix, $aBanner['ad_id'], $zoneId, $source, urlencode($locReplace), $aBanner['width'], $aBanner['height'], $websiteid, $aBanner['campaign_id'], $aBanner['client_id'], $referer);
-preg_match_all('#{([a-zA-Z0-9_]*?)(_enc)?}#', $code, $macros);
-for ($i=0;$i<count($macros[1]);$i++) {
-if (!in_array($macros[0][$i], $search) && isset($_REQUEST[$macros[1][$i]])) {
-$search[] = $macros[0][$i];
-$replace[] = (!empty($macros[2][$i])) ? urlencode(stripslashes($_REQUEST[$macros[1][$i]])) : htmlspecialchars(stripslashes($_REQUEST[$macros[1][$i]]), ENT_QUOTES);
+$aMagicMacros = [
+'{timestamp}' => MAX_commonGetTimeNow(),
+'{random}' => MAX_getRandomNumber(),
+'{target}'=> $target,
+'{url_prefix}' => $urlPrefix,
+'{img_url_prefix}' => $imgUrlPrefix,
+'{bannerid}' => $aBanner['ad_id'],
+'{zoneid}' => $zoneId,
+'{source}' => $source,
+'{pageurl}' => urlencode($loc),
+'{width}' => $aBanner['width'],
+'{height}' => $aBanner['height'],
+'{websiteid}' => $aBanner['affiliate_id'] ?? 0,
+'{campaignid}' => $aBanner['campaign_id'],
+'{advertiserid}' => $aBanner['client_id'],
+'{referer}' => $referer ?? '',
+'{logurl}' => '',  '{logurl_enc}' => '',  '{logurl_html}' => '',  '{clickurl}' => '',  '{clickurl_enc}' => '',  '{clickurl_html}' => '',  ];
+preg_match_all('#{([a-zA-Z0-9_]*?)(_enc)?}#', $code, $aMatches);
+for ($i = 0; $i < count($aMatches[1]); $i++) {
+if (isset($aMagicMacros[$aMatches[0][$i]])) {
+continue;
 }
+if (!isset($_REQUEST[$aMatches[1][$i]])) {
+continue;
 }
-$componentParams = OX_Delivery_Common_hook('addUrlParams', array($aBanner));
+$value = stripslashes($_REQUEST[$aMatches[1][$i]]);
+$aMagicMacros[$aMatches[0][$i]] = empty($macros[2][$i]) ?
+htmlspecialchars($value, ENT_QUOTES) :
+urlencode($value);
+}
+$componentParams = OX_Delivery_Common_hook('addUrlParams', [$aBanner]);
 if (!empty($componentParams) && is_array($componentParams)) {
 foreach ($componentParams as $params) {
 if (!empty($params) && is_array($params)) {
 foreach ($params as $key => $value) {
-$search[] = '{' . $key . '}';
-$replace[] = urlencode($value);
+$key = '{'.$key.'}';
+if (isset($aMagicMacros[$key])) {
+continue;
+}
+$aMagicMacros[$key] = urlencode($value);
 }
 }
 }
 }
-$code = str_replace($search, $replace, $code);
-$clickUrl = str_replace($search, $replace, $clickUrl);
-$aBanner['clickUrl'] = $clickUrl;
-if (strpos($code, '{clickurl_enc}') !== false) {
-$code = str_replace('{clickurl_enc}', urlencode($clickUrl), $code);
+$aBanner['aMagicMacros'] = $aMagicMacros;
+preg_match_all('#{clickurl(|_enc|_html)}(https?(://|%3[aA]%2[fF]%2[fF]).*?)(?=[\'"])#', $code, $aMatches);
+for ($i = 0; $i < count($aMatches[2]); $i++) {
+if (isset($aMagicMacros[$aMatches[0][$i]])) {
+continue;
 }
-$logUrl = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&');
-$logUrl = str_replace($search, $replace, $logUrl);
-$aBanner['logUrl'] = $logUrl;
-$aBanner['aSearch'] = $search;
-$aBanner['aReplace'] = $replace;
-OX_Delivery_Common_hook('postAdRender', array(&$code, $aBanner, &$context));
+$dest = '://' === $aMatches[3][$i] ? $aMatches[2][$i] : urldecode($aMatches[2][$i]);
+$dest = _adRenderBuildSignedClickUrl($aBanner, $zoneId, $source, $logClick, $dest);
+switch ($aMatches[1][$i]) {
+default:
+$aMagicMacros[$aMatches[0][$i]] = $dest;
+break;
+case '_enc':
+$aMagicMacros[$aMatches[0][$i]] = urlencode($dest);
+break;
+case '_html':
+$aMagicMacros[$aMatches[0][$i]] = htmlspecialchars($dest, ENT_QUOTES);
+break;
+}
+}
+$aBanner['logUrl'] = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&');
+$aBanner['clickUrl'] = _adRenderBuildSignedClickUrl($aBanner, $zoneId, $source, $logClick);
+unset($aMagicMacros['{logurl}'], $aMagicMacros['{logurl_enc}'], $aMagicMacros['{logurl_html}'], $aMagicMacros['{clickurl}'], $aMagicMacros['{clickurl_enc}'], $aMagicMacros['{clickurl_html}']);
+$aMagicMacros['{logurl}'] = $aBanner['logUrl'];
+$aMagicMacros['{logurl_enc}'] = urlencode($aBanner['logUrl']);
+$aMagicMacros['{logurl_html}'] = htmlspecialchars($aBanner['logUrl'], ENT_QUOTES);
+$aMagicMacros['{clickurl}'] = $aBanner['clickUrl'];
+$aMagicMacros['{clickurl_enc}'] = urlencode($aBanner['clickUrl']);
+$aMagicMacros['{clickurl_html}'] = htmlspecialchars($aBanner['clickUrl'], ENT_QUOTES);
+$aBanner['aMagicMacros'] = $aMagicMacros;
+$aBanner['aSearch'] = array_keys($aMagicMacros);
+$aBanner['aReplace'] = array_values($aMagicMacros);
+$code = _adRenderReplaceMagicMacros($aBanner, $code);
+OX_Delivery_Common_hook('postAdRender', [&$code, $aBanner, &$context]);
 return MAX_commonConvertEncoding($code, $charset);
 }
 function MAX_adRenderImageBeacon($logUrl, $beaconId = 'beacon', $userAgent = null)
@@ -3343,9 +3381,8 @@ return _adRenderBuildFileUrl($aBanner, $useAlt);
 }
 $prepend = (!empty($aBanner['prepend']) && $useAppend) ? $aBanner['prepend'] : '';
 $append = (!empty($aBanner['append']) && $useAppend) ? $aBanner['append'] : '';
-$clickUrl = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick);
-if (!empty($clickUrl)) {  $status = _adRenderBuildStatusCode($aBanner);
-$clickTag = "<a href='".htmlspecialchars($clickUrl, ENT_QUOTES)."' target='{target}'$status>";
+if (!empty($aBanner['url'])) {  $status = _adRenderBuildStatusCode($aBanner);
+$clickTag = "<a href='{clickurl_html}' target='{target}'{$status}>";
 $clickTagEnd = '</a>';
 } else {
 $clickTag = '';
@@ -3388,11 +3425,10 @@ $fallBackLogURL = _adRenderBuildLogURL(array(
 $fallBackLogURL = false;
 }
 }
-$clickUrl = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick);
-if (!empty($clickUrl)) {  $status = _adRenderBuildStatusCode($aBanner);
+if (!empty($aBanner['url'])) {  $status = _adRenderBuildStatusCode($aBanner);
 $target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
-$swfParams = array('clickTARGET' => $target, 'clickTAG' => $clickUrl);
-$clickTag = "<a href='".htmlspecialchars($clickUrl, ENT_QUOTES)."' target='$target'$status>";
+$swfParams = array('clickTARGET' => $target, 'clickTAG' => '{clickurl_enc}');
+$clickTag = "<a href='{clickurl_html}' target='{$target}'{$status}>";
 $clickTagEnd = '</a>';
 } else {
 $swfParams = array();
@@ -3402,12 +3438,9 @@ $clickTagEnd = '';
 if (!empty($aBanner['parameters'])) {
 $aAdParams = unserialize($aBanner['parameters']);
 if (isset($aAdParams['swf']) && is_array($aAdParams['swf'])) {
-$swfParams = array();
-$aBannerSwf = $aBanner;
-$aBannerSwf['noClickTag'] = true;
+$swfParams = [];
 foreach ($aAdParams['swf'] as $iKey => $aSwf) {
-$aBannerSwf['url'] = $aSwf['link'];
-$swfParams["alink{$iKey}"] = _adRenderBuildClickUrl($aBannerSwf, $zoneId, $source, $ct0, $logClick);
+$swfParams["alink{$iKey}"] = '{clickurl_enc}'.$aSwf['link'];
 $swfParams["atar{$iKey}"] = $aSwf['tar'];
 }
 }
@@ -3540,7 +3573,7 @@ $url .= $amp . urlencode($key) . '=' . urlencode($value);
 }
 }
 }
-return $url;
+return _adRenderReplaceMagicMacros($aBanner, $url);
 }
 function _adRenderImageBeacon($aBanner, $zoneId = 0, $source = '', $loc = '', $referer = '', $logUrl = '')
 {
@@ -3549,7 +3582,63 @@ $logUrl = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&');
 }
 return MAX_adRenderImageBeacon($logUrl);
 }
-function _adRenderBuildParams($aBanner, $zoneId=0, $source='', $ct0='', $logClick=true, $overrideDest=false)
+function _adRenderBuildClickQueryString(array $aBanner, int $zoneId = 0, string $source = '', bool $logClick = true, string $customDestination = null): string
+{
+if (isset($aBanner['ad_id']) && empty($aBanner['bannerid'])) {
+$aBanner['bannerid'] = $aBanner['ad_id'];
+}
+$conf = $GLOBALS['_MAX']['CONF'];
+$delimiter = $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'];
+$logLastClick = (!empty($aBanner['clickwindow'])) ? '1' : '';
+if (!empty($GLOBALS['_MAX']['adChain'])) {
+foreach ($GLOBALS['_MAX']['adChain'] as $index => $ad) {
+$aBanner['bannerid'] .= $delimiter . $ad['bannerid'];
+$aBanner['placement_id'] .= $delimiter . $ad['placement_id'];
+$zoneId .= $delimiter . $ad['zoneid'];
+$logLastClick .= (!empty($aBanner['clickwindow'])) ? '1' : '0';
+}
+}
+$aParams = [
+$conf['var']['adId'] => $aBanner['bannerid'] ?? '0',
+$conf['var']['zoneId'] => $zoneId,
+];
+if (!empty($source)) {
+$aParams['source'] = $source;
+}
+if (!$logClick) {
+$aParams[$conf['var']['logClick']] = 'no';
+}
+if (!empty($logLastClick)) {
+$aParams[$conf['var']['lastClick']] = $logLastClick;
+}
+$dest = _adRenderReplaceMagicMacros($aBanner, $customDestination ?? $aBanner['url'] ?? '');
+if ($dest) {
+$aParams[$conf['var']['signature']] = OX_Delivery_Common_getClickSignature(
+$aBanner['bannerid'] ?? 0,
+$zoneId,
+$dest
+);
+$aParams[$conf['var']['dest']] = $dest;
+}
+return http_build_query($aParams);
+}
+function _adRenderReplaceMagicMacros(array $aBanner, string $input): string
+{
+if (!isset($aBanner['aMagicMacros'])) {
+return $input;
+}
+return str_replace(
+array_keys($aBanner['aMagicMacros']),
+array_values($aBanner['aMagicMacros']),
+$input
+);
+}
+function _adRenderBuildSignedClickUrl(array $aBanner, int $zoneId = 0, string $source = '', bool $logClick = true, string $customDestination = null): string
+{
+return MAX_commonGetDeliveryUrl($GLOBALS['_MAX']['CONF']['file']['signedClick']).'?'.
+_adRenderBuildClickQueryString($aBanner, $zoneId, $source, $logClick, $customDestination);
+}
+function _adRenderBuildParams($aBanner, $zoneId=0, $source='', $ct0='', $logClick=true)
 {
 if (isset($aBanner['ad_id']) && empty($aBanner['bannerid'])) {
 $aBanner['bannerid'] = $aBanner['ad_id'];
@@ -3566,7 +3655,7 @@ $logLastClick .= (!empty($aBanner['clickwindow'])) ? '1' : '0';
 }
 }
 $maxparams = '';
-if (!empty($aBanner['url']) || $overrideDest) {
+if (!empty($aBanner['url'])) {
 $del = $conf['delivery']['ctDelimiter'];
 $delnum = strlen($del);
 $random = "{$del}{$conf['var']['cacheBuster']}={random}";
@@ -3574,12 +3663,6 @@ $bannerId = !empty($aBanner['bannerid']) ? "{$del}{$conf['var']['adId']}={$aBann
 $zoneId = "{$del}{$conf['var']['zoneId']}={$zoneId}";
 $source = !empty($source) ? "{$del}source=" . urlencode($source) : '';
 $log = $logClick ? '' : "{$del}{$conf['var']['logClick']}=no";
-$dest = !empty($aBanner['url']) ? $aBanner['url'] : '';
-if (!empty($ct0) && strtolower(substr($ct0, 0, 4)) == 'http') {
-$dest = $ct0.preg_replace('/%7B(.*?)%7D/', '{$1}', urlencode($dest));
-}
-$dest = preg_replace('/%7B(.*?)%7D/', '{$1}', urlencode($dest));
-$maxdest = "{$del}{$conf['var']['dest']}={$dest}";
 $log .= (!empty($logLastClick)) ? $del . $conf['var']['lastClick'] . '=' . $logLastClick : '';
 $maxparams = $delnum . $bannerId . $zoneId . $source . $log . $random;
 $componentParams = OX_Delivery_Common_hook('addUrlParams', array($aBanner));
@@ -3592,20 +3675,16 @@ $maxparams .= $del . urlencode($key) . '=' . urlencode($value);
 }
 }
 }
-$maxparams .= $maxdest;
 }
 return $maxparams;
 }
-function _adRenderBuildClickUrl($aBanner, $zoneId=0, $source='', $ct0='', $logClick=true, $overrideDest=false)
+function _adRenderBuildClickUrl($aBanner, $zoneId = 0, $source = '', $ct0 = '', $logClick = true)
 {
 $conf = $GLOBALS['_MAX']['CONF'];
-$clickUrl = '';
-if (is_string($logClick)) {
-$clickUrl = $logClick;
-} elseif (!empty($aBanner['url']) || $overrideDest) {
-$clickUrl = MAX_commonGetDeliveryUrl($conf['file']['click']) . '?' . $conf['var']['params'] . '=' . _adRenderBuildParams($aBanner, $zoneId, $source, $ct0, $logClick, true);
+if (empty($aBanner['url'])) {
+return '';
 }
-return $clickUrl;
+return MAX_commonGetDeliveryUrl($conf['file']['click']) . '?' . $conf['var']['params'] . '=' . _adRenderBuildParams($aBanner, $zoneId, $source, $ct0, $logClick);
 }
 function _adRenderBuildStatusCode($aBanner)
 {

@@ -2322,7 +2322,7 @@ $okToLog = false;
 }
 return $okToLog;
 }
-function MAX_Delivery_log_getArrGetVariable($name)
+function MAX_Delivery_log_getArrGetVariable(string $name)
 {
 $varName = $GLOBALS['_MAX']['CONF']['var'][$name];
 return isset($_GET[$varName]) ? explode($GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $_GET[$varName]) : array();
@@ -2865,6 +2865,22 @@ $functionName .= '_' . $hook;
 }
 }
 return $functionName;
+}
+function OX_Delivery_Common_getClickSignature(int $adId, int $zoneId, string $destination): string
+{
+if (empty($GLOBALS['_MAX']['CONF']['delivery']['secret'])) {
+throw new InvalidArgumentException('Empty delivery secret');
+}
+$secret = join("\t", [
+base64_decode($GLOBALS['_MAX']['CONF']['delivery']['secret']),
+$adId,
+$zoneId
+]);
+return hash_hmac(
+'sha256',
+$destination,
+$secret
+);
 }
 function _includeDeliveryPluginFile($fileName)
 {
