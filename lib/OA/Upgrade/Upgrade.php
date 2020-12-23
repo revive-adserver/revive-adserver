@@ -1433,6 +1433,9 @@ class OA_Upgrade
         $this->oConfiguration->setupConfigDatabase($aConfig['database']);
         $this->oConfiguration->setupConfigDatabaseCharset($aConfig['databaseCharset']);
         $this->oConfiguration->setupConfigTable($aConfig['table']);
+
+        $this->oConfiguration->generateDeliverySecret();
+
         return $this->oConfiguration->writeConfig();
     }
 

@@ -82,7 +82,7 @@ foreach ($zones as $thisZone) {
         $aResponse[$key] = $banner['aRow']['aReplace'][$index];
     }
     // Remove duplicated fields from the aRow
-    unset($banner['aRow']['aSearch'], $banner['aRow']['aReplace'], $banner['aRow']['bannerContent']);
+    unset($banner['aRow']['aSearch'], $banner['aRow']['aReplace'], $banner['aRow']['aMagicMacros'], $banner['aRow']['bannerContent']);
 
     // Add fields from aRow to the response (assuming they don't exist already)
     foreach ($banner['aRow'] as $key => $value) {

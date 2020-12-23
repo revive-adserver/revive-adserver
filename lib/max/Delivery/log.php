@@ -278,7 +278,7 @@ function _viewersHostOkayToLog($adId=0, $zoneId=0, $trackerId=0)
  * @return array The GET variable exploded to an array, or an empty
  *               array if the GET variable requested is not defined.
  */
-function MAX_Delivery_log_getArrGetVariable($name)
+function MAX_Delivery_log_getArrGetVariable(string $name)
 {
     $varName = $GLOBALS['_MAX']['CONF']['var'][$name];
     return isset($_GET[$varName]) ? explode($GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $_GET[$varName]) : array();

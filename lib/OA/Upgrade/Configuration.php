@@ -199,6 +199,17 @@ class OA_Upgrade_Config
         return true;
     }
 
+    function generateDeliverySecret()
+    {
+        $secret = base64_decode($this->aConfig['delivery']['secret'] ?? '');
+
+        if ($secret && 32 === strlen(($secret))) {
+            return true;
+        }
+
+        $this->setValue('delivery','secret', base64_encode(random_bytes(32)));
+    }
+
     function setOpenadsInstalledOn()
     {
         $this->setValue('openads','installed', '1');

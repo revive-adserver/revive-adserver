@@ -18,7 +18,7 @@
  * @param string  $source       The "source" parameter passed into the adcall
  * @param string  $ct0          The 3rd party click tracking URL to redirect to after logging
  * @param int     $withText     Should "text below banner" be appended to the generated code
- * @param bookean $logClick     Should this click be logged (clicks in admin should not be logged)
+ * @param boolean $logClick     Should this click be logged (clicks in admin should not be logged)
  * @param boolean $logView      Should this view be logged (views in admin should not be logged
  *                              also - 3rd party callback logging should not be logged at view time)
  * @param boolean $useAlt       Should the backup file be used for this code
@@ -28,7 +28,7 @@
  *
  * @return string               The HTML to display this ad
  */
-function Plugin_BannerTypeHTML_delivery_adRender(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $richMedia=true, $loc, $referer)
+function Plugin_BannerTypeHTML_delivery_adRender(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $richMedia=true, $loc = '', $referer = null)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
     $prepend = !empty($aBanner['prepend']) ? $aBanner['prepend'] : '';

@@ -119,7 +119,7 @@ class Plugins_InvocationTags_OxInvocationTags_adviewnocookies extends Plugins_In
         if (!empty($mi->thirdpartytrack)) {
             $buffer .= $mi->macros['clickurl'];
         }
-        $buffer .= MAX_commonConstructDeliveryUrl($conf['file']['click']);
+        $buffer .= MAX_commonConstructDeliveryUrl($conf['file']['signedClick']);
         $mi->clickParams = array();
 
         // Only need the banner id for direct selection not zone

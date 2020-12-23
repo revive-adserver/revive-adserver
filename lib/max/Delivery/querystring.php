@@ -102,10 +102,20 @@ function MAX_querystringConvertParams()
  *
  * @return string The destination URL
  */
-function MAX_querystringGetDestinationUrl($adId = null)
+function MAX_querystringGetDestinationUrl(int $adId = 0, int $zoneId = 0)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
-    $dest = isset($_REQUEST[$conf['var']['dest']]) ? $_REQUEST[$conf['var']['dest']] : '';
+    $dest = $_REQUEST[$conf['var']['dest']] ?? '';
+    $sig = $_REQUEST[$conf['var']['signature']] ?? '';
+
+    try {
+        if (!empty($dest) && $sig !== OX_Delivery_Common_getClickSignature($adId, $zoneId, $dest)) {
+            $dest = '';
+        }
+    } catch (InvalidArgumentException $e) {
+        $dest = '';
+    }
+
     if (empty($dest) && !empty($adId)) {
         // Get the destination from the banner
         $aAd = MAX_cacheGetAd($adId);
@@ -116,13 +126,14 @@ function MAX_querystringGetDestinationUrl($adId = null)
 
     // If no destination URL has been found by now, then we don't need to redirect
     if (empty($dest)) {
-        return;
+        return null;
     }
-    $aVariables = array();
+
+    $aVariables = [];
     $aValidVariables = array_values($conf['var']);
 
     // See if any plugin-components have added items to the click url...
-    $componentParams =  OX_Delivery_Common_hook('addUrlParams', array(array('bannerid' => $adId)));
+    $componentParams =  OX_Delivery_Common_hook('addUrlParams', [['bannerid' => $adId]]);
     if (!empty($componentParams) && is_array($componentParams)) {
         foreach ($componentParams as $params) {
             if (!empty($params) && is_array($params)) {

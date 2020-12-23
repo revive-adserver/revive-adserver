@@ -22,7 +22,7 @@ function Plugin_BannerTypeHTML_oxHtml_html5_Delivery_adRender(&$aBanner, $zoneId
     $logImpression = json_encode($logView && $aConf['logging']['adImpressions']);
 
     $aBanner['htmlcache'] = <<<EOF
-<iframe id="rv-h5-{random}" name="rv-h5-{random}" src="{$filename}?clickTag={clickurl}"
+<iframe id="rv-h5-{random}" name="rv-h5-{random}" src="{$filename}?clickTag={clickurl_enc}"
     marginwidth="0" marginheight="0" scrolling="no"  frameborder="0" width="{$aBanner['width']}" height="{$aBanner['height']}"
     style="width: {$aBanner['width']}px; height: {$aBanner['height']}px; border: 0"></iframe>
 <script>

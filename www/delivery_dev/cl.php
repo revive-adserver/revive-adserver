@@ -20,13 +20,10 @@ require_once '../../init-delivery.php';
 // Required files
 require_once MAX_PATH . '/lib/max/Delivery/querystring.php';
 
-// Prevent click from being cached by browsers
+// Prevent the logging beacon from being cached by browsers
 MAX_commonSetNoCacheHeaders();
 
-// Convert specially encoded params into the $_REQUEST variable
-MAX_querystringConvertParams();
-
-// Remove any special characters
+// Remove any special characters from the request variables
 MAX_commonRemoveSpecialChars($_REQUEST);
 
 // Get the variables
@@ -37,11 +34,11 @@ if (!empty($GLOBALS['_MAX']['COOKIE']['newViewerId']) && empty($_GET[$conf['var'
     MAX_cookieSetViewerIdAndRedirect($viewerId);
 }
 
-$adId       = isset($_REQUEST[$conf['var']['adId']]) ? explode($GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $_REQUEST[$conf['var']['adId']]) : array();
-$zoneId     = isset($_REQUEST[$conf['var']['zoneId']]) ? explode($GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $_REQUEST[$conf['var']['zoneId']]) : array();
-$creativeId = isset($_REQUEST[$conf['var']['creativeId']]) ? explode($GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $_REQUEST[$conf['var']['creativeId']]) : array();
-$lastClick  = isset($_REQUEST[$conf['var']['lastClick']]) ? explode($GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $_REQUEST[$conf['var']['lastClick']]) : array();
-$aBlockLoggingClick = isset($_REQUEST[$conf['var']['blockLoggingClick']]) ? $_REQUEST[$conf['var']['blockLoggingClick']] : array();
+$adId = MAX_Delivery_log_getArrGetVariable('adId');
+$creativeId = MAX_Delivery_log_getArrGetVariable('creativeId');
+$zoneId = MAX_Delivery_log_getArrGetVariable('zoneId');
+$lastClick = MAX_Delivery_log_getArrGetVariable('lastClick');
+$aBlockLoggingClick = MAX_Delivery_log_getArrGetVariable('blockLoggingClick');
 
 if (!empty($conf['deliveryLog']['enabled'])) {
     foreach ($adId as $k => $v) {

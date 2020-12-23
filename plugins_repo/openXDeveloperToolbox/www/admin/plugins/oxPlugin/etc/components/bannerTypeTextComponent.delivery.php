@@ -23,7 +23,7 @@
  * @param string  $source       The "source" parameter passed into the adcall
  * @param string  $ct0          The 3rd party click tracking URL to redirect to after logging
  * @param int     $withText     Should "text below banner" be appended to the generated code
- * @param bookean $logClick     Should this click be logged (clicks in admin should not be logged)
+ * @param boolean $logClick     Should this click be logged (clicks in admin should not be logged)
  * @param boolean $logView      Should this view be logged (views in admin should not be logged
  *                              also - 3rd party callback logging should not be logged at view time)
  * @param boolean $useAlt       Should the backup file be used for this code
@@ -41,11 +41,10 @@ function Plugin_BannerTypeText_{GROUP}_{GROUP}Component_delivery(&$aBanner, $zon
     $aBanner['bannerContent'] = $aBanner['bannertext'];
 
     // Create the anchor tag..
-    $clickUrl = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick);
-    if (!empty($clickUrl)) {  // There is a link
+    if (!empty($aBanner['url'])) {  // There is a link
         $status = _adRenderBuildStatusCode($aBanner);
         $target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
-        $clickTag = "<a href='$clickUrl' target='$target'$status>";
+        $clickTag = "<a href='{clickurl_html}' target='$target'$status>";
         $clickTagEnd = '</a>';
     } else {
         $clickTag = '';

@@ -233,7 +233,7 @@ function prepareTrackingParams(&$aOutputParams, $aBanner, $zoneId, $source, $loc
         $aOutputParams['trackUrlResume'] = $trackingUrl . '&event=resume';
         $aOutputParams['vastVideoClickThroughUrl'] = _adRenderBuildVideoClickThroughUrl($aBanner, $zoneId, $source, $ct0 );
     }
-    $aOutputParams['clickUrl'] = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick);
+    $aOutputParams['clickUrl'] = _adRenderBuildSignedClickUrl($aBanner, $zoneId, $source, $logClick);
 }
 
 /**
@@ -243,7 +243,7 @@ function prepareTrackingParams(&$aOutputParams, $aBanner, $zoneId, $source, $loc
  * @param int     $zoneId       The zone ID of the zone used to select this ad (if zone-selected)
  * @param string  $source       The "source" parameter passed into the adcall
  * @param string  $ct0          The 3rd party click tracking URL to redirect to after logging
- * @param bookean $logClick     Should this click be logged (clicks in admin should not be logged)
+ * @param boolean $logClick     Should this click be logged (clicks in admin should not be logged)
  *
  * @return string The click URL
  */
@@ -254,7 +254,7 @@ function _adRenderBuildVideoClickThroughUrl($aBanner, $zoneId=0, $source='', $ct
     $clickUrl = '';
     if(!empty($aBanner['vast_video_clickthrough_url'])) {
         $aBanner['url'] = $aBanner['vast_video_clickthrough_url'];
-        $clickUrl = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick);
+        $clickUrl = _adRenderBuildSignedClickUrl($aBanner, $zoneId, $source, $logClick);
     }
     return $clickUrl;
 }

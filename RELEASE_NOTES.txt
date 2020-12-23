@@ -23,7 +23,12 @@ What's New in Revive Adserver 5.1.0
  Security Updates
  ----------------
 
- * None
+ * Fixed open redirect in the click tracking script, by deprecating the
+   existing ck.php script and making it ignore the oadest parameter, so that
+   it only redirects to the destination saved in the banner itself.
+   Contestually a new "signed" click tracking delivery script as been added,
+   (cl.php): it uses regular query string parameters and HMAC SHA256 signature
+   to ensure the destination url is not tampered with.
 
 
  New Features
@@ -54,6 +59,10 @@ What's New in Revive Adserver 5.1.0
 
  * Delivery rules including South African subdivions Gauteng and Kwazulu-Natal
    will require manual adjusting.
+
+ * Click tracking via ck.php is deprecated and the behaviour of some ad render
+   internal functions (_adRenderBuildClickUrl, _adRenderBuildParams) has
+   changed accordingly. The "{clickurlparams}" magic macro has been removed.
 
 
 System Requirements

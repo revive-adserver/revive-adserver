@@ -77,7 +77,7 @@ class Test_OA_Admin_BannerCache extends UnitTestCase
          $aBanner['target'] = '_new';
          $aBanner['url'] = 'http://www.openx.org';
          $aBanner['adserver'] = '';
-         $aBanner['expected'] = "<a href='{clickurl}".urlencode('http://www.openx.org/download.html')."' target='{target}'>Download Openads</a>";
+         $aBanner['expected'] = "<a href='{clickurl_html}".urlencode('http://www.openx.org/download.html')."' target='{target}'>Download Openads</a>";
          return $aBanner;
     }
 
@@ -185,10 +185,10 @@ class Test_OA_Admin_BannerCache extends UnitTestCase
          $aBanner['target'] = '_blank';
          $aBanner['url'] = 'http://www.openx.org/';
          $aBanner['adserver'] = 'fake';
-         $aBanner['expected'] = '<article><a href=\'{clickurl}'.htmlspecialchars($encodedUrl).'\' target=\'{target}\'> test my banner</a>
-<a href=\'{clickurl}'.htmlspecialchars($encodedUrl).'\' target=\'{target}\'> test my banner with properly escaped href</a>
+         $aBanner['expected'] = '<article><a href=\'{clickurl_html}'.htmlspecialchars($encodedUrl).'\' target=\'{target}\'> test my banner</a>
+<a href=\'{clickurl_html}'.htmlspecialchars($encodedUrl).'\' target=\'{target}\'> test my banner with properly escaped href</a>
 <object>
-<embed src="http://__link_to_flash_video__.swf?clickTAG={clickurl}'.htmlspecialchars(urlencode($encodedUrl)).'" quality="high" type="application/x-shockwave-flash" width="400" height="300" allowScriptAccess="always"></embed>
+<embed src="http://__link_to_flash_video__.swf?clickTAG={clickurl_enc}'.htmlspecialchars(urlencode($encodedUrl)).'" quality="high" type="application/x-shockwave-flash" width="400" height="300" allowScriptAccess="always"></embed>
 </object></article>';
          return $aBanner;
     }

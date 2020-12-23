@@ -106,7 +106,8 @@ function MAX_commonConstructPartialDeliveryUrl($file, $ssl = false)
  * 4.  Remove any white space
  *
  * @access  public
- * @param   string $var  The variable to process.
+ * @param   string|array $var  The variable to process.
+ *
  * @return  string       $var, minus any special quotes.
  */
 function MAX_commonRemoveSpecialChars(&$var)
@@ -740,6 +741,25 @@ function OX_Delivery_Common_getFunctionFromComponentIdentifier($identifier, $hoo
         }
     }
     return $functionName;
+}
+
+function OX_Delivery_Common_getClickSignature(int $adId, int $zoneId, string $destination): string
+{
+    if (empty($GLOBALS['_MAX']['CONF']['delivery']['secret'])) {
+        throw new InvalidArgumentException('Empty delivery secret');
+    }
+
+    $secret = join("\t", [
+        base64_decode($GLOBALS['_MAX']['CONF']['delivery']['secret']),
+        $adId,
+        $zoneId
+    ]);
+
+    return hash_hmac(
+        'sha256',
+        $destination,
+        $secret
+    );
 }
 
 /**

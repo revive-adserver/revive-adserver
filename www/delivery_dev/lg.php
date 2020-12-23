@@ -17,9 +17,6 @@
 // Require the initialisation file
 require_once '../../init-delivery.php';
 
-// Required files
-require_once MAX_PATH . '/lib/max/Delivery/querystring.php';
-
 // Prevent the logging beacon from being cached by browsers
 MAX_commonSetNoCacheHeaders();
 
@@ -77,14 +74,9 @@ for ($index = 0; $index < $countAdIds; $index++) {
 }
 
 MAX_cookieFlush();
-MAX_querystringConvertParams();
 
-if (!empty($_REQUEST[$GLOBALS['_MAX']['CONF']['var']['dest']])) {
-    MAX_redirect($_REQUEST[$GLOBALS['_MAX']['CONF']['var']['dest']]);
-} else {
-    // Display a 1x1 pixel gif
-    MAX_commonDisplay1x1();
-}
+// Display a 1x1 pixel gif
+MAX_commonDisplay1x1();
 
 // Run automaintenance, if needed
 if (!empty($GLOBALS['_MAX']['CONF']['maintenance']['autoMaintenance']) && empty($GLOBALS['_MAX']['CONF']['lb']['enabled'])) {
@@ -93,5 +85,3 @@ if (!empty($GLOBALS['_MAX']['CONF']['maintenance']['autoMaintenance']) && empty(
         OA_Maintenance_Auto::run();
     }
 }
-
-?>

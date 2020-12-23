@@ -317,6 +317,25 @@ class Test_OA_Upgrade_Config extends UnitTestCase
         $this->assertTrue($oUpConfig->checkForConfigAdditions($new), 'New (top level) dist.conf.php items not detected');
 
     }
-}
 
-?>
+    function test_generateDeliverySecret()
+    {
+        $oUpConfig = new OA_Upgrade_Config();
+        $oUpConfig->aConfig['delivery']['secret'] = null;
+        $oUpConfig->generateDeliverySecret();
+        $this->assertEqual(32, strlen(base64_decode($oUpConfig->aConfig['delivery']['secret'])));
+
+        $oUpConfig->aConfig['delivery']['secret'] = 'foobar';
+        $oUpConfig->generateDeliverySecret();
+        $this->assertEqual(32, strlen(base64_decode($oUpConfig->aConfig['delivery']['secret'])));
+
+        $oUpConfig->aConfig['delivery']['secret'] = base64_encode('foobar');
+        $oUpConfig->generateDeliverySecret();
+        $this->assertEqual(32, strlen(base64_decode($oUpConfig->aConfig['delivery']['secret'])));
+
+        $secret = $oUpConfig->aConfig['delivery']['secret'];
+        $oUpConfig->generateDeliverySecret();
+        $this->assertEqual($secret, $oUpConfig->aConfig['delivery']['secret']);
+    }
+
+}
