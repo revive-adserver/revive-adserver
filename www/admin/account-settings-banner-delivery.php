@@ -69,10 +69,6 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             'delivery' => 'obfuscate',
             'bool'     => true
         ),
-        'delivery_execPhp' => array(
-            'delivery' => 'execPhp',
-            'bool'     => true
-        ),
         'delivery_ctDelimiter' => array('delivery' => 'ctDelimiter'),
         'defaultBanner_imageUrl' => array('defaultBanner' => 'imageUrl'),
         'defaultBanner_invalidZoneHtmlBanner' => array('defaultBanner' => 'invalidZoneHtmlBanner'),
@@ -271,14 +267,6 @@ $aSettings = array(
                 'type'    => 'checkbox',
                 'name'    => 'delivery_obfuscate',
                 'text'    => $strDeliveryObfuscate
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'checkbox',
-                'name'    => 'delivery_execPhp',
-                'text'    => $strDeliveryExecPhp
             ),
             array (
                 'type'    => 'break'

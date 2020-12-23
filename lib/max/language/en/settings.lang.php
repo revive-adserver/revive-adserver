@@ -188,7 +188,6 @@ $GLOBALS['strDeliveryCacheStore'] = "Banner Delivery Cache Store Type";
 $GLOBALS['strDeliveryAcls'] = "Evaluate banner delivery rules during delivery";
 $GLOBALS['strDeliveryAclsDirectSelection'] = "Evaluate banner delivery rules for direct selected ads";
 $GLOBALS['strDeliveryObfuscate'] = "Obfuscate delivery rule set when delivering ads";
-$GLOBALS['strDeliveryExecPhp'] = "Allow PHP code in ads to be executed<br />(Warning: Security risk)";
 $GLOBALS['strDeliveryCtDelimiter'] = "3rd Party Click Tracking Delimiter";
 $GLOBALS['strGlobalDefaultBannerUrl'] = "Global default Banner Image URL";
 $GLOBALS['strGlobalDefaultBannerInvalidZone'] = "Global default HTML Banner for non-existing zones";

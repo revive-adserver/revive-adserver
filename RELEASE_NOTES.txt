@@ -68,6 +68,10 @@ What's New in Revive Adserver 5.1.0
    internal functions (_adRenderBuildClickUrl, _adRenderBuildParams) has
    changed accordingly. The "{clickurlparams}" magic macro has been removed.
 
+ * Deprecated PHP execution inside banners by removing the setting from the
+   admin UI. The (risky) functionality itself will be still working if enabled
+   in the configuration file, but will be removed in a future release.
+
 
 System Requirements
 -------------------
