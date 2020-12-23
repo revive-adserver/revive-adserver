@@ -769,16 +769,23 @@ return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTIO
 }
 $aZoneInfo = OA_Dal_Delivery_fetchAssoc($rZoneInfo);
 if (empty($aZoneInfo)) {
-return false;
+return [
+'default' => true,
+'default_banner_html' => $aConf['defaultBanner']['invalidZoneHtmlBanner'] ?? '',
+'skip_log_request' => true,
+'skip_log_blank' => true,
+];
 }
 switch ($aZoneInfo['account_status']) {
 case 4:  return [
 'default' => true,
-'default_banner_html' => $aConf['defaultBanner']['inactiveAccountHtmlBanner'],
+'default_banner_html' => $aConf['defaultBanner']['inactiveAccountHtmlBanner'] ?? '',
+'skip_log_blank' => true,
 ];
 case 1:  return [
 'default' => true,
-'default_banner_html' => $aConf['defaultBanner']['suspendedAccountHtmlBanner'],
+'default_banner_html' => $aConf['defaultBanner']['suspendedAccountHtmlBanner'] ?? '',
+'skip_log_blank' => true,
 ];
 }
 $query = "
@@ -3821,7 +3828,9 @@ $what = "zone:{$matches[1]}";
 $found = true;
 }
 } else {
+if (empty($row['skip_log_request'])) {
 MAX_Delivery_log_logAdRequest(null, $originalZoneId, null);
+}
 $what = $remaining;
 }
 }
@@ -3849,6 +3858,7 @@ $output = array(
 'logUrl' => $row['logUrl'],
 'aSearch' => $row['aSearch'],
 'aReplace' => $row['aReplace'],
+'aMagicMacros' => $row['aMagicMacros'],
 'bannerContent' => $row['bannerContent'],
 'clickwindow' => $row['clickwindow'],
 'aRow' => $row,
@@ -3880,7 +3890,9 @@ MAX_Delivery_log_setLastAction(0, array($row['bannerid']), array($zoneId), array
 }
 } else {
 if (!empty($zoneId)) {
+if (empty($row['skip_log_blank'])) {
 $g_append = MAX_adRenderBlankBeacon($zoneId, $source, $loc, $referer).$g_append;
+}
 $outputbuffer = join("\n", OX_Delivery_Common_hook('blankAdSelect', array($zoneId, $context, $source, $richmedia)) ?: []);
 }
 if (!empty($outputbuffer)) {
@@ -3957,6 +3969,8 @@ if (!empty($aZoneInfo['default'])) {
 return [
 'default' => true,
 'default_banner_html' => $aZoneInfo['default_banner_html'] ?? '',
+'skip_log_request' => !empty($aZoneInfo['skip_log_request']),
+'skip_log_blank' => !empty($aZoneInfo['skip_log_blank']),
 ];
 }
 if ($zoneId != 0 && MAX_limitationsIsZoneForbidden($zoneId, $aZoneInfo)) {

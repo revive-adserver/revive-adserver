@@ -769,16 +769,23 @@ return (defined('OA_DELIVERY_CACHE_FUNCTION_ERROR')) ? OA_DELIVERY_CACHE_FUNCTIO
 }
 $aZoneInfo = OA_Dal_Delivery_fetchAssoc($rZoneInfo);
 if (empty($aZoneInfo)) {
-return false;
+return [
+'default' => true,
+'default_banner_html' => $aConf['defaultBanner']['invalidZoneHtmlBanner'] ?? '',
+'skip_log_request' => true,
+'skip_log_blank' => true,
+];
 }
 switch ($aZoneInfo['account_status']) {
 case 4:  return [
 'default' => true,
-'default_banner_html' => $aConf['defaultBanner']['inactiveAccountHtmlBanner'],
+'default_banner_html' => $aConf['defaultBanner']['inactiveAccountHtmlBanner'] ?? '',
+'skip_log_blank' => true,
 ];
 case 1:  return [
 'default' => true,
-'default_banner_html' => $aConf['defaultBanner']['suspendedAccountHtmlBanner'],
+'default_banner_html' => $aConf['defaultBanner']['suspendedAccountHtmlBanner'] ?? '',
+'skip_log_blank' => true,
 ];
 }
 $query = "
