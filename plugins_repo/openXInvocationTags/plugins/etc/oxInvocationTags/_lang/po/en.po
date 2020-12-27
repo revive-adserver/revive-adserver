@@ -31,12 +31,12 @@ msgid "Publisher code - Single Page Call"
 msgstr "Publisher code - Single Page Call"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/spc.class.php:229
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/spc.class.php:403
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/spc.class.php:401
 msgid "Option - noscript"
 msgstr "Option - noscript"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/spc.class.php:233
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/spc.class.php:418
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/spc.class.php:416
 msgid "Option - SSL"
 msgstr "Option - SSL"
 
