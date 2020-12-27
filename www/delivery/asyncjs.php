@@ -41,4 +41,3 @@ MAX_cookieGetUniqueViewerId();
 MAX_cookieFlush();
 
 require __DIR__.'/'.$GLOBALS['_MAX']['CONF']['file']['asyncjsjs'];
-require __DIR__.'/'.$GLOBALS['_MAX']['CONF']['file']['flash'];

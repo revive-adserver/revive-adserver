@@ -3199,26 +3199,11 @@ return '"'.$string.'"';
 
 function MAX_flashGetFlashObjectExternal()
 {
-$conf = $GLOBALS['_MAX']['CONF'];
-if (substr($conf['file']['flash'], 0, 4) == 'http') {
-$url = $conf['file']['flash'];
-} else {
-$url = MAX_commonGetDeliveryUrl($conf['file']['flash']);
-}
-return "<script type='text/javascript' src='{$url}'></script>";
+return '';
 }
 function MAX_flashGetFlashObjectInline()
 {
-$conf = $GLOBALS['_MAX']['CONF'];
-if (substr($conf['file']['flash'], 0, 4) == 'http') {
-if (file_exists(MAX_PATH . '/www/delivery/' . basename($conf['file']['flash']))) {
-return file_get_contents(MAX_PATH . '/www/delivery/' . basename($conf['file']['flash']));
-} else {
-return @file_get_contents($conf['file']['flash']);
-}
-} elseif (file_exists(MAX_PATH . '/www/delivery/' . $conf['file']['flash'])) {
-return file_get_contents(MAX_PATH . '/www/delivery/' . $conf['file']['flash']);
-}
+return '';
 }
 
 MAX_commonRegisterGlobalsArray(array('id'));

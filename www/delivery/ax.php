@@ -3408,79 +3408,6 @@ $bannerText = $withText && !empty($aBanner['bannertext']) ? "<br />$clickTag" . 
 $beaconTag = ($logView && $conf['logging']['adImpressions']) ? _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer) : '';
 return $prepend . $imageTag . $bannerText . $beaconTag . $append;
 }
-function _adRenderFlash(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $richMedia=true, $loc='', $referer='', $context=array())
-{
-$conf = $GLOBALS['_MAX']['CONF'];
-$prepend = !empty($aBanner['prepend']) ? $aBanner['prepend'] : '';
-$append = !empty($aBanner['append']) ? $aBanner['append'] : '';
-$width = !empty($aBanner['width']) ? $aBanner['width'] : 0;
-$height = !empty($aBanner['height']) ? $aBanner['height'] : 0;
-$pluginVersion = !empty($aBanner['pluginversion']) ? _adRenderGetRealPluginVersion($aBanner['pluginversion']) : '4';
-$logURL = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&');
-if (!empty($aBanner['alt_filename']) || !empty($aBanner['alt_imageurl'])) {
-$altImageAdCode = _adRenderImage($aBanner, $zoneId, $source, $ct0, false, $logClick, false, true, true, $loc, $referer, $context, false);
-$fallBackLogURL = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&', true);
-} else {
-$alt = !empty($aBanner['alt']) ? htmlspecialchars($aBanner['alt'], ENT_QUOTES) : '';
-$altImageAdCode = "<img src='" . _adRenderBuildImageUrlPrefix() . '/1x1.gif' . "' alt='".$alt."' title='".$alt."' border='0' />";
-if ($zoneId) {
-$fallBackLogURL = _adRenderBuildLogURL(array(
-'ad_id' => 0,
-'placement_id' => 0,
-), $zoneId, $source, $loc, $referer, '&', true);
-} else {
-$fallBackLogURL = false;
-}
-}
-if (!empty($aBanner['url'])) {  $status = _adRenderBuildStatusCode($aBanner);
-$target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
-$swfParams = array('clickTARGET' => $target, 'clickTAG' => '{clickurl_enc}');
-$clickTag = "<a href='{clickurl_html}' target='{$target}'{$status}>";
-$clickTagEnd = '</a>';
-} else {
-$swfParams = array();
-$clickTag = '';
-$clickTagEnd = '';
-}
-if (!empty($aBanner['parameters'])) {
-$aAdParams = unserialize($aBanner['parameters']);
-if (isset($aAdParams['swf']) && is_array($aAdParams['swf'])) {
-$swfParams = [];
-foreach ($aAdParams['swf'] as $iKey => $aSwf) {
-$swfParams["alink{$iKey}"] = '{clickurl_enc}'.$aSwf['link'];
-$swfParams["atar{$iKey}"] = $aSwf['tar'];
-}
-}
-}
-$fileUrl = _adRenderBuildFileUrl($aBanner, false);
-$id = 'rv_swf_{random}';
-$swfId = (!empty($aBanner['alt']) ? $aBanner['alt'] : 'Advertisement');
-$swfId = 'id-' . preg_replace('/[a-z0-1]+/', '', strtolower($swfId));
-$code = "
-<div id='{$id}' style='display: inline;'>$altImageAdCode</div>
-<script type='text/javascript'><!--/"."/ <![CDATA[
-    var ox_swf = new FlashObject('{$fileUrl}', '{$swfId}', '{$width}', '{$height}', '{$pluginVersion}');\n";
-foreach ($swfParams as $key => $value) {
-$code .= "    ox_swf.addVariable('{$key}', '" . preg_replace('#%7B(.*?)%7D#', '{$1}', urlencode($value)) . "');\n";
-}
-if (!empty($aBanner['transparent'])) {
-$code .= "    ox_swf.addParam('wmode','transparent');\n";
-} else {
-$code .= "    ox_swf.addParam('wmode','opaque');\n";
-}
-$code .= "    ox_swf.addParam('allowScriptAccess','always');\n";
-if ($logView && $conf['logging']['adImpressions']) {
-$code .= "    ox_swf.write('{$id}', ".json_encode($logURL).", ".json_encode($fallBackLogURL).");\n";
-} else {
-$code .= "    ox_swf.write('{$id}');\n";
-}
-$code .= "/"."/ ]]> --></script>";
-if ($fallBackLogURL) {
-$code .= '<noscript>' . _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer, $fallBackLogURL) . '</noscript>';
-}
-$bannerText = $withText && !empty($aBanner['bannertext']) ? "<br />{$clickTag}{$aBanner['bannertext']}{$clickTagEnd}" : '';
-return $prepend . $code . $bannerText . $append;
-}
 function _adRenderHtml(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $richMedia=true, $loc='', $referer='', $context=array())
 {
 if (!function_exists('Plugin_BannerTypeHtml_delivery_adRender')) {
@@ -3697,19 +3624,6 @@ function _adRenderBuildStatusCode($aBanner)
 {
 return !empty($aBanner['status']) ? " onmouseover=\"self.status='" . addslashes($aBanner['status']) . "'; return true;\" onmouseout=\"self.status=''; return true;\"" : '';
 }
-function _adRenderGetRealPluginVersion($swfVersion)
-{
-if ($swfVersion <= 10) {
-$pluginVersion = $swfVersion;
-} elseif ($swfVersion >= 23) {
-$pluginVersion = $swfVersion - 11;
-} elseif ($swfVersion == 11 || $swfVersion == 12) {
-$pluginVersion = 10 + ($swfVersion - 9) / 10;
-} elseif ($swfVersion >= 13 && $swfVersion <= 22) {
-$pluginVersion = 11 + ($swfVersion - 13) / 10;
-}
-return (string)$pluginVersion;
-}
 function _getAdRenderFunction($aBanner, $richMedia = true)
 {
 $functionName = false;
@@ -3721,13 +3635,6 @@ case 'gif' :
 case 'jpeg' :
 case 'png' :
 $functionName = '_adRenderImage';
-break;
-case 'swf' :
-if ($richMedia) {
-$functionName = '_adRenderFlash';
-} else {
-$functionName = '_adRenderImage';
-}
 break;
 case 'txt' :
 $functionName = '_adRenderText';
@@ -4450,26 +4357,11 @@ return;
 
 function MAX_flashGetFlashObjectExternal()
 {
-$conf = $GLOBALS['_MAX']['CONF'];
-if (substr($conf['file']['flash'], 0, 4) == 'http') {
-$url = $conf['file']['flash'];
-} else {
-$url = MAX_commonGetDeliveryUrl($conf['file']['flash']);
-}
-return "<script type='text/javascript' src='{$url}'></script>";
+return '';
 }
 function MAX_flashGetFlashObjectInline()
 {
-$conf = $GLOBALS['_MAX']['CONF'];
-if (substr($conf['file']['flash'], 0, 4) == 'http') {
-if (file_exists(MAX_PATH . '/www/delivery/' . basename($conf['file']['flash']))) {
-return file_get_contents(MAX_PATH . '/www/delivery/' . basename($conf['file']['flash']));
-} else {
-return @file_get_contents($conf['file']['flash']);
-}
-} elseif (file_exists(MAX_PATH . '/www/delivery/' . $conf['file']['flash'])) {
-return file_get_contents(MAX_PATH . '/www/delivery/' . $conf['file']['flash']);
-}
+return '';
 }
 
 MAX_commonSetNoCacheHeaders();
