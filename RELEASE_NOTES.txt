@@ -43,6 +43,7 @@ What's New in Revive Adserver 5.1.0
  * Added optional custom messages during delivery when a non existing zone is
    requested. No requests, nor blank impressions will be logged either.
 
+ * Replaced Flash-based video player for video ads with HTML5 video tag.
 
  Bug Fixes
  ---------
@@ -68,9 +69,18 @@ What's New in Revive Adserver 5.1.0
    internal functions (_adRenderBuildClickUrl, _adRenderBuildParams) has
    changed accordingly. The "{clickurlparams}" magic macro has been removed.
 
+ * Removed 3rd Party click tracking plugin, as the system is not compatible
+   with the new signed click tracking functionality.
+
  * Deprecated PHP execution inside banners by removing the setting from the
    admin UI. The (risky) functionality itself will be still working if enabled
    in the configuration file, but will be removed in a future release.
+
+ * Removed support for Flash banners and the fl.js delivery file that is now
+   unnecessary.
+
+ * Removed Flash-based graphs and supporting libraries in the video ads plugin
+   reports.
 
 
 System Requirements
