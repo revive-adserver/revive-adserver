@@ -337,114 +337,6 @@ function _adRenderImage(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=fal
 }
 
 /**
- * This function generates the code to show a "flash" ad
- *
- * @param array   $aBanner      The ad-array for the ad to render code for
- * @param int     $zoneId       The zone ID of the zone used to select this ad (if zone-selected)
- * @param string  $source       The "source" parameter passed into the adcall
- * @param string  $ct0          The 3rd party click tracking URL to redirect to after logging
- * @param int     $withText     Should "text below banner" be appended to the generated code
- * @param boolean $logClick     Should this click be logged (clicks in admin should not be logged)
- * @param boolean $logView      Should this view be logged (views in admin should not be logged
- *                              also - 3rd party callback logging should not be logged at view time)
- * @param boolean $richMedia    Does this invocation method allow for serving 3rd party/html ads
- * @param string  $loc          The "current page" URL
- * @param string  $referer      The "referring page" URL
- *
- * @return string               The HTML to display this ad
- */
-function _adRenderFlash(&$aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=true, $logView=true, $useAlt=false, $richMedia=true, $loc='', $referer='', $context=array())
-{
-    $conf = $GLOBALS['_MAX']['CONF'];
-    $prepend = !empty($aBanner['prepend']) ? $aBanner['prepend'] : '';
-    $append = !empty($aBanner['append']) ? $aBanner['append'] : '';
-    $width = !empty($aBanner['width']) ? $aBanner['width'] : 0;
-    $height = !empty($aBanner['height']) ? $aBanner['height'] : 0;
-    $pluginVersion = !empty($aBanner['pluginversion']) ? _adRenderGetRealPluginVersion($aBanner['pluginversion']) : '4';
-    $logURL = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&');
-
-    if (!empty($aBanner['alt_filename']) || !empty($aBanner['alt_imageurl'])) {
-        $altImageAdCode = _adRenderImage($aBanner, $zoneId, $source, $ct0, false, $logClick, false, true, true, $loc, $referer, $context, false);
-        $fallBackLogURL = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&', true);
-    } else {
-        $alt = !empty($aBanner['alt']) ? htmlspecialchars($aBanner['alt'], ENT_QUOTES) : '';
-        $altImageAdCode = "<img src='" . _adRenderBuildImageUrlPrefix() . '/1x1.gif' . "' alt='".$alt."' title='".$alt."' border='0' />";
-
-        if ($zoneId) {
-            // Log a blank impression instead
-            $fallBackLogURL = _adRenderBuildLogURL(array(
-                    'ad_id' => 0,
-                    'placement_id' => 0,
-                ), $zoneId, $source, $loc, $referer, '&', true);
-        } else {
-            // No zone, skip logging
-            $fallBackLogURL = false;
-        }
-    }
-
-    // Create the anchor tag..
-    if (!empty($aBanner['url'])) {  // There is a link
-        $status = _adRenderBuildStatusCode($aBanner);
-        $target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
-        $swfParams = array('clickTARGET' => $target, 'clickTAG' => '{clickurl_enc}');
-        $clickTag = "<a href='{clickurl_html}' target='{$target}'{$status}>";
-        $clickTagEnd = '</a>';
-    } else {
-        $swfParams = array();
-        $clickTag = '';
-        $clickTagEnd = '';
-    }
-
-    if (!empty($aBanner['parameters'])) {
-        $aAdParams = unserialize($aBanner['parameters']);
-        if (isset($aAdParams['swf']) && is_array($aAdParams['swf'])) {
-            // Converted SWF file, use paramters content
-            $swfParams = [];
-            foreach ($aAdParams['swf'] as $iKey => $aSwf) {
-                $swfParams["alink{$iKey}"] = '{clickurl_enc}'.$aSwf['link'];
-                $swfParams["atar{$iKey}"]  = $aSwf['tar'];
-            }
-        }
-    }
-    $fileUrl = _adRenderBuildFileUrl($aBanner, false);
-    $id = 'rv_swf_{random}';
-
-    $swfId = (!empty($aBanner['alt']) ? $aBanner['alt'] : 'Advertisement');
-    $swfId = 'id-' . preg_replace('/[a-z0-1]+/', '', strtolower($swfId));
-
-    $code = "
-<div id='{$id}' style='display: inline;'>$altImageAdCode</div>
-<script type='text/javascript'><!--/"."/ <![CDATA[
-    var ox_swf = new FlashObject('{$fileUrl}', '{$swfId}', '{$width}', '{$height}', '{$pluginVersion}');\n";
-    foreach ($swfParams as $key => $value) {
-        // URL encode the value, but leave any Openads "magic macros" unescaped to allow substitution
-        $code .= "    ox_swf.addVariable('{$key}', '" . preg_replace('#%7B(.*?)%7D#', '{$1}', urlencode($value)) . "');\n";
-    }
-    if (!empty($aBanner['transparent'])) {
-        $code .= "    ox_swf.addParam('wmode','transparent');\n";
-    } else {
-        $code .= "    ox_swf.addParam('wmode','opaque');\n";
-    }
-    $code .= "    ox_swf.addParam('allowScriptAccess','always');\n";
-
-    if ($logView && $conf['logging']['adImpressions']) {
-        // Only render the log beacon if the user has the minumum required flash player version
-        // Otherwise log a fallback impression (if there is a fallback creative configured)
-        $code .= "    ox_swf.write('{$id}', ".json_encode($logURL).", ".json_encode($fallBackLogURL).");\n";
-    } else {
-        $code .= "    ox_swf.write('{$id}');\n";
-    }
-
-    $code .= "/"."/ ]]> --></script>";
-    if ($fallBackLogURL) {
-        $code .= '<noscript>' . _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer, $fallBackLogURL) . '</noscript>';
-    }
-    $bannerText = $withText && !empty($aBanner['bannertext']) ? "<br />{$clickTag}{$aBanner['bannertext']}{$clickTagEnd}" : '';
-
-    return $prepend . $code . $bannerText . $append;
-}
-
-/**
  * This function generates the code to show an "HTML" ad (usually 3rd party adserver code)
  *
  * @param array   $aBanner      The ad-array for the ad to render code for
@@ -820,38 +712,6 @@ function _adRenderBuildStatusCode($aBanner)
 
 }
 
-/**
- * Calculate the minimum plugin version required to display a file with
- * a certain SWF version. Until version 10, all that was needed was a plugin
- * with a matching major version, but until version 23 SWF and plugin
- * versions were following a "custom" scheme involving minor versions too.
- *
- * For more info:
- * http://sleepydesign.blogspot.it/2012/04/flash-swf-version-meaning.html
- * http://blogs.adobe.com/flashplayer/2013/11/new-version-numbering-2.html
- *
- * @param int $swfVersion
- * @return string
- */
-function _adRenderGetRealPluginVersion($swfVersion)
-{
-    if ($swfVersion <= 10) {
-        // SWF and plugin major matching
-        $pluginVersion = $swfVersion;
-    } elseif ($swfVersion >= 23) {
-        // No weird versioning anymore... at last, thanks Adobe! ;)
-        $pluginVersion = $swfVersion - 11;
-    } elseif ($swfVersion == 11 || $swfVersion == 12) {
-        // SWF11 -> 10.2, SWF12 -> 10.3
-        $pluginVersion = 10 + ($swfVersion - 9) / 10;
-    } elseif ($swfVersion >= 13 && $swfVersion <= 22) {
-        // SWF13 -> 11.0 until SWF22 -> 11.9
-        $pluginVersion = 11 + ($swfVersion - 13) / 10;
-    }
-
-    return (string)$pluginVersion;
-}
-
 function _getAdRenderFunction($aBanner, $richMedia = true)
 {
     $functionName = false;
@@ -863,13 +723,6 @@ function _getAdRenderFunction($aBanner, $richMedia = true)
             case 'jpeg' :
             case 'png'  :
                 $functionName = '_adRenderImage';
-                break;
-            case 'swf'  :
-                if ($richMedia) {
-                    $functionName = '_adRenderFlash';
-                } else {
-                    $functionName = '_adRenderImage';
-                }
                 break;
             case 'txt'  :
                     $functionName = '_adRenderText';

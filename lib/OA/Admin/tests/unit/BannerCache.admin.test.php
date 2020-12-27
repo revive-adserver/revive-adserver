@@ -35,10 +35,6 @@ class Test_OA_Admin_BannerCache extends UnitTestCase
         $this->aBanners[] = $this->_getBanner3();
         $this->aBanners[] = $this->_getBanner4();
         $this->aBanners[] = $this->_getBanner5();
-        $this->aBanners[] = $this->_getBanner6();
-        $this->aBanners[] = $this->_getBanner7();
-        $this->aBanners[] = $this->_getBanner8();
-        $this->aBanners[] = $this->_getBanner9();
         foreach ($this->aBanners AS $k => $aBanner)
         {
             $expected = $aBanner['expected'];
@@ -100,40 +96,6 @@ class Test_OA_Admin_BannerCache extends UnitTestCase
 
     function _getBanner4()
     {
-         $aBanner['bannerid'] = 4;
-         $aBanner['active'] =  't';
-         $aBanner['contenttype'] =  'swf';
-         $aBanner['storagetype'] = 'sql';
-         $aBanner['filename'] = 'openads_468x60-hard-coded_3.swf';
-         $aBanner['imageurl'] = '';
-         $aBanner['htmltemplate'] ='<object classid=\'clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\' codebase=\'http://fpdownload.adobe.com/pub/shockwave/cabs/flash/swflash.cab#version={pluginversion:4;0;0;0}\' width=\'{width}\' height=\'{height}\'><param name=\'movie\' value=\'{imageurl}{swf_con}{swf_param}\'><param name=\'quality\' value=\'high\'><param name=\'allowScriptAccess\' value=\'always\'>[transparent]<param name=\'wmode\' value=\'transparent\'>[/transparent]<embed src=\'{imageurl}{swf_con}{swf_param}\' quality=high [transparent]wmode=\'transparent\' [/transparent]width=\'{width}\' height=\'{height}\' type=\'application/x-shockwave-flash\' pluginspace=\'http://www.adobe.com/go/getflashplayer\' allowScriptAccess=\'always\'></embed></object>[bannertext]<br>[targeturl]<a href=\'{targeturl}\' target=\'{target}\'[status] onMouseOver="self.status=\'{status}\'; return true;" onMouseOut="self.status=\'\';return true;"[/status]>[/targeturl]{bannertext}[targeturl]</a>[/targeturl][/bannertext]';
-         $aBanner['htmlcache'] ='';
-         $aBanner['target'] = '_blank';
-         $aBanner['url'] = 'http://www.openx.org/';
-         $aBanner['adserver'] = '';
-         $aBanner['expected'] = $aBanner['htmltemplate'];
-         return $aBanner;
-    }
-
-    function _getBanner5()
-    {
-         $aBanner['bannerid'] = 5;
-         $aBanner['active'] =  't';
-         $aBanner['contenttype'] =  'swf';
-         $aBanner['storagetype'] = 'url';
-         $aBanner['filename'] = '';
-         $aBanner['imageurl'] = 'http://www.unanimis.co.uk/templates/unanimis_yb_new/images/intro.swf';
-         $aBanner['htmltemplate'] ='<object classid=\'clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\' codebase=\'http://fpdownload.adobe.com/pub/shockwave/cabs/flash/swflash.cab#version={pluginversion:4;0;0;0}\' width=\'{width}\' height=\'{height}\'><param name=\'movie\' value=\'{imageurl}{swf_con}{swf_param}\'><param name=\'quality\' value=\'high\'><param name=\'allowScriptAccess\' value=\'always\'>[transparent]<param name=\'wmode\' value=\'transparent\'>[/transparent]<embed src=\'{imageurl}{swf_con}{swf_param}\' quality=high [transparent]wmode=\'transparent\' [/transparent]width=\'{width}\' height=\'{height}\' type=\'application/x-shockwave-flash\' pluginspace=\'http://www.adobe.com/go/getflashplayer\' allowScriptAccess=\'always\'></embed></object>[bannertext]<br>[targeturl]<a href=\'{targeturl}\' target=\'{target}\'[status] onMouseOver="self.status=\'{status}\'; return true;" onMouseOut="self.status=\'\';return true;"[/status]>[/targeturl]{bannertext}[targeturl]</a>[/targeturl][/bannertext]';
-         $aBanner['htmlcache'] ='';
-         $aBanner['target'] = '_blank';
-         $aBanner['url'] = 'http://www.openx.org';
-         $aBanner['adserver'] = '';
-         $aBanner['expected'] = $aBanner['htmltemplate'];
-         return $aBanner;
-    }
-
-    function _getBanner6()
-    {
          $aBanner['bannerid'] = 6;
          $aBanner['active'] =  't';
          $aBanner['contenttype'] =  'gif';
@@ -149,7 +111,7 @@ class Test_OA_Admin_BannerCache extends UnitTestCase
          return $aBanner;
     }
 
-    function _getBanner7()
+    function _getBanner5()
     {
          $aBanner['bannerid'] = 7;
          $aBanner['active'] =  't';
@@ -165,78 +127,4 @@ class Test_OA_Admin_BannerCache extends UnitTestCase
          $aBanner['expected'] = "<a href=\"\" target=\"\">Click Here</a>";
          return $aBanner;
     }
-
-    function _getBanner8()
-    {
-         $aBanner['bannerid'] = 8;
-         $aBanner['active'] =  't';
-         $aBanner['contenttype'] =  'html';
-         $aBanner['storagetype'] = 'html';
-         $aBanner['filename'] = '';
-         $aBanner['imageurl'] = '';
-         $url = 'http://localhost/i.php?a.b=1&c.d=2&'.urlencode('whith space and ___ underscore').'&amplify=1&t[]=k1&t[]=EOF';
-         $encodedUrl = urlencode($url);
-         $aBanner['htmltemplate'] = '<article><a href=\''.$url.'\'> test my banner</a>
-<a href=\''.htmlspecialchars($url).'\'> test my banner with properly escaped href</a>
-<object>
-<embed src="http://__link_to_flash_video__.swf?clickTAG='.$encodedUrl.'" quality="high" type="application/x-shockwave-flash" width="400" height="300" allowScriptAccess="always"></embed>
-</object></article>';
-         $aBanner['htmlcache'] ='';
-         $aBanner['target'] = '_blank';
-         $aBanner['url'] = 'http://www.openx.org/';
-         $aBanner['adserver'] = 'fake';
-         $aBanner['expected'] = '<article><a href=\'{clickurl_html}'.htmlspecialchars($encodedUrl).'\' target=\'{target}\'> test my banner</a>
-<a href=\'{clickurl_html}'.htmlspecialchars($encodedUrl).'\' target=\'{target}\'> test my banner with properly escaped href</a>
-<object>
-<embed src="http://__link_to_flash_video__.swf?clickTAG={clickurl_enc}'.htmlspecialchars(urlencode($encodedUrl)).'" quality="high" type="application/x-shockwave-flash" width="400" height="300" allowScriptAccess="always"></embed>
-</object></article>';
-         return $aBanner;
-    }
-
-    function _getBanner9()
-    {
-        $aBanner = $this->_getBanner8();
-        $search = 'clickTAG';
-        $replace = 'clicktag';
-        $this->assertTrue(strpos($aBanner['htmltemplate'],$search) !== false);
-        foreach(array('htmltemplate', 'expected') as $key) {
-            $aBanner[$key] = str_replace($search, $replace, $aBanner[$key]);
-        }
-        return $aBanner;
-    }
 }
-
-/*
-*************************** 1. row ***************************
-    bannerid: 1
-htmltemplate: [targeturl]<a href=\'{targeturl}\' target=\'{target}\'[status] onMouseOver="self.status=\'{status}\'; return true;" onMouseOut="self.status=\'\';return true;"[/status]>[/targeturl]<img src=\'{imageurl}\' width=\'{width}\' height=\'{height}\' alt=\'{alt}\' title=\'{alt}\' border=\'0\'[nourl][status] onMouseOver="self.status=\'{status}\'; return true;" onMouseOut="self.status=\'\';return true;"[/status][/nourl]>[targeturl]</a>[/targeturl][bannertext]<br>[targeturl]<a href=\'{targeturl}\' target=\'{target}\'[status] onMouseOver="self.status=\'{status}\'; return true;" onMouseOut="self.status=\'\';return true;"[/status]>[/targeturl]{bannertext}[targeturl]</a>[/targeturl][/bannertext]
-   htmlcache: [targeturl]<a href=\'{targeturl}\' target=\'{target}\'[status] onMouseOver="self.status=\'{status}\'; return true;" onMouseOut="self.status=\'\';return true;"[/status]>[/targeturl]<img src=\'{imageurl}\' width=\'{width}\' height=\'{height}\' alt=\'{alt}\' title=\'{alt}\' border=\'0\'[nourl][status] onMouseOver="self.status=\'{status}\'; return true;" onMouseOut="self.status=\'\';return true;"[/status][/nourl]>[targeturl]</a>[/targeturl][bannertext]<br>[targeturl]<a href=\'{targeturl}\' target=\'{target}\'[status] onMouseOver="self.status=\'{status}\'; return true;" onMouseOut="self.status=\'\';return true;"[/status]>[/targeturl]{bannertext}[targeturl]</a>[/targeturl][/bannertext]
-*************************** 2. row ***************************
-    bannerid: 2
-htmltemplate: <a href=\'http://www.openx.org/download.html\' target=\'_blank\'>Download Openads</a>
-   htmlcache: <a href=\'{clickurl}http://www.openx.org/download.html\'  target=\'{target}\'>Download Openads</a>
-*************************** 3. row ***************************
-    bannerid: 3
-htmltemplate: [targeturl]<a href=\'{targeturl}\' target=\'{target}\'[status] onMouseOver="self.status=\'{status}\'; return true;" onMouseOut="self.status=\'\';return true;"[/status]>[/targeturl]{bannertext}[targeturl]</a>[/targeturl]
-   htmlcache: [targeturl]<a href=\'{targeturl}\' target=\'{target}\'[status] onMouseOver="self.status=\'{status}\'; return true;" onMouseOut="self.status=\'\';return true;"[/status]>[/targeturl]{bannertext}[targeturl]</a>[/targeturl]
-*************************** 4. row ***************************
-    bannerid: 4
-htmltemplate: <object classid=\'clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\' codebase=\'http://fpdownload.adobe.com/pub/shockwave/cabs/flash/swflash.cab#version={pluginversion:4,0,0,0}\' width=\'{width}\' height=\'{height}\'><param name=\'movie\' value=\'{imageurl}{swf_con}{swf_param}\'><param name=\'quality\' value=\'high\'><param name=\'allowScriptAccess\' value=\'always\'>[transparent]<param name=\'wmode\' value=\'transparent\'>[/transparent]<embed src=\'{imageurl}{swf_con}{swf_param}\' quality=high [transparent]wmode=\'transparent\' [/transparent]width=\'{width}\' height=\'{height}\' type=\'application/x-shockwave-flash\' pluginspace=\'http://www.adobe.com/go/getflashplayer\' allowScriptAccess=\'always\'></embed></object>[bannertext]<br>[targeturl]<a href=\'{targeturl}\' target=\'{target}\'[status] onMouseOver="self.status=\'{status}\'; return true;" onMouseOut="self.status=\'\';return true;"[/status]>[/targeturl]{bannertext}[targeturl]</a>[/targeturl][/bannertext]
-   htmlcache: <object classid=\'clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\' codebase=\'http://fpdownload.adobe.com/pub/shockwave/cabs/flash/swflash.cab#version={pluginversion:4,0,0,0}\' width=\'{width}\' height=\'{height}\'><param name=\'movie\' value=\'{imageurl}{swf_con}{swf_param}\'><param name=\'quality\' value=\'high\'><param name=\'allowScriptAccess\' value=\'always\'>[transparent]<param name=\'wmode\' value=\'transparent\'>[/transparent]<embed src=\'{imageurl}{swf_con}{swf_param}\' quality=high [transparent]wmode=\'transparent\' [/transparent]width=\'{width}\' height=\'{height}\' type=\'application/x-shockwave-flash\' pluginspace=\'http://www.adobe.com/go/getflashplayer\' allowScriptAccess=\'always\'></embed></object>[bannertext]<br>[targeturl]<a href=\'{targeturl}\' target=\'{target}\'[status] onMouseOver="self.status=\'{status}\'; return true;" onMouseOut="self.status=\'\';return true;"[/status]>[/targeturl]{bannertext}[targeturl]</a>[/targeturl][/bannertext]
-*************************** 5. row ***************************
-    bannerid: 5
-htmltemplate: <object classid=\'clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\' codebase=\'http://fpdownload.adobe.com/pub/shockwave/cabs/flash/swflash.cab#version={pluginversion:4,0,0,0}\' width=\'{width}\' height=\'{height}\'><param name=\'movie\' value=\'{imageurl}{swf_con}{swf_param}\'><param name=\'quality\' value=\'high\'><param name=\'allowScriptAccess\' value=\'always\'>[transparent]<param name=\'wmode\' value=\'transparent\'>[/transparent]<embed src=\'{imageurl}{swf_con}{swf_param}\' quality=high [transparent]wmode=\'transparent\' [/transparent]width=\'{width}\' height=\'{height}\' type=\'application/x-shockwave-flash\' pluginspace=\'http://www.adobe.com/go/getflashplayer\' allowScriptAccess=\'always\'></embed></object>[bannertext]<br>[targeturl]<a href=\'{targeturl}\' target=\'{target}\'[status] onMouseOver="self.status=\'{status}\'; return true;" onMouseOut="self.status=\'\';return true;"[/status]>[/targeturl]{bannertext}[targeturl]</a>[/targeturl][/bannertext]
-   htmlcache: <object classid=\'clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\' codebase=\'http://fpdownload.adobe.com/pub/shockwave/cabs/flash/swflash.cab#version={pluginversion:4,0,0,0}\' width=\'{width}\' height=\'{height}\'><param name=\'movie\' value=\'{imageurl}{swf_con}{swf_param}\'><param name=\'quality\' value=\'high\'><param name=\'allowScriptAccess\' value=\'always\'>[transparent]<param name=\'wmode\' value=\'transparent\'>[/transparent]<embed src=\'{imageurl}{swf_con}{swf_param}\' quality=high [transparent]wmode=\'transparent\' [/transparent]width=\'{width}\' height=\'{height}\' type=\'application/x-shockwave-flash\' pluginspace=\'http://www.adobe.com/go/getflashplayer\' allowScriptAccess=\'always\'></embed></object>[bannertext]<br>[targeturl]<a href=\'{targeturl}\' target=\'{target}\'[status] onMouseOver="self.status=\'{status}\'; return true;" onMouseOut="self.status=\'\';return true;"[/status]>[/targeturl]{bannertext}[targeturl]</a>[/targeturl][/bannertext]
-*************************** 6. row ***************************
-    bannerid: 6
-htmltemplate: [targeturl]<a href=\'{targeturl}\' target=\'{target}\'[status] onMouseOver="self.status=\'{status}\'; return true;" onMouseOut="self.status=\'\';return true;"[/status]>[/targeturl]<img src=\'{imageurl}\' width=\'{width}\' height=\'{height}\' alt=\'{alt}\' title=\'{alt}\' border=\'0\'[nourl][status] onMouseOver="self.status=\'{status}\'; return true;" onMouseOut="self.status=\'\';return true;"[/status][/nourl]>[targeturl]</a>[/targeturl][bannertext]<br>[targeturl]<a href=\'{targeturl}\' target=\'{target}\'[status] onMouseOver="self.status=\'{status}\'; return true;" onMouseOut="self.status=\'\';return true;"[/status]>[/targeturl]{bannertext}[targeturl]</a>[/targeturl][/bannertext]
-   htmlcache: [targeturl]<a href=\'{targeturl}\' target=\'{target}\'[status] onMouseOver="self.status=\'{status}\'; return true;" onMouseOut="self.status=\'\';return true;"[/status]>[/targeturl]<img src=\'{imageurl}\' width=\'{width}\' height=\'{height}\' alt=\'{alt}\' title=\'{alt}\' border=\'0\'[nourl][status] onMouseOver="self.status=\'{status}\'; return true;" onMouseOut="self.status=\'\';return true;"[/status][/nourl]>[targeturl]</a>[/targeturl][bannertext]<br>[targeturl]<a href=\'{targeturl}\' target=\'{target}\'[status] onMouseOver="self.status=\'{status}\'; return true;" onMouseOut="self.status=\'\';return true;"[/status]>[/targeturl]{bannertext}[targeturl]</a>[/targeturl][/bannertext]
-*************************** 7. row ***************************
-    bannerid: 7
-htmltemplate: <a href="" target="">Click Here</a>
-   htmlcache: <a href="" >Click Here</a>
-*/
-
-
-
-?>

@@ -85,11 +85,6 @@ if ($limitations['compatible']) {
         }
     }
 
-    // Include the FlashObject script if required
-    if ($output['contenttype'] == 'swf') {
-        echo MAX_flashGetFlashObjectInline();
-    }
-
     // Set document.context, if required
     $output['html'] .= (!empty($context)) ? "<script type='text/javascript'>document.context='" . MAX_commonPackContext($context) . "'; </script>" : '';
 

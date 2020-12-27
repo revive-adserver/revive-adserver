@@ -390,13 +390,6 @@ function renderVastOutput( $aOut, $pluginType, $vastAdDescription )
                 $elementName = 'URL';
             break;
 
-            case VAST_OVERLAY_FORMAT_SWF:
-                $creativeType = 'application/x-shockwave-flash';
-                $code = getImageUrlFromFilename($aOut['overlayFilename']);
-                $resourceType = 'static';
-                $elementName = 'URL';
-            break;
-
             case VAST_OVERLAY_FORMAT_TEXT:
                 $resourceType = 'TEXT';
                 $code = "<![CDATA[
@@ -579,15 +572,6 @@ function renderOverlayInAdminTool($aOut, $aBanner)
             $htmlOverlay = "<img border='0' src='$imagePath' />";
         break;
 
-        case VAST_OVERLAY_FORMAT_SWF:
-            $title = "SWF Overlay Preview";
-            // we need to set a special state for adRenderFlash to work (which tie us to this implementation...)
-            $aBanner['type'] = 'web';
-            $aBanner['width'] = $aOut['overlayWidth'];
-            $aBanner['height'] = $aOut['overlayHeight'];
-            $htmlOverlay = _adRenderFlash($aBanner, $zoneId=0, $source='', $ct0='', $withText=false, $logClick=false, $logView=false);
-        break;
-
         case VAST_OVERLAY_FORMAT_TEXT:
             $title = "Text Overlay Preview";
             $overlayTitle = $aOut['overlayTextTitle'];
@@ -608,7 +592,6 @@ function renderOverlayInAdminTool($aOut, $aBanner)
 
     switch($aOut['overlayFormat']) {
         case VAST_OVERLAY_FORMAT_IMAGE:
-        case VAST_OVERLAY_FORMAT_SWF:
             $htmlOverlayPrepend .= " This overlay has the following dimensions: width = " . $aOut['overlayWidth'] . ", height = " . $aOut['overlayHeight'] . ".";
         break;
     }

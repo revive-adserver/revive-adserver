@@ -157,20 +157,6 @@ class OA_Dll_Banner extends OA_Dll
                 $this->raiseError('Field \'aImage\' must not be empty');
                 return false;
             }
-            if ($contentType == 'swf') {
-                if (isset($oBanner->aBackupImage)) {
-                    // Get backup image
-                    if (!$this->_validateImage($oBanner->aBackupImage, $this->oBackupImage)) {
-                        return false;
-                    }
-                }
-            } else {
-                // Remove backup gif
-                $oBanner->aBackupImage = array(
-                    'filename' => null,
-                    'content' =>  ''
-                );
-            }
         }
 
         if (!$this->checkStructureNotRequiredStringField($oBanner,  'bannerName', 255) ||
@@ -318,40 +304,11 @@ class OA_Dll_Banner extends OA_Dll
                 case 'sql':
                 case 'web':
                     if (!empty($oBanner->aImage)) {
-                        // Hardcoded link conversion
-                        $bannerData['parameters'] = '';
-                        if ($this->oImage->contentType == 'swf' && !empty($oBanner->aImage['editswf'])) {
-                            $aLinks = array_keys($this->oImage->hardcodedLinks);
-                            list($result, $params) = phpAds_SWFConvert($this->oImage->content, true, $aLinks);
-                            if ($result != $this->oImage->content) {
-                                $this->oImage->content = $result;
-                                $bannerData['parameters'] = array('swf' => array());
-                                foreach ($params as $key) {
-                                    $bannerData['parameters']['swf'][$key] = array(
-                                        'link' => $this->oImage->hardcodedLinks[$key][0],
-                                        'tar'  => $this->oImage->hardcodedLinks[$key][1]
-                                    );
-                                }
-                                $bannerData['parameters'] = serialize($bannerData['parameters']);
-                                $bannerData['url']        = $this->oImage->hardcodedLinks[1][0];
-                                $bannerData['target']     = $this->oImage->hardcodedLinks[1][1];
-                            }
-                        }
                         $this->oImage->store($bannerData['storagetype']);
                         $bannerData['contenttype'] = $this->oImage->contentType;
                         $bannerData['filename']   = $this->oImage->fileName;
                         $bannerData['width']      = $this->oImage->width;
                         $bannerData['height']     = $this->oImage->height;
-                    }
-                    if (!empty($oBanner->aBackupImage)) {
-                        if (isset($this->oBackupImage)) {
-                            $this->oBackupImage->store($bannerData['storagetype']);
-                            $bannerData['alt_contenttype'] = $this->oBackupImage->contentType;
-                            $bannerData['alt_filename']   = $this->oBackupImage->fileName;
-                        } elseif (!isset($oBanner->aBackupImage['filename'])) {
-                            $bannerData['alt_contenttype'] = '';
-                            $bannerData['alt_filename']   = '';
-                        }
                     }
                     break;
                 case 'url':

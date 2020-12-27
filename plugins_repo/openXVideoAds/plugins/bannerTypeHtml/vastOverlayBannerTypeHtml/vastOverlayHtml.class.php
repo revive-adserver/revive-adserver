@@ -68,7 +68,6 @@ class Plugins_BannerTypeHTML_vastOverlayBannerTypeHtml_vastOverlayHtml extends P
     {
         $overlayFormatToHandler = array(
             VAST_OVERLAY_FORMAT_IMAGE => 'phpAds_formOverlayIsImageMode();',
-            VAST_OVERLAY_FORMAT_SWF => 'phpAds_formOverlayIsSwfMode();',
             VAST_OVERLAY_FORMAT_TEXT => 'phpAds_formOverlayIsTextMode();',
             VAST_OVERLAY_FORMAT_HTML => 'phpAds_formOverlayIsHtmlMode();',
         );
@@ -91,14 +90,6 @@ class Plugins_BannerTypeHTML_vastOverlayBannerTypeHtml_vastOverlayHtml extends P
                 VAST_OVERLAY_FORMAT_IMAGE, array('id' => 'vast-overlay-format-image',
                     'onClick' => $overlayFormatToHandler[VAST_OVERLAY_FORMAT_IMAGE] ));
         }
-
-        if ( getVideoOverlaySetting( 'isVastOverlayAsSwfEnabled' ) ) {
-            $overlayFormats[] = $form->createElement('radio', 'vast_overlay_format', '',
-                "Swf Overlay",
-                VAST_OVERLAY_FORMAT_SWF, array('id' => 'vast-overlay-format-swf',
-                    'onClick' => $overlayFormatToHandler[VAST_OVERLAY_FORMAT_SWF] ));
-        }
-
 
         if ( getVideoOverlaySetting( 'isVastOverlayAsTextEnabled' ) ) {
             $overlayFormats[] = $form->createElement('radio', 'vast_overlay_format', '',
@@ -125,7 +116,6 @@ class Plugins_BannerTypeHTML_vastOverlayBannerTypeHtml_vastOverlayHtml extends P
                 $("#div-overlay-format-text").show('slow');
                 $("#div-overlay-format-html").hide('fast');
                 $("#div-overlay-format-image").hide('fast');
-                $("#div-overlay-format-swf").hide('fast');
                 $("#div-overlay-size").hide('fast');
 
             }
@@ -135,17 +125,7 @@ class Plugins_BannerTypeHTML_vastOverlayBannerTypeHtml_vastOverlayHtml extends P
                 $("#div-overlay-format-html").show('slow');
                 $("#div-overlay-format-text").hide('fast');
                 $("#div-overlay-format-image").hide('fast');
-                $("#div-overlay-format-swf").hide('fast');
                 $("#div-overlay-size").show('fast');
-            }
-            function phpAds_formOverlayIsSwfMode()
-            {
-                //alert( "phpAds_formOverlayIsSwfMode" );
-                $("#div-overlay-format-swf").show('slow');
-                $("#div-overlay-format-text").hide('fast');
-                $("#div-overlay-format-image").hide('fast');
-                $("#div-overlay-format-html").hide('fast');
-                $("#div-overlay-size").show('slow');
             }
 
             function phpAds_formOverlayIsImageMode()
@@ -154,7 +134,6 @@ class Plugins_BannerTypeHTML_vastOverlayBannerTypeHtml_vastOverlayHtml extends P
                 $("#div-overlay-format-image").show('slow');
                 $("#div-overlay-format-text").hide('fast');
                 $("#div-overlay-format-html").hide('fast');
-                $("#div-overlay-format-swf").hide('fast');
                 $("#div-overlay-size").show('slow');
             }
             ${overlayFormatOptionToRunOnPageLoad}
@@ -251,7 +230,7 @@ OVERLAY_OPTION_JS;
         }
         $supportedTagString = implode(', ', $supportedTags);
         $form->addElement('html', 'overlay_html_info1',
-        	'The following HTML tags are supported: <code>'.$supportedTagString.'</code>. If you need to display an image in your Overlay Ad, we recommend using the Image Overlay or SWF Overlay instead.
+        	'The following HTML tags are supported: <code>'.$supportedTagString.'</code>. If you need to display an image in your Overlay Ad, we recommend using the Image Overlay instead.
         	<br/>All links <code>&lt;a href=""&gt</code> will be ignored: the flash player will automatically add a click layer on top of the overlay, that will initiate a video or open a page in a new window.
         	<br/>For more information about the supported HTML tags, read the <a href="'.self::URL_FLASH_HELP_HTML_SUPPORTED.'" target="_blank">Adobe ActionScript documentation</a>.
 
@@ -276,34 +255,15 @@ OVERLAY_OPTION_JS;
         $form->addElement('text', 'vast_overlay_text_call', 'Call to action');
     }
 
-    function addVastOverlayAsSwf($form, $aBanner)
-    {
-        $form->addElement('header', 'overlay_swf_header', "Overlay SWF");
-        $form->addElement('html', 'overlay_swf_info',
-        	'Recommendations for SWF Overlay
-        	<ul style="line-height:1.2em;list-style-type:disc;padding-left:20px;padding-top:5px">
-        	<li>Clicks: the SWF should not react to any click. The video player will automatically add a click layer on top of the SWF that will initiate a video ad, or open a page in a new window</li>
-        	<li>Width: SWF width should be the width of the video content or smaller</li>
-        	<li>Height: SWF height should not exceed 20% of the video content height.
-        	<li>Audio: no sound</li>
-        	<li>Scaling: creative should scale when the video is set to full screen mode</li>
-        	<li>Size: we recommend to keep the size below 100 KB </li>
-			</ul>
-        	' );
-
-        $form->addDecorator ( 'overlay_swf_header', 'tag', array ( 'tag' => 'div', 'attributes' => array ('id' => 'div-overlay-format-swf') ) );
-        $this->addVastFileUploadGroup( $form, $aBanner, false, VAST_OVERLAY_FORMAT_SWF . '_upload' );
-    }
-
     function addVastOverlayAsImage($form, $aBanner){
 
         $form->addElement('header', 'overlay_image_header', "Overlay Image");
         $form->addDecorator ( 'overlay_image_header', 'tag', array ( 'tag' => 'div', 'attributes' => array ('id' => 'div-overlay-format-image') ) );
         //$form->addElement('text', 'filename', 'filename');
-        $this->addVastFileUploadGroup( $form, $aBanner, false, VAST_OVERLAY_FORMAT_IMAGE . '_upload');
+        $this->addVastFileUploadGroup($form, $aBanner, VAST_OVERLAY_FORMAT_IMAGE . '_upload');
     }
 
-    function addVastFileUploadGroup($form, $aBanner, $allowSwfFiles, $fileFieldName )
+    function addVastFileUploadGroup($form, $aBanner, $fileFieldName)
     {
         $imageName = null;
         $size = null;
@@ -328,7 +288,6 @@ OVERLAY_OPTION_JS;
                 'fileSize'  => $size,
                 'newLabel'  => $GLOBALS['strNewBannerFile'],
                 'updateLabel'  => $GLOBALS['strUploadOrKeep'],
-                'handleSWF' => $allowSwfFiles
               )
         );
     }
@@ -371,7 +330,6 @@ OVERLAY_OPTION_JS;
         $this->addVastOverlayFormatsRadioButton($form, $bannerRow, $overlayFormatValue, $overlayFormatJs );
 
         $this->addVastOverlayAsImage($form, $bannerRow);
-        $this->addVastOverlayAsSwf($form, $bannerRow);
         $this->addVastOverlayAsText($form, $bannerRow);
         $this->addVastOverlayAsHtml($form, $bannerRow);
 
@@ -416,10 +374,6 @@ OVERLAY_OPTION_JS;
         switch($aFields['vast_overlay_format']) {
             case VAST_OVERLAY_FORMAT_IMAGE:
                 $incomingFieldName = VAST_OVERLAY_FORMAT_IMAGE . '_upload';
-            break;
-
-            case VAST_OVERLAY_FORMAT_SWF:
-                $incomingFieldName = VAST_OVERLAY_FORMAT_SWF . '_upload';
             break;
         }
         if (empty($_FILES[$incomingFieldName]['name'])){

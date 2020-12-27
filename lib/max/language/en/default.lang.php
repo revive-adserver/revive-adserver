@@ -534,7 +534,6 @@ $GLOBALS['strBannersWeight'] = "Banner's Weight";
 $GLOBALS['strAdserverTypeGeneric'] = "Generic HTML Banner";
 $GLOBALS['strDoNotAlterHtml'] = "Do not alter HTML";
 $GLOBALS['strGenericOutputAdServer'] = "Generic";
-$GLOBALS['strSwfTransparency'] = "Allow transparent background";
 $GLOBALS['strBackToBanners'] = "Back to banners";
 $GLOBALS['strUseWyswygHtmlEditor'] = "Use WYSIWYG HTML Editor";
 $GLOBALS['strChangeDefault'] = "Change default";
@@ -542,14 +541,6 @@ $GLOBALS['strChangeDefault'] = "Change default";
 // Banner (advanced)
 $GLOBALS['strBannerPrependHTML'] = "Always prepend the following HTML code to this banner";
 $GLOBALS['strBannerAppendHTML'] = "Always append the following HTML code to this banner";
-
-// Banner (swf)
-$GLOBALS['strCheckSWF'] = "Check for hard-coded links inside the Flash file";
-$GLOBALS['strConvertSWFLinks'] = "Convert Flash links";
-$GLOBALS['strHardcodedLinks'] = "Hard-coded links";
-$GLOBALS['strConvertSWF'] = "<br />The Flash file you just uploaded contains hard-coded urls. {$PRODUCT_NAME} won't be able to track the number of Clicks for this banner unless you convert these hard-coded urls. Below you will find a list of all urls inside the Flash file. If you want to convert the urls, simply click <b>Convert</b>, otherwise click <b>Cancel</b>.<br /><br />Please note: if you click <b>Convert</b> the Flash file you just uploaded will be physically altered. <br />Please keep a backup of the original file. Regardless of in which version this banner was created, the resulting file will need the Flash 4 player (or higher) to display correctly.<br /><br />";
-$GLOBALS['strCompressSWF'] = "Compress SWF file for faster downloading (Flash 6 player required)";
-$GLOBALS['strOverwriteSource'] = "Overwrite source parameter";
 
 // Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "Delivery Options";

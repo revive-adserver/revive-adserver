@@ -59,11 +59,6 @@ if ($timeout > 0) {
 </script>";
 }
 
-// Include the FlashObject script if required
-if ($aBanner['contenttype'] == 'swf') {
-    echo MAX_flashGetFlashObjectExternal();
-}
-
 echo "
 <style type='text/css'>
 body {margin:0; height:100%; width:100%}

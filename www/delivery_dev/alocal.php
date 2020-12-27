@@ -46,9 +46,7 @@ function view_local($what, $zoneid = 0, $campaignid = 0, $bannerid = 0, $target 
     }
 
     $output = MAX_adSelect($what, $campaignid, $target, $source, $withtext, $charset, $context, true, '', $GLOBALS['loc'], $GLOBALS['referer']);
-    if (isset($output['contenttype']) && $output['contenttype'] == 'swf') {
-        $output['html'] = MAX_flashGetFlashObjectExternal() . $output['html'];
-    }
+
     // Add any $context information to the global phpAds_context array
     if (
         isset($GLOBALS['phpAds_context']) && is_array($GLOBALS['phpAds_context']) &&
@@ -107,9 +105,6 @@ function view_spc($what, $target = '', $source = '', $withtext = 0, $block = 0, 
 
         // Get the banner
         $output = MAX_adSelect('zone:'.$zoneid, '', $target, $source, $withtext, $charset, $context, true, '', $GLOBALS['loc'], $GLOBALS['referer']);
-        if (isset($output['contenttype']) && $output['contenttype'] == 'swf') {
-            $fo_required = true;
-        }
         $spc_output[$varname] = $output['html'];
 
         // Block this banner for next invocation

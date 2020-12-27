@@ -25,8 +25,6 @@
 
             <setting key="isVastOverlayAsTextEnabled" type="checkbox" label="Allow overlay video banners to be defined as text" required="0" size="1" visible="1">1</setting>
 
-            <setting key="isVastOverlayAsSwfEnabled" type="checkbox" label="Allow overlay video banners to be defined as a SWF" required="0" size="1" visible="1">1</setting>
-
             <setting key="isVastOverlayAsImageEnabled" type="checkbox" label="Allow overlay video banners to be defined as an Image" required="0" size="1" visible="1">1</setting>
 
             <setting key="isVastOverlayAsHtmlEnabled" type="checkbox" label="Allow overlay video banners to be defined as html" required="0" size="1" visible="1">1</setting>

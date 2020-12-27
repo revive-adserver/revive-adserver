@@ -896,17 +896,6 @@ class Admin_DaTest extends DalUnitTestCase
         $ret = Admin_DA::_checkBannerZoneAdAssoc($aZone, $bannerType);
         PEAR::popErrorHandling();
         $this->assertTrue(PEAR::isError($ret));
-
-        // url banner (swf) with an email zone
-        $aZone = array('type' => 4);
-        $bannerType = 'url';
-        $contentType = 'swf';
-
-        PEAR::pushErrorHandling(null);
-        $ret = Admin_DA::_checkBannerZoneAdAssoc($aZone, $bannerType, $contentType);
-        PEAR::popErrorHandling();
-        $this->assertTrue(PEAR::isError($ret));
-
     }
 
     function testdeleteAdZones()

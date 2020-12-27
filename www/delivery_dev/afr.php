@@ -69,11 +69,6 @@ $outputHtml .= "<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='e
 $outputHtml .= "<head>\n";
 $outputHtml .= "<title>".(!empty($banner['alt']) ? $banner['alt'] : 'Advertisement')."</title>\n";
 
-// Include the FlashObject script if required
-if (isset($banner['contenttype']) && $banner['contenttype'] == 'swf') {
-    $outputHtml .= MAX_flashGetFlashObjectExternal();
-}
-
 // Add refresh meta tag if $refresh is set and numeric
 if (isset($refresh) && is_numeric($refresh) && $refresh > 0) {
     $dest = MAX_commonGetDeliveryUrl($conf['file']['frame']).'?'.$_SERVER['QUERY_STRING'];

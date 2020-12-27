@@ -71,29 +71,6 @@ class Test_OA_Api_XmlRpc_Banner extends Test_OA_Api_XmlRpc
 
         $doImages  = OA_Dal::staticGetDO('images', $doBanners->filename);
         $this->assertEqual($doImages->contents, $gif);
-
-        // Test modify
-        $swf = file_get_contents(MAX_PATH . '/lib/OA/Creative/tests/data/swf-link.swf');
-        $this->assertTrue($swf);
-        $swfConv = file_get_contents(MAX_PATH . '/lib/OA/Creative/tests/data/converted-link.swf');
-        $this->assertTrue($swfConv);
-
-        $oBanner = new OA_Dll_BannerInfo();
-        $oBanner->bannerId    = $bannerId;
-        $oBanner->aImage = array(
-            'filename' => 'test.swf',
-            'content'  => $swf,
-            'editswf'  => true
-        );
-
-        $this->assertTrue($this->oApi->modifyBanner($oBanner));
-
-        $doBanners = OA_Dal::staticGetDO('banners', $bannerId);
-        $this->assertTrue($doBanners->filename);
-
-        $doImages  = OA_Dal::staticGetDO('images', $doBanners->filename);
-        $this->assertTrue($doImages->contents);
-        $this->assertEqual($doImages->contents, $swfConv);
     }
 
     public function testIframeFriendly()

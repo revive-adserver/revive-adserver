@@ -87,7 +87,6 @@ class OA_Creative_File extends OA_Creative
             'height'        => $this->height,
             'contenttype'   => $this->contentType,
             'pluginversion' => 0,
-            'editswf'       => false
         );
     }
 
@@ -138,15 +137,13 @@ class OA_Creative_File extends OA_Creative
         }
 
         $validImageExtensions = 'png|svg|gif|jpg|jpeg|jpe|tif|tiff|ppm|bmp|rle|dib|tga|pcz|wbmp|wbm';
-        if (preg_match('/\.swf$/i', $fileName)) {
-            $type = 'Swf';
-        } elseif (preg_match('/\.(?:dcr|rpm|mov)$/i', $fileName)) {
+        if (preg_match('/\.(?:dcr|rpm|mov)$/i', $fileName)) {
             $type = 'RichMedia';
         } elseif (preg_match('/\.('.$validImageExtensions.')$/i', $fileName)) {
             $type = 'Image';
         } else {
             return new PEAR_Error('The uploaded file does not have a valid extension.
-            The file must be an image file (JPG, PNG, GIF, etc.) or a SWF.');
+            The file must be an image file (JPG, PNG, GIF, etc.).');
         }
 
         require_once(MAX_PATH . '/lib/OA/Creative/File/' . $type . '.php');

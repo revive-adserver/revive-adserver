@@ -1530,15 +1530,8 @@ function MAX_bannerPreview($bannerId)
     $aBanner = Admin_DA::getAd($bannerId);
     $aBanner['storagetype'] = $aBanner['type'];
     $aBanner['bannerid'] = $aBanner['ad_id'];
-    if ($aBanner['contenttype'] == 'swf') {
-        return
-            MAX_adRender($aBanner, 0, '', '', '', true, '', false, false) .
-            "<br /><br />" .
-            _adRenderImage($aBanner, 0, '', '', true, false, false, true);
-    } else {
-        return
-            MAX_adRender($aBanner, 0, '', '', '', true, '', false, false);
-    }
+
+    return MAX_adRender($aBanner, 0, '', '', '', true, '', false, false);
 }
 
 function MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $aEntities)

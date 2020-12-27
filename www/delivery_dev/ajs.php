@@ -79,10 +79,6 @@ MAX_cookieFlush();
 // Show the banner
 MAX_commonSendContentTypeHeader("text/javascript", $charset);
 
-if (isset($output['contenttype']) && $output['contenttype'] == 'swf' && !isset($mmm_fo)) {
-    echo MAX_flashGetFlashObjectInline();
-}
-
 echo MAX_javascriptToHTML($output['html'], 'OX_'.substr(md5(uniqid('', 1)), 0, 8));
 
 // Backwards compatible block-banner JS variable (>2.4 tags do all this via document.context)

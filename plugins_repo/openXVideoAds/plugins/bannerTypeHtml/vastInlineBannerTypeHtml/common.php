@@ -31,7 +31,6 @@ define( 'VAST_RTMP_FLV_DELIMITER', 'flv:' );
 
 // Definition of different overlay formats supported
 define( 'VAST_OVERLAY_FORMAT_TEXT', 'text_overlay' );
-define( 'VAST_OVERLAY_FORMAT_SWF', 'swf_overlay' );
 define( 'VAST_OVERLAY_FORMAT_IMAGE', 'image_overlay' );
 define( 'VAST_OVERLAY_FORMAT_HTML', 'html_overlay' );
 

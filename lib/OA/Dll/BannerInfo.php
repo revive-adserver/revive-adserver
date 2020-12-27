@@ -162,11 +162,7 @@ class OA_Dll_BannerInfo extends OA_Info
      * (
      *      [filename] => banner.swf
      *      [content]  => {binarydata}
-     *      [editswf]  => true
      * )
-     *
-     * If the editswf member is present and true, any SWF files will be scanned for hardcoded
-     * links and eventually converted
      *
      * @var array
      */
@@ -175,6 +171,8 @@ class OA_Dll_BannerInfo extends OA_Info
     /**
      * An array field for SQL/Web banners to contain the backup image name and binary data
      * in case the primary image is a swf file
+     *
+     * @deprecated
      *
      * Array
      * (
@@ -270,7 +268,6 @@ class OA_Dll_BannerInfo extends OA_Info
         return new XML_RPC_Value(array(
             'filename' => new XML_RPC_Value($aImage['filename']),
             'content'  => new XML_RPC_Value($aImage['content'], 'base64'),
-            'editswf'  => new XML_RPC_Value(!empty($aImage['editswf']), 'boolean'),
         ), 'struct');
     }
 

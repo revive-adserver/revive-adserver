@@ -93,7 +93,6 @@ class Plugins_BannerTypeHTML_vastInlineBannerTypeHtml_vastInlineHtml extends Plu
                     'fileName'  => $row['alt_filename'],
                     'newLabel'  => "select incomming video file",
                     'updateLabel'  => "select replacement video file",
-                    'handleSWF' => false
                   )
             );
         }

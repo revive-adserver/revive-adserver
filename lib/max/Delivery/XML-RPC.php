@@ -295,9 +295,7 @@ function OA_Delivery_XmlRpc_View($params)
 
     // Prepare output as PHP array
     if (!is_array($output)) {
-        $output = array();
-    } elseif (isset($output['contenttype']) && $output['contenttype'] == 'swf') {
-        $output['html'] = MAX_flashGetFlashObjectExternal() . $output['html'];
+        $output = [];
     }
 
     MAX_cookieFlush();
@@ -495,9 +493,7 @@ function OA_Delivery_XmlRpc_SPC($params)
 
     // Prepare output as PHP array
     if (!is_array($output)) {
-        $output = array();
-    } elseif (isset($output['contenttype']) && $output['contenttype'] == 'swf') {
-        $output['html'] = MAX_flashGetFlashObjectExternal() . $output['html'];
+        $output = [];
     }
 
     MAX_cookieFlush();
