@@ -27,19 +27,16 @@ function deliverVastAd($pluginType, &$aBanner, $zoneId=0, $source='', $ct0='', $
     $aOutputParams = array();
     $aOutputParams['format'] = $format;
 
-    $aOutputParams['videoPlayerSwfUrl'] = getVideoPlayerUrl('flowplayerSwfUrl');
-    $aOutputParams['videoPlayerJsUrl'] = getVideoPlayerUrl('flowplayerJsUrl');
-    $aOutputParams['videoPlayerRtmpPluginUrl'] = getVideoPlayerUrl('flowplayerRtmpPluginUrl');
-    $aOutputParams['videoPlayerControlsPluginUrl'] = getVideoPlayerUrl('flowplayerControlsPluginUrl');
-
     if ( getVideoPlayerSetting('isAutoPlayOfVideoInOpenXAdminToolEnabled' )){
         $aOutputParams['isAutoPlayOfVideoInOpenXAdminToolEnabled'] = "true";
     } else {
         $aOutputParams['isAutoPlayOfVideoInOpenXAdminToolEnabled'] = "false";
     }
+
     if(!empty($aBanner['vast_thirdparty_impression'])) {
         $aOutputParams['thirdPartyImpressionUrl'] = $aBanner['vast_thirdparty_impression'];
     }
+
     prepareCompanionBanner($aOutputParams, $aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $loc, $referer);
     prepareVideoParams( $aOutputParams, $aBanner );
     prepareOverlayParams( $aOutputParams, $aBanner );
@@ -436,101 +433,37 @@ function renderVastOutput( $aOut, $pluginType, $vastAdDescription )
 
 function renderPlayerInPage($aOut)
 {
-	$player = "";
-	if ( isset($aOut['fullPathToVideo'] ) ){
-		$player = <<<PLAYER
-			<h3>Video ad preview</h3>
-			<script type="text/javascript" src="{$aOut['videoPlayerJsUrl']}"></script>
-			<style>
-			a.player {
-			    display:block;
-			    width:640px;
-			    height:360px;
-			    margin:25px 0;
-			    text-align:center;
-			}
-			</style>
-
-			<a class="player" id="player"></a>
-PLAYER;
-
-		// encode data before echoing to the browser to prevent xss
-		$aOut['videoFileName'] = encodeUserSuppliedData( $aOut['videoFileName'] );
-        $aOut['videoNetConnectionUrl'] = encodeUserSuppliedData( $aOut['videoNetConnectionUrl'] );
-
-		$httpPlayer = <<<HTTP_PLAYER
-
-		    <!-- http flowplayer setup -->
-            <script language="JavaScript">
-            flowplayer("a.player", "${aOut['videoPlayerSwfUrl']}", {
-               playlist: [ '${aOut['videoFileName']}' ],
-                clip: {
-                       autoPlay: ${aOut['isAutoPlayOfVideoInOpenXAdminToolEnabled']}
-               },
-               plugins: {
-
-                   controls: {
-                        url: escape('${aOut['videoPlayerControlsPluginUrl']}')
-                   }
-               }
-
-            });
-            </script>
-HTTP_PLAYER;
-
-        $rtmpPlayer = <<<RTMP_PLAYER
-
-            <!-- rmtp flowplayer setup -->
-            <script language="JavaScript">
-            flowplayer("a.player", "${aOut['videoPlayerSwfUrl']}", {
-               clip: {
-                       url: '${aOut['videoFileName']}',
-                       provider: 'streamer',
-                       autoPlay: ${aOut['isAutoPlayOfVideoInOpenXAdminToolEnabled']}
-               },
-
-               plugins: {
-                   streamer: {
-                        // see http://flowplayer.org/forum/8/15861 for reason I use encode() function
-                        url: escape('${aOut['videoPlayerRtmpPluginUrl']}'),
-                        netConnectionUrl: '${aOut['videoNetConnectionUrl']}'
-                   },
-                   controls: {
-                        url: escape('${aOut['videoPlayerControlsPluginUrl']}')
-                   }
-               }
-
-            });
-            </script>
-RTMP_PLAYER;
-
-        $webmPlayer = <<<WEBM_PLAYER
-
-            <!-- HTML5 Webm setup -->
-            <script type="text/javascript">
-                (function (p) {
-                    p.html('<video width="640" height="360" controls><source src="{$aOut['fullPathToVideo']}" type="{$aOut['vastVideoType']}"/>You need an HTML5 compatible player, sorry</video>');
-                })($("#player"));
-            </script>
-
-WEBM_PLAYER;
-
-        if ( $aOut['videoDelivery'] == 'player_in_http_mode' ){
-            if ($aOut['vastVideoType'] == 'video/webm') {
-                $player .= $webmPlayer;
-            } else {
-                $player .= $httpPlayer;
-            }
-        }
-        else if ( $aOut['videoDelivery'] == 'player_in_rtmp_mode' ) {
-            $player .= $rtmpPlayer;
-        }
-        else {
-            // default to rtmp play format
-            $player .= $rtmpPlayer;
-        }
+	if (!isset($aOut['fullPathToVideo'])) {
+        return '';
     }
-    return $player;
+
+    if ( $aOut['videoDelivery'] == 'player_in_rtmp_mode' ) {
+        return '<h3>Sorry, RTMP playback is not supported</h3>';
+    }
+
+    $path = htmlspecialchars($aOut['fullPathToVideo']);
+    $type = htmlspecialchars(str_replace('x-mp4', 'mp4', $aOut['vastVideoType']));
+
+    return <<<PLAYER
+        <h3>Video ad preview</h3>
+        <style>
+        a.player {
+            display:block;
+            width:640px;
+            height:360px;
+            margin:25px 0;
+            text-align:center;
+        }
+        </style>
+
+        <a class="player" id="player"></a>
+
+        <script type="text/javascript">
+            (function (p) {
+                p.html('<video width="640" height="360" controls><source src="{$path}" type="{$type}"/>You need an HTML5 compatible player, sorry</video>');
+            })($("#player"));
+        </script>
+PLAYER;
 }
 
 function renderCompanionInAdminTool($aOut)

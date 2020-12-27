@@ -3,13 +3,13 @@
 <plugin>
     <name>vastServeVideoPlayer</name>
     <displayName>IAB VAST Video Player Plugin</displayName>
-    <creationDate>2020-12-17</creationDate>
+    <creationDate>2020-12-27</creationDate>
     <author>Revive Adserver</author>
     <authorEmail>revive@revive-adserver.com</authorEmail>
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>LICENSE.txt</license>
     <description>Plugin that provides IAB VAST video ad support.</description>
-    <version>1.13.0</version>
+    <version>1.13.1</version>
     <oxversion>3.2.0-beta-rc3</oxversion>
 
     <install>
@@ -18,14 +18,6 @@
 
         <files>
             <file path="{MODULEPATH}deliveryLog/vastServeVideoPlayer/">player.delivery.php</file>
-
-	    <!-- player files below - these files should be moved to a cdn or different location when cache headers can be configured -->
-            <file path="{MODULEPATH}deliveryLog/vastServeVideoPlayer/flowplayer/3.1.1/">LICENSE.txt</file>
-            <file path="{MODULEPATH}deliveryLog/vastServeVideoPlayer/flowplayer/3.1.1/">README.txt</file>
-            <file path="{MODULEPATH}deliveryLog/vastServeVideoPlayer/flowplayer/3.1.1/">flowplayer-3.1.1.min.js</file>
-            <file path="{MODULEPATH}deliveryLog/vastServeVideoPlayer/flowplayer/3.1.1/">flowplayer.controls-3.1.1.swf</file>
-            <file path="{MODULEPATH}deliveryLog/vastServeVideoPlayer/flowplayer/3.1.1/">flowplayer-3.1.1.swf</file>
-            <file path="{MODULEPATH}deliveryLog/vastServeVideoPlayer/flowplayer/3.1.1/">flowplayer.rtmp-3.1.0.swf</file>
         </files>
 
         <configuration>

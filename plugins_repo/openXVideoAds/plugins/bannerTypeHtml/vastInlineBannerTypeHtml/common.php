@@ -49,8 +49,6 @@ function getVastVideoTypes()
    static $videoEncodingTypes = array( 'video/x-mp4' =>  'MP4',
                                        'video/x-flv' => 'FLV',
                                        'video/webm' => 'WEBM',
-                                       // not supported by flowplayer -  'video/x-ms-wmv' => 'WMV',
-                                       // not supported by flowplayer -  'video/x-ra' => 'video/x-ra',
    );
    return $videoEncodingTypes;
 }
