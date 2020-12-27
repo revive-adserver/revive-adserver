@@ -33,7 +33,6 @@ Language_Loader::load('invocation');
 class MAX_Admin_Invocation {
 
     var $defaultOptionValues = array(
-        'thirdPartyServer' => 0,
         'cacheBuster'      => 1,
     );
 
@@ -78,7 +77,6 @@ class MAX_Admin_Invocation {
             'status',
             'target',
             'template',
-            'thirdpartytrack',
             'timeout',
             'toolbars',
             'top',
@@ -501,7 +499,6 @@ class MAX_Admin_Invocation {
     {
         $options = array (
             'spacer'                    => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-            'thirdPartyServer'          => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'cacheBuster'               => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'comments'                  => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
         );

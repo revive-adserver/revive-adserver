@@ -188,17 +188,6 @@ class Plugins_InvocationTags extends OX_Component
             'cachebuster' => 'INSERT_RANDOM_NUMBER_HERE',
             'clickurl'    => 'INSERT_ENCODED_CLICKURL_HERE',
         );
-        if (!empty($mi->thirdpartytrack) && ($mi->thirdpartytrack != 'generic')) {
-            if ($thirdpartyserver = OX_Component::factoryByComponentIdentifier($mi->thirdpartytrack)) {
-                $thirdpartyname = $thirdpartyserver->getName();
-                if (!empty($thirdpartyserver->clickurlMacro)) {
-                    $mi->macros['clickurl'] = $thirdpartyserver->clickurlMacro;
-                }
-                if (!empty($thirdpartyserver->cachebusterMacro)) {
-                    $mi->macros['cachebuster'] = $thirdpartyserver->cachebusterMacro;
-                }
-            }
-        }
         $mi->parameters = array();
         $imgParams      = array();
 
@@ -245,9 +234,6 @@ class Plugins_InvocationTags extends OX_Component
         if (!empty($mi->cachebuster)) {
             $mi->parameters['cb'] = $this->options['cb'] = $imgParams['cb'] = "cb=" . $mi->macros['cachebuster'];
         }
-        if (!empty($mi->thirdpartytrack)) {
-           $mi->parameters['ct0'] = $this->options['ct0'] = $imgParams['ct0'] = "ct0=" . $mi->macros['clickurl'];
-        }
 
         // Set $mi->buffer to the initial comment
         $name = PRODUCT_NAME;
@@ -255,10 +241,9 @@ class Plugins_InvocationTags extends OX_Component
             $name = $GLOBALS['_MAX']['CONF']['ui']['applicationName'];
         }
 
-        $buffer = sprintf("<!-- %s %s %s- Generated with %s v%s -->\n",
+        $buffer = sprintf("<!-- %s %s - Generated with %s v%s -->\n",
             $name,
             $this->getName(),
-            empty($thirdpartyname) ? '' : "(click tracking for: {$thirdpartyname}) ",
             PRODUCT_NAME,
             VERSION
         );
@@ -266,22 +251,13 @@ class Plugins_InvocationTags extends OX_Component
         if (!empty($mi->comments)) {
             $oTrans = new OX_Translation();
             $comment = '';
-            if ((!empty($mi->cachebuster)) && ($mi->thirdpartytrack == 'generic' || $mi->thirdpartytrack === 0)) {
+            if (!empty($mi->cachebuster)) {
                 if (isset($aComments['Cache Buster Comment'])) {
                     $cbComment = $aComments['Cache Buster Comment'];
                 } else {
                     $cbComment = $GLOBALS['strCacheBusterComment'];
                 }
                 $comment .= str_replace('{random}', $mi->macros['cachebuster'], $cbComment);
-            }
-            if (isset($mi->thirdpartytrack) && ($mi->thirdpartytrack == 'generic' || $mi->thirdpartytrack === 0)) {
-                if (isset($aComments['Third Party Comment'])) {
-                    $clickurlComment = $aComments['Third Party Comment'];
-                } else {
-                    $clickurlComment = $GLOBALS['strThirdPartyComment'];
-                }
-                $clickurlComment = $aComments['Third Party Comment'];
-                $comment .= str_replace('{clickurl}', $mi->macros['clickurl'], $clickurlComment);
             }
             //SSL Delivery Comment
             if (isset($aComments['SSL Delivery Comment'])) {
@@ -317,11 +293,6 @@ class Plugins_InvocationTags extends OX_Component
         }
         if (!empty($mi->cachebuster) || !isset($mi->cachebuster)) {
             $hrefParams[] = "cb=" . $mi->macros['cachebuster'];
-        }
-        // Make sure that ct0= is the last element in the array
-        unset($imgParams['ct0']);
-        if (!empty($mi->thirdpartytrack)) {
-           $imgParams[] = "ct0=" . $mi->macros['clickurl'];
         }
         $backup = "<a href='".MAX_commonConstructDeliveryUrl($conf['file']['click'])."?".implode("&amp;", $hrefParams)."'";
 

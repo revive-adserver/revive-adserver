@@ -43,7 +43,6 @@ class Plugins_InvocationTagsOptions
             'xmlrpcproto'       => 0,
             'xmlrpctimeout'     => '',
             'hostlanguage'      => '',
-            'thirdPartyServer'  => $conf['delivery']['clicktracking'],
             'cachebuster'       => 1,
             'comments'          => 0,
             'charset'           => '',
@@ -593,49 +592,6 @@ class Plugins_InvocationTagsOptions
         $option .= "<option value='php'".($maxInvocation->hostlanguage == 'php' ? ' selected' : $this->defaultValues['hostlanguage']).">PHP</option>";
         $option .= "</select>";
         $option .= "</td></tr>";
-        return $option;
-    }
-
-    /**
-     * Generate the HTML option for output adserver selection
-     *
-     * @return string    A string containing html for option
-     */
-    function thirdPartyServer()
-    {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $pref = $GLOBALS['_MAX']['PREF'];
-        $selectedOutputAdServer = (is_null($this->maxInvocation->thirdpartytrack)) ? $conf['delivery']['clicktracking'] : $this->maxInvocation->thirdpartytrack;
-        $maxInvocation =& $this->maxInvocation;
-
-        $option = '';
-        $option .= "
-        <tr>
-            <td width='30'>&nbsp;</td>
-            <td width='200'>{$GLOBALS['str3rdPartyTrack']}</td>
-            <td width='370'>
-        ";
-
-        // Add selection box for output adservers
-        $option .= "<select name='thirdpartytrack' tabindex='" . ($maxInvocation->tabindex++) . "'>";
-        $option .= "<option value='0'>{$GLOBALS['strNo']}</option>";
-        $option .= "<option value='generic' ".($maxInvocation->thirdpartytrack == 'generic' ? " selected='selected'" : '').">{$GLOBALS['strGenericOutputAdServer']}</option>";
-
-        $outputAdServers = &OX_Component::getComponents('3rdPartyServers');
-        $availableOutputAdServerNames = array();
-        foreach ($outputAdServers as $pluginKey => $outputAdServer) {
-            if (!empty($outputAdServer->hasOutputMacros)) {
-                $availableOutputAdServers[$pluginKey] = $outputAdServer;
-                $availableOutputAdServerNames[$pluginKey] = $outputAdServer->getName();
-            }
-        }
-        asort($availableOutputAdServerNames);
-        foreach ($availableOutputAdServerNames as $pluginKey => $outputAdServerName) {
-            $option .= "<option value='{$pluginKey}'".($maxInvocation->thirdpartytrack == $pluginKey ? ' selected="selected"' : '').">" . $outputAdServerName . "</option>";
-        }
-        $option .= "</select>";
-        $option .= "</tr>";
-        $option .= "<tr><td width='30'><img src='" . OX::assetPath(). "/images/spacer.gif' height='5' width='100%'></td></tr>";
         return $option;
     }
 

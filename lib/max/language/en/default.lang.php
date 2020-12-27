@@ -818,12 +818,6 @@ $GLOBALS['strSSLDeliveryComment'] = "
   *   'https://%s/...'
   *";
 
-$GLOBALS['strThirdPartyComment'] = "
-  * Don't forget to replace the '{clickurl}' text with
-  * the click tracking URL if this ad is to be delivered through a 3rd
-  * party (non-Max) adserver.
-  *";
-
 // Errors
 $GLOBALS['strErrorDatabaseConnection'] = "Database connection error.";
 $GLOBALS['strErrorCantConnectToDatabase'] = "A fatal error occurred %1\$s can't connect to the database. Because

@@ -369,8 +369,6 @@ class Plugins_InvocationTags_OxInvocationTags_Spc extends Plugins_InvocationTags
         if (is_array($this->defaultOptions)) {
             // JS code generates it's own cacheBuster
             unset($this->defaultOptions['cacheBuster']);
-            // Publisher invocation is not designed for loading into another adserver
-            unset($this->defaultOptions['3thirdPartyServer']);
         }
         $options = array (
             'spacer'        => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,

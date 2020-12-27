@@ -69,23 +69,6 @@ function phpAds_getBannerCache($banner)
     preg_match("#<noscript>(.*?)</noscript>#is", $buffer, $noScript);
     $buffer = preg_replace("#<noscript>(.*?)</noscript>#is", '{noscript}', $buffer);
 
-    // run 3rd party component
-    if(!empty($banner['adserver'])) {
-        require_once LIB_PATH . '/Plugin/Component.php';
-        /**
-          * @todo This entire function should be relocated to the DLL and should be object-ified
-          *
-         */
-        PEAR::pushErrorHandling(null);
-        $adServerComponent = OX_Component::factoryByComponentIdentifier($banner['adserver']);
-        PEAR::popErrorHandling();
-        if ($adServerComponent) {
-            $buffer = $adServerComponent->getBannerCache($buffer, $noScript);
-        } else {
-            $GLOBALS['_MAX']['bannerrebuild']['errors'] = true;
-        }
-    }
-
     $buffer = php_Ads_wrapBannerHtmlInClickUrl($banner, $buffer);
 
     // Adserver processing complete, now replace the noscript values back:

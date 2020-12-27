@@ -128,7 +128,7 @@ else {
     $aBanner['description']  = '';
     $aBanner['comments']     = '';
     $aBanner['contenttype']  = '';
-    $aBanner['adserver']     = '';
+    $aBanner['adserver']     = 'none';
     $aBanner['keyword']      = '';
     $aBanner["weight"]       = $pref['default_banner_weight'];
 

@@ -23,12 +23,13 @@ require_once MAX_PATH.'/lib/OX/Admin/UI/Install/InstallUtils.php';
 class OX_Upgrade_InstallPlugin_Controller
 {
 
-    private static $DEPRECATED_PLUGINS = array(
+    private static $DEPRECATED_PLUGINS = [
         'openXMarket',
         'openXWorkflow',
         'openXMaxMindGeoIP',
         'openXMaxMindModGeoIP',
-    );
+        'openX3rdPartyServers',
+    ];
 
     /**
      * Prepare urls to run install plugin tasks

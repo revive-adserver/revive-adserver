@@ -36,10 +36,6 @@ $prefSection = "banner-delivery";
 // information about all such plugins installed in this installation
 $aDeliveryCacheStores = OX_Component::getComponents('deliveryCacheStore', null, false);
 
-// This page depends on 3rdPartyServers plugins, so get the required
-// information about all such plugins installed in this installation]
-$a3rdPartyServers = &OX_Component::getComponents('3rdPartyServers');
-
 // Prepare an array for storing error messages
 $aErrormessage = array();
 
@@ -224,22 +220,6 @@ $aDeliveryCacheSettings = array (
         )
 );
 
-// This page depends on 3rdPartyServers plugins, so use the plugin
-// information from earlier to generate the elements for the plugins
-// which is required in the next section
-$availableOutputAdServerNames = array();
-foreach ($a3rdPartyServers as $pluginKey => $outputAdServer) {
-    if ($outputAdServer->hasOutputMacros) {
-        $availableOutputAdServers[$pluginKey] = $outputAdServer;
-        $availableOutputAdServerNames[$pluginKey] = $outputAdServer->getName();
-    }
-}
-asort($availableOutputAdServerNames);
-$availableOutputAdServerNames = $availableOutputAdServerNames = array(
-    0 => $GLOBALS['strNo'],
-    'generic' => $GLOBALS['strGenericOutputAdServer']
-) + $availableOutputAdServerNames;
-
 // Prepare an array of HTML elements to display for the form, and
 // output using the $oOption object
 $aSettings = array(
@@ -309,17 +289,6 @@ $aSettings = array(
                 'name'    => 'defaultBanner_inactiveAccountHtmlBanner',
                 'text'    => $strGlobalDefaultBannerInactiveAccount,
             ),
-        )
-    ),
-    array (
-        'text' 	=> $strInvocationDefaults,
-        'items'	=> array (
-            array(
-                'type'    => 'select',
-                'name'    => 'delivery_clicktracking',
-                'text'    => $strEnable3rdPartyTrackingByDefault,
-                'items'   => $availableOutputAdServerNames
-            )
         )
     ),
     array (

@@ -64,14 +64,10 @@ class Plugins_BannerTypeHTML extends OX_Component
         $header->setAttribute('icon', 'icon-banner-html.gif');
         $form->addElement($header);
 
-        $adPlugins = OX_Component::getComponents('3rdPartyServers');
-        $adPluginsNames = OX_Component::callOnComponents($adPlugins, 'getName');
-        $adPluginsList = array();
-        $adPluginsList[''] = $GLOBALS['strAdserverTypeGeneric'];
-        $adPluginsList['none'] = $GLOBALS['strDoNotAlterHtml'];
-        foreach($adPluginsNames as $adPluginKey => $adPluginName) {
-            $adPluginsList[$adPluginKey] = $adPluginName;
-        }
+        $adPluginsList = [
+            'none' => $GLOBALS['strDoNotAlterHtml'],
+            '' => $GLOBALS['strAdserverTypeGeneric'],
+        ];
 
         $imgUrlPrefixJs = json_encode(_adRenderBuildImageUrlPrefix());
 

@@ -15,6 +15,8 @@ require_once LIB_PATH . '/Plugin/Component.php';
 /**
  * Plugins_3rdPartyServers is an abstract class for every 3rdPartyServers plugin
  *
+ * @deprecated
+ *
  * @package    OpenXPlugin
  * @subpackage 3rdPartyServers
  * @abstract

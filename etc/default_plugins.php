@@ -2,7 +2,6 @@
 
 $aDefaultPlugins[] = ['path' => MAX_PATH . '/etc/plugins/', 'name' => 'openXBannerTypes', 'ext' => 'zip'];
 $aDefaultPlugins[] = ['path' => MAX_PATH . '/etc/plugins/', 'name' => 'openXDeliveryLimitations', 'ext' => 'zip'];
-$aDefaultPlugins[] = ['path' => MAX_PATH . '/etc/plugins/', 'name' => 'openX3rdPartyServers', 'ext' => 'zip'];
 $aDefaultPlugins[] = ['path' => MAX_PATH . '/etc/plugins/', 'name' => 'openXReports', 'ext' => 'zip'];
 $aDefaultPlugins[] = ['path' => MAX_PATH . '/etc/plugins/', 'name' => 'openXDeliveryCacheStore', 'ext' => 'zip'];
 $aDefaultPlugins[] = ['path' => MAX_PATH . '/etc/plugins/', 'name' => 'openXInvocationTags', 'ext' => 'zip'];

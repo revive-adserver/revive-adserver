@@ -30,10 +30,6 @@
   <para>
    The following plugin modules are supported in Max:
    <itemizedlist>
-    <listitem>{@tutorial MaxPlugins/ThirdPartyServers.pkg 3rd Party Servers}</listitem>
-    <para>
-     Plugins for integrating with other (i.e. 3rd party) Ad Servers.
-    </para>
     <listitem>Channel Derivation</listitem>
     <para>
      A plugin type that will probably be deprecated. Not recommended to be used.

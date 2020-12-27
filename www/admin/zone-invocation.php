@@ -63,10 +63,7 @@ if ($zone = $dalZones->getZoneForInvocationForm($zoneid)) {
                    'delivery' => $zone['delivery'],
                    'website' => $zone['website']
     );
-    // Ensure 3rd Party Click Tracking defaults to the preference for this agency
-    if (!isset($thirdpartytrack)) {
-        $thirdpartytrack = $GLOBALS['_MAX']['CONF']['delivery']['clicktracking'];
-    }
+
     $maxInvocation = new MAX_Admin_Invocation();
     echo $maxInvocation->placeInvocationForm($extra, true);
 }
