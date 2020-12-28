@@ -441,19 +441,11 @@ $GLOBALS['strBannerWeight'] = "משקל הבאנר";
 $GLOBALS['strAdserverTypeGeneric'] = "באנר HTML כללי";
 $GLOBALS['strDoNotAlterHtml'] = "אל תשנה את ה-HTML";
 $GLOBALS['strGenericOutputAdServer'] = "כללי";
-$GLOBALS['strSwfTransparency'] = "לאפשר רקע שקוף";
 $GLOBALS['strBackToBanners'] = "לחזור באנרים";
 
 // Banner (advanced)
 $GLOBALS['strBannerPrependHTML'] = "תמיד להוסיף HTML לפני הבאנר:";
 $GLOBALS['strBannerAppendHTML'] = "תמיד להוסיף HTML אחרי הבאנר:";
-
-// Banner (swf)
-$GLOBALS['strCheckSWF'] = "בדוק אם יש כתובת אתר מוטבעת בתוך קובץ הפלאש";
-$GLOBALS['strConvertSWFLinks'] = "המר את הלינקים שבקובץ הפלאש";
-$GLOBALS['strHardcodedLinks'] = "קישורים טמונים בקוד";
-$GLOBALS['strCompressSWF'] = "סמן לדחיסת קובץ SWF לטעינת עמוד מהירה יותר (דרושה גירסת נגן Flash 6)";
-$GLOBALS['strOverwriteSource'] = "רמוס פרמטרים של המקור";
 
 // Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "אופציות תפוצה";
@@ -663,7 +655,6 @@ $GLOBALS['strBannercode'] = "קוד באנר";
 $GLOBALS['strAutoDetect'] = "זיהוי אוטומטי";
 $GLOBALS['strCacheBusterComment'] = "  * להחליף את כל המופעים של {random} עם * מספר אקראי שנוצר (או חותמת זמן).   *";
 
-
 // Errors
 $GLOBALS['strNoMatchesFound'] = "לא נמצאו תוצאות";
 $GLOBALS['strErrorOccurred'] = "אירעה שגיאה";
@@ -736,6 +727,7 @@ $GLOBALS['strMainSettings'] = "קביעות ראשיות";
 $GLOBALS['strProductUpdates'] = "עידכוני התוכנה";
 
 // Agency
+$GLOBALS['strAgencyStatusInactive'] = "לא פעיל ";
 
 // Channels
 $GLOBALS['strChannelToWebsite'] = "לאתר";

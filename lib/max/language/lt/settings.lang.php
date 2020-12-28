@@ -149,7 +149,6 @@ $GLOBALS['strDeliveryFilenamesFrontController'] = "Priekinis tikrintojas";
 $GLOBALS['strDeliveryFilenamesFlash'] = "Pridėti Flash (gali būti pilnas URL)";
 $GLOBALS['strDeliveryCaching'] = "Banerio pristatymo kelio nustatymai";
 $GLOBALS['strDeliveryCacheLimit'] = "Laikas ";
-$GLOBALS['strDeliveryExecPhp'] = "Leisti PHP kodui, kai pridedamas būti pašalintam<br />(Įspėjimas: Security risk)";
 $GLOBALS['strDeliveryCtDelimiter'] = "Trečiosios šalies paspaudimų seklio delimiter";
 $GLOBALS['strP3PSettings'] = "P3P privatumo politika";
 $GLOBALS['strUseP3P'] = "Naudoti P3P politiką";

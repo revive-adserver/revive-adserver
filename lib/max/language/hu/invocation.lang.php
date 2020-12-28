@@ -63,9 +63,6 @@ $GLOBALS['strXmlRpcLanguage'] = "Állomás nyelve";
 $GLOBALS['strXmlRpcProtocol'] = "Használjon HTTPS kapcsolatot az XML-RPC szerver eléréséhez";
 $GLOBALS['strXmlRpcTimeout'] = "XML-RPC időtúllépés (másodperc)";
 
-// Support for 3rd party server clicktracking
-$GLOBALS['str3rdPartyTrack'] = "Harmadik fél által készített Kattintás követő szerver támogatása";
-
 // Support for cachebusting code
 $GLOBALS['strCacheBuster'] = "Gyorsítótárazás elkerülését szolgáló kód hozzáadása";
 

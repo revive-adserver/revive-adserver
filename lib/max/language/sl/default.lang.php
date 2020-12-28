@@ -417,17 +417,9 @@ $GLOBALS['strStatusText'] = "Besedilo stanja";
 $GLOBALS['strBannerWeight'] = "Vrednost pasice";
 $GLOBALS['strAdserverTypeGeneric'] = "Generična HTML pasica";
 $GLOBALS['strGenericOutputAdServer'] = "Splošno";
-$GLOBALS['strSwfTransparency'] = "Dovoli prozorno ozadje";
 $GLOBALS['strBackToBanners'] = "Vrnitev na pasice";
 
 // Banner (advanced)
-
-// Banner (swf)
-$GLOBALS['strCheckSWF'] = "Preveri za hard-code povezave v FLASH datoteki";
-$GLOBALS['strConvertSWFLinks'] = "Pretvori FLASH povezave";
-$GLOBALS['strHardcodedLinks'] = "Implementirane povezave (hard-coded links)";
-$GLOBALS['strCompressSWF'] = "Stisni SWF datoteko za hitrejši prenos (zahtevan Flash player 6)";
-$GLOBALS['strOverwriteSource'] = "Prepiši izvirni parameter";
 
 // Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "Možnosti dostave";
@@ -643,7 +635,6 @@ $GLOBALS['strCharset'] = "Postavitev znakov";
 $GLOBALS['strAutoDetect'] = "Samodejno prepoznaj";
 $GLOBALS['strCacheBusterComment'] = "* Zamenjaj vse primere {random} z * naključno ustvarjenim številom (ali časovnim žigom). *";
 
-
 // Errors
 $GLOBALS['strNoMatchesFound'] = "Ni zadetkov";
 $GLOBALS['strErrorOccurred'] = "Prišlo je do napake";
@@ -788,6 +779,7 @@ $GLOBALS['strConfirmDeleteAgency'] = "Ste prepričani, da želite izbrisati ta r
 $GLOBALS['strHideInactiveAgencies'] = "Skrij neaktivne račune";
 $GLOBALS['strInactiveAgenciesHidden'] = "skriti neaktivni računi";
 $GLOBALS['strSwitchAccount'] = "Preklopi na ta račun";
+$GLOBALS['strAgencyStatusInactive'] = "Neaktiven";
 
 // Channels
 $GLOBALS['strChannelToWebsite'] = "k spletni strani";

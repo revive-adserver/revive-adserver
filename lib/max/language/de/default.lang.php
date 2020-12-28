@@ -471,18 +471,10 @@ $GLOBALS['strBannersWeight'] = "Bannergewichtung";
 $GLOBALS['strAdserverTypeGeneric'] = "Standard HTML-Banner";
 $GLOBALS['strDoNotAlterHtml'] = "HTML nicht ändern";
 $GLOBALS['strGenericOutputAdServer'] = "Generisch";
-$GLOBALS['strSwfTransparency'] = "Transparenten Hintergrund zulassen";
 $GLOBALS['strBackToBanners'] = "Zurück zu den Bannern";
 $GLOBALS['strUseWyswygHtmlEditor'] = "WYSIWYG HTML-Editor verwenden";
 
 // Banner (advanced)
-
-// Banner (swf)
-$GLOBALS['strCheckSWF'] = "Prüfung auf direkte Links (hard-coded) innerhalb der Flash-Datei";
-$GLOBALS['strConvertSWFLinks'] = "direkten Flash-Link konvertieren";
-$GLOBALS['strHardcodedLinks'] = "direkter Link (hard-coded)";
-$GLOBALS['strCompressSWF'] = "Komprimieren der SWF-Datei für eine schnellere Übertragung zum Browser (Flash-Player 6 wird benötigt)";
-$GLOBALS['strOverwriteSource'] = "Überschreiben der Parameter im Quelltext";
 
 // Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "Auslieferungsoptionen";
@@ -711,7 +703,6 @@ $GLOBALS['strCacheBusterComment'] = "  * Ersetzen Sie alle Vorkommen von {random
   * einem generierten Zufallswert (oder Zeitstempel).
   *";
 
-
 // Errors
 $GLOBALS['strErrorDatabaseConnection'] = "Datenbankverbindungsfehler.";
 $GLOBALS['strNoMatchesFound'] = "Kein Objekt gefunden";
@@ -860,6 +851,7 @@ $GLOBALS['strConfirmDeleteAgency'] = "Soll dieses Benutzerkonto tatsächlich gel
 $GLOBALS['strHideInactiveAgencies'] = "deaktivierte Benutzerkonten ausblenden";
 $GLOBALS['strInactiveAgenciesHidden'] = "deaktivierte Benutzerkonten verborgen";
 $GLOBALS['strSwitchAccount'] = "Zu diesem Benutzerzugang wechseln";
+$GLOBALS['strAgencyStatusInactive'] = "inaktiv";
 
 // Channels
 $GLOBALS['strChannelToWebsite'] = "Zur Webseite";

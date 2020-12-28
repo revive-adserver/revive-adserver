@@ -506,19 +506,11 @@ $GLOBALS['strBannerWeight'] = "Poids de la bannière";
 $GLOBALS['strAdserverTypeGeneric'] = "Bannière HTML générique";
 $GLOBALS['strDoNotAlterHtml'] = "Ne pas modifier le code HTML";
 $GLOBALS['strGenericOutputAdServer'] = "Générique";
-$GLOBALS['strSwfTransparency'] = "Autoriser un arrière-plan transparent";
 $GLOBALS['strBackToBanners'] = "Retour aux bannières";
 
 // Banner (advanced)
 $GLOBALS['strBannerPrependHTML'] = "Toujours faire précéder le code HTML suivant à cette bannière";
 $GLOBALS['strBannerAppendHTML'] = "Toujours ajouter le code HTML suivant à cette bannière";
-
-// Banner (swf)
-$GLOBALS['strCheckSWF'] = "Vérifier la présence de liens codés en dur dans le fichier Flash";
-$GLOBALS['strConvertSWFLinks'] = "Convertir les liens Flash";
-$GLOBALS['strHardcodedLinks'] = "Liens codés en dur";
-$GLOBALS['strCompressSWF'] = "Compresser le fichier SWF pour un téléchargement plus rapide (Flash Player 6 requis)";
-$GLOBALS['strOverwriteSource'] = "Écraser le paramètre source";
 
 // Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "Options de distribution";
@@ -743,7 +735,6 @@ $GLOBALS['strCacheBusterComment'] = "* Remplacez toutes les cas de {random} avec
 $GLOBALS['strSSLBackupComment'] = "
 * L'image de sauvegarde de cette balise a été générée pour être utilisée sur une page 	* non-SSL. Ci cette balise doit être placée sur une page SSL, changez le 	*   'http://%s/...' 	* par 	*   'https://%s/...' 	*";
 
-
 // Errors
 $GLOBALS['strNoMatchesFound'] = "Aucun résultat correspondant trouvé";
 $GLOBALS['strErrorOccurred'] = "Une erreur est survenue";
@@ -888,6 +879,7 @@ $GLOBALS['strConfirmDeleteAgency'] = "Voulez-vous vraiment supprimer ce compte ?
 $GLOBALS['strHideInactiveAgencies'] = "Masquer les comptes inactifs";
 $GLOBALS['strInactiveAgenciesHidden'] = "compte(s) inactif(s) masqué(s)";
 $GLOBALS['strSwitchAccount'] = "Basculer vers ce compte";
+$GLOBALS['strAgencyStatusInactive'] = "Inactif";
 
 // Channels
 $GLOBALS['strChannelToWebsite'] = "vers le site internet";

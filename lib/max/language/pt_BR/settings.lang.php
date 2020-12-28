@@ -148,7 +148,6 @@ $GLOBALS['strDeliveryFilenamesFrontController'] = "Ponto de entrada único (Fron
 $GLOBALS['strDeliveryFilenamesFlash'] = "Inclusão em Flash (Pode ser URL completo)";
 $GLOBALS['strDeliveryCaching'] = "Configurações de Cache de Entrega de Banners";
 $GLOBALS['strDeliveryCacheLimit'] = "Tempo entre atualizações do Cache de Banners(segundos)";
-$GLOBALS['strDeliveryExecPhp'] = "Permitir a execução de códigos PHP nos anúncios<br />(Atenção: Risco de segurança)";
 $GLOBALS['strDeliveryCtDelimiter'] = "Delimitador de rastreadores de cliques de terceiros";
 $GLOBALS['strGlobalDefaultBannerUrl'] = "URL padrão de banners de imagem (Global)";
 $GLOBALS['strP3PSettings'] = "Políticas de Privacidade P3P";

@@ -150,7 +150,6 @@ $GLOBALS['strDeliveryFilenamesFrontController'] = "Фронт контролле
 $GLOBALS['strDeliveryFilenamesFlash'] = "Flash-включение (может быть полным URL)";
 $GLOBALS['strDeliveryCaching'] = "Настройки кэширования доставки";
 $GLOBALS['strDeliveryCacheLimit'] = "Время между обновлениями кэша (сек.)";
-$GLOBALS['strDeliveryExecPhp'] = "Разрешить исполнение кода PHP (Предупреждение: эта опция небезопасна)";
 $GLOBALS['strDeliveryCtDelimiter'] = "Разделитель для сторонних трекеров";
 $GLOBALS['strGlobalDefaultBannerUrl'] = "Глобальное значение баннера по умолчанию URL";
 $GLOBALS['strP3PSettings'] = "Настройки P3P (политика обращения с частной информацией) ";

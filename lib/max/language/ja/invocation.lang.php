@@ -63,9 +63,6 @@ $GLOBALS['strXmlRpcLanguage'] = "ホスト言語";
 $GLOBALS['strXmlRpcProtocol'] = "XML-RPCサーバとHTTPSで通信する";
 $GLOBALS['strXmlRpcTimeout'] = "XML-RPCタイムアウト秒数";
 
-// Support for 3rd party server clicktracking
-$GLOBALS['str3rdPartyTrack'] = "他社クリック追跡をサポートする";
-
 // Support for cachebusting code
 $GLOBALS['strCacheBuster'] = "キャッシュ破棄コードを挿入する";
 

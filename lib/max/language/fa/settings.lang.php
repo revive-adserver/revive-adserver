@@ -182,9 +182,6 @@ $GLOBALS['strDeliveryFilenamesSinglePageCallJS'] = "فراخوانی یک صفح
 $GLOBALS['strDeliveryCaching'] = "تنظیمات کش تحویل بنر";
 $GLOBALS['strDeliveryCacheLimit'] = "زمان بین بروزرسانی کش بنر(ثانیه)";
 $GLOBALS['strDeliveryCacheStore'] = "نوع ذخیره سازی کش تویل بنر";
-$GLOBALS['strDeliveryExecPhp'] = "اجازه داده به کد php برای اجرا
-
-(اخطار : ریسک امنیتی)";
 $GLOBALS['strDeliveryCtDelimiter'] = "حزب سوم ، کلیک روی حائل پیگیری";
 $GLOBALS['strGlobalDefaultBannerUrl'] = "url عکس بنر اولیه جهانی";
 $GLOBALS['strP3PSettings'] = "P3P سیاست حفظ حریم خصوصی";

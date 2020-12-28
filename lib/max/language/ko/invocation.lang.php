@@ -49,8 +49,6 @@ $GLOBALS['strShowLocation'] = "위치";
 // XML-RPC
 $GLOBALS['strXmlRpcLanguage'] = "사용 언어";
 
-// Support for 3rd party server clicktracking
-
 // Support for cachebusting code
 
 // IMG invocation selected for tracker with appended code

@@ -249,8 +249,6 @@ $GLOBALS['strWeight'] = "Výška";
 
 // Banner (advanced)
 
-// Banner (swf)
-
 // Display Delviery Rules
 
 
@@ -319,7 +317,6 @@ $GLOBALS['strAction'] = "Akcia";
 
 // Code generation
 
-
 // Errors
 
 //Validation
@@ -365,6 +362,7 @@ $GLOBALS['strAgency'] = "Konto";
 $GLOBALS['strNoAgencies'] = "Momentálne nie sú definovaní žiadni inzerenti";
 $GLOBALS['strConfirmDeleteAgency'] = "Naozaj chcete zmazať túto kampaň?";
 $GLOBALS['strInactiveAgenciesHidden'] = "Neaktívny inzerent(i) skrytý";
+$GLOBALS['strAgencyStatusInactive'] = "aktívne";
 
 // Channels
 

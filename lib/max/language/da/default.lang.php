@@ -327,12 +327,6 @@ $GLOBALS['strGenericOutputAdServer'] = "Generisk";
 
 // Banner (advanced)
 
-// Banner (swf)
-$GLOBALS['strCheckSWF'] = "Tjek for hard-coded links inde i Flash filen";
-$GLOBALS['strConvertSWFLinks'] = "Konverter Flash links";
-$GLOBALS['strCompressSWF'] = "KOmprimer SWF filen for hurtigere downloading (Dette kræver en Flash 6 afspiller)";
-$GLOBALS['strOverwriteSource'] = "Overskriv kilde parameter";
-
 // Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "Leverings optioner";
 $GLOBALS['strACL'] = "Leverings optioner";
@@ -511,7 +505,6 @@ $GLOBALS['strFrameSize'] = "Ramme størrelse";
 $GLOBALS['strBannercode'] = "Banner kode";
 $GLOBALS['strBackToTheList'] = "Gå tilbage til rapport listen";
 
-
 // Errors
 $GLOBALS['strNoMatchesFound'] = "Der er ikke fundet nogle matchende resultater";
 $GLOBALS['strErrorOccurred'] = "Der opstod en fejl";
@@ -620,6 +613,7 @@ $GLOBALS['strTotalAgencies'] = "Total antal kontoer";
 $GLOBALS['strNoAgencies'] = "Der er i øjeblikket ikke defineret nogle zoner";
 $GLOBALS['strConfirmDeleteAgency'] = "Vil du virkelig slette denne zone?";
 $GLOBALS['strInactiveAgenciesHidden'] = "inaktive zone(r) er skjult";
+$GLOBALS['strAgencyStatusInactive'] = "Aktive";
 
 // Channels
 $GLOBALS['strChannelToWebsite'] = "Alle websider";

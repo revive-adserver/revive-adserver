@@ -61,9 +61,6 @@ $GLOBALS['strXmlRpcLanguage'] = "Linguaggio utilizzato";
 $GLOBALS['strXmlRpcProtocol'] = "Usa HTTPS per contattare il Server XML-RPC";
 $GLOBALS['strXmlRpcTimeout'] = "Timeout XML-RPC (secondi)";
 
-// Support for 3rd party server clicktracking
-$GLOBALS['str3rdPartyTrack'] = "Supporta server di tracciamento dei click di terze parti";
-
 // Support for cachebusting code
 $GLOBALS['strCacheBuster'] = "Inserisci codice di Cache-Busting";
 

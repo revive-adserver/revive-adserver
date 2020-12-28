@@ -43,9 +43,6 @@ $GLOBALS['strShowStatus'] = "Statusas";
 
 // XML-RPC
 
-// Support for 3rd party server clicktracking
-$GLOBALS['str3rdPartyTrack'] = "Palaikyti trečiosios šalies serverio paspaudimų sekimą";
-
 // Support for cachebusting code
 $GLOBALS['strCacheBuster'] = "Įterpti Cache-Busting kodą";
 

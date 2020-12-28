@@ -530,7 +530,6 @@ $GLOBALS['strBannersWeight'] = "Gewicht van de banner";
 $GLOBALS['strAdserverTypeGeneric'] = "Generieke HTML Banner";
 $GLOBALS['strDoNotAlterHtml'] = "Breng geen wijzigingen aan in HTML";
 $GLOBALS['strGenericOutputAdServer'] = "Generiek";
-$GLOBALS['strSwfTransparency'] = "Transparante achtergrond toestaan";
 $GLOBALS['strBackToBanners'] = "Terug naar banners";
 $GLOBALS['strUseWyswygHtmlEditor'] = "Gebruik de WYSIWYG HTML editor";
 $GLOBALS['strChangeDefault'] = "Standaard wijzigen";
@@ -538,14 +537,6 @@ $GLOBALS['strChangeDefault'] = "Standaard wijzigen";
 // Banner (advanced)
 $GLOBALS['strBannerPrependHTML'] = "Altijd de volgende HTML-code aan deze banner toevoegen";
 $GLOBALS['strBannerAppendHTML'] = "Altijd de volgende HTML-code aan deze banner toevoegen";
-
-// Banner (swf)
-$GLOBALS['strCheckSWF'] = "Controleer op vaste links in het Flash bestand";
-$GLOBALS['strConvertSWFLinks'] = "Converteer Flash links";
-$GLOBALS['strHardcodedLinks'] = "Hard-coded links";
-$GLOBALS['strConvertSWF'] = "<br />Het Flash bestand dat u zojuist upgeload heeft bevat vaste links. Pas als deze vaste links geconverteerd zijn zal {$PRODUCT_NAME} AdClicks kunnen volgen voor deze banner. Hieronder vindt u een lijst met alle links welke in het Flash bestand aanwezig zijn. Indien u de links wilt converteren, klik dan op <b>Converteer</b>, klik anders op <b>Annuleer</b>.<br /><br />Notitie: Als u klikt op <b>Converteer</b> zal het Flash bestand welke u zojuist geupload heeft veranderd worden. <br />Bewaar het orginele bestand goed. Ongeacht in welke versie de banner gemaakt is, het geconverteerde bestand zal alleen goed te zien zijn met de Flash 4 player (of hoger).<br /><br />";
-$GLOBALS['strCompressSWF'] = "Comprimeer SWF bestand voor versneld downloaden (Flash 6 speler benodigd)";
-$GLOBALS['strOverwriteSource'] = "Overschrijft de Source parameter";
 
 // Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "Uitleveringsbeperkingen";
@@ -823,12 +814,6 @@ $GLOBALS['strSSLDeliveryComment'] = "
   *   'https://%s/...'
   *";
 
-$GLOBALS['strThirdPartyComment'] = "
-  * Vergeet niet om de '{clickurl}' tekst te vervangen door
-  * de klikteller URL als deze advertentie wordt vertoond via een
-  * ad server van een derde partij.
-  *";
-
 // Errors
 $GLOBALS['strErrorDatabaseConnection'] = "Database verbindingsfout.";
 $GLOBALS['strErrorCantConnectToDatabase'] = "Er is een fatale fout opgetreden, %1\$s kan geen verbinding maken met de database. Daarom
@@ -1021,6 +1006,9 @@ $GLOBALS['strConfirmDeleteAgency'] = "Weet u zeker dat u dit account wilt verwij
 $GLOBALS['strHideInactiveAgencies'] = "Inactieve accounts verbergen";
 $GLOBALS['strInactiveAgenciesHidden'] = "inactieve account(s) verborgen";
 $GLOBALS['strSwitchAccount'] = "Overschakelen naar dit account";
+$GLOBALS['strAgencyStatusRunning'] = "Actief";
+$GLOBALS['strAgencyStatusInactive'] = "Niet actief";
+$GLOBALS['strAgencyStatusPaused'] = "Opgeschort";
 
 // Channels
 $GLOBALS['strChannel'] = "Verzameling Uitleveringsregels";

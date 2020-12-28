@@ -163,7 +163,6 @@ $GLOBALS['strDeliveryFilenamesFrontController'] = "フロントコントロー�
 $GLOBALS['strDeliveryFilenamesFlash'] = "FlashのURL（フルURL）";
 $GLOBALS['strDeliveryCaching'] = "バナーキャッシュの設定";
 $GLOBALS['strDeliveryCacheLimit'] = "バナーキャッシュの更新間隔";
-$GLOBALS['strDeliveryExecPhp'] = "バナーの内容にPHPコードを許可する<br />(Warning: セキュリティリスクとなり得る)";
 $GLOBALS['strDeliveryCtDelimiter'] = "サードパーティー製の、クリック追跡時用区切り文字";
 $GLOBALS['strP3PSettings'] = "P3Pプライベートポリシー";
 $GLOBALS['strUseP3P'] = "P3Pポリシーを使う";

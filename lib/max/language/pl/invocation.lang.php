@@ -52,9 +52,6 @@ $GLOBALS['strPopUpLeft'] = "Początkowa pozycja (lewa)";
 // XML-RPC
 $GLOBALS['strXmlRpcLanguage'] = "Język Hosta";
 
-// Support for 3rd party server clicktracking
-$GLOBALS['str3rdPartyTrack'] = "Obsługa śledzenia kliknięć dla niezależnego serwera";
-
 // Support for cachebusting code
 $GLOBALS['strCacheBuster'] = "Wstaw kod Cache-Busting";
 

@@ -40,9 +40,6 @@ $GLOBALS['strIframeIncludeNetscape4'] = "Inkluder Netscape 4 kompatibel ilayer";
 
 // XML-RPC
 
-// Support for 3rd party server clicktracking
-$GLOBALS['str3rdPartyTrack'] = "Supporter 3iede parts servers Clicktracking";
-
 // Support for cachebusting code
 $GLOBALS['strCacheBuster'] = "Insæt Cache-Busting kode";
 

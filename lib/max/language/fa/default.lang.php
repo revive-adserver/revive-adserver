@@ -616,22 +616,12 @@ $GLOBALS['strBannerWeight'] = "وزن تبلیغات";
 $GLOBALS['strAdserverTypeGeneric'] = "عمومی سازی HTML تبلیغات";
 $GLOBALS['strDoNotAlterHtml'] = "HTML را تغییر ندهید";
 $GLOBALS['strGenericOutputAdServer'] = "عمومی سازی";
-$GLOBALS['strSwfTransparency'] = "
-اجازه به پس زمینه شفاف";
 $GLOBALS['strBackToBanners'] = "بازگشت به تبلیغات";
 
 // Banner (advanced)
 $GLOBALS['strBannerPrependHTML'] = "همیشه کدHTML زیر به این بنر prepend کنید";
 $GLOBALS['strBannerAppendHTML'] = "
 همیشه کدHTML زیر را به این بنر اضافه کنید";
-
-// Banner (swf)
-$GLOBALS['strCheckSWF'] = "لینک هایی که  سخت رمز هستند در داخل فلش هستند را بررسی کنید  ";
-$GLOBALS['strConvertSWFLinks'] = "تبدیل لینک فلش";
-$GLOBALS['strHardcodedLinks'] = "
-لینک سخت رمزی";
-$GLOBALS['strCompressSWF'] = "فشرده سازی فایل SWF برای دانلود سریع تر (فلش 6 بازیکن مورد نیاز)";
-$GLOBALS['strOverwriteSource'] = "پارامتر منبع جاینوشت";
 
 // Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "گزینه های تحویل";
@@ -880,7 +870,6 @@ $GLOBALS['strBackToTheList'] = "برگرد به لیست گزارشات";
 $GLOBALS['strCharset'] = "ست کارکتر";
 $GLOBALS['strAutoDetect'] = "تشخیص خودکار";
 
-
 // Errors
 $GLOBALS['strErrorDatabaseConnection'] = "خطای اتصال پایگاه داده.";
 $GLOBALS['strNoMatchesFound'] = "هیچ چیز مطابی پیدا نشد";
@@ -1016,6 +1005,8 @@ $GLOBALS['strConfirmDeleteAgency'] = "آیا واقعا میخواهید این 
 $GLOBALS['strHideInactiveAgencies'] = "مخفی کردن حساب های کاربری غیر فعال";
 $GLOBALS['strInactiveAgenciesHidden'] = "اکانت های غیر فعال مخفی شدند.";
 $GLOBALS['strSwitchAccount'] = "انتقال به این حساب کاربری";
+$GLOBALS['strAgencyStatusInactive'] = "
+غیر فعال";
 
 // Channels
 $GLOBALS['strChannelToWebsite'] = "به وب سایت";

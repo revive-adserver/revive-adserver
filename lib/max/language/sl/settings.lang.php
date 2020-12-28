@@ -161,7 +161,6 @@ $GLOBALS['strDeliveryFilenamesFlash'] = "Vključujoč FLASH (lahko je poln URL)"
 $GLOBALS['strDeliveryCaching'] = "Nastavitve dostavnega pomnilnika pasice";
 $GLOBALS['strDeliveryCacheLimit'] = "Čas med posodobitvami pomnilnika pasice (v sekundah)";
 $GLOBALS['strDeliveryCacheStore'] = "Tip hrambe pomnilnika dostavljanja pasice ";
-$GLOBALS['strDeliveryExecPhp'] = "Dovoli izvedbo PHP kode v oglasih<br />(Opozorilo: Varnostno tveganje)";
 $GLOBALS['strDeliveryCtDelimiter'] = "Omejitev zunanjih (3rd party) sledilnikov klikov";
 $GLOBALS['strGlobalDefaultBannerUrl'] = "Privzet URL slikovne pasice ";
 $GLOBALS['strP3PSettings'] = "P3P Varovanje zasebnosti";

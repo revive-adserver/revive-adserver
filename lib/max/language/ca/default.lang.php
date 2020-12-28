@@ -99,8 +99,6 @@ $GLOBALS['strIPAddress'] = "Adreça IP";
 
 // Banner (advanced)
 
-// Banner (swf)
-
 // Display Delviery Rules
 
 
@@ -146,7 +144,6 @@ $GLOBALS['strPeriod'] = "Període";
 // Userlog
 
 // Code generation
-
 
 // Errors
 

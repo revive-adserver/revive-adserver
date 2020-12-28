@@ -430,19 +430,11 @@ $GLOBALS['strBannerWeight'] = "Вага банера";
 $GLOBALS['strAdserverTypeGeneric'] = "Простій HTML-банер";
 $GLOBALS['strDoNotAlterHtml'] = "Не изменять HTML";
 $GLOBALS['strGenericOutputAdServer'] = "Простій";
-$GLOBALS['strSwfTransparency'] = "Вирішити прозорий фон";
 $GLOBALS['strBackToBanners'] = "Вернуться к баннерам";
 
 // Banner (advanced)
 $GLOBALS['strBannerPrependHTML'] = "Всегда вставляйте следующий HTML-код для этого баннера";
 $GLOBALS['strBannerAppendHTML'] = "Всегда добавляйте следующий HTML-код для этого баннера";
-
-// Banner (swf)
-$GLOBALS['strCheckSWF'] = "Перевіряти наявність жорстко закодованих посилань усередині Flash-файлів";
-$GLOBALS['strConvertSWFLinks'] = "Перетворити Flash-посилання";
-$GLOBALS['strHardcodedLinks'] = "Жорстко закодовані посилання";
-$GLOBALS['strCompressSWF'] = "Сжать SWF-файл для ускорения загрузки (требует установки Flash 6 плагина)";
-$GLOBALS['strOverwriteSource'] = "Перезаписать параметр источника";
 
 // Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "Ограничения показа";
@@ -648,7 +640,6 @@ $GLOBALS['strBackToTheList'] = "Вернуться к списку отчето�
 $GLOBALS['strCharset'] = "Кодировка";
 $GLOBALS['strAutoDetect'] = "Автоопределение";
 
-
 // Errors
 $GLOBALS['strNoMatchesFound'] = "Ничего не найдено";
 $GLOBALS['strErrorOccurred'] = "Произошла ошибка";
@@ -798,6 +789,7 @@ $GLOBALS['strConfirmDeleteAgency'] = "Ви дійсно хочете видал�
 $GLOBALS['strHideInactiveAgencies'] = "Скрыть неактивные учетные записи";
 $GLOBALS['strInactiveAgenciesHidden'] = "неактивні клієнти приховані";
 $GLOBALS['strSwitchAccount'] = "Переключиться в этот аккаунт";
+$GLOBALS['strAgencyStatusInactive'] = "активний";
 
 // Channels
 $GLOBALS['strChannelToWebsite'] = "Ни один веб-сайт";

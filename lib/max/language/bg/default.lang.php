@@ -268,8 +268,6 @@ $GLOBALS['strWeight'] = "Височина";
 
 // Banner (advanced)
 
-// Banner (swf)
-
 // Display Delviery Rules
 
 
@@ -342,7 +340,6 @@ $GLOBALS['strAction'] = "Действие";
 
 // Code generation
 
-
 // Errors
 
 //Validation
@@ -388,6 +385,7 @@ $GLOBALS['strAddAgency_Key'] = "Добави <u>н</u>ов тракер";
 $GLOBALS['strNoAgencies'] = "Няма определени тракери";
 $GLOBALS['strConfirmDeleteAgency'] = "Наистина ли искате да изтриете тази кампания?";
 $GLOBALS['strInactiveAgenciesHidden'] = "неактивния рекламодател(и) са скрити";
+$GLOBALS['strAgencyStatusInactive'] = "активен";
 
 // Channels
 

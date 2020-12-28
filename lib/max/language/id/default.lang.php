@@ -519,7 +519,6 @@ $GLOBALS['strBannerWeight'] = "Bobot banner";
 $GLOBALS['strAdserverTypeGeneric'] = "Banner HTML Generik";
 $GLOBALS['strDoNotAlterHtml'] = "Jangan ubah HTML";
 $GLOBALS['strGenericOutputAdServer'] = "Generik";
-$GLOBALS['strSwfTransparency'] = "Background transparan (hanya Flash)";
 $GLOBALS['strBackToBanners'] = "Kembali ke spanduk";
 $GLOBALS['strUseWyswygHtmlEditor'] = "Gunakan Editor HTML WYSIWYG";
 $GLOBALS['strChangeDefault'] = "Ubah default";
@@ -527,14 +526,6 @@ $GLOBALS['strChangeDefault'] = "Ubah default";
 // Banner (advanced)
 $GLOBALS['strBannerPrependHTML'] = "Always prepend the following HTML code to this banner";
 $GLOBALS['strBannerAppendHTML'] = "Selalu tambahkan kode HTML berikut ke banner ini";
-
-// Banner (swf)
-$GLOBALS['strCheckSWF'] = "Periksa hard-coded links dalam file Flash";
-$GLOBALS['strConvertSWFLinks'] = "Menukarkan links dari Flash";
-$GLOBALS['strHardcodedLinks'] = "Tautan kode keras";
-$GLOBALS['strConvertSWF'] = "<br />The Flash file you just uploaded contains hard-coded urls. {$PRODUCT_NAME} won't be able to track the number of Clicks for this banner unless you convert these hard-coded urls. Below you will find a list of all urls inside the Flash file. If you want to convert the urls, simply click <b>Convert</b>, otherwise click <b>Cancel</b>.<br /><br />Please note: if you click <b>Convert</b> the Flash file you just uploaded will be physically altered. <br />Please keep a backup of the original file. Regardless of in which version this banner was created, the resulting file will need the Flash 4 player (or higher) to display correctly.<br /><br />";
-$GLOBALS['strCompressSWF'] = "Kompres file SWF untuk meng-download lebih cepat (Player Flash 6 dibutuhkan)";
-$GLOBALS['strOverwriteSource'] = "Timpah parameter induk";
 
 // Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "Pilihan Penyampaian";
@@ -812,12 +803,6 @@ $GLOBALS['strSSLDeliveryComment'] = "
    * 'https: //%s/...'
    *";
 
-$GLOBALS['strThirdPartyComment'] = "
-* Jangan lupa mengganti teks '{clickurl}' dengan
-   * URL pelacakan klik jika iklan ini dikirimkan melalui tanggal 3
-   * party (non-Max) adserver.
-   *";
-
 // Errors
 $GLOBALS['strErrorDatabaseConnection'] = "Kesalahan koneksi database.";
 $GLOBALS['strErrorCantConnectToDatabase'] = "Kesalahan fatal terjadi %1\$s tidak dapat terhubung ke database. Karena
@@ -1012,6 +997,7 @@ $GLOBALS['strConfirmDeleteAgency'] = "Apakah benar Anda ingin menghapus zona ini
 $GLOBALS['strHideInactiveAgencies'] = "Hide inactive agencies";
 $GLOBALS['strInactiveAgenciesHidden'] = "zona yang tidak aktif tersembunyi";
 $GLOBALS['strSwitchAccount'] = "Beralih ke akun ini";
+$GLOBALS['strAgencyStatusInactive'] = "aktif";
 
 // Channels
 $GLOBALS['strChannel'] = "Set Aturan Pengiriman";
