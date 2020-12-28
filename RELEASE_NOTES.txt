@@ -58,6 +58,8 @@ What's New in Revive Adserver 5.1.0
  * Updated subdivisions for South Africa, following  ISO-3166-2: change of
    subdivision code from ZA-GT to ZA-GP, ZA-NL to ZA-KZN.
 
+ * Added missing delivery script settings for async tags.
+
 
  Non-Backwards Compatible Changes
  --------------------------------

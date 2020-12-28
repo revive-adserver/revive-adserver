@@ -126,6 +126,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Delivery File Names
     $aElements += array(
         'file_click'           => array('file' => 'click'),
+        'file_signedClick'     => array('file' => 'signedClick'),
         'file_conversionvars'  => array('file' => 'conversionvars'),
         'file_content'         => array('file' => 'content'),
         'file_conversion'      => array('file' => 'conversion'),
@@ -140,9 +141,11 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         'file_xmlrpc'          => array('file' => 'xmlrpc'),
         'file_local'           => array('file' => 'local'),
         'file_frontcontroller' => array('file' => 'frontcontroller'),
-        'file_flash'           => array('file' => 'flash'),
         'file_singlepagecall'  => array('file' => 'singlepagecall'),
-        'file_spcjs'           => array('file' => 'spcjs')
+        'file_spcjs'           => array('file' => 'spcjs'),
+        'file_asyncjsjs'       => array('file' => 'asyncjsjs'),
+        'file_asyncjs'         => array('file' => 'asyncjs'),
+        'file_asyncspc'        => array('file' => 'asyncspc'),
     );
     // Test the suitability of the cache store type, if required
     MAX_commonRegisterGlobalsArray(array('delivery_cacheStorePlugin'));
@@ -398,6 +401,14 @@ $aSettings = array(
             ),
             array (
                 'type'    => 'break'
+            ),array (
+                'type'    => 'text',
+                'name'    => 'file_signedClick',
+                'text'    => $strDeliveryFilenamesSignedAdClick,
+                'req'     => true
+            ),
+            array (
+                'type'    => 'break'
             ),
             array (
                 'type'    => 'text',
@@ -527,15 +538,6 @@ $aSettings = array(
             ),
             array (
                 'type'    => 'text',
-                'name'    => 'file_flash',
-                'text'    => $strDeliveryFilenamesFlash,
-                'req'     => true
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
                 'name'    => 'file_singlepagecall',
                 'text'    => $strDeliveryFilenamesSinglePageCall,
                 'req'     => true
@@ -548,7 +550,34 @@ $aSettings = array(
                 'name'    => 'file_spcjs',
                 'text'    => $strDeliveryFilenamesSinglePageCallJS,
                 'req'     => true
-            )
+            ),
+            array (
+                'type'    => 'break'
+            ),
+            array (
+                'type'    => 'text',
+                'name'    => 'file_asyncjsjs',
+                'text'    => $strDeliveryFilenamesAsyncJS,
+                'req'     => true
+            ),
+            array (
+                'type'    => 'break'
+            ),
+            array (
+                'type'    => 'text',
+                'name'    => 'file_asyncjs',
+                'text'    => $strDeliveryFilenamesAsyncPHP,
+                'req'     => true
+            ),
+            array (
+                'type'    => 'break'
+            ),
+            array (
+                'type'    => 'text',
+                'name'    => 'file_asyncspc',
+                'text'    => $strDeliveryFilenamesAsyncSPC,
+                'req'     => true
+            ),
         )
     )
 );
