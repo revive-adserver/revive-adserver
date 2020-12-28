@@ -362,16 +362,8 @@ $GLOBALS['strWeight'] = "Importanţă";
 $GLOBALS['strStatusText'] = "Text status";
 $GLOBALS['strBannerWeight'] = "Importanţă banner";
 $GLOBALS['strAdserverTypeGeneric'] = "Banner HTML generic";
-$GLOBALS['strSwfTransparency'] = "Permite fundal transparent";
 
 // Banner (advanced)
-
-// Banner (swf)
-$GLOBALS['strCheckSWF'] = "Caută link-urile ascunse din interiorul fişierelor Flash";
-$GLOBALS['strConvertSWFLinks'] = "Converteşte link-urile Flash";
-$GLOBALS['strHardcodedLinks'] = "Link-uri Codate-Puternic";
-$GLOBALS['strCompressSWF'] = "Compresează fişierul SWF pentru descărcare mai rapidă (necesită Flash Player 6)";
-$GLOBALS['strOverwriteSource'] = "Înlocuieşte parametrul sursă";
 
 // Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "Opţiuni livrare";
@@ -574,7 +566,6 @@ $GLOBALS['strBackToTheList'] = "Întoarce-te la lista de rapoarte";
 $GLOBALS['strCharset'] = "Set caractere";
 $GLOBALS['strAutoDetect'] = "Auto-detectează";
 
-
 // Errors
 $GLOBALS['strNoMatchesFound'] = "Nu a fost găsită nici o potrivire";
 $GLOBALS['strErrorOccurred'] = "A intervenit o eroare";
@@ -704,6 +695,7 @@ $GLOBALS['strConfirmDeleteAgency'] = "Eşti sigur că vrei să ştergi acest con
 $GLOBALS['strHideInactiveAgencies'] = "Ascunde conturi inactive";
 $GLOBALS['strInactiveAgenciesHidden'] = "conturi inactive ascunse";
 $GLOBALS['strSwitchAccount'] = "Schimbă pe acest cont";
+$GLOBALS['strAgencyStatusInactive'] = "activ";
 
 // Channels
 $GLOBALS['strChannelToWebsite'] = "Nici un website";

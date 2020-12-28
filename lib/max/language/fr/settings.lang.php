@@ -159,7 +159,6 @@ $GLOBALS['strDeliveryFilenamesFlash'] = "Inclusion Flash (Peut être une URL com
 $GLOBALS['strDeliveryCaching'] = "Paramètres du cache de distribution des bannières";
 $GLOBALS['strDeliveryCacheLimit'] = "Temps entre les mises à jour du cache des bannières (secondes)";
 $GLOBALS['strDeliveryCacheStore'] = "Type de stockage du cache de distribution des bannières";
-$GLOBALS['strDeliveryExecPhp'] = "Autoriser le code PHP à être exécuté dans les publicités<br />(Attention : risque de sécurité)";
 $GLOBALS['strDeliveryCtDelimiter'] = "Délimiteur de suivi des clics par les tiers";
 $GLOBALS['strGlobalDefaultBannerUrl'] = "URL de l'image de la bannière par défaut générale";
 $GLOBALS['strP3PSettings'] = "Politique de vie privée P3P";

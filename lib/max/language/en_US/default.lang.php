@@ -72,8 +72,6 @@ if (!isset($GLOBALS['strDayShortCuts'])) {
 
 // Banner (advanced)
 
-// Banner (swf)
-
 // Display Delviery Rules
 
 
@@ -117,7 +115,6 @@ if (!isset($GLOBALS['strCappingZone'])) {
 // Userlog
 
 // Code generation
-
 
 // Errors
 

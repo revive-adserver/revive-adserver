@@ -188,7 +188,6 @@ $GLOBALS['strDeliveryCacheStore'] = "Banner Delivery Cache Store Type";
 $GLOBALS['strDeliveryAcls'] = "Evaluasi aturan pengiriman banner selama pengiriman";
 $GLOBALS['strDeliveryAclsDirectSelection'] = "Evaluasi aturan pengiriman banner untuk iklan pilihan langsung";
 $GLOBALS['strDeliveryObfuscate'] = "Aturan pengiriman yang tidak jelas ditetapkan saat mengirim iklan";
-$GLOBALS['strDeliveryExecPhp'] = "Izinkan eksekusi kode PHP dalam iklan<br />(Perhatian: Resiko Keamanan)";
 $GLOBALS['strDeliveryCtDelimiter'] = "Pelacakan Pelacakan Klik Pihak Ketiga";
 $GLOBALS['strGlobalDefaultBannerUrl'] = "URL gambar penjelajah default Global";
 $GLOBALS['strP3PSettings'] = "Kebijaksanaan keleluasaan pribadi global P3P";

@@ -383,16 +383,8 @@ $GLOBALS['strStatusText'] = "ブラウザステータス表示（マウスオー
 $GLOBALS['strBannerWeight'] = "バナーウェイト";
 $GLOBALS['strAdserverTypeGeneric'] = "汎用HTMLバナー";
 $GLOBALS['strGenericOutputAdServer'] = "汎用Adserver";
-$GLOBALS['strSwfTransparency'] = "背景の透過を許可する";
 
 // Banner (advanced)
-
-// Banner (swf)
-$GLOBALS['strCheckSWF'] = "Flashファイル内でハードコーデッドリンクを使うにはチェックしてください";
-$GLOBALS['strConvertSWFLinks'] = "Flashリンクに変換";
-$GLOBALS['strHardcodedLinks'] = "ハードコーデッドリンク";
-$GLOBALS['strCompressSWF'] = "ダウンロード時間を短くするため、Flashファイルを圧縮する(Flash6プレーヤー以降が必要)";
-$GLOBALS['strOverwriteSource'] = "ソースパラメータを上書きする";
 
 // Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "配信オプション";
@@ -587,7 +579,6 @@ $GLOBALS['strBackToTheList'] = "レポート一覧に戻る";
 $GLOBALS['strCharset'] = "キャラクターセット";
 $GLOBALS['strAutoDetect'] = "自動検出";
 
-
 // Errors
 $GLOBALS['strNoMatchesFound'] = "一致するものは見つかりません";
 $GLOBALS['strErrorOccurred'] = "エラーが発生しました";
@@ -719,6 +710,7 @@ $GLOBALS['strConfirmDeleteAgency'] = "このアカウントを本当に削除し
 $GLOBALS['strHideInactiveAgencies'] = "無効なアカウントを非表示にする";
 $GLOBALS['strInactiveAgenciesHidden'] = "非表示のアカウントを無効にする";
 $GLOBALS['strSwitchAccount'] = "アカウントの変更";
+$GLOBALS['strAgencyStatusInactive'] = "アクティブ";
 
 // Channels
 $GLOBALS['strChannelToWebsite'] = "すべてのWebサイト";

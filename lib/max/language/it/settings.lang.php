@@ -175,7 +175,6 @@ $GLOBALS['strDeliveryFilenamesSinglePageCallJS'] = "Single Page Call (JavaScript
 $GLOBALS['strDeliveryCaching'] = "Impostazioni cache per la consegna dei banner";
 $GLOBALS['strDeliveryCacheLimit'] = "Intervallo di tempo fra due aggiornamenti della cache (in secondi)";
 $GLOBALS['strDeliveryCacheStore'] = "Tipo di cache per la consegna dei banner";
-$GLOBALS['strDeliveryExecPhp'] = "Permetti di eseguire codice PHP all'interno delle inserzioni<br />(Attenzione: Potrebbe introdurre rischi di sicurezza)";
 $GLOBALS['strDeliveryCtDelimiter'] = "Delimitatore tracciamento click di terze parti";
 $GLOBALS['strGlobalDefaultBannerUrl'] = "URL dell'immagine banner predefinito globale";
 $GLOBALS['strP3PSettings'] = "Impostazioni Privacy P3P";

@@ -63,9 +63,6 @@ $GLOBALS['strXmlRpcLanguage'] = "Scripttaal";
 $GLOBALS['strXmlRpcProtocol'] = "Gebruik Https om contact te maken met XML-RPC Server";
 $GLOBALS['strXmlRpcTimeout'] = "XML-RPC Timeout (seconden)";
 
-// Support for 3rd party server clicktracking
-$GLOBALS['str3rdPartyTrack'] = "3de partij Server Clicktracking ondersteuning";
-
 // Support for cachebusting code
 $GLOBALS['strCacheBuster'] = "Cache-Busting code invoegen";
 

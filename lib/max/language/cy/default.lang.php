@@ -307,16 +307,8 @@ $GLOBALS['strStatusText'] = "Testun statws";
 $GLOBALS['strBannerWeight'] = "Pwysau baner";
 $GLOBALS['strAdserverTypeGeneric'] = "Baner HTML Generig";
 $GLOBALS['strGenericOutputAdServer'] = "Generig";
-$GLOBALS['strSwfTransparency'] = "Caniatáu cefndir tryloyw";
 
 // Banner (advanced)
-
-// Banner (swf)
-$GLOBALS['strCheckSWF'] = "Chwilio am ddolenni cod-caled tu fewn i'r ffeil Flash";
-$GLOBALS['strConvertSWFLinks'] = "Trosi dolenni Flash";
-$GLOBALS['strHardcodedLinks'] = "Dolenni cod-caled";
-$GLOBALS['strCompressSWF'] = "Cywasgu ffeil SWF ar gyfer lawrlwytho cynt (Chwaraewr Flash 6 yn ofynnol)";
-$GLOBALS['strOverwriteSource'] = "Trosysgrifo paramedr ffynhonnell";
 
 // Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "Dewisiadau Trosglwyddiad";
@@ -496,7 +488,6 @@ $GLOBALS['strFrameSize'] = "Maint ffram";
 $GLOBALS['strBannercode'] = "Codbaner";
 $GLOBALS['strBackToTheList'] = "Mynd yn ôl i'r rhestr adroddiadau";
 
-
 // Errors
 $GLOBALS['strNoMatchesFound'] = "Methwyd darganfod cydweddiadau";
 $GLOBALS['strErrorOccurred'] = "Bu gwall";
@@ -579,6 +570,7 @@ $GLOBALS['strAddAgency_Key'] = "Ychwanegu ardal <u>n</u>ewydd";
 $GLOBALS['strNoAgencies'] = "Nid oes unrhyw gyfrifon wedi eu diffinio eto";
 $GLOBALS['strConfirmDeleteAgency'] = "Ydych chi wir am ddileu y cyfrif yma?";
 $GLOBALS['strInactiveAgenciesHidden'] = "cyfrif(on) anweithredol wedi cuddio";
+$GLOBALS['strAgencyStatusInactive'] = "gweithredol";
 
 // Channels
 $GLOBALS['strChannelToWebsite'] = "Pob gwefan";

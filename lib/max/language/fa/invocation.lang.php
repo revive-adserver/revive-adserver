@@ -62,9 +62,6 @@ $GLOBALS['strXmlRpcLanguage'] = "زبان میزبانe";
 $GLOBALS['strXmlRpcProtocol'] = "استفاده از HTTPS برای تماس با XML-RPC سرور";
 $GLOBALS['strXmlRpcTimeout'] = "XML-RPC اتمام مهلت (ثانیه)";
 
-// Support for 3rd party server clicktracking
-$GLOBALS['str3rdPartyTrack'] = "حمایت از سرور های 3rd party  برای ردیابی کلیک";
-
 // Support for cachebusting code
 $GLOBALS['strCacheBuster'] = "کد کش-باستیگ را وارد کنید";
 

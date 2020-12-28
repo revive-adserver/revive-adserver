@@ -245,8 +245,6 @@ $GLOBALS['strWeight'] = "Ύψος";
 
 // Banner (advanced)
 
-// Banner (swf)
-
 // Display Delviery Rules
 $GLOBALS['strAND'] = "ΚΑΙ";                          // logical operator
 $GLOBALS['strOR'] = "Ή";                         // logical operator
@@ -332,7 +330,6 @@ $GLOBALS['strAction'] = "Ενέργεια";
 
 // Code generation
 
-
 // Errors
 
 //Validation
@@ -383,6 +380,7 @@ $GLOBALS['strAgency'] = "Λογαριασμός";
 $GLOBALS['strAddAgency_Key'] = "Προσθήκη <u>ν</u>έας ζώνης";
 $GLOBALS['strTotalAgencies'] = "Σύνολο λογαριασμών";
 $GLOBALS['strAgencyProperties'] = "Ιδιότητες λογαριασμού";
+$GLOBALS['strAgencyStatusInactive'] = "ενεργό";
 
 // Channels
 $GLOBALS['strChannelToWebsite'] = "Όλες οι ιστοσελίδες";

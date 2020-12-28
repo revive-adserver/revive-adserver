@@ -55,9 +55,6 @@ $GLOBALS['strShowScrollbars'] = "Skrolovatelný";
 // XML-RPC
 $GLOBALS['strXmlRpcLanguage'] = "Jazyk hostitele";
 
-// Support for 3rd party server clicktracking
-$GLOBALS['str3rdPartyTrack'] = "Podpora pro sledování kliknutí serverů 3tích stran";
-
 // Support for cachebusting code
 
 // IMG invocation selected for tracker with appended code

@@ -63,9 +63,6 @@ $GLOBALS['strXmlRpcLanguage'] = "Värd språk";
 $GLOBALS['strXmlRpcProtocol'] = "Använd HTTPS för att kontakta XML-RPC Server";
 $GLOBALS['strXmlRpcTimeout'] = "XML-RPC timeout (sekunder)";
 
-// Support for 3rd party server clicktracking
-$GLOBALS['str3rdPartyTrack'] = "Stöd klickspårning från 3:e parts server ";
-
 // Support for cachebusting code
 $GLOBALS['strCacheBuster'] = "Infoga Cache-Busting code";
 

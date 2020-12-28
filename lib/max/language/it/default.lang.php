@@ -455,17 +455,9 @@ $GLOBALS['strStatusText'] = "Testo di stato";
 $GLOBALS['strBannerWeight'] = "Peso del banner";
 $GLOBALS['strAdserverTypeGeneric'] = "Banner HTML Generico";
 $GLOBALS['strGenericOutputAdServer'] = "Generico";
-$GLOBALS['strSwfTransparency'] = "Permetti il background trasparente";
 $GLOBALS['strBackToBanners'] = "Torna ai banner";
 
 // Banner (advanced)
-
-// Banner (swf)
-$GLOBALS['strCheckSWF'] = "Controlla links presenti all'interno del file flash";
-$GLOBALS['strConvertSWFLinks'] = "Converti links Flash";
-$GLOBALS['strHardcodedLinks'] = "Link codificati all'interno del file";
-$GLOBALS['strCompressSWF'] = "Comprimi il file SWF per uno scaricamento più veloce (plug-in Flash 6 necessario)";
-$GLOBALS['strOverwriteSource'] = "Sovrascrivi parametro sorgente";
 
 // Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "Impostazioni di consegna";
@@ -698,7 +690,6 @@ $GLOBALS['strBackToTheList'] = "Torna alla lista dei report";
 $GLOBALS['strCharset'] = "Set di caratteri";
 $GLOBALS['strAutoDetect'] = "Riconoscimento automatico";
 
-
 // Errors
 $GLOBALS['strNoMatchesFound'] = "Nessuna corrispondenza trovata";
 $GLOBALS['strErrorOccurred'] = "Segnalazione Errore";
@@ -856,6 +847,7 @@ $GLOBALS['strConfirmDeleteAgency'] = "Vuoi davvero cancellare questo account?";
 $GLOBALS['strHideInactiveAgencies'] = "Nascondi gli account non attivi";
 $GLOBALS['strInactiveAgenciesHidden'] = "account non attivi, nascosti";
 $GLOBALS['strSwitchAccount'] = "Passa a questo account";
+$GLOBALS['strAgencyStatusInactive'] = "attiva";
 
 // Channels
 $GLOBALS['strChannelToWebsite'] = "Nessun sito";

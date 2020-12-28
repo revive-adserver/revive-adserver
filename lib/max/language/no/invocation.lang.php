@@ -31,8 +31,6 @@ $GLOBALS['strShowMenubar'] = "Menybar";
 
 // XML-RPC
 
-// Support for 3rd party server clicktracking
-
 // Support for cachebusting code
 
 // IMG invocation selected for tracker with appended code

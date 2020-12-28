@@ -241,8 +241,6 @@ $GLOBALS['strHiddenAdvertiser'] = "Nhà quảng cáo";
 
 // Banner (advanced)
 
-// Banner (swf)
-
 // Display Delviery Rules
 
 
@@ -291,7 +289,6 @@ $GLOBALS['strBreakdownByHour'] = "Giờ";
 // Userlog
 
 // Code generation
-
 
 // Errors
 

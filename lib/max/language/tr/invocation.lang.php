@@ -58,8 +58,6 @@ $GLOBALS['strXmlRpcLanguage'] = "Sunucu Dili";
 $GLOBALS['strXmlRpcProtocol'] = "XML-RPC Sunucusu ile bağlantı kurmak için HTTPS'yi kullanın";
 $GLOBALS['strXmlRpcTimeout'] = "XML-RPC Zaman Aşımı (Saniye)";
 
-// Support for 3rd party server clicktracking
-
 // Support for cachebusting code
 
 // IMG invocation selected for tracker with appended code

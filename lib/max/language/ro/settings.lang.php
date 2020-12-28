@@ -157,7 +157,6 @@ $GLOBALS['strDeliveryFilenamesFrontController'] = "Controler Faţă";
 $GLOBALS['strDeliveryFilenamesFlash'] = "Include Flash (Poate fi un URL complet)";
 $GLOBALS['strDeliveryCaching'] = "Setări Cache Distribuţie Banner";
 $GLOBALS['strDeliveryCacheLimit'] = "Perioada între actualizările Cache-ului de Bannere (secunde)";
-$GLOBALS['strDeliveryExecPhp'] = "Permite execuţia codului PHP în reclame<br />(Atenţie: Risc de Securitate)";
 $GLOBALS['strDeliveryCtDelimiter'] = "Separator Urmărire Click-uri pentru Terţe Părţi";
 $GLOBALS['strGlobalDefaultBannerUrl'] = "URL Global către bannerul imagine implicit";
 $GLOBALS['strP3PSettings'] = "Politici de Confidenţialitate P3P";

@@ -499,7 +499,6 @@ $GLOBALS['strBannersWeight'] = "Peso del banner";
 $GLOBALS['strAdserverTypeGeneric'] = "Banner HTML genérico";
 $GLOBALS['strDoNotAlterHtml'] = "No alterar HTML";
 $GLOBALS['strGenericOutputAdServer'] = "Genérico";
-$GLOBALS['strSwfTransparency'] = "Permitir fondo transparente";
 $GLOBALS['strBackToBanners'] = "Volver a banners";
 $GLOBALS['strUseWyswygHtmlEditor'] = "Utilice el Editor del HTML WYSIWYG";
 $GLOBALS['strChangeDefault'] = "Cambiar a por defecto";
@@ -507,14 +506,6 @@ $GLOBALS['strChangeDefault'] = "Cambiar a por defecto";
 // Banner (advanced)
 $GLOBALS['strBannerPrependHTML'] = "Siempre anteponga el siguiente código HTML a este banner";
 $GLOBALS['strBannerAppendHTML'] = "Añada siempre el siguiente código HTML a este banner";
-
-// Banner (swf)
-$GLOBALS['strCheckSWF'] = "Comprobar enlaces <i>hard-coded</i> en el archivo Flash";
-$GLOBALS['strConvertSWFLinks'] = "Convertir enlaces Flash";
-$GLOBALS['strHardcodedLinks'] = "Enlaces <i>hard-coded</i>";
-$GLOBALS['strConvertSWF'] = "<br />El archivo Flash que acaba de subir contiene urls codificadas. {$PRODUCT_NAME} no podrá rastrear el número de clicks de este banner a menos que convierta dichas urls. Simplemente haga click en <b>Convertir</b>, de otro modo haga click en <b>Cancelar</b>.<br /><br />Tenga en cuenta que al hacer click en <b>Convertir</b> el archivo Flash que acaba de subir será físicamente alterado. <br />Se recomienda mantener una copia del archivo original. <br /> Sin importar en que versión haya sido creado este banner, el archivo resultante necesitará la versión 4 de Flash Player (o superior) para ser mostrado correctamente.<br /><br />";
-$GLOBALS['strCompressSWF'] = "Comprimir el archivo SWF para descargarlo más rápidamente (Reproductor Flash 6 es requerido)";
-$GLOBALS['strOverwriteSource'] = "Sobreescribir parámetro de origen";
 
 // Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "Opciones de entrega";
@@ -776,12 +767,6 @@ $GLOBALS['strCacheBusterComment'] = "  * Reemplazar todas las instancias de {ran
   * un número aleatorio generado (o marca de tiempo).
   *";
 
-$GLOBALS['strThirdPartyComment'] = "
-* No olvide de reemplazar el texto de '{clickurl}' con 
-* la URL de seguimiento de click si este anuncio va a ser entregado a través de un
-* adserver de terceros (no-Max)
-*";
-
 // Errors
 $GLOBALS['strErrorDatabaseConnection'] = "Error de conexión a la Base de Datos.";
 $GLOBALS['strNoMatchesFound'] = "No se han encontrado resultados.";
@@ -961,6 +946,7 @@ $GLOBALS['strConfirmDeleteAgency'] = "¿Está seguro de querer borrar esta zona?
 $GLOBALS['strHideInactiveAgencies'] = "Ocultar cuentas inactivas";
 $GLOBALS['strInactiveAgenciesHidden'] = "cuentas(s) inactiva(s) ocultada(s)";
 $GLOBALS['strSwitchAccount'] = "Cambiar a esta cuenta";
+$GLOBALS['strAgencyStatusInactive'] = "activo";
 
 // Channels
 $GLOBALS['strChannel'] = "Conjunto de reglas de entrega";

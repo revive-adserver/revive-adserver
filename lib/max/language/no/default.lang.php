@@ -270,8 +270,6 @@ $GLOBALS['strChooseBanner'] = "Velg type banner";
 
 // Banner (advanced)
 
-// Banner (swf)
-
 // Display Delviery Rules
 $GLOBALS['strSource'] = "Kilde";
 
@@ -332,7 +330,6 @@ $GLOBALS['strAction'] = "Handling";
 
 // Code generation
 
-
 // Errors
 
 //Validation
@@ -358,6 +355,7 @@ $GLOBALS['strClicks_short'] = "Klikk";
 // Product Updates
 
 // Agency
+$GLOBALS['strAgencyStatusInactive'] = "aktive";
 
 // Channels
 

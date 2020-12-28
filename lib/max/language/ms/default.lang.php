@@ -192,8 +192,6 @@ $GLOBALS['strTypeTxtAllow'] = "Benarkan Iklan Teks";
 
 // Banner (advanced)
 
-// Banner (swf)
-
 // Display Delviery Rules
 
 
@@ -241,7 +239,6 @@ $GLOBALS['strStatusDuplicate'] = "Salinan";
 
 // Code generation
 
-
 // Errors
 
 //Validation
@@ -264,6 +261,7 @@ $GLOBALS['strChooseSection'] = 'Pilih bahagian';
 // Product Updates
 
 // Agency
+$GLOBALS['strAgencyStatusInactive'] = "Aktif";
 
 // Channels
 

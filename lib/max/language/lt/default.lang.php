@@ -328,16 +328,8 @@ $GLOBALS['strStatusText'] = "Teksto statusas";
 $GLOBALS['strBannerWeight'] = "Banerio svoris";
 $GLOBALS['strAdserverTypeGeneric'] = "Bendras HTML baneris";
 $GLOBALS['strGenericOutputAdServer'] = "Bendras";
-$GLOBALS['strSwfTransparency'] = "Leisti skaidrų foną";
 
 // Banner (advanced)
-
-// Banner (swf)
-$GLOBALS['strCheckSWF'] = "Ieškoti sunkiai u-koduotų internetinių puslapių Flash failo viduje";
-$GLOBALS['strConvertSWFLinks'] = "Pakeisti Flash saitus";
-$GLOBALS['strHardcodedLinks'] = "Sunkiai užkoduoti saitai";
-$GLOBALS['strCompressSWF'] = "Suspausti SWF failą, tam kad būtų pagreitintas atsiuntimas (Flash 6 player reikalaujamas)";
-$GLOBALS['strOverwriteSource'] = "Perrašyti šaltinio parametrus";
 
 // Display Delviery Rules
 $GLOBALS['strEqualTo'] = "yra lygus";
@@ -511,7 +503,6 @@ $GLOBALS['strBackToTheList'] = "Grįžti į ataskaitų sąrašą";
 $GLOBALS['strCharset'] = "Ženklų nustatymus";
 $GLOBALS['strAutoDetect'] = "Auto radimas";
 
-
 // Errors
 $GLOBALS['strNoMatchesFound'] = "Jokių atitikmenų nerasta";
 $GLOBALS['strErrorOccurred'] = "Atsirado klaida";
@@ -620,6 +611,7 @@ $GLOBALS['strNoAgencies'] = "Nerasta jokių zonų";
 $GLOBALS['strConfirmDeleteAgency'] = "Ar tikrai norite ištrinti šią zoną";
 $GLOBALS['strInactiveAgenciesHidden'] = "neaktyvios zonos palsėptos";
 $GLOBALS['strSwitchAccount'] = "Perjungti į šią sąskaitą";
+$GLOBALS['strAgencyStatusInactive'] = "Aktyvus";
 
 // Channels
 $GLOBALS['strChannelToWebsite'] = "Visi internetiniai puslapiai";

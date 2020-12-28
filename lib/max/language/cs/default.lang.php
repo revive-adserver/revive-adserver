@@ -439,17 +439,9 @@ $GLOBALS['strStatusText'] = "Stavový text";
 $GLOBALS['strBannerWeight'] = "Váha banneru";
 $GLOBALS['strAdserverTypeGeneric'] = "Generický HTML Banner";
 $GLOBALS['strDoNotAlterHtml'] = "Neměňte HTML";
-$GLOBALS['strSwfTransparency'] = "Povolit průhledné pozadí";
 $GLOBALS['strBackToBanners'] = "Zpět na bannery";
 
 // Banner (advanced)
-
-// Banner (swf)
-$GLOBALS['strCheckSWF'] = "Převést pevné odkazy uvnitř Flash souboru";
-$GLOBALS['strConvertSWFLinks'] = "Převést Flash odkazy";
-$GLOBALS['strHardcodedLinks'] = "Pevné odkazy";
-$GLOBALS['strCompressSWF'] = "Komprimovat SWF soubor pro rychlejší stahování (vyžaduje přehrávač Flash 6)";
-$GLOBALS['strOverwriteSource'] = "Přepsat zdrojový parametr";
 
 // Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "Nastavení doručování";
@@ -671,7 +663,6 @@ $GLOBALS['strBackToTheList'] = "Přejít zpět na výpis reportů";
 $GLOBALS['strCharset'] = "Znaková sada";
 $GLOBALS['strAutoDetect'] = "Automatický výběr";
 
-
 // Errors
 $GLOBALS['strNoMatchesFound'] = "Žedné odpovídající záznamy nebyly nalezeny";
 $GLOBALS['strErrorOccurred'] = "Nastala chyba";
@@ -754,6 +745,7 @@ $GLOBALS['strNoAgencies'] = "Zatím nejsou definované žádné zóny";
 $GLOBALS['strConfirmDeleteAgency'] = "Opravdu chcete smazat tuto zónu?";
 $GLOBALS['strHideInactiveAgencies'] = "Skrýt neaktivní partnery";
 $GLOBALS['strInactiveAgenciesHidden'] = "neaktivních bannerů skryto";
+$GLOBALS['strAgencyStatusInactive'] = "aktivní";
 
 // Channels
 $GLOBALS['strChannelToWebsite'] = "na webové stránky";

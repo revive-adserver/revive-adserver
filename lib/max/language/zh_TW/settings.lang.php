@@ -146,7 +146,6 @@ $GLOBALS['strDeliveryFilenamesFrontController'] = "字體控制器";
 $GLOBALS['strDeliveryFilenamesFlash'] = "包括Flash（可以使用絕對路徑)";
 $GLOBALS['strDeliveryCaching'] = "全局發送緩存設置";
 $GLOBALS['strDeliveryCacheLimit'] = "緩存刷新頻率（秒)";
-$GLOBALS['strDeliveryExecPhp'] = "可在廣告中使用PHP代碼（可能存在安全隱患)";
 $GLOBALS['strDeliveryCtDelimiter'] = "第三方廣告跟蹤分隔符";
 $GLOBALS['strP3PSettings'] = "P3P隱私策略的全局設置";
 $GLOBALS['strUseP3P'] = "使用P3P策略";

@@ -390,13 +390,6 @@ $GLOBALS['strGenericOutputAdServer'] = "Általános";
 $GLOBALS['strBannerPrependHTML'] = "A HTML-kód hozzáfűzése a reklám elé";
 $GLOBALS['strBannerAppendHTML'] = "A HTML-kód hozzáfűzése a reklám elé";
 
-// Banner (swf)
-$GLOBALS['strCheckSWF'] = "Nehezen módosítható hivatkozások keresése a Flash fájlban";
-$GLOBALS['strConvertSWFLinks'] = "Flash hivatkozások konvertálása";
-$GLOBALS['strHardcodedLinks'] = "Nehezen módosítható hivatkozások";
-$GLOBALS['strCompressSWF'] = "Az SWF fájl tömörítése a gyorsabb letöltés céljából (Flash 6 lejátszó szükséges)";
-$GLOBALS['strOverwriteSource'] = "Forrás tulajdonságok felülírása";
-
 // Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "Kézbesítés beállításai";
 $GLOBALS['strACL'] = "Kézbesítés beállításai";
@@ -575,7 +568,6 @@ $GLOBALS['strFrameSize'] = "Keret mérete";
 $GLOBALS['strBannercode'] = "Reklámkód";
 $GLOBALS['strTrackercode'] = "Követőkód";
 
-
 // Errors
 $GLOBALS['strNoMatchesFound'] = "Nincs találat";
 $GLOBALS['strErrorOccurred'] = "Hiba történt";
@@ -647,6 +639,7 @@ $GLOBALS['strTotalAgencies'] = "Összes fiók";
 $GLOBALS['strHideInactiveAgencies'] = "Inaktív fiókok elrejtése";
 $GLOBALS['strInactiveAgenciesHidden'] = "inaktív fiók elrejtve";
 $GLOBALS['strSwitchAccount'] = "Átváltás erre a fiókra";
+$GLOBALS['strAgencyStatusInactive'] = "aktív";
 
 // Channels
 $GLOBALS['strChannelLimitations'] = "Kézbesítés beállításai";

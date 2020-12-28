@@ -325,13 +325,8 @@ $GLOBALS['strStatusText'] = "狀態文字";
 $GLOBALS['strBannerWeight'] = "項目權重 ";
 $GLOBALS['strAdserverTypeGeneric'] = "生成HTML廣告";
 $GLOBALS['strGenericOutputAdServer'] = "生成";
-$GLOBALS['strSwfTransparency'] = "使用透明背景";
 
 // Banner (advanced)
-
-// Banner (swf)
-$GLOBALS['strCompressSWF'] = "壓縮SWF文件（需要Flash 6 player)";
-$GLOBALS['strOverwriteSource'] = "覆蓋原參數";
 
 // Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "發送選項";
@@ -492,7 +487,6 @@ $GLOBALS['strFrameSize'] = "框架尺寸";
 $GLOBALS['strBannercode'] = "旗標代碼";
 $GLOBALS['strBackToTheList'] = "返回報告列表";
 
-
 // Errors
 $GLOBALS['strNoMatchesFound'] = "沒有符合的結果";
 $GLOBALS['strErrorOccurred'] = "出錯";
@@ -595,6 +589,7 @@ $GLOBALS['strNoAgencies'] = "沒有相關的賬戶";
 $GLOBALS['strConfirmDeleteAgency'] = "您真的希望刪除該賬戶？";
 $GLOBALS['strHideInactiveAgencies'] = "藏不活躍的帳戶";
 $GLOBALS['strInactiveAgenciesHidden'] = "藏不活躍的帳戶";
+$GLOBALS['strAgencyStatusInactive'] = "活躍";
 
 // Channels
 $GLOBALS['strChannelToWebsite'] = "沒有網站";

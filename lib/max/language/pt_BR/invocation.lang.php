@@ -52,9 +52,6 @@ $GLOBALS['strShowStatus'] = "Estado";
 // XML-RPC
 $GLOBALS['strXmlRpcLanguage'] = "Linguagem do Servidor";
 
-// Support for 3rd party server clicktracking
-$GLOBALS['str3rdPartyTrack'] = "Suporte para rastreamento de cliques de terceiros";
-
 // Support for cachebusting code
 $GLOBALS['strCacheBuster'] = "Inserir código anti-cache";
 

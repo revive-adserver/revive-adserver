@@ -143,7 +143,6 @@ $GLOBALS['strDeliveryFilenamesLocal'] = "Helyi kérés";
 $GLOBALS['strDeliveryFilenamesFlash'] = "Flash beágyazás (teljes URL cím is lehet)";
 $GLOBALS['strDeliveryCaching'] = "Banner kézbesítési gyorsítótár beállításai";
 $GLOBALS['strDeliveryCacheLimit'] = "A banner gyorsítótár frissítései közti idő (másodpercekben)";
-$GLOBALS['strDeliveryExecPhp'] = "PHP kódok futtatásának engedélyezése a hirdetésekben<br />(Figyelem: Biztonsági kockázat)";
 $GLOBALS['strDeliveryCtDelimiter'] = "Harmadik féltől származó kattintás követési határolójel";
 $GLOBALS['strP3PSettings'] = "P3P adatvédelmi irányelvek";
 $GLOBALS['strUseP3P'] = "P3P irányelvek használata";

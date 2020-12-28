@@ -432,18 +432,10 @@ $GLOBALS['strStatusText'] = "Statustext";
 $GLOBALS['strBannerWeight'] = "Bannervikt";
 $GLOBALS['strAdserverTypeGeneric'] = "Generisk HTML banner";
 $GLOBALS['strGenericOutputAdServer'] = "Generisk";
-$GLOBALS['strSwfTransparency'] = "Tillåt transparent bakgrund";
 $GLOBALS['strBackToBanners'] = "Tillbaka till banners";
 $GLOBALS['strUseWyswygHtmlEditor'] = "Använd WYSIWYG HTML Editor";
 
 // Banner (advanced)
-
-// Banner (swf)
-$GLOBALS['strCheckSWF'] = "Sök efter hård-kodade länkar i Flashfilen";
-$GLOBALS['strConvertSWFLinks'] = "Konvertera Flashlänkar";
-$GLOBALS['strHardcodedLinks'] = "Hård-kodade länkar";
-$GLOBALS['strCompressSWF'] = "Komprimera SWF filen för snabbare nedladdning (Flash 6 spelare krävs)";
-$GLOBALS['strOverwriteSource'] = "Skriv över källparameter";
 
 // Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "Leveransinställningar";
@@ -668,7 +660,6 @@ $GLOBALS['strBackToTheList'] = "Gå tillbaks till rapportlistan";
 $GLOBALS['strCharset'] = "Teckenuppsättning";
 $GLOBALS['strAutoDetect'] = "Identifiera automatiskt";
 
-
 // Errors
 $GLOBALS['strNoMatchesFound'] = "Inga matchningar hittades";
 $GLOBALS['strErrorOccurred'] = "Ett fel inträffade";
@@ -769,6 +760,7 @@ $GLOBALS['strNoAgencies'] = "Det finns inga konton definierade";
 $GLOBALS['strConfirmDeleteAgency'] = "Vill du verkligen radera detta konto?";
 $GLOBALS['strHideInactiveAgencies'] = "Göm inaktiva konton";
 $GLOBALS['strInactiveAgenciesHidden'] = "inaktiva konton gömda";
+$GLOBALS['strAgencyStatusInactive'] = "aktiv";
 
 // Channels
 $GLOBALS['strChannels'] = "Leveransregeluppsättningar";

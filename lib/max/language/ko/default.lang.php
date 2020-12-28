@@ -324,13 +324,6 @@ $GLOBALS['strBannerWeight'] = "배너 가중치";
 
 // Banner (advanced)
 
-// Banner (swf)
-$GLOBALS['strCheckSWF'] = "플래시 파�?��? 입력�?� �?�?�를 확�?�합니다.";
-$GLOBALS['strConvertSWFLinks'] = "플래시 링크변환";
-$GLOBALS['strHardcodedLinks'] = "내장�?� �?�?�";
-$GLOBALS['strCompressSWF'] = "보다 빠른전송을 위해 SWF 파일을 압축합니다. (플래시 6 버젼이상 필요)";
-$GLOBALS['strOverwriteSource'] = "원본소스 파라미터 덮어쓰기";
-
 // Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "전송 옵션";
 $GLOBALS['strACL'] = "전송 옵션";
@@ -470,7 +463,6 @@ $GLOBALS['strParameters'] = "카테고리 설정";
 $GLOBALS['strFrameSize'] = "프레임 크기";
 $GLOBALS['strBannercode'] = "배너코드";
 
-
 // Errors
 $GLOBALS['strNoMatchesFound'] = "검색 결과가 없습니다.";
 $GLOBALS['strErrorOccurred'] = "오류가 발생했습니다.";
@@ -527,6 +519,7 @@ $GLOBALS['strTotalAgencies'] = "전체 계정";
 $GLOBALS['strNoAgencies'] = "현재 등�?�?� �?역�?� 없습니다.";
 $GLOBALS['strConfirmDeleteAgency'] = "�?� �?역�?� 삭제합니까?";
 $GLOBALS['strInactiveAgenciesHidden'] = "배너가 숨겨져 있습니다.";
+$GLOBALS['strAgencyStatusInactive'] = "사용가능";
 
 // Channels
 $GLOBALS['strChannelLimitations'] = "전송 옵션";

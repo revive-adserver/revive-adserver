@@ -386,16 +386,8 @@ $GLOBALS['strStatusText'] = "نص الحالة";
 $GLOBALS['strBannerWeight'] = "وزن البنر";
 $GLOBALS['strAdserverTypeGeneric'] = "بنر HTML عام";
 $GLOBALS['strGenericOutputAdServer'] = "عام";
-$GLOBALS['strSwfTransparency'] = "السماح بخليفة شفافة";
 
 // Banner (advanced)
-
-// Banner (swf)
-$GLOBALS['strCheckSWF'] = "افحص الروابط المكتوبة داخل ملف الفلاش";
-$GLOBALS['strConvertSWFLinks'] = "تحويل روابط الفلاش";
-$GLOBALS['strHardcodedLinks'] = "روابط ضمن الكود البرمجي";
-$GLOBALS['strCompressSWF'] = "ضغط ملف SWF لتحميل أسرع (يحتاج لمشغل فلاش 6 أو أعلى)";
-$GLOBALS['strOverwriteSource'] = "الكتابة على المتغيرات الأصلية";
 
 // Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "خيارات التوصيل";
@@ -552,7 +544,6 @@ $GLOBALS['strFrameSize'] = "حجم الاطار";
 $GLOBALS['strBannercode'] = "كود البنر";
 $GLOBALS['strBackToTheList'] = "العودة لقائمة التقارير";
 
-
 // Errors
 $GLOBALS['strErrorOccurred'] = "حدث خطأ ما";
 
@@ -620,6 +611,7 @@ $GLOBALS['strAddAgency_Key'] = "إضافة منطقة عرض جديدة";
 $GLOBALS['strNoAgencies'] = "لم يتم تعريف أي منطقة عرض";
 $GLOBALS['strConfirmDeleteAgency'] = "هل تريد حذف منطقة العرض ؟";
 $GLOBALS['strInactiveAgenciesHidden'] = "تم إخفاء مناطق العرض غير النشطة";
+$GLOBALS['strAgencyStatusInactive'] = "فعال";
 
 // Channels
 $GLOBALS['strChannelToWebsite'] = "كل المواقع";

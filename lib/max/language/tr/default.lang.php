@@ -472,7 +472,6 @@ $GLOBALS['strBannerWeight'] = "Banner ağırlığı";
 $GLOBALS['strAdserverTypeGeneric'] = "Jenerik HTML banner";
 $GLOBALS['strDoNotAlterHtml'] = "HTML'yi değiştirmeyin";
 $GLOBALS['strGenericOutputAdServer'] = "Jenerik";
-$GLOBALS['strSwfTransparency'] = "Şeffaf zemine izin ver";
 $GLOBALS['strBackToBanners'] = "Afişlere dön";
 $GLOBALS['strUseWyswygHtmlEditor'] = " WYSIWYG HTML Düzenleyici Kullan";
 $GLOBALS['strChangeDefault'] = "Varsayılan değiştir";
@@ -480,14 +479,6 @@ $GLOBALS['strChangeDefault'] = "Varsayılan değiştir";
 // Banner (advanced)
 $GLOBALS['strBannerPrependHTML'] = "Aşağıdaki HTML kodunu bu reklam bandına her zaman ekleyin";
 $GLOBALS['strBannerAppendHTML'] = "Bu reklam bandına aşağıdaki HTML kodunu her zaman ekleyin";
-
-// Banner (swf)
-$GLOBALS['strCheckSWF'] = "Flash dosyaları içerisindeki sabit URL bağlantıları denetle";
-$GLOBALS['strConvertSWFLinks'] = "Flash linklerini dönüştür";
-$GLOBALS['strHardcodedLinks'] = "Elle girilmiş, sabit bağlantılar";
-$GLOBALS['strConvertSWF'] = "<br/> Yeni yüklediğiniz Flash dosyası, sabit kodlu URL'ler içeriyor. Bu kodlanmış URL'leri dönüştürmediğiniz sürece {$PRODUCT_NAME}, bu afiş için tıklama sayısını izleyemeyecektir. Aşağıda, Flash dosyası içindeki tüm URL'lerin bir listesini bulabilirsiniz. URL'leri dönüştürmek istiyorsanız, <b> Dönüştür </b> 'ü tıklayın, aksi takdirde <b> İptal </b>' i tıklayın. <br/> <br/> Lütfen dikkat: <b> Dönüştür </b> seçeneğini tıkladıysanız, yeni yüklediğiniz Flash dosyası fiziksel olarak değiştirilecek. <br/> Lütfen orijinal dosyayı yedekleyin. Bu afişin hangi sürümde oluşturulduğuna bakılmaksızın, ortaya çıkan dosyanın doğru şekilde görüntülenmesi için Flash 4 oynatıcısına (veya daha yenisine) ihtiyaç duyacaktır. <br/> <br/>";
-$GLOBALS['strCompressSWF'] = "Daha hızlı yüklenmesi için SWF dosyasını sıkıştır (Flash 6 player gerekli)";
-$GLOBALS['strOverwriteSource'] = "Kaynak parametresinin üzerine yaz";
 
 // Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "Teslimat Seçenekleri";
@@ -720,7 +711,6 @@ $GLOBALS['strBackToTheList'] = "Rapor listesine geri dön";
 $GLOBALS['strCharset'] = "Karakter takımı";
 $GLOBALS['strAutoDetect'] = "Otomatik-algılama";
 
-
 // Errors
 $GLOBALS['strErrorDatabaseConnection'] = "Veritabanı bağlantı hatası.";
 $GLOBALS['strErrorCantConnectToDatabase'] = "Ciddi bir hata oluştu %1\$s, veritabanına bağlanılamıyor. Bu nedenle yönetici arayüzünü kullanmak şuan mümkün değil. Afişlerin teslimatı da bu durumdan etkilenebilir. Sorunun olası nedenleri şunlardır:
@@ -884,6 +874,7 @@ $GLOBALS['strConfirmDeleteAgency'] = "Bu hesabı silmek istediğinize emin misin
 $GLOBALS['strHideInactiveAgencies'] = "Etkin olmayan hesapları gizle";
 $GLOBALS['strInactiveAgenciesHidden'] = "etkin olmayan hesap(lar) gizlendi";
 $GLOBALS['strSwitchAccount'] = "Bu hesaba geç";
+$GLOBALS['strAgencyStatusInactive'] = "etkin";
 
 // Channels
 $GLOBALS['strChannelToWebsite'] = "Web sitesi yok";
