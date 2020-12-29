@@ -48,11 +48,13 @@ $userAccess->setAccountId($accountId);
 $userAccess->setPagePrefix('agency');
 
 $aAllowedPermissions = [];
+
 if (OA_Permission::hasPermission(OA_PERM_SUPER_ACCOUNT, $accountId)) {
-    $aAllowedPermissions[OA_PERM_SUPER_ACCOUNT] = array($strAllowCreateAccounts, false);
+    $aAllowedPermissions[OA_PERM_SUPER_ACCOUNT] = [$strAllowCreateAccounts, false];
 }
+
 if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
-    $aAllowedPermissions[OA_PERM_MANAGER_DELETE] = array("Allow deleting stuff", false);
+    $aAllowedPermissions[OA_PERM_MANAGER_DELETE] = [$strAllowDeleteItems, false];
 }
 
 $userAccess->setAllowedPermissions($aAllowedPermissions);

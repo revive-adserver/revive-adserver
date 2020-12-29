@@ -299,6 +299,7 @@ $GLOBALS['strAllowClientActivateBanner'] = "Allow this user to activate their ow
 $GLOBALS['strAllowCreateAccounts'] = "Allow this user to manage this account's users";
 $GLOBALS['strAdvertiserLimitation'] = "Display only one banner from this advertiser on a web page";
 $GLOBALS['strAllowAuditTrailAccess'] = "Allow this user to access the audit trail";
+$GLOBALS['strAllowDeleteItems'] = "Allow this user to delete items";
 
 // Campaign
 $GLOBALS['strCampaign'] = "Campaign";
