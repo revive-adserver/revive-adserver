@@ -618,11 +618,12 @@ function _adRenderBuildSignedClickUrl(array $aBanner, int $zoneId = 0, string $s
  * @param string  $source       The "source" parameter passed into the adcall
  * @param string  $ct0          The 3rd party click tracking URL to redirect to after logging
  * @param boolean $logClick     Should this click be logged (clicks in admin should not be logged)
+ * @param boolean $overrideDest Should the URL from the banner override a passed in destination?
  *
  * @return string The params string
  */
 
-function _adRenderBuildParams($aBanner, $zoneId=0, $source='', $ct0='', $logClick=true)
+function _adRenderBuildParams($aBanner, $zoneId=0, $source='', $ct0='', $logClick=true, $overrideDest=false)
 {
     // HACK - sometimes $aBanner has the banner ID as bannerid, and others it is ad_id.  This needs
     //  to be sorted in all parts of the application to reference ad_id rather than bannerid.
@@ -645,7 +646,7 @@ function _adRenderBuildParams($aBanner, $zoneId=0, $source='', $ct0='', $logClic
     }
 
     $maxparams = '';
-    if (!empty($aBanner['url'])) {
+    if (!empty($aBanner['url']) || $overrideDest) {
         // There is a link
         $del = $conf['delivery']['ctDelimiter'];
         $delnum = strlen($del);
@@ -684,19 +685,20 @@ function _adRenderBuildParams($aBanner, $zoneId=0, $source='', $ct0='', $logClic
  * @param string  $source       The "source" parameter passed into the adcall
  * @param string  $ct0          The 3rd party click tracking URL to redirect to after logging
  * @param boolean $logClick     Should this click be logged (clicks in admin should not be logged)
+ * @param boolean $overrideDest Should the URL from the banner override a passed in destination?
  *
  * @return string The click URL
  */
-function _adRenderBuildClickUrl($aBanner, $zoneId = 0, $source = '', $ct0 = '', $logClick = true)
+function _adRenderBuildClickUrl($aBanner, $zoneId = 0, $source = '', $ct0 = '', $logClick = true, $overrideDest = false)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
 
-    if (empty($aBanner['url'])) {
+    if (empty($aBanner['url']) && !$overrideDest) {
         return '';
 
     }
 
-    return MAX_commonGetDeliveryUrl($conf['file']['click']) . '?' . $conf['var']['params'] . '=' . _adRenderBuildParams($aBanner, $zoneId, $source, $ct0, $logClick);
+    return MAX_commonGetDeliveryUrl($conf['file']['click']) . '?' . $conf['var']['params'] . '=' . _adRenderBuildParams($aBanner, $zoneId, $source, $ct0, $logClick, $overrideDest);
 }
 
 /**

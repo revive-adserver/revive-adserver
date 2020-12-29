@@ -290,17 +290,47 @@ class Test_DeliveryAdRender extends UnitTestCase
         // following line suggests that this func not used
         require_once MAX_PATH . '/lib/max/Delivery/common.php';
 
-        $aBanner = array('bannerid' => '9999',
-            'url' => 'http://www.somewhere.com',
+        $aBanner = [
+            'bannerid' => '9999',
             'contenttype' => ''
-        );
+        ];
         $zoneId = 0;
         $source = '';
         $ct0 = '';
         $logClick = true;
         $conf = $GLOBALS['_MAX']['CONF'];
+        $overrideDest = false;
 
-        $ret = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick);
+        $ret = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick, $overrideDest);
+        $this->assertEqual($ret, "");
+
+        $aBanner = [
+            'bannerid' => '9999',
+            'contenttype' => ''
+        ];
+        $zoneId = 0;
+        $source = '';
+        $ct0 = '';
+        $logClick = true;
+        $conf = $GLOBALS['_MAX']['CONF'];
+        $overrideDest = true;
+
+        $ret = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick, $overrideDest);
+        $this->assertEqual($ret, "http://{$GLOBALS['_MAX']['CONF']['webpath']['delivery']}/ck.php?{$conf['var']['params']}=2__{$conf['var']['adId']}=9999__{$conf['var']['zoneId']}=0__{$conf['var']['cacheBuster']}={random}");
+
+        $aBanner = [
+            'bannerid' => '9999',
+            'url' => 'http://www.somewhere.com',
+            'contenttype' => ''
+        ];
+        $zoneId = 0;
+        $source = '';
+        $ct0 = '';
+        $logClick = true;
+        $conf = $GLOBALS['_MAX']['CONF'];
+        $overrideDest = false;
+
+        $ret = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick, $overrideDest);
         $this->assertEqual($ret, "http://{$GLOBALS['_MAX']['CONF']['webpath']['delivery']}/ck.php?{$conf['var']['params']}=2__{$conf['var']['adId']}=9999__{$conf['var']['zoneId']}=0__{$conf['var']['cacheBuster']}={random}");
     }
 
