@@ -3572,7 +3572,7 @@ function _adRenderBuildSignedClickUrl(array $aBanner, int $zoneId = 0, string $s
 return MAX_commonGetDeliveryUrl($GLOBALS['_MAX']['CONF']['file']['signedClick']).'?'.
 _adRenderBuildClickQueryString($aBanner, $zoneId, $source, $logClick, $customDestination);
 }
-function _adRenderBuildParams($aBanner, $zoneId=0, $source='', $ct0='', $logClick=true)
+function _adRenderBuildParams($aBanner, $zoneId=0, $source='', $ct0='', $logClick=true, $overrideDest=false)
 {
 if (isset($aBanner['ad_id']) && empty($aBanner['bannerid'])) {
 $aBanner['bannerid'] = $aBanner['ad_id'];
@@ -3589,7 +3589,7 @@ $logLastClick .= (!empty($aBanner['clickwindow'])) ? '1' : '0';
 }
 }
 $maxparams = '';
-if (!empty($aBanner['url'])) {
+if (!empty($aBanner['url']) || $overrideDest) {
 $del = $conf['delivery']['ctDelimiter'];
 $delnum = strlen($del);
 $random = "{$del}{$conf['var']['cacheBuster']}={random}";
@@ -3612,13 +3612,13 @@ $maxparams .= $del . urlencode($key) . '=' . urlencode($value);
 }
 return $maxparams;
 }
-function _adRenderBuildClickUrl($aBanner, $zoneId = 0, $source = '', $ct0 = '', $logClick = true)
+function _adRenderBuildClickUrl($aBanner, $zoneId = 0, $source = '', $ct0 = '', $logClick = true, $overrideDest = false)
 {
 $conf = $GLOBALS['_MAX']['CONF'];
-if (empty($aBanner['url'])) {
+if (empty($aBanner['url']) && !$overrideDest) {
 return '';
 }
-return MAX_commonGetDeliveryUrl($conf['file']['click']) . '?' . $conf['var']['params'] . '=' . _adRenderBuildParams($aBanner, $zoneId, $source, $ct0, $logClick);
+return MAX_commonGetDeliveryUrl($conf['file']['click']) . '?' . $conf['var']['params'] . '=' . _adRenderBuildParams($aBanner, $zoneId, $source, $ct0, $logClick, $overrideDest);
 }
 function _adRenderBuildStatusCode($aBanner)
 {
