@@ -17,6 +17,7 @@
             <li>
                 <a href='advertiser-edit.php' class='inlineIcon iconAdvertiserAdd'>{t str=AddClient}</a>
             </li>
+            {if $canDelete}
             <li class='inactive activeIfSelected'>
                 <a id='deleteSelection' href='#' class='inlineIcon iconDelete'>{t str=Delete}</a>
 
@@ -43,6 +44,7 @@
                 </script>
                 {/literal}
             </li>
+            {/if}
         </ul>
 
         <ul class='tableFilters alignRight'>
@@ -84,9 +86,11 @@
     <table cellspacing='0' summary=''>
         <thead>
             <tr>
-              <th class='first toggleAll'>
+                {if $canDelete}
+                <th class='first toggleAll'>
                   <input type='checkbox' />
                 </th>
+                {/if}
                 <th class='{ox_column_class item=name order=up default=1}'>
                     {ox_column_title item=name order=up default=1 str=Name url=advertiser-index.php}
                 </th>
@@ -136,18 +140,14 @@
     {foreach key=clientId item=client from=$from}
         {cycle name=bgcolor assign=bgColor}
             <tr class='{$bgColor} {if $client.type == $MARKET_TYPE}systemAdvertiser{/if}'>
+                {if $canDelete}
                 <td class='toggleSelection'>
-                  {if $client.type != $MARKET_TYPE}
                     <input type='checkbox' value='{$clientId}' />
-                  {/if}
                 </td>
+                {/if}
                 <td>
-                  {if $client.type == $MARKET_TYPE} {* no link, just name, and don't display system ids *}
-                    <span class='inlineIcon iconAdvertiserSystem'>{$client.clientname|escape:html}</span>
-                  {else}
                     <a href='advertiser-edit.php?clientid={$clientId}' class='inlineIcon iconAdvertiser'>{$client.clientname|escape:html}</a>
                     {ox_entity_id type="Advertiser" id=$clientId}
-                  {/if}
                 </td>
                 <td>
                     {ox_column_updated updated=$client.updated}

@@ -133,11 +133,15 @@ $oTpl->assign('aZones', $aZones);
 $oTpl->assign('listorder', $listorder);
 $oTpl->assign('orderdirection', $orderdirection);
 
-$oTpl->assign('canAdd', OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_ADD));
-$oTpl->assign('canEdit', OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_EDIT));
-$oTpl->assign('canLink', OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_LINK));
-$oTpl->assign('canInvocation', OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_INVOCATION));
-$oTpl->assign('canDelete', OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_DELETE));
+$isTrafficker = OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER);
+
+$oTpl->assign('canAdd', !$isTrafficker || OA_Permission::hasPermission(OA_PERM_ZONE_ADD));
+$oTpl->assign('canEdit', !$isTrafficker || OA_Permission::hasPermission(OA_PERM_ZONE_EDIT));
+$oTpl->assign('canLink', !$isTrafficker || OA_Permission::hasPermission(OA_PERM_ZONE_LINK));
+$oTpl->assign('canInvocation', !$isTrafficker || OA_Permission::hasPermission(OA_PERM_ZONE_INVOCATION));
+$oTpl->assign('canDelete',
+    ($isTrafficker && OA_Permission::hasPermission(OA_PERM_ZONE_DELETE)) ||
+    (!$isTrafficker && OA_Permission::hasPermission(OA_PERM_MANAGER_DELETE)));
 
 
 /*-------------------------------------------------------*/

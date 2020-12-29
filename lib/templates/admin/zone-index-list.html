@@ -61,9 +61,11 @@
     <table cellspacing='0' summary=''>
         <thead>
             <tr>
-              <th class='first toggleAll'>
+                {if $canDelete}
+                <th class='first toggleAll'>
                   <input type='checkbox' />
                 </th>
+                {/if}
                 <th class='{ox_column_class item=name order=up default=1}'>
                     {ox_column_title item=name order=up default=1 str=Name url=affiliate-zones.php}
                 </th>
@@ -118,9 +120,11 @@
     {foreach key=zoneId item=zone from=$from}
         {cycle name=bgcolor assign=bgColor}
             <tr class='{$bgColor}'>
-              <td class='toggleSelection'>
+                {if $canDelete}
+                <td class='toggleSelection'>
                   <input type='checkbox' value='{$zoneId}' />
                 </td>
+                {/if}
                 <td>
                   {if $canEdit}
                       <a href='zone-edit.php?affiliateid={$affiliateId}&zoneid={$zoneId}' class='inlineIcon {ox_zone_icon delivery=$zone.delivery active=$zone.active warning=$zone.lowPriorityWarning}'>{$zone.zonename|escape:html}</a>

@@ -94,10 +94,10 @@ $oTpl->assign('listorder', $listorder);
 $oTpl->assign('orderdirection', $orderdirection);
 $oTpl->assign('url', 'advertiser-trackers.php?clientid=' . $clientid);
 
-$oTpl->assign('canAdd', OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER));
-$oTpl->assign('canEdit', OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER));
-$oTpl->assign('canLink', OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER));
-$oTpl->assign('canDelete', OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER));
+$oTpl->assign('canAdd', true);
+$oTpl->assign('canEdit', true);
+$oTpl->assign('canLink', true);
+$oTpl->assign('canDelete', OA_Permission::hasPermission(OA_PERM_MANAGER_DELETE));
 
 
 /*-------------------------------------------------------*/

@@ -1684,8 +1684,17 @@ function MAX_displayNavigationChannel($pageName, $aOtherChannels, $aEntities)
 function addAdvertiserPageToolsAndShortcuts($advertiserId)
 {
     if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+        $token = phpAds_SessionGetToken();
+
+        if (OA_Permission::hasPermission(OA_PERM_MANAGER_DELETE)) {
+            //delete
+            $deleteConfirm = phpAds_DelConfirm($GLOBALS['strConfirmDeleteClient']);
+            addPageLinkTool($GLOBALS["strDelete"], MAX::constructUrl(MAX_URL_ADMIN, "advertiser-delete.php?token=".urlencode($token)."&clientid=".$advertiserId."&returnurl=advertiser-index.php"), "iconDelete", null, $deleteConfirm);
+        }
+
         addPageLinkTool($GLOBALS["strAddCampaign_Key"], MAX::constructUrl(MAX_URL_ADMIN, "campaign-edit.php?clientid=".$advertiserId), "iconCampaignAdd", $GLOBALS["keyAddNew"] );
     }
+
     addPageShortcut($GLOBALS['strAdvertiserCampaigns'], MAX::constructUrl(MAX_URL_ADMIN, "advertiser-campaigns.php?clientid=$advertiserId"), "iconCampaigns");
     addPageShortcut($GLOBALS['strClientHistory'], MAX::constructUrl(MAX_URL_ADMIN, 'stats.php?entity=advertiser&breakdown=history&clientid='.$advertiserId), 'iconStatistics');
 }
@@ -1712,9 +1721,12 @@ function addTrackerPageTools($advertiserId, $trackerId, $aOtherAdvertisers)
         $form .= "</select><input type='image' class='submit' src='" . OX::assetPath() . "/images/".$GLOBALS['phpAds_TextDirection']."/go_blue.gif'></form>";
         addPageFormTool($GLOBALS['strMoveTo'], 'iconTrackerMove', $form);
 
-        //delete
-        $deleteConfirm = phpAds_DelConfirm($GLOBALS['strConfirmDeleteTracker']);
-        addPageLinkTool($GLOBALS["strDelete"], MAX::constructUrl(MAX_URL_ADMIN, "tracker-delete.php?token=".urlencode($token)."&clientid=".$advertiserId."&trackerid=".$trackerId."&returnurl=advertiser-trackers.php"), "iconDelete", null, $deleteConfirm);
+        if (OA_Permission::hasPermission(OA_PERM_MANAGER_DELETE)) {
+            //delete
+            $deleteConfirm = phpAds_DelConfirm($GLOBALS['strConfirmDeleteTracker']);
+            addPageLinkTool($GLOBALS["strDelete"], MAX::constructUrl(MAX_URL_ADMIN, "tracker-delete.php?token=".urlencode($token)."&clientid=".$advertiserId."&trackerid=".$trackerId."&returnurl=advertiser-trackers.php"), "iconDelete", null, $deleteConfirm);
+        }
+
         addPageShortcut($GLOBALS['strBackToTrackers'], MAX::constructUrl(MAX_URL_ADMIN, "advertiser-trackers.php?clientid=$advertiserId"), "iconBack");
     }
 }
@@ -1753,8 +1765,10 @@ function addCampaignPageTools($clientid, $campaignid, $aOtherAdvertisers, $aEnti
             addPageFormTool($GLOBALS['strMoveTo'], 'iconCampaignMove', $form);
         }
 
-        $deleteConfirm = phpAds_DelConfirm($GLOBALS['strConfirmDeleteCampaign']);
-        addPageLinkTool($GLOBALS["strDelete"], MAX::constructUrl(MAX_URL_ADMIN, "campaign-delete.php?token=".urlencode($token)."&clientid=$clientid&campaignid=$campaignid&returnurl=advertiser-campaigns.php"), "iconDelete", null, $deleteConfirm);
+        if (OA_Permission::hasPermission(OA_PERM_MANAGER_DELETE)) {
+            $deleteConfirm = phpAds_DelConfirm($GLOBALS['strConfirmDeleteCampaign']);
+            addPageLinkTool($GLOBALS["strDelete"], MAX::constructUrl(MAX_URL_ADMIN, "campaign-delete.php?token=" . urlencode($token) . "&clientid=$clientid&campaignid=$campaignid&returnurl=advertiser-campaigns.php"), "iconDelete", null, $deleteConfirm);
+        }
     }
 
     //shortcuts
@@ -1832,7 +1846,7 @@ function addBannerPageTools($advertiserId, $campaignId, $bannerId, $aOtherCampai
     }
 
     //delete
-    if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+    if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER) && OA_Permission::hasPermission(OA_PERM_MANAGER_DELETE)) {
         $deleteConfirm = phpAds_DelConfirm($GLOBALS['strConfirmDeleteBanner']);
         addPageLinkTool($GLOBALS["strDelete"], MAX::constructUrl(MAX_URL_ADMIN, "banner-delete.php?token=".urlencode($token)."&clientid=$advertiserId&campaignid=$campaignId&bannerid=$bannerId&returnurl=campaign-banners.php"), "iconDelete", null, $deleteConfirm);
     }
@@ -1851,6 +1865,13 @@ function addWebsitePageTools($websiteId)
     if (!empty($websiteId) && (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER))) {
         addPageLinkTool($GLOBALS["strDuplicate"], MAX::constructUrl(MAX_URL_ADMIN, "affiliate-duplicate.php?token=".urlencode($token)."&affiliateid=$websiteId"), "iconWebsiteDuplicate");
     }
+
+    if (!empty($websiteId) && OA_Permission::isAccount(OA_ACCOUNT_MANAGER) && OA_Permission::hasPermission(OA_PERM_MANAGER_DELETE)) {
+        //delete
+        $deleteConfirm = phpAds_DelConfirm($GLOBALS['strConfirmDeleteAffiliate']);
+        addPageLinkTool($GLOBALS["strDelete"], MAX::constructUrl(MAX_URL_ADMIN, "affiliate-delete.php?token=".urlencode($token)."&affiliateid=".$websiteId."&returnurl=website-index.php"), "iconDelete", null, $deleteConfirm);
+    }
+
     if (!empty($websiteId) && (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)
         || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)
         || OA_Permission::hasPermission(OA_PERM_ZONE_ADD))) {
@@ -1897,7 +1918,7 @@ function addZonePageTools($affiliateid, $zoneid, $aOtherPublishers, $aEntities)
 
     //delete
     if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)
-       || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)
+       || OA_Permission::hasPermission(OA_PERM_MANAGER_DELETE)
        || OA_Permission::hasPermission(OA_PERM_ZONE_DELETE)) {
         $deleteConfirm = phpAds_DelConfirm($GLOBALS['strConfirmDeleteZone']);
         addPageLinkTool($GLOBALS["strDelete"], MAX::constructUrl(MAX_URL_ADMIN, "zone-delete.php?token=".urlencode($token)."&affiliateid=$affiliateid&zoneid=$zoneid&returnurl=affiliate-zones.php"), "iconDelete", null, $deleteConfirm);

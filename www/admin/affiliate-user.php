@@ -83,7 +83,12 @@ if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER) ||
 $aAllowedPermissions[OA_PERM_ZONE_EDIT]       = array($strAllowAffiliateModifyZones,  false,
                                                       'MMM_cascadePermissionsChange()');
 $aAllowedPermissions[OA_PERM_ZONE_ADD]        = array($strAllowAffiliateAddZone,      true, false);
-$aAllowedPermissions[OA_PERM_ZONE_DELETE]     = array($strAllowAffiliateDeleteZone,   true, false);
+
+if (OA_Permission::hasPermission(OA_PERM_MANAGER_DELETE) ||
+    OA_Permission::hasPermission(OA_PERM_ZONE_DELETE)) {
+    $aAllowedPermissions[OA_PERM_ZONE_DELETE]     = array($strAllowAffiliateDeleteZone,   true, false);
+}
+
 $aAllowedPermissions[OA_PERM_ZONE_LINK]       = array($strAllowAffiliateLinkBanners,  false, false);
 $aAllowedPermissions[OA_PERM_ZONE_INVOCATION] = array($strAllowAffiliateGenerateCode, false, false);
 $aAllowedPermissions[OA_PERM_USER_LOG_ACCESS] = array($strAllowAuditTrailAccess, false, false);

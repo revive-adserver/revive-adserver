@@ -45,6 +45,8 @@ What's New in Revive Adserver 5.1.0
 
  * Replaced Flash-based video player for video ads with HTML5 video tag.
 
+ * Added new manager level permission to delete items.
+
  Bug Fixes
  ---------
 
@@ -83,6 +85,10 @@ What's New in Revive Adserver 5.1.0
 
  * Removed Flash-based graphs and supporting libraries in the video ads plugin
    reports.
+
+ * The new manager permission is disabled by default, which means that non-admin
+   managers won't be able to delete items, unless an admin grants them the
+   permission.
 
 
 System Requirements

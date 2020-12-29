@@ -202,6 +202,7 @@ if (isset($aCampaigns) && is_array($aCampaigns) && count($aCampaigns) > 0) {
 	}
 }
 
+$isAdvertiser = OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER);
 
 $oTpl->assign('clientId', $clientid);
 $oTpl->assign('aCampaigns', $aCampaigns);
@@ -210,9 +211,10 @@ $oTpl->assign('hideinactive', $hideinactive);
 $oTpl->assign('listorder', $listorder);
 $oTpl->assign('orderdirection', $orderdirection);
 $oTpl->assign('showconversions', $conf['logging']['trackerImpressions']);
-$oTpl->assign('isAdvertiser', OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER));
-$oTpl->assign('canEdit', OA_Permission::hasPermission(OA_PERM_BANNER_ACTIVATE) || OA_Permission::hasPermission(OA_PERM_BANNER_EDIT));
-$oTpl->assign('isManager', OA_Permission::isAccount(OA_ACCOUNT_MANAGER));
+$oTpl->assign('canAddCampaign', !$isAdvertiser);
+$oTpl->assign('canAddBanner', !$isAdvertiser || OA_Permission::hasPermission(OA_PERM_BANNER_ADD));
+$oTpl->assign('canEdit', !$isAdvertiser || OA_Permission::hasPermission(OA_PERM_BANNER_EDIT));
+$oTpl->assign('canDelete', !$isAdvertiser && OA_Permission::hasPermission(OA_PERM_MANAGER_DELETE));
 
 
 /*-------------------------------------------------------*/

@@ -16,6 +16,7 @@
             <li>
                 <a href='affiliate-edit.php' class='inlineIcon iconWebsiteAdd'>{t str=AddNewAffiliate}</a>
             </li>
+            {if $canDelete}
             <li class='inactive activeIfSelected'>
                 <a id='deleteSelection' href='#' class='inlineIcon iconDelete'>{t str=Delete}</a>
 
@@ -42,6 +43,7 @@
                 </script>
                 {/literal}
             </li>
+            {/if}
         </ul>
 
         {if !empty($topPager->links)}
@@ -64,9 +66,11 @@
     <table cellspacing='0' summary=''>
         <thead>
             <tr>
-              <th class='first toggleAll'>
+                {if $canDelete}
+                <th class='first toggleAll'>
                     <input type='checkbox' />
                 </th>
+                {/if}
                 <th class='{ox_column_class item=name order=up default=1}'>
                     {ox_column_title item=name order=up default=1 str=Name url=website-index.php}
                 </th>
@@ -118,9 +122,11 @@
     {foreach key=key item=affiliate from=$from}
         {cycle name=bgcolor assign=bgColor}
             <tr class='{$bgColor}'>
-              <td class='toggleSelection'>
+                {if $canDelete}
+                <td class='toggleSelection'>
                   <input type='checkbox' value='{$key}' />
                 </td>
+                {/if}
                 <td>
                     <a href='affiliate-edit.php?affiliateid={$key}' class='inlineIcon iconWebsite'>{$affiliate.name|escape:html}</a>
                     {ox_entity_id type="Website" id=$key}

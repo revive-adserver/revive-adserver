@@ -24,11 +24,10 @@ phpAds_registerGlobal ('returnurl');
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
+OA_Permission::enforceAccountPermission(OA_ACCOUNT_MANAGER, OA_PERM_MANAGER_DELETE);
 OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
 
-if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
-    OA_Permission::enforceAllowed(OA_PERM_ZONE_DELETE);
-}
+OA_Permission::enforceAccountPermission(OA_ACCOUNT_TRAFFICKER, OA_PERM_ZONE_DELETE);
 
 // CVE-2013-5954 - see OA_Permission::checkSessionToken() method for details
 OA_Permission::checkSessionToken();

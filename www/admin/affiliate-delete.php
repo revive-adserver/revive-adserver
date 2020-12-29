@@ -23,6 +23,7 @@ phpAds_registerGlobal ('returnurl');
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
+OA_Permission::enforceAccountPermission(OA_ACCOUNT_MANAGER, OA_PERM_MANAGER_DELETE);
 
 // CVE-2013-5954 - see OA_Permission::checkSessionToken() method for details
 OA_Permission::checkSessionToken();

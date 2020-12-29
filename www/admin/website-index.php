@@ -84,6 +84,7 @@ $oTpl->assign('phpAds_ZonePopup',           phpAds_ZonePopup);
 $oTpl->assign('phpAds_ZoneText'.            phpAds_ZoneText);
 $oTpl->assign('showAdDirect', (defined('OA_AD_DIRECT_ENABLED') && OA_AD_DIRECT_ENABLED === true) ? true : false);
 
+$oTpl->assign('canDelete', OA_Permission::hasPermission(OA_PERM_MANAGER_DELETE));
 
 /*-------------------------------------------------------*/
 /* Store preferences                                     */

@@ -14,7 +14,7 @@
 <div class='tableWrapper'>
     <div class='tableHeader'>
         <ul class='tableActions'>
-            {if $isManager}
+            {if $canAddCampaign}
             <li>
                 {if $clientId != -1}
                 <a href='campaign-edit.php?clientid={$clientId}' class='inlineIcon iconCampaignAdd'>{t str=AddCampaign}</a>
@@ -23,7 +23,7 @@
                 {/if}
             </li>
             {/if}
-            {if $isAdvertiser == false}
+            {if $canDelete}
             <li class='inactive activeIfSelected'>
                 <a id='deleteSelection' href='#' class='inlineIcon iconDelete'>{t str=Delete}</a>
 
@@ -84,7 +84,7 @@
     <table cellspacing='0' summary=''>
         <thead>
             <tr>
-                {if $isAdvertiser == false}
+                {if $canDelete}
                 <th class='first toggleAll'>
                     <input type='checkbox' />
                 </th>
@@ -150,24 +150,16 @@
     {foreach key=campaignId item=campaign from=$from}
         {cycle name=bgcolor assign=bgColor}
             <tr class='{$bgColor}'>
-                {if $isAdvertiser == false}
+                {if $canDelete}
                 <td class='toggleSelection'>
                     <input type='checkbox' value='{$campaignId}' />
                 </td>
                 {/if}
                 <td>
-                    {if $isAdvertiser}
-                        <a href='campaign-banners.php?clientid={$clientId}&campaignid={$campaignId}' class='inlineIcon {ox_campaign_icon status=$campaign.status}'>{$campaign.campaignname|escape:html}</a>
+                    {if !$canEdit}
+                        <span class='inlineIcon {ox_campaign_icon status=$campaign.status}'>{$campaign.campaignname|escape:html}</span>
                     {else}
-                        {if $isAdvertiser && $canEdit == false}
-                            <span class='inlineIcon {ox_campaign_icon status=$campaign.status}'>{$campaign.campaignname|escape:html}</span>
-                        {else}
-                            {if $campaign.system}
-                                <a href='campaign-edit.php?clientid={$clientId}&campaignid={$campaignId}' class='inlineIcon iconCampaignSystem'>{$campaign.campaignname|escape:html}</a>
-                            {else}
-                                <a href='campaign-edit.php?clientid={$clientId}&campaignid={$campaignId}' class='inlineIcon {ox_campaign_icon status=$campaign.status}'>{$campaign.campaignname|escape:html}</a>
-                            {/if}
-                        {/if}
+                        <a href='campaign-edit.php?clientid={$clientId}&campaignid={$campaignId}' class='inlineIcon {ox_campaign_icon status=$campaign.status}'>{$campaign.campaignname|escape:html}</a>
                     {/if}
                     {ox_entity_id type="Campaign" id=$campaignId}
                 </td>
@@ -183,7 +175,7 @@
                 <td class='alignRight verticalActions'>
                   {if $campaign.system != true}
                     <ul class='rowActions'>
-                    {if $isAdvertiser == false}
+                        {if $canAddBanner}
                         <li>
                             <a href='banner-edit.php?clientid={$clientId}&campaignid={$campaignId}' class='inlineIcon iconBannerAdd'>{t str=AddBanner}</a>
                         </li>

@@ -57,9 +57,11 @@
     <table cellspacing='0' summary=''>
         <thead>
             <tr>
+                {if $canDelete}
                 <th class='first toggleAll'>
                     <input type='checkbox' />
                 </th>
+                {/if}
                 <th class='{ox_column_class item=name order=up default=1}'>
                     {ox_column_title item=name order=up default=1 str=Name url=$url}
                 </th>
@@ -78,7 +80,7 @@
                 <td colspan='4'>&nbsp;</td>
             </tr>
             <tr class='even'>
-                <td colspan='4'>
+                <td colspan='4'class="hasPanel">
                     <div class='tableMessage'>
                         <div class='panel'>
                             {t str=NoTrackers}
@@ -104,9 +106,11 @@
     {foreach key=trackerId item=tracker from=$from}
         {cycle name=bgcolor assign=bgColor}
             <tr class='{$bgColor}'>
+                {if $canDelete}
                 <td class='toggleSelection'>
                     <input type='checkbox' value='{$trackerId}' />
                 </td>
+                {/if}
                 <td>
                     {if $canEdit}
                     <a href='tracker-edit.php?clientid={$clientId}&trackerid={$trackerId}' class='inlineIcon iconTracker'>{$tracker.trackername|escape:html}</a>
