@@ -90,6 +90,9 @@ What's New in Revive Adserver 5.1.0
    managers won't be able to delete items, unless an admin grants them the
    permission.
 
+ * The VAST output was still using the obsolete video/x-mp4 as content type,
+   which has now been updated to video/mp4.
+
 
 System Requirements
 -------------------

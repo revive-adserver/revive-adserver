@@ -119,17 +119,19 @@ function extractVastParameters( &$aBanner )
 function prepareVideoParams(&$aOutputParams, $aBanner)
 {
     $aOutputParams['name'] = $aBanner['name'];
-    if(isset($aBanner['vast_video_outgoing_filename'] )
-        && $aBanner['vast_video_outgoing_filename']) {
-       $aAdminParamsNotUsed = array();
-       parseVideoUrl($aBanner, $aOutputParams, $aAdminParamsNotUsed );
-       $aOutputParams['vastVideoDuration'] = secondsToVASTDuration( $aBanner['vast_video_duration'] );
-       $aOutputParams['vastVideoBitrate'] = $aBanner['vast_video_bitrate'];
-       $aOutputParams['vastVideoWidth']= $aBanner['vast_video_width'];
-       $aOutputParams['vastVideoHeight'] = $aBanner['vast_video_height'];
-       $aOutputParams['vastVideoId'] =  $aBanner['bannerid'];
-       $aOutputParams['vastVideoType'] = $aBanner['vast_video_type'];
-       $aOutputParams['vastVideoDelivery'] = $aBanner['vast_video_delivery'];
+
+    if (isset($aBanner['vast_video_outgoing_filename']) && $aBanner['vast_video_outgoing_filename']) {
+        $aAdminParamsNotUsed = [];
+        parseVideoUrl($aBanner, $aOutputParams, $aAdminParamsNotUsed);
+        $aOutputParams['vastVideoDuration'] = secondsToVASTDuration($aBanner['vast_video_duration']);
+        $aOutputParams['vastVideoBitrate'] = $aBanner['vast_video_bitrate'];
+        $aOutputParams['vastVideoWidth'] = $aBanner['vast_video_width'];
+        $aOutputParams['vastVideoHeight'] = $aBanner['vast_video_height'];
+        $aOutputParams['vastVideoId'] = $aBanner['bannerid'];
+        $aOutputParams['vastVideoDelivery'] = $aBanner['vast_video_delivery'];
+
+        // x-mp4 isn't working any longer, use mp4
+        $aOutputParams['vastVideoType'] = str_replace('x-mp4', 'mp4', $aBanner['vast_video_type']);
     }
 }
 
@@ -442,7 +444,7 @@ function renderPlayerInPage($aOut)
     }
 
     $path = htmlspecialchars($aOut['fullPathToVideo']);
-    $type = htmlspecialchars(str_replace('x-mp4', 'mp4', $aOut['vastVideoType']));
+    $type = htmlspecialchars($aOut['vastVideoType']);
 
     return <<<PLAYER
         <h3>Video ad preview</h3>
