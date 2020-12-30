@@ -83,7 +83,7 @@ ul.widgetList {
     margin: 0px;
     padding-left: 12px;
     margin-bottom: 10px;
-    list-style-image: url('../images/listIcon.gif');*/
+    list-style-image: url('../images/listIcon.gif');
     list-style-position: outside;
 }
 
@@ -265,11 +265,11 @@ div.widgetOverlayContent {
 
 div.widgetOverlayContent h1 {
 	font-size: 15pt;
-	color: 77797C;
+	color: #77797C;
 }
 
 div.widgetOverlayContent p {
-    color: 77797C;
+    color: #77797C;
 	font-size: 8pt;
 	margin: 10px 0;
 
