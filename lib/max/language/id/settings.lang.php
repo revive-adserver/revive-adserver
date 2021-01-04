@@ -179,7 +179,6 @@ $GLOBALS['strDeliveryFilenamesAdView'] = "Tampilan iklan";
 $GLOBALS['strDeliveryFilenamesXMLRPC'] = "Perintah XML RPC";
 $GLOBALS['strDeliveryFilenamesLocal'] = "Invokasi lokal";
 $GLOBALS['strDeliveryFilenamesFrontController'] = "Kontrol depan";
-$GLOBALS['strDeliveryFilenamesFlash'] = "Pencakupan Flash (Alamat URL lengkap diizinkan)";
 $GLOBALS['strDeliveryFilenamesSinglePageCall'] = "Panggilan Halaman Tunggal";
 $GLOBALS['strDeliveryFilenamesSinglePageCallJS'] = "Panggilan Laman Tunggal (JavaScript)";
 $GLOBALS['strDeliveryCaching'] = "Penyetelan global untuk caching penyampaian";

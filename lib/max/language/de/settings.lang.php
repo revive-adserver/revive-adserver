@@ -160,7 +160,6 @@ $GLOBALS['strDeliveryFilenames'] = "Namen der Dateien, die das System zur Werbem
 $GLOBALS['strDeliveryFilenamesAdConversionVars'] = "Ad Conversion Variablen";
 $GLOBALS['strDeliveryFilenamesXMLRPC'] = "XML RPC Bannercode";
 $GLOBALS['strDeliveryFilenamesLocal'] = "Lokaler Bannercode";
-$GLOBALS['strDeliveryFilenamesFlash'] = "Flash Include (Kann eine vollständige URL sein)";
 $GLOBALS['strDeliveryCaching'] = "Allgemeine Einstellungen des Auslieferungs-Caches";
 $GLOBALS['strDeliveryCacheLimit'] = "Zeitintervall zwischen Cache-Aktualisierungen (in Sek.)";
 $GLOBALS['strDeliveryCacheStore'] = "Cache-Typ für die Bannerauslieferung";

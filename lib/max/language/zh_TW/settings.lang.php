@@ -143,7 +143,6 @@ $GLOBALS['strDeliveryFilenamesAdView'] = "廣告預覽";
 $GLOBALS['strDeliveryFilenamesXMLRPC'] = "生成遠程調用XML";
 $GLOBALS['strDeliveryFilenamesLocal'] = "生成本地的";
 $GLOBALS['strDeliveryFilenamesFrontController'] = "字體控制器";
-$GLOBALS['strDeliveryFilenamesFlash'] = "包括Flash（可以使用絕對路徑)";
 $GLOBALS['strDeliveryCaching'] = "全局發送緩存設置";
 $GLOBALS['strDeliveryCacheLimit'] = "緩存刷新頻率（秒)";
 $GLOBALS['strDeliveryCtDelimiter'] = "第三方廣告跟蹤分隔符";

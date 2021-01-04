@@ -155,7 +155,6 @@ $GLOBALS['strDeliveryFilenamesAdView'] = "Affichage publicitaire";
 $GLOBALS['strDeliveryFilenamesXMLRPC'] = "Invocation XML RPC";
 $GLOBALS['strDeliveryFilenamesLocal'] = "Invocation locale";
 $GLOBALS['strDeliveryFilenamesFrontController'] = "Contrôleur frontal";
-$GLOBALS['strDeliveryFilenamesFlash'] = "Inclusion Flash (Peut être une URL complète)";
 $GLOBALS['strDeliveryCaching'] = "Paramètres du cache de distribution des bannières";
 $GLOBALS['strDeliveryCacheLimit'] = "Temps entre les mises à jour du cache des bannières (secondes)";
 $GLOBALS['strDeliveryCacheStore'] = "Type de stockage du cache de distribution des bannières";

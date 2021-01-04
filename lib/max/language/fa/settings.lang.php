@@ -176,7 +176,6 @@ $GLOBALS['strDeliveryFilenamesAdView'] = "نمایش تبلیغ";
 $GLOBALS['strDeliveryFilenamesXMLRPC'] = "XML RPC فراخوانی";
 $GLOBALS['strDeliveryFilenamesLocal'] = "فراخوانی محلی";
 $GLOBALS['strDeliveryFilenamesFrontController'] = "کنترل کننده ی جلویی";
-$GLOBALS['strDeliveryFilenamesFlash'] = "شامل فلش(می تواند url کامل باشد)";
 $GLOBALS['strDeliveryFilenamesSinglePageCall'] = "فراخوانی یک صفحه";
 $GLOBALS['strDeliveryFilenamesSinglePageCallJS'] = "فراخوانی یک صفحه (JavaScript)";
 $GLOBALS['strDeliveryCaching'] = "تنظیمات کش تحویل بنر";

@@ -111,7 +111,6 @@ $GLOBALS['strDeliveryFilenamesAdLayer'] = "Tilføj Layer";
 $GLOBALS['strDeliveryFilenamesAdLog'] = "Tilføj Log";
 $GLOBALS['strDeliveryFilenamesAdPopup'] = "Tilføj Popup";
 $GLOBALS['strDeliveryFilenamesLocal'] = "Lokal Invocation";
-$GLOBALS['strDeliveryFilenamesFlash'] = "Flash Inkluderet (Kan være fuldt URL)";
 $GLOBALS['strDeliveryCaching'] = "Banner Levering Cache Indstillinger";
 $GLOBALS['strDeliveryCacheLimit'] = "Tid imellem Banner Cache Updatering (sekunder)";
 

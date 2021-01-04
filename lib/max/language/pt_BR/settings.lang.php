@@ -145,7 +145,6 @@ $GLOBALS['strDeliveryFilenamesAdView'] = "Visualização de anúncio";
 $GLOBALS['strDeliveryFilenamesXMLRPC'] = "Inclusão por XML RPC";
 $GLOBALS['strDeliveryFilenamesLocal'] = "Inserção local";
 $GLOBALS['strDeliveryFilenamesFrontController'] = "Ponto de entrada único (Front Controller)";
-$GLOBALS['strDeliveryFilenamesFlash'] = "Inclusão em Flash (Pode ser URL completo)";
 $GLOBALS['strDeliveryCaching'] = "Configurações de Cache de Entrega de Banners";
 $GLOBALS['strDeliveryCacheLimit'] = "Tempo entre atualizações do Cache de Banners(segundos)";
 $GLOBALS['strDeliveryCtDelimiter'] = "Delimitador de rastreadores de cliques de terceiros";

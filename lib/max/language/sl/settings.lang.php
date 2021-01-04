@@ -157,7 +157,6 @@ $GLOBALS['strDeliveryFilenamesAdView'] = "Prikaz oglasa";
 $GLOBALS['strDeliveryFilenamesXMLRPC'] = "XML RPC Poziv";
 $GLOBALS['strDeliveryFilenamesLocal'] = "Lokalni poziv";
 $GLOBALS['strDeliveryFilenamesFrontController'] = "Sprednji preglednik";
-$GLOBALS['strDeliveryFilenamesFlash'] = "Vključujoč FLASH (lahko je poln URL)";
 $GLOBALS['strDeliveryCaching'] = "Nastavitve dostavnega pomnilnika pasice";
 $GLOBALS['strDeliveryCacheLimit'] = "Čas med posodobitvami pomnilnika pasice (v sekundah)";
 $GLOBALS['strDeliveryCacheStore'] = "Tip hrambe pomnilnika dostavljanja pasice ";
