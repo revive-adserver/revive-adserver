@@ -169,7 +169,6 @@ $GLOBALS['strDeliveryFilenamesAdView'] = "Vista Inserzione";
 $GLOBALS['strDeliveryFilenamesXMLRPC'] = "Invocazione XML RPC";
 $GLOBALS['strDeliveryFilenamesLocal'] = "Invocazione Locale";
 $GLOBALS['strDeliveryFilenamesFrontController'] = "Controllo Front";
-$GLOBALS['strDeliveryFilenamesFlash'] = "Inclusione Flash (può essere un URL assoluto)";
 $GLOBALS['strDeliveryFilenamesSinglePageCall'] = "Single Page Call";
 $GLOBALS['strDeliveryFilenamesSinglePageCallJS'] = "Single Page Call (JavaScript)";
 $GLOBALS['strDeliveryCaching'] = "Impostazioni cache per la consegna dei banner";

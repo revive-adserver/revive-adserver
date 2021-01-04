@@ -160,7 +160,6 @@ $GLOBALS['strDeliveryFilenamesAdView'] = "広告ビュー";
 $GLOBALS['strDeliveryFilenamesXMLRPC'] = "XML RPCで広告を生成する";
 $GLOBALS['strDeliveryFilenamesLocal'] = "ローカルサーバより広告を生成する";
 $GLOBALS['strDeliveryFilenamesFrontController'] = "フロントコントローラ";
-$GLOBALS['strDeliveryFilenamesFlash'] = "FlashのURL（フルURL）";
 $GLOBALS['strDeliveryCaching'] = "バナーキャッシュの設定";
 $GLOBALS['strDeliveryCacheLimit'] = "バナーキャッシュの更新間隔";
 $GLOBALS['strDeliveryCtDelimiter'] = "サードパーティー製の、クリック追跡時用区切り文字";

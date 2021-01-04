@@ -146,7 +146,6 @@ $GLOBALS['strDeliveryFilenamesAdView'] = "Ad rodymas";
 $GLOBALS['strDeliveryFilenamesXMLRPC'] = "XML RPC kreipimasis";
 $GLOBALS['strDeliveryFilenamesLocal'] = "Vietinis kreipimasis";
 $GLOBALS['strDeliveryFilenamesFrontController'] = "Priekinis tikrintojas";
-$GLOBALS['strDeliveryFilenamesFlash'] = "Pridėti Flash (gali būti pilnas URL)";
 $GLOBALS['strDeliveryCaching'] = "Banerio pristatymo kelio nustatymai";
 $GLOBALS['strDeliveryCacheLimit'] = "Laikas ";
 $GLOBALS['strDeliveryCtDelimiter'] = "Trečiosios šalies paspaudimų seklio delimiter";

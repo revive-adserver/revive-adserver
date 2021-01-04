@@ -156,7 +156,6 @@ $GLOBALS['strDeliveryFilenamesAdView'] = "Wyświetlenie reklamy";
 $GLOBALS['strDeliveryFilenamesXMLRPC'] = "Kod wywołujący XML RPC";
 $GLOBALS['strDeliveryFilenamesLocal'] = "Lokalny kod wywołujący";
 $GLOBALS['strDeliveryFilenamesFrontController'] = "Sterownik główny";
-$GLOBALS['strDeliveryFilenamesFlash'] = "Animacja Flash (może być pełny URL)";
 $GLOBALS['strDeliveryCaching'] = "Ustawienia cache banerów";
 $GLOBALS['strDeliveryCacheLimit'] = "Okres czasu pomiędzy aktualizacjami cache banerów (w sekundach)";
 $GLOBALS['strDeliveryCtDelimiter'] = "Ogranicznik śledzenia kliknięć strony trzeciej";

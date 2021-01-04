@@ -140,7 +140,6 @@ $GLOBALS['strDeliveryFilenamesAdPopup'] = "Hirdetés popup";
 $GLOBALS['strDeliveryFilenamesAdView'] = "Hirdetés megtekintés";
 $GLOBALS['strDeliveryFilenamesXMLRPC'] = "XML RPC kérés";
 $GLOBALS['strDeliveryFilenamesLocal'] = "Helyi kérés";
-$GLOBALS['strDeliveryFilenamesFlash'] = "Flash beágyazás (teljes URL cím is lehet)";
 $GLOBALS['strDeliveryCaching'] = "Banner kézbesítési gyorsítótár beállításai";
 $GLOBALS['strDeliveryCacheLimit'] = "A banner gyorsítótár frissítései közti idő (másodpercekben)";
 $GLOBALS['strDeliveryCtDelimiter'] = "Harmadik féltől származó kattintás követési határolójel";

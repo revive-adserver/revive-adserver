@@ -377,7 +377,7 @@ $GLOBALS['strCampaignWarningNoTarget'] = "El tipo de esta campaña ha sido fijad
 
 ¿Está seguro de que desea continuar?";
 $GLOBALS['strCampaignStatusPending'] = "Pendiente";
-$GLOBALS['strCampaignStatusInactive'] = "activo";
+$GLOBALS['strCampaignStatusInactive'] = "inactivo";
 $GLOBALS['strCampaignStatusRunning'] = "Ejecutándose";
 $GLOBALS['strCampaignStatusPaused'] = "Pausada";
 $GLOBALS['strCampaignStatusAwaiting'] = "Añadida";
@@ -946,7 +946,7 @@ $GLOBALS['strConfirmDeleteAgency'] = "¿Está seguro de querer borrar esta zona?
 $GLOBALS['strHideInactiveAgencies'] = "Ocultar cuentas inactivas";
 $GLOBALS['strInactiveAgenciesHidden'] = "cuentas(s) inactiva(s) ocultada(s)";
 $GLOBALS['strSwitchAccount'] = "Cambiar a esta cuenta";
-$GLOBALS['strAgencyStatusInactive'] = "activo";
+$GLOBALS['strAgencyStatusInactive'] = "inactivo";
 
 // Channels
 $GLOBALS['strChannel'] = "Conjunto de reglas de entrega";

@@ -154,7 +154,6 @@ $GLOBALS['strDeliveryFilenamesAdView'] = "Vizualizare Reclamă";
 $GLOBALS['strDeliveryFilenamesXMLRPC'] = "Invocare XML RPC";
 $GLOBALS['strDeliveryFilenamesLocal'] = "Invocare Locală";
 $GLOBALS['strDeliveryFilenamesFrontController'] = "Controler Faţă";
-$GLOBALS['strDeliveryFilenamesFlash'] = "Include Flash (Poate fi un URL complet)";
 $GLOBALS['strDeliveryCaching'] = "Setări Cache Distribuţie Banner";
 $GLOBALS['strDeliveryCacheLimit'] = "Perioada între actualizările Cache-ului de Bannere (secunde)";
 $GLOBALS['strDeliveryCtDelimiter'] = "Separator Urmărire Click-uri pentru Terţe Părţi";

@@ -39,5 +39,5 @@ msgstr ""
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/BrowserVersion.class.php:77
 msgid "Browser"
-msgstr ""
+msgstr "Browser"
 

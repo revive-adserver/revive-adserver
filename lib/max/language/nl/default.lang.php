@@ -299,6 +299,7 @@ $GLOBALS['strAllowClientActivateBanner'] = "Deze gebruiker kan zijn eigen banner
 $GLOBALS['strAllowCreateAccounts'] = "Deze gebruiker toestaan de gebruikers van dit account te beheren";
 $GLOBALS['strAdvertiserLimitation'] = "Slechts één banner van deze adverteerder op een webpagina weergeven";
 $GLOBALS['strAllowAuditTrailAccess'] = "Deze gebruiker toegang tot het Audit logboek toestaan";
+$GLOBALS['strAllowDeleteItems'] = "Deze gebruiker kan items verwijderen";
 
 // Campaign
 $GLOBALS['strCampaign'] = "Campagne";

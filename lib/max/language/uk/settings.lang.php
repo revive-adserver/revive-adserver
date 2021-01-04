@@ -147,7 +147,6 @@ $GLOBALS['strDeliveryFilenamesAdView'] = "Просмотр баннера";
 $GLOBALS['strDeliveryFilenamesXMLRPC'] = "Вызов XML-RPC";
 $GLOBALS['strDeliveryFilenamesLocal'] = "Локальный вызов";
 $GLOBALS['strDeliveryFilenamesFrontController'] = "Фронт контроллер";
-$GLOBALS['strDeliveryFilenamesFlash'] = "Flash-включение (может быть полным URL)";
 $GLOBALS['strDeliveryCaching'] = "Настройки кэширования доставки";
 $GLOBALS['strDeliveryCacheLimit'] = "Время между обновлениями кэша (сек.)";
 $GLOBALS['strDeliveryCtDelimiter'] = "Разделитель для сторонних трекеров";
