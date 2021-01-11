@@ -178,7 +178,7 @@ class OA_Admin_UI_UserAccess
                         'value'     => $permissionId,
                         'checked'   => OA_Permission::hasPermission($permissionId,
                             $this->accountId, $this->userid),
-                        'hidden'    => $isTrafficker,
+                        'disabled'  => OA_Permission::isUserLinkedToAdmin($this->userid),
                         'break'     => false,
                         'id'        => 'permissions_'.$permissionId,
                         'indent'     => $indent,

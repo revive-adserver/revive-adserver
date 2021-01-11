@@ -62,6 +62,11 @@ What's New in Revive Adserver 5.1.0
 
  * Added missing delivery script settings for async tags.
 
+ * Removed the possibility to set individual permissions for users that are
+   linked to an admin account as such users always have all the permissions
+   by design. Even though the UI was showing checkboxes it has actually never
+   been possible to disable them.
+
 
  Non-Backwards Compatible Changes
  --------------------------------

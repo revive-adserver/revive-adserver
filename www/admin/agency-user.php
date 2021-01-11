@@ -53,7 +53,7 @@ if (OA_Permission::hasPermission(OA_PERM_SUPER_ACCOUNT, $accountId)) {
     $aAllowedPermissions[OA_PERM_SUPER_ACCOUNT] = [$strAllowCreateAccounts, false];
 }
 
-if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
+if (OA_Permission::isUserLinkedToAdmin()) {
     $aAllowedPermissions[OA_PERM_MANAGER_DELETE] = [$strAllowDeleteItems, false];
 }
 
