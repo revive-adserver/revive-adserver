@@ -62,6 +62,7 @@ else {
         $aAgency['contact']      = '';
         $aAgency['email']        = '';
         $aAgency['logout_url']   = '';
+        $aAgency['status']       = OA_ENTITY_STATUS_RUNNING;
     }
 }
 
@@ -110,15 +111,18 @@ function buildAgencyForm($aAgency)
 
     //Form validation rules
     $translation = new OX_Translation();
-    $nameRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strName']));
+    $nameRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], [$GLOBALS['strName']]);
     $form->addRule('name', $nameRequiredMsg, 'required');
 
-    $contactRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strContact']));
+    $contactRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], [$GLOBALS['strContact']]);
     $form->addRule('contact', $contactRequiredMsg, 'required');
-    $emailRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], array($GLOBALS['strEMail']));
+
+    $emailRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], [$GLOBALS['strEMail']]);
     $form->addRule('email', $emailRequiredMsg, 'required');
     $form->addRule('email', $GLOBALS['strEmailField'], 'email');
 
+    $statusRequiredMsg = $translation->translate($GLOBALS['strXRequiredField'], [$GLOBALS['strStatus']]);
+    $form->addRule('agency_status', $statusRequiredMsg, 'required');
 
     //set form  values
     $form->setDefaults($aAgency);
