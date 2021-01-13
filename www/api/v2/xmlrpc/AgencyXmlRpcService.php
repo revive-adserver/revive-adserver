@@ -67,7 +67,7 @@ class AgencyXmlRpcService extends BaseAgencyService
                 $oResponseWithError) ||
             !XmlRpcUtils::getStructureScalarFields($oAgencyInfo, $oParams, 1,
                 array('agencyName', 'contactName', 'emailAddress', 'username',
-                'password', 'userEmail', 'language'), $oResponseWithError)) {
+                'password', 'userEmail', 'language', 'status'), $oResponseWithError)) {
 
             return $oResponseWithError;
         }
@@ -99,7 +99,7 @@ class AgencyXmlRpcService extends BaseAgencyService
                 $oResponseWithError) ||
             !XmlRpcUtils::getStructureScalarFields($oAgencyInfo, $oParams, 1,
                  array('agencyId', 'agencyName', 'contactName', 'emailAddress',
-                     'username', 'password'), $oResponseWithError)) {
+                     'username', 'password', 'status'), $oResponseWithError)) {
 
             return $oResponseWithError;
         }

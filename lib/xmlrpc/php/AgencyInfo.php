@@ -62,22 +62,30 @@ class OA_Dll_AgencyInfo extends OA_Info
     var $contactName;
 
     /**
-     * The emailAddress variable is the email address for the agency contact.
+     * A boolean field to indicate if the banner is active
      *
-     * @var string $emailAddress
+     * @var int $status
      */
-    var $emailAddress;
+    var $status;
 
+    /**
+     * This method returns an array of fields with their corresponding types.
+     *
+     * @access public
+     *
+     * @return array
+     */
     function getFieldsTypes()
     {
-        return array(
-                    'agencyId' => 'integer',
-                    'accountId' => 'integer',
-                    'agencyName' => 'string',
-                    'contactName' => 'string',
-                    'password' => 'string',
-                    'emailAddress' => 'string'
-                );
+        return [
+            'agencyId' => 'integer',
+            'accountId' => 'integer',
+            'agencyName' => 'string',
+            'password' => 'string',
+            'contactName' => 'string',
+            'emailAddress' => 'string',
+            'status' => 'integer',
+        ];
     }
 }
 

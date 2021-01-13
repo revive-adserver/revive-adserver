@@ -69,6 +69,13 @@ class OA_Dll_AgencyInfo extends OA_Info
     var $emailAddress;
 
     /**
+     * A boolean field to indicate if the banner is active
+     *
+     * @var int $status
+     */
+    var $status;
+
+    /**
      * This method returns an array of fields with their corresponding types.
      *
      * @access public
@@ -77,14 +84,15 @@ class OA_Dll_AgencyInfo extends OA_Info
      */
     function getFieldsTypes()
     {
-        return array(
-                    'agencyId' => 'integer',
-                    'accountId' => 'integer',
-                    'agencyName' => 'string',
-                    'password' => 'string',
-                    'contactName' => 'string',
-                    'emailAddress' => 'string'
-                );
+        return [
+            'agencyId' => 'integer',
+            'accountId' => 'integer',
+            'agencyName' => 'string',
+            'password' => 'string',
+            'contactName' => 'string',
+            'emailAddress' => 'string',
+            'status' => 'integer',
+        ];
     }
 }
 

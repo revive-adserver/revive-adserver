@@ -32,6 +32,7 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
     var $unknownIdError = 'Unknown agencyId Error';
     var $duplicateAgencyNameError = 'Agency name must be unique';
     var $invalidLanguageError = 'Invalid language';
+    var $invalidStatusError = 'Invalid status';
 
     /**
      * The constructor method.
@@ -59,7 +60,7 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
         $dllAgencyPartialMock = new PartialMockOA_Dll_Agency_AgencyTest($this);
 
         $dllAgencyPartialMock->setReturnValue('checkPermissions', true);
-        $dllAgencyPartialMock->expectCallCount('checkPermissions', 9);
+        $dllAgencyPartialMock->expectCallCount('checkPermissions', 12);
 
         $oAgencyInfo = new OA_Dll_AgencyInfo();
 
@@ -72,6 +73,7 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
                           $dllAgencyPartialMock->getLastError());
 
         $this->assertTrue($oAgencyInfo->accountId);
+        $this->assertEqual($oAgencyInfo->status, OA_ENTITY_STATUS_RUNNING);
 
         // Try adding a duplicate agency name.
         $oDupeAgencyInfo = new OA_Dll_AgencyInfo();
@@ -97,6 +99,22 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
         $this->assertTrue(($dllAgencyPartialMock->modify($oDupeAgencyInfo) &&
             $dllAgencyPartialMock->getLastError() != $this->duplicateAgencyNameError),
             !$this->_getMethodShouldReturnError($this->duplicateAgencyNameError));
+
+        // Suspend
+        $oAgencyInfo->status = OA_ENTITY_STATUS_PAUSED;
+        $this->assertTrue($dllAgencyPartialMock->modify($oAgencyInfo),
+            $dllAgencyPartialMock->getLastError());
+
+        // Inactive
+        $oAgencyInfo->status = OA_ENTITY_STATUS_INACTIVE;
+        $this->assertTrue($dllAgencyPartialMock->modify($oAgencyInfo),
+            $dllAgencyPartialMock->getLastError());
+
+        // Unexpected status
+        $oAgencyInfo->status = 99;
+        $this->assertTrue(($dllAgencyPartialMock->modify($oDupeAgencyInfo) &&
+            $dllAgencyPartialMock->getLastError() != $this->invalidStatusError),
+            !$this->_getMethodShouldReturnError($this->invalidStatusError));
 
         // Delete (both of the agencies)
         $this->assertTrue($dllAgencyPartialMock->delete($oAgencyInfo->agencyId),

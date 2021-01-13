@@ -30,6 +30,11 @@ require_once MAX_PATH . '/lib/RV/Admin/Languages.php';
 
 class OA_Dll_Agency extends OA_Dll
 {
+    const ALLOWED_STATUSES = [
+        OA_ENTITY_STATUS_RUNNING,
+        OA_ENTITY_STATUS_PAUSED,
+        OA_ENTITY_STATUS_INACTIVE,
+    ];
 
     /**
      * This method sets the AgencyInfo from a data array.
@@ -48,6 +53,7 @@ class OA_Dll_Agency extends OA_Dll
         $agencyData['contactName']  = $agencyData['contact'];
         $agencyData['emailAddress'] = $agencyData['email'];
         $agencyData['accountId']    = $agencyData['account_id'];
+        $agencyData['status']       = $agencyData['status'];
 
         // Do not return the password from the Dll.
         unset($agencyData['password']);
@@ -110,34 +116,29 @@ class OA_Dll_Agency extends OA_Dll
             return false;
         }
 
-        if (isset($oAgency->language) && !$this->_validateLangage($oAgency->language)) {
+        if (isset($oAgency->language) && !$this->_validateLanguage($oAgency->language)) {
             $this->raiseError('Invalid language');
             return false;
         }
 
-        return true;
-    }
-
-    /**
-     * This method performs data validation for the agency name uniqueness
-     *
-     * @param OA_Dll_AgencyInfo $oAgency
-     * @return boolean
-     */
-    function _validateAgencyName($agencyName)
-    {
-        $doAgency = OA_Dal::factoryDO('agency');
-        if ($doAgency->agencyExists($agencyName)) {
-            $this->raiseError('Agency name must be unique');
+        if (isset($oAgency->status) && !$this->_validateStatus($oAgency->status)) {
+            $this->raiseError('Invalid status');
             return false;
         }
+
         return true;
     }
 
-    function _validateLangage($language)
+    function _validateLanguage($language)
     {
         $aLanguages = RV_Admin_Languages::getAvailableLanguages();
+
         return isset($aLanguages[$language]);
+    }
+
+    function _validateStatus($status): bool
+    {
+        return in_array($status, self::ALLOWED_STATUSES, true);
     }
 
     /**
@@ -198,6 +199,7 @@ class OA_Dll_Agency extends OA_Dll
         // Default fields
         $agencyData['contact'] = $oAgency->contactName;
         $agencyData['email']   = $oAgency->emailAddress;
+        $agencyData['status']  = $oAgency->status ?? OA_ENTITY_STATUS_RUNNING;
 
         if ($this->_validate($oAgency)) {
             $doAgency = OA_Dal::factoryDO('agency');
@@ -209,6 +211,11 @@ class OA_Dll_Agency extends OA_Dll
                     // Set the account ID
                     $doAgency = OA_Dal::staticGetDO('agency', $oAgency->agencyId);
                     $oAgency->accountId = (int)$doAgency->account_id;
+
+                    if (!isset($oAgency->status)) {
+                        // Updatre status if it was empty
+                        $oAgency->status = (int)$doAgency->status;
+                    }
                 }
 
                 if (isset($agencyData['username']) || isset($agencyData['userEmail'])) {
