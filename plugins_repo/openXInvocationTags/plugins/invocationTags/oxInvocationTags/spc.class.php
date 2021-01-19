@@ -266,9 +266,9 @@ class Plugins_InvocationTags_OxInvocationTags_Spc extends Plugins_InvocationTags
                 Header script
             </h2>
             <p>
-                Insert the following script at the top of every page on the {$affiliate['website']} website. This code
-                belongs between the <code>&lt;head&gt;</code> and <code>&lt;/head&gt;</code> tags, before any ad scripts
-                on the page:
+                Insert the following script at the top of every page on the <strong>
+                ".htmlspecialchars($affiliate['website'])."</strong> website. This code belongs between the
+                <code>&lt;head&gt;</code> and <code>&lt;/head&gt;</code> tags, before any ad scripts on the page:
             </p>
 
             <pre>". htmlspecialchars($codeblock) ."</pre>

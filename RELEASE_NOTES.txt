@@ -30,6 +30,10 @@ What's New in Revive Adserver 5.1.0
    (cl.php): it uses regular query string parameters and HMAC SHA256 signature
    to ensure the destination url is not tampered with.
 
+ * Fixed a persistent XSS vulnerability caused by missing HTML escaping
+   when displaying the website URL in the affiliate-preview.php tag
+   generation page.
+
 
  New Features
  ------------
