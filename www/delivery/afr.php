@@ -4400,7 +4400,7 @@ $dest = MAX_commonGetDeliveryUrl($conf['file']['frame']).'?'.$_SERVER['QUERY_STR
 parse_str($_SERVER['QUERY_STRING'], $qs);
 $dest .= (!array_key_exists('loc', $qs)) ? "&loc=" . urlencode($loc) : '';
 $refresh = (int)$refresh;
-$jsDest = addcslashes(addcslashes($dest, "\0..\37\"\\"), "'\\");
+$jsDest = addcslashes(addcslashes($dest, "\0..\37/\"\\"), "'\\");
 $htmlDest = htmlspecialchars($dest, ENT_QUOTES);
 $outputHtml .= "
     <script type='text/javascript'><!--// <![CDATA[
