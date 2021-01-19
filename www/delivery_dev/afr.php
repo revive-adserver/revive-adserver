@@ -77,7 +77,7 @@ if (isset($refresh) && is_numeric($refresh) && $refresh > 0) {
 
     $refresh = (int)$refresh;
     // JS needs to be escaped twice: the setTimeout argument is evaluated at runtime
-    $jsDest = addcslashes(addcslashes($dest, "\0..\37\"\\"), "'\\");
+    $jsDest = addcslashes(addcslashes($dest, "\0..\37/\"\\"), "'\\");
     $htmlDest = htmlspecialchars($dest, ENT_QUOTES);
 
     // Try to use JS location.replace since browsers deal with this and history much better than meta-refresh

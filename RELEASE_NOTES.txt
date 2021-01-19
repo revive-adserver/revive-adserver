@@ -34,6 +34,9 @@ What's New in Revive Adserver 5.1.0
    when displaying the website URL in the affiliate-preview.php tag
    generation page.
 
+ * Fixed a reflected XSS vulnerability in afr.php that could still be achieved
+   on legacy browsers, bypassing a previous fix.
+
 
  New Features
  ------------
