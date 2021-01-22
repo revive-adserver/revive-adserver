@@ -79,7 +79,7 @@ if (!empty($row['html'])) {
            MAX_commonDisplay1x1();
        }
     } else {
-        MAX_redirect($creativeURL);
+        MAX_redirect($row['html']);
     }
 } else {
 	MAX_cookieUnset($conf['var']['vars'] . "[$n]");
