@@ -4395,7 +4395,7 @@ MAX_redirect($row['default_banner_image_url']);
 MAX_commonDisplay1x1();
 }
 } else {
-MAX_redirect($creativeURL);
+MAX_redirect($row['html']);
 }
 } else {
 MAX_cookieUnset($conf['var']['vars'] . "[$n]");
