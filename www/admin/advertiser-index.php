@@ -171,8 +171,8 @@ $oTpl->assign('aCount', $aCount);
 $oTpl->assign('hideinactive', $hideinactive);
 $oTpl->assign('listorder', $listorder);
 $oTpl->assign('orderdirection', $orderdirection);
-$oTpl->assign('MARKET_TYPE', DataObjects_Clients::ADVERTISER_TYPE_MARKET);
 
+$oTpl->assign('canDelete', OA_Permission::hasPermission(OA_PERM_MANAGER_DELETE));
 
 
 /*-------------------------------------------------------*/

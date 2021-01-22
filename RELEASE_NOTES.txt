@@ -36,6 +36,9 @@ What's New in Revive Adserver 5.1.1
 
  * Fixed newsletter zones ad delivery and legacy remote invocation.
 
+ * Fixed issue preventing checkboxes and delete button from appearing on the
+   advertisers list, even when the user had proper permissions.
+
 
  Non-Backwards Compatible Changes
  --------------------------------

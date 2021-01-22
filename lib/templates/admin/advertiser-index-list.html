@@ -139,7 +139,7 @@
     {cycle name=bgcolor values="even,odd" assign=bgColor reset=1}
     {foreach key=clientId item=client from=$from}
         {cycle name=bgcolor assign=bgColor}
-            <tr class='{$bgColor} {if $client.type == $MARKET_TYPE}systemAdvertiser{/if}'>
+            <tr class='{$bgColor}'>
                 {if $canDelete}
                 <td class='toggleSelection'>
                     <input type='checkbox' value='{$clientId}' />
@@ -155,10 +155,10 @@
                 <td class='alignRight horizontalActions'>
                     <ul class='rowActions'>
                         <li>
-                            <a href='campaign-edit.php?clientid={$clientId}' class='inlineIcon {if $client.type == $MARKET_TYPE}iconCampaignSystemAdd{else}iconCampaignAdd{/if}'>{t str=AddCampaign}</a>
+                            <a href='campaign-edit.php?clientid={$clientId}' class='inlineIcon iconCampaignAdd'>{t str=AddCampaign}</a>
                         </li>
                         <li>
-                            <a href='advertiser-campaigns.php?clientid={$clientId}' class='inlineIcon {if $client.type == $MARKET_TYPE}iconCampaignsSystem{else}iconCampaigns{/if}'>{t str=Campaigns}</a>
+                            <a href='advertiser-campaigns.php?clientid={$clientId}' class='inlineIcon iconCampaigns'>{t str=Campaigns}</a>
                         </li>
                     </ul>
                 </td>
