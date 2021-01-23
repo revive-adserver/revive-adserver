@@ -88,8 +88,8 @@ if (!($orderdirection == 'up' || $orderdirection == 'down')) {
         $orderdirection = 'up';
     }
 }
-$setPerPage     = MAX_getStoredValue('setPerPage',      10);
-$pageID         = MAX_getStoredValue('pageID',          1);
+$setPerPage     = (int) MAX_getStoredValue('setPerPage',      10);
+$pageID         = (int) MAX_getStoredValue('pageID',          1);
 
 // Setup date selector
 $aPeriod = array(
@@ -205,7 +205,7 @@ if ($aParams['startRecord'] > $aParams['totalItems']) {
     $aParams['startRecord'] = 0;
 }
 
-$aParams['perPage'] = MAX_getStoredValue('setPerPage', 10);
+$aParams['perPage'] = (int) MAX_getStoredValue('setPerPage', 10);
 
 // Retrieve audit details
 $aAuditData = $oUserlog->getAuditLog($aParams);

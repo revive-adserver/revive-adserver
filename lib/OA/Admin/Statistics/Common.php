@@ -1193,12 +1193,14 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
 
         // Add new params from $_GET/session
         foreach ($aVarArray as $k => $v) {
-            $this->aPageParams[$v] = htmlspecialchars(MAX_getStoredValue($v, ''));
+            $this->aPageParams[$v] = htmlspecialchars(MAX_getStoredValue($v, ''), ENT_QUOTES);
         }
 
         // Ensure the setPerPage value is set
         if (empty($this->aPageParams['setPerPage'])) {
             $this->aPageParams['setPerPage'] = 15;
+        } else {
+            $this->aPageParams['setPerPage'] = (int) $this->aPageParams['setPerPage'];
         }
 
         // Merge params with optional array, if required

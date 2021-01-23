@@ -41,8 +41,8 @@ $howLong       = MAX_getValue('howLong');
 $hour          = MAX_getValue('hour');
 $returnurl     = MAX_getValue('returnurl');
 $statusIds     = MAX_getValue('statusIds');
-$pageID        = MAX_getValue('pageID');
-$setPerPage    = MAX_getValue('setPerPage');
+$pageID        = (int) MAX_getValue('pageID');
+$setPerPage    = (int) MAX_getValue('setPerPage', 15);
 
 $aParams = array();
 
