@@ -23,7 +23,8 @@ What's New in Revive Adserver 5.1.1
  Security Updates
  ----------------
 
- * None
+ * Fixed reflected XSS vulnerability in userlog-index.php via the
+   period_preset parameter.
 
 
  New Features
