@@ -40,7 +40,10 @@ $GLOBALS['strClear'] = "Leeren";
 if (!isset($GLOBALS['strUserlog'])) {
     $GLOBALS['strUserlog'] = array();
 }
+$GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Report for advertiser {id} send by email";
 $GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Kampagne {id} deaktiviert";
+$GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Auto clean of database";
+$GLOBALS['strUserlog'][phpAds_actionBatchStatistics] = "Statistics compiled";
 $GLOBALS['strUserlog'][phpAds_actionDeactivationMailed] = "Benachrichtigungsmail über die Deaktivierung der Kampagne {id} versandt";
 $GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "Kampagne {id} deaktiviert";
 $GLOBALS['strUserlog'][phpAds_actionPriorityCalculation] = "Priorität neu berechnet";

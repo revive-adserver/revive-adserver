@@ -41,6 +41,7 @@ $GLOBALS['strWarning'] = "경고";
 $GLOBALS['strOK'] = "예";
 $GLOBALS['strSyscheckName'] = "이름 확인";
 $GLOBALS['strSyscheckValue'] = "현재 값";
+$GLOBALS['strSyscheckStatus'] = "Status";
 $GLOBALS['strSyscheckSeeFullReport'] = "자세한 시스템 체크 표시";
 $GLOBALS['strSyscheckSeeShortReport'] = "오류 및 경고만 표시";
 $GLOBALS['strBrowserCookies'] = '브라우저 쿠키';
@@ -63,6 +64,7 @@ $GLOBALS['strDbUpgradeIntro'] = "다음 {$PRODUCT_NAME} 의 데이터베이스�
                                                    올바른 데이터베이스인지 확인 후 \"계속\"을 눌러 계속하십시오.";
 $GLOBALS['strDbProgressMessageInstall'] = '데이터베이스 설치 중...';
 $GLOBALS['strDbProgressMessageUpgrade'] = '데이터베이스 업그레이드 중...';
+$GLOBALS['strDbSeeMoreFields'] = 'See more database fields...';
 $GLOBALS['strDbTimeZoneWarning'] = "<p>{$PRODUCT_NAME}의 이 버전은 시간을 UTC 시간이 아닌 현지 시간으로 저장합니다.</p>
                                                    <p>만일 기존 자료의 시간이 정상적으로 표시되기를 원하신다면, 데이터를 수동으로 업그레이드 하셔야 합니다. <a target='help' href='%s'>이 링크</a>를 참고하십시오.
                                                       데이터를 변경하지 않아도 통계 값은 정확히 유지됩니다.
@@ -78,11 +80,41 @@ $GLOBALS['strConfigureInstallTitle'] = "로컬 {$PRODUCT_NAME} 시스템 관리�
 $GLOBALS['strConfigureInstallIntro'] = "로컬 {$PRODUCT_NAME} 시스템 관리자 계정의 원하는 로그인 정보를 입력 하십시오.";
 $GLOBALS['strConfigureUpgradeTitle'] = "구성 설정";
 $GLOBALS['strConfigureUpgradeIntro'] = "이전 {$PRODUCT_NAME}의 설치 경로를 입력하시오.";
+$GLOBALS['strConfigSeeMoreFields'] = "See more configuration fields...";
 $GLOBALS['strPreviousInstallTitle'] = "이전 설치";
+$GLOBALS['strPathToPrevious'] = "Path to previous {$PRODUCT_NAME} installation";
+$GLOBALS['strPathToPreviousError'] = "One or more plugin files couldn't be located, check the install.log file for more information";
+$GLOBALS['strConfigureProgressMessage'] = "Configuring {$PRODUCT_NAME}...";
 
 /** jobs step * */
+$GLOBALS['strJobsInstallTitle'] = "Performing installation tasks";
+$GLOBALS['strJobsInstallIntro'] = "Installer is now performing final installation tasks.";
+$GLOBALS['strJobsUpgradeTitle'] = "Performing upgrade tasks";
+$GLOBALS['strJobsUpgradeIntro'] = "Installer is now performing final upgrade tasks.";
+$GLOBALS['strJobsProgressInstallMessage'] = "Running installation tasks...";
+$GLOBALS['strJobsProgressUpgradeMessage'] = "Running upgrade tasks...";
 
+$GLOBALS['strPluginTaskChecking'] = "Checking {$PRODUCT_NAME} Plugin";
+$GLOBALS['strPluginTaskInstalling'] = "Installing {$PRODUCT_NAME} Plugin";
+$GLOBALS['strPostInstallTaskRunning'] = "Running task";
 
 /** finish step * */
+$GLOBALS['strFinishInstallTitle'] = "Your {$PRODUCT_NAME} installation is complete.";
+$GLOBALS['strFinishUpgradeWithErrorsTitle'] = "Your {$PRODUCT_NAME} upgrade is complete. Please check the highlighted issues.";
+$GLOBALS['strFinishUpgradeTitle'] = "Your {$PRODUCT_NAME} upgrade is complete.";
+$GLOBALS['strFinishInstallWithErrorsTitle'] = "Your {$PRODUCT_NAME} installation is complete. Please check the highlighted issues.";
+$GLOBALS['strDetailedTaskErrorList'] = "Detailed list of errors found";
+$GLOBALS['strPluginInstallFailed'] = "Installation of plugin \"%s\" failed:";
+$GLOBALS['strTaskInstallFailed'] = "Error occurred when running installation task \"%s\":";
+$GLOBALS['strContinueToLogin'] = "Click \"Continue\" to login to your {$PRODUCT_NAME} instance.";
 
+$GLOBALS['strUnableCreateConfFile'] = "We are unable to create your configuration file. Please re-check the permissions of the {$PRODUCT_NAME} var folder.";
+$GLOBALS['strUnableUpdateConfFile'] = "We are unable to update your configuration file. Please re-check the permissions of the {$PRODUCT_NAME} var folder, and also check the permissions of the previous install's config file that you copied into this folder.";
+$GLOBALS['strUnableToCreateAdmin'] = "We are unable to create a system administrator account, is your database accessible?";
+$GLOBALS['strTimezoneLocal'] = "{$PRODUCT_NAME} has detected that your PHP installation is returning \"System/Localtime\" as the timezone
+of your server. This is because of a patch to PHP applied by some Linux distributions.
+Unfortunately, this is not a valid PHP timezone. Please edit your php.ini file and set the \"date.timezone\"property to the correct value for your server.";
 
+$GLOBALS['strInstallNonBlockingErrors'] = "An error occurred when performing installation tasks. Please check the 
+<a class=\"show-errors\" href=\"#\">error list</a> and install log at \\'%s\\' for details.
+You will still be able to login to your {$PRODUCT_NAME} instance.";

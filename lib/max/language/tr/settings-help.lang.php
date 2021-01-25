@@ -73,9 +73,13 @@ $GLOBALS['phpAds_hlp_log_adviews'] = "Normalde tüm ilan izlemeleri günlüğe k
 $GLOBALS['phpAds_hlp_block_adviews'] = "Bir ziyaretçi bir sayfayı yeniden yüklerse, her daim {$PRODUCT_NAME} tarafından bir ilan izlemesi kaydedilir.
 Bu özellik, belirlediğiniz saniye sayısı için her benzersiz afiş için yalnızca bir ilan izlemesinin kaydedildiğinden emin olmak için kullanılır. Örneğin: Bu değeri 300 saniyeye ayarlarsanız, {$PRODUCT_NAME} yalnızca aynı afişi son 5 dakika içinde aynı ziyaretçiye göstermediyse ilan izlemesi günlüğüne kaydeder. Bu özellik yalnızca çerezleri kabul eden tarayıcılarda çalışır.";
 
+$GLOBALS['phpAds_hlp_log_adclicks'] = "Normally all AdClicks are logged, if you don't want to gather statistics
+about AdClicks you can turn this off.";
 
 $GLOBALS['phpAds_hlp_block_adclicks'] = "Bir ziyaretçi bir afişe birden çok kez tıklarsa, her defasında {$PRODUCT_NAME} tarafından bir ilan tıklaması kaydedilecektir. Bu özellik, belirlediğiniz saniye sayısı için benzersiz her afiş için yalnızca bir ilan tıklaması kaydedildiğinden emin olmak için kullanılır. Örneğin: Bu değeri 300 saniyeye ayarlarsanız, {$PRODUCT_NAME}, ziyaretçinin son 5 dakikada aynı afişi tıklaması durumunda ilan tıklaması günlüğüne kaydeder. Bu özellik yalnızca tarayıcı çerezleri kabul ettiğinde çalışır.";
 
+$GLOBALS['phpAds_hlp_log_adconversions'] = "Normally all AdConversions are logged, if you don't want to gather statistics
+about AdConversions you can turn this off.";
 
 $GLOBALS['phpAds_hlp_block_adconversions'] = "Bir ziyaretçi bir ilan dönüştürme işaretçisine sahip bir sayfayı yeniden yüklerse {$PRODUCT_NAME} ilan dönüştürmeyi her seferinde günlüğe kaydeder. Bu özellik, belirttiğiniz saniye sayısı için yalnızca bir ilan dönüştürmeyi kaydettiğinden emin olmak için kullanılır. Örneğin: Bu değeri 300 saniyeye ayarlarsanız, {$PRODUCT_NAME}, ziyaretçinin ilan dönüştürme işaretçisiyle aynı sayfayı son 5 dakikada yüklememesi durumunda, yalnızca ilan dönüştürmeyi günlüğe kaydeder. Bu özellik yalnızca tarayıcı çerezleri kabul ettiğinde çalışır.";
 
@@ -92,6 +96,12 @@ $GLOBALS['phpAds_hlp_auto_clean_tables'] = $GLOBALS['phpAds_hlp_auto_clean_table
 
 $GLOBALS['phpAds_hlp_auto_clean_userlog'] = $GLOBALS['phpAds_hlp_auto_clean_userlog_interval'] = "Bu özellik, bu onay kutusunun altındaki belirtilen hafta sayısından daha eski girdileri otomatik olarak kullanıcı günlüğünden silecektir.";
 
+$GLOBALS['phpAds_hlp_geotracking_type'] = "Geotargeting allows {$PRODUCT_NAME} to convert the IP address of the visitor to geographical
+information. Based on this information you can set delivery rules or you could store
+this information to see which country is generation the most impressions or click-thrus.
+If you want to enable geotargeting you need to choose which type of database you have.
+{$PRODUCT_NAME} currently supports the <a href='http://hop.clickbank.net/?phpadsnew/ip2country' target='_blank'>IP2Country</a>
+and <a href='http://www.maxmind.com/?rId=phpadsnew' target='_blank'>GeoIP</a> database.";
 
 $GLOBALS['phpAds_hlp_geotracking_location'] = "Coğrafi Apache modülüne sahip olmadığınız sürece {$PRODUCT_NAME}'e coğrafi hedefleme veritabanının konumunu bildirmeniz gerekir. Veritabanını web sunucuları belge kökü dışında kullanmak her zaman önerilir, aksi takdirde kullanıcılar veritabanını indirebilir.";
 
@@ -111,6 +121,8 @@ $GLOBALS['phpAds_hlp_qmail_patch'] = "Qmail'in bazı sürümleri, {$PRODUCT_NAME
 
 $GLOBALS['phpAds_hlp_warn_limit'] = "{$PRODUCT_NAME} ürününün uyarı e-postaları göndermeye başlama limiti. Varsayılan olarak bu 100'dür.";
 
+$GLOBALS['phpAds_hlp_acl'] = "If you are not using delivery rules you can disable this option with this parameter,
+this will speed up {$PRODUCT_NAME} a bit.";
 
 $GLOBALS['phpAds_hlp_default_banner_url'] = $GLOBALS['phpAds_hlp_default_banner_target'] = "{$PRODUCT_NAME} veritabanı sunucusuna bağlanamazsa veya eşleşen herhangi bir afiş bulamazsa, veritabanı çöktüğünde veya silindiğinde herhangi bir şey görüntülenmez. Bazı kullanıcılar, bu durumlarda gösterilecek varsayılan bir afiş belirlemek isteyebilir. Burada belirtilen varsayılan afiş kaydedilmeyecek ve veritabanında hala etkin afişler kalmışsa kullanılamayacaktır. Bu varsayılan olarak kapalıdır.";
 
@@ -122,9 +134,21 @@ $GLOBALS['phpAds_hlp_type_web_dir'] = "{$PRODUCT_NAME} ürününün, yüklenen a
 
 $GLOBALS['phpAds_hlp_type_web_ftp_host'] = "Depolama yöntemini <i> Harici FTP sunucusu </i> olarak ayarlarsanız, {$PRODUCT_NAME}'e ürününün yüklenen afişleri kopyalaması gereken FTP sunucusunun IP adresini veya alan adını belirtmeniz gerekir.";
 
+$GLOBALS['phpAds_hlp_type_web_ftp_path'] = "If you set the storing method to <i>External FTP server</i> you need to
+specify the directory on the external FTP server where {$PRODUCT_NAME} needs
+to copy the uploaded banners to.";
 
+$GLOBALS['phpAds_hlp_type_web_ftp_user'] = "If you set the storing method to <i>External FTP server</i> you need to
+specify the username which {$PRODUCT_NAME} must use in order to connect to the
+external FTP server.";
 
+$GLOBALS['phpAds_hlp_type_web_ftp_password'] = "If you set the storing method to <i>External FTP server</i> you need to
+specify the password which {$PRODUCT_NAME} must use in order to connect to the
+external FTP server.";
 
+$GLOBALS['phpAds_hlp_type_web_ftp_passive'] = "Some FTP servers and firewalls require transfers to use Passive Mode (PASV).
+If {$PRODUCT_NAME} will need to use Passive Mode to connect to your
+FTP server, then enable this option.";
 
 $GLOBALS['phpAds_hlp_type_web_url'] = "Bir web sunucusuna afişler depolarsanız, {$PRODUCT_NAME} aşağıdaki genel URL'yi aşağıda belirttiğiniz dizine karşılık geldiğini bilmelidir. Arka bir eğik çizgi (/) belirtmeyin.";
 
