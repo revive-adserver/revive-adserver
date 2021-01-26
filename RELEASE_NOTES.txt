@@ -6,7 +6,7 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
-Release Notes: Revive Adserver 5.1.1
+Release Notes: Revive Adserver 5.1.2
 ====================================
 
 These release notes cover what's new, system requirements, download and
@@ -14,20 +14,16 @@ installation instructions, known issues and frequently asked questions for
 Revive Adserver. Please read these notes before reporting any bugs.
 
 
-What's New in Revive Adserver 5.1.1
+What's New in Revive Adserver 5.1.2
 -----------------------------------
 
- * Release date: January, 26th 2021
+ * Release date: t.b.d.
 
 
  Security Updates
  ----------------
 
- * Fixed reflected XSS vulnerability in userlog-index.php via the
-   period_preset parameter.
-
- * Fixed reflected XSS vulnerability in stats.php via the setPerPage
-   parameter.
+ * None
 
 
  New Features
@@ -38,10 +34,7 @@ What's New in Revive Adserver 5.1.1
  Bug Fixes
  ---------
 
- * Fixed newsletter zones ad delivery and legacy remote invocation.
-
- * Fixed issue preventing checkboxes and delete button from appearing on the
-   advertisers list, even when the user had proper permissions.
+ * None
 
 
  Non-Backwards Compatible Changes
