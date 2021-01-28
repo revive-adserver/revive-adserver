@@ -229,22 +229,6 @@ class OA_Admin_PasswordRecovery
             // Generate the password reset email subject
             $emailSubject = sprintf($GLOBALS['strPwdRecEmailPwdRecovery'], PRODUCT_NAME);
 
-            // Set the name and email address that the password reset email
-            // is to be sent from. Ideally, this will be the administrative
-            // account of the Revive Adserver installation - but fall back
-            // to the user's own email address if required
-            if (!empty($aConf['email']['fromName'])) {
-                $emailFromName = $aConf['email']['fromName'];
-            } else {
-                $emailFromName = $email;
-            }
-            if (!empty($aConf['email']['fromAddress'])) {
-                // Use the administrative account details
-                $emailFromAddress = $aConf['email']['fromAddress'];
-            } else {
-                $emailFromAddress = $email;
-            }
-
             // Generate the password reset URL for this user
             $recoveryId = $this->_dal->generateRecoveryId($u['user_id']);
             $recoveryUrl = Max::constructURL(MAX_URL_ADMIN, "password-recovery.php?id={$recoveryId}");
@@ -270,7 +254,7 @@ class OA_Admin_PasswordRecovery
 
             // Send the password reset email
             $oEmail = new OA_Email();
-            $oEmail->sendMail($emailSubject, $emailBody, $emailFromAddress, $emailFromName);
+            $oEmail->sendMail($emailSubject, $emailBody, $email, $u['username']);
 
             // Iterate the number of emails sent
             $sent++;

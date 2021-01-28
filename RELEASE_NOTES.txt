@@ -34,7 +34,8 @@ What's New in Revive Adserver 5.1.2
  Bug Fixes
  ---------
 
- * None
+ * Fix issue with password recovery emails being sent to the administrator
+   or not being sent at all.
 
 
  Non-Backwards Compatible Changes
