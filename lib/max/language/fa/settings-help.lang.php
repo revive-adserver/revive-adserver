@@ -130,6 +130,11 @@ $GLOBALS['phpAds_hlp_geotracking_stats'] = "اگر شما با استفاده ا
 محل بازدید کنندگان خود را و چگونه هر یک بنر در کشورهای مختلف انجام شده است.
 این گزینه فقط در دسترس شما اگر شما با استفاده از آمار دراز باشد.";
 
+$GLOBALS['phpAds_hlp_reverse_lookup'] = "The hostname is usually determined by the web server, but in some cases this might be
+turned off. If you want to use the visitors hostname inside delivery rules and/or
+keep statistics about this and the server doesn't provide this information you will need to
+turn this option on. Determining the hostname of the visitor does take some time; it will
+slow the delivery of banners down.";
 
 $GLOBALS['phpAds_hlp_proxy_lookup'] = "برخی از بازدید کنندگان با استفاده از یک پروکسی سرور برای دسترسی به اینترنت. در این صورت {$PRODUCT_NAME} خواهد شد
 ورود به سیستم آدرس IP یا نام میزبان سرور پروکسی را به جای کاربر. اگر شما را قادر می سازد
@@ -146,6 +151,12 @@ $GLOBALS['phpAds_hlp_auto_clean_tables'] = $GLOBALS['phpAds_hlp_auto_clean_table
 
 $GLOBALS['phpAds_hlp_auto_clean_userlog'] = $GLOBALS['phpAds_hlp_auto_clean_userlog_interval'] = "این ویژگی به طور خودکار ورودی های کاربر را که قدیمی تر از تعداد هفته هایی که این زیر در چک باکس تعیین شده است را پاک می کند";
 
+$GLOBALS['phpAds_hlp_geotracking_type'] = "Geotargeting allows {$PRODUCT_NAME} to convert the IP address of the visitor to geographical
+information. Based on this information you can set delivery rules or you could store
+this information to see which country is generation the most impressions or click-thrus.
+If you want to enable geotargeting you need to choose which type of database you have.
+{$PRODUCT_NAME} currently supports the <a href='http://hop.clickbank.net/?phpadsnew/ip2country' target='_blank'>IP2Country</a>
+and <a href='http://www.maxmind.com/?rId=phpadsnew' target='_blank'>GeoIP</a> database.";
 
 $GLOBALS['phpAds_hlp_geotracking_location'] = "مگر اینکه ماژول آپاچی ، شما باید به{$PRODUCT_NAME} محل 
 پایگاه داده geotargeting  را بدهید . همیشه پیشنهاد داده می می شود کخ پایگاه داده را خارج از وب سرور های ریشه سند قرار دهید ، چون در غیر این صورت  ، مردم قادر خواهند بود که پایگاه داده را دانلو کنند . ";
@@ -176,6 +187,8 @@ $GLOBALS['phpAds_hlp_qmail_patch'] = "برخی از نسخه های کیومیل
 
 $GLOBALS['phpAds_hlp_warn_limit'] = "حد اینکه کدام {$PRODUCT_NAME}  شروع به فرستادن ایمیل مشکلات کند . این حد به صورت پیشفرض 100 است";
 
+$GLOBALS['phpAds_hlp_acl'] = "If you are not using delivery rules you can disable this option with this parameter,
+this will speed up {$PRODUCT_NAME} a bit.";
 
 $GLOBALS['phpAds_hlp_default_banner_url'] = $GLOBALS['phpAds_hlp_default_banner_target'] = "اگر {$PRODUCT_NAME} نمی تواند به سرور پایگاه داده اتصال، و یا می توانید هر تطبیق پیدا کنید
 آگهی ها در همه، برای مثال زمانی که پایگاه داده سقوط کرد و یا حذف شده است،

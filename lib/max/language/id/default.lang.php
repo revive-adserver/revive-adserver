@@ -11,14 +11,26 @@
  */
 
 // Set text direction and characterset
+$GLOBALS['phpAds_TextDirection'] = "ltr";
+$GLOBALS['phpAds_TextAlignRight'] = "right";
+$GLOBALS['phpAds_TextAlignLeft'] = "left";
+$GLOBALS['phpAds_CharSet'] = "UTF-8";
 
 $GLOBALS['phpAds_DecimalPoint'] = ",";
 $GLOBALS['phpAds_ThousandsSeperator'] = ".";
 
 // Date & time configuration
+$GLOBALS['date_format'] = "%d-%m-%Y";
+$GLOBALS['time_format'] = "%H:%M:%S";
+$GLOBALS['minute_format'] = "%H:%M";
+$GLOBALS['month_format'] = "%m-%Y";
 $GLOBALS['day_format'] = "%d-%m";
+$GLOBALS['week_format'] = "%W-%Y";
+$GLOBALS['weekiso_format'] = "%V-%G";
 
 // Formats used by PEAR Spreadsheet_Excel_Writer packate
+$GLOBALS['excel_integer_formatting'] = "#,##0;-#,##0;-";
+$GLOBALS['excel_decimal_formatting'] = "#,##0.000;-#,##0.000;-";
 
 /* ------------------------------------------------------- */
 /* Translations                                          */
@@ -284,8 +296,10 @@ $GLOBALS['strSendDeactivationWarning'] = "Kirim peringatan bila kampanye tidak a
 $GLOBALS['strAllowClientModifyBanner'] = "Izinkan pengguna ini untuk merubah banner yang dimiliki";
 $GLOBALS['strAllowClientDisableBanner'] = "Izinkan pengguna ini untuk hentikan banner yang dimiliki";
 $GLOBALS['strAllowClientActivateBanner'] = "Izinkan pengguna ini untuk aktifkan banner yang dimiliki";
+$GLOBALS['strAllowCreateAccounts'] = "Allow this user to manage this account's users";
 $GLOBALS['strAdvertiserLimitation'] = "Tampilkan hanya satu banner dari pengiklan ini di halaman web";
 $GLOBALS['strAllowAuditTrailAccess'] = "Izinkan pengguna mengakses jejak audit";
+$GLOBALS['strAllowDeleteItems'] = "Allow this user to delete items";
 
 // Campaign
 $GLOBALS['strCampaign'] = "Kampanye";
@@ -515,7 +529,9 @@ $GLOBALS['strTextBelow'] = "Teks dibawah gambar";
 $GLOBALS['strWeight'] = "Bobot";
 $GLOBALS['strAlt'] = "Teks alternatif";
 $GLOBALS['strStatusText'] = "Teks status";
+$GLOBALS['strCampaignsWeight'] = "Campaign's Weight";
 $GLOBALS['strBannerWeight'] = "Bobot banner";
+$GLOBALS['strBannersWeight'] = "Banner's Weight";
 $GLOBALS['strAdserverTypeGeneric'] = "Banner HTML Generik";
 $GLOBALS['strDoNotAlterHtml'] = "Jangan ubah HTML";
 $GLOBALS['strGenericOutputAdServer'] = "Generik";
@@ -997,7 +1013,9 @@ $GLOBALS['strConfirmDeleteAgency'] = "Apakah benar Anda ingin menghapus zona ini
 $GLOBALS['strHideInactiveAgencies'] = "Hide inactive agencies";
 $GLOBALS['strInactiveAgenciesHidden'] = "zona yang tidak aktif tersembunyi";
 $GLOBALS['strSwitchAccount'] = "Beralih ke akun ini";
+$GLOBALS['strAgencyStatusRunning'] = "Active";
 $GLOBALS['strAgencyStatusInactive'] = "aktif";
+$GLOBALS['strAgencyStatusPaused'] = "Suspended";
 
 // Channels
 $GLOBALS['strChannel'] = "Set Aturan Pengiriman";
@@ -1040,12 +1058,37 @@ $GLOBALS['strVariableCode'] = "Kode pelacak berbasis Javascript";
 
 // Password recovery
 $GLOBALS['strForgotPassword'] = "Lupa kata sandi Anda?";
+$GLOBALS['strPasswordRecovery'] = "Password reset";
 $GLOBALS['strEmailRequired'] = "Pengisian alamat E-mail diwajibkan!";
 $GLOBALS['strPwdRecWrongId'] = "ID tidak dikenal";
 $GLOBALS['strPwdRecEnterEmail'] = "Silakan masukkan alamat E-Mail Anda dibawah ini";
 $GLOBALS['strPwdRecEnterPassword'] = "Silakan masukkan alamat E-Mail baru yang terhubung dengan kata sandi Anda dibawah ini";
 $GLOBALS['strProceed'] = "Lanjut &gt;";
+$GLOBALS['strNotifyPageMessage'] = "An e-mail has been sent to you, which includes a link that will allow you
+                                         to reset your password and log in.<br />Please allow a few minutes for the e-mail to arrive.<br />
+                                         If you do not receive the e-mail, please check your spam folder.<br />
+                                         <a href=\"index.php\">Return to the main login page.</a>";
 
+$GLOBALS['strPwdRecEmailPwdRecovery'] = "Reset Your %s Password";
+$GLOBALS['strPwdRecEmailBody'] = "Dear {name},
+
+You, or someone pretending to be you, recently requested that your {$PRODUCT_NAME} password be reset.
+
+If this request was made by you, then you can reset the password for your username '{username}' by
+clicking on the following link:
+
+{reset_link}
+
+If you submitted the password reset request by mistake, or if you didn't make a request at all, simply
+ignore this email. No changes have been made to your password and the password reset link will expire
+automatically.
+
+If you continue to receive these password reset mails, then it may indicate that someone is attempting
+to gain access to your username. In that case, please contact the support team or system administrator
+for your {$PRODUCT_NAME} system, and notify them of the situation.
+
+{admin_signature}";
+$GLOBALS['strPwdRecEmailSincerely'] = "Sincerely,";
 
 // Audit
 $GLOBALS['strAdditionalItems'] = "dan item tambahan";
@@ -1078,6 +1121,8 @@ $GLOBALS['strCampaignAuditTrailSetup'] = "Aktifkan Trail Audit untuk mulai melih
 
 $GLOBALS['strUnsavedChanges'] = "Anda memiliki perubahan yang belum disimpan di halaman ini, pastikan Anda menekan &quot; Simpan Perubahan &quot; saat selesai";
 $GLOBALS['strDeliveryLimitationsDisagree'] = "PERINGATAN: Aturan pengiriman dalam cache <strong> JANGAN SETUJU </strong> dengan aturan pengiriman yang ditunjukkan di bawah ini <br/> Tolong tekan simpan perubahan untuk memperbarui aturan pengiriman tembolok";
+$GLOBALS['strDeliveryRulesDbError'] = "WARNING: When saving the delivery rules, a database error occured. Please check the delivery rules below carefully, and update, if required.";
+$GLOBALS['strDeliveryRulesTruncation'] = "WARNING: When saving the delivery rules, MySQL truncated the data, so the original values were restored. Please reduce your rule size, and try again.";
 $GLOBALS['strDeliveryLimitationsInputErrors'] = "Beberapa peraturan pengiriman melaporkan nilai yang salah:";
 
 //confirmation messages
@@ -1126,6 +1171,7 @@ $GLOBALS['strWebsiteHasBeenAdded'] = "Website <a href='%s'>%s</a> telah ditambah
 $GLOBALS['strWebsiteHasBeenUpdated'] = "Situs web <a href='%s'>%s</a> telah diperbarui";
 $GLOBALS['strWebsiteHasBeenDeleted'] = "Situs web <b>%s</b> sudah dihapus";
 $GLOBALS['strWebsitesHaveBeenDeleted'] = "Semua situs web yang dipilih telah dihapus";
+$GLOBALS['strWebsiteHasBeenDuplicated'] = "Website <a href='%s'>%s</a> has been copied to <a href='%s'>%s</a>";
 
 $GLOBALS['strZoneHasBeenAdded'] = "Zona <a href='%s'>%s</a> telah ditambahkan";
 $GLOBALS['strZoneHasBeenUpdated'] = "Zona <a href='%s'>%s</a> telah diperbarui";
@@ -1141,6 +1187,7 @@ $GLOBALS['strZoneRemovedCampaign'] = "Kampanye telah dibatalkan dari zona <a hre
 
 $GLOBALS['strChannelHasBeenAdded'] = "Aturan pengiriman ditetapkan <a href='%s'>%s</a> telah ditambahkan. <a href='%s'>Tetapkan aturan pengiriman.</a>";
 $GLOBALS['strChannelHasBeenUpdated'] = "Aturan pengiriman ditetapkan <a href='%s'>%s</a> telah diperbarui";
+$GLOBALS['strChannelAclHasBeenUpdated'] = "Delivery options for the delivery rule set <a href='%s'>%s</a> have been updated";
 $GLOBALS['strChannelHasBeenDeleted'] = "Aturan pengiriman ditetapkan <b>%s</b> sudah dihapus";
 $GLOBALS['strChannelsHaveBeenDeleted'] = "Semua kumpulan aturan pengiriman yang dipilih telah dihapus";
 $GLOBALS['strChannelHasBeenDuplicated'] = "Aturan pengiriman ditetapkan <a href='%s'>%s</a> telah disalin ke <a href='%s'>%s</a>";
@@ -1162,9 +1209,11 @@ $GLOBALS['strReportErrorUnknownCode'] = "Kode kesalahan tidak diketahui #";
 
 // Reserved keys
 // Do not change these unless absolutely needed
+$GLOBALS['keyHome'] = "h";
 $GLOBALS['keyUp'] = "u";
 $GLOBALS['keyNextItem'] = ",";
 $GLOBALS['keyPreviousItem'] = ".";
+$GLOBALS['keyList'] = "l";
 
 // Other keys
 // Please make sure you underline the key you
@@ -1176,3 +1225,4 @@ $GLOBALS['keyAddNew'] = "n";
 $GLOBALS['keyNext'] = "n";
 $GLOBALS['keyPrevious'] = "p";
 $GLOBALS['keyLinkUser'] = "u";
+$GLOBALS['keyWorkingAs'] = "w";
