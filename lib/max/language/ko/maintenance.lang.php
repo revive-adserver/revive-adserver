@@ -28,15 +28,27 @@ $GLOBALS['strAutoMantenaceDisabledAndHasntRun'] = "	자동 유지보수가 비�
 $GLOBALS['strAutoMantenaceEnabledAndRunning'] = "	자동 유지보수가 활성화 되었으며, {$PRODUCT_NAME}(이)가 광고를 표시할 때 작동됩니다.
 하지만, 최상의 성능을 위해,<a href='{$PRODUCT_DOCSURL}/admin/maintenance' target='_blank'>예약된 유지보수</a>를 설정하시는 것이 좋습니다.";
 
+$GLOBALS['strAutoMantenaceDisabledAndRunning'] = "	However, automatic maintenance has recently been disabled. To ensure that {$PRODUCT_NAME} works correctly, you should
+	either set up <a href='{$PRODUCT_DOCSURL}/admin/maintenance' target='_blank'>scheduled maintenance</a> or
+	<a href='account-settings-maintenance.php'>re-enable automatic maintenance</a>.
+	<br><br>
+	For the best performance, you should set up <a href='{$PRODUCT_DOCSURL}/admin/maintenance' target='_blank'>scheduled maintenance</a>.";
 
+$GLOBALS['strScheduledMantenaceRunning'] = "<b>Scheduled maintenance is running correctly.</b>";
 
+$GLOBALS['strAutomaticMaintenanceHasRun'] = "<b>Automatic maintenance is running correctly.</b>";
 
+$GLOBALS['strAutoMantenaceEnabled'] = "However, automatic maintenance is still enabled. For the best performance, you should <a href='account-settings-maintenance.php'>disable automatic maintenance</a>.";
 
 // Priority
 $GLOBALS['strRecalculatePriority'] = "우선순위 다시 계산";
 
 // Banner cache
 $GLOBALS['strCheckBannerCache'] = "배너 캐시 확인";
+$GLOBALS['strBannerCacheErrorsFound'] = "The database banner cache check has found some errors. These banners will not work until you manually fix them.";
+$GLOBALS['strBannerCacheOK'] = "There were no errors detected. Your database banner cache is up to date";
+$GLOBALS['strBannerCacheDifferencesFound'] = "The database banner cache check has found that your cache is not up to date and requires rebuilding. Click here to automatically  update your cache.";
+$GLOBALS['strBannerCacheRebuildButton'] = "Rebuild";
 $GLOBALS['strRebuildDeliveryCache'] = "전달유지 �?시 다시 빌드";
 $GLOBALS['strBannerCacheExplaination'] = "	The banner cache contains a copy of the HTML code which is used to display the banner. By using a banner cache it is possible to speed
 	up the delivery of banners because the HTML code doesn't need to be generated every time a banner is being delivered. Because the
@@ -47,6 +59,7 @@ $GLOBALS['strBannerCacheExplaination'] = "	The banner cache contains a copy of t
 $GLOBALS['strCache'] = "전달유지 �?시";
 $GLOBALS['strDeliveryCacheSharedMem'] = "현재 전달유지 �?시를 저장하기 위해 공유 메모리를 사용하고 있습니다.";
 $GLOBALS['strDeliveryCacheDatabase'] = "현재 전달유지 �?시를 저장하기 위해 �?��?�터베�?�스를 사용하고 있습니다.";
+$GLOBALS['strDeliveryCacheFiles'] = "	The delivery cache is currently being stored into multiple files on your server.";
 
 // Storage
 $GLOBALS['strStorage'] = "저장�?역";
@@ -55,6 +68,10 @@ $GLOBALS['strStorageExplaination'] = "로컬 배너로 사용하는 �?�미�
 
 // Encoding
 $GLOBALS['strEncoding'] = "인코딩";
+$GLOBALS['strEncodingExplaination'] = "{$PRODUCT_NAME} now stores all data in the database in UTF-8 format.<br />
+    Where possible, your data will have been automatically converted to this encoding.<br />
+    If after upgrading you find corrupt characters, and you know the encoding used, you may use this tool to convert the data from that format to UTF-8";
+$GLOBALS['strEncodingConvertFrom'] = "Convert from this encoding:";
 $GLOBALS['strEncodingConvertTest'] = "변환 테스트";
 $GLOBALS['strConvertThese'] = "계속하시는 경우 다음 데이터가 변경됩니다.";
 
@@ -76,7 +93,11 @@ $GLOBALS['strUpdateServerDown'] = "    Due to an unknown reason it isn't possibl
 
 $GLOBALS['strNoNewVersionAvailable'] = "	현재 사용중�?� {$PRODUCT_NAME}�?� 버전�?� 최신입니다. 현재 �?�용할 수 있는 업�?��?�트가 없습니다.";
 
+$GLOBALS['strServerCommunicationError'] = "    <b>Communication with the update server timed out, so {$PRODUCT_NAME} is not
+    able to check if a newer version is available at this stage. Please try again later.</b>";
 
+$GLOBALS['strCheckForUpdatesDisabled'] = "    <b>Check for updates is disabled. Please enable via the
+    <a href='account-settings-update.php'>update settings</a> screen.</b>";
 
 $GLOBALS['strNewVersionAvailable'] = "	<b>A new version of {$PRODUCT_NAME} is available.</b><br> It is recommended to install this update,
 	because it may fix some currently existing problems and will add new features. For more information
@@ -87,14 +108,38 @@ $GLOBALS['strSecurityUpdate'] = "	<b>It is highly recommended to install this up
 	be vulnerable to certain attacks and is probably not secure. For more information
 	about upgrading please read the documentation which is included in the files below.";
 
+$GLOBALS['strNotAbleToCheck'] = "	<b>Because the XML extention isn't available on your server, {$PRODUCT_NAME} is not
+    able to check if a newer version is available.</b>";
 
+$GLOBALS['strForUpdatesLookOnWebsite'] = "	If you want to know if there is a newer version available, please take a look at our website.";
 
 $GLOBALS['strClickToVisitWebsite'] = "	Click here to visit our website";
+$GLOBALS['strCurrentlyUsing'] = "You are currently using";
+$GLOBALS['strRunningOn'] = "running on";
+$GLOBALS['strAndPlain'] = "and";
 
 //  Deliver Limitations
+$GLOBALS['strDeliveryLimitations'] = "Delivery Rules";
+$GLOBALS['strAllBannerChannelCompiled'] = "All banner/delivery rule set compiled delivery rule values have been recompiled";
+$GLOBALS['strBannerChannelResult'] = "Here are the results of the banner/delivery rule set compiled delivery rule validation";
+$GLOBALS['strChannelCompiledLimitationsValid'] = "All compiled delivery rules for delivery rule sets are valid";
+$GLOBALS['strBannerCompiledLimitationsValid'] = "All compiled delivery rules for banners are valid";
+$GLOBALS['strErrorsFound'] = "Errors found";
+$GLOBALS['strRepairCompiledLimitations'] = "Some inconsistencies were found above, you can repair these using the button below, this will recompile the compiled limitation for every banner/delivery rule set in the system<br />";
+$GLOBALS['strRecompile'] = "Recompile";
+$GLOBALS['strDeliveryEngineDisagreeNotice'] = "Under some circumstances the delivery engine can disagree with the stored delivery rules for banners and delivery rule sets, use the folowing link to validate the delivery rules in the database";
+$GLOBALS['strCheckACLs'] = "Check delivery rules";
 
 //  Append codes
+$GLOBALS['strAppendCodesDesc'] = "Under some circumstances the delivery engine can disagree with the stored append codes for trackers, use the folowing link to validate the append codes in the database";
+$GLOBALS['strCheckAppendCodes'] = "Check Append codes";
+$GLOBALS['strAppendCodesRecompiled'] = "All compiled append codes values have been recompiled";
+$GLOBALS['strAppendCodesResult'] = "Here are the results of the compiled append codes validation";
+$GLOBALS['strAppendCodesValid'] = "All tracker compiled appendcodes are valid";
+$GLOBALS['strRepairAppenedCodes'] = "Some inconsistencies were found above, you can repair these using the button below, this will recompile the append codes for every tracker in the system";
 
+$GLOBALS['strPlugins'] = "Plugins";
+$GLOBALS['strPluginsPrecis'] = "Diagnose and repair problems with {$PRODUCT_NAME} plugins";
 
 $GLOBALS['strMenus'] = "메뉴";
 $GLOBALS['strMenusPrecis'] = "메뉴 캐시를 다시 작성";

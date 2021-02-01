@@ -111,9 +111,15 @@ $GLOBALS['strAndPlain'] = "e";
 
 //  Deliver Limitations
 $GLOBALS['strDeliveryLimitations'] = "Regole Di Consegna";
+$GLOBALS['strAllBannerChannelCompiled'] = "All banner/delivery rule set compiled delivery rule values have been recompiled";
+$GLOBALS['strBannerChannelResult'] = "Here are the results of the banner/delivery rule set compiled delivery rule validation";
+$GLOBALS['strChannelCompiledLimitationsValid'] = "All compiled delivery rules for delivery rule sets are valid";
+$GLOBALS['strBannerCompiledLimitationsValid'] = "All compiled delivery rules for banners are valid";
 $GLOBALS['strErrorsFound'] = "Sono stati rilevati degli errori";
 $GLOBALS['strRepairCompiledLimitations'] = "Sono state trovate alcune inconsistenze, puoi ripararle usando il bottone seguente. Ricompilerai la limitazione banner / canale nel sistema<br />";
 $GLOBALS['strRecompile'] = "Ricompila";
+$GLOBALS['strDeliveryEngineDisagreeNotice'] = "Under some circumstances the delivery engine can disagree with the stored delivery rules for banners and delivery rule sets, use the folowing link to validate the delivery rules in the database";
+$GLOBALS['strCheckACLs'] = "Check delivery rules";
 
 //  Append codes
 $GLOBALS['strAppendCodesDesc'] = "In alcune circostanze il motore di distribuzione è in disaccordo con i codici accodati. Usa il seguente collegamento per convalidare nel database i codici accodati.";

@@ -21,11 +21,19 @@ $GLOBALS['strWelcomeTitle'] = "Üdvözli a {$PRODUCT_NAME}";
 $GLOBALS['strInstallIntro'] = "Köszönjük, hogy {$PRODUCT_NAME} -et választotta. Ez a varázsló végigvezet a {$PRODUCT_NAME} telepítési folyamatán.";
 $GLOBALS['strUpgradeIntro'] = "Köszönjük, hogy {$PRODUCT_NAME} -et választotta. Ez a varázsló végigvezet a {$PRODUCT_NAME} frissítési folyamatán.";
 $GLOBALS['strInstallerHelpIntro'] = "Ha segítsége van szüksége a {$PRODUCT_NAME} telepitésítéséhez, akkor nézze meg a <a href='{$PRODUCT_DOCSURL}' target='_blank'>dokumentációt</a>.";
+$GLOBALS['strTermsIntro'] = "{$PRODUCT_NAME} is distributed freely under an Open Source license, the GNU General Public License. Please review and agree to the following documents to continue the installation.";
 
 /** check step * */
 $GLOBALS['strSystemCheck'] = "A rendszer ellenőrzése";
+$GLOBALS['strSystemCheckIntro'] = "The install wizard perfomed a check of your web server settings to ensure that the installation process can complete successfully.
+                                                  <br>Please check any highlighted issues to complete the installation process.";
+$GLOBALS['strFixErrorsBeforeContinuing'] = "Configuration of your webserver does not meet the requirements of the {$PRODUCT_NAME}.
+                                                   <br>In order to proceed with installation, please fix all errors.
+                                                   For help, please see our <a href='{$PRODUCT_DOCSURL}'>documentation</a> and <a href='http://{$PRODUCT_URL}/faq'>FAQs</a>";
 
 $GLOBALS['strAppCheckErrors'] = "Hibát észleltünk a {$PRODUCT_NAME} korábbi telepítése során";
+$GLOBALS['strAppCheckDbIntegrityError'] = "We have detected integrity issues with your database. This means that the layout of your database
+                                                   differs from what we expect it to be. This could be due to customization of your database.";
 
 $GLOBALS['strSyscheckProgressMessage'] = "Rendszer ellenőrzése...";
 $GLOBALS['strError'] = "Hiba";
@@ -52,9 +60,15 @@ $GLOBALS['strLoginProgressMessage'] = 'Bejelentkezés...';
 $GLOBALS['strDbSetupTitle'] = "Adja meg az adatbázis adatait";
 $GLOBALS['strDbSetupIntro'] = "Adja meg kapcsolódási adatokat a {$PRODUCT_NAME} adatbázisához.";
 $GLOBALS['strDbUpgradeTitle'] = "Az Ön adatbázisa megtalálva";
+$GLOBALS['strDbUpgradeIntro'] = "The following database has been detected for your installation of {$PRODUCT_NAME}.
+                                                   Please verify that this is correct then click \"Continue\" to proceed.";
 $GLOBALS['strDbProgressMessageInstall'] = 'Adatbázis telepítése...';
 $GLOBALS['strDbProgressMessageUpgrade'] = 'Adatbázis frissítése...';
 $GLOBALS['strDbSeeMoreFields'] = 'További adatbázis tulajdonságok megtekintése...';
+$GLOBALS['strDbTimeZoneWarning'] = "<p>As of this version {$PRODUCT_NAME} stores dates in UTC time rather than in server time.</p>
+                                                   <p>If you want historical statistics to be displayed with the correct timezone, upgrade your data manually.  Learn more <a target='help' href='%s'>here</a>.
+                                                      Your statistics values will remain accurate even if you leave your data untouched.
+                                                   </p>";
 $GLOBALS['strDbTimeZoneNoWarnings'] = "A jövőben ne mutassa a időzóna figyelmeztetéseket";
 $GLOBALS['strDBInstallSuccess'] = "Adatbázis sikeresen létrehozva";
 $GLOBALS['strDBUpgradeSuccess'] = "Adatbázis frissítése sikeres";
@@ -97,4 +111,10 @@ $GLOBALS['strContinueToLogin'] = "Kattintson a \"Tovább\" gombra a {$PRODUCT_NA
 $GLOBALS['strUnableCreateConfFile'] = "Nem tudjuk létrehozni a konfigurációs fájlt. Kérjük, ellenőrizze a {$PRODUCT_NAME} var mappájának engedélyeit.";
 $GLOBALS['strUnableUpdateConfFile'] = "Nem tudjuk frissíteni a konfigurációs fájlt. Kérjük, ellenőrizze a {$PRODUCT_NAME} var mappájának engedélyeit, és ellenőrizze az előző telepítés konfigurációs fájljának engedélyeit, melyeket ebbe a mappába másolt.";
 $GLOBALS['strUnableToCreateAdmin'] = "Nem tudunk Adminisztrátor fiókot létrehozni. A megadott adatbázis elérhető?";
+$GLOBALS['strTimezoneLocal'] = "{$PRODUCT_NAME} has detected that your PHP installation is returning \"System/Localtime\" as the timezone
+of your server. This is because of a patch to PHP applied by some Linux distributions.
+Unfortunately, this is not a valid PHP timezone. Please edit your php.ini file and set the \"date.timezone\"property to the correct value for your server.";
 
+$GLOBALS['strInstallNonBlockingErrors'] = "An error occurred when performing installation tasks. Please check the 
+<a class=\"show-errors\" href=\"#\">error list</a> and install log at \\'%s\\' for details.
+You will still be able to login to your {$PRODUCT_NAME} instance.";

@@ -17,6 +17,7 @@ $GLOBALS['strChooseTypeOfInvocation'] = "لطفا نوع نیایش را انت�
 $GLOBALS['strChooseTypeOfBannerInvocation'] = "لطفا نوع بنر را انتخاب کنید invocation";
 
 // Measures
+$GLOBALS['strAbbrPixels'] = "px";
 $GLOBALS['strAbbrSeconds'] = "ثانیه";
 
 // Common Invocation Parameters
@@ -74,3 +75,5 @@ $GLOBALS['strWarningLocalInvocation'] = "<span class='tab-s'><strong>هشدار 
 بررسی کنید که MAX_PATH در کد زیر تعریف شده به پایه دایرکتوری نصب و راه اندازی حداکثر اشاره می کند . <br />
 و که شما یک فایل پیکربندی برای دامنه از سایت با نشان دادن تبلیغات دارید(در MAX_PATH/var)";
 
+$GLOBALS['strIABNoteLocalInvocation'] = "<b>Note:</b> Local Mode invocation tags mean banner requests come from the web server, rather than the client. As a result, statistics are not compliant with IAB guidelines for ad impression measurement.";
+$GLOBALS['strIABNoteXMLRPCInvocation'] = "<b>Note:</b> XML-RPC invocation tags mean banner requests come from the web server, rather than the client. As a result, statistics are not compliant with IAB guidelines for ad impression measurement.";
