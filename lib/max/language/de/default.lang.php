@@ -493,6 +493,7 @@ $GLOBALS['strOnlyDisplayWhen'] = "Diesen Banner nur anzeigen, wenn:";
 $GLOBALS['strWeekDays'] = "Wochentage";
 $GLOBALS['strTime'] = "Zeit";
 $GLOBALS['strSource'] = "Quelle";
+$GLOBALS['strBrowser'] = "Browser";
 
 $GLOBALS['strDeliveryCappingReset'] = "Rücksetzen AdView-Zählers nach";
 $GLOBALS['strDeliveryCappingTotal'] = "insgesamt";

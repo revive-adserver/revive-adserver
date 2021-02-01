@@ -219,7 +219,7 @@ $GLOBALS['strWeek'] = "Vecka";
 $GLOBALS['strWeeks'] = "Veckor";
 $GLOBALS['strSingleMonth'] = "Månad";
 $GLOBALS['strMonths'] = "Månader";
-$GLOBALS['strDayOfWeek'] = "Dag av vecka";
+$GLOBALS['strDayOfWeek'] = "Dag i veckan";
 
 
 if (!isset($GLOBALS['strDayFullNames'])) {
@@ -359,6 +359,7 @@ $GLOBALS['strType'] = "Typ";
 $GLOBALS['strContract'] = "Kontakt";
 $GLOBALS['strOverride'] = "Åsidosätt";
 $GLOBALS['strStandardContract'] = "Kontakt";
+$GLOBALS['strRemnant'] = "Kvarleva";
 $GLOBALS['strPricing'] = "Prissättning";
 $GLOBALS['strPricingModel'] = "Prismodell";
 $GLOBALS['strSelectPricingModel'] = "--Välj modell--";
@@ -613,7 +614,7 @@ $GLOBALS['strViewBreakdown'] = "Visa efter";
 $GLOBALS['strBreakdownByDay'] = "Dag";
 $GLOBALS['strBreakdownByWeek'] = "Vecka";
 $GLOBALS['strBreakdownByMonth'] = "Månad";
-$GLOBALS['strBreakdownByDow'] = "Dag av vecka";
+$GLOBALS['strBreakdownByDow'] = "Dag i veckan";
 $GLOBALS['strBreakdownByHour'] = "Timme";
 $GLOBALS['strItemsPerPage'] = "Objekt per sida";
 $GLOBALS['strShowGraphOfStatistics'] = "Visa <u>G</u>raf för statistiken";

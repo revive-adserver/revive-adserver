@@ -139,7 +139,7 @@ $GLOBALS['strWidth'] = "Breedte";
 $GLOBALS['strHeight'] = "Hoogte";
 $GLOBALS['strTarget'] = "Doel";
 $GLOBALS['strLanguage'] = "Taal";
-$GLOBALS['strDescription'] = "Beschrijving";
+$GLOBALS['strDescription'] = "Omschrijving";
 $GLOBALS['strVariables'] = "Variabelen";
 $GLOBALS['strID'] = "ID";
 $GLOBALS['strComments'] = "Notities";
@@ -213,8 +213,8 @@ $GLOBALS['strTotalConversions'] = "Totaal aantal conversies";
 $GLOBALS['strDateTime'] = "Datum tijd";
 $GLOBALS['strTrackerID'] = "Tracker-ID";
 $GLOBALS['strTrackerName'] = "Tracker naam";
-$GLOBALS['strTrackerImageTag'] = "Afbeelding tag";
-$GLOBALS['strTrackerJsTag'] = "Javascript tag";
+$GLOBALS['strTrackerImageTag'] = "Image Tag";
+$GLOBALS['strTrackerJsTag'] = "Javascript Tag";
 $GLOBALS['strTrackerAlwaysAppend'] = "Altijd de toegevoegde code weergeven, zelfs als geen conversie is geconstateerd door de tracker?";
 $GLOBALS['strBanners'] = "Banners";
 $GLOBALS['strCampaigns'] = "Campagnes";
@@ -398,7 +398,7 @@ Weet u zeker dat u wilt doorgaan?";
 $GLOBALS['strCampaignWarningNoTarget'] = "Het type van deze campagne is ingesteld op Contract, maar limiet per dag is niet opgegeven. Hierdoor wordt de campagne worden gedeactiveerd en haar banners zal niet worden geleverd tot een geldige limiet per dag is ingesteld.  Weet u zeker dat u wilt doorgaan?";
 $GLOBALS['strCampaignStatusPending'] = "Wachtend";
 $GLOBALS['strCampaignStatusInactive'] = "Niet actief";
-$GLOBALS['strCampaignStatusRunning'] = "Actief";
+$GLOBALS['strCampaignStatusRunning'] = "Lopend";
 $GLOBALS['strCampaignStatusPaused'] = "Gepauzeerd";
 $GLOBALS['strCampaignStatusAwaiting'] = "Wachtend";
 $GLOBALS['strCampaignStatusExpired'] = "Voltooid";
@@ -411,7 +411,7 @@ $GLOBALS['strCampaignStatusDeleted'] = "Verwijderd";
 $GLOBALS['strCampaignType'] = "Campagnetype";
 $GLOBALS['strType'] = "Type";
 $GLOBALS['strContract'] = "Contract";
-$GLOBALS['strOverride'] = "Override";
+$GLOBALS['strOverride'] = "Overstijgend";
 $GLOBALS['strOverrideInfo'] = "Override campagnes zijn een speciaal soort campagnes die specifiek gebruikt worden om
     Remnant en Contract campagnes te verdringen. Override campagnes worden over het algemeen gebruikt met
     specifieke targeting en/of capping regels om er voor te zorgen dat de banners altijd vertoond worden op bepaalde
@@ -1029,7 +1029,7 @@ $GLOBALS['strChannelsOfWebsite'] = 'in'; //this is added between page name and w
 
 // Tracker Variables
 $GLOBALS['strVariableName'] = "Naam van de variabele";
-$GLOBALS['strVariableDescription'] = "Beschrijving";
+$GLOBALS['strVariableDescription'] = "Omschrijving";
 $GLOBALS['strVariableDataType'] = "Gegevenstype";
 $GLOBALS['strVariablePurpose'] = "Doel";
 $GLOBALS['strGeneric'] = "Generiek";

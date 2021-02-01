@@ -338,7 +338,7 @@ $GLOBALS['strAnonymous'] = "Приховати клієнта і сайти ці
 $GLOBALS['strTargetPerDay'] = "у день.";
 $GLOBALS['strCampaignStatusPending'] = "Ожидают";
 $GLOBALS['strCampaignStatusInactive'] = "активний";
-$GLOBALS['strCampaignStatusRunning'] = "Запущен ";
+$GLOBALS['strCampaignStatusRunning'] = "Запущен";
 $GLOBALS['strCampaignStatusPaused'] = "Припинити";
 $GLOBALS['strCampaignStatusAwaiting'] = "Ожидает";
 $GLOBALS['strCampaignStatusExpired'] = "Завершен";
@@ -351,7 +351,9 @@ $GLOBALS['strCampaignStatusDeleted'] = "Видалити";
 $GLOBALS['strCampaignType'] = "Назва кампанії";
 $GLOBALS['strType'] = "Тип";
 $GLOBALS['strContract'] = "Контакт";
+$GLOBALS['strOverride'] = "Отменить";
 $GLOBALS['strStandardContract'] = "Контакт";
+$GLOBALS['strRemnant'] = "Остаток";
 
 // Tracker
 $GLOBALS['strTracker'] = "Трекер";

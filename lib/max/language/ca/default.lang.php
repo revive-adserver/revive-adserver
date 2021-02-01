@@ -87,6 +87,7 @@ if (!isset($GLOBALS['strDayShortCuts'])) {
 
 
 // Campaign properties
+$GLOBALS['strType'] = "Tipus";
 
 // Tracker
 $GLOBALS['strIPAddress'] = "Adreça IP";
@@ -131,6 +132,7 @@ if (!isset($GLOBALS['strCappingZone'])) {
 
 // Linked banners/campaigns/trackers
 $GLOBALS['strStatusDuplicate'] = "Duplica";
+$GLOBALS['strConnectionType'] = "Tipus";
 
 // Statistics
 

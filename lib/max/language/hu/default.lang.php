@@ -174,8 +174,8 @@ $GLOBALS['strTotalConversions'] = "Összes konverzió";
 $GLOBALS['strDateTime'] = "Dátum/idő";
 $GLOBALS['strTrackerID'] = "Követőkód ID";
 $GLOBALS['strTrackerName'] = "Követőkód neve";
-$GLOBALS['strTrackerImageTag'] = "Képi elemként";
-$GLOBALS['strTrackerJsTag'] = "Javascript elemként";
+$GLOBALS['strTrackerImageTag'] = "Kép címke";
+$GLOBALS['strTrackerJsTag'] = "Javascript címke";
 $GLOBALS['strBanners'] = "Reklámok";
 $GLOBALS['strCampaigns'] = "Kampány";
 $GLOBALS['strCampaignID'] = "Kampány azonosító";
@@ -384,6 +384,7 @@ $GLOBALS['strWeight'] = "Súlyozás";
 $GLOBALS['strAlt'] = "ALT szöveg";
 $GLOBALS['strStatusText'] = "Szöveg az állapotsoron";
 $GLOBALS['strBannerWeight'] = "Reklám súlyozása";
+$GLOBALS['strAdserverTypeGeneric'] = "Általános HTML Reklám";
 $GLOBALS['strGenericOutputAdServer'] = "Általános";
 
 // Banner (advanced)
