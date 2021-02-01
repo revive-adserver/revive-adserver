@@ -37,6 +37,9 @@ What's New in Revive Adserver 5.1.2
  * Fix issue with password recovery emails being sent to the administrator
    or not being sent at all.
 
+ * Fix an issue with determining the real IP addresses of viewers behind a
+   proxy server when proxy headers contained the origin port number.
+
 
  Non-Backwards Compatible Changes
  --------------------------------
