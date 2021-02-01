@@ -46,7 +46,7 @@ $GLOBALS['strPopUpCreateInstance'] = "به عنوان مثال زمانی که �
 $GLOBALS['strPopUpImmediately'] = "بلافاصله";
 $GLOBALS['strPopUpOnClose'] = "زمانی که صفحه بسته است";
 $GLOBALS['strPopUpAfterSec'] = "بعد از";
-$GLOBALS['strAutoCloseAfter'] = "بسته شود به صورت خودکار بعد از";
+$GLOBALS['strAutoCloseAfter'] = "اتوماتیک بسته شود بعد از";
 $GLOBALS['strPopUpTop'] = "موقعیت اولیه(بالا(";
 $GLOBALS['strPopUpLeft'] = "موقعیت اولیه (سمت چپ)";
 $GLOBALS['strWindowOptions'] = "گزینه های پنجره";

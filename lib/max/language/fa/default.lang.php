@@ -226,9 +226,8 @@ $GLOBALS['strTotalConversions'] = "مجموع مکالمات";
 $GLOBALS['strDateTime'] = "زمان تاریخ";
 $GLOBALS['strTrackerID'] = "ردیاب  ID";
 $GLOBALS['strTrackerName'] = "ردیاب  اسم";
-$GLOBALS['strTrackerImageTag'] = "
-برچسب تصویر";
-$GLOBALS['strTrackerJsTag'] = "Javascript برچسب";
+$GLOBALS['strTrackerImageTag'] = "برچسب تصویر";
+$GLOBALS['strTrackerJsTag'] = "برچسب Javascript";
 $GLOBALS['strTrackerAlwaysAppend'] = " همیشه  کد منضم را نشان بده, حتی اگر مکالمه ای توسط ردیاب ذخیره نشده باشد?";
 $GLOBALS['strBanners'] = "تبلیغات";
 $GLOBALS['strCampaigns'] = "کمپین ها";
@@ -245,14 +244,14 @@ $GLOBALS['strFinanceCTR'] = "نرخ کلیک";
 $GLOBALS['strFinanceCR'] = "کپی رایت";
 
 // Time and date related
-$GLOBALS['strDate'] = "زمان";
+$GLOBALS['strDate'] = "تاریخ";
 $GLOBALS['strDay'] = "روز";
 $GLOBALS['strDays'] = "روزها";
 $GLOBALS['strWeek'] = "هفته";
 $GLOBALS['strWeeks'] = "هفته ها";
 $GLOBALS['strSingleMonth'] = "ماه";
 $GLOBALS['strMonths'] = "ماه ها";
-$GLOBALS['strDayOfWeek'] = "روز هفتهk";
+$GLOBALS['strDayOfWeek'] = "روز هفته";
 
 
 if (!isset($GLOBALS['strDayFullNames'])) {
@@ -445,8 +444,7 @@ $GLOBALS['strCampaignStatusPending'] = "
 در انتظار";
 $GLOBALS['strCampaignStatusInactive'] = "
 غیر فعال";
-$GLOBALS['strCampaignStatusRunning'] = "
-در حال اجرا";
+$GLOBALS['strCampaignStatusRunning'] = "در حال اجرا";
 $GLOBALS['strCampaignStatusPaused'] = "
 مکث";
 $GLOBALS['strCampaignStatusAwaiting'] = "
@@ -464,7 +462,7 @@ $GLOBALS['strCampaignStatusDeleted'] = "حذف شده";
 $GLOBALS['strCampaignType'] = "
 نوع کمپین";
 $GLOBALS['strType'] = "نوع";
-$GLOBALS['strContract'] = "قرارداد";
+$GLOBALS['strContract'] = "تماس";
 $GLOBALS['strOverride'] = "باطل کردن";
 $GLOBALS['strOverrideInfo'] = "کمپین نادیده گرفته شده یک نوع کمپین ویژه به طور خاص برای
      باطل کردن )اولویت به بیش) 
@@ -472,13 +470,12 @@ $GLOBALS['strOverrideInfo'] = "کمپین نادیده گرفته شده یک ن
      هدف قرار دادن خاص و / یا دربندی قوانین به اطمینان حاصل شود استفاده می شود که آگهی ها کمپین همیشه در مکان معین نمایش داده می شود
      به کاربران خاص، و شاید یک تعداد معینی از زمان، به عنوان بخشی از ارتقاء خاص (این کمپین
      نوع قبلا به عنوان قرارداد (منحصر به فرد) شناخته می شد.).)";
-$GLOBALS['strStandardContract'] = "قرارداد";
+$GLOBALS['strStandardContract'] = "تماس";
 $GLOBALS['strStandardContractInfo'] = "کمپین قرارداد برای هموار ارائه برداشت هستند
      مورد نیاز برای رسیدن به یک زمان بحرانی عملکرد مورد نیاز مشخص شده است. این است که، کمپین قرارداد برای زمانی که می
      یک تبلیغ است به طور خاص پرداخت می شود به یک تعداد معین از برداشت، کلیک و / یا تبدیل به
      به دست آورد یا بین دو تاریخ، و یا در روز است.";
-$GLOBALS['strRemnant'] = "
-باقی مانده";
+$GLOBALS['strRemnant'] = "باقی مانده";
 $GLOBALS['strRemnantInfo'] = "نوع کمپین به طور پیش فرض. کمپین باقی مانده تعداد زیادی از مختلف
      گزینه های تحویل داده شده است ، و شما باید در حالت ایده آل همیشه حداقل یک کمپین باقی مانده مربوط به هر منطقه، برای اطمینان از
      است که همیشه چیزی برای نمایش وجود دارد. استفاده از کمپین های باقی مانده برای نمایش آگهی به خانه، آگهی ها آگهی های شبکه، و یا حتی
@@ -613,7 +610,7 @@ $GLOBALS['strWeight'] = "وزن";
 $GLOBALS['strAlt'] = "متن ALT";
 $GLOBALS['strStatusText'] = "متن وضعیت";
 $GLOBALS['strBannerWeight'] = "وزن تبلیغات";
-$GLOBALS['strAdserverTypeGeneric'] = "عمومی سازی HTML تبلیغات";
+$GLOBALS['strAdserverTypeGeneric'] = "بنر عمومی Html";
 $GLOBALS['strDoNotAlterHtml'] = "HTML را تغییر ندهید";
 $GLOBALS['strGenericOutputAdServer'] = "عمومی سازی";
 $GLOBALS['strBackToBanners'] = "بازگشت به تبلیغات";
@@ -824,7 +821,7 @@ $GLOBALS['strViewBreakdown'] = "مشاهده توسط";
 $GLOBALS['strBreakdownByDay'] = "روز";
 $GLOBALS['strBreakdownByWeek'] = "هفته";
 $GLOBALS['strBreakdownByMonth'] = "ماه";
-$GLOBALS['strBreakdownByDow'] = "روز هفتهk";
+$GLOBALS['strBreakdownByDow'] = "روز هفته";
 $GLOBALS['strBreakdownByHour'] = "ساعت";
 $GLOBALS['strItemsPerPage'] = "آیتم ها در هر صفحه";
 $GLOBALS['strShowGraphOfStatistics'] = "نمایش گراف آمار";
