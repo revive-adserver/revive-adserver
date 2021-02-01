@@ -3225,11 +3225,13 @@ $aGet[$name] = $value;
 $_GET = $aGet;
 $_REQUEST = $_GET + $_POST + $_COOKIE;
 }
-function MAX_querystringGetDestinationUrl(int $adId = 0, int $zoneId = 0)
+function MAX_querystringGetDestinationUrl($adId = 0, $zoneId = 0)
 {
 $conf = $GLOBALS['_MAX']['CONF'];
 $dest = $_REQUEST[$conf['var']['dest']] ?? '';
 $sig = $_REQUEST[$conf['var']['signature']] ?? '';
+$adId = (int) $adId;
+$zoneId = (int) $zoneId;
 try {
 if (!empty($dest) && $sig !== OX_Delivery_Common_getClickSignature($adId, $zoneId, $dest)) {
 $dest = '';
