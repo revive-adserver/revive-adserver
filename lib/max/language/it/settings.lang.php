@@ -262,23 +262,7 @@ $GLOBALS['strAppName'] = "Intestazione programma";
 $GLOBALS['strMyHeader'] = "File da includere come intestazione";
 $GLOBALS['strMyFooter'] = "File da includere a pié di pagina";
 $GLOBALS['strDefaultTrackerStatus'] = "Stato predefinito del tracker";
-$GLOBALS['strDefaultTrackerType'] = "Tipo di tracker predefinito";
-$GLOBALS['strSSLSettings'] = "Impostazioni SSL";
-$GLOBALS['requireSSL'] = "Forza accesso SSL nell`interfaccia utente";
-$GLOBALS['sslPort'] = "Porta SSL usata dal Web Server";
-$GLOBALS['strDashboardSettings'] = "Impostazioni Dashboard";
-$GLOBALS['strMyLogo'] = "Nome del file per logo personalizzato";
-$GLOBALS['strGuiHeaderForegroundColor'] = "Colore in primo piano dell'intestazione";
-$GLOBALS['strGuiHeaderBackgroundColor'] = "Colore di sfondo dell'intestazione";
-$GLOBALS['strGuiActiveTabColor'] = "Colore del tab attivo";
-$GLOBALS['strGuiHeaderTextColor'] = "Colore del testo nell'intestazione";
-$GLOBALS['strGuiSupportLink'] = "URL personalizzato per il link di Supporto in alto";
-$GLOBALS['strGzipContentCompression'] = "Utilizza la compressione GZIP per i contenuti";
 
 // Regenerate Platfor Hash script
-$GLOBALS['strNewPlatformHash'] = "La nuova piattaforma Hash è:";
-$GLOBALS['strPlatformHashInsertingError'] = "Errore nell'inserimento della Piattaforma Hash nel database";
 
 // Plugin Settings
-$GLOBALS['strPluginSettings'] = "Impostazioni del plugin";
-$GLOBALS['strEnableNewPlugins'] = "Attiva i plugin appena installati";

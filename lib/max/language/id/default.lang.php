@@ -201,8 +201,8 @@ $GLOBALS['strTotalConversions'] = "Jumlah Konversi";
 $GLOBALS['strDateTime'] = "Tanggal Waktu";
 $GLOBALS['strTrackerID'] = "ID Pelacak";
 $GLOBALS['strTrackerName'] = "Nama Pelacak";
-$GLOBALS['strTrackerImageTag'] = "Tag gambar";
-$GLOBALS['strTrackerJsTag'] = "Tag Javascript";
+$GLOBALS['strTrackerImageTag'] = "Menandai Gambar";
+$GLOBALS['strTrackerJsTag'] = "Menandai Javascript";
 $GLOBALS['strTrackerAlwaysAppend'] = "Selalu tampilkan kode yang ditambahkan, meskipun tidak ada konversi yang dicatat oleh pelacak?";
 $GLOBALS['strBanners'] = "Banner";
 $GLOBALS['strCampaigns'] = "Kampanye";
@@ -516,7 +516,7 @@ $GLOBALS['strWeight'] = "Bobot";
 $GLOBALS['strAlt'] = "Teks alternatif";
 $GLOBALS['strStatusText'] = "Teks status";
 $GLOBALS['strBannerWeight'] = "Bobot banner";
-$GLOBALS['strAdserverTypeGeneric'] = "Banner HTML Generik";
+$GLOBALS['strAdserverTypeGeneric'] = "Spanduk HTML Generik";
 $GLOBALS['strDoNotAlterHtml'] = "Jangan ubah HTML";
 $GLOBALS['strGenericOutputAdServer'] = "Generik";
 $GLOBALS['strBackToBanners'] = "Kembali ke spanduk";
@@ -1057,104 +1057,23 @@ $GLOBALS['strAuditTrailDisabled'] = "Jejak Audit telah dinonaktifkan oleh admini
 // Widget - Audit
 $GLOBALS['strAuditNoData'] = "Tidak ada aktivitas pengguna yang tercatat selama jangka waktu yang telah Anda pilih.";
 $GLOBALS['strAuditTrail'] = "Jejak audit";
-$GLOBALS['strAuditTrailSetup'] = "Setup Audit Trail hari ini";
-$GLOBALS['strAuditTrailGoTo'] = "Buka halaman Audit Trail";
-$GLOBALS['strAuditTrailNotEnabled'] = "<li>Jejak Audit memungkinkan Anda melihat siapa yang melakukan apa dan kapan. Atau dengan kata lain, itu melacak perubahan sistem di dalamnya{$PRODUCT_NAME}</li>
-        <li>Anda melihat pesan ini, karena Anda belum mengaktifkan Jejak Audit </li>
-        <li>Tertarik belajar lebih banyak? Baca <a<a href='{$PRODUCT_DOCSURL}/admin/settings/auditTrail' class='site-link' target='help' >Dokumentasi Audit Trail </a></li>";
 
 // Widget - Campaign
-$GLOBALS['strCampaignGoTo'] = "Buka halaman Kampanye";
-$GLOBALS['strCampaignSetUp'] = "Buat Kampanye hari ini";
-$GLOBALS['strCampaignNoRecords'] = "<li>Kampanye memungkinkan Anda mengelompokkan sejumlah iklan spanduk, dari ukuran apa pun, yang berbagi persyaratan periklanan umum </li>
-        <li>Hemat waktu dengan mengelompokkan spanduk dalam kampanye dan tidak lagi menentukan setelan pengiriman untuk setiap iklan secara terpisah </li>
-        <li>Periksa<a class='site-link' target='help' href='{$PRODUCT_DOCSURL}/user/inventory/advertisersAndCampaigns/campaigns'>Dokumentasi kampanye </a>! </li>";
-$GLOBALS['strCampaignNoRecordsAdmin'] = "<li>Tidak ada aktivitas kampanye yang ditampilkan. </li>";
 
-$GLOBALS['strCampaignNoDataTimeSpan'] = "Tidak ada kampanye yang dimulai atau selesai selama jangka waktu yang telah Anda pilih";
-$GLOBALS['strCampaignAuditNotActivated'] = "<li>Untuk melihat kampanye yang telah dimulai atau selesai selama jangka waktu yang telah Anda pilih, Jejak Audit harus diaktifkan </li>
-        <li>Anda melihat pesan ini karena Anda tidak mengaktifkan Jejak Audit </li>";
-$GLOBALS['strCampaignAuditTrailSetup'] = "Aktifkan Trail Audit untuk mulai melihat Kampanye";
 
-$GLOBALS['strUnsavedChanges'] = "Anda memiliki perubahan yang belum disimpan di halaman ini, pastikan Anda menekan &quot; Simpan Perubahan &quot; saat selesai";
-$GLOBALS['strDeliveryLimitationsDisagree'] = "PERINGATAN: Aturan pengiriman dalam cache <strong> JANGAN SETUJU </strong> dengan aturan pengiriman yang ditunjukkan di bawah ini <br/> Tolong tekan simpan perubahan untuk memperbarui aturan pengiriman tembolok";
-$GLOBALS['strDeliveryLimitationsInputErrors'] = "Beberapa peraturan pengiriman melaporkan nilai yang salah:";
 
 //confirmation messages
-$GLOBALS['strYouAreNowWorkingAsX'] = "Anda sekarang bekerja sebagai <b>%s</b>";
-$GLOBALS['strYouDontHaveAccess'] = "Anda tidak memiliki akses ke halaman itu. Anda telah diarahkan kembali.";
 
-$GLOBALS['strAdvertiserHasBeenAdded'] = "Pemasang iklan <a href='%s'>%s</a>telah ditambahkan,<a href='%s'>tambahkan kampanye</a>";
-$GLOBALS['strAdvertiserHasBeenUpdated'] = "Pemasang iklan <a href='%s'>%s</a>telah diperbarui";
-$GLOBALS['strAdvertiserHasBeenDeleted'] = "Pemasang iklan <b>%s</b> sudah dihapus";
-$GLOBALS['strAdvertisersHaveBeenDeleted'] = "Semua pengiklan terpilih telah dihapus";
 
-$GLOBALS['strTrackerHasBeenAdded'] = "Pelacak <a href='%s'>%s</a> telah ditambahkan";
-$GLOBALS['strTrackerHasBeenUpdated'] = "Pelacak <a href='%s'>%s</a> telah diperbarui";
-$GLOBALS['strTrackerVarsHaveBeenUpdated'] = "Variabel pelacak <a href='%s'>%s</a> telah diperbarui";
-$GLOBALS['strTrackerCampaignsHaveBeenUpdated'] = "Kampanye pelacak yang dilacak <a href='%s'>%s</a> telah diperbarui";
-$GLOBALS['strTrackerAppendHasBeenUpdated'] = "Tambahkan kode pelacak pelacak <a href='%s'>%s</a> telah diperbarui";
-$GLOBALS['strTrackerHasBeenDeleted'] = "Tracker <b>%s</b> telah dihapus";
-$GLOBALS['strTrackersHaveBeenDeleted'] = "Semua pelacak terpilih telah dihapus";
-$GLOBALS['strTrackerHasBeenDuplicated'] = "Tracker <a href='%s'>%s</a> telah disalin ke <a href='%s'>%s</a>";
-$GLOBALS['strTrackerHasBeenMoved'] = "Pelacak <b>%s</b> telah dipindahkan ke pengiklan <b>%s</b>";
 
-$GLOBALS['strCampaignHasBeenAdded'] = "Kampanye <a href='%s'>%s</a> telah ditambahkan, <a href='%s'>tambahkan spanduk</a>";
-$GLOBALS['strCampaignHasBeenUpdated'] = "Kampanye <a href='%s'>%s</a>telah diperbarui";
-$GLOBALS['strCampaignTrackersHaveBeenUpdated'] = "Pelacak penelusuran kampanye <a href='%s'>%s</a> telah diperbarui";
-$GLOBALS['strCampaignHasBeenDeleted'] = "Kampanye <b>%s</b> telah dihapus";
-$GLOBALS['strCampaignsHaveBeenDeleted'] = "Semua kampanye terpilih telah dihapus";
-$GLOBALS['strCampaignHasBeenDuplicated'] = "Kampanye <a href='%s'>%s</a> telah disalin ke <a href='%s'>%s</a>";
-$GLOBALS['strCampaignHasBeenMoved'] = "Pelacak <b>%s</b> telah dipindahkan ke pengiklan <b>%s</b>";
 
-$GLOBALS['strBannerHasBeenAdded'] = "Spanduk <a href='%s'>%s</a> telah ditambahkan";
-$GLOBALS['strBannerHasBeenUpdated'] = "Spanduk <a href='%s'>%s</a> telah diperbarui";
-$GLOBALS['strBannerAdvancedHasBeenUpdated'] = "Setelan lanjutan untuk spanduk <a href='%s'>%s</a> telah diperbarui";
-$GLOBALS['strBannerAclHasBeenUpdated'] = "Pilihan pengiriman untuk spanduk <a href='%s'>%s</a> telah diperbarui";
-$GLOBALS['strBannerAclHasBeenAppliedTo'] = "Opsi pengiriman untuk spanduk <a href='%s'>%s</a> telah diterapkan ke %d spanduk";
-$GLOBALS['strBannerHasBeenDeleted'] = "Spanduk <b>%s</b> sudah dihapus";
-$GLOBALS['strBannersHaveBeenDeleted'] = "Semua spanduk yang dipilih telah dihapus";
-$GLOBALS['strBannerHasBeenDuplicated'] = "Spanduk <a href='%s'>%s</a> telah disalin kes<a href='%s'>%s</a>";
-$GLOBALS['strBannerHasBeenMoved'] = "Spanduk <b>%s</b> telah dipindahkan ke kampanye <b>%s</b>";
-$GLOBALS['strBannerHasBeenActivated'] = "Banner <a href='%s'>%s</a> telah diaktifkan";
-$GLOBALS['strBannerHasBeenDeactivated'] = "Banner <a href='%s'>%s</a> telah dinonaktifkan";
 
-$GLOBALS['strXZonesLinked'] = "<b>%s</b>zona(s) yang terkait";
-$GLOBALS['strXZonesUnlinked'] = "<b>%s</b>zona(s) yang tidak terpaut";
 
-$GLOBALS['strWebsiteHasBeenAdded'] = "Website <a href='%s'>%s</a> telah ditambahkan, <a href='%s'>tambahkan zona</a>";
-$GLOBALS['strWebsiteHasBeenUpdated'] = "Situs web <a href='%s'>%s</a> telah diperbarui";
-$GLOBALS['strWebsiteHasBeenDeleted'] = "Situs web <b>%s</b> sudah dihapus";
-$GLOBALS['strWebsitesHaveBeenDeleted'] = "Semua situs web yang dipilih telah dihapus";
 
-$GLOBALS['strZoneHasBeenAdded'] = "Zona <a href='%s'>%s</a> telah ditambahkan";
-$GLOBALS['strZoneHasBeenUpdated'] = "Zona <a href='%s'>%s</a> telah diperbarui";
-$GLOBALS['strZoneAdvancedHasBeenUpdated'] = "Setelan lanjutan untuk zona <a href='%s'>%s</a> telah diperbarui";
-$GLOBALS['strZoneHasBeenDeleted'] = "Zana <b>%s</b> sudah dihapus";
-$GLOBALS['strZonesHaveBeenDeleted'] = "Semua zona terpilih telah dihapus";
-$GLOBALS['strZoneHasBeenDuplicated'] = "Zona <a href='%s'>%s</a> telah disalin ke <a href='%s'>%s</a>";
-$GLOBALS['strZoneHasBeenMoved'] = "Zona <<b>%s</b> telah dipindahkan ke situs web <b>%s</b>";
-$GLOBALS['strZoneLinkedBanner'] = "Spanduk telah dikaitkan dengan zona <a href='%s'>%s</a>";
-$GLOBALS['strZoneLinkedCampaign'] = "Kampanye telah dikaitkan dengan zona <a href='%s'>%s</a>";
-$GLOBALS['strZoneRemovedBanner'] = "Spanduk telah dibatalkan dari zona <a href='%s'>%s</a>";
-$GLOBALS['strZoneRemovedCampaign'] = "Kampanye telah dibatalkan dari zona <a href='%s'>%s</a>";
 
-$GLOBALS['strChannelHasBeenAdded'] = "Aturan pengiriman ditetapkan <a href='%s'>%s</a> telah ditambahkan. <a href='%s'>Tetapkan aturan pengiriman.</a>";
-$GLOBALS['strChannelHasBeenUpdated'] = "Aturan pengiriman ditetapkan <a href='%s'>%s</a> telah diperbarui";
-$GLOBALS['strChannelHasBeenDeleted'] = "Aturan pengiriman ditetapkan <b>%s</b> sudah dihapus";
-$GLOBALS['strChannelsHaveBeenDeleted'] = "Semua kumpulan aturan pengiriman yang dipilih telah dihapus";
-$GLOBALS['strChannelHasBeenDuplicated'] = "Aturan pengiriman ditetapkan <a href='%s'>%s</a> telah disalin ke <a href='%s'>%s</a>";
 
-$GLOBALS['strUserPreferencesUpdated'] = "Preferensi <b>%s</b> Anda telah diperbarui";
-$GLOBALS['strEmailChanged'] = "E-mail Anda telah diubah";
-$GLOBALS['strPasswordChanged'] = "Kata sandi Anda telah diubah";
-$GLOBALS['strXPreferencesHaveBeenUpdated'] = "<b>%s</b> telah diperbarui";
-$GLOBALS['strXSettingsHaveBeenUpdated'] = "<b>%s</b> telah diperbarui";
-$GLOBALS['strTZPreferencesWarning'] = "Namun, aktivasi dan kadaluarsa kampanye tidak diperbarui, atau aturan pengiriman spanduk berbasis waktu.<br />Anda perlu memperbaruinya secara manual jika anda ingin mereka menggunakan zona waktu yang baru";
 
 // Report error messages
-$GLOBALS['strReportErrorMissingSheets'] = "Tidak ada lembar kerja yang dipilih untuk dilaporkan";
-$GLOBALS['strReportErrorUnknownCode'] = "Kode kesalahan tidak diketahui #";
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */
@@ -1162,17 +1081,9 @@ $GLOBALS['strReportErrorUnknownCode'] = "Kode kesalahan tidak diketahui #";
 
 // Reserved keys
 // Do not change these unless absolutely needed
-$GLOBALS['keyUp'] = "u";
 $GLOBALS['keyNextItem'] = ",";
 $GLOBALS['keyPreviousItem'] = ".";
 
 // Other keys
 // Please make sure you underline the key you
 // used in the string in default.lang.php
-$GLOBALS['keySearch'] = "s";
-$GLOBALS['keyCollapseAll'] = "c";
-$GLOBALS['keyExpandAll'] = "e";
-$GLOBALS['keyAddNew'] = "n";
-$GLOBALS['keyNext'] = "n";
-$GLOBALS['keyPrevious'] = "p";
-$GLOBALS['keyLinkUser'] = "u";

@@ -19,6 +19,7 @@ $GLOBALS['strDeleted'] = "s'ha suprimit";
 $GLOBALS['strInserted'] = "s'ha inserit";
 $GLOBALS['strUpdated'] = "s'ha actualitzat";
 $GLOBALS['strFilters'] = "Filtres";
+$GLOBALS['strType'] = "Tipus";
 $GLOBALS['strParameter'] = "Paràmetre";
 
 if (!isset($GLOBALS['strUserlog'])) {

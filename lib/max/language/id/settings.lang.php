@@ -261,44 +261,10 @@ $GLOBALS['strEnableConversionTracking'] = "Aktifkan Pelacakan Konversi";
 $GLOBALS['strBlockInactiveBanners'] = "Jangan hitung tayangan iklan, klik atau arahkan kembali pengguna ke URL target jika pemirsa mengklik banner yang tidak aktif";
 $GLOBALS['strBlockAdClicks'] = "Jangan hitung klik iklan jika pemirsa mengeklik pasangan iklan / zona yang sama dalam waktu yang ditentukan (detik)";
 $GLOBALS['strMaintenanceOI'] = "Interval Operasi Pemeliharaan (menit)";
-$GLOBALS['strPrioritySettings'] = "Penyetelan prioritas secara global";
-$GLOBALS['strPriorityInstantUpdate'] = "Perbarui prioritas iklan segera saat perubahan dilakukan di UI";
-$GLOBALS['strPriorityIntentionalOverdelivery'] = "Secara sengaja over-deliver Contract Campaigns<br />(% over-delivery)";
-$GLOBALS['strDefaultImpConvWindow'] = "Jendela Konversi Tayangan Iklan Default (detik)";
-$GLOBALS['strDefaultCliConvWindow'] = "Jendela Konversi Klik Iklan Default (detik)";
-$GLOBALS['strAdminEmailHeaders'] = "Tambahkan header berikut pada semua E-Mail yang dikirimkan oleh {$PRODUCT_NAME}";
-$GLOBALS['strWarnLimit'] = "Kirimkan pemberitahuan bilamana jumlah impresi yang tersisa kurang dari jumlah impresi yang ditentukan disini";
-$GLOBALS['strWarnLimitDays'] = "Kirimkan pemberitahuan bilamana jumlah hari yang tersisa kurang dari jumlah hari yang ditentukan disini";
-$GLOBALS['strWarnAdmin'] = "Kirim peringatan kepada administrator setiap kali kampanye hampir kedaluwarsa";
-$GLOBALS['strWarnClient'] = "Kirim peringatan kepada pengiklan setiap kali kampanye hampir kedaluwarsa";
-$GLOBALS['strWarnAgency'] = "Send a warning to the agency every time a campaign is almost expired";
 
 // UI Settings
-$GLOBALS['strGuiSettings'] = "Penyetelan Interface Pengguna";
 $GLOBALS['strGeneralSettings'] = "Penyetelan Umum";
-$GLOBALS['strAppName'] = "Nama Aplikasi";
-$GLOBALS['strMyHeader'] = "Lokasi dari file Header";
-$GLOBALS['strMyFooter'] = "Lokasi dari file Footer";
-$GLOBALS['strDefaultTrackerStatus'] = "Anggapan Status dari pelacak";
-$GLOBALS['strDefaultTrackerType'] = "Jenis pelacak anggapan";
-$GLOBALS['strSSLSettings'] = "Pengaturan SSL";
-$GLOBALS['requireSSL'] = "Paksakan penggunaan SSL pada interface Pengguna";
-$GLOBALS['sslPort'] = "Port SSL yang digunakan oleh Web Server";
-$GLOBALS['strDashboardSettings'] = "Setelan Dasbor";
-$GLOBALS['strMyLogo'] = "Nama dari file lambang kegaliban";
-$GLOBALS['strGuiHeaderForegroundColor'] = "Warna dari header pada latar depan";
-$GLOBALS['strGuiHeaderBackgroundColor'] = "Warna dari header pada latar belakang";
-$GLOBALS['strGuiActiveTabColor'] = "Warna dari tab yang aktif";
-$GLOBALS['strGuiHeaderTextColor'] = "Warna dari teks dalam header";
-$GLOBALS['strGuiSupportLink'] = "URL khusus untuk tautan 'Dukungan' di tajuk";
-$GLOBALS['strGzipContentCompression'] = "Gunakan GZIP Content Compression";
 
 // Regenerate Platfor Hash script
-$GLOBALS['strPlatformHashRegenerate'] = "Platform Hash Regenerate";
-$GLOBALS['strNewPlatformHash'] = "Hash Platform baru Anda adalah:";
-$GLOBALS['strPlatformHashInsertingError'] = "Kesalahan memasukkan Platform Hash ke dalam database";
 
 // Plugin Settings
-$GLOBALS['strPluginSettings'] = "Pengaturan Plugin";
-$GLOBALS['strEnableNewPlugins'] = "Aktifkan plugin yang baru diinstal";
-$GLOBALS['strUseMergedFunctions'] = "Gunakan file fungsi pengiriman gabungan";

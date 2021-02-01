@@ -174,8 +174,8 @@ $GLOBALS['strTotalConversions'] = "Összes konverzió";
 $GLOBALS['strDateTime'] = "Dátum/idő";
 $GLOBALS['strTrackerID'] = "Követőkód ID";
 $GLOBALS['strTrackerName'] = "Követőkód neve";
-$GLOBALS['strTrackerImageTag'] = "Képi elemként";
-$GLOBALS['strTrackerJsTag'] = "Javascript elemként";
+$GLOBALS['strTrackerImageTag'] = "Kép címke";
+$GLOBALS['strTrackerJsTag'] = "Javascript címke";
 $GLOBALS['strBanners'] = "Reklámok";
 $GLOBALS['strCampaigns'] = "Kampány";
 $GLOBALS['strCampaignID'] = "Kampány azonosító";
@@ -384,6 +384,7 @@ $GLOBALS['strWeight'] = "Súlyozás";
 $GLOBALS['strAlt'] = "ALT szöveg";
 $GLOBALS['strStatusText'] = "Szöveg az állapotsoron";
 $GLOBALS['strBannerWeight'] = "Reklám súlyozása";
+$GLOBALS['strAdserverTypeGeneric'] = "Általános HTML Reklám";
 $GLOBALS['strGenericOutputAdServer'] = "Általános";
 
 // Banner (advanced)
@@ -679,17 +680,13 @@ $GLOBALS['strPwdRecWrongId'] = "Hibás ID";
 //confirmation messages
 
 
-$GLOBALS['strTrackerVarsHaveBeenUpdated'] = "A változó a <a href='%s'>%s</a> követőkódhoz beállítva";
-$GLOBALS['strTrackerAppendHasBeenUpdated'] = "A kiegészítő kód a <a href='%s'>%s</a> követőkódhoz beállítva";
-
-$GLOBALS['strCampaignHasBeenUpdated'] = "A <a href='%s'>%s</a> kampány frissítve lett";
 
 
 
 
 
 
-$GLOBALS['strEmailChanged'] = "Az e-mail címed megváltozott";
+
 
 // Report error messages
 
@@ -699,17 +696,9 @@ $GLOBALS['strEmailChanged'] = "Az e-mail címed megváltozott";
 
 // Reserved keys
 // Do not change these unless absolutely needed
-$GLOBALS['keyUp'] = "u";
 $GLOBALS['keyNextItem'] = ",";
 $GLOBALS['keyPreviousItem'] = ".";
 
 // Other keys
 // Please make sure you underline the key you
 // used in the string in default.lang.php
-$GLOBALS['keySearch'] = "k";
-$GLOBALS['keyCollapseAll'] = "c";
-$GLOBALS['keyExpandAll'] = "k";
-$GLOBALS['keyAddNew'] = "j";
-$GLOBALS['keyNext'] = "j";
-$GLOBALS['keyPrevious'] = "p";
-$GLOBALS['keyLinkUser'] = "u";

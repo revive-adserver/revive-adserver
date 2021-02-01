@@ -865,20 +865,8 @@ $GLOBALS['strLogFiles'] = "Fichiers journaux";
 $GLOBALS['strConfigBackups'] = "Configurations sauvegardées";
 $GLOBALS['strUpdatedDbVersionStamp'] = "Tampon de version de la base de données mise à jour";
 $GLOBALS['aProductStatus']['UPGRADE_COMPLETE'] = "MISE À JOUR TERMINÉE";
-$GLOBALS['aProductStatus']['UPGRADE_FAILED'] = "MISE À JOUR ÉCHOUÉE";
 
 // Agency
-$GLOBALS['strAgencyManagement'] = "Gestion des comptes";
-$GLOBALS['strAgency'] = "Compte";
-$GLOBALS['strAddAgency'] = "Ajouter un nouveau compte";
-$GLOBALS['strAddAgency_Key'] = "Ajouter un <u>n</u>ouveau compte";
-$GLOBALS['strTotalAgencies'] = "Total de comptes";
-$GLOBALS['strAgencyProperties'] = "Propriétés du compte";
-$GLOBALS['strNoAgencies'] = "Il n'y actuellement aucun compte défini";
-$GLOBALS['strConfirmDeleteAgency'] = "Voulez-vous vraiment supprimer ce compte ?";
-$GLOBALS['strHideInactiveAgencies'] = "Masquer les comptes inactifs";
-$GLOBALS['strInactiveAgenciesHidden'] = "compte(s) inactif(s) masqué(s)";
-$GLOBALS['strSwitchAccount'] = "Basculer vers ce compte";
 $GLOBALS['strAgencyStatusInactive'] = "Inactif";
 
 // Channels
@@ -887,124 +875,32 @@ $GLOBALS['strChannelLimitations'] = "Options de distribution";
 $GLOBALS['strChannelsOfWebsite'] = 'dans'; //this is added between page name and website name eg. 'delivery rule sets in www.example.com'
 
 // Tracker Variables
-$GLOBALS['strVariableName'] = "Nom de la variable";
 $GLOBALS['strVariableDescription'] = "Décrit";
-$GLOBALS['strVariableDataType'] = "Type de données";
-$GLOBALS['strVariablePurpose'] = "But";
 $GLOBALS['strGeneric'] = "Générique";
-$GLOBALS['strBasketValue'] = "Valeur du panier";
 $GLOBALS['strNumItems'] = "Nombre d'articles";
-$GLOBALS['strVariableIsUnique'] = "Dédoublonner les conversions ?";
-$GLOBALS['strNumber'] = "Nombre";
-$GLOBALS['strString'] = "Chaîne";
-$GLOBALS['strTrackFollowingVars'] = "Suivre la variable suivante";
-$GLOBALS['strAddVariable'] = "Ajouter une variable";
-$GLOBALS['strNoVarsToTrack'] = "Aucune variable à suivre.";
-$GLOBALS['strVariableRejectEmpty'] = "Refuser si vide ?";
-$GLOBALS['strTrackingSettings'] = "Paramètres du suivi";
-$GLOBALS['strTrackerType'] = "Type de suiveur";
-$GLOBALS['strTrackerTypeJS'] = "Suivre les variables JavaScript";
-$GLOBALS['strTrackerTypeDefault'] = "Suivre les variables JavaScript (rétro-compatible, échappement requis)";
-$GLOBALS['strTrackerTypeDOM'] = "Suivre les éléments HTML en utilisant la DOM";
-$GLOBALS['strTrackerTypeCustom'] = "Code JS personnalisé";
-$GLOBALS['strVariableCode'] = "Code de suivi Javascript";
 
 // Password recovery
-$GLOBALS['strForgotPassword'] = "Mot de passe oublié ?";
-$GLOBALS['strEmailRequired'] = "Le champ e-mail est requis";
-$GLOBALS['strPwdRecWrongId'] = "ID erroné";
-$GLOBALS['strPwdRecEnterEmail'] = "Entrez votre adresse e-mail ci-dessous";
-$GLOBALS['strPwdRecEnterPassword'] = "Entrez votre nouveau mot de passe ci-dessous";
 
 
 // Audit
-$GLOBALS['strAdditionalItems'] = "et les objets supplémentaires";
-$GLOBALS['strFor'] = "pour";
 $GLOBALS['strHas'] = "contient";
-$GLOBALS['strBinaryData'] = "Données binaires";
-$GLOBALS['strAuditTrailDisabled'] = "La piste d'audit a été désactivée par l'administrateur. Aucun évènement ne sera plus journalisé ni affiché dans la liste de piste d'audit.";
 
 // Widget - Audit
-$GLOBALS['strAuditNoData'] = "Aucune activité utilisateur n'a été enregistrée dans l'intervalle que vous avez sélectionné.";
-$GLOBALS['strAuditTrail'] = "Piste d'audit";
-$GLOBALS['strAuditTrailSetup'] = "Paramétrer la piste d'audit aujourd'hui";
-$GLOBALS['strAuditTrailGoTo'] = "Aller à la page de la piste d'audit";
 
 // Widget - Campaign
-$GLOBALS['strCampaignGoTo'] = "Aller à la page des campagnes";
-$GLOBALS['strCampaignSetUp'] = "Paramétrer une campagne aujourd'hui";
-$GLOBALS['strCampaignNoRecordsAdmin'] = "<li>Il n'y a aucune activité de campagne à afficher.</li>";
 
-$GLOBALS['strCampaignNoDataTimeSpan'] = "Aucune campagne n'a démarré ou terminé dans l'intervalle que vous avez sélectionné";
-$GLOBALS['strCampaignAuditTrailSetup'] = "Activer la piste d'audit pour commencer à afficher les campagnes";
 
-$GLOBALS['strUnsavedChanges'] = "Vous n'avez pas sauvé les modifications de cette page, assurez-vous de cliquez sur \"Sauver les changements\" quand vous aurez terminé";
 
 //confirmation messages
-$GLOBALS['strYouAreNowWorkingAsX'] = "Vous travaillez maintenant en tant que <b>%s</b>";
-$GLOBALS['strYouDontHaveAccess'] = "Vous n'avez pas accès à cette page. Vous avez été redirigé.";
-
-$GLOBALS['strAdvertiserHasBeenAdded'] = "L'annonceur <a href='%s'>%s</a> a été ajouté, <a href='%s'>ajoutez une campagne</a>";
-$GLOBALS['strAdvertiserHasBeenUpdated'] = "L'annonceur <a href='%s'>%s</a> a été mis à jour";
-$GLOBALS['strAdvertiserHasBeenDeleted'] = "L'annonceur <b>%s</b> a été supprimé";
-$GLOBALS['strAdvertisersHaveBeenDeleted'] = "Tous les annonceurs sélectionnés ont été supprimés";
-
-$GLOBALS['strTrackerHasBeenAdded'] = "Le traceur <a href='%s'>%s</a> a été ajouté";
-$GLOBALS['strTrackerHasBeenUpdated'] = "Le traceur <a href='%s'>%s</a> a été mis à jour";
-$GLOBALS['strTrackerVarsHaveBeenUpdated'] = "Les variables du traceur <a href='%s'>%s</a> ont été mises à jour";
-$GLOBALS['strTrackerCampaignsHaveBeenUpdated'] = "Les campagnes liées au traceur <a href='%s'>%s</a> ont été mises à jour";
-$GLOBALS['strTrackerAppendHasBeenUpdated'] = "Le code de fin de traceur du traceur <a href='%s'>%s</a> a été mis à jour";
-$GLOBALS['strTrackerHasBeenDeleted'] = "Le traceur <b>%s</b> a été supprimé";
-$GLOBALS['strTrackersHaveBeenDeleted'] = "Tous les traceurs sélectionnés ont été supprimés";
-$GLOBALS['strTrackerHasBeenDuplicated'] = "Le traceur <a href='%s'>%s</a> a été copié vers <a href='%s'>%s</a>";
-$GLOBALS['strTrackerHasBeenMoved'] = "Le traceur <b>%s</b> a été déplacé vers l'annonceur <b>%s</b>";
-
-$GLOBALS['strCampaignHasBeenAdded'] = "La campagne <a href='%s'>%s</a> a été ajoutée, <a href='%s'>ajoutez une bannière</a>";
-$GLOBALS['strCampaignHasBeenUpdated'] = "La campagne <a href='%s'>%s</a> a été mise à jour";
-$GLOBALS['strCampaignTrackersHaveBeenUpdated'] = "Les traceurs liés à la campagne <a href='%s'>%s</a> ont été mis à jour";
-$GLOBALS['strCampaignHasBeenDeleted'] = "La campagne <b>%s</b> a été supprimée";
-$GLOBALS['strCampaignsHaveBeenDeleted'] = "Toutes les campagnes sélectionnées ont été mises à jour";
-$GLOBALS['strCampaignHasBeenDuplicated'] = "La campagne <a href='%s'>%s</a> a été déplacée vers <a href='%s'>%s</a>";
-$GLOBALS['strCampaignHasBeenMoved'] = "La campagne <b>%s</b> a été déplacée vers l'annonceur <b>%s</b>";
-
-$GLOBALS['strBannerHasBeenAdded'] = "La bannière <a href='%s'>%s</a> a été ajoutée";
-$GLOBALS['strBannerHasBeenUpdated'] = "La bannière <a href='%s'>%s</a> a été mise à jour";
-$GLOBALS['strBannerAdvancedHasBeenUpdated'] = "Les paramètres avancées pour la bannière <a href='%s'>%s</a> ont été mis à jour";
-$GLOBALS['strBannerAclHasBeenUpdated'] = "Les options de distribution de la bannière <a href='%s'>%s</a> ont été mises à jour";
-$GLOBALS['strBannerAclHasBeenAppliedTo'] = "Options de livraison pour la bannière <a href='%s'>%s</a> ont été appliquées à %d bannières";
-$GLOBALS['strBannerHasBeenDeleted'] = "La bannière <b>%s</b> a été supprimée";
-$GLOBALS['strBannersHaveBeenDeleted'] = "Toutes les bannières sélectionnées ont été supprimées";
-$GLOBALS['strBannerHasBeenDuplicated'] = "La bannière <a href='%s'>%s</a> a été copiée vers <a href='%s'>%s</a>";
-$GLOBALS['strBannerHasBeenMoved'] = "La bannière <b>%s</b> a été déplacée vers la campagne <b>%s</b>";
-$GLOBALS['strBannerHasBeenActivated'] = "La bannière <a href='%s'>%s</a> a été activée";
-$GLOBALS['strBannerHasBeenDeactivated'] = "La bannière <a href='%s'>%s</a> a été désactivée";
-
-$GLOBALS['strXZonesLinked'] = "<b>%s</b> zone(s) liée(s)";
-$GLOBALS['strXZonesUnlinked'] = "<b>%s</b> zone(s) déliée(s)";
-
-$GLOBALS['strWebsiteHasBeenAdded'] = "Le site <a href='%s'>%s</a> a été ajouté, <a href='%s'>ajoutez une zone</a>";
-$GLOBALS['strWebsiteHasBeenUpdated'] = "Le site <a href='%s'>%s</a> a été mis à jour";
-$GLOBALS['strWebsiteHasBeenDeleted'] = "Le site <b>%s</b> a été supprimé";
-$GLOBALS['strWebsitesHaveBeenDeleted'] = "Tous les sites sélectionnés ont été supprimés";
-
-$GLOBALS['strZoneHasBeenAdded'] = "La zone <a href='%s'>%s</a> a été ajoutée";
-$GLOBALS['strZoneHasBeenUpdated'] = "La zone <a href='%s'>%s</a> a été mise à jour";
-$GLOBALS['strZoneAdvancedHasBeenUpdated'] = "Les paramètres avancés pour la zone <a href='%s'>%s</a> ont été mis à jour";
-$GLOBALS['strZoneHasBeenDeleted'] = "La zone <b>%s</b> a été supprimée";
-$GLOBALS['strZonesHaveBeenDeleted'] = "Toutes les zones sélectionnées ont été mises à jour";
-$GLOBALS['strZoneHasBeenDuplicated'] = "La zone <a href='%s'>%s</a> a été copiée vers <a href='%s'>%s</a>";
-$GLOBALS['strZoneHasBeenMoved'] = "La zone <b>%s</b> a été déplacée vers le site <b>%s</b>";
-$GLOBALS['strZoneLinkedBanner'] = "La bannière a été liée à la zone <a href='%s'>%s</a>";
-$GLOBALS['strZoneLinkedCampaign'] = "La campagne a été liée à la zone <a href='%s'>%s</a>";
-$GLOBALS['strZoneRemovedBanner'] = "La bannière a été déliée de la zone <a href='%s'>%s</a>";
-$GLOBALS['strZoneRemovedCampaign'] = "La campagne a été déliée de la zone <a href='%s'>%s</a>";
 
 
-$GLOBALS['strUserPreferencesUpdated'] = "Vos <b>%s</b> préferences ont été mises à jour";
-$GLOBALS['strEmailChanged'] = "Votre e-mail a été changé";
-$GLOBALS['strPasswordChanged'] = "Votre mot de passe a été changé";
-$GLOBALS['strXPreferencesHaveBeenUpdated'] = "<b>%s</b> a été mis à jour";
-$GLOBALS['strXSettingsHaveBeenUpdated'] = "<b>%s</b> a été mis à jour";
+
+
+
+
+
+
+
 
 // Report error messages
 
@@ -1020,6 +916,3 @@ $GLOBALS['keyPreviousItem'] = " ";
 // Other keys
 // Please make sure you underline the key you
 // used in the string in default.lang.php
-$GLOBALS['keySearch'] = "r";
-$GLOBALS['keyCollapseAll'] = "t";
-$GLOBALS['keyExpandAll'] = "d";

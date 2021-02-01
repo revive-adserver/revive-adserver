@@ -350,30 +350,10 @@ $GLOBALS['strAction'] = "Действие";
 $GLOBALS['strPriority'] = "Приоритет";
 
 // Preferences
-$GLOBALS['strPreferences'] = "Предпочитания";
 
 // Long names
-$GLOBALS['strERPM'] = "CPM";
-$GLOBALS['strERPC'] = "CPC";
-$GLOBALS['strERPS'] = "CPM";
-$GLOBALS['strEIPM'] = "CPM";
-$GLOBALS['strEIPC'] = "CPC";
-$GLOBALS['strEIPS'] = "CPM";
-$GLOBALS['strECPM'] = "CPM";
-$GLOBALS['strECPC'] = "CPC";
-$GLOBALS['strECPS'] = "CPM";
-$GLOBALS['strImpressionSR'] = "Импресия";
 
 // Short names
-$GLOBALS['strERPM_short'] = "CPM";
-$GLOBALS['strERPC_short'] = "CPC";
-$GLOBALS['strERPS_short'] = "CPM";
-$GLOBALS['strEIPM_short'] = "CPM";
-$GLOBALS['strEIPC_short'] = "CPC";
-$GLOBALS['strEIPS_short'] = "CPM";
-$GLOBALS['strECPM_short'] = "CPM";
-$GLOBALS['strECPC_short'] = "CPC";
-$GLOBALS['strECPS_short'] = "CPM";
 $GLOBALS['strClicks_short'] = "Кликове";
 
 // Global Settings
@@ -381,17 +361,12 @@ $GLOBALS['strClicks_short'] = "Кликове";
 // Product Updates
 
 // Agency
-$GLOBALS['strAddAgency_Key'] = "Добави <u>н</u>ов тракер";
-$GLOBALS['strNoAgencies'] = "Няма определени тракери";
-$GLOBALS['strConfirmDeleteAgency'] = "Наистина ли искате да изтриете тази кампания?";
-$GLOBALS['strInactiveAgenciesHidden'] = "неактивния рекламодател(и) са скрити";
 $GLOBALS['strAgencyStatusInactive'] = "активен";
 
 // Channels
 
 // Tracker Variables
 $GLOBALS['strVariableDescription'] = "Описание";
-$GLOBALS['strTrackerType'] = "Име на тракер";
 
 // Password recovery
 

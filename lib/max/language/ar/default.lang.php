@@ -545,7 +545,6 @@ $GLOBALS['strBannercode'] = "كود البنر";
 $GLOBALS['strBackToTheList'] = "العودة لقائمة التقارير";
 
 // Errors
-$GLOBALS['strErrorOccurred'] = "حدث خطأ ما";
 
 //Validation
 
@@ -555,62 +554,19 @@ $GLOBALS['strErrorOccurred'] = "حدث خطأ ما";
 $GLOBALS['strPriority'] = "الأهمية";
 
 // Preferences
-$GLOBALS['strPreferences'] = "الخيارات";
-$GLOBALS['strUserPreferences'] = "الخيارات العامة";
-$GLOBALS['strChangePassword'] = "تغيير كلمة المرور";
-$GLOBALS['strCurrentPassword'] = "كلمة المرور الحالية";
-$GLOBALS['strChooseNewPassword'] = "كلمة المرور الجديدة";
-$GLOBALS['strReenterNewPassword'] = "إعادة كتابة كلمة المرور الجديدة";
-$GLOBALS['strNameLanguage'] = "الإسم و اللغة";
-$GLOBALS['strAccountPreferences'] = "خيارات الحساب";
-$GLOBALS['strCampaignEmailReportsPreferences'] = "خيارات التقارير الخاصة بالحملة الإعلانية";
-$GLOBALS['strAdminEmailWarnings'] = "البريد الالكتروني للمدير العام";
-$GLOBALS['strAgencyEmailWarnings'] = "التنبيهات البريدية للوكالة الإعلانية";
-$GLOBALS['strAdveEmailWarnings'] = "التنبيهات البريدية للمعلنين";
-$GLOBALS['strFullName'] = "الإسم الكامل";
-$GLOBALS['strEmailAddress'] = "البريد الإلكتروني";
-$GLOBALS['strUserDetails'] = "معلومات العضو";
-$GLOBALS['strUserInterfacePreferences'] = "خيارات شكل لوحة التحكم";
-$GLOBALS['strPluginPreferences'] = "الخيارات العامة";
 
 // Long names
-$GLOBALS['strERPM'] = "تكلفة الظهور";
-$GLOBALS['strERPC'] = "تكلفة الضغطات";
-$GLOBALS['strERPS'] = "تكلفة الظهور";
-$GLOBALS['strEIPM'] = "تكلفة الظهور";
-$GLOBALS['strEIPC'] = "تكلفة الضغطات";
-$GLOBALS['strEIPS'] = "تكلفة الظهور";
-$GLOBALS['strECPM'] = "تكلفة الظهور";
-$GLOBALS['strECPC'] = "تكلفة الضغطات";
-$GLOBALS['strECPS'] = "تكلفة الظهور";
-$GLOBALS['strImpressionSR'] = "مرات الظهور";
 
 // Short names
-$GLOBALS['strERPM_short'] = "تكلفة الظهور";
-$GLOBALS['strERPC_short'] = "تكلفة الضغطات";
-$GLOBALS['strERPS_short'] = "تكلفة الظهور";
-$GLOBALS['strEIPM_short'] = "تكلفة الظهور";
-$GLOBALS['strEIPC_short'] = "تكلفة الضغطات";
-$GLOBALS['strEIPS_short'] = "تكلفة الظهور";
-$GLOBALS['strECPM_short'] = "تكلفة الظهور";
-$GLOBALS['strECPC_short'] = "تكلفة الضغطات";
-$GLOBALS['strECPS_short'] = "تكلفة الظهور";
 $GLOBALS['strID_short'] = "الرقم";
 $GLOBALS['strClicks_short'] = "الضغطات";
 $GLOBALS['strCTR_short'] = "معدل الضغطات";
 
 // Global Settings
-$GLOBALS['strGlobalSettings'] = "الإعدادات العامة";
-$GLOBALS['strGeneralSettings'] = "الإعدادات العامة";
-$GLOBALS['strChooseSection'] = 'إختيار قسم';
 
 // Product Updates
 
 // Agency
-$GLOBALS['strAddAgency_Key'] = "إضافة منطقة عرض جديدة";
-$GLOBALS['strNoAgencies'] = "لم يتم تعريف أي منطقة عرض";
-$GLOBALS['strConfirmDeleteAgency'] = "هل تريد حذف منطقة العرض ؟";
-$GLOBALS['strInactiveAgenciesHidden'] = "تم إخفاء مناطق العرض غير النشطة";
 $GLOBALS['strAgencyStatusInactive'] = "فعال";
 
 // Channels
@@ -620,18 +576,15 @@ $GLOBALS['strChannelLimitations'] = "خيارات التوصيل";
 // Tracker Variables
 $GLOBALS['strVariableDescription'] = "الوصف";
 $GLOBALS['strGeneric'] = "عام";
-$GLOBALS['strTrackerType'] = "اسم المتتبع";
 
 // Password recovery
 
 
 // Audit
-$GLOBALS['strBinaryData'] = "معلومات Binary";
 
 // Widget - Audit
 
 // Widget - Campaign
-$GLOBALS['strCampaignNoRecordsAdmin'] = "<li>لا يوجد أي نشاط لأي حملة للعرض.</li>";
 
 
 

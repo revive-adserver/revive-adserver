@@ -194,33 +194,9 @@ $GLOBALS['strIgnoreHosts'] = "A következő IP címek és kiszolgálónevek kiha
 // Campaign ECPM settings
 
 // Statistics & Maintenance Settings
-$GLOBALS['strBlockAdClicks'] = "Hírdetés kattintás számlálásának kihagyása ha a látogató kattintott az adott hírdetés/zóna párra a megadott időn belül (másodpercben)";
-$GLOBALS['strMaintenanceOI'] = "Karbantartás művelet időköze (percben)";
-$GLOBALS['strPrioritySettings'] = "Prioritás beállítások";
-$GLOBALS['strPriorityInstantUpdate'] = "Hirdetés prioritások frissítése rögtön a változtatások mentése után";
-$GLOBALS['strDefaultImpConvWindow'] = "Alapértelmezett megtekintési konverziós ablak (másodpercben)";
-$GLOBALS['strDefaultCliConvWindow'] = "Alapértelmezett kattintási konverziós ablak (másodpercben)";
-$GLOBALS['strAdminEmailHeaders'] = "A következő fejlécek hozzáadása a {$PRODUCT_NAME} által küldött elektronikus üzenethez";
-$GLOBALS['strWarnLimit'] = "Figyelmeztetés küldése ha a hátrelévő megtekintések száma kevesebb mint";
-$GLOBALS['strWarnLimitDays'] = "Figyelmeztetés küldése ha a hátralévő napok száma kevesebb mint ";
-$GLOBALS['strWarnAdmin'] = "Figyelmeztetés küldése az adminisztrátornak ha a kampány hamarosan lejár";
-$GLOBALS['strWarnClient'] = "Figyelmeztetés küldése a hirdetőnek ha a kampány hamarosan lejár";
-$GLOBALS['strWarnAgency'] = "Figyelmeztetés küldése az ügynökségnek ha a kampány hamarosan lejár";
 
 // UI Settings
-$GLOBALS['strGuiSettings'] = "Felhasználói felület beállításai";
 $GLOBALS['strGeneralSettings'] = "Általános beállítások";
-$GLOBALS['strAppName'] = "Alkalmazás neve";
-$GLOBALS['strMyHeader'] = "Fejléc fájl helye";
-$GLOBALS['strMyFooter'] = "Lábléc fájl helye";
-$GLOBALS['strDefaultTrackerStatus'] = "Alapértelmezett követő státusz";
-$GLOBALS['strDefaultTrackerType'] = "Alapértelmezett követő típus";
-$GLOBALS['strMyLogo'] = "Egyedi logó fájl neve";
-$GLOBALS['strGuiHeaderForegroundColor'] = "Fejléc előtér színe";
-$GLOBALS['strGuiHeaderBackgroundColor'] = "Fejléc háttér színe";
-$GLOBALS['strGuiActiveTabColor'] = "Az aktív fül színe";
-$GLOBALS['strGuiHeaderTextColor'] = "A fejléc szövegének színe";
-$GLOBALS['strGzipContentCompression'] = "GZIP tartalom tömörítés használata";
 
 // Regenerate Platfor Hash script
 

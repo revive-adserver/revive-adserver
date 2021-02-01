@@ -88,31 +88,10 @@ $GLOBALS['strDebugMethodNames'] = "Inkluder metode navn i debug loggen";
 $GLOBALS['strDebugLineNumbers'] = "Inkluder linie nummer i degub loggen";
 $GLOBALS['strDebugType'] = "Debug log type";
 $GLOBALS['strDebugTypeFile'] = "Fil";
-$GLOBALS['strDebugTypeSql'] = "SQL database";
-$GLOBALS['strDebugName'] = "Debug log navn, kalender, SQL tabel,<br />eller Syslog funktion";
-$GLOBALS['strDebugPriority'] = "Debug prioritets niveau";
-$GLOBALS['strPEAR_LOG_DEBUG'] = "PEAR_LOG_DEBUG - Informations majoriteten";
-$GLOBALS['strPEAR_LOG_INFO'] = "PEAR_LOG_INFO - Standard information";
-$GLOBALS['strPEAR_LOG_EMERG'] = "PEAR_LOG_DEBUG - Informations majoriteten";
-$GLOBALS['strDebugIdent'] = "Debug identifikations streng";
-$GLOBALS['strDebugUsername'] = "mCal, SQL Server brugernavn";
-$GLOBALS['strDebugPassword'] = "mCal, SQL Server kodeord";
 
 // Delivery Settings
-$GLOBALS['strWebPathSimple'] = "Web sti";
-$GLOBALS['strDeliveryPath'] = "Cache levering";
-$GLOBALS['strDeliverySslPath'] = "Cache levering";
 $GLOBALS['strTypeFTPUsername'] = "Log ind";
 $GLOBALS['strTypeFTPPassword'] = "Kodeord";
-$GLOBALS['strTypeFTPErrorNoSupport'] = "Din PHP installation understøtter ikke FTP.";
-$GLOBALS['strDeliveryFilenamesAdImage'] = "Tilføj Billede";
-$GLOBALS['strDeliveryFilenamesAdJS'] = "Tilføj (JavaScript)";
-$GLOBALS['strDeliveryFilenamesAdLayer'] = "Tilføj Layer";
-$GLOBALS['strDeliveryFilenamesAdLog'] = "Tilføj Log";
-$GLOBALS['strDeliveryFilenamesAdPopup'] = "Tilføj Popup";
-$GLOBALS['strDeliveryFilenamesLocal'] = "Lokal Invocation";
-$GLOBALS['strDeliveryCaching'] = "Banner Levering Cache Indstillinger";
-$GLOBALS['strDeliveryCacheLimit'] = "Tid imellem Banner Cache Updatering (sekunder)";
 
 // General Settings
 
@@ -121,30 +100,20 @@ $GLOBALS['strDeliveryCacheLimit'] = "Tid imellem Banner Cache Updatering (sekund
 // Interface Settings
 $GLOBALS['strInventory'] = "Portfolio";
 $GLOBALS['strStatisticsDefaults'] = "Statistikker";
-$GLOBALS['strConfirmationUI'] = "Bekræftigelse for Bruger Grænseflade";
 
 // Invocation Settings
 
 // Banner Delivery Settings
-$GLOBALS['strBannerDelivery'] = "Banner Leverings Indstillinger";
 
 // Banner Logging Settings
-$GLOBALS['strBannerLogging'] = "Banner Log Indstillinger";
-$GLOBALS['strPreventLogging'] = "Banner Log Indstillinger";
 
 // Banner Storage Settings
-$GLOBALS['strBannerStorage'] = "Indstillinger for Banner Lagring";
 
 // Campaign ECPM settings
 
 // Statistics & Maintenance Settings
-$GLOBALS['strMaintenanceSettings'] = "Vedligeholdelses Indstillinger";
 
 // UI Settings
-$GLOBALS['strGeneralSettings'] = "Generel opsætninger";
-$GLOBALS['strSSLSettings'] = "SSL Indstillinger";
-$GLOBALS['requireSSL'] = "Tving SSL adgang i Bruger Grænseflade";
-$GLOBALS['sslPort'] = "SSL Port Brugt af Web Server";
 
 // Regenerate Platfor Hash script
 

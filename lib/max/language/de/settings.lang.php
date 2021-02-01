@@ -163,106 +163,30 @@ $GLOBALS['strDeliveryFilenamesLocal'] = "Lokaler Bannercode";
 $GLOBALS['strDeliveryCaching'] = "Allgemeine Einstellungen des Auslieferungs-Caches";
 $GLOBALS['strDeliveryCacheLimit'] = "Zeitintervall zwischen Cache-Aktualisierungen (in Sek.)";
 $GLOBALS['strDeliveryCacheStore'] = "Cache-Typ für die Bannerauslieferung";
-$GLOBALS['strDeliveryCtDelimiter'] = "Begrenzung des 3rd Party Kick-Trackings";
-$GLOBALS['strGlobalDefaultBannerUrl'] = "Globale Default-Image-Banner URL";
-$GLOBALS['strP3PSettings'] = "P3P-Datenschutzrichtlinien";
-$GLOBALS['strUseP3P'] = "Verwendung von P3P-Richtlinien";
-$GLOBALS['strP3PCompactPolicy'] = "P3P-Datenschutzrichtlinien (kompakte Form)";
-$GLOBALS['strP3PPolicyLocation'] = "Speicherort der P3P-Richtlinien";
 
 // General Settings
-$GLOBALS['generalSettings'] = "Allgemeine globale Systemeinstellungen";
-$GLOBALS['uiEnabled'] = "Benutzeroberfläche aktiviert";
-$GLOBALS['defaultLanguage'] = "Voreinstellung der Systemsprache<br />(Jeder Benutzer kann seine eigene Sprache einstellen)";
 
 // Geotargeting Settings
-$GLOBALS['strGeotargetingSettings'] = "Einstellungen Geotargeting";
-$GLOBALS['strGeotargeting'] = "Einstellungen Geotargeting";
-$GLOBALS['strGeotargetingType'] = "Typ des Geotargeting Moduls";
 
 // Interface Settings
 $GLOBALS['strInventory'] = "Inventar-Seiten";
-$GLOBALS['strShowCampaignInfo'] = "Anzeigen zusätzlicher Informationen auf der Seite <i>Übersicht Kampagnen</i>";
-$GLOBALS['strShowBannerInfo'] = "Anzeigen zusätzlicher Bannerinformationen auf der Seite <i>Werbemittel</i> ";
-$GLOBALS['strShowCampaignPreview'] = "Vorschau aller Werbemittel auf der Seite  <i>Werbemittel</i>";
-$GLOBALS['strShowBannerHTML'] = "Anzeige des Banners anstelle des HTML-Codes bei Vorschau von HTML-Bannern";
-$GLOBALS['strShowBannerPreview'] = "Werbemittelvorschau oben auf allen Seiten mit Bezug zum Werbemittel";
-$GLOBALS['strHideInactive'] = "Inaktive ausblenden";
-$GLOBALS['strGUIShowMatchingBanners'] = "Anzeige des zugehörenden Werbemittels auf der Seite <i>Verknüpfte Werbemittel</i>";
-$GLOBALS['strGUIShowParentCampaigns'] = "Anzeige der zugehörenden Kampagne auf der Seite <i>Veknüpfte Werbemittel</i>";
 $GLOBALS['strStatisticsDefaults'] = "Statistiken";
-$GLOBALS['strBeginOfWeek'] = "Wochenbeginn";
-$GLOBALS['strPercentageDecimals'] = "Dezimalstellen bei Prozentangaben";
-$GLOBALS['strWeightDefaults'] = "Gewichtung (Voreinstellung)";
-$GLOBALS['strDefaultBannerWeight'] = "Bannergewichtung (Voreinstellung)";
-$GLOBALS['strDefaultCampaignWeight'] = "Kampagnengewichtung (Voreinstellung)";
-$GLOBALS['strConfirmationUI'] = "Bestätigung in der Benutzeroberfläche";
 
 // Invocation Settings
-$GLOBALS['strInvocationDefaults'] = "Banneranforderung Voreinstellung";
-$GLOBALS['strEnable3rdPartyTrackingByDefault'] = "Erlaube '3rd Party Clicktracking' als Voreinstellung";
 
 // Banner Delivery Settings
-$GLOBALS['strBannerDelivery'] = "Einstellungen der Auslieferung";
 
 // Banner Logging Settings
-$GLOBALS['strBannerLogging'] = "Bannerprotokollierung - Einstellungen";
-$GLOBALS['strLogAdRequests'] = "Protokolliere bei jedem Aufruf eines Werbemittels auf dem Server einen Ad Request";
-$GLOBALS['strLogAdImpressions'] = "Protokolliere eine Ad Impression, wenn ein Werbemittel beim Nutzer angekommen ist (Truecount)";
-$GLOBALS['strLogAdClicks'] = "Protoklliere einen Ad Click , wenn ein Nutzer auf ein Werbemittel klickt";
-$GLOBALS['strReverseLookup'] = "Es wird versucht, den Name des Hosts für den Besucher zu ermitteln, wenn er nicht mitgeliefert wird";
-$GLOBALS['strProxyLookup'] = "Es wird versucht, die echte IP-Adresse des Besuchers zu ermitteln, wenn er einen Proxy-Server nutzt";
-$GLOBALS['strPreventLogging'] = "Protokollieren verhindern";
-$GLOBALS['strIgnoreHosts'] = "Keine Statistikdaten speichern für Besucher mit folgenden IP-Adressen oder Hostnamen";
-$GLOBALS['strIgnoreUserAgents'] = "<b>Keine</b> Statistikdaten loggen von den folgenden Browsern (user-agent), jeweils nur ein Eintrag pro Zeile";
-$GLOBALS['strEnforceUserAgents'] = "Die Statistikdaten <b>nur</b> von den folgenden Browsern loggen (user-agent), jeweils nur ein Eintrag pro Zeile";
 
 // Banner Storage Settings
-$GLOBALS['strBannerStorage'] = "Einstellungen Speicherung der Banner";
 
 // Campaign ECPM settings
-$GLOBALS['strInactivatedCampaigns'] = "Durch die Änderungen der Voreinstellungen werden die folgende Kampagnen deaktiviert:";
 
 // Statistics & Maintenance Settings
-$GLOBALS['strMaintenanceSettings'] = "Wartungseinstellungen";
-$GLOBALS['strConversionTracking'] = "Einstellungen zum Konversionen-Tracking";
-$GLOBALS['strEnableConversionTracking'] = "Konversionen-Tracking aktivieren";
-$GLOBALS['strBlockAdClicks'] = "Zähle keine Ad Klicks wenn der Betrachter auf diese Banner/Zonen-Kombination innerhalb dieses Zeitraums schon geklickt hat (in Sekunden)";
-$GLOBALS['strMaintenanceOI'] = "Wartungsintervall (in Minuten)";
-$GLOBALS['strPrioritySettings'] = "Einstellung der Prioritäten";
-$GLOBALS['strPriorityInstantUpdate'] = "Sofortige Neuberechnung der Prioritäten nach Änderungen in der Benutzeroberfläche.";
-$GLOBALS['strAdminEmailHeaders'] = "Alle e-Mails, die von {$PRODUCT_NAME} gesendet werden, erhalten die folgenden Header hinzugefügt";
-$GLOBALS['strWarnLimit'] = "Warnung per E-Mail bei Unterschreiten der definierten Untergrenze";
-$GLOBALS['strWarnLimitDays'] = "Sende eine Warnung wenn weniger Tage verblieben sind als hier angegeben.";
-$GLOBALS['strWarnAdmin'] = "Warnung per E-Mail an den Administrator, wenn eine Kampagne ausgelaufen ist";
-$GLOBALS['strWarnClient'] = "Warnung per E-Mail an den Werbetreibenden, wenn eine Kampagne ausgelaufen ist";
-$GLOBALS['strWarnAgency'] = "Warnung per E-Mail an die Agentur kurz bevor eine Kampagne ausläuft";
 
 // UI Settings
-$GLOBALS['strGuiSettings'] = "Konfiguration Benutzerbereich (Inhaber des AdServers)";
 $GLOBALS['strGeneralSettings'] = "Allgemeine Einstellungen";
-$GLOBALS['strAppName'] = "Name oder Bezeichnung der Anwendung";
-$GLOBALS['strMyHeader'] = "Kopfzeile im Admin-Bereich";
-$GLOBALS['strMyFooter'] = "Fußzeile im Admin-Bereich";
-$GLOBALS['strDefaultTrackerStatus'] = "Standardstatus Tracker";
-$GLOBALS['strDefaultTrackerType'] = "Standardtyp Tracker";
-$GLOBALS['strSSLSettings'] = "Einstellungen SSL";
-$GLOBALS['requireSSL'] = "Erzwinge die SSL Nutzung für die Benutzeroberfläche";
-$GLOBALS['sslPort'] = "SSL Port des Webservers";
-$GLOBALS['strDashboardSettings'] = "Dashboard Einstellungen";
-$GLOBALS['strMyLogo'] = "Name der individuellen Logo-Datei";
-$GLOBALS['strGuiHeaderForegroundColor'] = "Vordergrundfarbe der Kopfzeile";
-$GLOBALS['strGuiHeaderBackgroundColor'] = "Hintergrundfarbe der Kopfzeile";
-$GLOBALS['strGuiActiveTabColor'] = "Farbe des aktiven Reiters";
-$GLOBALS['strGuiHeaderTextColor'] = "Textfarbe in der Kopfzeile";
-$GLOBALS['strGuiSupportLink'] = "Eigene URL für 'Support' Link im Header";
-$GLOBALS['strGzipContentCompression'] = "Komprimieren mit GZIP";
 
 // Regenerate Platfor Hash script
-$GLOBALS['strPlatformHashRegenerate'] = "Platform Hash neu erzeugen";
-$GLOBALS['strNewPlatformHash'] = "Ihr neuer Platform Hash ist:";
-$GLOBALS['strPlatformHashInsertingError'] = "Fehler beim Eintragen des Platform Hash in die Datenbank";
 
 // Plugin Settings
-$GLOBALS['strPluginSettings'] = "Plugin Einstellungen";
-$GLOBALS['strEnableNewPlugins'] = "Aktiviere neu installierte Plugins";

@@ -333,7 +333,7 @@ $GLOBALS['strAnonymous'] = "Skrýt inzerenta a vydavatele této kampaně.";
 $GLOBALS['strTargetPerDay'] = "za den.";
 $GLOBALS['strCampaignStatusPending'] = "Čekající";
 $GLOBALS['strCampaignStatusInactive'] = "aktivní";
-$GLOBALS['strCampaignStatusRunning'] = "Spuštěné";
+$GLOBALS['strCampaignStatusRunning'] = "Probíhající";
 $GLOBALS['strCampaignStatusPaused'] = "Pozastaveno";
 $GLOBALS['strCampaignStatusAwaiting'] = "Čekající";
 $GLOBALS['strCampaignStatusExpired'] = "Kompletní";
@@ -710,41 +710,19 @@ $GLOBALS['strChooseNewPassword'] = "Zvolte nové heslo";
 $GLOBALS['strReenterNewPassword'] = "Zadejte znovu nové heslo";
 $GLOBALS['strNameLanguage'] = "Jméno & jazyk";
 $GLOBALS['strAccountPreferences'] = "Předvolby účtu";
-$GLOBALS['strFullName'] = "Celé jméno";
-$GLOBALS['strEmailAddress'] = "E-mailová adresa";
-$GLOBALS['strUserDetails'] = "Údaje o uživateli";
-$GLOBALS['strShowColumn'] = "Zobrazit sloupec";
 
 // Long names
 
 // Short names
 $GLOBALS['strID_short'] = "ID";
-$GLOBALS['strImpressions_short'] = "Impr.";
 $GLOBALS['strClicks_short'] = "Kliknutí";
 $GLOBALS['strCTR_short'] = "CTR";
 
 // Global Settings
-$GLOBALS['strGlobalSettings'] = "Základní nastavení";
-$GLOBALS['strGeneralSettings'] = "Obecná nastavení";
-$GLOBALS['strMainSettings'] = "Základní nastavení";
 
 // Product Updates
-$GLOBALS['strProductUpdates'] = "Aktualizace produktu";
-$GLOBALS['strFromVersion'] = "Od verze";
-$GLOBALS['strToVersion'] = "Na verzi";
-$GLOBALS['strShowBackupDetails'] = "Zobrazit podrobnosti zálohování dat.";
 
 // Agency
-$GLOBALS['strAgencyManagement'] = "Správa partnerů";
-$GLOBALS['strAgency'] = "Partner";
-$GLOBALS['strAddAgency'] = "Přidat partnera";
-$GLOBALS['strAddAgency_Key'] = "Přidat <u>z</u>ónu";
-$GLOBALS['strTotalAgencies'] = "Celkem partnerů";
-$GLOBALS['strAgencyProperties'] = "Vlastnosti partnera";
-$GLOBALS['strNoAgencies'] = "Zatím nejsou definované žádné zóny";
-$GLOBALS['strConfirmDeleteAgency'] = "Opravdu chcete smazat tuto zónu?";
-$GLOBALS['strHideInactiveAgencies'] = "Skrýt neaktivní partnery";
-$GLOBALS['strInactiveAgenciesHidden'] = "neaktivních bannerů skryto";
 $GLOBALS['strAgencyStatusInactive'] = "aktivní";
 
 // Channels
@@ -753,25 +731,16 @@ $GLOBALS['strChannelLimitations'] = "Nastavení doručování";
 $GLOBALS['strChannelsOfWebsite'] = 'v'; //this is added between page name and website name eg. 'delivery rule sets in www.example.com'
 
 // Tracker Variables
-$GLOBALS['strVariableName'] = "Název proměnné";
 $GLOBALS['strVariableDescription'] = "Popis";
-$GLOBALS['strVariableDataType'] = "Datový typ";
-$GLOBALS['strTrackFollowingVars'] = "Sledovat tuto proměnnou";
-$GLOBALS['strAddVariable'] = "Přidat proměnnou";
-$GLOBALS['strNoVarsToTrack'] = "Žádné proměnné ke sledování.";
 
 // Password recovery
-$GLOBALS['strPwdRecEnterEmail'] = "Zadejte vaši e-mailovou adresu";
-$GLOBALS['strPwdRecEnterPassword'] = "Zadejte své nové heslo";
 
 
 // Audit
-$GLOBALS['strFor'] = "pro";
 
 // Widget - Audit
 
 // Widget - Campaign
-$GLOBALS['strCampaignGoTo'] = "Přejděte na stránku kampaně";
 
 
 

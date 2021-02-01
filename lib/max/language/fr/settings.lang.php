@@ -154,102 +154,29 @@ $GLOBALS['strDeliveryFilenamesAdPopup'] = "Popup publicitaire";
 $GLOBALS['strDeliveryFilenamesAdView'] = "Affichage publicitaire";
 $GLOBALS['strDeliveryFilenamesXMLRPC'] = "Invocation XML RPC";
 $GLOBALS['strDeliveryFilenamesLocal'] = "Invocation locale";
-$GLOBALS['strDeliveryFilenamesFrontController'] = "Contrôleur frontal";
-$GLOBALS['strDeliveryCaching'] = "Paramètres du cache de distribution des bannières";
-$GLOBALS['strDeliveryCacheLimit'] = "Temps entre les mises à jour du cache des bannières (secondes)";
-$GLOBALS['strDeliveryCacheStore'] = "Type de stockage du cache de distribution des bannières";
-$GLOBALS['strDeliveryCtDelimiter'] = "Délimiteur de suivi des clics par les tiers";
-$GLOBALS['strGlobalDefaultBannerUrl'] = "URL de l'image de la bannière par défaut générale";
-$GLOBALS['strP3PSettings'] = "Politique de vie privée P3P";
-$GLOBALS['strUseP3P'] = "Utiliser les politiques P3P";
-$GLOBALS['strP3PCompactPolicy'] = "Politique P3P réduite";
-$GLOBALS['strP3PPolicyLocation'] = "Emplacement de la politique P3P";
 
 // General Settings
-$GLOBALS['generalSettings'] = "Système de paramétrage global";
-$GLOBALS['uiEnabled'] = "Interface utilisateur activée";
-$GLOBALS['defaultLanguage'] = "Langage par défaut<br />(Chaque utilisateur choisi sa propre langue)";
 
 // Geotargeting Settings
-$GLOBALS['strGeotargetingSettings'] = "Paramètres de géolocalisation";
-$GLOBALS['strGeotargeting'] = "Paramètres de géolocalisation";
-$GLOBALS['strGeotargetingType'] = "Type du module de géolocalisation";
 
 // Interface Settings
 $GLOBALS['strInventory'] = "Inventaire";
-$GLOBALS['strShowCampaignInfo'] = "Afficher des informations supplémentaires sur les campagnes sur la page <i>Campagnes</i>";
-$GLOBALS['strShowBannerInfo'] = "Afficher des informations supplémentaires sur les bannières sur la page <i>Bannières</i>";
-$GLOBALS['strShowCampaignPreview'] = "Afficher des aperçus de toutes les bannières sur la page <i>Bannières</i>";
-$GLOBALS['strShowBannerHTML'] = "Afficher une bannière à la place du code HTML pour les aperçus de bannières HTML";
-$GLOBALS['strShowBannerPreview'] = "Afficher un aperçu de la bannière en haut des pages liées aux bannières";
-$GLOBALS['strHideInactive'] = "Masquer les inactifs";
-$GLOBALS['strGUIShowMatchingBanners'] = "Afficher les campagnes parentes sur les pages <i>Bannières liées</i>";
-$GLOBALS['strGUIShowParentCampaigns'] = "Afficher les bannières correspondantes sur les pages <i>Bannières liées</i>";
 $GLOBALS['strStatisticsDefaults'] = "Statistiques";
-$GLOBALS['strBeginOfWeek'] = "Début de la semaine";
-$GLOBALS['strPercentageDecimals'] = "Nombre de décimales pour les pourcentages";
-$GLOBALS['strWeightDefaults'] = "Poids par défaut";
-$GLOBALS['strDefaultBannerWeight'] = "Poids par défaut d'une bannière";
-$GLOBALS['strDefaultCampaignWeight'] = "Poids par défaut d'une campagne";
-$GLOBALS['strConfirmationUI'] = "Confirmation dans l'interface utilisateur";
 
 // Invocation Settings
-$GLOBALS['strInvocationDefaults'] = "Paramètres par défaut de l'invocation";
-$GLOBALS['strEnable3rdPartyTrackingByDefault'] = "Activer le suivi des clics par les tiers par défaut";
 
 // Banner Delivery Settings
-$GLOBALS['strBannerDelivery'] = "Paramètres de distribution des bannières";
 
 // Banner Logging Settings
-$GLOBALS['strBannerLogging'] = "Paramètres de la journalisation des bannières";
-$GLOBALS['strLogAdRequests'] = "Journaliser une requête à chaque fois qu'une bannière est demandée";
-$GLOBALS['strLogAdImpressions'] = "Journaliser une impression à chaque fois qu'une bannière est affichée";
-$GLOBALS['strLogAdClicks'] = "Journaliser un clic à chaque fois qu'un visiteur clique sur une bannière";
-$GLOBALS['strReverseLookup'] = "Appliquer un reverse lookup sur les noms d'hôtes des visiteurs quand il n'est pas fourni";
-$GLOBALS['strProxyLookup'] = "Essayer de déterminer l'IP réelle des visiteurs se trouvant derrière un serveur proxy";
-$GLOBALS['strPreventLogging'] = "Paramètres de blocage de la journalisation des bannières";
-$GLOBALS['strIgnoreHosts'] = "Ne pas journaliser de statistiques pour les visiteurs utilisant l'une des adresses IP ou l'un des noms d'hôtes spécifiés";
-$GLOBALS['strIgnoreUserAgents'] = "<b>Ne pas</b> journaliser les statistiques des clients ayant n'importe laquelle des chaînes suivantes dans leur user-agent (une par ligne)";
-$GLOBALS['strEnforceUserAgents'] = "Ne journaliser <b>que</b> les statistiques des clients ayant n'importe laquelle des chaînes suivantes dans leur user-agent (une par ligne)";
 
 // Banner Storage Settings
-$GLOBALS['strBannerStorage'] = "Paramètres de stockage des bannières";
 
 // Campaign ECPM settings
 
 // Statistics & Maintenance Settings
-$GLOBALS['strMaintenanceSettings'] = "Paramètres de maintenance";
-$GLOBALS['strConversionTracking'] = "Paramètres de suivi des conversions";
-$GLOBALS['strEnableConversionTracking'] = "Activer le suivi des conversions";
-$GLOBALS['strBlockAdClicks'] = "Ne pas compter les clics publicitaires si le visiteur a vu la même paire publicité/zone dans l'intervalle de temps spécifié (secondes)";
-$GLOBALS['strMaintenanceOI'] = "Intervalle entre les opérations de maintenance (minutes)";
-$GLOBALS['strPrioritySettings'] = "Paramètres de priorité";
-$GLOBALS['strPriorityInstantUpdate'] = "Mettre à jour les priorités des publicités immédiatement après avoir effectué des changements dans l'IU";
-$GLOBALS['strAdminEmailHeaders'] = "Ajouter les en-têtes suivants à tous les e-mails envoyés par {$PRODUCT_NAME}";
-$GLOBALS['strWarnLimit'] = "Envoyer un avertissement quand le nombre d'impressions restantes est inférieur à celui spécifié ici";
-$GLOBALS['strWarnLimitDays'] = "Envoyer un avertissement quand le nombre de jours restants est inférieur à celui spécifié ici";
-$GLOBALS['strWarnAdmin'] = "Envoyer une alerte à l'administrateur à chaque fois qu'une campagne approche de son expiration";
-$GLOBALS['strWarnClient'] = "Envoyer une alerte à l'annonceur à chaque fois qu'une campagne approche de son expiration";
-$GLOBALS['strWarnAgency'] = "Envoyer une alerte à l'agence à chaque fois qu'une campagne approche de son expiration";
 
 // UI Settings
-$GLOBALS['strGuiSettings'] = "Paramètres de l'interface utilisateur";
 $GLOBALS['strGeneralSettings'] = "Paramètres généraux";
-$GLOBALS['strAppName'] = "Nom de l'application";
-$GLOBALS['strMyHeader'] = "Emplacement du fichier d'en-tête";
-$GLOBALS['strMyFooter'] = "Emplacement du fichier de pied de page";
-$GLOBALS['strDefaultTrackerStatus'] = "État par défaut du suiveur";
-$GLOBALS['strDefaultTrackerType'] = "Type par défaut du suiveur";
-$GLOBALS['strSSLSettings'] = "Paramètres SSL";
-$GLOBALS['requireSSL'] = "Forcer l'accès SSL pour l'interface utilisateur";
-$GLOBALS['sslPort'] = "Port SSL utilisé par le serveur web";
-$GLOBALS['strDashboardSettings'] = "Paramètres du tableau de bord";
-$GLOBALS['strMyLogo'] = "Nom du fichier du logo personnalisé";
-$GLOBALS['strGuiHeaderForegroundColor'] = "Couleur du premier plan de l'en-tête";
-$GLOBALS['strGuiHeaderBackgroundColor'] = "Couleur de l'arrière-plan de l'en-tête";
-$GLOBALS['strGuiActiveTabColor'] = "Couleur de l'onglet actif";
-$GLOBALS['strGuiHeaderTextColor'] = "Couleur du texte dans l'en-tête";
-$GLOBALS['strGzipContentCompression'] = "Utiliser la compression de contenu GZIP";
 
 // Regenerate Platfor Hash script
 

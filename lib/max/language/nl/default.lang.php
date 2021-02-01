@@ -139,7 +139,7 @@ $GLOBALS['strWidth'] = "Breedte";
 $GLOBALS['strHeight'] = "Hoogte";
 $GLOBALS['strTarget'] = "Doel";
 $GLOBALS['strLanguage'] = "Taal";
-$GLOBALS['strDescription'] = "Beschrijving";
+$GLOBALS['strDescription'] = "Omschrijving";
 $GLOBALS['strVariables'] = "Variabelen";
 $GLOBALS['strID'] = "ID";
 $GLOBALS['strComments'] = "Notities";
@@ -213,8 +213,8 @@ $GLOBALS['strTotalConversions'] = "Totaal aantal conversies";
 $GLOBALS['strDateTime'] = "Datum tijd";
 $GLOBALS['strTrackerID'] = "Tracker-ID";
 $GLOBALS['strTrackerName'] = "Tracker naam";
-$GLOBALS['strTrackerImageTag'] = "Afbeelding tag";
-$GLOBALS['strTrackerJsTag'] = "Javascript tag";
+$GLOBALS['strTrackerImageTag'] = "Image Tag";
+$GLOBALS['strTrackerJsTag'] = "Javascript Tag";
 $GLOBALS['strTrackerAlwaysAppend'] = "Altijd de toegevoegde code weergeven, zelfs als geen conversie is geconstateerd door de tracker?";
 $GLOBALS['strBanners'] = "Banners";
 $GLOBALS['strCampaigns'] = "Campagnes";
@@ -398,7 +398,7 @@ Weet u zeker dat u wilt doorgaan?";
 $GLOBALS['strCampaignWarningNoTarget'] = "Het type van deze campagne is ingesteld op Contract, maar limiet per dag is niet opgegeven. Hierdoor wordt de campagne worden gedeactiveerd en haar banners zal niet worden geleverd tot een geldige limiet per dag is ingesteld.  Weet u zeker dat u wilt doorgaan?";
 $GLOBALS['strCampaignStatusPending'] = "Wachtend";
 $GLOBALS['strCampaignStatusInactive'] = "Niet actief";
-$GLOBALS['strCampaignStatusRunning'] = "Actief";
+$GLOBALS['strCampaignStatusRunning'] = "Lopend";
 $GLOBALS['strCampaignStatusPaused'] = "Gepauzeerd";
 $GLOBALS['strCampaignStatusAwaiting'] = "Wachtend";
 $GLOBALS['strCampaignStatusExpired'] = "Voltooid";
@@ -411,7 +411,7 @@ $GLOBALS['strCampaignStatusDeleted'] = "Verwijderd";
 $GLOBALS['strCampaignType'] = "Campagnetype";
 $GLOBALS['strType'] = "Type";
 $GLOBALS['strContract'] = "Contract";
-$GLOBALS['strOverride'] = "Override";
+$GLOBALS['strOverride'] = "Overstijgend";
 $GLOBALS['strOverrideInfo'] = "Override campagnes zijn een speciaal soort campagnes die specifiek gebruikt worden om
     Remnant en Contract campagnes te verdringen. Override campagnes worden over het algemeen gebruikt met
     specifieke targeting en/of capping regels om er voor te zorgen dat de banners altijd vertoond worden op bepaalde
@@ -954,110 +954,35 @@ $GLOBALS['strERPS_short'] = "ERPS";
 $GLOBALS['strEIPM_short'] = "EIPM";
 $GLOBALS['strEIPC_short'] = "EIPC";
 $GLOBALS['strEIPS_short'] = "EIPS";
-$GLOBALS['strECPM_short'] = "ECPM";
 $GLOBALS['strECPC_short'] = "ECPC";
 $GLOBALS['strECPS_short'] = "ECPS";
 $GLOBALS['strID_short'] = "ID";
-$GLOBALS['strRequests_short'] = "Req.";
-$GLOBALS['strImpressions_short'] = "Impr.";
 $GLOBALS['strClicks_short'] = "Kliks";
 $GLOBALS['strCTR_short'] = "CTR";
-$GLOBALS['strConversions_short'] = "Conv.";
-$GLOBALS['strPendingConversions_short'] = "Wacht. conv.";
-$GLOBALS['strImpressionSR_short'] = "Impr. SR";
 $GLOBALS['strClickSR_short'] = "Klik SR";
 
 // Global Settings
-$GLOBALS['strConfiguration'] = "Instellingen";
-$GLOBALS['strGlobalSettings'] = "Algemene instellingen";
-$GLOBALS['strGeneralSettings'] = "Algemene Instellingen";
-$GLOBALS['strMainSettings'] = "Hoofdinstellingen";
-$GLOBALS['strPlugins'] = "Plugins";
 $GLOBALS['strChooseSection'] = 'Kies sectie';
 
 // Product Updates
-$GLOBALS['strProductUpdates'] = "Nieuwe versies";
-$GLOBALS['strViewPastUpdates'] = "Updates en backups uit het verleden beheren";
-$GLOBALS['strFromVersion'] = "Van versie";
-$GLOBALS['strToVersion'] = "Naar versie";
-$GLOBALS['strToggleDataBackupDetails'] = "Gegevens-backups details aan/uit";
-$GLOBALS['strClickViewBackupDetails'] = "Klik om backup details te bekijken";
-$GLOBALS['strClickHideBackupDetails'] = "Klik om backup details te verbergen";
-$GLOBALS['strShowBackupDetails'] = "Toon data backup details";
-$GLOBALS['strHideBackupDetails'] = "Verberg data backup details";
-$GLOBALS['strBackupDeleteConfirm'] = "Weet je zeker dat je alle back-ups wilt verwijderen, die gecreëerd zijn van deze upgrade?";
-$GLOBALS['strDeleteArtifacts'] = "Artefacten verwijderen";
-$GLOBALS['strArtifacts'] = "Artefacten";
-$GLOBALS['strBackupDbTables'] = "Reservekopie van de databasetabellen";
-$GLOBALS['strLogFiles'] = "Log-bestanden";
-$GLOBALS['strConfigBackups'] = "Backup van configuratie-files";
-$GLOBALS['strUpdatedDbVersionStamp'] = "Bijgewerkte database versieaanduiding";
-$GLOBALS['aProductStatus']['UPGRADE_COMPLETE'] = "UPGRADE VOLTOOID";
-$GLOBALS['aProductStatus']['UPGRADE_FAILED'] = "UPGRADE IS MISLUKT";
 
 // Agency
-$GLOBALS['strAgencyManagement'] = "Account beheer";
-$GLOBALS['strAgency'] = "Account";
-$GLOBALS['strAddAgency'] = "Voeg nieuw account toe";
-$GLOBALS['strAddAgency_Key'] = "<u>N</u>ieuw account toevoegen";
-$GLOBALS['strTotalAgencies'] = "Totaal aantal accounts";
-$GLOBALS['strAgencyProperties'] = "Accounteigenschappen";
-$GLOBALS['strNoAgencies'] = "Er zijn momenteel geen accounts gedefinieerd";
-$GLOBALS['strConfirmDeleteAgency'] = "Weet u zeker dat u dit account wilt verwijderen?";
-$GLOBALS['strHideInactiveAgencies'] = "Inactieve accounts verbergen";
-$GLOBALS['strInactiveAgenciesHidden'] = "inactieve account(s) verborgen";
-$GLOBALS['strSwitchAccount'] = "Overschakelen naar dit account";
 $GLOBALS['strAgencyStatusRunning'] = "Actief";
 $GLOBALS['strAgencyStatusInactive'] = "Niet actief";
 $GLOBALS['strAgencyStatusPaused'] = "Opgeschort";
 
 // Channels
-$GLOBALS['strChannel'] = "Verzameling Uitleveringsregels";
-$GLOBALS['strChannels'] = "Verzamelingen Uitleveringsregels";
-$GLOBALS['strChannelManagement'] = "Beheer van verzamelingen Uitleveringsregels";
-$GLOBALS['strAddNewChannel'] = "Nieuwe Verzameling Uitleveringsregels";
-$GLOBALS['strAddNewChannel_Key'] = "Voeg <u>n</u>ieuwe Verzameling Uitleveringsregels toe";
 $GLOBALS['strChannelToWebsite'] = "aan website";
-$GLOBALS['strNoChannels'] = "Er bestaan geen verzamelingen uitleveringsregels";
-$GLOBALS['strNoChannelsAddWebsite'] = "Er zijn nu geen verzamelingen uitleveringsregels beschikbaar, omdat er geen websites zijn. Om een verzameling uitleveringsregels te maken, dient u eerst <a href='affiliate-edit.php'>een nieuwe website toe te voegen</a>.";
-$GLOBALS['strEditChannelLimitations'] = "Bewerk de uitleveringsregels voor de verzameling uitleveringsregels";
-$GLOBALS['strChannelProperties'] = "Eigenschappen van de verzameling uitleveringsregels";
 $GLOBALS['strChannelLimitations'] = "Uitleveringsbeperkingen";
-$GLOBALS['strConfirmDeleteChannel'] = "Weet u zeker dat u deze Verzameling Uitleveringsregels wilt verwijderen?";
-$GLOBALS['strConfirmDeleteChannels'] = "Weet u zeker dat u de geselecteerde verzamelingen uitleveringsregels wilt verwijderen?";
 $GLOBALS['strChannelsOfWebsite'] = 'in'; //this is added between page name and website name eg. 'delivery rule sets in www.example.com'
 
 // Tracker Variables
-$GLOBALS['strVariableName'] = "Naam van de variabele";
-$GLOBALS['strVariableDescription'] = "Beschrijving";
-$GLOBALS['strVariableDataType'] = "Gegevenstype";
-$GLOBALS['strVariablePurpose'] = "Doel";
+$GLOBALS['strVariableDescription'] = "Omschrijving";
 $GLOBALS['strGeneric'] = "Generiek";
-$GLOBALS['strBasketValue'] = "Waarde winkelmandje";
 $GLOBALS['strNumItems'] = "Aantal items";
-$GLOBALS['strVariableIsUnique'] = "Conversies ontdubbelen?";
-$GLOBALS['strNumber'] = "Getal";
-$GLOBALS['strString'] = "Tekenreeks";
-$GLOBALS['strTrackFollowingVars'] = "Bijhouden van de volgende variabele";
-$GLOBALS['strAddVariable'] = "Variabele toevoegen";
-$GLOBALS['strNoVarsToTrack'] = "Geen variabelen om bij te houden.";
-$GLOBALS['strVariableRejectEmpty'] = "Afwijzen indien leeg?";
-$GLOBALS['strTrackingSettings'] = "Instellingen voor bijhouden";
-$GLOBALS['strTrackerType'] = "Tracker type";
-$GLOBALS['strTrackerTypeJS'] = "Bijhouden van JavaScript variabelen";
-$GLOBALS['strTrackerTypeDefault'] = "Bijhouden van JavaScript variabelen (backwards compatible, escaping nodig)";
-$GLOBALS['strTrackerTypeDOM'] = "Bijhouden van HTML-elementen met behulp van DOM";
-$GLOBALS['strTrackerTypeCustom'] = "Aangepaste JS code";
-$GLOBALS['strVariableCode'] = "JavaScript tracking-code";
 
 // Password recovery
-$GLOBALS['strForgotPassword'] = "Wachtwoord vergeten?";
 $GLOBALS['strPasswordRecovery'] = "Wachtwoord opnieuw instellen";
-$GLOBALS['strEmailRequired'] = "E-mail is een verplicht veld";
-$GLOBALS['strPwdRecWrongId'] = "Verkeerde ID";
-$GLOBALS['strPwdRecEnterEmail'] = "Voer hieronder uw e-mail adres in";
-$GLOBALS['strPwdRecEnterPassword'] = "Voer uw nieuwe wachtwoord hieronder in";
-$GLOBALS['strProceed'] = "Doorgaan >";
 $GLOBALS['strNotifyPageMessage'] = "Er is een e-mail naar u gestuurd, met daarin een link die u in staat stelt
                                          om uw wachtwoord opnieuw in te stellen.<br />Het kan een paar minuten duren voor de e-ail aankomt.<br />
                                          Als u de e-mail niet ontvangt, kijk dan alstublieft in uw spam-map.<br />
@@ -1085,117 +1010,26 @@ systeembeheerder van uw {$PRODUCT_NAME} systeem, en laat hen weten over deze sit
 $GLOBALS['strPwdRecEmailSincerely'] = "Met vriendelijke groet,";
 
 // Audit
-$GLOBALS['strAdditionalItems'] = "en extra items";
-$GLOBALS['strFor'] = "voor";
 $GLOBALS['strHas'] = "heeft";
-$GLOBALS['strBinaryData'] = "Binaire gegevens";
-$GLOBALS['strAuditTrailDisabled'] = "Audit Trail is uitgeschakeld door de systeembeheerder. Geen verdere gebeurtenissen worden opgeslagen en weergegeven in de lijst van de Audit Trail.";
 
 // Widget - Audit
-$GLOBALS['strAuditNoData'] = "Geen gebruikersactiviteit is opgenomen tijdens de periode die u hebt geselecteerd.";
-$GLOBALS['strAuditTrail'] = "Audit logboek";
-$GLOBALS['strAuditTrailSetup'] = "Stel nu de Audit trail in";
-$GLOBALS['strAuditTrailGoTo'] = "Ga naar Audit Trail pagina";
-$GLOBALS['strAuditTrailNotEnabled'] = "<li>Audit Trail stelt u in staat om te zien wie iets heeft gedaan en wanneer. Met andere woorden, het houdt de wijzigingen bij in {$PRODUCT_NAME}</li>
-        <li>U ziet deze melding omdat u de Audit Trail functie niet heeft ingeschakeld</li>
-        <li>Wilt u meer weten? Lees dan de <a href='{$PRODUCT_DOCSURL}/admin/settings/auditTrail' class='site-link' target='help' >Audit Trail documentatie</a></li>";
 
 // Widget - Campaign
-$GLOBALS['strCampaignGoTo'] = "Ga naar pagina campagnes";
-$GLOBALS['strCampaignSetUp'] = "Maak vandaag een campagne aan";
-$GLOBALS['strCampaignNoRecords'] = "<li>Campagnes stellen u in staat om een aantal banners met diverse formaten te groeperen, die een gezamenlijke doelstelling hebben</li>
-        <li>Bespaar tijd door banners te groeperen in een campagne zodat u de uitleveringinstellingen niet meer voor elke banner afzonderlijk hoeft in te stellen</li>
-        <li>Bekijk ook de <a class='site-link' target='help' href='{$PRODUCT_DOCSURL}/user/inventory/advertisersAndCampaigns/campaigns'>Campagne documentatie</a>!</li>";
-$GLOBALS['strCampaignNoRecordsAdmin'] = "<li>Er is geen Campagneactiviteit om weer te geven.</li>";
 
-$GLOBALS['strCampaignNoDataTimeSpan'] = "Geen campagnes zijn begonnen of voltooid tijdens het tijdsvak dat u hebt geselecteerd";
-$GLOBALS['strCampaignAuditNotActivated'] = "<li>Om te zien welke campagnes zijn gestart of afgelopen in de periode die u heeft geselecteerd, moet u de Audit Trail activeren</li>
-        <li>U ziet deze melding omdat u de Audit Trail niet heeft geactiveerd</li>";
-$GLOBALS['strCampaignAuditTrailSetup'] = "Activeer de Audit Trail om campagnes te kunnen bekijken";
 
-$GLOBALS['strUnsavedChanges'] = "U hebt niet-opgeslagen wijzigingen op deze pagina, zorg ervoor dat u klikt op &quot;Wijzigingen opslaan&quot; als u klaar bent";
-$GLOBALS['strDeliveryLimitationsDisagree'] = "Waarschuwing: de opgeslagen uitleveringsregels <strong>zijn niet in overeenstemming</strong> met de uitleveringsregels die hieronder worden getoond<br />Sla de wijzigingen op om de opgeslagen uitleveringsregels bij te werken";
-$GLOBALS['strDeliveryRulesDbError'] = "WAARSCHUWING: bij het opslaan van de uitleveringsregels, is een database fout opgetreden. Controleer de onderstaande uitleveringsregels aub zorgvuldig, en werk deze bij, indien nodig.";
-$GLOBALS['strDeliveryRulesTruncation'] = "WAARSCHUWING: bij het opslaan van de uitleveringsregels, heeft MySQL de data ingekort, waardoor de oorspronkelijke instellingen zijn hersteld. Verklein aub de omvang van uw regels, en probeer het opnieuw.";
-$GLOBALS['strDeliveryLimitationsInputErrors'] = "Sommige Uitleveringsregels rapporten onjuiste waarden:";
 
 //confirmation messages
-$GLOBALS['strYouAreNowWorkingAsX'] = "U werkt nu als <b>%s</b>";
-$GLOBALS['strYouDontHaveAccess'] = "U heeft geen toegang tot die pagina. U bent doorgeleid.";
 
-$GLOBALS['strAdvertiserHasBeenAdded'] = "Adverteerder <a href='%s'>%s</a> is toegevoegd, u kunt nu <a href='%s'>een campagne toevoegen</a>";
-$GLOBALS['strAdvertiserHasBeenUpdated'] = "Adverteerder <a href='%s'>%s</a> is bijgewerkt";
-$GLOBALS['strAdvertiserHasBeenDeleted'] = "Adverteerder <b>%s</b> is verwijderd";
-$GLOBALS['strAdvertisersHaveBeenDeleted'] = "Alle geselecteerde adverteerders zijn verwijderd";
 
-$GLOBALS['strTrackerHasBeenAdded'] = "Tracker <a href='%s'>%s</a> istoegevoegd";
-$GLOBALS['strTrackerHasBeenUpdated'] = "Tracker <a href='%s'>%s</a> is bijgewerkt";
-$GLOBALS['strTrackerVarsHaveBeenUpdated'] = "Variabelen van tracker <a href='%s'>%s</a> zijn bijgewerkt";
-$GLOBALS['strTrackerCampaignsHaveBeenUpdated'] = "Gekoppelde campagnes van tracker <a href='%s'>%s</a> zijn bijgewerkt";
-$GLOBALS['strTrackerAppendHasBeenUpdated'] = "Append code voor tracker <a href='%s'>%s</a> is bijgewerkt";
-$GLOBALS['strTrackerHasBeenDeleted'] = "Tracker <b>%s</b> is verwijderd";
-$GLOBALS['strTrackersHaveBeenDeleted'] = "Alle geselecteerde trackers zijn verwijderd";
-$GLOBALS['strTrackerHasBeenDuplicated'] = "Tracker <a href='%s'>%s</a> is gekopieerd naar <a href='%s'>%s</a>";
-$GLOBALS['strTrackerHasBeenMoved'] = "Tracker <b>%s</b> is verplaatst naar adverteerder <b>%s</b>";
 
-$GLOBALS['strCampaignHasBeenAdded'] = "Campagne <a href='%s'>%s</a> is toegevoegd, <a href='%s'>voeg een banner toe</a>";
-$GLOBALS['strCampaignHasBeenUpdated'] = "Campagne <a href='%s'>%s</a> is bijgewerkt";
-$GLOBALS['strCampaignTrackersHaveBeenUpdated'] = "Gekoppelde trackers van campagne <a href='%s'>%s</a> zijn bijgewerkt";
-$GLOBALS['strCampaignHasBeenDeleted'] = "Campagne <b>%s</b> is verwijderd";
-$GLOBALS['strCampaignsHaveBeenDeleted'] = "Alle geselecteerde campagnes zijn verwijderd";
-$GLOBALS['strCampaignHasBeenDuplicated'] = "Campagne <a href='%s'>%s</a> is gekopieerd naar <a href='%s'>%s</a>";
-$GLOBALS['strCampaignHasBeenMoved'] = "Campagne <b>%s</b> is verplaatst naar adverteerder <b>%s</b>";
 
-$GLOBALS['strBannerHasBeenAdded'] = "Banner <a href='%s'>%s</a> is toegevoegd";
-$GLOBALS['strBannerHasBeenUpdated'] = "Banner <a href='%s'>%s</a> is bijgewerkt";
-$GLOBALS['strBannerAdvancedHasBeenUpdated'] = "Geavanceerde instellingen voor banner <a href='%s'>%s</a> zijn bijgewerkt";
-$GLOBALS['strBannerAclHasBeenUpdated'] = "Uitleveringsopties voor banner <a href='%s'>%s</a> zijn bijgewerkt";
-$GLOBALS['strBannerAclHasBeenAppliedTo'] = "Uitleveringsopties voor banner <a href='%s'>%s</a> zijn toegepast op %d banners";
-$GLOBALS['strBannerHasBeenDeleted'] = "Banner <b>%s</b> is verwijderd";
-$GLOBALS['strBannersHaveBeenDeleted'] = "Alle geselecteerde banners zijn verwijderd";
-$GLOBALS['strBannerHasBeenDuplicated'] = "Banner <a href='%s'>%s</a> is gekopieerd naar <a href='%s'>%s</a>";
-$GLOBALS['strBannerHasBeenMoved'] = "Banner <b>%s</b> is verplaatst naar campagne <b>%s</b>";
-$GLOBALS['strBannerHasBeenActivated'] = "Banner <a href='%s'>%s</a> is geactiveerd";
-$GLOBALS['strBannerHasBeenDeactivated'] = "Banner <a href='%s'>%s</a> is gedeactiveerd";
 
-$GLOBALS['strXZonesLinked'] = "<b>%s</b> zone(s) gekoppeld";
-$GLOBALS['strXZonesUnlinked'] = "<b>%s</b> zone(s) ontkoppeld";
 
-$GLOBALS['strWebsiteHasBeenAdded'] = "Website <a href='%s'>%s</a> is toegevoegd, <a href='%s'>een zone toevoegen</a>";
-$GLOBALS['strWebsiteHasBeenUpdated'] = "Website <a href='%s'>%s</a> is bijgewerkt";
-$GLOBALS['strWebsiteHasBeenDeleted'] = "Website <b>%s</b> is verwijderd";
-$GLOBALS['strWebsitesHaveBeenDeleted'] = "Alle geselecteerde website zijn verwijderd";
-$GLOBALS['strWebsiteHasBeenDuplicated'] = "Website <a href='%s'>%s</a> is gekopieerd naar <a href='%s'>%s</a>";
 
-$GLOBALS['strZoneHasBeenAdded'] = "Zone <a href='%s'>%s</a> is toegevoegd";
-$GLOBALS['strZoneHasBeenUpdated'] = "Zone <a href='%s'>%s</a> is bijgewerkt";
-$GLOBALS['strZoneAdvancedHasBeenUpdated'] = "Geavanceerde instellingen voor de zone <a href='%s'>%s</a> zijn bijgewerkt";
-$GLOBALS['strZoneHasBeenDeleted'] = "Zone <b>%s</b> is verwijderd";
-$GLOBALS['strZonesHaveBeenDeleted'] = "Alle geselecteerde zone zijn verwijderd";
-$GLOBALS['strZoneHasBeenDuplicated'] = "Zone <a href='%s'>%s</a> is gekopieerd naar <a href='%s'>%s</a>";
-$GLOBALS['strZoneHasBeenMoved'] = "Zone <b>%s</b> is verplaatst naar website <b>%s</b>";
-$GLOBALS['strZoneLinkedBanner'] = "Banner is gekoppeld aan zone <a href='%s'>%s</a>";
-$GLOBALS['strZoneLinkedCampaign'] = "Campagne is gekoppeld aan zone <a href='%s'>%s</a>";
-$GLOBALS['strZoneRemovedBanner'] = "Banner is ontkoppeld van zone <a href='%s'>%s</a>";
-$GLOBALS['strZoneRemovedCampaign'] = "Campagne is ontkoppeld van zone <a href='%s'>%s</a>";
 
-$GLOBALS['strChannelHasBeenAdded'] = "Verzameling uitleveringsregels <a href='%s'>%s</a> is toegevoegd. <a href='%s'>Stel de uitleveringsregels in.</a>";
-$GLOBALS['strChannelHasBeenUpdated'] = "Verzameling uitleveringsregels <a href='%s'>%s</a> is bijgewerkt";
-$GLOBALS['strChannelAclHasBeenUpdated'] = "Uitleveringsopties voor de verzameling uitleveringsregels <a href='%s'>%s</a> is bijgewerkt";
-$GLOBALS['strChannelHasBeenDeleted'] = "Verzameling uitleveringsregels <b>%s</b> is verwijderd";
-$GLOBALS['strChannelsHaveBeenDeleted'] = "Alle geselecteerde verzamelingen uitleveringsregels zijn verwijderd";
-$GLOBALS['strChannelHasBeenDuplicated'] = "Verzameling uitleveringsregels <a href='%s'>%s</a> is gekopieerd naar <a href='%s'>%s</a>";
 
-$GLOBALS['strUserPreferencesUpdated'] = "Uw voorkeuren voor <b>%s</b> zijn bijgewerkt";
-$GLOBALS['strEmailChanged'] = "Uw E-mail adres is gewijzigd";
-$GLOBALS['strPasswordChanged'] = "Uw wachtwoord is gewijzigd";
-$GLOBALS['strXPreferencesHaveBeenUpdated'] = "<b>%s</b> zijn bijgewerkt";
-$GLOBALS['strXSettingsHaveBeenUpdated'] = "<b>%s</b> zijn bijgewerkt";
-$GLOBALS['strTZPreferencesWarning'] = "Echter, de begindatum en einddatum van de campagne zijn niet bijgewerkt, en ook niet de banner uitleveringsregels die op tijd zijn gebaseerd.<br />U zult deze met de hand moeten aanpassen als u wilt dat ze gebruik maken van de nieuwe tijdzone";
 
 // Report error messages
-$GLOBALS['strReportErrorMissingSheets'] = "Voor dit rapport is geen werkblad geselecteerd";
-$GLOBALS['strReportErrorUnknownCode'] = "Onbekende foutcode #";
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */
@@ -1203,20 +1037,9 @@ $GLOBALS['strReportErrorUnknownCode'] = "Onbekende foutcode #";
 
 // Reserved keys
 // Do not change these unless absolutely needed
-$GLOBALS['keyHome'] = "h";
-$GLOBALS['keyUp'] = "o";
 $GLOBALS['keyNextItem'] = ",";
 $GLOBALS['keyPreviousItem'] = ".";
-$GLOBALS['keyList'] = "l";
 
 // Other keys
 // Please make sure you underline the key you
 // used in the string in default.lang.php
-$GLOBALS['keySearch'] = "z";
-$GLOBALS['keyCollapseAll'] = "u";
-$GLOBALS['keyExpandAll'] = "i";
-$GLOBALS['keyAddNew'] = "v";
-$GLOBALS['keyNext'] = "v";
-$GLOBALS['keyPrevious'] = "r";
-$GLOBALS['keyLinkUser'] = "o";
-$GLOBALS['keyWorkingAs'] = "w";

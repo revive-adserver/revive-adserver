@@ -28,7 +28,6 @@ $GLOBALS['strWarning'] = "Предупреждение";
 // Configuration Settings
 
 // Administrator Settings
-$GLOBALS['strBasicInformation'] = "Основна информация";
 
 // Database Settings
 
@@ -48,7 +47,6 @@ $GLOBALS['strTypeFTPPassword'] = "Парола";
 
 // Interface Settings
 $GLOBALS['strInventory'] = "Инвентар";
-$GLOBALS['strHideInactive'] = "Скрий неактивните";
 
 // Invocation Settings
 

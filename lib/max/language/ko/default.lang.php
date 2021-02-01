@@ -321,6 +321,7 @@ $GLOBALS['strWeight'] = "가중치";
 $GLOBALS['strAlt'] = "Alt 텍스트";
 $GLOBALS['strStatusText'] = "상태표시줄 텍스트";
 $GLOBALS['strBannerWeight'] = "배너 가중치";
+$GLOBALS['strAdserverTypeGeneric'] = "일반 HTML 배너";
 
 // Banner (advanced)
 

@@ -740,8 +740,6 @@ $GLOBALS['strVariableDataType'] = "סוג נתונים";
 $GLOBALS['strGeneric'] = "כללי";
 
 // Password recovery
-$GLOBALS['strForgotPassword'] = "שכחת סיסמא?";
-$GLOBALS['strEmailRequired'] = "דוא''ל הוא שדה חובה";
 
 
 // Audit
@@ -775,9 +773,3 @@ $GLOBALS['strEmailRequired'] = "דוא''ל הוא שדה חובה";
 // Other keys
 // Please make sure you underline the key you
 // used in the string in default.lang.php
-$GLOBALS['keySearch'] = "ח";
-$GLOBALS['keyCollapseAll'] = "מ";
-$GLOBALS['keyExpandAll'] = "פ";
-$GLOBALS['keyAddNew'] = "ח";
-$GLOBALS['keyNext'] = "ח";
-$GLOBALS['keyPrevious'] = "ק";

@@ -571,48 +571,17 @@ $GLOBALS['strPluginPreferences'] = "Generelle Indstillinger";
 
 // Long names
 $GLOBALS['strNumberOfItems'] = "Antal poster";
-$GLOBALS['strERPM'] = "CPM";
-$GLOBALS['strERPC'] = "CPC";
-$GLOBALS['strERPS'] = "CPM";
-$GLOBALS['strEIPM'] = "CPM";
-$GLOBALS['strEIPC'] = "CPC";
-$GLOBALS['strEIPS'] = "CPM";
-$GLOBALS['strECPM'] = "CPM";
-$GLOBALS['strECPC'] = "CPC";
-$GLOBALS['strECPS'] = "CPM";
-$GLOBALS['strImpressionSR'] = "Visninger";
 
 // Short names
 $GLOBALS['strERPM_short'] = "CPM";
-$GLOBALS['strERPC_short'] = "CPC";
-$GLOBALS['strERPS_short'] = "CPM";
-$GLOBALS['strEIPM_short'] = "CPM";
-$GLOBALS['strEIPC_short'] = "CPC";
-$GLOBALS['strEIPS_short'] = "CPM";
-$GLOBALS['strECPM_short'] = "CPM";
-$GLOBALS['strECPC_short'] = "CPC";
-$GLOBALS['strECPS_short'] = "CPM";
 $GLOBALS['strClicks_short'] = "Klik";
 
 // Global Settings
-$GLOBALS['strGlobalSettings'] = "Overordnede Indstillinger";
-$GLOBALS['strGeneralSettings'] = "Generel opsætninger";
-$GLOBALS['strMainSettings'] = "Hoved opsætninger";
 $GLOBALS['strChooseSection'] = 'Vælg sektion';
 
 // Product Updates
-$GLOBALS['strProductUpdates'] = "Produkt opdateringer";
-$GLOBALS['strViewPastUpdates'] = "Håndtere tidligere opdateringer og back-up's";
 
 // Agency
-$GLOBALS['strAgencyManagement'] = "Konto Administration";
-$GLOBALS['strAgency'] = "Konto";
-$GLOBALS['strAddAgency'] = "Tilføj ny konto";
-$GLOBALS['strAddAgency_Key'] = "Tilføj <u>n</u>y zone";
-$GLOBALS['strTotalAgencies'] = "Total antal kontoer";
-$GLOBALS['strNoAgencies'] = "Der er i øjeblikket ikke defineret nogle zoner";
-$GLOBALS['strConfirmDeleteAgency'] = "Vil du virkelig slette denne zone?";
-$GLOBALS['strInactiveAgenciesHidden'] = "inaktive zone(r) er skjult";
 $GLOBALS['strAgencyStatusInactive'] = "Aktive";
 
 // Channels
@@ -621,48 +590,22 @@ $GLOBALS['strChannelLimitations'] = "Leverings optioner";
 $GLOBALS['strChannelsOfWebsite'] = 'i'; //this is added between page name and website name eg. 'delivery rule sets in www.example.com'
 
 // Tracker Variables
-$GLOBALS['strVariableName'] = "Variable Navn";
 $GLOBALS['strVariableDescription'] = "Beskrivelse";
-$GLOBALS['strVariablePurpose'] = "Formål";
 $GLOBALS['strGeneric'] = "Generisk";
-$GLOBALS['strBasketValue'] = "Værdi af kurv";
 $GLOBALS['strNumItems'] = "Antal poster";
-$GLOBALS['strNumber'] = "Nummer";
-$GLOBALS['strString'] = "Streng";
-$GLOBALS['strTrackFollowingVars'] = "Spor de følgende variabler";
-$GLOBALS['strAddVariable'] = "Tilføj variabel";
-$GLOBALS['strNoVarsToTrack'] = "Der er ingen variabler at spore.";
-$GLOBALS['strVariableRejectEmpty'] = "Afvise hvis tom?";
-$GLOBALS['strTrackingSettings'] = "Sporer opsætninger";
-$GLOBALS['strTrackerType'] = "Sporer type";
-$GLOBALS['strTrackerTypeJS'] = "Spor JavaScript variabler";
-$GLOBALS['strTrackerTypeDefault'] = "Spor JavaScript variabler (bagud kompertibel, escape er nødvendig)";
-$GLOBALS['strTrackerTypeDOM'] = "Spor HTML elementer ved brug af DOM";
-$GLOBALS['strTrackerTypeCustom'] = "Tilpasset JS kode";
-$GLOBALS['strVariableCode'] = "Javascript sporer kode";
 
 // Password recovery
-$GLOBALS['strForgotPassword'] = "Glemt dit password?";
-$GLOBALS['strEmailRequired'] = "Email er et krævet felt";
-$GLOBALS['strPwdRecWrongId'] = "Forkert ID";
-$GLOBALS['strPwdRecEnterEmail'] = "Skriv din email adresse nedefor";
-$GLOBALS['strPwdRecEnterPassword'] = "Skriv dit nye password nedenfor";
-$GLOBALS['strProceed'] = "Fortsæt >";
 
 
 // Audit
-$GLOBALS['strBinaryData'] = "Binær date";
 
 // Widget - Audit
-$GLOBALS['strAuditTrail'] = "Handlings Log";
 
 // Widget - Campaign
-$GLOBALS['strCampaignNoRecordsAdmin'] = "<li>Der er ikke nogle kampagne aktiviteret at vise. </li>";
 
 
 
 //confirmation messages
-$GLOBALS['strYouAreNowWorkingAsX'] = "Du arbejder nu som <b>%s</b>";
 
 
 

@@ -103,28 +103,15 @@ $GLOBALS['strDefaultCampaignWeight'] = "משקל קמפיין התחלתי (בר
 // Banner Delivery Settings
 
 // Banner Logging Settings
-$GLOBALS['strReverseLookup'] = "נסה לקבוע �?ת ספקית השירות של המבקר �?�? הנתון ל�? מגיע מהשרת";
-$GLOBALS['strProxyLookup'] = "נסה לקבוע �?ת כתובת ה-IP ה�?מיתית של המבקר �?�? הו�? משתמש במ�?גר ביניי�? (proxy).";
-$GLOBALS['strPreventLogging'] = "מנע התחברות";
-$GLOBALS['strIgnoreHosts'] = "�?ל תתעד סטטיסטיקה ממבקרי�? המשתמשי�? ב�?חד ממספרי ה-IP �?ו שמות המ�?רחי�? הב�?י�?";
 
 // Banner Storage Settings
 
 // Campaign ECPM settings
 
 // Statistics & Maintenance Settings
-$GLOBALS['strAdminEmailHeaders'] = "הוסף �?ת הכותרת הב�?ה לכל �?ימייל שישלח על ידי {$PRODUCT_NAME}";
-$GLOBALS['strWarnLimit'] = "שלח �?תר�?ה כ�?שר מספר החשיפות הנותר הינו פחות מהנקוב כ�?ן";
-$GLOBALS['strWarnAdmin'] = " שלח התר�?ת מנהל בכל פע�? שקמפין מסויי�? לפני סיומו";
-$GLOBALS['strWarnClient'] = " שלח התר�?ת מפרס�? בכל פע�? שהקמפין שלו לפני סיו�?";
 
 // UI Settings
-$GLOBALS['strGuiSettings'] = "קביעות ממשק משתמש";
 $GLOBALS['strGeneralSettings'] = "קביעות כלליות";
-$GLOBALS['strAppName'] = "ש�? היישו�? שיוצג";
-$GLOBALS['strMyHeader'] = "כותרת העמוד שלי נמצ�?ת בכתובת:";
-$GLOBALS['strMyFooter'] = "תחתית העמוד שלי נמצ�?ת בכתובת:";
-$GLOBALS['strGzipContentCompression'] = "השתמש בדחיסת-תכולה GZIP";
 
 // Regenerate Platfor Hash script
 

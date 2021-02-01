@@ -527,68 +527,20 @@ $GLOBALS['strImpendingCampaignExpiryImpsBody'] = "{clientname} 剩餘的曝光�
 
 // Priority
 $GLOBALS['strPriority'] = "優先";
-$GLOBALS['strSourceEdit'] = "編輯來源";
 
 // Preferences
-$GLOBALS['strPreferences'] = "首選設定";
-$GLOBALS['strUserPreferences'] = "廣告首選項";
-$GLOBALS['strAccountPreferences'] = "賬號首選項";
-$GLOBALS['strCampaignEmailReportsPreferences'] = "項目的電子郵件首選項";
-$GLOBALS['strAdminEmailWarnings'] = "管理員電子郵件報警";
-$GLOBALS['strAgencyEmailWarnings'] = "代理商電子郵件告警";
-$GLOBALS['strAdveEmailWarnings'] = "廣告主電子郵件告警";
-$GLOBALS['strFullName'] = "全名";
-$GLOBALS['strEmailAddress'] = "電子郵件地址";
-$GLOBALS['strUserInterfacePreferences'] = "用戶界面(UI)首選項";
-$GLOBALS['strPluginPreferences'] = "主要選項";
 
 // Long names
-$GLOBALS['strNumberOfItems'] = "條目數";
-$GLOBALS['strERPM'] = "千人成本";
-$GLOBALS['strERPC'] = "每次點擊的費用";
-$GLOBALS['strERPS'] = "千人成本";
-$GLOBALS['strEIPM'] = "千人成本";
-$GLOBALS['strEIPC'] = "每次點擊的費用";
-$GLOBALS['strEIPS'] = "千人成本";
-$GLOBALS['strECPM'] = "千人成本";
-$GLOBALS['strECPC'] = "每次點擊的費用";
-$GLOBALS['strECPS'] = "千人成本";
-$GLOBALS['strImpressionSR'] = "曝光數SR";
 
 // Short names
-$GLOBALS['strRevenue_short'] = "請求數";
-$GLOBALS['strERPM_short'] = "千人成本";
-$GLOBALS['strERPC_short'] = "每次點擊的費用";
-$GLOBALS['strERPS_short'] = "千人成本";
-$GLOBALS['strEIPM_short'] = "千人成本";
-$GLOBALS['strEIPC_short'] = "每次點擊的費用";
-$GLOBALS['strEIPS_short'] = "千人成本";
-$GLOBALS['strECPM_short'] = "千人成本";
-$GLOBALS['strECPC_short'] = "每次點擊的費用";
-$GLOBALS['strECPS_short'] = "千人成本";
-$GLOBALS['strRequests_short'] = "請求數";
 $GLOBALS['strClicks_short'] = "點擊";
 
 // Global Settings
-$GLOBALS['strGlobalSettings'] = "一般設置";
-$GLOBALS['strGeneralSettings'] = "一般設置";
-$GLOBALS['strMainSettings'] = "主要設置";
 $GLOBALS['strChooseSection'] = '選擇章節';
 
 // Product Updates
-$GLOBALS['strProductUpdates'] = "產品更新";
-$GLOBALS['strViewPastUpdates'] = "更新與備份管理";
 
 // Agency
-$GLOBALS['strAgencyManagement'] = "帳戶管理";
-$GLOBALS['strAgency'] = "賬號";
-$GLOBALS['strAddAgency'] = "新增一個賬戶";
-$GLOBALS['strAddAgency_Key'] = "新增版位";
-$GLOBALS['strTotalAgencies'] = "賬戶統計";
-$GLOBALS['strNoAgencies'] = "沒有相關的賬戶";
-$GLOBALS['strConfirmDeleteAgency'] = "您真的希望刪除該賬戶？";
-$GLOBALS['strHideInactiveAgencies'] = "藏不活躍的帳戶";
-$GLOBALS['strInactiveAgenciesHidden'] = "藏不活躍的帳戶";
 $GLOBALS['strAgencyStatusInactive'] = "活躍";
 
 // Channels
@@ -597,41 +549,15 @@ $GLOBALS['strChannelLimitations'] = "發送選項";
 $GLOBALS['strChannelsOfWebsite'] = '屬於'; //this is added between page name and website name eg. 'delivery rule sets in www.example.com'
 
 // Tracker Variables
-$GLOBALS['strVariableName'] = "變量名";
-$GLOBALS['strVariableDataType'] = "數據類型";
-$GLOBALS['strVariablePurpose'] = "目的";
 $GLOBALS['strGeneric'] = "生成";
-$GLOBALS['strBasketValue'] = "籃價值";
-$GLOBALS['strNumItems'] = "條目數";
-$GLOBALS['strVariableIsUnique'] = "dedup轉換";
-$GLOBALS['strNumber'] = "數";
-$GLOBALS['strString'] = "串值";
-$GLOBALS['strTrackFollowingVars'] = "根據以下變量跟蹤";
-$GLOBALS['strAddVariable'] = "新增變量";
-$GLOBALS['strNoVarsToTrack'] = "沒有跟蹤的變量";
-$GLOBALS['strVariableRejectEmpty'] = "拒絕為空";
-$GLOBALS['strTrackingSettings'] = "跟蹤設置";
-$GLOBALS['strTrackerType'] = "跟蹤模式";
-$GLOBALS['strTrackerTypeJS'] = "跟蹤JavaScript變量";
-$GLOBALS['strTrackerTypeDefault'] = "跟踪JavaScript变量（backwards compatible, escaping needed）";
-$GLOBALS['strTrackerTypeDOM'] = "使用DOM跟蹤HTML元素";
-$GLOBALS['strTrackerTypeCustom'] = "自定義JS代碼";
-$GLOBALS['strVariableCode'] = "JavaScript跟蹤代碼";
 
 // Password recovery
-$GLOBALS['strForgotPassword'] = "忘記密碼？";
-$GLOBALS['strEmailRequired'] = "電子郵件為必填項";
-$GLOBALS['strPwdRecWrongId'] = "錯誤ID";
-$GLOBALS['strPwdRecEnterEmail'] = "請填入你的郵件地址";
-$GLOBALS['strPwdRecEnterPassword'] = "請填入新密碼";
-$GLOBALS['strProceed'] = "繼續>";
 
 
 // Audit
 $GLOBALS['strHas'] = "具備";
 
 // Widget - Audit
-$GLOBALS['strAuditTrail'] = "審計跟踪";
 
 // Widget - Campaign
 

@@ -1036,64 +1036,16 @@ $GLOBALS['strDeliveryLimitationsInputErrors'] = "Alcune regole di consegna segna
 
 //confirmation messages
 
-$GLOBALS['strAdvertisersHaveBeenDeleted'] = "Eliminati tutti gli inserzionisti selezionati";
 
 
-$GLOBALS['strCampaignHasBeenDeleted'] = "La campagna <b>%s</b> è stata cancellata";
-$GLOBALS['strCampaignsHaveBeenDeleted'] = "Tutte le campagne selezionate sono state eliminate";
-$GLOBALS['strCampaignHasBeenDuplicated'] = "La campagna <a href='%s'>%s</a> è stata copiata in <a href='%s'>%s</a>";
-$GLOBALS['strCampaignHasBeenMoved'] = "La campagna <b>%s</b> è stata spostata all'inserzionista <b>%s</b>";
 
-$GLOBALS['strBannerHasBeenAdded'] = "Il banner <a href='%s'>%s</a> è stato aggiunto";
-$GLOBALS['strBannerHasBeenUpdated'] = "Il banner <a href='%s'>%s</a> è stato aggiornato";
-$GLOBALS['strBannerAdvancedHasBeenUpdated'] = "Le impostazioni avanzate per il banner <a href='%s'>%s</a> sono state aggiornate";
-$GLOBALS['strBannerAclHasBeenUpdated'] = "Le opzioni di consegna per il banner <a href='%s'>%s</a> sono state aggiornate";
-$GLOBALS['strBannerAclHasBeenAppliedTo'] = "Le opzioni di consegna per il banner <a href='%s'>%s</a> sono state applicate a %d banner";
-$GLOBALS['strBannerHasBeenDeleted'] = "Il banner <b>%s</b> è stato eliminato";
-$GLOBALS['strBannersHaveBeenDeleted'] = "Tutti i banner selezionati sono stati eliminati";
-$GLOBALS['strBannerHasBeenDuplicated'] = "Il banner <a href='%s'>%s</a> è stato copiato in <a href='%s'>%s</a>";
-$GLOBALS['strBannerHasBeenMoved'] = "Il banner <b>%s</b> è stato spostato nella campagna <b>%s</b>";
-$GLOBALS['strBannerHasBeenActivated'] = "Il banner <a href='%s'>%s</a> è stato attivato";
-$GLOBALS['strBannerHasBeenDeactivated'] = "Il banner <a href='%s'>%s</a> è stato disattivato";
 
-$GLOBALS['strXZonesLinked'] = "<b>%s</b> zona/e collegata/e";
-$GLOBALS['strXZonesUnlinked'] = "<b>%s</b> zona/e scollegata/e";
 
-$GLOBALS['strWebsiteHasBeenAdded'] = "Il sito web <a href='%s'>%s</a> è stato aggiunto, <a href='%s'>aggiungi una zona</a>";
-$GLOBALS['strWebsiteHasBeenUpdated'] = "Il sito web <a href='%s'>%s</a> è stato aggiornato";
-$GLOBALS['strWebsiteHasBeenDeleted'] = "Il sito web <b>%s</b> è stato eliminato";
-$GLOBALS['strWebsitesHaveBeenDeleted'] = "Tutti i siti web selezionati sono stati eliminati";
-$GLOBALS['strWebsiteHasBeenDuplicated'] = "Il sito web <a href='%s'>%s</a> è stato copiato in <a href='%s'>%s</a>";
 
-$GLOBALS['strZoneHasBeenAdded'] = "La zona <a href='%s'>%s</a> è stata aggiunta";
-$GLOBALS['strZoneHasBeenUpdated'] = "La zona <a href='%s'>%s</a> è stata aggiornata";
-$GLOBALS['strZoneAdvancedHasBeenUpdated'] = "Le impostazioni avanzate per la zona <a href='%s'>%s</a> sono state aggiornate";
-$GLOBALS['strZoneHasBeenDeleted'] = "La zona <b>%s</b> è stata cancellata";
-$GLOBALS['strZonesHaveBeenDeleted'] = "Tutte le zone selezionate sono state cancellate";
-$GLOBALS['strZoneHasBeenDuplicated'] = "La zona <a href='%s'>%s</a> è stata copiata in <a href='%s'>%s</a>";
-$GLOBALS['strZoneHasBeenMoved'] = "La zona <b>%s</b> è stata spostata nel sito <b>%s</b>";
-$GLOBALS['strZoneLinkedBanner'] = "Il banner è stato collegato alla zona <a href='%s'>%s</a>";
-$GLOBALS['strZoneLinkedCampaign'] = "La campagna è stata collegata alla zona <a href='%s'>%s</a>";
-$GLOBALS['strZoneRemovedBanner'] = "Il banner è stato scollegato dalla zona <a href='%s'>%s</a>";
-$GLOBALS['strZoneRemovedCampaign'] = "La campagna è stata scollegata dalla zona <a href='%s'>%s</a>";
 
-$GLOBALS['strChannelHasBeenAdded'] = "Il set di Regole di consegna <a href='%s'>%s</a> è stato aggiunto. <a href='%s'>Imposta le regole di consegna.</a>";
-$GLOBALS['strChannelHasBeenUpdated'] = "Il set di Regole di consegna <a href='%s'>%s</a> è stato aggiornato";
-$GLOBALS['strChannelAclHasBeenUpdated'] = "Le opzioni di consegna per il set di Regole di consegna <a href='%s'>%s</a> sono state aggiornate";
-$GLOBALS['strChannelHasBeenDeleted'] = "Il set di Regole di consegna <b>%s</b> è stato eliminato";
-$GLOBALS['strChannelsHaveBeenDeleted'] = "Tutti i set di regole di consegna selezionati sono stati eliminati";
-$GLOBALS['strChannelHasBeenDuplicated'] = "Il set di Regole di consegna <a href='%s'>%s</a> è stato copiato in <a href='%s'>%s</a>";
 
-$GLOBALS['strUserPreferencesUpdated'] = "Le preferenze di <b>%s</b> sono state aggiornate";
-$GLOBALS['strEmailChanged'] = "La tua e-mail è stata cambiata";
-$GLOBALS['strPasswordChanged'] = "La tua password è stata cambiata";
-$GLOBALS['strXPreferencesHaveBeenUpdated'] = "<b>%s</b> sono stati aggiornati";
-$GLOBALS['strXSettingsHaveBeenUpdated'] = "<b>%s</b> sono stati aggiornati";
-$GLOBALS['strTZPreferencesWarning'] = "Tuttavia, l'attivazione e la scadenza della campagna non sono state aggiornate, né le regole di consegna dei banner basate sul tempo.<br />Dovrai aggiornarli manualmente se vuoi che utilizzino il nuovo fuso orario";
 
 // Report error messages
-$GLOBALS['strReportErrorMissingSheets'] = "Nessun foglio di lavoro è stato selezionato per la relazione";
-$GLOBALS['strReportErrorUnknownCode'] = "Codice di errore sconosciuto #";
 
 /* ------------------------------------------------------- */
 /* Keyboard shortcut assignments                           */
@@ -1101,18 +1053,9 @@ $GLOBALS['strReportErrorUnknownCode'] = "Codice di errore sconosciuto #";
 
 // Reserved keys
 // Do not change these unless absolutely needed
-$GLOBALS['keyUp'] = "u";
 $GLOBALS['keyNextItem'] = ",";
 $GLOBALS['keyPreviousItem'] = ".";
 
 // Other keys
 // Please make sure you underline the key you
 // used in the string in default.lang.php
-$GLOBALS['keySearch'] = "c";
-$GLOBALS['keyCollapseAll'] = "h";
-$GLOBALS['keyExpandAll'] = "e";
-$GLOBALS['keyAddNew'] = "n";
-$GLOBALS['keyNext'] = "n";
-$GLOBALS['keyPrevious'] = "p";
-$GLOBALS['keyLinkUser'] = "u";
-$GLOBALS['keyWorkingAs'] = "l";
