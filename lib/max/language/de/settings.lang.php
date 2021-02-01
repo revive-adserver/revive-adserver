@@ -31,6 +31,7 @@ $GLOBALS['strProductUpToDateTitle'] = "{$PRODUCT_NAME} ist aktuell";
 $GLOBALS['strOaUpToDate'] = "Ihre {$PRODUCT_NAME} Datenbank und Verzeichnisstruktur ist auf dem neusten Stand, für diese Daten ist kein Upgradevorgang nötig. Bitte klicken Sie auf Fortsetzen um zur Administrationsseite von {$PRODUCT_NAME} zu gelangen.";
 $GLOBALS['strOaUpToDateCantRemove'] = "Warnung: Es fehlen die nötigen Rechte an der Datei UPGRADE um diese aus dem Openads-'var'-Verzeichnis zu entfernen. Bitte löschen Sie die Datei manuell.";
 $GLOBALS['strErrorWritePermissions'] = "Nicht ausreichende Datei- und Verzeichnisrechte erkannt, Sie müssen dies beheben bevor die Installation fortgesetzt werden kann.<br />Um diese Rechte auf einem Linux System zu gewähren, tippen Sie den/die folgenden Befehle auf einer Shell:";
+$GLOBALS['strErrorFixPermissionsRCommand'] = "<i>chmod -R a+w %s</i>";
 $GLOBALS['strNotWriteable'] = "NICHT schreibbar";
 $GLOBALS['strDirNotWriteableError'] = "Verzeichnis muss schreibbar sein";
 
@@ -52,6 +53,11 @@ $GLOBALS['strUpgrade'] = "Programmaktualisierung (Upgrade)";
 /* ------------------------------------------------------- */
 
 // Global
+$GLOBALS['strChooseSection'] = "Choose Section";
+$GLOBALS['strEditConfigNotPossible'] = "It is not possible to edit all settings because the configuration file is locked for security reasons.
+    If you want to make changes, you may need to unlock the configuration file for this installation first.";
+$GLOBALS['strEditConfigPossible'] = "It is possible to edit all settings because the configuration file is not locked, but this could lead to security issues.
+    If you want to secure your system, you need to lock the configuration file for this installation.";
 $GLOBALS['strUnableToWriteConfig'] = "Die Änderungen konnten nicht in die Konfigurationsdatei übernommen werden";
 $GLOBALS['strUnableToWritePrefs'] = "Die Voreinstellungen konnten nicht in die Datenbank geschrieben werden.";
 $GLOBALS['strImageDirLockedDetected'] = "Für das angegebene <b>Banner-Verzeichnis</b> hat der Server keine Schreibrechte.<br>Sie können den Vorgang erst fortsetzen wenn Sie die Verzeichnisrechte ändern oder das Verzeichnis anlegen.";
@@ -97,6 +103,7 @@ $GLOBALS['strEmailAddresses'] = "E-Mail \"Von\" Adresse";
 $GLOBALS['strEmailFromName'] = "E-Mail \"Von\" Name";
 $GLOBALS['strEmailFromAddress'] = "E-Mail \"Von\" E-Mail Adresse";
 $GLOBALS['strEmailFromCompany'] = "E-Mail \"Von\" Firma";
+$GLOBALS['strUseManagerDetails'] = 'Use the owning account\'s Contact, Email and Name instead of the above Name, Email Address and Company when emailing reports to Advertiser or Website accounts.';
 $GLOBALS['strQmailPatch'] = "Änderungen für qmail";
 $GLOBALS['strEnableQmailPatch'] = "Kopfzeile auch für qmail lesbar machen";
 $GLOBALS['strEmailHeader'] = "E-Mail-Header";
@@ -157,18 +164,45 @@ $GLOBALS['strTypeFTPErrorNoSupport'] = "Ihre PHP-Installation unterstützt kein 
 $GLOBALS['strTypeFTPErrorUpload'] = "Hochladen auf den FTP-Server nicht möglich, überprüfen Sie die Zugangsrechte in dem Host-Verzeichnis.";
 $GLOBALS['strTypeFTPErrorHost'] = "Rechnername für FTP-Server ist fehlerhaft";
 $GLOBALS['strDeliveryFilenames'] = "Namen der Dateien, die das System zur Werbemittelauslieferung nutzt";
+$GLOBALS['strDeliveryFilenamesAdClick'] = "Ad Click";
+$GLOBALS['strDeliveryFilenamesSignedAdClick'] = "Signed Ad Click";
 $GLOBALS['strDeliveryFilenamesAdConversionVars'] = "Ad Conversion Variablen";
+$GLOBALS['strDeliveryFilenamesAdContent'] = "Ad Content";
+$GLOBALS['strDeliveryFilenamesAdConversion'] = "Ad Conversion";
+$GLOBALS['strDeliveryFilenamesAdConversionJS'] = "Ad Conversion (JavaScript)";
+$GLOBALS['strDeliveryFilenamesAdFrame'] = "Ad Frame";
+$GLOBALS['strDeliveryFilenamesAdImage'] = "Ad Image";
+$GLOBALS['strDeliveryFilenamesAdJS'] = "Ad (JavaScript)";
+$GLOBALS['strDeliveryFilenamesAdLayer'] = "Ad Layer";
+$GLOBALS['strDeliveryFilenamesAdLog'] = "Ad Log";
+$GLOBALS['strDeliveryFilenamesAdPopup'] = "Ad Popup";
+$GLOBALS['strDeliveryFilenamesAdView'] = "Ad View";
 $GLOBALS['strDeliveryFilenamesXMLRPC'] = "XML RPC Bannercode";
 $GLOBALS['strDeliveryFilenamesLocal'] = "Lokaler Bannercode";
+$GLOBALS['strDeliveryFilenamesFrontController'] = "Front Controller";
+$GLOBALS['strDeliveryFilenamesSinglePageCall'] = "Single Page Call";
+$GLOBALS['strDeliveryFilenamesSinglePageCallJS'] = "Single Page Call (JavaScript)";
+$GLOBALS['strDeliveryFilenamesAsyncJS'] = "Async JavaScript (source file)";
+$GLOBALS['strDeliveryFilenamesAsyncPHP'] = "Async JavaScript";
+$GLOBALS['strDeliveryFilenamesAsyncSPC'] = "Async JavaScript Single Page Call";
 $GLOBALS['strDeliveryCaching'] = "Allgemeine Einstellungen des Auslieferungs-Caches";
 $GLOBALS['strDeliveryCacheLimit'] = "Zeitintervall zwischen Cache-Aktualisierungen (in Sek.)";
 $GLOBALS['strDeliveryCacheStore'] = "Cache-Typ für die Bannerauslieferung";
+$GLOBALS['strDeliveryAcls'] = "Evaluate banner delivery rules during delivery";
+$GLOBALS['strDeliveryAclsDirectSelection'] = "Evaluate banner delivery rules for direct selected ads";
+$GLOBALS['strDeliveryObfuscate'] = "Obfuscate delivery rule set when delivering ads";
 $GLOBALS['strDeliveryCtDelimiter'] = "Begrenzung des 3rd Party Kick-Trackings";
 $GLOBALS['strGlobalDefaultBannerUrl'] = "Globale Default-Image-Banner URL";
+$GLOBALS['strGlobalDefaultBannerInvalidZone'] = "Global default HTML Banner for non-existing zones";
+$GLOBALS['strGlobalDefaultBannerSuspendedAccount'] = "Global default HTML Banner for suspended accounts";
+$GLOBALS['strGlobalDefaultBannerInactiveAccount'] = "Global default HTML Banner for inactive accounts";
 $GLOBALS['strP3PSettings'] = "P3P-Datenschutzrichtlinien";
 $GLOBALS['strUseP3P'] = "Verwendung von P3P-Richtlinien";
 $GLOBALS['strP3PCompactPolicy'] = "P3P-Datenschutzrichtlinien (kompakte Form)";
 $GLOBALS['strP3PPolicyLocation'] = "Speicherort der P3P-Richtlinien";
+$GLOBALS['strPrivacySettings'] = "Privacy Settings";
+$GLOBALS['strDisableViewerId'] = "Disable unique Viewer Id cookie";
+$GLOBALS['strAnonymiseIp'] = "Anonymise viewer IP addresses";
 
 // General Settings
 $GLOBALS['generalSettings'] = "Allgemeine globale Systemeinstellungen";
@@ -179,6 +213,7 @@ $GLOBALS['defaultLanguage'] = "Voreinstellung der Systemsprache<br />(Jeder Benu
 $GLOBALS['strGeotargetingSettings'] = "Einstellungen Geotargeting";
 $GLOBALS['strGeotargeting'] = "Einstellungen Geotargeting";
 $GLOBALS['strGeotargetingType'] = "Typ des Geotargeting Moduls";
+$GLOBALS['strGeoShowUnavailable'] = "Show geotargeting delivery rules even if GeoIP data unavailable";
 
 // Interface Settings
 $GLOBALS['strInventory'] = "Inventar-Seiten";
@@ -187,9 +222,11 @@ $GLOBALS['strShowBannerInfo'] = "Anzeigen zusätzlicher Bannerinformationen auf 
 $GLOBALS['strShowCampaignPreview'] = "Vorschau aller Werbemittel auf der Seite  <i>Werbemittel</i>";
 $GLOBALS['strShowBannerHTML'] = "Anzeige des Banners anstelle des HTML-Codes bei Vorschau von HTML-Bannern";
 $GLOBALS['strShowBannerPreview'] = "Werbemittelvorschau oben auf allen Seiten mit Bezug zum Werbemittel";
+$GLOBALS['strUseWyswygHtmlEditorByDefault'] = "Use the WYSIWYG HTML Editor by default when creating or editing HTML banners";
 $GLOBALS['strHideInactive'] = "Inaktive ausblenden";
 $GLOBALS['strGUIShowMatchingBanners'] = "Anzeige des zugehörenden Werbemittels auf der Seite <i>Verknüpfte Werbemittel</i>";
 $GLOBALS['strGUIShowParentCampaigns'] = "Anzeige der zugehörenden Kampagne auf der Seite <i>Veknüpfte Werbemittel</i>";
+$GLOBALS['strShowEntityId'] = "Show entity identifiers";
 $GLOBALS['strStatisticsDefaults'] = "Statistiken";
 $GLOBALS['strBeginOfWeek'] = "Wochenbeginn";
 $GLOBALS['strPercentageDecimals'] = "Dezimalstellen bei Prozentangaben";
@@ -221,16 +258,24 @@ $GLOBALS['strEnforceUserAgents'] = "Die Statistikdaten <b>nur</b> von den folgen
 $GLOBALS['strBannerStorage'] = "Einstellungen Speicherung der Banner";
 
 // Campaign ECPM settings
+$GLOBALS['strEnableECPM'] = "Use eCPM optimized priorities instead of remnant-weighted priorities";
+$GLOBALS['strEnableContractECPM'] = "Use eCPM optimized priorities instead of standard contract priorities";
+$GLOBALS['strEnableECPMfromRemnant'] = "(If you enable this feature all your remnant campaigns will be deactivated, you will have to update them manually to reactivate them)";
+$GLOBALS['strEnableECPMfromECPM'] = "(If you disable this feature some of your active eCPM campaigns will be deactivated, you will have to update them manually to reactivate them)";
 $GLOBALS['strInactivatedCampaigns'] = "Durch die Änderungen der Voreinstellungen werden die folgende Kampagnen deaktiviert:";
 
 // Statistics & Maintenance Settings
 $GLOBALS['strMaintenanceSettings'] = "Wartungseinstellungen";
 $GLOBALS['strConversionTracking'] = "Einstellungen zum Konversionen-Tracking";
 $GLOBALS['strEnableConversionTracking'] = "Konversionen-Tracking aktivieren";
+$GLOBALS['strBlockInactiveBanners'] = "Don't count ad impressions, clicks or re-direct the user to the target URL if the viewer clicks on a banner that is inactive";
 $GLOBALS['strBlockAdClicks'] = "Zähle keine Ad Klicks wenn der Betrachter auf diese Banner/Zonen-Kombination innerhalb dieses Zeitraums schon geklickt hat (in Sekunden)";
 $GLOBALS['strMaintenanceOI'] = "Wartungsintervall (in Minuten)";
 $GLOBALS['strPrioritySettings'] = "Einstellung der Prioritäten";
 $GLOBALS['strPriorityInstantUpdate'] = "Sofortige Neuberechnung der Prioritäten nach Änderungen in der Benutzeroberfläche.";
+$GLOBALS['strPriorityIntentionalOverdelivery'] = "Intentionally over-deliver Contract Campaigns<br />(% over-delivery)";
+$GLOBALS['strDefaultImpConvWindow'] = "Default Ad Impression Conversion Window (seconds)";
+$GLOBALS['strDefaultCliConvWindow'] = "Default Ad Click Conversion Window (seconds)";
 $GLOBALS['strAdminEmailHeaders'] = "Alle e-Mails, die von {$PRODUCT_NAME} gesendet werden, erhalten die folgenden Header hinzugefügt";
 $GLOBALS['strWarnLimit'] = "Warnung per E-Mail bei Unterschreiten der definierten Untergrenze";
 $GLOBALS['strWarnLimitDays'] = "Sende eine Warnung wenn weniger Tage verblieben sind als hier angegeben.";
@@ -266,3 +311,4 @@ $GLOBALS['strPlatformHashInsertingError'] = "Fehler beim Eintragen des Platform 
 // Plugin Settings
 $GLOBALS['strPluginSettings'] = "Plugin Einstellungen";
 $GLOBALS['strEnableNewPlugins'] = "Aktiviere neu installierte Plugins";
+$GLOBALS['strUseMergedFunctions'] = "Use merged delivery functions file";

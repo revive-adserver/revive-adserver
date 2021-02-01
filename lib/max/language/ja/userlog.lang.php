@@ -26,6 +26,7 @@ $GLOBALS['strAdvertiser'] = "広告主";
 $GLOBALS['strPublisher'] = "Webサイト";
 $GLOBALS['strCampaign'] = "キャンペーン";
 $GLOBALS['strZone'] = "ゾーン";
+$GLOBALS['strType'] = "Type";
 $GLOBALS['strAction'] = "アクション";
 $GLOBALS['strParameter'] = "パラメータ";
 $GLOBALS['strValue'] = "数値";
@@ -39,4 +40,13 @@ $GLOBALS['strClear'] = "クリア";
 if (!isset($GLOBALS['strUserlog'])) {
     $GLOBALS['strUserlog'] = array();
 }
+$GLOBALS['strUserlog'][phpAds_actionAdvertiserReportMailed] = "Report for advertiser {id} send by email";
+$GLOBALS['strUserlog'][phpAds_actionActiveCampaign] = "Campaign {id} activated";
+$GLOBALS['strUserlog'][phpAds_actionAutoClean] = "Auto clean of database";
+$GLOBALS['strUserlog'][phpAds_actionBatchStatistics] = "Statistics compiled";
+$GLOBALS['strUserlog'][phpAds_actionDeactivationMailed] = "Deactivation notification for campaign {id} send by email";
+$GLOBALS['strUserlog'][phpAds_actionDeactiveCampaign] = "Campaign {id} deactivated";
+$GLOBALS['strUserlog'][phpAds_actionPriorityCalculation] = "Priority recalculated";
+$GLOBALS['strUserlog'][phpAds_actionPublisherReportMailed] = "Report for website {id} send by email";
+$GLOBALS['strUserlog'][phpAds_actionWarningMailed] = "Deactivation warning for campaign {id} send by email";
 $GLOBALS['strUserlog'][phpAds_actionActivationMailed] = "キャンペーン: {id} の非アクティブ警告を電子メールにて送信する";

@@ -89,6 +89,8 @@ $GLOBALS['strNoNewVersionAvailable'] = "	Twoja wersja {$PRODUCT_NAME} jest najba
 
 $GLOBALS['strServerCommunicationError'] = "<b>Serwer z aktualizacjami nie odpowiada. {$PRODUCT_NAME} nie może w tym momencie sprawdzić czy dostępna jest bardziej aktualna wersja. Odczekaj kilka minut i spróbuj ponownie</b>";
 
+$GLOBALS['strCheckForUpdatesDisabled'] = "    <b>Check for updates is disabled. Please enable via the
+    <a href='account-settings-update.php'>update settings</a> screen.</b>";
 
 $GLOBALS['strNewVersionAvailable'] = "	<b>Dostępna jest nowa wersja {$PRODUCT_NAME}.</b><br /> Zaleca się instalację tej aktualizacji,
 	ponieważ może ona usuwać niektóre z istniejących problemów i dodawać nowe funkcje. Więcej informacji
@@ -110,9 +112,16 @@ $GLOBALS['strRunningOn'] = "obsługujący";
 $GLOBALS['strAndPlain'] = "i";
 
 //  Deliver Limitations
+$GLOBALS['strDeliveryLimitations'] = "Delivery Rules";
+$GLOBALS['strAllBannerChannelCompiled'] = "All banner/delivery rule set compiled delivery rule values have been recompiled";
+$GLOBALS['strBannerChannelResult'] = "Here are the results of the banner/delivery rule set compiled delivery rule validation";
+$GLOBALS['strChannelCompiledLimitationsValid'] = "All compiled delivery rules for delivery rule sets are valid";
+$GLOBALS['strBannerCompiledLimitationsValid'] = "All compiled delivery rules for banners are valid";
 $GLOBALS['strErrorsFound'] = "Znaleziono błędy";
 $GLOBALS['strRepairCompiledLimitations'] = "Stwierdzono pewne nieprawidłowości powyżej, można naprawić je, korzystając z przycisku poniżej, aby ponownie skompilować ograniczenia dla każdego banera/kanału systemu<br />";
 $GLOBALS['strRecompile'] = "Przekompiluj";
+$GLOBALS['strDeliveryEngineDisagreeNotice'] = "Under some circumstances the delivery engine can disagree with the stored delivery rules for banners and delivery rule sets, use the folowing link to validate the delivery rules in the database";
+$GLOBALS['strCheckACLs'] = "Check delivery rules";
 
 //  Append codes
 $GLOBALS['strAppendCodesDesc'] = "W pewnych okolicznościach mechanizm dostarczania może nie być kompatybilny z kodami dodawanymi do trackerów, użyj tego linku, aby sprawdzić poprawność kodów w bazie danych";
@@ -122,4 +131,9 @@ $GLOBALS['strAppendCodesResult'] = "Oto wyniki walidacji skompilowanch kodów do
 $GLOBALS['strAppendCodesValid'] = "Wszystkie skompilowane kody trackera są ważne";
 $GLOBALS['strRepairAppenedCodes'] = "Stwierdzono pewne nieprawidłowości powyżej, można naprawić te, korzystając z przycisku poniżej, aby ponownie skompilować kody dodane dla każdego trackera w systemie";
 
+$GLOBALS['strPlugins'] = "Plugins";
+$GLOBALS['strPluginsPrecis'] = "Diagnose and repair problems with {$PRODUCT_NAME} plugins";
 
+$GLOBALS['strMenus'] = "Menus";
+$GLOBALS['strMenusPrecis'] = "Rebuild the menu cache";
+$GLOBALS['strMenusCachedOk'] = "Menu cache has been rebuilt";
