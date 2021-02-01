@@ -590,14 +590,18 @@ break;
 }
 if (!empty($ip)) {
 foreach (explode(',', $ip) as $ip) {
-$ip = trim($ip);
-if (($ip != 'unknown') && (!MAX_remotehostPrivateAddress($ip))) {
+if (!preg_match('#^(\d+\.\d+\.\d+\.\d+)(?::\d+)?$#D', trim($ip), $m)) {
+continue;
+}
+$ip = $m[1];
+if (MAX_remotehostPrivateAddress($ip)) {
+continue;
+}
 $_SERVER['REMOTE_ADDR'] = $ip;
 $_SERVER['REMOTE_HOST'] = '';
 $_SERVER['HTTP_VIA'] = '';
 OX_Delivery_logMessage('real address set to '.$ip, 7);
-break;
-}
+return;
 }
 }
 }
