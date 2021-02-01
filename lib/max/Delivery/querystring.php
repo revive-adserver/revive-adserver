@@ -98,15 +98,19 @@ function MAX_querystringConvertParams()
  * to see if the URL is passed in.  If not, it checks the banner from the cache
  * or database.  As a last resort, it either uses the default banner URL or the referer.
  *
- * @param integer $adId The ID of the ad that was clicked or null for no DB lookup
+ * @param integer $adId The ID of the ad that was clicked
+ * @param integer $zoneId The ID of the zone id that was clicked
  *
  * @return string The destination URL
  */
-function MAX_querystringGetDestinationUrl(int $adId = 0, int $zoneId = 0)
+function MAX_querystringGetDestinationUrl($adId = 0, $zoneId = 0)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
     $dest = $_REQUEST[$conf['var']['dest']] ?? '';
     $sig = $_REQUEST[$conf['var']['signature']] ?? '';
+
+    $adId = (int) $adId;
+    $zoneId = (int) $zoneId;
 
     try {
         if (!empty($dest) && $sig !== OX_Delivery_Common_getClickSignature($adId, $zoneId, $dest)) {

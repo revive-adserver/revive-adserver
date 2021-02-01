@@ -40,6 +40,8 @@ What's New in Revive Adserver 5.1.2
  * Fix an issue with determining the real IP addresses of viewers behind a
    proxy server when proxy headers contained the origin port number.
 
+ * Fixed PHP errors in ck.php and cl.php when no banner/zoneid were provided.
+
 
  Non-Backwards Compatible Changes
  --------------------------------
