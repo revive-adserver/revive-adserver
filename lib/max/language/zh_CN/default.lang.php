@@ -187,8 +187,8 @@ $GLOBALS['strTotalConversions'] = "总转化数";
 $GLOBALS['strDateTime'] = "时间";
 $GLOBALS['strTrackerID'] = "追踪器 ID";
 $GLOBALS['strTrackerName'] = "追踪器名称";
-$GLOBALS['strTrackerImageTag'] = "Image 标签";
-$GLOBALS['strTrackerJsTag'] = "Javascript 标签";
+$GLOBALS['strTrackerImageTag'] = "图片";
+$GLOBALS['strTrackerJsTag'] = "Javascript";
 $GLOBALS['strBanners'] = "素材";
 $GLOBALS['strCampaigns'] = "项目";
 $GLOBALS['strCampaignID'] = "项目 ID";
@@ -287,8 +287,8 @@ $GLOBALS['strHideInactiveCampaigns'] = "隐藏未启用的项目";
 $GLOBALS['strInactiveCampaignsHidden'] = "个未启用的项目已被隐藏";
 $GLOBALS['strPriorityInformation'] = "权重";
 $GLOBALS['strECPMInformation'] = "eCPM 优先级";
-$GLOBALS['strHiddenCampaign'] = "Campaign";
-$GLOBALS['strHiddenAdvertiser'] = "广告客户";
+$GLOBALS['strHiddenCampaign'] = "项目";
+$GLOBALS['strHiddenAdvertiser'] = "客户";
 $GLOBALS['strHiddenWebsite'] = "媒体";
 $GLOBALS['strHiddenZone'] = "广告位";
 $GLOBALS['strCampaignDelivery'] = "项目对比";
@@ -365,7 +365,6 @@ $GLOBALS['strCampaignBanners'] = "转到素材列表";
 $GLOBALS['strCookies'] = "Cookie";
 
 // Tracker
-$GLOBALS['strTracker'] = "追踪器";
 $GLOBALS['strTrackers'] = "追踪器";
 $GLOBALS['strAddTracker'] = "添加新的追踪器";
 $GLOBALS['strTrackerForAdvertiser'] = "到";
@@ -399,8 +398,8 @@ $GLOBALS['strBannerProperties'] = "素材";
 $GLOBALS['strNoBanners'] = "您还没有为该项目添加素材。";
 $GLOBALS['strNoBannersAddCampaign'] = "您还没有添加素材。在添加新的素材前，您需要先<a href='campaign-edit.php?clientid=%s'>添加项目</a>。";
 $GLOBALS['strNoBannersAddAdvertiser'] = "您还没有添加素材。在添加新的素材前，您需要先<a href='advertiser-edit.php'>添加客户</a>。";
-$GLOBALS['strConfirmDeleteBanner'] = "删除素材会同时删除相关的投放记录。\n您真的要删除该素材吗？";
-$GLOBALS['strConfirmDeleteBanners'] = "删除素材会同时删除相关的投放记录。\n您真的要删除所有选中的素材吗？";
+$GLOBALS['strConfirmDeleteBanner'] = "删除素材会同时删除相关的投放记录。\\n您真的要删除该素材吗？";
+$GLOBALS['strConfirmDeleteBanners'] = "删除素材会同时删除相关的投放记录。\\n您真的要删除所有选中的素材吗？";
 $GLOBALS['strShowParentCampaigns'] = "显示素材所属的项目";
 $GLOBALS['strHideParentCampaigns'] = "隐藏素材所属的项目";
 $GLOBALS['strHideInactiveBanners'] = "隐藏停用的素材";
@@ -433,14 +432,12 @@ $GLOBALS['strWeight'] = "权重";
 $GLOBALS['strAlt'] = "图片无法显示时的替换文字";
 $GLOBALS['strStatusText'] = "状态栏信息";
 $GLOBALS['strBannerWeight'] = "Banner权重";
-$GLOBALS['strSwfTransparency'] = "允许透明背景";
+$GLOBALS['strAdserverTypeGeneric'] = "通用 HTML Banner";
 $GLOBALS['strBackToBanners'] = "返回素材列表";
 
 // Banner (advanced)
 $GLOBALS['strBannerPrependHTML'] = "在素材前附加 HTML 代码";
 $GLOBALS['strBannerAppendHTML'] = "在素材后附加 HTML 代码";
-
-// Banner (swf)
 
 // Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "投放控制";
@@ -502,7 +499,7 @@ $GLOBALS['strCountry'] = "国家";
 $GLOBALS['strWebsiteZones'] = "查看版位列表";
 
 // Zone
-$GLOBALS['strZone'] = "版位";
+$GLOBALS['strZone'] = "广告位";
 $GLOBALS['strZones'] = "版位";
 $GLOBALS['strAddNewZone'] = "添加新的版位";
 $GLOBALS['strAddNewZone_Key'] = "添加新的版位（<u>N</u>）";
@@ -577,7 +574,6 @@ $GLOBALS['strSelectPlacement'] = "选择项目";
 $GLOBALS['strSelectAd'] = "选择素材";
 $GLOBALS['strSelectPublisher'] = "选择没提";
 $GLOBALS['strSelectZone'] = "选择广告位";
-$GLOBALS['strStatusPending'] = "待定";
 $GLOBALS['strStatusApproved'] = "已批准";
 $GLOBALS['strStatusDisapproved'] = "未批准";
 $GLOBALS['strStatusDuplicate'] = "重复";
@@ -592,11 +588,11 @@ $GLOBALS['strNoStatsForPeriod'] = "%s 到 %s 暂时没有投放记录";
 $GLOBALS['strPublisherDistribution'] = "按媒体";
 $GLOBALS['strCampaignDistribution'] = "按项目";
 $GLOBALS['strViewBreakdown'] = "时间视图";
-$GLOBALS['strBreakdownByDay'] = "按天";
-$GLOBALS['strBreakdownByWeek'] = "按周";
-$GLOBALS['strBreakdownByMonth'] = "按月";
-$GLOBALS['strBreakdownByDow'] = "按星期";
-$GLOBALS['strBreakdownByHour'] = "按小时";
+$GLOBALS['strBreakdownByDay'] = "日期";
+$GLOBALS['strBreakdownByWeek'] = "周";
+$GLOBALS['strBreakdownByMonth'] = "个月";
+$GLOBALS['strBreakdownByDow'] = "星期";
+$GLOBALS['strBreakdownByHour'] = "小时";
 $GLOBALS['strItemsPerPage'] = "每页显示";
 $GLOBALS['strExportStatisticsToExcel'] = "导出为 Excel 格式（<u>E</u>）";
 
@@ -633,7 +629,6 @@ $GLOBALS['strBannercode'] = "素材代码";
 $GLOBALS['strBackToTheList'] = "选择其它报表";
 $GLOBALS['strCharset'] = "字符集";
 $GLOBALS['strAutoDetect'] = "自动检测";
-
 
 // Errors
 $GLOBALS['strNoMatchesFound'] = "没有找到匹配的信息。";
@@ -722,12 +717,12 @@ $GLOBALS['strECPM_short'] = "ECPM";
 $GLOBALS['strID_short'] = "ID";
 $GLOBALS['strRequests_short'] = "请求";
 $GLOBALS['strImpressions_short'] = "展示";
-$GLOBALS['strClicks_short'] = "点击";
+$GLOBALS['strClicks_short'] = "素材点击";
 $GLOBALS['strCTR_short'] = "CTR";
 $GLOBALS['strConversions_short'] = "数据";
 $GLOBALS['strPendingConversions_short'] = "待审";
 $GLOBALS['strImpressionSR_short'] = "展示 SR";
-$GLOBALS['strClickSR_short'] = "点击 SR";
+$GLOBALS['strClickSR_short'] = "素材点击 SR";
 
 // Global Settings
 $GLOBALS['strConfiguration'] = "系统";
@@ -754,10 +749,11 @@ $GLOBALS['strConfirmDeleteAgency'] = "您真的要删除该用户组吗？";
 $GLOBALS['strHideInactiveAgencies'] = "隐藏停用的用户组";
 $GLOBALS['strInactiveAgenciesHidden'] = "个用户组已被隐藏";
 $GLOBALS['strSwitchAccount'] = "切换到该组";
+$GLOBALS['strAgencyStatusInactive'] = "已停用";
 
 // Channels
 $GLOBALS['strChannelToWebsite'] = "到";
-$GLOBALS['strChannelLimitations'] = "投放控制选项";
+$GLOBALS['strChannelLimitations'] = "投放控制";
 $GLOBALS['strChannelsOfWebsite'] = '属于'; //this is added between page name and website name eg. 'delivery rule sets in www.example.com'
 
 // Tracker Variables
@@ -765,8 +761,7 @@ $GLOBALS['strVariableName'] = "变量名";
 $GLOBALS['strVariableDescription'] = "详细描述";
 $GLOBALS['strVariableDataType'] = "数据类型";
 $GLOBALS['strVariablePurpose'] = "目的";
-$GLOBALS['strGeneric'] = "一般";
-$GLOBALS['strNumItems'] = "计数";
+$GLOBALS['strNumItems'] = "追踪器数据计数";
 $GLOBALS['strVariableIsUnique'] = "检查唯一性";
 $GLOBALS['strNumber'] = "数字";
 $GLOBALS['strString'] = "文本";
@@ -784,16 +779,12 @@ $GLOBALS['strVariableCode'] = "Javascript 追踪代码";
 
 // Password recovery
 $GLOBALS['strForgotPassword'] = "忘记密码";
-$GLOBALS['strPasswordRecovery'] = "找回密码";
 $GLOBALS['strEmailRequired'] = "请输入您的 Email";
 $GLOBALS['strPwdRecWrongId'] = "错误 ID";
 $GLOBALS['strPwdRecEnterEmail'] = "请输入您的 Email";
 $GLOBALS['strPwdRecEnterPassword'] = "请输入您的新密码";
-$GLOBALS['strPwdRecResetLink'] = "点击链接开始重置密码";
-$GLOBALS['strPwdRecEmailPwdRecovery'] = "%s 找回密码";
 $GLOBALS['strProceed'] = "继续 >";
-$GLOBALS['strNotifyPageMessage'] = "已经将重置密码的链接通过 Email 发送给您。如果您没有收到链接，请检查您的“垃圾邮件”文件夹。<br />
-                                         <a href=\"index.php\">返回登录页</a>";
+
 
 // Audit
 $GLOBALS['strAuditTrailDisabled'] = "Audit Trail has been disabled by administrator. No further events are logged and shown in Audit Trail list.";

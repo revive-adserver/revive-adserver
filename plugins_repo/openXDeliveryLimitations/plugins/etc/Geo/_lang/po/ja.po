@@ -11,8 +11,8 @@ msgstr ""
 "X-Crowdin-Project: revive-adserver\n"
 "X-Crowdin-Project-ID: 78987\n"
 "X-Crowdin-Language: ja\n"
-"X-Crowdin-File: /plugins_repo/openXDeliveryLimitations/plugins/etc/Geo/_lang/po/en.po\n"
-"X-Crowdin-File-ID: 173\n"
+"X-Crowdin-File: /openXDeliveryLimitations/plugins/etc/Geo/_lang/po/en.po\n"
+"X-Crowdin-File-ID: 366\n"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/ConnectionType.res.inc.php:19
 msgid "Unknown"

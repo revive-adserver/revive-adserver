@@ -46,13 +46,11 @@ $GLOBALS['strImagesUrlPrefixSSL'] = "URL хранилища изображени
 /* ------------------------------------------------------- */
 
 // Global
-$GLOBALS['strChooseSection'] = "Выберите раздел";
 $GLOBALS['strUnableToWriteConfig'] = "Невозможно сохранить изменения в файл конфигурации";
 $GLOBALS['strUnableToWritePrefs'] = "Невозможно сохранить настройки в БД";
 $GLOBALS['strImageDirLockedDetected'] = "Указанная<b>папка для изображений</b>недоступна для записи. <br>Необходимо изменить настройки доступа, или создать папку.";
 
 // Configuration Settings
-$GLOBALS['strConfigurationSettings'] = "Настройки конфигурации";
 
 // Administrator Settings
 $GLOBALS['strAdminUsername'] = "Имя пользователя-администратора";
@@ -149,10 +147,8 @@ $GLOBALS['strDeliveryFilenamesAdView'] = "Просмотр баннера";
 $GLOBALS['strDeliveryFilenamesXMLRPC'] = "Вызов XML-RPC";
 $GLOBALS['strDeliveryFilenamesLocal'] = "Локальный вызов";
 $GLOBALS['strDeliveryFilenamesFrontController'] = "Фронт контроллер";
-$GLOBALS['strDeliveryFilenamesFlash'] = "Flash-включение (может быть полным URL)";
 $GLOBALS['strDeliveryCaching'] = "Настройки кэширования доставки";
 $GLOBALS['strDeliveryCacheLimit'] = "Время между обновлениями кэша (сек.)";
-$GLOBALS['strDeliveryExecPhp'] = "Разрешить исполнение кода PHP (Предупреждение: эта опция небезопасна)";
 $GLOBALS['strDeliveryCtDelimiter'] = "Разделитель для сторонних трекеров";
 $GLOBALS['strGlobalDefaultBannerUrl'] = "Глобальное значение баннера по умолчанию URL";
 $GLOBALS['strP3PSettings'] = "Настройки P3P (политика обращения с частной информацией) ";
@@ -223,7 +219,7 @@ $GLOBALS['strWarnAgency'] = "Отправлять сообщение агент�
 
 // UI Settings
 $GLOBALS['strGuiSettings'] = "Настройка интерфейса пользователя";
-$GLOBALS['strGeneralSettings'] = "Общие настройки";
+$GLOBALS['strGeneralSettings'] = "Общие установки";
 $GLOBALS['strAppName'] = "Имя приложения";
 $GLOBALS['strMyHeader'] = "Мой заголовок";
 $GLOBALS['strMyFooter'] = "Мой подвал";

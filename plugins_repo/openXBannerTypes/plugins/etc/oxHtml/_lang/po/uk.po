@@ -11,8 +11,8 @@ msgstr ""
 "X-Crowdin-Project: revive-adserver\n"
 "X-Crowdin-Project-ID: 78987\n"
 "X-Crowdin-Language: ru-UA\n"
-"X-Crowdin-File: /plugins_repo/openXBannerTypes/plugins/etc/oxHtml/_lang/po/en.po\n"
-"X-Crowdin-File-ID: 168\n"
+"X-Crowdin-File: /openXBannerTypes/plugins/etc/oxHtml/_lang/po/en.po\n"
+"X-Crowdin-File-ID: 298\n"
 
 #: plugins_repo/openXBannerTypes/plugins/bannerTypeHtml/oxHtml/html5.class.php:40
 msgid "HTML5 Banner (ZIP package)"

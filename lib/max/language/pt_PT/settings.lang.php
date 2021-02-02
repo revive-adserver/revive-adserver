@@ -53,7 +53,6 @@ $GLOBALS['strUnableToWritePrefs'] = "É possível editar toas configurações po
 $GLOBALS['strImageDirLockedDetected'] = "O <b>Diretório de imagens</b> fornecido não possui permissão de escrita pelo servidor. <br>Você não poderá prosseguir até alterar as permissões ou criar a pasta.";
 
 // Configuration Settings
-$GLOBALS['strConfigurationSettings'] = "Dados de configuração";
 
 // Administrator Settings
 $GLOBALS['strAdminUsername'] = "Usuário administrativo";
@@ -154,10 +153,8 @@ $GLOBALS['strDeliveryFilenamesAdView'] = "Visualização de anúncio";
 $GLOBALS['strDeliveryFilenamesXMLRPC'] = "Inclusão por XML RPC";
 $GLOBALS['strDeliveryFilenamesLocal'] = "Inserção local";
 $GLOBALS['strDeliveryFilenamesFrontController'] = "Ponto de entrada único (Front Controller)";
-$GLOBALS['strDeliveryFilenamesFlash'] = "Inclusão em Flash (Pode ser URL completo)";
 $GLOBALS['strDeliveryCaching'] = "Configurações de Cache de Entrega de Banners";
 $GLOBALS['strDeliveryCacheLimit'] = "Tempo entre atualizações do Cache de Banners(segundos)";
-$GLOBALS['strDeliveryExecPhp'] = "Permitir a execução de códigos PHP nos anúncios<br />(Atenção: Risco de segurança)";
 $GLOBALS['strDeliveryCtDelimiter'] = "Delimitador de rastreadores de cliques de terceiros";
 $GLOBALS['strP3PSettings'] = "Políticas de Privacidade P3P";
 $GLOBALS['strUseP3P'] = "Usar políticas P3P";

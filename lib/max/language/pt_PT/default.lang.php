@@ -64,7 +64,6 @@ $GLOBALS['strNo'] = "Não";
 $GLOBALS['strNone'] = "Nenhum";
 $GLOBALS['strCustom'] = "Personalizado";
 $GLOBALS['strDefault'] = "Padrão";
-$GLOBALS['strUnknown'] = "Desconhecido";
 $GLOBALS['strUnlimited'] = "Ilimitado";
 $GLOBALS['strUntitled'] = "Sem título";
 $GLOBALS['strAll'] = "todos";
@@ -377,16 +376,8 @@ $GLOBALS['strStatusText'] = "Texto de status";
 $GLOBALS['strBannerWeight'] = "Peso do banner";
 $GLOBALS['strAdserverTypeGeneric'] = "Banner HTML genérico";
 $GLOBALS['strGenericOutputAdServer'] = "Genérico";
-$GLOBALS['strSwfTransparency'] = "Permitir fundo transparente";
 
 // Banner (advanced)
-
-// Banner (swf)
-$GLOBALS['strCheckSWF'] = "Verificar por link codificados dentro do arquivo Flash";
-$GLOBALS['strConvertSWFLinks'] = "Converter links do Flash";
-$GLOBALS['strHardcodedLinks'] = "Links codificados no Flash";
-$GLOBALS['strCompressSWF'] = "Comprimir arquivo SWF para download mais rápido(Flash Player 6 necessário)";
-$GLOBALS['strOverwriteSource'] = "Sobrescrever parâmetro original";
 
 // Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "Opções de entrega";
@@ -581,7 +572,6 @@ $GLOBALS['strBackToTheList'] = "Voltar para lista de relatórios";
 $GLOBALS['strCharset'] = "Conjunto de caracteres";
 $GLOBALS['strAutoDetect'] = "Auto-detectar";
 
-
 // Errors
 $GLOBALS['strNoMatchesFound'] = "Nenhum resultado encontrado";
 $GLOBALS['strErrorOccurred'] = "Um erro ocorreu";
@@ -711,6 +701,7 @@ $GLOBALS['strConfirmDeleteAgency'] = "Deseja realmente remover esta conta?";
 $GLOBALS['strHideInactiveAgencies'] = "Escolher contas inativas";
 $GLOBALS['strInactiveAgenciesHidden'] = "conta(s) inativa(s) oculta(s)";
 $GLOBALS['strSwitchAccount'] = "Trocar para esta conta";
+$GLOBALS['strAgencyStatusInactive'] = "ativo";
 
 // Channels
 $GLOBALS['strChannelToWebsite'] = "Nenhum site";
@@ -742,15 +733,12 @@ $GLOBALS['strVariableCode'] = "Código de rastreamento em Javascript";
 
 // Password recovery
 $GLOBALS['strForgotPassword'] = "Esqueceu sua senha?";
-$GLOBALS['strPasswordRecovery'] = "Recuperação de senha";
 $GLOBALS['strEmailRequired'] = "E-mail é um campo obrigatório";
 $GLOBALS['strPwdRecWrongId'] = "ID incorreto";
 $GLOBALS['strPwdRecEnterEmail'] = "Digite seu e-mail abaixo";
 $GLOBALS['strPwdRecEnterPassword'] = "Digite sua nova senha abaixo";
-$GLOBALS['strPwdRecResetLink'] = "Link para resetar a senha";
-$GLOBALS['strPwdRecEmailPwdRecovery'] = "%s recuperação de senha";
 $GLOBALS['strProceed'] = "Prosseguir >";
-$GLOBALS['strNotifyPageMessage'] = "Um e-mail foi enviado para o endereço informado, nele esta incluso um link que irá permitir a re-configuração de sua senha.<br />Permita alguns minutos para o e-mail chegar.<br />Caso não receba o e-mail, verifique a pasta de spam.<br /><a href='index.php'>Voltar para página de login.</a>";
+
 
 // Audit
 $GLOBALS['strAdditionalItems'] = "e itens adicionais";

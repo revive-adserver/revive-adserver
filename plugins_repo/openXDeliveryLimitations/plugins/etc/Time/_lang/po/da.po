@@ -12,8 +12,8 @@ msgstr ""
 "X-Crowdin-Project: revive-adserver\n"
 "X-Crowdin-Project-ID: 78987\n"
 "X-Crowdin-Language: da\n"
-"X-Crowdin-File: /plugins_repo/openXDeliveryLimitations/plugins/etc/Time/_lang/po/en.po\n"
-"X-Crowdin-File-ID: 175\n"
+"X-Crowdin-File: /openXDeliveryLimitations/plugins/etc/Time/_lang/po/en.po\n"
+"X-Crowdin-File-ID: 352\n"
 
 #: plugins_repo/openXDeliveryLimitations/extensions/deliveryLimitations/Time//Hour.class.php:68
 msgid "Hour of day"

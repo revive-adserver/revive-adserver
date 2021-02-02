@@ -11,8 +11,8 @@ msgstr ""
 "X-Crowdin-Project: revive-adserver\n"
 "X-Crowdin-Project-ID: 78987\n"
 "X-Crowdin-Language: hu\n"
-"X-Crowdin-File: /plugins_repo/openXDeliveryLimitations/plugins/etc/Client/_lang/po/en.po\n"
-"X-Crowdin-File-ID: 172\n"
+"X-Crowdin-File: /openXDeliveryLimitations/plugins/etc/Client/_lang/po/en.po\n"
+"X-Crowdin-File-ID: 364\n"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/OsVersion.class.php:64
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Client/BrowserVersion.class.php:63
