@@ -9,8 +9,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Crowdin-Project: revive-adserver\n"
+"X-Crowdin-Project-ID: 78987\n"
 "X-Crowdin-Language: zh-CN\n"
-"X-Crowdin-File: /plugins_repo/openXDeliveryCacheStore/plugins/etc/oxMemcached/_lang/po/en.po\n"
+"X-Crowdin-File: /openXDeliveryCacheStore/plugins/etc/oxMemcached/_lang/po/en.po\n"
+"X-Crowdin-File-ID: 382\n"
 
 #: plugins_repo/openXDeliveryCacheStore/plugins/deliveryCacheStore/oxMemcached/oxMemcached.class.php:33
 msgid "memcached"

@@ -43,9 +43,6 @@ $GLOBALS['strShowStatus'] = "状态";
 
 // XML-RPC
 
-// Support for 3rd party server clicktracking
-$GLOBALS['str3rdPartyTrack'] = "支持第三方点击率统计工具";
-
 // Support for cachebusting code
 $GLOBALS['strCacheBuster'] = "包含 Cache Buster 参数";
 

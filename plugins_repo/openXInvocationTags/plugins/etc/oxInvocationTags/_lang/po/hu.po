@@ -11,8 +11,8 @@ msgstr ""
 "X-Crowdin-Project: revive-adserver\n"
 "X-Crowdin-Project-ID: 78987\n"
 "X-Crowdin-Language: hu\n"
-"X-Crowdin-File: /plugins_repo/openXInvocationTags/plugins/etc/oxInvocationTags/_lang/po/en.po\n"
-"X-Crowdin-File-ID: 177\n"
+"X-Crowdin-File: /openXInvocationTags/plugins/etc/oxInvocationTags/_lang/po/en.po\n"
+"X-Crowdin-File-ID: 250\n"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/async.class.php:37
 msgid "Asynchronous JS Tag"
@@ -35,12 +35,12 @@ msgid "Publisher code - Single Page Call"
 msgstr "Megjelenítő kód - Egyetlen oldalhívás"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/spc.class.php:229
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/spc.class.php:403
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/spc.class.php:401
 msgid "Option - noscript"
 msgstr "Opcionális - noscript"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/spc.class.php:233
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/spc.class.php:418
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/spc.class.php:416
 msgid "Option - SSL"
 msgstr "Opcionális - SSL"
 

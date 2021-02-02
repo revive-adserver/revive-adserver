@@ -11,8 +11,8 @@ msgstr ""
 "X-Crowdin-Project: revive-adserver\n"
 "X-Crowdin-Project-ID: 78987\n"
 "X-Crowdin-Language: id\n"
-"X-Crowdin-File: /plugins_repo/openXDeliveryCacheStore/plugins/etc/oxMemcached/_lang/po/en.po\n"
-"X-Crowdin-File-ID: 171\n"
+"X-Crowdin-File: /openXDeliveryCacheStore/plugins/etc/oxMemcached/_lang/po/en.po\n"
+"X-Crowdin-File-ID: 382\n"
 
 #: plugins_repo/openXDeliveryCacheStore/plugins/deliveryCacheStore/oxMemcached/oxMemcached.class.php:33
 msgid "memcached"

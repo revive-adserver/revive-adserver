@@ -338,7 +338,7 @@ $GLOBALS['strAnonymous'] = "Скрыть клиента и сайты этой �
 $GLOBALS['strTargetPerDay'] = "в день.";
 $GLOBALS['strCampaignStatusPending'] = "Ожидают";
 $GLOBALS['strCampaignStatusInactive'] = "активен";
-$GLOBALS['strCampaignStatusRunning'] = "Запущен ";
+$GLOBALS['strCampaignStatusRunning'] = "Запущен";
 $GLOBALS['strCampaignStatusPaused'] = "Приостановлен";
 $GLOBALS['strCampaignStatusAwaiting'] = "Ожидает";
 $GLOBALS['strCampaignStatusExpired'] = "Завершен";
@@ -351,7 +351,9 @@ $GLOBALS['strCampaignStatusDeleted'] = "Удалено";
 $GLOBALS['strCampaignType'] = "Название кампании";
 $GLOBALS['strType'] = "Тип";
 $GLOBALS['strContract'] = "Контакт";
+$GLOBALS['strOverride'] = "Отменить";
 $GLOBALS['strStandardContract'] = "Контакт";
+$GLOBALS['strRemnant'] = "Остаток";
 
 // Tracker
 $GLOBALS['strTracker'] = "Трекер";
@@ -430,19 +432,11 @@ $GLOBALS['strBannerWeight'] = "Вес баннера";
 $GLOBALS['strAdserverTypeGeneric'] = "Простой HTML-баннер";
 $GLOBALS['strDoNotAlterHtml'] = "Не изменять HTML";
 $GLOBALS['strGenericOutputAdServer'] = "Простой";
-$GLOBALS['strSwfTransparency'] = "Разрешить прозрачный фон";
 $GLOBALS['strBackToBanners'] = "Вернуться к баннерам";
 
 // Banner (advanced)
 $GLOBALS['strBannerPrependHTML'] = "Всегда вставляйте следующий HTML-код для этого баннера";
 $GLOBALS['strBannerAppendHTML'] = "Всегда добавляйте следующий HTML-код для этого баннера";
-
-// Banner (swf)
-$GLOBALS['strCheckSWF'] = "Проверять наличие жестко закодированных ссылок внутри Flash-файлов";
-$GLOBALS['strConvertSWFLinks'] = "Преобразовать Flash-ссылки";
-$GLOBALS['strHardcodedLinks'] = "Жёстко закодированные ссылки";
-$GLOBALS['strCompressSWF'] = "Сжать SWF-файл для ускорения загрузки (требует установки Flash 6 плагина)";
-$GLOBALS['strOverwriteSource'] = "Перезаписать параметр источника";
 
 // Display Delviery Rules
 $GLOBALS['strModifyBannerAcl'] = "Ограничения показа";
@@ -619,6 +613,7 @@ $GLOBALS['strDaysAgo'] = "дней назад";
 $GLOBALS['strCampaignStop'] = "Остановка кампании";
 
 // Reports
+$GLOBALS['strAdvancedReports'] = "Расширенные отчеты";
 $GLOBALS['strPeriod'] = "Период";
 
 // Admin_UI_Fields
@@ -646,7 +641,6 @@ $GLOBALS['strTrackercode'] = "Код трекера";
 $GLOBALS['strBackToTheList'] = "Вернуться к списку отчетов";
 $GLOBALS['strCharset'] = "Кодировка";
 $GLOBALS['strAutoDetect'] = "Автоопределение";
-
 
 // Errors
 $GLOBALS['strNoMatchesFound'] = "Ничего не найдено";
@@ -797,6 +791,7 @@ $GLOBALS['strConfirmDeleteAgency'] = "Вы действительно хотит
 $GLOBALS['strHideInactiveAgencies'] = "Скрыть неактивные учетные записи";
 $GLOBALS['strInactiveAgenciesHidden'] = "неактивные учетные записи скрыты";
 $GLOBALS['strSwitchAccount'] = "Переключиться в этот аккаунт";
+$GLOBALS['strAgencyStatusInactive'] = "активен";
 
 // Channels
 $GLOBALS['strChannelToWebsite'] = "Ни один веб-сайт";
@@ -828,14 +823,11 @@ $GLOBALS['strVariableCode'] = "Код отслеживания JS";
 
 // Password recovery
 $GLOBALS['strForgotPassword'] = "Забыли пароль?";
-$GLOBALS['strPasswordRecovery'] = "Восстановление пароля";
 $GLOBALS['strEmailRequired'] = "Поле \"E-mail\" обязательно для заполнения";
 $GLOBALS['strPwdRecWrongId'] = "Неправильный ID";
 $GLOBALS['strPwdRecEnterEmail'] = "Введите ваш адрес электронной почты";
 $GLOBALS['strPwdRecEnterPassword'] = "Введите ваш новый пароль";
-$GLOBALS['strPwdRecResetLink'] = "Ссылка для сброса пароля";
-$GLOBALS['strPwdRecEmailPwdRecovery'] = "%s восстановление пароля";
-$GLOBALS['strNotifyPageMessage'] = "Вам было отправлено письмо, которое позволит сбросить ваш старый пароль и авторизоваться.<br />Подождите несколько минут и проверьте ваш почтовый ящик.<br />Если вы не получите письмо в течение нескольких минут - проверьте вашу папку со СПАМом.<br /><a href='index.php'>Вернуться на страницу авторизации.</a>";
+
 
 // Audit
 $GLOBALS['strAdditionalItems'] = "добавить дополнительные элементы";
@@ -889,5 +881,5 @@ $GLOBALS['keySearch'] = "П";
 $GLOBALS['keyCollapseAll'] = "З";
 $GLOBALS['keyExpandAll'] = "Р";
 $GLOBALS['keyAddNew'] = "н";
-$GLOBALS['keyNext'] = "С";
+$GLOBALS['keyNext'] = "н";
 $GLOBALS['keyPrevious'] = "П";

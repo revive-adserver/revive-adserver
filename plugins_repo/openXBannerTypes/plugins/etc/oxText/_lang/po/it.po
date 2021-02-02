@@ -11,8 +11,8 @@ msgstr ""
 "X-Crowdin-Project: revive-adserver\n"
 "X-Crowdin-Project-ID: 78987\n"
 "X-Crowdin-Language: it\n"
-"X-Crowdin-File: /plugins_repo/openXBannerTypes/plugins/etc/oxText/_lang/po/en.po\n"
-"X-Crowdin-File-ID: 169\n"
+"X-Crowdin-File: /openXBannerTypes/plugins/etc/oxText/_lang/po/en.po\n"
+"X-Crowdin-File-ID: 302\n"
 
 #: plugins_repo/openXBannerTypes/plugins/bannerTypeText/oxText/genericText.class.php:35
 msgid "Generic Text Banner"

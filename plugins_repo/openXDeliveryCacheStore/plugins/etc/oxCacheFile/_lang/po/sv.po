@@ -11,8 +11,8 @@ msgstr ""
 "X-Crowdin-Project: revive-adserver\n"
 "X-Crowdin-Project-ID: 78987\n"
 "X-Crowdin-Language: sv-SE\n"
-"X-Crowdin-File: /plugins_repo/openXDeliveryCacheStore/plugins/etc/oxCacheFile/_lang/po/en.po\n"
-"X-Crowdin-File-ID: 170\n"
+"X-Crowdin-File: /openXDeliveryCacheStore/plugins/etc/oxCacheFile/_lang/po/en.po\n"
+"X-Crowdin-File-ID: 380\n"
 
 #: plugins_repo/openXDeliveryCacheStore/plugins/deliveryCacheStore/oxCacheFile/oxCacheFile.class.php:31
 msgid "File based cache"

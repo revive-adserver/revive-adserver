@@ -15,7 +15,7 @@ $GLOBALS['strInstall'] = "安装";
 $GLOBALS['strDatabaseSettings'] = "数据库";
 $GLOBALS['strAdminAccount'] = "Administrator Account";
 $GLOBALS['strAdvancedSettings'] = "高级设置";
-$GLOBALS['strWarning'] = "警告！​​​​​";
+$GLOBALS['strWarning'] = "警告";
 $GLOBALS['strBtnContinue'] = "继续»";
 $GLOBALS['strBtnRecover'] = "恢复»";
 $GLOBALS['strBtnAgree'] = "我同意»";
@@ -73,7 +73,7 @@ $GLOBALS['strGeotargetingSettings'] = "地理信息库";
 $GLOBALS['strGeotargeting'] = "地理信息库";
 
 // Interface Settings
-$GLOBALS['strInventory'] = "管理界面";
+$GLOBALS['strInventory'] = "库存";
 $GLOBALS['strShowCampaignInfo'] = "在<i>项目列表</i>页面显示更多信息";
 $GLOBALS['strShowBannerInfo'] = "在<i>素材列表</i>页面显示更多信息";
 $GLOBALS['strShowCampaignPreview'] = "在<i>素材列表</i>页面显示所有素材的预览";
@@ -115,7 +115,7 @@ $GLOBALS['strWarnAgency'] = "项目即将过期时发送通知";
 
 // UI Settings
 $GLOBALS['strGuiSettings'] = "用户界面";
-$GLOBALS['strGeneralSettings'] = "基本";
+$GLOBALS['strGeneralSettings'] = "常规设置";
 $GLOBALS['strAppName'] = "系统名称";
 $GLOBALS['strMyHeader'] = "页眉文件";
 $GLOBALS['strMyFooter'] = "页脚文件";

@@ -11,8 +11,8 @@ msgstr ""
 "X-Crowdin-Project: revive-adserver\n"
 "X-Crowdin-Project-ID: 78987\n"
 "X-Crowdin-Language: ru-UA\n"
-"X-Crowdin-File: /plugins_repo/openXDeliveryLimitations/plugins/etc/Site/_lang/po/en.po\n"
-"X-Crowdin-File-ID: 174\n"
+"X-Crowdin-File: /openXDeliveryLimitations/plugins/etc/Site/_lang/po/en.po\n"
+"X-Crowdin-File-ID: 350\n"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Site/Channel.class.php:46
 msgid "Is all of"

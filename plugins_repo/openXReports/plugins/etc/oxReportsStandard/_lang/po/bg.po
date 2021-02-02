@@ -11,8 +11,8 @@ msgstr ""
 "X-Crowdin-Project: revive-adserver\n"
 "X-Crowdin-Project-ID: 78987\n"
 "X-Crowdin-Language: bg\n"
-"X-Crowdin-File: /plugins_repo/openXReports/plugins/etc/oxReportsStandard/_lang/po/en.po\n"
-"X-Crowdin-File-ID: 181\n"
+"X-Crowdin-File: /openXReports/plugins/etc/oxReportsStandard/_lang/po/en.po\n"
+"X-Crowdin-File-ID: 336\n"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:70
 msgid "Advertising Analysis Report"

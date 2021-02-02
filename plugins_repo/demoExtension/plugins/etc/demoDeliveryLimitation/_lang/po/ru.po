@@ -9,8 +9,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3));\n"
 "X-Crowdin-Project: revive-adserver\n"
+"X-Crowdin-Project-ID: 78987\n"
 "X-Crowdin-Language: ru\n"
-"X-Crowdin-File: /plugins_repo/demoExtension/plugins/etc/demoDeliveryLimitation/_lang/po/en.po\n"
+"X-Crowdin-File: /demoExtension/plugins/etc/demoDeliveryLimitation/_lang/po/en.po\n"
+"X-Crowdin-File-ID: 252\n"
 
 #: plugins_repo/demoExtension/plugins/deliveryLimitations/demoDeliveryLimitation/demoLimitation.class.php:49
 msgid "Demo"

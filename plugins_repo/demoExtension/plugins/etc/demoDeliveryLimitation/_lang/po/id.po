@@ -11,8 +11,8 @@ msgstr ""
 "X-Crowdin-Project: revive-adserver\n"
 "X-Crowdin-Project-ID: 78987\n"
 "X-Crowdin-Language: id\n"
-"X-Crowdin-File: /plugins_repo/demoExtension/plugins/etc/demoDeliveryLimitation/_lang/po/en.po\n"
-"X-Crowdin-File-ID: 166\n"
+"X-Crowdin-File: /demoExtension/plugins/etc/demoDeliveryLimitation/_lang/po/en.po\n"
+"X-Crowdin-File-ID: 252\n"
 
 #: plugins_repo/demoExtension/plugins/deliveryLimitations/demoDeliveryLimitation/demoLimitation.class.php:49
 msgid "Demo"
