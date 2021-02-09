@@ -1064,24 +1064,6 @@ $GLOBALS['strNotifyPageMessage'] = "Er is een e-mail naar u gestuurd, met daarin
                                          <a href=\"index.php\">Terug naar de inlogpagina.</a>";
 
 $GLOBALS['strPwdRecEmailPwdRecovery'] = "Uw wachtwoord voor %s opnieuw instellen";
-$GLOBALS['strPwdRecEmailBody'] = "Beste {name},
-
-U, of iemand die zich als u voordoet, heeft onlangs gevraagd om uw wachtwoord voor {$PRODUCT_NAME} opnieuw in te stellen.
-
-Als u dit verzoek zelf heeft gedaan, dan kunt u het wachtwoord voor uw gebruikersnaam '{username}' opnieuw instellen door op de volgende link te klikken:
-
-{reset_link}
-
-Als u dit verzoek om het wachtwoord opnieuw in te stellen per ongeluk heeft gedaan, of als u helemaal
-geen verzoek heeft gedaan, dan kunt u deze mail gewoon negeren. Er is niets veranderd aan uw wachtwoord
-en deze password reset link zal vanzelf vervallen.
-
-Als u deze password reset emails blijft ontvangen, dan kan dat er op duiden dat iemand probeert om
-toegang te krijgen tot uw gebruikersnaam. Neem in dat geval contact op met uw support afdeling of de
-systeembeheerder van uw {$PRODUCT_NAME} systeem, en laat hen weten over deze situatie.
-
-{admin_signature}
-";
 $GLOBALS['strPwdRecEmailSincerely'] = "Met vriendelijke groet,";
 
 // Audit
