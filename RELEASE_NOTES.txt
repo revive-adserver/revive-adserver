@@ -42,6 +42,8 @@ What's New in Revive Adserver 5.1.2
 
  * Fixed PHP errors in ck.php and cl.php when no banner/zoneid were provided.
 
+ * Replaced product name with application name in the new recovery emails.
+
 
  Non-Backwards Compatible Changes
  --------------------------------

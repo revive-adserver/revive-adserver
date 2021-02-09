@@ -223,11 +223,13 @@ class OA_Admin_PasswordRecovery
         // the email address may be associated with multiple users
         $aUsers = $this->_dal->searchMatchingUsers($email);
 
+        $applicationName = $aConf['ui']['applicationName'] ?: PRODUCT_NAME;
+
         // Send a separate password reset link in an email for each
         // of the users found that match the email address
         foreach ($aUsers as $u) {
             // Generate the password reset email subject
-            $emailSubject = sprintf($GLOBALS['strPwdRecEmailPwdRecovery'], PRODUCT_NAME);
+            $emailSubject = sprintf($GLOBALS['strPwdRecEmailPwdRecovery'], $applicationName);
 
             // Generate the password reset URL for this user
             $recoveryId = $this->_dal->generateRecoveryId($u['user_id']);
@@ -251,6 +253,7 @@ class OA_Admin_PasswordRecovery
                 $adminSignature = "";
             }
             $emailBody = str_replace('{admin_signature}', $adminSignature, $emailBody);
+            $emailBody = str_replace('{application_name}', $applicationName, $emailBody);
 
             // Send the password reset email
             $oEmail = new OA_Email();

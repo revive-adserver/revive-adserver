@@ -1072,7 +1072,7 @@ $GLOBALS['strNotifyPageMessage'] = "An e-mail has been sent to you, which includ
 $GLOBALS['strPwdRecEmailPwdRecovery'] = "Reset Your %s Password";
 $GLOBALS['strPwdRecEmailBody'] = "Dear {name},
 
-You, or someone pretending to be you, recently requested that your {$PRODUCT_NAME} password be reset.
+You, or someone pretending to be you, recently requested that your {application_name} password be reset.
 
 If this request was made by you, then you can reset the password for your username '{username}' by
 clicking on the following link:
@@ -1085,7 +1085,7 @@ automatically.
 
 If you continue to receive these password reset mails, then it may indicate that someone is attempting
 to gain access to your username. In that case, please contact the support team or system administrator
-for your {$PRODUCT_NAME} system, and notify them of the situation.
+for your {application_name} system, and notify them of the situation.
 
 {admin_signature}";
 $GLOBALS['strPwdRecEmailSincerely'] = "Sincerely,";
