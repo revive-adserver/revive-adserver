@@ -131,22 +131,6 @@
 	    </table>
     {/if}
   </div>
-  
-	<script type="text/javascript">
-	{* Embeds the main chart data *}
-	{literal}
-	function getDataTopGraph()
-	{
-		var graphDataToDisplay = {/literal}{$dataForTopGraphInJsonFormat}{literal};
-	    return JSON.stringify(graphDataToDisplay);
-	}
-	function getDataBottomGraph()
-	{
-		var graphDataToDisplay = {/literal}{if isset($dataForBottomGraphInJsonFormat)}{$dataForBottomGraphInJsonFormat}{else}''{/if}{literal};
-	    return JSON.stringify(graphDataToDisplay);
-	}
-	{/literal}
-	</script>
 {/if}
 </div>
 

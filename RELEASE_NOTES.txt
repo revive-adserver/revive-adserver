@@ -44,6 +44,8 @@ What's New in Revive Adserver 5.1.2
 
  * Replaced product name with application name in the new recovery emails.
 
+ * Fixed PHP errors preventing the video reports from properly functioning.
+
 
  Non-Backwards Compatible Changes
  --------------------------------
