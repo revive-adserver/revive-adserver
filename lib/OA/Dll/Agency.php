@@ -53,10 +53,6 @@ class OA_Dll_Agency extends OA_Dll
         $agencyData['contactName']  = $agencyData['contact'];
         $agencyData['emailAddress'] = $agencyData['email'];
         $agencyData['accountId']    = $agencyData['account_id'];
-        $agencyData['status']       = $agencyData['status'];
-
-        // Do not return the password from the Dll.
-        unset($agencyData['password']);
 
         $oAgency->readDataFromArray($agencyData);
         return  true;
@@ -108,11 +104,6 @@ class OA_Dll_Agency extends OA_Dll
             !$this->checkEmail($oAgency->UserEmail)) ||
             !$this->checkStructureNotRequiredStringField($oAgency, 'userEmail', 64)) {
 
-            return false;
-        }
-
-        if (isset($oAgency->username) &&
-            !$this->checkStructureRequiredStringField($oAgency, 'password', 64)) {
             return false;
         }
 
@@ -177,7 +168,7 @@ class OA_Dll_Agency extends OA_Dll
      * @param OA_Dll_AgencyInfo &$oAgency <br />
      *          <b>For adding</b><br />
      *          <b>Required properties:</b> agencyName<br />
-     *          <b>Optional properties:</b> contactName, emailAddress, username, password<br />
+     *          <b>Optional properties:</b> contactName, emailAddress<br />
      *
      *          <b>For modify</b><br />
      *          <b>Required properties:</b> agencyId<br />
@@ -215,23 +206,6 @@ class OA_Dll_Agency extends OA_Dll
                     if (!isset($oAgency->status)) {
                         // Updatre status if it was empty
                         $oAgency->status = (int)$doAgency->status;
-                    }
-                }
-
-                if (isset($agencyData['username']) || isset($agencyData['userEmail'])) {
-                    // Use the authentication plugin to create the user
-                    $oPlugin = OA_Auth::staticGetAuthPlugin();
-                    $userId = $oPlugin->getMatchingUserId($agencyData['userEmail'], $agencyData['username']);
-                    $userId = $oPlugin->saveUser($userId, $agencyData['username'], $agencyData['password'],
-                        $agencyData['contactName'], $agencyData['userEmail'], $agencyData['language'], $oAgency->accountId);
-                    if ($userId) {
-                        // Link the user and give permission to create new accounts
-                        $aAllowedPermissions = array(
-                            OA_PERM_SUPER_ACCOUNT => 'This string intentionally left blank. WTF?');
-                        $aPermissions = array(OA_PERM_SUPER_ACCOUNT);
-                        OA_Permission::setAccountAccess($oAgency->accountId, $userId);
-                        OA_Permission::storeUserAccountsPermissions($aPermissions, $oAgency->accountId,
-                            $userId, $aAllowedPermissions);
                     }
                 }
             } else {
