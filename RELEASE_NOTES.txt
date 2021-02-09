@@ -46,6 +46,9 @@ What's New in Revive Adserver 5.1.2
 
  * Fixed PHP errors preventing the video reports from properly functioning.
 
+ * Fixed an issue preventing the "bannertext" property from being added or
+   modified using the API.
+
 
  Non-Backwards Compatible Changes
  --------------------------------
