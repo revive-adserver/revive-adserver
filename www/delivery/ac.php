@@ -3327,12 +3327,15 @@ $aMagicMacros[$key] = urlencode($value);
 }
 }
 $aBanner['aMagicMacros'] = $aMagicMacros;
-preg_match_all('#{clickurl(|_enc|_html)}(https?(://|%3[aA]%2[fF]%2[fF]).*?)(?=[\'"])#', $code, $aMatches);
+preg_match_all('#{clickurl(|_enc|_html)}((https?(?::|%3[aA]))?(//|%2[fF]%2[fF])[^ ]+?)(?=[\'" ])#', $code, $aMatches);
 for ($i = 0; $i < count($aMatches[2]); $i++) {
 if (isset($aMagicMacros[$aMatches[0][$i]])) {
 continue;
 }
-$dest = '://' === $aMatches[3][$i] ? $aMatches[2][$i] : urldecode($aMatches[2][$i]);
+$dest = '//' === $aMatches[4][$i] ? $aMatches[2][$i] : urldecode($aMatches[2][$i]);
+if (empty($aMatches[3][$i])) {
+$dest = 'https:'.$dest;
+}
 $dest = _adRenderBuildSignedClickUrl($aBanner, $zoneId, $source, $logClick, $dest);
 switch ($aMatches[1][$i]) {
 default:

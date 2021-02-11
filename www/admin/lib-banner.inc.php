@@ -40,16 +40,21 @@ function phpAds_getBannerCache($banner)
     {
         // Put our click URL and our target parameter in all anchors...
         // The regexp should handle ", ', \", \' as delimiters
-        if (preg_match_all('#<a(\s[^>]*?)href\s*=\s*(\\\\?[\'"])(https?://.*?)\2(.*?) *>#is', $buffer, $m)) {
+        if (preg_match_all('#<a(\s[^>]*?)href\s*=\s*(\\\\?[\'"])((?:https?:|)//.*?)\2(.*?) *>#is', $buffer, $m)) {
             foreach ($m[0] as $k => $v) {
+                $q = $m[2][$k];
+                $urlDest = urlencode(html_entity_decode($m[3][$k], null, 'UTF-8'));
+
                 // Remove target parameters
-                $m[1][$k] = ' '.trim(preg_replace('#target\s*=\s*(\\\\?[\'"]).*?\1#i', '', $m[1][$k]));
-                $m[4][$k] = ' '.trim(preg_replace('#target\s*=\s*(\\\\?[\'"]).*?\1#i', '', $m[4][$k]));
+                $pre = trim(preg_replace('#target\s*=\s*(\\\\?[\'"]).*?\1#i', '', $m[1][$k]));
+                $post = trim(preg_replace('#target\s*=\s*(\\\\?[\'"]).*?\1#i', '', $m[4][$k]));
+                $attr = trim($pre.' '.$post);
 
-                $m[3][$k] = html_entity_decode($m[3][$k], null, 'UTF-8');
+                if (strlen($attr)) {
+                    $attr = ' '.$attr;
+                }
 
-                $urlDest = urlencode($m[3][$k]);
-                $buffer = str_replace($v, "<a{$m[1][$k]}href={$m[2][$k]}{clickurl_html}$urlDest{$m[2][$k]}{$m[4][$k]}target={$m[2][$k]}{target}{$m[2][$k]}>", $buffer);
+                $buffer = str_replace($v, "<a href={$q}{clickurl_html}{$urlDest}{$q} target={$q}{target}{$q}{$attr}>", $buffer);
             }
         }
 
@@ -90,7 +95,7 @@ function php_Ads_wrapBannerHtmlInClickUrl($banner, $buffer)
 {
     // Wrap the banner inside a link if it doesn't seem to handle clicks itself
     if (!empty($banner['url']) && !preg_match('#<(a|area|form|script|object|iframe) #i', $buffer)) {
-        return '<a href="{clickurl}" target="{target}">'.$buffer.'</a>';
+        return '<a href="{clickurl_html}" target="{target}">'.$buffer.'</a>';
     }
     return $buffer;
 }

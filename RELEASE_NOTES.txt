@@ -29,7 +29,8 @@ What's New in Revive Adserver 5.1.2
  New Features
  ------------
 
- * None
+ * Protocol relative URLs (e.g. "//example.com") are now recognised as valid
+   destinations when altering HTML banners to add click tracking.
 
  Bug Fixes
  ---------

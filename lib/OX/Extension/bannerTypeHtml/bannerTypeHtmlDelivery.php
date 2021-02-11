@@ -63,15 +63,13 @@ function Plugin_BannerTypeHTML_delivery_adRender(&$aBanner, $zoneId=0, $source='
         }
     }
 
-    // Get the text below the banner
-    $bannerText = !empty($aBanner['bannertext']) ? "$clickTag{$aBanner['bannertext']}$clickTagEnd" : '';
     // Get the image beacon...
     if ((strpos($code, '{logurl}') === false) && (strpos($code, '{logurl_enc}') === false)) {
         $beaconTag = ($logView && $conf['logging']['adImpressions']) ? _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer) : '';
     } else {
         $beaconTag = '';
     }
-    return $prepend . $code . $bannerText . $beaconTag . $append;
+    return $prepend . $code . $beaconTag . $append;
 }
 
 ?>
