@@ -4422,10 +4422,6 @@ $aResponse = array(
 'html' => $banner['html'],
 'context' => MAX_commonPackContext($banner['context']),
 );
-foreach ($banner['aRow']['aSearch'] as $index => $value) {
-$key = substr($value, 1, strlen($value) -2);
-$aResponse[$key] = $banner['aRow']['aReplace'][$index];
-}
 unset($banner['aRow']['aSearch'], $banner['aRow']['aReplace'], $banner['aRow']['aMagicMacros'], $banner['aRow']['bannerContent']);
 foreach ($banner['aRow'] as $key => $value) {
 if (!in_array($key, array_keys($aResponse))) {
