@@ -275,13 +275,23 @@ function _viewersHostOkayToLog($adId=0, $zoneId=0, $trackerId=0)
  *
  * @param string The name of the variable as defined in the configuration
  *               file's [var] section.
+ * @param array  Use the provided array instead of $_GET (optional)
  * @return array The GET variable exploded to an array, or an empty
  *               array if the GET variable requested is not defined.
  */
-function MAX_Delivery_log_getArrGetVariable(string $name)
+function MAX_Delivery_log_getArrGetVariable(string $name, array $array = null)
 {
+    if (null === $array) {
+        $array = $_GET;
+    }
+
     $varName = $GLOBALS['_MAX']['CONF']['var'][$name];
-    return isset($_GET[$varName]) ? explode($GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $_GET[$varName]) : array();
+
+    if (!isset($array[$varName])) {
+        return [];
+    }
+
+    return explode($GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $array[$varName]);
 }
 
 /**
