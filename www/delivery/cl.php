@@ -2333,10 +2333,16 @@ $okToLog = false;
 }
 return $okToLog;
 }
-function MAX_Delivery_log_getArrGetVariable(string $name)
+function MAX_Delivery_log_getArrGetVariable(string $name, array $array = null)
 {
+if (null === $array) {
+$array = $_GET;
+}
 $varName = $GLOBALS['_MAX']['CONF']['var'][$name];
-return isset($_GET[$varName]) ? explode($GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $_GET[$varName]) : array();
+if (!isset($array[$varName])) {
+return [];
+}
+return explode($GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $array[$varName]);
 }
 function MAX_Delivery_log_ensureIntegerSet(&$aArray, $index)
 {
@@ -3308,8 +3314,8 @@ MAX_cookieSetViewerIdAndRedirect($viewerId);
 $adId = MAX_Delivery_log_getArrGetVariable('adId');
 $creativeId = MAX_Delivery_log_getArrGetVariable('creativeId');
 $zoneId = MAX_Delivery_log_getArrGetVariable('zoneId');
-$lastClick = MAX_Delivery_log_getArrGetVariable('lastClick');
-$aBlockLoggingClick = MAX_Delivery_log_getArrGetVariable('blockLoggingClick');
+$lastClick = MAX_Delivery_log_getArrGetVariable('lastClick', $_COOKIE);
+$aBlockLoggingClick = $_COOKIE[$conf['var']['blockLoggingClick']] ?? [];
 if (!empty($conf['deliveryLog']['enabled'])) {
 foreach ($adId as $k => $v) {
 OX_Delivery_logMessage('$adId['.$k.']='.$v, 7);

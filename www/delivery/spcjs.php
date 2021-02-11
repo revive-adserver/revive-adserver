@@ -2333,10 +2333,16 @@ $okToLog = false;
 }
 return $okToLog;
 }
-function MAX_Delivery_log_getArrGetVariable(string $name)
+function MAX_Delivery_log_getArrGetVariable(string $name, array $array = null)
 {
+if (null === $array) {
+$array = $_GET;
+}
 $varName = $GLOBALS['_MAX']['CONF']['var'][$name];
-return isset($_GET[$varName]) ? explode($GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $_GET[$varName]) : array();
+if (!isset($array[$varName])) {
+return [];
+}
+return explode($GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $array[$varName]);
 }
 function MAX_Delivery_log_ensureIntegerSet(&$aArray, $index)
 {
