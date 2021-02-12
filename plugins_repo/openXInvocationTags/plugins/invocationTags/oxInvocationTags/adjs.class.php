@@ -159,6 +159,7 @@ class Plugins_InvocationTags_OxInvocationTags_adjs extends Plugins_InvocationTag
         $buffer .= "   if (document.referrer) document.write (\"&amp;referer=\" + escape(document.referrer));\n";
         $buffer .= "   if (document.context) document.write (\"&context=\" + escape(document.context));\n";
 
+        $buffer .= "   document.write (\"'><\\/scr\"+\"ipt>\");\n";
         $buffer .= "//]]>--></script>";
 
         if ($mi->extra['delivery'] != phpAds_ZoneText) {

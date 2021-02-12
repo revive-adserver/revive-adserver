@@ -53,6 +53,10 @@ What's New in Revive Adserver 5.1.2
  * Fixed an issue preventing the "Don't count ad clicks... within the
    specified time" feature from working as expected.
 
+ * Fixed an issue in the legacy JavaScript tag generation. All the non async
+   JS tags generated in v5.1.0 and v5.1.1 should be replaced with new ones,
+   as they could break the layout of the websites they have been placed onto.
+
 
  Non-Backwards Compatible Changes
  --------------------------------
