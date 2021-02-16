@@ -44,7 +44,7 @@ class HTML_QuickForm_Rule_Range extends HTML_QuickForm_Rule
      * @access    public
      * @return    boolean   true if value is valid
      */
-    function validate($value, $options)
+    function validate($value, $options = null)
     {
         $length = strlen($value);
         switch ($this->name) {

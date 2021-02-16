@@ -26,10 +26,10 @@ class OA_Admin_UI_Rule_Max
      * @access    public
      * @return    boolean true if value is equal or smaller than max
      */
-    function validate($value, $max)
+    function validate($value, $options = null)
     {
         $numVal = (float)$value;         
-        return $numVal <= $max;
+        return $numVal <= $options;
     } 
 
 

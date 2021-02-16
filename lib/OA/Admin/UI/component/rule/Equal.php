@@ -26,9 +26,9 @@ class OA_Admin_UI_Rule_Equal
      * @access    public
      * @return    boolean   true if a is equal to be
      */
-    function validate($a, $b)
+    function validate($a, $options = null)
     {
-        return ($a == $b[1]) ? true : false;
+        return $a == $options;
     }
 
 

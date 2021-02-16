@@ -26,10 +26,10 @@ class OA_Admin_UI_Rule_Min
      * @access    public
      * @return    boolean   true if value is equal or greater than min
      */
-    function validate($value, $min)
+    function validate($value, $options = null)
     {
         $numVal = (float)$value;         
-        return $numVal >= $min;
+        return $numVal >= $options;
     } 
 
 

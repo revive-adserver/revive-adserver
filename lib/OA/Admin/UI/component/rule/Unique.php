@@ -26,9 +26,9 @@ class OA_Admin_UI_Rule_Unique
      * @access    public
      * @return    boolean   true if value is not in the list of otherValues
      */
-    function validate($value, $otherValues = array())
+    function validate($value, $options = null)
     {
-        return !in_array($value, $otherValues);
+        return !in_array($value, $options ?? []);
     } 
 
 

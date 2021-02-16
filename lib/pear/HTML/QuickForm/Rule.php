@@ -49,7 +49,7 @@ class HTML_QuickForm_Rule
     * @access public
     * @abstract
     */
-    function validate($value)
+    function validate($value, $options = null)
     {
         return true;
     }
