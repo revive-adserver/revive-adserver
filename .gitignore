@@ -20,6 +20,7 @@ phpinfo.php
 /var/templates_compiled/*.serial
 /www/admin/plugins/*
 /www/admin/assets/tinymce
+/www/api/rest
 /www/images/
 /plugins_repo/build-ap.xml
 /plugins_repo/release/*.zip
