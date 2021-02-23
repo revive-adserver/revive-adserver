@@ -64,6 +64,11 @@ What's New in Revive Adserver 5.2.0
    tags, which was a left over from the removal of the non-working
    functionality that had already been removed.
 
+ * Reverted and made optional the change to use srcdoc when rendering async
+   tags as it is not fully compatible with some third party tags. However,
+   the behaviour can be selected by adding data-revive-srcdoc="1" as attribute
+   of the ins HTML tag.
+
 
  Non-Backwards Compatible Changes
  --------------------------------

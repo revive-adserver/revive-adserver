@@ -251,7 +251,6 @@
                  * @param {string} html
                  */
                 loadFrame: function (iframe, html) {
-                    // No pretty newlines anymore, but we only need to do this once
                     var srcdoc = '<!DOCTYPE html>';
                     srcdoc += '<html>';
                     srcdoc += '<head><base target="_top"><meta charset="UTF-8"></head>';
@@ -259,11 +258,11 @@
                     srcdoc += html;
                     srcdoc += '<body>';
                     srcdoc += '</html>';
-                    
-                    if ('srcdoc' in iframe) {
-                        iframe.srcdoc = srcdoc; // If srcdoc is supported we can just assign it
+
+                    if ('srcdoc' in iframe && "1" === iframe.parentElement.getAttribute(this.getDataAttr('srcdoc'))) {
+                        iframe.srcdoc = srcdoc; // If srcdoc is supported and enabled we can just assign it
                     } else {
-                        var d = iframe.contentDocument || iframe.contentWindow.document;
+                        var d = iframe.contentWindow.document || iframe.contentDocument;
                         d.open();
                         d.write(srcdoc); // If srcdoc is not supported write entire srcdoc string to document
                         d.close();
