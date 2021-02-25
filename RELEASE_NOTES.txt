@@ -6,7 +6,7 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
-Release Notes: Revive Adserver 5.1.2
+Release Notes: Revive Adserver 5.2.0
 ====================================
 
 These release notes cover what's new, system requirements, download and
@@ -14,7 +14,7 @@ installation instructions, known issues and frequently asked questions for
 Revive Adserver. Please read these notes before reporting any bugs.
 
 
-What's New in Revive Adserver 5.1.2
+What's New in Revive Adserver 5.2.0
 -----------------------------------
 
  * Release date: t.b.d.
@@ -54,8 +54,8 @@ What's New in Revive Adserver 5.1.2
    specified time" feature from working as expected.
 
  * Fixed an issue in the legacy JavaScript tag generation. All the non async
-   JS tags generated in v5.1.0 and v5.1.1 should be replaced with new ones,
-   as they could break the layout of the websites they have been placed onto.
+   JS tags generated in v5.1.x should be replaced with new ones, as they
+   could break the layout of the websites they have been placed onto.
 
 
  Non-Backwards Compatible Changes
