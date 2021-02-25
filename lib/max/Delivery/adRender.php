@@ -135,8 +135,8 @@ function MAX_adRender(array &$aBanner, int $zoneId = 0, string $source = '', str
         '{clickurl_html}' => '', // Placeholder
     ];
 
-    // Site Variables
-    preg_match_all('#{([a-zA-Z0-9_]*?)(_enc)?}#', $code, $aMatches);
+    // Site Variables in the banner code and destination
+    preg_match_all('#{([a-zA-Z0-9_]*?)(_enc)?}#', $aBanner['url']."\n".$code, $aMatches);
     for ($i = 0; $i < count($aMatches[1]); $i++) {
         if (isset($aMagicMacros[$aMatches[0][$i]])) {
             continue;

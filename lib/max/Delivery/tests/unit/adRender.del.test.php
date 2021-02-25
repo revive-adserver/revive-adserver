@@ -58,6 +58,17 @@ class Test_DeliveryAdRender extends UnitTestCase
         $this->assertTrue($aBanner['clickUrl']);
     }
 
+    function test_MAX_adRender_destMagicMacros()
+    {
+        require MAX_PATH . '/lib/max/Delivery/tests/data/test_adRenderImage.php';
+
+        $aBanner['url'] .= '/?foo={foo}';
+        $_REQUEST['foo'] = 'bar';
+        $return = MAX_adRender($aBanner);
+
+        $this->assertPattern('#foo%3Dbar#', $aBanner['clickUrl']);
+    }
+
     /**
      * render an ad of type image
      *
@@ -344,14 +355,20 @@ class Test_DeliveryAdRender extends UnitTestCase
 
         $aBanner = [
             'bannerid' => '123',
-            'url' => 'http://www.example.com/',
+            'url' => 'http://www.example.com/{foo}/',
+            'aMagicMacros' => [
+                '{foo}' => 'bar',
+            ],
         ];
         $zoneId = 456;
         $source = 'whatever';
         $logClick = true;
         $customDest = null;
 
+        $sig = '04ab096c87353cde0ff112949728034bc8d4123ce6a36893135468db9b330a83';
+        $dest = urlencode('http://www.example.com/bar/');
+
         $ret = _adRenderBuildClickQueryString($aBanner, $zoneId, $source, $logClick, $customDest);
-        $this->assertEqual($ret, "{$conf['var']['adId']}=123&{$conf['var']['zoneId']}=456&source=whatever&{$conf['var']['signature']}=16d57265c5c60985f7c6332b609a135c2b21adaf8d596ee7caf94e3d28688aa8&{$conf['var']['dest']}=http%3A%2F%2Fwww.example.com%2F");
+        $this->assertEqual($ret, "{$conf['var']['adId']}=123&{$conf['var']['zoneId']}=456&source=whatever&{$conf['var']['signature']}={$sig}&{$conf['var']['dest']}={$dest}");
     }
 }

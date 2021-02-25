@@ -57,6 +57,9 @@ What's New in Revive Adserver 5.2.0
    JS tags generated in v5.1.x should be replaced with new ones, as they
    could break the layout of the websites they have been placed onto.
 
+ * Fixed an issue with site variable magic macro detection in the destination
+   url.
+
 
  Non-Backwards Compatible Changes
  --------------------------------
