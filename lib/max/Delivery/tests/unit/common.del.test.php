@@ -36,6 +36,8 @@ class Test_DeliveryCommon extends UnitTestCase
         $this->original_server_port = $_SERVER['SERVER_PORT'];
         $GLOBALS['_MAX']['CONF']['webpath']['delivery']     = 'www.maxstore.net/www/delivery';
         $GLOBALS['_MAX']['CONF']['webpath']['deliverySSL']  = 'secure.maxstore.net/www/delivery';
+
+        $GLOBALS['_MAX']['CONF']['delivery']['secret'] = base64_encode(hash('sha256', 'revive-adserver'));
     }
 
     function tearDown()
@@ -382,6 +384,63 @@ class Test_DeliveryCommon extends UnitTestCase
         $this->assertTrue(true);
     }
 
+    function test_OX_Delivery_Common_checkClickSignature_noTimestamp()
+    {
+        $this->assertFalse(OX_Delivery_Common_checkClickSignature(0, 0, ''));
+
+        // Valid destination and signature
+        $_REQUEST['sig'] = OX_Delivery_Common_getClickSignature(1, 1, 'http://example.com/');
+        $this->assertTrue(OX_Delivery_Common_checkClickSignature(1, 1, 'http://example.com/'));
+
+        // Tamper with IDs or destination
+        $this->assertFalse(OX_Delivery_Common_checkClickSignature(1, 1, 'http://example.com/foo.html'));
+        $this->assertFalse(OX_Delivery_Common_checkClickSignature(1, 2, 'http://example.com/'));
+        $this->assertFalse(OX_Delivery_Common_checkClickSignature(2, 1, 'http://example.com/'));
+    }
+
+    function test_OX_Delivery_Common_checkClickSignature_withTimestamp()
+    {
+        // Set Now
+        $GLOBALS['_MAX']['NOW'] = gmmktime(10, 50, 0, 2, 25, 2021);
+
+        // Sign with no URL, hence using the current time
+        $_REQUEST['ts'] = (string) MAX_commonGetTimeNow();
+        $_REQUEST['sig'] = OX_Delivery_Common_getClickSignature(1, 1, $_REQUEST['ts']);
+
+        // Advance the wall clock
+        $GLOBALS['_MAX']['NOW'] += 30;
+
+        // Zero validity
+        $GLOBALS['_MAX']['CONF']['delivery']['clickUrlValidity'] = 0;
+        $this->assertFalse(OX_Delivery_Common_checkClickSignature(1, 1, 'http://example.com/'));
+
+        // Smaller validity
+        $GLOBALS['_MAX']['CONF']['delivery']['clickUrlValidity'] = 15;
+        $this->assertFalse(OX_Delivery_Common_checkClickSignature(1, 1, 'http://example.com/'));
+
+        // Bigger validity
+        $GLOBALS['_MAX']['CONF']['delivery']['clickUrlValidity'] = 60;
+        $this->assertTrue(OX_Delivery_Common_checkClickSignature(1, 1, 'http://example.com/foo.html'));
+
+        // Exact validity, any dest is ok
+        $GLOBALS['_MAX']['CONF']['delivery']['clickUrlValidity'] = 30;
+        $this->assertTrue(OX_Delivery_Common_checkClickSignature(1, 1, 'http://example.com/'));
+        $this->assertTrue(OX_Delivery_Common_checkClickSignature(1, 1, 'https://example.com/'));
+        $this->assertTrue(OX_Delivery_Common_checkClickSignature(1, 1, 'https://example.com/foo.html'));
+
+        // Unless no destitaion, protocol is not http(s) or IDs have been tampered with
+        $this->assertFalse(OX_Delivery_Common_checkClickSignature(1, 1, ''));
+        $this->assertFalse(OX_Delivery_Common_checkClickSignature(1, 1, 'ftp://example.com/'));
+        $this->assertFalse(OX_Delivery_Common_checkClickSignature(1, 2, 'http://example.com/'));
+        $this->assertFalse(OX_Delivery_Common_checkClickSignature(2, 1, 'http://example.com/'));
+
+        // Or maybe the timestamp
+        $_REQUEST['ts'] = $GLOBALS['_MAX']['NOW'] - 15;
+        $this->assertFalse(OX_Delivery_Common_checkClickSignature(1, 1, 'http://example.com/foobar.html'));
+
+        // Cleanup
+        unset($GLOBALS['_MAX']['NOW']);
+    }
 
 }
 

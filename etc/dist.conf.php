@@ -136,6 +136,7 @@ enableControlOnPureCPM              = true
 assetClientCacheExpire              = 3600  ; Used to create the browser caching directive
                                             ; of semi-static delivery files, e.g. asyncjs.php
 secret                              =
+clickUrlValidity                    = 0;    ; Click URL open redirect validity in seconds
 
 [defaultBanner]
 imageUrl                            =       ; If banner was deleted and ai.php script
@@ -340,6 +341,7 @@ cacheBuster         = cb            ; Cache buster
 channel             = source        ; Channel of the website
 dest                = oadest        ; Used to pass in a URL to redirect to after action
 signature           = sig           ; Used to sign the destination url
+timestamp           = ts            ; Used to stamp the time a click url was generated
 logClick            = log           ; Used to indicate if a click should be logged
 n                   = n             ; Used to name a cookie containing displayed banner information
 params              = oaparams      ; Used to pass in custom delimited key=value pairs into an ad-call

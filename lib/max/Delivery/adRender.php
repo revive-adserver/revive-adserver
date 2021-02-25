@@ -582,12 +582,22 @@ function _adRenderBuildClickQueryString(array $aBanner, int $zoneId = 0, string 
     $dest = _adRenderReplaceMagicMacros($aBanner, $customDestination ?? $aBanner['url'] ?? '');
 
     if ($dest) {
+        // Destination signature
         $aParams[$conf['var']['signature']] = OX_Delivery_Common_getClickSignature(
             $aBanner['bannerid'] ?? 0,
             $zoneId,
             $dest
         );
         $aParams[$conf['var']['dest']] = $dest;
+    } elseif ($conf['delivery']['clickUrlValidity'] > 0) {
+        // Timestamp signature
+        $aParams[$conf['var']['timestamp']] = (string) MAX_commonGetTimeNow();
+        $aParams[$conf['var']['signature']] = OX_Delivery_Common_getClickSignature(
+            $aBanner['bannerid'] ?? 0,
+            $zoneId,
+            $aParams[$conf['var']['timestamp']]
+        );
+        $aParams[$conf['var']['dest']] = '';
     }
 
     return http_build_query($aParams);
