@@ -3299,7 +3299,7 @@ $aMagicMacros = [
 '{advertiserid}' => $aBanner['client_id'],
 '{referer}' => $referer ?? '',
 '{logurl}' => '',  '{logurl_enc}' => '',  '{logurl_html}' => '',  '{clickurl}' => '',  '{clickurl_enc}' => '',  '{clickurl_html}' => '',  ];
-preg_match_all('#{([a-zA-Z0-9_]*?)(_enc)?}#', $code, $aMatches);
+preg_match_all('#{([a-zA-Z0-9_]*?)(_enc)?}#', $aBanner['url']."\n".$code, $aMatches);
 for ($i = 0; $i < count($aMatches[1]); $i++) {
 if (isset($aMagicMacros[$aMatches[0][$i]])) {
 continue;
