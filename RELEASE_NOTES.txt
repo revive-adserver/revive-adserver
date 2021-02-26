@@ -60,6 +60,10 @@ What's New in Revive Adserver 5.2.0
  * Fixed an issue with site variable magic macro detection in the destination
    url.
 
+ * Removed the option to "track Google AdSense clicks" when generating iframe
+   tags, which was a left over from the removal of the non-working
+   functionality that had already been removed.
+
 
  Non-Backwards Compatible Changes
  --------------------------------

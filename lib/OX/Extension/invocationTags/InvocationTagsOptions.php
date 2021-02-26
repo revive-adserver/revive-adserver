@@ -31,7 +31,6 @@ class Plugins_InvocationTagsOptions
             'refresh'           => '',
             'transparent'       => 0,
             'ilayer'            => 0,
-            'iframetracking'    => 0,
             'block'             => 0,
             'blockcampaign'     => 0,
             'raw'               => 0,
@@ -326,25 +325,6 @@ class Plugins_InvocationTagsOptions
         $option .= "<td width='200'>".$GLOBALS['strIframeIncludeNetscape4']."</td>";
         $option .= "<td width='370'><input type='radio' name='ilayer' value='1'".(isset($maxInvocation->ilayer) && $maxInvocation->ilayer == 1 ? ' checked' : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strYes']."<br />";
         $option .= "<input type='radio' name='ilayer' value='0'".(!isset($maxInvocation->ilayer) || $maxInvocation->ilayer == 0 ? ' checked' : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strNo']."</td>";
-        $option .= "</tr>";
-        $option .= "<tr><td width='30'><img src='" . OX::assetPath(). "/images/spacer.gif' height='5' width='100%'></td></tr>";
-        return $option;
-    }
-
-    /**
-     * Generate the HTML option
-     *
-     * @return string    A string containing html for option
-     */
-    function iframetracking()
-    {
-        $maxInvocation = &$this->maxInvocation;
-
-        $option = '';
-        $option .= "<tr><td width='30'>&nbsp;</td>";
-        $option .= "<td width='200'>". $GLOBALS['strIframeGoogleClickTracking'] ."</td>";
-        $option .= "<td width='370'><input type='radio' name='iframetracking' value='1'".(!isset($maxInvocation->iframetracking) || $maxInvocation->iframetracking == 1 ? ' checked' : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strYes']."<br />";
-        $option .= "<input type='radio' name='iframetracking' value='0'".(isset($maxInvocation->iframetracking) && $maxInvocation->iframetracking == 0 ? ' checked' : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strNo']."</td>";
         $option .= "</tr>";
         $option .= "<tr><td width='30'><img src='" . OX::assetPath(). "/images/spacer.gif' height='5' width='100%'></td></tr>";
         return $option;

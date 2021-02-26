@@ -88,7 +88,6 @@ class Plugins_InvocationTags_OxInvocationTags_adframe extends Plugins_Invocation
             'resize'      => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'transparent' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'ilayer'      => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-            'iframetracking' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
         );
 
         return $options;
@@ -113,11 +112,6 @@ class Plugins_InvocationTags_OxInvocationTags_adframe extends Plugins_Invocation
         $mi = &$this->maxInvocation;
         $buffer = $mi->buffer;
         $uniqueid = 'a'.substr(md5(uniqid('', 1)), 0, 7);
-
-        if (!isset($mi->iframetracking) || $mi->iframetracking == 1) {
-            // Add n as first parameter
-            array_unshift($mi->parameters, "{$conf['var']['n']}={$uniqueid}");
-        }
 
         if (isset($mi->refresh) && $mi->refresh != '') {
             if (is_array($mi->parameters)) {
@@ -198,10 +192,6 @@ class Plugins_InvocationTags_OxInvocationTags_adframe extends Plugins_Invocation
                 $buffer .= "&".implode ("&", $mi->parameters);
             }
             $buffer .= "' width='".$mi->frame_width."' height='".$mi->frame_height."' visibility='hidden' onload=\"moveToAbsolute(layer".$uniqueid.".pageX,layer".$uniqueid.".pageY);clip.width=".$mi->frame_width.";clip.height=".$mi->frame_height.";visibility='show';\"></layer>";
-        }
-
-        if (!isset($mi->iframetracking) || $mi->iframetracking != 0) {
-            $buffer .= "<script type='text/javascript' src='".MAX_commonConstructDeliveryUrl($conf['file']['google'])."'></script>";
         }
 
         return $buffer;

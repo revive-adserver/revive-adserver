@@ -58,7 +58,6 @@ class MAX_Admin_Invocation {
             'frame_height',
             'height',
             'hostlanguage',
-            'iframetracking',
             'ilayer',
             'layerstyle',
             'left',
