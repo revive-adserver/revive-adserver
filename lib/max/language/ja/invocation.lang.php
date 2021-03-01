@@ -37,7 +37,6 @@ $GLOBALS['strIFrameRefreshAfter'] = "リフレッシュ時間";
 $GLOBALS['strIframeResizeToBanner'] = "バナーサイズに応じてiframeをリサイズする";
 $GLOBALS['strIframeMakeTransparent'] = "iframeを透過にする";
 $GLOBALS['strIframeIncludeNetscape4'] = "Netscape4互換のilayerを含める";
-$GLOBALS['strIframeGoogleClickTracking'] = "AdSenseのクリックを追跡するコードを含める";
 
 // PopUp
 $GLOBALS['strPopUpStyle'] = "ポップアップスタイル";

@@ -37,7 +37,6 @@ $GLOBALS['strIFrameRefreshAfter'] = "Aggiorna dopo";
 $GLOBALS['strIframeResizeToBanner'] = "Adatta dimensioni IFrame al Banner";
 $GLOBALS['strIframeMakeTransparent'] = "Sfondo IFrame trasparente";
 $GLOBALS['strIframeIncludeNetscape4'] = "Includi ilayer compatibile con Netscape 4";
-$GLOBALS['strIframeGoogleClickTracking'] = "Includi il codice per monitorare i click AdSense di Google";
 
 // PopUp
 $GLOBALS['strPopUpStyle'] = "Tipo di Pop-up";

@@ -36,7 +36,6 @@ $GLOBALS['strIFrameRefreshAfter'] = "تازه سازی بعد از";
 $GLOBALS['strIframeResizeToBanner'] = "تغییر اندازه iframe برای ابعاد بنر";
 $GLOBALS['strIframeMakeTransparent'] = "iframe را شفاف کن";
 $GLOBALS['strIframeIncludeNetscape4'] = "شامل نت اسکیپ 4 به iPlayer سازگار";
-$GLOBALS['strIframeGoogleClickTracking'] = "مشمول کد برای پیگیری کلیک حس تبلیغ گوگل";
 
 // PopUp
 $GLOBALS['strPopUpStyle'] = "نوع پاپ آپ";

@@ -37,7 +37,6 @@ $GLOBALS['strIFrameRefreshAfter'] = "Újratöltés ideje";
 $GLOBALS['strIframeResizeToBanner'] = "Iframe átméretezése a banner mérete után";
 $GLOBALS['strIframeMakeTransparent'] = "Átlátszó iframe";
 $GLOBALS['strIframeIncludeNetscape4'] = "Netscape 4 kompatibilis ilayer hozzáadása";
-$GLOBALS['strIframeGoogleClickTracking'] = "Adjon meg kódot a Google AdSense kattintások követéséhez";
 
 // PopUp
 $GLOBALS['strPopUpStyle'] = "Ablak típusa";

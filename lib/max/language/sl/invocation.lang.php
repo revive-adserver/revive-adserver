@@ -36,7 +36,6 @@ $GLOBALS['strIFrameRefreshAfter'] = "Osveži po";
 $GLOBALS['strIframeResizeToBanner'] = "Razširi I-Frame v dimenzije pasice";
 $GLOBALS['strIframeMakeTransparent'] = "Naredi I-Frame prozoren";
 $GLOBALS['strIframeIncludeNetscape4'] = "Vključi Netscape 4 združljiv i-layer";
-$GLOBALS['strIframeGoogleClickTracking'] = "Vključi zbirnik za sledenje Google AdSense klikov";
 
 // PopUp
 $GLOBALS['strShowStatus'] = "Stanje";
