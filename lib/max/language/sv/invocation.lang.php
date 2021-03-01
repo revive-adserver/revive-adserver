@@ -37,7 +37,6 @@ $GLOBALS['strIFrameRefreshAfter'] = "Förnya efter";
 $GLOBALS['strIframeResizeToBanner'] = "Omvandla iframe till bannerns dimensioner";
 $GLOBALS['strIframeMakeTransparent'] = "Gör iframe transparent";
 $GLOBALS['strIframeIncludeNetscape4'] = "Inkludera Netscape 4 kompatibel ilayer";
-$GLOBALS['strIframeGoogleClickTracking'] = "Inkludera kod för att spåra Google AdSense-klick";
 
 // PopUp
 $GLOBALS['strPopUpStyle'] = "Popup-typ";

@@ -37,7 +37,6 @@ $GLOBALS['strIFrameRefreshAfter'] = "Odśwież po";
 $GLOBALS['strIframeResizeToBanner'] = "Przeskaluj iframe do rozmiarów banera";
 $GLOBALS['strIframeMakeTransparent'] = "Zrób przezroczystą iframe";
 $GLOBALS['strIframeIncludeNetscape4'] = "Dodaj warstwę kompatybilną z Netscape 4";
-$GLOBALS['strIframeGoogleClickTracking'] = "Dołącz kod do śledzenia kliknięć Google AdSense";
 
 // PopUp
 $GLOBALS['strPopUpStyle'] = "Typ Pop-up";

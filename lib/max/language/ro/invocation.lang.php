@@ -35,7 +35,6 @@ $GLOBALS['strIFrameRefreshAfter'] = "Reîmprospătează după";
 $GLOBALS['strIframeResizeToBanner'] = "Redimensionează iframe-ul după dimensiunile bannerului";
 $GLOBALS['strIframeMakeTransparent'] = "Iframe transparent";
 $GLOBALS['strIframeIncludeNetscape4'] = "Include ilayer compatibil Netscape 4";
-$GLOBALS['strIframeGoogleClickTracking'] = "Include codul pentru a urmări click-urile Google Adsense";
 
 // PopUp
 $GLOBALS['strShowStatus'] = "Stare";

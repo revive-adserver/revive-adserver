@@ -37,7 +37,6 @@ $GLOBALS['strIFrameRefreshAfter'] = "Ververs na";
 $GLOBALS['strIframeResizeToBanner'] = "Het formaat van iframe wijzigen op basis van banner afmetingen";
 $GLOBALS['strIframeMakeTransparent'] = "Maak de iframe transparant";
 $GLOBALS['strIframeIncludeNetscape4'] = "Voeg Netscape 4 compatible ilayer toe";
-$GLOBALS['strIframeGoogleClickTracking'] = "Programmacode opnemen om Google AdSense kliks te tellen";
 
 // PopUp
 $GLOBALS['strPopUpStyle'] = "Pop-up type";

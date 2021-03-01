@@ -22,7 +22,7 @@ msgstr "Asynchrone JS Tag"
 msgid "iFrame Tag"
 msgstr "iFrame Tag"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adframe.class.php:194
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adframe.class.php:188
 msgid "Placement Comment"
 msgstr "Plaatsing commentaar"
 

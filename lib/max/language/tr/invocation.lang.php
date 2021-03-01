@@ -34,7 +34,6 @@ $GLOBALS['strIFrameRefreshAfter'] = "Şu zaman sonunda yenile";
 $GLOBALS['strIframeResizeToBanner'] = "Çerçeveyi banner ölçüsüne göre yeniden boyutlandır";
 $GLOBALS['strIframeMakeTransparent'] = "Çerçeveyi şeffaf yap";
 $GLOBALS['strIframeIncludeNetscape4'] = "Netscape 4 uyumlu ilayer kullan";
-$GLOBALS['strIframeGoogleClickTracking'] = "Google AdSense tıklamalarını izlemek için kodlar içerir";
 
 // PopUp
 $GLOBALS['strPopUpStyle'] = "Pop-up tipi";

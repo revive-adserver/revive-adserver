@@ -22,7 +22,7 @@ msgstr ""
 msgid "iFrame Tag"
 msgstr "Tag iFrame"
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adframe.class.php:194
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adframe.class.php:188
 msgid "Placement Comment"
 msgstr ""
 
