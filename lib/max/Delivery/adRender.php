@@ -189,7 +189,7 @@ function MAX_adRender(array &$aBanner, int $zoneId = 0, string $source = '', str
             $dest = 'https:'.$dest;
         }
 
-        $dest = _adRenderBuildSignedClickUrl($aBanner, $zoneId, $source, $logClick, $dest);
+        $dest = _adRenderBuildSignedClickUrl($aBanner, $zoneId, $source, $ct0, $logClick, $dest);
 
         switch ($aMatches[1][$i]) {
             default:
@@ -208,7 +208,7 @@ function MAX_adRender(array &$aBanner, int $zoneId = 0, string $source = '', str
 
     // And finally log and click URLs
     $aBanner['logUrl'] = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&');
-    $aBanner['clickUrl'] = _adRenderBuildSignedClickUrl($aBanner, $zoneId, $source, $logClick);
+    $aBanner['clickUrl'] = _adRenderBuildSignedClickUrl($aBanner, $zoneId, $source, $ct0, $logClick);
 
     // We can remove placeholders now
     unset($aMagicMacros['{logurl}'], $aMagicMacros['{logurl_enc}'], $aMagicMacros['{logurl_html}'], $aMagicMacros['{clickurl}'], $aMagicMacros['{clickurl_enc}'], $aMagicMacros['{clickurl_html}']);
@@ -539,6 +539,15 @@ function _adRenderImageBeacon($aBanner, $zoneId = 0, $source = '', $loc = '', $r
 
 /**
  * This function builds a query string params for the signed click cl.php script.
+ *
+ * @param array $aBanner
+ * @param int $zoneId
+ * @param string $source
+ * @param string|null $ct0
+ * @param bool $logClick
+ * @param string|null $customDestination
+ *
+ * @return string
  */
 function _adRenderBuildClickQueryString(array $aBanner, int $zoneId = 0, string $source = '', bool $logClick = true, string $customDestination = null): string
 {
@@ -616,10 +625,16 @@ function _adRenderReplaceMagicMacros(array $aBanner, string $input): string
     );
 }
 
-function _adRenderBuildSignedClickUrl(array $aBanner, int $zoneId = 0, string $source = '', bool $logClick = true, string $customDestination = null): string
+function _adRenderBuildSignedClickUrl(array $aBanner, int $zoneId = 0, string $source = '', string $ct0 = null, bool $logClick = true, string $customDestination = null): string
 {
-    return MAX_commonGetDeliveryUrl($GLOBALS['_MAX']['CONF']['file']['signedClick']).'?'.
+    $clickUrl = MAX_commonGetDeliveryUrl($GLOBALS['_MAX']['CONF']['file']['signedClick']).'?'.
         _adRenderBuildClickQueryString($aBanner, $zoneId, $source, $logClick, $customDestination);
+
+    if (null === $ct0 || !preg_match('#^https?://#', $ct0)) {
+        return $clickUrl;
+    }
+
+    return $ct0.urlencode($clickUrl);
 }
 
 /**

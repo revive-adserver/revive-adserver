@@ -232,7 +232,7 @@ function prepareTrackingParams(&$aOutputParams, $aBanner, $zoneId, $source, $loc
         $aOutputParams['trackUrlResume'] = $trackingUrl . '&event=resume';
         $aOutputParams['vastVideoClickThroughUrl'] = _adRenderBuildVideoClickThroughUrl($aBanner, $zoneId, $source, $ct0 );
     }
-    $aOutputParams['clickUrl'] = _adRenderBuildSignedClickUrl($aBanner, $zoneId, $source, $logClick);
+    $aOutputParams['clickUrl'] = _adRenderBuildSignedClickUrl($aBanner, $zoneId, $source, $ct0, $logClick);
 }
 
 /**
@@ -253,7 +253,7 @@ function _adRenderBuildVideoClickThroughUrl($aBanner, $zoneId=0, $source='', $ct
     $clickUrl = '';
     if(!empty($aBanner['vast_video_clickthrough_url'])) {
         $aBanner['url'] = $aBanner['vast_video_clickthrough_url'];
-        $clickUrl = _adRenderBuildSignedClickUrl($aBanner, $zoneId, $source, $logClick);
+        $clickUrl = _adRenderBuildSignedClickUrl($aBanner, $zoneId, $source, $ct0, $logClick);
     }
     return $clickUrl;
 }

@@ -370,5 +370,81 @@ class Test_DeliveryAdRender extends UnitTestCase
 
         $ret = _adRenderBuildClickQueryString($aBanner, $zoneId, $source, $logClick, $customDest);
         $this->assertEqual($ret, "{$conf['var']['adId']}=123&{$conf['var']['zoneId']}=456&source=whatever&{$conf['var']['signature']}={$sig}&{$conf['var']['dest']}={$dest}");
+
+        $aBanner = [
+            'bannerid' => '123',
+            'aMagicMacros' => [
+                '{foo}' => 'bar',
+            ],
+        ];
+        $zoneId = 456;
+        $source = 'whatever';
+        $logClick = true;
+        $customDest = 'http://www.example.com/{foo}/';
+
+        $sig = '04ab096c87353cde0ff112949728034bc8d4123ce6a36893135468db9b330a83';
+        $dest = urlencode('http://www.example.com/bar/');
+
+        $ret = _adRenderBuildClickQueryString($aBanner, $zoneId, $source, $logClick, $customDest);
+        $this->assertEqual($ret, "{$conf['var']['adId']}=123&{$conf['var']['zoneId']}=456&source=whatever&{$conf['var']['signature']}={$sig}&{$conf['var']['dest']}={$dest}");
+    }
+
+    function test_adRenderBuildClickQueryStringWithTimestamp()
+    {
+        $conf = $GLOBALS['_MAX']['CONF'];
+
+        $this->sendMessage('test_adRenderBuildClickQueryStringWithTimestamp');
+
+        $GLOBALS['_MAX']['CONF']['delivery']['secret'] = base64_encode('foobar');
+
+        $GLOBALS['_MAX']['NOW'] = gmmktime(10, 0, 0, 2021, 1, 1);
+
+        $aBanner = [
+            'bannerid' => '123',
+        ];
+        $zoneId = 456;
+        $source = 'whatever';
+        $logClick = true;
+        $customDest = null;
+
+        $ret = _adRenderBuildClickQueryString($aBanner, $zoneId, $source, $logClick, $customDest);
+        $this->assertEqual($ret, "{$conf['var']['adId']}=123&{$conf['var']['zoneId']}=456&source=whatever");
+
+        $GLOBALS['_MAX']['CONF']['delivery']['clickUrlValidity'] = 100;
+
+        $sig = '708082fb90b7f3ce7f96b13c7f4f1e69f05e6c3d8de86b6b5077071113fc63e4';
+
+        $ret = _adRenderBuildClickQueryString($aBanner, $zoneId, $source, $logClick, $customDest);
+        $this->assertEqual($ret, "{$conf['var']['adId']}=123&{$conf['var']['zoneId']}=456&source=whatever&{$conf['var']['timestamp']}={$GLOBALS['_MAX']['NOW'] }&{$conf['var']['signature']}={$sig}&{$conf['var']['dest']}=");
+    }
+
+
+    function test_adRenderBuildSignedClickUrl()
+    {
+        $conf = $GLOBALS['_MAX']['CONF'];
+
+        $this->sendMessage('test_adRenderBuildSignedClickUrl');
+
+        $GLOBALS['_MAX']['CONF']['delivery']['secret'] = base64_encode('foobar');
+        $GLOBALS['_MAX']['CONF']['delivery']['clickUrlValidity'] = 0;
+
+        $GLOBALS['_MAX']['NOW'] = gmmktime(10, 0, 0, 2021, 1, 1);
+
+        $aBanner = [
+            'bannerid' => '123',
+        ];
+        $zoneId = 456;
+        $source = '';
+        $ct0 = null;
+
+        $clickUrl = MAX_commonGetDeliveryUrl($GLOBALS['_MAX']['CONF']['file']['signedClick'])."?{$conf['var']['adId']}=123&{$conf['var']['zoneId']}=456";
+
+        $ret = _adRenderBuildSignedClickUrl($aBanner, $zoneId, $source);
+        $this->assertEqual($ret, $clickUrl);
+
+        $ct0 = 'https://thridparty.click.tracking/click?foo=1&bar=2&dest=';
+
+        $ret = _adRenderBuildSignedClickUrl($aBanner, $zoneId, $source, $ct0);
+        $this->assertEqual($ret, $ct0.urlencode($clickUrl));
     }
 }
