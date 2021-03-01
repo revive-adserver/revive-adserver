@@ -253,18 +253,11 @@ if (isset($_REQUEST['ajax'])) {
 }
 
 //build campaign form
-//var_dump($campaign);
-$oComponent = null;
-if (isset ( $GLOBALS ['_MAX'] ['CONF'] ['plugins'] ['openXThorium'] )
-	&& $GLOBALS ['_MAX'] ['CONF'] ['plugins'] ['openXThorium']) {
-    $oComponent = &OX_Component::factory ( 'admin', 'oxThorium', 'oxThorium' );
-}
-
-$campaignForm = buildCampaignForm ( $campaign, $oComponent );
+$campaignForm = buildCampaignForm ( $campaign );
 
 if ($campaignForm->isSubmitted () && $campaignForm->validate ()) {
     //process submitted values
-    $errors = processCampaignForm ( $campaignForm, $oComponent );
+    $errors = processCampaignForm ( $campaignForm);
     if (! empty ( $errors )) { //need to redisplay page with general errors
         displayPage ( $campaign, $campaignForm, $statusForm, $errors );
     }
@@ -276,7 +269,7 @@ else { //either validation failed or no form was not submitted, display the page
 /*-------------------------------------------------------*/
 /* Build form                                            */
 /*-------------------------------------------------------*/
-function buildCampaignForm($campaign, &$oComponent = null)
+function buildCampaignForm($campaign)
 {
     global $pref;
 
@@ -310,7 +303,7 @@ function buildCampaignForm($campaign, &$oComponent = null)
     buildBasicInformationFormSection($form, $campaign, $newCampaign, $remnantEcpmEnabled, $contractEcpmEnabled);
     buildDateFormSection ( $form, $campaign, $newCampaign );
     buildPricingFormSection($form, $campaign, $newCampaign, $remnantEcpmEnabled, $contractEcpmEnabled);
-    buildPluggableFormSection ( $oComponent, 'afterPricingFormSection', $form, $campaign, $newCampaign );
+    buildPluggableFormSection ( 'afterPricingFormSection', $form, $campaign, $newCampaign );
     buildContractCampaignFormSection ( $form, $campaign, $newCampaign );
     buildRemnantAndOverrideCampaignFormSection ( $form, $campaign, $newCampaign );
     buildDeliveryCappingFormSection ( $form, $GLOBALS ['strCappingCampaign'], $campaign, null, null, true, $newCampaign );
@@ -373,13 +366,6 @@ function buildCampaignForm($campaign, &$oComponent = null)
 	));
 
     return $form;
-}
-
-function buildPluggableFormSection(&$oComponent, $method, &$form, $campaign, $newCampaign)
-{
-    if ($oComponent && method_exists ( $oComponent, $method )) {
-        $oComponent->$method ( $form, $campaign, $newCampaign );
-    }
 }
 
 function buildBasicInformationFormSection(&$form, $campaign, $newCampaign, $remnantEcpmEnabled, $contractEcpmEnabled)
@@ -650,7 +636,7 @@ function correctAdnCheckNumericFormField(&$aFields, $errors, $field, $errorStrin
  * @param OA_Admin_UI_Component_Form $form form to process
  * @return An array of Pear::Error objects if any
  */
-function processCampaignForm($form, &$oComponent = null)
+function processCampaignForm($form)
 {
     $aFields = $form->exportValues ();
 
@@ -844,9 +830,6 @@ function processCampaignForm($form, &$oComponent = null)
         } else {
             $doCampaigns->setEcpmEnabled();
             $aFields['campaignid'] = $doCampaigns->insert();
-        }
-        if ($oComponent) {
-            $oComponent->processCampaignForm($aFields);
         }
 
         // Recalculate priority only when editing a campaign

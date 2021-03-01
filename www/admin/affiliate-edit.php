@@ -62,19 +62,13 @@ if ($affiliateid != "") {
 /*-------------------------------------------------------*/
 /* MAIN REQUEST PROCESSING                               */
 /*-------------------------------------------------------*/
-//  check if Thorium plugin is enabled
-$oComponent = null;
-if ( isset($GLOBALS['_MAX']['CONF']['plugins']['openXThorium']) &&
-     $GLOBALS['_MAX']['CONF']['plugins']['openXThorium']) {
-    $oComponent = &OX_Component::factory('admin', 'oxThorium', 'oxThorium');
-}
 
 //build form
 $websiteForm = buildWebsiteForm($affiliate);
 
 if ($websiteForm->validate()) {
     //process submitted values
-    $oPublisherDll = processForm($affiliateid, $websiteForm, $oComponent);
+    $oPublisherDll = processForm($affiliateid, $websiteForm);
     if ($oPublisherDll->_errorMessage || $oPublisherDll->_noticeMessage) {
         displayPage($affiliateid, $websiteForm, $oPublisherDll);
     }
@@ -123,7 +117,7 @@ function buildWebsiteForm($affiliate)
 /*-------------------------------------------------------*/
 /* Process submitted form                                */
 /*-------------------------------------------------------*/
- function processForm($affiliateid, $form, $oComponent)
+ function processForm($affiliateid, $form)
 {
     $aFields = $form->exportValues();
     $newWebsite = empty($aFields['affiliateid']);
@@ -137,25 +131,12 @@ function buildWebsiteForm($affiliate)
     $oPublisher->publisherName  = $aFields['name'];
     $oPublisher->website        = $aFields['website'];
 
-    // process form data for oxThorium if this is edit existing website
-    if (!$newWebsite && $oComponent)
-    {
-        $aFields['affiliateid'] = $oPublisher->publisherId;
-        $oComponent->processAffiliateForm($aFields);
-    }
-
     $oPublisherDll = new OA_Dll_Publisher();
     if ($oPublisherDll->modify($oPublisher) && !$oPublisherDll->_noticeMessage) {
 
         // Queue confirmation message
         $translation = new OX_Translation ();
         if ($newWebsite) {
-            //process form data for oxThorium for new website
-            if ($oComponent)
-            {
-                $aFields['affiliateid'] = $oPublisher->publisherId;
-                $oComponent->processAffiliateForm($aFields);
-            }
             $translated_message = $translation->translate ( $GLOBALS['strWebsiteHasBeenAdded'], array(
                 MAX::constructURL(MAX_URL_ADMIN, 'affiliate-edit.php?affiliateid=' .  $oPublisher->publisherId),
                 htmlspecialchars($oPublisher->publisherName),
