@@ -2883,7 +2883,7 @@ $functionName .= '_' . $hook;
 }
 return $functionName;
 }
-function OX_Delivery_Common_getClickSignature(int $adId, int $zoneId, string $destination): string
+function OX_Delivery_Common_getClickSignature(int $adId, int $zoneId, string $data): string
 {
 if (empty($GLOBALS['_MAX']['CONF']['delivery']['secret'])) {
 throw new InvalidArgumentException('Empty delivery secret');
@@ -2895,9 +2895,29 @@ $zoneId
 ]);
 return hash_hmac(
 'sha256',
-$destination,
+$data,
 $secret
 );
+}
+function OX_Delivery_Common_checkClickSignature(int $adId, int $zoneId, string $dest): bool
+{
+$aConf = $GLOBALS['_MAX']['CONF'];
+$sig = $_REQUEST[$aConf['var']['signature']] ?? '';
+$ts = (int) ($_REQUEST[$aConf['var']['timestamp']] ?? 0);
+$validity = (int) ($aConf['delivery']['clickUrlValidity'] ?? 0);
+if (empty($dest) || !preg_match('#^https?://#', $dest)) {
+return false;
+}
+if ($sig === OX_Delivery_Common_getClickSignature($adId, $zoneId, $dest)) {
+return true;
+}
+if (empty($ts) || $sig !== OX_Delivery_Common_getClickSignature($adId, $zoneId, (string) $ts)) {
+return false;
+}
+if ($ts <= MAX_commonGetTimeNow() && $ts + $validity >= MAX_commonGetTimeNow()) {
+return true;
+}
+return false;
 }
 function _includeDeliveryPluginFile($fileName)
 {
@@ -3473,7 +3493,7 @@ $dest = '//' === $aMatches[4][$i] ? $aMatches[2][$i] : urldecode($aMatches[2][$i
 if (empty($aMatches[3][$i])) {
 $dest = 'https:'.$dest;
 }
-$dest = _adRenderBuildSignedClickUrl($aBanner, $zoneId, $source, $logClick, $dest);
+$dest = _adRenderBuildSignedClickUrl($aBanner, $zoneId, $source, $ct0, $logClick, $dest);
 switch ($aMatches[1][$i]) {
 default:
 $aMagicMacros[$aMatches[0][$i]] = $dest;
@@ -3487,7 +3507,7 @@ break;
 }
 }
 $aBanner['logUrl'] = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, '&');
-$aBanner['clickUrl'] = _adRenderBuildSignedClickUrl($aBanner, $zoneId, $source, $logClick);
+$aBanner['clickUrl'] = _adRenderBuildSignedClickUrl($aBanner, $zoneId, $source, $ct0, $logClick);
 unset($aMagicMacros['{logurl}'], $aMagicMacros['{logurl_enc}'], $aMagicMacros['{logurl_html}'], $aMagicMacros['{clickurl}'], $aMagicMacros['{clickurl_enc}'], $aMagicMacros['{clickurl_html}']);
 $aMagicMacros['{logurl}'] = $aBanner['logUrl'];
 $aMagicMacros['{logurl_enc}'] = urlencode($aBanner['logUrl']);
@@ -3703,6 +3723,14 @@ $zoneId,
 $dest
 );
 $aParams[$conf['var']['dest']] = $dest;
+} elseif ($conf['delivery']['clickUrlValidity'] > 0) {
+$aParams[$conf['var']['timestamp']] = (string) MAX_commonGetTimeNow();
+$aParams[$conf['var']['signature']] = OX_Delivery_Common_getClickSignature(
+$aBanner['bannerid'] ?? 0,
+$zoneId,
+$aParams[$conf['var']['timestamp']]
+);
+$aParams[$conf['var']['dest']] = '';
 }
 return http_build_query($aParams);
 }
@@ -3717,10 +3745,14 @@ array_values($aBanner['aMagicMacros']),
 $input
 );
 }
-function _adRenderBuildSignedClickUrl(array $aBanner, int $zoneId = 0, string $source = '', bool $logClick = true, string $customDestination = null): string
+function _adRenderBuildSignedClickUrl(array $aBanner, int $zoneId = 0, string $source = '', string $ct0 = null, bool $logClick = true, string $customDestination = null): string
 {
-return MAX_commonGetDeliveryUrl($GLOBALS['_MAX']['CONF']['file']['signedClick']).'?'.
+$clickUrl = MAX_commonGetDeliveryUrl($GLOBALS['_MAX']['CONF']['file']['signedClick']).'?'.
 _adRenderBuildClickQueryString($aBanner, $zoneId, $source, $logClick, $customDestination);
+if (null === $ct0 || !preg_match('#^https?://#', $ct0)) {
+return $clickUrl;
+}
+return $ct0.urlencode($clickUrl);
 }
 function _adRenderBuildParams($aBanner, $zoneId=0, $source='', $ct0='', $logClick=true, $overrideDest=false)
 {

@@ -2883,7 +2883,7 @@ $functionName .= '_' . $hook;
 }
 return $functionName;
 }
-function OX_Delivery_Common_getClickSignature(int $adId, int $zoneId, string $destination): string
+function OX_Delivery_Common_getClickSignature(int $adId, int $zoneId, string $data): string
 {
 if (empty($GLOBALS['_MAX']['CONF']['delivery']['secret'])) {
 throw new InvalidArgumentException('Empty delivery secret');
@@ -2895,9 +2895,29 @@ $zoneId
 ]);
 return hash_hmac(
 'sha256',
-$destination,
+$data,
 $secret
 );
+}
+function OX_Delivery_Common_checkClickSignature(int $adId, int $zoneId, string $dest): bool
+{
+$aConf = $GLOBALS['_MAX']['CONF'];
+$sig = $_REQUEST[$aConf['var']['signature']] ?? '';
+$ts = (int) ($_REQUEST[$aConf['var']['timestamp']] ?? 0);
+$validity = (int) ($aConf['delivery']['clickUrlValidity'] ?? 0);
+if (empty($dest) || !preg_match('#^https?://#', $dest)) {
+return false;
+}
+if ($sig === OX_Delivery_Common_getClickSignature($adId, $zoneId, $dest)) {
+return true;
+}
+if (empty($ts) || $sig !== OX_Delivery_Common_getClickSignature($adId, $zoneId, (string) $ts)) {
+return false;
+}
+if ($ts <= MAX_commonGetTimeNow() && $ts + $validity >= MAX_commonGetTimeNow()) {
+return true;
+}
+return false;
 }
 function _includeDeliveryPluginFile($fileName)
 {

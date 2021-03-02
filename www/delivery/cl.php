@@ -2883,7 +2883,7 @@ $functionName .= '_' . $hook;
 }
 return $functionName;
 }
-function OX_Delivery_Common_getClickSignature(int $adId, int $zoneId, string $destination): string
+function OX_Delivery_Common_getClickSignature(int $adId, int $zoneId, string $data): string
 {
 if (empty($GLOBALS['_MAX']['CONF']['delivery']['secret'])) {
 throw new InvalidArgumentException('Empty delivery secret');
@@ -2895,9 +2895,29 @@ $zoneId
 ]);
 return hash_hmac(
 'sha256',
-$destination,
+$data,
 $secret
 );
+}
+function OX_Delivery_Common_checkClickSignature(int $adId, int $zoneId, string $dest): bool
+{
+$aConf = $GLOBALS['_MAX']['CONF'];
+$sig = $_REQUEST[$aConf['var']['signature']] ?? '';
+$ts = (int) ($_REQUEST[$aConf['var']['timestamp']] ?? 0);
+$validity = (int) ($aConf['delivery']['clickUrlValidity'] ?? 0);
+if (empty($dest) || !preg_match('#^https?://#', $dest)) {
+return false;
+}
+if ($sig === OX_Delivery_Common_getClickSignature($adId, $zoneId, $dest)) {
+return true;
+}
+if (empty($ts) || $sig !== OX_Delivery_Common_getClickSignature($adId, $zoneId, (string) $ts)) {
+return false;
+}
+if ($ts <= MAX_commonGetTimeNow() && $ts + $validity >= MAX_commonGetTimeNow()) {
+return true;
+}
+return false;
 }
 function _includeDeliveryPluginFile($fileName)
 {
@@ -3235,14 +3255,9 @@ function MAX_querystringGetDestinationUrl($adId = 0, $zoneId = 0)
 {
 $conf = $GLOBALS['_MAX']['CONF'];
 $dest = $_REQUEST[$conf['var']['dest']] ?? '';
-$sig = $_REQUEST[$conf['var']['signature']] ?? '';
 $adId = (int) $adId;
 $zoneId = (int) $zoneId;
-try {
-if (!empty($dest) && $sig !== OX_Delivery_Common_getClickSignature($adId, $zoneId, $dest)) {
-$dest = '';
-}
-} catch (InvalidArgumentException $e) {
+if (!OX_Delivery_Common_checkClickSignature($adId, $zoneId, $dest)) {
 $dest = '';
 }
 if (empty($dest) && !empty($adId)) {
@@ -3303,6 +3318,24 @@ $value = substr($element, $len+1);
 $aArr[$name] = urldecode($value);
 }
 }
+}
+function MAX_querystringCheckDestinationSignature($adId, $zoneId, $dest): bool
+{
+$conf = $GLOBALS['_MAX']['CONF'];
+$ts = $_REQUEST[$conf['var']['timestamp']] ?? '';
+$sig = $_REQUEST[$conf['var']['signature']] ?? '';
+$validity = (int) ($conf['delivery']['clickUrlValidity'] ?? 0);
+if (empty($dest) || !preg_match('^https?://', $dest)) {
+return false;
+}
+if ($sig !== OX_Delivery_Common_getClickSignature($adId, $zoneId, $dest)) {
+if (empty($ts) || $sig !== OX_Delivery_Common_getClickSignature($adId, $zoneId, $ts)) {
+return false;
+} elseif ($ts <= MAX_commonGetTimeNow() && $ts + $validity > MAX_commonGetTimeNow()) {
+return false;
+}
+}
+return true;
 }
 
 MAX_commonSetNoCacheHeaders();
