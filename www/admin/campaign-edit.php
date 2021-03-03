@@ -303,7 +303,6 @@ function buildCampaignForm($campaign)
     buildBasicInformationFormSection($form, $campaign, $newCampaign, $remnantEcpmEnabled, $contractEcpmEnabled);
     buildDateFormSection ( $form, $campaign, $newCampaign );
     buildPricingFormSection($form, $campaign, $newCampaign, $remnantEcpmEnabled, $contractEcpmEnabled);
-    buildPluggableFormSection ( 'afterPricingFormSection', $form, $campaign, $newCampaign );
     buildContractCampaignFormSection ( $form, $campaign, $newCampaign );
     buildRemnantAndOverrideCampaignFormSection ( $form, $campaign, $newCampaign );
     buildDeliveryCappingFormSection ( $form, $GLOBALS ['strCappingCampaign'], $campaign, null, null, true, $newCampaign );
