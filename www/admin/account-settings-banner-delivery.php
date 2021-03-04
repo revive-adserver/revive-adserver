@@ -65,7 +65,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             'delivery' => 'obfuscate',
             'bool'     => true
         ),
-        'delivery_ctDelimiter' => array('delivery' => 'ctDelimiter'),
+        'delivery_clickUrlValidity' => array('delivery' => 'clickUrlValidity'),
         'defaultBanner_imageUrl' => array('defaultBanner' => 'imageUrl'),
         'defaultBanner_invalidZoneHtmlBanner' => array('defaultBanner' => 'invalidZoneHtmlBanner'),
         'defaultBanner_suspendedAccountHtmlBanner' => array('defaultBanner' => 'suspendedAccountHtmlBanner'),
@@ -256,8 +256,9 @@ $aSettings = array(
             ),
             array (
                 'type'    => 'text',
-                'name'    => 'delivery_ctDelimiter',
-                'text'    => $strDeliveryCtDelimiter
+                'name'    => 'delivery_clickUrlValidity',
+                'text'    => $strDeliveryClickUrlValidity,
+                'check'   => 'wholeNumber',
             ),
             array (
                 'type'    => 'break'

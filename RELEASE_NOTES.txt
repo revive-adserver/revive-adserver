@@ -32,6 +32,17 @@ What's New in Revive Adserver 5.2.0
  * Protocol relative URLs (e.g. "//example.com") are now recognised as valid
    destinations when altering HTML banners to add click tracking.
 
+ * Allow optional custom destinations in HTML banners using the "{clickurl}"
+   macro and dynamically appending a url-encoded destination. The new click
+   URL validity setting specifies the number of seconds a generated click
+   URL will be accepted and will redirect to the specified destination
+   parameter. The feature is disabled by deafult to avoid abuse.
+
+ * The "ct0" parameter has been reworked and reintroduced. Revive Adserver
+   tags can now be modified so that they can be placed into third party ad
+   servers and have both ad servers track ad clicks.
+
+
  Bug Fixes
  ---------
 
