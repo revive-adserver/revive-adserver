@@ -111,8 +111,8 @@ function MAX_querystringGetDestinationUrl($adId = 0, $zoneId = 0)
     $adId = (int) $adId;
     $zoneId = (int) $zoneId;
 
-    if (!OX_Delivery_Common_checkClickSignature($adId, $zoneId, $dest)) {
-        $dest = '';
+    if (!empty($dest) && !OX_Delivery_Common_checkClickSignature($adId, $zoneId, $dest)) {
+        return null;
     }
 
     if (empty($dest) && !empty($adId)) {
