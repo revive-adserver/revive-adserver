@@ -16,19 +16,19 @@
 {/if}
 
 
-<!--rows-{$status}-start-->
+<!--rows-{$status|escape}-start-->
 {if !empty($topPager->links)}
-<span id="page-{$status}" class="hide">{$page}</span>
+<span id="page-{$status|escape}" class="hide">{$page}</span>
 <div class="tableWrapper topPagerContainer clearfix">
   <div class="pager topPager">
     {$topPager->links}
   </div>
 </div>
 {/if}
-<table id="zones-{$status}" class="zones new-table tableWrapper">
+<table id="zones-{$status|escape}" class="zones new-table tableWrapper">
   <tbody>
     <tr class="header hide">
-      <th class="name"><label><input type="checkbox" id="{$status}-select-all" class="checkbox select-all" /> {t str=SelectUnselectAll}</label></th>
+      <th class="name"><label><input type="checkbox" id="{$status|escape}-select-all" class="checkbox select-all" /> {t str=SelectUnselectAll}</label></th>
       <th class="link"></th>
       {if !empty($showStats)}
           <th class="ctr">{t str=FinanceCTR}</th>
@@ -39,13 +39,13 @@
   </tbody>
 
   {if !empty($topPager->links)}
-  <tbody id="select-all-container-{$status}" class="hide">
+  <tbody id="select-all-container-{$status|escape}" class="hide">
     <tr class="header">
       <th colspan="{$colspan}">
-        <div id="zones-{$status}-select-all" class="selectAllInAccount hide">
+        <div id="zones-{$status|escape}-select-all" class="selectAllInAccount hide">
           All <em>{$zonescounts.showing}</em> zones on this page selected. <a href="#">Select all <em>{$zonescounts.matching}</em> matching zones from this account.</a>
         </div>
-        <div id="zones-{$status}-all-selected" class="selectAllInAccount hide">
+        <div id="zones-{$status|escape}-all-selected" class="selectAllInAccount hide">
           All <em>{$zonescounts.matching}</em> matching zones from this account selected. <a href="#">Clear selection</a></a>
         </div>
       </th>
@@ -53,7 +53,7 @@
   </tbody>
   {/if}
 
-  <tbody id="zones-{$status}-rows">
+  <tbody id="zones-{$status|escape}-rows">
     {foreach from=$websites key=websiteid item=website}
     <tr class="website">
       <td class="name" title="{$website.name|escape}">
@@ -125,9 +125,9 @@
   {/if}
 
 </table>
-<!--rows-{$status}-end-->
+<!--rows-{$status|escape}-end-->
 
-<!--status-{$status}-start-->
+<!--status-{$status|escape}-start-->
   {if $status == 'linked'}
   {t str=Linked}:
   {else}
@@ -136,4 +136,4 @@
   <span class="status-value">{$zonescounts.all}</span><br />
 
   {t str=Showing}: <span class="status-value">{$zonescounts.showing}</span>
-<!--status-{$status}-end-->
+<!--status-{$status|escape}-end-->
