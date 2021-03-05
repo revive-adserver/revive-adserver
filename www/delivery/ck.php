@@ -2905,7 +2905,7 @@ $aConf = $GLOBALS['_MAX']['CONF'];
 $sig = $_REQUEST[$aConf['var']['signature']] ?? '';
 $ts = (int) ($_REQUEST[$aConf['var']['timestamp']] ?? 0);
 $validity = (int) ($aConf['delivery']['clickUrlValidity'] ?? 0);
-if (empty($dest) || !preg_match('#^https?://#', $dest)) {
+if (!preg_match('#^https?://#', $dest)) {
 return false;
 }
 if ($sig === OX_Delivery_Common_getClickSignature($adId, $zoneId, $dest)) {
@@ -3257,8 +3257,8 @@ $conf = $GLOBALS['_MAX']['CONF'];
 $dest = $_REQUEST[$conf['var']['dest']] ?? '';
 $adId = (int) $adId;
 $zoneId = (int) $zoneId;
-if (!OX_Delivery_Common_checkClickSignature($adId, $zoneId, $dest)) {
-$dest = '';
+if (!empty($dest) && !OX_Delivery_Common_checkClickSignature($adId, $zoneId, $dest)) {
+return null;
 }
 if (empty($dest) && !empty($adId)) {
 $aAd = MAX_cacheGetAd($adId);
