@@ -770,7 +770,7 @@ function OX_Delivery_Common_checkClickSignature(int $adId, int $zoneId, string $
     $ts = (int) ($_REQUEST[$aConf['var']['timestamp']] ?? 0);
     $validity = (int) ($aConf['delivery']['clickUrlValidity'] ?? 0);
 
-    if (empty($dest) || !preg_match('#^https?://#', $dest)) {
+    if (!preg_match('#^https?://#', $dest)) {
         return false;
     }
 
