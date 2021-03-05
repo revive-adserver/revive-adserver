@@ -62,7 +62,7 @@ class Test_DeliveryQuerystring extends UnitTestCase
         $this->assertEqual($_GET['bannerid'], $bannerid);
         $this->assertEqual($_GET['loc'], $loc);
         $this->assertEqual($_GET['referer'], $referer);
-        $this->assertEqual($_GET['oadest'], $dest);
+        $this->assertEqual($_GET['dest'], $dest);
 
         $_COOKIE    = array();
         $_GET       = array();
@@ -77,7 +77,27 @@ class Test_DeliveryQuerystring extends UnitTestCase
         $this->assertEqual($_GET['bannerid'], $bannerid);
         $this->assertEqual($_GET['loc'], $loc);
         $this->assertEqual($_GET['referer'], $referer);
-        $this->assertEqual($_GET['oadest'], $dest);
+        $this->assertEqual($_GET['dest'], $dest);
+
+        $_COOKIE    = $tmpCookie;
+        $_GET       = $tmpGet;
+        $_POST      = $tmpPost;
+        $_REQUEST   = $tmpRequest;
+
+        $_COOKIE    = array();
+        $_GET       = array();
+        $_POST      = array();
+        $_REQUEST   = array();
+        $this->sendMessage('test_MAX_querystring');
+        $del = $GLOBALS['_MAX']['CONF']['delivery']['ctDelimiter'];
+        $_SERVER['QUERY_STRING'] = 'oaparams='.strlen($del)."{$del}zoneid={$zoneid}{$del}campaignid={$campaignid}{$del}bannerid={$bannerid}{$del}loc=".urlencode($loc)."{$del}referer=".urlencode($referer)."{$del}dest={$dest}";
+        MAX_querystringConvertParams();
+        $this->assertEqual($_GET['zoneid'], $zoneid);
+        $this->assertEqual($_GET['campaignid'], $campaignid);
+        $this->assertEqual($_GET['bannerid'], $bannerid);
+        $this->assertEqual($_GET['loc'], $loc);
+        $this->assertEqual($_GET['referer'], $referer);
+        $this->assertEqual($_GET['dest'], $dest);
 
         $_COOKIE    = $tmpCookie;
         $_GET       = $tmpGet;
