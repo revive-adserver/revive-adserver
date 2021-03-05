@@ -1230,7 +1230,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
      */
     function _loadPeriodPresetParam()
     {
-        $this->aPageParams['statsBreakdown'] = htmlspecialchars(MAX_getStoredValue('statsBreakdown', 'day'));
+        $this->aPageParams['statsBreakdown'] = htmlspecialchars(MAX_getStoredValue('statsBreakdown', 'day'), ENT_QUOTES);
         $this->statsBreakdown = $this->aPageParams['statsBreakdown'];
     }
 
