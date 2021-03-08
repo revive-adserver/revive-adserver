@@ -147,7 +147,6 @@ $GLOBALS['strDeliveryFilenamesLocal'] = "Inserção local";
 $GLOBALS['strDeliveryFilenamesFrontController'] = "Ponto de entrada único (Front Controller)";
 $GLOBALS['strDeliveryCaching'] = "Configurações de Cache de Entrega de Banners";
 $GLOBALS['strDeliveryCacheLimit'] = "Tempo entre atualizações do Cache de Banners(segundos)";
-$GLOBALS['strDeliveryCtDelimiter'] = "Delimitador de rastreadores de cliques de terceiros";
 $GLOBALS['strGlobalDefaultBannerUrl'] = "URL padrão de banners de imagem (Global)";
 $GLOBALS['strP3PSettings'] = "Políticas de Privacidade P3P";
 $GLOBALS['strUseP3P'] = "Usar políticas P3P";

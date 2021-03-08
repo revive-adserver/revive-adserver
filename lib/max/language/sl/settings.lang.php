@@ -160,7 +160,6 @@ $GLOBALS['strDeliveryFilenamesFrontController'] = "Sprednji preglednik";
 $GLOBALS['strDeliveryCaching'] = "Nastavitve dostavnega pomnilnika pasice";
 $GLOBALS['strDeliveryCacheLimit'] = "Čas med posodobitvami pomnilnika pasice (v sekundah)";
 $GLOBALS['strDeliveryCacheStore'] = "Tip hrambe pomnilnika dostavljanja pasice ";
-$GLOBALS['strDeliveryCtDelimiter'] = "Omejitev zunanjih (3rd party) sledilnikov klikov";
 $GLOBALS['strGlobalDefaultBannerUrl'] = "Privzet URL slikovne pasice ";
 $GLOBALS['strP3PSettings'] = "P3P Varovanje zasebnosti";
 $GLOBALS['strUseP3P'] = "Uporabi P3P polico";
