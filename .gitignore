@@ -21,6 +21,7 @@ phpinfo.php
 /www/admin/plugins/*
 /www/admin/assets/tinymce
 /www/api/rest
+/www/api/rest_v1
 /www/images/
 /plugins_repo/build-ap.xml
 /plugins_repo/release/*.zip
