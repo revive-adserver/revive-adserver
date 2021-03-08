@@ -42,6 +42,7 @@ What's New in Revive Adserver 5.2.0
    tags can now be modified so that they can be placed into third party ad
    servers and have both ad servers track ad clicks.
 
+ * Replaced product name with application name in the password recovery emails.
 
  Bug Fixes
  ---------
@@ -53,8 +54,6 @@ What's New in Revive Adserver 5.2.0
    proxy server when proxy headers contained the origin port number.
 
  * Fixed PHP errors in ck.php and cl.php when no banner/zoneid were provided.
-
- * Replaced product name with application name in the new recovery emails.
 
  * Fixed PHP errors preventing the video reports from properly functioning.
 
