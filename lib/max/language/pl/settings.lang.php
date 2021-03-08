@@ -158,7 +158,6 @@ $GLOBALS['strDeliveryFilenamesLocal'] = "Lokalny kod wywołujący";
 $GLOBALS['strDeliveryFilenamesFrontController'] = "Sterownik główny";
 $GLOBALS['strDeliveryCaching'] = "Ustawienia cache banerów";
 $GLOBALS['strDeliveryCacheLimit'] = "Okres czasu pomiędzy aktualizacjami cache banerów (w sekundach)";
-$GLOBALS['strDeliveryCtDelimiter'] = "Ogranicznik śledzenia kliknięć strony trzeciej";
 $GLOBALS['strGlobalDefaultBannerUrl'] = "Ogólny domyślny URL banera obrazu";
 $GLOBALS['strP3PSettings'] = "Polityka prywatności P3P";
 $GLOBALS['strUseP3P'] = "Użyj deklaracji P3P";

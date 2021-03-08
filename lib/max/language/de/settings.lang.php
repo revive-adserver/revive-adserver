@@ -163,7 +163,6 @@ $GLOBALS['strDeliveryFilenamesLocal'] = "Lokaler Bannercode";
 $GLOBALS['strDeliveryCaching'] = "Allgemeine Einstellungen des Auslieferungs-Caches";
 $GLOBALS['strDeliveryCacheLimit'] = "Zeitintervall zwischen Cache-Aktualisierungen (in Sek.)";
 $GLOBALS['strDeliveryCacheStore'] = "Cache-Typ für die Bannerauslieferung";
-$GLOBALS['strDeliveryCtDelimiter'] = "Begrenzung des 3rd Party Kick-Trackings";
 $GLOBALS['strGlobalDefaultBannerUrl'] = "Globale Default-Image-Banner URL";
 $GLOBALS['strP3PSettings'] = "P3P-Datenschutzrichtlinien";
 $GLOBALS['strUseP3P'] = "Verwendung von P3P-Richtlinien";

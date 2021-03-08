@@ -156,7 +156,6 @@ $GLOBALS['strDeliveryFilenamesLocal'] = "Invocare Locală";
 $GLOBALS['strDeliveryFilenamesFrontController'] = "Controler Faţă";
 $GLOBALS['strDeliveryCaching'] = "Setări Cache Distribuţie Banner";
 $GLOBALS['strDeliveryCacheLimit'] = "Perioada între actualizările Cache-ului de Bannere (secunde)";
-$GLOBALS['strDeliveryCtDelimiter'] = "Separator Urmărire Click-uri pentru Terţe Părţi";
 $GLOBALS['strGlobalDefaultBannerUrl'] = "URL Global către bannerul imagine implicit";
 $GLOBALS['strP3PSettings'] = "Politici de Confidenţialitate P3P";
 $GLOBALS['strUseP3P'] = "Foloseşte Politici P3P";
