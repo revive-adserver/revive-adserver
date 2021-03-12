@@ -40,17 +40,6 @@ $entityId = (int)$entityId;
 $startDate = urlencode($startDate);
 $endDate = urlencode($endDate);
 
-// "Show as" dropdown
-$availableShowAs = array(
-    'table' => "Table",
-    'graph-percentage' => "Graph (% of views)",
-    'graph-count' => "Graph (# of views)",
-);
-if(empty($showAs) || !isset($availableShowAs[$showAs])) {
-    $showAs = 'table';
-}
-$selectedShowAs = $showAs;
-
 // "View by" dimension
 $availableDimensions = array();
 if(in_array($entity, array('campaign', 'advertiser'))) {
@@ -166,8 +155,6 @@ $oTpl->assign('endDate', $endDate);
 $oTpl->assign('selectedDateRangeName', $selectedDateRangeName);
 $oTpl->assign('availableDimensions', $availableDimensions);
 $oTpl->assign('selectedDimension', urlencode($selectedDimension));
-$oTpl->assign('availableShowAs', $availableShowAs);
-$oTpl->assign('selectedShowAs', urlencode($selectedShowAs));
 
 // VIEW
 phpAds_PageHeader("stats-vast-".$entity,'','../../');

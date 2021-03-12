@@ -46,19 +46,6 @@
 	<h2> There is no Video Events data for this {$entityName} for the selected date range: {$startDate} - {$endDate}.</h2>
   </div>
 {else}
-  {* Main chart *}
-  <div class="video_plugin_header">
-    <a name="evolution"></a><h2>Views</h2>
-  </div>
- 
-  <div class="graph">
-    <div id="single_chart"></div>
-    <div class="diagram_corner top_left"></div>
-    <div class="diagram_corner top_right"></div>
-    <div class="diagram_corner bottom_left"></div>
-    <div class="diagram_corner bottom_right"></div>
-  </div>
-
   {*
      Events history table. Please note that this mock-up shows both the table and the 
      chart (below), but the real report should show only one of those depending on the
@@ -90,46 +77,13 @@
             <div class='mask'></div>
           </div>
         </li>
-        <li>
-          <div class='label'>Show as</div>  
-          <div class='dropDown'>
-            <span><span>{$availableShowAs.$selectedShowAs}</span></span>
-            <div class='panel'>
-              <div>
-                <ul>
-                {foreach from=$availableShowAs key=showAsId item=showAsName}
-                  <li><a href="{url showAs=$showAsId}">{$showAsName}</a></li>
-   	            {/foreach}
-                </ul>
-              </div>
-            </div>
-            <div class='mask'></div>
-          </div>
-        </li>    
       </ul>
       <div class='clear'></div>
       <div class='corner left'></div>
       <div class='corner right'></div>
-    </div> 
-    {if $selectedShowAs == 'table'}
-    	{include file='table.html'}
-    {else}
-	    <table cellspacing="0" border="0">
-	      <tbody> 
-	        <tr class="empty">
-	          <td>
-	            <div class="graph_table">
-	              <div id="multi_chart">{if !$dataForBottomGraphInJsonFormat}<big>There is not enough data to display this graph.</big> {/if}</div>
-	              <div class="diagram_corner top_left"></div>
-	              <div class="diagram_corner top_right"></div>
-	              <div class="diagram_corner bottom_left"></div>
-	              <div class="diagram_corner bottom_right"></div>
-	            </div>
-	          </td>
-	        </tr>
-	      </tbody>
-	    </table>
-    {/if}
+    </div>
+
+    {include file='table.html'}
   </div>
 {/if}
 </div>
