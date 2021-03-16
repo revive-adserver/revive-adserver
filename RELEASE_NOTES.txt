@@ -23,7 +23,11 @@ What's New in Revive Adserver 5.2.0
  Security Updates
  ----------------
 
- * None
+ * Fixed reflected XSS vulnerability in campaign-zone-zones.php via the
+   status parameter.
+
+ * Fixed reflected XSS vulnerability in stats.php via the statsBreakdown
+   parameter.
 
 
  New Features
