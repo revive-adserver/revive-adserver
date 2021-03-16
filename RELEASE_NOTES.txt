@@ -6,7 +6,7 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
-Release Notes: Revive Adserver 5.2.0
+Release Notes: Revive Adserver 5.2.1
 ====================================
 
 These release notes cover what's new, system requirements, download and
@@ -14,74 +14,27 @@ installation instructions, known issues and frequently asked questions for
 Revive Adserver. Please read these notes before reporting any bugs.
 
 
-What's New in Revive Adserver 5.2.0
+What's New in Revive Adserver 5.2.1
 -----------------------------------
 
- * Release date: March, 16th 2021
+ * Release date: t.b.d.
 
 
  Security Updates
  ----------------
 
- * Fixed reflected XSS vulnerability in campaign-zone-zones.php via the
-   status parameter.
-
- * Fixed reflected XSS vulnerability in stats.php via the statsBreakdown
-   parameter.
+ * None
 
 
  New Features
  ------------
 
- * Protocol relative URLs (e.g. "//example.com") are now recognised as valid
-   destinations when altering HTML banners to add click tracking.
-
- * Allow optional custom destinations in HTML banners using the "{clickurl}"
-   macro and dynamically appending a url-encoded destination. The new click
-   URL validity setting specifies the number of seconds a generated click
-   URL will be accepted and will redirect to the specified destination
-   parameter. The feature is disabled by default to avoid abuse.
-
- * The "ct0" parameter has been reworked and reintroduced. Revive Adserver
-   tags can now be modified so that they can be placed into third party ad
-   servers and have both ad servers track ad clicks.
-
- * Replaced product name with application name in the password recovery emails.
+ * None
 
  Bug Fixes
  ---------
 
- * Fix issue with password recovery emails being sent to the administrator
-   or not being sent at all.
-
- * Fix an issue with determining the real IP addresses of viewers behind a
-   proxy server when proxy headers contained the origin port number.
-
- * Fixed PHP errors in ck.php and cl.php when no banner/zoneid were provided.
-
- * Fixed PHP errors preventing the video reports from properly functioning.
-
- * Fixed an issue preventing the "bannertext" property from being added or
-   modified using the API.
-
- * Fixed an issue preventing the "Don't count ad clicks... within the
-   specified time" feature from working as expected.
-
- * Fixed an issue in the legacy JavaScript tag generation. All the non async
-   JS tags generated in v5.1.x should be replaced with new ones, as they
-   could break the layout of the websites they have been placed onto.
-
- * Fixed an issue with site variable magic macro detection in the destination
-   url.
-
- * Removed the option to "track Google AdSense clicks" when generating iframe
-   tags, which was a leftover from the removal of the non-working
-   functionality that had already been removed.
-
- * Reverted and made optional the change to use srcdoc when rendering async
-   tags as it is not fully compatible with some third party tags. However,
-   the behaviour can be selected by adding data-revive-srcdoc="1" as an attribute
-   of the ins HTML tag.
+ * None
 
 
  Non-Backwards Compatible Changes
