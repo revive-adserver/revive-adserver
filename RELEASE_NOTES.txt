@@ -34,7 +34,8 @@ What's New in Revive Adserver 5.2.1
  Bug Fixes
  ---------
 
- * None
+ * Fixed an issue preventing clicks from redirecting to the destination URL on
+   newsletter zones.
 
 
  Non-Backwards Compatible Changes

@@ -126,8 +126,6 @@ if (!empty($destination) && empty($_GET['trackonly'])) {
 
 function _getZoneAd($zoneId)
 {
-    $conf = $GLOBALS['conf'];
-
     $zoneLinkedAds = MAX_cacheGetZoneLinkedAds($zoneId, false);
     if (!empty($zoneLinkedAds['xAds']) && count($zoneLinkedAds['xAds']) == 1) {
         reset($zoneLinkedAds['xAds']);
@@ -145,10 +143,6 @@ function _getZoneAd($zoneId)
         list($adId, $ad) = each($zoneLinkedAds['lAds']);
     }
 
-    if (!empty($ad['url'])) {
-        // Store the destination URL to save querying the DB again
-        $_REQUEST[$conf['var']['dest']] = $ad['url'];
-    }
     return $adId;
 }
 
