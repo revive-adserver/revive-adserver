@@ -3403,7 +3403,6 @@ MAX_redirect($destination);
 }
 function _getZoneAd($zoneId)
 {
-$conf = $GLOBALS['conf'];
 $zoneLinkedAds = MAX_cacheGetZoneLinkedAds($zoneId, false);
 if (!empty($zoneLinkedAds['xAds']) && count($zoneLinkedAds['xAds']) == 1) {
 reset($zoneLinkedAds['xAds']);
@@ -3418,9 +3417,6 @@ break;
 } elseif (!empty($zoneLinkedAds['lAds']) && count($zoneLinkedAds['lAds']) == 1) {
 reset($zoneLinkedAds['lAds']);
 list($adId, $ad) = each($zoneLinkedAds['lAds']);
-}
-if (!empty($ad['url'])) {
-$_REQUEST[$conf['var']['dest']] = $ad['url'];
 }
 return $adId;
 }
