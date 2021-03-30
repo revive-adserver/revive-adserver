@@ -117,4 +117,4 @@ Unfortunately, this is not a valid PHP timezone. Please edit your php.ini file a
 
 $GLOBALS['strInstallNonBlockingErrors'] = "An error occurred when performing installation tasks. Please check the 
 <a class=\"show-errors\" href=\"#\">error list</a> and install log at \'%s\' for details.
-You will still be able to login to your {$PRODUCT_NAME} instance.";
+You will still be able to login to your {$\1} instance.";

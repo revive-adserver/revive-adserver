@@ -168,7 +168,6 @@ $GLOBALS['strAuthentification'] = "Autentifikasi";
 $GLOBALS['strWelcomeTo'] = "Selamat Datang di";
 $GLOBALS['strEnterUsername'] = "Silakan masukan Nama dan Kata Sandi Anda untuk Login";
 $GLOBALS['strEnterBoth'] = "Silakan masukan Nama <i>dan</i> Kata Sandi";
-$GLOBALS['strEnableCookies'] = "Anda harus mengaktifkan cookies sebelum bisa menggunakannya {$PRODUCT_NAME}";
 $GLOBALS['strSessionIDNotMatch'] = "Kesalahan cookie sesi, masuk lagi";
 $GLOBALS['strLogin'] = "Masuk";
 $GLOBALS['strLogout'] = "Keluar";
@@ -818,11 +817,8 @@ $GLOBALS['strNoMatchesFound'] = "Tidak ada sepadan yang ditemukan";
 $GLOBALS['strErrorOccurred'] = "Telah terjadi Error";
 $GLOBALS['strErrorDBPlain'] = "Telah terjadi Error sewaktu mengakses database";
 $GLOBALS['strErrorDBSerious'] = "Terdeteksi masalah serius pada database";
-$GLOBALS['strErrorDBNoDataPlain'] = "Karena masalah pada database {$PRODUCT_NAME} tidak dapat mengambil atau menyimpan data. ";
-$GLOBALS['strErrorDBNoDataSerious'] = "Karena masalah serius dengan database, {$PRODUCT_NAME} tidak dapat mengambil data";
 $GLOBALS['strErrorDBCorrupt'] = "Tabel pada database rupanya rusak dan perlu perbaikan. Untuk informasi lebih lanjut tentang caranya memperbaiki tabel yang rusak mohon baca BAB <i>Troubleshooting</i> pada <i>Administrator Guide</i>.";
 $GLOBALS['strErrorDBContact'] = "Mohon hubungi Administrator dari server ini dan beritahukan masalah ini.";
-$GLOBALS['strErrorDBSubmitBug'] = "Jika masalah ini dapat direproduksi, hal itu mungkin disebabkan oleh bug di {$PRODUCT_NAME}. Harap laporkan informasi berikut ke pembuat {$PRODUCT_NAME}. Juga coba gambarkan tindakan yang menyebabkan kesalahan ini sejelas mungkin.";
 $GLOBALS['strMaintenanceNotActive'] = "Script pemeliharaan belum dijalankan dalam 24 jam terakhir.
 Agar aplikasi berfungsi dengan benar maka perlu dijalankan
 setiap jam.
@@ -836,7 +832,6 @@ $GLOBALS['strErrorEditingCampaignECPM'] = "format nomor salah di bidang Informas
 $GLOBALS['strErrorEditingZone'] = "Kesalahan saat memperbarui zona:";
 $GLOBALS['strUnableToChangeZone'] = "Gagal melakukan perubahan ini disebabkan:";
 $GLOBALS['strDatesConflict'] = "tanggal-tanggal berbentrokan dengan:";
-$GLOBALS['strEmailNoDates'] = "Kampanye yang tertaut ke Zona Email harus memiliki tanggal mulai dan tanggal akhir. {$PRODUCT_NAME} memastikan bahwa pada tanggal tertentu, hanya satu banner aktif yang terhubung ke Zona Email. Pastikan bahwa kampanye yang sudah tertaut ke zona tidak memiliki tanggal yang tumpang tindih dengan kampanye yang ingin Anda tautkan.";
 $GLOBALS['strWarningInaccurateStats'] = "Beberapa statistik ini masuk dalam zona waktu non-UTC, dan mungkin tidak ditampilkan di zona waktu yang benar.";
 $GLOBALS['strWarningInaccurateReadMore'] = "Baca lebih lanjut tentang ini";
 $GLOBALS['strWarningInaccurateReport'] = "Beberapa statistik dalam laporan ini masuk dalam zona waktu non-UTC, dan mungkin tidak ditampilkan di zona waktu yang benar";
@@ -1059,16 +1054,10 @@ $GLOBALS['strAuditNoData'] = "Tidak ada aktivitas pengguna yang tercatat selama 
 $GLOBALS['strAuditTrail'] = "Jejak audit";
 $GLOBALS['strAuditTrailSetup'] = "Setup Audit Trail hari ini";
 $GLOBALS['strAuditTrailGoTo'] = "Buka halaman Audit Trail";
-$GLOBALS['strAuditTrailNotEnabled'] = "<li>Jejak Audit memungkinkan Anda melihat siapa yang melakukan apa dan kapan. Atau dengan kata lain, itu melacak perubahan sistem di dalamnya{$PRODUCT_NAME}</li>
-        <li>Anda melihat pesan ini, karena Anda belum mengaktifkan Jejak Audit </li>
-        <li>Tertarik belajar lebih banyak? Baca <a<a href='{$PRODUCT_DOCSURL}/admin/settings/auditTrail' class='site-link' target='help' >Dokumentasi Audit Trail </a></li>";
 
 // Widget - Campaign
 $GLOBALS['strCampaignGoTo'] = "Buka halaman Kampanye";
 $GLOBALS['strCampaignSetUp'] = "Buat Kampanye hari ini";
-$GLOBALS['strCampaignNoRecords'] = "<li>Kampanye memungkinkan Anda mengelompokkan sejumlah iklan spanduk, dari ukuran apa pun, yang berbagi persyaratan periklanan umum </li>
-        <li>Hemat waktu dengan mengelompokkan spanduk dalam kampanye dan tidak lagi menentukan setelan pengiriman untuk setiap iklan secara terpisah </li>
-        <li>Periksa<a class='site-link' target='help' href='{$PRODUCT_DOCSURL}/user/inventory/advertisersAndCampaigns/campaigns'>Dokumentasi kampanye </a>! </li>";
 $GLOBALS['strCampaignNoRecordsAdmin'] = "<li>Tidak ada aktivitas kampanye yang ditampilkan. </li>";
 
 $GLOBALS['strCampaignNoDataTimeSpan'] = "Tidak ada kampanye yang dimulai atau selesai selama jangka waktu yang telah Anda pilih";

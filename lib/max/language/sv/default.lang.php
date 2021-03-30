@@ -807,9 +807,6 @@ $GLOBALS['strAuditTrailDisabled'] = "Revisionsspårning har inaktiverats av syst
 $GLOBALS['strAuditTrail'] = "Auditlista";
 $GLOBALS['strAuditTrailSetup'] = "Konfigurera revisionsspårning idag";
 $GLOBALS['strAuditTrailGoTo'] = "Gå till revisionsspårningssidan";
-$GLOBALS['strAuditTrailNotEnabled'] = "<li>Revisionsspårning gör så att du kan se vem som gjorde vad och när. Eller för att uttrycka det på ett annat sätt håller det koll på systemändringar inom {$PRODUCT_NAME}</li>
-        <li>Du ser detta meddelande, eftersom du inte har aktiverat revisionsspårning</li>
-        <li>Intresserad av att lära sig mer? Läs <a href='{$PRODUCT_DOCSURL}/admin/settings/auditTrail' class='site-link' target='help'> Dokumentation för revisionsspårning</a></li>";
 
 // Widget - Campaign
 $GLOBALS['strCampaignSetUp'] = "Skapa en kampanj idag";

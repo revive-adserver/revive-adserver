@@ -162,7 +162,6 @@ $GLOBALS['strAuthentification'] = "Xác thực";
 $GLOBALS['strWelcomeTo'] = "Chào mừng đến với";
 $GLOBALS['strEnterUsername'] = "Nhập tên tài khoản và mật khẩu của bạn";
 $GLOBALS['strEnterBoth'] = "Xin vui lòng điền vào cả tên đăng nhập và mật khẩu";
-$GLOBALS['strEnableCookies'] = "Bạn cần phải bật cookie trước khi bạn có thể sử dụng {$PRODUCT_NAME}";
 $GLOBALS['strSessionIDNotMatch'] = "Phiên cookie lỗi, xin vui lòng đăng nhập lại";
 $GLOBALS['strLogin'] = "Đăng nhập";
 $GLOBALS['strLogout'] = "Đăng xuất";

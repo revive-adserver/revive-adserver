@@ -17,10 +17,6 @@ $GLOBALS['strInstallStatusUpgrade'] = 'Обновление до Revive Adserver
 $GLOBALS['strInstallStatusUpToDate'] = 'Обнаружен Revive Adserver %s';
 
 /** welcome step * */
-$GLOBALS['strWelcomeTitle'] = "Добро пожаловать в {$PRODUCT_NAME}";
-$GLOBALS['strInstallIntro'] = "Спасибо за выбор {$PRODUCT_NAME}. Этот мастер проведет вас через процесс установки {$PRODUCT_NAME}.";
-$GLOBALS['strUpgradeIntro'] = "Благодарим вас за выбор {$PRODUCT_NAME}. Этот мастер поможет вам в процессе обновления {$PRODUCT_NAME}.";
-$GLOBALS['strInstallerHelpIntro'] = "Чтобы помочь вам с процессом установки {$PRODUCT_NAME} , смотрите <a href='{$PRODUCT_DOCSURL}' target='_blank'>Документацию</a>.";
 
 /** check step * */
 $GLOBALS['strSystemCheck'] = "Проверка системы";

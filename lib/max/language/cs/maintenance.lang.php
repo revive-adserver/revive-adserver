@@ -30,10 +30,6 @@ $GLOBALS['strRecalculatePriority'] = "Přepočítat prioritu";
 // Banner cache
 $GLOBALS['strCheckBannerCache'] = "Kontrola cache banerů";
 $GLOBALS['strRebuildDeliveryCache'] = "Aktualizovat cache doručování";
-$GLOBALS['strBannerCacheExplaination'] = "	Cache bannerů obsahuje kopii HTML kódu který se používá pro zobrazení banneru. Použitím chache bannerů je možné docílit zrychlení
-	doručování bannerů protože se HTML kód nemusí generovat pokaždé když má být banner doručen. Protože cache bannerů obsahuje pevné
-	okdazy na URL kde je umístěno {$PRODUCT_NAME} a jeho bannery, cache musí být aktualizována pokaždé, když dojde k přesunu
-	{$PRODUCT_NAME} do jiného umístění na webserveru.";
 
 // Cache
 $GLOBALS['strCache'] = "Cache doručování";
@@ -53,34 +49,15 @@ $GLOBALS['strStorageExplaination'] = "	Obrázky lokálních bannerů jsou ulože
 $GLOBALS['strSearchingUpdates'] = "Hledám aktualizace. Prosím čekejte...";
 $GLOBALS['strAvailableUpdates'] = "Dostupné aktualizace";
 
-$GLOBALS['strUpdateAlert'] = "Je k dispozici nová verze {$PRODUCT_NAME} .
-
-Přejete si více informací o tété
-aktualizaci?";
-$GLOBALS['strUpdateAlertSecurity'] = "Je k dispozici nová verze {$PRODUCT_NAME} .
-
-Důrazně doporučujeme provést aktualizaci
-co nejdříve, neboť tato verze obsahuje
-jednu nebo více bezpečnostních oprav.";
 
 $GLOBALS['strUpdateServerDown'] = "    Z neznámého důvodu nebylo možné získat <br>
 	informace o aktualizacích. Prosím zkuste to znovu později.";
 
-$GLOBALS['strNoNewVersionAvailable'] = "	Vaše verze {$PRODUCT_NAME} je aktuální. V tuto chvíli nejsou k dispozici žádné aktualizace.";
 
 
 
-$GLOBALS['strNewVersionAvailable'] = "	<b>Novější verze {$PRODUCT_NAME} je k dispozici.</b><br> Doporučujeme nainstalovat tuto aktualizaci,
-	protože může obsahovat opravy některých chyb a obsahovat nové funkce. Pro více informací o tom jak provést
-	aktualizaci si prosím přečtěte dokumentaci která je v níže uvedených souborech.";
 
-$GLOBALS['strSecurityUpdate'] = "	<b>Důrazně doporučujeme nainstalovat tuto aktualizaci co nejdříve, protože obsahuje několik oprav
-	bezpečnostních chyb.</b> Verze {$PRODUCT_NAME} kterou používáte může být citlivá ná různé
-	druhy útoků a zřejmě není bezpečná. Pro více informací o tom jak provést aktualizaci si prosím
-	přečtěte dokumentaci která je v níže uvedených souborech.";
 
-$GLOBALS['strNotAbleToCheck'] = "	<b>Protože XML doplněk není instalován na vašem serveru, {$PRODUCT_NAME} není
-    schopen ověřit zda jsou k dispozici aktualizace.</b>";
 
 $GLOBALS['strForUpdatesLookOnWebsite'] = "	Pokud chcete vědět jestli je k dispozici novější verze tak navštivte naše stránky.";
 

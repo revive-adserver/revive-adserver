@@ -23,14 +23,11 @@ $GLOBALS['strWarningRegisterArgcArv'] = "Aby uruchomić działania konserwacyjne
 $GLOBALS['strTablesType'] = "Typ tabeli";
 
 $GLOBALS['strRecoveryRequiredTitle'] = "W czasie poprzedniej próby aktualizacji wystąpiły błędy";
-$GLOBALS['strRecoveryRequired'] = "Wystąpił błąd w trakcie przetwarzania poprzedniej próby aktualizacji. {$PRODUCT_NAME} spróbuje odzyskać dane z poprzedniej aktualizacji. Kliknij Odzyskaj poniżej.";
 
-$GLOBALS['strOaUpToDate'] = "Twoja baza danych {$PRODUCT_NAME} oraz struktura pliku wskazuje, że korzystasz z najnowszej wersji i aktualizacja nie jest wymagana w tym momencie. Kliknij Dalej, aby przejść do panelu administratora {$PRODUCT_NAME}.";
 $GLOBALS['strOaUpToDateCantRemove'] = "Ostrzeżenie: plik UPGRADE wciąż znajduje się w folderze var. Nie możemy go usunąć ze względu na ograniczone uprawnienia. Musisz usunąć plik własnoręcznie.";
 $GLOBALS['strErrorWritePermissions'] = "Wykryto błędy w dostępie do pliku. Błędy muszą zostać naprawione zanim przejdziesz dalej.<br/>Aby naprawić błędy w systemie Linux, spróbuj wpisać następujące polecenie(a):";
 
 $GLOBALS['strErrorWritePermissionsWin'] = "Wykryto błędy w dostępie do pliku. Błędy muszą zostać naprawione zanim przejdziesz dalej.";
-$GLOBALS['strCheckDocumentation'] = "Więcej wskazówek uzyskasz w <a href='{$PRODUCT_DOCSURL}'>Dokumentacji {$PRODUCT_NAME}</a>.";
 
 $GLOBALS['strAdminUrlPrefix'] = "URL interfejsu administratora";
 $GLOBALS['strDeliveryUrlPrefix'] = "URL serwera";
@@ -222,7 +219,6 @@ $GLOBALS['strBlockAdClicks'] = "Nie zliczaj Kliknięć, jeśli odwiedzający kli
 $GLOBALS['strMaintenanceOI'] = "Odstęp między przeprowadzaniem konserwacji (w minutach)";
 $GLOBALS['strPrioritySettings'] = "Ustawienia priorytetów";
 $GLOBALS['strPriorityInstantUpdate'] = "Aktualizuj priorytety reklamy natychmiast po modyfikacjach w interfejsie";
-$GLOBALS['strAdminEmailHeaders'] = "Dodaj następujące nagłówki do każdego e-maila wysyłanego przez {$PRODUCT_NAME}";
 $GLOBALS['strWarnLimit'] = "Limit Ostrzeżenia - wyślij ostrzeżenie, gdy ilość pozostałych odsłon jest mniejsza niż ta określona tutaj";
 $GLOBALS['strWarnLimitDays'] = "Wyślij ostrzeżenie, gdy ilość dni jest mniejsza niż ta określona tutaj";
 $GLOBALS['strWarnAdmin'] = "Wyślij ostrzeżenie do administratora zawsze, gdy kampania dobiega końca";

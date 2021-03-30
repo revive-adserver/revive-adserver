@@ -17,16 +17,8 @@ $GLOBALS['strAppendCodes'] = "코드 추가";
 // Maintenance
 $GLOBALS['strScheduledMaintenanceHasntRun'] = "<b>예약된 유지 보수가 한시간 동안 실행되지 않았습니다. 설정이 잘못되었을 수 있습니다.</b>";
 
-$GLOBALS['strAutoMantenaceEnabledAndHasntRun'] = "	자동 유지보수는 활성화 되어 있지만, 동작한 적이 없습니다. 자동 유지보수는 {$PRODUCT_NAME}이 광고를 표시할 때 작동합니다.
-    최상의 성능을 위해,<a href='{$PRODUCT_DOCSURL}/admin/maintenance' target='_blank'>예약된 유지보수</a>를 설정하시는 것이 좋습니다.";
 
-$GLOBALS['strAutoMantenaceDisabledAndHasntRun'] = "	자동 유지보수가 비활성화 되어 있습니다. 따라서 {$PRODUCT_NAME}(이)가 광고를 표시할 때에도 자동 유지보수가 동작하지 않습니다.
-최상의 성능을 위해,<a href='{$PRODUCT_DOCSURL}/admin/maintenance' target='_blank'>예약된 유지보수</a>를 설정하시는 것이 좋습니다.
-    하지만, 만일 <a href='{$PRODUCT_DOCSURL}/admin/maintenance' target='_blank'>예약된 유지보수</a>를 설정하지 않으실 것이라면,
-    <a href='account-settings-maintenance.php'>자동 유지보수</a>를 활성화하여 {$PRODUCT_NAME}(이)가 확실히 정상적으로 동작하도록 할 필요성이 있습니다.";
 
-$GLOBALS['strAutoMantenaceEnabledAndRunning'] = "	자동 유지보수가 활성화 되었으며, {$PRODUCT_NAME}(이)가 광고를 표시할 때 작동됩니다.
-하지만, 최상의 성능을 위해,<a href='{$PRODUCT_DOCSURL}/admin/maintenance' target='_blank'>예약된 유지보수</a>를 설정하시는 것이 좋습니다.";
 
 
 
@@ -38,10 +30,6 @@ $GLOBALS['strRecalculatePriority'] = "우선순위 다시 계산";
 // Banner cache
 $GLOBALS['strCheckBannerCache'] = "배너 캐시 확인";
 $GLOBALS['strRebuildDeliveryCache'] = "전달유지 �?시 다시 빌드";
-$GLOBALS['strBannerCacheExplaination'] = "	The banner cache contains a copy of the HTML code which is used to display the banner. By using a banner cache it is possible to speed
-	up the delivery of banners because the HTML code doesn't need to be generated every time a banner is being delivered. Because the
-	banner cache contains hard coded URLs to the location of {$PRODUCT_NAME} and its banners, the cache needs to be updated
-	everytime {$PRODUCT_NAME} is moved to another location on the webserver.";
 
 // Cache
 $GLOBALS['strCache'] = "전달유지 �?시";
@@ -64,28 +52,14 @@ $GLOBALS['strAvailableUpdates'] = "�?�용할 수 있는 업�?��?�트
 $GLOBALS['strDownloadZip'] = "다운로드(.zip)";
 $GLOBALS['strDownloadGZip'] = "다운로드(.tar.gz)";
 
-$GLOBALS['strUpdateAlert'] = "{$PRODUCT_NAME}�?� 새 버전�?� �?�용할 수 있습니다.
-
-새 업�?��?�트�? 대한 �?세한 정보를 보겠습니까?";
-$GLOBALS['strUpdateAlertSecurity'] = "{$PRODUCT_NAME}�?� 새 버전�?� �?�용할 수 있습니다.
-
-새 버전�?� 하나 �?는 그 �?��?�?� 보안 수정�?� �?�함하고 있으므로 가능한한 빨리 업그레�?�드할 것�?� 권합니다.";
 
 $GLOBALS['strUpdateServerDown'] = "    Due to an unknown reason it isn't possible to retrieve <br>
 	information about possible updates. Please try again later.";
 
-$GLOBALS['strNoNewVersionAvailable'] = "	현재 사용중�?� {$PRODUCT_NAME}�?� 버전�?� 최신입니다. 현재 �?�용할 수 있는 업�?��?�트가 없습니다.";
 
 
 
-$GLOBALS['strNewVersionAvailable'] = "	<b>A new version of {$PRODUCT_NAME} is available.</b><br> It is recommended to install this update,
-	because it may fix some currently existing problems and will add new features. For more information
-	about upgrading please read the documentation which is included in the files below.";
 
-$GLOBALS['strSecurityUpdate'] = "	<b>It is highly recommended to install this update as soon as possible, because it contains a number
-	of security fixes.</b> The version of {$PRODUCT_NAME} which you are currently using might
-	be vulnerable to certain attacks and is probably not secure. For more information
-	about upgrading please read the documentation which is included in the files below.";
 
 
 

@@ -25,18 +25,13 @@ $GLOBALS['strTablesPrefix'] = "Prefijo del nombre de las tablas";
 $GLOBALS['strTablesType'] = "Tipo de tablas";
 
 $GLOBALS['strRecoveryRequiredTitle'] = "El intento de actualización ha encontrado errores";
-$GLOBALS['strRecoveryRequired'] = "Ha ocurrido un error al procesar la actualización anterior y {$PRODUCT_NAME} necesita intentar recuperar el proceso de actualización. Por favor, haga clic en el botón Recuperar.";
 
-$GLOBALS['strProductUpToDateTitle'] = "{$PRODUCT_NAME} está actualizado";
-$GLOBALS['strOaUpToDate'] = "Su base de datos {$PRODUCT_NAME} y estructura de archivos están usando la versión más reciente, por lo tanto no hace falta realizar una actualización en este momento. Por favor, haga clic en Continuar para proceder al panel de administración de {$PRODUCT_NAME}.";
 $GLOBALS['strOaUpToDateCantRemove'] = "Aviso: el archivo de ACTUALIZACIÓN sigue presente en el directorio var. No podemos borrar dicho archivo debido a permisos insuficientes. Por favor, borre este archivo usted mismo.";
 $GLOBALS['strErrorWritePermissions'] = "Se han detectado errores de permisos de archivos y deben ser solucionados para poder continuar.<br />Para solucionar los errores en un sistema Linux intente teclear el/los siguiente(s) comando(s).";
 $GLOBALS['strNotWriteable'] = "NO escribible";
 $GLOBALS['strDirNotWriteableError'] = "El directorio debe ser escribible";
 
 $GLOBALS['strErrorWritePermissionsWin'] = "La isntalación de Openads necesita que el archivo de configuración se pueda modificar. Al finalizar las modificaciones de configuración, es altamente recomendable mantener un simple acceso de lectura a este archivo, para mayor seguridad. Para más información sobre esto, por favor lea la referencia en la <a href='http://MAX_PRODUCT_DOCSURL' target='_blank'><strong>documentación</strong></a>.</p>";
-$GLOBALS['strCheckDocumentation'] = "Para más ayuda, por favor lea la <a href='{$PRODUCT_DOCSURL}'>documentación de {$PRODUCT_NAME}</a>.";
-$GLOBALS['strSystemCheckBadPHPConfig'] = "La configuración actual de PHP no cumple con los requisitos de {$PRODUCT_NAME}. Para resolver los problemas, por favor, modifique la configuración en el archivo \"php.ini\".";
 
 $GLOBALS['strAdminUrlPrefix'] = "URL de la Interfaz de Administración";
 $GLOBALS['strDeliveryUrlPrefix'] = "URL del Motor de Entrega";
@@ -70,7 +65,6 @@ $GLOBALS['strInvalidUsername'] = "Nombre de usuario incorrecto";
 $GLOBALS['strBasicInformation'] = "Información Básica";
 $GLOBALS['strAdministratorEmail'] = "Dirección de correo electrónico del administrador";
 $GLOBALS['strAdminCheckUpdates'] = "Comprobar automáticamente si hay actualizaciones de producto y alertas de seguridad (Recomendado).";
-$GLOBALS['strAdminShareStack'] = "Comparta información técnica con el equipo de OpenX a fin de colaborar con el desarrollo y testeo.";
 $GLOBALS['strNovice'] = "Las acciones de eliminación requieren confirmación por seguridad";
 $GLOBALS['strUserlogEmail'] = "Grabar todos los e-mails salientes";
 $GLOBALS['strEnableDashboard'] = "Habilitar dashboard";
@@ -183,7 +177,6 @@ $GLOBALS['strEnforceUserAgents'] = "<b>Sólo</b> loguear estadísticas de client
 $GLOBALS['strConversionTracking'] = "Configuración de Conversion Tracking";
 $GLOBALS['strEnableConversionTracking'] = "Habilitar Conversion Tracking";
 $GLOBALS['strPrioritySettings'] = "Configuración de la prioridad";
-$GLOBALS['strAdminEmailHeaders'] = "Añadir las siguientes cabeceras a cada e-mail enviado por {$PRODUCT_NAME}";
 $GLOBALS['strWarnLimit'] = "Enviar un aviso cuando el número de impresiones restantes sea menos que el especificado aquí";
 $GLOBALS['strWarnAdmin'] = "Enviar un aviso al administrador cada vez que una campaña vaya a expirar";
 $GLOBALS['strWarnClient'] = "Enviar un aviso al anunciante cada vez que una campaña vaya a expirar";
