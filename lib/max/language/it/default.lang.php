@@ -180,7 +180,6 @@ $GLOBALS['strAuthentification'] = "Autenticazione";
 $GLOBALS['strWelcomeTo'] = "Benvenuto su";
 $GLOBALS['strEnterUsername'] = "Inserisci il tuo nome utente e la tua password per accedere";
 $GLOBALS['strEnterBoth'] = "È necessario inserire sia nome utente che password";
-$GLOBALS['strEnableCookies'] = "È necessario abilitare i cookie prima di poter utilizzare {$PRODUCT_NAME}";
 $GLOBALS['strSessionIDNotMatch'] = "Errore nel cookie di sessione, per favore entra nuovamente.";
 $GLOBALS['strLogin'] = "Nome utente";
 $GLOBALS['strLogout'] = "Esci";
@@ -1022,7 +1021,6 @@ $GLOBALS['strAuditTrailGoTo'] = "Vai alla pagina Audit Trail";
 // Widget - Campaign
 $GLOBALS['strCampaignGoTo'] = "Vai alla pagina delle campagne";
 $GLOBALS['strCampaignSetUp'] = "Impostare una campagna di oggi";
-$GLOBALS['strCampaignNoRecords'] = "<li>Le campagne ti permettono di raggruppare insieme banner di ogni dimensione che condividono gli stessi requisiti</li><li>Risparmia tempo definendo guppi di banner e non dovrai più impostare tutti i parametri singolarmente per ogni banner</li><li>Consulta la <a class='site-link' target='help' href='{$PRODUCT_DOCSURL}/inventory/advertisersAndCampaigns/campaigns'>Documentazione sulle Campagne</a>!</li>";
 $GLOBALS['strCampaignNoRecordsAdmin'] = "<li>Non ci sono attività da mostrare.</li>";
 
 $GLOBALS['strCampaignNoDataTimeSpan'] = "Nessuna campagna avviata o finita durante il periodo selezionato";

@@ -17,13 +17,9 @@ $GLOBALS['strAppendCodes'] = "Anexar códigos";
 // Maintenance
 $GLOBALS['strScheduledMaintenanceHasntRun'] = "<b>A manutenção agendada não foi executada na última hora. Isto pode significar que a configuração não foi feita de forma correta</b>";
 
-$GLOBALS['strAutoMantenaceEnabledAndHasntRun'] = "A Manutenção automática esta habilitada, mas não foi disparada. Ela é disparada somente quando o {$PRODUCT_NAME} entrega anúncios. Para uma melhor performance, você deve configurar <a href='http://{$PRODUCT_DOCSURL}/maintenance' target='_blank'>a manutenção agendada</a>";
 
-$GLOBALS['strAutoMantenaceDisabledAndHasntRun'] = "A manutenção automática esta desabilitada, portanto quando o  {$PRODUCT_NAME} entregar banners, a manutenção automática não será disparada. Para a melhor performance você deve configurar a <a href='http://{$PRODUCT_DOCSURL}/maintenance' target='_blank'>manutenção agendada</a>. Porém, se você não for configurar a <a href='http://{$PRODUCT_DOCSURL}/maintenance' target='_blank'>manutenção agendada</a>, então você <i>deve</i> <a href='account-settings-maintenance.php'>habilitar a manutenção automática</a> para garantir que o {$PRODUCT_NAME} funcione corretamente.";
 
-$GLOBALS['strAutoMantenaceEnabledAndRunning'] = "A Manutenção automática esta habilitada, mas não foi disparada. Ela é disparada somente quando o {$PRODUCT_NAME} entrega anúncios. Para uma melhor performance, você deve configurar <a href='http://{$PRODUCT_DOCSURL}/maintenance' target='_blank'>a manutenção agendada</a>";
 
-$GLOBALS['strAutoMantenaceDisabledAndRunning'] = "Porém a manutenção automática foi desabilitada recentemente. Para garantir que o {$PRODUCT_NAME} funcione corretamente, você deve ou configurar <a href='http://{$PRODUCT_DOCSURL}/maintenance' target='_blank'>a manutenção agendada</a> ou <a href='account-settings-maintenance.php'>re-habilitar a manutenção automática</a>.<br><br>Para a melhor performance, você deve configurar <a href='http://{$PRODUCT_DOCSURL}/maintenance' target='_blank'>a manutenção agendada</a>.";
 
 $GLOBALS['strScheduledMantenaceRunning'] = "<b>A manutenção agendada esta sendo executada corretamente</b>";
 
@@ -41,12 +37,6 @@ $GLOBALS['strBannerCacheOK'] = "Nenhum erro detectado. Seu cache de banners esta
 $GLOBALS['strBannerCacheDifferencesFound'] = "A verificação do cache de banners detectou que seu cache não esta atualizado e necessita ser regenerado. Clique aqui para atualizar seu cache automaticamente.";
 $GLOBALS['strBannerCacheRebuildButton'] = "Gerar novamente";
 $GLOBALS['strRebuildDeliveryCache'] = "Regenerar base de cache de banners";
-$GLOBALS['strBannerCacheExplaination'] = "O cache de banners é usado para agilizar a entrega de banners durante a visualização<br />
-Este cache necessita ser atualiza quando:
-<ul>
- <li>Você atualizar sua versão do OpenX</li>
- <li>Você mover sua instalação para um novo servidor</li>
-</ul>";
 
 // Cache
 $GLOBALS['strCache'] = "Cache de entrega";
@@ -61,7 +51,6 @@ $GLOBALS['strStorageExplaination'] = "As imagens usadas por banners locais estã
 
 // Encoding
 $GLOBALS['strEncoding'] = "Codificação";
-$GLOBALS['strEncodingExplaination'] = "Agora o {$PRODUCT_NAME} grava todos os dados no banco no formato UTF-8.<br />Sempre que possível seus dados serão automaticamente convertidos para esta codificação.<br />Caso após uma atualização você encontre caracteres corrompidos, e conheça a codificação usada, pode utilizar esta ferramenta para converter os dados para o formato UTF-8";
 $GLOBALS['strEncodingConvertFrom'] = "Converter desta codificação:";
 $GLOBALS['strEncodingConvertTest'] = "Testar conversão";
 $GLOBALS['strConvertThese'] = "Os seguintes dados serão alterados caso você siga em frente";
@@ -72,28 +61,14 @@ $GLOBALS['strAvailableUpdates'] = "Atualizações disponíveis";
 $GLOBALS['strDownloadZip'] = "Fazer Download (.zip)";
 $GLOBALS['strDownloadGZip'] = "Fazer Download (.tar.gz)";
 
-$GLOBALS['strUpdateAlert'] = "Uma nova versão do {$PRODUCT_NAME} está disponível.
-
-Deseja obter mais informações?";
-$GLOBALS['strUpdateAlertSecurity'] = "Uma nova versão do {$PRODUCT_NAME} está disponível.
-
-É altamente recomendado que o upgrade
-seja feito o mais rápido possível, pois esta
-versão contêm correções de segurança.";
 
 $GLOBALS['strUpdateServerDown'] = "Devido a um motivo desconhecido é impossível resgatar <br /> informações sobre possíveis atualizações. Tente novamente mais tarde.";
 
-$GLOBALS['strNoNewVersionAvailable'] = "	Sua versão de {$PRODUCT_NAME} esta atualizada. Nenhuma atualização disponível.";
 
 
 
-$GLOBALS['strNewVersionAvailable'] = "<b>Uma nova versão de {$PRODUCT_NAME} está disponível.</b><br /> É recomendado que esta atualização seja instalada,
-pois ela corrige problemas existentes e adiciona novas funcionalidades. Para obter mais informações sobre atualização
-leia a documentação que esta inclusa nos arquivos abaixo.";
 
-$GLOBALS['strSecurityUpdate'] = "	<b>É altamente recomendado que esta atualização seja instalada pois ela corrige vários problemas de segurança.</b> A versão atual do {$PRODUCT_NAME} que você esta utilizando pode estar vulnerável a alguns ataques e pode não ser segura. Para obter mais informações sobre como atualizar este produto, leia a documentação inclusa nos arquivos abaixo.";
 
-$GLOBALS['strNotAbleToCheck'] = "	<b>A extensão XML não esta disponível em seu servidor, {$PRODUCT_NAME} não consegue verificar se uma nova versão esta disponível.</b>";
 
 $GLOBALS['strForUpdatesLookOnWebsite'] = "	Se deseja saber se uma nova versão esta disponível, visite nosso site.";
 
