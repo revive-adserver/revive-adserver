@@ -117,7 +117,6 @@ $GLOBALS['strIgnoreHosts'] = "해당 IP주소 혹은 호스트명은 통계에 �
 // Campaign ECPM settings
 
 // Statistics & Maintenance Settings
-$GLOBALS['strAdminEmailHeaders'] = "�?��?� 광고 보고서�?� 발송�?�? 대한 정보를 메�?� 헤�?��? �?�함합니다.";
 $GLOBALS['strWarnLimit'] = "경고횟수 제한(Warn Limit)";
 $GLOBALS['strWarnAdmin'] = "캠페인의 만료일이 다가올때 관리자에게 알립니다.";
 $GLOBALS['strWarnClient'] = "캠페인의 만료일이 다가올때 광고주에게 알립니다.";

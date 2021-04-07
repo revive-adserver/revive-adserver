@@ -17,11 +17,6 @@ $GLOBALS['strInstallStatusUpgrade'] = 'Atualizando para Revive Adserver %s';
 $GLOBALS['strInstallStatusUpToDate'] = 'Detectado Revive Adserver %s';
 
 /** welcome step * */
-$GLOBALS['strWelcomeTitle'] = "Bem-vindo ao {$PRODUCT_NAME}";
-$GLOBALS['strInstallIntro'] = "Obrigado por escolher {$PRODUCT_NAME}. Este assistente irá guiá-lo através do processo de instalação {$PRODUCT_NAME}.";
-$GLOBALS['strUpgradeIntro'] = "Obrigado por escolher {$PRODUCT_NAME}. Este assistente irá guiá-lo através do processo de atualização {$PRODUCT_NAME}.";
-$GLOBALS['strInstallerHelpIntro'] = "Para ajudá-lo com o processo de instalação do {$PRODUCT_NAME}, por favor, consulte a <a href='{$PRODUCT_DOCSURL}' target='_blank'> documentação</a>.";
-$GLOBALS['strTermsIntro'] = "{$PRODUCT_NAME} é distribuído livremente sob uma licença Open Source, a GNU General Public License. Por favor, leia e concorde com os seguintes documentos para continuar a instalação.";
 
 /** check step * */
 $GLOBALS['strSystemCheck'] = "Verificação do sistema";
@@ -46,7 +41,6 @@ $GLOBALS['strDbSeeMoreFields'] = 'Ver mais campos de banco de dados...';
 $GLOBALS['strDBInstallSuccess'] = "Banco de dados criado com sucesso";
 $GLOBALS['strDBUpgradeSuccess'] = "Banco de dados atualizado com sucesso";
 
-$GLOBALS['strDetectedVersion'] = "Versão {$PRODUCT_NAME} detectada";
 
 /** config step * */
 $GLOBALS['strPreviousInstallTitle'] = "Instalação anterior";
@@ -55,17 +49,10 @@ $GLOBALS['strPreviousInstallTitle'] = "Instalação anterior";
 $GLOBALS['strJobsProgressInstallMessage'] = "Executando tarefas de instalação...";
 $GLOBALS['strJobsProgressUpgradeMessage'] = "Executando tarefas de atualização...";
 
-$GLOBALS['strPluginTaskChecking'] = "Verificando Plugin {$PRODUCT_NAME}";
-$GLOBALS['strPluginTaskInstalling'] = "Instalando Plugin {$PRODUCT_NAME}";
 $GLOBALS['strPostInstallTaskRunning'] = "Executando tarefas";
 
 /** finish step * */
-$GLOBALS['strFinishInstallTitle'] = "Sua instalação {$PRODUCT_NAME} está completa.";
-$GLOBALS['strFinishUpgradeWithErrorsTitle'] = "Sua atualização {$PRODUCT_NAME} está completa. Por favor, verifique as questões destacadas.";
-$GLOBALS['strFinishUpgradeTitle'] = "Sua atualização {$PRODUCT_NAME} está completa.";
-$GLOBALS['strFinishInstallWithErrorsTitle'] = "Sua instalação {$PRODUCT_NAME} está completa. Por favor, verifique as questões destacadas.";
 $GLOBALS['strPluginInstallFailed'] = "Falha na instalação do plugin \"%s\":";
 $GLOBALS['strTaskInstallFailed'] = "Ocorreu um erro ao executar a tarefa de instalação \"%s\":";
-$GLOBALS['strContinueToLogin'] = "Clique \"Continuar\" para logar em sua instância de {$PRODUCT_NAME}.";
 
 

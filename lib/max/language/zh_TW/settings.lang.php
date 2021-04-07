@@ -24,16 +24,13 @@ $GLOBALS['strWarningRegisterArgcArv'] = "如許運行維護腳本，您需要開
 $GLOBALS['strTablesType'] = "表格類型";
 
 $GLOBALS['strRecoveryRequiredTitle'] = "你以前嘗試升級遇到一個錯誤";
-$GLOBALS['strRecoveryRequired'] = "你之前升級{$PRODUCT_NAME}中出現了一個錯誤，請點擊恢復按鈕恢復到錯誤產生之前的狀態。 ";
 
-$GLOBALS['strOaUpToDate'] = "您的{$PRODUCT_NAME}和數據庫都使用的都是最新的版本，沒有需要更新的。請點擊繼續進入管理員面板。 ";
 $GLOBALS['strOaUpToDateCantRemove'] = "警告: 升級文件仍在var目錄。因為權限不夠，我們無法移除此檔案。請先手動刪除該文件吧。 ";
 $GLOBALS['strErrorWritePermissions'] = "文件權限錯誤。
  </br>在Linux下修正這個錯誤，請輸入以下命令: ";
 $GLOBALS['strErrorFixPermissionsRCommand'] = "<i>chmod a+w %s</i>";
 
 $GLOBALS['strErrorWritePermissionsWin'] = "文件權限錯誤。您必須先修正這個錯誤才可繼續下一步。 ";
-$GLOBALS['strCheckDocumentation'] = "需要幫助，請參閱 <a href='http://{$PRODUCT_DOCSURL}'>{$PRODUCT_NAME} 文檔.</a> ";
 
 $GLOBALS['strAdminUrlPrefix'] = "管理員介面路徑";
 $GLOBALS['strDeliveryUrlPrefix'] = "發布引擎路徑";

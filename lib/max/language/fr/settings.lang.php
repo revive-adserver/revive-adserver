@@ -24,14 +24,11 @@ $GLOBALS['strWarningRegisterArgcArv'] = "La variable register_argc_argv de la co
 $GLOBALS['strTablesType'] = "Type de tables";
 
 $GLOBALS['strRecoveryRequiredTitle'] = "Votre précédente tentative de mise à jour a rencontré une erreur";
-$GLOBALS['strRecoveryRequired'] = "Une erreur est survenue lors du traitement de votre précédente mise à jour et {$PRODUCT_NAME} doit tenter de reprendre le processus de mise à jour. Veuillez cliquez sur le bouton Reprendre ci-dessous.";
 
-$GLOBALS['strOaUpToDate'] = "Votre base de données {$PRODUCT_NAME} et votre structure de fichiers utilisent tous deux la version la plus récente, si bien qu'aucune mise à jour n'est requise pour l'instant. Veuillez cliquer sur Continuer afin de vous rendre au panneau d'administration d'{$PRODUCT_NAME}.";
 $GLOBALS['strOaUpToDateCantRemove'] = "Attention : le fichier UPGRADE est toujours présent dans votre dossier var. Nous ne pouvons supprimer ce fichier en raison de permissions insuffisantes. Veuillez supprimer ce fichier vous-même.";
 $GLOBALS['strErrorWritePermissions'] = "Des erreurs de permissions de fichiers ont été détectées et doivent être corrigées avant de pouvoir continuer.<br />Pour corriger ces erreur sur un système Linux, essayez de taper la(les) commande(s) suivante(s) :";
 
 $GLOBALS['strErrorWritePermissionsWin'] = "Des erreurs de permissions de fichiers ont été détectées et doivent être corrigées avant de pouvoir continuer.";
-$GLOBALS['strCheckDocumentation'] = "Pour plus d'aide, veuillez consulter la <a href='{$PRODUCT_DOCSURL}'>documentation d'{$PRODUCT_NAME} </a>.";
 
 $GLOBALS['strAdminUrlPrefix'] = "URL de l'interface d'administration";
 $GLOBALS['strDeliveryUrlPrefix'] = "URL du moteur de distribution";
@@ -59,7 +56,6 @@ $GLOBALS['strInvalidUsername'] = "Identifiant invalide";
 $GLOBALS['strBasicInformation'] = "Information de base";
 $GLOBALS['strAdministratorEmail'] = "Adresse e-mail de l'administrateur";
 $GLOBALS['strAdminCheckUpdates'] = "Détection automatique des mises à jour de produits et des alertes de sécurité (Recommandé)";
-$GLOBALS['strAdminShareStack'] = "Partager vos informations techniques avec l'équipe OpenX pour aider au test et au développement";
 $GLOBALS['strNovice'] = "Les actions de suppression nécessitent une confirmation par sécurité";
 $GLOBALS['strUserlogEmail'] = "Journaliser tous les messages e-mail sortants";
 $GLOBALS['strEnableDashboardSyncNotice'] = "Veuillez activer la <a href='account-settings-update.php'>vérification des mises à jour</a> pour utiliser le tableau de bord.";
@@ -224,7 +220,6 @@ $GLOBALS['strBlockAdClicks'] = "Ne pas compter les clics publicitaires si le vis
 $GLOBALS['strMaintenanceOI'] = "Intervalle entre les opérations de maintenance (minutes)";
 $GLOBALS['strPrioritySettings'] = "Paramètres de priorité";
 $GLOBALS['strPriorityInstantUpdate'] = "Mettre à jour les priorités des publicités immédiatement après avoir effectué des changements dans l'IU";
-$GLOBALS['strAdminEmailHeaders'] = "Ajouter les en-têtes suivants à tous les e-mails envoyés par {$PRODUCT_NAME}";
 $GLOBALS['strWarnLimit'] = "Envoyer un avertissement quand le nombre d'impressions restantes est inférieur à celui spécifié ici";
 $GLOBALS['strWarnLimitDays'] = "Envoyer un avertissement quand le nombre de jours restants est inférieur à celui spécifié ici";
 $GLOBALS['strWarnAdmin'] = "Envoyer une alerte à l'administrateur à chaque fois qu'une campagne approche de son expiration";

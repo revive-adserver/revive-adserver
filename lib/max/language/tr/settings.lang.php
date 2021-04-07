@@ -23,13 +23,11 @@ $GLOBALS['strTablesPrefix'] = "Tablo isim önadları";
 $GLOBALS['strTablesType'] = "Tablo tipleri";
 
 $GLOBALS['strRecoveryRequiredTitle'] = "Önceki yükseltme girişiminiz bir hatayla karşılaştı";
-$GLOBALS['strRecoveryRequired'] = "Önceki yükseltmenizi işleme koyarken bir hata oluştu ve {$PRODUCT_NAME}, yükseltme işlemini kurtarmaya çalışmalıdır. Lütfen aşağıdaki İyileştir düğmesine tıklayın.";
 
 $GLOBALS['strOaUpToDateCantRemove'] = "YÜKSELTME dosyası hala 'var' klasörünüzün içinde bulunuyor. İzinler nedeniyle bu dosyayı kaldıramıyoruz. Lütfen bu dosyayı kendiniz silin.";
 $GLOBALS['strErrorWritePermissions'] = "Dosya izin hataları tespit edildi ve devam etmeden önce düzeltilmesi gerekiyor. <br/> Bir Linux sistemindeki hataları düzeltmek için aşağıdaki komutları yazmayı deneyin:";
 
 $GLOBALS['strErrorWritePermissionsWin'] = "Dosya izin hataları tespit edildi ve devam etmeden önce düzeltilmesi gerekiyor.";
-$GLOBALS['strSystemCheckBadPHPConfig'] = "Geçerli PHP yapılandırmanız {$PRODUCT_NAME} şartlarını karşılamıyor. Sorunları çözmek için lütfen 'php.ini' dosyanızdaki ayarları değiştirin.";
 
 $GLOBALS['strDeliveryUrlPrefix'] = "Teslimat Motoru";
 $GLOBALS['strDeliveryUrlPrefixSSL'] = "Teslimat Motoru";
@@ -62,7 +60,6 @@ $GLOBALS['strInvalidUsername'] = "Geçersiz Kullanıcı Adı";
 $GLOBALS['strBasicInformation'] = "Temel Bilgiler";
 $GLOBALS['strAdministratorEmail'] = "Yönetici e-posta adresi";
 $GLOBALS['strAdminCheckUpdates'] = "Güncellemeleri kontrol et";
-$GLOBALS['strAdminShareStack'] = "Geliştirme ve testte yardımcı olması için {$PRODUCT_NAME} Ekibi ile teknik bilgi paylaşın.";
 $GLOBALS['strNovice'] = "Sil eylemleri, güvenlik için onay gerektirir";
 $GLOBALS['strUserlogEmail'] = "Tüm giden e-mailleri logla";
 $GLOBALS['strEnableDashboard'] = "Gösterge tablosunu etkinleştir";
@@ -177,7 +174,6 @@ $GLOBALS['strIgnoreHosts'] = "Sunuculara önem verme";
 // Campaign ECPM settings
 
 // Statistics & Maintenance Settings
-$GLOBALS['strAdminEmailHeaders'] = "Günlük raporlar için gönderici tanımlama mail başlığı";
 $GLOBALS['strWarnLimit'] = "Uyarı Sınırı";
 $GLOBALS['strWarnLimitDays'] = "Günler burada belirtilenden az olduğunda uyarı gönder";
 $GLOBALS['strWarnAdmin'] = "Uyarı Yöneticisi";

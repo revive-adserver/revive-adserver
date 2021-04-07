@@ -24,15 +24,12 @@ $GLOBALS['strWarningRegisterArgcArv'] = "A register_argc_argv PHP konfiguráció
 $GLOBALS['strTablesType'] = "Tábla típusa";
 
 $GLOBALS['strRecoveryRequiredTitle'] = "Az előző újraépítési kísérlete során hiba történt";
-$GLOBALS['strRecoveryRequired'] = "Az előző frissítés során hiba történt és az {$PRODUCT_NAME}nek most meg kell próbálnia visszaállítani a frissítés előtti állapotot. Kattintson a Visszaállítás gombra!";
 
-$GLOBALS['strOaUpToDate'] = "Az {$PRODUCT_NAME} adatbázis és fájlstruktúra a lehető legfrissebb verziót használja, így nincs szükség újraépítésre. Kérjük kattintson a Folytatásra, hogy az {$PRODUCT_NAME} adminisztrációs felületre irányíthassuk!";
 $GLOBALS['strOaUpToDateCantRemove'] = "Figyelmeztetés: Az UPGRADE fájl még mindig a var könyvtárban van. Nem sikerült automatikusan eltávolítani a fájlt, mert a fájlra vonatkozó engedélyezések nem tették lehetővé. Kérjük törölje a fájlt manuálisan!";
 $GLOBALS['strErrorWritePermissions'] = "Fájl engedélyezési hibákat észleltünk, amiket meg kell oldani a folytatás előtt.<br />A hibák kijavításához Linux rendszeren a következő parancs(ok) beírását érdemes megpróbálni:";
 $GLOBALS['strErrorFixPermissionsRCommand'] = "<i>chmod a+w %s</i>";
 
 $GLOBALS['strErrorWritePermissionsWin'] = "Fájl engedélyezési hibákat észleltünk, amiket meg kell oldani a folytatás előtt.";
-$GLOBALS['strCheckDocumentation'] = "További segítséghez kérjük nézze meg az <a href='http://{$PRODUCT_DOCSURL}'>{$PRODUCT_NAME} dokumentációt</a>.";
 
 $GLOBALS['strAdminUrlPrefix'] = "Az Adminisztrációs Felület URL-je";
 $GLOBALS['strDeliveryUrlPrefix'] = "A Kiszolgáló Motor URL-je";
@@ -199,7 +196,6 @@ $GLOBALS['strPrioritySettings'] = "Prioritás beállítások";
 $GLOBALS['strPriorityInstantUpdate'] = "Hirdetés prioritások frissítése rögtön a változtatások mentése után";
 $GLOBALS['strDefaultImpConvWindow'] = "Alapértelmezett megtekintési konverziós ablak (másodpercben)";
 $GLOBALS['strDefaultCliConvWindow'] = "Alapértelmezett kattintási konverziós ablak (másodpercben)";
-$GLOBALS['strAdminEmailHeaders'] = "A következő fejlécek hozzáadása a {$PRODUCT_NAME} által küldött elektronikus üzenethez";
 $GLOBALS['strWarnLimit'] = "Figyelmeztetés küldése ha a hátrelévő megtekintések száma kevesebb mint";
 $GLOBALS['strWarnLimitDays'] = "Figyelmeztetés küldése ha a hátralévő napok száma kevesebb mint ";
 $GLOBALS['strWarnAdmin'] = "Figyelmeztetés küldése az adminisztrátornak ha a kampány hamarosan lejár";

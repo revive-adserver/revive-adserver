@@ -113,7 +113,6 @@ $GLOBALS['strIgnoreHosts'] = "�?ל תתעד סטטיסטיקה ממבקרי�
 // Campaign ECPM settings
 
 // Statistics & Maintenance Settings
-$GLOBALS['strAdminEmailHeaders'] = "הוסף �?ת הכותרת הב�?ה לכל �?ימייל שישלח על ידי {$PRODUCT_NAME}";
 $GLOBALS['strWarnLimit'] = "שלח �?תר�?ה כ�?שר מספר החשיפות הנותר הינו פחות מהנקוב כ�?ן";
 $GLOBALS['strWarnAdmin'] = " שלח התר�?ת מנהל בכל פע�? שקמפין מסויי�? לפני סיומו";
 $GLOBALS['strWarnClient'] = " שלח התר�?ת מפרס�? בכל פע�? שהקמפין שלו לפני סיו�?";

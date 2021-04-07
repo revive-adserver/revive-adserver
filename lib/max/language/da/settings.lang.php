@@ -24,14 +24,11 @@ $GLOBALS['strWarningRegisterArgcArv'] = "PHP konfigurator variable register_argc
 $GLOBALS['strTablesType'] = "Tabel type";
 
 $GLOBALS['strRecoveryRequiredTitle'] = "Dit tidligere forsøg på at upgradere udløste en fejl";
-$GLOBALS['strRecoveryRequired'] = "Der var en fejl under behandlingen af din tidligere opdatering og {$PRODUCT_NAME} skal forsøge at genskabe opgraderings processen. Venligst klik på Genskab knappen herunder.";
 
-$GLOBALS['strOaUpToDate'] = "Din {$PRODUCT_NAME} database og filstrktur bruger begge den nyeste version of derfor er det ikke nødvendig med at opdatere på dette tidspunkt. Venligst klik 'Fortsæt' for at komme videre til OpenX administrations panelet.";
 $GLOBALS['strOaUpToDateCantRemove'] = "Advarsel: UPGRADE filen er stadig inde i din var folder. Vi kan ikke fjerne denne fil på grund af manglede adgang og tilladelse. Venligst slet denne fil selv.";
 $GLOBALS['strErrorWritePermissions'] = "Der er fundet nogle fil adgangs fejl, og disse skal repareres inden du kan fortsætte.<br />For at reparere fejlene på en Linux system, prøv at skrive følgende kommando(er):";
 
 $GLOBALS['strErrorWritePermissionsWin'] = "Der er fundet nogle fil adgangs fejl, og disse skal repareres inden du kan fortsætte";
-$GLOBALS['strCheckDocumentation'] = "For mere hjælp se <a href='http://{$PRODUCT_DOCSURL}'>{$PRODUCT_NAME} documentation</a>.";
 
 $GLOBALS['strAdminUrlPrefix'] = "Administrator interface URL";
 

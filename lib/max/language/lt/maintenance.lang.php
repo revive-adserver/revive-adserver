@@ -31,12 +31,6 @@ $GLOBALS['strBannerCacheErrorsFound'] = "Banerių duomenų bazė rado tam tikrų
 $GLOBALS['strBannerCacheOK'] = "Jokių klaidų nerasta. Jūsų banerių duomenų bazė atnaujinta ";
 $GLOBALS['strBannerCacheRebuildButton'] = "Atstatyti";
 $GLOBALS['strRebuildDeliveryCache'] = "Atstatyti banerių duomenų bazės sandėlius";
-$GLOBALS['strBannerCacheExplaination'] = "    Banerių duomenų bazės naudojamos pagreitinti pristatymus, kai jie užsakyti<br />
-   Atsargos turi būti atnaujintos, kai:
-    <ul>
-        <li>Jūsų atnaujinta versija OpenX</li>
-        <li>Perkelkite OpenX instaliaciją į kitą serverį</li>
-    </ul>";
 
 // Cache
 $GLOBALS['strCache'] = "Pristatymo sandėlys";
