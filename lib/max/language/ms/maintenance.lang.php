@@ -32,11 +32,12 @@ $GLOBALS['strBannerCacheOK'] = "Tiada kesilapan dijumpai. Pengkalan data \"banne
 $GLOBALS['strBannerCacheDifferencesFound'] = "Pemeriksaan terhadap pengkalan data \"banner cache\" mendapati yang \"cache\" anda tidak dikemaskini dan memerlukan penyusunan semula. Klik disini untuk secara automatik memperbaharui \"cache\" anda.";
 $GLOBALS['strBannerCacheRebuildButton'] = "Bina semula";
 $GLOBALS['strRebuildDeliveryCache'] = "Bina semula pengkalan data \"banner cache\"";
-$GLOBALS['strBannerCacheExplaination'] = "Pengkalan data \"banner cache\" digunakan untuk mempercepatkan penyampaian banner semasa penghantaran<br />";
 
 // Cache
 
 // Storage
+
+// Security
 
 // Encoding
 
@@ -45,13 +46,9 @@ $GLOBALS['strBannerCacheExplaination'] = "Pengkalan data \"banner cache\" diguna
 
 $GLOBALS['strUpdateServerDown'] = "Diatas sebab-sebab yang tidak diketahui, maklumat tentang<br>versi baru tidak dapat dicapai. Sila cuba lagi kemudian.";
 
-$GLOBALS['strNoNewVersionAvailable'] = "	 Versi anda untuk {$PRODUCT_NAME} adalah terkini. Tiada versi baru yang terdapat kini.";
 
 
 
-$GLOBALS['strNewVersionAvailable'] = "	<b>Versi baru untuk {$PRODUCT_NAME} telah dikeluarkan.</b><br /> Adalah digalakkan untuk memperbaharui sistem anda menggunakan versi baru ini,
-	berkemungkinan ini akan memperbaiki masalah yang terdapat kini dan juga menambahkan ciri-ciri baru. Maklumat lanjut
-	tentang proses pembaharuan, sila baca dokumen yang terdapa bersama fail-fail dibawah.";
 
 
 

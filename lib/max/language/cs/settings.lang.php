@@ -142,7 +142,6 @@ $GLOBALS['strIgnoreHosts'] = "Neukládát statistiky pro návštěvníky užíva
 // Campaign ECPM settings
 
 // Statistics & Maintenance Settings
-$GLOBALS['strAdminEmailHeaders'] = "Přidej následujíc hlavičku ke každé správě poslané {$PRODUCT_NAME}";
 $GLOBALS['strWarnLimit'] = "Poslat upozornění když počet zbývajících impresí je nižší než zde uvedený";
 $GLOBALS['strWarnAdmin'] = "Poslat upozornění správci kdykoliv je kampaň téměř vyčerpána";
 $GLOBALS['strWarnClient'] = "Poslat upozornění inzerentovi kdykoliv je kampaň téměř vyčerpána";

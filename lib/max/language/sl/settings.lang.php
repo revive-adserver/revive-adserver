@@ -24,14 +24,11 @@ $GLOBALS['strWarningRegisterArgcArv'] = "PHP nastavitvena spremenljivka register
 $GLOBALS['strTablesType'] = "Tip tabele";
 
 $GLOBALS['strRecoveryRequiredTitle'] = "Vaš prejšnji poizkus posodobitve je naletel na težavo";
-$GLOBALS['strRecoveryRequired'] = "Prišlo je do napake med procesiranjem vaše prejšnje posodobitve. {$PRODUCT_NAME} bo poizkusil povrniti posodobitveni postopek. Prosimo, potrdite z klikom na gumb Povrni.";
 
-$GLOBALS['strOaUpToDate'] = "Vaša {$PRODUCT_NAME} podatkovna baza in struktura datotek uporabljata najnovejšo različico in zato posodobitev v tem trenutku ni potrebna. Kliknite \"Nadaljuj\" za napotitev v {$PRODUCT_NAME} Nadzorno ploščo.";
 $GLOBALS['strOaUpToDateCantRemove'] = "Opozorilo: Posodobitvena datoteka je še vedno v vaši mapi. Zaradi varnostnih razlogov je ne moremo odstraniti. Prosimo, datoteko izbrišite ročno.";
 $GLOBALS['strErrorWritePermissions'] = "Prišlo je do napak pri dostopu do datotek. Pred nadaljevanjem jih morate odpraviti.<br />Pri odpravi teh napak v sistemu Linux vtipkajte naslednji ukazni niz:";
 
 $GLOBALS['strErrorWritePermissionsWin'] = "Prišlo je do napak pri dostopu do datotek. Pred nadaljevanjem jih morate odpraviti.";
-$GLOBALS['strCheckDocumentation'] = "Za več pomoči si prosimo oglejte <a href='{$PRODUCT_DOCSURL}'>{$PRODUCT_NAME}  dokumentacijo</a>.";
 
 $GLOBALS['strAdminUrlPrefix'] = "URL Nadzorniškega vmesnika";
 $GLOBALS['strDeliveryUrlPrefix'] = "URL Dostavnega orodja";
@@ -60,7 +57,6 @@ $GLOBALS['strInvalidUsername'] = "Napačno uporabniško ime";
 $GLOBALS['strBasicInformation'] = "Osnovne informacije";
 $GLOBALS['strAdministratorEmail'] = "E-pošta Administratorja";
 $GLOBALS['strAdminCheckUpdates'] = "Samodejni preveri za posodobitve izdelka in varnostna opozorila (Priporočeno)";
-$GLOBALS['strAdminShareStack'] = "Delite tehnične informacije z OpenX ekipo pri nadaljnem razvoju in testiranju.";
 $GLOBALS['strNovice'] = "Zaradi varnostnih razlogov potrebujejo postopki o izbrisu potrditev";
 $GLOBALS['strUserlogEmail'] = "Beleži vsa odhodna e-poštna sporočila";
 $GLOBALS['strEnableDashboardSyncNotice'] = "Prosimo, omogočite <a href='account-settings-update.php'>Preveri za posodobitve</a> , če bi želeli uporabljati Nadzorno ploščo.";

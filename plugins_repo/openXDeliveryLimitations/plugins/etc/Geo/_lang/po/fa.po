@@ -34,6 +34,15 @@ msgstr "شرکت"
 msgid "Cellular"
 msgstr ""
 
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Subdivision1.class.php:76
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/City.class.php:75
+msgid "Country"
+msgstr "کشور"
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Subdivision1.class.php:95
+msgid "Subdivision(s)"
+msgstr ""
+
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:46
 msgid "Is within"
 msgstr "درون"
@@ -50,16 +59,7 @@ msgstr "عرض"
 msgid "Longitude"
 msgstr "طول"
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/City.class.php:75
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Subdivision1.class.php:76
-msgid "Country"
-msgstr "کشور"
-
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/City.class.php:90
 msgid "City(s)"
 msgstr "شهار(ها)"
-
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Subdivision1.class.php:95
-msgid "Subdivision(s)"
-msgstr ""
 

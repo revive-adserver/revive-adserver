@@ -24,14 +24,11 @@ $GLOBALS['strWarningRegisterArgcArv'] = "PHPの設定値[register_argc_argv]を'
 $GLOBALS['strTablesType'] = "テーブルタイプ";
 
 $GLOBALS['strRecoveryRequiredTitle'] = "前回のアップデートでエラーが発生";
-$GLOBALS['strRecoveryRequired'] = "前回のアップデートプロセスでエラーが発生しています。{$PRODUCT_NAME} は、アップデートプロセスの回復を試みます。以下の\\'復旧する\\'ボタンをクリックしてください。";
 
-$GLOBALS['strOaUpToDate'] = "あなたの{$PRODUCT_NAME}は最新です！次へボタンを押して、{$PRODUCT_NAME}の管理画面へと進んでください。";
 $GLOBALS['strOaUpToDateCantRemove'] = "警告:アップデートファイルが、varディレクトリに残っています。十分な権限がないため、アップデートファイルを削除できませんでした。このファイルを自分自身の手で削除してください。";
 $GLOBALS['strErrorWritePermissions'] = "ファイルのパーミッションエラーが検出されました。継続するには、指定ファイルのパーミッションを変更してください。<br />Linux系のシステムでは、以下のコマンドを入力してください。:";
 
 $GLOBALS['strErrorWritePermissionsWin'] = "ファイルのパーミッションエラーが検出されました。継続するには、指定ファイルのパーミッションを変更してください。";
-$GLOBALS['strCheckDocumentation'] = "詳細な情報に関しては、 <a href='{$PRODUCT_DOCSURL}'>{$PRODUCT_NAME} こちら</a>をご覧下さい。";
 
 $GLOBALS['strAdminUrlPrefix'] = "管理者画面URL";
 $GLOBALS['strDeliveryUrlPrefix'] = "配信エンジンURL";
@@ -227,7 +224,6 @@ $GLOBALS['strBlockAdClicks'] = "特定の時間内に同じゾーンもしくは
 $GLOBALS['strMaintenanceOI'] = "メンテナンス時間間隔(分）";
 $GLOBALS['strPrioritySettings'] = "優先度設定";
 $GLOBALS['strPriorityInstantUpdate'] = "優先度の変更を即反映する";
-$GLOBALS['strAdminEmailHeaders'] = "{$PRODUCT_NAME} が送るメールのヘッダに以下の情報を付与する";
 $GLOBALS['strWarnLimit'] = "インプレッションの残数がここで指定する数値を下回った場合、警告Eメールを送信する";
 $GLOBALS['strWarnLimitDays'] = "表示日数の残数がここで指定する数値を下回った場合、警告Eメールを送信する";
 $GLOBALS['strWarnAdmin'] = "キャンペーンが終了しそうになったら、管理者宛てにメールを送る。";

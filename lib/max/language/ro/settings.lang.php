@@ -24,14 +24,11 @@ $GLOBALS['strWarningRegisterArgcArv'] = "Variabila register_argc_argv din config
 $GLOBALS['strTablesType'] = "Tip tabelă";
 
 $GLOBALS['strRecoveryRequiredTitle'] = "Încercarea ta anterioară de actualizare a întâmpinat o eroare";
-$GLOBALS['strRecoveryRequired'] = "A intervenit o eroare în timpul procesării actualizării anterioare şi {$PRODUCT_NAME} trebuie să încerce recuperarea procesului de actualizare. Te rugăm să faci click pe butonul Recuperează de mai jos.";
 
-$GLOBALS['strOaUpToDate'] = "Atât baza ta de date {$PRODUCT_NAME} cât şi structura de fişiere utilizează cea mai nouă versiune; ca atare nu este nevoie de nici o actualizare acum. Te rugăm să faci click pe Continuă pentru a accesa panoul de administrare {$PRODUCT_NAME}.";
 $GLOBALS['strOaUpToDateCantRemove'] = "Atenţie: fişierul de ACTUALIZARE încă este prezent în dosarul var. Nu am putut şterge acest fişier din cauza permisiunilor insuficiente. Te rugăm să ştergi acest fişier.";
 $GLOBALS['strErrorWritePermissions'] = "Au fost detectate erori legate de permisiunile fişierelor pe care trebuie să le corectezi înainte de a continua.<br />Pentru a repara aceste erori pe un sistem Linux, încearcă să introduci următoarele comenzi:";
 
 $GLOBALS['strErrorWritePermissionsWin'] = "Au fost detectate erori legate de permisiunile fişierelor pe care trebuie să le corectezi înainte de a continua.";
-$GLOBALS['strCheckDocumentation'] = "Pentru mai multe informaţii, te rugăm să citeşti <a href='{$PRODUCT_DOCSURL}'>documentaţia {$PRODUCT_NAME}</a>.";
 
 $GLOBALS['strAdminUrlPrefix'] = "URL Interfaţă Admin";
 $GLOBALS['strDeliveryUrlPrefix'] = "URL Motor de Livrare";

@@ -23,9 +23,7 @@ $GLOBALS['strBtnRetry'] = "Cuba lagi";
 $GLOBALS['strWarningRegisterArgcArv'] = "Konfigurasi PHP bagi pembolehubah register_argc_argv perlu diubah kepada on untuk membolehkan proses pemulihan dan pemantauan dijalankan dari command line.";
 
 $GLOBALS['strRecoveryRequiredTitle'] = "Cubaan pembaharuan anda yang terdahulu tidak berjaya";
-$GLOBALS['strRecoveryRequired'] = "Terdapat kesilapan semasa memproses pembaharuan anda terdahulu dan {$PRODUCT_NAME} mesti mencuba untuk memulihkan proses pembaharuan itu. Sila klik butang Pulih dibawah";
 
-$GLOBALS['strOaUpToDate'] = "Pengkalan data {$PRODUCT_NAME} anda dan juga struktur failnya, adalah versi terkini, maka dengan ini tiada pembaharuan diperlukan. Sila klik Seterusnya untuk ke panel pentadbiran OpenX.";
 $GLOBALS['strOaUpToDateCantRemove'] = "Amaran: fail Pembaharuan masih lagi terdapat didalam direktori var anda. Kami tidak dapat memadamkan fail ini disebabkan kekurangan hak keatasnya. Sila padamkan fail ini sendiri.";
 
 

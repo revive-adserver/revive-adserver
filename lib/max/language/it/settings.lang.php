@@ -24,18 +24,13 @@ $GLOBALS['strWarningRegisterArgcArv'] = "La variabile di configurazione del PHP 
 $GLOBALS['strTablesType'] = "Tipo di tabelle";
 
 $GLOBALS['strRecoveryRequiredTitle'] = "Il tuo precedente tentativo di aggiornamento ha generato un errore";
-$GLOBALS['strRecoveryRequired'] = "Durante il tuo precedente tentativo di aggiornamento è stato riscontrato un errore e {$PRODUCT_NAME} cercherà di recuperare il processo interrotto. Premi il pulsante Recupera.";
 
-$GLOBALS['strProductUpToDateTitle'] = "{$PRODUCT_NAME} è aggiornato";
-$GLOBALS['strOaUpToDate'] = "Il database e i file della tua installazione di {$PRODUCT_NAME} sono già aggiornati all'ultima versione e non è quindi al momento necessario procedere ad alcun aggiornamento. Premi Continua per raggiungere il pannello di amministrazione di OpenX.";
 $GLOBALS['strOaUpToDateCantRemove'] = "Attenzione: il file UPGRADE è ancora presente all'interno della cartella var. Non è possibile cancellare questo file automaticamente per mancanza dei permessi necessari. Si prega di rimuovere il file manualmente.";
 $GLOBALS['strErrorWritePermissions'] = "E' stato riscontrato un errore nei permessi dei file che deve essere corretto prima procedere.<br />Per correggere l'errore su un sistema Linux, prova a digitare i seguenti comandi:";
 $GLOBALS['strNotWriteable'] = "NON scrivibile";
 $GLOBALS['strDirNotWriteableError'] = "La directory deve essere scrivibile";
 
 $GLOBALS['strErrorWritePermissionsWin'] = "Sono stati rilevati errori nei permessi dei file, e devono essere corretti per procedere.";
-$GLOBALS['strCheckDocumentation'] = "Per maggiori informazioni, consulta la <a href='{$PRODUCT_DOCSURL}'>documentazione di {$PRODUCT_NAME}</a>.";
-$GLOBALS['strSystemCheckBadPHPConfig'] = "La tua configurazione PHP non soddisfa i requisiti di {$PRODUCT_NAME}. Per risolvere i problemi, modifica le impostazioni nel tuo file 'php.ini'.";
 
 $GLOBALS['strAdminUrlPrefix'] = "URL dell'interfaccia di amministrazione";
 $GLOBALS['strDeliveryUrlPrefix'] = "URL sistema di consegna";
@@ -65,7 +60,6 @@ $GLOBALS['strInvalidUsername'] = "Nome utente non valido";
 $GLOBALS['strBasicInformation'] = "Informazioni di base";
 $GLOBALS['strAdministratorEmail'] = "Indirizzo email dell'Amministratore";
 $GLOBALS['strAdminCheckUpdates'] = "Controlla aggiornamenti disponibili";
-$GLOBALS['strAdminShareStack'] = "Condividi informazioni tecniche con il team di {$PRODUCT_NAME} per aiutarli nelle fasi di sviluppo e test.";
 $GLOBALS['strNovice'] = "Per sicurezza, le cancellazioni richiedono la conferma";
 $GLOBALS['strUserlogEmail'] = "Registra tutte le email in uscita";
 $GLOBALS['strEnableDashboard'] = "Abilita dashboard";
@@ -247,7 +241,6 @@ $GLOBALS['strMaintenanceOI'] = "Intervallo delle operazioni di manutenzione (in 
 $GLOBALS['strPrioritySettings'] = "Impostazioni Priorità";
 $GLOBALS['strPriorityInstantUpdate'] = "Aggiorna immediatamente le priorità a seguito di un cambiamento effettuato da interfaccia grafica";
 $GLOBALS['strPriorityIntentionalOverdelivery'] = "Prova intenzionalmente a consegnare più del dovuto (over-delivery) le campagne a contratto";
-$GLOBALS['strAdminEmailHeaders'] = "Aggiungi i seguenti header ad ogni e-mail inviata da {$PRODUCT_NAME}";
 $GLOBALS['strWarnLimit'] = "Invia un avviso quando il numero di impressioni rimaste sono inferiori a";
 $GLOBALS['strWarnLimitDays'] = "Invia un messaggio di avviso quando i giorni rimasti sono inferiori al numero specificato";
 $GLOBALS['strWarnAdmin'] = "Invia un messaggio di avviso all'amministratore quando una campagna sta per scadere";
