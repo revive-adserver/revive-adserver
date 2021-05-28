@@ -21,6 +21,7 @@ $GLOBALS['strBtnRecover'] = "Genskab »";
 $GLOBALS['strBtnAgree'] = "Jeg acceptere »";
 $GLOBALS['strBtnRetry'] = "Forsøg igen";
 $GLOBALS['strWarningRegisterArgcArv'] = "PHP konfigurator variable register_argc_argv skal tændes for at kunne køre vedligeholdelse fra kommando linien.";
+$GLOBALS['strTablesPrefix'] = "Tabel navne prefix";
 $GLOBALS['strTablesType'] = "Tabel type";
 
 $GLOBALS['strRecoveryRequiredTitle'] = "Dit tidligere forsøg på at upgradere udløste en fejl";

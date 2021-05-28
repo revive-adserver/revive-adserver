@@ -34,6 +34,15 @@ msgstr "Firemní"
 msgid "Cellular"
 msgstr "Mobilní"
 
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Subdivision1.class.php:76
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/City.class.php:75
+msgid "Country"
+msgstr "Země"
+
+#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Subdivision1.class.php:95
+msgid "Subdivision(s)"
+msgstr "Divize"
+
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:46
 msgid "Is within"
 msgstr ""
@@ -50,16 +59,7 @@ msgstr "Zeměpisná šířka"
 msgid "Longitude"
 msgstr "Zeměpisná délka"
 
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/City.class.php:75
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Subdivision1.class.php:76
-msgid "Country"
-msgstr "Země"
-
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/City.class.php:90
 msgid "City(s)"
 msgstr "Město(a)"
-
-#: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Subdivision1.class.php:95
-msgid "Subdivision(s)"
-msgstr "Divize"
 

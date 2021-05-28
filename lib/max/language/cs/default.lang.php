@@ -727,6 +727,7 @@ $GLOBALS['strCTR_short'] = "CTR";
 $GLOBALS['strGlobalSettings'] = "Základní nastavení";
 $GLOBALS['strGeneralSettings'] = "Obecná nastavení";
 $GLOBALS['strMainSettings'] = "Základní nastavení";
+$GLOBALS['strChooseSection'] = 'Vyberte sekci';
 
 // Product Updates
 $GLOBALS['strProductUpdates'] = "Aktualizace produktu";

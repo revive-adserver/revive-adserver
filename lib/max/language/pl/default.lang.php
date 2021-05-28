@@ -673,6 +673,7 @@ $GLOBALS['strConfiguration'] = "Konfiguracja";
 $GLOBALS['strGlobalSettings'] = "Ustawienia ogólne";
 $GLOBALS['strGeneralSettings'] = "Ustawienia ogólne";
 $GLOBALS['strMainSettings'] = "Ustawienia główne";
+$GLOBALS['strChooseSection'] = 'Wybierz sekcję';
 
 // Product Updates
 $GLOBALS['strProductUpdates'] = "Aktualizacje produktu";

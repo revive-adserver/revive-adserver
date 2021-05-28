@@ -21,6 +21,7 @@ $GLOBALS['strBtnRecover'] = "復旧する »";
 $GLOBALS['strBtnAgree'] = "承認する »";
 $GLOBALS['strBtnRetry'] = "再試行する";
 $GLOBALS['strWarningRegisterArgcArv'] = "PHPの設定値[register_argc_argv]を'on'にしてください";
+$GLOBALS['strTablesPrefix'] = "テーブルプリフィックス";
 $GLOBALS['strTablesType'] = "テーブルタイプ";
 
 $GLOBALS['strRecoveryRequiredTitle'] = "前回のアップデートでエラーが発生";
@@ -40,12 +41,14 @@ $GLOBALS['strImagesUrlPrefix'] = "画像ストレージURL";
 $GLOBALS['strImagesUrlPrefixSSL'] = "画像ストレージURL(SSL)";
 
 
+$GLOBALS['strUpgrade'] = "アップデート";
 
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
 /* ------------------------------------------------------- */
 
 // Global
+$GLOBALS['strChooseSection'] = "セクションの選択";
 $GLOBALS['strUnableToWriteConfig'] = "設定ファイルに書き込む事ができませんでした。";
 $GLOBALS['strUnableToWritePrefs'] = "データベースに設定を反映できませんでした。";
 $GLOBALS['strImageDirLockedDetected'] = "指定した<b>画像ストレージ</b>への書き込みができません。<br>ディレクトリのパーミッションを変更するか、新しくディレクトリを作成してください。";

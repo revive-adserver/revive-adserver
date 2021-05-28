@@ -508,6 +508,7 @@ $GLOBALS['strCTR_short'] = "클릭율";
 $GLOBALS['strGlobalSettings'] = "전체 설정";
 $GLOBALS['strGeneralSettings'] = "일반 설정";
 $GLOBALS['strMainSettings'] = "메인설정";
+$GLOBALS['strChooseSection'] = '�?역 선�?';
 
 // Product Updates
 $GLOBALS['strProductUpdates'] = "제품 업데이트";

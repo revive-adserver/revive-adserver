@@ -71,7 +71,8 @@ $GLOBALS['phpAds_hlp_company_name'] = "Deze naam wordt gebruikt in de e-mail ver
 
 $GLOBALS['phpAds_hlp_override_gd_imageformat'] = "{$PRODUCT_NAME} detecteert gewoonlijk of de GD-bibliotheek is geïnstalleerd en welke afbeeldingsindeling wordt ondersteund door de geïnstalleerde versie van GD. Maar het is mogelijk dat de detectie niet accuraat of onjuist is, sommige versies van PHP staan de detectie van de ondersteunde afbeeldingsinstelingen niet toe. Indien {$PRODUCT_NAME} niet automatisch de juiste afbeelding-instelling detecteert, kunt u de juiste afbeeldingsinstelling kiezen. Mogelijke waarden zijn: geen, png, jpeg, gif.";
 
-$GLOBALS['phpAds_hlp_p3p_policies'] = "Als u de P3P Privacy Policies van {$PRODUCT_NAME} wilt toepassen, dan moet u deze optie inschakelen.";
+$GLOBALS['phpAds_hlp_p3p_policies'] = "	Indien u gebruik wil maken van P3P Privacy Policies kunt u deze optie aanzetten.
+	Hieronder kunt u exact de P3P instellingen exact configureren.";
 
 $GLOBALS['phpAds_hlp_p3p_compact_policy'] = "The compact policy which is sent together with cookies. The default setting
 is: 'CUR ADM OUR NOR STA NID', which will allow Internet Explorer 6 to

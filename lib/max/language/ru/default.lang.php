@@ -758,6 +758,7 @@ $GLOBALS['strClickSR_short'] = "Клик (SR)";
 $GLOBALS['strGlobalSettings'] = "Общие настройки";
 $GLOBALS['strGeneralSettings'] = "Общие установки";
 $GLOBALS['strMainSettings'] = "Главные настройки";
+$GLOBALS['strChooseSection'] = 'Выберите раздел';
 
 // Product Updates
 $GLOBALS['strProductUpdates'] = "Обновление ПО";

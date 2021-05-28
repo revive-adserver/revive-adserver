@@ -60,6 +60,8 @@ $GLOBALS['strMoveToDirectory'] = "Déplacer les images stockées dans la base de
 $GLOBALS['strStorageExplaination'] = " Les images utilisées par les bannières locales sont stockées dans la base de données ou dans un répertoire. Si vous stockez les images dans
  un répertoire, la charge de la base de données sera réduite et cela provoquera une accélération.";
 
+// Security
+
 // Encoding
 $GLOBALS['strEncoding'] = "Encodage";
 $GLOBALS['strEncodingExplaination'] = "{$PRODUCT_NAME} stocke maintenant toutes les données de la base de données au format UTF-8.<br />Quand c'était possible, vos données auront été automatiquement converties vers cet encodage.<br />Si après la mise à jour vous trouvez des caractères corrompus et que vous connaissez l'encodage utilisé, vous pourrez utiliser cet outil pour convertir les données depuis ce format vers l'UTF-8";

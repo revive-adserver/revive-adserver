@@ -50,6 +50,8 @@ $GLOBALS['strMoveToDirectory'] = "Išsaugotus vaizdus perkelti į katalogą";
 $GLOBALS['strStorageExplaination'] = "	 Vaizdai, kuriuos naudoja vietiniai baneriaiyra išsaugoti kataloge. Jei išsaugosite vaizdus viduje
 	a katalogo tai tuomet padidės siuntimo į bazę greitis, tačiau sumažės vietos pačioje bazėje.";
 
+// Security
+
 // Encoding
 $GLOBALS['strEncoding'] = "Užkoduota";
 $GLOBALS['strEncodingConvertFrom'] = "Konvertuoti iš šio užkodavimo:";

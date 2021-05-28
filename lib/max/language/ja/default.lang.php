@@ -677,6 +677,7 @@ $GLOBALS['strClickSR_short'] = "クリックSR";
 $GLOBALS['strGlobalSettings'] = "全般設定";
 $GLOBALS['strGeneralSettings'] = "全般設定";
 $GLOBALS['strMainSettings'] = "メイン設定";
+$GLOBALS['strChooseSection'] = 'セクションの選択';
 
 // Product Updates
 $GLOBALS['strProductUpdates'] = "プロダクト更新";

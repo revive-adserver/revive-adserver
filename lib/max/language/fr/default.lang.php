@@ -172,7 +172,6 @@ $GLOBALS['strAuthentification'] = "Authentification";
 $GLOBALS['strWelcomeTo'] = "Bienvenue sur";
 $GLOBALS['strEnterUsername'] = "Entrez vos identifiant et mot de passe pour vous connecter";
 $GLOBALS['strEnterBoth'] = "Veuillez entrer vos identifiant et mot de passe";
-$GLOBALS['strEnableCookies'] = "Vous devez activer les cookies avant de pouvoir utiliser {$PRODUCT_NAME}";
 $GLOBALS['strSessionIDNotMatch'] = "Erreur de cookie de session, veuillez vous reconnecter";
 $GLOBALS['strLogin'] = "Connexion";
 $GLOBALS['strLogout'] = "Déconnexion";
@@ -846,6 +845,7 @@ $GLOBALS['strGlobalSettings'] = "Paramètres généraux";
 $GLOBALS['strGeneralSettings'] = "Paramètres généraux";
 $GLOBALS['strMainSettings'] = "Paramètres principaux";
 $GLOBALS['strPlugins'] = "Extensions";
+$GLOBALS['strChooseSection'] = 'Choisir la section';
 
 // Product Updates
 $GLOBALS['strProductUpdates'] = "Mises à jour du produit";

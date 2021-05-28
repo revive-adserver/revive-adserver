@@ -60,6 +60,8 @@ $GLOBALS['strMoveToDirectory'] = "Premakni slike shranjene v podatkovni bazi v m
 $GLOBALS['strStorageExplaination'] = "	Slike, ki jih uporablja lokalna pasica, so shranjene v podatkovni bazi ali mapi. Če boste slike shranili
 	v mapo, boste pospešili nalagalni čas podatkovne baze.";
 
+// Security
+
 // Encoding
 $GLOBALS['strEncoding'] = "Šifriranje";
 $GLOBALS['strEncodingExplaination'] = "{$PRODUCT_NAME} zdaj shranjuje podatke v bazo v UTF-8 formatu.<br />Vaši podatki so bili samodejno pretvorjeni v ta format, kjer je to bilo mogoče.<br />Če po posodobitvi najdete pokvarjene znake in poznate, katero šifriranje ste izbrali, lahko uporabite to orodje za pretvorbo podatkov v format UTF-8";
@@ -123,6 +125,7 @@ $GLOBALS['strAppendCodesResult'] = "Tukaj so rezultati veljavnosti zbranih pripo
 $GLOBALS['strAppendCodesValid'] = "Vsi zbrani pripojitveni zbirniki sledilnika so veljavni";
 $GLOBALS['strRepairAppenedCodes'] = "Zgoraj je bilo najdenih nekaj nedoslednosti. Te lahko odpravite s klikom na spodnji gumb.";
 
+$GLOBALS['strPlugins'] = "Vtičniki";
 $GLOBALS['strPluginsPrecis'] = "Diagnosticiraj in popravi težave z OpenX vtičniki";
 
 $GLOBALS['strMenus'] = "Meniji";
