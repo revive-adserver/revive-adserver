@@ -59,6 +59,7 @@ $GLOBALS['strCustom'] = "Tilpas";
 $GLOBALS['strDefault'] = "Standard";
 $GLOBALS['strUnlimited'] = "Ubegrænset";
 $GLOBALS['strUntitled'] = "Uden titel";
+$GLOBALS['strAll'] = "alt";
 $GLOBALS['strAverage'] = "Gennemsnit";
 $GLOBALS['strOverall'] = "Total";
 $GLOBALS['strTo'] = "til";
@@ -129,6 +130,7 @@ $GLOBALS['strAuthentification'] = "Ægtheds kontrol";
 $GLOBALS['strWelcomeTo'] = "Velkommen til";
 $GLOBALS['strEnterUsername'] = "Indtast dit brugernavn og kodeord for at logge ind";
 $GLOBALS['strEnterBoth'] = "Indtast venligs både dit brugernavn og kodeord";
+$GLOBALS['strEnableCookies'] = "Det er nødvendigt at du tillader cookies før du kan bruge {$PRODUCT_NAME}";
 $GLOBALS['strLogin'] = "Log ind";
 $GLOBALS['strLogout'] = "Log ud";
 $GLOBALS['strUsername'] = "Brugernavn";
@@ -177,10 +179,24 @@ $GLOBALS['strDayOfWeek'] = "Ugedag";
 if (!isset($GLOBALS['strDayFullNames'])) {
     $GLOBALS['strDayFullNames'] = array();
 }
+$GLOBALS['strDayFullNames'][0] = 'December';
+$GLOBALS['strDayFullNames'][1] = 'Mandag';
+$GLOBALS['strDayFullNames'][2] = 'Tirsdag';
+$GLOBALS['strDayFullNames'][3] = 'Onsdag';
+$GLOBALS['strDayFullNames'][4] = 'Torsdag';
+$GLOBALS['strDayFullNames'][5] = 'Fredag';
+$GLOBALS['strDayFullNames'][6] = 'Søndag';
 
 if (!isset($GLOBALS['strDayShortCuts'])) {
     $GLOBALS['strDayShortCuts'] = array();
 }
+$GLOBALS['strDayShortCuts'][0] = 'Sø';
+$GLOBALS['strDayShortCuts'][1] = 'Ma';
+$GLOBALS['strDayShortCuts'][2] = 'Tir';
+$GLOBALS['strDayShortCuts'][3] = 'Ons';
+$GLOBALS['strDayShortCuts'][4] = 'Tor';
+$GLOBALS['strDayShortCuts'][5] = 'Fre';
+$GLOBALS['strDayShortCuts'][6] = 'Sø';
 
 $GLOBALS['strHour'] = "Time";
 $GLOBALS['strSeconds'] = "Sekunder";
@@ -250,6 +266,19 @@ $GLOBALS['strClicksBooked'] = "Reserverede kliks";
 $GLOBALS['strConversionsBooked'] = "Reserverede conversions";
 $GLOBALS['strAnonymous'] = "Skjul annoncør og webside af denne kampagne";
 $GLOBALS['strTargetPerDay'] = "per dag.";
+$GLOBALS['strCampaignWarningRemnantNoWeight'] = "Prioriteringen af denne kampagne er sat til lav,
+men vægten er sat til nul eller den ikke er
+ specificeret. Dette vil betyde at kampagnen er
+ deaktiveret og dens banner vil ikke blive levert
+ indtil vægten er sat til valid nummer.
+
+ Er du sikker på at du vil fortsætte?";
+$GLOBALS['strCampaignWarningNoTarget'] = "Prioriteringen af denne kampagne er sat til høj,
+men ønsket antal impressions er ikke specificeret. Dette vil betyde at kampagnen er
+ deaktiveret og dens banner vil ikke blive levert
+ indtil vægten er sat til valid nummer.
+
+ Er du sikker på at du vil fortsætte?";
 $GLOBALS['strCampaignStatusPending'] = "Under behandling";
 $GLOBALS['strCampaignStatusInactive'] = "Aktive";
 $GLOBALS['strCampaignStatusRunning'] = "Kører";
@@ -276,6 +305,7 @@ $GLOBALS['strConversionWindow'] = "Conversions vindue";
 $GLOBALS['strUniqueWindow'] = "Unik vindue";
 $GLOBALS['strClick'] = "Klik";
 $GLOBALS['strView'] = "Oversigt";
+$GLOBALS['strImpression'] = "Visninger";
 $GLOBALS['strLinkCampaignsByDefault'] = "Link de ny oprettede kampagner som udgangspunkt";
 
 // Banners (General)
@@ -332,12 +362,17 @@ $GLOBALS['strModifyBannerAcl'] = "Leverings optioner";
 $GLOBALS['strACL'] = "Leverings optioner";
 $GLOBALS['strEqualTo'] = "er lig med";
 $GLOBALS['strDifferentFrom'] = "er forskellig fra";
+$GLOBALS['strLaterThan'] = "er senere end";
+$GLOBALS['strLaterThanOrEqual'] = "er senere end eller lig med";
+$GLOBALS['strEarlierThan'] = "er tidligere end";
+$GLOBALS['strEarlierThanOrEqual'] = "er tidligere eller lig med";
 $GLOBALS['strGreaterThan'] = "er større end";
 $GLOBALS['strLessThan'] = "er mindre end";
 $GLOBALS['strAND'] = "OG";                          // logical operator
 $GLOBALS['strOR'] = "ELLER";                         // logical operator
 $GLOBALS['strOnlyDisplayWhen'] = "Vis kun denne banner når:";
 $GLOBALS['strWeekDays'] = "Ugedage";
+$GLOBALS['strTime'] = "Tid";
 $GLOBALS['strSource'] = "Kilde";
 
 $GLOBALS['strDeliveryCappingReset'] = "Nulstil visnings tæller efter:";
@@ -453,7 +488,14 @@ $GLOBALS['strSelectAd'] = "Vælg banner";
 $GLOBALS['strSelectPublisher'] = "Vælg Website";
 $GLOBALS['strSelectZone'] = "Vælg Zone";
 $GLOBALS['strStatusPending'] = "Under behandling";
+$GLOBALS['strStatusApproved'] = "Godkendt";
+$GLOBALS['strStatusDisapproved'] = "Afvist";
 $GLOBALS['strStatusDuplicate'] = "Kopier";
+$GLOBALS['strStatusOnHold'] = "Venteposition";
+$GLOBALS['strStatusIgnore'] = "Ignorere";
+$GLOBALS['strConnTypeSale'] = "Salg";
+$GLOBALS['strConnTypeLead'] = "Føre";
+$GLOBALS['strConnTypeSignUp'] = "Tilmelde";
 $GLOBALS['strShortcutEditStatuses'] = "Editere status";
 $GLOBALS['strShortcutShowStatuses'] = "Vis status";
 
@@ -481,6 +523,8 @@ $GLOBALS['strEstimated'] = "Estimeret udløbs dato";
 $GLOBALS['strCampaignStop'] = "Kampagne historik";
 
 // Reports
+$GLOBALS['strStartDate'] = "Start dato";
+$GLOBALS['strEndDate'] = "Slut dato";
 
 // Admin_UI_Fields
 $GLOBALS['strAllAdvertisers'] = "All annoncører";
@@ -510,22 +554,37 @@ $GLOBALS['strNoMatchesFound'] = "Der er ikke fundet nogle matchende resultater";
 $GLOBALS['strErrorOccurred'] = "Der opstod en fejl";
 $GLOBALS['strErrorDBPlain'] = "Der opstod en fejl under adgangsforsøget til databasen.";
 $GLOBALS['strErrorDBSerious'] = "Der er detekteret et avorligt problem med databasen.";
+$GLOBALS['strErrorDBNoDataPlain'] = "På grund af et problem med databasen {$PRODUCT_NAME}  kunne data hverken hentes eller gemmes.";
+$GLOBALS['strErrorDBNoDataSerious'] = "På grund af et alvorligt problem med databasen, {$PRODUCT_NAME} kunne data ikke hentes";
 $GLOBALS['strErrorDBCorrupt'] = "Database tabellen er sandsynligvis fejlbehæftet og behøver at blive repareret. For yderligere information om at reparere fejlbehæftede tabeller, venligst læs kapitlet <i>Troubleshooting</i> i <i>Administrator guide</i>.";
 $GLOBALS['strErrorDBContact'] = "Venligst kontakt administratoren af denne server og meddel ham eller hende om dette problem.";
+$GLOBALS['strErrorDBSubmitBug'] = "Hvis det er muligt at genskabe et problem er det måske opstået ved en bug i {$PRODUCT_NAME}. Venligst rapporter den følgende information til personen som har lavet {$PRODUCT_NAME}. Forsøg også at beskrive så tydeligt som muligt hvilke handlinger som har forårsaget at denne fejl opstod.";
+$GLOBALS['strMaintenanceNotActive'] = "Vedligeholdelses skripten er ikke blevet kørt de seneste 24 timer.
+ For at {$PRODUCT_NAME} skal fungere korrekt er det nødvendig at køre hver
+hver time.
+
+Venligst læs Administrator guiden for mere information
+omkring konfigurering af vedligeholdelses skriptet.";
 $GLOBALS['strErrorLinkingBanner'] = "Det var ikke muligt at linke banner til denne zone fordi:";
 $GLOBALS['strUnableToLinkBanner'] = "Kan ikke linke denne banner:_";
 $GLOBALS['strUnableToChangeZone'] = "Kan ikke tilføje denne ændring på grund af:";
 $GLOBALS['strDatesConflict'] = "datoer konflikter med:";
+$GLOBALS['strEmailNoDates'] = "Email zone kampagne må have en start og slut dato";
 
 //Validation
 
 // Email
 $GLOBALS['strSirMadam'] = "Hr/Fru";
 $GLOBALS['strMailSubject'] = "Annoncør rapport";
+$GLOBALS['strMailHeader'] = "Kære {contact},";
 $GLOBALS['strMailBannerStats'] = "Nedenfor vil få finde banner statistik for {clientname}:";
 $GLOBALS['strMailBannerActivatedSubject'] = "Kampagne aktiveret";
 $GLOBALS['strMailBannerDeactivatedSubject'] = "Kampagne deaktiveret";
+$GLOBALS['strMailBannerActivated'] = "Din kampagne som er vist nedenfor er blevet aktiveret fordi
+ kampagnens aktiverings dato er nået.";
 $GLOBALS['strMailBannerDeactivated'] = "Din kampagne som er vist nedenfor er deaktiveret fordi";
+$GLOBALS['strMailFooter'] = "Med venlig hilsen,
+{adminfullname}";
 $GLOBALS['strClientDeactivated'] = "Kampagnen er for øjeblikket ikke aktiv fordi";
 $GLOBALS['strBeforeActivate'] = "aktiverings datoen er endu ikke opnået";
 $GLOBALS['strAfterExpire'] = "udløbsdatoen er opnået";
@@ -544,6 +603,8 @@ $GLOBALS['strYourCampaign'] = "Din kampagne";
 $GLOBALS['strTheCampiaignBelongingTo'] = "Kampagnen som hører til";
 $GLOBALS['strImpendingCampaignExpiryDateBody'] = "{clientname} vist nedenfor er sat til at slutte på {date}.";
 $GLOBALS['strImpendingCampaignExpiryImpsBody'] = "{clientname} vist nedenfor har mindre end {limit} impressions tilbage.";
+$GLOBALS['strImpendingCampaignExpiryBody'] = "Som et resultat vil kampagnen automatisk blive stoppet, og de
+ følgende bannere i kampagnen vil også blive stoppet:";
 
 // Priority
 $GLOBALS['strPriority'] = "Prioritet";

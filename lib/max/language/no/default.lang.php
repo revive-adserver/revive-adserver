@@ -59,6 +59,7 @@ $GLOBALS['strNo'] = "Nei";
 $GLOBALS['strNone'] = "Ingen";
 $GLOBALS['strCustom'] = "Egendefinert";
 $GLOBALS['strDefault'] = "Standard";
+$GLOBALS['strUnknown'] = "Ukjent";
 $GLOBALS['strUnlimited'] = "Ubegrenset";
 $GLOBALS['strUntitled'] = "Uten navn";
 $GLOBALS['strAll'] = "alle";
@@ -309,6 +310,7 @@ $GLOBALS['strZones'] = "Ingen";
 // Linked banners/campaigns/trackers
 $GLOBALS['strStatusDuplicate'] = "Dupliser";
 $GLOBALS['strConnectionType'] = "Type";
+$GLOBALS['strConnTypeSale'] = "Lagre";
 
 // Statistics
 $GLOBALS['strStats'] = "Statistikk";
@@ -366,6 +368,7 @@ $GLOBALS['strVariableDescription'] = "Beskrivelse";
 
 
 // Audit
+$GLOBALS['strHas'] = "har";
 
 // Widget - Audit
 

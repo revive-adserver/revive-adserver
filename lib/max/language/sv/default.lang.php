@@ -165,6 +165,7 @@ $GLOBALS['strAuthentification'] = "Autentisering";
 $GLOBALS['strWelcomeTo'] = "Välkommen till";
 $GLOBALS['strEnterUsername'] = "Ange ditt användarnamn och lösenord för att logga in";
 $GLOBALS['strEnterBoth'] = "Vänligen ange både användarnamn och lösenord";
+$GLOBALS['strEnableCookies'] = "Du måste aktivera cookies innan du kan använda {$PRODUCT_NAME}";
 $GLOBALS['strLogin'] = "Logga in";
 $GLOBALS['strLogout'] = "Logga ut";
 $GLOBALS['strUsername'] = "Användarnamn";
@@ -342,6 +343,13 @@ avaktiveras och dess banners kommer ej att levereras
 tills vikten sätts till giltigt nummer.
 
 Vill du fortsätta?";
+$GLOBALS['strCampaignWarningNoTarget'] = "Kampanjens prioritet är satt till hög,
+men målantal för visningar är inte angivet.
+Detta gör att kampanjen blir avaktiverad och
+dess banners kommer inte att levereras tills
+giltigt målantal anges
+
+Är du säker på att du vill fortsätta?";
 $GLOBALS['strCampaignStatusPending'] = "Pågående";
 $GLOBALS['strCampaignStatusInactive'] = "aktiv";
 $GLOBALS['strCampaignStatusRunning'] = "Körs";
@@ -666,12 +674,16 @@ $GLOBALS['strNoMatchesFound'] = "Inga matchningar hittades";
 $GLOBALS['strErrorOccurred'] = "Ett fel inträffade";
 $GLOBALS['strErrorDBPlain'] = "Ett fel inträffande vid läsning från databasen";
 $GLOBALS['strErrorDBSerious'] = "Ett allvarligt problem med databasen har upptäckts";
+$GLOBALS['strErrorDBNoDataPlain'] = "Pga problem med databasen kunde inte {$PRODUCT_NAME} hämta eller lagra data.";
+$GLOBALS['strErrorDBNoDataSerious'] = "Pga allvarligt problem med databasen kunde inte {$PRODUCT_NAME} hämta data.";
 $GLOBALS['strErrorDBCorrupt'] = "Databasen är förmodligen korrupt och behöver lagas. För mer info om hur man fixar korrupta tabeller, vänligen läs kapitlet <i>Felsökning</i> i <i>Administrationsguide</i>";
 $GLOBALS['strErrorDBContact'] = "Vänligen kontakta serveradministratören och meddela problemet.";
+$GLOBALS['strErrorDBSubmitBug'] = "Om detta problem kan återskapas så kan det skapats av en bugg i {$PRODUCT_NAME}. Vänligen rapportera följande information till skaparna av {$PRODUCT_NAME}. Försök också beskriva handlingarna som ledde till detta fel så tydligt som möjligt.";
 $GLOBALS['strErrorLinkingBanner'] = "Det var inte möjligt att länka bannern till den här zonen pga:";
 $GLOBALS['strUnableToLinkBanner'] = "Kan inte länka bannern:";
 $GLOBALS['strUnableToChangeZone'] = "Kan inte genomföra denna ändring därför att:";
 $GLOBALS['strDatesConflict'] = "datumen i konflikt med:";
+$GLOBALS['strEmailNoDates'] = "Kampanjer för emailzoner måste ha ett start och ett slutdatum";
 
 //Validation
 

@@ -15,6 +15,7 @@ $GLOBALS['strInstall'] = "התקן";
 $GLOBALS['strDatabaseSettings'] = "קביעות בסיס נתוני�?";
 $GLOBALS['strAdvancedSettings'] = "קביעות מתקדמות";
 $GLOBALS['strWarning'] = "אזהרה";
+$GLOBALS['strTablesPrefix'] = "קידומת של טבל�?ות";
 $GLOBALS['strTablesType'] = "סוגי הטבל�?ות";
 
 
@@ -22,12 +23,14 @@ $GLOBALS['strTablesType'] = "סוגי הטבל�?ות";
 
 
 
+$GLOBALS['strUpgrade'] = "עדכון";
 
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
 /* ------------------------------------------------------- */
 
 // Global
+$GLOBALS['strChooseSection'] = "Choose Section";
 
 // Configuration Settings
 
@@ -80,6 +83,7 @@ $GLOBALS['strP3PPolicyLocation'] = "מיקו�? פוליסת ה-P3P";
 // General Settings
 
 // Geotargeting Settings
+$GLOBALS['strGeotargeting'] = "Geotargeting - מיקוד גי�?וגרפי";
 
 // Interface Settings
 $GLOBALS['strInventory'] = "מלאי";

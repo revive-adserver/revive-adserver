@@ -58,6 +58,7 @@ $GLOBALS['strNo'] = "Tidak";
 $GLOBALS['strNone'] = "Tiada";
 $GLOBALS['strCustom'] = "Boleh ubah";
 $GLOBALS['strDefault'] = "Lalai";
+$GLOBALS['strUnknown'] = "Tidak diketahui";
 $GLOBALS['strUnlimited'] = "Tiada had";
 $GLOBALS['strUntitled'] = "Tiada tajuk";
 $GLOBALS['strAll'] = "semua";
@@ -226,6 +227,7 @@ $GLOBALS['strZones'] = "Tiada";
 
 // Linked banners/campaigns/trackers
 $GLOBALS['strStatusDuplicate'] = "Salinan";
+$GLOBALS['strConnTypeSale'] = "Simpan";
 
 // Statistics
 

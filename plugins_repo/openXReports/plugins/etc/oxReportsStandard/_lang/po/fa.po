@@ -24,8 +24,8 @@ msgstr ""
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:73
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:100
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:121
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:46
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:121
 msgid "Standard Reports"
 msgstr "گزارش هاس استاندارد"
 
@@ -60,6 +60,74 @@ msgstr "این گزارش از کار افتادن برای یک کمپین خا
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:342
 msgid "Ad Breakdown"
 msgstr "از کار افتادگی تبلیغ"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:43
+msgid "Campaign Delivery Report"
+msgstr "گزارش تحویل کمپین"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:44
+msgid "This report shows delivery statistics for all campaigns which were live during the specified period, highlighting campaigns which are underperforming."
+msgstr "این گزارش آمار تحویل برای همه ی کمپین هایی که در دوره خاصی مموجود بودند نشان میدهد ، کمپین های نشانه گذاری شده ، غیر فعال هستند ."
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:70
+msgid "Period"
+msgstr "دوره"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:75
+msgid "Limitations"
+msgstr "محدودیت ها"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:153
+msgid "Type"
+msgstr "نوع"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:163
+msgid "Booked Impressions"
+msgstr "برداشت رزرو"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:165
+msgid "Delivered Impressions"
+msgstr "برداشت تحویل"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:167
+msgid "% Complete"
+msgstr "% کامل"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:169
+msgid "Overall +/-"
+msgstr "به طور کلی +/-"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:171
+msgid "Current +/-"
+msgstr "حال حاضر +/-"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:478
+msgid "Targeted"
+msgstr "هدف قرار داده شده"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:480
+msgid "Run of Site"
+msgstr "اجرا ساست"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:496
+msgid "Running"
+msgstr "در حال اجرا"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:498
+msgid "Stopped"
+msgstr "متوقف شده"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:515
+msgid "Override"
+msgstr "باطل کردن"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:517
+msgid "Remnant"
+msgstr "باقی مانده"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:519
+msgid "Contract"
+msgstr "تماس"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:118
 msgid "Conversion Tracking Report"
@@ -145,72 +213,4 @@ msgstr "مقدار اتصال زمان / تاریخ"
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:702
 msgid "IP Address"
 msgstr "آدرس آی پی"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:43
-msgid "Campaign Delivery Report"
-msgstr "گزارش تحویل کمپین"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:44
-msgid "This report shows delivery statistics for all campaigns which were live during the specified period, highlighting campaigns which are underperforming."
-msgstr "این گزارش آمار تحویل برای همه ی کمپین هایی که در دوره خاصی مموجود بودند نشان میدهد ، کمپین های نشانه گذاری شده ، غیر فعال هستند ."
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:70
-msgid "Period"
-msgstr "دوره"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:75
-msgid "Limitations"
-msgstr "محدودیت ها"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:153
-msgid "Type"
-msgstr "نوع"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:163
-msgid "Booked Impressions"
-msgstr "برداشت رزرو"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:165
-msgid "Delivered Impressions"
-msgstr "برداشت تحویل"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:167
-msgid "% Complete"
-msgstr "% کامل"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:169
-msgid "Overall +/-"
-msgstr "به طور کلی +/-"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:171
-msgid "Current +/-"
-msgstr "حال حاضر +/-"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:478
-msgid "Targeted"
-msgstr "هدف قرار داده شده"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:480
-msgid "Run of Site"
-msgstr "اجرا ساست"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:496
-msgid "Running"
-msgstr "در حال اجرا"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:498
-msgid "Stopped"
-msgstr "متوقف شده"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:515
-msgid "Override"
-msgstr "باطل کردن"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:517
-msgid "Remnant"
-msgstr "باقی مانده"
-
-#: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:519
-msgid "Contract"
-msgstr "تماس"
 

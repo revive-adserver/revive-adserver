@@ -69,6 +69,15 @@ $GLOBALS['strMoveToDirectory'] = "Verplaats afbeeldingen van de database naar ee
 $GLOBALS['strStorageExplaination'] = "	De afbeeldingen welke gebruikt worden door lokale banners worden, of in de database, of in een directory opgeslagen.
 	Indien de afbeeldingen in een directory worden opgeslagen wordt de database minder belast.";
 
+// Security
+$GLOBALS['strSecurity'] = "Beveiliging";
+$GLOBALS['strSecurityExplanation'] = "Sommige directories in het {$PRODUCT_NAME} pakket zouden niet verspreid moeten worden 
+    via je webserver, om veiligheidsredenen. Dergelijke bestanden en mappen toegankelijk laten, kan ongewenst
+    informatie onthullen en een gevaar voor de veiligheid opleveren. Er is een snelle beveiligingscontrole uitgevoerd en hieronder zijn de resultaten te vinden.";
+$GLOBALS['strSecurityOK'] = "Uw browser was niet in staat om beschermde bestanden op te halen, dat is geweldig nieuws!";
+$GLOBALS['strSecurityKO'] = "Je browser was in staat om bestanden op te halen die niet toegankelijk zouden moeten zijn. Bijvoorbeeld:";
+$GLOBALS['strSecurityReadMore'] = "Klik hier voor meer informatie over hoe u uw installatie kunt beveiligen.";
+
 // Encoding
 $GLOBALS['strEncoding'] = "Codering";
 $GLOBALS['strEncodingExplaination'] = "{$PRODUCT_NAME} slaat nu alle gegevens in de database op in UTF-8 format.<br />

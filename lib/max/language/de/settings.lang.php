@@ -52,6 +52,7 @@ $GLOBALS['strUpgrade'] = "Programmaktualisierung (Upgrade)";
 /* ------------------------------------------------------- */
 
 // Global
+$GLOBALS['strChooseSection'] = "Bereichsauswahl";
 $GLOBALS['strUnableToWriteConfig'] = "Die Änderungen konnten nicht in die Konfigurationsdatei übernommen werden";
 $GLOBALS['strUnableToWritePrefs'] = "Die Voreinstellungen konnten nicht in die Datenbank geschrieben werden.";
 $GLOBALS['strImageDirLockedDetected'] = "Für das angegebene <b>Banner-Verzeichnis</b> hat der Server keine Schreibrechte.<br>Sie können den Vorgang erst fortsetzen wenn Sie die Verzeichnisrechte ändern oder das Verzeichnis anlegen.";

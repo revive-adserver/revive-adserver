@@ -70,6 +70,8 @@ $GLOBALS['strStorageExplaination'] = "Gambar-gambar yang digunakan oleh banner l
 dalam sebuah direktori, beban pada database berkurang yang mengakibatkan kecepatan yang lebih tinggi.
 ";
 
+// Security
+
 // Encoding
 $GLOBALS['strEncoding'] = "Pengkodean";
 $GLOBALS['strEncodingExplaination'] = "{$PRODUCT_NAME} sekarang menyimpan semua data dalam database dalam format UTF-8.<br/>

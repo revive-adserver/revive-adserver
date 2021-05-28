@@ -59,6 +59,8 @@ $GLOBALS['strStorage'] = "Almacenamiento";
 $GLOBALS['strMoveToDirectory'] = "Mover imágenes almacenadas en la base de datos a un directorio";
 $GLOBALS['strStorageExplaination'] = "Las imágenes usadas por banners locales están almacenadas en la base de datos o bien en un directorio. Si almacena las imagenes en un directorio la carga en la base de datos se verá reducida y esto provocará que aumente su velocidad.";
 
+// Security
+
 // Encoding
 $GLOBALS['strEncoding'] = "Codificación";
 $GLOBALS['strEncodingExplaination'] = "{$PRODUCT_NAME} ahora almacena todos los datos en la base de datos en formato UTF-8<br />Cuando sea posible, sus datos serán convertidos automáticamente a esta codificación.<br />Si después de actualizar encuentra caracteres corruptos, y conoce la codificación usada, puede usar esta herramienta para convertir los datos de ese formato a UTF-8";

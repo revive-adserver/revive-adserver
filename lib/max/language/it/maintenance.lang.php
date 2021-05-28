@@ -59,6 +59,8 @@ $GLOBALS['strStorageExplaination'] = "Le immagini utilizzate nei banner locali v
 le immagini in una directory riduce il carico di lavoro eseguito dal database e, di conseguenza, aumenta la velocità
 del sistema.";
 
+// Security
+
 // Encoding
 $GLOBALS['strEncoding'] = "Codifica";
 $GLOBALS['strEncodingExplaination'] = "{$PRODUCT_NAME} adesso salva nella base dati utilizzando la codifica UTF8.<br />Quando possibile, i tuoi dati sono convertiti automaticamente.<br />Se dopo l'aggiornamento troverai qualche carattere incorretto e sai quale codifica è stata usata in pecedenza, puoi usare questo strumento per codificare i dati in UTF8";

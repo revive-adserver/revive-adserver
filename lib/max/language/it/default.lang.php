@@ -806,14 +806,23 @@ $GLOBALS['strNoMatchesFound'] = "Nessuna corrispondenza trovata";
 $GLOBALS['strErrorOccurred'] = "Segnalazione Errore";
 $GLOBALS['strErrorDBPlain'] = "Si è verificato un errore nell'accesso al database";
 $GLOBALS['strErrorDBSerious'] = "È stato riscontrato un grave problema con il database";
+$GLOBALS['strErrorDBNoDataPlain'] = "A causa di un problema con il database {$PRODUCT_NAME} non può leggere o memorizzare i dati. ";
+$GLOBALS['strErrorDBNoDataSerious'] = "A causa di un grave problema con il database, {$PRODUCT_NAME} non può leggere i dati";
 $GLOBALS['strErrorDBCorrupt'] = "Probabilmente la tabella è corrotta ed è necessario ripararla. Per avere più informazioni su come riparare le tabelle corrotte, leggere il capitolo <i>Troubleshooting</i> della <i>Administrator guide</i>.";
 $GLOBALS['strErrorDBContact'] = "Contatta l'amministratore di questo server ed informalo del problema.";
+$GLOBALS['strErrorDBSubmitBug'] = "Se questo problema è riproducibile, potrebbe essere causato da un bug di {$PRODUCT_NAME}. Per favore sottoponi le informazioni sottostanti ai creatori di {$PRODUCT_NAME}. Tenta inoltre di descrivere le azioni che hanno portato a questo errore il più chiaramente possible.";
+$GLOBALS['strMaintenanceNotActive'] = "La procedura di manutenzione non è stata avviata nelle ultime 24 ore.
+Per fare in modo che {$PRODUCT_NAME} funzioni correttamente, lo script deve essere avviato ogni ora
+
+Consulta la guida per l'amministratore per maggiori informazioni sulla
+configurazione dello script di manutenzione.";
 $GLOBALS['strErrorLinkingBanner'] = "Non è stato possibile collegare questo banner a questa zona perché:";
 $GLOBALS['strUnableToLinkBanner'] = "Impossibile collegare questo banner:";
 $GLOBALS['strErrorEditingCampaignRevenue'] = "numero nel formato non corretto per il campo Informazioni ricavi ";
 $GLOBALS['strErrorEditingZone'] = "Errore durante l'aggiornamento della zona:";
 $GLOBALS['strUnableToChangeZone'] = "Impossibile applicare questi cambiamenti perché:";
 $GLOBALS['strDatesConflict'] = "le date sono in conflitto con:";
+$GLOBALS['strEmailNoDates'] = "Campagne zone Email devono avere una data di inizio e una data di fine";
 $GLOBALS['strWarningInaccurateStats'] = "Alcune di queste statistiche sono state loggate in un fuso orario non Universal Time, potrebbero non essere mostrate nel fuso orario corretto.";
 $GLOBALS['strWarningInaccurateReadMore'] = "Leggi di più in proposito";
 $GLOBALS['strWarningInaccurateReport'] = "Alcune delle statistiche in questo report sono state loggate in un fuso orario non Universal Time, potrebbero non essere mostrate nel fuso orario corretto";
@@ -828,6 +837,7 @@ $GLOBALS['strMailHeader'] = "Gentile {contact},";
 $GLOBALS['strMailBannerStats'] = "Di seguito troverai le statistiche di visualizzazione banner per {clientname}:";
 $GLOBALS['strMailBannerActivatedSubject'] = "Campagna attivata";
 $GLOBALS['strMailBannerDeactivatedSubject'] = "Campagna disattivata";
+$GLOBALS['strMailBannerActivated'] = "Questa campagna non risulta attualmente attiva poiché";
 $GLOBALS['strMailBannerDeactivated'] = "La campagna segnalata di seguito è stata disattivata perché";
 $GLOBALS['strMailFooter'] = "Cordiali saluti,
    {adminfullname}";
@@ -915,6 +925,7 @@ $GLOBALS['strID_short'] = "ID";
 $GLOBALS['strRequests_short'] = "Ric.";
 $GLOBALS['strClicks_short'] = "Click";
 $GLOBALS['strCTR_short'] = "CTR";
+$GLOBALS['strConversions_short'] = "Conv.";
 $GLOBALS['strPendingConversions_short'] = "Conv. in attesa";
 $GLOBALS['strClickSR_short'] = "Click SR";
 
@@ -1016,8 +1027,12 @@ $GLOBALS['strAuditTrailDisabled'] = "L'amministratore ha disabilitato Audit Trai
 
 // Widget - Audit
 $GLOBALS['strAuditNoData'] = "Nessuna attività dell`utente  è stata registrata durante il periodo di tempo che hai selezionato.";
+$GLOBALS['strAuditTrail'] = "Audit Trail";
 $GLOBALS['strAuditTrailSetup'] = "Importa Audit Trail oggi";
 $GLOBALS['strAuditTrailGoTo'] = "Vai alla pagina Audit Trail";
+$GLOBALS['strAuditTrailNotEnabled'] = "<li>Audit Trail ti permette di vedere chi ha fatto cosa e quando. In altre parole, Audit Trail mantiene traccia dei cambiamenti del sistema {$PRODUCT_NAME}</li>
+<li>Se visualizzi questo messaggio, Audit Trail non è stato attivato</li>
+<li>Vuoi saperne di più? Leggi la <a href='{$PRODUCT_DOCSURL}/settings/auditTrail' class='site-link' target='help' >Documentazione Audit Trail</a></li>";
 
 // Widget - Campaign
 $GLOBALS['strCampaignGoTo'] = "Vai alla pagina delle campagne";
@@ -1026,6 +1041,7 @@ $GLOBALS['strCampaignNoRecords'] = "<li>Le campagne ti permettono di raggruppare
 $GLOBALS['strCampaignNoRecordsAdmin'] = "<li>Non ci sono attività da mostrare.</li>";
 
 $GLOBALS['strCampaignNoDataTimeSpan'] = "Nessuna campagna avviata o finita durante il periodo selezionato";
+$GLOBALS['strCampaignAuditNotActivated'] = "<li>Per essere in grado di vedere le campagne iniziate o concluse durante il lasso di tempo che hai selezionato, devi attivare Audit Trail</li>	        <li>Stai leggendo questo messaggio perché Audit Trail non è stato attivato.</li>";
 $GLOBALS['strCampaignAuditTrailSetup'] = "Attiva Audit Trail per iniziare a vedere le campagne";
 
 $GLOBALS['strUnsavedChanges'] = "I cambiamenti effettuati su questa pagina non sono stati salvati, accertati di premere \"Salva cambiamenti\" al termine";
@@ -1101,9 +1117,11 @@ $GLOBALS['strReportErrorUnknownCode'] = "Codice di errore sconosciuto #";
 
 // Reserved keys
 // Do not change these unless absolutely needed
+$GLOBALS['keyHome'] = "h";
 $GLOBALS['keyUp'] = "u";
 $GLOBALS['keyNextItem'] = ",";
 $GLOBALS['keyPreviousItem'] = ".";
+$GLOBALS['keyList'] = "l";
 
 // Other keys
 // Please make sure you underline the key you

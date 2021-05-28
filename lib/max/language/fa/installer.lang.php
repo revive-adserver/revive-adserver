@@ -67,10 +67,6 @@ $GLOBALS['strDbUpgradeIntro'] = "\" تا ادامه پیدا کند . ";
 $GLOBALS['strDbProgressMessageInstall'] = 'در حال نصب پایگاه داده ...';
 $GLOBALS['strDbProgressMessageUpgrade'] = 'در حال به روز رسانی پایگاه داده ...';
 $GLOBALS['strDbSeeMoreFields'] = 'زمینه های بیشتری در مورد پایگاه داده ببینید ...';
-$GLOBALS['strDbTimeZoneWarning'] = "<p>این نسخه از  {$PRODUCT_NAME}  زمان را به صورت utc ذخیره می کند تا به صورت زمان سرور</p>
-                                                   <p>اگر می خواهید آمار تاریخی با منطقه زمانی صحیح نمایش داده می شود، ارتقاء داده های خود را به صورت دستی. بیشتر بدانید <a target='help' href='٪is'> اینجا </a>.
-                                                      رزش آمار شما دقیق باقی خواهد ماند حتی اگر شما را ترک داده های خود را دست نخورده باقی بگذارید.
-                                                   </p>";
 $GLOBALS['strDbTimeZoneNoWarnings'] = "هشدار زمانی را در آینده نشان نده ... ";
 $GLOBALS['strDBInstallSuccess'] = "پایگاه داده به طور کامل ساخته شد ";
 $GLOBALS['strDBUpgradeSuccess'] = "پایگاه داده کاملا به روز رسانی شد ";
