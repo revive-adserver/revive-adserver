@@ -21,6 +21,7 @@ $GLOBALS['strBtnRecover'] = "Reprendre »";
 $GLOBALS['strBtnAgree'] = "J'accepte »";
 $GLOBALS['strBtnRetry'] = "Réessayer";
 $GLOBALS['strWarningRegisterArgcArv'] = "La variable register_argc_argv de la configuration PHP doit être activée afin de pouvoir lancer la maintenance depuis la ligne de commande.";
+$GLOBALS['strTablesPrefix'] = "Préfixe des noms des tables";
 $GLOBALS['strTablesType'] = "Type de tables";
 
 $GLOBALS['strRecoveryRequiredTitle'] = "Votre précédente tentative de mise à jour a rencontré une erreur";
@@ -40,12 +41,14 @@ $GLOBALS['strImagesUrlPrefix'] = "URL de stockage des images";
 $GLOBALS['strImagesUrlPrefixSSL'] = "URL de stockage des images (SSL)";
 
 
+$GLOBALS['strUpgrade'] = "Mise à niveau";
 
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
 /* ------------------------------------------------------- */
 
 // Global
+$GLOBALS['strChooseSection'] = "Choisir la section";
 $GLOBALS['strUnableToWriteConfig'] = "Impossible d'écrire les modifications dans le fichier de configuration";
 $GLOBALS['strUnableToWritePrefs'] = "Impossible d'appliquer les préférences dans la base de données";
 $GLOBALS['strImageDirLockedDetected'] = "Le <b>dossier images</b> indiqué n'est pas accessible en écriture par le serveur. <br>Vous ne pourrez pas poursuivre tant que vous n'aurez pas changé les permissions ou créé le dossier.";

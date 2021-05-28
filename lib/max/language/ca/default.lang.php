@@ -35,6 +35,7 @@ $GLOBALS['strDetails'] = "Detalls";
 $GLOBALS['strCheckForUpdates'] = "Cerca actualitzacions";
 $GLOBALS['strUser'] = "Usuari";
 $GLOBALS['strDuplicate'] = "Duplica";
+$GLOBALS['strDelete'] = "Suprimeix";
 $GLOBALS['strActivate'] = "Activa";
 $GLOBALS['strConvert'] = "Converteix";
 $GLOBALS['strRefresh'] = "Refresca";
@@ -49,6 +50,8 @@ $GLOBALS['strDefault'] = "Predeterminat";
 $GLOBALS['strUnknown'] = "Desconegut";
 $GLOBALS['strUnlimited'] = "Il·limitat";
 $GLOBALS['strUntitled'] = "Sense títol";
+$GLOBALS['strAll'] = "tots";
+$GLOBALS['strValue'] = "Valor";
 
 // Dashboard
 // Dashboard Errors
@@ -78,10 +81,12 @@ if (!isset($GLOBALS['strDayShortCuts'])) {
 
 
 // Advertiser
+$GLOBALS['strClient'] = "Anunciant";
 
 // Advertisers properties
 
 // Campaign
+$GLOBALS['strCampaign'] = "Campanya";
 
 // Campaign-zone linking page
 
@@ -116,6 +121,7 @@ if (!isset($GLOBALS['strCappingZone'])) {
 }
 
 // Website
+$GLOBALS['strAffiliate'] = "Pàgina web";
 
 // Website (properties)
 
@@ -144,6 +150,7 @@ $GLOBALS['strPeriod'] = "Període";
 // Admin_UI_Fields
 
 // Userlog
+$GLOBALS['strAction'] = "Acció";
 
 // Code generation
 

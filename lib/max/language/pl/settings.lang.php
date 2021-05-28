@@ -15,11 +15,13 @@ $GLOBALS['strInstall'] = "Zainstaluj";
 $GLOBALS['strDatabaseSettings'] = "Ustawienia Bazy Danych";
 $GLOBALS['strAdminAccount'] = "Konto Administratora";
 $GLOBALS['strAdvancedSettings'] = "Ustawienia zaawansowane";
+$GLOBALS['strWarning'] = "Uwaga";
 $GLOBALS['strBtnContinue'] = "Dalej »";
 $GLOBALS['strBtnRecover'] = "Odzyskaj »";
 $GLOBALS['strBtnAgree'] = "Wyrażam zgodę »";
 $GLOBALS['strBtnRetry'] = "Próbuj ponownie";
 $GLOBALS['strWarningRegisterArgcArv'] = "Aby uruchomić działania konserwacyjne z polecenia należy włączyć zmienną konfiguracji PHP register_argc_argv.";
+$GLOBALS['strTablesPrefix'] = "Prefiks nazw tabeli";
 $GLOBALS['strTablesType'] = "Typ tabeli";
 
 $GLOBALS['strRecoveryRequiredTitle'] = "W czasie poprzedniej próby aktualizacji wystąpiły błędy";
@@ -39,12 +41,14 @@ $GLOBALS['strImagesUrlPrefix'] = "URL pamięci plików graficznych";
 $GLOBALS['strImagesUrlPrefixSSL'] = "URL pamięci plików graficznych (SSL)";
 
 
+$GLOBALS['strUpgrade'] = "Aktualizacja";
 
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
 /* ------------------------------------------------------- */
 
 // Global
+$GLOBALS['strChooseSection'] = "Wybierz sekcję";
 $GLOBALS['strUnableToWriteConfig'] = "Nie można wprowadzić zmian w pliku config";
 $GLOBALS['strUnableToWritePrefs'] = "Nie można wprowadzić preferencji w bazie danych";
 $GLOBALS['strImageDirLockedDetected'] = "Wskazany <b>Folder Obrazów</b> nie jest otwarty do edycji. <b>Zmień uprawnienia w folderze lub utwórz folder, aby kontynuować.";

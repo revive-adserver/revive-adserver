@@ -773,6 +773,7 @@ $GLOBALS['strNoMatchesFound'] = "No se han encontrado resultados.";
 $GLOBALS['strErrorOccurred'] = "Ha ocurrido un error";
 $GLOBALS['strErrorDBPlain'] = "Ha ocurrido un error al intentar acceder a la base de datos";
 $GLOBALS['strErrorDBSerious'] = "Se ha detectado un problema serio con la base de datos";
+$GLOBALS['strErrorDBNoDataPlain'] = "Debido a un problema con la base de datos {$PRODUCT_NAME} no se ha podido recuperar o guardar los datos. ";
 $GLOBALS['strErrorDBNoDataSerious'] = "Debido a un problema grave con la base de datos, {$PRODUCT_NAME} no pudo recuperar datos";
 $GLOBALS['strErrorDBCorrupt'] = "La tabla de base de datos está probablemente corrupta y necesita ser reparada. Para más información sobre reparación de tablas corruptas, por favor, lea el capítulo <i>Troubleshooting</i> (resolución de problemas) de la <i>Guía del Administrador</i>.";
 $GLOBALS['strErrorDBContact'] = "Por favor, contacte con el administrador de este servidor y notifíquele el problema.";
@@ -1008,13 +1009,16 @@ $GLOBALS['strAuditNoData'] = "No ha sido guardada ninguna actividad de usuario d
 $GLOBALS['strAuditTrail'] = "Auditoría";
 $GLOBALS['strAuditTrailSetup'] = "Configurar hoy Audit Trail";
 $GLOBALS['strAuditTrailGoTo'] = "Ir a página de Audit Trail";
+$GLOBALS['strAuditTrailNotEnabled'] = "<li>Audit Trail permite ver quién ha hecho qué. O dicho de otra manera, guarda todos los cambios en el sistema de {$PRODUCT_NAME}</li> <li>Si ve este mensaje, es porque no ha activado Audit Trail</li> <li>Interesado en aprender más? Lea la <a href='{$PRODUCT_DOCSURL}/settings/auditTrail' class='site-link' target='help' >documentación de Audit Trail</a></li>";
 
 // Widget - Campaign
 $GLOBALS['strCampaignGoTo'] = "Ir a página de campañas";
 $GLOBALS['strCampaignSetUp'] = "Registrar hoy una campaña";
+$GLOBALS['strCampaignNoRecords'] = "<li>Las campañas permiten agrupar cualquier número de banners, de cualquier tamaño, que comparten ciertos requisitos</li><li>Ahorre tiempo agrupando banners en una campaña y sin tener que definir opciones de entrega para cada uno por separado</li><li>¡Lea la <a class='site-link' target='help' href='{$PRODUCT_DOCSURL}/inventory/advertisersAndCampaigns/campaigns'>documentación sobre Campañas</a>!</li>";
 $GLOBALS['strCampaignNoRecordsAdmin'] = "<li>No hay actividad para mostrar de la campaña.</li>";
 
 $GLOBALS['strCampaignNoDataTimeSpan'] = "No se han encontrado campañas que empiecen o terminen en el espacio de tiempo que ha seleccionado";
+$GLOBALS['strCampaignAuditNotActivated'] = "<li>Para ver campañas que hayan empezado o terminado en el espacio de tiempos que ha seleccionado, Audit Trail debe estar activado</li>	<li>Está viendo este mensaje porque no activó Audit Trail</li>";
 $GLOBALS['strCampaignAuditTrailSetup'] = "Activar Audit Trail para empezar a ver Campañas";
 
 $GLOBALS['strUnsavedChanges'] = "Tiene cambios no guardados en esta página, asegúrese de presionar \"Guardar Cambios\" cuando finalice";

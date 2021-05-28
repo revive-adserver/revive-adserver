@@ -145,6 +145,7 @@ $GLOBALS['strAuthentification'] = "Hitelesítés";
 $GLOBALS['strWelcomeTo'] = "Üdvözli az";
 $GLOBALS['strEnterUsername'] = "Adja meg felhasználónevét és jelszavát a bejelentkezéshez";
 $GLOBALS['strEnterBoth'] = "Felhasználói nevét és jelszavát is adja meg";
+$GLOBALS['strEnableCookies'] = "{$PRODUCT_NAME} használatához engedélyezni kell a cookie-kat.";
 $GLOBALS['strSessionIDNotMatch'] = "Session cookie hiba, kérjük, jelentkezzen be újra";
 $GLOBALS['strLogin'] = "Bejelentkezés";
 $GLOBALS['strLogout'] = "Kilépés";
@@ -236,6 +237,7 @@ $GLOBALS['strClientsAndCampaigns'] = "Hirdetők és kampányok";
 $GLOBALS['strAddClient'] = "Új hirdető hozzáadása";
 $GLOBALS['strClientProperties'] = "Hirdető tulajdonságai";
 $GLOBALS['strClientHistory'] = "Hirdető statisztikája";
+$GLOBALS['strNoClients'] = "Jelenleg nincsenek hirdetők";
 $GLOBALS['strConfirmDeleteClient'] = "Valóban törli ezt a hirdetőt?";
 $GLOBALS['strHideInactive'] = "Inaktív elrejtése";
 $GLOBALS['strInactiveAdvertisersHidden'] = "inaktív hirdető elrejtve";
@@ -306,6 +308,13 @@ $GLOBALS['strClicksBooked'] = "Kattintások előjegyezve";
 $GLOBALS['strConversionsBooked'] = "Konverzió előjegyezve";
 $GLOBALS['strCampaignWeight'] = "A kampány beállított súlya";
 $GLOBALS['strTargetPerDay'] = "naponta.";
+$GLOBALS['strCampaignWarningNoTarget'] = "A kampány prioritását magasra állította,
+viszont nem adta meg a reklámletöltések célzott számát.
+Ez a kampány deaktiválását eredményezi, és
+a reklámok továbbítására nem kerül sor a reklámletöltések
+célzott számának megadásáig.
+
+Biztos, hogy folytatja?";
 $GLOBALS['strCampaignStatusPending'] = "Függőben";
 $GLOBALS['strCampaignStatusInactive'] = "aktív";
 $GLOBALS['strCampaignStatusRunning'] = "Fut";
@@ -341,6 +350,7 @@ $GLOBALS['strConversionWindow'] = "Konverziós ablak";
 $GLOBALS['strClick'] = "Kattintás";
 $GLOBALS['strView'] = "Megnéz";
 $GLOBALS['strManual'] = "Manuális";
+$GLOBALS['strImpression'] = "Megjelenés";
 $GLOBALS['strConversionType'] = "Konverzió típusa";
 $GLOBALS['strLinkCampaignsByDefault'] = "Alapértelmezetten kapcsolja össze az újonnan létrehozott kampányokkal";
 $GLOBALS['strIPAddress'] = "IP cím";
@@ -396,6 +406,10 @@ $GLOBALS['strModifyBannerAcl'] = "Kézbesítés beállításai";
 $GLOBALS['strACL'] = "Kézbesítés beállításai";
 $GLOBALS['strEqualTo'] = "Egyenlő ezzel:";
 $GLOBALS['strDifferentFrom'] = "Eltérő ettől:";
+$GLOBALS['strLaterThan'] = "későbbi, mint";
+$GLOBALS['strLaterThanOrEqual'] = "későbbi, vagy egyenlő ezzel:";
+$GLOBALS['strEarlierThan'] = "korábbi, mint ";
+$GLOBALS['strEarlierThanOrEqual'] = "korábbi, vagy azonos ezzel";
 $GLOBALS['strContains'] = "Tartalmazza ezt:";
 $GLOBALS['strNotContains'] = "Nem tartalmazza ezt:";
 $GLOBALS['strGreaterThan'] = "Nagyobb mint:";
@@ -574,15 +588,22 @@ $GLOBALS['strNoMatchesFound'] = "Nincs találat";
 $GLOBALS['strErrorOccurred'] = "Hiba történt";
 $GLOBALS['strErrorDBPlain'] = "Hiba történt az adatbázishoz történő hozzáféréskor";
 $GLOBALS['strErrorDBSerious'] = "Komoly probléma állapítható meg az adatbázissal kapcsolatban";
+$GLOBALS['strErrorDBNoDataPlain'] = "A {$PRODUCT_NAME} adatbázissal kapcsolatos probléma miatt nem lehet adatokat kikeresni vagy tárolni. ";
+$GLOBALS['strErrorDBNoDataSerious'] = "Az adatbázissal kapcsolatos komoly probléma miatt a {$PRODUCT_NAME} nem tudott adatokat kikeresni";
 $GLOBALS['strErrorDBCorrupt'] = "Valószínűleg sérült az adatbázis tábla, ezért javításra szorul. A sérült táblákkal kapcsolatban további részleteket olvashat az <i>Administrator guide</i> <i>Troubleshooting</i> fejezetében.";
 $GLOBALS['strErrorDBContact'] = "Vegye fel a kapcsolatot a kiszolgáló adminisztrátorával, és értesítse őt a problémáról.";
+$GLOBALS['strErrorDBSubmitBug'] = "Ha ez a probléma megismételhető, akkor lehet, hogy a {$PRODUCT_NAME} hibája okozta. Jelentse a következő adatokat a {$PRODUCT_NAME} fejlesztőinek. Amennyire csak lehet, próbálja meg pontosan ismertetni azokat a műveleteket, melyek ezt a hibát okozták.";
+$GLOBALS['strMaintenanceNotActive'] = "Az utóbbi 24 órában nem történt meg a karbantartás parancsfájl futtatása. \\nA {$PRODUCT_NAME} megfelelő működéséhez óránként futtatás szükséges. \\n\\nAz Administrator guide kézikönyvben részletes tájékoztatót olvashat \\na karbantartás parancsfájl beállításáról.";
 
 //Validation
 $GLOBALS['strRequiredFieldLegend'] = "a mező kitöltése kötelező";
 
 // Email
 $GLOBALS['strMailSubject'] = "Hirdetési jelentés";
+$GLOBALS['strMailHeader'] = "Tisztelt {contact}!";
 $GLOBALS['strMailBannerStats'] = "Kérem, tekintse át az alábbiakban a {clientname} reklámstatisztikáját:";
+$GLOBALS['strMailFooter'] = "Üdvözlettel:
+   {adminfullname}";
 $GLOBALS['strClientDeactivated'] = "A kampány jelenleg nem aktív, mert";
 $GLOBALS['strBeforeActivate'] = "még nem érkezett el az aktiválás dátuma";
 $GLOBALS['strAfterExpire'] = "már elérkezett a lejárat dátuma";

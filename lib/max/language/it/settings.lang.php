@@ -21,6 +21,7 @@ $GLOBALS['strBtnRecover'] = "Recupera »";
 $GLOBALS['strBtnAgree'] = "Acconsento »";
 $GLOBALS['strBtnRetry'] = "Riprova";
 $GLOBALS['strWarningRegisterArgcArv'] = "La variabile di configurazione del PHP register_argc_argv deve essere attiva per eseguire la manutenzione da linea di comando.";
+$GLOBALS['strTablesPrefix'] = "Prefisso delle tabelle";
 $GLOBALS['strTablesType'] = "Tipo di tabelle";
 
 $GLOBALS['strRecoveryRequiredTitle'] = "Il tuo precedente tentativo di aggiornamento ha generato un errore";
@@ -30,6 +31,7 @@ $GLOBALS['strProductUpToDateTitle'] = "{$PRODUCT_NAME} è aggiornato";
 $GLOBALS['strOaUpToDate'] = "Il database e i file della tua installazione di {$PRODUCT_NAME} sono già aggiornati all'ultima versione e non è quindi al momento necessario procedere ad alcun aggiornamento. Premi Continua per raggiungere il pannello di amministrazione di OpenX.";
 $GLOBALS['strOaUpToDateCantRemove'] = "Attenzione: il file UPGRADE è ancora presente all'interno della cartella var. Non è possibile cancellare questo file automaticamente per mancanza dei permessi necessari. Si prega di rimuovere il file manualmente.";
 $GLOBALS['strErrorWritePermissions'] = "E' stato riscontrato un errore nei permessi dei file che deve essere corretto prima procedere.<br />Per correggere l'errore su un sistema Linux, prova a digitare i seguenti comandi:";
+$GLOBALS['strErrorFixPermissionsRCommand'] = "<i>chmod -R a+w %s</i>";
 $GLOBALS['strNotWriteable'] = "NON scrivibile";
 $GLOBALS['strDirNotWriteableError'] = "La directory deve essere scrivibile";
 
@@ -44,6 +46,7 @@ $GLOBALS['strImagesUrlPrefix'] = "URL memorizzazione immagini";
 $GLOBALS['strImagesUrlPrefixSSL'] = "URL memorizzazione immagini (SSL)";
 
 
+$GLOBALS['strUpgrade'] = "Aggiornamento";
 
 /* ------------------------------------------------------- */
 /* Configuration translations                            */

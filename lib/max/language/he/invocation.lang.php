@@ -49,6 +49,7 @@ $GLOBALS['strWindowOptions'] = "אופציות חלון";
 $GLOBALS['strShowToolbars'] = "כלים";
 $GLOBALS['strShowLocation'] = "מיקום";
 $GLOBALS['strShowMenubar'] = "תפריט";
+$GLOBALS['strShowStatus'] = "Status";
 $GLOBALS['strWindowResizable'] = "שינוי גודל";
 $GLOBALS['strShowScrollbars'] = "גוללים";
 

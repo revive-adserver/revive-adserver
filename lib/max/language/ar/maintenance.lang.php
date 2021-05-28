@@ -15,9 +15,22 @@ $GLOBALS['strChooseSection'] = "إختيار قسم";
 
 // Maintenance
 
+$GLOBALS['strAutoMantenaceEnabledAndHasntRun'] = "	<unk> الصيانة التلقائية مفعلة وسيتم تشغيلها، حسب الاقتضاء، عندما يقوم {$PRODUCT_NAME} بتسليم اللافتات.
+	<unk> ولكن من أجل أفضل أداء ، يجب عليك إعداد <a href='{$PRODUCT_DOCSURL}/admin/maintenance' target='_blank'>صيانة مجدولة</a>.";
 
+$GLOBALS['strAutoMantenaceDisabledAndHasntRun'] = "	<unk> الصيانة التلقائية معطلة حاليًا، لذلك عندما يقوم {$PRODUCT_NAME} بتسليم اللافتات، لن يتم تشغيل الصيانة التلقائية.
+	<unk> من أجل أفضل أداء، يجب عليك إعداد <a href='{$PRODUCT_DOCSURL}/admin/maintenance' target='_blank'>صيانة مجدولة</a>.
+    ومع ذلك، إذا لم تقم بإعداد <a href='{$PRODUCT_DOCSURL}/admin/maintenance' target='_blank'>صيانة مجدولة</a>،
+    ثم <i>يجب</i> <a href='account-settings-maintenance.php'>تمكين الصيانة التلقائية</a> لضمان أن {$PRODUCT_NAME} يعمل بشكل صحيح.";
 
+$GLOBALS['strAutoMantenaceEnabledAndRunning'] = "	<unk> الصيانة التلقائية مفعلة وسيتم تشغيلها، حسب الاقتضاء، عندما يقوم {$PRODUCT_NAME} بتسليم اللافتات.
+	<unk> ولكن من أجل أفضل أداء ، يجب عليك إعداد <a href='{$PRODUCT_DOCSURL}/admin/maintenance' target='_blank'>صيانة مجدولة</a>.";
 
+$GLOBALS['strAutoMantenaceDisabledAndRunning'] = "	• غير أن الصيانة التلقائية قد أوقفت مؤخرا. للتأكد من أن {$PRODUCT_NAME} يعمل بشكل صحيح، يجب عليك
+	<unk> إعداد <a href='{$PRODUCT_DOCSURL}/admin/maintenance' target='_blank'>صيانة مجدولة</a> أو
+	<a href='account-settings-maintenance.php'>إعادة تمكين الصيانة التلقائية</a>.
+	<br><br>
+	<unk> من أجل أفضل أداء ، يجب عليك إعداد <a href='{$PRODUCT_DOCSURL}/admin/maintenance' target='_blank'>الصيانة المجدولة</a>.";
 
 
 
@@ -49,6 +62,8 @@ $GLOBALS['strStorage'] = "تخزين";
 $GLOBALS['strMoveToDirectory'] = "نقل الصورالمخزنة في قاعدة البيانات إلى مجلد";
 $GLOBALS['strStorageExplaination'] = "	صور البنرات المستخدمة داخلياً مخزنة في قاعدة البيانات أو أحد المجلدات. إن كنت تستخدم تخزين الصور داخل
 	المجلدات سيقل الضغط على قواعد البيانات و سيؤدي ذلك إلى زيادة في سرعة عرض الإعلانات.";
+
+// Security
 
 // Encoding
 

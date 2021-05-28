@@ -21,6 +21,7 @@ $GLOBALS['strBtnRecover'] = "Atnaujinti »";
 $GLOBALS['strBtnAgree'] = "Aš sutinku »";
 $GLOBALS['strBtnRetry'] = "Bandyti dar kartą";
 $GLOBALS['strWarningRegisterArgcArv'] = " PHP registracijos konfigūracija _argc_argv turi būti įjungta, tam kad būtų paleistas aptarnavimo komanda.";
+$GLOBALS['strTablesPrefix'] = "Lentelių pavadinimų priešdelis";
 $GLOBALS['strTablesType'] = "Lentelės tipas";
 
 $GLOBALS['strRecoveryRequiredTitle'] = "Jūsų pastarasis bandymas buvo su klaida";

@@ -60,6 +60,8 @@ $GLOBALS['strMoveToDirectory'] = "画像の保存先をデータベースから�
 $GLOBALS['strStorageExplaination'] = "	バナー用の画像は、データベースかディレクトリに保存します。
 	画像をディレクトリに保存すると、CPU負荷が低下し、配信スピードが向上します。";
 
+// Security
+
 // Encoding
 $GLOBALS['strEncoding'] = "エンコード形式";
 $GLOBALS['strEncodingExplaination'] = "{$PRODUCT_NAME}  は全てのデータをUTF-8形式でデータベースに保存します。<br />可能な限り、使用者の入力内容はUTF-8に変換されます。<br />もしアップグレード後に文字化けが発生しているようであれば、こちらのツールを使用して、文字コードを変換して下さい。 ";

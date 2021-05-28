@@ -44,6 +44,7 @@ $GLOBALS['strUpgrade'] = "Aktualizace";
 /* ------------------------------------------------------- */
 
 // Global
+$GLOBALS['strChooseSection'] = "Vyberte sekci";
 
 // Configuration Settings
 $GLOBALS['strConfigurationSettings'] = "Nastavení konfigurace";

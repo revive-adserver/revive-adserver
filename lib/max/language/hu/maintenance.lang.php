@@ -51,6 +51,8 @@ $GLOBALS['strMoveToDirectory'] = "Mozgassa az adatbázisban tárolt képeket egy
 $GLOBALS['strStorageExplaination'] = "	A helyi bannerek által használt képek az adatbázisban vagy helyi könyvtárban tárolódnak. Ha könyvtárban tárolja a képeket,
 	akkor csökken az adatbázis terhelése és gyorsulást eredményez a kiszolgálásban.";
 
+// Security
+
 // Encoding
 
 // Product Updates

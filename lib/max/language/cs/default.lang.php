@@ -169,6 +169,7 @@ $GLOBALS['strAuthentification'] = "Autentifikace";
 $GLOBALS['strWelcomeTo'] = "Vítejte do";
 $GLOBALS['strEnterUsername'] = "Pro přihlásení zadejte vaše uživatelské jméno a heslo";
 $GLOBALS['strEnterBoth'] = "Prosím zadejte vaše jméno i heslo";
+$GLOBALS['strEnableCookies'] = "Je třeba povolit soubory cookie, než budete moci použít {$PRODUCT_NAME}";
 $GLOBALS['strSessionIDNotMatch'] = "Chyba relace cookie, přihlaste se znovu";
 $GLOBALS['strLogin'] = "Přihlásit";
 $GLOBALS['strLogout'] = "Odhlásit";
@@ -331,6 +332,20 @@ $GLOBALS['strActivationDateComment'] = "Kampaň začne na začatku tohoto dne";
 $GLOBALS['strCampaignWeight'] = "Váha kampaně";
 $GLOBALS['strAnonymous'] = "Skrýt inzerenta a vydavatele této kampaně.";
 $GLOBALS['strTargetPerDay'] = "za den.";
+$GLOBALS['strCampaignWarningRemnantNoWeight'] = "Priorita této kampaně byla nastavena na nízkou,
+ale váha byla nastavena na nulu nebo nebyla
+zadána. Takto bude kampaň okamžitě
+deaktivována a její bannery nebudou doručeny
+dokud její váha nebude nastavena na platné číslo.
+
+Jste si jist že chcete pokračovat?";
+$GLOBALS['strCampaignWarningNoTarget'] = "Priorita této kampaně byla nastavena na vysokou,
+ale cílový počet AdViews nebyl zadán.
+Takto bude kampaň okamžitě deaktivována a
+její bannery nebudou doručeny dokdu nebude
+nastaven platný počet AdViews.
+
+Jste si jist že chcete pokračovat?";
 $GLOBALS['strCampaignStatusPending'] = "Čekající";
 $GLOBALS['strCampaignStatusInactive'] = "aktivní";
 $GLOBALS['strCampaignStatusRunning'] = "Probíhající";
@@ -668,8 +683,17 @@ $GLOBALS['strNoMatchesFound'] = "Žedné odpovídající záznamy nebyly nalezen
 $GLOBALS['strErrorOccurred'] = "Nastala chyba";
 $GLOBALS['strErrorDBPlain'] = "Nastala chyba při přístupu do databáze";
 $GLOBALS['strErrorDBSerious'] = "Byl zjištěn závažný problém při přístupu do databáze";
+$GLOBALS['strErrorDBNoDataPlain'] = "Vzhledem k promlémům s databází, {$PRODUCT_NAME} nemůže načíst ani ukládat data.";
+$GLOBALS['strErrorDBNoDataSerious'] = "Vzhledem k závažným promlémům s databází, {$PRODUCT_NAME} nemůže načíst data";
 $GLOBALS['strErrorDBCorrupt'] = "Databázová tabulka je pravděpodobně poškozena a potřebuje opravit. Pro více informací o opravování poškozených tabulek prosím čtěte kapitolu <i>Troubleshooting</i> v příručce <i>Administrator guide</i>.";
 $GLOBALS['strErrorDBContact'] = "Prosím kontaktujte správce tohoto serveru a oznamte jemu nebo jí tento problém.";
+$GLOBALS['strErrorDBSubmitBug'] = "Pokud je tento problém reprodukovatelný, může být způsoben chybou v {$PRODUCT_NAME}. Prosím poskytněte následující informace tvůrcům {$PRODUCT_NAME}. Také se pokuste popsat kroky které vedly k této chybě jak nejpřesněji je to jen možné.";
+$GLOBALS['strMaintenanceNotActive'] = "Skript pro správu systému nebyl spuštěn v průběhu posledních 24 hodin.
+Aby mohl {$PRODUCT_NAME} korektně fungovat je nutné aby běžel každou
+hodinu.
+
+Prosím přečtěte si příručku Administrators guide pro informace
+o konfiguraci skriptu pro správu systému.";
 $GLOBALS['strUnableToLinkBanner'] = "Nelze propojit tento banner: ";
 $GLOBALS['strErrorEditingZone'] = "Chyba při aktualizaci zóny:";
 
@@ -677,9 +701,12 @@ $GLOBALS['strErrorEditingZone'] = "Chyba při aktualizaci zóny:";
 
 // Email
 $GLOBALS['strMailSubject'] = "Prehled inzerenta";
+$GLOBALS['strMailHeader'] = "Vazeny {contact},";
 $GLOBALS['strMailBannerStats'] = "Nize najdete statistiky banneru pro {clientname}:";
 $GLOBALS['strMailBannerActivatedSubject'] = "Kampaň aktivována";
 $GLOBALS['strMailBannerDeactivatedSubject'] = "Kampaň {id} aktivována";
+$GLOBALS['strMailFooter'] = "S pozdravem,
+   {adminfullname}";
 $GLOBALS['strClientDeactivated'] = "Tato kampan neni v tuto chvili aktivni z duvodu";
 $GLOBALS['strBeforeActivate'] = "datum aktivace zatim nenastalo";
 $GLOBALS['strAfterExpire'] = "nastalo datum deaktivace";
@@ -727,6 +754,7 @@ $GLOBALS['strCTR_short'] = "CTR";
 $GLOBALS['strGlobalSettings'] = "Základní nastavení";
 $GLOBALS['strGeneralSettings'] = "Obecná nastavení";
 $GLOBALS['strMainSettings'] = "Základní nastavení";
+$GLOBALS['strChooseSection'] = 'Vyberte sekci';
 
 // Product Updates
 $GLOBALS['strProductUpdates'] = "Aktualizace produktu";
@@ -767,6 +795,7 @@ $GLOBALS['strPwdRecEnterPassword'] = "Zadejte své nové heslo";
 
 // Audit
 $GLOBALS['strFor'] = "pro";
+$GLOBALS['strHas'] = "má";
 
 // Widget - Audit
 

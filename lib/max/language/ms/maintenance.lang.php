@@ -38,6 +38,8 @@ $GLOBALS['strBannerCacheExplaination'] = "Pengkalan data \"banner cache\" diguna
 
 // Storage
 
+// Security
+
 // Encoding
 
 // Product Updates

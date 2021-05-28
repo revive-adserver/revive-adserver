@@ -55,6 +55,7 @@ $GLOBALS['strXmlRpcLanguage'] = "Język Hosta";
 $GLOBALS['strCacheBuster'] = "Wstaw kod Cache-Busting";
 
 // IMG invocation selected for tracker with appended code
+$GLOBALS['strWarning'] = "Uwaga";
 $GLOBALS['strImgWithAppendWarning'] = "Do trackera załączony jest kod, który funkcjonuje <strong>wyłącznie</strong> ze znacznikami JavaScript";
 
 // Local Invocation

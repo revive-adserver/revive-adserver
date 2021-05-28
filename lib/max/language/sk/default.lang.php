@@ -55,6 +55,7 @@ $GLOBALS['strCustom'] = "Vlastná";
 $GLOBALS['strDefault'] = "Predvolená";
 $GLOBALS['strUnlimited'] = "Nekonečná";
 $GLOBALS['strUntitled'] = "Bez názvu";
+$GLOBALS['strAll'] = "všetky";
 $GLOBALS['strAverage'] = "Priemerný";
 $GLOBALS['strOverall'] = "Celkový";
 $GLOBALS['strTotal'] = "Súhrnný";
@@ -109,6 +110,7 @@ $GLOBALS['strAuthentification'] = "Prihlásenie";
 $GLOBALS['strWelcomeTo'] = "Vitajte v";
 $GLOBALS['strEnterUsername'] = "Zadajte Vaše užívateľské meno a heslo pre prihlásenie";
 $GLOBALS['strEnterBoth'] = "Prosím vložte užívateľské meno a heslo";
+$GLOBALS['strEnableCookies'] = "Skôr ako začnete používať {$PRODUCT_NAME} musíte mať povolené COOKIES";
 $GLOBALS['strLogin'] = "Prihlásiť";
 $GLOBALS['strLogout'] = "Odhlásiť";
 $GLOBALS['strUsername'] = "Užívateľské meno";
@@ -158,10 +160,12 @@ $GLOBALS['strDayOfWeek'] = "Deň v týždni";
 if (!isset($GLOBALS['strDayFullNames'])) {
     $GLOBALS['strDayFullNames'] = array();
 }
+$GLOBALS['strDayFullNames'][6] = 'Sobota';
 
 if (!isset($GLOBALS['strDayShortCuts'])) {
     $GLOBALS['strDayShortCuts'] = array();
 }
+$GLOBALS['strDayShortCuts'][6] = 'So';
 
 $GLOBALS['strHour'] = "Hodina";
 $GLOBALS['strSeconds'] = "sekundy";
@@ -235,6 +239,7 @@ $GLOBALS['strTrackers'] = "Tracker";
 $GLOBALS['strConfirmDeleteTrackers'] = "Naozaj chcete zmazať inzerenta?";
 $GLOBALS['strConfirmDeleteTracker'] = "Naozaj chcete zmazať inzerenta?";
 $GLOBALS['strClick'] = "Kliknutia";
+$GLOBALS['strImpression'] = "Impresie, Zobrazenia";
 
 // Banners (General)
 $GLOBALS['strNoBannersAddAdvertiser'] = "Aktuálne nemáte vytvorených žiadnych zadávateľov reklamy. Pre vytvorenie kapmane, vytvorte najskôr <a href='affiliate-edit.php'>nového zadávateľa</a> reklamy.";
@@ -296,6 +301,7 @@ $GLOBALS['strInactiveZonesHidden'] = "Neaktívny inzerent(i) skrytý";
 
 // Linked banners/campaigns/trackers
 $GLOBALS['strStatusDuplicate'] = "Duplikovať";
+$GLOBALS['strConnTypeSale'] = "Uložiť";
 
 // Statistics
 $GLOBALS['strBreakdownByDay'] = "Deň";

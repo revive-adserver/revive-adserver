@@ -38,6 +38,8 @@ $GLOBALS['strCache'] = "Leveransminne";
 $GLOBALS['strStorage'] = "Lager";
 $GLOBALS['strMoveToDirectory'] = "Flytta bilder som lagrats i databasen till en directory";
 
+// Security
+
 // Encoding
 
 // Product Updates

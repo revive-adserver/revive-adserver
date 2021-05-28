@@ -56,6 +56,7 @@ $GLOBALS['strCustom'] = "По желание";
 $GLOBALS['strDefault'] = "По подразбиране";
 $GLOBALS['strUnlimited'] = "Неограничен";
 $GLOBALS['strUntitled'] = "Неозаглавен";
+$GLOBALS['strAll'] = "всички";
 $GLOBALS['strAverage'] = "Средно";
 $GLOBALS['strOverall'] = "Общо";
 $GLOBALS['strTotal'] = "Всичко";
@@ -112,6 +113,7 @@ $GLOBALS['strAuthentification'] = "Идентифициране";
 $GLOBALS['strWelcomeTo'] = "Добре дошъл в";
 $GLOBALS['strEnterUsername'] = "Въведете вашето потребителско име и парола";
 $GLOBALS['strEnterBoth'] = "Моля, въведете потребителско име и парола";
+$GLOBALS['strEnableCookies'] = "Трябва да позволите кукита преди да може да използвате {$PRODUCT_NAME}";
 $GLOBALS['strLogin'] = "Вход";
 $GLOBALS['strLogout'] = "Изход";
 $GLOBALS['strUsername'] = "Потребителско име";
@@ -161,10 +163,12 @@ $GLOBALS['strDayOfWeek'] = "Ден от седмицата";
 if (!isset($GLOBALS['strDayFullNames'])) {
     $GLOBALS['strDayFullNames'] = array();
 }
+$GLOBALS['strDayFullNames'][6] = 'Събота';
 
 if (!isset($GLOBALS['strDayShortCuts'])) {
     $GLOBALS['strDayShortCuts'] = array();
 }
+$GLOBALS['strDayShortCuts'][6] = 'Сб';
 
 $GLOBALS['strHour'] = "Час";
 $GLOBALS['strSeconds'] = "секунди";
@@ -234,6 +238,19 @@ $GLOBALS['strClicksBooked'] = "Запазени кликове";
 $GLOBALS['strConversionsBooked'] = "Запазени конверсии";
 $GLOBALS['strAnonymous'] = "Скрий рекламодателя и уебсайта от тази кампания.";
 $GLOBALS['strTargetPerDay'] = "на ден";
+$GLOBALS['strCampaignWarningRemnantNoWeight'] = "Приоритета на тази кампания беше сложен, като нисък,
+но тежестта беше сложена, като нула или не беше
+определена. Това ще предизвика кампанията да
+бъде деактивирана и банерите няма да се показват,
+докато теглото не се като валиден номер.
+
+Сигурни ли сте, че искате да продължите?";
+$GLOBALS['strCampaignWarningNoTarget'] = "Приоритета на тази кампания беше сложен, като висок,
+но целевия брой импресии не е определен. Това ще
+деактивира кампанията и нейните банери, докато
+валиден брой импресии не бъде посочен.
+
+Сигурни ли сте, че искате да продължите?";
 $GLOBALS['strCampaignStatusInactive'] = "активен";
 $GLOBALS['strCampaignStatusDeleted'] = "Изтрий";
 $GLOBALS['strCampaignType'] = "Име на кампания";
@@ -251,6 +268,7 @@ $GLOBALS['strDefaultStatus'] = "Статус по подразбиране";
 $GLOBALS['strStatus'] = "Статус";
 $GLOBALS['strLinkedTrackers'] = "Свързани тракери";
 $GLOBALS['strClick'] = "Кликове";
+$GLOBALS['strImpression'] = "Импресия";
 
 // Banners (General)
 $GLOBALS['strAddBanner_Key'] = "Добави <u>н</u>ов тракер";
@@ -318,6 +336,7 @@ $GLOBALS['strInactiveZonesHidden'] = "неактивния рекламодат�
 // Linked banners/campaigns/trackers
 $GLOBALS['strWithXBanners'] = "%d банер(и)";
 $GLOBALS['strStatusDuplicate'] = "Дублиране";
+$GLOBALS['strConnTypeSale'] = "Запази";
 
 // Statistics
 $GLOBALS['strBreakdownByDay'] = "Ден";
