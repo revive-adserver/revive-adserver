@@ -21,6 +21,7 @@ $GLOBALS['strBtnRecover'] = "Povrni »";
 $GLOBALS['strBtnAgree'] = "Strinjam se »";
 $GLOBALS['strBtnRetry'] = "Poizkusi znova";
 $GLOBALS['strWarningRegisterArgcArv'] = "PHP nastavitvena spremenljivka register_argc_argv mora biti omogočena za zagon vzdrževanja iz ukazne vrstice.";
+$GLOBALS['strTablesPrefix'] = "Predpona tabelnih imen";
 $GLOBALS['strTablesType'] = "Tip tabele";
 
 $GLOBALS['strRecoveryRequiredTitle'] = "Vaš prejšnji poizkus posodobitve je naletel na težavo";

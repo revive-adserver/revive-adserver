@@ -21,6 +21,7 @@ $GLOBALS['strBtnRecover'] = "Исправить »";
 $GLOBALS['strBtnAgree'] = "Я согласен »";
 $GLOBALS['strBtnRetry'] = "Повторить";
 $GLOBALS['strWarningRegisterArgcArv'] = "Переменная конфигурации PHP register_argc_argv должна иметь значение on для запуска утилиты обслуживания БД из командной строки";
+$GLOBALS['strTablesPrefix'] = "Префикс к именам таблиц";
 $GLOBALS['strTablesType'] = "Тип таблиц";
 
 $GLOBALS['strRecoveryRequiredTitle'] = "Во время предыдущей попытки обновления произошла ошибка";
@@ -40,12 +41,14 @@ $GLOBALS['strImagesUrlPrefix'] = "URL хранилища изображений"
 $GLOBALS['strImagesUrlPrefixSSL'] = "URL хранилища изображений (SSL)";
 
 
+$GLOBALS['strUpgrade'] = "Обновить";
 
 /* ------------------------------------------------------- */
 /* Configuration translations                            */
 /* ------------------------------------------------------- */
 
 // Global
+$GLOBALS['strChooseSection'] = "Выберите раздел";
 $GLOBALS['strUnableToWriteConfig'] = "Невозможно сохранить изменения в файл конфигурации";
 $GLOBALS['strUnableToWritePrefs'] = "Невозможно сохранить настройки в БД";
 $GLOBALS['strImageDirLockedDetected'] = "Указанная<b>папка для изображений</b>недоступна для записи. <br>Необходимо изменить настройки доступа, или создать папку.";

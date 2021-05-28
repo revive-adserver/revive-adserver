@@ -59,6 +59,7 @@ $GLOBALS['strNo'] = "Όχι";
 $GLOBALS['strNone'] = "Κανένα";
 $GLOBALS['strCustom'] = "Παραμετροποιημένο";
 $GLOBALS['strDefault'] = "Προεπιλογή";
+$GLOBALS['strUnknown'] = "Άγνωστο";
 $GLOBALS['strUnlimited'] = "Απεριόριστο";
 $GLOBALS['strUntitled'] = "Χωρίς Τίτλο";
 $GLOBALS['strAll'] = "όλα";
@@ -123,6 +124,7 @@ $GLOBALS['strAuthentification'] = "Επικύρωση Στοιχείων";
 $GLOBALS['strWelcomeTo'] = "Καλώς ήλθατε στο";
 $GLOBALS['strEnterUsername'] = "Παρακαλώ εισάγετε το όνομα χρήστη και τον κωδικό σας για να συνδεθειτε";
 $GLOBALS['strEnterBoth'] = "Παρακαλώ εισάγετε και το όνομα χρήστη αλλά και τον κωδικό σας. Και τα δύο.";
+$GLOBALS['strEnableCookies'] = "Πρέπει να ενεργοποιήσετε τα cookies πριν χρησιμοποιήσετε το {$PRODUCT_NAME}";
 $GLOBALS['strLogin'] = "Σύνδεση";
 $GLOBALS['strLogout'] = "Αποσύνδεση";
 $GLOBALS['strUsername'] = "Όνομα Χρήστη";
@@ -176,6 +178,7 @@ $GLOBALS['strDayFullNames'][6] = 'Σάββατο';
 if (!isset($GLOBALS['strDayShortCuts'])) {
     $GLOBALS['strDayShortCuts'] = array();
 }
+$GLOBALS['strDayShortCuts'][6] = 'Σα';
 
 $GLOBALS['strHour'] = "Ώρα";
 $GLOBALS['strSeconds'] = "δευτερόλεπτα";
@@ -230,6 +233,7 @@ $GLOBALS['strTrackerProperties'] = "Ιδιότητες Ζώνης";
 $GLOBALS['strStatus'] = "Κατάσταση";
 $GLOBALS['strUniqueWindow'] = "Μοναδικό παράθυρο";
 $GLOBALS['strView'] = "Προβολή";
+$GLOBALS['strImpression'] = "Εντυπώσεις";
 
 // Banners (General)
 $GLOBALS['strAddBanner'] = "Προσθήκη νέου banner";
@@ -248,6 +252,7 @@ $GLOBALS['strWeight'] = "Ύψος";
 // Display Delviery Rules
 $GLOBALS['strAND'] = "ΚΑΙ";                          // logical operator
 $GLOBALS['strOR'] = "Ή";                         // logical operator
+$GLOBALS['strTime'] = "Ώρα";
 $GLOBALS['strSource'] = "Πηγή";
 
 
@@ -304,6 +309,7 @@ $GLOBALS['strSelectPlacement'] = "Επιλέξτε Καμπάνια";
 $GLOBALS['strSelectAd'] = "Επιλέξτε Banner";
 $GLOBALS['strStatusDuplicate'] = "Αντιγραφή";
 $GLOBALS['strConnectionType'] = "Τύπος";
+$GLOBALS['strConnTypeSale'] = "Αποθήκευση";
 
 // Statistics
 $GLOBALS['strStats'] = "Στατιστικά";
@@ -317,6 +323,8 @@ $GLOBALS['strBreakdownByHour'] = "Ώρα";
 $GLOBALS['strCampaignStop'] = "Ιστορικό Καμπάνιας";
 
 // Reports
+$GLOBALS['strStartDate'] = "Ημερομηνία Έναρξης";
+$GLOBALS['strEndDate'] = "Ημερομηνία Ολοκλήρωσης";
 
 // Admin_UI_Fields
 $GLOBALS['strAllAdvertisers'] = "Όλοι οι διαφημιζόμενοι";

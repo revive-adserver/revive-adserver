@@ -45,6 +45,7 @@ $GLOBALS['strPopUpTop'] = "격자 배너 위치(top)";
 $GLOBALS['strPopUpLeft'] = "격자 배너 위치(left)";
 $GLOBALS['strWindowOptions'] = "창 옵션";
 $GLOBALS['strShowLocation'] = "위치";
+$GLOBALS['strShowStatus'] = "상태";
 
 // XML-RPC
 $GLOBALS['strXmlRpcLanguage'] = "사용 언어";

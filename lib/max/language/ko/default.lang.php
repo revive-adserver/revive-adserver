@@ -151,6 +151,7 @@ $GLOBALS['strAuthentification'] = "인증";
 $GLOBALS['strWelcomeTo'] = "환영합니다!";
 $GLOBALS['strEnterUsername'] = "사용자ID와 비밀번호를 입력해 주세요.";
 $GLOBALS['strEnterBoth'] = "사용자ID와 비밀번호를 모두 입력하세요!";
+$GLOBALS['strEnableCookies'] = "{$PRODUCT_NAME}를 사용하려면 쿠키를 사용하도록 설정해야 한다.";
 $GLOBALS['strSessionIDNotMatch'] = "세션 쿠키 오류, 다시 로그인 하시기 바랍니다";
 $GLOBALS['strLogin'] = "로그인";
 $GLOBALS['strLogout'] = "로그아웃";
@@ -214,6 +215,11 @@ if (!isset($GLOBALS['strDayShortCuts'])) {
 }
 $GLOBALS['strDayShortCuts'][0] = '일';
 $GLOBALS['strDayShortCuts'][1] = '월';
+$GLOBALS['strDayShortCuts'][2] = '화';
+$GLOBALS['strDayShortCuts'][3] = '수';
+$GLOBALS['strDayShortCuts'][4] = '목';
+$GLOBALS['strDayShortCuts'][5] = '금';
+$GLOBALS['strDayShortCuts'][6] = '토';
 
 $GLOBALS['strHour'] = "시";
 $GLOBALS['strSeconds'] = "초";
@@ -283,6 +289,7 @@ $GLOBALS['strStandardContract'] = "연락처";
 $GLOBALS['strConfirmDeleteTrackers'] = "정말 선택된 추적내역을 삭제 하시겠습니까?";
 $GLOBALS['strConfirmDeleteTracker'] = "정말 추적내역을 삭제 하시겠습니까?";
 $GLOBALS['strTrackerProperties'] = "추적 속성";
+$GLOBALS['strStatus'] = "상태";
 $GLOBALS['strManual'] = "사용방법";
 
 // Banners (General)
@@ -334,6 +341,7 @@ $GLOBALS['strAND'] = "그리고";                          // logical operator
 $GLOBALS['strOR'] = "또는";                         // logical operator
 $GLOBALS['strOnlyDisplayWhen'] = "다음 조건에서만 배너를 표시합니다.:";
 $GLOBALS['strWeekDays'] = "주간";
+$GLOBALS['strTime'] = "시간";
 $GLOBALS['strDomain'] = "도메인";
 $GLOBALS['strSource'] = "소스";
 $GLOBALS['strBrowser'] = "브라우저";
@@ -425,6 +433,7 @@ $GLOBALS['strSelectAd'] = "배너 선택";
 $GLOBALS['strSelectPublisher'] = "웹사이트 선택";
 $GLOBALS['strSelectZone'] = "광고영역 선택";
 $GLOBALS['strStatusDuplicate'] = "복제";
+$GLOBALS['strConnTypeSale'] = "저장";
 
 // Statistics
 $GLOBALS['strStats'] = "통계";
@@ -472,6 +481,7 @@ $GLOBALS['strErrorOccurred'] = "오류가 발생했습니다.";
 
 // Email
 $GLOBALS['strMailSubject'] = "광고주 보고서";
+$GLOBALS['strMailHeader'] = "{contact}님,";
 $GLOBALS['strMailBannerStats'] = "{clientname}님!  배너 통계는 다음과 같습니다.";
 $GLOBALS['strMailBannerActivatedSubject'] = "캠페인 {id} 활성화";
 $GLOBALS['strMailBannerDeactivatedSubject'] = "캠페인 {id} 비활성화";
@@ -508,6 +518,8 @@ $GLOBALS['strCTR_short'] = "클릭율";
 $GLOBALS['strGlobalSettings'] = "전체 설정";
 $GLOBALS['strGeneralSettings'] = "일반 설정";
 $GLOBALS['strMainSettings'] = "메인설정";
+$GLOBALS['strPlugins'] = "플러그인";
+$GLOBALS['strChooseSection'] = '�?역 선�?';
 
 // Product Updates
 $GLOBALS['strProductUpdates'] = "제품 업데이트";

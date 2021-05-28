@@ -60,6 +60,8 @@ $GLOBALS['strMoveToDirectory'] = "Mută imaginile stocate în baza de date într
 $GLOBALS['strStorageExplaination'] = "	Imaginile utilizate de bannerele locale sunt stocate în interiorul bazei de date sau stocate într-un director. Dacă stochezi imaginile într-un
 	director, utilizarea bazei de date va fi redusă, ceea ce va duce la o viteză îmbunătăţită.";
 
+// Security
+
 // Encoding
 $GLOBALS['strEncoding'] = "Codare";
 $GLOBALS['strEncodingExplaination'] = "{$PRODUCT_NAME} acum stochează toate datele în baza de date în format UTF-8.<br />Acolo unde este posibil, datele tale vor fi automat convertite către această codare.<br />Dacă după actualizare găseşti caractere corupte, şi cunoşi codarea folosită, poţi folosi această unealtă pentru a converti datele din acel format în UTF-8";

@@ -25,6 +25,7 @@ $GLOBALS['strWarning'] = "Advarsel";
 
 
 /** config step * */
+$GLOBALS['strConfigureUpgradeTitle'] = "Konfigurasjonsinnstillinger";
 
 /** jobs step * */
 

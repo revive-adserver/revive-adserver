@@ -53,6 +53,8 @@ $GLOBALS['strStorage'] = "저장�?역";
 $GLOBALS['strMoveToDirectory'] = "�?��?�터베�?�스�? 저장�?� �?�미지를 디렉터리로 옮기기";
 $GLOBALS['strStorageExplaination'] = "로컬 배너로 사용하는 �?�미지는 �?��?�터베�?�스 �?는 디렉터리�? 저장�?�어 있습니다. �?�미지를 디렉터리�? 저장한 경우�?는 �?��?�터베�?�스�? 대한 부하를 줄임으로�?� �?�?�를 향�?시킬 수 있습니다.";
 
+// Security
+
 // Encoding
 $GLOBALS['strEncoding'] = "인코딩";
 $GLOBALS['strEncodingConvertTest'] = "변환 테스트";
@@ -95,6 +97,7 @@ $GLOBALS['strClickToVisitWebsite'] = "	Click here to visit our website";
 
 //  Append codes
 
+$GLOBALS['strPlugins'] = "플러그인";
 
 $GLOBALS['strMenus'] = "메뉴";
 $GLOBALS['strMenusPrecis'] = "메뉴 캐시를 다시 작성";

@@ -63,6 +63,7 @@ $GLOBALS['strNo'] = "Không";
 $GLOBALS['strNone'] = "Không gì cả";
 $GLOBALS['strCustom'] = "Tuỳ chỉnh";
 $GLOBALS['strDefault'] = "Mặc định";
+$GLOBALS['strUnknown'] = "không rõ";
 $GLOBALS['strUnlimited'] = "Không giới hạn";
 $GLOBALS['strUntitled'] = "Chưa có tiêu đề";
 $GLOBALS['strAll'] = "tất cả";

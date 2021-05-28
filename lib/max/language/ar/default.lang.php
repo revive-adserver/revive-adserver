@@ -63,6 +63,7 @@ $GLOBALS['strNo'] = "لا";
 $GLOBALS['strNone'] = "المنطقة";
 $GLOBALS['strCustom'] = "مخصص";
 $GLOBALS['strDefault'] = "افتراضي";
+$GLOBALS['strUnknown'] = "مجهول";
 $GLOBALS['strUnlimited'] = "غير محدود";
 $GLOBALS['strUntitled'] = "بدون عنوان";
 $GLOBALS['strAll'] = "الكل";
@@ -150,6 +151,7 @@ $GLOBALS['strAuthentification'] = "التحقق";
 $GLOBALS['strWelcomeTo'] = "مرحباً بك في";
 $GLOBALS['strEnterUsername'] = "الرجاء كتابة اسم المستخدم و كلمة السر للدخول";
 $GLOBALS['strEnterBoth'] = "الرجاء كتابة اسم المستخدم و كلمة السر";
+$GLOBALS['strEnableCookies'] = "يجب عليك تفعيل الكوكيز قبل أن تستخدم {$PRODUCT_NAME}";
 $GLOBALS['strSessionIDNotMatch'] = "هنالك مشكلة في الكوكيز، الرجاء الدخول من جديد";
 $GLOBALS['strLogin'] = "اسم الدخول";
 $GLOBALS['strLogout'] = "تسجيل الخروج";
@@ -305,6 +307,20 @@ $GLOBALS['strClicksBooked'] = "الضغطات المحجوزة";
 $GLOBALS['strConversionsBooked'] = "التحويلات المحجوزة";
 $GLOBALS['strAnonymous'] = "إخفاء المعلن و المواقع لهذه الحملة الاعلانية";
 $GLOBALS['strTargetPerDay'] = "في اليوم";
+$GLOBALS['strCampaignWarningRemnantNoWeight'] = "أهمية هذه الحملة تم تحديدها كمنخفضة، 
+ولكن الوزن تم تحديده كصفر أو لم يتم تحديده.
+هذا الأمر سيجعل الحملة غير نشطة
+و لن يتم عرض الإعلانات الموجودة فيها
+حتى يتم تعديل الوزن إلى رقم صحيح.
+
+هل أنت متأكد من رغبتك في المواصلة؟";
+$GLOBALS['strCampaignWarningNoTarget'] = "أهمية هذه الحملة تم تحديدها كمرتفعة،
+ولكن مرات الظهور المستهدفة لم يتم تحديدها.
+هذا الأمر سيعطل الحملة و
+الإعلانات المرتبطة بها لن يتم عرضها حتى يتم
+تحديد عدد مرات الظهور المستهدف.
+
+هل أنت متأكد من رغبتك في المواصلة؟";
 $GLOBALS['strCampaignStatusPending'] = "بانتظار الموافقة";
 $GLOBALS['strCampaignStatusInactive'] = "فعال";
 $GLOBALS['strCampaignStatusRunning'] = "قيد التشغيل";
@@ -338,6 +354,7 @@ $GLOBALS['strConversionWindow'] = "نافذة التحويل";
 $GLOBALS['strUniqueWindow'] = "ناقذة فريدة";
 $GLOBALS['strClick'] = "ضغطة";
 $GLOBALS['strView'] = "عرض";
+$GLOBALS['strImpression'] = "مرات الظهور";
 $GLOBALS['strConversionType'] = "نوع التحويل";
 $GLOBALS['strLinkCampaignsByDefault'] = "ربط الحملات الاعلانية الجديدة افتراضياً";
 
@@ -394,12 +411,17 @@ $GLOBALS['strModifyBannerAcl'] = "خيارات التوصيل";
 $GLOBALS['strACL'] = "خيارات التوصيل";
 $GLOBALS['strEqualTo'] = "يساوي";
 $GLOBALS['strDifferentFrom'] = "مختلف عن";
+$GLOBALS['strLaterThan'] = "أحدث من";
+$GLOBALS['strLaterThanOrEqual'] = "أحدث من أو يساوي";
+$GLOBALS['strEarlierThan'] = "أقدم من";
+$GLOBALS['strEarlierThanOrEqual'] = "أقدم من أو يساوي";
 $GLOBALS['strGreaterThan'] = "أكبر من";
 $GLOBALS['strLessThan'] = "أصغر من";
 $GLOBALS['strAND'] = "و";                          // logical operator
 $GLOBALS['strOR'] = "أو";                         // logical operator
 $GLOBALS['strOnlyDisplayWhen'] = "إعرض البنر فقط عندما";
 $GLOBALS['strWeekDays'] = "أيام الاسبوع";
+$GLOBALS['strTime'] = "الوقت";
 $GLOBALS['strSource'] = "المصدر";
 
 $GLOBALS['strDeliveryCappingReset'] = "قم بتصفير العداد بعد :";
@@ -500,8 +522,13 @@ $GLOBALS['strSelectPlacement'] = "إختيار الحملة الاعلانية";
 $GLOBALS['strSelectAd'] = "إختيار البنر";
 $GLOBALS['strSelectZone'] = "إختيار المنطقة";
 $GLOBALS['strStatusPending'] = "بانتظار الموافقة";
+$GLOBALS['strStatusApproved'] = "تمت الموافقة";
+$GLOBALS['strStatusDisapproved'] = "لم تتم الموافقة";
 $GLOBALS['strStatusDuplicate'] = "نسخ";
+$GLOBALS['strStatusIgnore'] = "تجاهل";
 $GLOBALS['strConnectionType'] = "النوع";
+$GLOBALS['strConnTypeSale'] = "حفظ";
+$GLOBALS['strConnTypeSignUp'] = "تسجيل جديد";
 $GLOBALS['strShortcutEditStatuses'] = "تعديل الحالات";
 $GLOBALS['strShortcutShowStatuses'] = "عرض الحالات";
 
@@ -524,6 +551,8 @@ $GLOBALS['strEstimated'] = "تاريخ الانتهاء المتوقع";
 $GLOBALS['strCampaignStop'] = "سجل الحملة الإعلانية";
 
 // Reports
+$GLOBALS['strStartDate'] = "تاريخ البداية";
+$GLOBALS['strEndDate'] = "تاريخ النهاية";
 
 // Admin_UI_Fields
 $GLOBALS['strAllAdvertisers'] = "كل المعلنين";

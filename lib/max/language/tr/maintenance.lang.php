@@ -45,6 +45,8 @@ $GLOBALS['strStorage'] = "Depolama";
 $GLOBALS['strMoveToDirectory'] = "Veritabanında depolanan resimleri bir dizine taşı";
 $GLOBALS['strStorageExplaination'] = "Yerel pankartlar tarafından kullanılan resimler veritabanında saklanır veya bir dizinde saklanır. Görüntüleri bir dizine yerleştirirseniz, veritabanındaki yük azaltılacak ve bu hızın artmasına neden olacaktır.";
 
+// Security
+
 // Encoding
 $GLOBALS['strEncodingExplaination'] = "{$PRODUCT_NAME} şimdi tüm verileri veritabanında UTF-8 biçiminde saklar. <br/>
      Mümkün olduğunda verileriniz otomatik olarak bu kodlamaya dönüştürülür. <br/>
@@ -59,6 +61,7 @@ $GLOBALS['strDownloadGZip'] = "İndir (.tar.gz)";
 $GLOBALS['strUpdateAlert'] = "{$PRODUCT_NAME} programının yeni sürümü bulunmaktadır.                 \\n\\nBu güncelleme ile ilgili daha\\nfazla bilgi ister misiniz?";
 $GLOBALS['strUpdateAlertSecurity'] = "{$PRODUCT_NAME} programının yeni sürümü bulunmaktadır.                 \\n\\nBu güncellemeyi yapmanız \\ntavsiye ediliyor, çünklü bu sürüm \\ngüvenlik problemlerinin onarılmış halini içeriyor.";
 
+$GLOBALS['strUpdateServerDown'] = "\\n";
 
 $GLOBALS['strNoNewVersionAvailable'] = "{$PRODUCT_NAME} sürümünüz güncellenmiş. şu anda mevcut bir güncelleme bulunmuyor.";
 

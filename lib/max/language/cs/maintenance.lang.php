@@ -47,6 +47,8 @@ $GLOBALS['strMoveToDirectory'] = "Přesunout obrázky uložené v databázi do a
 $GLOBALS['strStorageExplaination'] = "	Obrázky lokálních bannerů jsou uloženy v databázi nebo v adresáři. Pokud uložíte soubory do adresáře
 	zátěž databáze výrazně poklesne a zvýší se rychlost doručování.";
 
+// Security
+
 // Encoding
 
 // Product Updates

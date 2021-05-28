@@ -60,6 +60,8 @@ $GLOBALS['strMoveToDirectory'] = "Przenieś obrazy przechowywane w bazie danych 
 $GLOBALS['strStorageExplaination'] = "	Pliki graficzne wykorzystywane przez banery lokalne są przechowane w bazie danych lub katalogu. Jeśli przechowujesz je w
 	katalogu zmniejszy to obciążenie bazy danych i poprawi szybkość działania.";
 
+// Security
+
 // Encoding
 $GLOBALS['strEncoding'] = "Kodowanie";
 $GLOBALS['strEncodingExplaination'] = "{$PRODUCT_NAME} przechowuje wszystkie dane w formacie UTF-8.<br />W miarę możliwości dane będą automatycznie konwertowane do tego kodowania.<br />Jeśli po aktualizacji znaki nie będą wyświetlane poprawnie i wiesz, które kodowanie zostało zastosowane, możesz użyć tego narzędzia do przekonwertowania danych z tego formatu do formatu UTF-8";
@@ -122,4 +124,5 @@ $GLOBALS['strAppendCodesResult'] = "Oto wyniki walidacji skompilowanch kodów do
 $GLOBALS['strAppendCodesValid'] = "Wszystkie skompilowane kody trackera są ważne";
 $GLOBALS['strRepairAppenedCodes'] = "Stwierdzono pewne nieprawidłowości powyżej, można naprawić te, korzystając z przycisku poniżej, aby ponownie skompilować kody dodane dla każdego trackera w systemie";
 
+$GLOBALS['strPlugins'] = "Moduły dodatkowe";
 

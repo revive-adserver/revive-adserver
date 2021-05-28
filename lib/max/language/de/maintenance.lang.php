@@ -55,6 +55,8 @@ $GLOBALS['strMoveToDirectory'] = "Bilder aus der Datenbank in ein Verzeichnis ve
 $GLOBALS['strStorageExplaination'] = "	Bilddateien für lokale Banner werden in der Datenbank oder in einem lokalen Verzeichnis gespeichert.
 	Das Speichern in einem lokalen Verzeichnis anstelle in der Datenbank vermindert die Ladezeit.";
 
+// Security
+
 // Encoding
 $GLOBALS['strEncoding'] = "Kodierung";
 $GLOBALS['strEncodingExplaination'] = "{$PRODUCT_NAME} speichert jetzt alle Daten im UTF-8 Format. Wenn möglich wurden Ihre Daten automatisch in diese Kodierung überführt.<br />Sie können diesen Übersetzer verwenden, wenn Sie nach dem Update fehlerhafte Zeichen finden und Sie die verwendete Kodierung kennen, um die Zeichen in UTF-8 umzuwandeln.";
@@ -119,6 +121,7 @@ $GLOBALS['strAppendCodesResult'] = "Hier sind die Ergebnisse der Überprüfung d
 $GLOBALS['strAppendCodesValid'] = "Alle Tracker Code Anhänge sind korrekt";
 $GLOBALS['strRepairAppenedCodes'] = "Obige Inkonsistenzen wurden ermittelt. Sie können diese reparieren durch die Verwendung des unten stehenden Buttons. Hierbei wird das System die Code Anhänge jedes Trackers im System neu übersetzen.";
 
+$GLOBALS['strPlugins'] = "Plugins";
 $GLOBALS['strPluginsPrecis'] = "Probleme mit den OpenX-Plugins überprüfen und reparieren";
 
 $GLOBALS['strMenus'] = "Menüs";

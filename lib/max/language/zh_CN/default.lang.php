@@ -157,6 +157,7 @@ $GLOBALS['strAuthentification'] = "身份验证";
 $GLOBALS['strWelcomeTo'] = "欢迎使用";
 $GLOBALS['strEnterUsername'] = "请输入您的用户名和密码";
 $GLOBALS['strEnterBoth'] = "请输入您的用户名和密码";
+$GLOBALS['strEnableCookies'] = "在使用 {$PRODUCT_NAME} 之前，您需要启用 cookie功能。";
 $GLOBALS['strSessionIDNotMatch'] = "会话出现错误，请重新登录。";
 $GLOBALS['strLogin'] = "登录";
 $GLOBALS['strLogout'] = "注销";
@@ -289,12 +290,14 @@ $GLOBALS['strPriorityInformation'] = "权重";
 $GLOBALS['strECPMInformation'] = "eCPM 优先级";
 $GLOBALS['strHiddenCampaign'] = "项目";
 $GLOBALS['strHiddenAdvertiser'] = "客户";
+$GLOBALS['strHiddenTracker'] = "追踪器";
 $GLOBALS['strHiddenWebsite'] = "媒体";
 $GLOBALS['strHiddenZone'] = "广告位";
 $GLOBALS['strCampaignDelivery'] = "项目对比";
 $GLOBALS['strCompanionPositioning'] = "尝试在同一页面集中投放该项目的素材";
 $GLOBALS['strSelectUnselectAll'] = "全选";
 $GLOBALS['strCampaignsOfAdvertiser'] = "属于"; //this is added between page name and advertiser name eg. 'Campaigns of Advertiser 1'
+$GLOBALS['strShowCappedNoCookie'] = "对不支持 cookie 的用户忽略投放控制";
 
 // Campaign-zone linking page
 $GLOBALS['strCalculatedForAllCampaigns'] = "所有项目";
@@ -365,6 +368,7 @@ $GLOBALS['strCampaignBanners'] = "转到素材列表";
 $GLOBALS['strCookies'] = "Cookie";
 
 // Tracker
+$GLOBALS['strTracker'] = "追踪器";
 $GLOBALS['strTrackers'] = "追踪器";
 $GLOBALS['strAddTracker'] = "添加新的追踪器";
 $GLOBALS['strTrackerForAdvertiser'] = "到";
@@ -433,6 +437,7 @@ $GLOBALS['strAlt'] = "图片无法显示时的替换文字";
 $GLOBALS['strStatusText'] = "状态栏信息";
 $GLOBALS['strBannerWeight'] = "Banner权重";
 $GLOBALS['strAdserverTypeGeneric'] = "通用 HTML Banner";
+$GLOBALS['strGenericOutputAdServer'] = "一般";
 $GLOBALS['strBackToBanners'] = "返回素材列表";
 
 // Banner (advanced)
@@ -525,6 +530,7 @@ $GLOBALS['strHideMatchingBanners'] = "仅显示项目列表";
 $GLOBALS['strCampaignLinkedAds'] = "关联到该版位的项目";
 $GLOBALS['strWarnBannerReadonly'] = 'This banner is read-only because an extension has been disabled.  Contact your Administrator for more information.';
 $GLOBALS['strZonesOfWebsite'] = '属于'; //this is added between page name and website name eg. 'Zones in www.example.com'
+$GLOBALS['strBackToZones'] = "返回版位列表";
 
 $GLOBALS['strIab']['IAB_FullBanner(468x60)'] = "IAB 标准全尺寸旗标（468 x 60）";
 $GLOBALS['strIab']['IAB_Skyscraper(120x600)'] = "IAB 标准摩天大楼（120 x 600）";
@@ -574,10 +580,16 @@ $GLOBALS['strSelectPlacement'] = "选择项目";
 $GLOBALS['strSelectAd'] = "选择素材";
 $GLOBALS['strSelectPublisher'] = "选择没提";
 $GLOBALS['strSelectZone'] = "选择广告位";
+$GLOBALS['strStatusPending'] = "待定";
 $GLOBALS['strStatusApproved'] = "已批准";
 $GLOBALS['strStatusDisapproved'] = "未批准";
 $GLOBALS['strStatusDuplicate'] = "重复";
+$GLOBALS['strStatusOnHold'] = "搁置";
+$GLOBALS['strStatusIgnore'] = "忽略";
 $GLOBALS['strConnectionType'] = "类型";
+$GLOBALS['strConnTypeSale'] = "订单";
+$GLOBALS['strConnTypeLead'] = "展示";
+$GLOBALS['strConnTypeSignUp'] = "注册";
 $GLOBALS['strShortcutEditStatuses'] = "编辑审核状态";
 $GLOBALS['strShortcutShowStatuses'] = "显示审核状态";
 
@@ -605,6 +617,7 @@ $GLOBALS['strAdvancedReports'] = "更多...";
 $GLOBALS['strStartDate'] = "开始日期";
 $GLOBALS['strEndDate'] = "结束日期";
 $GLOBALS['strPeriod'] = "时间段";
+$GLOBALS['strWorksheets'] = "选择视图";
 
 // Admin_UI_Fields
 $GLOBALS['strAllAdvertisers'] = "所有客户";
@@ -635,8 +648,11 @@ $GLOBALS['strNoMatchesFound'] = "没有找到匹配的信息。";
 $GLOBALS['strErrorOccurred'] = "发生错误。";
 $GLOBALS['strErrorDBPlain'] = "访问数据库时发生错误。";
 $GLOBALS['strErrorDBSerious'] = "检测到数据库存在严重问题。";
+$GLOBALS['strErrorDBNoDataPlain'] = "数据库异常，{$PRODUCT_NAME} 无法存取数据。";
+$GLOBALS['strErrorDBNoDataSerious'] = "数据库异常，{$PRODUCT_NAME} 无法读取数据。";
 $GLOBALS['strErrorDBCorrupt'] = "数据表异常，请参考 <i>Administrator guide</i> 中的 <i>Troubleshooting</i> 章节尝试修复。";
 $GLOBALS['strErrorDBContact'] = "请联系系统管理员。";
+$GLOBALS['strMaintenanceNotActive'] = "距离上次运行维护任务已经超过 24 小时。\\n为保证 {$PRODUCT_NAME} 正常工作，维护任务运行的间隔不应该超过 1 小时。\\n\\n请参考管理员手册配置维护任务。";
 $GLOBALS['strErrorLinkingBanner'] = "将素材关联到该版位时发生错误：";
 $GLOBALS['strUnableToLinkBanner'] = "无法关联该素材：";
 $GLOBALS['strErrorEditingCampaignRevenue'] = "收入金额数字格式无效。";
@@ -644,6 +660,7 @@ $GLOBALS['strErrorEditingCampaignECPM'] = "ECPM 数字格式无效。";
 $GLOBALS['strErrorEditingZone'] = "修改版位时发生错误：";
 $GLOBALS['strUnableToChangeZone'] = "无法修改该版位：";
 $GLOBALS['strDatesConflict'] = "该项目与其它已经关联的项目的日期有重叠。";
+$GLOBALS['strEmailNoDates'] = "Email 类型的版位所关联的项目必须设置启用和停用日期。";
 $GLOBALS['strWarningInaccurateStats'] = "部分投放记录采用了非 UTC 时区，可能导致显示不准确。";
 $GLOBALS['strWarningInaccurateReadMore'] = "查看详细解释";
 $GLOBALS['strWarningInaccurateReport'] = "该报表中的部分投放记录采用了非 UTC 时区，可能导致显示不准确。";
@@ -761,6 +778,7 @@ $GLOBALS['strVariableName'] = "变量名";
 $GLOBALS['strVariableDescription'] = "详细描述";
 $GLOBALS['strVariableDataType'] = "数据类型";
 $GLOBALS['strVariablePurpose'] = "目的";
+$GLOBALS['strGeneric'] = "一般";
 $GLOBALS['strNumItems'] = "追踪器数据计数";
 $GLOBALS['strVariableIsUnique'] = "检查唯一性";
 $GLOBALS['strNumber'] = "数字";

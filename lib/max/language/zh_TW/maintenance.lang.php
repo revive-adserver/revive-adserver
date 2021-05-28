@@ -50,6 +50,8 @@ $GLOBALS['strStorage'] = "存儲";
 $GLOBALS['strMoveToDirectory'] = "將圖片從數據庫中移動到目錄下 ";
 $GLOBALS['strStorageExplaination'] = "圖片文件可存儲在數據庫或文件系統中。存儲在文件系統中將比存儲在數據庫中效率更高。";
 
+// Security
+
 // Encoding
 
 // Product Updates

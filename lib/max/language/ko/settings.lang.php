@@ -15,6 +15,7 @@ $GLOBALS['strInstall'] = "설치";
 $GLOBALS['strDatabaseSettings'] = "�?��?�터베�?�스 설정";
 $GLOBALS['strAdvancedSettings'] = "고급 설정";
 $GLOBALS['strWarning'] = "경고";
+$GLOBALS['strTablesPrefix'] = "테�?�블 접�?어";
 $GLOBALS['strTablesType'] = "테�?�블 종류";
 
 
@@ -31,6 +32,7 @@ $GLOBALS['strUpgrade'] = "업그레이드";
 /* ------------------------------------------------------- */
 
 // Global
+$GLOBALS['strChooseSection'] = "�?역 선�?";
 
 // Configuration Settings
 $GLOBALS['strConfigurationSettings'] = "구성 설정";

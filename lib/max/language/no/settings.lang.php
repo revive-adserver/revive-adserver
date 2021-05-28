@@ -35,6 +35,7 @@ $GLOBALS['strUpgrade'] = "Oppgrader";
 // Global
 
 // Configuration Settings
+$GLOBALS['strConfigurationSettings'] = "Konfigurasjonsinnstillinger";
 
 // Administrator Settings
 $GLOBALS['strInvalidUsername'] = "Ugyldig brukernavn";
