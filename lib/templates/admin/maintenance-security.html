@@ -1,0 +1,48 @@
+{*<!--
+
++---------------------------------------------------------------------------+
+| Revive Adserver                                                           |
+| http://www.revive-adserver.com                                            |
+|                                                                           |
+| Copyright: See the COPYRIGHT.txt file.                                    |
+| License: GPLv2 or later, see the LICENSE.txt file.                        |
++---------------------------------------------------------------------------+
+
+-->*}
+<br />
+<p>
+  {t str=SecurityExplanation}
+</p>
+{phpAds_ShowBreak}
+<div id="security-ok" style="display: none">
+  <p>
+    <img src="{$assetPath|escape}/images/info.gif" align="top"/>&nbsp;&nbsp;{t str=SecurityOK}
+  </p>
+</div>
+
+<div id="security-ko" style="display: none">
+  <p>
+    <img src="{$assetPath|escape}/images/error.gif" align="top"/>&nbsp;&nbsp;{t str=SecurityKO}
+  </p>
+  <ul style="list-style: disc inside"></ul>
+  <p></p>
+  <p>
+    <a href="{$securityHowTo|escape}" target="_blank">{t str=SecurityReadMore}</a>
+  </p>
+</div>
+
+<script>
+  // {literal}
+  RV_securityCheck('{/literal}{$adminPath|escape:js}{literal}', function (e) {
+    if (e.length) {
+      $(e).each(function (index, error) {
+        $('#security-ko ul').append($("<li>").text(error));
+      });
+
+      $('#security-ko').show();
+    } else {
+      $('#security-ok').show();
+    }
+  });
+  // {/literal}
+</script>

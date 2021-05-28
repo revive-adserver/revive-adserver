@@ -69,6 +69,15 @@ $GLOBALS['strMoveToDirectory'] = "Move images stored inside the database to a di
 $GLOBALS['strStorageExplaination'] = "	The images used by local banners are stored inside the database or stored in a directory. If you store the images inside
 	a directory the load on the database will be reduced and this will lead to an increase in speed.";
 
+// Security
+$GLOBALS['strSecurity'] = "Security";
+$GLOBALS['strSecurityExplanation'] = "Some directories in the {$PRODUCT_NAME} package are not supposed to be served by 
+    your webserver directly, for security reasons. Leaving such files and directories accessible might disclose unwanted
+    information and pose a security threat. A quick security check has been run and you will find the results below.";
+$GLOBALS['strSecurityOK'] = "Your browser was not able to fetch the protected files, that's great news!";
+$GLOBALS['strSecurityKO'] = "Your browser was able to fetch some files that should not be accessible. For example:";
+$GLOBALS['strSecurityReadMore'] = "Click here to find more information on how to secure your installation.";
+
 // Encoding
 $GLOBALS['strEncoding'] = "Encoding";
 $GLOBALS['strEncodingExplaination'] = "{$PRODUCT_NAME} now stores all data in the database in UTF-8 format.<br />

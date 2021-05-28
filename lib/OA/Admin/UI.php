@@ -596,6 +596,7 @@ class OA_Admin_UI
     function _assignUserAccountInfo($oCurrentSection)
     {
         global $session;
+
         // Show currently logged on user and IP
         if (OA_Auth::isLoggedIn() || defined('phpAds_installing')) {
             $this->oTpl->assign('helpLink', OA_Admin_Help::getHelpLink($oCurrentSection));
@@ -625,6 +626,7 @@ class OA_Admin_UI
 
                 if (OA_Permission::isUserLinkedToAdmin()) {
                     $this->oTpl->assign('maintenanceAlert', OA_Dal_Maintenance_UI::alertNeeded());
+                    $this->oTpl->assign('maintenanceSecurityCheck', $this->needsSecurityCheck());
                 }
 
             }
@@ -721,6 +723,25 @@ class OA_Admin_UI
         phpAds_SessionDataStore();
     }
 
+    function needsSecurityCheck()
+    {
+        global $session;
+
+        if (!preg_match('#www/admin$#', $GLOBALS['_MAX']['CONF']['webpath']['admin'])) {
+            return false;
+        }
+
+        if (($session['security_check_ver'] ?? '') === VERSION) {
+            return false;
+        }
+
+        $session['security_check_ver'] = VERSION;
+
+        // Force session storage
+        phpAds_SessionDataStore();
+
+        return true;
+    }
 
     /**
      * Removes from queue all messages that are related to a given action. Please

@@ -23,7 +23,9 @@ What's New in Revive Adserver 5.2.1
  Security Updates
  ----------------
 
- * None
+ * Added a security check in the admin UI that verifies upon login and on
+   demand if the browser can access files that should be forbidden,
+   eventually prompting the admin to fix the potential security problem.
 
 
  New Features

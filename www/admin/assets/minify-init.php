@@ -34,7 +34,8 @@ $oxpJs = array(
             'js/ox.navigator.js',
             'js/ox.table.js', //1,2s
             'js/ox.tablesorter.plugins.js',
-            'js/formValidation.js' 
+            'js/formValidation.js',
+            'js/ox.security.js'
 );
 
 $commonCss = array (

@@ -189,6 +189,12 @@
     </div>
 </div>
 
+{if $maintenanceSecurityCheck}
+<script>
+    RV_securityCheck('{$adminWebPath|escape:js}');
+</script>
+{/if}
+
 {if $jsMPE}
   <div id="runMpe" name="runMpe">&#160;</div>
   <script type="text/javascript">
