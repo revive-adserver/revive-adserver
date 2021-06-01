@@ -17,7 +17,7 @@ Revive Adserver. Please read these notes before reporting any bugs.
 What's New in Revive Adserver 5.2.1
 -----------------------------------
 
- * Release date: t.b.d.
+ * Release date: June, 3rd 2021
 
 
  Security Updates
@@ -27,6 +27,8 @@ What's New in Revive Adserver 5.2.1
    demand if the browser can access files that should be forbidden,
    eventually prompting the admin to fix the potential security problem.
 
+ * Fixed reflected XSS vulnerability in stats.php via the statsBreakdown
+   parameter.
 
  New Features
  ------------
