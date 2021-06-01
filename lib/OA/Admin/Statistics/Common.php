@@ -1221,7 +1221,8 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
      */
     function _loadStatsBreakdownParam()
     {
-        $this->aPageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');
+        $this->aPageParams['statsBreakdown'] = htmlspecialchars(MAX_getStoredValue('statsBreakdown', 'day'), ENT_QUOTES);
+        $this->statsBreakdown = $this->aPageParams['statsBreakdown'];
     }
 
     /**
@@ -1230,8 +1231,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
      */
     function _loadPeriodPresetParam()
     {
-        $this->aPageParams['statsBreakdown'] = htmlspecialchars(MAX_getStoredValue('statsBreakdown', 'day'), ENT_QUOTES);
-        $this->statsBreakdown = $this->aPageParams['statsBreakdown'];
+        $this->aPageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');
     }
 
     /**

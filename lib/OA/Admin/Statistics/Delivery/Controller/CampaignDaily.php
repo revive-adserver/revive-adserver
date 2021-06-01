@@ -96,6 +96,10 @@ class OA_Admin_Statistics_Delivery_Controller_CampaignDaily extends OA_Admin_Sta
         // Load $_GET parameters
         $this->_loadParams();
 
+        // Load the period preset and stats breakdown parameters
+        $this->_loadPeriodPresetParam();
+        $this->_loadStatsBreakdownParam();
+
         // HTML Framework
         if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             if (empty($publisherId) && empty($zoneId)) {

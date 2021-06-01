@@ -80,9 +80,9 @@ class OA_Admin_Statistics_Delivery_Controller_GlobalAffiliates extends OA_Admin_
             $aParams['agency_id'] = OA_Permission::getAgencyId();
         }
 
-        // Add module page parameters
-        $this->aPageParams['period_preset'] = MAX_getStoredValue('period_preset', 'today');
-        $this->aPageParams['statsBreakdown'] = htmlspecialchars(MAX_getStoredValue('statsBreakdown', 'day'));
+        // Load the period preset and stats breakdown parameters
+        $this->_loadPeriodPresetParam();
+        $this->_loadStatsBreakdownParam();
 
         $this->_loadParams();
 

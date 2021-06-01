@@ -79,6 +79,13 @@ class OA_Admin_Statistics_Delivery_Controller_GlobalAdvertiser extends OA_Admin_
         if (!OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
             $aParams['agency_id'] = OA_Permission::getAgencyId();
         }
+
+        // Load the period preset and stats breakdown parameters
+        $this->_loadPeriodPresetParam();
+        $this->_loadStatsBreakdownParam();
+
+        $this->_loadParams();
+
         switch ($this->startLevel)
         {
             case 2:
