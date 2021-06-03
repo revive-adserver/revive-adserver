@@ -108,10 +108,8 @@ return $realConfig;
 function OX_getMinimumRequiredMemory($limit = null)
 {
 if ($limit == 'maintenance') {
-return 134217728; 
-}
-return 134217728; 
-}
+return 134217728;  }
+return 134217728; }
 function OX_getMemoryLimitSizeInBytes() {
 $phpMemoryLimit = ini_get('memory_limit');
 if (empty($phpMemoryLimit) || $phpMemoryLimit == -1) {
@@ -295,11 +293,9 @@ error_reporting(E_ALL & ~(E_DEPRECATED | E_STRICT));
 }
 
 $file = '/lib/max/Delivery/common.php';
-
 $GLOBALS['_MAX']['FILES'][$file] = true;
 
 $file = '/lib/max/Delivery/cookie.php';
-
 $GLOBALS['_MAX']['FILES'][$file] = true;
 $GLOBALS['_MAX']['COOKIE']['LIMITATIONS']['arrCappingCookieNames'] = array();
 if (!is_callable('MAX_cookieSet')) {
@@ -333,22 +329,17 @@ $url = MAX_commonConstructDeliveryUrl(basename($_SERVER['SCRIPT_NAME']));
 }
 $url .= "?{$aConf['var']['cookieTest']}=1&" . $_SERVER['QUERY_STRING'];
 MAX_header("Location: {$url}");
-
-exit;
-
+ exit;
 }
 function _getTimeThirtyDaysFromNow()
 {
-return MAX_commonGetTimeNow() + 2592000; 
-}
+return MAX_commonGetTimeNow() + 2592000; }
 function _getTimeYearFromNow()
 {
-return MAX_commonGetTimeNow() + 31536000; 
-}
+return MAX_commonGetTimeNow() + 31536000; }
 function _getTimeYearAgo()
 {
-return MAX_commonGetTimeNow() - 31536000; 
-}
+return MAX_commonGetTimeNow() - 31536000; }
 function MAX_cookieUnpackCapping()
 {
 $conf = $GLOBALS['_MAX']['CONF'];
@@ -397,8 +388,7 @@ $GLOBALS['_MAX']['CONF']['var']['blockLoggingClick'],
 function MAX_cookieGetUniqueViewerId($create = true)
 {
 static $uniqueViewerId = null;
-
-if (null !== $uniqueViewerId) {
+ if (null !== $uniqueViewerId) {
 return $uniqueViewerId;
 }
 
@@ -466,8 +456,7 @@ MAX_cookieAdd("_{$conf['var']['block' . $type]}[{$id}]", MAX_commonGetTimeNow(),
 }
 function MAX_cookieClientCookieSet($name, $value, $expires, $path = '/', $domain = null, $secure = null, $httpOnly = false, $sameSite = 'none')
 {
-
-if (isset($GLOBALS['_OA']['invocationType']) && $GLOBALS['_OA']['invocationType'] == 'xmlrpc') {
+ if (isset($GLOBALS['_OA']['invocationType']) && $GLOBALS['_OA']['invocationType'] == 'xmlrpc') {
 if (!isset($GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'])) {
 $GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'] = array();
 }
@@ -487,7 +476,6 @@ if (PHP_VERSION_ID < 70300) {
 ]);
 }
 }
-
 }
 function MAX_cookieClientCookieUnset($name)
 {
@@ -571,7 +559,6 @@ return $p3p_header;
 
 
 $file = '/lib/max/Delivery/remotehost.php';
-
 $GLOBALS['_MAX']['FILES'][$file] = true;
 function MAX_remotehostSetInfo($run = false)
 {
@@ -701,18 +688,18 @@ return ($ip & $mask) == ($net & $mask) ? true : false;
 
 
 $file = '/lib/max/Delivery/log.php';
-
 $GLOBALS['_MAX']['FILES'][$file] = true;
 
 $file = '/lib/max/Dal/Delivery.php';
-
 $GLOBALS['_MAX']['FILES'][$file] = true;
 
 $file = '/lib/OA/Dal/Delivery.php';
-
 $GLOBALS['_MAX']['FILES'][$file] = true;
 function OA_Dal_Delivery_isValidResult($result) {
-return is_resource($result) || $result instanceof mysqli_result;
+return OA_Dal_Delivery_isResourceOrObject($result);
+}
+function OA_Dal_Delivery_isResourceOrObject($resource) {
+return is_resource($resource) || is_object($resource);
 }
 function OA_Dal_Delivery_getAccountTZs()
 {
@@ -814,14 +801,12 @@ return [
 ];
 }
 switch ($aZoneInfo['account_status']) {
-case 4: 
-return [
+case 4:  return [
 'default' => true,
 'default_banner_html' => $aConf['defaultBanner']['inactiveAccountHtmlBanner'] ?? '',
 'skip_log_blank' => true,
 ];
-case 1: 
-return [
+case 1:  return [
 'default' => true,
 'default_banner_html' => $aConf['defaultBanner']['suspendedAccountHtmlBanner'] ?? '',
 'skip_log_blank' => true,
@@ -1116,35 +1101,11 @@ $aRows['zone_companion'] = false;
 $aRows['count_active'] = 0;
 $query =
 "SELECT "
-."d.bannerid AS ad_id, " 
-."d.campaignid AS placement_id, " 
-."d.status AS status, " 
-."d.width AS width, "
+."d.bannerid AS ad_id, "  ."d.campaignid AS placement_id, "  ."d.status AS status, "  ."d.width AS width, "
 ."d.ext_bannertype AS ext_bannertype, "
 ."d.height AS height, "
-."d.storagetype AS type, " 
-."d.contenttype AS contenttype, " 
-."d.weight AS weight, " 
-."d.adserver AS adserver, " 
-."d.block AS block_ad, " 
-."d.capping AS cap_ad, " 
-."d.session_capping AS session_cap_ad, " 
-."d.compiledlimitation AS compiledlimitation, " 
-."d.acl_plugins AS acl_plugins, " 
-."d.alt_filename AS alt_filename, " 
-."az.priority AS priority, " 
-."az.priority_factor AS priority_factor, " 
-."az.to_be_delivered AS to_be_delivered, " 
-."c.campaignid AS campaign_id, " 
-."c.priority AS campaign_priority, " 
-."c.weight AS campaign_weight, " 
-."c.companion AS campaign_companion, " 
-."c.block AS block_campaign, " 
-."c.capping AS cap_campaign, " 
-."c.session_capping AS session_cap_campaign, "
-."c.show_capped_no_cookie AS show_capped_no_cookie, "
-."c.clientid AS client_id, " 
-."c.expire_time AS expire_time, "
+."d.storagetype AS type, "  ."d.contenttype AS contenttype, "  ."d.weight AS weight, "  ."d.adserver AS adserver, "  ."d.block AS block_ad, "  ."d.capping AS cap_ad, "  ."d.session_capping AS session_cap_ad, "  ."d.compiledlimitation AS compiledlimitation, "  ."d.acl_plugins AS acl_plugins, "  ."d.alt_filename AS alt_filename, "  ."az.priority AS priority, "  ."az.priority_factor AS priority_factor, "  ."az.to_be_delivered AS to_be_delivered, "  ."c.campaignid AS campaign_id, "  ."c.priority AS campaign_priority, "  ."c.weight AS campaign_weight, "  ."c.companion AS campaign_companion, "  ."c.block AS block_campaign, "  ."c.capping AS cap_campaign, "  ."c.session_capping AS session_cap_campaign, " ."c.show_capped_no_cookie AS show_capped_no_cookie, "
+."c.clientid AS client_id, "  ."c.expire_time AS expire_time, "
 ."c.revenue_type AS revenue_type, "
 ."c.ecpm_enabled AS ecpm_enabled, "
 ."c.ecpm AS ecpm, "
@@ -1181,8 +1142,7 @@ $aRows['ads'][$aAd['campaign_priority']][$aAd['ad_id']] = $aAd;
 $aRows['count_active']++;
 }
 if ($aAd['campaign_companion'] == 1) {
-$aRows['zone_companion'][] = $aAd['placement_id']; 
-}
+$aRows['zone_companion'][] = $aAd['placement_id'];  }
 }
 return $aRows;
 }
@@ -2541,9 +2501,7 @@ return $content;
 $toEncoding = strtoupper($toEncoding);
 $fromEncoding = strtoupper($fromEncoding);
 $aMap = array();
-$aMap['mbstring']['WINDOWS-1255'] = 'ISO-8859-8'; 
-$aMap['xml']['ISO-8859-15'] = 'ISO-8859-1'; 
-$converted = false;
+$aMap['mbstring']['WINDOWS-1255'] = 'ISO-8859-8';  $aMap['xml']['ISO-8859-15'] = 'ISO-8859-1';   $converted = false;
 foreach ($aExtensions as $extension) {
 $mappedFromEncoding = isset($aMap[$extension][$fromEncoding]) ? $aMap[$extension][$fromEncoding] : $fromEncoding;
 $mappedToEncoding = isset($aMap[$extension][$toEncoding]) ? $aMap[$extension][$toEncoding] : $toEncoding;
@@ -2774,9 +2732,7 @@ return substr(md5(uniqid(time(), true)), 0, $length);
 }
 function MAX_header($value)
 {
-
-header($value);
-
+ header($value);
 }
 function MAX_redirect($url)
 {
@@ -3008,7 +2964,6 @@ return true;
 
 
 $file = '/lib/max/Delivery/cache.php';
-
 $GLOBALS['_MAX']['FILES'][$file] = true;
 define ('OA_DELIVERY_CACHE_FUNCTION_ERROR', 'Function call returned an error');
 $GLOBALS['OA_Delivery_Cache'] = array(
@@ -3265,7 +3220,6 @@ OX_Delivery_Common_hook('postInit');
 
 
 $file = '/lib/OA/Delivery/image.php';
-
 $GLOBALS['_MAX']['FILES'][$file] = true;
 function MAX_imageServe($aCreative, $filename, $contenttype)
 {
