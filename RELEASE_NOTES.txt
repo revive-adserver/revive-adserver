@@ -6,7 +6,7 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
-Release Notes: Revive Adserver 5.2.1
+Release Notes: Revive Adserver 5.2.2
 ====================================
 
 These release notes cover what's new, system requirements, download and
@@ -14,35 +14,28 @@ installation instructions, known issues and frequently asked questions for
 Revive Adserver. Please read these notes before reporting any bugs.
 
 
-What's New in Revive Adserver 5.2.1
+What's New in Revive Adserver 5.2.2
 -----------------------------------
 
- * Release date: June, 3rd 2021
+ * Release date: t.b.d.
 
 
  Security Updates
  ----------------
 
- * Added a security check in the admin UI that verifies upon login and on
-   demand if the browser can access files that should be forbidden,
-   eventually prompting the admin to fix the potential security problem.
+ * None
 
- * Fixed reflected XSS vulnerability in stats.php via the statsBreakdown
-   parameter.
 
  New Features
  ------------
 
  * None
 
+
  Bug Fixes
  ---------
 
- * Fixed an issue preventing clicks from redirecting to the destination URL on
-   newsletter zones.
-
- * Several major languages were missing from the Client Language delivery
-   rule: the list has been revised and updated.
+ * None
 
 
  Non-Backwards Compatible Changes
