@@ -52,7 +52,8 @@ init();
 // Load PEAR
 require_once 'PEAR.php';
 
-// Set $conf
+// Set $conf and PREF
 $conf = $GLOBALS['_MAX']['CONF'];
+$GLOBALS['_MAX']['PREF'] = [];
 
 ?>

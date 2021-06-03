@@ -123,7 +123,7 @@ class Test_DeliveryCookie extends UnitTestCase
         $conf['p3p']['policies'] = false;
         unset($GLOBALS['_HEADERS']);
         MAX_cookieSendP3PHeaders();
-        $this->assertNull($GLOBALS['_HEADERS']);
+        $this->assertFalse(isset($GLOBALS['_HEADERS']));
 
         // Test that the p3p header is set correctly if p3p policies is set
         $conf['p3p']['policies'] = true;

@@ -13,6 +13,8 @@
 require_once MAX_PATH . '/lib/max/Plugin.php';
 require_once LIB_PATH . '/Extension/deliveryLimitations/DeliveryLimitationsCommaSeparatedData.php';
 
+Language_Loader::load();
+
 /**
  * A class for testing the Plugins_DeliveryLimitations_Client_Browser class.
  *

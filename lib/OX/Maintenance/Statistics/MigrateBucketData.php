@@ -37,7 +37,7 @@ class OX_Maintenance_Statistics_MigrateBucketData
     function __construct()
     {
         // Get a connection to the datbase
-        $this->oDbh =& OA_DB::singleton();
+        $this->oDbh = OA_DB::singleton();
 
         // Locate all plugins (packages) that have been installed
         $oPluginManager = new OX_PluginManager();

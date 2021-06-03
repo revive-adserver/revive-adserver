@@ -14,6 +14,8 @@ require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 require_once MAX_PATH . '/lib/OA/Dll/Zone.php';
 
+Language_Loader::load();
+
 /**
  * A class for testing DAL Zones methods
  *
@@ -248,7 +250,7 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
         $dalZones = OA_Dal::factoryDAL('zones');
 
         // Test get all zones on empty database
-        $aResult   = $dalZones->getWebsitesAndZonesList($agencyId);
+        $aResult   = $dalZones->getWebsitesAndZonesList(null);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 0);
 
@@ -273,7 +275,7 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
 
         // Test get all zones (no categories)
         $aResult   = $dalZones->getWebsitesAndZonesList($agencyId);
-        $aExpected = $this->_buildExpectedArrayOfWebsitesAndZones($this->_aWebsitesAndZones, $aAffiliatesIds, $aZonesIds, null, $aFlatCategories );
+        $aExpected = $this->_buildExpectedArrayOfWebsitesAndZones($this->_aWebsitesAndZones, $aAffiliatesIds, $aZonesIds);
 
         $this->assertEqual($aResult, $aExpected);
         $this->assertEqual(count($aResult),2);                              // We should get 2 websites
@@ -297,7 +299,7 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
 
         // Test linked
         $aResult   = $dalZones->getWebsitesAndZonesList($agencyId,$aCampaignsIds[1][1]);
-        $aExpected = $this->_buildExpectedArrayOfWebsitesAndZones($this->_aWebsitesAndZones, $aAffiliatesIds, $aZonesIds, null, $aFlatCategories );
+        $aExpected = $this->_buildExpectedArrayOfWebsitesAndZones($this->_aWebsitesAndZones, $aAffiliatesIds, $aZonesIds);
         // Manually set isLinked
         foreach ($aExpected as $affiliateId => $aWebsite) {
             foreach ($aWebsite['zones'] as $zoneId => $aZone) {
@@ -462,18 +464,15 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
             if (!array_key_exists($aZone['affiliateid'], $aExpected)) {
                 $aExpected[$aZone['affiliateid']] =
                     array (
-                        'name'            => $aZone['affiliatename'],
-                        'linked'        => null,
+                        'name'   => $aZone['affiliatename'],
+                        'linked' => null,
+                        'zones'  => [],
                     );
             }
             $aExpected[$aZone['affiliateid']]['zones'][$aZone['zoneid']] =
                 array (
-                    'name'            => $aZone['zonename'],
-                    'campaign_stats'  => false,
-                    'ecpm'            => null,
-                    'cr'              => null,
-                    'ctr'             => null,
-                    'linked'          => $aZone['islinked']
+                    'name'    => $aZone['zonename'],
+                    'linked'  => $aZone['linked'] ?? null,
                 );
         }
         return $aExpected;

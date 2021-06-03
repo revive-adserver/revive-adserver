@@ -63,7 +63,7 @@ class MDB2_Validate_TestCase extends PHPUnit_TestCase {
         $this->options = $GLOBALS['options'];
         $this->database = $GLOBALS['database'];
         $this->dsn['database'] = $this->database;
-        $this->schema =& MDB2_Schema::factory($this->dsn, $this->options);
+        $this->schema = MDB2_Schema::factory($this->dsn, $this->options);
         if (PEAR::isError($this->schema)) {
             $this->assertTrue(false, 'Could not connect to manager in setUp');
             exit;

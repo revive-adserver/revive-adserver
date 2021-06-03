@@ -13,6 +13,8 @@
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/DeliveryLimitation.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
 
+Language_Loader::load();
+
 /**
  * @package    OpenXMaintenance
  * @subpackage TestSuite

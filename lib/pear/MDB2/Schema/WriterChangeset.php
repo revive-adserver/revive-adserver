@@ -93,12 +93,12 @@ class MDB2_Schema_Changeset_Writer extends MDB2_Schema_Writer
         {
             $constructive = array();
             $constructive['tables'] = array();
-            $constructive['name'] = $changes['name'];
-            $constructive['version'] = $changes['version'];
+            $constructive['name'] = $changes['name'] ?? null;
+            $constructive['version'] = $changes['version'] ?? null;
             $destructive = array();
             $destructive['tables'] = array();
-            $destructive['name'] = $changes['name'];
-            $destructive['version'] = $changes['version'];
+            $destructive['name'] = $changes['name'] ?? null;
+            $destructive['version'] = $changes['version'] ?? null;
 
             if (isset($changes['tables']['add']))
             {
@@ -243,9 +243,9 @@ class MDB2_Schema_Changeset_Writer extends MDB2_Schema_Writer
         $this->spaces = -2;
         $this->eol = $eol;
         $this->writeXMLline("instructionset", '', 'IN');
-        $this->writeXMLline("name", $changes['name'], 'IN', true);
-        $this->writeXMLline("version", $changes['version'], '', true);
-        $this->writeXMLline("comments", $changes['comments'], '', true);
+        $this->writeXMLline("name", $changes['name'] ?? null, 'IN', true);
+        $this->writeXMLline("version", $changes['version'] ?? null, '', true);
+        $this->writeXMLline("comments", $changes['comments'] ?? null, '', true);
 
         $this->writeXMLline("constructive");
         $this->writeXMLline("changeset", '', 'IN');

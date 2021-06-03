@@ -38,7 +38,7 @@ class OA_DB_Table_Statistics extends OA_DB_Table
      * @static
      * @return OA_DB_Table_Statistics The created {@link OA_DB_Table_Statistics} object.
      */
-    function &singleton()
+    public static function singleton()
     {
         $static =& $GLOBALS['_OA']['TABLES'][__CLASS__];
         if (!isset($static)) {
@@ -54,7 +54,7 @@ class OA_DB_Table_Statistics extends OA_DB_Table
      *
      * @static
      */
-    function destroy()
+    public static function destroy()
     {
         if (isset($GLOBALS['_OA']['TABLES'][__CLASS__])) {
             unset($GLOBALS['_OA']['TABLES'][__CLASS__]);

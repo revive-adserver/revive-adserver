@@ -37,7 +37,7 @@ class FieldFactory
      * @param string $fieldType The type of field to create.
      * @return Admin_UI_Field An instance of the correct {@link Admin_UI_Field} subclass.
      */
-    function &newField($fieldType)
+    public static function newField($fieldType)
     {
         switch ($fieldType) {
             case 'advertiser':           $oField = new Admin_UI_AdvertiserIdField(); break;

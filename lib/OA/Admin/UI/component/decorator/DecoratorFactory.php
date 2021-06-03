@@ -18,7 +18,7 @@ class OA_Admin_UI_Decorator_Factory
      *
      * @return    OA_Admin_UI_Decorator_Factory
      */
-    function singleton()
+    public static function singleton()
     {
         static $instance;
         if (!isset($instance)) {
@@ -65,7 +65,7 @@ class OA_Admin_UI_Decorator_Factory
      * @param array $aParameters list of parameters to be passed to decorator constructor
      * @return OA_Admin_UI_Decorator
      */
-    function newDecorator($decoratorName, $aParameters =  null)
+    public static function newDecorator($decoratorName, $aParameters =  null)
     {
         $decoratorFactory = OA_Admin_UI_Decorator_Factory::singleton();        
         return $decoratorFactory->_newDecorator($decoratorName, $aParameters);        

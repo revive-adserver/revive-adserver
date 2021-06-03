@@ -122,7 +122,7 @@ function MAX_AclSave($acls, $aEntities, $page = false)
         $mysqlInUse = true;
     }
 
-    $oDbh =& OA_DB::singleton();
+    $oDbh = OA_DB::singleton();
 
     if ($page === false) {
         $page = basename($_SERVER['SCRIPT_NAME']);
@@ -427,7 +427,7 @@ function MAX_AclValidate($page, $aParams)
 }
 
 function MAX_AclCopy($page, $from, $to) {
-    $oDbh =& OA_DB::singleton();
+    $oDbh = OA_DB::singleton();
     $conf =& $GLOBALS['_MAX']['CONF'];
     $table = modifyTableName('acls');
     switch ($page) {
@@ -520,7 +520,7 @@ function OA_aclGetComponentFromRow($row)
  */
 function OA_aclRecompileAclsForTable($aclsTable, $idColumn, $page, $objectTable, $upgrade = false)
 {
-    $dbh =& OA_DB::singleton();
+    $dbh = OA_DB::singleton();
     $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
     $qTable = $dbh->quoteIdentifier($prefix.$objectTable, true);
     $qAclsTable = $dbh->quoteIdentifier($prefix.$aclsTable, true);

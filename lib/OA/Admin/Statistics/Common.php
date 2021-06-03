@@ -1311,7 +1311,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
                         if ($value) {
                             $this->aTotal[$key] = $value;
                         }
-                    } else {
+                    } elseif (is_numeric($value)) {
                         $this->aTotal[$key] += $value;
                     }
                     $showTotals = true;
@@ -1446,7 +1446,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         $aPeriod['period_start']  = MAX_getStoredValue('period_start',  date('Y-m-d'));
         $aPeriod['period_end']    = MAX_getStoredValue('period_end',    date('Y-m-d'));
 
-        $this->oDaySpanSelector =& FieldFactory::newField('day-span');
+        $this->oDaySpanSelector = FieldFactory::newField('day-span');
         $this->oDaySpanSelector->_name = 'period';
         $this->oDaySpanSelector->enableAutoSubmit();
         $this->oDaySpanSelector->setValueFromArray($aPeriod);

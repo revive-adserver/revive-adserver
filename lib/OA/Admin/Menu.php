@@ -33,12 +33,19 @@ class OA_Admin_Menu
      */
     var $aCheckerIncludePaths;
 
+    function __construct()
+    {
+        $this->ROOT_SECTION_ID = 'root';
+        $this->rootSection = new OA_Admin_Menu_Section($this->ROOT_SECTION_ID, 'root', '', '');
+        $this->aAllSections = array();
+    }
+
     /**
      * Returns the instance of menu. Subsequent calls return the same object.
      *
      * @return OA_Admin_Menu
      */
-    function &singleton()
+    public static function singleton()
     {
         $accountType = OA_Permission::getAccountType();
         if (isset($GLOBALS['_MAX']['MENU_OBJECT'][$accountType])) {
@@ -66,15 +73,7 @@ class OA_Admin_Menu
         return $oMenu;
     }
 
-    function __construct()
-    {
-        $this->ROOT_SECTION_ID = 'root';
-        $this->rootSection = new OA_Admin_Menu_Section($this->ROOT_SECTION_ID, 'root', '', '');
-        $this->aAllSections = array();
-    }
-
-
-    function _loadFromCache($accountType)
+    public static function _loadFromCache($accountType)
     {
         $oCache = new OA_Cache('Menu', $accountType);
         $oCache->setFileNameProtection(false);
@@ -93,7 +92,7 @@ class OA_Admin_Menu
     }
 
 
-    function _saveToCache($accountType)
+    public function _saveToCache($accountType)
     {
         $oCache = new OA_Cache('Menu', $accountType);
         $oCache->setFileNameProtection(false);
@@ -101,7 +100,7 @@ class OA_Admin_Menu
     }
 
 
-    function _clearCache($accountType)
+    public static function _clearCache($accountType)
     {
         $oCache = new OA_Cache('Menu', $accountType);
         $oCache->setFileNameProtection(false);
@@ -123,7 +122,7 @@ class OA_Admin_Menu
      *
      * @return OA_Admin_Menu_Section
      */
-    function &get($sectionId, $checkAccess = true)
+    function get($sectionId, $checkAccess = true)
     {
         //if (!array_key_exists($sectionId, $this->aAllSections)) {
         if (!array_key_exists($sectionId, $this->aAllSections)) {
@@ -164,7 +163,7 @@ class OA_Admin_Menu
      */
     function getRootSections($checkAccess = true)
     {
-        $aSections = &$this->rootSection->getSections();
+        $aSections = $this->rootSection->getSections();
 
         if ($checkAccess) {
             $aSections = array_values(array_filter($aSections, array(new OA_Admin_SectionCheckerFilter(), 'accept')));
@@ -181,10 +180,11 @@ class OA_Admin_Menu
      * @param boolean $checkAccess indicates whether menu should perform checks before letting user access section
      * @return boolean
      */
-    function isRootSection(&$oSection, $checkAccess = true)
+    function isRootSection($oSection, $checkAccess = true)
     {
         $rootSections = $this->getRootSections($checkAccess);
-        return object_in_array($oSection, $rootSections, true);
+
+        return in_array($oSection, $rootSections, true);
     }
 
 
@@ -202,7 +202,7 @@ class OA_Admin_Menu
      *
      * @param String $sectionId
      * @param boolean $checkAccess indicates whether menu should perform checks before letting user access section
-     * @return an array of OA_Admin_Menu_Section being parents of the section with given id
+     * @return array of OA_Admin_Menu_Section being parents of the section with given id
      */
     function getParentSections($sectionId, $checkAccess = true)
     {
@@ -306,12 +306,12 @@ class OA_Admin_Menu
      * Add new section as a top level section. If element cannot be
      * added (eg. this is attempt to add it for the second time error is returned.
      *
-     * @param OA_Admin_Menu_Section $section section to be added
+     * @param OA_Admin_Menu_Section $oSection section to be added
      * @return true if element was added, MAX:raiseError() in case it fails.
      */
-    function add(&$section)
+    function add($oSection)
     {
-        return $this->addTo($this->ROOT_SECTION_ID, $section);
+        return $this->addTo($this->ROOT_SECTION_ID, $oSection);
     }
 
 
@@ -323,10 +323,11 @@ class OA_Admin_Menu
      * - section with given id already exists in the tree
      *
      * @param String $parentSectionId parent id
-     * @param OA_Admin_Menu_Section $section section to be added
-     * @return true if element was added, MAX:raiseError() in case it fails.
+     * @param OA_Admin_Menu_Section $oSection section to be added
+     *
+     * @return true|PEAR_Error if element was added, MAX:raiseError() in case it fails.
      */
-    function addTo($parentSectionId, &$section)
+    function addTo($parentSectionId, $oSection)
     {
         if ($parentSectionId == $this->ROOT_SECTION_ID) {
             $parentSection = &$this->rootSection;
@@ -335,59 +336,59 @@ class OA_Admin_Menu
             $parentSection = &$this->aAllSections[$parentSectionId];
         }
         else {
-            $errMsg = "Menu::addTo() Cannot add section '".$section->getId()."' to a non existent menu section with id '".$parentSectionId."'";
+            $errMsg = "Menu::addTo() Cannot add section '" . $oSection->getId()."' to a non existent menu section with id '".$parentSectionId."'";
             return MAX::raiseError($errMsg);
         }
 
         //check if added section is unique in menu
-        if (array_key_exists($section->getId(), $this->aAllSections)) {
-            $errMsg = "Menu::addTo() Cannot add section '".$section->getId()."' to section '".$parentSectionId."'. Section with given id already exists";
+        if (array_key_exists($oSection->getId(), $this->aAllSections)) {
+            $errMsg = "Menu::addTo() Cannot add section '" . $oSection->getId()."' to section '".$parentSectionId."'. Section with given id already exists";
             return MAX::raiseError($errMsg);
         }
 
 
         //add to parent
-        $parentSection->add($section);
+        $parentSection->add($oSection);
 
         //add new section to hash array
-        $this->_addToHash($section);
+        $this->_addToHash($oSection);
 
         return true; //TODO return added section here
     }
 
 
-    function insertBefore($sectionId, &$section)
+    function insertBefore($sectionId, $oSection)
     {
         if (!array_key_exists($sectionId, $this->aAllSections)) {
-            $errMsg = "Menu::insertBefore() Cannot insert section '".$section->getId()."' before a non existent menu section with id '".$sectionId."'";
+            $errMsg = "Menu::insertBefore() Cannot insert section '".$oSection->getId()."' before a non existent menu section with id '".$sectionId."'";
             return MAX::raiseError($errMsg);
         }
         $siblingSection = &$this->aAllSections[$sectionId];
         $parent = &$siblingSection->getParent();
-        $result = $parent->insertBefore($sectionId, $section);
+        $result = $parent->insertBefore($sectionId, $oSection);
 
         //add new section to hash array
         if (!PEAR::isError($result)) {
-            $this->_addToHash($section);
+            $this->_addToHash($oSection);
         }
 
         return $result;
     }
 
 
-    function insertAfter($sectionId, &$section)
+    function insertAfter($sectionId, $oSection)
     {
         if (!array_key_exists($sectionId, $this->aAllSections)) {
-            $errMsg = "Menu::insertAfter() Cannot insert section '".$section->getId()."' after a non existent menu section with id '".$sectionId."'";
+            $errMsg = "Menu::insertAfter() Cannot insert section '".$oSection->getId()."' after a non existent menu section with id '".$sectionId."'";
             return MAX::raiseError($errMsg);
         }
         $siblingSection = &$this->aAllSections[$sectionId];
         $parent = &$siblingSection->getParent();
-        $result = $parent->insertAfter($sectionId, $section);
+        $result = $parent->insertAfter($sectionId, $oSection);
 
         //add new section to hash array
         if (!PEAR::isError($result)) {
-            $this->_addToHash($section);
+            $this->_addToHash($oSection);
         }
 
         return $result;
@@ -397,9 +398,9 @@ class OA_Admin_Menu
     /**
      * Additional hook. Allows to plug third level itemAdd third level
      */
-    function addThirdLevelTo($sectionId, &$oSection)
+    function addThirdLevelTo($sectionId, $oSection)
     {
-        $section->setType(OA_Admin_Menu_Section::TYPE_LEFT_SUB);
+        $oSection->setType(OA_Admin_Menu_Section::TYPE_LEFT_SUB);
         $this->addTo($sectionId, $oSection);
     }
 
@@ -407,12 +408,12 @@ class OA_Admin_Menu
     /**
      * Private
      *
-     * @param unknown_type $section
+     * @param OA_Admin_Menu_Section $oSection
      */
-    function _addToHash(&$section)
+    function _addToHash($oSection)
     {
         //add new section to flat array
-        $this->aAllSections[$section->getId()] = &$section;
+        $this->aAllSections[$oSection->getId()] = &$oSection;
     }
 
 
@@ -427,7 +428,7 @@ class OA_Admin_Menu
      * @param string $pageName
      * @param string $sortPageName
      */
-    function setPublisherPageContext($affiliateid, $pageName, $sortPageName = 'website-index.php')
+    public static function setPublisherPageContext($affiliateid, $pageName, $sortPageName = 'website-index.php')
     {
         $doAffiliates = OA_Dal::factoryDO('affiliates');
         $doAffiliates->agencyid = OA_Permission::getAgencyId();
@@ -457,7 +458,7 @@ class OA_Admin_Menu
      * @param string $pageName
      * @param string $sortPageName
      */
-    function setAdvertiserPageContext($clientid, $pageName, $sortPageName = 'advertiser-index.php')
+    public static function setAdvertiserPageContext($clientid, $pageName, $sortPageName = 'advertiser-index.php')
     {
         $doClients = OA_Dal::factoryDO('clients');
         $doClients->agencyid = OA_Permission::getEntityId();
@@ -474,7 +475,7 @@ class OA_Admin_Menu
     }
 
 
-    function setAgencyPageContext($agencyid, $pageName)
+    public static function setAgencyPageContext($agencyid, $pageName)
     {
         $doAgency = OA_Dal::factoryDO('agency');
         $doAgency->find();
@@ -497,18 +498,6 @@ class OA_Admin_Menu
     {
         $this->aCheckerIncludePaths[$checkerClassName] = $path;
     }
-}
-/**
- * Checks if the needle object exists in the haystack array
- *
- * @param object $needle
- * @param array of objects $haystack
- * @param boolean $strict (defaults to false)
- */
-function object_in_array(&$needle  , &$haystack, $strict = false)
-{
-    return in_array($needle, $haystack, $strict);
-
 }
 
 ?>

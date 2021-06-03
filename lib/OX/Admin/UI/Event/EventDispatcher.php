@@ -53,7 +53,7 @@ class OX_Admin_UI_Event_EventDispatcher
      *
      * @return OX_Admin_UI_Event_EventDispatcher
      */
-    public function getInstance()
+    public static function getInstance()
     {
         if (!isset(self::$instance)) {
             $c = __CLASS__;
@@ -140,26 +140,23 @@ class OX_Admin_UI_Event_EventDispatcher
      *
      * @param callback $callback
      */
-    protected function getKey($callback)
+    private function getKey($callback): ?string
     {
-        $key = null;
-        
+        if ($callback instanceof Closure) {
+            return get_class($callback);
+        }
+
         if (is_array($callback)) {
             if (is_object($callback[0])) {
                 //build key from object class name and method
-                $key = get_class($callback[0]).'::'.$callback[1];
-            } 
-            else {
+                return get_class($callback[0]).'::'.$callback[1];
+            } else {
                 //build key from object class name and method
-                $key = $callback[0].'::'.$callback[1];
+                return $callback[0].'::'.$callback[1];
             }
-        } 
-        else {
-            //anonymous callback or even closure, no easy key, use callback itself
-            $key = $callback;
         }
 
-        return $key;
+        return null;
     }
     
     

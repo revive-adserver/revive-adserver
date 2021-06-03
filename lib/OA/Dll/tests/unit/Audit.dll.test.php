@@ -10,6 +10,7 @@
 +---------------------------------------------------------------------------+
 */
 
+require_once MAX_PATH . '/lib/max/other/lib-userlog.inc.php';
 require_once MAX_PATH . '/lib/OA/Dll/Audit.php';
 require_once MAX_PATH . '/lib/OA/Dll/tests/util/DllUnitTestCase.php';
 
@@ -19,7 +20,6 @@ require_once MAX_PATH . '/lib/OA/Dll/tests/util/DllUnitTestCase.php';
  * @package    OpenadsDll
  * @subpackage TestSuite
  */
-
 
 class OA_Dll_AuditTest extends DllUnitTestCase
 {

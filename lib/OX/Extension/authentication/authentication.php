@@ -52,7 +52,7 @@ class Plugins_Authentication extends OX_Component
      * @return DataObjects_Users  returns users dataobject on success authentication
      *                            or null if user wasn't succesfully authenticated
      */
-    function &authenticateUser()
+    function authenticateUser()
     {
         $aCredentials = $this->_getCredentials();
         if (PEAR::isError($aCredentials)) {

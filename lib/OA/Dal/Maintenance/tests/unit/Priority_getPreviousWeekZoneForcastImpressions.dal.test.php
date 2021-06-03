@@ -44,7 +44,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousWeekZoneForcastImpressions ext
     function testGetPreviousWeekZoneForcastImpressions()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oDbh =& OA_DB::singleton();
+        $oDbh = OA_DB::singleton();
         $oDal = new OA_Dal_Maintenance_Priority();
 
         // Test 1
@@ -52,7 +52,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousWeekZoneForcastImpressions ext
         $this->assertFalse($aResult);
 
         // Test 2
-        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
         $oServiceLocator->remove('now');
         $aResult = $oDal->getPreviousWeekZoneForcastImpressions(1);
         $this->assertFalse($aResult);

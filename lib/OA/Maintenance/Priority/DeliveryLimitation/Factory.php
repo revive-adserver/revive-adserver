@@ -46,7 +46,7 @@ class OA_Maintenance_Priority_DeliveryLimitation_Factory
      *                                   )
      * @return object OA_Maintenance_Priority_DeliveryLimitation_Common
      */
-    function &factory($aDeliveryLimitation)
+    public static function factory($aDeliveryLimitation)
     {
         // Load plugins if not already in cache
         if (!isset(self::$aPlugins)) {

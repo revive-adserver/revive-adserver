@@ -143,7 +143,7 @@ class XML_Parser_Simple extends XML_Parser
         }
 
         if ($this->mode != 'func' && $this->mode != 'event') {
-            return $this->customRaiseError('Unsupported mode given', XML_PARSER_ERROR_UNSUPPORTED_MODE);
+            return $this->raiseInstanceError('Unsupported mode given', XML_PARSER_ERROR_UNSUPPORTED_MODE);
         }
         xml_set_object($this->parser, $this->_handlerObj);
 
@@ -194,7 +194,7 @@ class XML_Parser_Simple extends XML_Parser
     * @param    string      element name
     * @param    array       attributes
     */
-    function startHandler($xp, $elem, &$attribs)
+    function startHandler($xp, $elem, $attribs)
     {
         array_push($this->_elStack, array(
                                             'name'    => $elem,

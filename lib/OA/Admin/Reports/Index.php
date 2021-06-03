@@ -207,7 +207,7 @@ class OA_Admin_Reports_Index
             $this->_displayParameterListHeader();
             foreach ($aPluginInfo as $key => $aParameters) {
                 // Print the report generation parameter
-                $oField =& $this->oFieldFactory->newField($aParameters['type']);
+                $oField = $this->oFieldFactory->newField($aParameters['type']);
                 $oField->_name = $key;
                 if (!is_null($aParameters['default'])) {
                     $oField->setValue($aParameters['default']);

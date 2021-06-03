@@ -76,10 +76,10 @@ class MDB2_Schema_Parser extends XML_Parser
     var $variables = array();
     var $sequence = array();
     var $sequence_name = '';
-    var $error;
     var $structure = false;
     var $val;
     var $validate = true;
+    var $error;
 
     function __construct($variables, $fail_on_invalid_names = true, $structure = false, $valid_types = array(), $force_defaults = true)
     {
@@ -268,7 +268,7 @@ class MDB2_Schema_Parser extends XML_Parser
             {
                 $result = $this->val->validateTable($this->database_definition['tables'], $this->table, $this->table_name);
                 if (PEAR::isError($result)) {
-                    $this->customRaiseError($result->getUserinfo(), 0, $xp, $result->getCode());
+                    $this->raiseInstanceError($result->getMessage());
                 }
             }
             $this->database_definition['tables'][$this->table_name] = $this->table;
@@ -285,7 +285,7 @@ class MDB2_Schema_Parser extends XML_Parser
             {
                 $result = $this->val->validateField($this->table['fields'], $this->field, $this->field_name);
                 if (PEAR::isError($result)) {
-                    $this->customRaiseError($result->getUserinfo(), 0, $xp, $result->getCode());
+                    $this->raiseInstanceError($result->getMessage());
                 }
             }
             $this->table['fields'][$this->field_name] = $this->field;
@@ -297,7 +297,7 @@ class MDB2_Schema_Parser extends XML_Parser
             {
                 $result = $this->val->validateIndex($this->table['indexes'], $this->index, $this->index_name);
                 if (PEAR::isError($result)) {
-                    $this->customRaiseError($result->getUserinfo(), 0, $xp, $result->getCode());
+                    $this->raiseInstanceError($result->getMessage());
                 }
             }
             $this->table['indexes'][$this->index_name] = $this->index;
@@ -307,7 +307,7 @@ class MDB2_Schema_Parser extends XML_Parser
             {
                 $result = $this->val->validateIndexField($this->index['fields'], $this->field, $this->field_name);
                 if (PEAR::isError($result)) {
-                    $this->customRaiseError($result->getUserinfo(), 0, $xp, $result->getCode());
+                    $this->raiseInstanceError($result->getMessage());
                 }
             }
             $this->index['fields'][$this->field_name] = $this->field;
@@ -319,7 +319,7 @@ class MDB2_Schema_Parser extends XML_Parser
             {
                 $result = $this->val->validateSequence($this->database_definition['sequences'], $this->sequence, $this->sequence_name);
                 if (PEAR::isError($result)) {
-                    $this->customRaiseError($result->getUserinfo(), 0, $xp, $result->getCode());
+                    $this->raiseInstanceError($result->getMessage());
                 }
             }
             $this->database_definition['sequences'][$this->sequence_name] = $this->sequence;
@@ -331,7 +331,7 @@ class MDB2_Schema_Parser extends XML_Parser
             {
                 $result = $this->val->validateDatabase($this->database_definition);
                 if (PEAR::isError($result)) {
-                    $this->customRaiseError($result->getUserinfo(), 0, $xp, $result->getCode());
+                    $this->raiseInstanceError($result->getMessage());
                 }
             }
             break;
@@ -341,39 +341,31 @@ class MDB2_Schema_Parser extends XML_Parser
         $this->element = implode('-', $this->elements);
     }
 
-    function &customRaiseError($msg = null, $xmlecode = 0, $xp = null, $ecode = MDB2_SCHEMA_ERROR_PARSE)
+    function raiseInstanceError($msg = null, $ecode = 0, $xp = null, $mdb2code = MDB2_SCHEMA_ERROR_PARSE)
     {
-        if (is_null($this->error)) {
-            $error = '';
-            if (is_resource($msg)) {
-                $error.= 'Parser error: '.xml_error_string(xml_get_error_code($msg));
-                $xp = $msg;
-            } else {
-                $error.= 'Parser error: '.$msg;
-                if (!is_resource($xp)) {
-                    $xp = $this->parser;
-                }
-            }
-            if ($error_string = xml_error_string($xmlecode)) {
-                $error.= ' - '.$error_string;
-            }
-            if (is_resource($xp)) {
-                $byte = @xml_get_current_byte_index($xp);
-                $line = @xml_get_current_line_number($xp);
-                $column = @xml_get_current_column_number($xp);
-                $error.= " - Byte: $byte; Line: $line; Col: $column";
-            }
-            $error.= "\n";
-            $this->error =& MDB2_Schema::raiseError($ecode, null, null, $error);
+        $error = $msg ? "{$msg} - " : '';
+
+        $xp = $xp ?? $this->parser;
+
+        $ecode = $ecode ?: xml_get_error_code($xp);
+
+        $error .=  'Parser error: '.xml_error_string($ecode);
+
+        if (!empty($xp)) {
+            $byte = @xml_get_current_byte_index($xp);
+            $line = @xml_get_current_line_number($xp);
+            $column = @xml_get_current_column_number($xp);
+            $error.= " - Byte: $byte; Line: $line; Col: $column";
         }
-        return $this->error;
+
+        return $this->error = MDB2_Schema::raiseError($error, $mdb2code);
     }
 
     function cdataHandler($xp, $data)
     {
         if ($this->var_mode == true) {
             if (!isset($this->variables[$data])) {
-                $this->customRaiseError('variable "'.$data.'" not found', null, $xp);
+                $this->raiseInstanceError('variable "'.$data.'" not found');
                 return;
             }
             $data = $this->variables[$data];

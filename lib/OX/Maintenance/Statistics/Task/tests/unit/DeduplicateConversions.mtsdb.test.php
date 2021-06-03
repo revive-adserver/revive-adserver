@@ -49,7 +49,7 @@ class Test_OX_Maintenance_Statistics_Task_DeduplicateConversions extends UnitTes
      */
     function testRun()
     {
-        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
         $aConf           =& $GLOBALS['_MAX']['CONF'];
         $className       = 'OX_Dal_Maintenance_Statistics_' . ucfirst(strtolower($aConf['database']['type']));
         $mockClassName   = 'MockOX_Dal_Maintenance_Statistics_' . ucfirst(strtolower($aConf['database']['type']));

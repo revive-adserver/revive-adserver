@@ -33,15 +33,15 @@ class Plugins_TestOfPlugins_openXBannerTypes extends UnitTestCase
 
     function test_genericText_class()
     {
-        $oComponent = &OX_Component::factory('bannerTypeText', 'oxText', 'genericText');
+        $oComponent = OX_Component::factory('bannerTypeText', 'oxText', 'genericText');
         $this->_assertClass($oComponent,'bannerTypeText', 'oxText', 'genericText');
     }
 
     function test_genericHtml_class()
     {
-        $oComponent = &OX_Component::factory('bannerTypeHtml', 'oxHtml', 'genericHtml');
+        $oComponent = OX_Component::factory('bannerTypeHtml', 'oxHtml', 'genericHtml');
         $this->_assertClass($oComponent, 'bannerTypeHtml', 'oxHtml', 'genericHtml');
-        $this->assertTrue(method_exists($oComponent, 'buildHtmlTemplate'), $sender.' missing method buildHtmlTemplate');
+        $this->assertTrue(method_exists($oComponent, 'buildHtmlTemplate'), 'missing method buildHtmlTemplate');
     }
 
     function _assertClass($oComponent, $extension, $group, $component)

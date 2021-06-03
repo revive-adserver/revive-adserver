@@ -53,7 +53,7 @@ class Test_OA_Permission extends UnitTestCase
         $this->assertEqual($oUser->aUser['username'], 'installer');
 
         OA_Permission::switchToSystemProcessUser();
-        $this->assertNull($session['user']);
+        $this->assertFalse(isset($session['user']));
 
         $oUser = new OA_Permission_User(OA_Dal::factoryDO('users'));
         $oUser->aUser['username'] = 'testuser';

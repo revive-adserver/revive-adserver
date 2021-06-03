@@ -62,7 +62,7 @@ class OA_Test_Data_MDB2Schema extends OA_Test_Data
         {
             return false;
         }
-        $this->oSchema  =&  MDB2_Schema::factory($this->oDbh);
+        $this->oSchema = MDB2_Schema::factory($this->oDbh);
         if (PEAR::isError($this->oSchema))
         {
             return false;

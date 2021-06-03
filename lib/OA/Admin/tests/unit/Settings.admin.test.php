@@ -53,9 +53,11 @@ Class Test_OA_Admin_Settings extends UnitTestCase
         // 2) A non-existing file in an unwriteable location.
         $this->assertFalse($oConf->isConfigWritable($this->basePath . '/non_existent_dir/non_existent_file'));
 
-        /**
-         * @todo Test fails when running the test as root
-         */
+        // The following tests fail when running as root, exit early
+        if (function_exists('posix_getuid') && 0 === posix_getuid()) {
+            return;
+        }
+
         // 3) An existing file we don't have write permission for.
         $path = $this->basePath;
         $filename = 'oa_test_' . rand() . '.conf.php';
@@ -70,9 +72,11 @@ Class Test_OA_Admin_Settings extends UnitTestCase
         // 4) An empty directory we can write to.
         $this->assertTrue($oConf->isConfigWritable($this->basePath . '/non_existent_file'));
 
-        /**
-         * @todo Test fails when running the test as root or on Windows
-         */
+        // The following test fails when running on Windows, exit early
+        if (defined('PHP_OS_FAMILY') && 'Windows' === PHP_OS_FAMILY) {
+            return;
+        }
+
         // 5) An empty directory we cannot write to.
         $path = $this->basePath;
         $dirname = 'oa_test_' . rand();
@@ -123,7 +127,7 @@ Class Test_OA_Admin_Settings extends UnitTestCase
 
         // The new config file will have been reparsed so global conf should have correct values.
         $oNewConf = new OA_Admin_Settings();
-        $this->assertEqual($oConf->conf, $oNewConf->conf);
+        $this->assertEqual($oConf->aConf, $oNewConf->aConf);
 
         // Clean up
         unlink($this->basePath . '/localhost.' . $filename . '.conf.php');

@@ -16,6 +16,7 @@
  */
 
 $aBanner	= array('ad_id'=>'9999',
+					'placement_id' => '111',
 					'url'=>'http://www.somewhere.com',
 					'contenttype'=>''
 					);

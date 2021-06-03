@@ -143,6 +143,8 @@ class OX_Plugin_UpgradeComponentGroup extends OA_Upgrade
 
     function upgrade($input_file='', $timing='constructive')
     {
+        $halt = false;
+
         // initialise database connection if necessary
         if (is_null($this->oDbh))
         {

@@ -131,7 +131,7 @@ class OX_Maintenance_Statistics
         OA_Permission::switchToSystemProcessUser('Maintenance');
 
         // Ensure the the current time is registered with the OA_ServiceLocator
-        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
         $oDate = &$oServiceLocator->get('now');
         if (!$oDate) {
             // Record the current time, and register with the OA_ServiceLocator
@@ -156,7 +156,7 @@ class OX_Maintenance_Statistics
         // Register this object as the controlling class for the process,
         // so that tasks run by the task runner can locate this class to
         // update the report, etc.
-        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
         $oServiceLocator->register('Maintenance_Statistics_Controller', $this);
 
         // Create and register an instance of the OA_Dal_Maintenance_Statistics DAL

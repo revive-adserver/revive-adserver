@@ -17,18 +17,18 @@ $path = dirname(dirname(dirname(__FILE__)));
 
 global $readPath, $writeFile;
 
-    if ($argc>0)
+    if (!empty($argc))
     {
         $readPath = $argv[1];
         $writeFile = $argv[2];
         echo 'reading directory '.$readPath."\n";
         echo 'writing file '.$writeFile."\n";
     }
-    if (is_null($readPath))
+    if (empty($readPath))
     {
         $readPath = $path.'/etc/changes';
     }
-    if (is_null($writeFile))
+    if (empty($writeFile))
     {
         $writeFile = $path.'/etc/changes/openads_upgrade_array.txt';
     }
@@ -50,14 +50,14 @@ global $readPath, $writeFile;
                 preg_match('/(?P<release>[\d]+)\.(?P<major>[\d]+)\.(?P<minor>[\d]+)(?P<beta>\-beta)?(?P<rc>\-rc)?(?P<build>[\d]+)?(?P<toversion>_to_)?/i', $file, $aParsed);
 
                 // we don't want *milestone* packages included in this array  (openads_upgrade_n.n.nn_to_n.n.nn.xml)
-                if (!$aParsed['toversion'])
+                if (empty($aParsed['toversion']))
                 {
-                    $release    = $aParsed['release'];
-                    $major      = $aParsed['major'];
-                    $minor      = $aParsed['minor'];
-                    $beta       = $aParsed['beta'];
-                    $rc         = $aParsed['rc'];
-                    $build      = $aParsed['build'];
+                    $release    = $aParsed['release'] ?? null;
+                    $major      = $aParsed['major'] ?? null;
+                    $minor      = $aParsed['minor'] ?? null;
+                    $beta       = $aParsed['beta'] ?? null;
+                    $rc         = $aParsed['rc'] ?? null;
+                    $build      = $aParsed['build'] ?? null;
 
                     if (!isset($aVersions[$release]))
                     {

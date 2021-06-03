@@ -36,7 +36,7 @@ class OX_ParserComponentGroup extends OX_ParserBase
     var $aComponents = array();
     var $aComponent = array();
 
-    function startHandler($xp, $element, &$attribs)
+    function startHandler($xp, $element, $attribs)
     {
 
         parent::startHandler($xp, $element, $attribs);

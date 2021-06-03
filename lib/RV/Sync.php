@@ -42,12 +42,12 @@ class RV_Sync
      */
     function __construct($conf = null, $pref = null)
     {
-        $this->aConf = is_null($conf) ? $GLOBALS['_MAX']['CONF'] : $conf;
-        $this->aPref = is_null($pref) ? $GLOBALS['_MAX']['PREF'] : $pref;
+        $this->aConf = $conf ?? $GLOBALS['_MAX']['CONF'] ?? null;
+        $this->aPref = $pref ?? $GLOBALS['_MAX']['PREF'] ?? null;
 
         $this->_conf = $this->aConf['oacSync'];
 
-        $this->oDbh =& OA_DB::singleton();
+        $this->oDbh = OA_DB::singleton();
     }
 
 

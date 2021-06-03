@@ -89,22 +89,22 @@ class MAX_ErrorHandler
      * @param   string  $errStr     PHP's error message
      * @param   string  $file       filename where error occurred
      * @param   int     $line       line number where error occurred
-     * @param   string  $context    contextual info
-     * @return  void
      */
-    function errHandler($errNo, $errStr, $file, $line, $context)
+    function errHandler($errNo, $errStr, $file, $line): void
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         // do not show notices
         if ($conf['debug']['errorOverride'] == true) {
             if ($errNo == E_NOTICE || $errNo >= E_STRICT) {
-                return null;
+                return;
             }
         }
-        //  if an @ error suppression operator has been detected (0) return null
-        if (error_reporting() == 0) {
-            return null;
+
+        if (!(error_reporting() & $errNo)) {
+            // Silenced!
+            return;
         }
+
         if (in_array($errNo, array_keys($this->errorType))) {
             //  final param is 2nd dimension element from errorType array,
             //  representing PEAR error codes mapped to PHP's
@@ -141,7 +141,7 @@ EOF;
                 @constant($conf['debug']['emailAdminThreshold']);
             if ($conf['debug']['sendErrorEmails'] && !defined('TEST_ENVIRONMENT_RUNNING') && $this->errorType[$errNo][1] <= $emailAdminThreshold) {
                 //  get extra info
-                $oDbh =& OA_DB::singleton();
+                $oDbh = OA_DB::singleton();
                 $lastQuery = $oDbh->last_query;
                 $aExtraInfo['callingURL'] = $_SERVER['SCRIPT_NAME'];
                 $aExtraInfo['lastSQL'] = isset($oDbh->last_query) ? $oDbh->last_query : null;

@@ -442,7 +442,8 @@ class OA_Dal_Statistics_Zone extends OA_Dal_Statistics
                                                $oEndDate,
                                                $campaignId = null,
                                                $impressionsThreshold = null,
-                                               $daysIntervalThreshold = null)
+                                               $daysIntervalThreshold = null,
+                                               $localTZ = false)
     {
         $tableCampaigns = $this->quoteTableName('campaigns');
         $tableBanners   = $this->quoteTableName('banners');
@@ -510,7 +511,8 @@ class OA_Dal_Statistics_Zone extends OA_Dal_Statistics
                                      $oEndDate,
                                      $campaignId = null,
                                      $impressionsThreshold = null,
-                                     $daysIntervalThreshold = null)
+                                     $daysIntervalThreshold = null,
+                                     $localTZ = false)
     {
         $tableCampaigns = $this->quoteTableName('campaigns');
         $tableBanners   = $this->quoteTableName('banners');
@@ -578,7 +580,8 @@ class OA_Dal_Statistics_Zone extends OA_Dal_Statistics
                                     $oEndDate,
                                     $campaignId = null,
                                     $impressionsThreshold = null,
-                                    $daysIntervalThreshold = null)
+                                    $daysIntervalThreshold = null,
+                                    $localTZ = false)
     {
         $tableCampaigns = $this->quoteTableName('campaigns');
         $tableBanners   = $this->quoteTableName('banners');

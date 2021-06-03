@@ -560,14 +560,9 @@ class HTML_Template_Flexy
     *   @param      string  $string       output to display
     *   @return     none
     */
-    function debug($string)
+    public static function debug($string)
     {
-
-        if (is_a($this,'HTML_Template_Flexy')) {
-            if (!$this->options['debug']) {
-                return;
-            }
-        } else if (!@$GLOBALS['_HTML_TEMPLATE_FLEXY']['debug']) {
+        if (!@$GLOBALS['_HTML_TEMPLATE_FLEXY']['debug']) {
             return;
         }
         echo "<PRE><B>FLEXY DEBUG:</B> $string</PRE>";
@@ -670,18 +665,16 @@ class HTML_Template_Flexy
     */
 
 
-    function raiseError($message, $type = null, $fatal = HTML_TEMPLATE_FLEXY_ERROR_RETURN )
+    public static function raiseError($message, $type = null, $fatal = HTML_TEMPLATE_FLEXY_ERROR_RETURN )
     {
         HTML_Template_Flexy::debug("<B>HTML_Template_Flexy::raiseError</B>$message");
         require_once 'PEAR.php';
-        if (is_a($this,'HTML_Template_Flexy') &&  ($fatal == HTML_TEMPLATE_FLEXY_ERROR_DIE)) {
-            // rewrite DIE!
-            return PEAR::raiseError($message, $type, $this->options['fatalError']);
-        }
+
         if (isset($GLOBALS['_HTML_TEMPLATE_FLEXY']['fatalError']) &&  ($fatal == HTML_TEMPLATE_FLEXY_ERROR_DIE)) {
 
             return PEAR::raiseError($message, $type,$GLOBALS['_HTML_TEMPLATE_FLEXY']['fatalError']);
         }
+
         return PEAR::raiseError($message, $type, $fatal);
     }
 

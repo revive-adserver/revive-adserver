@@ -66,7 +66,7 @@ class TestFiles
                 }
             }
             closedir($dh);
-            if (count($aFiles[$storeFolder]) > 1) {
+            if ($aFiles[$storeFolder]) {
                 asort($aFiles[$storeFolder]);
             }
         }

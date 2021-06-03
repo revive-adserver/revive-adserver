@@ -170,7 +170,8 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
                 $Datasets[1]->addPoint($k, $v * $factor);
             }
 
-            $Graph->add($Plotarea = Image_Graph::factory('plotarea'));
+            $Plotarea = Image_Graph::factory('plotarea');
+            $Graph->add($Plotarea);
 
             $PlotBg = Image_Graph::factory('Fill_Array');
             $PlotBg->addColor('white');
@@ -203,7 +204,9 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
                 $AxisY->forceMaximum(1);
             }
 
-            $func = create_function('$value', 'return OA_Dashboard_Widget_Graph::_formatY($value);');
+            $func = function ($value) {
+                return OA_Dashboard_Widget_Graph::_formatY($value);
+            };
 
             $AxisY->setDataPreprocessor(Image_Graph::factory('Image_Graph_DataPreprocessor_Function', $func));
             $AxisY2->setDataPreprocessor(Image_Graph::factory('Image_Graph_DataPreprocessor_Function', $func));
@@ -227,7 +230,7 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
      * @param float $value
      * @return string
      */
-    function _formatY($value)
+    public static function _formatY($value)
     {
         $oTrans = new OX_Translation();
         $unit = '';

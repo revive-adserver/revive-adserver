@@ -24,7 +24,7 @@ class ArrayUtils
      * @param array $aValues
      * @param object $value
      */
-    function unsetIfKeyNumeric(&$aValues, $oValue)
+    public static function unsetIfKeyNumeric(&$aValues, $oValue)
     {
         $key = array_search($oValue, $aValues);
         if (is_numeric($key)) {

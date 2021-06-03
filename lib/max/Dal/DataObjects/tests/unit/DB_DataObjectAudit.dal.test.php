@@ -1080,7 +1080,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aAudit['array']['link_type'],0);
         $this->assertEqual($aAudit['array']['priority'],0);
         $this->assertEqual($aAudit['array']['priority_factor'],1);
-        $this->assertEqual($aAudit['array']['to_be_delivered'],0);
+        $this->assertEqual($aAudit['array']['to_be_delivered'],'null');
 
         // Test 3 :test the insert zone audit
         $aAudit = $this->getMatchingAudit($aResult, 'zones', $zoneId, OA_AUDIT_ACTION_INSERT);
@@ -1143,7 +1143,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aAudit['array']['link_type'],0);
         $this->assertEqual($aAudit['array']['priority'], 0);
         $this->assertEqual($aAudit['array']['priority_factor'], 1);
-        $this->assertEqual($aAudit['array']['to_be_delivered'], 0);
+        $this->assertEqual($aAudit['array']['to_be_delivered'], 'true');
 
         DataGenerator::cleanUp(array('accounts', 'banners', 'zones', 'ad_zone_assoc', 'audit'));
     }

@@ -251,7 +251,7 @@ class Image_Graph_Common
                 $parameters .= $name . '=' . $key;
             }
         }
-        $error =& PEAR::raiseError(
+        $error = PEAR::raiseError(
             $text .
             ($error_code != IMAGE_GRAPH_ERROR_GENERIC ? ' error:' . IMAGE_GRAPH_ERROR_GENERIC : '') .
             (isset($parameters) ? ' parameters:[' . $parameters . ']' : '')

@@ -38,7 +38,7 @@ class OA_Maintenance_Priority
      *                           script process can always update priorities.
      * @return boolean True on MPE running correctly, false otherwise.
      */
-    function run($alwaysRun = false)
+    public static function run($alwaysRun = false)
     {
         OA::switchLogIdent('maintenance');
 
@@ -81,7 +81,7 @@ class OA_Maintenance_Priority
         }
 
         // Ensure the the current time is registered with the OA_ServiceLocator
-        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
         $oDate =& $oServiceLocator->get('now');
         if (!$oDate) {
             // Record the current time, and register with the OA_ServiceLocator
@@ -113,7 +113,7 @@ class OA_Maintenance_Priority
         return true;
     }
 
-    function scheduleRun()
+    public static function scheduleRun()
     {
         global $session;
 

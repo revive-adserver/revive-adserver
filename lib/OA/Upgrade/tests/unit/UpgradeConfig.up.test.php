@@ -290,7 +290,7 @@ class Test_OA_Upgrade_Config extends UnitTestCase
     {
         $oUpConfig = new OA_Upgrade_Config();
         // First check that the working config file agrees with the dist config file
-        $this->assertFalse($oUpConfig->checkForConfigAdditions($new), 'New config items have NOT been added to working test.conf.php');
+        $this->assertFalse($oUpConfig->checkForConfigAdditions(null), 'New config items have NOT been added to working test.conf.php');
 
         // Assert no new items detected when $new === $old
         $new = $oUpConfig->aConfig;

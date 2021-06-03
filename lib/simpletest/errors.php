@@ -228,7 +228,7 @@
      *    @static
      *    @access public
      */
-    function SimpleTestErrorHandler($severity, $message, $filename, $line, $super_globals) {
+    function SimpleTestErrorHandler($severity, $message, $filename, $line, $super_globals = []) {
         if ($severity = $severity & error_reporting()) {
             restore_error_handler();
             if (ini_get('log_errors')) {

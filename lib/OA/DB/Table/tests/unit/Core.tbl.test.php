@@ -82,7 +82,7 @@ class Test_OA_DB_Table_Core extends UnitTestCase
      */
     function testConfvsSchemaTables()
     {
-        $oDbh =& OA_DB::singleton();
+        $oDbh = OA_DB::singleton();
         $oTable =& OA_DB_Table_Core::singleton();
 
         $aConfWork = $GLOBALS['_MAX']['CONF'];
@@ -134,7 +134,7 @@ class Test_OA_DB_Table_Core extends UnitTestCase
         // Test 1
         $conf =& $GLOBALS['_MAX']['CONF'];
         $conf['table']['prefix'] = '';
-        $oDbh =& OA_DB::singleton();
+        $oDbh = OA_DB::singleton();
         $oTable =& OA_DB_Table_Core::singleton();
         $oTable->dropAllTables();
         $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();

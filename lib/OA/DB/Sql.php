@@ -26,14 +26,14 @@ class OA_DB_Sql
      * @param array $aValues
      * @return string
      */
-	function sqlForInsert($table, $aValues)
+	public static function sqlForInsert($table, $aValues)
 	{
 	    foreach($aValues as $column => $value) {
 	        $aValues[$column] = DBC::makeLiteral($value);
 	    }
         $sColumns = implode(",", array_keys($aValues));
         $sValues = implode(",", $aValues);
-        $table = OA_DB_Sql::modifyTableName($table);
+        $table = self::modifyTableName($table);
         return "INSERT INTO {$table} ($sColumns) VALUES ($sValues)";
 	}
 
@@ -48,10 +48,10 @@ class OA_DB_Sql
      * @param string $id
      * @return Number of deleted rows on success and PEAR::Error on exit.
      */
-    function deleteWhereOne($table, $idColumn, $id)
+    public static function deleteWhereOne($table, $idColumn, $id)
     {
-        $dbh =& OA_DB::singleton();
-        $table = OA_DB_Sql::modifyTableName($table);
+        $dbh = OA_DB::singleton();
+        $table = self::modifyTableName($table);
         $sql = "DELETE FROM {$table} WHERE $idColumn = $id";
         return $dbh->exec($sql);
     }
@@ -68,12 +68,12 @@ class OA_DB_Sql
      * @param array $aColumns List of columns, defaults to '*'.
      * @return DataSpace
      */
-    function &selectWhereOne($table, $idColumn, $id, $aColumns = array('*'))
+    public static function selectWhereOne($table, $idColumn, $id, $aColumns = array('*'))
     {
         $sColumns = implode(' ', $aColumns);
-        $table = OA_DB_Sql::modifyTableName($table);
+        $table = self::modifyTableName($table);
         $sql = "SELECT $sColumns FROM {$table} WHERE $idColumn = $id";
-        $rs =& DBC::NewRecordSet($sql);
+        $rs = DBC::NewRecordSet($sql);
         $result = $rs->find();
         if (PEAR::isError($result)) {
             return $result;
@@ -93,16 +93,16 @@ class OA_DB_Sql
      * @param array $aValues A map from column name => new value
      * @return int Number of rows updated on success or PEAR::Error on failure.
      */
-    function updateWhereOne($table, $idColumn, $id, $aValues)
+    public static function updateWhereOne($table, $idColumn, $id, $aValues)
     {
         $aSet = array();
         foreach ($aValues as $column => $value) {
             $aSet []= "$column = " . DBC::makeLiteral($value);
         }
         $sSet = implode(",", $aSet);
-        $table = OA_DB_Sql::modifyTableName($table);
+        $table = self::modifyTableName($table);
         $sql = "UPDATE {$table} SET $sSet WHERE $idColumn = $id";
-        $dbh =& OA_DB::singleton();
+        $dbh = OA_DB::singleton();
         return $dbh->exec($sql);
     }
 
@@ -111,16 +111,16 @@ class OA_DB_Sql
      *
      * @return string
      */
-    function getPrefix()
+    private static function getPrefix()
     {
         return $GLOBALS['_MAX']['CONF']['table']['prefix'];
     }
 
-    function modifyTableName($table)
+    private static function modifyTableName($table)
     {
-        $prefix = OA_DB_Sql::getPrefix();
         $oDbh = OA_DB::singleton();
-        return $oDbh->quoteIdentifier($prefix.$table, true);
+
+        return $oDbh->quoteIdentifier(self::getPrefix().$table, true);
     }
 }
 

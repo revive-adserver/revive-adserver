@@ -76,7 +76,7 @@ class OX_Maintenance_Statistics_Task_SummariseFinal extends OX_Maintenance_Stati
                    $oStartDate->format('%Y-%m-%d %H:%M:%S') . ' ' . $oStartDate->tz->getShortName();;
         $this->oController->report .= $message . ".\n";
         OA::debug($message, PEAR_LOG_DEBUG);
-        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
         $oDal =& $oServiceLocator->get('OX_Dal_Maintenance_Statistics');
         $aTypes = array(
             'types' => array(

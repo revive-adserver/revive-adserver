@@ -15,6 +15,8 @@ require_once MAX_PATH . '/lib/max/Plugin.php';
 require_once dirname(dirname(dirname(__FILE__))) . '/Client/Browser.delivery.php';
 require_once dirname(dirname(dirname(__FILE__))) . '/Client/initClientData.delivery.php';
 
+Language_Loader::load();
+
 /**
  * A class for testing the Plugins_DeliveryLimitations_Client_Browser class.
  *

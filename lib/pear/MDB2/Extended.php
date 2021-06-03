@@ -94,7 +94,7 @@ class MDB2_Extended extends MDB2_Module_Common
         if (PEAR::isError($query)) {
             return $query;
         }
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -145,7 +145,7 @@ class MDB2_Extended extends MDB2_Module_Common
         if (empty($params)) {
             $query = $this->buildManipSQL($table, $keys, $mode, $where);
 
-            $db =& $this->getDBInstance();
+            $db = $this->getDBInstance();
             if (PEAR::isError($db)) {
                 return $db;
             }
@@ -191,7 +191,7 @@ class MDB2_Extended extends MDB2_Module_Common
      */
     function buildManipSQL($table, $table_fields, $mode, $where = false)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -261,7 +261,7 @@ class MDB2_Extended extends MDB2_Module_Common
     function &limitQuery($query, $types, $limit, $offset = 0, $result_class = true,
         $result_wrap_class = false)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -290,7 +290,7 @@ class MDB2_Extended extends MDB2_Module_Common
      */
     function execParam($query, $params = array(), $param_types = null)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -334,7 +334,7 @@ class MDB2_Extended extends MDB2_Module_Common
     function getOne($query, $type = null, $params = array(),
         $param_types = null, $colnum = 0)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -381,7 +381,7 @@ class MDB2_Extended extends MDB2_Module_Common
     function getRow($query, $types = null, $params = array(),
         $param_types = null, $fetchmode = MDB2_FETCHMODE_DEFAULT)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -427,7 +427,7 @@ class MDB2_Extended extends MDB2_Module_Common
     function getCol($query, $type = null, $params = array(),
         $param_types = null, $colnum = 0)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -483,7 +483,7 @@ class MDB2_Extended extends MDB2_Module_Common
         $param_types = null, $fetchmode = MDB2_FETCHMODE_DEFAULT,
         $rekey = false, $force_array = false, $group = false)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -584,7 +584,7 @@ class MDB2_Extended extends MDB2_Module_Common
     function getAssoc($query, $types = null, $params = array(), $param_types = null,
         $fetchmode = MDB2_FETCHMODE_DEFAULT, $force_array = false, $group = false)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -656,7 +656,7 @@ class MDB2_Extended extends MDB2_Module_Common
      */
     function getBeforeID($table, $field = null, $ondemand = true, $quote = true)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -689,7 +689,7 @@ class MDB2_Extended extends MDB2_Module_Common
      */
     function getAfterID($id, $table, $field = null)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }

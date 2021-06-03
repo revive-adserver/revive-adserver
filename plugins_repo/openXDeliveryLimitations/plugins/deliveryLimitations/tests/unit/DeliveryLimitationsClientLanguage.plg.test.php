@@ -14,6 +14,8 @@ require_once MAX_PATH . '/lib/max/Plugin.php';
 // Using multi-dirname so that the tests can run from either plugins or plugins_repo
 require_once dirname(dirname(dirname(__FILE__))) . '/Client/Language.delivery.php';
 
+Language_Loader::load();
+
 /**
  * A class for testing the Plugins_DeliveryLimitations_Client_Language class.
  *
@@ -22,14 +24,18 @@ require_once dirname(dirname(dirname(__FILE__))) . '/Client/Language.delivery.ph
  */
 class Plugins_TestOfPlugins_DeliveryLimitations_Client_Language extends UnitTestCase
 {
+    private $langSave;
+
     function setUp()
     {
-        $this->langSave = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+        $this->langSave = $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? null;
     }
 
     function tearDown()
     {
-        $_SERVER['HTTP_ACCEPT_LANGUAGE'] = $this->langSave;
+        if (null !== $this->langSave) {
+            $_SERVER['HTTP_ACCEPT_LANGUAGE'] = $this->langSave;
+        }
     }
 
     function testMAX_checkClient_Language()

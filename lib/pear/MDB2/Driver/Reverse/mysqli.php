@@ -123,7 +123,7 @@ class MDB2_Driver_Reverse_mysqli extends MDB2_Driver_Reverse_mysql
      */
 //    function getTableFieldDefinition($table, $field_name)
 //    {
-//        $db =& $this->getDBInstance();
+//        $db = $this->getDBInstance();
 //        if (PEAR::isError($db)) {
 //            return $db;
 //        }
@@ -221,7 +221,7 @@ class MDB2_Driver_Reverse_mysqli extends MDB2_Driver_Reverse_mysql
      */
 //    function getTableIndexDefinition($table, $index_name)
 //    {
-//        $db =& $this->getDBInstance();
+//        $db = $this->getDBInstance();
 //        if (PEAR::isError($db)) {
 //            return $db;
 //        }
@@ -294,7 +294,7 @@ class MDB2_Driver_Reverse_mysqli extends MDB2_Driver_Reverse_mysql
      */
 //    function getTableConstraintDefinition($table, $constraint_name)
 //    {
-//        $db =& $this->getDBInstance();
+//        $db = $this->getDBInstance();
 //        if (PEAR::isError($db)) {
 //            return $db;
 //        }
@@ -378,7 +378,7 @@ class MDB2_Driver_Reverse_mysqli extends MDB2_Driver_Reverse_mysql
      */
 //    function getTriggerDefinition($trigger)
 //    {
-//        $db =& $this->getDBInstance();
+//        $db = $this->getDBInstance();
 //        if (PEAR::isError($db)) {
 //            return $db;
 //        }
@@ -430,7 +430,7 @@ class MDB2_Driver_Reverse_mysqli extends MDB2_Driver_Reverse_mysql
            return parent::tableInfo($result, $mode);
         }
 
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }

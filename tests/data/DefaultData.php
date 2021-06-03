@@ -70,11 +70,11 @@ class DefaultData
      * @TODO Complete the specification of the default data and the implementation
      *       of the creation thereof.
      */
-    function insertDefaultData()
+    public static function insertDefaultData()
     {
-        $oDbh = &OA_DB::singleton();
+        $oDbh = OA_DB::singleton();
         // Set now
-        $oServiceLocator = &OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
         $oldNow = $oServiceLocator->get('now');
         $oServiceLocator->register('now', new Date('2005-03-01'));
         // Add a default agency

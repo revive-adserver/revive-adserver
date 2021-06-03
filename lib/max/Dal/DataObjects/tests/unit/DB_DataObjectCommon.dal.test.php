@@ -84,12 +84,12 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $aData = array(
             'reportlastdate' => array('2007-04-03 18:39:45')
         );
-        $dg = new DataGenerator();
-        $dg->setData('clients', $aData);
-        $aCampaignId = $dg->generate($doCampaigns, 2, true);
+
+        DataGenerator::setData('clients', $aData);
+        $aCampaignId = DataGenerator::generate($doCampaigns, 2, true);
         $clientId = DataGenerator::getReferenceId('clients');
 
-        $aCampaignId2 = $dg->generate('campaigns', 2, true);
+        $aCampaignId2 = DataGenerator::generate('campaigns', 2, true);
         $clientId2 = DataGenerator::getReferenceId('clients');
 
         // test getting all records
@@ -258,9 +258,9 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $data = array(
             'name' => array('name 1', 'name 2')
         );
-        $dg = new DataGenerator();
-        $dg->setData('agency', $data);
-        $dg->generate('agency', 2);
+
+        DataGenerator::setData('agency', $data);
+        DataGenerator::generate('agency', 2);
 
         // Test that its found data and sorted in ASCendently
         $doAgency = OA_Dal::factoryDO('agency');
@@ -294,9 +294,9 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $data = array(
             'name' => array(1, 1, 2, 2, 3) // 3 unique
         );
-        $dg = new DataGenerator();
-        $dg->setData('agency', $data);
-        $dg->generate('agency', 5);
+
+        DataGenerator::setData('agency', $data);
+        DataGenerator::generate('agency', 5);
 
         // Test that it takes 3 unique variables
         $doAgency = OA_Dal::factoryDO('agency');

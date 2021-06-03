@@ -224,7 +224,7 @@ function MAX_limitationsMatchArrayClientGeo($paramName, $limitation, $op, &$aPar
 function MAX_limitationsMatchArray($paramName, $limitation, $op, $aParams = array(), $namespace='CLIENT')
 {
     if (empty($aParams)) {
-        $aParams = $GLOBALS['_MAX'][$namespace];
+        $aParams = $GLOBALS['_MAX'][$namespace] ?? [];
     }
     if ($limitation == '' || empty($aParams[$paramName])) {
         return !MAX_limitationsIsOperatorPositive($op);
@@ -371,10 +371,10 @@ function MAX_limitationsGetAOperationsForNumeric($oPlugin)
 function MAX_limitationsGetAOperationsForString($oPlugin)
 {
     return MAX_limitationsGetAOperationsEquality($oPlugin) + array(
-        '=~' => MAX_Plugin_Translation::translate('Contains', $oPlugin->module, $oPlugin->package),
-        '!~' => MAX_Plugin_Translation::translate('Does not contain', $oPlugin->module, $oPlugin->package),
-        '=x' => MAX_Plugin_Translation::translate('Regex match', $oPlugin->module, $oPlugin->package),
-        '!x' => MAX_Plugin_Translation::translate('Regex does not match', $oPlugin->module, $oPlugin->package)
+        '=~' => MAX_Plugin_Translation::translate('Contains', $oPlugin->extension, $oPlugin->group),
+        '!~' => MAX_Plugin_Translation::translate('Does not contain', $oPlugin->extension, $oPlugin->group),
+        '=x' => MAX_Plugin_Translation::translate('Regex match', $oPlugin->extension, $oPlugin->group),
+        '!x' => MAX_Plugin_Translation::translate('Regex does not match', $oPlugin->extension, $oPlugin->group)
     );
 }
 

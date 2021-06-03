@@ -102,14 +102,14 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends UnitTest
             4 => 10, // this should be ignored
         );
         $oDal->setReturnReference('getZonesAllocationsForEcpmRemnantByAgency', $aZonesAllocations);
-        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
 
         // Partially mock the OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant class
         $oEcpm = new PartialMock_OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant($this);
         $oEcpm->aOIDates['start'] = $oEcpm->aOIDates['end'] = new Date();
         $oEcpm->setReturnReference('_getDal', $oDal);
-        $oEcpm->__construct();
+        (new ReflectionMethod(OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant::class, '__construct'))->invoke($oEcpm);
 
         // Test
         $aZonesExpectedContracts = array(
@@ -145,7 +145,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends UnitTest
         // Partially mock the OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant class
         $oEcpm = new PartialMock_OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant($this);
         $oEcpm->setReturnReference('_factoryDal', $oDal);
-        $oEcpm->__construct();
+        (new ReflectionMethod(OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant::class, '__construct'))->invoke($oEcpm);
 
         $oEcpm->preloadCampaignsDeliveredImpressionsForAgency(123);
         $this->assertEqual($aCampaignsImpressions, $oEcpm->aCampaignsDeliveredImpressions);

@@ -65,7 +65,7 @@ class OX_Maintenance_Distributed
         OX_increaseMemoryLimit(OX_getMinimumRequiredMemory('maintenance'));
 
         // Ensure the current time is registered with the OA_ServiceLocator
-        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
         $oNow =& $oServiceLocator->get('now');
         if (!$oNow) {
             // Record the current time, and register with the OA_ServiceLocator

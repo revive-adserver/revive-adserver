@@ -41,7 +41,7 @@ class OA_Email
         $aConf = $GLOBALS['_MAX']['CONF'];
 
         $aAdvertiserPrefs = OA_Preferences::loadAccountPreferences($aAdvertiser['account_id'], true);
-        $oTimezone = new Date_Timezone($aAdvertiserPrefs['timezone']);
+        $oTimezone = new Date_Timezone($aAdvertiserPrefs['timezone'] ?? 'UTC');
 
         $this->convertStartEndDate($oStartDate, $oEndDate, $oTimezone);
 
@@ -102,7 +102,7 @@ class OA_Email
     function prepareCampaignDeliveryEmail($aUser, $advertiserId, $oStartDate, $oEndDate, $campaignId = null)
     {
 
-        Language_Loader::load('default',$aUser['language']);
+        Language_Loader::load('default', $aUser['language'] ?? null);
 
         OA::debug('   - Preparing "campaign delivery" report for advertiser ID ' . $advertiserId . '.', PEAR_LOG_DEBUG);
 
@@ -212,7 +212,7 @@ class OA_Email
         // Load the impression, click and conversion delivery strings, and
         // prepare formatting strings
         global $strImpressions, $strClicks, $strConversions, $strTotal,
-               $strTotalThisPeriodLength;
+               $strTotalThisPeriod;
         $strTotalImpressions       = $strImpressions . ' (' . $strTotal . ')';
         $strTotalClicks            = $strClicks      . ' (' . $strTotal . ')';
         $strTotalConversions       = $strConversions . ' (' . $strTotal . ')';
@@ -259,8 +259,8 @@ class OA_Email
                     $doBanners->campaignid = $aCampaign['campaignid'];
                     $doBanners->orderBy('bannerid');
                     $doBanners->find();
+                    $adsWithDelivery = false;
                     if ($doBanners->getRowCount() > 0) {
-                        $adsWithDelivery = false;
                         while ($doBanners->fetch()) {
                             $aAd = $doBanners->toArray();
                             // Get the total impressions, clicks and conversions delivered by this ad
@@ -345,7 +345,7 @@ class OA_Email
      */
     function _prepareCampaignDeliveryEmailBodyStats($adId, $oStartDate, $oEndDate, $type, $adTextPrint)
     {
-        $oDbh =& OA_DB::singleton();
+        $oDbh = OA_DB::singleton();
 
         // Obtain the required date format
         global $date_format;
@@ -516,9 +516,9 @@ class OA_Email
             // Create the linked special user preferences from the admin preferences
             // the special user is the client that doesn't have preferences in the database
             $aPrefs['special'] = $aPrefs['admin'];
-            $aPrefs['special']['warn_email_special']                  = $aPrefs['special']['warn_email_advertiser'];
-            $aPrefs['special']['warn_email_special_day_limit']        = $aPrefs['special']['warn_email_advertiser_day_limit'];
-            $aPrefs['special']['warn_email_special_impression_limit'] = $aPrefs['special']['warn_email_advertiser_impression_limit'];
+            $aPrefs['special']['warn_email_special']                  = $aPrefs['special']['warn_email_advertiser'] ?? false;
+            $aPrefs['special']['warn_email_special_day_limit']        = $aPrefs['special']['warn_email_advertiser_day_limit'] ?? 0;
+            $aPrefs['special']['warn_email_special_impression_limit'] = $aPrefs['special']['warn_email_advertiser_impression_limit'] ?? 0;
 
             // Store in the client cache
             $this->aClientCache = array(
@@ -538,7 +538,7 @@ class OA_Email
                 // Use the Admin details
                 $aFromDetails = '';
             }
-            if ($aPrefs[$accountType]['warn_email_' . $accountType]) {
+            if (!empty($aPrefs[$accountType]['warn_email_' . $accountType])) {
                 // Does the account type want warnings when the impressions are low?
                 if ($aPrefs[$accountType]['warn_email_' . $accountType . '_impression_limit'] > 0 && $aCampaign['views'] > 0) {
                     // Test to see if the placements impressions remaining are less than the limit
@@ -618,7 +618,7 @@ class OA_Email
                                         $copiesSent++;
                                         if ($aConf['email']['logOutgoing']) {
                                             phpAds_userlogSetUser(phpAds_userMaintenance);
-                                            phpAds_userlogAdd(phpAds_actionWarningMailed, $aPlacement['campaignid'],
+                                            phpAds_userlogAdd(phpAds_actionWarningMailed, $aCampaign['campaignid'],
                                                 "{$aEmail['subject']}\n\n
                                                  {$aUser['contact_name']}({$aUser['email_address']})\n\n
                                                  {$aEmail['contents']}"
@@ -830,7 +830,7 @@ class OA_Email
                             phpAds_userlogSetUser(phpAds_userMaintenance);
                             phpAds_userlogAdd(
                                 ((is_null($reason)) ? phpAds_actionActivationMailed : phpAds_actionDeactivationMailed),
-                                $doPlacement->campaignid,
+                                $doCampaigns->campaignid,
                                 "{$aEmail['subject']}\n\n
                                  {$aUser['contact_name']}({$aUser['email_address']})\n\n
                                  {$aEmail['contents']}"
@@ -1012,17 +1012,14 @@ class OA_Email
 
     /**
      * A private method to load the preferences required when generating reports.
-     *
-     * @access private
-     * @return array The loaded preference array.
      */
-    function _loadPrefs()
+    private function _loadPrefs(): void
     {
-        $aPref = $GLOBALS['_MAX']['PREF'];
-        if (is_null($aPref)) {
-            $aPref = OA_Preferences::loadAdminAccountPreferences(true);
+        if (!empty($GLOBALS['_MAX']['PREF'])) {
+            return;
         }
-        return $aPref;
+
+        OA_Preferences::loadAdminAccountPreferences(true);
     }
 
     /**
@@ -1098,7 +1095,8 @@ class OA_Email
      */
     function _prepareRegards($agencyId)
     {
-        $aPref = $this->_loadPrefs();
+        $this->_loadPrefs();
+
         $aConf = $GLOBALS['_MAX']['CONF'];
 
         global $strMailFooter;

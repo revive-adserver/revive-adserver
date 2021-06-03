@@ -36,10 +36,10 @@ class Migration_postscript_2_7_31_beta_RC1Test extends MigrationTest
         Mock::generatePartial(
             'OA_UpgradePostscript_2_7_31_beta_rc1',
             $mockName = 'OA_UpgradePostscript_2_7_31_beta_rc1'.rand(),
-            array('logOnly','logError')
+            array()
         );
-        $doMockPostUpgrade = new $mockName($this);
-        $doMockPostUpgrade->oUpgrade = &$oUpgrade;
+        $doMockPostUpgrade = new OA_UpgradePostscript_2_7_31_beta_rc1($this);
+        $doMockPostUpgrade->oUpgrade = $oUpgrade;
 
         // delete max section to make a new max section for testing
         unset($doMockPostUpgrade->oUpgrade->oConfiguration->aConfig['pluginPaths']);
@@ -49,7 +49,7 @@ class Migration_postscript_2_7_31_beta_RC1Test extends MigrationTest
             'path'      => 'test',
             'httpPort'  => 'test',
         );
-        $this->assertNull($doMockPostUpgrade->oUpgrade->oConfiguration->aConfig['pluginPaths']);
+        $this->assertFalse(isset($doMockPostUpgrade->oUpgrade->oConfiguration->aConfig['pluginPaths']));
         $doMockPostUpgrade->oUpgrade->oConfiguration->aConfig['pluginPaths'] = array(
             'packages' => '/extensions/etc/',
             'extensions' => '/extensions/',
@@ -66,7 +66,7 @@ class Migration_postscript_2_7_31_beta_RC1Test extends MigrationTest
 
         // assert that ['pluginPaths'] and ['pluginUpdatesServer have been upgraded to the correct values
         $this->assertEqual($doMockPostUpgrade->oUpgrade->oConfiguration->aConfig['pluginPaths']['packages'], '/plugins/etc/');
-        $this->assertNull($doMockPostUpgrade->oUpgrade->oConfiguration->aConfig['pluginPaths']['extensions']);
+        $this->assertFalse(isset($doMockPostUpgrade->oUpgrade->oConfiguration->aConfig['pluginPaths']['extensions']));
         $this->assertEqual($doMockPostUpgrade->oUpgrade->oConfiguration->aConfig['pluginUpdatesServer'], array(
             'protocol'  => 'http',
             'host'      => 'code.openx.org',

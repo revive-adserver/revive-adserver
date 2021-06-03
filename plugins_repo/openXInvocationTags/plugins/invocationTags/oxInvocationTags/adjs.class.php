@@ -162,7 +162,7 @@ class Plugins_InvocationTags_OxInvocationTags_adjs extends Plugins_InvocationTag
         $buffer .= "   document.write (\"'><\\/scr\"+\"ipt>\");\n";
         $buffer .= "//]]>--></script>";
 
-        if ($mi->extra['delivery'] != phpAds_ZoneText) {
+        if (isset($mi->extra['delivery']) && $mi->extra['delivery'] != phpAds_ZoneText) {
             $buffer .= "<noscript>{$mi->backupImage}</noscript>\n";
         }
         return $buffer;

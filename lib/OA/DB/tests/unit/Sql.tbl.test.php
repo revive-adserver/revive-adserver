@@ -33,9 +33,8 @@ class Test_OA_DB_Sql extends DbTestCase
         $this->oaTable->createTable('audit');
         $this->oaTable->createTable('acls');
 
-        $dg = new DataGenerator();
-        $dg->setData('acls', array('bannerid' => array(1,2,3), 'executionorder' => array(0,0,0,1,1,1,2,2,2)));
-        $dg->generate('acls', 5);
+        DataGenerator::setData('acls', array('bannerid' => array(1,2,3), 'executionorder' => array(0,0,0,1,1,1,2,2,2)));
+        DataGenerator::generate('acls', 5);
 
         OA_DB_Sql::deleteWhereOne('acls', 'bannerid', 1);
 

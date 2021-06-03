@@ -99,7 +99,7 @@ class Image_Graph_Simple extends Image_Graph
     /**
      * Factory method to create the Image_Simple_Graph object.
      */
-    function &factory($width, $height, $plotType, $data, $title, $lineColor = 'black', $fillColor = 'white', $font = false)
+    public static function &factorySimpleGraph($width, $height, $plotType, $data, $title, $lineColor = 'black', $fillColor = 'white', $font = false)
     {
         $obj =& Image_Graph::factory('Image_Graph_Simple',
             array(

@@ -33,7 +33,7 @@ class OX_Maintenance_Statistics_TestAndCorrect
     function __construct()
     {
         // Get a connection to the datbase
-        $this->oDbh =& OA_DB::singleton();
+        $this->oDbh = OA_DB::singleton();
     }
 
     /**

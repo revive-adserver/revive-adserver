@@ -48,9 +48,9 @@ class MAX_Dal_Admin_ChannelTest extends DalUnitTestCase
         $aData = array(
             'acls_updated' => array('2007-04-04 17:27:33')
         );
-        $dg = new DataGenerator();
-        $dg->setData('channel', $aData);
-        $aChannelId = $dg->generate('channel', 2, true);
+
+        DataGenerator::setData('channel', $aData);
+        $aChannelId = DataGenerator::generate('channel', 2, true);
 
         // Check the correct number of rows returned
         $expectedRows = 2;

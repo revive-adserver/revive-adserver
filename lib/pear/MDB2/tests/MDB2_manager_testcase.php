@@ -124,7 +124,7 @@ class MDB2_Manager_TestCase extends MDB2_TestCase {
         $query = 'INSERT INTO '.$this->table;
         $query.= ' (somename, somedescription)';
         $query.= ' VALUES (:somename, :somedescription)';
-        $stmt =& $this->db->prepare($query, array('text', 'text'), MDB2_PREPARE_MANIP);
+        $stmt = $this->db->prepare($query, array('text', 'text'), MDB2_PREPARE_MANIP);
         if (PEAR::isError($stmt)) {
             $this->assertTrue(true, 'Preparing insert');
             return;

@@ -210,7 +210,7 @@ class OX_Maintenance_Priority_Campaign
             if (count($aParams) < 0) {
                 $valid = false;
             }
-            if (!is_numeric($aParams['placement_id'])) {
+            if (!isset($aParams['placement_id']) || !is_numeric($aParams['placement_id'])) {
                 $valid = false;
             }
         }
@@ -220,7 +220,7 @@ class OX_Maintenance_Priority_Campaign
         }
 
         // Store the required supplied values
-        $this->id                         = (int)$aParams['placement_id'];
+        $this->id                         = (int)($aParams['placement_id'] ?? 0);
 
         // Store the optional required values
         $this->activateTime               = isset($aParams['activate_time']) ? $aParams['activate_time'] : null;
@@ -234,8 +234,8 @@ class OX_Maintenance_Priority_Campaign
         $this->priority                   = isset($aParams['priority']) ? (int)$aParams['priority'] : 0;
 
         // Set the object's data access layer objects
-        $this->oMaxDalEntities            =& $this->_getMAX_Dal_Entities();
-        $this->oMaxDalMaintenancePriority =& $this->_getOA_Dal_Maintenance_Priority();
+        $this->oMaxDalEntities            = $this->_getMAX_Dal_Entities();
+        $this->oMaxDalMaintenancePriority = $this->_getOA_Dal_Maintenance_Priority();
     }
 
     /**
@@ -246,7 +246,7 @@ class OX_Maintenance_Priority_Campaign
      */
     function &_getMAX_Dal_Entities()
     {
-        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
         $oDal =& $oServiceLocator->get('MAX_Dal_Entities');
         if (!$oDal) {
             $oDal = new MAX_Dal_Entities();
@@ -263,7 +263,7 @@ class OX_Maintenance_Priority_Campaign
      */
     function &_getOA_Dal_Maintenance_Priority()
     {
-        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
         $oDal =& $oServiceLocator->get('OA_Dal_Maintenance_Priority');
         if (!$oDal) {
             $oDal = new OA_Dal_Maintenance_Priority();
@@ -295,10 +295,10 @@ class OX_Maintenance_Priority_Campaign
     function setSummaryStatisticsToDate()
     {
         $aStats = $this->oMaxDalMaintenancePriority->getCampaignStats($this->id, false);
-        $this->deliveredRequests    = (int)$aStats['sum_requests'];
-        $this->deliveredImpressions = (int)$aStats['sum_views'];
-        $this->deliveredClicks      = (int)$aStats['sum_clicks'];
-        $this->deliveredConversions = (int)$aStats['sum_conversions'];
+        $this->deliveredRequests    = (int)($aStats['sum_requests'] ?? 0);
+        $this->deliveredImpressions = (int)($aStats['sum_views'] ?? 0);
+        $this->deliveredClicks      = (int)($aStats['sum_clicks'] ?? 0);
+        $this->deliveredConversions = (int)($aStats['sum_conversions'] ?? 0);
     }
 
     /**
@@ -311,10 +311,10 @@ class OX_Maintenance_Priority_Campaign
     function setSummaryStatisticsToday($today)
     {
         $aStats = $this->oMaxDalMaintenancePriority->getCampaignStats($this->id, true, $today);
-        $this->deliveredRequests    = (int)$aStats['sum_requests'];
-        $this->deliveredImpressions = (int)$aStats['sum_views'];
-        $this->deliveredClicks      = (int)$aStats['sum_clicks'];
-        $this->deliveredConversions = (int)$aStats['sum_conversions'];
+        $this->deliveredRequests    = (int)($aStats['sum_requests'] ?? 0);
+        $this->deliveredImpressions = (int)($aStats['sum_views'] ?? 0);
+        $this->deliveredClicks      = (int)($aStats['sum_clicks'] ?? 0);
+        $this->deliveredConversions = (int)($aStats['sum_conversions'] ?? 0);
     }
 
     /**

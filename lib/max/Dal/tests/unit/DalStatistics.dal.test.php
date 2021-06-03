@@ -76,7 +76,7 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
     function testGetPlacementFirstStatsDate()
     {
         $conf =& $GLOBALS['_MAX']['CONF'];
-        $oDbh =& OA_DB::singleton();
+        $oDbh = OA_DB::singleton();
         $oDalStatistics = new MAX_Dal_Statistics();
 
         // Test 1

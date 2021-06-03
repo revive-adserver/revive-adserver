@@ -33,14 +33,16 @@ class test_MAX extends UnitTestCase
 
     function setUp()
     {
-        $this->original_server_port = $_SERVER['SERVER_PORT'];
+        $this->original_server_port = $_SERVER['SERVER_PORT'] ?? null;
         $GLOBALS['_MAX']['CONF']['webpath']['admin']     = 'www.maxstore.net/www/admin';
         //$GLOBALS['_MAX']['CONF']['webpath']['imagesSSL']  = 'secure.maxstore.net/www/admin/images';
     }
 
     function tearDown()
     {
-        $_SERVER['SERVER_PORT'] = $this->original_server_port;
+        if (null !== $this->original_server_port) {
+            $_SERVER['SERVER_PORT'] = $this->original_server_port;
+        }
     }
 
     function test_constructURL_Includes_Nonstandard_Secure_Port_Number()

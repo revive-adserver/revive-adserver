@@ -79,9 +79,9 @@ class MDB2_Schema_Validate
     // }}}
     // {{{ raiseError()
 
-    function &raiseError($ecode, $msg = null)
+    function raiseError($ecode, $msg = null)
     {
-        $error =& MDB2_Schema::raiseError($ecode, null, null, $msg);
+        $error = MDB2_Schema::raiseError($msg, $ecode);
         return $error;
     }
 
@@ -653,7 +653,7 @@ class MDB2_Schema_Validate
             }
             break;
         case 'integer':
-            if ($field_value != ((int)$field_value)) {
+            if ('' !== $field_value && $field_value != ((int)$field_value)) {
                 return $this->raiseError(MDB2_SCHEMA_ERROR_VALIDATE,
                     '"'.$field_value.'" is not of type "'.$field_def['type'].'"');
             }

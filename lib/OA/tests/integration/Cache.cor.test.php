@@ -136,7 +136,7 @@ class Test_OA_Cache extends UnitTestCase
 
             foreach ($aExpect AS $key => $val)
             {
-                $this->assertEqual($aActual[$key], $val, $msg.' Expectecd '.$val.' got', $aActual[$key].' key '.$key);
+                $this->assertEqual($aActual[$key], $val, $msg.' Expectecd '.var_export($val, true).' got', var_export($aActual[$key], true).' key '.$key);
             }
         }
     }

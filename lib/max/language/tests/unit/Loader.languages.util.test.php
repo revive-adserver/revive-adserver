@@ -16,6 +16,8 @@ class MAX_Language_LoaderTest extends UnitTestCase
 {
     function testLoad()
     {
+        $PRODUCT_NAME = $PRODUCT_DOCSURL = 'FOO';
+
         //prepare expected value
         include MAX_PATH . '/lib/max/language/en/default.lang.php';
         $aExpected['en']['default']['strHome'] = $GLOBALS['strHome'];
@@ -38,7 +40,7 @@ class MAX_Language_LoaderTest extends UnitTestCase
         
         // Try to load file that not exist 
         Language_Loader::load('notexist');
-        $this->assertNull($GLOBALS['strHome']);
+        $this->assertFalse(isset($GLOBALS['strHome']));
         
         // Test default load when empty $GLOBALS['_MAX']['CONF'] and  $GLOBALS['_MAX']['PREF']
         Language_Loader::load();       

@@ -43,7 +43,7 @@ class OA_Admin_PasswordRecovery
 
     function _useDefaultDal()
     {
-        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
         $dal =& $oServiceLocator->get('OA_Dal_PasswordRecovery');
         if (!$dal) {
             $dal = new OA_Dal_PasswordRecovery();

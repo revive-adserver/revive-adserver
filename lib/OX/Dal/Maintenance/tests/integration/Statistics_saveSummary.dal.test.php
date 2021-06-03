@@ -41,7 +41,7 @@ class Test_OX_Dal_Maintenance_Statistics_saveSummary extends UnitTestCase
     function testSaveSummary()
     {
         $aConf =& $GLOBALS['_MAX']['CONF'];
-        $oDbh =& OA_DB::singleton();
+        $oDbh = OA_DB::singleton();
 
         $oFactory = new OX_Dal_Maintenance_Statistics_Factory();
         $oDalMaintenanceStatistics = $oFactory->factory();

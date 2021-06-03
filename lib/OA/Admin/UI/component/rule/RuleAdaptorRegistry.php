@@ -19,7 +19,7 @@ class OA_Admin_UI_Rule_JQueryRuleAdaptorRegistry
      *
      * @return    OA_Admin_UI_Rule_JQueryRuleAdaptorRegistry
      */
-    function singleton()
+    public static function singleton()
     {
         static $instance;
         if (!isset($instance)) {

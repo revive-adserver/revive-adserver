@@ -12,6 +12,8 @@
 
 require_once LIB_PATH.'/Plugin/UpgradeComponentGroup.php';
 
+Language_Loader::load();
+
 /**
  * A class for testing the Test_OX_Plugin_UpgradeComponentGroup class.
  *
@@ -167,11 +169,8 @@ class Test_OX_Plugin_UpgradeComponentGroup extends UnitTestCase
         // Test 2 Preferences
 
         $oDbh = OA_DB::singleton();
-        $qryPrefs = 'preference_name LIKE '.$oDbh->quote('%'.$prefix.'%');
-
         $prefix = $aPlugin['name'].'_';
         $doPreferences = OA_Dal::factoryDO('preferences');
-        $doPreferences->whereAdd($qryPrefs);
         $doPreferences->find();
         while ($doPreferences->fetch())
         {
@@ -198,7 +197,6 @@ class Test_OX_Plugin_UpgradeComponentGroup extends UnitTestCase
         $this->assertTrue($oUpgrader->_upgradePreferences());
 
         $doPreferences = OA_Dal::factoryDO('preferences');
-        $doPreferences->whereAdd($qryPrefs);
         $doPreferences->find();
         while ($doPreferences->fetch())
         {

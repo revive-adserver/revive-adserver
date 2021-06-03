@@ -84,7 +84,7 @@ class PEAR_PackageFile_Parser_v1
         $this->current_element = false;
         unset($this->dir_install);
         $this->_packageInfo['filelist'] = array();
-        $this->filelist =& $this->_packageInfo['filelist'];
+        $this->filelist = $this->_packageInfo['filelist'];
         $this->dir_names = array();
         $this->in_changelog = false;
         $this->d_i = 0;
@@ -226,7 +226,7 @@ class PEAR_PackageFile_Parser_v1
                     $this->m_i = 0;
                 }
                 $this->_packageInfo['maintainers'][$this->m_i] = array();
-                $this->current_maintainer =& $this->_packageInfo['maintainers'][$this->m_i];
+                $this->current_maintainer = $this->_packageInfo['maintainers'][$this->m_i];
                 break;
             case 'changelog':
                 $this->_packageInfo['changelog'] = array();

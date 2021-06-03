@@ -206,7 +206,7 @@
             return "because [" . $this->describeValue($first) .
                     "] differs from [" .
                     $this->describeValue($second) . "] by " .
-                    abs($first - $second);
+                    abs((int)$first - (int)$second);
         }
 
         /**

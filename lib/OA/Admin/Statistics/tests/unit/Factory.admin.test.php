@@ -11,6 +11,9 @@
 */
 
 require_once MAX_PATH . '/lib/OA/Admin/Statistics/Factory.php';
+require_once MAX_PATH . '/lib/max/language/Loader.php';
+
+Language_Loader::load();
 
 /**
  * A class for testing the OA_Admin_Statistics_Factory class.
@@ -87,7 +90,7 @@ class Test_OA_Admin_Statistics_Factory extends UnitTestCase
             {
                 $expectFile.= ucfirst($string);
             }
-            OA_Admin_Statistics_Factory::_getControllerClass($controllerType, null, $class, $file);
+            OA_Admin_Statistics_Factory::_getControllerClass($controllerType, $class, $file);
             $this->assertEqual($class, $expectedClassName);
             $this->assertPattern("(\/Statistics\/Delivery\/Controller\/{$expectFile}\.php)",$file);
         }

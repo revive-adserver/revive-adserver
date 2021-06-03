@@ -40,7 +40,7 @@ class OA_DB_Distributed extends OA_DB
      * @return MDB2_Driver_Common An MDB2 connection resource, or PEAR_Error
      *                            on failure to connect.
      */
-    static function singleton($dsn = null)
+    public static function singleton($dsn = null, $aDriverOptions = [])
     {
         // Get the DSN, if not set
         $dsn = is_null($dsn) ? OA_DB_Distributed::getDsn() : $dsn;

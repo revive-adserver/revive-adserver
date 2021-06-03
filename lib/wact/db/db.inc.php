@@ -57,9 +57,8 @@ class DBC {
     /**
     * Return the current database connection managed by this class
     * @return Connection reference
-    * @access public
     */
-    function getCurrentConnection() {
+    public static function getCurrentConnection() {
         if (!isset($GLOBALS['DatabaseConnectionObj'])) {
             $driver = 'mdb2'; // should we always use mdb2?
             require_once(MAX_PATH . '/lib/wact/db/drivers/'. $driver .'.inc.php');
@@ -77,10 +76,10 @@ class DBC {
 	* @return void
 	* @access public
 	*/
-    function disconnect()
+    public static function disconnect()
     {
         if (isset($GLOBALS['DatabaseConnectionObj'])) {
-            $dbh = &DBC::getCurrentConnection();
+            $dbh = DBC::getCurrentConnection();
             $dbh->disconnect();
             unset($GLOBALS['DatabaseConnectionObj']);
         }
@@ -91,10 +90,10 @@ class DBC {
     * @see http://wact.sourceforge.net/index.php/NewRecord
     * @param DataSpace or subclass (optional)
     *   used to initialize the fields of the new record prior to calling insert()
-    * @return MySqlRecord reference
+    * @return Record reference
     * @access public
     */
-    function NewRecord($DataSpace = NULL) {
+    public static function NewRecord($DataSpace = NULL) {
         $connection = DBC::getCurrentConnection();
         return $connection->NewRecord($DataSpace);
     }
@@ -105,10 +104,9 @@ class DBC {
     * @see http://wact.sourceforge.net/index.php/NewRecordSet
     * @param string SQL statement
     * @param object filter class (optional)
-    * @return MySqlRecordSet reference
-    * @access public
+    * @return RecordSet reference
     */
-    function NewRecordSet($query, $filter = NULL) {
+    public static function NewRecordSet($query, $filter = NULL) {
         $connection = DBC::getCurrentConnection();
         return $connection->NewRecordSet($query, $filter);
     }
@@ -120,10 +118,9 @@ class DBC {
     * @param string SQL statement
     * @param object pager
     * @param object filter class (optional)
-    * @return MySqlRecordSet reference
-    * @access public
+    * @return RecordSet reference
     */
-    function NewPagedRecordSet($query, &$pager, $filter = NULL) {
+    public static function NewPagedRecordSet($query, &$pager, $filter = NULL) {
         $connection = DBC::getCurrentConnection();
         return $connection->NewPagedRecordSet($query, $pager, $filter);
     }
@@ -132,9 +129,8 @@ class DBC {
 	* Retreive an array where each element of the array is the value from the
 	* first column of a database query.
 	* @param string SQL Query
-	* @access public
 	*/
-    function getOneColumnArray($query) {
+    public static function getOneColumnArray($query) {
         $connection = DBC::getCurrentConnection();
         return $connection->getOneColumnArray($query);
     }
@@ -143,9 +139,8 @@ class DBC {
 	* Retreive an associative array where each element of the array is based
 	* on the first column as a key and the second column as data.
 	* @param string SQL Query
-	* @access public
 	*/
-    function getTwoColumnArray($query) {
+    public static function getTwoColumnArray($query) {
         $connection = DBC::getCurrentConnection();
         return $connection->getTwoColumnArray($query);
     }
@@ -153,9 +148,8 @@ class DBC {
 	/**
 	* Retreive a single record from the database based on a query.
 	* @param string SQL Query
-	* @access public
 	*/
-    function FindRecord($query) {
+    public static function FindRecord($query) {
         $connection = DBC::getCurrentConnection();
         return $connection->FindRecord($query);
     }
@@ -164,9 +158,8 @@ class DBC {
 	* Get a single value from the first column of a single record from
 	* a database query.
 	* @param string SQL Query
-	* @access public
 	*/
-    function getOneValue($query) {
+    public static function getOneValue($query) {
         $connection = DBC::getCurrentConnection();
         return $connection->getOneValue($query);
     }
@@ -175,9 +168,8 @@ class DBC {
 	* Performs any query that does not return a cursor.
 	* @param string SQL query
 	* @return resource MySQL result resource
-	* @access public
 	*/
-    function execute($query) {
+    public static function execute($query) {
         $connection = DBC::getCurrentConnection();
         return $connection->execute($query);
     }
@@ -188,9 +180,8 @@ class DBC {
 	* @return resource MySQL result resource
 	* @param mixed value to convert
 	* @param string (optional) type to convert to
-	* @access public
 	*/
-    function makeLiteral($value, $type = NULL) {
+    public static function makeLiteral($value, $type = NULL) {
         $connection = DBC::getCurrentConnection();
         return $connection->makeLiteral($value, $type);
     }

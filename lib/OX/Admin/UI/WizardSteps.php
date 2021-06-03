@@ -29,11 +29,11 @@ class OX_UI_WizardSteps
         $addStepNo = isset($aParams['addStepNumber']) ? $aParams['addStepNumber'] : true;
 
         $aWizardSteps = array();
-        $stepCount = count($aSteps);
         $i = 0;
+        $currentReached = false;
         if ($aSteps) {
             foreach ($aSteps as $stepId => $stepName) {
-                $currentReached = $currentReached ? $currentReached : $stepId == $currentStepId;
+                $currentReached = $currentReached ?: $stepId == $currentStepId;
                 $current = $stepId == $currentStepId;
 
                 if ($current && $i > 0) {

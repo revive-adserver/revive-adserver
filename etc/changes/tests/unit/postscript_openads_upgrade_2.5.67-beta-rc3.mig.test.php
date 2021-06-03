@@ -95,7 +95,7 @@ class Migration_postscript_2_5_67_UsersTest extends MigrationTest
         // delete max section to make a new max section for testing
         unset($doMockPostUpgrade->oUpgrade->oConfiguration->aConfig['max']);
 
-        $this->assertNull($doMockPostUpgrade->oUpgrade->oConfiguration->aConfig['max']);
+        $this->assertFalse(isset($doMockPostUpgrade->oUpgrade->oConfiguration->aConfig['max']));
 
         // add installed, uiEnabled and language to max section as can be possible
         // to find at openx
@@ -110,7 +110,7 @@ class Migration_postscript_2_5_67_UsersTest extends MigrationTest
         $doMockPostUpgrade->removeMaxSection();
 
         // check that aConfig max section has been removed
-        $this->assertNull($doMockPostUpgrade->oUpgrade->oConfiguration->aConfig['max']);
+        $this->assertFalse(isset($doMockPostUpgrade->oUpgrade->oConfiguration->aConfig['max']));
 
         // assert that ['openads']['language'] has been created with the correct value
         $this->assertEqual($doMockPostUpgrade->oUpgrade->oConfiguration->aConfig['openads']['language'], 'en');
@@ -141,7 +141,7 @@ class Migration_postscript_2_5_67_UsersTest extends MigrationTest
         $doMockPostUpgrade->removeMaxSection();
 
         // check if the max section has been removed as is expected
-        $this->assertNull($doMockPostUpgrade->oUpgrade->oConfiguration->aConfig['max']);
+        $this->assertFalse(isset($doMockPostUpgrade->oUpgrade->oConfiguration->aConfig['max']));
     }
 }
 ?>

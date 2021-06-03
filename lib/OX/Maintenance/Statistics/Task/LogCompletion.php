@@ -49,7 +49,7 @@ class OX_Maintenance_Statistics_Task_LogCompletion extends OX_Maintenance_Statis
      */
     function run($oEndDate = null)
     {
-        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
         $oNowDate =& $oServiceLocator->get('now');
         if (is_null($oEndDate)) {
             $oEndDate = new Date();

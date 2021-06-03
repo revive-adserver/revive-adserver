@@ -126,7 +126,7 @@ class Log
      * @access public
      * @since Log 1.0
      */
-    function &factory($handler, $name = '', $ident = '', $conf = array(),
+    public static function factory($handler, $name = '', $ident = '', $conf = array(),
                       $level = PEAR_LOG_DEBUG)
     {
         $handler = strtolower($handler);
@@ -162,10 +162,6 @@ class Log
      * check for the existance of one each time. The singleton pattern does all
      * the checking work for you.
      *
-     * <b>You MUST call this method with the $var = &Log::singleton() syntax.
-     * Without the ampersand (&) in front of the method name, you will not get
-     * a reference, you will get a copy.</b>
-     *
      * @param string $handler   The type of concrete Log subclass to return.
      *                          Attempt to dynamically include the code for
      *                          this subclass. Currently, valid values are
@@ -188,7 +184,7 @@ class Log
      * @access public
      * @since Log 1.0
      */
-    function &singleton($handler, $name = '', $ident = '', $conf = array(),
+    public static function singleton($handler, $name = '', $ident = '', $conf = array(),
                         $level = PEAR_LOG_DEBUG)
     {
         static $instances;
@@ -196,7 +192,7 @@ class Log
 
         $signature = serialize(array($handler, $name, $ident, $conf, $level));
         if (!isset($instances[$signature])) {
-            $instances[$signature] = &Log::factory($handler, $name, $ident,
+            $instances[$signature] = Log::factory($handler, $name, $ident,
                                                    $conf, $level);
         }
 

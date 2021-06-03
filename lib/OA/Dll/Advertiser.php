@@ -41,7 +41,6 @@ class OA_Dll_Advertiser extends OA_Dll
     function _setAdvertiserDataFromArray(&$oAdvertiser, $advertiserData)
     {
         $advertiserData['advertiserName'] = $advertiserData['clientname'];
-        $advertiserData['agencyName']     = $advertiserData['name'];
         $advertiserData['contactName']    = $advertiserData['contact'];
         $advertiserData['emailAddress']   = $advertiserData['email'];
         $advertiserData['agencyId']       = $advertiserData['agencyid'];

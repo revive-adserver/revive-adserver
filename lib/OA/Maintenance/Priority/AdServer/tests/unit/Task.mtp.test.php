@@ -34,7 +34,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task extends UnitTestCase
     {
         // Mock the OA_Dal_Maintenance_Priority class used in the constructor method
         $oDal = new MockOA_Dal_Maintenance_Priority($this);
-        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
 
         $task = new OA_Maintenance_Priority_AdServer_Task();

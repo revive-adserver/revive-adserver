@@ -80,14 +80,14 @@ class MDB2_Dictionary_Parser extends XML_Parser
         $this->val = new MDB2_Schema_Validate($fail_on_invalid_names, $valid_types, $force_defaults);
     }
 
-    function startHandler($xp, $element, $attribs)
+    function startHandler($xp, $elem, $attribs)
     {
-        if (strtolower($element) == 'variable') {
+        if (strtolower($elem) == 'variable') {
             $this->var_mode = true;
             return;
         }
 
-        $this->elements[$this->count++] = strtolower($element);
+        $this->elements[$this->count++] = strtolower($elem);
         $this->element = implode('-', $this->elements);
 
         switch ($this->element) {
@@ -111,7 +111,7 @@ class MDB2_Dictionary_Parser extends XML_Parser
         case 'dictionary-field':
 //            $result = $this->val->validateField($this->table['fields'], $this->field, $this->field_name);
             if (PEAR::isError($result)) {
-                $this->customRaiseError($result->getUserinfo(), 0, $xp, $result->getCode());
+                $this->raiseInstanceError($result->getUserinfo(), 0, $xp, $result->getCode());
             } else {
                 $this->dictionary_definition[$this->field_name] = $this->field;
                 //$this->dictionary_definition['options'][] = "<option value=\"{$this->field_name}\">{$this->field_name}</option>";
@@ -124,7 +124,7 @@ class MDB2_Dictionary_Parser extends XML_Parser
         $this->element = implode('-', $this->elements);
     }
 
-    function &customRaiseError($msg = null, $xmlecode = 0, $xp = null, $ecode = MDB2_SCHEMA_ERROR_PARSE)
+    function &raiseInstanceError($msg = null, $xmlecode = 0, $xp = null, $ecode = MDB2_SCHEMA_ERROR_PARSE)
     {
         if (is_null($this->error)) {
             $error = '';
@@ -156,7 +156,7 @@ class MDB2_Dictionary_Parser extends XML_Parser
     {
         if ($this->var_mode == true) {
             if (!isset($this->variables[$data])) {
-                $this->customRaiseError('variable "'.$data.'" not found', null, $xp);
+                $this->raiseInstanceError('variable "'.$data.'" not found', null, $xp);
                 return;
             }
             $data = $this->variables[$data];

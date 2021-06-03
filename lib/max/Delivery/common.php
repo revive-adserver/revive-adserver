@@ -455,8 +455,12 @@ function MAX_commonIsAdActionBlockedBecauseInactive($adId)
         // Check if the ad and/or campaign is inactive - therefore the ad action is blocked
         $aAdInfo = MAX_cacheGetAd($adId);
 
+        if (!$aAdInfo) {
+            return false;
+        }
+
         // OA_ENTITY_STATUS_RUNNING == 0, but the constant is not set during delivery, so we use a shortcut:
-        return $aAdInfo['status'] || $aAdInfo['campaign_status'];
+        return $aAdInfo['status'] > 0 || $aAdInfo['campaign_status'] > 0;
     }
 
     return false;

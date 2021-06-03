@@ -737,7 +737,7 @@ class OA_Preferences
      */
     private static function _unsetPreferences()
     {
-        unset($GLOBALS['_MAX']['PREF']);
+        $GLOBALS['_MAX']['PREF'] = [];
     }
 
     /**

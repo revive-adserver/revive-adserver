@@ -200,7 +200,7 @@ class DataObjects_Agency extends DB_DataObjectCommon
 
         if (!$result) {
             $doAccounts = OA_Dal::staticGetDO('accounts', $accountId);
-            $result = $doAccounts->account_type == OA_ACCOUNT_ADMIN;
+            $result = $doAccounts && OA_ACCOUNT_ADMIN === $doAccounts->account_type;
         }
 
         return $result;

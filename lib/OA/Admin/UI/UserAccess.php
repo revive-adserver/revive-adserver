@@ -224,7 +224,7 @@ class OA_Admin_UI_UserAccess
      * is clicked. It is used to enable/disable some checkboxes.
      * Example: see the affiliate-user.php file.
      *
-     * @param unknown_type $aAllowedPermissions
+     * @param array $aAllowedPermissions
      */
     function setAllowedPermissions($aAllowedPermissions)
     {
@@ -257,9 +257,9 @@ class OA_Admin_UI_UserAccess
     /**
      * Assign common template variables
      *
-     * @param Admin_Template $oTpl
+     * @param OA_Admin_Template $oTpl
      */
-    function assignUserStartTemplateVariables(&$oTpl)
+    public static function assignUserStartTemplateVariables($oTpl)
     {
         $oTpl->assign('method', 'GET');
         // Add variables required by the current authentication plugin
@@ -270,7 +270,7 @@ class OA_Admin_UI_UserAccess
         $oTpl->assign('strLinkUserHelp', $helpString);
     }
 
-    function getHelpString($isSso)
+    public static function getHelpString($isSso)
     {
         $name = ($isSso) ? $GLOBALS['strLinkUserHelpEmail']
             : $GLOBALS['strLinkUserHelpUser'];
@@ -330,7 +330,7 @@ class OA_Admin_UI_UserAccess
      * @param integer $userId User ID
      * @param integer $accountId Account ID
      */
-    function unlinkUserFromAccount($userId, $accountId)
+    public static function unlinkUserFromAccount($userId, $accountId)
     {
         if (OA_Permission::isUserLinkedToAccount($accountId, $userId)) {
             /** @var DataObjects_Account_user_assoc $doAccount_user_assoc */
@@ -360,7 +360,7 @@ class OA_Admin_UI_UserAccess
      * @param integer $userId
      * @param integer $accountId
      */
-    function resetUserDefaultAccount($userId, $accountId)
+    public static function resetUserDefaultAccount($userId, $accountId)
     {
         /** @var DataObjects_Users $doUsers */
         $doUsers = OA_Dal::staticGetDO('users', $userId);
@@ -386,7 +386,7 @@ class OA_Admin_UI_UserAccess
      * @param integer $accountId
      * @return integer
      */
-    function countNumberOfUserLinkedToAccount($accountId)
+    public static function countNumberOfUserLinkedToAccount($accountId)
     {
         $doAccount_user_assoc = OA_Dal::factoryDO('account_user_assoc');
         $doAccount_user_assoc->account_id = $accountId;
@@ -402,7 +402,7 @@ class OA_Admin_UI_UserAccess
      * @param array $permissions Array of permissions
      * @param array $aAllowedPermissions  Array of allowed permissions
      */
-    function linkUserToAccount($userId, $accountId, $permissions, $aAllowedPermissions)
+    public static function linkUserToAccount($userId, $accountId, $permissions, $aAllowedPermissions)
     {
         if (!empty($userId)) {
             if (!OA_Permission::isUserLinkedToAccount($accountId, $userId)) {

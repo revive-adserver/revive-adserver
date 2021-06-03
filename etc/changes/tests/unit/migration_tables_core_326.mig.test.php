@@ -74,7 +74,8 @@ class Migration_tables_core_326Test extends MigrationTest
         $this->assertTrue($oDB_Upgrade->_executeTasksTablesAlter(),'failed _executeTasksTablesAlter: change field');
 
         $aDefDB = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array($this->prefix.'campaigns'));
-        $aDiff = $oDB_Upgrade->oSchema->compareDefinitions($this->aDefNew, $aDefDb);
+        $aDiff = $oDB_Upgrade->oSchema->compareDefinitions($oDB_Upgrade->aDefinitionNew['tables']['campaigns'], $aDefDB['tables'][$this->prefix.'campaigns']);
+
         $this->assertEqual(count($aDiff),0,'comparison failed');
 
         $aResults = $this->oDbh->queryAll("SELECT * FROM ".$tblCampaigns);

@@ -729,7 +729,7 @@ class Date
      * @param object Date $xd2 the second date
      * @return int 0 if the dates are equal, -1 if d1 is before d2, 1 if d1 is after d2
      */
-    function compare($xd1, $xd2)
+    public static function compare($xd1, $xd2)
     {
         $d1 = new Date();
         $d1->copy($xd1);

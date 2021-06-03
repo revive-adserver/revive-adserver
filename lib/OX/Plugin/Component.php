@@ -81,12 +81,12 @@ class OX_Component
         return $returned;
     }
 
-    function _isGroupInstalled($group)
+    public static function _isGroupInstalled($group)
     {
         return isset($GLOBALS['_MAX']['CONF']['pluginGroupComponents'][$group]);
     }
 
-    function _isGroupEnabled($group)
+    public static function _isGroupEnabled($group)
     {
         return ( self::_isGroupInstalled($group) && $GLOBALS['_MAX']['CONF']['pluginGroupComponents'][$group] ? true : false);
     }
@@ -103,7 +103,7 @@ class OX_Component
      *                     otherwise the component with the same name as the group is assumed.
      * @return boolean True on success, false otherwise.
      */
-    function _includeComponentFile($extension, $group, $component = null)
+    public static function _includeComponentFile($extension, $group, $component = null)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         if ($component === null) {
@@ -146,7 +146,7 @@ class OX_Component
      *                     is assumed.
      * @return string The component class name.
      */
-    function _getComponentClassName($extension, $group, $component = null)
+    public static function _getComponentClassName($extension, $group, $component = null)
     {
         if ($component === null) {
             $component = $group;
@@ -174,7 +174,7 @@ class OX_Component
      *                             which are enabled.
      * @return array An array of component objects, indexed by component identifier.
      */
-    function &getComponents($extension, $group = null, $recursive = 1, $enabledOnly = true)
+    public static function getComponents($extension, $group = null, $recursive = 1, $enabledOnly = true)
     {
         $aComponents = array();
         $aGroups = self::_getComponentsFiles($extension, $group, $recursive);
@@ -218,7 +218,7 @@ class OX_Component
      *               given directory parameter, and "filename" is the filename
      *               before the OX_COMPONENT_SUFFIX extension of the file.
      */
-    function _getComponentsFiles($extension, $group = null, $recursive = 1)
+    public static function _getComponentsFiles($extension, $group = null, $recursive = 1)
     {
         $aResult = array();
         $aConf = $GLOBALS['_MAX']['CONF'];
@@ -251,7 +251,7 @@ class OX_Component
         return $aResult;
     }
 
-    function _getComponentGroupsFromDirectory($directory)
+    public static function _getComponentGroupsFromDirectory($directory)
     {
         $aGroups = array();
         if (is_readable($directory))
@@ -293,7 +293,7 @@ class OX_Component
      *               given directory parameter, and "filename" is the filename
      *               before the OX_COMPONENT_SUFFIX extension of the file.
      */
-    function _getComponentFilesFromDirectory($directory, $recursive = 1, &$aMatches)
+    public static function _getComponentFilesFromDirectory($directory, $recursive, &$aMatches)
     {
         if (is_readable($directory))
         {
@@ -335,12 +335,12 @@ class OX_Component
      * @return mixed The result of the static method call, or false on failure to include
      *               the plugin.
      */
-    function &callStaticMethod($extension, $group, $component = null, $staticMethod, $aParams = null)
+    public static function callStaticMethod($extension, $group, $component, $staticMethod, $aParams = null)
     {
         if ($component === null) {
             $component = $group;
         }
-        if (!self::_isGroupEnabled($group, $extension))
+        if (!self::_isGroupEnabled($group))
         {
             return false;
         }
@@ -377,7 +377,7 @@ class OX_Component
      * @param array $aParams An optional array of parameters to pass to the method called.
      * @return mixed An array of the results of the method calls, or false on error.
      */
-    function &callOnComponents(&$aComponents, $methodName, $aParams = null)
+    public static function callOnComponents(&$aComponents, $methodName, $aParams = null)
     {
         if (!is_array($aComponents)) {
             MAX::raiseError('Bad argument: Not an array of components.', MAX_ERROR_INVALIDARGS);
@@ -407,7 +407,7 @@ class OX_Component
         return $aReturn;
     }
 
-    function getListOfRegisteredComponentsForHook($hook)
+    public static function getListOfRegisteredComponentsForHook($hook)
     {
         $aHooks = self::getComponentsHookCache();
         if (isset($aHooks[$hook]))
@@ -417,7 +417,7 @@ class OX_Component
         return array();
     }
 
-    function getComponentsHookCache()
+    public static function getComponentsHookCache()
     {
         if (!isset($GLOBALS['_MAX']['ComponentHooks']))
         {
@@ -463,7 +463,7 @@ class OX_Component
      * @param string $extension The extension to get the fallback handler for
      * @return object The handler object
      */
-    function &getFallbackHandler($extension)
+    public static function getFallbackHandler($extension)
     {
         //$path = $GLOBALS['_MAX']['CONF']['pluginPaths']['plugins'].$extension.'/';
         $fileName = LIB_PATH.'/Extension/'.$extension.'/'.$extension.'.php';

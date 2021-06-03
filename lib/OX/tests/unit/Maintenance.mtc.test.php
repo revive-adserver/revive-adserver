@@ -39,7 +39,7 @@ class Test_OA_Maintenance extends UnitTestCase
     function test_runGeneralPruning()
     {
         $oNowDate = new Date('2007-09-28 12:00:01');
-        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
         $oServiceLocator->register('now', $oNowDate);
 
         $oMaintenance = new OX_Maintenance();
@@ -141,7 +141,7 @@ class Test_OA_Maintenance extends UnitTestCase
         $rows = $doLog_maintenance_statistics->getRowCount();
         $this->assertEqual($rows, 2);
         while ($doLog_maintenance_statistics->fetch()) {
-            $this->assertNotEqual($doLog_maintenance_statistics->id, $idStatsThree);
+            $this->assertNotEqual($doLog_maintenance_statistics->log_maintenance_statistics_id, $idStatsThree);
         }
 
         $doLog_maintenance_priority = OA_Dal::factoryDO('log_maintenance_priority');
@@ -149,7 +149,7 @@ class Test_OA_Maintenance extends UnitTestCase
         $rows = $doLog_maintenance_priority->getRowCount();
         $this->assertEqual($rows, 2);
         while ($doLog_maintenance_priority->fetch()) {
-            $this->assertNotEqual($doLog_maintenance_priority->id, $idPriorityThree);
+            $this->assertNotEqual($doLog_maintenance_priority->log_maintenance_priority_id, $idPriorityThree);
         }
 
         $doUserlog = OA_Dal::factoryDO('userlog');
@@ -157,7 +157,7 @@ class Test_OA_Maintenance extends UnitTestCase
         $rows = $doUserlog->getRowCount();
         $this->assertEqual($rows, 2);
         while ($doUserlog->fetch()) {
-            $this->assertNotEqual($doUserlog->id, $idUserlogThree);
+            $this->assertNotEqual($doUserlog->userlogid, $idUserlogThree);
         }
 
         DataGenerator::cleanUp();
@@ -183,7 +183,7 @@ class Test_OA_Maintenance extends UnitTestCase
         unset($GLOBALS['serverTimezone']);
 
         $oNowDate = new Date('2008-01-28 00:00:10');
-        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
         $oServiceLocator->register('now', $oNowDate);
 
         $oMaintenance = new OX_Maintenance();

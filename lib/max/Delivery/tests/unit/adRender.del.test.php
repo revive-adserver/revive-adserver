@@ -47,9 +47,9 @@ class Test_DeliveryAdRender extends UnitTestCase
         // Silly test, test patch OX-2091
         require MAX_PATH . '/lib/max/Delivery/tests/data/test_adRenderImage.php';
 
-        $this->assertNull($aBanner['bannerContent']);
-        $this->assertNull($aBanner['logUrl']);
-        $this->assertNull($aBanner['clickUrl']);
+        $this->assertFalse(isset($aBanner['bannerContent']));
+        $this->assertFalse(isset($aBanner['logUrl']));
+        $this->assertFalse(isset($aBanner['clickUrl']));
 
         $return = MAX_adRender($aBanner);
 
@@ -201,7 +201,9 @@ class Test_DeliveryAdRender extends UnitTestCase
 
         require_once MAX_PATH . '/lib/max/Delivery/common.php';
 
-        $aBanner = array('bannerid' => '9999',
+        $aBanner = array(
+            'ad_id' => '9999',
+            'placement_id' => '111',
             'url' => 'http://www.somewhere.com',
             'contenttype' => ''
         );
@@ -211,7 +213,7 @@ class Test_DeliveryAdRender extends UnitTestCase
         $referer = 'http://www.example.com/referer.php?name=value';
         $amp = '&amp;';
         $return = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, $amp);
-        $expect = "http://" . $GLOBALS['_MAX']['CONF']['webpath']['delivery'] . "/lg.php?bannerid=&amp;campaignid=&amp;zoneid=1&amp;source=test&amp;loc=http%3A%2F%2Fwww.example.com%2Fpage.php%3Fname%3Dvalue&amp;referer=http%3A%2F%2Fwww.example.com%2Freferer.php%3Fname%3Dvalue&amp;cb={random}";
+        $expect = "http://" . $GLOBALS['_MAX']['CONF']['webpath']['delivery'] . "/lg.php?bannerid=9999&amp;campaignid=111&amp;zoneid=1&amp;source=test&amp;loc=http%3A%2F%2Fwww.example.com%2Fpage.php%3Fname%3Dvalue&amp;referer=http%3A%2F%2Fwww.example.com%2Freferer.php%3Fname%3Dvalue&amp;cb={random}";
         $this->assertEqual($return, $expect);
     }
 

@@ -168,7 +168,7 @@ class Plugins_DeliveryLimitations_Site_Channel extends Plugins_DeliveryLimitatio
             $compile[] = $this->compileData($channelId);
         }
 
-        $result .= '(' . implode($join, $compile) . ')';
+        $result = '(' . implode($join, $compile) . ')';
         if ('!~' == $this->comparison) {
             $result = '!' . $result;
         }

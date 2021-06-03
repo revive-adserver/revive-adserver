@@ -63,7 +63,7 @@ class Test_Migration extends UnitTestCase
         $fromTable  = 'table1';
         $fromField  = 'a_text_field';
         $oMigration->updateColumn($fromTable, $fromField, $toTable, $toField);
-        $this->assertEqual(count($oMigration->aErrors),0,$oMigration->aErrors[0]);
+        $this->assertEqual(count($oMigration->aErrors),0);
         $this->assertEqual($oMigration->affectedRows, 3, 'wrong number of rows inserted');
         $this->_dropTestTables();
     }
@@ -79,7 +79,7 @@ class Test_Migration extends UnitTestCase
         $oMigration->aDefinition = $this->aDefinition;
         $oMigration->aObjectMap['table1']['a_text_field_new'] = array('fromTable'=>'table1', 'fromField'=>'a_text_field');
         $oMigration->afterAddField('table1', 'a_text_field_new');
-        $this->assertEqual(count($oMigration->aErrors),0,$oMigration->aErrors[0]);
+        $this->assertEqual(count($oMigration->aErrors),0);
         $this->assertEqual($oMigration->affectedRows, 3, 'wrong number of rows inserted');
         $this->_dropTestTables();
     }

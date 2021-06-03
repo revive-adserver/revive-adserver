@@ -44,7 +44,7 @@ class OX_Maintenance_Statistics_Task_ManageCampaigns extends OX_Maintenance_Stat
     function run()
     {
         if ($this->oController->updateIntermediate) {
-            $oServiceLocator =& OA_ServiceLocator::instance();
+            $oServiceLocator = OA_ServiceLocator::instance();
             $oDate =& $oServiceLocator->get('now');
             $oDal =& $oServiceLocator->get('OX_Dal_Maintenance_Statistics');
             $message = '- Managing (activating/deactivating) campaigns';

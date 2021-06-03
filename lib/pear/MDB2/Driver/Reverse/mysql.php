@@ -65,7 +65,7 @@ class MDB2_Driver_Reverse_mysql extends MDB2_Driver_Reverse_Common
      */
     function getTableFieldDefinition($table, $field_name)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -159,7 +159,7 @@ class MDB2_Driver_Reverse_mysql extends MDB2_Driver_Reverse_Common
      */
     function getTableIndexDefinition($table, $index_name)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -229,7 +229,7 @@ class MDB2_Driver_Reverse_mysql extends MDB2_Driver_Reverse_Common
      */
     function getTableConstraintDefinition($table, $index_name)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -328,7 +328,7 @@ class MDB2_Driver_Reverse_mysql extends MDB2_Driver_Reverse_Common
            return parent::tableInfo($result, $mode);
         }
 
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }

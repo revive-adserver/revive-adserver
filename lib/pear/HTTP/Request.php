@@ -739,7 +739,7 @@ class HTTP_Request
             $this->disconnect();
         // Store the connected socket in "static" property
         } elseif (empty($sockets[$sockKey]) || empty($sockets[$sockKey]->fp)) {
-            $sockets[$sockKey] =& $this->_sock;
+            $sockets[$sockKey] = $this->_sock;
         }
 
         // Check for redirection
@@ -911,7 +911,7 @@ class HTTP_Request
             // "normal" POST request
             if (!isset($boundary)) {
                 $postdata = implode('&', array_map(
-                    create_function('$a', 'return $a[0] . \'=\' . $a[1];'),
+                    function ($a) { return $a[0] = $a[1]; },
                     $this->_flattenArray('', $this->_postData)
                 ));
 

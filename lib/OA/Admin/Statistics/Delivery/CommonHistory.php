@@ -11,6 +11,7 @@
 */
 
 require_once MAX_PATH . '/lib/OA/Admin/Statistics/Delivery/Common.php';
+require_once 'Pager.php';
 
 /**
  * A common class that defines a common "interface" and common methods for
@@ -75,6 +76,11 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
      * @var unknown_type
      */
     var $averageDesc;
+
+    /**
+     * @var bool
+     */
+    var $disablePager = false;
 
     /**
      * PHP5-style constructor
@@ -150,7 +156,7 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
             $use_pager = false;
         } elseif ($this->statsBreakdown == 'week') {
             $per_page  = 4;
-            $use_pager = count($stats) > $per_page;
+            $use_pager = count($aStats) > $per_page;
         } elseif ($this->aGlobalPrefs['period_preset'] == 'this_month' || $this->aGlobalPrefs['period_preset'] == 'last_month') {
             // Do not use pager when showing last or current month
             $use_pager = false;
@@ -158,12 +164,12 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
             $use_pager = false;
         } else {
             $per_page  = 15;
-            $use_pager = count($stats) > $per_page;
+            $use_pager = count($aStats) > $per_page;
         }
 
         if ($use_pager) {
             $params = array(
-                'itemData' => $stats,
+                'itemData' => $aStats,
                 'perPage' => (int) MAX_getStoredValue('setPerPage', $per_page),
                 'delta' => 8,
                 'append' => true,
@@ -179,7 +185,7 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
                 $_REQUEST['setPerPage'] = $per_page;
             }
 
-            $pager =& Pager::factory($params);
+            $pager = Pager::factory($params);
             $this->aStatsData = $pager->getPageData();
             $this->pagerLinks = $pager->getLinks();
             $this->pagerLinks = $this->pagerLinks['all'];

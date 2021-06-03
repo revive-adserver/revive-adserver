@@ -44,7 +44,7 @@ class Test_Priority extends UnitTestCase
     function setUp()
     {
         // Set up the database handler object
-        $this->oDbh =& OA_DB::singleton();
+        $this->oDbh = OA_DB::singleton();
 
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $aIds = DataGenerator::generate($doCampaigns,2);
@@ -75,7 +75,7 @@ class Test_Priority extends UnitTestCase
     function testPruneDataSummaryAdZoneAssocOldData()
     {
         $oDate      = new Date();
-        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
         $oServiceLocator->register('now', $oDate);
         $oDal       = new OA_Maintenance_Pruning();
         $doDSAZA    = OA_Dal::factoryDO('data_summary_ad_zone_assoc');

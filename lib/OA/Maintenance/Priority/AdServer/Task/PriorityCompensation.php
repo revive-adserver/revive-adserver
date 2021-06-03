@@ -75,11 +75,11 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
             // Set the details of the last time Priority Compensation started running
             $this->aLastRun['start_run'] = new Date($aDates['start_run']);
             // Set the details of the current date/time
-            $oServiceLocator =& OA_ServiceLocator::instance();
+            $oServiceLocator = OA_ServiceLocator::instance();
             $this->aLastRun['now'] =& $oServiceLocator->get('now');
         }
         // Get all creative/zone information
-        $aZones =& $this->_buildClasses();
+        $aZones = $this->_buildClasses();
         // For every zone with creatives linked to it...
         if (!empty($aZones)) {
             $this->globalMessage = '';
@@ -142,7 +142,7 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
         // Obtain the forecast impression & actual impression inventory for
         // every zone in the system for the "current" operation interval,
         // including Zone ID 0 (for direct selection)
-        $aZoneForecasts =& $this->oDal->getZonesForecastsForAllZones();
+        $aZoneForecasts = $this->oDal->getZonesForecastsForAllZones();
         // Create an array of all of the zones, indexed by zone ID
         $aZones = array();
         if (is_array($aZoneForecasts) && !empty($aZoneForecasts)) {
@@ -160,11 +160,11 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
         }
         // Obtain the creative/zone combinations where creatives have impressions
         // allocated to these zones, including for Zone ID 0 (for direct selection)
-        $aZoneImpAllocs =& $this->oDal->getAllZonesWithAllocInv();
+        $aZoneImpAllocs = $this->oDal->getAllZonesWithAllocInv();
         // Get a list of all active, contract campaign creatives where the delivery
         // limitations have changed (either in the "current" operation interval, or
         // since the last time this code ran)
-        $aDeliveryLimitationChangedAds =& $this->oDal->getAllDeliveryLimitationChangedCreatives($this->aLastRun);
+        $aDeliveryLimitationChangedAds = $this->oDal->getAllDeliveryLimitationChangedCreatives($this->aLastRun);
         // Add appropriate Advert objects to represent the creatives, to the zones
         if (is_array($aZoneImpAllocs) && !empty($aZoneImpAllocs))
         {
@@ -195,33 +195,33 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
         }
         // Get the details of the previous required/delivered creative
         // impressions and calculated priorities
-        $aPastDetails =& $this->oDal->getPreviousAdDeliveryInfo($aZones);
+        $aPastDetails = $this->oDal->getPreviousAdDeliveryInfo($aZones);
         if (is_array($aPastDetails) && !empty($aPastDetails)) {
             foreach ($aPastDetails as $aAdPastDetails) {
                 foreach ($aAdPastDetails as $aPastDetail) {
                     // Only insert the past details for creatives that are still linked to the same zone
                     if (isset($aZones[$aPastDetail['zone_id']]->aAdverts[$aPastDetail['ad_id']])) {
-                        if (!is_null($aPastDetail['required_impressions'])) {
+                        if (!is_null($aPastDetail['required_impressions'] ?? null)) {
                             $aZones[$aPastDetail['zone_id']]->aAdverts[$aPastDetail['ad_id']]->pastRequiredImpressions
                                 = $aPastDetail['required_impressions'];
                         }
-                        if (!is_null($aPastDetail['requested_impressions'])) {
+                        if (!is_null($aPastDetail['requested_impressions'] ?? null)) {
                             $aZones[$aPastDetail['zone_id']]->aAdverts[$aPastDetail['ad_id']]->pastRequestedImpressions
                                 = $aPastDetail['requested_impressions'];
                         }
-                        if (!is_null($aPastDetail['to_be_delivered'])) {
+                        if (!is_null($aPastDetail['to_be_delivered'] ?? null)) {
                             $aZones[$aPastDetail['zone_id']]->aAdverts[$aPastDetail['ad_id']]->pastToBeDelivered
                                 = $aPastDetail['to_be_delivered'];
                         }
-                        if (!is_null($aPastDetail['impressions'])) {
+                        if (!is_null($aPastDetail['impressions'] ?? null)) {
                             $aZones[$aPastDetail['zone_id']]->aAdverts[$aPastDetail['ad_id']]->pastActualImpressions
                                 = $aPastDetail['impressions'];
                         }
-                        if (!is_null($aPastDetail['priority_factor'])) {
+                        if (!is_null($aPastDetail['priority_factor'] ?? null)) {
                             $aZones[$aPastDetail['zone_id']]->aAdverts[$aPastDetail['ad_id']]->pastAdZonePriorityFactor
                                 = $aPastDetail['priority_factor'];
                         }
-                        if (!is_null($aPastDetail['past_zone_traffic_fraction'])) {
+                        if (!is_null($aPastDetail['past_zone_traffic_fraction'] ?? null)) {
                             $aZones[$aPastDetail['zone_id']]->aAdverts[$aPastDetail['ad_id']]->pastZoneTrafficFraction
                                 = $aPastDetail['past_zone_traffic_fraction'];
                         }

@@ -171,13 +171,16 @@ class OX_PluginExport
                 }
             }
         }
-        return ($aResult ? $aResult : array(0=>'plugin has no tables to backup'));
+        return ($aResult ?? array(0=>'plugin has no tables to backup'));
     }
 
     function _compressFiles($name)
     {
 		require_once( MAX_PATH . '/lib/pclzip/pclzip.lib.php' );
-    	define('OS_WINDOWS',((substr(PHP_OS, 0, 3) == 'WIN') ? 1 : 0));
+
+		if (!defined('OS_WINDOWS')) {
+            define('OS_WINDOWS',((substr(PHP_OS, 0, 3) == 'WIN') ? 1 : 0));
+        }
 
         $target = $this->outputDir.$name.'.zip';
 		$oZip = new PclZip($target);

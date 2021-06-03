@@ -84,15 +84,13 @@ function addPageLinkTool($title, $url, $iconClass = null, $accesskey = null, $ex
  * Please note that you need to add tools before invoking showHeader function.
  *
  * @param string $title action title - translated
- * @param string $url link url for the action
  * @param string $iconClass icon class for action (if any)
- * @param string $accesskey access key for action (if any)
- * @param string $extraAttributes extra html attributes for action link (if any)
+ * @param string $form The HTML of the form
  */
-function addPageFormTool($title, $url, $iconClass = null, $accesskey = null, $extraAttributes = null)
+function addPageFormTool($title, $iconClass, $form)
 {
     $oUI = OA_Admin_UI::getInstance();
-    $oUI->addPageFormTool($title, $url, $iconClass, $accesskey, $extraAttributes);
+    $oUI->addPageFormTool($title, $iconClass, $form);
 }
 
 /**

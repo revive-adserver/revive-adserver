@@ -36,7 +36,7 @@ class OX_Admin_Redirect
      * @param boolean $redirectTopLevel    Flag to know if the redirection should be to the top
      *                                     level, even it not a manual account switch.
      */
-    function redirect($adminPage = 'index.php', $manualAccountSwitch = false, $redirectTopLevel = false)
+    public static function redirect($adminPage = 'index.php', $manualAccountSwitch = false, $redirectTopLevel = false)
     {
         if ($manualAccountSwitch || $redirectTopLevel) {
             // Get the page where the user was in when switched account

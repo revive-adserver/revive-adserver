@@ -202,7 +202,6 @@ class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
             $this->assertEqual($v['version_to'],  $aAuditKeyParams['version_to'],'wrong version_to for audit query result '.$k);
             $this->assertEqual($v['logfile'],	  $aAuditKeyParams['logfile'],'wrong logfile for audit query result '.$k);
             $this->assertEqual($v['description'], $aAuditParams[$k]['description'],'wrong description for audit query result '.$k);
-            $this->assertEqual($v['info'],		  $aAuditParams[$k]['info'],'wrong info for audit query result '.$k);
 
             if (array_key_exists('confbackup',$aAuditParams[$k]))
             {
@@ -398,13 +397,13 @@ class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
     	chmod( $logFile, 0444);
     	chmod( dirname($logFile), 0555); //You need execution permission to traverse a directory.
 
-    	/**
-    	 * @todo The following assertions fail when running the test as root
-    	 */
-    	$this->assertEqual($oAuditor->cleanAuditArtifacts(1), false);
-    	$logResult=$oAuditor->queryAuditByUpgradeId(1);
-    	$logResult=$logResult[0]['logfile'];
-    	$this->assertEqual($logResult, $suffixLogFile);
+        if (function_exists('posix_getuid') && posix_getuid()) {
+            // The following assertions fail when running the test as root
+            $this->assertEqual($oAuditor->cleanAuditArtifacts(1), false);
+            $logResult = $oAuditor->queryAuditByUpgradeId(1);
+            $logResult = $logResult[0]['logfile'];
+            $this->assertEqual($logResult, $suffixLogFile);
+        }
 
     	// setup
     	$this->_setupLogFile($logFile);

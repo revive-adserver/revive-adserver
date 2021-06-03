@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 foldmethod=marker: */
 // +-----------------------------------------------------------------------------+
-// | Copyright (c) 2003 Sérgio Gonçalves Carvalho                                |
+// | Copyright (c) 2003 Sï¿½rgio Gonï¿½alves Carvalho                                |
 // +-----------------------------------------------------------------------------+
 // | This file is part of Structures_Graph.                                      |
 // |                                                                             |
@@ -20,7 +20,7 @@
 // | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA                    |
 // | 02111-1307 USA                                                              |
 // +-----------------------------------------------------------------------------+
-// | Author: Sérgio Carvalho <sergio.carvalho@portugalmail.com>                  |
+// | Author: Sï¿½rgio Carvalho <sergio.carvalho@portugalmail.com>                  |
 // +-----------------------------------------------------------------------------+
 //
 /**
@@ -49,8 +49,8 @@ require_once 'Structures/Graph.php';
  * Regular data is accessed via getData and setData. Key indexed data is accessed
  * via getMetadata and setMetadata.
  *
- * @author		Sérgio Carvalho <sergio.carvalho@portugalmail.com> 
- * @copyright	(c) 2004 by Sérgio Carvalho
+ * @author		Sï¿½rgio Carvalho <sergio.carvalho@portugalmail.com> 
+ * @copyright	(c) 2004 by Sï¿½rgio Carvalho
  * @package Structures_Graph
  */
 /* }}} */
@@ -279,7 +279,7 @@ class Structures_Graph_Node {
                 if ($target === $arc) return true;
               so, we'll use more convoluted stuff
             */
-            $arc =& $this->_arcs[$key];
+            $arc = $this->_arcs[$key];
             $target = true;
             if ($arc === true) {
                 $target = false;
@@ -309,7 +309,7 @@ class Structures_Graph_Node {
         if ($this->_graph == null) return 0;
         if (!$this->_graph->isDirected()) return $this->outDegree();
         $result = 0;
-        $graphNodes =& $this->_graph->getNodes();
+        $graphNodes = $this->_graph->getNodes();
         foreach (array_keys($graphNodes) as $key) {
             if ($graphNodes[$key]->connectsTo($this)) $result++;
         }

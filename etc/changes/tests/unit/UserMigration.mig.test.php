@@ -583,17 +583,7 @@ require_once MAX_PATH . '/lib/OA/Upgrade/Upgrade.php';
             $this->assertTrue(array_key_exists($nameNew, $aExpectations), "Did not locate preference $nameNew");
             if (array_key_exists($nameNew, $aExpectations))
             {
-                // Deal with the conversion of display/don't display values in column preferences
-                if (strpos($newName, 'ui_column_') !== false) {
-                    if ($aExpectations[$nameNew]['value'] == 0) {
-                        $value = '';
-                    } else if ($aExpectations[$nameNew]['value'] == 1) {
-                        $value = '1';
-                    }
-                } else {
-                    $value = $aExpectations[$nameNew]['value'];
-                }
-                $this->assertEqual($aVals['value'], $value, "Wrong value for admin preference '$nameNew'; Expected '$value', got '{$aVals['value']}'");
+                $this->assertEqual($aVals['value'], $aExpectations[$nameNew]['value'], "Wrong value for admin preference '$nameNew'; Expected '{$aExpectations[$nameNew]['value']}', got '{$aVals['value']}'");
                 $this->assertEqual($aVals['type'],  $aExpectations[$nameNew]['level'], 'Wrong preference level for ' . $nameNew);
             }
         }
@@ -766,7 +756,7 @@ require_once MAX_PATH . '/lib/OA/Upgrade/Upgrade.php';
         if ($set == 0) {
             $aColumnPreferences = array(
                 'ui_column_id'                        => array(
-                                                            'value' => $this->aPrefsOld[$set]['gui_column_id']['1']['show'],
+                                                            'value' => '',
                                                             'level' => OA_ACCOUNT_MANAGER
                                                          ),
                 'ui_column_requests'                  => array(
@@ -774,7 +764,7 @@ require_once MAX_PATH . '/lib/OA/Upgrade/Upgrade.php';
                                                             'level' => OA_ACCOUNT_MANAGER
                                                          ),
                 'ui_column_impressions'               => array(
-                                                            'value' => $this->aPrefsOld[$set]['gui_column_impressions']['1']['show'],
+                                                            'value' => '',
                                                             'level' => OA_ACCOUNT_MANAGER
                                                          ),
                 'ui_column_clicks'                    => array(
@@ -790,7 +780,7 @@ require_once MAX_PATH . '/lib/OA/Upgrade/Upgrade.php';
                                                             'level' => OA_ACCOUNT_MANAGER
                                                          ),
                 'ui_column_conversions_pending'       => array(
-                                                            'value' => $this->aPrefsOld[$set]['gui_column_conversions_pending']['1']['show'],
+                                                            'value' => '',
                                                             'level' => OA_ACCOUNT_MANAGER
                                                          ),
                 'ui_column_sr_views'                  => array(
@@ -798,7 +788,7 @@ require_once MAX_PATH . '/lib/OA/Upgrade/Upgrade.php';
                                                             'level' => OA_ACCOUNT_MANAGER
                                                          ),
                 'ui_column_sr_clicks'                 => array(
-                                                            'value' => $this->aPrefsOld[$set]['gui_column_sr_clicks']['1']['show'],
+                                                            'value' => '',
                                                             'level' => OA_ACCOUNT_MANAGER
                                                          ),
                 'ui_column_revenue'                   => array(
@@ -810,11 +800,11 @@ require_once MAX_PATH . '/lib/OA/Upgrade/Upgrade.php';
                                                             'level' => OA_ACCOUNT_MANAGER
                                                          ),
                 'ui_column_bv'                        => array(
-                                                            'value' => $this->aPrefsOld[$set]['gui_column_bv']['1']['show'],
+                                                            'value' => '',
                                                             'level' => OA_ACCOUNT_MANAGER
                                                          ),
                 'ui_column_num_items'                 => array(
-                                                            'value' => $this->aPrefsOld[$set]['gui_column_num_items']['1']['show'],
+                                                            'value' => '',
                                                             'level' => OA_ACCOUNT_MANAGER
                                                          ),
                 'ui_column_revcpc'                    => array(

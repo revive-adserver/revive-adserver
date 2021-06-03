@@ -34,7 +34,7 @@ class Language_Loader {
      * @param string $section section of the system
      * @param string $lang  language symbol
      */
-    function load($section = 'default', $lang = null) {
+    public static function load($section = 'default', $lang = null) {
         if(!defined('phpAds_dbmsname')) {
             define('phpAds_dbmsname','');
         }
@@ -49,6 +49,7 @@ class Language_Loader {
         }
 
         $PRODUCT_NAME = PRODUCT_NAME;
+        $PRODUCT_URL = PRODUCT_URL;
         $PRODUCT_DOCSURL = PRODUCT_DOCSURL;
         $phpAds_dbmsname = phpAds_dbmsname;
 

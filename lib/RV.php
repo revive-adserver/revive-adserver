@@ -23,10 +23,8 @@ class RV
     /**
      * A method to temporarily disable PEAR error handling by
      * pushing a null error handler onto the top of the stack.
-     *
-     * @static
      */
-    static function disableErrorHandling()
+    public static function disableErrorHandling()
     {
         PEAR::pushErrorHandling(null);
     }
@@ -37,7 +35,7 @@ class RV
      *
      * @static
      */
-    static function enableErrorHandling()
+    public static function enableErrorHandling()
     {
         // Ensure this method only acts when a null error handler exists
         $stack = &$GLOBALS['_PEAR_error_handler_stack'];

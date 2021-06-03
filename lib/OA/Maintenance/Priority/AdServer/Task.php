@@ -38,7 +38,7 @@ class OA_Maintenance_Priority_AdServer_Task extends OA_Task
      */
     function __construct()
     {
-        $this->oDal =& $this->_getDal();
+        $this->oDal = $this->_getDal();
     }
 
     /**
@@ -49,7 +49,7 @@ class OA_Maintenance_Priority_AdServer_Task extends OA_Task
      */
     function &_getDal()
     {
-        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
         $oDal =& $oServiceLocator->get('OA_Dal_Maintenance_Priority');
         if (!$oDal) {
             $oDal = new OA_Dal_Maintenance_Priority();
@@ -67,7 +67,7 @@ class OA_Maintenance_Priority_AdServer_Task extends OA_Task
     function &_getMaxTablePriorityObj()
     {
         $dbType = strtolower($GLOBALS['_MAX']['CONF']['database']['type']);
-        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
         $oTable = $oServiceLocator->get('OA_DB_Table_Priority');
         if (!$oTable) {
             $oTable =& OA_DB_Table_Priority::singleton();

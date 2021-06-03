@@ -54,7 +54,7 @@ class OX_Maintenance_Statistics_Task_ManageConversions extends OX_Maintenance_St
             $oStartDate->addSeconds(1);
 
             // Get the MSE DAL to perform the conversion management
-            $oServiceLocator =& OA_ServiceLocator::instance();
+            $oServiceLocator = OA_ServiceLocator::instance();
             $oDal =& $oServiceLocator->get('OX_Dal_Maintenance_Statistics');
 
             // Manage conversions

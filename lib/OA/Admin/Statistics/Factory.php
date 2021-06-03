@@ -23,17 +23,16 @@ class OA_Admin_Statistics_Factory
     /**
      *  Create a new object of the appropriate OA_Admin_Statistics_Common subclass.
      *
-     * @static
      * @param string $controllerType The controller type (e.g. "global-advertiser").
      * @param array  $aParams        An array of parameters to be passed as the parameter
      *                               to the constructor of the class instantiated.
-     * @return OA_Admin_Statistics_Common The instantiated class that inherits from
+     * @return OA_Admin_Statistics_Common|PEAR_Error The instantiated class that inherits from
      *                                    OA_Admin_Statistics_Common.
      */
-    function &getController($controllerType = '', $aParams = null)
+    public static function getController($controllerType = '', $aParams = null)
     {
         // Instantiate & return the required statistics class
-        $result = OA_Admin_Statistics_Factory::_getControllerClass($controllerType, $aParams, $class, $file);
+        $result = OA_Admin_Statistics_Factory::_getControllerClass($controllerType, $class, $file);
         if (PEAR::isError($result)) {
             return $result;
         }
@@ -44,7 +43,7 @@ class OA_Admin_Statistics_Factory
         return $oStatsController;
     }
 
-    function _instantiateController($file, $class, $aParams = null)
+    public static function _instantiateController($file, $class, $aParams = null)
     {
         if (!@include_once $file)
         {
@@ -59,12 +58,8 @@ class OA_Admin_Statistics_Factory
         return $oController;
     }
 
-    function _getControllerClass($controllerType = '', $aParams = null, &$class, &$file)
+    public static function _getControllerClass($controllerType, &$class, &$file)
     {
-        if (!is_array($aParams)) {
-            $aParams = array();
-        }
-
         if (empty($controllerType) || $controllerType == '-')
         {
             $controllerType = basename($_SERVER['SCRIPT_NAME']);

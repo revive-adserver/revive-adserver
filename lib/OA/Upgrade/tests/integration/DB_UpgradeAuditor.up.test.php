@@ -221,10 +221,10 @@ class Test_OA_DB_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
                 $this->assertEqual($v['table_backup_schema'],$aAuditParams[$k]['table_backup_schema'],'wrong table_backup_schema for audit query result '.$k);
                 $this->assertTrue(isset($aActual['test_table1']),'test table definition not found in unserialised table_backup_schema for audit query result '.$k);
                 $this->assertTrue(isset($aActual['test_table1']['fields']),'test table definition fields not found in unserialised table_backup_schema for audit query result '.$k);
-                $this->assertEqual($aActual['test_table1']['fields']['type'],$aExpected['test_table1']['fields']['type'],'test table definition field type incorrect unserialised table_backup_schema for audit query result '.$k);
-                $this->assertEqual($aActual['tetest_table1st']['fields']['length'],$aExpected['test_table1']['fields']['length'],'test table definition field type incorrect unserialised table_backup_schema for audit query result '.$k);
+                $this->assertEqual($aActual['test_table1']['fields']['test_field1']['type'],$aExpected['test_table1']['fields']['test_field1']['type'],'test table definition field type incorrect unserialised table_backup_schema for audit query result '.$k);
+                $this->assertEqual($aActual['test_table1']['fields']['test_field1']['length'],$aExpected['test_table1']['fields']['test_field1']['length'],'test table definition field type incorrect unserialised table_backup_schema for audit query result '.$k);
                 $this->assertTrue(isset($aActual['test_table1']['indexes']),'test table definition fields not found in unserialised table_backup_schema for audit query result '.$k);
-                $this->assertEqual($aActual['test_table1']['indexes']['primary'],$aExpected['test_table1']['indexes']['primary'],'test table definition field type incorrect unserialised table_backup_schema for audit query result '.$k);
+                $this->assertEqual($aActual['test_table1']['indexes']['test_index1']['primary'],$aExpected['test_table1']['indexes']['test_index1']['primary'],'test table definition field type incorrect unserialised table_backup_schema for audit query result '.$k);
             }
             else
             {

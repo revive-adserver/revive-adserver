@@ -34,7 +34,7 @@ class OA_UpgradePostscript_2_5_67_RC8
     function execute($aParams)
     {
         $this->oUpgrade = & $aParams[0];
-        $this->oDbh = &OA_DB::singleton();
+        $this->oDbh = OA_DB::singleton();
         $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
         if ($this->oDbh->dbsyntax == 'pgsql') {
             $oTable = &$this->oUpgrade->oDBUpgrader->oTable;
@@ -104,7 +104,7 @@ class OA_UpgradePostscript_2_5_67_RC8
                         AND a.attname = ".$this->oDbh->quote($field_name, 'text')."
                     ORDER BY a.attnum";
         $column = $this->oDbh->queryRow($query, null, MDB2_FETCHMODE_ASSOC);
-        if (!PEAR::isError($column)) {
+        if (!PEAR::isError($column) && isset($column['default'])) {
             if (preg_match('/nextval\(\'(.*?)\'/', $column['default'], $m)) {
                 return $m[1];
             }

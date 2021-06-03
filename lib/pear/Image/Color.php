@@ -314,7 +314,7 @@ class Image_Color
     *    @return    array    3 element array containing the RGB information.
     *    @author    Jason Lotito <jason@lehighweb.com>
     */
-    function _splitColor ( $color )
+    public static function _splitColor ( $color )
     {
         $color = str_replace('#', '', $color);
         $c[] = hexdec( substr( $color, 0, 2 ) );
@@ -362,7 +362,7 @@ class Image_Color
     *    @return    array    4 element array.
     *    @author    Jason Lotito <jason@lehighweb.com>
     */
-    function hex2rgb ( $hex )
+    public static function hex2rgb ( $hex )
     {
         $return = Image_Color::_splitColor( $hex );
         $return['hex'] = $hex;
@@ -467,7 +467,7 @@ class Image_Color
     * @see      color2RGB()
     * @access   public
     */
-    function allocateColor(&$img, $color) {
+    public static function allocateColor(&$img, $color) {
         $color = Image_Color::color2RGB($color);
 
         return ImageColorAllocate($img, $color[0], $color[1], $color[2]);
@@ -478,7 +478,7 @@ class Image_Color
     * @static
     * @author   Laurent Laville <pear@laurent-laville.org>
     */
-    function color2RGB($color)
+    public static function color2RGB($color)
     {
         $c = array();
 
@@ -504,7 +504,8 @@ class Image_Color
     * @static
     * @author   Sebastian Bergmann <sb@sebastian-bergmann.de>
     */
-    function namedColor2RGB($color) {
+    public static function namedColor2RGB($color)
+    {
         static $colornames;
 
         if (!isset($colornames)) {

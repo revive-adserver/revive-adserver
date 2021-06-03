@@ -24,14 +24,6 @@ require_once(MAX_PATH.'/lib/OA/Upgrade/DB_UpgradeAuditor.php');
  */
 class Test_DB_Upgrade extends UnitTestCase
 {
-    /**
-     * The constructor method.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     function test_prepPreScript()
     {
         $oDB_Upgrade = $this->_newDBUpgradeObject();
@@ -138,19 +130,19 @@ class Test_DB_Upgrade extends UnitTestCase
         $oDB_Upgrade = new $mockDBUpgrade($this);
 
         $oDB_Upgrade->initMDB2Schema();
-        $oDB_Upgrade->timingStr = $timing;
-        $oDB_Upgrade->timingInt = ($timing ? 0 : 1);
+        $oDB_Upgrade->timingStr = '';
+        $oDB_Upgrade->timingInt = 0;
         $oDB_Upgrade->schema = 'tables_core';
         $oDB_Upgrade->prefix = '';
         $oDB_Upgrade->versionFrom = 1;
         $oDB_Upgrade->versionTo = 2;
         $oDB_Upgrade->logFile = MAX_PATH . "/var/DB_Upgrade.test.log";
 
-        $aDBTables = array(0=>$this->prefix.'z_table1_bak1',
-                           1=>$this->prefix.'z_table1_bak2',
-                           2=>$this->prefix.'z_table1_bak3',
-                           3=>$this->prefix.'table2',
-                           4=>$this->prefix.'table3',
+        $aDBTables = array(0=>$oDB_Upgrade->prefix.'z_table1_bak1',
+                           1=>$oDB_Upgrade->prefix.'z_table1_bak2',
+                           2=>$oDB_Upgrade->prefix.'z_table1_bak3',
+                           3=>$oDB_Upgrade->prefix.'table2',
+                           4=>$oDB_Upgrade->prefix.'table3',
                           );
         $oDB_Upgrade->setReturnValue('_listTables', $aDBTables);
         $oDB_Upgrade->expectOnce('_listTables');
@@ -232,6 +224,8 @@ class Test_DB_Upgrade extends UnitTestCase
                             );
         $oDB_Upgrade->oAuditor->setReturnValue('queryAuditUpgradeStartedByUpgradeId', $aSchemaInfo);
         $oDB_Upgrade->oAuditor->expectOnce('queryAuditUpgradeStartedByUpgradeId');
+
+        $version = $schema = null;
 
         $this->assertTrue($oDB_Upgrade->prepRollbackByAuditId(1, $version, $schema));
 

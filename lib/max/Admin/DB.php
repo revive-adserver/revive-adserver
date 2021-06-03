@@ -28,7 +28,7 @@ class Max_Admin_DB
         if ($type == 'MYISAM') {
             return true;
         } else {
-            $oDbh =& OA_DB::singleton();
+            $oDbh = OA_DB::singleton();
             $rc = $oDbh->query('SHOW VARIABLES');
             while ($row = $rc->fetchRow(DB_FETCHMODE_ORDERED)) {
                 if ($type == 'BDB' && $row[0] == 'have_bdb' && $row[1] == 'YES') {
@@ -83,7 +83,7 @@ class Max_Admin_DB
      */
     function checkDatabaseExists($installvars)
     {
-        $oDbh =& OA_DB::singleton();
+        $oDbh = OA_DB::singleton();
         $oTable = OA_DB_Table_Core::singleton();
         $aTables = OA_DB_Table::listOATablesCaseSensitive();
         $result = false;

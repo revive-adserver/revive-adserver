@@ -15,6 +15,8 @@ require_once LIB_PATH . '/Dal/Maintenance/Statistics/Factory.php';
 require_once LIB_PATH . '/Maintenance/Statistics.php';
 require_once LIB_PATH . '/Maintenance/Statistics/Task/SummariseIntermediate.php';
 
+Language_Loader::load();
+
 /**
  * A class for testing the OX_Maintenance_Statistics_Task_MigrateBucketData class.
  *
@@ -34,7 +36,7 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
 
         $aConf =& $GLOBALS['_MAX']['CONF'];
         $aConf['maintenance']['operationInterval'] = 60;
-        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
 
         $oFactory = new OX_Dal_Maintenance_Statistics_Factory();
         $oDalMaintenanceStatsticsClassName = $oFactory->deriveClassName();
@@ -69,16 +71,16 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
         $oDal->expectNever('migrateRawImpressions');
         $oDal->expectNever('migrateRawClicks');
 
-        $oDal->__construct();
+        (new ReflectionMethod($oDalMaintenanceStatsticsClassName, '__construct'))->invoke($oDal);
 
         $oServiceLocator->register('OX_Dal_Maintenance_Statistics', $oDal);
         $oSummariseIntermediate = new OX_Maintenance_Statistics_Task_MigrateBucketData();
         $oSummariseIntermediate->run();
-        $oDal =& $oServiceLocator->get('OX_Dal_Maintenance_Statistics');
+        $oDal = $oServiceLocator->get('OX_Dal_Maintenance_Statistics');
         $oDal->tally();
 
         // Create the "application_variable" table required for installing the plugin
-        $oTables =& OA_DB_Table_Core::singleton();
+        $oTables = OA_DB_Table_Core::singleton();
         $oTables->createTable('application_variable');
 
         // Setup the default OpenX delivery logging plugin for the next test
@@ -114,12 +116,12 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
         $oDal->expectNever('migrateRawImpressions');
         $oDal->expectNever('migrateRawClicks');
 
-        $oDal->__construct();
+        (new ReflectionMethod($oDalMaintenanceStatsticsClassName, '__construct'))->invoke($oDal);
 
         $oServiceLocator->register('OX_Dal_Maintenance_Statistics', $oDal);
         $oSummariseIntermediate = new OX_Maintenance_Statistics_Task_MigrateBucketData();
         $oSummariseIntermediate->run();
-        $oDal =& $oServiceLocator->get('OX_Dal_Maintenance_Statistics');
+        $oDal = $oServiceLocator->get('OX_Dal_Maintenance_Statistics');
         $oDal->tally();
 
         // Test 3: Run, with plugins installed and with the migration required for a single
@@ -148,7 +150,7 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
         );
         $oDal = new MockOX_Dal_Maintenance_Statistics_Test_3($this);
 
-        $oComponent =& OX_Component::factory('deliveryLog', 'oxLogConversion', 'logConversion');
+        $oComponent = OX_Component::factory('deliveryLog', 'oxLogConversion', 'logConversion');
         $oStartDate = new Date('2008-08-28 07:59:59');
         $oStartDate->addSeconds(1);
         $oEndDate = new Date('2008-08-28 09:00:00');
@@ -165,7 +167,7 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
             )
         );
 
-        $oComponent =& OX_Component::factory('deliveryLog', 'oxLogConversion', 'logConversionVariable');
+        $oComponent = OX_Component::factory('deliveryLog', 'oxLogConversion', 'logConversionVariable');
         $oStartDate = new Date('2008-08-28 07:59:59');
         $oStartDate->addSeconds(1);
         $oEndDate = new Date('2008-08-28 09:00:00');
@@ -183,11 +185,11 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
         );
 
         $aMap = array();
-        $oComponent =& OX_Component::factory('deliveryLog', 'oxLogClick', 'logClick');
+        $oComponent = OX_Component::factory('deliveryLog', 'oxLogClick', 'logClick');
         $aMap[get_class($oComponent)] = $oComponent->getStatisticsMigration();
-        $oComponent =& OX_Component::factory('deliveryLog', 'oxLogImpression', 'logImpression');
+        $oComponent = OX_Component::factory('deliveryLog', 'oxLogImpression', 'logImpression');
         $aMap[get_class($oComponent)] = $oComponent->getStatisticsMigration();
-        $oComponent =& OX_Component::factory('deliveryLog', 'oxLogRequest', 'logRequest');
+        $oComponent = OX_Component::factory('deliveryLog', 'oxLogRequest', 'logRequest');
         $aMap[get_class($oComponent)] = $oComponent->getStatisticsMigration();
         $oStartDate = new Date('2008-08-28 07:59:59');
         $oStartDate->addSeconds(1);
@@ -217,12 +219,12 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
         $oDal->expectNever('migrateRawImpressions');
         $oDal->expectNever('migrateRawClicks');
 
-        $oDal->__construct();
+        (new ReflectionMethod($oDalMaintenanceStatsticsClassName, '__construct'))->invoke($oDal);
 
         $oServiceLocator->register('OX_Dal_Maintenance_Statistics', $oDal);
         $oSummariseIntermediate = new OX_Maintenance_Statistics_Task_MigrateBucketData();
         $oSummariseIntermediate->run();
-        $oDal =& $oServiceLocator->get('OX_Dal_Maintenance_Statistics');
+        $oDal = $oServiceLocator->get('OX_Dal_Maintenance_Statistics');
         $oDal->tally();
 
         // Test 4: Run, with plugins installed and with the migration required for a single
@@ -256,7 +258,7 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
         );
         $oDal = new MockOX_Dal_Maintenance_Statistics_Test_4($this);
 
-        $oComponent =& OX_Component::factory('deliveryLog', 'oxLogConversion', 'logConversion');
+        $oComponent = OX_Component::factory('deliveryLog', 'oxLogConversion', 'logConversion');
         $oStartDate = new Date('2008-08-28 07:59:59');
         $oStartDate->addSeconds(1);
         $oEndDate = new Date('2008-08-28 09:00:00');
@@ -273,7 +275,7 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
             )
         );
 
-        $oComponent =& OX_Component::factory('deliveryLog', 'oxLogConversion', 'logConversionVariable');
+        $oComponent = OX_Component::factory('deliveryLog', 'oxLogConversion', 'logConversionVariable');
         $oStartDate = new Date('2008-08-28 07:59:59');
         $oStartDate->addSeconds(1);
         $oEndDate = new Date('2008-08-28 09:00:00');
@@ -291,11 +293,11 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
         );
 
         $aMap = array();
-        $oComponent =& OX_Component::factory('deliveryLog', 'oxLogClick', 'logClick');
+        $oComponent = OX_Component::factory('deliveryLog', 'oxLogClick', 'logClick');
         $aMap[get_class($oComponent)] = $oComponent->getStatisticsMigration();
-        $oComponent =& OX_Component::factory('deliveryLog', 'oxLogImpression', 'logImpression');
+        $oComponent = OX_Component::factory('deliveryLog', 'oxLogImpression', 'logImpression');
         $aMap[get_class($oComponent)] = $oComponent->getStatisticsMigration();
-        $oComponent =& OX_Component::factory('deliveryLog', 'oxLogRequest', 'logRequest');
+        $oComponent = OX_Component::factory('deliveryLog', 'oxLogRequest', 'logRequest');
         $aMap[get_class($oComponent)] = $oComponent->getStatisticsMigration();
         $oStartDate = new Date('2008-08-28 07:59:59');
         $oStartDate->addSeconds(1);
@@ -345,12 +347,12 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
             )
         );
 
-        $oDal->__construct();
+        (new ReflectionMethod($oDalMaintenanceStatsticsClassName, '__construct'))->invoke($oDal);
 
         $oServiceLocator->register('OX_Dal_Maintenance_Statistics', $oDal);
         $oSummariseIntermediate = new OX_Maintenance_Statistics_Task_MigrateBucketData();
         $oSummariseIntermediate->run();
-        $oDal =& $oServiceLocator->get('OX_Dal_Maintenance_Statistics');
+        $oDal = $oServiceLocator->get('OX_Dal_Maintenance_Statistics');
         $oDal->tally();
 
         $doApplication_variable = OA_Dal::factoryDO('application_variable');
@@ -389,7 +391,7 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
         $oDal->expectCallCount('summariseBucketsRawSupplementary', 3);
         $oDal->expectCallCount('summariseBucketsAggregate', 3);
 
-        $oComponent =& OX_Component::factory('deliveryLog', 'oxLogConversion', 'logConversion');
+        $oComponent = OX_Component::factory('deliveryLog', 'oxLogConversion', 'logConversion');
         $oStartDate = new Date('2008-08-28 07:59:59');
         $oStartDate->addSeconds(1);
         $oEndDate = new Date('2008-08-28 09:00:00');
@@ -439,7 +441,7 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
             )
         );
 
-        $oComponent =& OX_Component::factory('deliveryLog', 'oxLogConversion', 'logConversionVariable');
+        $oComponent = OX_Component::factory('deliveryLog', 'oxLogConversion', 'logConversionVariable');
         $oStartDate = new Date('2008-08-28 07:59:59');
         $oStartDate->addSeconds(1);
         $oEndDate = new Date('2008-08-28 09:00:00');
@@ -490,11 +492,11 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
         );
 
         $aMap = array();
-        $oComponent =& OX_Component::factory('deliveryLog', 'oxLogClick', 'logClick');
+        $oComponent = OX_Component::factory('deliveryLog', 'oxLogClick', 'logClick');
         $aMap[get_class($oComponent)] = $oComponent->getStatisticsMigration();
-        $oComponent =& OX_Component::factory('deliveryLog', 'oxLogImpression', 'logImpression');
+        $oComponent = OX_Component::factory('deliveryLog', 'oxLogImpression', 'logImpression');
         $aMap[get_class($oComponent)] = $oComponent->getStatisticsMigration();
-        $oComponent =& OX_Component::factory('deliveryLog', 'oxLogRequest', 'logRequest');
+        $oComponent = OX_Component::factory('deliveryLog', 'oxLogRequest', 'logRequest');
         $aMap[get_class($oComponent)] = $oComponent->getStatisticsMigration();
         $oStartDate = new Date('2008-08-28 07:59:59');
         $oStartDate->addSeconds(1);
@@ -573,12 +575,12 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
         $oDal->expectNever('migrateRawImpressions');
         $oDal->expectNever('migrateRawClicks');
 
-        $oDal->__construct();
+        (new ReflectionMethod($oDalMaintenanceStatsticsClassName, '__construct'))->invoke($oDal);
 
         $oServiceLocator->register('OX_Dal_Maintenance_Statistics', $oDal);
         $oSummariseIntermediate = new OX_Maintenance_Statistics_Task_MigrateBucketData();
         $oSummariseIntermediate->run();
-        $oDal =& $oServiceLocator->get('OX_Dal_Maintenance_Statistics');
+        $oDal = $oServiceLocator->get('OX_Dal_Maintenance_Statistics');
         $oDal->tally();
 
         // Test 6: Run, with plugins installed and with the migration required for multiple
@@ -615,7 +617,7 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
         $oDal->expectCallCount('summariseBucketsRawSupplementary', 3);
         $oDal->expectCallCount('summariseBucketsAggregate', 3);
 
-        $oComponent =& OX_Component::factory('deliveryLog', 'oxLogConversion', 'logConversion');
+        $oComponent = OX_Component::factory('deliveryLog', 'oxLogConversion', 'logConversion');
         $oStartDate = new Date('2008-08-28 07:59:59');
         $oStartDate->addSeconds(1);
         $oEndDate = new Date('2008-08-28 09:00:00');
@@ -665,7 +667,7 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
             )
         );
 
-        $oComponent =& OX_Component::factory('deliveryLog', 'oxLogConversion', 'logConversionVariable');
+        $oComponent = OX_Component::factory('deliveryLog', 'oxLogConversion', 'logConversionVariable');
         $oStartDate = new Date('2008-08-28 07:59:59');
         $oStartDate->addSeconds(1);
         $oEndDate = new Date('2008-08-28 09:00:00');
@@ -716,11 +718,11 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
         );
 
         $aMap = array();
-        $oComponent =& OX_Component::factory('deliveryLog', 'oxLogClick', 'logClick');
+        $oComponent = OX_Component::factory('deliveryLog', 'oxLogClick', 'logClick');
         $aMap[get_class($oComponent)] = $oComponent->getStatisticsMigration();
-        $oComponent =& OX_Component::factory('deliveryLog', 'oxLogImpression', 'logImpression');
+        $oComponent = OX_Component::factory('deliveryLog', 'oxLogImpression', 'logImpression');
         $aMap[get_class($oComponent)] = $oComponent->getStatisticsMigration();
-        $oComponent =& OX_Component::factory('deliveryLog', 'oxLogRequest', 'logRequest');
+        $oComponent = OX_Component::factory('deliveryLog', 'oxLogRequest', 'logRequest');
         $aMap[get_class($oComponent)] = $oComponent->getStatisticsMigration();
         $oStartDate = new Date('2008-08-28 07:59:59');
         $oStartDate->addSeconds(1);
@@ -882,12 +884,12 @@ class Test_OX_Maintenance_Statistics_Task_MigrateBucketData extends UnitTestCase
             )
         );
 
-        $oDal->__construct();
+        (new ReflectionMethod($oDalMaintenanceStatsticsClassName, '__construct'))->invoke($oDal);
 
         $oServiceLocator->register('OX_Dal_Maintenance_Statistics', $oDal);
         $oSummariseIntermediate = new OX_Maintenance_Statistics_Task_MigrateBucketData();
         $oSummariseIntermediate->run();
-        $oDal =& $oServiceLocator->get('OX_Dal_Maintenance_Statistics');
+        $oDal = $oServiceLocator->get('OX_Dal_Maintenance_Statistics');
         $oDal->tally();
 
         $doApplication_variable = OA_Dal::factoryDO('application_variable');

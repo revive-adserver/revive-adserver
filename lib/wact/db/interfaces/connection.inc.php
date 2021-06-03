@@ -32,7 +32,7 @@ interface Connection {
     *   used to initialize the fields of the new record prior to calling insert()
     * @return Record reference
     */
-    function &NewRecord($DataSpace = NULL);
+    function NewRecord($DataSpace = NULL);
 
     /**
     * Factory function used to retrieve more than one row from a MySQL database,
@@ -42,7 +42,7 @@ interface Connection {
     * @param object filter class (optional)
     * @return RecordSet reference
     */
-    function &NewRecordSet($query, $filter = NULL);
+    function NewRecordSet($query, $filter = NULL);
 
     /**
     * Factory function used to retrieve more than one row from a MySQL database,
@@ -53,35 +53,34 @@ interface Connection {
     * @param object filter class (optional)
     * @return RecordSet reference
     */
-    function &NewPagedRecordSet($query, &$pager, $filter = NULL);
+    function NewPagedRecordSet($query, &$pager, $filter = NULL);
 
 	/**
 	* Retreive a single record from the database based on a query.
 	* @param string SQL Query
-	* @return Record object or NULL if not found
+	* @return Record|null object or NULL if not found
 	*/
-	function &FindRecord($query);
+	function FindRecord($query);
 
 	/**
 	* Get a single value from the first column of a single record from
 	* a database query.
 	* @param string SQL Query
-	* @return Value or NULL if not found
-	* @access public
+	* @return mixed or NULL if not found
 	*/
 	function getOneValue($query);
 
 	/**
 	* Retreive an array where each element of the array is the value from the
 	* first column of a database query.
-	* @param string SQL Query
+	* @param array SQL Query
 	*/
 	function getOneColumnArray($query);
 
 	/**
 	* Retreive an associative array where each element of the array is based
 	* on the first column as a key and the second column as data.
-	* @param string SQL Query
+	* @param array SQL Query
 	*/
 	function getTwoColumnArray($query);
 	
@@ -94,8 +93,6 @@ interface Connection {
 
 	/**
 	* Disconnect from database
-	* @return void
-	* @access public
 	*/
 	function disconnect();
 

@@ -546,9 +546,9 @@ class DB_ibase extends DB_common
         $data = (array)$data;
         $this->last_parameters = $data;
 
-        $types =& $this->prepare_types[(int)$stmt];
+        $types = $this->prepare_types[(int)$stmt];
         if (count($types) != count($data)) {
-            $tmp =& $this->customRaiseError(DB_ERROR_MISMATCH);
+            $tmp = $this->customRaiseError(DB_ERROR_MISMATCH);
             return $tmp;
         }
 
@@ -567,7 +567,7 @@ class DB_ibase extends DB_common
             } elseif ($types[$i] == DB_PARAM_OPAQUE) {
                 $fp = @fopen($data[$key], 'rb');
                 if (!$fp) {
-                    $tmp =& $this->customRaiseError(DB_ERROR_ACCESS_VIOLATION);
+                    $tmp = $this->customRaiseError(DB_ERROR_ACCESS_VIOLATION);
                     return $tmp;
                 }
                 $data[$key] = fread($fp, filesize($data[$key]));
@@ -580,7 +580,7 @@ class DB_ibase extends DB_common
 
         $res = call_user_func_array('ibase_execute', $data);
         if (!$res) {
-            $tmp =& $this->ibaseRaiseError();
+            $tmp = $this->ibaseRaiseError();
             return $tmp;
         }
         /* XXX need this?
@@ -697,7 +697,7 @@ class DB_ibase extends DB_common
         $repeat = 0;
         do {
             $this->pushErrorHandling(PEAR_ERROR_RETURN);
-            $result =& $this->query("SELECT GEN_ID(${sqn}, 1) "
+            $result = $this->query("SELECT GEN_ID(${sqn}, 1) "
                                    . 'FROM RDB$GENERATORS '
                                    . "WHERE RDB\$GENERATOR_NAME='${sqn}'");
             $this->popErrorHandling();
@@ -855,7 +855,7 @@ class DB_ibase extends DB_common
         if ($errno === null) {
             $errno = $this->errorCode($this->errorNative());
         }
-        $tmp =& $this->customRaiseError($errno, null, null, null, @ibase_errmsg());
+        $tmp = $this->customRaiseError($errno, null, null, null, @ibase_errmsg());
         return $tmp;
     }
 

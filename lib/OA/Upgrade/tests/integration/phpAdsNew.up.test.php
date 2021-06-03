@@ -20,14 +20,6 @@ require_once MAX_PATH.'/lib/OA/Upgrade/phpAdsNew.php';
  */
 class Test_OA_phpAdsNew extends UnitTestCase
 {
-    /**
-     * The constructor method.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     function test_init()
     {
         $oPAN = new OA_phpAdsNew();

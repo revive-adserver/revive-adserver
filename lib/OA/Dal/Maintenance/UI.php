@@ -28,7 +28,7 @@ class OA_Dal_Maintenance_UI
      *
      * @return bool
      */
-    function alertNeeded()
+    public static function alertNeeded()
     {
         $aPref = $GLOBALS['_MAX']['PREF'];
         $iLastRun = (int) OA_Dal_ApplicationVariables::get('maintenance_timestamp');
@@ -50,7 +50,7 @@ class OA_Dal_Maintenance_UI
      * A static method to update the last run
      *
      */
-    function updateLastRun()
+    public static function updateLastRun()
     {
         OA_Dal_ApplicationVariables::set('maintenance_timestamp', time());
     }

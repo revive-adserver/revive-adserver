@@ -62,7 +62,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageConversions extends UnitTestCase
 
         // Test 1: Test with no data
         $aConf =& $GLOBALS['_MAX']['CONF'];
-        $oDbh =& OA_DB::singleton();
+        $oDbh = OA_DB::singleton();
 
         $oFactory = new OX_Dal_Maintenance_Statistics_Factory();
         $oDalMaintenanceStatistics = $oFactory->factory();

@@ -412,7 +412,7 @@ abstract class Plugins_DeliveryLog extends OX_Component
      *                    getStatisticsMigration();
      * @return boolean True on the map being valid, false otherwise.
      */
-    final private function _testStatisticsMigrationAggregate($aMap)
+    private function _testStatisticsMigrationAggregate($aMap)
     {
         // Must have a valid "bucketTable" value
         if (!$this->_testMigrationValidTableOrColumn($aMap['bucketTable'])) {
@@ -472,7 +472,7 @@ abstract class Plugins_DeliveryLog extends OX_Component
      *                    getStatisticsMigration();
      * @return boolean True on the map being valid, false otherwise.
      */
-    final private function _testStatisticsMigrationRaw($aMap)
+    private function _testStatisticsMigrationRaw($aMap)
     {
         // Must have a valid "bucketTable" value
         if (!$this->_testMigrationValidTableOrColumn($aMap['bucketTable'])) {
@@ -526,7 +526,7 @@ abstract class Plugins_DeliveryLog extends OX_Component
      *                    getStatisticsMigration();
      * @return boolean True on the map being valid, false otherwise.
      */
-    final private function _testStatisticsMigrationRawSupplementary($aMap)
+    private function _testStatisticsMigrationRawSupplementary($aMap)
     {
         // Must have a valid "masterTable" value
         if (!$this->_testMigrationValidTableOrColumn($aMap['masterTable'])) {
@@ -600,7 +600,7 @@ abstract class Plugins_DeliveryLog extends OX_Component
      *                    getStatisticsMigration();
      * @return boolean True on the map being valid, false otherwise.
      */
-    final private function _testStatisticsMigrationCustom($aMap)
+    private function _testStatisticsMigrationCustom($aMap)
     {
         // Must have a valid "bucketTable" value
         if (!$this->_testMigrationValidTableOrColumn($aMap['bucketTable'])) {
@@ -626,7 +626,7 @@ abstract class Plugins_DeliveryLog extends OX_Component
      *                 table or column name - but does not test if the
      *                 table or column actually exists!
      */
-    final private function _testMigrationValidTableOrColumn($value)
+    private function _testMigrationValidTableOrColumn($value)
     {
         if (is_null($value) || !is_string($value)) {
             return false;
@@ -642,7 +642,7 @@ abstract class Plugins_DeliveryLog extends OX_Component
      * @param array $aArray The array of columns.
      * @return boolean True if the array is valid, false otherwise.
      */
-    final private function _testValidNotNullArray($aArray)
+    private function _testValidNotNullArray($aArray)
     {
         if (!$this->_testValidArray($aArray)) {
             return false;
@@ -661,7 +661,7 @@ abstract class Plugins_DeliveryLog extends OX_Component
      * @param array $aArray The array of columns.
      * @return boolean True if the array is valid, false otherwise.
      */
-    final private function _testValidArray($aArray)
+    private function _testValidArray($aArray)
     {
         if (is_null($aArray) || !is_array($aArray)) {
             return false;
@@ -689,7 +689,7 @@ abstract class Plugins_DeliveryLog extends OX_Component
      *                 items, and when the index keys are the same;
      *                 false otherwise.
      */
-    final private function _testValidArrayKeys($aArray1, $aArray2)
+    private function _testValidArrayKeys($aArray1, $aArray2)
     {
         if (count($aArray1) != count($aArray2)) {
             return false;

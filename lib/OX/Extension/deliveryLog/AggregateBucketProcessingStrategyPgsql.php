@@ -39,7 +39,7 @@ class OX_Extension_DeliveryLog_AggregateBucketProcessingStrategyPgsql implements
     public function processBucket($oBucket, $oEnd)
     {
         $sTableName = $oBucket->getBucketTableName();
-        $oMainDbh =& OA_DB_Distributed::singleton();
+        $oMainDbh = OA_DB_Distributed::singleton();
 
         if (PEAR::isError($oMainDbh)) {
             MAX::raiseError($oMainDbh, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
@@ -48,7 +48,7 @@ class OX_Extension_DeliveryLog_AggregateBucketProcessingStrategyPgsql implements
         OA::debug('  - Processing the ' . $sTableName . ' table for data with operation interval start equal to or before ' . $oEnd->format('%Y-%m-%d %H:%M:%S') . ' ' . $oEnd->tz->getShortName() , PEAR_LOG_INFO);
 
         // Select all rows with interval_start <= previous OI start.
-        $rsData =& $this->getBucketTableContent($sTableName, $oEnd);
+        $rsData = $this->getBucketTableContent($sTableName, $oEnd);
         $rowCount = $rsData->getRowCount();
 
         OA::debug('  - '.$rsData->getRowCount().' records found', PEAR_LOG_DEBUG);

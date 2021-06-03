@@ -37,8 +37,10 @@ class Migration_609Test extends MigrationTest
         $prefix = $this->getPrefix();
         $oDbh = $this->oDbh;
 
+        $aTblConf = $GLOBALS['_MAX']['CONF']['table'];
+
         foreach ($this->aTables as $k => $v) {
-            $$k = $oDbh->quoteIdentifier($prefix.($aConf[$v] ? $aConf[$v] : $v), true);
+            $$k = $oDbh->quoteIdentifier($prefix.($aTblConf[$v] ?? $v), true);
         }
 
         $this->initDatabase(608, array_values($this->aTables));

@@ -230,16 +230,16 @@ class MAX_Dal_Admin_BannersTest extends DalUnitTestCase
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->description = 'foo';
         $doBanners->alt = 'bar';
-        $doBanners->campaignid = $campaignId;
+        $doBanners->campaignid = 0;
         $doBanners->ext_bannertype = DataObjects_Banners::BANNER_TYPE_MARKET;
         $doBanners->acls_updated = '2007-04-03 18:39:45';
         $aData = array(
             'reportlastdate' => array('2007-04-03 18:39:45')
         );
-        $dg = new DataGenerator();
-        $dg->setData('clients', $aData);
-        $bannerId = $dg->generate($doBanners, 1, true);
-        $agencyId = $dg->getReferenceId('agency');
+
+        DataGenerator::setData('clients', $aData);
+        $bannerId = DataGenerator::generate($doBanners, 1, true);
+        $agencyId = DataGenerator::getReferenceId('agency');
 
         // Search for banner by description
         $expected = 0;
@@ -293,9 +293,9 @@ class MAX_Dal_Admin_BannersTest extends DalUnitTestCase
         $aData = array(
             'reportlastdate' => array('2007-04-03 18:39:45')
         );
-        $dg = new DataGenerator();
-        $dg->setData('clients', $aData);
-        $aBannerIds = $dg->generate($doBanners, 2, true);
+
+        DataGenerator::setData('clients', $aData);
+        $aBannerIds = DataGenerator::generate($doBanners, 2, true);
 
         // Check the correct number of rows returned
         $expectedRows = 2;

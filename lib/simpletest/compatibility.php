@@ -33,10 +33,8 @@
          *    @param mixed $first    Test subject.
          *    @param mixed $second   Comparison object.
          *	  @return boolean		 True if identical.
-         *    @access public
-         *    @static
          */
-        function isIdentical($first, $second) {
+        public static function isIdentical($first, $second) {
             if ($first != $second) {
                 return false;
             }
@@ -51,10 +49,8 @@
          *    @param mixed $first    Test subject.
          *    @param mixed $second   Comparison object.
          *	  @return boolean		 True if same type.
-         *    @access private
-         *    @static
          */
-        function _isIdenticalType($first, $second) {
+        private static function _isIdenticalType($first, $second) {
             if (gettype($first) != gettype($second)) {
                 return false;
             }
@@ -80,10 +76,8 @@
          *    @param mixed $first    Test subject.
          *    @param mixed $second   Comparison object.
          *	  @return boolean		 True if identical.
-         *    @access private
-         *    @static
          */
-        function _isArrayOfIdenticalTypes($first, $second) {
+        private static function _isArrayOfIdenticalTypes($first, $second) {
             if (array_keys($first) != array_keys($second)) {
                 return false;
             }
@@ -106,17 +100,11 @@
          *    @access public
          *    @static
          */
-        function isReference(&$first, &$second) {
-            if (version_compare(phpversion(), '5', '>=') && is_object($first)) {
+        public static function isReference(&$first, &$second) {
+            if (is_object($first)) {
 	    	    return ($first === $second);
 	        }
-	        if (is_object($first) && is_object($second)) {
-                $id = uniqid("test");
-                $first->$id = true;
-                $is_ref = isset($second->$id);
-                unset($first->$id);
-                return $is_ref;
-	        }
+
 	        $temp = $first;
             $first = uniqid("test");
             $is_ref = ($first === $second);
@@ -133,23 +121,16 @@
          *    @access public
          *    @static
          */
-        function isA($object, $class) {
-            if (version_compare(phpversion(), '5') >= 0) {
-                if (! class_exists($class, false)) {
-                    if (function_exists('interface_exists')) {
-                        if (! interface_exists($class, false))  {
-                            return false;
-                        }
+        public static function isA($object, $class) {
+            if (! class_exists($class, false)) {
+                if (function_exists('interface_exists')) {
+                    if (! interface_exists($class, false))  {
+                        return false;
                     }
                 }
-                eval("\$is_a = \$object instanceof $class;");
-                return $is_a;
             }
-            if (function_exists('is_a')) {
-                return is_a($object, $class);
-            }
-            return ((strtolower($class) == get_class($object))
-                    or (is_subclass_of($object, $class)));
+            eval("\$is_a = \$object instanceof $class;");
+            return $is_a;
         }
 
         /**

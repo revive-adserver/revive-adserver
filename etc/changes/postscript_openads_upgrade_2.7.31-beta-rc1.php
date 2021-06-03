@@ -20,11 +20,6 @@ class OA_UpgradePostscript_2_7_31_beta_rc1
      */
     var $oUpgrade;
 
-    function OA_UpgradePostscript_2_7_31_beta_rc11()
-    {
-
-    }
-
     function execute($aParams)
     {
         $this->oUpgrade =& $aParams[0];

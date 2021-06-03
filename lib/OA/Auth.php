@@ -29,12 +29,12 @@ class OA_Auth
      * @param string $authType
      * @return Plugins_Authentication
      */
-    static function staticGetAuthPlugin()
+    public static function staticGetAuthPlugin()
     {
         static $authPlugin;
         static $authPluginType;
 
-        if (!isset($authPlugin) || $authPluginType != $authType) {
+        if (!isset($authPlugin) || null === $authPluginType) {
             $aConf = $GLOBALS['_MAX']['CONF'];
             if (!empty($aConf['authentication']['type'])) {
                 $authType = $aConf['authentication']['type'];
@@ -61,7 +61,7 @@ class OA_Auth
      * @param callback $redirectCallback
      * @return mixed Array on success
      */
-    function login($redirectCallback = null)
+    public static function login($redirectCallback = null)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
 
@@ -103,7 +103,7 @@ class OA_Auth
      * @todo Fix when preferences are ready and logout url is stored into the
      * preferences table
      */
-    function logout()
+    public static function logout()
     {
         $authPlugin = OA_Auth::staticGetAuthPlugin();
         $authPlugin->logout();
@@ -116,7 +116,7 @@ class OA_Auth
      *
      * @return bool
      */
-    function suppliedCredentials()
+    public static function suppliedCredentials()
     {
         $authPlugin = OA_Auth::staticGetAuthPlugin();
         return $authPlugin->suppliedCredentials();
@@ -127,9 +127,9 @@ class OA_Auth
      *
      * @static
      *
-     * @return bool
+     * @return DataObjects_Users
      */
-    function authenticateUser()
+    private static function authenticateUser()
     {
         $authPlugin = OA_Auth::staticGetAuthPlugin();
         $doUsers = $authPlugin->authenticateUser();
@@ -148,7 +148,7 @@ class OA_Auth
      *
      * @return boolean
      */
-    function isLoggedIn()
+    public static function isLoggedIn()
     {
         return is_a(OA_Permission::getCurrentUser(), 'OA_Permission_User');
     }
@@ -163,7 +163,7 @@ class OA_Auth
      *                                 avoid performing some checks accessing the database
      * @return array
      */
-    function getSessionData($doUser, $skipDatabaseAccess = false)
+    public static function getSessionData($doUser, $skipDatabaseAccess = false)
     {
         return array(
             'user' => new OA_Permission_User($doUser, $skipDatabaseAccess)
@@ -177,7 +177,7 @@ class OA_Auth
      *
      * @return array
      */
-    function getFakeSessionData()
+    public static function getFakeSessionData()
     {
         return array(
             'user' => false
@@ -191,7 +191,7 @@ class OA_Auth
      *
      * @param string $sMessage Optional message
      */
-    function restart($sMessage = '')
+    public static function restart($sMessage = '')
     {
         $_COOKIE['sessionID'] = phpAds_SessionRegenerateId();
         OA_Auth::displayLogin($sMessage, $_COOKIE['sessionID']);
@@ -204,7 +204,7 @@ class OA_Auth
      *
      * @param PEAR_Error $oError
      */
-    function displayError($oError)
+    public static function displayError($oError)
     {
         OA_Auth::restart($oError->getMessage());
     }
@@ -218,7 +218,7 @@ class OA_Auth
      * @param string $sessionID
      * @param bool $inlineLogin
      */
-    function displayLogin($sMessage = '', $sessionID = 0, $inLineLogin = false)
+    public static function displayLogin($sMessage = '', $sessionID = 0, $inLineLogin = false)
     {
         $authLogin = OA_Auth::staticGetAuthPlugin();
         $authLogin->displayLogin($sMessage, $sessionID, $inLineLogin);
@@ -232,7 +232,7 @@ class OA_Auth
      * @param string $location
      * @return boolean True if a redirect is needed
      */
-    function checkRedirect($location = 'admin')
+    public static function checkRedirect($location = 'admin')
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
 

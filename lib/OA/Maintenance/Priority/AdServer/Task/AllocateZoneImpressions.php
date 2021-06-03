@@ -45,7 +45,7 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
     function __construct()
     {
         parent::__construct();
-        $this->table =& $this->_getMaxTablePriorityObj();
+        $this->table = $this->_getMaxTablePriorityObj();
     }
 
     /**
@@ -228,8 +228,7 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
                 // If the campaign has advertisements
                 if (is_array($oCampaign->aAds) && !empty($oCampaign->aAds)) {
                     // Iterate over all the advertisements in the campaign
-                    reset($oCampaign->aAds);
-                    while (list($advertKey, $oAd) = each($oCampaign->aAds)) {
+                    foreach ($oCampaign->aAds as $advertKey => $oAd) {
                         // Allocate *all* impressions the creative requires to the Direct Selection zone,
                         // so that direct selection of contract campaign creatives will be based on a
                         // system-wide weighting of the number of impressions each contract campaign
@@ -275,10 +274,12 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
                                         $requiredImpressions;
                                     if ($oCampaign->priority > 0) {
                                         if (empty($this->aOverSubscribedZones[$zone['zone_id']])) {
-                                            $this->aOverSubscribedZones[$zone['zone_id']] = array();
+                                            $this->aOverSubscribedZones[$zone['zone_id']] = [];
                                         }
                                         if (empty($this->aOverSubscribedZones[$zone['zone_id']]['desiredImpressionsByCP'])) {
-                                            $this->aOverSubscribedZones[$zone['zone_id']]['desiredImpressionsByCP'] = array();
+                                            $this->aOverSubscribedZones[$zone['zone_id']]['desiredImpressionsByCP'] = [
+                                                $oCampaign->priority => 0,
+                                            ];
                                         }
                                         $this->aOverSubscribedZones[$zone['zone_id']]['desiredImpressionsByCP'][$oCampaign->priority] +=
                                             $requiredImpressions;

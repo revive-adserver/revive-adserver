@@ -31,8 +31,13 @@ class Test_OX_Admin_UI_Event_TestEventListener
         else {
             $context->data["callcount"] = 1;
         }
-        
-        $this->aCallCount[$eventName]['count'] += 1;
+
+        if (isset($this->aCallCount[$eventName]['count'])) {
+            ++$this->aCallCount[$eventName]['count'];
+        } else {
+            $this->aCallCount[$eventName]['count'] = 1;
+        }
+
         $this->aCallCount[$eventName]['lastContext'] = $context;
     }
 }

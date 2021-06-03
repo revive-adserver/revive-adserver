@@ -63,6 +63,7 @@
     <exclude name="www/admin/assets/js/jscalendar/test.php"/>
 
     <!-- Build-wide rules -->
+    <exclude name=".idea/**"/>
     <exclude name="nbproject/**"/>
     <exclude name="**/tests"/>
     <exclude name="**/tests/**"/>
@@ -125,6 +126,7 @@
     <include name="www/images/*.png"/>
 
     <!-- Build-wide rules -->
+    <include name=".idea/**"/>
     <include name="nbproject/**"/>
     <include name="**/tests"/>
     <include name="**/tests/**"/>

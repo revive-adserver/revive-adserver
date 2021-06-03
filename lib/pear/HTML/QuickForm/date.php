@@ -306,7 +306,7 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
     {
         $this->_separator = $this->_elements = array();
         $separator =  '';
-        $locale    =& $this->_locale[$this->_options['language']];
+        $locale    = $this->_locale[$this->_options['language']];
         $backslash =  false;
         for ($i = 0, $length = strlen($this->_options['format']); $i < $length; $i++) {
             $sign = $this->_options['format'][$i];
@@ -352,14 +352,18 @@ class HTML_QuickForm_date extends HTML_QuickForm_group
                             $this->_options['maxYear'],
                             $this->_options['minYear'] > $this->_options['maxYear']? -1: 1
                         );
-                        array_walk($options, create_function('&$v,$k','$v = substr($v,-2);'));
+                        array_walk($options, function (&$v) {
+                            $v = substr($v,-2);
+                        });
                         break;
                     case 'h':
                         $options = $this->_createOptionList(1, 12);
                         break;
                     case 'g':
                         $options = $this->_createOptionList(1, 12);
-                        array_walk($options, create_function('&$v,$k', '$v = intval($v);'));
+                        array_walk($options, function (&$v) {
+                            $v = intval($v);
+                        });
                         break;
                     case 'H':
                         $options = $this->_createOptionList(0, 23);

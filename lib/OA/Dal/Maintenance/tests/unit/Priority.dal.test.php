@@ -38,7 +38,7 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
      */
     function testLocking()
     {
-        $oDbh =& OA_DB::singleton();
+        $oDbh = OA_DB::singleton();
         $oDal = new OA_Dal_Maintenance_Priority();
         // Try to get the lock
         $result = $oDal->obtainPriorityLock();

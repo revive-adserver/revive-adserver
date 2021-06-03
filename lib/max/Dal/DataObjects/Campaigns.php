@@ -113,6 +113,20 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 
+    public function __construct()
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+
+        // Set default connection windows
+        if (!empty($aConf['logging']['defaultImpressionConnectionWindow'])) {
+            $this->defaultValues['viewwindow'] = $aConf['logging']['defaultImpressionConnectionWindow'];
+        }
+
+        if (!empty($aConf['logging']['defaultClickConnectionWindow'])) {
+            $this->defaultValues['clickwindow'] = $aConf['logging']['defaultClickConnectionWindow'];
+        }
+    }
+
     /**
      * A method to set the correct status based on the other campaign properties
      *
@@ -210,7 +224,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
 
         if (!empty($this->activate_time) && $this->activate_time != OX_DATAOBJECT_NULL) {
             if (!isset($oServiceLocator)) {
-                $oServiceLocator = &OA_ServiceLocator::instance();
+                $oServiceLocator = OA_ServiceLocator::instance();
             }
             if ((!$oNow = $oServiceLocator->get('now'))) {
                 $oNow = new Date();
@@ -237,7 +251,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
 
         if (!empty($this->expire_time) && $this->expire_time != OX_DATAOBJECT_NULL) {
             if (!isset($oServiceLocator)) {
-                $oServiceLocator = &OA_ServiceLocator::instance();
+                $oServiceLocator = OA_ServiceLocator::instance();
             }
             if ((!$oNow = $oServiceLocator->get('now'))) {
                 $oNow = new Date();
@@ -273,13 +287,13 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
                 $aStats = $doDia->getAll(array());
 
                 if (isset($aStats[0])) {
-                    if ($this->views > 0 && $aStats[0]['impressions'] >= $this->views) {
+                    if ($this->views > 0 && ($aStats[0]['impressions'] ?? 0) >= $this->views) {
                         return true;
                     }
-                    if ($this->clicks > 0 && $aStats[0]['clicks'] >= $this->clicks) {
+                    if ($this->clicks > 0 && ($aStats[0]['clicks'] ?? 0) >= $this->clicks) {
                         return true;
                     }
-                    if ($this->conversions > 0 && $aStats[0]['conversions'] >= $this->conversions) {
+                    if ($this->conversions > 0 && ($aStats[0]['conversions'] ?? 0) >= $this->conversions) {
                         return true;
                     }
                 }
@@ -291,8 +305,6 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
 
     function update($dataObject = false)
     {
-//        $this->setEcpmEnabled();
-
         if ($this->priority == self::PRIORITY_ECPM || $this->ecpm_enabled) {
             $this->ecpm = $this->calculateEcpm();
         }
@@ -307,24 +319,12 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
 
     function insert()
     {
-        $aConf = $GLOBALS['_MAX']['CONF'];
-
-//        $this->setEcpmEnabled();
-
         if ($this->priority == self::PRIORITY_ECPM || $this->ecpm_enabled) {
             $this->ecpm = $this->calculateEcpm();;
         }
 
         // Set the correct campaign status
         $this->recalculateStatus();
-
-        // Set deafult connection windows if not supplied
-        if (!isset($this->viewwindow) && !empty($aConf['logging']['defaultImpressionConnectionWindow'])) {
-            $this->viewwindow = $aConf['logging']['defaultImpressionConnectionWindow'];
-        }
-        if (!isset($this->clickwindow) && !empty($aConf['logging']['defaultClickConnectionWindow'])) {
-            $this->clickwindow = $aConf['logging']['defaultClickConnectionWindow'];
-        }
 
         $id = parent::insert();
         if (!$id) {
@@ -334,7 +334,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
         // Initalise any tracker based plugins
         $plugins = array();
         require_once LIB_PATH . '/Plugin/Component.php';
-        $invocationPlugins = &OX_Component::getComponents('invocationTags');
+        $invocationPlugins = OX_Component::getComponents('invocationTags');
         foreach($invocationPlugins as $pluginKey => $plugin) {
             if (!empty($plugin->trackerEvent)) {
                 $plugins[] = $plugin;
@@ -481,7 +481,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
             case OA_AUDIT_ACTION_INSERT:
                 $actionType = 'added';
             case OA_AUDIT_ACTION_UPDATE:
-                if (isset($this->status) && $this->status != $dataobjectOld->status) {
+                if (isset($this->status) && $dataobjectOld && $this->status != $dataobjectOld->status) {
                     if (isset($aActionMap[$this->status][$dataobjectOld->status])) {
                         $actionType = $aActionMap[$this->status][$dataobjectOld->status];
                     } elseif (isset($aActionMap[$this->status][''])) {
@@ -546,12 +546,11 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
         if ($this->campaignid) {
             $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
             $result = $oMaxDalMaintenance->getCampaignDeliveryToDate($this->campaignid);
-            $requestsToDate = $result[0]['sum_requests'];
-            $impressionsToDate = $result[0]['sum_views'];
-            $clicksToDate = $result[0]['sum_clicks'];
-            $conversionsToDate = $result[0]['sum_conversions'];
+            $impressionsToDate = $result[0]['sum_views'] ?? 0;
+            $clicksToDate = $result[0]['sum_clicks'] ?? 0;
+            $conversionsToDate = $result[0]['sum_conversions'] ?? 0;
         } else {
-            $requestsToDate = $impressionsToDate = $clicksToDate = $conversionsToDate = 0;
+            $impressionsToDate = $clicksToDate = $conversionsToDate = 0;
         }
         return OX_Util_Utils::getEcpm($this->revenue_type, $this->revenue,
             $impressionsToDate, $clicksToDate, $conversionsToDate, $this->activate_time, $this->expire_time);

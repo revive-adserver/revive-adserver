@@ -47,7 +47,7 @@ class OA_Test_Data
 
     function init()
     {
-        $this->oDbh =& OA_DB::singleton();
+        $this->oDbh = OA_DB::singleton();
         if (PEAR::isError($this->oDbh))
         {
             return false;

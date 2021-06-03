@@ -283,7 +283,9 @@ class Test_OA_Dal_Maintenance_Priority_getAllZonesWithAllocInv extends UnitTestC
         // getAllZonesWithAllocInv doesn't guarantee any order, nor it's useful
         // to add the field to its ORDER BY clause. That's why we sort using PHP
         // by required_impressions
-        usort($result, create_function('$a, $b', 'return $a["required_impressions"] - $b["required_impressions"];'));
+        usort($result, function($a, $b) {
+            return $a["required_impressions"] - $b["required_impressions"];
+        });
 
         $this->assertEqual($result[0]['zone_id'], 1);
         $this->assertEqual($result[0]['ad_id'], $bannerId1t);
@@ -311,7 +313,7 @@ class Test_OA_Dal_Maintenance_Priority_getAllZonesWithAllocInv extends UnitTestC
     function DEPRECATED_testGetAllZonesWithAllocInv()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh =& OA_DB::singleton();
+        $oDbh = OA_DB::singleton();
         $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
 
         // Create the required temporary table for the tests

@@ -59,7 +59,7 @@ class Plugins_TestOfPlugins_DeliveryCacheStore_oxCacheFile_oxCacheFile extends U
     function test_Plugin_deliveryCacheStore_oxCacheFile_oxCacheFile_Delivery_cacheStore() {
         $content = array( 'string' => 'teststring', 'num' => -1);
         $name = 'testname';
-        $filename = OA_Delivery_Cache_buildFileName($filename);
+        $filename = OA_Delivery_Cache_buildFileName($name);
         $cachefile = $GLOBALS['OA_Delivery_Cache']['path'].$filename;
 
         Plugin_deliveryCacheStore_oxCacheFile_oxCacheFile_Delivery_cacheStore($filename, $content);

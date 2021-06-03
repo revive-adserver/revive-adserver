@@ -17,6 +17,8 @@ require_once MAX_PATH . '/lib/OA/Dll/ZoneInfo.php';
 require_once MAX_PATH . '/lib/OA/Dll/tests/util/DllUnitTestCase.php';
 require_once MAX_PATH . '/lib/max/Dal/DataObjects/Campaigns.php';
 
+Language_Loader::load();
+
 /**
  * A class for testing DLL Zone methods
  *

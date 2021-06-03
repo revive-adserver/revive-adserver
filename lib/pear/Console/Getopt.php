@@ -222,7 +222,7 @@ class Console_Getopt {
 
             /* Check that the options uniquely matches one of the allowed
                options. */
-            $next_option_rest = substr($long_options[$i + 1], $opt_len);
+            $next_option_rest = substr($long_options[$i + 1] ?? '', $opt_len);
             if ($opt_rest != '' && $opt[0] != '=' &&
                 $i + 1 < count($long_options) &&
                 $opt == substr($long_options[$i+1], 0, $opt_len) &&

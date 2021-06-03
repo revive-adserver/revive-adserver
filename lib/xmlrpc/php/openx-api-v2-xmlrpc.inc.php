@@ -88,7 +88,7 @@ class OA_Api_Xmlrpc
      *
      * @return XML_RPC_Client
      */
-    function &_getClient()
+    function _getClient($service = null)
     {
         $oClient = new XML_RPC_Client($this->basepath . '/' . $this->debug, $this->host, $this->port);
         return $oClient;
@@ -126,19 +126,18 @@ class OA_Api_Xmlrpc
         }
         $message = new XML_RPC_Message($method, $dataMessage);
 
-        $client = &$this->_getClient();
+        $client = $this->_getClient();
 
         // Send the XML-RPC message to the server.
         $response = $client->send($message, $this->timeout);
 
         // Check for an error response.
         if ($response && $response->faultCode() == 0) {
-            $result = XML_RPC_decode($response->value());
-        } else {
-            trigger_error('XML-RPC Error (' . $response->faultCode() . '): ' . $response->faultString() .
-                ' in method ' . $method . '()', E_USER_ERROR);
+            return XML_RPC_decode($response->value());
         }
-        return $result;
+
+        trigger_error('XML-RPC Error (' . $response->faultCode() . '): ' . $response->faultString() .
+            ' in method ' . $method . '()', E_USER_ERROR);
     }
 
     /**
@@ -1269,7 +1268,7 @@ class OA_Api_Xmlrpc
 
     function generateTags($zoneId, $codeType, $aParams = null)
     {
-        if (!isset($aParams)) {
+        if (null === $aParams) {
             $aParams = array();
         }
         return $this->_sendWithSession('ox.generateTags', array((int)$zoneId, $codeType, $aParams));

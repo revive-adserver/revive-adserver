@@ -87,9 +87,9 @@ class Plugins_BannerTypeHTML extends OX_Component
             htmlspecialchars(MAX::constructURL(MAX_URL_ADMIN, 'account-preferences-user-interface.php')),
             htmlspecialchars(MAX::constructURL(MAX_URL_ADMIN, 'assets/images/help-book.gif'))
         );
-        $htmlG['tinyMCE'] = HTML_QuickForm::createElement('checkbox', 'tinymce', $aSelectLabel, '', ['id'=>'tinymce', 'onclick' => "rv_tinymce('#htmltemplate', this.checked, {$imgUrlPrefixJs})"]);
-        $htmlG['select'] = HTML_QuickForm::createElement('select', 'adserver', $GLOBALS['strAlterHTML'], $adPluginsList, $aSelectAttributes);
-        $htmlG['js'] = HTML_QuickForm::createElement('html', '', <<<EOF
+        $htmlG['tinyMCE'] = $form->createElement('checkbox', 'tinymce', $aSelectLabel, '', ['id'=>'tinymce', 'onclick' => "rv_tinymce('#htmltemplate', this.checked, {$imgUrlPrefixJs})"]);
+        $htmlG['select'] = $form->createElement('select', 'adserver', $GLOBALS['strAlterHTML'], $adPluginsList, $aSelectAttributes);
+        $htmlG['js'] = $form->createElement('html', '', <<<EOF
 <script>
 jQuery(function() {
     rv_tinymce("#htmltemplate", jQuery('#tinymce')[0].checked, {$imgUrlPrefixJs});

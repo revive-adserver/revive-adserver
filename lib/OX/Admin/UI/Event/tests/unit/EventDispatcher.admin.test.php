@@ -59,9 +59,10 @@ class Test_OX_Admin_UI_Event_EventDispatcher
         $this->checkIdenticalListeners($listener, $returnedListeners[0]);
 
         //anonymous function
-        $listener2 = create_function('OX_Admin_UI_Event_EventContext $context',
-            '$context->data["callcount"] = $context->data["callcount"]++;
-             return $context;');
+        $listener2 = function(OX_Admin_UI_Event_EventContext $context) {
+            $context->data["callcount"] = $context->data["callcount"]++;
+            return $context;
+        };
 
         $result = $dispatcher->register($eventName, $listener2);
         $this->assertTrue($result);
@@ -125,14 +126,15 @@ class Test_OX_Admin_UI_Event_EventDispatcher
     {
         $dispatcher = new OX_Admin_UI_Event_EventDispatcher();
         $listener = array(new Test_OX_Admin_UI_Event_TestEventListener(), 'onUpdate');
-        $listener2 = create_function('OX_Admin_UI_Event_EventContext $context',
-            'if (isset($context->data["callcount"])) {
+        $listener2 = function (OX_Admin_UI_Event_EventContext $context) {
+            if (isset($context->data["callcount"])) {
                 $context->data["callcount"]++;
-             }
-             else {
+            } else {
                 $context->data["callcount"] = 1;
-             }
-             return $context;');
+            }
+
+            return $context;
+        };
         $listener3 = 'listener3';
 
         $eventName =  "onFakeEvent";

@@ -58,10 +58,7 @@
         if (!defined('MAX_PATH')) {
             $tz = self::getTimezone();
         } else {
-            $tz = $GLOBALS['_MAX']['PREF']['timezone'];
-            if (is_null($tz)) {
-                $tz = self::getTimezone();
-            }
+            $tz = $GLOBALS['_MAX']['PREF']['timezone'] ?? self::getTimezone();
         }
 
         $tzSave = date_default_timezone_get();

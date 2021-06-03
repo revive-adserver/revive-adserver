@@ -72,11 +72,11 @@ foreach ($aLayer as $layer) {
                 file_put_contents($testConfFile, $testConf);
 
                 $returncode = -1;
-                $output_lines = '';
+                $output_lines = [];
                 $exec = "run.php --type=$layer --level=file --layer=$subLayer --folder=$dirName"
                     . " --file=$fileName --format=text --host=test 2>&1";
                 exec("$php $exec", $output_lines, $returncode);
-                $message = "{$fileName}\n" . join($output_lines, "\n");
+                $message = "{$fileName}\n" . join("\n", $output_lines ?? []);
                 switch ($returncode) {
                     case 0: $oReporter->paintPass($message); break;
                     default:

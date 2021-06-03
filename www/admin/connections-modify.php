@@ -201,7 +201,7 @@ if (!empty($aConversions))
                     $creative_id, $zone_id, $opDay, $opHour, $data_summary_table);
 
                 // Update finance info
-                $oServiceLocator =& OA_ServiceLocator::instance();
+                $oServiceLocator = OA_ServiceLocator::instance();
                 $oDal = &$oServiceLocator->get('OX_Dal_Maintenance_Statistics');
                 if (!$oDal) {
                     $oFactory = new OX_Dal_Maintenance_Statistics_Factory();

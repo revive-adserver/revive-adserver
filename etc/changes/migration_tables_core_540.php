@@ -294,9 +294,9 @@ class Migration_540 extends Migration
         {
             if ($row['active'] == 't') {
                 $status = OA_ENTITY_STATUS_RUNNING;
-            } elseif ($row['expire'] > 0 && strtotime($row['expire']) < time()) {
+            } elseif ($row['expire'] && $row['expire'] !== '0000-00-00' && strtotime($row['expire']) < time()) {
                 $status = OA_ENTITY_STATUS_EXPIRED;
-            } elseif ($row['activate'] > 0 && strtotime($row['activate']) >= time()) {
+            } elseif ($row['activate'] && $row['activate'] !== '0000-00-00' && strtotime($row['activate']) >= time()) {
                 $status = OA_ENTITY_STATUS_AWAITING;
             } elseif ($row['views'] >= 0 || $row['clicks'] >= 0 || $row['conversions'] >= 0) {
                 $status = OA_ENTITY_STATUS_EXPIRED;

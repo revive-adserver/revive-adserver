@@ -70,7 +70,7 @@ class MDB2_Driver_Function_mysql extends MDB2_Driver_Function_Common
      */
     function &executeStoredProc($name, $params = null, $types = null, $result_class = true, $result_wrap_class = false)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }

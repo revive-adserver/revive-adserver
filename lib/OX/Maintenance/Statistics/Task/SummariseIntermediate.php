@@ -63,7 +63,7 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
     function run()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        if ($this->oController->updateIntermediate) {
+        if ($this->oController && $this->oController->updateIntermediate) {
 
             // Locate all plugin components which may require bucket data to be
             // migrated from bucket tables to statistics tables
@@ -79,7 +79,7 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
             $this->oController->report .= $message . "\n";
 
             // Get the MSE DAL to perform the data migration
-            $oServiceLocator =& OA_ServiceLocator::instance();
+            $oServiceLocator = OA_ServiceLocator::instance();
             $oDal =& $oServiceLocator->get('OX_Dal_Maintenance_Statistics');
 
             // Prepare the "now" date
@@ -476,7 +476,7 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
                    " and ending " . $oEnd->format('%Y-%m-%d %H:%M:%S') . ' ' . $oEnd->tz->getShortName() . ".";
         OA::debug($message, PEAR_LOG_DEBUG);
 
-        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
         $oDal =& $oServiceLocator->get('OX_Dal_Maintenance_Statistics');
         $oDal->migrateRawRequests($oStart, $oEnd);
     }
@@ -499,7 +499,7 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
                    " and ending " . $oEnd->format('%Y-%m-%d %H:%M:%S') . ' ' . $oEnd->tz->getShortName() . ".";
         OA::debug($message, PEAR_LOG_DEBUG);
 
-        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
         $oDal =& $oServiceLocator->get('OX_Dal_Maintenance_Statistics');
         $oDal->migrateRawImpressions($oStart, $oEnd);
     }
@@ -522,7 +522,7 @@ class OX_Maintenance_Statistics_Task_MigrateBucketData extends OX_Maintenance_St
                    " and ending " . $oEnd->format('%Y-%m-%d %H:%M:%S') . ' ' . $oEnd->tz->getShortName() . ".";
         OA::debug($message, PEAR_LOG_DEBUG);
 
-        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
         $oDal =& $oServiceLocator->get('OX_Dal_Maintenance_Statistics');
         $oDal->migrateRawClicks($oStart, $oEnd);
     }

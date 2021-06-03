@@ -12,6 +12,8 @@
 
 require_once LIB_PATH.'/Plugin/PluginExport.php';
 
+Language_Loader::load();
+
 /**
  * A class for testing the Test_OX_PluginManager class.
  *

@@ -83,7 +83,7 @@ class HTML_Template_Flexy_Token {
     * @access   public
     */
 
-    function factory($token,$value,$line,$charPos=0) {
+    public static function factory($token,$value,$line,$charPos=0) {
         // try not to reload the same class to often
         static $loaded = array();
 
@@ -190,7 +190,7 @@ class HTML_Template_Flexy_Token {
     * @static
     */
 
-    function buildTokens($tokenizer)
+    public static function buildTokens($tokenizer)
     {
 
         global $_HTML_TEMPLATE_FLEXY_TOKEN;
@@ -407,7 +407,7 @@ class HTML_Template_Flexy_Token {
     * @access   public
     * @static
     */
-    function buildChildren($id)
+    public static function buildChildren($id)
     {
         global $_HTML_TEMPLATE_FLEXY_TOKEN;
 

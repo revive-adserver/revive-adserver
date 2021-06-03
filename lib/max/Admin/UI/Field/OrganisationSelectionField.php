@@ -280,7 +280,7 @@ class Admin_UI_OrganisationSelectionField extends Admin_UI_Field
     function setValueFromArray($aFieldValues)
     {
         $name = $this->_name;
-        $oScope =& $this->_value;
+        $oScope = $this->_value;
         
         $publisherFieldName = $name . '_publisher';
         $advertiserFieldName = $name . '_advertiser';

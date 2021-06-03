@@ -25,9 +25,12 @@ class OA_Creative_File extends OA_Creative
      * Class constructor
      *
      * @param string $fileName
+     *
      * @return OA_Creative_File
+     *
+     * @noinspection PhpMissingParentConstructorInspection
      */
-    function __construct($fileName)
+    public function __construct($fileName)
     {
         $this->fileName = $fileName;
     }
@@ -38,7 +41,7 @@ class OA_Creative_File extends OA_Creative
      * @param string $filePath
      * @return mixed True on success, PEAR_Error otherwise
      */
-    function loadFile($filePath)
+    public function loadFile($filePath)
     {
         if (($this->content = @file_get_contents($filePath)) === false) {
             return new PEAR_Error("Cannot load image file");
@@ -54,7 +57,7 @@ class OA_Creative_File extends OA_Creative
      * @param array  $aTypes Optional parameters of allowed types (@see getimagesize)
      * @return mixed True on success, PEAR_Error otherwise
      */
-    function readCreativeDetails($filePath, $aTypes = null)
+    public function readCreativeDetails($filePath, $aTypes = null)
     {
         if (!isset($aTypes)) {
             $aTypes = array(
@@ -79,7 +82,7 @@ class OA_Creative_File extends OA_Creative
         return true;
     }
 
-    function getFileDetails()
+    public function getFileDetails()
     {
         return array(
             'filename'      => $this->fileName,
@@ -90,18 +93,18 @@ class OA_Creative_File extends OA_Creative
         );
     }
 
-    function store($type)
+    public function store($type)
     {
         $this->fileName = phpAds_ImageStore($type, $this->fileName, $this->content);
     }
 
-    function getContentTypeByExtension($alt = false)
+    public function getContentTypeByExtension($alt = false)
     {
         return OA_Creative_File::staticGetContentTypeByExtension(
             $this->fileName, $alt);
     }
 
-    function staticGetContentTypeByExtension($fileName, $alt = false)
+    public static function staticGetContentTypeByExtension($fileName, $alt = false)
     {
         $contentType = '';
 
@@ -124,9 +127,9 @@ class OA_Creative_File extends OA_Creative
      *
      * @param string $filePath
      * @param string $fileName If empty, it will be generated from filePath
-     * @return OA_Creative_File
+     * @return OA_Creative_File|PEAR_Error
      */
-    function &factory($filePath, $fileName = '')
+    public static function factory($filePath, $fileName = '')
     {
         if (!@is_readable($filePath)) {
             return new PEAR_Error('Could not read the file: '.$filePath);
@@ -164,9 +167,9 @@ class OA_Creative_File extends OA_Creative
      *
      * @param string $fileName
      * @param string $content
-     * @return OA_Creative_File
+     * @return OA_Creative_File|PEAR_Error
      */
-    function &factoryString($fileName, $content)
+    public static function factoryString($fileName, $content)
     {
         // Create temp file
         $filePath = tempnam(MAX_PATH . '/var', 'oa_creative_');
@@ -180,7 +183,7 @@ class OA_Creative_File extends OA_Creative
         }
 
         // Get new instance
-        $oCreative = &OA_Creative_File::factory($filePath, $fileName);
+        $oCreative = OA_Creative_File::factory($filePath, $fileName);
 
         // Cleanup
         @fclose($fp);
@@ -195,9 +198,9 @@ class OA_Creative_File extends OA_Creative
      * @todo: improve checks
      *
      * @param string $variableName
-     * @return OA_Creative_File
+     * @return OA_Creative_File|PEAR_Error
      */
-    function &factoryUploadedFile($variableName) {
+    public static function factoryUploadedFile($variableName) {
         if (!empty($_FILES[$variableName]['error'])) {
             $aErrors = array(
                 UPLOAD_ERR_INI_SIZE   => "file size exceeds PHP max allowed size.",
@@ -237,7 +240,7 @@ class OA_Creative_File extends OA_Creative
         }
 
         // Get new instance
-        $oCreative = &OA_Creative_File::factory($filePath, $fileName);
+        $oCreative = OA_Creative_File::factory($filePath, $fileName);
 
         // Cleanup
         if (isset($tmpName)) {

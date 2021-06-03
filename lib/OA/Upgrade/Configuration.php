@@ -292,8 +292,8 @@ class OA_Upgrade_Config
 
     function setPluginsDisabled()
     {
-        $this->setBulkValue('plugins', 0);
-        $this->setBulkValue('pluginGroupComponents', 0);
+        $this->setBulkValue('plugins', []);
+        $this->setBulkValue('pluginGroupComponents', []);
     }
 
     function setValue($section, $name, $value)

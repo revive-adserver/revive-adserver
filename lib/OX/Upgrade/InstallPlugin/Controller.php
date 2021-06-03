@@ -71,7 +71,7 @@ class OX_Upgrade_InstallPlugin_Controller
                 $displayName = $name;
                 $oPluginManager = new OX_PluginManager();
                 $aPackageInfo = $oPluginManager->getPackageInfo($name);
-                if ($aPackageInfo['displayname']) {
+                if (!empty($aPackageInfo['displayname'])) {
                     $displayName = $aPackageInfo['displayname'];
                 }
 

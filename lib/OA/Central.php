@@ -92,7 +92,7 @@ class OA_Central
      * @return boolean
      * @static
      */
-    private function canUseSSL()
+    private static function canUseSSL()
     {
         return (bool)OA::getAvailableSSLExtensions();
     }

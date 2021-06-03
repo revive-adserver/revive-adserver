@@ -53,7 +53,7 @@ class OX_Maintenance_Statistics_Task_DeDuplicateConversions extends OX_Maintenan
             $oStartDate->addSeconds(1);
 
             // Get the MSE DAL to perform the de-duplication
-            $oServiceLocator =& OA_ServiceLocator::instance();
+            $oServiceLocator = OA_ServiceLocator::instance();
             $oDal =& $oServiceLocator->get('OX_Dal_Maintenance_Statistics');
 
             // De-duplicate conversions

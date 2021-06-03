@@ -22,7 +22,7 @@ class OX_ParserPlugin extends OX_ParserBase
 
     var $aContents = array();
 
-    function startHandler($xp, $element, &$attribs)
+    function startHandler($xp, $element, $attribs)
     {
         parent::startHandler($xp, $element, $attribs);
 

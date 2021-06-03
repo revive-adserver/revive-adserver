@@ -49,7 +49,7 @@ class OA_Admin_ExcelWriter
      */
     function addWorksheet($name = '')
     {
-        $workbook =& $this->_getExcelWriter();
+        $workbook = $this->_getExcelWriter();
         $worksheet = $workbook->addWorksheet($name);
         $worksheet->setInputEncoding('UTF-8');
         return $worksheet;
@@ -66,7 +66,7 @@ class OA_Admin_ExcelWriter
             return null;
         }
         if (empty($this->formats[$formatKey])) {
-            $workbook =& $this->_getExcelWriter();
+            $workbook = $this->_getExcelWriter();
             $oFormat =&  $workbook->addFormat();
             foreach ($aFormat as $format) {
                 switch ($format) {
@@ -147,7 +147,7 @@ class OA_Admin_ExcelWriter
 
     function createReportWorksheet($name, $reportTitle, $aReportParameters, $aReportWarnings, $firstColSize = 8)
     {
-        $workbook =& $this->_getExcelWriter();
+        $workbook = $this->_getExcelWriter();
         if (is_null($workbook)) {
             return;
         }
@@ -191,7 +191,7 @@ class OA_Admin_ExcelWriter
         // Get the worksheet
         $aSearch = array('{row}','{column0}','{column1}','{column2}','{column3}','{column4}','{column5}','{column6}','{column7}','{column8}','{column9}','{column10}','{column11}','{column12}','{column13}','{column14}','{column15}','{column16}','{column17}','{column18}','{column19}','{column20}','{column21}','{column22}','{column23}','{column24}');
         $aReplace = array('','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
-        $worksheet =& $this->_worksheet[$name];
+        $worksheet = $this->_worksheet[$name];
         $row = $this->_currentRow[$name];
 
         // Write Report Data Headers
@@ -324,7 +324,7 @@ class OA_Admin_ExcelWriter
 
     function closeAndSend()
     {
-        $workbook =& $this->_getExcelWriter();
+        $workbook = $this->_getExcelWriter();
         if (!is_null($workbook) && count($workbook->worksheets())>0) {
         	$workbook->close();
     	}

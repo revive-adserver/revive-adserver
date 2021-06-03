@@ -38,7 +38,7 @@ class XmlRpcUtils
      *
      * @return XML_RPC_Response
      */
-    function generateError($errorMessage)
+    public static function generateError($errorMessage)
     {
         // import user errcode value
         global $XML_RPC_erruser;
@@ -56,7 +56,7 @@ class XmlRpcUtils
      *
      * @return XML_RPC_Response
      */
-    function stringTypeResponse($string)
+    public static function stringTypeResponse($string)
     {
         $value = new XML_RPC_Value($string, $GLOBALS['XML_RPC_String']);
         return new XML_RPC_Response($value);
@@ -71,7 +71,7 @@ class XmlRpcUtils
      *
      * @return XML_RPC_Response
      */
-    function booleanTypeResponse($boolean)
+    public static function booleanTypeResponse($boolean)
     {
         $value = new XML_RPC_Value($boolean, $GLOBALS['XML_RPC_Boolean']);
         return new XML_RPC_Response($value);
@@ -86,7 +86,7 @@ class XmlRpcUtils
      *
      * @return XML_RPC_Response
      */
-    function integerTypeResponse($integer)
+    public static function integerTypeResponse($integer)
     {
         $value = new XML_RPC_Value($integer, $GLOBALS['XML_RPC_Int']);
         return new XML_RPC_Response($value);
@@ -102,7 +102,7 @@ class XmlRpcUtils
      *
      * @return XML_RPC_Response
      */
-    function arrayOfStructuresResponse($aFieldTypes, $data)
+    public static function arrayOfStructuresResponse($aFieldTypes, $data)
     {
         if (is_array($data)) {
             foreach ($data as $k => $v) {
@@ -137,7 +137,7 @@ class XmlRpcUtils
      * @param array $aRowData
      * @return XML_RPC_Value
      */
-    private function convertRowDataToStruct($aFieldTypes, $aRowData)
+    private static function convertRowDataToStruct($aFieldTypes, $aRowData)
     {
         $aResult = array();
         foreach ($aRowData as $databaseFieldName => $fieldValue) {
@@ -162,7 +162,7 @@ class XmlRpcUtils
      *
      * @return XML_RPC_Value
      */
-    function getEntity(&$oInfoObject)
+    private static function getEntity(&$oInfoObject)
     {
         $aInfoData = (array) $oInfoObject;
         $aReturnData = array();
@@ -184,7 +184,7 @@ class XmlRpcUtils
      *
      * @return XML_RPC_Value
      */
-    function getEntityWithNotNullFields(&$oInfoObject)
+    public static function getEntityWithNotNullFields(&$oInfoObject)
     {
         $aInfoData = $oInfoObject->toArray();
         $aReturnData = array();
@@ -208,7 +208,7 @@ class XmlRpcUtils
      *
      * @return XML_RPC_Response
      */
-    function getEntityResponse(&$oInfoObject)
+    public static function getEntityResponse(&$oInfoObject)
     {
         return new XML_RPC_Response(XmlRpcUtils::getEntityWithNotNullFields($oInfoObject));
     }
@@ -222,7 +222,7 @@ class XmlRpcUtils
      *
      * @return XML_RPC_Response
      */
-    function getArrayOfEntityResponse($aInfoObjects)
+    public static function getArrayOfEntityResponse($aInfoObjects)
     {
         $cRecords = 0;
 
@@ -247,7 +247,7 @@ class XmlRpcUtils
      *
      * @return XML_RPC_Value or false
      */
-    function _setRPCTypeWithDefaultValues($type, $variable)
+    private static function _setRPCTypeWithDefaultValues($type, $variable)
     {
         switch ($type) {
             case 'struct':
@@ -309,7 +309,7 @@ class XmlRpcUtils
      *
      * @return XML_RPC_Value or false
      */
-    function _setRPCTypeForField($type, $variable)
+    private static function _setRPCTypeForField($type, $variable)
     {
         switch ($type) {
             case 'string':
@@ -356,7 +356,7 @@ class XmlRpcUtils
      *
      * @return boolean  shows true if method was executed successfully
      */
-    function _convertDateFromIso8601Format($date, &$oResult, &$oResponseWithError)
+    private static function _convertDateFromIso8601Format($date, &$oResult, &$oResponseWithError)
     {
         $datetime = explode('T', $date);
         $year     = substr($datetime[0], 0, (strlen($datetime[0]) - 4));
@@ -406,7 +406,7 @@ class XmlRpcUtils
      *
      * @return boolean  shows true if method was executed successfully
      */
-    function _getScalarValue(&$result, &$oParam, &$oResponseWithError)
+    private static function _getScalarValue(&$result, &$oParam, &$oResponseWithError)
     {
         if ($oParam->scalartyp() == $GLOBALS['XML_RPC_Int']) {
             $result = (int) $oParam->scalarval();
@@ -479,7 +479,7 @@ class XmlRpcUtils
      *
      * @return boolean  shows true if method was executed successfully
      */
-    function getRequiredScalarValue(&$result, &$oParams, $idxParam, &$oResponseWithError)
+    private static function getRequiredScalarValue(&$result, &$oParams, $idxParam, &$oResponseWithError)
     {
         $oParam = $oParams->getParam($idxParam);
         return XmlRpcUtils::_getScalarValue($result, $oParam, $oResponseWithError);
@@ -497,7 +497,7 @@ class XmlRpcUtils
      *
      * @return boolean  shows true if method was executed successfully
      */
-    function _getNotRequiredScalarValue(&$result, &$oParams, $idxParam, &$oResponseWithError)
+    private static function _getNotRequiredScalarValue(&$result, &$oParams, $idxParam, &$oResponseWithError)
     {
         $cParams = $oParams->getNumParams();
         if ($cParams > $idxParam) {
@@ -525,7 +525,7 @@ class XmlRpcUtils
      *
      * @return boolean  shows true if method was executed successfully
      */
-    function getScalarValues($aReferencesOnVariables, $aRequired, &$oParams, &$oResponseWithError,
+    private static function getScalarValues($aReferencesOnVariables, $aRequired, &$oParams, &$oResponseWithError,
         $idxStart = 0)
     {
         if (count($aReferencesOnVariables) != count($aRequired)) {
@@ -562,7 +562,7 @@ class XmlRpcUtils
      *
      * @return boolean  shows true if method was executed successfully
      */
-    function _getStructureScalarField(&$oStructure, &$oStructParam, $fieldName,
+    private static function _getStructureScalarField(&$oStructure, &$oStructParam, $fieldName,
         &$oResponseWithError)
     {
         $oParam = $oStructParam->structmem($fieldName);
@@ -599,7 +599,7 @@ class XmlRpcUtils
      *
      * @return boolean  shows true if method was executed successfully
      */
-    function _getStructureNonScalarField(&$oStructure, &$oStructParam, $fieldName, &$oResponseWithError)
+    private static function _getStructureNonScalarField(&$oStructure, &$oStructParam, $fieldName, &$oResponseWithError)
     {
         $oParam = $oStructParam->structmem($fieldName);
         if (isset($oParam)) {
@@ -633,7 +633,7 @@ class XmlRpcUtils
      *
      * @return boolean  shows true if method was executed successfully
      */
-    function getStructureScalarFields(&$oStructure, &$oParams, $idxParam,
+    private static function getStructureScalarFields(&$oStructure, &$oParams, $idxParam,
         $aFieldNames, &$oResponseWithError)
     {
         $oStructParam = $oParams->getParam($idxParam);
@@ -663,7 +663,7 @@ class XmlRpcUtils
      *
      * @return boolean  shows true if method was executed successfully
      */
-    function getArrayOfStructuresScalarFields(&$aStructures, $className,
+    private static function getArrayOfStructuresScalarFields(&$aStructures, $className,
         &$oParams, $idxParam, $aFieldNames, &$oResponseWithError)
     {
         $oArrayParam = $oParams->getParam($idxParam);
@@ -699,7 +699,7 @@ class XmlRpcUtils
      *
      * @return boolean  shows true if method was executed successfully
      */
-    function getStructureScalarAndNotScalarFields(&$oStructure, &$oParams, $idxParam,
+    private static function getStructureScalarAndNotScalarFields(&$oStructure, &$oParams, $idxParam,
         $aScalars, $aNonScalars, &$oResponseWithError)
     {
         $result = XmlRpcUtils::getStructureScalarFields($oStructure, $oParams, $idxParam, $aScalars, $oResponseWithError);

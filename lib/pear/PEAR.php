@@ -150,7 +150,7 @@ class PEAR
      * @var     array
      * @access  private
      */
-    var $_expected_errors = array();
+    private static $EXPECTED_ERRORS = [];
 
     // }}}
 
@@ -226,7 +226,7 @@ class PEAR
     * @return mixed   A reference to the variable. If not set it will be
     *                 auto initialised to NULL.
     */
-    function &getStaticProperty($class, $var)
+    public static function &getStaticProperty($class, $var)
     {
         static $properties;
         if (!isset($properties[$class])) {
@@ -272,12 +272,11 @@ class PEAR
      *                        only if $code is a string and
      *                        $obj->getMessage() == $code or
      *                        $code is an integer and $obj->getCode() == $code
-     * @access  public
      * @return  bool    true if parameter is an error
      */
-    function isError($data, $code = null)
+    public static function isError($data, $code = null)
     {
-        if (is_a($data, 'PEAR_Error')) {
+        if ($data instanceof PEAR_Error) {
             if (is_null($code)) {
                 return true;
             } elseif (is_string($code)) {
@@ -286,6 +285,7 @@ class PEAR
                 return $data->getCode() == $code;
             }
         }
+
         return false;
     }
 
@@ -331,15 +331,10 @@ class PEAR
      * @since PHP 4.0.5
      */
 
-    function setErrorHandling($mode = null, $options = null)
+    public static function setErrorHandling($mode = null, $options = null)
     {
-        if (isset($this) && is_a($this, 'PEAR')) {
-            $setmode     = &$this->_default_error_mode;
-            $setoptions  = &$this->_default_error_options;
-        } else {
-            $setmode     = &$GLOBALS['_PEAR_default_error_mode'];
-            $setoptions  = &$GLOBALS['_PEAR_default_error_options'];
-        }
+        $setmode     = &$GLOBALS['_PEAR_default_error_mode'];
+        $setoptions  = &$GLOBALS['_PEAR_default_error_options'];
 
         switch ($mode) {
             case PEAR_ERROR_EXCEPTION:
@@ -388,12 +383,13 @@ class PEAR
      */
     function expectError($code = '*')
     {
-        if (is_array($code)) {
-            array_push($this->_expected_errors, $code);
-        } else {
-            array_push($this->_expected_errors, array($code));
+        if (!is_array($code)) {
+            $code = [$code];
         }
-        return sizeof($this->_expected_errors);
+
+        array_push(self::$EXPECTED_ERRORS, $code);
+
+        return count(self::$EXPECTED_ERRORS);
     }
 
     // }}}
@@ -407,7 +403,7 @@ class PEAR
      */
     function popExpect()
     {
-        return array_pop($this->_expected_errors);
+        return array_pop(self::$EXPECTED_ERRORS);
     }
 
     // }}}
@@ -421,21 +417,22 @@ class PEAR
      * @access private
      * @since PHP 4.3.0
      */
-    function _checkDelExpect($error_code)
+    private function _checkDelExpect($error_code)
     {
         $deleted = false;
 
-        foreach ($this->_expected_errors AS $key => $error_array) {
+        foreach (self::$EXPECTED_ERRORS AS $key => $error_array) {
             if (in_array($error_code, $error_array)) {
-                unset($this->_expected_errors[$key][array_search($error_code, $error_array)]);
+                unset(self::$EXPECTED_ERRORS[$key][array_search($error_code, $error_array)]);
                 $deleted = true;
             }
 
             // clean up empty arrays
-            if (0 == count($this->_expected_errors[$key])) {
-                unset($this->_expected_errors[$key]);
+            if (0 == count(self::$EXPECTED_ERRORS[$key])) {
+                unset(self::$EXPECTED_ERRORS[$key]);
             }
         }
+
         return $deleted;
     }
 
@@ -520,7 +517,7 @@ class PEAR
      * @see PEAR::setErrorHandling
      * @since PHP 4.0.5
      */
-    function &raiseError($message = null,
+    public static function raiseError($message = null,
                          $code = null,
                          $mode = null,
                          $options = null,
@@ -537,21 +534,18 @@ class PEAR
             $message     = $message->getMessage();
         }
 
-        if (isset($this) && isset($this->_expected_errors) && sizeof($this->_expected_errors) > 0 && sizeof($exp = end($this->_expected_errors))) {
+        if (sizeof(self::$EXPECTED_ERRORS) > 0 && sizeof($exp = end(self::$EXPECTED_ERRORS))) {
             if ($exp[0] == "*" ||
                 (is_int(reset($exp)) && in_array($code, $exp)) ||
                 (is_string(reset($exp)) && in_array($message, $exp))) {
                 $mode = PEAR_ERROR_RETURN;
             }
         }
+
         // No mode given, try global ones
         if ($mode === null) {
             // Class error handler
-            if (isset($this) && isset($this->_default_error_mode)) {
-                $mode    = $this->_default_error_mode;
-                $options = $this->_default_error_options;
-            // Global error handler
-            } elseif (isset($GLOBALS['_PEAR_default_error_mode'])) {
+            if (isset($GLOBALS['_PEAR_default_error_mode'])) {
                 $mode    = $GLOBALS['_PEAR_default_error_mode'];
                 $options = $GLOBALS['_PEAR_default_error_options'];
             }
@@ -559,8 +553,6 @@ class PEAR
 
         if ($error_class !== null) {
             $ec = $error_class;
-        } elseif (isset($this) && isset($this->_error_class)) {
-            $ec = $this->_error_class;
         } else {
             $ec = 'PEAR_Error';
         }
@@ -574,29 +566,7 @@ class PEAR
     }
 
     // }}}
-    // {{{ throwError()
 
-    /**
-     * Simpler form of raiseError with fewer options.  In most cases
-     * message, code and userinfo are enough.
-     *
-     * @param string $message
-     *
-     */
-    function &throwError($message = null,
-                         $code = null,
-                         $userinfo = null)
-    {
-        if (isset($this) && is_a($this, 'PEAR')) {
-            $a = &$this->raiseError($message, $code, null, null, $userinfo);
-            return $a;
-        } else {
-            $a = &PEAR::raiseError($message, $code, null, null, $userinfo);
-            return $a;
-        }
-    }
-
-    // }}}
     public static function staticPushErrorHandling($mode, $options = null)
     {
         $stack = &$GLOBALS['_PEAR_error_handler_stack'];
@@ -682,23 +652,16 @@ class PEAR
      *
      * @see PEAR::setErrorHandling
      */
-    function pushErrorHandling($mode, $options = null)
+    public static function pushErrorHandling($mode, $options = null)
     {
         $stack = &$GLOBALS['_PEAR_error_handler_stack'];
-        if (isset($this) && is_a($this, 'PEAR')) {
-            $def_mode    = &$this->_default_error_mode;
-            $def_options = &$this->_default_error_options;
-        } else {
-            $def_mode    = &$GLOBALS['_PEAR_default_error_mode'];
-            $def_options = &$GLOBALS['_PEAR_default_error_options'];
-        }
+
+        $def_mode    = &$GLOBALS['_PEAR_default_error_mode'];
+        $def_options = &$GLOBALS['_PEAR_default_error_options'];
         $stack[] = array($def_mode, $def_options);
 
-        if (isset($this) && is_a($this, 'PEAR')) {
-            $this->setErrorHandling($mode, $options);
-        } else {
-            PEAR::setErrorHandling($mode, $options);
-        }
+        PEAR::setErrorHandling($mode, $options);
+
         $stack[] = array($mode, $options);
         return true;
     }
@@ -713,17 +676,17 @@ class PEAR
     *
     * @see PEAR::pushErrorHandling
     */
-    function popErrorHandling()
+    public static function popErrorHandling()
     {
         $stack = &$GLOBALS['_PEAR_error_handler_stack'];
+        if (!count($stack)) {
+            throw new \RuntimeException("");
+        }
         array_pop($stack);
         list($mode, $options) = $stack[sizeof($stack) - 1];
         array_pop($stack);
-        if (isset($this) && is_a($this, 'PEAR')) {
-            $this->setErrorHandling($mode, $options);
-        } else {
-            PEAR::setErrorHandling($mode, $options);
-        }
+
+        PEAR::setErrorHandling($mode, $options);
         return true;
     }
 

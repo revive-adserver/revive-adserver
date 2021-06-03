@@ -77,6 +77,7 @@ class Migration_609 extends Migration
 
 	function migrateActivateExpire()
 	{
+        $aConf = $GLOBALS['_MAX']['CONF'];
 	    $oDbh = $this->oDBH;
 
         $prefix = $this->getPrefix();
@@ -89,7 +90,7 @@ class Migration_609 extends Migration
             'tblPrefs'     => 'preferences',
             'tblAccPrefs'  => 'account_preference_assoc',
         ) as $k => $v) {
-            $$k = $oDbh->quoteIdentifier($prefix.($aConf[$v] ? $aConf[$v] : $v), true);
+            $$k = $oDbh->quoteIdentifier($prefix.($aConf[$v] ?? $v), true);
         }
 
         // Get admin account ID

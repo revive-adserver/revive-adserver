@@ -12,9 +12,9 @@
 // | obtain it through the world-wide-web, please send a note to          |
 // | license@php.net so we can mail you a copy immediately.               |
 // +----------------------------------------------------------------------+
-// | Authors: Bernd Römer <berndr@bonn.edu>                               |
+// | Authors: Bernd Rï¿½mer <berndr@bonn.edu>                               |
 // |          Sebastian Bergmann <sb@sebastian-bergmann.de>               |
-// |          Christian Kühn <ck@chkuehn.de> (escape xml entities)        |
+// |          Christian Kï¿½hn <ck@chkuehn.de> (escape xml entities)        |
 // |          Michele Manzato <michele.manzato@verona.miz.it>             |
 // +----------------------------------------------------------------------+
 //
@@ -24,7 +24,7 @@
 /**
  * PEAR::XML_Tree_Node
  *
- * @author  Bernd Römer <berndr@bonn.edu>
+ * @author  Bernd Rï¿½mer <berndr@bonn.edu>
  * @package XML_Tree
  * @version 1.0  16-Aug-2001
  */
@@ -208,7 +208,7 @@ class XML_Tree_Node {
 
     function &insertChild($path,$pos,&$child, $content = '', $attributes = array())
     {
-        $parent =& $this->getNodeAt($path);
+        $parent = $this->getNodeAt($path);
         if (PEAR::isError($parent)) {
             // $path was not found
             return $parent;
@@ -453,7 +453,7 @@ class XML_Tree_Node {
         $path1 = $path;
         $next = array_shift($path1);
         if (isset($this->children[$next])) {
-            $x =& $this->children[$next]->getElement($path1);
+            $x = $this->children[$next]->getElement($path1);
             if (!PEAR::isError($x)) {
                 return $x;
             }
@@ -493,7 +493,7 @@ class XML_Tree_Node {
         $child = null;
         for ($i = 0; $i < count($this->children); $i++) {
             if ($this->children[$i]->name == $next) {
-                $child =& $this->children[$i];
+                $child = $this->children[$i];
                 break;
             }
         }
@@ -519,9 +519,9 @@ class XML_Tree_Node {
 
     function encodeXmlEntities($xml)
     {
-        $xml = str_replace(array('ü', 'Ü', 'ö',
-                                 'Ö', 'ä', 'Ä',
-                                 'ß', '<', '>',
+        $xml = str_replace(array('ï¿½', 'ï¿½', 'ï¿½',
+                                 'ï¿½', 'ï¿½', 'ï¿½',
+                                 'ï¿½', '<', '>',
                                  '"', '\''
                                 ),
                            array('&#252;', '&#220;', '&#246;',

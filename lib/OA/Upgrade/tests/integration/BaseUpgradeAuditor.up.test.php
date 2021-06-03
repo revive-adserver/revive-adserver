@@ -74,7 +74,7 @@ abstract class Test_OA_BaseUpgradeAuditor extends UnitTestCase
 
 		//case the array to log concerns two audit
 		// in some test cases we log only one test case
-		if(is_array($auditDataToLog[1]))
+		if(!empty($auditDataToLog[1]))
 		{
 	        $oAuditor->auditId = 2;
 	        $oAuditor->setKeyParams($keyParamsToSet);

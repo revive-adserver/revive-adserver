@@ -166,7 +166,7 @@ class OX_Extension_DeliveryLog_Setup extends OX_Component
      * @param string $componentId
      * @return array
      */
-    function getExtensionGroupComponentFromId($componentId)
+    public static function getExtensionGroupComponentFromId($componentId)
     {
         return explode(':', $componentId);
     }

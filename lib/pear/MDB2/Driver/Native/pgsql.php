@@ -65,7 +65,7 @@ class MDB2_Driver_Native_pgsql extends MDB2_Driver_Native_Common
      */
     function deleteOID($OID)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }

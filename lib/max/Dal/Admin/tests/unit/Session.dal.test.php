@@ -127,9 +127,8 @@ class MAX_Dal_Admin_SessionTest extends DalUnitTestCase
 
     function generateSession()
     {
-        $dg = new DataGenerator();
-        $dg->setDataOne('session', array('sessionid' => SESSIONID, 'sessiondata' => SDATA));
-        $dg->generateOne('session');
+        DataGenerator::setDataOne('session', array('sessionid' => SESSIONID, 'sessiondata' => SDATA));
+        DataGenerator::generateOne('session');
     }
 
 

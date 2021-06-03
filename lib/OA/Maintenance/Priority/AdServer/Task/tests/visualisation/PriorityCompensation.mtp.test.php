@@ -55,7 +55,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $conf = $GLOBALS['_MAX']['CONF'];
         // Mock the OA_Dal_Maintenance_Priority class
         $oDal = new MockOA_Dal_Maintenance_Priority($this);
-        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
         // Partially mock the OA_Maintenance_Priority_AdServer_Task_PriorityCompensation class
         $oPriorityCompensation = new PartialMock_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation($this);
@@ -228,7 +228,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $conf = $GLOBALS['_MAX']['CONF'];
         // Mock the OA_Dal_Maintenance_Priority class
         $oDal = new MockOA_Dal_Maintenance_Priority($this);
-        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
         // Partially mock the OA_Maintenance_Priority_AdServer_Task_PriorityCompensation class
         $oPriorityCompensation = new PartialMock_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation($this);
@@ -414,7 +414,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         $conf = $GLOBALS['_MAX']['CONF'];
         // Mock the OA_Dal_Maintenance_Priority class
         $oDal = new MockOA_Dal_Maintenance_Priority($this);
-        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
         // Partially mock the OA_Maintenance_Priority_AdServer_Task_PriorityCompensation class
         $oPriorityCompensation = new PartialMock_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation($this);

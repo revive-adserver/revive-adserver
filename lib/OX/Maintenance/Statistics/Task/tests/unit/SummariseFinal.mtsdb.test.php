@@ -47,7 +47,7 @@ class Test_OX_Maintenance_Statistics_Task_SummariseFinal extends UnitTestCase
      */
     function testRun()
     {
-        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
 
         $aTypes = array(
             'types' => array(

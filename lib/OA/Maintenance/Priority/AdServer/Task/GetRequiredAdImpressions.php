@@ -50,9 +50,12 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
     /**
      * The TZ for the current campaign
      *
-     * @var type Date_Timezone
+     * @var Date_TimeZone
      */
     var $currentTz;
+
+    /** @var array */
+    var $aZoneForecasts = [];
 
     /**
      * The class constructor method.
@@ -62,7 +65,8 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
     function __construct()
     {
         parent::__construct();
-        $this->oTable =& $this->_getMaxTablePriorityObj();
+
+        $this->oTable = $this->_getMaxTablePriorityObj();
         $this->currentTz = new Date_TimeZone('UTC');
     }
 
@@ -104,7 +108,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
         if (!empty($date)) {
             return new Date($date);
         }
-        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
         $oDateNow =& $oServiceLocator->get('now');
         if (!$oDateNow) {
             $oDateNow = new Date();
@@ -283,6 +287,8 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
     {
         if (!is_array($aValues) || (count($aValues) == 0)) return 0;
         foreach ($aValues as $val) {
+            $val = (int) $val;
+
             if ((($val > 0) && !isset($minVal)) ||
                 (($val > 0) && isset($minVal) && ($val < $minVal))) {
                 $minVal = $val;
@@ -584,7 +590,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
         // Get the forcast impressions for the previous week
         if (!empty($aAdZones)) {
             foreach ($aAdZones as $aZone) {
-                if (!is_array($this->aZoneForecasts[$aZone['zone_id']])) {
+                if (empty($this->aZoneForecasts[$aZone['zone_id']])) {
                     $this->aZoneForecasts[$aZone['zone_id']] =
                         $this->oDal->getPreviousWeekZoneForcastImpressions($aZone['zone_id']);
                 }

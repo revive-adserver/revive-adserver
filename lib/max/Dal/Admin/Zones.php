@@ -151,11 +151,7 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
             $aWebsitesAndZones[$aZone['affiliateid']]['zones'][$aZone['zoneid']] =
                    array (
                      'name'            => $aZone['zonename'],
-                     'campaign_stats'  => $aZone['campaign_stats'],
-                     'ecpm'            => $aZone['ecpm'],
-                     'cr'              => $aZone['cr'],
-                     'ctr'             => $aZone['ctr'],
-                     'linked'          => $aZone['islinked']
+                     'linked'          => $aZone['islinked'] ?? false,
                    );
         }
 
@@ -314,7 +310,7 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
                 null AS islinked";
         }
 
-        $aQuery['order by'] .= "
+        $aQuery['order by'] = "
             ORDER BY a.name, z.zonename
             ";
         return $aQuery;

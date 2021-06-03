@@ -180,7 +180,7 @@ class XML_RSS extends XML_Parser
         $this->setInput($handle);
 
         if ($handle == '') {
-            $this->customRaiseError('No input passed.');
+            $this->raiseInstanceError('No input passed.');
         }
     }
 
@@ -191,24 +191,26 @@ class XML_RSS extends XML_Parser
      * Start element handler for XML parser
      *
      * @access private
-     * @param  object XML parser object
-     * @param  string XML element
-     * @param  array  Attributes of XML tag
+     *
+     * @param $xp
+     * @param $elem
+     * @param $attribs
+     *
      * @return void
      */
-    function startHandler($parser, $element, $attribs)
+    function startHandler($xp, $elem, $attribs)
     {
-        if (substr($element, 0, 4) == "RSS:") {
-            $element = substr($element, 4);
+        if (substr($elem, 0, 4) == "RSS:") {
+            $elem = substr($elem, 4);
         }
 
-        switch ($element) {
+        switch ($elem) {
             case 'CHANNEL':
             case 'ITEM':
             case 'IMAGE':
             case 'TEXTINPUT':
-                $this->insideTag = $element;
-                array_push($this->insideTagStack, $element);
+                $this->insideTag = $elem;
+                array_push($this->insideTagStack, $elem);
                 break;
 
             case 'ENCLOSURE' :
@@ -216,7 +218,7 @@ class XML_RSS extends XML_Parser
                 break;
 
             default:
-                $this->activeTag = $element;
+                $this->activeTag = $elem;
         }
     }
 

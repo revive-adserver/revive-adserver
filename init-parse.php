@@ -32,6 +32,10 @@
 function parseIniFile($configPath = null, $configFile = null, $sections = true, $type = '.php')
 {
     $fixMysqli = function($conf) {
+        if (!isset($conf['database'])) {
+            return $conf;
+        }
+
         if ('mysql' === $conf['database']['type'] && !extension_loaded('mysql') && extension_loaded('mysqli')) {
             $conf['database']['type'] = 'mysqli';
         } elseif ('mysqli' === $conf['database']['type']) {

@@ -101,7 +101,7 @@ class MAX_Dal_Admin_AffiliatesTest extends DalUnitTestCase
 
         $doAddZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
         $doAddZoneAssoc->zone_id = $zoneId;
-        $doAddZoneAssoc->ad_id = $BannerId;
+        $doAddZoneAssoc->ad_id = $bannerId;
         $adZoneAssocId = DataGenerator::generateOne($doAddZoneAssoc);
 
         // Test the correct number of rows is returned.

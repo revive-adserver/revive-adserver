@@ -657,7 +657,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
         $aCampaigns = $this->_rekeyCampaignsArray($aCampaigns);
         $aRetCampaigns = array();
         foreach ($aCampaigns as $campaignId => $aCampaign) {
-            $aRetCampaigns[$campaignId]['status_changed'] = $aCampaign['status_changed'];
+            $aRetCampaigns[$campaignId]['status_changed'] = $aCampaign['status_changed'] ?? false;
             $aRetCampaigns[$campaignId]['status'] = $aCampaign['status'];
             $aRetCampaigns[$campaignId]['clientid'] = $aCampaign['clientid'];
             $aRetCampaigns[$campaignId]['campaignname'] = $aCampaign['campaignname'];

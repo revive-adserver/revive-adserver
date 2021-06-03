@@ -41,11 +41,11 @@ class DllUnitTestCase extends UnitTestCase
     /**
      * Check if field equal value.
      *
-     * @param object &$oObj1
-     * @param object &$oObj2
+     * @param object $oObj1
+     * @param object $oObj2
      * @param string $fieldName
      */
-    function assertFieldEqual(&$oObj1, &$oObj2, $fieldName)
+    function assertFieldEqual($oObj1, $oObj2, $fieldName)
     {
         if (is_object($oObj1->$fieldName) &&
             is_a($oObj1->$fieldName, 'Date')) {

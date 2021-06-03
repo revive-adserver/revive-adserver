@@ -89,7 +89,7 @@ class DataSpace {
         if (strpos($path, '.') == FALSE) {
             return $this->set($path, $value);
         }
-        $var =& $this->properties;
+        $var = $this->properties;
         do {
             $pos = strpos($path, '.');
             if ($pos === FALSE) {

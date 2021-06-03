@@ -129,7 +129,7 @@ class Config_Container_XML extends XML_Parser
     *
     * @access private
     */
-    function startHandler($xp, $elem, &$attribs)
+    function startHandler($xp, $elem, $attribs)
     {
         $container = new Config_Container('section', $elem, null, $attribs);
         $this->containers[] =& $container;
@@ -147,8 +147,8 @@ class Config_Container_XML extends XML_Parser
     function endHandler($xp, $elem)
     {
         $count = count($this->containers);
-        $container =& $this->containers[$count-1];
-        $currentSection =& $this->containers[$count-2];
+        $container = $this->containers[$count-1];
+        $currentSection = $this->containers[$count-2];
         if (count($container->children) == 0) {
             $container->setType('directive');
             $container->setContent(trim($this->cdata));

@@ -46,9 +46,8 @@ class Test_OX_Extension_DeliveryLog_Setup extends UnitTestCase
         $aExpected = array(
             'extension1:group1:component3',
             'extension1:group1:component2',
-            'extension1:group1:component3'
         );
-        $this->assertTrue($aOrdered, $aExpected);
+        $this->assertEqual($aOrdered, $aExpected);
     }
 
     function testGetComponentsDependencies()

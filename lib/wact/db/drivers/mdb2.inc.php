@@ -72,7 +72,7 @@ class MDB2Connection {
 	*/
 	function connect() {
 	    // use existing connection
-	    $dbh = &OA_DB::singleton();
+	    $dbh = OA_DB::singleton();
 
 	    if (PEAR::isError($dbh)) {
 	        $this->RaiseError();
@@ -153,7 +153,7 @@ class MDB2Connection {
 	* @return Record reference
 	* @access public
 	*/
-	function &NewRecord($DataSpace = NULL) {
+	function NewRecord($DataSpace = NULL) {
 		$Record = new MDB2Record($this);
 		if (!is_null($DataSpace)) {
 			$Record->import($DataSpace->export());
@@ -170,7 +170,7 @@ class MDB2Connection {
 	* @return RecordSet reference
 	* @access public
 	*/
-	function &NewRecordSet($query, $filter = NULL) {
+	function NewRecordSet($query, $filter = NULL) {
 		$RecordSet = new MDB2RecordSet($this, $query);
 		if (!is_null($filter)) {
 			$RecordSet->registerFilter($filter);
@@ -188,8 +188,8 @@ class MDB2Connection {
 	* @return RecordSet reference
 	* @access public
 	*/
-	function &NewPagedRecordSet($query, &$pager, $filter = NULL) {
-		$RecordSet =& $this->NewRecordSet($query, $filter);
+	function NewPagedRecordSet($query, &$pager, $filter = NULL) {
+		$RecordSet = $this->NewRecordSet($query, $filter);
 		$RecordSet->paginate($pager);
 		return $RecordSet;
 	}
@@ -200,7 +200,7 @@ class MDB2Connection {
 	* @return Record object or NULL if not found
 	* @access public
 	*/
-	function &FindRecord($query) {
+	function FindRecord($query) {
 		$Record = new MDB2Record($this);
 		$QueryId = $this->_execute($query);
 		$Record->properties =& $QueryId->fetchRow(MDB2_FETCHMODE_ASSOC);

@@ -161,7 +161,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     function testGetAdsByCampaignId()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh =& OA_DB::singleton();
+        $oDbh = OA_DB::singleton();
         $oDal = new MAX_Dal_Entities();
 
         // Test 1
@@ -206,7 +206,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         );
         $idBanner2 = $this->_insertBanner($aData);
         $aData = array(
-            'campaignid'=>$placementId+1,
+            'campaignid'=>$campaignId+1,
             'status'=>OA_ENTITY_STATUS_RUNNING,
             'weight'=>2,
             'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
@@ -249,7 +249,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     function testGetDeliveryLimitationsByAdId()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh =& OA_DB::singleton();
+        $oDbh = OA_DB::singleton();
         $oDal = new MAX_Dal_Entities();
 
         // Test 1
@@ -341,7 +341,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     function testGetDeliveryLimitationsByChannelId()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh =& OA_DB::singleton();
+        $oDbh = OA_DB::singleton();
         $oDal = new MAX_Dal_Entities();
 
         // Test 1

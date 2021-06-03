@@ -16,6 +16,8 @@ require_once MAX_PATH.'/lib/OA/Upgrade/DB_Upgrade.php';
 require_once MAX_PATH.'/lib/OA/Upgrade/UpgradePackageParser.php';
 require_once MAX_PATH.'/lib/OA/Dal/DataGenerator.php';
 
+Language_Loader::load();
+
 // change visibility of _rollbackPutAdmin method
 class OA_UpgradeRollbackTest extends OA_Upgrade {
     public function _rollbackPutAdmin(){ parent::_rollbackPutAdmin(); }
@@ -684,7 +686,7 @@ class Test_OA_Upgrade extends UnitTestCase
         Mock::generatePartial(
             'OA_DB_Upgrade',
             $mockDBUpgrade = 'OA_DB_Upgrade'.rand(),
-            array('init','upgrade', 'rollback', 'prepPrescript', 'prepPostcript', 'prepRollback')
+            array('init','upgrade', 'rollback', 'prepPrescript')
         );
 
         $oUpgrade->oDBUpgrader = new $mockDBUpgrade($this);

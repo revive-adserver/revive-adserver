@@ -54,7 +54,7 @@ class OX_Extension_DeliveryLog_DB_Pgsql extends OX_Extension_DeliveryLog_DB_Comm
      */
     function createStoredProcedureFunction($query)
     {
-        $oDbh =& OA_DB::singleton();
+        $oDbh = OA_DB::singleton();
         if (PEAR::isError($oDbh)) {
             return $oDbh;
         }

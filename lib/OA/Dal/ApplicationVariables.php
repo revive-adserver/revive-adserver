@@ -26,9 +26,9 @@ class OA_Dal_ApplicationVariables
      * @param string $name The variable name
      * @return string The value, or NULL if the variable doesn't exist
      */
-    function get($name)
+    public static function get($name)
     {
-        $aVars = &OA_Dal_ApplicationVariables::_getAll();
+        $aVars = OA_Dal_ApplicationVariables::_getAll();
 
         if (isset($aVars[$name])) {
             return $aVars[$name];
@@ -44,10 +44,10 @@ class OA_Dal_ApplicationVariables
      * @param string $value The variable value
      * @return boolean True on success
      */
-    function set($name, $value)
+    public static function set($name, $value)
     {
         // Load the cache
-        $aVars = &OA_Dal_ApplicationVariables::_getAll();
+        $aVars =& OA_Dal_ApplicationVariables::_getAll();
 
         $doAppVar = OA_Dal::factoryDO('application_variable');
         $doAppVar->name  = $name;
@@ -72,7 +72,7 @@ class OA_Dal_ApplicationVariables
      *
      * @return array An array containing all the application variables
      */
-    function getAll()
+    public static function getAll()
     {
         return OA_Dal_ApplicationVariables::_getAll();
     }
@@ -83,9 +83,9 @@ class OA_Dal_ApplicationVariables
      * @param string $name The variable name
      * @return boolean True on success
      */
-    function delete($name)
+    public static function delete($name)
     {
-        $aVars = &OA_Dal_ApplicationVariables::_getAll();
+        $aVars =& OA_Dal_ApplicationVariables::_getAll();
 
         $doAppVar = OA_Dal::factoryDO('application_variable');
         $doAppVar->name = $name;
@@ -103,7 +103,7 @@ class OA_Dal_ApplicationVariables
      * Reload variables from the database
      *
      */
-    function cleanCache()
+    public static function cleanCache()
     {
         OA_Dal_ApplicationVariables::_getAll(false);
     }
@@ -114,7 +114,7 @@ class OA_Dal_ApplicationVariables
      * @param bool $fromCache Set to false to re-load variables from the db
      * @return array An array containing all the application variables
      */
-    function &_getAll($fromCache = true)
+    public static function &_getAll($fromCache = true)
     {
         static $aVars;
 
@@ -136,7 +136,7 @@ class OA_Dal_ApplicationVariables
      *
      * @return string 40-chars hexadecimal number as unique platform hash
      */
-    function generatePlatformHash()
+    public static function generatePlatformHash()
     {
         return sha1(uniqid(rand(), true));
     }

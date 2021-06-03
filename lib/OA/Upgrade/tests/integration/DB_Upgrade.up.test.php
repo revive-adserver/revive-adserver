@@ -221,57 +221,95 @@ class Test_DB_Upgrade extends UnitTestCase
 
     /**
      * Test 1: get definition from table with lowercase prefix
-     * Test 2: get definition from table with uppercase prefix
-     * Test 3: get definition from table with no prefix
      *
      */
-    function test_getDefinitionFromDatabase()
+    function test_getDefinitionFromDatabase1()
     {
-        // Test 1
-        $oDB_Upgrade = $this->_newDBUpgradeObject();
-        $this->_dropTestTables($oDB_Upgrade->oSchema->db);
+        if ('pgsql' === $GLOBALS['_MAX']['CONF']['database']['type']) {
+            $this->skip();
+            return;
+        }
+
+        TestEnv::teardownDB();
+        TestEnv::setupDB();
+
         $prefixOld = $this->prefix;
         $GLOBALS['_MAX']['CONF']['table']['prefix'] = 'xyz_';
         $this->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
-        $oDB_Upgrade->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+
+        $oDB_Upgrade = $this->_newDBUpgradeObject();
         $aDefOrig = $this->_createTestTables($oDB_Upgrade->oSchema->db);
+        $aDefOrig['prefixedIdxNames'] = true;
+        $aDefOrig['expandedIdxNames'] = true;
+        $aDefStripped = $oDB_Upgrade->_stripPrefixesFromDatabaseDefinition($aDefOrig);
         $aDefNew = $oDB_Upgrade->_getDefinitionFromDatabase();
-        $aDiff = $oDB_Upgrade->oSchema->compareDefinitions($this->aDefNew, $aDefOrig);
-        $this->assertEqual(count($aDiff),0,'definitions don\'t match');
+        $aDiff = $oDB_Upgrade->oSchema->compareDefinitions($aDefNew, $aDefStripped);
+        $this->assertEqual($aDiff, ['tables' => ['add' => ['database_action' => true]]]);
         $this->_dropTestTables($oDB_Upgrade->oSchema->db);
         $GLOBALS['_MAX']['CONF']['table']['prefix'] = $prefixOld;
         $this->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
         TestEnv::restoreConfig();
         TestEnv::restoreEnv();
+}
+    /**
+     * Test 2: get definition from table with uppercase prefix
+     *
+     */
+    function test_getDefinitionFromDatabase2()
+    {
+        if ('pgsql' === $GLOBALS['_MAX']['CONF']['database']['type']) {
+            $this->skip();
+            return;
+        }
 
-        // Test 2
-        $oDB_Upgrade = $this->_newDBUpgradeObject();
-        $this->_dropTestTables($oDB_Upgrade->oSchema->db);
+        TestEnv::teardownDB();
+        TestEnv::setupDB();
+
         $prefixOld = $this->prefix;
         $GLOBALS['_MAX']['CONF']['table']['prefix'] = 'XYZ_';
         $this->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
-        $oDB_Upgrade->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+
+        $oDB_Upgrade = $this->_newDBUpgradeObject();
         $aDefOrig = $this->_createTestTables($oDB_Upgrade->oSchema->db);
+        $aDefOrig['prefixedIdxNames'] = true;
+        $aDefOrig['expandedIdxNames'] = true;
+        $aDefStripped = $oDB_Upgrade->_stripPrefixesFromDatabaseDefinition($aDefOrig);
         $aDefNew = $oDB_Upgrade->_getDefinitionFromDatabase();
-        $aDiff = $oDB_Upgrade->oSchema->compareDefinitions($this->aDefNew, $aDefOrig);
-        $this->assertEqual(count($aDiff),0,'definitions don\'t match');
+        $aDiff = $oDB_Upgrade->oSchema->compareDefinitions($aDefNew, $aDefStripped);
+        $this->assertEqual($aDiff, ['tables' => ['add' => ['database_action' => true]]]);
         $this->_dropTestTables($oDB_Upgrade->oSchema->db);
         $GLOBALS['_MAX']['CONF']['table']['prefix'] = $prefixOld;
         $this->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
         TestEnv::restoreConfig();
         TestEnv::restoreEnv();
+    }
 
-        // Test 3
-        $oDB_Upgrade = $this->_newDBUpgradeObject();
-        $this->_dropTestTables($oDB_Upgrade->oSchema->db);
+    /**
+     * Test 3: get definition from table with no prefix
+     *
+     */
+    function test_getDefinitionFromDatabase3()
+    {
+        if ('pgsql' === $GLOBALS['_MAX']['CONF']['database']['type']) {
+            $this->skip();
+            return;
+        }
+
+        TestEnv::teardownDB();
+        TestEnv::setupDB();
+
         $prefixOld = $this->prefix;
         $GLOBALS['_MAX']['CONF']['table']['prefix'] = '';
         $this->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
-        $oDB_Upgrade->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+
+        $oDB_Upgrade = $this->_newDBUpgradeObject();
         $aDefOrig = $this->_createTestTables($oDB_Upgrade->oSchema->db);
+        $aDefOrig['prefixedIdxNames'] = true;
+        $aDefOrig['expandedIdxNames'] = true;
+        $aDefStripped = $oDB_Upgrade->_stripPrefixesFromDatabaseDefinition($aDefOrig);
         $aDefNew = $oDB_Upgrade->_getDefinitionFromDatabase();
-        $aDiff = $oDB_Upgrade->oSchema->compareDefinitions($this->aDefNew, $aDefOrig);
-        $this->assertEqual(count($aDiff),0,'definitions don\'t match');
+        $aDiff = $oDB_Upgrade->oSchema->compareDefinitions($aDefNew, $aDefStripped);
+        $this->assertEqual($aDiff, ['tables' => ['add' => ['database_action' => true]]]);
         $this->_dropTestTables($oDB_Upgrade->oSchema->db);
         $GLOBALS['_MAX']['CONF']['table']['prefix'] = $prefixOld;
         $this->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
@@ -539,7 +577,10 @@ class Test_DB_Upgrade extends UnitTestCase
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
         $this->assertTrue($this->_tableExists('table1',$oDB_Upgrade->aDBTables), 'table1 was not restored');
 
-        $this->assertFalse($this->_tableExists($oDB_Upgrade->aRestoreTables['table1']['bak'],$oDB_Upgrade->aDBTables), 'test table was not restored');
+        $this->assertFalse($this->_tableExists(
+            $oDB_Upgrade->aRestoreTables['tables_core'][910]['table1'][1]['tablename_backup'],
+            $oDB_Upgrade->aDBTables
+        ), 'test table was not restored');
 
         TestEnv::restoreConfig();
     }
@@ -610,7 +651,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $aTbl_def_rest = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array($this->prefix.'table1_autoinc'));
         OA_DB::disableCaseSensitive();
 
-        $aTbl_def_rest = $aTbl_def_rest['tables']['table1_autoinc'];
+        $aTbl_def_rest = $aTbl_def_rest['tables'][$this->prefix.'table1_autoinc'];
 
         // also test field definition properties?
 
@@ -787,7 +828,6 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->aOptions['split']        = true; // reset this var
         $oDB_Upgrade->aChanges          = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile($this->aOptions['output']);
         $oDB_Upgrade->aDBTables         = $oDB_Upgrade->_listTables();
-        $oDB_Upgrade->aTaskList         = $aTaskList;
         $this->assertTrue($oDB_Upgrade->_verifyTasksTablesRename(),'failed test_verifyTasksTablesRename');
         $aTaskList = $oDB_Upgrade->aTaskList;
         $this->assertTrue(isset($aTaskList['tables']['rename']),'failed creating task list: tables rename');
@@ -1063,7 +1103,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertTrue($oDB_Upgrade->_verifyTasksTablesAdd(),'failed _verifyTasksTablesAdd');
 
         Mock::generatePartial(
-            'Migration',
+            'DB_Upgrade_Test_Migration',
             $mockMigrator = 'Migration_'.rand(),
             array('beforeAddTable__table_new', 'afterAddTable__table_new')
         );
@@ -1105,7 +1145,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertTrue($oDB_Upgrade->_verifyTasksTablesRemove(),'failed _verifyTasksTablesRemove');
 
         Mock::generatePartial(
-            'Migration',
+            'DB_Upgrade_Test_Migration',
             $mockMigrator = 'Migration_'.rand(),
             array('beforeRemoveTable__table2', 'afterRemoveTable__table2')
         );
@@ -1151,7 +1191,6 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->aOptions['split']        = true; // reset this var
         $oDB_Upgrade->aChanges          = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile($this->aOptions['output']);
         $oDB_Upgrade->aDBTables         = $oDB_Upgrade->_listTables();
-        $oDB_Upgrade->aTaskList         = $aTaskList;
         $this->assertTrue($oDB_Upgrade->_verifyTasksTablesRename(),'failed test_verifyTasksTablesRename');
 
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
@@ -1159,7 +1198,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertTrue($this->_tableExists('table1', $oDB_Upgrade->aDBTables),'table1 not found');
 
         Mock::generatePartial(
-            'Migration',
+            'DB_Upgrade_Test_Migration',
             $mockMigrator = 'Migration_'.rand(),
             array('beforeRenameTable__table1_rename', 'afterRenameTable__table1_rename')
         );
@@ -1212,7 +1251,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertFalse(in_array('c_date_field_new', $aDBFields),'c_date_field_new found in table1');
 
         Mock::generatePartial(
-            'Migration',
+            'DB_Upgrade_Test_Migration',
             $mockMigrator = 'Migration_'.rand(),
             array('beforeAddField__table1__c_date_field_new', 'afterAddField__table1__c_date_field_new')
         );
@@ -1253,7 +1292,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertEqual($aDef['tables'][$this->prefix.'table1']['fields']['a_text_field']['length'],32,'wrong original length value');
 
         Mock::generatePartial(
-            'Migration',
+            'DB_Upgrade_Test_Migration',
             $mockMigrator = 'Migration_'.rand(),
             array('beforeAlterField__table1__a_text_field', 'afterAlterField__table1__a_text_field')
         );
@@ -1291,13 +1330,13 @@ class Test_DB_Upgrade extends UnitTestCase
         $aDef = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array($this->prefix.'table1'));
         OA_DB::disableCaseSensitive();
 
-        $this->assertFalse($aDef['tables'][$this->prefix.'table1']['fields']['b_id_field']['autoincrement'],'','wrong original autoincrement value');
+        $this->assertFalse(isset($aDef['tables'][$this->prefix.'table1']['fields']['b_id_field']['autoincrement']),'wrong original autoincrement value');
 
         // MySQL-only
         //$this->assertEqual($aDef['tables'][$this->prefix.'table1']['fields']['b_id_field']['length'],9,'wrong original length value');
 
         Mock::generatePartial(
-            'Migration',
+            'DB_Upgrade_Test_Migration',
             $mockMigrator = 'Migration_'.rand(),
             array('beforeAlterField__table1__b_id_field', 'afterAlterField__table1__b_id_field')
         );
@@ -1350,7 +1389,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertFalse(in_array('b_id_field_renamed', $aDBFields),'b_id_field_renamed found in table1');
 
         Mock::generatePartial(
-            'Migration',
+            'DB_Upgrade_Test_Migration',
             $mockMigrator = 'Migration_'.rand(),
             array('beforeRenameField__table1__b_id_field_renamed', 'afterRenameField__table1__b_id_field_renamed')
         );
@@ -1390,7 +1429,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertFalse(in_array('b_id_field_pk', $aDBFields),'b_id_field_pk found in table2');
 
         Mock::generatePartial(
-            'Migration',
+            'DB_Upgrade_Test_Migration',
             $mockMigrator = 'Migration_'.rand(),
             array('beforeAddField__table2__b_id_field_pk', 'afterAddField__table2__b_id_field_pk')
         );
@@ -1428,7 +1467,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertTrue(in_array('a_text_field', $aDBFields),'a_text_field not found in table1');
 
         Mock::generatePartial(
-            'Migration',
+            'DB_Upgrade_Test_Migration',
             $mockMigrator = 'Migration_'.rand(),
             array('beforeRemoveField__table1__a_text_field', 'afterRemoveField__table1__a_text_field')
         );
@@ -1629,6 +1668,81 @@ class Test_DB_Upgrade extends UnitTestCase
             }
         }
 
+    }
+}
+
+class DB_Upgrade_Test_Migration extends Migration
+{
+    function beforeAddTable__table_new()
+    {
+    }
+
+    function afterAddTable__table_new()
+    {
+    }
+
+    function beforeRemoveTable__table2()
+    {
+    }
+
+    function afterRemoveTable__table2()
+    {
+    }
+
+    function beforeRenameTable__table1_rename()
+    {
+    }
+
+    function afterRenameTable__table1_rename()
+    {
+    }
+
+    function beforeAddField__table1__c_date_field_new()
+    {
+    }
+
+    function afterAddField__table1__c_date_field_new()
+    {
+    }
+
+    function beforeAlterField__table1__a_text_field()
+    {
+    }
+
+    function afterAlterField__table1__a_text_field()
+    {
+    }
+
+    function beforeAlterField__table1__b_id_field()
+    {
+    }
+
+    function afterAlterField__table1__b_id_field()
+    {
+    }
+
+    function beforeRenameField__table1__b_id_field_renamed()
+    {
+    }
+
+    function afterRenameField__table1__b_id_field_renamed()
+    {
+    }
+
+    function beforeAddField__table2__b_id_field_pk()
+    {
+    }
+
+    function afterAddField__table2__b_id_field_pk()
+    {
+    }
+
+    function beforeRemoveField__table1__a_text_field()
+    {
+    }
+
+    function afterRemoveField__table1__a_text_field()
+    {
     }
 }
 

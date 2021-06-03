@@ -66,7 +66,7 @@ class Image_Canvas_Tool
      * @return string The filename of the font
      * @static
      */
-    function fontMap($name, $type = '.ttf')
+    public static function fontMap($name, $type = '.ttf')
     {
         static $_fontMap;
 

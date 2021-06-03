@@ -51,9 +51,7 @@ class OX_Admin_UI_SessionStorage implements OX_Admin_UI_Storage
     public function get($propertyName)
     {
         $this->initStorage();
-        $value = $_SESSION[$propertyName];
-
-        return $value;
+        return $_SESSION[$propertyName] ?? null;
     }
 
     /**

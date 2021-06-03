@@ -50,14 +50,6 @@ class Test_Priority extends UnitTestCase
     var $intervalsPerWeek;
 
     /**
-     * The constructor method.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * A method to be run before all tests.
      */
     function setUp()
@@ -70,10 +62,10 @@ class Test_Priority extends UnitTestCase
         //setTimeZoneLocation($aConf['timezone']['location']);
 
         // Set up the database handler object
-        $this->oDbh =& OA_DB::singleton();
+        $this->oDbh = OA_DB::singleton();
 
         // Set up the service locator object
-        $this->oServiceLocator =& OA_ServiceLocator::instance();
+        $this->oServiceLocator = OA_ServiceLocator::instance();
 
         // Discover the number of operation intervals per week
         $this->intervalsPerWeek = OX_OperationInterval::operationIntervalsPerWeek();
@@ -270,7 +262,7 @@ class Test_Priority extends UnitTestCase
         // Insert data that indicates that the Maintenance Statistics Engine
         // has recently updated the available stats, but don't insert any
         // stats into the tables
-        $this->oServiceLocator =& OA_ServiceLocator::instance();
+        $this->oServiceLocator = OA_ServiceLocator::instance();
         $startDate = new Date('2005-06-15 14:00:01');
         $this->oServiceLocator->register('now', $startDate);
         $oMaintenanceStatistics = new OX_Maintenance_Statistics();
@@ -285,7 +277,6 @@ class Test_Priority extends UnitTestCase
 
         // Test 2: Set "previous" date for the MPE run
         $oPreviousDate = new Date('2005-06-15 13:01:01');
-        $previousOperationIntervalID = $currentOperationIntervalID;
         // Test 2: Set "current" date for the MPE run
         $oDate = new Date('2005-06-15 14:01:01');
         $this->oServiceLocator->register('now', $oDate);
@@ -420,7 +411,7 @@ class Test_Priority extends UnitTestCase
 
         // Insert data that indicates that the Maintenance Statistics Engine
         // has recently updated the available stats
-        $this->oServiceLocator =& OA_ServiceLocator::instance();
+        $this->oServiceLocator = OA_ServiceLocator::instance();
         $startDate = new Date('2005-06-19 00:00:01');
         $this->oServiceLocator->register('now', $startDate);
         $oMaintenanceStatistics = new OX_Maintenance_Statistics();
@@ -436,6 +427,7 @@ class Test_Priority extends UnitTestCase
         // Insert some stats for an ad zone combination
         $doDIA = OA_DAL::factoryDO('data_intermediate_ad');
         $doDIA->ad_id = 3;
+        $doDIA->creative_id = 0;
         $doDIA->zone_id = 3;
         $doDIA->impressions = 20;
         $doDIA->date_time = $aOiDates['start']->getDate();
@@ -695,7 +687,7 @@ class Test_Priority extends UnitTestCase
     function _assertPriority($aParams)
     {
         $aConf =& $GLOBALS['_MAX']['CONF'];
-        $oDbh =& OA_DB::singleton();
+        $oDbh = OA_DB::singleton();
 
         $tableAza   = $oDbh->quoteIdentifier($aConf['table']['prefix'].'ad_zone_assoc', true);
         $tableDsaza = $oDbh->quoteIdentifier($aConf['table']['prefix'].'data_summary_ad_zone_assoc', true);

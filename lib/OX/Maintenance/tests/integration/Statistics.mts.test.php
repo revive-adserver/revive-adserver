@@ -13,6 +13,8 @@
 require_once LIB_PATH . '/Maintenance/Statistics.php';
 require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 
+Language_Loader::load();
+
 /**
  * A class for performing a full end-to-end integration test on the maintenace
  * statistics engine, with the standard OpenX delivery logging plugins.
@@ -95,7 +97,7 @@ class Test_OX_Maintenance_Statistics extends UnitTestCase
 
         // Prepare the current date/time for testing
         $oNowDate = new Date('2008-08-28 15:01:00');
-        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
         $oServiceLocator->register('now', $oNowDate);
 
         // Test 1: Run the MSE process with NO DATA
@@ -444,7 +446,7 @@ class Test_OX_Maintenance_Statistics extends UnitTestCase
 
         // Prepare the current date/time for testing
         $oNowDate = new Date('2008-08-28 16:01:00');
-        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
         $oServiceLocator->register('now', $oNowDate);
 
         // Test 2: Run the MSE process WITH data
@@ -546,8 +548,8 @@ class Test_OX_Maintenance_Statistics extends UnitTestCase
         $doData_intermediate_ad_connection->find();
         $this->assertEqual($doData_intermediate_ad_connection->getRowCount(), 1);
         $doData_intermediate_ad_connection->fetch();
-        $this->assertNull($doData_intermediate_ad_connection->veiwer_id);
-        $this->assertNull($doData_intermediate_ad_connection->veiwer_session_id);
+        $this->assertNull($doData_intermediate_ad_connection->viewer_id);
+        $this->assertNull($doData_intermediate_ad_connection->viewer_session_id);
         $this->assertEqual($doData_intermediate_ad_connection->tracker_date_time,    '2008-08-28 15:37:28');
         $this->assertEqual($doData_intermediate_ad_connection->connection_date_time, '2008-08-28 14:37:28');
         $this->assertEqual($doData_intermediate_ad_connection->tracker_id,           1);
@@ -596,8 +598,8 @@ class Test_OX_Maintenance_Statistics extends UnitTestCase
         $doData_intermediate_ad_connection->find();
         $this->assertEqual($doData_intermediate_ad_connection->getRowCount(), 1);
         $doData_intermediate_ad_connection->fetch();
-        $this->assertNull($doData_intermediate_ad_connection->veiwer_id);
-        $this->assertNull($doData_intermediate_ad_connection->veiwer_session_id);
+        $this->assertNull($doData_intermediate_ad_connection->viewer_id);
+        $this->assertNull($doData_intermediate_ad_connection->viewer_session_id);
         $this->assertEqual($doData_intermediate_ad_connection->tracker_date_time,    '2008-08-28 15:37:28');
         $this->assertEqual($doData_intermediate_ad_connection->connection_date_time, '2008-08-28 14:37:28');
         $this->assertEqual($doData_intermediate_ad_connection->tracker_id,           2);
@@ -646,8 +648,8 @@ class Test_OX_Maintenance_Statistics extends UnitTestCase
         $doData_intermediate_ad_connection->find();
         $this->assertEqual($doData_intermediate_ad_connection->getRowCount(), 1);
         $doData_intermediate_ad_connection->fetch();
-        $this->assertNull($doData_intermediate_ad_connection->veiwer_id);
-        $this->assertNull($doData_intermediate_ad_connection->veiwer_session_id);
+        $this->assertNull($doData_intermediate_ad_connection->viewer_id);
+        $this->assertNull($doData_intermediate_ad_connection->viewer_session_id);
         $this->assertEqual($doData_intermediate_ad_connection->tracker_date_time,    '2008-08-28 15:47:11');
         $this->assertEqual($doData_intermediate_ad_connection->connection_date_time, '2008-08-28 14:47:11');
         $this->assertEqual($doData_intermediate_ad_connection->tracker_id,           3);
@@ -696,8 +698,8 @@ class Test_OX_Maintenance_Statistics extends UnitTestCase
         $doData_intermediate_ad_connection->find();
         $this->assertEqual($doData_intermediate_ad_connection->getRowCount(), 1);
         $doData_intermediate_ad_connection->fetch();
-        $this->assertNull($doData_intermediate_ad_connection->veiwer_id);
-        $this->assertNull($doData_intermediate_ad_connection->veiwer_session_id);
+        $this->assertNull($doData_intermediate_ad_connection->viewer_id);
+        $this->assertNull($doData_intermediate_ad_connection->viewer_session_id);
         $this->assertEqual($doData_intermediate_ad_connection->tracker_date_time,    '2008-08-28 15:47:21');
         $this->assertEqual($doData_intermediate_ad_connection->connection_date_time, '2008-08-28 14:47:21');
         $this->assertEqual($doData_intermediate_ad_connection->tracker_id,           3);
@@ -746,8 +748,8 @@ class Test_OX_Maintenance_Statistics extends UnitTestCase
         $doData_intermediate_ad_connection->find();
         $this->assertEqual($doData_intermediate_ad_connection->getRowCount(), 1);
         $doData_intermediate_ad_connection->fetch();
-        $this->assertNull($doData_intermediate_ad_connection->veiwer_id);
-        $this->assertNull($doData_intermediate_ad_connection->veiwer_session_id);
+        $this->assertNull($doData_intermediate_ad_connection->viewer_id);
+        $this->assertNull($doData_intermediate_ad_connection->viewer_session_id);
         $this->assertEqual($doData_intermediate_ad_connection->tracker_date_time,    '2008-08-28 15:50:00');
         $this->assertEqual($doData_intermediate_ad_connection->connection_date_time, '2008-08-28 14:50:00');
         $this->assertEqual($doData_intermediate_ad_connection->tracker_id,           4);
@@ -796,8 +798,8 @@ class Test_OX_Maintenance_Statistics extends UnitTestCase
         $doData_intermediate_ad_connection->find();
         $this->assertEqual($doData_intermediate_ad_connection->getRowCount(), 1);
         $doData_intermediate_ad_connection->fetch();
-        $this->assertNull($doData_intermediate_ad_connection->veiwer_id);
-        $this->assertNull($doData_intermediate_ad_connection->veiwer_session_id);
+        $this->assertNull($doData_intermediate_ad_connection->viewer_id);
+        $this->assertNull($doData_intermediate_ad_connection->viewer_session_id);
         $this->assertEqual($doData_intermediate_ad_connection->tracker_date_time,    '2008-08-28 15:50:00');
         $this->assertEqual($doData_intermediate_ad_connection->connection_date_time, '2008-08-28 14:50:00');
         $this->assertEqual($doData_intermediate_ad_connection->tracker_id,           4);
@@ -846,8 +848,8 @@ class Test_OX_Maintenance_Statistics extends UnitTestCase
         $doData_intermediate_ad_connection->find();
         $this->assertEqual($doData_intermediate_ad_connection->getRowCount(), 1);
         $doData_intermediate_ad_connection->fetch();
-        $this->assertNull($doData_intermediate_ad_connection->veiwer_id);
-        $this->assertNull($doData_intermediate_ad_connection->veiwer_session_id);
+        $this->assertNull($doData_intermediate_ad_connection->viewer_id);
+        $this->assertNull($doData_intermediate_ad_connection->viewer_session_id);
         $this->assertEqual($doData_intermediate_ad_connection->tracker_date_time,    '2008-08-28 15:50:00');
         $this->assertEqual($doData_intermediate_ad_connection->connection_date_time, '2008-08-28 14:50:00');
         $this->assertEqual($doData_intermediate_ad_connection->tracker_id,           5);
@@ -896,8 +898,8 @@ class Test_OX_Maintenance_Statistics extends UnitTestCase
         $doData_intermediate_ad_connection->find();
         $this->assertEqual($doData_intermediate_ad_connection->getRowCount(), 1);
         $doData_intermediate_ad_connection->fetch();
-        $this->assertNull($doData_intermediate_ad_connection->veiwer_id);
-        $this->assertNull($doData_intermediate_ad_connection->veiwer_session_id);
+        $this->assertNull($doData_intermediate_ad_connection->viewer_id);
+        $this->assertNull($doData_intermediate_ad_connection->viewer_session_id);
         $this->assertEqual($doData_intermediate_ad_connection->tracker_date_time,    '2008-08-28 15:50:00');
         $this->assertEqual($doData_intermediate_ad_connection->connection_date_time, '2008-08-28 14:50:00');
         $this->assertEqual($doData_intermediate_ad_connection->tracker_id,           5);

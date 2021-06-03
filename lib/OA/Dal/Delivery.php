@@ -27,7 +27,11 @@ if(isset($GLOBALS['_MAX']['FILES'][$file])) {
 $GLOBALS['_MAX']['FILES'][$file] = true;
 
 function OA_Dal_Delivery_isValidResult($result) {
-    return is_resource($result) || $result instanceof mysqli_result;
+    return OA_Dal_Delivery_isResourceOrObject($result);
+}
+
+function OA_Dal_Delivery_isResourceOrObject($resource) {
+    return is_resource($resource) || is_object($resource);
 }
 
 /**
@@ -813,7 +817,7 @@ function OA_Dal_Delivery_getLinkedAds($search, $campaignid = '', $lastpart = tru
         }
     }
     // eCPM remnant campaigns
-    if (is_array($aRows['eAds'])) {
+    if (isset($aRows['eAds']) && is_array($aRows['eAds'])) {
         $totals['eAds'] = _getTotalPrioritiesByCP($aRows['eAds']);
     }
     // If there are remnant campaign creatives, sort by priority

@@ -124,8 +124,8 @@ class Test_OA_DB extends UnitTestCase
     function testSingletonDbConnection()
     {
         $aConf =& $GLOBALS['_MAX']['CONF'];
-        $firstConnection  =& OA_DB::singleton();
-        $secondConnection =& OA_DB::singleton();
+        $firstConnection  = OA_DB::singleton();
+        $secondConnection = OA_DB::singleton();
         $this->assertIdentical($firstConnection, $secondConnection);
         $this->assertReference($firstConnection, $secondConnection);
         TestEnv::restoreConfig();

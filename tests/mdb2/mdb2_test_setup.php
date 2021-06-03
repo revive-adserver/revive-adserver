@@ -46,7 +46,7 @@ function databaseExists($db, $database_name)
 }
 PEAR::pushErrorHandling(PEAR_ERROR_CALLBACK, 'pe');
 foreach ($dbarray as $dbtype) {
-    $schema =& MDB2_Schema::factory($dbtype['dsn'], $dbtype['options']);
+    $schema = MDB2_Schema::factory($dbtype['dsn'], $dbtype['options']);
     if (databaseExists($schema->db, 'driver_test'))
     {
         $schema->db->manager->dropDatabase('driver_test');

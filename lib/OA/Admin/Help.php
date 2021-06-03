@@ -32,17 +32,19 @@ class OA_Admin_Help
      * @param OA_Admin_Menu_Section $menuSection menu section to find help for
      * @return string url to documentation page
      */
-    function getHelpLink($menuSection)
+    public static function getHelpLink($menuSection)
     {
         if ($menuSection != null) {
             $relativeHelpPath = $menuSection->getHelpLink();
         } else {
             $relativeHelpPath = "";
         }
+
         // The link is not relative, we directly link to it
         if (strpos($relativeHelpPath, '://') !== false) {
             return $relativeHelpPath;
         }
+
         // Convert original help links to new Revive Adserver format
         if (strpos($relativeHelpPath, 'settings') !== false) {
             if (strpos($relativeHelpPath, '/') !== 0) {
@@ -57,7 +59,8 @@ class OA_Admin_Help
                 $relativeHelpPath = '/user' . $relativeHelpPath;
             }
         }
-        return OA_Admin_Help::buildHelpLink($relativeHelpPath);
+
+        return self::buildHelpLink($relativeHelpPath);
     }
 
 
@@ -67,7 +70,7 @@ class OA_Admin_Help
      * @param String $relativeHelpPath help path appened after main doc path
      * @return string url to documentation page
      */
-    function buildHelpLink($relativeHelpPath)
+    private static function buildHelpLink($relativeHelpPath)
     {
         // if empty the main help URL
         if (empty($relativeHelpPath)) {

@@ -247,7 +247,7 @@ class TestRunner
      * @param string $layer The layer the test/s is/are in.
      * @param bool $keepDatabase True if the dabase needs to be preserved.
      */
-    function setupEnv($layer, $keepDatabase = false)
+    public static function setupEnv($layer, $keepDatabase = false)
     {
         if (is_null($layer)) {
             $layer = $_GET['layer'];

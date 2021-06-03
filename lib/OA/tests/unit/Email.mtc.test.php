@@ -14,6 +14,8 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 require_once MAX_PATH . '/lib/OA/Email.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI/UserAccess.php';
 
+Language_Loader::load();
+
 /**
  * A class for testing the OA_Email class.
  *
@@ -90,7 +92,7 @@ class Test_OA_Email extends UnitTestCase
         $clientName   = 'Foo Client';
 
         // Setup a User array, but with no data
-        $aUser = array('username', 'contact_name', 'email_address');
+        $aUser = array('user_id' => '', 'username' => '', 'contact_name' => '', 'email_address' => '');
 
         // Test with no advertiser data in the database, and ensure that
         // false is returned
@@ -123,7 +125,7 @@ class Test_OA_Email extends UnitTestCase
         // but no ads, ensuring that false is returned
         $doClients = OA_Dal::factoryDO('clients');
         $doClients->clientname = $clientName;
-        $doClients->email      = '';
+        $doClients->email      = $email;
         $doClients->contact    = '';
         $doClients->report     = 't';
         $advertiserId = DataGenerator::generateOne($doClients);
@@ -881,7 +883,7 @@ class Test_OA_Email extends UnitTestCase
         $doUser = OA_Dal::factoryDO('users');
         $doUser->contact_name = '2_' . $advertiserName;
         $doUser->email_address = '2_' . $advertiserMail;
-        $doUser->username = '2_' . $clientName;
+        $doUser->username = '2_' . $advertiserUsername;
         $doUser->language = 'de';
         $advertiserUserId2 = DataGenerator::generateOne($doUser);
         $doAdvertiserUser2 = OA_Dal::staticGetDO('users', $advertiserUserId2);
@@ -1124,7 +1126,7 @@ class Test_OA_Email extends UnitTestCase
 
         Language_Loader::load('default', $aAdminUser['language']);
         $numSent = $oEmail->sendCampaignImpendingExpiryEmail($oTwoDaysPriorDate, $placementId);
-        $aResult = $oEmail->prepareCampaignImpendingExpiryEmail($aAdminUser, $advertiserId1, $placementId1, $dateReason, $dateValue, 'admin');
+        $aResult = $oEmail->prepareCampaignImpendingExpiryEmail($aAdminUser, $advertiserId1, $placementId, $dateReason, $dateValue, 'admin');
         $this->assertEqual($numSent, 1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
@@ -1326,7 +1328,7 @@ class Test_OA_Email extends UnitTestCase
         $oEmail = new PartialMockOA_Email();
         $oEmail->setReturnValue('sendMail', true);
 
-        unset($GLOBALS['_MAX']['PREF']);
+        $GLOBALS['_MAX']['PREF'] = [];
 
         // Prepare an admin user
          // Create the admin account

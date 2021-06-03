@@ -172,7 +172,7 @@ class MySQLConnection {
     * @access public
     */
     function &NewPagedRecordSet($query, &$pager, $filter = NULL) {
-        $RecordSet =& $this->NewRecordSet($query, $filter);
+        $RecordSet = $this->NewRecordSet($query, $filter);
         $RecordSet->paginate($pager);
         return $RecordSet;
     }

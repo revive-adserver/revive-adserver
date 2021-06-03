@@ -73,21 +73,22 @@ class MAX_TestData_XML_Parser extends XML_Parser
       parent::setInput(MAX_PATH . '/tests/data/testData_'.$fp.'.xml');
   }
 
- /**
-  * handle start element
-  *
-  * @access private
-  * @param  resource  xml parser resource
-  * @param  string    name of the element
-  * @param  array     attributes
-  */
-  function startHandler($xp, $name, $attribs)
+    /**
+     * handle start element
+     *
+     * @access private
+     *
+     * @param $xp
+     * @param $elem
+     * @param $attribs
+     */
+  function startHandler($xp, $elem, $attribs)
   {
-    if (strtolower($name) == 'max_0_3'){
+    if (strtolower($elem) == 'max_0_3'){
     }
-    else if (in_array(strtolower($name), $this->aTables))
+    else if (in_array(strtolower($elem), $this->aTables))
     {
-        $this->tableName = strtolower($name);
+        $this->tableName = strtolower($elem);
     }
     else
     {
@@ -105,7 +106,7 @@ class MAX_TestData_XML_Parser extends XML_Parser
                 }
             };
         }
-        $this->currTag = strtolower(trim($name));
+        $this->currTag = strtolower(trim($elem));
     }
   }
 

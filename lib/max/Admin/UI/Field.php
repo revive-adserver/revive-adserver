@@ -96,29 +96,29 @@ class Admin_UI_Field
                 $type = func_get_arg($i + 2);
             }
 
-            switch($type) {
-            case 1: // Case insensitive natural.
-                $t = 'strcasecmp($a[' . $key . '], $b[' . $key . '])';
-                break;
-            case 2: // Numeric.
-                $t = '($a[' . $key . '] == $b[' . $key . ']) ? 0:(($a[' . $key . '] < $b[' . $key . ']) ? -1 : 1)';
-                break;
-            case 3: // Case sensitive string.
-                $t = 'strcmp($a[' . $key . '], $b[' . $key . '])';
-                break;
-            case 4: // Case insensitive string.
-                $t = 'strcasecmp($a[' . $key . '], $b[' . $key . '])';
-                break;
-            default: // Case sensitive natural.
-                $t = 'strnatcmp($a[' . $key . '], $b[' . $key . '])';
-                break;
-            }
+            $mult = $order ? 1 : -1;
 
-            usort($array, create_function('$a, $b', '; return ' . ($order ? '' : '-') . '(' . $t . ');'));
+            usort($array, function ($a, $b) use ($mult, $type, $key) {
+                switch($type) {
+                    case 1: // Case insensitive natural.
+                        return $mult * strcasecmp($a[$key], $b[$key]);
+
+                    case 2: // Numeric.
+                        return $a[$key] == $b[$key] ? 0 : $mult * ($a[$key] < $b[$key] ? -1 : 1);
+
+                    case 3: // Case sensitive string.
+                        return $mult * strcmp($a[$key], $b[$key]);
+
+                    case 4: // Case insensitive string.
+                        return $mult * strcasecmp($a[$key], $b[$key]);
+                }
+
+                return $mult * strnatcmp($a[$key], $b[$key]);
+            });
         }
+
         return $array;
     }
-
 }
 
 ?>

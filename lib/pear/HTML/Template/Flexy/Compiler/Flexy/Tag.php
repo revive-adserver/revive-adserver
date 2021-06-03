@@ -53,11 +53,11 @@ class HTML_Template_Flexy_Compiler_Flexy_Tag {
     * @param   object   HTML_Template_Flexy_Compiler
     *
     *
-    * @return    object    tag compiler
+    * @return    object|false    tag compiler
     * @access   public
     */
 
-    function &factory($type,&$compiler) {
+    public static function factory($type,&$compiler) {
         if (!$type) {
             $type = 'Tag';
         }
@@ -95,7 +95,7 @@ class HTML_Template_Flexy_Compiler_Flexy_Tag {
     * @return    boolean  true if it is in there.
     * @access   public
     */
-    function fileExistsInPath($filename) {
+    public static function fileExistsInPath($filename) {
         if (isset($GLOBALS['_'.__CLASS__]['cache'][$filename])) {
             return $GLOBALS['_'.__CLASS__]['cache'][$filename];
         }

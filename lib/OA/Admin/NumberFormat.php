@@ -25,7 +25,7 @@ class OA_Admin_NumberFormat {
          * @param string $number
          * @return mixed converted string or false if it wasn't number
          */
-         function unformatNumber($number) {
+         public static function unformatNumber($number) {
             $number = trim($number);
 
             global $phpAds_DecimalPoint;
@@ -40,14 +40,14 @@ class OA_Admin_NumberFormat {
 
             //test if the number is in format like 12345.67 or 12 345.67 or 12,345.67
             //remove spaces or comas
-            if ( preg_match ("/^(-|\+)?(([0-9]+)((\,| )?([0-9][0-9][0-9]))*)?([.][0-9]+)?$/" ,$number) == 1){
+            if (preg_match("/^([-+])?(([0-9]+)(([, ])?([0-9][0-9][0-9]))*)?(\.[0-9]+)?$/" ,$number) == 1){
                 $result_dot_decSep = str_replace("+","",$number);
                 $result_dot_decSep = str_replace(array(","," "),"",$result_dot_decSep);
             }
 
             //test if the number is in format like 12345,67 or 12 345,67 or 12.345,67
             //remove spaces or dots, and change the "," to "."
-            if ( preg_match ("/^(-|\+)?(([0-9]+)((\.| )?([0-9][0-9][0-9]))*)?([\,][0-9]+)?$/" ,$number) == 1){
+            if (preg_match("/^([-+])?(([0-9]+)(([. ])?([0-9][0-9][0-9]))*)?(,[0-9]+)?$/" ,$number) == 1){
                 $result_coma_decSep = str_replace(array("."," "),"",$number);
                 $result_coma_decSep = str_replace("+","",$result_coma_decSep);
                 $result_coma_decSep = str_replace("," ,".",$result_coma_decSep);
@@ -89,7 +89,7 @@ class OA_Admin_NumberFormat {
          * @param string $thousands_sep The character to use to seperate groups of thousands
          * @return string The formatted number
          */
-        function formatNumber($number, $decimals = null, $dec_point = null, $thousands_sep = null)
+        public static function formatNumber($number, $decimals = null, $dec_point = null, $thousands_sep = null)
         {
             if (!is_numeric($number)) {
                 return false;

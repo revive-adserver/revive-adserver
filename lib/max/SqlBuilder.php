@@ -34,7 +34,7 @@ class SqlBuilder
      * @param boolean $allFields
      * @return array
      */
-    function _getColumns($entity, $aParams, $allFields)
+    public static function _getColumns($entity, $aParams, $allFields)
     {
         $aColumns = array();
         switch ($entity) {
@@ -246,7 +246,7 @@ class SqlBuilder
      * @param string $entity
      * @return array
      */
-    function _getStatsColumns($entity)
+    public static function _getStatsColumns($entity)
     {
         $aColumns = array('SUM(s.requests)' => 'sum_requests', 'SUM(s.impressions)' => 'sum_views', 'SUM(s.clicks)' => 'sum_clicks', 'SUM(s.conversions)' => 'sum_conversions');
         switch ($entity) {
@@ -270,7 +270,7 @@ class SqlBuilder
      * @param boolean $includeStats
      * @return array
      */
-    function _getTables($entity, $aParams, $includeStats = false)
+    public static function _getTables($entity, $aParams, $includeStats = false)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
 
@@ -499,7 +499,7 @@ class SqlBuilder
      * @param array $aParams
      * @return array
      */
-    function _getLimitations($entity, $aParams)
+    public static function _getLimitations($entity, $aParams)
     {
         if (!empty($aParams) && is_array($aParams)) {
             $aParams = MAX_commonSlashArray($aParams);
@@ -727,7 +727,7 @@ class SqlBuilder
         return $aLimitations;
     }
 
-    function _dayToDateTime($day, $begin = true)
+    public static function _dayToDateTime($day, $begin = true)
     {
         $oDate = new Date($day);
         if (!$begin) {
@@ -749,7 +749,7 @@ class SqlBuilder
      * @param string $value
      * @param string $comparison_type (optional)
      */
-    function _addLimitation(&$aLimitations, $entityIdName, $columnName, $value, $comparison_type = MAX_LIMITATION_EQUAL)
+    public static function _addLimitation(&$aLimitations, $entityIdName, $columnName, $value, $comparison_type = MAX_LIMITATION_EQUAL)
     {
         // Add single quotes around non-integer columns
         if (($entityIdName == 'ad_type')
@@ -785,7 +785,7 @@ class SqlBuilder
      * @param array $aParams
      * @return array
      */
-    function _getStatsLimitations($entity, $aParams)
+    public static function _getStatsLimitations($entity, $aParams)
     {
         $aLimitations = array();
 
@@ -825,7 +825,7 @@ class SqlBuilder
      * @param array $aParams
      * @return array
      */
-    function _getTableLimitations($aTables, $aParams = array())
+    public static function _getTableLimitations($aTables, $aParams = array())
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $aTableLimitations = array();
@@ -877,7 +877,7 @@ class SqlBuilder
      * @param array $aParams
      * @return array
      */
-    function _getGroupColumns($entity, $aParams)
+    public static function _getGroupColumns($entity, $aParams)
     {
         $aGroupColumns = array();
         switch ($entity)
@@ -904,7 +904,7 @@ class SqlBuilder
      * @param array $aParams
      * @return array
      */
-    function _getLeftJoinedTables($entity, $aParams, $aTables = null)
+    public static function _getLeftJoinedTables($entity, $aParams, $aTables = null)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $aLeftJoinedTables = array();
@@ -949,7 +949,7 @@ class SqlBuilder
     // | for entity builders                   |
     // +---------------------------------------+
 
-    function _doDelete($table, $aParams)
+    public static function _doDelete($table, $aParams)
     {
         $do = OA_Dal::factoryDO($table);
         if ($do === false) {
@@ -966,13 +966,13 @@ class SqlBuilder
     /**
      * Performs an SQL insert.
      *
-     * @param array $table Table name.
+     * @param string $table Table name.
      * @param array $aVariables Map of column to value for the created row.
      * @return integer The newly inserted row id if the table has any
      * autoincrement field defined. Otherwise, true on success and false
      * on failure.
      */
-    function _insert($table, $aVariables)
+    public static function _insert($table, $aVariables)
     {
         $do = OA_Dal::factoryDO($table);
         if ($do === false) {
@@ -986,7 +986,7 @@ class SqlBuilder
     }
 
 
-    function _getFieldIdName($table)
+    public static function _getFieldIdName($table)
     {
         $dbh = OA_DB::singleton();
         $schema = MDB2_Schema::factory($dbh);
@@ -1010,7 +1010,7 @@ class SqlBuilder
      * @param array $aLeftJoinedTables
      * @return integer  The number of rows affected by the query
      */
-    function _select($aColumns, $aTables, $aLimitations, $aGroupColumns, $primaryKey, $aLeftJoinedTables = null)
+    public static function _select($aColumns, $aTables, $aLimitations, $aGroupColumns, $primaryKey, $aLeftJoinedTables = null)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = OA_DB::singleton();
@@ -1103,9 +1103,9 @@ class SqlBuilder
      *
      * @param string $query
      * @param string $primaryKey
-     * @return array    An array of entity records
+     * @return array|false    An array of entity records
      */
-    function _query($query, $primaryKey)
+    private static function _query($query, $primaryKey)
     {
         // var_dump($query);
         $oDbh = OA_DB::singleton();
@@ -1129,7 +1129,7 @@ class SqlBuilder
      * @param string $agencyId
      * @return string A comma delimited list of banner ids
      */
-    function _getBannerIdsForAgency($agencyId)
+    public static function _getBannerIdsForAgency($agencyId)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $query = 'select d.bannerid as ad_id from '.
@@ -1157,7 +1157,7 @@ class SqlBuilder
         return implode (',', $aDataEntities);
     }
 
-    static protected function sqlKeyConcat($aArgs)
+    private static function sqlKeyConcat($aArgs)
     {
         $oDbh = OA_DB::singleton();
         $isPgsql = $oDbh->dbsyntax == 'pgsql';

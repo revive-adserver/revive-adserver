@@ -8,11 +8,13 @@
     /**#@+
      * include SimpleTest files
      */
-    if (version_compare(phpversion(), '5') >= 0) {
-        require_once(dirname(__FILE__) . '/reflection_php5.php');
+
+    if (PHP_VERSION_ID >= 80000) {
+        require_once(__DIR__ . '/reflection_php8.php');
     } else {
-        require_once(dirname(__FILE__) . '/reflection_php4.php');
+        require_once(__DIR__ . '/reflection_php5.php');
     }
+
     /**#@-*/
 
     /**
@@ -39,11 +41,9 @@
          *    not be run. Once PHP4 is dropped this will disappear
          *    as a public method and "abstract" will rule.
          *    @param string $class        Add a class to ignore.
-         *    @static
-         *    @access public
          */
-        function ignore($class) {
-            $registry = &SimpleTest::_getRegistry();
+        public static function ignore($class) {
+            $registry =& self::_getRegistry();
             $registry['IgnoreList'][strtolower($class)] = true;
         }
 
@@ -59,11 +59,8 @@
          *    the ignore() calls. It's just nice to have the ignore()
          *    calls at the top of the file before the actual declarations.
          *    @param array $classes     Class names of interest.
-         *    @static
-         *    @access public
          */
-        function ignoreParentsIfIgnored($classes) {
-            $registry = &SimpleTest::_getRegistry();
+        public static function ignoreParentsIfIgnored($classes) {
             foreach ($classes as $class) {
                 if (SimpleTest::isIgnored($class)) {
                     $reflection = new SimpleReflection($class);
@@ -82,27 +79,25 @@
          *    use it.
          *    @param string $class        Class name to test.
          *    @return boolean             True if should not be run.
-         *    @access public
-         *    @static
          */
-        function isIgnored($class) {
-            $registry = &SimpleTest::_getRegistry();
+        public static function isIgnored($class) {
+            $registry = self::_getRegistry();
             return isset($registry['IgnoreList'][strtolower($class)]);
         }
 
         /**
          *    @deprecated
          */
-        function setMockBaseClass($mock_base) {
-            $registry = &SimpleTest::_getRegistry();
+        public static function setMockBaseClass($mock_base) {
+            $registry = self::_getRegistry();
             $registry['MockBaseClass'] = $mock_base;
         }
 
         /**
          *    @deprecated
          */
-        function getMockBaseClass() {
-            $registry = &SimpleTest::_getRegistry();
+        public static function getMockBaseClass() {
+            $registry = self::_getRegistry();
             return $registry['MockBaseClass'];
         }
 
@@ -114,10 +109,9 @@
          *    @param string $proxy     Proxy host as URL.
          *    @param string $username  Proxy username for authentication.
          *    @param string $password  Proxy password for authentication.
-         *    @access public
          */
-        function useProxy($proxy, $username = false, $password = false) {
-            $registry = &SimpleTest::_getRegistry();
+        public static function useProxy($proxy, $username = false, $password = false) {
+            $registry =& self::_getRegistry();
             $registry['DefaultProxy'] = $proxy;
             $registry['DefaultProxyUsername'] = $username;
             $registry['DefaultProxyPassword'] = $password;
@@ -128,8 +122,8 @@
          *    @return string       Proxy URL.
          *    @access public
          */
-        function getDefaultProxy() {
-            $registry = &SimpleTest::_getRegistry();
+        public static function getDefaultProxy() {
+            $registry = self::_getRegistry();
             return $registry['DefaultProxy'];
         }
 
@@ -138,8 +132,8 @@
          *    @return string    Proxy username for authentication.
          *    @access public
          */
-        function getDefaultProxyUsername() {
-            $registry = &SimpleTest::_getRegistry();
+        public static function getDefaultProxyUsername() {
+            $registry = self::_getRegistry();
             return $registry['DefaultProxyUsername'];
         }
 
@@ -148,21 +142,19 @@
          *    @return string    Proxy password for authentication.
          *    @access public
          */
-        function getDefaultProxyPassword() {
-            $registry = &SimpleTest::_getRegistry();
+        public static function getDefaultProxyPassword() {
+            $registry = self::_getRegistry();
             return $registry['DefaultProxyPassword'];
         }
 
         /**
          *    Accessor for global registry of options.
-         *    @return hash           All stored values.
-         *    @access private
-         *    @static
+         *    @return array           All stored values.
          */
-        function &_getRegistry() {
+        private static function &_getRegistry() {
             static $registry = false;
             if (! $registry) {
-                $registry = SimpleTest::_getDefaults();
+                $registry = self::_getDefaults();
             }
             return $registry;
         }
@@ -171,10 +163,8 @@
          *    Accessor for the context of the current
          *    test run.
          *    @return SimpleTestContext    Current test run.
-         *    @access public
-         *    @static
          */
-        function &getContext() {
+        public static function &getContext() {
             static $context = false;
             if (! $context) {
                 $context = new SimpleTestContext();
@@ -184,11 +174,11 @@
 
         /**
          *    Constant default values.
-         *    @return hash       All registry defaults.
+         *    @return array       All registry defaults.
          *    @access private
          *    @static
          */
-        function _getDefaults() {
+        private static function _getDefaults() {
             return array(
                     'StubBaseClass' => 'SimpleStub',
                     'MockBaseClass' => 'SimpleMock',
@@ -376,56 +366,56 @@
         /**
          *    @deprecated
          */
-        function ignore($class) {
-            return Simpletest::ignore($class);
+        public static function ignore($class) {
+            parent::ignore($class);
         }
 
         /**
          *    @deprecated
          */
-        function isIgnored($class) {
-            return Simpletest::isIgnored($class);
+        public static function isIgnored($class) {
+            return parent::isIgnored($class);
         }
 
         /**
          *    @deprecated
          */
-        function setMockBaseClass($mock_base) {
-            return Simpletest::setMockBaseClass($mock_base);
+        public static function setMockBaseClass($mock_base) {
+            parent::setMockBaseClass($mock_base);
         }
 
         /**
          *    @deprecated
          */
-        function getMockBaseClass() {
-            return Simpletest::getMockBaseClass();
+        public static function getMockBaseClass() {
+            return parent::getMockBaseClass();
         }
 
         /**
          *    @deprecated
          */
-        function useProxy($proxy, $username = false, $password = false) {
-            return Simpletest::useProxy($proxy, $username, $password);
+        public static function useProxy($proxy, $username = false, $password = false) {
+            Simpletest::useProxy($proxy, $username, $password);
         }
 
         /**
          *    @deprecated
          */
-        function getDefaultProxy() {
+        public static function getDefaultProxy() {
             return Simpletest::getDefaultProxy();
         }
 
         /**
          *    @deprecated
          */
-        function getDefaultProxyUsername() {
+        public static function getDefaultProxyUsername() {
             return Simpletest::getDefaultProxyUsername();
         }
 
         /**
          *    @deprecated
          */
-        function getDefaultProxyPassword() {
+        public static function getDefaultProxyPassword() {
             return Simpletest::getDefaultProxyPassword();
         }
     }

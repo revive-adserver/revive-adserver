@@ -215,11 +215,11 @@ class MDB2_Schema extends PEAR
      *              format returned by @see MDB2::parseDSN.
      *              Finally you can also pass an existing db object to be used.
      * @param array An associative array of option names and their values.
-     * @return bool|MDB2_Error MDB2_OK or error object
+     * @return self|MDB2_Error MDB2_OK or error object
      * @access public
      * @see     MDB2::parseDSN
      */
-    function &factory(&$db, $options = array())
+    public static function factory($db, $options = array())
     {
         $obj = new MDB2_Schema();
         $err = $obj->connect($db, $options);
@@ -800,7 +800,7 @@ class MDB2_Schema extends PEAR
             case 'insert':
                 $data = $this->getInstructionFields($instruction, $table['fields'], $include_autoincrement);
                 if (!empty($data)) {
-                    $aResult['aIds'][] = $data['id'];
+                    $aResult['aIds'][] = $data['id'] ?? null;
                     unset($data['id']);
                     $fields = implode(', ', array_keys($data));
                     $values = implode(', ', array_values($data));
@@ -2598,11 +2598,10 @@ class MDB2_Schema extends PEAR
                       a string and $db->getMessage() == $code or
      *                $code is an integer and $db->getCode() == $code
      * @return  bool  true if parameter is an error
-     * @access  public
      */
-    function isError($data, $code = null)
+    public static function isError($data, $code = null)
     {
-        if (is_a($data, 'MDB2_Schema_Error')) {
+        if ($data instanceof MDB2_Schema_Error) {
             if (is_null($code)) {
                 return true;
             } elseif (is_string($code)) {
@@ -2612,6 +2611,7 @@ class MDB2_Schema extends PEAR
                 return in_array($data->getCode(), $code);
             }
         }
+
         return false;
     }
 

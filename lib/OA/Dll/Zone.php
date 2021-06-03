@@ -690,7 +690,7 @@ class OA_Dll_Zone extends OA_Dll
         return false;
     }
 
-    function generateTags($zoneId, $codeType, $aParams = null)
+    function generateTags($zoneId, $codeType, $aParams = [])
     {
         // Backwards Compatibity Array for code types
         $aBackwardsCompatibityTypes = array (
@@ -753,7 +753,7 @@ class OA_Dll_Zone extends OA_Dll
      */
     function getAllowedTags() {
         $aAllowedTags = array();
-        $invocationTags =& OX_Component::getComponents('invocationTags');
+        $invocationTags = OX_Component::getComponents('invocationTags');
         foreach($invocationTags as $pluginKey => $invocationTag) {
             if ($invocationTag->isAllowed(null, null)){
                 $aAllowedTags[] = $pluginKey;

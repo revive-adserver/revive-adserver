@@ -27,12 +27,17 @@ class Test_OX_Admin_UI_Event_ModifyingTestEventListener
 
         //modify it
         $tmp = &$context->$eventName;
-        $tmp['count'] += 1;
+        $tmp['count'] = isset($tmp['count']) ? $tmp['count'] + 1 : 1;
         $dummyObject = $context->data['dummy'];
         $dummyObject->id = $eventName;
 
         //store it for test comparisons
-        $this->aCallCount[$eventName]['count'] += 1;
+        if (isset($this->aCallCount[$eventName]['count'])) {
+            ++$this->aCallCount[$eventName]['count'];
+        } else {
+            $this->aCallCount[$eventName]['count'] = 1;
+        }
+
         $this->aCallCount[$eventName]['lastContext'] = $context;
 
     }

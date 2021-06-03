@@ -24,6 +24,7 @@ $logView	=	true;
 $useAlt		=	false;
 $loc		=	0;
 $referer	= 	'http://some.referrer.com/';
+$richMedia  =   false;
 $conf = $GLOBALS['_MAX']['CONF'];
 
 $aBanner    =   array(

@@ -22,6 +22,8 @@ require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 require_once MAX_PATH .'/www/admin/lib-zones.inc.php';
 
+Language_Loader::load();
+
 /**
  * A class for testing the Admin_DA class.
  */
@@ -56,7 +58,7 @@ class Admin_DaTest extends DalUnitTestCase
     function __construct()
     {
         parent::__construct();
-        $this->dbh =& OA_DB::singleton();
+        $this->dbh = OA_DB::singleton();
     }
 
     function getLastRecordInserted($tableName, $tableIndexField)
@@ -724,7 +726,7 @@ class Admin_DaTest extends DalUnitTestCase
     function testGetZones()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $dbh =& OA_DB::singleton();
+        $dbh = OA_DB::singleton();
 
         $ret = $this->newZone();
         $this->assertTrue(is_int($ret));
@@ -784,7 +786,7 @@ class Admin_DaTest extends DalUnitTestCase
     function testDuplicateZone()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $dbh =& OA_DB::singleton();
+        $dbh = OA_DB::singleton();
         $id = $this->newZone();
         $this->assertTrue(is_int($id));
         $this->assertTrue($id > 0);
@@ -865,7 +867,12 @@ class Admin_DaTest extends DalUnitTestCase
     function testCheckBannerZoneAdAssoc()
     {
         // sql banner with an email zone
-        $aZone = array('type' => 4);
+        $aZone = [
+            'type' => 4,
+            'publisher_id' => 1,
+            'zone_id' => 1,
+            'name' => 'foo',
+        ];
         $bannerType = 'sql';
         $contentType = 'gif';
 
@@ -873,7 +880,6 @@ class Admin_DaTest extends DalUnitTestCase
         $this->assertFalse(PEAR::isError($ret));
 
         // web banner (png) with an email zone
-        $aZone = array('type' => 4);
         $bannerType = 'web';
         $contentType = 'png';
 
@@ -881,7 +887,6 @@ class Admin_DaTest extends DalUnitTestCase
         $this->assertFalse(PEAR::isError($ret));
 
         // url banner (jpg) with an email zone
-        $aZone = array('type' => 4);
         $bannerType = 'url';
         $contentType = 'jpeg';
 
@@ -889,7 +894,6 @@ class Admin_DaTest extends DalUnitTestCase
         $this->assertFalse(PEAR::isError($ret));
 
         // html banner (swf) with an email zone
-        $aZone = array('type' => 4);
         $bannerType = 'html';
 
         PEAR::pushErrorHandling(null);
@@ -905,7 +909,7 @@ class Admin_DaTest extends DalUnitTestCase
         $ret = Admin_DA::addAdZone(array('zone_id' => $this->zoneId, 'ad_id' => $this->bannerId));
         $this->assertTrue(is_int($ret));
         $this->assertTrue($ret > 0);
-        Admin_DA::deleteAdZones(array('zone_id' => $this->zoneId, 'ad_id' => $this->adId));
+        Admin_DA::deleteAdZones(array('zone_id' => $this->zoneId, 'ad_id' => $this->bannerId));
     }
 
     // +---------------------------------------+

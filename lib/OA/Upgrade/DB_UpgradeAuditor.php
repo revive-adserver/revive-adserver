@@ -259,7 +259,7 @@ class OA_DB_UpgradeAuditor extends OA_BaseUpgradeAuditor
 
         $result = $this->oDbh->exec($query);
 
-        if ($this->isPearError($result, "error updating {$this->prefix}{$this->logTables}"))
+        if ($this->isPearError($result, "error updating {$this->prefix}{$this->logTable}"))
         {
             return false;
         }
@@ -273,7 +273,7 @@ class OA_DB_UpgradeAuditor extends OA_BaseUpgradeAuditor
 
         $result = $this->oDbh->exec($query);
 
-        if ($this->isPearError($result, "error updating {$this->prefix}{$this->logTables}"))
+        if ($this->isPearError($result, "error updating {$this->prefix}{$this->logTable}"))
         {
             return false;
         }
@@ -303,8 +303,8 @@ class OA_DB_UpgradeAuditor extends OA_BaseUpgradeAuditor
                 $name = str_replace($this->prefix, '', $name);
                 $aInfo = $this->queryAuditForABackup($name);
                 $aResult[$k]['backup_table'] = $name;
-                $aResult[$k]['copied_table'] = $aInfo[0]['tablename'];
-                $aResult[$k]['copied_date']  = $aInfo[0]['updated'];
+                $aResult[$k]['copied_table'] = $aInfo[0]['tablename'] ?? null;
+                $aResult[$k]['copied_date']  = $aInfo[0]['updated'] ?? null;
                 $aStatus = $this->getTableStatus($name);
                 $aResult[$k]['data_length'] = $aStatus[0]['data_length']/1024;
                 $aResult[$k]['rows'] = $aStatus[0]['rows'];

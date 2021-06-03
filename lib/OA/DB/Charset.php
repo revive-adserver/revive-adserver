@@ -47,12 +47,10 @@ class OA_DB_Charset
     /**
      * A factory method to return the correct subclass depending on the currently used database
      *
-     * @static
-     *
      * @param MDB2_Driver_Common $oDbh
      * @return OA_DB_Charset
      */
-    function &factory(&$oDbh)
+    public static function factory(&$oDbh)
     {
         if (!empty($oDbh) && !PEAR::isError($oDbh)) {
             $driver = strtolower($oDbh->dbsyntax);

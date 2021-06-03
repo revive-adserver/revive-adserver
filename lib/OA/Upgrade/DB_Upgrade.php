@@ -761,7 +761,7 @@ class OA_DB_Upgrade
                                                          );
                             if ($this->dropTable($table))
                             {
-                                $this->_logOnly("table dropped: {$aTable['schema_name']}:{$aTableRec['version']}:{$this->prefix}{$table}");
+                                $this->_logOnly("table dropped: {$aTableRec['schema_name']}:{$aTableRec['version']}:{$this->prefix}{$table}");
                                 $this->oAuditor->logAuditAction(array('info1'=>'dropped new table',
                                                                       'tablename'=>$table,
                                                                       'action'=>DB_UPGRADE_ACTION_ROLLBACK_TABLE_DROPPED,
@@ -799,14 +799,17 @@ class OA_DB_Upgrade
     {
 
         $aResult = $this->oAuditor->queryAuditUpgradeStartedByUpgradeId($id);
-        if ($this->_isPearError($aResult))
+        if ($this->_isPearError($aResult) || empty($aResult))
         {
             $this->_logError('failed to retrieve the details of the schema that was upgraded');
-            $aResult[0]['schema_name'] = 'unkown';
-            $aResult[1]['info2']       = 'unkown';
+            $aResult = [
+                'schema_name' => 'unknown',
+                'info2' => 'unknown',
+            ];
+        } else {
+            $schemaName = $aResult[0]['schema_name'];
+            $versionInitialSchema = $aResult[0]['info2'];
         }
-        $schemaName = $aResult[0]['schema_name'];
-        $versionInitialSchema = $aResult[0]['info2'];
 
         $this->aRestoreTables   = array();
         $this->aAddedTables     = array();
@@ -820,7 +823,7 @@ class OA_DB_Upgrade
         foreach ($aResult as $k => &$aAction)
         {
             $this->aRestoreTables[$aAction['schema_name']][$aAction['version']][$aAction['tablename']][$aAction['timing']] = $aAction;
-            $this->_logOnly("require backup table {$this->prefix}{$aAction['tablename_backup']} to restore {$aAction['schema']}:{$aAction['version']} table: {$this->prefix}{$aAction['tablename']}");
+            $this->_logOnly("require backup table {$this->prefix}{$aAction['tablename_backup']} to restore {$aAction['schema_name']}:{$aAction['version']} table: {$this->prefix}{$aAction['tablename']}");
             if (in_array($this->prefix.$aAction['tablename_backup'], $this->aDBTables))
             {
                 $this->_logOnly("backup table {$this->prefix}{$aAction['tablename_backup']} found in database");
@@ -920,7 +923,7 @@ class OA_DB_Upgrade
         // not expecting any diffs other than autoincrement property
         if (count($aDiffs)>0)
         {
-            if ($aDiffs['tables']['change'][$table]['change'])
+            if (!empty($aDiffs['tables']['change'][$table]['change']))
             {
                 foreach ($aDiffs['tables']['change'][$table]['change'] AS $field_name => &$aFldDiff)
                 {
@@ -1309,9 +1312,7 @@ class OA_DB_Upgrade
                 }
                 else
                 {
-                    $this->oTable->dropTable($this->prefix.$table);
-                    if (!$this->_isPearError($result, 'error removing table '.$this->prefix.$table))
-                    {
+                    if ($this->oTable->dropTable($this->prefix.$table)) {
                         if (!$this->_executeMigrationMethodTable($table, 'afterRemoveTable'))
                         {
                             $this->_halt();
@@ -1485,6 +1486,8 @@ class OA_DB_Upgrade
      */
     function _verifyTasksIndexesAdd()
     {
+        $halt = false;
+
         if (isset($this->aChanges['tasks'][$this->timingStr]['tables']))
         {
             foreach ($this->aChanges['tasks'][$this->timingStr]['tables'] AS $table => &$aTable_tasks)
@@ -2014,7 +2017,7 @@ class OA_DB_Upgrade
      * the use of an 'order' key and sort method was suggested
      *
      * @param array $aIndex_def
-     * @return boolean
+     * @return array
      */
     function _sortIndexFields($aIndex_def)
     {
@@ -2034,7 +2037,7 @@ class OA_DB_Upgrade
             reset($aIdx_sort);
             foreach ($aIdx_sort as $k => &$field)
             {
-                $sorting = ($aIndex_definition['fields'][$field]['sorting']?'ascending':'descending');
+                $sorting = ($aIndex_def['fields'][$field]['sorting']?'ascending':'descending');
                 $aIdx_new['fields'][$field] = array('sorting'=>$sorting);
             }
             reset($aIdx_new['fields']);
@@ -2470,7 +2473,7 @@ class OA_DB_Upgrade
         foreach ($aDefinition['tables'] AS $tablename => &$aDef)
         {
             $strippedname = strtolower($tablename);
-            if ($aDefinition['prefixedTblNames'])
+            if (!empty($aDefinition['prefixedTblNames']))
             {
                 $strippedname = preg_replace("/^{$prefix}/", '', $strippedname, 1);
             }
@@ -2480,14 +2483,14 @@ class OA_DB_Upgrade
                 {
                     $strippedidx = strtolower($indexname);
                     $iOffset = 63 - strlen($prefix);
-                    if ($aDefinition['prefixedIdxNames'])
+                    if (!empty($aDefinition['prefixedIdxNames']))
                     {
                         $strippedidx = preg_replace("/^{$prefix}/", '', $strippedidx, 1);
                     }
                     if (!isset($aIndex['primary']))
                     {
                         $iOffset-= 1;
-                        if ($aDefinition['expandedIdxNames'])
+                        if (!empty($aDefinition['expandedIdxNames']))
                         {
                             $strippedidx = preg_replace("/^{$strippedname}_/", '', $strippedidx, 1);
                             $iOffset-= strlen($strippedname) ;
@@ -2535,7 +2538,7 @@ class OA_DB_Upgrade
         if (!PEAR::isError($aResult) && count($aResult) > 0) {
             $warning = false;
             foreach ($aResult as $row) {
-                if ($v['revenue_type'] == MAX_FINANCE_CPM) {
+                if ($row['revenue_type'] == MAX_FINANCE_CPM) {
                     $type = 'CPM';
                     $what = 'clicks and/or conversions';
                 } else {

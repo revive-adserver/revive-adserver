@@ -55,7 +55,7 @@ class Image_Canvas_Color extends Image_Color
     * @access   public
     * @static
     */
-    function allocateColor(&$img, $color)
+    public static function allocateColor(&$img, $color)
     {
         $color = Image_Canvas_Color::color2RGB($color);
 
@@ -77,7 +77,7 @@ class Image_Canvas_Color extends Image_Color
     * @access   public
     * @static
     */
-    function color2RGB($color)
+    public static function color2RGB($color)
     {
         if (is_array($color)) {
             if (!is_numeric($color[0])) {

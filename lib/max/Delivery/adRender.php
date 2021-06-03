@@ -124,7 +124,7 @@ function MAX_adRender(array &$aBanner, int $zoneId = 0, string $source = '', str
         '{width}' => $aBanner['width'],
         '{height}' => $aBanner['height'],
         '{websiteid}' => $aBanner['affiliate_id'] ?? 0,
-        '{campaignid}' => $aBanner['campaign_id'],
+        '{campaignid}' => $aBanner['placement_id'],
         '{advertiserid}' => $aBanner['client_id'],
         '{referer}' => $referer ?? '',
         '{logurl}' => '', // Placeholder

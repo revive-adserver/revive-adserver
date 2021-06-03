@@ -46,7 +46,7 @@ class Test_OX_Maintenance_Statistics_Task_ManageConversions extends UnitTestCase
      */
     function testRun()
     {
-        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
         $aConf['maintenance']['operationInterval'] = 60;
 
         // Test 1: Test with the bucket data not having been migrated,

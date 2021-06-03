@@ -32,7 +32,7 @@ class RV_UpgradePostscript_5_0_0_beta_rc1
         $this->oUpgrade = $aParams[0];
 
         $this->oDbh = OA_DB::singleton();
-        
+
         $this->oDbh->beginTransaction();
 
         $this->migrateConfiguration();
@@ -40,7 +40,9 @@ class RV_UpgradePostscript_5_0_0_beta_rc1
         $this->migrateTable('acls', 'bannerid');
         $this->migrateTable('acls_channel', 'channelid');
 
+        RV::disableErrorHandling();
         $this->oDbh->commit();
+        RV::enableErrorHandling();
 
         // Rebuild ACLs
         $this->oUpgrade->addPostUpgradeTask('Recompile_Acls');
@@ -86,7 +88,7 @@ class RV_UpgradePostscript_5_0_0_beta_rc1
         $deletedRows = [];
 
         /** @var MDB2_Statement_Common $updateStmt */
-        $updateStmt = $this->oDbh->prepare("UPDATE {$qTblAcls} SET type = :type, data = :data WHERE {$qId} = :{$idName} AND executionorder = :executionorder");
+        $updateStmt = $this->oDbh->prepare("UPDATE {$qTblAcls} SET type = :type, data = :data, logical = :logical WHERE {$qId} = :{$idName} AND executionorder = :executionorder");
 
         /** @var MDB2_Result_Common $result */
         $result = $this->oDbh->query("SELECT {$qId}, type, data, executionorder, logical FROM {$qTblAcls} WHERE {$where} ORDER BY {$qId}, executionorder");

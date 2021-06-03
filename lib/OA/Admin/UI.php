@@ -290,7 +290,7 @@ class OA_Admin_UI
         header ("Content-Type: text/html".(isset($phpAds_CharSet) && $phpAds_CharSet != "" ? "; charset=".$phpAds_CharSet : ""));
         $this->oTpl->display();
         if (!defined('phpAds_installing')) {
-            OX_Admin_UI_Hooks::afterPageHeader($id);
+            OX_Admin_UI_Hooks::afterPageHeader($ID);
         }
     }
 
@@ -325,7 +325,7 @@ class OA_Admin_UI
 	    }
     }
 
-    function getID($ID)
+    public static function getID($ID)
     {
         $id = $ID;
 
@@ -351,7 +351,7 @@ class OA_Admin_UI
      * @return string A string with the parent page, it will be null if the page
      *                doesn't have a parent page.
      */
-    function getTopLevelPage($sectionId = null)
+    public static function getTopLevelPage($sectionId = null)
     {
         $sectionId = OA_Admin_UI::getID($sectionId);
         $oMenu = OA_Admin_Menu::singleton();
@@ -557,7 +557,7 @@ class OA_Admin_UI
         $this->oTpl->assign('strWarningMissingOpening', html_entity_decode($GLOBALS['strWarningMissingOpening']));
         $this->oTpl->assign('strWarningMissingClosing', html_entity_decode($GLOBALS['strWarningMissingClosing']));
         $this->oTpl->assign('strSubmitAnyway', html_entity_decode($GLOBALS['strSubmitAnyway']));
-		    $this->oTpl->assign('warningBeforeDelete', $GLOBALS['_MAX']['PREF']['ui_novice_user'] ? 'true' : 'false');
+        $this->oTpl->assign('warningBeforeDelete', empty($GLOBALS['_MAX']['PREF']['ui_novice_user']) ? 'false' : 'true');
     }
 
 
@@ -701,7 +701,7 @@ class OA_Admin_UI
      * @param int $timeout value or 0
      * @param string $relatedAction this is an optional parameter which can be used to asses the message with action it is related to
      */
-    function queueMessage($text, $location = 'global', $type = 'confirm', $timeout = 5000, $relatedAction = null) {
+    public static function queueMessage($text, $location = 'global', $type = 'confirm', $timeout = 5000, $relatedAction = null) {
         global $session;
 
         if (!isset($session['messageId'])) {
@@ -751,7 +751,7 @@ class OA_Admin_UI
      * @param string $relatedAction name of the action which messages should be removed
      * @return number of messages removed from queue
      */
-    function removeMessages($relatedAction)
+    public static function removeMessages($relatedAction)
     {
         global $session;
 
@@ -788,9 +788,9 @@ class OA_Admin_UI
      * parameter set properly.
      *
      * @param string $relatedAction name of the action which messages should be removed
-     * @return true if there was any message removed, false otherwise
+     * @return bool True if there was any message removed, false otherwise
      */
-    function removeOneMessage($relatedAction)
+    public static function removeOneMessage($relatedAction)
     {
         global $session;
 

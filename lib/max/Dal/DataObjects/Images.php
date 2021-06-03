@@ -213,7 +213,7 @@ class DataObjects_Images extends DB_DataObjectCommon
     }
 
 
-    function _formatValue($field, $type ='')
+    function _formatValue($field, $type = 0)
     {
         $fieldVal = $this->$field;
         if (is_a($fieldVal, 'DB_DataObject_Cast') && $fieldVal->type == 'blob') {

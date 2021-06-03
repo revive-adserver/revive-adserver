@@ -38,6 +38,8 @@ require_once(MAX_PATH.'/lib/OA/Admin/Menu.php');
 
 class OX_Plugin_ComponentGroupManager
 {
+    var $basePath;
+
     var $pathPackages;
     var $pathPlugins;
     var $pathPluginsAdmin;
@@ -221,7 +223,7 @@ class OX_Plugin_ComponentGroupManager
         return UPGRADE_ACTION_UPGRADE_SUCCEEDED;
     }
 
-    public function diagnoseComponentGroup(&$aGroup)
+    public function diagnoseComponentGroup($aGroup)
     {
         $aTaskList = $this->getDiagnosticTasks($aGroup);
 
@@ -262,7 +264,7 @@ class OX_Plugin_ComponentGroupManager
      * @param array $aGroup
      * @return array
      */
-    function getDiagnosticTasks(&$aGroup)
+    function getDiagnosticTasks($aGroup)
     {
         $aTaskList[] = array(
                             'method' =>'_checkOpenXCompatibility',
@@ -310,7 +312,7 @@ class OX_Plugin_ComponentGroupManager
                             'method' =>'_checkNavigationCheckers',
                             'params' => array(
                                               $aGroup['name'],
-                                              $aGroup['install']['navigation']['checkers'],
+                                              $aGroup['install']['navigation']['checkers'] ?? [],
                                               $aGroup['install']['files']
                                              ),
                             );
@@ -324,7 +326,7 @@ class OX_Plugin_ComponentGroupManager
      * @param array $aGroup
      * @return array
      */
-    function getInstallTasks(&$aGroup)
+    function getInstallTasks($aGroup)
     {
         $aTaskList[] = array(
                             'method' =>'_checkOpenXCompatibility',
@@ -372,7 +374,7 @@ class OX_Plugin_ComponentGroupManager
                             'method' =>'_checkNavigationCheckers',
                             'params' => array(
                                               $aGroup['name'],
-                                              $aGroup['install']['navigation']['checkers'],
+                                              $aGroup['install']['navigation']['checkers'] ?? [],
                                               $aGroup['install']['files']
                                              ),
                             );
@@ -435,7 +437,7 @@ class OX_Plugin_ComponentGroupManager
      * @param array $aGroup
      * @return array
      */
-    function getRollbackTasks(&$aGroup)
+    function getRollbackTasks($aGroup)
     {
         /*$aTaskList[] = array(
                             'method' =>'_checkDependenciesForUninstallOrDisable',
@@ -504,7 +506,7 @@ class OX_Plugin_ComponentGroupManager
      *
      * @param string $input_file
      * @param string $classname
-     * @return boolean
+     * @return array|false
      */
     function parseXML($input_file, $classname='OX_ParserComponentGroup')
     {
@@ -521,7 +523,8 @@ class OX_Plugin_ComponentGroupManager
         }
         $result = $oParser->setInputFile($input_file);
         if (PEAR::isError($result)) {
-            return $result;
+            $this->_logError('problem setting the input file: '.$result->getMessage());
+            return false;
         }
         $result = $oParser->parse();
         if (PEAR::isError($result))
@@ -546,9 +549,10 @@ class OX_Plugin_ComponentGroupManager
      * r
      *
      * @param string $classname
-     * @return object
+     * @param array  $aParams
+     * @return object|false
      */
-    function &_instantiateClass($classname) // cannot take params //, $aParams=null)
+    function _instantiateClass($classname, $aParams = [])
     {
         if (!$classname)
         {
@@ -560,24 +564,10 @@ class OX_Plugin_ComponentGroupManager
             $this->_logError('Class not found '.$classname);
             return false;
         }
-        $oResult = new $classname();
-/*      newInstanceArgs() method not implemented until php 5.1.3
-        if (!$aParams)
-        {
-            $oResult = new $classname();
-        }
-        else
-        {
-            // use Reflection to create a new instance, using the $args
-            $oReflection = new ReflectionClass($classname);
-            $oResult = $oReflection->newInstanceArgs($aParams);
-        }*/
-        if (!is_a($oResult,$classname))
-        {
-            $this->_logError('Failed to instantiate class '.$classname);
-            return false;
-        }
-        return $oResult;
+
+        $oReflection = new ReflectionClass($classname);
+
+        return $oReflection->newInstanceArgs($aParams);
     }
 
     /**
@@ -588,7 +578,7 @@ class OX_Plugin_ComponentGroupManager
      */
     public function getComponentGroupSettingsArray($name)
     {
-        return $GLOBALS['_MAX']['CONF'][$name] ? $GLOBALS['_MAX']['CONF'][$name] : array();
+        return $GLOBALS['_MAX']['CONF'][$name] ?? [];
     }
 
     /**
@@ -617,6 +607,8 @@ class OX_Plugin_ComponentGroupManager
         } elseif (file_exists(str_replace('/plugins/', '/extensions/', $file))) {
             return str_replace('/plugins/', '/extensions/', $file);
         }
+
+        return $file;
     }
 
     /**
@@ -781,9 +773,8 @@ class OX_Plugin_ComponentGroupManager
         if ($aSettings)
         {
             $oSettings  = $this->_instantiateClass('OA_Admin_Settings');
-            foreach ($aSettings AS &$aSetting)
-            {
-                $oSettings->settingChange($name,$aSetting['key'],$aSetting['value']);
+            foreach ($aSettings AS $aSetting) {
+                $oSettings->settingChange($name, $aSetting['key'], $aSetting['value'] ?? null);
             }
             if (!$oSettings->writeConfigChange())
             {
@@ -1380,20 +1371,17 @@ class OX_Plugin_ComponentGroupManager
         {
             return true;
         }
-        $aCheckers = $this->_prepareMenuCheckers($name, $aMenus['checkers'], $aFiles);
+        $aCheckers = $this->_prepareMenuCheckers($name, $aMenus['checkers'] ?? [], $aFiles);
         foreach ($aMenus AS $accountType => &$aMenu)
         {
-            if (!$this->aMenuObjects[$accountType])
-            {
+            if (empty($this->aMenuObjects[$accountType])) {
                 $oMenu = $this->_getMenuObject($accountType);
-            }
-            else
-            {
+            } else {
                 $oMenu = $this->aMenuObjects[$accountType];
             }
-            foreach ($aMenu as $idx => &$aMenu)
+            foreach ($aMenu as $idx => $aMenuPart)
             {
-                if (!$this->_addMenuSection($oMenu, $aMenu, $aCheckers))
+                if (!$this->_addMenuSection($oMenu, $aMenuPart, $aCheckers))
                 {
                     return false;
                 }
@@ -1417,7 +1405,7 @@ class OX_Plugin_ComponentGroupManager
         $aCheckers = array();
         if ($aMenuCheckers && $aFiles) {
             foreach($aMenuCheckers as &$aChecker) {
-                foreach ($aFiles as &$aFile)
+                foreach ($aFiles as $aFile)
                 {
                     if ($aFile['name'] == $aChecker['include']) {
                         $aChecker['path'] = $this->_expandFilePath($aFile['path'], $aFile['name'], $name);
@@ -1574,19 +1562,19 @@ class OX_Plugin_ComponentGroupManager
         $file = $this->getPathToComponentGroup($name).'etc/'.$file;
         if (!file_exists($file))
         {
-            $this->_logError('File does not exist '.$path.$file);
+            $this->_logError('File does not exist '.$file);
             return false;
         }
         $className = '';
-        if (!@require_once $path.$file)
+        if (!@require_once $file)
         {
-            $this->_logError('Failed to acquire file '.$path.$file);
+            $this->_logError('Failed to acquire file '.$file);
             return false;
         }
         if (!empty($className)) {
-            $aClassNames[$path.$file] = $className;
+            $aClassNames[$file] = $className;
         } else {
-            $className = $aClassNames[$path.$file];
+            $className = $aClassNames[$file];
         }
         // $classname is declared in script
         $oScript = $this->_instantiateClass($className);
@@ -1793,7 +1781,7 @@ class OX_Plugin_ComponentGroupManager
      * return only the schema portion of the array
      *
      * @param string $name
-     * @return array
+     * @return array|false
      */
     function _getDataObjectSchema($name)
     {
@@ -1801,7 +1789,7 @@ class OX_Plugin_ComponentGroupManager
         if (!file_exists($file))
         {
             $this->_logError('Unable to determine schema requirements for '.$name.' - could not locate definition at '.$file);
-            return $false;
+            return false;
         }
         $aGroup = $this->parseXML($file, 'OX_ParserComponentGroup');
         return $aGroup['install']['schema'];
@@ -1940,7 +1928,7 @@ class OX_Plugin_ComponentGroupManager
                 $aParse = $this->parseXML($file);
                 if (isset($aParse['install']['navigation'][$accountType]))
                 {
-                    $aCheckers = $this->_prepareMenuCheckers($name, $aParse['install']['navigation']['checkers'], $aParse['install']['files']);
+                    $aCheckers = $this->_prepareMenuCheckers($name, $aParse['install']['navigation']['checkers'] ?? null, $aParse['install']['files'] ?? null);
                     foreach ($aParse['install']['navigation'][$accountType] as $idx => &$aMenu)
                     {
                         if (!$this->_addMenuSection($oMenu, $aMenu, $aCheckers))
@@ -1957,93 +1945,71 @@ class OX_Plugin_ComponentGroupManager
     /**
      * add a section to a menu object
      *
-     * @param object of type OA_Admin_Menu $oMenu
+     * @param OA_Admin_Menu $oMenu
      * @param array $aMenu
      * @param array $aCheckers
      * @return boolean
      */
-    function _addMenuSection(&$oMenu, &$aMenu, &$aCheckers)
+    function _addMenuSection($oMenu, $aMenu, $aCheckers)
     {
-        if (isset($aMenu['exclusive'])) {
-            if ($aMenu['exclusive'] == 'true' || $aMenu['exclusive'] == '1') {
-                $aMenu['exclusive'] = true;
-            } else {
-                $aMenu['exclusive'] = false;
-            }
-        }
-        if ($aMenu['add'])
-        {
-            if ($oMenu->get($aMenu['add'],false))
-            {
+        if (!empty($aMenu['add'])) {
+            if ($oMenu->get($aMenu['add'], false)) {
                 // menu already exists
-                $this->_logError('Menu already exists for '.$aMenu['add']);
+                $this->_logError('Menu already exists for ' . $aMenu['add']);
                 return false;
             }
-            $oMenuSection = new OA_Admin_Menu_Section($aMenu['add'], $aMenu['value'], $aMenu['link'], $aMenu['exclusive'], $aMenu['helplink']);
+            $oMenuSection = new OA_Admin_Menu_Section($aMenu['add'], $aMenu['value'], $aMenu['link'], $aMenu['exclusive'] ?? false, $aMenu['helplink'] ?? '');
             $oMenu->add($oMenuSection);
-        }
-        elseif ($aMenu['replace'])
-        {
-			if (!$oMenu->get($aMenu['replace'],false))
-			{
-			    $this->_logError('Menu to replace does not exist '.$aMenu['replace']);
-			    return false;
-			}
-			if( !empty($aMenu['index']) && $aMenu['index'] != $aMenu['replace'])
-			{
-			    $this->_logError('When replacing a menu, you can\'t define an \'index\' in the menu definition that is different from the menu index it is replacing.
-			    You can also simply remove the \'index='.$aMenu['index'].' from your menu definition file.');
-			    return false;
-			}
-			$oMenuSection = $oMenu->get($aMenu['replace'], false);
-			if($aMenu['value']) $oMenuSection->setNameKey($aMenu['value']);
-			if($aMenu['link']) $oMenuSection->setLink($aMenu['link']);
-			if($aMenu['exclusive']) $oMenuSection->setExclusive($aMenu['exclusive']);
-			if($aMenu['helplink']) $oMenuSection->setHelpLink($aMenu['helplink']);
-			$oMenuSection->setSectionHasBeenReplaced();
-        }
-        else
-		{
-            if ($oMenu->get($aMenu['index'],false))
-            {
-                $this->_logError('Menu already exists for '.$aMenu['index']);
+        } elseif (!empty($aMenu['replace'])) {
+            if (!$oMenu->get($aMenu['replace'], false)) {
+                $this->_logError('Menu to replace does not exist ' . $aMenu['replace']);
                 return false;
             }
-            $oMenuSection = new OA_Admin_Menu_Section($aMenu['index'], $aMenu['value'], $aMenu['link'], $aMenu['exclusive'], $aMenu['helplink']);
-            if ($aMenu['addto'])
-            {
-                if (!$oMenu->get($aMenu['addto'],false))
-                {
-                    $this->_logError('Parent menu does not exist for '.$aMenu['addto']);
+            if (!empty($aMenu['index']) && $aMenu['index'] != $aMenu['replace']) {
+                $this->_logError('When replacing a menu, you can\'t define an \'index\' in the menu definition that is different from the menu index it is replacing.
+			    You can also simply remove the \'index=' . $aMenu['index'] . ' from your menu definition file.');
+                return false;
+            }
+            $oMenuSection = $oMenu->get($aMenu['replace'], false);
+            if ($aMenu['value']) $oMenuSection->setNameKey($aMenu['value']);
+            if ($aMenu['link']) $oMenuSection->setLink($aMenu['link']);
+            if ($aMenu['exclusive']) $oMenuSection->setExclusive($aMenu['exclusive']);
+            if ($aMenu['helplink']) $oMenuSection->setHelpLink($aMenu['helplink']);
+            $oMenuSection->setSectionHasBeenReplaced();
+        } else {
+            if (!isset($aMenu['index'], $aMenu['value'], $aMenu['link'])) {
+                $this->_logError('Menu definition is missing index, value or link');
+                return false;
+            }
+            if ($oMenu->get($aMenu['index'], false)) {
+                $this->_logError('Menu already exists for ' . $aMenu['index']);
+                return false;
+            }
+            $oMenuSection = new OA_Admin_Menu_Section($aMenu['index'], $aMenu['value'], $aMenu['link'], $aMenu['exclusive'] ?? false, $aMenu['helplink'] ?? '');
+            if (!empty($aMenu['addto'])) {
+                if (!$oMenu->get($aMenu['addto'], false)) {
+                    $this->_logError('Parent menu does not exist for ' . $aMenu['addto']);
                     return false;
                 }
                 $oMenu->addTo($aMenu['addto'], $oMenuSection);
-            }
-            else if ($aMenu['insertafter'])
-            {
-                if (!$oMenu->get($aMenu['insertafter'],false))
-                {
-                    $this->_logError('Menu to insert after does not exist '.$aMenu['insertafter']);
+            } elseif (!empty($aMenu['insertafter'])) {
+                if (!$oMenu->get($aMenu['insertafter'], false)) {
+                    $this->_logError('Menu to insert after does not exist ' . $aMenu['insertafter']);
                     return false;
                 }
                 $oMenu->insertAfter($aMenu['insertafter'], $oMenuSection);
-            }
-            else if ($aMenu['insertbefore'])
-            {
-                if (!$oMenu->get($aMenu['insertbefore'],false))
-                {
-                    $this->_logError('Menu to insert before does not exist '.$aMenu['insertbefore']);
+            } elseif (!empty($aMenu['insertbefore'])) {
+                if (!$oMenu->get($aMenu['insertbefore'], false)) {
+                    $this->_logError('Menu to insert before does not exist ' . $aMenu['insertbefore']);
                     return false;
                 }
                 $oMenu->insertBefore($aMenu['insertbefore'], $oMenuSection);
             }
         }
-        if ($aMenu['checker'])
-        {
+        if (!empty($aMenu['checker'])) {
             $checkerClassName = $aMenu['checker'];
             @include_once MAX_PATH . $aCheckers[$checkerClassName]['path'];
-            if (class_exists($checkerClassName))
-            {
+            if (class_exists($checkerClassName)) {
                 $oMenu->addCheckerIncludePath($checkerClassName, $aCheckers[$checkerClassName]['path']);
                 $oChecker = new $checkerClassName;
                 $oMenuSection->setChecker($oChecker);
@@ -2052,9 +2018,9 @@ class OX_Plugin_ComponentGroupManager
         return true;
     }
 
-    function &_getOA_Admin_Menu($accountType)
+    function _getOA_Admin_Menu()
     {
-        return new OA_Admin_Menu($accountType);
+        return new OA_Admin_Menu();
     }
 
     /**
@@ -2065,7 +2031,7 @@ class OX_Plugin_ComponentGroupManager
      */
     function _getMenuObject($accountType)
     {
-        $oMenu = $this->_getOA_Admin_Menu($accountType);
+        $oMenu = $this->_getOA_Admin_Menu();
         if (empty($oMenu->aAllSections))
         {
             include_once MAX_PATH. '/lib/OA/Admin/Menu/config.php';
@@ -2146,13 +2112,13 @@ class OX_Plugin_ComponentGroupManager
                 }
             }
         }
-        $schema_version = $this->getSchemaInfo($aParse['install']['schema']['mdb2schema']);
+        $schema_version = $this->getSchemaInfo($aParse['install']['schema']['mdb2schema'] ?? null);
         if ($schema_version)
         {
             $aGroup['schema_name']     = $aParse['install']['schema']['mdb2schema'];
             $aGroup['schema_version']  = $schema_version;
         }
-        $aGroup['components'] = $aParse['install']['components'];
+        $aGroup['components'] = $aParse['install']['components'] ?? null;
 
         unset($aGroup['upgrade']);
         return $aGroup;
@@ -2184,7 +2150,7 @@ class OX_Plugin_ComponentGroupManager
      * return only the configuration portion of the array
      *
      * @param string $name
-     * @return array
+     * @return array|false
      */
     function _getComponentGroupConfiguration($name)
     {
@@ -2192,7 +2158,7 @@ class OX_Plugin_ComponentGroupManager
         if (!file_exists($file))
         {
             $this->_logError('Unable to determine configuration requirements for '.$name.' - could not locate definition at '.$file);
-            return $false;
+            return false;
         }
         $aGroup = $this->parseXML($file);
         return $aGroup['install']['conf'];

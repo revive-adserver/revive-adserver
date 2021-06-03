@@ -82,9 +82,13 @@ class HTML_QuickForm_Rule_Compare extends HTML_QuickForm_Rule
         $operator = $this->_findOperator($options);
 
         if ('===' != $operator && '!==' != $operator) {
-            $compareFn = create_function('$a, $b', 'return floatval($a) ' . $operator . ' floatval($b);');
+            $compareFn = function ($a, $b) use ($operator) {
+                return eval('$ret = '.floatval($a)."{$operator}".floatval($b).';');
+            };
         } else {
-            $compareFn = create_function('$a, $b', 'return strval($a) ' . $operator . ' strval($b);');
+            $compareFn = function ($a, $b) use ($operator) {
+                return eval('$ret = '.strval($a)."{$operator}".strval($b).';');
+            };
         }
 
         return $compareFn($values[0], $values[1]);

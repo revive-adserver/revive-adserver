@@ -175,7 +175,7 @@ while ($oOIEnd->before($oEndDate) || $oOIEnd->equals($oEndDate)) {
 }
 
 // Create and register an instance of the OA_Dal_Maintenance_Statistics DAL class for the following tasks to use
-$oServiceLocator =& OA_ServiceLocator::instance();
+$oServiceLocator = OA_ServiceLocator::instance();
 if (!$oServiceLocator->get('OX_Dal_Maintenance_Statistics')) {
     $oFactory = new OX_Dal_Maintenance_Statistics_Factory();
     $oDal = $oFactory->factory();

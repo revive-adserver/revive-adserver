@@ -13,6 +13,8 @@
 require_once LIB_PATH . '/Dal/Maintenance/Statistics/Factory.php';
 require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 
+Language_Loader::load();
+
 /**
  * A class for testing the summariseBucketsAggregate() method of the
  * DB agnostic OX_Dal_Maintenance_Statistics class.

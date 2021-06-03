@@ -20,22 +20,13 @@ require_once MAX_PATH.'/lib/OA/Upgrade/EnvironmentManager.php';
  */
 class Test_OA_Environment_Manager extends UnitTestCase
 {
-
-    /**
-     * The constructor method.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     function test_checkCriticalPHP()
     {
 
         // Test 1: Test PHP versions
 
         // Prepare a new OA_Environment_Manager class
-        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
         // Set an invalid version of PHP
         $oEnvironmentManager->aInfo['PHP']['actual']['version'] = '4.3.11';
@@ -46,7 +37,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array(), array('version'));
 
         // Prepare a new OA_Environment_Manager class
-        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
         // Set an invalid version of PHP
         $oEnvironmentManager->aInfo['PHP']['actual']['version'] = '5.2.8';
@@ -57,7 +48,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array(), array('version'));
 
         // Prepare a new OA_Environment_Manager class
-        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
         // Set an invalid version of PHP
         $oEnvironmentManager->aInfo['PHP']['actual']['version'] = '7.0.7';
@@ -68,7 +59,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array(), array('version'));
 
         // Prepare a new OA_Environment_Manager class
-        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
         // Set a valid version of PHP
         $oEnvironmentManager->aInfo['PHP']['actual']['version'] = '7.0.8';
@@ -79,7 +70,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
 
         // Prepare a new OA_Environment_Manager class
-        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
         // Set a valid version of PHP
         $oEnvironmentManager->aInfo['PHP']['actual']['version'] = '7.1.2';
@@ -92,7 +83,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         // Test 2: Test memory_limit
 
         // Prepare a new OA_Environment_Manager class
-        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
         // Set an invalid memory_limit
         $oEnvironmentManager->aInfo['PHP']['actual']['original_memory_limit'] = '2048';
@@ -103,7 +94,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array(), array('memory_limit'));
 
         // Prepare a new OA_Environment_Manager class
-        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
         // Set a valid memory_limit
         $oEnvironmentManager->aInfo['PHP']['actual']['original_memory_limit'] = '134217728';
@@ -114,7 +105,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
 
         // Prepare a new OA_Environment_Manager class
-        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
         // Set a valid memory_limit
         $oEnvironmentManager->aInfo['PHP']['actual']['original_memory_limit'] = '-1';
@@ -125,7 +116,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
 
         // Prepare a new OA_Environment_Manager class
-        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
         // Set a valid memory_limit
         $oEnvironmentManager->aInfo['PHP']['actual']['original_memory_limit'] = '';
@@ -138,7 +129,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         // Test 3: Test file_uploads
 
         // Prepare a new OA_Environment_Manager class
-        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
         // Set an invalid file_uploads
         $oEnvironmentManager->aInfo['PHP']['actual']['file_uploads'] = '0';
@@ -149,7 +140,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array('file_uploads'), array());
 
         // Prepare a new OA_Environment_Manager class
-        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
         // Set a valid file_uploads
         $oEnvironmentManager->aInfo['PHP']['actual']['file_uploads'] = '1';
@@ -162,7 +153,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         // Test 4: Test file_uploads
 
         // Prepare a new OA_Environment_Manager class
-        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
         // Set an invalid file_uploads
         $oEnvironmentManager->aInfo['PHP']['actual']['file_uploads'] = '0';
@@ -173,7 +164,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array('file_uploads'), array());
 
         // Prepare a new OA_Environment_Manager class
-        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
         // Set a valid file_uploads
         $oEnvironmentManager->aInfo['PHP']['actual']['file_uploads'] = '1';
@@ -186,7 +177,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         // Test 5: Test the zip extension
 
         // Prepare a new OA_Environment_Manager class
-        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
         // Set an invalid pcre extension
         $oEnvironmentManager->aInfo['PHP']['actual']['zip'] = '0';
@@ -197,7 +188,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array('zip'), array());
 
         // Prepare a new OA_Environment_Manager class
-        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
         // Set a valid pcre extension
         $oEnvironmentManager->aInfo['PHP']['actual']['zip'] = '1';
@@ -210,7 +201,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         // Test 6: Test the json extension
 
         // Prepare a new OA_Environment_Manager class
-        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
         // Set an invalid pcre extension
         $oEnvironmentManager->aInfo['PHP']['actual']['json'] = '0';
@@ -221,7 +212,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array('json'), array());
 
         // Prepare a new OA_Environment_Manager class
-        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
         // Set a valid pcre extension
         $oEnvironmentManager->aInfo['PHP']['actual']['json'] = '1';
@@ -234,7 +225,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         // Test 7: Test the pcre extension
 
         // Prepare a new OA_Environment_Manager class
-        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
         // Set an invalid pcre extension
         $oEnvironmentManager->aInfo['PHP']['actual']['pcre'] = '0';
@@ -245,7 +236,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array('pcre'), array());
 
         // Prepare a new OA_Environment_Manager class
-        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
         // Set a valid pcre extension
         $oEnvironmentManager->aInfo['PHP']['actual']['pcre'] = '1';
@@ -258,7 +249,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         // Test 8: Test the xml extension
 
         // Prepare a new OA_Environment_Manager class
-        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
         // Set an invalid xml extension
         $oEnvironmentManager->aInfo['PHP']['actual']['xml'] = '0';
@@ -269,7 +260,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array('xml'), array());
 
         // Prepare a new OA_Environment_Manager class
-        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
         // Set a valid xml extension
         $oEnvironmentManager->aInfo['PHP']['actual']['xml'] = '1';
@@ -282,7 +273,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         // Test 9: Test the zlib extension
 
         // Prepare a new OA_Environment_Manager class
-        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
         // Set an invalid zlib extension
         $oEnvironmentManager->aInfo['PHP']['actual']['zlib'] = '0';
@@ -293,7 +284,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array('zlib'), array());
 
         // Prepare a new OA_Environment_Manager class
-        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
         // Set a valid zlib extension
         $oEnvironmentManager->aInfo['PHP']['actual']['zlib'] = '1';
@@ -306,7 +297,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         // Test 10: Test the mysql/pgsql extensions
 
         // Prepare a new OA_Environment_Manager class
-        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
         // Set an invalid mysql/pgsql extension
         $oEnvironmentManager->aInfo['PHP']['actual']['mysql'] = '0';
@@ -318,7 +309,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array('mysql'), array());
 
         // Prepare a new OA_Environment_Manager class
-        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
         // Set a valid mysql/pgsql extension
         $oEnvironmentManager->aInfo['PHP']['actual']['mysql'] = '1';
@@ -330,7 +321,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
 
         // Prepare a new OA_Environment_Manager class
-        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
         // Set a valid mysql/pgsql extension
         $oEnvironmentManager->aInfo['PHP']['actual']['mysql'] = '0';
@@ -342,7 +333,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
 
         // Prepare a new OA_Environment_Manager class
-        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
         // Set a valid mysql/pgsql extension
         $oEnvironmentManager->aInfo['PHP']['actual']['mysql'] = '1';
@@ -356,7 +347,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         // Test 11: Test the timeout settings
 
         // Prepare a new OA_Environment_Manager class
-        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
         // Set an invalid timeout setting
         $oEnvironmentManager->aInfo['PHP']['actual']['timeout'] = '1';
@@ -367,7 +358,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array('timeout'), array());
 
         // Prepare a new OA_Environment_Manager class
-        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
         // Set a valid timeout setting
         $oEnvironmentManager->aInfo['PHP']['actual']['timeout'] = '0';
@@ -380,7 +371,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         // Test 12: Test the spl extension
 
         // Prepare a new OA_Environment_Manager class
-        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
         // Set an invalid pcre extension
         $oEnvironmentManager->aInfo['PHP']['actual']['spl'] = '0';
@@ -391,7 +382,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager, array('spl'), array());
 
         // Prepare a new OA_Environment_Manager class
-        $oEnvironmentManager = &$this->_getValidEnvironmentManagerObject();
+        $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
         // Set a valid pcre extension
         $oEnvironmentManager->aInfo['PHP']['actual']['spl'] = '1';
@@ -443,66 +434,23 @@ class Test_OA_Environment_Manager extends UnitTestCase
      */
     function _testValidEnvironmentManagerObject($oEnvironmentManager, $aErrors = array(), $aWarnings = array())
     {
-        if (in_array('version', $aWarnings)) {
-            $this->assertNotNull($oEnvironmentManager->aInfo['PHP']['warning']['version']);
-        } else {
-            $this->assertNull($oEnvironmentManager->aInfo['PHP']['warning']['version']);
-        }
-        if (in_array('memory_limit', $aErrors)) {
-            $this->assertNotNull($oEnvironmentManager->aInfo['PHP']['error']['memory_limit']);
-        } else {
-            $this->assertNull($oEnvironmentManager->aInfo['PHP']['error']['memory_limit']);
-        }
-        if (in_array('memory_limit', $aWarnings)) {
-            $this->assertNotNull($oEnvironmentManager->aInfo['PHP']['warning']['memory_limit']);
-        } else {
-            $this->assertNull($oEnvironmentManager->aInfo['PHP']['warning']['memory_limit']);
-        }
-        if (in_array('safe_mode', $aErrors)) {
-            $this->assertNotNull($oEnvironmentManager->aInfo['PHP']['error']['safe_mode']);
-        } else {
-            $this->assertNull($oEnvironmentManager->aInfo['PHP']['error']['safe_mode']);
-        }
-        if (in_array('file_uploads', $aErrors)) {
-            $this->assertNotNull($oEnvironmentManager->aInfo['PHP']['error']['file_uploads']);
-        } else {
-            $this->assertNull($oEnvironmentManager->aInfo['PHP']['error']['file_uploads']);
-        }
-        if (in_array('pcre', $aErrors)) {
-            $this->assertNotNull($oEnvironmentManager->aInfo['PHP']['error']['pcre']);
-        } else {
-            $this->assertNull($oEnvironmentManager->aInfo['PHP']['error']['pcre']);
-        }
-        if (in_array('xml', $aErrors)) {
-            $this->assertNotNull($oEnvironmentManager->aInfo['PHP']['error']['xml']);
-        } else {
-            $this->assertNull($oEnvironmentManager->aInfo['PHP']['error']['xml']);
-        }
-        if (in_array('zlib', $aErrors)) {
-            $this->assertNotNull($oEnvironmentManager->aInfo['PHP']['error']['zlib']);
-        } else {
-            $this->assertNull($oEnvironmentManager->aInfo['PHP']['error']['zlib']);
-        }
-        if (in_array('mysql', $aErrors)) {
-            $this->assertNotNull($oEnvironmentManager->aInfo['PHP']['error']['mysql']);
-        } else {
-            $this->assertNull($oEnvironmentManager->aInfo['PHP']['error']['mysql']);
-        }
-        if (in_array('spl', $aErrors)) {
-            $this->assertNotNull($oEnvironmentManager->aInfo['PHP']['error']['spl']);
-        } else {
-            $this->assertNull($oEnvironmentManager->aInfo['PHP']['error']['spl']);
-        }
-        if (in_array('OA_ENV_ERROR_PHP_TIMEOUT', $aErrors)) {
-            $this->assertNotNull($oEnvironmentManager->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_TIMEOUT]);
-        } else {
-            $this->assertNull($oEnvironmentManager->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_TIMEOUT]);
-        }
+        $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['warning']['version']), in_array('version', $aWarnings));
+        $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['memory_limit']), in_array('memory_limit', $aErrors));
+        $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['warning']['memory_limit']), in_array('memory_limit', $aWarnings));
+
+        $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['safe_mode']), in_array('safe_mode', $aErrors));
+        $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['file_uploads']), in_array('file_uploads', $aErrors));
+        $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['pcre']), in_array('pcre', $aErrors));
+        $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['xml']), in_array('xml', $aErrors));
+        $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['zlib']), in_array('zlib', $aErrors));
+        $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['mysql']), in_array('mysql', $aErrors));
+        $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['spl']), in_array('spl', $aErrors));
+        $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_TIMEOUT]), in_array('OA_ENV_ERROR_PHP_TIMEOUT', $aErrors));
     }
 
     function test_buildFilePermArrayItem()
     {
-        $oEnvMgr =&  $this->_getEnvMgrObj();
+        $oEnvMgr =  $this->_getEnvMgrObj();
         $aResult = $oEnvMgr->buildFilePermArrayItem('test.file', $recurse=false, $result='OK', $error = false, $string='');
         $this->assertIsA($aResult,'array');
         $this->assertEqual(count($aResult),5);
@@ -554,7 +502,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
 
     function test_checkCriticalFilePermissions()
     {
-        $oEnvMgr =&  $this->_getEnvMgrObj();
+        $oEnvMgr = $this->_getEnvMgrObj();
 
         $oEnvMgr->aInfo['PERMS']['actual'][0] = array(
                                                     'file'      => 'var',
@@ -571,7 +519,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
                                                     'recurse'   => true,
                                                     'result'    => 'NOT writeable',
                                                     'error'     => true,
-                                                    'string'    => '',
+                                                    'string'    => 'strErrorFixPermissionsRCommand',
                                                   );
 
         $this->assertFalse($oEnvMgr->_checkCriticalFilePermissions(),'');
@@ -579,7 +527,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
 
     function test_checkCriticalFiles()
     {
-        $oEnvMgr =&  $this->_getEnvMgrObj();
+        $oEnvMgr =  $this->_getEnvMgrObj();
         $this->assertTrue($oEnvMgr->_checkCriticalFiles(),'');
     }
 

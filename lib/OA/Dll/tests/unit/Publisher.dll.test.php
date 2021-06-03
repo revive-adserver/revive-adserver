@@ -166,7 +166,7 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
         $this->assertFieldEqual($oPublisherInfo1, $oPublisherInfo1Get, 'publisherName');
         $this->assertFieldEqual($oPublisherInfo1, $oPublisherInfo1Get, 'contactName');
         $this->assertFieldEqual($oPublisherInfo1, $oPublisherInfo1Get, 'emailAddress');
-        $this->assertNull($oPublisherInfo1Get->password,
+        $this->assertFalse(isset($oPublisherInfo1Get->password),
                           'Field \'password\' must be null');
         $this->assertFieldEqual($oPublisherInfo2, $oPublisherInfo2Get, 'publisherName');
 

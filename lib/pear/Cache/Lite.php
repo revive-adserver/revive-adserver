@@ -642,7 +642,7 @@ class Cache_Lite
     function _read()
     {
         $fp = @fopen($this->_file, "rb");
-        if ($this->_fileLocking) @flock($fp, LOCK_SH);
+        if ($fp && $this->_fileLocking) @flock($fp, LOCK_SH);
         if ($fp) {
             clearstatcache(); // because the filesize can be cached by PHP itself...
             $length = @filesize($this->_file);

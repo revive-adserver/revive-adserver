@@ -48,6 +48,8 @@ function OA_Dal_Delivery_connect($database = 'database') {
     $dbPassword = $dbConf['password'];
     $dbName = $dbConf['name'];
 
+    mysqli_report(MYSQLI_REPORT_OFF);
+
     if ($dbConf['protocol'] == 'unix' && !empty($dbConf['socket'])) {
         $dbLink = @mysqli_connect($dbPersistent.'localhost', $dbUser, $dbPassword, $dbName, $dbPort, $dbConf['socket']);
     } else {

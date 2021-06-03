@@ -33,6 +33,15 @@ class DataObjects_Banners_demo extends DB_DataObjectCommon
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
+
+    /**
+     * Table has no autoincrement/sequence so we override sequenceKey().
+     *
+     * @return array
+     */
+    function sequenceKey() {
+        return array(false, false, false);
+    }
 }
 
 ?>

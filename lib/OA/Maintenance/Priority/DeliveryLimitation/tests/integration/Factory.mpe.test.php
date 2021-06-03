@@ -13,6 +13,9 @@
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/DeliveryLimitation/Factory.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
 
+Language_Loader::load();
+
+
 /**
  * A class for testing the Maintenance_Priority_DeliveryLimitation_Factory class.
  *

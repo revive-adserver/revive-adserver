@@ -90,7 +90,7 @@ class DataObjects_Channel extends DB_DataObjectCommon
                 if ($deliveryLimitationPlugin)
                 {
                     $deliveryLimitationPlugin->init($aData);
-                    if ($deliveryLimitationPlugin->isAllowed($page)) {
+                    if ($deliveryLimitationPlugin->isAllowed()) {
                         $aAcls[$aData['executionorder']] = $aData;
                     }
                 }
@@ -101,7 +101,7 @@ class DataObjects_Channel extends DB_DataObjectCommon
             $doBanners->fetch();
             $doBanners->acl_plugins = MAX_AclGetPlugins($aAcls);
             $doBanners->acls_updated = OA::getNow();
-            $doBanners->compiledlimitation = MAX_AclGetCompiled($aAcls, $page);
+            $doBanners->compiledlimitation = MAX_AclGetCompiled($aAcls);
             $doBanners->update();
     	}
 

@@ -27,17 +27,6 @@ require_once LIB_PATH . '/Plugin/Component.php';
  */
 class OX_Maintenance_Statistics_Task_SetUpdateRequirements extends OX_Maintenance_Statistics_Task
 {
-
-    /**
-     * The constructor method.
-     *
-     * @return OX_Maintenance_Statistics_Task_SetUpdateRequirements
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * The implementation of the OA_Task::run() method that performs
      * the required task of determining what operation intervals
@@ -46,8 +35,8 @@ class OX_Maintenance_Statistics_Task_SetUpdateRequirements extends OX_Maintenanc
     function run()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oServiceLocator =& OA_ServiceLocator::instance();
-        $oNowDate =& $oServiceLocator->get('now');
+        $oServiceLocator = OA_ServiceLocator::instance();
+        $oNowDate = $oServiceLocator->get('now');
         if (!$oNowDate) {
             $oNowDate = new Date();
         }
@@ -64,7 +53,7 @@ class OX_Maintenance_Statistics_Task_SetUpdateRequirements extends OX_Maintenanc
 
         // Test to see if a date for when the statistics were last updated
         // has been set in the service locator (for re-generation of stats)
-        $oLastUpdatedDate =& $oServiceLocator->get('lastUpdatedDate');
+        $oLastUpdatedDate = $oServiceLocator->get('lastUpdatedDate');
 
         // Determine when the last intermediate table update happened
         if (is_a($oLastUpdatedDate, 'Date')) {
@@ -316,7 +305,7 @@ class OX_Maintenance_Statistics_Task_SetUpdateRequirements extends OX_Maintenanc
         // component, to find out what is the date of the earliest
         // logged data that the component knows about
         $aResult = OX_Component::callOnComponents($aDeliveryLogComponents, 'getEarliestLoggedDataDate');
-        if ($aResults === false) {
+        if ($aResult === false) {
             return null;
         }
 

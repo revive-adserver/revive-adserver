@@ -266,8 +266,7 @@ class OX_Admin_UI_Wizard
         $stepId = empty($stepId) ? $this->currentStepId : $stepId;
         $storage = $this->getWizardData();
 
-        $aCompleted = $storage['completedSteps'];
-        $aCompleted = !empty($aCompleted) ? $aCompleted : array();
+        $aCompleted = $storage['completedSteps'] ?? [];
         $aCompleted[$stepId] = true;
         $storage['completedSteps'] = $aCompleted;
 
@@ -284,16 +283,15 @@ class OX_Admin_UI_Wizard
      * Wizard itself does not ensure continuity of the completed steps, ie. does
      * not check if previous steps have been marked as completed already.
      *
-     * @param unknown_type $stepId
-     * @return unknown
+     * @param int $stepId
+     * @return bool
      */
     public function isStepCompleted($stepId = null)
     {
         $stepId = empty($stepId) ? $this->currentStepId : $stepId;
         $storage = $this->getWizardData();
-        $aCompleted = $storage['completedSteps'];
 
-        return !empty($aCompleted) && $aCompleted[$stepId] === true;
+        return !empty($storage['completedSteps']) && $storage['completedSteps'][$stepId] === true;
     }
 
 

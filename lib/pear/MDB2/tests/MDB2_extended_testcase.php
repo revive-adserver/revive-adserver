@@ -65,7 +65,7 @@ class MDB2_Extended_TestCase extends MDB2_TestCase
         }
 
         $this->db->setFetchMode(MDB2_FETCHMODE_ASSOC);
-        $result =& $this->db->query($select_query, $this->fields);
+        $result = $this->db->query($select_query, $this->fields);
         if (PEAR::isError($result)) {
             $this->assertTrue(false, 'Error selecting from users: '.$result->getMessage());
         } else {
@@ -102,7 +102,7 @@ class MDB2_Extended_TestCase extends MDB2_TestCase
         }
 
         $this->db->setFetchMode(MDB2_FETCHMODE_ASSOC);
-        $result =& $this->db->query($select_query, $this->fields);
+        $result = $this->db->query($select_query, $this->fields);
         if (PEAR::isError($result)) {
             $this->assertTrue(false, 'Error selecting from users: '.$result->getMessage());
         } else {
@@ -117,7 +117,7 @@ class MDB2_Extended_TestCase extends MDB2_TestCase
         }
 
         $this->db->setFetchMode(MDB2_FETCHMODE_ASSOC);
-        $result =& $this->db->query($select_query, $this->fields);
+        $result = $this->db->query($select_query, $this->fields);
         if (PEAR::isError($result)) {
             $this->assertTrue(false, 'Error selecting from users: '.$result->getMessage());
         } else {

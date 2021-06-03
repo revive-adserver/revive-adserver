@@ -241,7 +241,7 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
         foreach (array_keys($this->_elements) AS $key) {
             $array = eval("return isset(\$this->_options[{$key}]{$toLoad})? \$this->_options[{$key}]{$toLoad}: null;");
             if (is_array($array)) {
-                $select =& $this->_elements[$key];
+                $select = $this->_elements[$key];
                 $select->_options = array();
                 $select->loadArray($array);
 
@@ -300,7 +300,7 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
             $keys     = array_keys($this->_elements);
             $onChange = array();
             for ($i = 0; $i < count($keys) - 1; $i++) {
-                $select =& $this->_elements[$keys[$i]];
+                $select = $this->_elements[$keys[$i]];
                 $onChange[$i] = $select->getAttribute('onchange');
                 $select->updateAttributes(
                     array('onchange' => '_hs_swapOptions(this.form, \'' . $this->_escapeString($this->getName()) . '\', ' . $keys[$i] . ');' . $onChange[$i])

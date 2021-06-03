@@ -79,7 +79,7 @@ class SimulationScenario
         $_COOKIE = $HTTP_COOKIE_VARS = array();
 
 		// get service locator instance
-		$this->oServiceLocator =& OA_ServiceLocator::instance();
+		$this->oServiceLocator = OA_ServiceLocator::instance();
 
         // start with a clean set of tables
         OA_DB_Table_Core::destroy();

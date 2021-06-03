@@ -169,9 +169,6 @@ class Test_OX_PluginManager extends UnitTestCase
                                 'OX_Extension',
                                 $oMockExtension = 'OX_Extension'.rand(),
                                 array(
-                                      '_instantiateClass',
-                                      'runTasksPluginPostInstallation',
-                                      'runTasksPluginPreInstallation',
                                      )
                              );
         $oExtension = new $oMockExtension($this);
@@ -483,7 +480,9 @@ class Test_OX_PluginManager extends UnitTestCase
         $aContents[]['name'] = 'testDepends';
         $oManager->setReturnValueAt(2,'getFilePathToXMLInstall', MAX_PATH.$this->testpathPackages.'testPlugin/testPlugin.xml');
         $oManager->setReturnValueAt(3,'getFilePathToXMLInstall', MAX_PATH.$this->testpathPackages.'testDepends/testDepends.xml');
-        $oManager->setReturnValueAt(1,'parseXML', true);
+        $oManager->setReturnValueAt(1,'parseXML', [
+            'extends' => 'foobar',
+        ]);
         $oManager->setReturnValueAt(2,'parseXML', false);
 
         $this->assertFalse($oManager->_parseComponentGroups($aContents));
@@ -494,8 +493,14 @@ class Test_OX_PluginManager extends UnitTestCase
         $aContents[]['name'] = 'testDepends';
         $oManager->setReturnValueAt(4,'getFilePathToXMLInstall', MAX_PATH.$this->testpathPackages.'testPlugin/testPlugin.xml');
         $oManager->setReturnValueAt(5,'getFilePathToXMLInstall', MAX_PATH.$this->testpathPackages.'testDepends/testDepends.xml');
-        $oManager->setReturnValueAt(3,'parseXML', array('name'=>'testPlugin'));
-        $oManager->setReturnValueAt(4,'parseXML', array('name'=>'testDepends'));
+        $oManager->setReturnValueAt(3,'parseXML', [
+            'name' => 'testPlugin',
+            'extends' => 'foobar',
+        ]);
+        $oManager->setReturnValueAt(4,'parseXML', [
+            'name' => 'testDepends',
+            'extends' => 'foobar',
+        ]);
 
         $result = $oManager->_parseComponentGroups($aContents);
         $this->assertTrue($result);
@@ -792,8 +797,8 @@ class Test_OX_PluginManager extends UnitTestCase
         $this->assertEqual($result['contents'][1]['package'],'test');
         $this->assertEqual($result['contents'][1]['version'],'2');
 
-        $this->assertEqual($result['readme'],MAX_PATH.$oManager->pathPackages.'test.readme.txt');
-        $this->assertEqual($result['uninstallReadme'],MAX_PATH.$oManager->pathPackages.'test.uninstall.txt');
+        $this->assertEqual($result['readme'],$oManager->pathPackages.'test.readme.txt');
+        $this->assertEqual($result['uninstallReadme'],$oManager->pathPackages.'test.uninstall.txt');
 
         // Plugins are not disabled automatically anymore, otherwise plugins
         // might be left all disabled after an upgrade.

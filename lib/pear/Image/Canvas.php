@@ -705,7 +705,7 @@ class Image_Canvas
      * @return Image_Canvas The newly created canvas
      * @static
      */
-    function &factory($canvas, $params)
+    public static function &factory($canvas, $params)
     {
         $canvas = strtoupper($canvas);
 

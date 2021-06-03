@@ -156,7 +156,7 @@ class OA_Dll_VariableTest extends DllUnitTestCase {
         // Link the campaign's banner to the zones
         $doAza = OA_Dal::factoryDO('ad_zone_assoc');
         foreach ($aZoneIds as $zoneId) {
-            $doAza->zone_id = $aZoneIds[$zoneId];
+            $doAza->zone_id = $zoneId;
             $doAza->ad_id = $bannerId;
             DataGenerator::generateOne($doAza);
         }

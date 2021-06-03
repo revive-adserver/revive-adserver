@@ -22,7 +22,7 @@
 function setupConstants()
 {
     // Define this version of Revive Adserver's constants
-    define('VERSION', '5.2.2-dev');
+    define('VERSION', '5.3.0-dev');
     define('PRODUCT_NAME', 'Revive Adserver');
     define('PRODUCT_URL', 'www.revive-adserver.com');
     define('PRODUCT_DOCSURL', 'http://documentation.revive-adserver.com');
@@ -210,6 +210,8 @@ function setupConstants()
         define('MAX_CACHE', MAX_PATH . '/var/cache/');
 
        // Set the URL access mechanism
+        $GLOBALS['_MAX']['HTTP'] = 'http://';
+
         if (!empty($GLOBALS['_MAX']['CONF']['openads']['requireSSL'])) {
             $GLOBALS['_MAX']['HTTP'] = 'https://';
         } else {
@@ -217,8 +219,6 @@ function setupConstants()
                 if (isset($GLOBALS['_MAX']['CONF']['openads']['sslPort']) &&
                     $_SERVER['SERVER_PORT'] == $GLOBALS['_MAX']['CONF']['openads']['sslPort']) {
                     $GLOBALS['_MAX']['HTTP'] = 'https://';
-                } else {
-                    $GLOBALS['_MAX']['HTTP'] = 'http://';
                 }
             }
         }

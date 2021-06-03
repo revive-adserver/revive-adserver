@@ -226,7 +226,7 @@ class OA
         /*if (isset($aConf['debug']['logmem']) && $aConf['debug']['logmem'])
         {*/
             $aConf = $GLOBALS['_MAX']['CONF'];
-            $oLogger = &Log::singleton(
+            $oLogger = Log::singleton(
                 $aConf['log']['type'],
                 MAX_PATH . '/var/memory.log',
                 $aConf['log']['ident'],

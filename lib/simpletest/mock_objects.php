@@ -11,11 +11,13 @@
     require_once(dirname(__FILE__) . '/expectation.php');
     require_once(dirname(__FILE__) . '/simpletest.php');
     require_once(dirname(__FILE__) . '/dumper.php');
-    if (version_compare(phpversion(), '5') >= 0) {
-        require_once(dirname(__FILE__) . '/reflection_php5.php');
+
+    if (PHP_VERSION_ID >= 80000) {
+        require_once(__DIR__ . '/reflection_php8.php');
     } else {
-        require_once(dirname(__FILE__) . '/reflection_php4.php');
+        require_once(__DIR__ . '/reflection_php5.php');
     }
+
     /**#@-*/
 
     /**
@@ -895,10 +897,8 @@
          *                                 to emulate the dynamic addition of
          *                                 methods in the cloned class or when
          *                                 the class hasn't been written yet.
-         *    @static
-         *    @access public
          */
-        function generate($class, $mock_class = false, $methods = false) {
+        public static function generate($class, $mock_class = false, $methods = false) {
             $generator = new MockGenerator($class, $mock_class);
             return $generator->generate($methods);
         }
@@ -915,7 +915,7 @@
          *    @static
          *    @access public
          */
-        function generatePartial($class, $mock_class, $methods) {
+        public static function generatePartial($class, $mock_class, $methods) {
             $generator = new MockGenerator($class, $mock_class);
             return $generator->generatePartial($methods);
         }
@@ -925,7 +925,7 @@
          *    @access public
          *    @static
          */
-        function getExpectationLine() {
+        public static function getExpectationLine() {
             $trace = new SimpleStackTrace(array('expect'));
             return $trace->traceMethod();
         }
@@ -1036,7 +1036,7 @@
             $code .= "    var \$_mock;\n";
             $code .= $this->_addMethodList($methods);
             $code .= "\n";
-            $code .= "    function " . $this->_mock_class . "() {\n";
+            $code .= "    function __construct() {\n";
             $code .= "        \$this->_mock = new " . $this->_mock_base . "();\n";
             $code .= "        \$this->_mock->disableExpectationNameChecks();\n";
             $code .= "    }\n";
@@ -1066,7 +1066,7 @@
                 if (in_array($method, $mock_reflection->getMethods())) {
                     continue;
                 }
-                $code .= "    " . $this->_reflection->getSignature($method) . " {\n";
+                $code .= "    " . $this->_reflection->_getFullSignature($method) . " {\n";
                 $code .= "        \$args = func_get_args();\n";
                 $code .= "        \$result = &\$this->_invoke(\"$method\", \$args);\n";
                 $code .= "        return \$result;\n";
@@ -1203,7 +1203,7 @@
         function _overrideMethods($methods) {
             $code = "";
             foreach ($methods as $method) {
-                $code .= "    " . $this->_reflection->getSignature($method) . " {\n";
+                $code .= "    " . $this->_reflection->_getFullSignature($method) . " {\n";
                 $code .= "        \$args = func_get_args();\n";
                 $code .= "        \$result = &\$this->_mock->_invoke(\"$method\", \$args);\n";
                 $code .= "        return \$result;\n";

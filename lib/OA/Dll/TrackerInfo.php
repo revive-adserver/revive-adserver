@@ -55,7 +55,7 @@ class OA_Dll_TrackerInfo extends OA_Info
         }
 
         if (empty($this->linkCampaigns)) {
-            $this->linkCampaigns = $pref['tracker_link_campaigns'] == true ? true : false;
+            $this->linkCampaigns = (bool) ($pref['tracker_link_campaigns'] ?? false);
         }
 
         if (empty($this->variableMethod)) {

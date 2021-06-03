@@ -57,7 +57,7 @@ class ConfigMigration
      * config. Package type is read from module config.
      *
      * @param string $module
-     * @return array
+     * @return array|false
      */
     function getPluginsConfigByType($module)
     {
@@ -65,7 +65,13 @@ class ConfigMigration
         	// Make sure config is always read from ini file
         	unset($GLOBALS['_MAX']['CONF'][$module]);
         }
+
     	$conf = MAX_Plugin::getConfig($module);
+
+    	if (false === $conf) {
+    	    return false;
+        }
+
         $aConfig = MAX_Plugin::getConfig($module, $conf['type']);
         if (is_array($aConfig)) {
             $conf = array_merge($conf, $aConfig);

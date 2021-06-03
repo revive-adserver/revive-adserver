@@ -56,6 +56,8 @@ class Installer
         $oMenu = OA_Admin_Menu::singleton();
         $oMenu->add(new OA_Admin_Menu_Section('install',  '', ''));
 
+        $imgPath = OX::assetPath();
+
         if ($oController->hasLayout()) {
             //layout
             $oPageHeader = $oController->getModelProperty('pageHeader');

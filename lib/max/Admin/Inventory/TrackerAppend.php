@@ -56,7 +56,7 @@ class MAX_Admin_Inventory_TrackerAppend
 
     function _useDefaultDal()
     {
-        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
         $dal =& $oServiceLocator->get('MAX_Dal_Inventory_Trackers');
         if (!$dal) {
             $dal = new MAX_Dal_Inventory_Trackers();

@@ -33,7 +33,7 @@ class Test_DeliveryCommon extends UnitTestCase
 
     function setUp()
     {
-        $this->original_server_port = $_SERVER['SERVER_PORT'];
+        $this->original_server_port = $_SERVER['SERVER_PORT'] ?? null;
         $GLOBALS['_MAX']['CONF']['webpath']['delivery']     = 'www.maxstore.net/www/delivery';
         $GLOBALS['_MAX']['CONF']['webpath']['deliverySSL']  = 'secure.maxstore.net/www/delivery';
 
@@ -42,7 +42,9 @@ class Test_DeliveryCommon extends UnitTestCase
 
     function tearDown()
     {
-        $_SERVER['SERVER_PORT'] = $this->original_server_port;
+        if ($this->original_server_port) {
+            $_SERVER['SERVER_PORT'] = $this->original_server_port;
+        }
     }
 
     function test_MAX_commonGetDeliveryUrl_Uses_HTTP_Scheme_For_Nonsecure_URLs()
@@ -177,20 +179,29 @@ class Test_DeliveryCommon extends UnitTestCase
 	 * $_POST values take precedence over $_GET values
 	 *
 	 */
-	function test_MAX_commonRegisterGlobalsArray()
-	{
-	    $tmpGlobals = $GLOBALS;
-	    $_GET['max_test_get']      = '0';
-	    $_POST['max_test_get']     = '1';
-	    $_GET['max_test_post']     = '0';
-	    $_POST['max_test_post']    = '1';
-		MAX_commonRegisterGlobalsArray(array('max_test_get', 'max_test_post'));
-		$this->assertTrue(array_key_exists('max_test_get', $GLOBALS),'max_test_get exists');
-		$this->assertTrue(array_key_exists('max_test_post', $GLOBALS),'max_test_post exists');
-		$this->assertTrue($GLOBALS['max_test_get'],'GLOBALS precedence error');
-		$this->assertTrue($GLOBALS['max_test_post'],'GLOBALS precedence error');
-		$GLOBALS = $tmpGlobals;
-	}
+    function test_MAX_commonRegisterGlobalsArray()
+    {
+        if (PHP_VERSION_ID >= 80100) {
+            // Skip on PHP 8.1+
+            // Fatal error: $GLOBALS can only be modified using the $GLOBALS[$name] = $value syntax
+            return;
+        }
+
+        $tmpGlobals = $GLOBALS;
+
+        $_GET['max_test_get'] = '0';
+        $_POST['max_test_get'] = '1';
+        $_GET['max_test_post'] = '0';
+        $_POST['max_test_post'] = '1';
+        MAX_commonRegisterGlobalsArray(array('max_test_get', 'max_test_post'));
+        $this->assertTrue(array_key_exists('max_test_get', $GLOBALS), 'max_test_get exists');
+        $this->assertTrue(array_key_exists('max_test_post', $GLOBALS), 'max_test_post exists');
+        $this->assertTrue($GLOBALS['max_test_get'], 'GLOBALS precedence error');
+        $this->assertTrue($GLOBALS['max_test_post'], 'GLOBALS precedence error');
+
+        // Use eval as the fallowing fails during parse on PHP 8.1+
+        eval('$GLOBALS = $tmpGlobals;');
+    }
 
 	/**
 	 * Test1: return urldecoded/decrypted string
@@ -252,11 +263,11 @@ class Test_DeliveryCommon extends UnitTestCase
         $this->assertEqual($source, '{obfs:}', '$source'); // only if conf->obfuscate
         $this->assertEqual($target, '', '$target');
         $this->assertEqual($withText, '', '$withText');
-        $this->assertEqual($withtext, '', '$withtext');
+        $this->assertEqual($withtext, 0, '$withtext');
         $this->assertEqual($withtext, $withText, '$withtext/$withText');
         $this->assertEqual($ct0, '', '$ct0');
         $this->assertEqual($what, '', '$what');
-        $this->assertTrue(in_array($loc, array(stripslashes($loc),$_SERVER['HTTP_REFERER'],'')));
+        $this->assertTrue(in_array($loc, array(stripslashes($loc), $_SERVER['HTTP_REFERER'] ?? '','')));
         $this->assertEqual($referer, null, '$referer');
         $this->assertEqual($zoneid, null, '$zoneid');
         $this->assertEqual($campaignid, null, '$campaignid');

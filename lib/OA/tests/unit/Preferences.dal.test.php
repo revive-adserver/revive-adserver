@@ -22,14 +22,6 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 class Test_OA_Preferences extends UnitTestCase
 {
 
-    /**
-     * The constructor method.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     function tearDown()
     {
         DataGenerator::cleanUp();
@@ -48,7 +40,7 @@ class Test_OA_Preferences extends UnitTestCase
         unset($GLOBALS['_MAX']['CONF']['max']['language']);
 
         OA_Preferences::loadPreferences();
-        $this->assertNull($GLOBALS['_MAX']['PREF']);
+        $this->assertEqual($GLOBALS['_MAX']['PREF'], []);
 
         // Test 2: Test with no user logged in, and ensure that no
         //         preferences are loaded, and that esisting preferences
@@ -56,7 +48,7 @@ class Test_OA_Preferences extends UnitTestCase
         $GLOBALS['_MAX']['PREF'] = array('foo' => 'bar');
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         OA_Preferences::loadPreferences();
-        $this->assertNull($GLOBALS['_MAX']['PREF']);
+        $this->assertEqual($GLOBALS['_MAX']['PREF'], []);
 
         // Create the admin account
         $doAccounts = OA_Dal::factoryDO('accounts');
@@ -94,7 +86,7 @@ class Test_OA_Preferences extends UnitTestCase
         $GLOBALS['_MAX']['PREF'] = array('foo' => 'bar');
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         OA_Preferences::loadPreferences();
-        $this->assertNull($GLOBALS['_MAX']['PREF']);
+        $this->assertEqual($GLOBALS['_MAX']['PREF'], []);
 
         // Prepare a fake preference
         $doPreferences = OA_Dal::factoryDO('preferences');
@@ -107,7 +99,7 @@ class Test_OA_Preferences extends UnitTestCase
         $GLOBALS['_MAX']['PREF'] = array('foo' => 'bar');
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         OA_Preferences::loadPreferences();
-        $this->assertNull($GLOBALS['_MAX']['PREF']);
+        $this->assertEqual($GLOBALS['_MAX']['PREF'], []);
 
         // Insert a fake preference value
         $doAccount_Preference_Assoc = OA_Dal::factoryDO('account_preference_assoc');
@@ -496,7 +488,7 @@ class Test_OA_Preferences extends UnitTestCase
         unset($GLOBALS['_MAX']['CONF']['max']['language']);
 
         OA_Preferences::loadPreferences(true);
-        $this->assertNull($GLOBALS['_MAX']['PREF']);
+        $this->assertEqual($GLOBALS['_MAX']['PREF'], []);
 
         // Test 2: Test with no user logged in, and ensure that no
         //         preferences are loaded, and that esisting preferences
@@ -504,7 +496,7 @@ class Test_OA_Preferences extends UnitTestCase
         $GLOBALS['_MAX']['PREF'] = array('foo' => 'bar');
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         OA_Preferences::loadPreferences(true);
-        $this->assertNull($GLOBALS['_MAX']['PREF']);
+        $this->assertEqual($GLOBALS['_MAX']['PREF'], []);
 
         // Create the admin account
         $doAccounts = OA_Dal::factoryDO('accounts');
@@ -542,7 +534,7 @@ class Test_OA_Preferences extends UnitTestCase
         $GLOBALS['_MAX']['PREF'] = array('foo' => 'bar');
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         OA_Preferences::loadPreferences(true);
-        $this->assertNull($GLOBALS['_MAX']['PREF']);
+        $this->assertEqual($GLOBALS['_MAX']['PREF'], []);
 
         // Prepare a fake preference
         $doPreferences = OA_Dal::factoryDO('preferences');
@@ -555,7 +547,7 @@ class Test_OA_Preferences extends UnitTestCase
         $GLOBALS['_MAX']['PREF'] = array('foo' => 'bar');
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         OA_Preferences::loadPreferences(true);
-        $this->assertNull($GLOBALS['_MAX']['PREF']);
+        $this->assertEqual($GLOBALS['_MAX']['PREF'], []);
 
         // Insert a fake preference value
         $doAccount_Preference_Assoc = OA_Dal::factoryDO('account_preference_assoc');

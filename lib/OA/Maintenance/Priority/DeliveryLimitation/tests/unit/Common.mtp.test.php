@@ -37,7 +37,13 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation_Common extends UnitTestCas
      */
     function testDeliveryBlocked()
     {
-        $oCommon = new OA_Maintenance_Priority_DeliveryLimitation_Common(array());
+        $oCommon = new OA_Maintenance_Priority_DeliveryLimitation_Common([
+            'logical' => null,
+            'type' => null,
+            'comparison' => null,
+            'data' => null,
+            'executionorder' => null,
+        ]);
 
         PEAR::pushErrorHandling(null);
         $this->assertTrue($oCommon->deliveryBlocked(new Date()) instanceof PEAR_Error);

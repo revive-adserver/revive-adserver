@@ -16,12 +16,14 @@
     require_once(dirname(__FILE__) . '/expectation.php');
     require_once(dirname(__FILE__) . '/dumper.php');
     require_once(dirname(__FILE__) . '/simpletest.php');
-    if (version_compare(phpversion(), '5') >= 0) {
-        require_once(dirname(__FILE__) . '/exceptions.php');
-        require_once(dirname(__FILE__) . '/reflection_php5.php');
+    require_once(dirname(__FILE__) . '/exceptions.php');
+
+    if (PHP_VERSION_ID >= 80000) {
+        require_once(__DIR__ . '/reflection_php8.php');
     } else {
-        require_once(dirname(__FILE__) . '/reflection_php4.php');
+        require_once(__DIR__ . '/reflection_php5.php');
     }
+
     if (! defined('SIMPLE_TEST')) {
         /** @ignore */
         define('SIMPLE_TEST', dirname(__FILE__) . DIRECTORY_SEPARATOR);
@@ -578,12 +580,17 @@
          *    @param SimpleReporter $reporter    Current test reporter.
          *    @access public
          */
-        function run(&$reporter) {
+        function run($reporter) {
             $reporter->paintGroupStart($this->getLabel(), $this->getSize());
             for ($i = 0, $count = count($this->_test_cases); $i < $count; $i++) {
                 if (is_string($this->_test_cases[$i])) {
                     $class = $this->_test_cases[$i];
-                    $test = new $class();
+                    try {
+                        $test = new $class();
+                    } catch (\Throwable $e) {
+                        continue;
+                    }
+
                     $test->run($reporter);
                     unset($test);
                 } else {

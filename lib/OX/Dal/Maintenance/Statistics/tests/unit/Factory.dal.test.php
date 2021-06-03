@@ -35,7 +35,7 @@ class Test_OX_Dal_Maintenance_Statistics_Factory extends UnitTestCase
     function __construct()
     {
         parent::__construct();
-        $oDbh =& OA_DB::singleton();
+        $oDbh = OA_DB::singleton();
         $this->dbType = $oDbh->dsn['phptype'];
     }
 

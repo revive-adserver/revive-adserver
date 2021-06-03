@@ -114,7 +114,7 @@ class OX_ParserBase extends XML_Parser
         $this->aPlugin['allfiles']  = $this->aAllFiles;
     }
 
-    function startHandler($xp, $element, &$attribs)
+    function startHandler($xp, $element, $attribs)
     {
         $this->elements[$this->count++] = strtolower($element);
         $this->element = implode('-', $this->elements);
@@ -249,7 +249,7 @@ class OX_ParserBase extends XML_Parser
         }
     }
 
-    function customRaiseError($msg = null, $xmlecode = 0, $xp = null, $ecode = OX_PLUGIN_ERROR_PARSE)
+    function raiseInstanceError($msg = null, $xmlecode = 0, $xp = null, $ecode = OX_PLUGIN_ERROR_PARSE)
     {
 		if (is_null($this->error))
         {

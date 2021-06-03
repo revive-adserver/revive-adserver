@@ -103,7 +103,7 @@ class Config_Container {
     function &createItem($type, $name, $content, $attributes = null, $where = 'bottom', $target = null)
     {
         $item = new Config_Container($type, $name, $content, $attributes);
-        $result =& $this->addItem($item, $where, $target);
+        $result = $this->addItem($item, $where, $target);
         return $result;
     } // end func &createItem
 
@@ -277,7 +277,7 @@ class Config_Container {
                 }
             }
             if ($match == $fieldsToMatch) {
-                $itemsArr[] =& $this->children[$i];
+                $itemsArr[] = $this->children[$i];
             }
         }
         if ($index >= 0) {
@@ -328,7 +328,7 @@ class Config_Container {
             $attributes = null;
         }
         // find all the matches for first..
-        $match =& $this->getItem(null, $name, null, $attributes);
+        $match = $this->getItem(null, $name, null, $attributes);
 
         if (!$match) {
             return false;
@@ -374,9 +374,9 @@ class Config_Container {
     function directiveContent($args, $index = -1)
     {
         if (is_array($args)) {
-            $item =& $this->searchPath($args);
+            $item = $this->searchPath($args);
         } else {
-            $item =& $this->getItem('directive', $args, null, null, $index);
+            $item = $this->getItem('directive', $args, null, null, $index);
         }
         if ($item) {
             return $item->getContent();
@@ -451,7 +451,7 @@ class Config_Container {
     {
         if (is_object($this->parent)) {
             // This will be optimized with Zend Engine 2
-            $pchildren =& $this->parent->children;
+            $pchildren = $this->parent->children;
             for ($i = 0, $count = count($pchildren); $i < $count; $i++) {
                 if ($pchildren[$i]->_id == $this->_id) {
                     return $i;
@@ -469,7 +469,7 @@ class Config_Container {
     function getItemPosition()
     {
         if (is_object($this->parent)) {
-            $pchildren =& $this->parent->children;
+            $pchildren = $this->parent->children;
             for ($i = 0, $count = count($pchildren); $i < $count; $i++) {
                 if ($pchildren[$i]->name == $this->name &&
                     $pchildren[$i]->type == $this->type) {
@@ -621,7 +621,7 @@ class Config_Container {
     */
     function &setDirective($name, $content, $index = -1)
     {
-        $item =& $this->getItem('directive', $name, null, null, $index);
+        $item = $this->getItem('directive', $name, null, null, $index);
         if ($item === false || PEAR::isError($item)) {
             // Directive does not exist, will create one
             unset($item);

@@ -13,6 +13,8 @@
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 
+Language_Loader::load();
+
 /**
  * A class for testing non standard DataObjects_Zones methods
  *
@@ -22,14 +24,6 @@ require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
  */
 class DataObjects_ZonesTest extends DalUnitTestCase
 {
-    /**
-     * The constructor method.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     function tearDown()
     {
         DataGenerator::cleanUp(array('zones'));

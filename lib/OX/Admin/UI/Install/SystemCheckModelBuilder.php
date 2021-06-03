@@ -122,8 +122,8 @@ class OX_Admin_UI_Install_SystemCheckModelBuilder
         $aSection['checks']['memory_limit'] = array(
             'name' => 'memory_limit',
             'value' => $memLimit,
-            'warning' => $aEnvPhp['warning']['memory_limit'],
-            'error' => $aEnvPhp['error']['memory_limit'],
+            'warning' => $aEnvPhp['warning']['memory_limit'] ?? false,
+            'error' => $aEnvPhp['error']['memory_limit'] ?? false,
         );
 
         // Safe mode, magic quotes, register_argc_argv
@@ -172,9 +172,11 @@ class OX_Admin_UI_Install_SystemCheckModelBuilder
         $aSection = $this->buildCheckSectionMessages($aEnvPerms, $aSection);
         $aResult['perms'] = $aSection;
 
+        $hasError = $hasWarning = false;
+
         foreach ($aResult as $aSection) {
-            $hasError = $hasError || $aSection['hasError'];
-            $hasWarning = $hasWarning || $aSection['hasWarning'];
+            $hasError = $hasError || !empty($aSection['hasError']);
+            $hasWarning = $hasWarning || !empty($aSection['hasWarning']);
         }
 
         $oCheckModel = new SystemCheckModel($aResult, $hasError, $hasWarning);
@@ -220,10 +222,10 @@ class OX_Admin_UI_Install_SystemCheckModelBuilder
         $errCount = 0;
         $warnCount = 0;
         foreach ($aSection['checks'] as $check) {
-            if ($check['hasError'] || count($check['errors'])) {
+            if (!empty($check['hasError']) || !empty($check['errors'])) {
                 $errCount++;
             }
-            if ($check['hasWarning'] || count($check['warnings'])) {
+            if (!empty($check['hasWarning']) || !empty($check['warnings'])) {
                 $warnCount++;
             }
         }
@@ -267,19 +269,19 @@ class OX_Admin_UI_Install_SystemCheckModelBuilder
      */
     protected function buildCheckSectionMessages($aSysInfoPart, $aSection)
     {
-        if(is_array($aSysInfoPart['error'])) {
+        if(!empty($aSysInfoPart['error'])) {
             foreach ($aSysInfoPart['error'] AS $key => $errorMessage) {
                 $aSection['errors'][$key] = $errorMessage;
             }
         }
 
-        if(is_array($aSysInfoPart['warning'])) {
+        if(!empty($aSysInfoPart['warning'])) {
             foreach ($aSysInfoPart['warning'] AS $key => $errorMessage) {
                 $aSection['warnings'][$key] = $errorMessage;
             }
         }
 
-        if(is_array($aSysInfoPart['info'])) {
+        if(!empty($aSysInfoPart['info'])) {
             foreach ($aSysInfoPart['info'] AS $key => $infoMessage) {
                 $aSection['infos'][$key] = $infoMessage;
             }

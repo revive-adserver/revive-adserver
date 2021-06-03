@@ -16,7 +16,7 @@ function OA_Dal_Delivery_query($query, $database = 'database') {
     if (empty($GLOBALS['_MAX'][$dbName])) {
         $GLOBALS['_MAX'][$dbName] = OA_Dal_Delivery_connect($database);
     }
-    if (is_resource($GLOBALS['_MAX'][$dbName])) {
+    if (OA_Dal_Delivery_isResourceOrObject($GLOBALS['_MAX'][$dbName])) {
         return @pg_query($GLOBALS['_MAX'][$dbName], $query);
     } else {
         return false;
@@ -34,9 +34,9 @@ function OA_Dal_Delivery_query($query, $database = 'database') {
  */
 function OA_Dal_Delivery_connect($database = 'database') {
     // If a connection already exists, then return that
-    if ($database == 'database' && isset($GLOBALS['_MAX']['ADMIN_DB_LINK']) && is_resource($GLOBALS['_MAX']['ADMIN_DB_LINK'])) {
+    if ($database == 'database' && isset($GLOBALS['_MAX']['ADMIN_DB_LINK']) && OA_Dal_Delivery_isResourceOrObject($GLOBALS['_MAX']['ADMIN_DB_LINK'])) {
         return $GLOBALS['_MAX']['ADMIN_DB_LINK'];
-    } elseif ($database == 'rawDatabase' && isset($GLOBALS['_MAX']['RAW_DB_LINK']) && is_resource($GLOBALS['_MAX']['RAW_DB_LINK'])) {
+    } elseif ($database == 'rawDatabase' && isset($GLOBALS['_MAX']['RAW_DB_LINK']) && OA_Dal_Delivery_isResourceOrObject($GLOBALS['_MAX']['RAW_DB_LINK'])) {
         return $GLOBALS['_MAX']['RAW_DB_LINK'];
     }
     // No connection exists, so create one

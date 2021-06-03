@@ -13,6 +13,8 @@
 require_once MAX_PATH . '/lib/max/Delivery/common.php';
 require_once MAX_PATH . '/lib/max/Delivery/limitations.php';
 
+Language_Loader::load();
+
 /**
  * A class for testing the limitations.php functions.
  *

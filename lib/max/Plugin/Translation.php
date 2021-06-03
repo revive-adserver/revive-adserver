@@ -27,8 +27,6 @@ class MAX_Plugin_Translation
      * This method could be called automatically by translate() method
      * lazy initialization
      *
-     * @access public
-     * @static
      * @param string $module   Module name
      * @param string $package  Package name
      * @see translate()
@@ -37,7 +35,7 @@ class MAX_Plugin_Translation
      * @return boolean         True on success else false
      *
      */
-    function init($module, $package = null) {
+    public static function init($module, $package = null) {
         if (isset($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module][$package])) {
             // Already included
             return true;
@@ -69,7 +67,7 @@ class MAX_Plugin_Translation
      * @return boolean  True if file and translation exists else false
      *
      */
-    function includePluginLanguageFile($module, $package, $language, $path = null)
+    public static function includePluginLanguageFile($module, $package, $language, $path = null)
     {
         // Required for lazy initialization
         if ($package === null && !isset($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module])) {
@@ -117,15 +115,13 @@ class MAX_Plugin_Translation
     /**
      * Translates source text into target language.
      *
-     * @access  public
-     * @static
      * @param   string  $key Translation term
      * @param   string  $extension extension name
      * @param   string  $group group name
      *
      * @return  string translated text
      */
-    function translate($key, $extension, $group = null)
+    public static function translate($key, $extension, $group = null)
     {
         MAX_Plugin_Translation::lazyInit($extension, $group);
 
@@ -149,47 +145,13 @@ class MAX_Plugin_Translation
      * @param string $module
      * @param string $package
      */
-    function lazyInit($module, $package)
+    private static function lazyInit($module, $package)
     {
         if (!isset($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module])) {
             MAX_Plugin_Translation::init($module, $package);
         }
         if (!isset($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module][$package])) {
             MAX_Plugin_Translation::init($module, $package);
-        }
-    }
-
-    /**
-     * This method register all strings in global scope $GLOBALS so
-     * all string can be used with general templates method
-     * OA_Admin_Template->_function_t
-     *
-     * Warning: as this method register all translation string in global scope
-     * (as global variables) consider this a hack.
-     * However as we do not have any other global translation solution
-     * yet it is the only possibility for now.
-     *
-     * @param string $module
-     * @param string $package
-     */
-    function registerInGlobalScope($module, $package)
-    {
-        MAX_Plugin_Translation::lazyInit($module, $package);
-        if (isset($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module][$package])) {
-            foreach ($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module][$package] as
-                $key => $translation) {
-                    if (is_string($key)) {
-                        $GLOBALS['str'.$key] = $translation;
-                    }
-            }
-        }
-        if (isset($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module])) {
-            foreach ($GLOBALS['_MAX']['PLUGIN_TRANSLATION'][$module][$package] as
-                $key => $translation) {
-                    if (is_string($key)) {
-                        $GLOBALS['str'.$key] = $translation;
-                    }
-            }
         }
     }
 }

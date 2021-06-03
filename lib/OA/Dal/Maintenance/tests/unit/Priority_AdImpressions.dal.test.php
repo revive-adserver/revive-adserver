@@ -45,7 +45,7 @@ class Test_OA_Dal_Maintenance_Priority_AdImpressions extends UnitTestCase
             )
         );
         $result = $oDal->saveRequiredAdImpressions($aData);
-        $oDbh =& OA_DB::singleton();
+        $oDbh = OA_DB::singleton();
         $query = "SELECT * FROM ".$oDbh->quoteIdentifier('tmp_ad_required_impression',true);
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchAll();
@@ -99,7 +99,7 @@ class Test_OA_Dal_Maintenance_Priority_AdImpressions extends UnitTestCase
      */
     function testSaveAllocatedImpressions()
     {
-        $oDbh =& OA_DB::singleton();
+        $oDbh = OA_DB::singleton();
         $oDal = new OA_Dal_Maintenance_Priority();
         // Create the required temporary table for the tests
         $oTable =& OA_DB_Table_Priority::singleton();

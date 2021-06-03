@@ -38,7 +38,7 @@ class TestEnv
      */
     static function setupDB($ignore_errors = false)
     {
-        $oDbh = &OA_DB::singleton();
+        $oDbh = OA_DB::singleton();
         if (PEAR::isError($oDbh)) {
             $aConf = $GLOBALS['_MAX']['CONF'];
             $result = OA_DB::createDatabase($aConf['database']['name']);
@@ -63,7 +63,7 @@ class TestEnv
     static function setupCoreTables()
     {
         OA_DB_Table_Core::destroy();
-        $oTable = &OA_DB_Table_Core::singleton();
+        $oTable = OA_DB_Table_Core::singleton();
         $oTable->createAllTables();
     }
 
@@ -155,7 +155,7 @@ class TestEnv
         file_put_contents($aFile['tmp_name'], file_get_contents($file));
         if (file_exists($aFile['tmp_name']))
         {
-            $oPkgMgr = & TestEnv::getPluginPackageManager($noDb);
+            $oPkgMgr = TestEnv::getPluginPackageManager($noDb);
             $result = $oPkgMgr->installPackage($aFile);
             if (!$result)
             {
@@ -177,7 +177,7 @@ class TestEnv
     {
         $_POST['token'] = phpAds_SessionGetToken();
 
-        $oPkgMgr = & TestEnv::getPluginPackageManager($noDb);
+        $oPkgMgr = TestEnv::getPluginPackageManager($noDb);
 
         $result = $oPkgMgr->uninstallPackage($pkgName, true);
         /*if (!$result)
@@ -335,7 +335,7 @@ class TestEnv
         // Reset all database sequences
         $oTable->resetAllSequences();
         // Destroy the service locator
-        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
         unset($oServiceLocator->aService);
         // Re-set up the test environment
         TestRunner::setupEnv($GLOBALS['_MAX']['TEST']['layerEnv'], true);
@@ -343,9 +343,9 @@ class TestEnv
 
     static function dropTempTables()
     {
-        $oDbh = &OA_DB::singleton();
+        $oDbh = OA_DB::singleton();
         // Truncate & drop all existing temporary tables
-        $oTable = &OA_DB_Table_Priority::singleton();
+        $oTable = OA_DB_Table_Priority::singleton();
         foreach ($oTable->aDefinition['tables'] as $tableName => $aTable) {
             if ($oTable->existsTemporaryTable($tableName))
             {

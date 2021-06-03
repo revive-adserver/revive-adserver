@@ -112,7 +112,7 @@ class OX_Extension_Common
             if ($enabled || OA_Permission::getAccountType()==OA_ACCOUNT_ADMIN)
             {
                 $aConfig[$name] = $oComponentGroupManager->_getComponentGroupConfiguration($name);
-                if (count($aConfig[$name]['preferences']))
+                if (!empty($aConfig[$name]['preferences']))
                 {
                     $aOptions[$name] =  array(
                                                 'name' => $name,

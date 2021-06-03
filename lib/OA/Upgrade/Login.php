@@ -22,7 +22,7 @@ class OA_Upgrade_Login
      *
      * @return boolean True if login succeded
      */
-    function checkLogin()
+    public static function checkLogin()
     {
         // Clean up session
         phpAds_clearSession();
@@ -46,7 +46,7 @@ class OA_Upgrade_Login
 
         phpAds_SessionStart();
 
-        OA_Upgrade_Login::readSession($panDetected);
+        self::readSession($panDetected);
 
         $oPlugin = new Plugins_Authentication();
 
@@ -55,14 +55,14 @@ class OA_Upgrade_Login
             $newLogin = $openadsDetected && version_compare($oUpgrader->versionInitialApplication, '2.5.46-dev', '>=') == -1;
 
             if ($newLogin) {
-                OA_Upgrade_Login::_checkLoginNew();
+                self::_checkLoginNew();
             } else {
                 if ($openadsDetected || $maxDetected) {
-                    OA_Upgrade_Login::_checkLoginOld('preference', true);
+                    self::_checkLoginOld('preference', true);
                 } elseif ($max01Detected) {
-                    OA_Upgrade_Login::_checkLoginOld('config', true);
+                    self::_checkLoginOld('config', true);
                 } elseif ($panDetected) {
-                    OA_Upgrade_Login::_checkLoginOld('config', false);
+                    self::_checkLoginOld('config', false);
                 } else {
                     return false;
                 }
@@ -72,7 +72,7 @@ class OA_Upgrade_Login
         return OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isUserLinkedToAdmin();
     }
 
-    function autoLogin()
+    public static function autoLogin()
     {
         $oPlugin = OA_Auth::staticGetAuthPlugin();
 
@@ -100,7 +100,7 @@ class OA_Upgrade_Login
         }
     }
 
-    function _checkLoginNew()
+    private static function _checkLoginNew()
     {
         $oPlugin = new Plugins_Authentication();
 
@@ -119,7 +119,7 @@ class OA_Upgrade_Login
         phpAds_SessionDataStore();
     }
 
-    function _checkLoginOld($tableName, $agencySupport)
+    private static function _checkLoginOld($tableName, $agencySupport)
     {
         if (!isset($_COOKIE['sessionID'])) {
             return new PEAR_Error($GLOBALS['strEnableCookies']);
@@ -174,7 +174,7 @@ class OA_Upgrade_Login
         }
     }
 
-    function readSession($panDetected)
+    private static function readSession($panDetected)
     {
         // Openads for PostgreSQL 2.0 session.last_used field is a
         // timestamp with timezone, which gives troubles reading back

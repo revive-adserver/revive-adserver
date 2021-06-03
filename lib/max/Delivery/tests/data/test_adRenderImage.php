@@ -32,6 +32,7 @@ $useAppend  =   true;
 $aBanner = array (
     'ad_id' => 7,
     'placement_id' => 2,
+    'client_id' => 3,
     'active' => 't',
     'name' => 'Blue - Capped 1 per min',
     'type' => 'web',

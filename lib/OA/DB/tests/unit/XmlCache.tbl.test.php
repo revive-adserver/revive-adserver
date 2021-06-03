@@ -35,7 +35,7 @@ class Test_OA_DB_XmlCache extends UnitTestCase
 
         $this->oDbh    = OA_DB::singleton();
         $this->oCache  = new OA_DB_XmlCache();
-        $this->oSchema =& MDB2_Schema::factory($this->oDbh, array('force_defaults'=>false));
+        $this->oSchema = MDB2_Schema::factory($this->oDbh, array('force_defaults'=>false));
     }
 
     function test_Etc()

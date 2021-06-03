@@ -10,25 +10,23 @@
 +---------------------------------------------------------------------------+
 */
 
-require_once MAX_PATH . '/lib/OX/Upgrade/InstallConfig.php';
+require_once MAX_PATH . '/lib/OA/Admin/Option.php';
 
-
-/**
- * A class for testing the Install Config
- *
- * @package    OpenX
- * @subpackage TestSuite
- */
-class OX_Upgrade_InstallConfigTest extends UnitTestCase
+class Test_OA_Admin_Option extends UnitTestCase
 {
 
-    function testGetConfig()
+    /**
+     * Test pearLogPriorityToConstrantName function
+     *
+     */
+    function test_pearLogPriorityToConstrantName()
     {
-        $result = OX_Upgrade_InstallConfig::getConfig();
-        $config = @parse_ini_file(MAX_PATH . '/etc/dist.conf.php', true);
-        $this->assertEqual($result, $config['install']);
-    }
+        $GLOBALS['_MAX']['CONF']['webpath']['adminAssetsVersion'] = '1';
 
+        $oOption = new OA_Admin_Option('settings');
+        $this->assertEqual('PEAR_LOG_CRIT', $oOption->pearLogPriorityToConstrantName(PEAR_LOG_CRIT));
+        $this->assertEqual('PEAR_LOG_INFO', $oOption->pearLogPriorityToConstrantName('PEAR_LOG_INFO'));
+    }
 }
 
 ?>

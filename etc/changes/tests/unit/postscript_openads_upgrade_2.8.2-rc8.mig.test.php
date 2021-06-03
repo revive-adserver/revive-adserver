@@ -69,8 +69,10 @@ class Migration_postscript_2_8_2_RC8Test extends MigrationTest
         $prefix = $this->oaTable->getPrefix();
         $oDbh = $this->oaTable->oDbh;
 
+        $aTblConf = $GLOBALS['_MAX']['CONF']['table'];
+
         foreach ($this->aTables as $k => $v) {
-            $$k = $oDbh->quoteIdentifier($prefix.($aConf[$v] ? $aConf[$v] : $v), true);
+            $$k = $oDbh->quoteIdentifier($prefix.($aTblConf[$v] ?? $v), true);
         }
 
         // Create accounts

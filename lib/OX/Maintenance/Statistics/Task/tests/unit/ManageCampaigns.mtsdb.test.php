@@ -46,7 +46,7 @@ class Test_OX_Maintenance_Statistics_Task_ManageCampaigns extends UnitTestCase
      */
     function testRun()
     {
-        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
 
         // Register the current date/time
         $oDateNow = new Date();

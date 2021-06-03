@@ -15,6 +15,8 @@ require_once MAX_PATH . '/lib/max/Plugin.php';
 require_once dirname(dirname(dirname(__FILE__))) . '/Site/Variable.delivery.php';
 require_once dirname(dirname(dirname(__FILE__))) . '/Site/Variable.class.php';
 
+Language_Loader::load();
+
 /**
  * A class for testing the Plugins_Delivery_Site_Variable class.
  * Note: This test is for the delivery component, much easier to test,

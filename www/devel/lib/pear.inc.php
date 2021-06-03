@@ -25,7 +25,7 @@ require_once 'Log.php';
 require_once 'file.php';
 
 $conf = array('append'=>false);
-//    $logger = &Log::singleton('file',
+//    $logger = Log::singleton('file',
 //                              MAX_PATH . '/var/upgrade.log',
 //                              'upgrade_mdb2');
 $logger = new Log_file(MAX_SCHEMA_LOG,'schema_mdb2', $conf);

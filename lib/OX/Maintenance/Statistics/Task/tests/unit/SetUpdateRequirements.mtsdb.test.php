@@ -28,15 +28,6 @@ require_once LIB_PATH . '/OperationInterval.php';
  */
 class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTestCase
 {
-
-    /**
-     * The constructor method.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * Test the creation of the class.
      */
@@ -56,11 +47,11 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
         $aConf =& $GLOBALS['_MAX']['CONF'];
 
         // Create the database connection and service locator objects
-        $oDbh            =& OA_DB::singleton();
-        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oDbh            = OA_DB::singleton();
+        $oServiceLocator = OA_ServiceLocator::instance();
 
         // Create the "log_maintenance_statistics" table required for the tests
-        $oTables =& OA_DB_Table_Core::singleton();
+        $oTables = OA_DB_Table_Core::singleton();
         $oTables->createTable('log_maintenance_statistics');
 
         // Create the "controller" OX_Maintenance_Statistics class, and
@@ -132,7 +123,7 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
 
                 // Create the OX_Maintenance_Statistics_Task_SetUpdateRequirements
                 // object and run the task
-                $oSetUpdateRequirements->__construct($this);
+                (new ReflectionMethod(OX_Maintenance_Statistics_Task_SetUpdateRequirements::class, '__construct'))->invoke($oSetUpdateRequirements);
                 $oSetUpdateRequirements->run();
 
                 // Test the results of the task run
@@ -195,7 +186,7 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
 
                 // Create the OX_Maintenance_Statistics_Task_SetUpdateRequirements
                 // object and run the task
-                $oSetUpdateRequirements->__construct($this);
+                (new ReflectionMethod(OX_Maintenance_Statistics_Task_SetUpdateRequirements::class, '__construct'))->invoke($oSetUpdateRequirements);
                 $oSetUpdateRequirements->run();
 
                 // Test the results of the task run
@@ -282,7 +273,7 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
 
                 // Create the OX_Maintenance_Statistics_Task_SetUpdateRequirements
                 // object and run the task
-                $oSetUpdateRequirements->__construct($this);
+                (new ReflectionMethod(OX_Maintenance_Statistics_Task_SetUpdateRequirements::class, '__construct'))->invoke($oSetUpdateRequirements);
                 $oSetUpdateRequirements->run();
 
                 // Test the results of the task run
@@ -364,7 +355,7 @@ class Test_OX_Maintenance_Statistics_Task_SetUpdateRequirements extends UnitTest
 
                 // Create the OX_Maintenance_Statistics_Task_SetUpdateRequirements
                 // object and run the task
-                $oSetUpdateRequirements->__construct($this);
+                (new ReflectionMethod(OX_Maintenance_Statistics_Task_SetUpdateRequirements::class, '__construct'))->invoke($oSetUpdateRequirements);
                 $oSetUpdateRequirements->run();
 
                 // Test the results of the task run

@@ -63,13 +63,13 @@ class MAX_Dal_Admin_AclsTest extends DalUnitTestCase
     	   'data' => array("$channelId,2,3", '4,5,6', "$channelId"),
     	   'executionorder' => array(1,2,3)
     	);
-    	$dg = new DataGenerator();
-    	$dg->setData('acls', $data);
+
+        DataGenerator::setData('acls', $data);
 
     	// Add test data
     	$doAcls = OA_Dal::factoryDO('acls');
     	$doAcls->type = $type;
-    	$dg->generate($doAcls, 3, true);
+        DataGenerator::generate($doAcls, 3, true);
 
     	// Test that $bannerId is in two sets
         $rsChannel = $this->dalAcls->getAclsByDataValueType($channelId, $type);

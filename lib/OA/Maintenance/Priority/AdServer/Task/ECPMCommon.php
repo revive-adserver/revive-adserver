@@ -123,7 +123,7 @@ abstract class OA_Maintenance_Priority_AdServer_Task_ECPMCommon extends OA_Maint
             // Set the details of the last time Priority Compensation started running
             $this->aLastRun['start_run'] = new Date($aDates['start_run']);
             // Set the details of the current date/time
-            $oServiceLocator =& OA_ServiceLocator::instance();
+            $oServiceLocator = OA_ServiceLocator::instance();
             $this->aLastRun['now'] =& $oServiceLocator->get('now');
         }
         $this->oDateNow = $this->getDateNow();
@@ -246,7 +246,7 @@ abstract class OA_Maintenance_Priority_AdServer_Task_ECPMCommon extends OA_Maint
      */
     function getDateNow()
     {
-        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
         $oDateNow =& $oServiceLocator->get('now');
         if (!$oDateNow) {
             $oDateNow = new Date();

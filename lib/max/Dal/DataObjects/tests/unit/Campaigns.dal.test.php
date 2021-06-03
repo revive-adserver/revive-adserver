@@ -22,14 +22,6 @@ require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
  */
 class DataObjects_CampaignsTest extends DalUnitTestCase
 {
-    /**
-     * The constructor method.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     function tearDown()
     {
         DataGenerator::cleanUp();
@@ -89,7 +81,7 @@ class DataObjects_CampaignsTest extends DalUnitTestCase
         $expire = '2030-01-01';
 
         $doCampaigns = OA_Dal::factoryDO('campaigns');
-        $doCampaigns->expire_time = $expire_time;
+        $doCampaigns->expire_time = null;
         $campaignId = DataGenerator::generateOne($doCampaigns);
 
         $doCampaigns = OA_Dal::factoryDO('campaigns');

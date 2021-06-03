@@ -401,7 +401,7 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
      * @return mixed MDB2_OK on success, a MDB2 error on failure
      * @access public
      **/
-    function listViews()
+    function listViews($database = null)
     {
         $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
@@ -730,7 +730,7 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
      * @return mixed data array on success, a MDB2 error on failure
      * @access public
      **/
-    function listSequences()
+    function listSequences($database = null)
     {
         $db = $this->getDBInstance();
         if (PEAR::isError($db)) {

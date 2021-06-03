@@ -12,6 +12,7 @@
 
 require_once MAX_PATH . '/lib/max/Plugin.php';
 require_once LIB_PATH . '/Extension/deliveryLimitations/DeliveryLimitations.php';
+Language_Loader::load();
 
 class Dummy_Plugins_DeliveryLimitations extends Plugins_DeliveryLimitations
 {

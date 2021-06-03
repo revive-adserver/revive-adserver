@@ -34,9 +34,9 @@ class Plugins_TestOfPlugins_openXAdditionalBannerTypes extends UnitTestCase
 
     function test_adsense_class()
     {
-        $oComponent = &OX_Component::factory('bannerTypeHtml', 'openXHtmlAdsense', 'adsense');
+        $oComponent = OX_Component::factory('bannerTypeHtml', 'openXHtmlAdsense', 'adsense');
         $this->_assertClass($oComponent, 'bannerTypeHtml', 'openXHtmlAdsense', 'adsense');
-        $this->assertTrue(method_exists($oComponent, 'buildHtmlTemplate'), $sender.' missing method buildHtmlTemplate');
+        $this->assertTrue(method_exists($oComponent, 'buildHtmlTemplate'), 'missing method buildHtmlTemplate');
     }
 
     function _assertClass($oComponent, $extension, $group, $plugin)

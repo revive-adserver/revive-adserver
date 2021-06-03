@@ -393,7 +393,7 @@ class OA_Admin_UI_Component_Form
                     $rule['message'] = strtr($rule['message'], $js_escape);
 
                     if (isset($rule['group'])) {
-                        $group    =& $this->getElement($rule['group']);
+                        $group    = $this->getElement($rule['group']);
                         // No JavaScript validation for frozen elements
                         if ($group->isFrozen()) {
                             continue 2;
@@ -407,12 +407,12 @@ class OA_Admin_UI_Component_Form
                         }
                     } elseif ($dependent) {
                         $element   =  array();
-                        $element[] =& $this->getElement($elementName);
+                        $element[] = $this->getElement($elementName);
                         foreach ($rule['dependent'] as $elName) {
-                            $element[] =& $this->getElement($elName);
+                            $element[] = $this->getElement($elName);
                         }
                     } else {
-                        $element =& $this->getElement($elementName);
+                        $element = $this->getElement($elementName);
                     }
                     // No JavaScript validation for frozen elements
                     if (is_object($element) && $element->isFrozen()) {

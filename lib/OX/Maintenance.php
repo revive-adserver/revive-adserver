@@ -57,7 +57,7 @@ class OX_Maintenance
         Language_Loader::load('default');
 
         // Get a connection to the datbase
-        $this->oDbh =& OA_DB::singleton();
+        $this->oDbh = OA_DB::singleton();
         if (PEAR::isError($this->oDbh)) {
             // Unable to continue!
             MAX::raiseError($this->oDbh, null, PEAR_ERROR_DIE);
@@ -77,7 +77,7 @@ class OX_Maintenance
             return;
         }
         // Acquire the maintenance lock
-        $oLock =& OA_DB_AdvisoryLock::factory();
+        $oLock = OA_DB_AdvisoryLock::factory();
         if ($oLock->get(OA_DB_ADVISORYLOCK_MAINTENANCE)) {
             OA::switchLogIdent('maintenance');
             OA::debug();
@@ -159,7 +159,7 @@ class OX_Maintenance
      *
      * @return Date A Date object, or null if maintenance did never run
      */
-    function getLastRun()
+    public static function getLastRun()
     {
         $iLastRun = OA_Dal_ApplicationVariables::get('maintenance_timestamp');
         if ($iLastRun) {
@@ -174,7 +174,7 @@ class OX_Maintenance
      *
      * @return Date A Date object, or null if scheduled maintenance did never run
      */
-    function getLastScheduledRun()
+    public static function getLastScheduledRun()
     {
         $iLastRun = OA_Dal_ApplicationVariables::get('maintenance_cron_timestamp');
         if ($iLastRun) {
@@ -201,7 +201,7 @@ class OX_Maintenance
             return true;
         }
 
-        $oServiceLocator = &OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
         $lastMidnight = new Date($oServiceLocator->get('now'));
         if (!empty($serverTimezone)) {
             $lastMidnight->convertTZbyID($serverTimezone);
@@ -335,7 +335,7 @@ class OX_Maintenance
             return;
         }
         // Calculate the date before which it is valid to prune data
-        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
         $oNowDate =& $oServiceLocator->get('now');
         if (is_null($oNowDate) || !is_a($oNowDate, 'Date')) {
             return;

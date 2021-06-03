@@ -33,7 +33,7 @@ class Test_OA_DB_CustomDatatypes_mysql extends UnitTestCase
     function __construct()
     {
         parent::__construct();
-        $this->db =& OA_DB::singleton();
+        $this->db = OA_DB::singleton();
         $this->db->loadModule('Datatype', null, true);
     }
 

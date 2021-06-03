@@ -33,10 +33,9 @@ class OA_DB_Table_Core extends OA_DB_Table
      * A singleton method to create or return a single instance
      * of the {@link OA_DB_Table_Core} object.
      *
-     * @static
      * @return OA_DB_Table_Core The created {@link OA_DB_Table_Core} object.
      */
-    function &singleton()
+    public static function singleton()
     {
         $static =& $GLOBALS['_OA']['TABLES'][__CLASS__];
         if (!isset($static)) {
@@ -49,10 +48,8 @@ class OA_DB_Table_Core extends OA_DB_Table
     /**
      * A method to destroy the singleton, so it will be re-created later
      * if required.
-     *
-     * @static
      */
-    function destroy()
+    public static function destroy()
     {
         if (isset($GLOBALS['_OA']['TABLES'][__CLASS__])) {
             unset($GLOBALS['_OA']['TABLES'][__CLASS__]);

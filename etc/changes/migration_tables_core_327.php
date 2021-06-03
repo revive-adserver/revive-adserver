@@ -221,7 +221,8 @@ class Migration_327 extends Migration
 	        $aZoneAdObjectHandlers []= $zoneAdObjectHandler;
 	    }
 
-	    foreach ($aZoneAdObjectHandlers as $zoneAdObjectHandler) {
+	    /** @var ZoneAdObjectHandler $zoneAdObjectHandler */
+        foreach ($aZoneAdObjectHandlers as $zoneAdObjectHandler) {
 	        $result = $zoneAdObjectHandler->insertAssocs($this->oDBH);
 	        if (PEAR::isError($result)) {
 	            return $this->_logErrorAndReturnFalse('Error migrating Zones data during migration 327: '.$result->getUserInfo());
@@ -313,30 +314,29 @@ class ZoneAdObjectHandler
      * represented by this handler.
      *
      * @param MDB2_Driver_Common $oDbh
+     *
+     * @return true|string[] True or array of error strings
      */
     function insertAssocs($oDbh)
     {
-        $assocTable = $this->getAssocTable();
+        $assocTable = $oDbh->quoteIdentifier($this->prefix.$this->getAssocTable(),true);
         $adObjectColumn = $this->getAdObjectColumn();
-        $result = true;
+        $aErrors = array();
         foreach($this->aAdObjectIds as $adObjectId) {
-            $sql = "
-                INSERT INTO {$this->prefix}$assocTable (zone_id, $adObjectColumn)
-                VALUES ({$this->zone_id}, $adObjectId)";
-            if (is_numeric($adObjectId))
-            {
+            if (is_numeric($adObjectId)) {
+                $sql = "
+                    INSERT INTO {$assocTable} (zone_id, $adObjectColumn)
+                    VALUES ({$this->zone_id}, $adObjectId)";
                 $result = $oDbh->exec($sql);
                 if (PEAR::isError($result)) {
                     return $result;
                 }
+            } else {
+                $aErrors[] = "Invalid data found during migration_tables_core_327: '{$adObjectId}'";
             }
-            else
-            {
-                $aResult[] = 'Invalid data found during migration_tables_core_127: '.$sql;
-            }
-            $result = $aResult;
         }
-        return true;
+
+        return count($aErrors) ? $aErrors : true;
     }
 }
 

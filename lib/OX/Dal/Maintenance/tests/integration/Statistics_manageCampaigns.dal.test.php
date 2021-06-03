@@ -38,7 +38,7 @@ class Test_OX_Dal_Maintenance_Statistics_manageCampaigns extends UnitTestCase
         $this->doClients   =  OA_Dal::factoryDO('clients');
         $this->doBanners   =  OA_Dal::factoryDO('banners');
         $this->doDIA       =  OA_Dal::factoryDO('data_intermediate_ad');
-        $this->oDbh        =& OA_DB::singleton();
+        $this->oDbh        = OA_DB::singleton();
         // Set the maintenance operation interval to 60 minutes
         $aConf =& $GLOBALS['_MAX']['CONF'];
         $aConf['maintenance']['operationInterval'] = 60;

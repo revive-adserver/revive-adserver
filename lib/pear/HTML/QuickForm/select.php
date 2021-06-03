@@ -402,7 +402,7 @@ class HTML_QuickForm_select extends HTML_QuickForm_element {
     {
         if (is_string($conn)) {
             require_once('DB.php');
-            $dbConn = &DB::connect($conn, true);
+            $dbConn = DB::connect($conn, true);
             if (DB::isError($dbConn)) {
                 return $dbConn;
             }

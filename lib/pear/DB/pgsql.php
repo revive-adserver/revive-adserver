@@ -448,7 +448,7 @@ class DB_pgsql extends DB_common
      */
     function freeResult($result)
     {
-        if (is_resource($result)) {
+        if (self::isValidResource($result)) {
             unset($this->row[(int)$result]);
             unset($this->_num_rows[(int)$result]);
             $this->affected = 0;
@@ -674,7 +674,7 @@ class DB_pgsql extends DB_common
         $repeat = false;
         do {
             $this->pushErrorHandling(PEAR_ERROR_RETURN);
-            $result =& $this->query("SELECT NEXTVAL('${seqname}')");
+            $result = $this->query("SELECT NEXTVAL('${seqname}')");
             $this->popErrorHandling();
             if ($ondemand && DB::isError($result) &&
                 $result->getCode() == DB_ERROR_NOSUCHTABLE) {
@@ -912,7 +912,7 @@ class DB_pgsql extends DB_common
             $got_string = false;
         }
 
-        if (!is_resource($id)) {
+        if (!self::isValidResource($id)) {
             return $this->pgsqlRaiseError(DB_ERROR_NEED_MORE_DATA);
         }
 
@@ -1083,6 +1083,11 @@ class DB_pgsql extends DB_common
     }
 
     // }}}
+
+    private static function isValidResource($resource)
+    {
+        return is_resource($resource) || is_object($resource);
+    }
 
 }
 

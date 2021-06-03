@@ -203,7 +203,7 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
                 $imageFormat = 'png';
             }
             // Create the graph
-            $oCanvas =& Image_Canvas::factory(
+            $oCanvas = Image_Canvas::factory(
                 $imageFormat,
                 array(
                     'width'  => 800,
@@ -212,7 +212,7 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
                 )
             );
             $oImagemap = $oCanvas->getImageMap();
-            $oGraph =& Image_Graph::factory('graph', $oCanvas);
+            $oGraph = Image_Graph::factory('graph', $oCanvas);
             if (function_exists('ImageTTFBBox')) {
                 // Add a TrueType font
                 $Font =& $oGraph->addNew('ttf_font', 'arial.ttf');
@@ -221,9 +221,9 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
                 $Font->setColor('#444444');
                 $oGraph->setFont($Font);
             }
-            $oPlotarea =& $oGraph->addNew('plotarea');
+            $oPlotarea = $oGraph->addNew('plotarea');
             // Set gradient background
-            $Fill =& Image_Graph::factory(
+            $Fill = Image_Graph::factory(
                 'gradient',
                 array(
                     IMAGE_GRAPH_GRAD_VERTICAL,

@@ -203,10 +203,14 @@ class MaxMindGeoIP2
 
     public static function unpackCookie($string = '')
     {
-        $aGeoInfo = @array_combine(
-            array_keys(self::getCookieArray()),
-            explode('|', $string)
-        );
+        try {
+            $aGeoInfo = @array_combine(
+                array_keys(self::getCookieArray()),
+                explode('|', $string)
+            );
+        } catch (\ValueError $e) {
+            return false;
+        }
 
         if (false === $aGeoInfo) {
             return false;

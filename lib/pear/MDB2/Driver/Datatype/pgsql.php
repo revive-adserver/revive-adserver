@@ -115,7 +115,7 @@ class MDB2_Driver_Datatype_pgsql extends MDB2_Driver_Datatype_Common
      */
     function getTypeDeclaration($field)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -201,7 +201,7 @@ class MDB2_Driver_Datatype_pgsql extends MDB2_Driver_Datatype_Common
      */
     function _getIntegerDeclaration($name, $field)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -267,7 +267,7 @@ class MDB2_Driver_Datatype_pgsql extends MDB2_Driver_Datatype_Common
             return $value;
         }
         if (version_compare(PHP_VERSION, '5.2.0RC6', '>=')) {
-            $db =& $this->getDBInstance();
+            $db = $this->getDBInstance();
             if (PEAR::isError($db)) {
                 return $db;
             }
@@ -327,7 +327,7 @@ class MDB2_Driver_Datatype_pgsql extends MDB2_Driver_Datatype_Common
      */
     function matchPattern($pattern, $operator = null, $field = null)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -376,7 +376,7 @@ class MDB2_Driver_Datatype_pgsql extends MDB2_Driver_Datatype_Common
      */
     function patternEscapeString()
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -396,8 +396,8 @@ class MDB2_Driver_Datatype_pgsql extends MDB2_Driver_Datatype_Common
     function _mapNativeDatatype($field)
     {
         $db_type = strtolower($field['type']);
-        $length = $field['length'];
-        if ($length == '-1' && !empty($field['atttypmod'])) {
+        $length = $field['length'] ?? 0;
+        if ($length == -1 && !empty($field['atttypmod'])) {
             $length = $field['atttypmod'] - 4;
         }
         if ((int)$length <= 0) {
@@ -413,7 +413,7 @@ class MDB2_Driver_Datatype_pgsql extends MDB2_Driver_Datatype_Common
             $length = 2;
             if ($length == '2') {
                 $type[] = 'boolean';
-                if (preg_match('/^(is|has)/', $field['name'])) {
+                if (isset($field['name']) && preg_match('/^(is|has)/', $field['name'])) {
                     $type = array_reverse($type);
                 }
             }
@@ -504,7 +504,7 @@ class MDB2_Driver_Datatype_pgsql extends MDB2_Driver_Datatype_Common
             $length = null;
             break;
         default:
-            $db =& $this->getDBInstance();
+            $db = $this->getDBInstance();
             if (PEAR::isError($db)) {
                 return $db;
             }
@@ -528,7 +528,7 @@ class MDB2_Driver_Datatype_pgsql extends MDB2_Driver_Datatype_Common
      */
     function mapPrepareDatatype($type)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }

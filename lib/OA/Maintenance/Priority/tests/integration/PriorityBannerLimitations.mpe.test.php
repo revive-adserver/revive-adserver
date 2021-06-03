@@ -13,6 +13,8 @@
 require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/GetRequiredAdImpressionsLifetime.php';
 
+Language_Loader::load();
+
 /**
  * A class for performing an integration test of the Prioritisation Engine
  * to ensure that campaign limitations are correctly met when banners in
@@ -71,7 +73,7 @@ class Maintenance_TestOfMaintenancePriorityAdServerBannerLimitations extends Uni
         $aConf['priority']['useZonePatterning'] = false;
         OA_setTimeZone('GMT');
 
-        $oServiceLocator = &OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
         $oServiceLocator->register('now', new Date('2008-02-27'));
 
         // Prepare the test campaign
@@ -190,7 +192,7 @@ class Maintenance_TestOfMaintenancePriorityAdServerBannerLimitations extends Uni
             // required impressions, so that it does not interfer
             // with the next test run in the loop
             unset($GLOBALS['_OA']['DB_TABLES']['tmp_ad_required_impression']);
-            $oTable = &OA_DB_Table_Priority::singleton();
+            $oTable = OA_DB_Table_Priority::singleton();
             foreach ($oTable->aDefinition['tables'] as $tableName => $aTable) {
                 $oTable->truncateTable($tableName);
                 $oTable->dropTable($tableName);

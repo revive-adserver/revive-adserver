@@ -94,13 +94,13 @@ class OA_Maintenance_Priority_Ad
             if (!(count($aParams) == 1 || count($aParams) == 4)) {
                 $valid = false;
             }
-            if (is_numeric($aParams['ad_id'])) {
+            if (isset($aParams['ad_id']) && is_numeric($aParams['ad_id'])) {
                 $aParams['ad_id'] = (int)$aParams['ad_id'];
             } else {
                 $valid = false;
             }
             if (count($aParams) == 4) {
-                if (!is_bool($aParams['status'])) {
+                if (isset($aParams['status'])) {
                     if ($aParams['status'] == OA_ENTITY_STATUS_RUNNING) {
                         $aParams['active'] = true;
                     } else {
@@ -127,7 +127,7 @@ class OA_Maintenance_Priority_Ad
         $this->type   = isset($aParams['type']) ? $aParams['type'] : null;
         $this->weight = isset($aParams['weight']) ? $aParams['weight'] : null;
         // Set the object's data access layer objects
-        $this->oMaxDalMaintenancePriority = &$this->_getOA_Dal_Maintenance_Priority();
+        $this->oMaxDalMaintenancePriority = $this->_getOA_Dal_Maintenance_Priority();
     }
 
     /**
@@ -136,9 +136,9 @@ class OA_Maintenance_Priority_Ad
      * @access private
      * @return OA_Dal_Maintenance_Priority
      */
-    function &_getOA_Dal_Maintenance_Priority()
+    function _getOA_Dal_Maintenance_Priority()
     {
-        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
         $oDal =& $oServiceLocator->get('OA_Dal_Maintenance_Priority');
         if (!$oDal) {
             $oDal = new OA_Dal_Maintenance_Priority();
@@ -173,7 +173,7 @@ class OA_Maintenance_Priority_Ad
      *
      * @access private
      */
-    function _abort()
+    protected function _abort()
     {
             $error = 'Unable to instantiate ' . __CLASS__ . ' object, aborting execution.';
             OA::debug($error, PEAR_LOG_EMERG);

@@ -65,7 +65,7 @@ class MDB2_Driver_Reverse_pgsql extends MDB2_Driver_Reverse_Common
      */
     function getTableFieldDefinition($table, $field_name)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -169,7 +169,7 @@ class MDB2_Driver_Reverse_pgsql extends MDB2_Driver_Reverse_Common
      */
     function getTableIndexDefinition($table, $index_name)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -221,7 +221,7 @@ class MDB2_Driver_Reverse_pgsql extends MDB2_Driver_Reverse_Common
      */
     function getTableConstraintDefinition($table, $index_name)
     {
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
@@ -293,13 +293,13 @@ class MDB2_Driver_Reverse_pgsql extends MDB2_Driver_Reverse_Common
            return parent::tableInfo($result, $mode);
         }
 
-        $db =& $this->getDBInstance();
+        $db = $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
 
         $resource = MDB2::isResultCommon($result) ? $result->getResource() : $result;
-        if (!is_resource($resource)) {
+        if (!MDB2_Driver_pgsql::isValidResource($resource)) {
             return $db->raiseError(MDB2_ERROR_NEED_MORE_DATA, null, null,
                 'Could not generate result resource', __FUNCTION__);
         }

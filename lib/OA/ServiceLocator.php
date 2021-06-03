@@ -27,7 +27,7 @@ class OA_ServiceLocator
      *
      * @return OA_ServiceLocator
      */
-    function &instance()
+    public static function instance()
     {
         static $oInstance;
         if (!$oInstance) {
@@ -85,7 +85,7 @@ class OA_ServiceLocator
      */
     function &staticGet($serviceName)
     {
-        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
         return $oServiceLocator->get($serviceName);
     }
 

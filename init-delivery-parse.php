@@ -27,9 +27,11 @@
 function parseDeliveryIniFile($configPath = null, $configFile = null, $sections = true)
 {
     $fixMysqli = function($conf) {
-        if ('mysql' === $conf['database']['type'] && !extension_loaded('mysql') && extension_loaded('mysqli')) {
+        $type = $conf['database']['type'] ?? null;
+
+        if ('mysql' === $type && !extension_loaded('mysql') && extension_loaded('mysqli')) {
             $conf['database']['type'] = 'mysqli';
-        } elseif ('mysqli' === $conf['database']['type'] && !extension_loaded('mysqli') && extension_loaded('mysql')) {
+        } elseif ('mysqli' === $type && !extension_loaded('mysqli') && extension_loaded('mysql')) {
             $conf['database']['type'] = 'mysql';
         }
 

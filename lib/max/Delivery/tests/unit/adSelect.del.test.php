@@ -17,7 +17,7 @@ require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
  * test function that allows us to control mt_rand output in _adSelect
  */
 function test_mt_rand ($low, $high) {
-  return $GLOBALS['rand_val'] * $high;
+  return ($GLOBALS['rand_val'] ?? 0) * $high;
 }
 
 /*
@@ -417,7 +417,7 @@ class Test_DeliveryAdSelect extends UnitTestCase {
         $ads_copy['ads'][6] = $ads_copy['ads'][5];
         $ads_copy['ads'][6][1122] = $ads_copy['ads'][5][1022];
         $ads_copy['ads'][6][1124] = $ads_copy['ads'][5][1024];
-        $ads_copy['ads'][6][1222] = $ads_copy['ads'][5][1222];
+        $ads_copy['ads'][6][1222] = $ads_copy['ads'][5][1022];
         $ads_copy['ads'][6][1022]['priority'] = 0.2;
         $ads_copy['ads'][6][1022]['ecpm_enabled'] = 1;
         $ads_copy['ads'][6][1022]['ecpm'] = 2.0;
@@ -603,23 +603,25 @@ class Test_DeliveryAdSelect extends UnitTestCase {
         $test_ad =
             array(
                     'ad_id' => 5,
+                    'placement_id' => 5,
+                    'client_id' => 5,
                     'name' => 'my ad',
                     'expire_time' => '2010-02-02 07:59:59',
                  );
 
         // positive case
         $GLOBALS['_MAX']['NOW'] = strtotime ('2010-02-02 00:00:00');
-        $this->assertTrue (_adSelectCheckCriteria ($test_ad, $criteria, $source, $richMedia));
+        $this->assertTrue (_adSelectCheckCriteria ($test_ad, $context, $source, $richMedia));
 
         // campaign expired
         $GLOBALS['_MAX']['NOW'] = strtotime ('2010-02-02 08:00:00');
-        $this->assertFalse (_adSelectCheckCriteria ($test_ad, $criteria, $source, $richMedia));
+        $this->assertFalse (_adSelectCheckCriteria ($test_ad, $context, $source, $richMedia));
 
         // invalid or unset expire_times should always pass
         $test_ad['expire_time'] = '0000-00-00 00:00:00';
-        $this->assertTrue (_adSelectCheckCriteria ($test_ad, $criteria, $source, $richMedia));
+        $this->assertTrue (_adSelectCheckCriteria ($test_ad, $context, $source, $richMedia));
         $test_ad['expire_time'] = null;
-        $this->assertTrue (_adSelectCheckCriteria ($test_ad, $criteria, $source, $richMedia));
+        $this->assertTrue (_adSelectCheckCriteria ($test_ad, $context, $source, $richMedia));
     }
 
 }

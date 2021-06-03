@@ -67,7 +67,7 @@ class OA_Maintenance_Regenerate
         } else {
             // Must ensure that only one operation interval is being summarised
             $operationIntervalID =
-                OX_OperationInterval::convertDaySpanToOperationIntervalID($oStartDate, $oEndDate, $operationInterval);
+                OX_OperationInterval::convertDateRangeToOperationIntervalID($oStartDate, $oEndDate, $operationInterval);
             if (is_bool($operationIntervalID) && !$operationIntervalID) {
                 return false;
             }
@@ -97,11 +97,11 @@ class OA_Maintenance_Regenerate
     * @param Date $oStartDate
     * @param Date $oEndDate
     */
-    function clearIntermediateAndSummaryTables($oStartDate, $oEndDate) {
+    public static function clearIntermediateAndSummaryTables($oStartDate, $oEndDate) {
         $aConf = $GLOBALS['_MAX']['CONF'];
 
         // Create a Data Access Layer object
-        $oDbh = &OA_DB::singleton();
+        $oDbh = OA_DB::singleton();
 
         // Find the connections (if any) in the data_intermediate_ad_connection table
         $query = "

@@ -81,18 +81,18 @@ class MAX_Dal_Common
      * Factory method for loading model class
      *
      * @param string $modelName
-     * @return object|false
+     * @return self|false
      */
-    function factory($modelName)
+    public static function factory($modelName)
     {
         if (empty($modelName)) {
             PEAR::raiseError("Factory did not recive model name");
             return false;
         }
         $modelName = ucfirst($modelName);
-        $class = MAX_Dal_Common::getClassName($modelName);
+        $class = self::getClassName($modelName);
         if (!class_exists($class)) {
-            $class = MAX_Dal_Common::autoLoadClass($modelName);
+            $class = self::autoLoadClass($modelName);
             if (!$class) {
                 return false;
             }
@@ -106,9 +106,8 @@ class MAX_Dal_Common
      *
      * @param string $modelName  Class model name
      * @return boolean  True on success
-     * @access public
      */
-    function autoLoadClass($modelName)
+    private static function autoLoadClass($modelName)
     {
         $path = MAX_PATH . '/lib/max/Dal/Admin/'.$modelName.'.php';
         if (!file_exists($path)) {
@@ -125,12 +124,12 @@ class MAX_Dal_Common
         return $class;
     }
 
-    function getClassName($table)
+    public static function getClassName($table)
     {
         return 'MAX_Dal_Admin_'.ucfirst($table);
     }
 
-    function getTablePrefix()
+    public static function getTablePrefix()
     {
         return OA_Dal::getTablePrefix();
     }
@@ -299,7 +298,7 @@ class MAX_Dal_Common
 
     function _getTablenameUnquoted($tableName)
     {
-        return $this->prefix.($this->conf['table'][$tableName] ? $this->conf['table'][$tableName] : $tableName);
+        return $this->prefix.($this->conf['table'][$tableName] ?? $tableName);
     }
 
 }

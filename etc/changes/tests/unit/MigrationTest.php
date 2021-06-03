@@ -45,7 +45,7 @@ abstract class MigrationTest extends DbTestCase
 
     function setUp()
     {
-        $this->oDbh = &OA_DB::singleton();
+        $this->oDbh = OA_DB::singleton();
     }
 
 

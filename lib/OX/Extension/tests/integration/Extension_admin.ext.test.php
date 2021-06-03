@@ -52,7 +52,7 @@ class Test_OX_Extension_admin extends UnitTestCase
 
         $this->assertTrue($oMockExtensionManager->_cacheMergedMenu('TEST'));
 
-        $oMenuCache = $oMenu->_loadFromCache('TEST');
+        $oMenuCache = OA_Admin_Menu::_loadFromCache('TEST');
 
         $this->assertTrue(is_a($oMenuCache, 'OA_Admin_Menu'));
         $this->assertEqual(count($oMenuCache->aAllSections),1);

@@ -577,7 +577,7 @@ class Plugins_InvocationTagsOptions
 
     function cacheBuster()
     {
-        $maxInvocation =& $this->maxInvocation;
+        $maxInvocation = $this->maxInvocation;
         $cachebuster = (is_null($this->maxInvocation->cachebuster)) ? $this->defaultValues['cacheBuster'] : $this->maxInvocation->cachebuster;
 
         $option = '';
@@ -624,7 +624,7 @@ class Plugins_InvocationTagsOptions
         $conf = $GLOBALS['_MAX']['CONF'];
         $pref = $GLOBALS['_MAX']['PREF'];
 
-        $maxInvocation =& $this->maxInvocation;
+        $maxInvocation = $this->maxInvocation;
 
         $option = "
         <tr>

@@ -38,7 +38,7 @@ $GLOBALS['phpAds_Usertype'] = 0;
 
 function phpAds_userlogAdd($action, $object, $details = '')
 {
-    $oDbh =& OA_DB::singleton();
+    $oDbh = OA_DB::singleton();
     $conf = $GLOBALS['_MAX']['CONF'];
 	global $phpAds_Usertype;
 	if ($phpAds_Usertype != 0) {

@@ -411,8 +411,8 @@ class Test_OA_Admin_DaySpan extends UnitTestCase
     {
         // Test with no dates set
         $oDaySpan = new OA_Admin_DaySpan();
-        unset($oDaySpan->oStartDate);
-        unset($oDaySpan->oEndDate);
+        $oDaySpan->oStartDate = null;
+        $oDaySpan->oEndDate = null;
         $result = $oDaySpan->getPreset();
         $this->assertNull($oDaySpan->oStartDate);
         $this->assertNull($oDaySpan->oEndDate);

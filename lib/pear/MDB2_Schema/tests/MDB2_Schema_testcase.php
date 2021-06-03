@@ -77,7 +77,7 @@ class MDB2_Schema_TestCase extends PHPUnit_TestCase {
         if (file_exists($backup_file)) {
             unlink($backup_file);
         }
-        $this->schema =& MDB2_Schema::factory($this->dsn, $this->options);
+        $this->schema = MDB2_Schema::factory($this->dsn, $this->options);
         if (PEAR::isError($this->schema)) {
             $this->assertTrue(false, 'Could not connect to manager in setUp');
             exit;

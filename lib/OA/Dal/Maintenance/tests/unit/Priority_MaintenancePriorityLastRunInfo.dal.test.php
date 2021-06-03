@@ -45,7 +45,7 @@ class Test_OA_Dal_Maintenance_Priority_SetMaintenancePriorityLastRunInfo extends
         TestEnv::restoreEnv('dropTmpTables');
 
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh =& OA_DB::singleton();
+        $oDbh = OA_DB::singleton();
         $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
 
         // Test 1
@@ -137,7 +137,7 @@ class Test_OA_Dal_Maintenance_Priority_SetMaintenancePriorityLastRunInfo extends
     function testGetMaintenancePriorityLastRunInfo()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh =& OA_DB::singleton();
+        $oDbh = OA_DB::singleton();
         $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
 
         // Test 1

@@ -12,6 +12,8 @@
 
 require_once LIB_PATH . '/Dal/Maintenance/Statistics/Factory.php';
 
+Language_Loader::load();
+
 /**
  * A class for testing the migrateRawRequests(), migrateRawImpressions()
  * and migrateRawClicks() methods of the MySQL / PgSQL
@@ -82,7 +84,7 @@ class Test_OX_Dal_Maintenance_Statistics_migrateRawData_NoValidData extends Unit
                 FROM
                     " . $this->oDbh->quoteIdentifier($rawTable, true);
             $rsResult = $this->oDbh->query($query);
-            $this->assertNotA($rsReults, 'PEAR_Error');
+            $this->assertNotA($rsResult, 'PEAR_Error');
             $rows = $rsResult->numRows();
             $this->assertEqual($rows, 1);
             $aRow = $rsResult->fetchRow();
@@ -97,7 +99,7 @@ class Test_OX_Dal_Maintenance_Statistics_migrateRawData_NoValidData extends Unit
                 FROM
                     " . $this->oDbh->quoteIdentifier($bucketTable, true);
             $rsResult = $this->oDbh->query($query);
-            $this->assertNotA($rsReults, 'PEAR_Error');
+            $this->assertNotA($rsResult, 'PEAR_Error');
             $rows = $rsResult->numRows();
             $this->assertEqual($rows, 1);
             $aRow = $rsResult->fetchRow();
@@ -134,7 +136,7 @@ class Test_OX_Dal_Maintenance_Statistics_migrateRawData_NoValidData extends Unit
                 FROM
                     " . $this->oDbh->quoteIdentifier($rawTable, true);
             $rsResult = $this->oDbh->query($query);
-            $this->assertNotA($rsReults, 'PEAR_Error');
+            $this->assertNotA($rsResult, 'PEAR_Error');
             $rows = $rsResult->numRows();
             $this->assertEqual($rows, 1);
             $aRow = $rsResult->fetchRow();
@@ -157,7 +159,7 @@ class Test_OX_Dal_Maintenance_Statistics_migrateRawData_NoValidData extends Unit
                 FROM
                     " . $this->oDbh->quoteIdentifier($bucketTable, true);
             $rsResult = $this->oDbh->query($query);
-            $this->assertNotA($rsReults, 'PEAR_Error');
+            $this->assertNotA($rsResult, 'PEAR_Error');
             $rows = $rsResult->numRows();
             $this->assertEqual($rows, 1);
             $aRow = $rsResult->fetchRow();

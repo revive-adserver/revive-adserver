@@ -91,7 +91,6 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
 
         $oPluginManager = new OX_Plugin_ComponentGroupManager();
         $oPluginManager->_registerPreferences('testPlugin',$aPreferences);
-        $prefName = $name.'_'.$aPreference['name'];
         $doPreferences = OA_Dal::factoryDO('preferences');
         $doPreferences->preference_name = 'testPlugin_testpref';
         $this->assertTrue($doPreferences->find());
@@ -150,25 +149,25 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
                                             0=>array(
                                                     'add'=>"test-plugin-root",
                                                     'link'=>"plugins/testPlugin/testPlugin.php",
-                                                    'data'=>'Test Plugin',
+                                                    'value'=>'Test Plugin',
                                                     ),
                                             1=>array(
                                                     'addto'=>"test-plugin-root",
                                                     'index'=>"test-plugin-1",
                                                     'link'=>"plugins/testPlugin/testPlugin-page.php?action=1",
-                                                    'data'=>'Test Menu 1',
+                                                    'value'=>'Test Menu 1',
                                                     ),
                                             2=>array(
                                                     'insertafter'=>"test-plugin-1",
                                                     'index'=>"test-plugin-3",
                                                     'link'=>"plugins/testPlugin/testPlugin.php?action=3",
-                                                    'data'=>'Test Menu 3',
+                                                    'value'=>'Test Menu 3',
                                                     ),
                                             3=>array(
                                                     'insertbefore'=>"test-plugin-3",
                                                     'index'=>"test-plugin-2",
                                                     'link'=>"plugins/testPlugin/testPlugin.php?action=2",
-                                                    'data'=>'Test Menu 2',
+                                                    'value'=>'Test Menu 2',
                                                     ),
                                            );
         $oMenu = $oPluginManager->_checkMenus('testPlugin', $aMenus);
@@ -194,7 +193,7 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
         $this->assertEqual($oSection->aSections[2]->id, $oSection3->id);
 
         $this->assertTrue($oMenu->_saveToCache(OA_ACCOUNT_ADMIN));
-        $oMenu = $oMenu->_loadFromCache(OA_ACCOUNT_ADMIN);
+        $oMenu = OA_Admin_Menu::_loadFromCache(OA_ACCOUNT_ADMIN);
 
         $this->assertIsA($oMenu, 'OA_Admin_Menu');
 

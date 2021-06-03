@@ -58,7 +58,7 @@ class Test_OA_Dal_Maintenance_Priority_getAllDeliveryLimitationChangedCreatives 
         TestEnv::restoreEnv('dropTmpTables');
 
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh =& OA_DB::singleton();
+        $oDbh = OA_DB::singleton();
         $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
 
         $oDateNow = new Date('2006-10-04 12:07:01');

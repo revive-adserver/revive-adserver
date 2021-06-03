@@ -52,10 +52,10 @@ class OA_DB
      *                      ['capath']   = Path to CA file above, is "ssl" true
      *                      ['compress'] = false|true Use client compression?
      *
-     * @return MDB2_Driver_Common An MDB2 connection resource, or PEAR_Error
+     * @return MDB2_Driver_Common|PEAR_Error An MDB2 connection resource, or PEAR_Error
      *                            on failure to connect.
      */
-    static function singleton($dsn = null, $aDriverOptions = array())
+    public static function singleton($dsn = null, $aDriverOptions = [])
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
 
@@ -87,7 +87,7 @@ class OA_DB
         $databaseType = $aDSN['phptype'];
 
         // Is this a MySQL database connection that should happen via SSL?
-        if ((strcasecmp($databaseType, 'mysql') === 0 || strcasecmp($databaseType, 'mysqli') === 0) && (@$aDriverOptions['ssl'])) {
+        if ((strcasecmp($databaseType, 'mysql') === 0 || strcasecmp($databaseType, 'mysqli') === 0) && !empty($aDriverOptions['ssl'])) {
             // Modify the DSN string to include the required CA and CAPATH options
             if (!empty($aDriverOptions['ca']) && !empty($aDriverOptions['capath'])) {
                 $dsn .= "?ca={$aDriverOptions['ca']}&capth={$aDriverOptions['capath']}";
@@ -145,7 +145,7 @@ class OA_DB
             // Is this a MySQL database connection?
             if (strcasecmp($databaseType, 'mysql') === 0 || strcasecmp($databaseType, 'mysqli') === 0) {
                 // Should this connection happen over SSL?
-                if (@$aDriverOptions['ssl']) {
+                if (!empty($aDriverOptions['ssl'])) {
                     $aOptions['ssl'] = true;
                 }
             }
@@ -162,11 +162,11 @@ class OA_DB
             if (strcasecmp($databaseType, 'mysql') === 0) {
                 $client_flags = 0;
                 // Should this connection happen over SSL?
-                if (@$aDriverOptions['ssl']) {
+                if (!empty($aDriverOptions['ssl'])) {
                     $client_flags = $client_flags | MYSQL_CLIENT_SSL;
                 }
                 // Should this connection use compression?
-                if (@$aDriverOptions['compress']) {
+                if (!empty($aDriverOptions['compress'])) {
                     $client_flags = $client_flags | MYSQL_CLIENT_COMPRESS;
                 }
                 // Are there any MySQL connection flags to set?
@@ -179,11 +179,11 @@ class OA_DB
             if (strcasecmp($databaseType, 'mysqli') === 0) {
                 $client_flags = 0;
                 // Should this connection happen over SSL?
-                if (@$aDriverOptions['ssl']) {
+                if (!empty($aDriverOptions['ssl'])) {
                     $client_flags = $client_flags | MYSQLI_CLIENT_SSL;
                 }
                 // Should this connection use compression?
-                if (@$aDriverOptions['compress']) {
+                if (!empty($aDriverOptions['compress'])) {
                     $client_flags = $client_flags | MYSQLI_CLIENT_COMPRESS;
                 }
                 // Are there any MySQL connection flags to set?
@@ -532,6 +532,7 @@ class OA_DB
         $dsn = OA_DB::_getDefaultDsn();
         $oDbh = OA_DB::singleton($dsn);
         RV::disableErrorHandling();
+        self::disconnectAll();
         $result = $oDbh->manager->dropDatabase($name);
         RV::enableErrorHandling();
         if (PEAR::isError($result)) {

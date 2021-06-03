@@ -241,7 +241,8 @@ class Migration_127 extends Migration
 	        $aZoneAdObjectHandlers []= $zoneAdObjectHandler;
 	    }
 
-	    foreach ($aZoneAdObjectHandlers as $zoneAdObjectHandler) {
+	    /** @var ZoneAdObjectHandler $zoneAdObjectHandler */
+		foreach ($aZoneAdObjectHandlers as $zoneAdObjectHandler) {
 	        $result = $zoneAdObjectHandler->insertAssocs($this->oDBH);
 	        if (PEAR::isError($result)) {
 	            return $this->_logErrorAndReturnFalse('Error migrating Zones data during migration 127: '.$result->getUserInfo());
@@ -330,12 +331,14 @@ class ZoneAdObjectHandler
      * represented by this handler.
      *
      * @param MDB2_Driver_Common $oDbh
+	 *
+	 * @return true|string[] True or array of error strings
      */
     function insertAssocs($oDbh)
     {
         $assocTable = $oDbh->quoteIdentifier($this->prefix.$this->getAssocTable(),true);
         $adObjectColumn = $this->getAdObjectColumn();
-        $aResult = array();
+        $aErrors = array();
         foreach($this->aAdObjectIds as $adObjectId) {
             if (is_numeric($adObjectId)) {
                 $sql = "
@@ -346,10 +349,11 @@ class ZoneAdObjectHandler
                     return $result;
                 }
             } else {
-                $aResult[] = 'Invalid data found during migration_tables_core_127: '.$sql;
+                $aErrors[] = "Invalid data found during migration_tables_core_127: '{$adObjectId}'";
             }
         }
-        return count($aResult) ? $aResult : true;
+
+        return count($aErrors) ? $aErrors : true;
     }
 }
 

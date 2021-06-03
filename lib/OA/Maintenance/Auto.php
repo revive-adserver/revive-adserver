@@ -29,7 +29,7 @@ require_once OX_PATH . '/lib/OX.php';
  */
 class OA_Maintenance_Auto
 {
-    function run()
+    public static function run()
     {
     	// Make sure that the output is sent to the browser before
     	// loading libraries and connecting to the db
@@ -50,7 +50,7 @@ class OA_Maintenance_Auto
     	    setupConstants();
 	    }
 
-	    $oLock =& OA_DB_AdvisoryLock::factory();
+	    $oLock = OA_DB_AdvisoryLock::factory();
 
 		if ($oLock->get(OA_DB_ADVISORYLOCK_MAINTENANCE))
 		{

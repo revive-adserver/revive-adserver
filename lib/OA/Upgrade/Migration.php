@@ -79,7 +79,7 @@ class Migration
         {
             $this->logFile = $logfile;
         }
-        elseif (!$this->logfile)
+        elseif (!$this->logFile)
         {
             $this->logFile = MAX_PATH.'/var/migration.log';
         }
@@ -116,6 +116,10 @@ class Migration
 
     function _setupSQLStatements()
     {
+        if (null === $this->oDBH) {
+            return;
+        }
+
         switch ($this->oDBH->dbsyntax)
         {
             case 'mysql':
@@ -164,7 +168,7 @@ class Migration
 
 	function _getQuotedTableName($table)
 	{
-	    $table = $this->getPrefix().($GLOBALS['_MAX']['CONF']['table'][$table] ? $GLOBALS['_MAX']['CONF']['table'][$table] : $table);
+	    $table = $this->getPrefix().($GLOBALS['_MAX']['CONF']['table'][$table] ?? $table);
 	    $quoted = $this->oDBH->quoteIdentifier($table,true);
 	    if (PEAR::isError($quoted))
 	    {
@@ -293,8 +297,7 @@ class Migration
 
     function afterAddTable($table)
     {
-        if ($this->aObjectMap[$table])
-        {
+        if (isset($this->aObjectMap[$table])) {
             $fromTable = $this->aObjectMap[$table]['fromTable'];
             return $this->copyTableData($fromTable, $table);
         }

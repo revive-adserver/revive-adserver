@@ -49,14 +49,14 @@ class Test_OA_Dal_Maintenance_Priority_updatePriorities extends UnitTestCase
         TestEnv::restoreEnv();
 
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh =& OA_DB::singleton();
+        $oDbh = OA_DB::singleton();
         $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
 
         // Insert the data into the ad_zone_assoc table, as an ad is linked to a zone
         $this->_generateTestData();
 
         // Test 1
-        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
         $oServiceLocator->remove('now');
         $aData =
             array(

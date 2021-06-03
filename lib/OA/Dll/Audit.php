@@ -20,6 +20,8 @@ require_once 'Date.php';
 require_once MAX_PATH . '/lib/OA/Dll.php';
 require_once MAX_PATH . '/lib/max/Dal/DataObjects/Audit.php';
 require_once MAX_PATH . '/lib/max/language/Loader.php';
+require_once MAX_PATH . '/lib/max/other/lib-userlog.inc.php';
+Language_Loader::load('default');
 Language_Loader::load('userlog');
 
 /**
@@ -37,12 +39,12 @@ class OA_Dll_Audit extends OA_Dll
      */
     function getAuditDetail($auditId)
     {
-        $oAudit = & OA_Dal::factoryDO('audit');
+        $oAudit = OA_Dal::factoryDO('audit');
         $oAudit->get($auditId);
 
         $oAudit->details = unserialize($oAudit->details);
         $aAudit = $oAudit->toArray();
-        $aAudit['name'] = $aAudit['details']['key_desc'];
+        $aAudit['name'] = $aAudit['details']['key_desc'] ?? null;
         $aAudit['contextDescription'] = $this->getContextDescription($aAudit['context']);
         unset($aAudit['details']['key_desc']);
 
@@ -251,7 +253,7 @@ class OA_Dll_Audit extends OA_Dll
             //  Make sure that items that are children are not displayed
             $doAudit->whereAdd('parentid IS NULL');
 
-            if ($aParam['order']) {
+            if (isset($aParam['order'])) {
                 if ($aParam['order'] == 'down') {
                     $doAudit->orderBy($aParam['listorder'] .' ASC');
                 } else {
@@ -350,16 +352,16 @@ class OA_Dll_Audit extends OA_Dll
         switch($aContext['context']) {
         case 'banners':
             $aContext['parentcontext']    = $GLOBALS['strCampaign'];
-            $aContext['parentcontextid']  = $aContext['details']['campaignid'];
+            $aContext['parentcontextid']  = $aContext['details']['campaignid'] ?? null;
             return true;
         case 'campaigns':
             $aContext['parentcontext']    = $GLOBALS['strClient'];
-            $aContext['parentcontextid']  = $aContext['details']['clientid'];
+            $aContext['parentcontextid']  = $aContext['details']['clientid'] ?? null;
             return true;
         case 'channel':
         case 'zones':
             $aContext['parentcontext']    = $GLOBALS['strAffiliate'];
-            $aContext['parentcontextid']  = $aContext['details']['affiliateid'];
+            $aContext['parentcontextid']  = $aContext['details']['affiliateid'] ?? null;
             return true;
         }
         return false;
@@ -375,13 +377,13 @@ class OA_Dll_Audit extends OA_Dll
      */
     function getChildren($auditID, $itemContext)
     {
-        switch ($itemContext) {
-        case 'banners':
+        if ('banners' === $itemContext) {
             $context = $GLOBALS['strAdZoneAssociation'];
-            break;
+        } else {
+            $context = null;
         }
 
-        $oAudit = & OA_Dal::factoryDO('audit');
+        $oAudit = OA_Dal::factoryDO('audit');
         $oAudit->parentid = $auditID;
         $oAudit->context  = $context;
         $numRows = $oAudit->find();
@@ -411,15 +413,15 @@ class OA_Dll_Audit extends OA_Dll
      */
     function hasChildren($auditID, $itemContext)
     {
-        switch ($itemContext) {
-        case 'banners':
+        if ('banners' === $itemContext) {
             $context = $GLOBALS['strAdZoneAssociation'];
-            break;
+        } else {
+            $context = null;
         }
 
-        $oAudit = & OA_Dal::factoryDO('audit');
+        $oAudit = OA_Dal::factoryDO('audit');
         $oAudit->parentid = $auditID;
-        $oAudit->context  = $context;
+        $oAudit->context = $context;
         $numRows = $oAudit->find();
 
         return ($numRows > 0) ? true : false;
@@ -438,25 +440,25 @@ class OA_Dll_Audit extends OA_Dll
         case 'ad_zone_assoc':
         case 'acls':
         case 'images':
-            if (!is_array($aAudit['details']['bannerid'])) {
+            if (isset($aAudit['details']['bannerid']) && !is_array($aAudit['details']['bannerid'])) {
                 unset($aAudit['details']['bannerid']);
             }
             return true;
         case 'banners':
         case 'campaigns_trackers':
-            if (!is_array($aAudit['details']['campaignid'])) {
+            if (isset($aAudit['details']['campaignid']) && !is_array($aAudit['details']['campaignid'])) {
                 unset($aAudit['details']['campaignid']);
             }
             return true;
         case 'campaigns':
         case 'trackers':
-            if (!is_array($aAudit['details']['clientid'])) {
+            if (isset($aAudit['details']['clientid']) && !is_array($aAudit['details']['clientid'])) {
                 unset($aAudit['details']['clientid']);
             }
             return true;
         case 'channel':
         case 'zones':
-            if (!is_array($aAudit['details']['affiliateid'])) {
+            if (isset($aAudit['details']['affiliateid']) && !is_array($aAudit['details']['affiliateid'])) {
                 unset($aAudit['details']['affiliateid']);
             }
             return true;

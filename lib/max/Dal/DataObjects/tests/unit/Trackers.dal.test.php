@@ -13,6 +13,8 @@
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 
+Language_Loader::load();
+
 /**
  * A class for testing non standard DataObjects_Trackers methods
  *

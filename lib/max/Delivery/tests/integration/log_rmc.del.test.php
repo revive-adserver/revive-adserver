@@ -30,6 +30,8 @@ class Test_Max_Delivery_Log_RMC extends UnitTestCase
     function __construct()
     {
         parent::__construct();
+
+        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
     }
 
     /**

@@ -66,7 +66,7 @@ class Admin_DA
      * @param array $aConditions Map column => value.
      * @return array
      */
-    function getADataRows($table, $aConditions)
+    public static function getADataRows($table, $aConditions)
     {
         $do = OA_Dal::factoryDO($table);
         if ($do === false) {
@@ -94,7 +94,7 @@ class Admin_DA
      * @return array An array object with column => value entries for
      * the matching selected data row.
      */
-    function getDataRow($table, $aConditions)
+    public static function getDataRow($table, $aConditions)
     {
         $aDataRows = Admin_DA::getADataRows($table, $aConditions);
         if ($aDataRows === false || empty($aDataRows)) {
@@ -113,12 +113,12 @@ class Admin_DA
      * @param string $table
      * @param string $column
      * @param string $id
-     * @return array
+     * @return array|null
      */
-    function _getDataRowFromId($table, $column, $id)
+    public static function _getDataRowFromId($table, $column, $id)
     {
         $aDataRows = Admin_DA::_getEntities($table, array($column => $id), true);
-        return $aDataRows[$id];
+        return $aDataRows[$id] ?? null;
     }
 
     /**
@@ -128,7 +128,7 @@ class Admin_DA
      * @param array  $aVariables Map of column name to value.
      * @return integer The inserted entity's ID.
      */
-    function _addEntity($table, $aVariables)
+    public static function _addEntity($table, $aVariables)
     {
         Admin_DA::_updateEntityTimestamp($table, $aVariables);
         return SqlBuilder::_insert($table, $aVariables);
@@ -140,7 +140,7 @@ class Admin_DA
      * @param string $entity
      * @param array  $aVariables
      */
-    function _updateEntityTimestamp($entity, &$aVariables)
+    public static function _updateEntityTimestamp($entity, &$aVariables)
     {
         if(in_array($entity, $GLOBALS['_MAX']['Admin_DA']['updateEntities'])) {
             $aVariables['updated'] = OA::getNow();
@@ -154,7 +154,7 @@ class Admin_DA
      * @param integer $id The ID of the entity.
      * @return array  An array representing the attributes of an entity
      */
-    function _getEntity($entity, $id)
+    public static function _getEntity($entity, $id)
     {
         $entityIdName = "{$entity}_id";
         $aParams = array($entityIdName => $id);
@@ -180,7 +180,7 @@ class Admin_DA
      * @param string  $key The primary key field name.
      * @return array  An array of entity records.
      */
-    function _getEntities($entity, $aParams, $allFields = false, $key = null)
+    public static function _getEntities($entity, $aParams, $allFields = false, $key = null)
     {
         if (empty($key)) {
             $key = "{$entity}_id";
@@ -205,7 +205,7 @@ class Admin_DA
      * @param string  $key The primary key field name.
      * @return array  An array of entity records.
      */
-    function _getEntitiesChildren($entity, $aParams, $allFields=false, $key=null)
+    public static function _getEntitiesChildren($entity, $aParams, $allFields=false, $key=null)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
 
@@ -256,7 +256,7 @@ class Admin_DA
      * @param string $key   The primary key field name
      * @return array    An array of entity records
      */
-    function _getEntitiesStats($entity, $aParams, $allFields=false, $key=null)
+    public static function _getEntitiesStats($entity, $aParams, $allFields=false, $key=null)
     {
         if (empty($key)) {
             $key = "{$entity}_id";
@@ -283,7 +283,7 @@ class Admin_DA
      * @param array $aOtherEntities
      * @param string $str               The string 'copy' localised
      */
-    function _getUniqueName(&$aEntity, $aOtherEntities, $str)
+    public static function _getUniqueName(&$aEntity, $aOtherEntities, $str)
     {
         $same = false;
         if (!isset($str)) {
@@ -321,7 +321,7 @@ class Admin_DA
      * @param string $name
      * @param string $legacyName
      */
-    function _switch(&$aParams, $name, $legacyName)
+    public static function _switch(&$aParams, $name, $legacyName)
     {
         if (isset($aParams[$name])) {
             $aParams[$legacyName] = $aParams[$name];
@@ -329,7 +329,7 @@ class Admin_DA
         }
     }
 
-    function fromCache()
+    public static function fromCache()
     {
         //  parse variable args
             //  method, id, timeout
@@ -413,10 +413,15 @@ class Admin_DA
      * @param integer $zoneId
      * @return array
      */
-    function getLinkedAdParams($zoneId)
+    public static function getLinkedAdParams($zoneId)
     {
         $aParams = array();
         $aZone = Admin_DA::getZone($zoneId);
+
+        if (null === $aZone) {
+            return [];
+        }
+
         if ($aZone['type'] == phpAds_ZoneText) {
             $aParams['ad_type'] = 'txt';
         } else {
@@ -447,7 +452,7 @@ class Admin_DA
      * @param integer $timeout
      * @return array
      */
-    function getEntitiesStats($aParams, $allFields=false)
+    public static function getEntitiesStats($aParams, $allFields=false)
     {
         $aEntities = Admin_DA::_getEntities('stats_by_entity', $aParams, false, 'pkey');
 
@@ -462,7 +467,7 @@ class Admin_DA
      * @param integer $timeout
      * @return array
      */
-    function getAdvertisersStats($aParams, $allFields=false)
+    public static function getAdvertisersStats($aParams, $allFields=false)
     {
         $aAdvertisers = Admin_DA::_getEntitiesChildren('advertiser', $aParams);
         $aAdvertisersStats = Admin_DA::_getEntitiesStats('advertiser', $aParams);
@@ -483,7 +488,7 @@ class Admin_DA
      * @param array $aParams
      * @return array
      */
-    function getConversions($aParams)
+    public static function getConversions($aParams)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
@@ -621,7 +626,7 @@ class Admin_DA
      * @param int $affiliateId  Affiliate ID
      * @return array
      */
-    function getZonesIdsByAffiliateId($affiliateId)
+    public static function getZonesIdsByAffiliateId($affiliateId)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $query =
@@ -644,7 +649,7 @@ class Admin_DA
      * @param array $aParams
      * @return array
      */
-    function getConnectionVariables($connectionId)
+    public static function getConnectionVariables($connectionId)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $where = '';
@@ -693,7 +698,7 @@ class Admin_DA
         return $aDataVariables;
     }
 
-    function getPlacementsStats($aParams, $allFields=false)
+    public static function getPlacementsStats($aParams, $allFields=false)
     {
         $aPlacements = Admin_DA::_getEntitiesChildren('placement', $aParams);
         $aPlacementsStats = Admin_DA::_getEntitiesStats('placement', $aParams);
@@ -707,7 +712,7 @@ class Admin_DA
         return $aPlacements;
     }
 
-    function getPublishersStats($aParams, $allFields=false)
+    public static function getPublishersStats($aParams, $allFields=false)
     {
         $aPublishers = Admin_DA::_getEntitiesChildren('publisher', $aParams);
         $aPublishersStats = Admin_DA::_getEntitiesStats('publisher', $aParams);
@@ -719,7 +724,7 @@ class Admin_DA
         return $aPublishers;
     }
 
-    function getZonesStats($aParams, $allFields=false)
+    public static function getZonesStats($aParams, $allFields=false)
     {
         $aZones = Admin_DA::_getEntitiesChildren('zone', $aParams);
         $aZonesStats = Admin_DA::_getEntitiesStats('zone', $aParams);
@@ -731,7 +736,7 @@ class Admin_DA
         return $aZones;
     }
 
-    function getAdsStats($aParams, $allFields=false)
+    public static function getAdsStats($aParams, $allFields=false)
     {
         $aAds = Admin_DA::_getEntities('ad', $aParams);
         $aAdsStats = Admin_DA::_getEntitiesStats('ad', $aParams);
@@ -743,19 +748,19 @@ class Admin_DA
         return $aAds;
     }
 
-    function getHistorySpan($aParams)
+    public static function getHistorySpan($aParams)
     {
         $span = Admin_DA::_getEntities('history_span', $aParams, false, 'start_date');
 
         return current($span);
     }
 
-    function getDayHourHistory($aParams)
+    public static function getDayHourHistory($aParams)
     {
         return Admin_DA::_getEntities('history_day_hour', $aParams, false, 'date_time');
     }
 
-    function getDayHistory($aParams)
+    public static function getDayHistory($aParams)
     {
         return Admin_DA::_getHistoryTz(
             'history_day',
@@ -767,7 +772,7 @@ class Admin_DA
         );
     }
 
-    function getMonthHistory($aParams)
+    public static function getMonthHistory($aParams)
     {
         return Admin_DA::_getHistoryTz(
             'history_month',
@@ -779,7 +784,7 @@ class Admin_DA
         );
     }
 
-    function getDayOfWeekHistory($aParams)
+    public static function getDayOfWeekHistory($aParams)
     {
         return Admin_DA::_getHistoryTz(
             'history_dow',
@@ -789,7 +794,7 @@ class Admin_DA
         );
     }
 
-    function getHourHistory($aParams)
+    public static function getHourHistory($aParams)
     {
         return Admin_DA::_getHistoryTz(
             'history_hour',
@@ -799,7 +804,7 @@ class Admin_DA
         );
     }
 
-    function _getHistoryTz($entity, $aParams, $name, $method, $args = array(), $formatted = null)
+    public static function _getHistoryTz($entity, $aParams, $name, $method, $args = array(), $formatted = null)
     {
         if (empty($aParams['tz'])) {
             return Admin_DA::_getEntities($entity, $aParams, false, $name);
@@ -810,7 +815,7 @@ class Admin_DA
         return Admin_DA::_convertStatsArrayToTz($aStats, $aParams, $name, $method, $args, $formatted);
     }
 
-    function _convertStatsArrayToTz($aStats, $aParams, $name, $method, $args = array(), $formatted = null)
+    public static function _convertStatsArrayToTz($aStats, $aParams, $name, $method, $args = array(), $formatted = null)
     {
         $aResult = array();
         foreach ($aStats as $k => $v) {
@@ -840,12 +845,12 @@ class Admin_DA
     // |                                       |
     // +---------------------------------------+
 
-    function addCategory($aVariables)
+    public static function addCategory($aVariables)
     {
         return Admin_DA::_addEntity('category', $aVariables);
     }
 
-    function addAdCategory($aVariables)
+    public static function addAdCategory($aVariables)
     {
         return Admin_DA::_addEntity('ad_category_assoc', $aVariables);
     }
@@ -853,7 +858,7 @@ class Admin_DA
     // +---------------------------------------+
     // | ad - zone associations                |
     // +---------------------------------------+
-    function addAdZone($aVariables)
+    public static function addAdZone($aVariables)
     {
         $result = false;
         PEAR::pushErrorHandling(null);
@@ -882,7 +887,7 @@ class Admin_DA
      * @param unknown_type $newEnd ???
      * @return unknown ???
      */
-    function _checkEmailZoneAdAssoc($zoneId, $campaignid, $newStart = false, $newEnd = false)
+    public static function _checkEmailZoneAdAssoc($zoneId, $campaignid, $newStart = false, $newEnd = false)
     {
         // Suppress PEAR error handling for this method...
         PEAR::pushErrorHandling(null);
@@ -941,7 +946,7 @@ class Admin_DA
         return true;
     }
 
-    function _checkBannerZoneAdAssoc($aZone, $bannerType, $contentType = null)
+    public static function _checkBannerZoneAdAssoc($aZone, $bannerType, $contentType = null)
     {
         $aAllowedBannerType = array();
         switch ($aZone['type']) {
@@ -961,7 +966,7 @@ class Admin_DA
         return true;
     }
 
-    function _isValidAdZoneAssoc($aVariables)
+    public static function _isValidAdZoneAssoc($aVariables)
     {
         $aAdZone = Admin_DA::getAdZones($aVariables);
         if (empty($aAdZone))  {
@@ -1003,18 +1008,18 @@ class Admin_DA
         }
     }
 
-    function duplicateAdZone($aAdZone)
+    public static function duplicateAdZone($aAdZone)
     {
         unset($aAdZone['zone_ad_id']);
         return Admin_DA::_addEntity('ad_zone_assoc', $aAdZone);
     }
 
-    function getAdZones($aParams, $allFields = false, $key = null)
+    public static function getAdZones($aParams, $allFields = false, $key = null)
     {
         return Admin_DA::_getEntities('ad_zone_assoc', $aParams, $allFields, $key);
     }
 
-    function deleteAdZones($aParams, $allFields = false)
+    public static function deleteAdZones($aParams, $allFields = false)
     {
         return SqlBuilder::_doDelete('ad_zone_assoc', $aParams);
     }
@@ -1026,7 +1031,7 @@ class Admin_DA
      *
      * @TODO Document what parameters can be passed into the method.
      */
-    function addAdvertiser($aVariables)
+    public static function addAdvertiser($aVariables)
     {
         return Admin_DA::_addEntity('clients', $aVariables);
     }
@@ -1035,24 +1040,24 @@ class Admin_DA
     // | ads                                   |
     // +---------------------------------------+
 
-    function getAd($adId)
+    public static function getAd($adId)
     {
         return Admin_DA::_getDataRowFromId('ad', 'ad_id', $adId);
     }
 
-    function getAds($aParams, $allFields = false)
+    public static function getAds($aParams, $allFields = false)
     {
         // Return Advert object
         return Admin_DA::_getEntities('ad', $aParams, $allFields);
     }
 
-    function getChannel($channelId)
+    public static function getChannel($channelId)
     {
         // Return channel object
         return Admin_DA::_getEntity('channel', $channelId);
     }
 
-    function getChannels($aParams, $allFields = false)
+    public static function getChannels($aParams, $allFields = false)
     {
         if (!isset($aParams['channel_type'])) {
             if (!empty($aParams['publisher_id'])) {
@@ -1071,23 +1076,23 @@ class Admin_DA
         return Admin_DA::_getEntities('channel', $aParams, $allFields);
     }
 
-    function getChannelLimitations($aParams, $allFields = false)
+    public static function getChannelLimitations($aParams, $allFields = false)
     {
         return Admin_DA::_getEntities('channel_limitation', $aParams, $allFields, 'executionorder');
     }
 
-    function addAd($aParams)
+    public static function addAd($aParams)
     {
         return Admin_DA::_addEntity('banners', $aParams);
     }
 
-    function duplicateAd($adId)
+    public static function duplicateAd($adId)
     {
         $aAd = Admin_DA::getAd($adId);
         return Admin_DA::_duplicateAd($aAd, true);
     }
 
-    function _duplicateAd($aAd, $checkUniqueNames = false)
+    public static function _duplicateAd($aAd, $checkUniqueNames = false)
     {
         require_once MAX_PATH . '/www/admin/lib-storage.inc.php';
         // Copy the linked creative
@@ -1121,32 +1126,32 @@ class Admin_DA
     }
 
 /* REDUNDANT
-    function updateAd($id, $aVariables)
+    public static function updateAd($id, $aVariables)
     {
         return Admin_DA::_updateEntity('ad', $id, $aVariables);
     }*/
 
-    function getAdvertisers($aParams, $allFields = false)
+    public static function getAdvertisers($aParams, $allFields = false)
     {
         return Admin_DA::_getEntities('advertiser', $aParams, $allFields);
     }
 
-    function getAdvertisersChildren($aParams, $allFields = false)
+    public static function getAdvertisersChildren($aParams, $allFields = false)
     {
         return Admin_DA::_getEntitiesChildren('advertiser', $aParams, $allFields);
     }
 
-    function getAgency($agencyId)
+    public static function getAgency($agencyId)
     {
         return Admin_DA::_getEntity('agency', $agencyId);
     }
 
-    function getAgencies($aParams, $allFields = false)
+    public static function getAgencies($aParams, $allFields = false)
     {
         return Admin_DA::_getEntities('agency', $aParams, $allFields);
     }
 
-    function addAgency($aParams)
+    public static function addAgency($aParams)
     {
         return Admin_DA::_addEntity('agency', $aParams);
     }
@@ -1162,7 +1167,7 @@ class Admin_DA
     * @param object $oEnd end of date range
     * @return mixed array or PEAR::Error object
     */
-    function getAgencyAdStats($id, $oStart, $oEnd)
+    public static function getAgencyAdStats($id, $oStart, $oEnd)
     {
         // Validate args
         if (!empty($id) && is_a($oStart, 'Date') && is_a($oEnd, 'Date')) {
@@ -1185,38 +1190,38 @@ class Admin_DA
     // +---------------------------------------+
     // | placements                            |
     // +---------------------------------------+
-    function addPlacement($aParams)
+    public static function addPlacement($aParams)
     {
         return Admin_DA::_addEntity('campaigns', $aParams);
     }
 
-    function getCampaigns($aParams, $allFields = false)
+    public static function getCampaigns($aParams, $allFields = false)
     {
         return Admin_DA::_getEntities('campaign', $aParams, $allFields);
     }
 
-    function getPlacement($placementId)
+    public static function getPlacement($placementId)
     {
         return Admin_DA::_getDataRowFromId('placement', 'placement_id', $placementId);
     }
 
-    function getPlacements($aParams, $allFields = false, $key = null)
+    public static function getPlacements($aParams, $allFields = false, $key = null)
     {
         return Admin_DA::_getEntities('placement', $aParams, $allFields, $key);
     }
 
-    function getPlacementsChildren($aParams, $allFields = false, $key = null)
+    public static function getPlacementsChildren($aParams, $allFields = false, $key = null)
     {
         return Admin_DA::_getEntitiesChildren('placement', $aParams, $allFields, $key);
     }
 
-    function duplicatePlacement($placementId)
+    public static function duplicatePlacement($placementId)
     {
         $aPlacement = Admin_DA::getPlacement($placementId);
         return Admin_DA::_duplicatePlacement($aPlacement, true);
     }
 
-    function _duplicatePlacement($aPlacement, $checkUniqueNames = false)
+    public static function _duplicatePlacement($aPlacement, $checkUniqueNames = false)
     {
         $placementId = $aPlacement['placement_id'];
         unset($aPlacement['placement_id']);
@@ -1252,18 +1257,18 @@ class Admin_DA
     // | placement - zone associations         |
     // +---------------------------------------+
 
-    function duplicatePlacementZone($aPlacementZone)
+    public static function duplicatePlacementZone($aPlacementZone)
     {
         unset($aPlacementZone['placement_zone_assoc_id']);
         return Admin_DA::_addEntity('placement_zone_assoc', $aPlacementZone);
     }
 
-    function getPlacementZones($aParams, $allFields = false, $key = null)
+    public static function getPlacementZones($aParams, $allFields = false, $key = null)
     {
         return Admin_DA::_getEntities('placement_zone_assoc', $aParams, $allFields, $key);
     }
 
-    function addPlacementZone($aVariables, $autoLinkMatchingBanners = true)
+    public static function addPlacementZone($aVariables, $autoLinkMatchingBanners = true)
     {
         if (!($pzaId = Admin_DA::_addEntity('placement_zone_assoc', $aVariables))) {
             return false;
@@ -1290,7 +1295,7 @@ class Admin_DA
  	 * @param bool $allFields
  	 * @return mixed 0 if no rows affected, true on success, false otherwise
  	 */
-    function deletePlacementZones($aParams, $allFields = false)
+    public static function deletePlacementZones($aParams, $allFields = false)
     {
         $result = SqlBuilder::_doDelete('placement_zone_assoc', $aParams);
 
@@ -1307,24 +1312,24 @@ class Admin_DA
     // +---------------------------------------+
     // | placement - tracker associations      |
     // +---------------------------------------+
-    function duplicatePlacementTracker($aPlacementTracker)
+    public static function duplicatePlacementTracker($aPlacementTracker)
     {
         unset($aPlacementTracker['placement_tracker_id']);
         return Admin_DA::addPlacementTracker($aPlacementTracker);
     }
 
-    function addPlacementTracker($aVariables)
+    public static function addPlacementTracker($aVariables)
     {
         return Admin_DA::_addEntity('placement_tracker', $aVariables);
     }
 
-    function getPlacementTrackers($aParams, $allFields = false)
+    public static function getPlacementTrackers($aParams, $allFields = false)
     {
         return Admin_DA::_getEntities('placement_tracker', $aParams, $allFields);
     }
 
 /* REDUNDANT
-    function deletePlacementTrackers($aParams, $allFields = false)
+    public static function deletePlacementTrackers($aParams, $allFields = false)
     {
         return Admin_DA::_deleteEntities('placement_tracker', $aParams, $allFields);
     }
@@ -1336,7 +1341,7 @@ class Admin_DA
      *
      * @TODO Document what parameters can be passed into the method.
      */
-    function addPublisher($aVariables)
+    public static function addPublisher($aVariables)
     {
         return Admin_DA::_addEntity('affiliates', $aVariables);
     }
@@ -1353,18 +1358,18 @@ class Admin_DA
      * @param string $trackerId
      * @return array with the data or false on failure.
      */
-    function getTracker($trackerId)
+    public static function getTracker($trackerId)
     {
         return Admin_DA::_getDataRowFromId('tracker', 'trackerid', $trackerId);
     }
 
 
-    function getTrackers($aParams, $allFields = false, $key = null)
+    public static function getTrackers($aParams, $allFields = false, $key = null)
     {
         return Admin_DA::_getEntities('tracker', $aParams, $allFields, $key);
     }
 
-    function duplicateTracker($trackerId)
+    public static function duplicateTracker($trackerId)
     {
         $aTracker = Admin_DA::_getEntity('tracker', $trackerId);
         return Admin_DA::_duplicateTracker($aTracker, true);
@@ -1377,12 +1382,12 @@ class Admin_DA
      * @param array $aParams Map column => value.
      * @return integer ID of the created tracker.
      */
-    function addTracker($aParams)
+    public static function addTracker($aParams)
     {
         return Admin_DA::_addEntity('trackers', $aParams);
     }
 
-    function _duplicateTracker($aTracker, $checkUniqueNames = false)
+    public static function _duplicateTracker($aTracker, $checkUniqueNames = false)
     {
         $trackerId = $aTracker['tracker_id'];
         unset($aTracker['tracker_id']);
@@ -1413,12 +1418,12 @@ class Admin_DA
     // +---------------------------------------+
     // | zones                                 |
     // +---------------------------------------+
-    function getZone($zoneId)
+    public static function getZone($zoneId)
     {
         return Admin_DA::_getDataRowFromId('zone', 'zone_id', $zoneId);
     }
 
-    function getZones($aParams, $allFields = false)
+    public static function getZones($aParams, $allFields = false)
     {
         return Admin_DA::_getEntities('zone', $aParams, $allFields);
     }
@@ -1430,7 +1435,7 @@ class Admin_DA
         define ("phpAds_ZonePopup", 2);
         define ("phpAds_ZoneText", 3);
     */
-    function addZone($aVariables)
+    public static function addZone($aVariables)
     {
         Admin_DA::_switch($aVariables, 'publisher_id', 'affiliateid');
         Admin_DA::_switch($aVariables, 'name', 'zonename');
@@ -1438,13 +1443,13 @@ class Admin_DA
         return Admin_DA::_addEntity('zones', $aVariables);
     }
 
-    function duplicateZone($zoneId)
+    public static function duplicateZone($zoneId)
     {
         $aZone = Admin_DA::getZone($zoneId);
         return Admin_DA::_duplicateZone($aZone, true);
     }
 
-    function _duplicateZone($aZone, $checkUniqueNames = false)
+    public static function _duplicateZone($aZone, $checkUniqueNames = false)
     {
         $zoneId = $aZone['zone_id'];
         unset($aZone['zone_id']);
@@ -1474,12 +1479,12 @@ class Admin_DA
     // +---------------------------------------+
     // | limitations                           |
     // +---------------------------------------+
-    function getDeliveryLimitations($aParams, $allFields = false)
+    public static function getDeliveryLimitations($aParams, $allFields = false)
     {
         return Admin_DA::_getEntities('limitation', $aParams, $allFields, 'executionorder');
     }
 
-    function addLimitation($aVariable)
+    public static function addLimitation($aVariable)
     {
         return Admin_DA::_addEntity('limitation', $aVariable);
     }
@@ -1487,44 +1492,44 @@ class Admin_DA
     // +---------------------------------------+
     // | variables                             |
     // +---------------------------------------+
-    function getVariables($aParams, $allFields = false)
+    public static function getVariables($aParams, $allFields = false)
     {
         return Admin_DA::getADataRows('variables', $aParams);
     }
 
-    function addVariable($aVariable)
+    public static function addVariable($aVariable)
     {
         return Admin_DA::_addEntity('variables', $aVariable);
     }
 
-    function duplicateVariable($aVariable)
+    public static function duplicateVariable($aVariable)
     {
         unset($aVariable['variable_id']);
         return Admin_DA::addVariable($aVariable);
     }
 
 /* REDUNDANT
-    function deleteImage($id)
+    public static function deleteImage($id)
     {
         return Admin_DA::_deleteEntity('image', $id);
     }
 */
-    function getPublisher($publisherId)
+    public static function getPublisher($publisherId)
     {
         return Admin_DA::_getEntity('publisher', $publisherId);
     }
 
-    function getPublishers($aParams, $allFields = false)
+    public static function getPublishers($aParams, $allFields = false)
     {
         return Admin_DA::_getEntities('publisher', $aParams, $allFields);
     }
 
-    function getPublishersChildren($aParams, $allFields = false)
+    public static function getPublishersChildren($aParams, $allFields = false)
     {
         return Admin_DA::_getEntitiesChildren('publisher', $aParams, $allFields);
     }
 
-    function getPrefix()
+    public static function getPrefix()
     {
         return $GLOBALS['_MAX']['CONF']['table']['prefix'];
     }

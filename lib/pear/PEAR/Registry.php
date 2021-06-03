@@ -1741,7 +1741,7 @@ class PEAR_Registry extends PEAR
      * @param bool whether to strictly return raw channels (no aliases)
      * @return PEAR_ChannelFile|PEAR_Error
      */
-    function &getChannel($channel, $noaliases = false)
+    function getChannel($channel, $noaliases = false)
     {
         if (PEAR::isError($e = $this->_lock(LOCK_SH))) {
             return $e;
@@ -1873,13 +1873,6 @@ class PEAR_Registry extends PEAR
     function checkFileMap($path, $package = false, $api = '1.0', $attrs = false)
     {
         if (is_array($path)) {
-            static $notempty;
-            if (empty($notempty)) {
-                if (!class_exists('PEAR_Installer_Role')) {
-                    require_once 'PEAR/Installer/Role.php';
-                }
-                $notempty = create_function('$a','return !empty($a);');
-            }
             $package = is_array($package) ? array(strtolower($package[0]), strtolower($package[1]))
                 : strtolower($package);
             $pkgs = array();
@@ -1904,7 +1897,9 @@ class PEAR_Registry extends PEAR
                     return $pkgs[$name];
                 }
             }
-            return array_filter($pkgs, $notempty);
+            return array_filter($pkgs, function ($a) {
+                return !empty($a);
+            });
         }
         if (empty($this->filemap_cache)) {
             if (PEAR::isError($e = $this->_lock(LOCK_SH))) {

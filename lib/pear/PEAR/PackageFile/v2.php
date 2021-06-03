@@ -420,12 +420,16 @@ class PEAR_PackageFile_v2
     function _unmatchedMaintainers($my, $yours)
     {
         if ($my) {
-            array_walk($my, create_function('&$i, $k', '$i = $i["handle"];'));
+            array_walk($my, function (&$i) {
+                $i = $i['handle'];
+            });
             $this->_stack->push(__FUNCTION__, 'error', array('handles' => $my),
                 'package.xml 2.0 has unmatched extra maintainers "%handles%"');
         }
         if ($yours) {
-            array_walk($yours, create_function('&$i, $k', '$i = $i["handle"];'));
+            array_walk($yours, function (&$i) {
+                $i = $i['handle'];
+            });
             $this->_stack->push(__FUNCTION__, 'error', array('handles' => $yours),
                 'package.xml 1.0 has unmatched extra maintainers "%handles%"');
         }

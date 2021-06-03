@@ -167,9 +167,9 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $aData = array(
             'reportlastdate' => array('2007-04-03 18:39:45')
         );
-        $dg = new DataGenerator();
-        $dg->setData('clients', $aData);
-        $dg->generate($doCampaign, 1, true);
+
+        DataGenerator::setData('clients', $aData);
+        DataGenerator::generate($doCampaign, 1, true);
         $agencyId = DataGenerator::getReferenceId('agency');
         $doCampaign = OA_Dal::factoryDO('campaigns');
         $doCampaign->campaignname = 'foomarket';
@@ -178,8 +178,8 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
             'reportlastdate' => array('2007-04-03 18:39:45'),
             'agency' => $agencyId
         );
-        $dg->setData('clients', $aData);
-        $dg->generate($doCampaign, 1, true);
+        DataGenerator::setData('clients', $aData);
+        DataGenerator::generate($doCampaign, 1, true);
 
 
         // Search for the campaign
@@ -328,9 +328,9 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $aData = array(
             'reportlastdate' => array('2007-04-03 18:39:45')
         );
-        $dg = new DataGenerator();
-        $dg->setData('clients', $aData);
-        $aCampaignIds = $dg->generate($doCampaigns, 1, true);
+
+        DataGenerator::setData('clients', $aData);
+        $aCampaignIds = DataGenerator::generate($doCampaigns, 1, true);
         $campaignId = $aCampaignIds[0];
 
         $expected = array(
@@ -353,9 +353,9 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $aData = array(
             'reportlastdate' => array('2007-04-03 18:39:45')
         );
-        $dg = new DataGenerator();
-        $dg->setData('clients', $aData);
-        $aCampaignIds = $dg->generate($doCampaigns, 1, true);
+        
+        DataGenerator::setData('clients', $aData);
+        $aCampaignIds = DataGenerator::generate($doCampaigns, 1, true);
         $campaignId = $aCampaignIds[0];
 
         // Link a banner to this campaign
@@ -407,9 +407,9 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $aData = array(
             'reportlastdate' => array('2007-04-03 18:39:45')
         );
-        $dg = new DataGenerator();
-        $dg->setData('clients', $aData);
-        $aCampaignIds = $dg->generate($doCampaigns, 1, true);
+        
+        DataGenerator::setData('clients', $aData);
+        $aCampaignIds = DataGenerator::generate($doCampaigns, 1, true);
         $campaignId = $aCampaignIds[0];
 
         // Link a banner to this campaign
@@ -461,9 +461,9 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $aData = array(
             'reportlastdate' => array('2007-04-03 18:39:45')
         );
-        $dg = new DataGenerator();
-        $dg->setData('clients', $aData);
-        $aCampaignIds = $dg->generate($doCampaigns, 1, true);
+        
+        DataGenerator::setData('clients', $aData);
+        $aCampaignIds = DataGenerator::generate($doCampaigns, 1, true);
         $campaignId = $aCampaignIds[0];
 
         // Link a banner to this campaign
@@ -516,9 +516,9 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $aData = array(
             'reportlastdate' => array('2007-04-03 18:39:45')
         );
-        $dg = new DataGenerator();
-        $dg->setData('clients', $aData);
-        $aCampaignIds = $dg->generate($doCampaigns, 1, true);
+        
+        DataGenerator::setData('clients', $aData);
+        $aCampaignIds = DataGenerator::generate($doCampaigns, 1, true);
         $campaignId = $aCampaignIds[0];
 
         // Link a banner to this campaign
@@ -587,9 +587,9 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $aData = array(
             'reportlastdate' => array('2007-04-03 18:39:45')
         );
-        $dg = new DataGenerator();
-        $dg->setData('clients', $aData);
-        $aCampaignIds = $dg->generate($doCampaigns, 1, true);
+        
+        DataGenerator::setData('clients', $aData);
+        $aCampaignIds = DataGenerator::generate($doCampaigns, 1, true);
         $campaignId = $aCampaignIds[0];
 
         // Link a banner to this campaign
@@ -631,9 +631,9 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $aData = array(
             'reportlastdate' => array('2007-04-03 18:39:45')
         );
-        $dg = new DataGenerator();
-        $dg->setData('clients', $aData);
-        $aCampaignIds = $dg->generate($doCampaigns, 1, true);
+        
+        DataGenerator::setData('clients', $aData);
+        $aCampaignIds = DataGenerator::generate($doCampaigns, 1, true);
         $campaignId = $aCampaignIds[0];
 
         // Link a banner to this campaign
@@ -682,9 +682,9 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $aData = array(
             'reportlastdate' => array('2007-04-03 18:39:45')
         );
-        $dg = new DataGenerator();
-        $dg->setData('clients', $aData);
-        $aCampaignIds = $dg->generate($doCampaigns, 1, true);
+        
+        DataGenerator::setData('clients', $aData);
+        $aCampaignIds = DataGenerator::generate($doCampaigns, 1, true);
         $campaignId = $aCampaignIds[0];
 
         // Link a banner to this campaign
@@ -760,9 +760,9 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $aData = array(
             'reportlastdate' => array('2007-04-03 18:39:45')
         );
-        $dg = new DataGenerator();
-        $dg->setData('clients', $aData);
-        $aCampaignIds = $dg->generate($doCampaigns, 1, true);
+        
+        DataGenerator::setData('clients', $aData);
+        $aCampaignIds = DataGenerator::generate($doCampaigns, 1, true);
         $campaignId = $aCampaignIds[0];
 
         // Link a banner to this campaign
@@ -836,9 +836,9 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $aData = array(
             'reportlastdate' => array('2007-04-03 18:39:45')
         );
-        $dg = new DataGenerator();
-        $dg->setData('clients', $aData);
-        $aCampaignIds = $dg->generate($doCampaigns, 1, true);
+        
+        DataGenerator::setData('clients', $aData);
+        $aCampaignIds = DataGenerator::generate($doCampaigns, 1, true);
         $campaignId = $aCampaignIds[0];
 
         $campaignExpiration = $GLOBALS['strExpirationDate'] . ": " .
@@ -937,12 +937,12 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
     {
         // Add test campaigns
         $numCampaign1 = 3;
-        $dg = new DataGenerator();
+        
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->priority = DataObjects_Campaigns::PRIORITY_REMNANT;
         $doCampaigns->revenue = 0;
         $doCampaigns->min_impressions = 0;
-        $aCampaignsId1 = $aCampaigns1 = $dg->generate($doCampaigns, $numCampaign1, true);
+        $aCampaignsId1 = $aCampaigns1 = DataGenerator::generate($doCampaigns, $numCampaign1, true);
         $agencyId1 = DataGenerator::getReferenceId('agency');
 
         foreach($aCampaignsId1 as $campaignId1) {
@@ -971,18 +971,18 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $aData = array(
             'reportlastdate' => array('2007-04-03 18:39:45')
         );
-        $dg = new DataGenerator();
-        $dg->setData('clients', $aData);
-        $aCampaigns1 = $dg->generate('campaigns', $numCampaigns1, true);
+        
+        DataGenerator::setData('clients', $aData);
+        $aCampaigns1 = DataGenerator::generate('campaigns', $numCampaigns1, true);
         $agencyId1 = DataGenerator::getReferenceId('agency');
 
         $numCampaigns2 = 2;
         $aData = array(
             'reportlastdate' => array('2007-04-03 18:39:45')
         );
-        $dg = new DataGenerator();
-        $dg->setData('clients', $aData);
-        $aCampaigns2 = $dg->generate('campaigns', $numCampaigns2, true);
+
+        DataGenerator::setData('clients', $aData);
+        $aCampaigns2 = DataGenerator::generate('campaigns', $numCampaigns2, true);
         $agencyId2 = DataGenerator::getReferenceId('agency');
         $clientId = DataGenerator::getReferenceId('clients');
 

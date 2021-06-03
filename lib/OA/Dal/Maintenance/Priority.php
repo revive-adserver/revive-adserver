@@ -549,7 +549,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     {
         OA::debug('  - Getting the impression inventory data for all zones', PEAR_LOG_DEBUG);
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
         $oDate =& $oServiceLocator->get('now');
         if (!$oDate) {
             return false;
@@ -735,7 +735,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     {
         OA::debug("  - Getting details of previous creative/zone delivery", PEAR_LOG_DEBUG);
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
         $oDate =& $oServiceLocator->get('now');
         if (!$oDate) {
             return false;
@@ -949,12 +949,12 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                             $aFinalResult[$a][$z] = array(
                             'ad_id'                         => $a,
                             'zone_id'                       => $z,
-                            'required_impressions'          => $aPastPriorityResult[$a][$z]['required_impressions'],
-                            'requested_impressions'         => $aPastPriorityResult[$a][$z]['requested_impressions'],
-                            'to_be_delivered'               => $aPastPriorityResult[$a][$z]['to_be_delivered'],
-                            'priority_factor'               => $aPastPriorityResult[$a][$z]['priority_factor'],
-                            'past_zone_traffic_fraction'    => $aPastPriorityResult[$a][$z]['past_zone_traffic_fraction'],
-                            'impressions'                   => $aPastDeliveryResult[$a][$z]['impressions']
+                            'required_impressions'          => $aPastPriorityResult[$a][$z]['required_impressions'] ?? null,
+                            'requested_impressions'         => $aPastPriorityResult[$a][$z]['requested_impressions'] ?? null,
+                            'to_be_delivered'               => $aPastPriorityResult[$a][$z]['to_be_delivered'] ?? null,
+                            'priority_factor'               => $aPastPriorityResult[$a][$z]['priority_factor'] ?? null,
+                            'past_zone_traffic_fraction'    => $aPastPriorityResult[$a][$z]['past_zone_traffic_fraction'] ?? null,
+                            'impressions'                   => $aPastDeliveryResult[$a][$z]['impressions'] ?? null
                             );
                         }
                     }
@@ -1427,7 +1427,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 foreach ($aPastPriorityResult as $a => $aAd) {
                     if (is_array($aAd) && (count($aAd) > 0)) {
                         foreach ($aAd as $z => $aZone) {
-                            if (!empty($aPastPriorityResult[$a][$z]['average']) && (!$aPastPriorityResult[$a][$z]['pastPriorityFound'])) {
+                            if (!empty($aPastPriorityResult[$a][$z]['average']) && empty($aPastPriorityResult[$a][$z]['pastPriorityFound'])) {
                                 $aPastPriorityResult[$a][$z]['required_impressions'] /= SECONDS_PER_HOUR;
                                 $aPastPriorityResult[$a][$z]['requested_impressions'] /= SECONDS_PER_HOUR;
                                 $aPastPriorityResult[$a][$z]['priority_factor'] /= SECONDS_PER_HOUR;
@@ -1591,7 +1591,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     {
         OA::debug('- Updating priorities', PEAR_LOG_DEBUG);
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
         $oDate =& $oServiceLocator->get('now');
         if (!$oDate) {
             OA::debug('  - Date not found in service locator', PEAR_LOG_DEBUG);
@@ -1688,7 +1688,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                                 SET
                                     priority = ".(float)$aAdZonePriority['priority'].",
                                     priority_factor = " . (is_null($aAdZonePriority['priority_factor']) ? 'NULL' : $aAdZonePriority['priority_factor']) . ",
-                                    to_be_delivered = " . ($aAdZonePriority['to_be_delivered'] ? 1 : 0) . "
+                                    to_be_delivered = " . (empty($aAdZonePriority['to_be_delivered']) ? 0 : 1) . "
                                 WHERE
                                     ad_id = {$aAdZonePriority['ad_id']}
                                     AND
@@ -1749,7 +1749,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                                 SET
                                     priority = ".(float)$aAdZonePriority['priority'].",
                                     priority_factor = " . (is_null($aAdZonePriority['priority_factor']) ? 'NULL' : $aAdZonePriority['priority_factor']) . ",
-                                    to_be_delivered = " . ($aAdZonePriority['to_be_delivered'] ? 1 : 0) . "
+                                    to_be_delivered = " . (empty($aAdZonePriority['to_be_delivered']) ? 1 : 0) . "
                                 WHERE
                                     ad_id = {$aAdZonePriority['ad_id']}
                                     AND
@@ -1807,7 +1807,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                             $aAdZonePriority['zone_id'],
                             $aAdZonePriority['required_impressions'],
                             $aAdZonePriority['requested_impressions'],
-                            ($aAdZonePriority['to_be_delivered'] ? 1 : 0),
+                            !empty($aAdZonePriority['to_be_delivered']) ? 1 : 0,
                             $aAdZonePriority['priority'],
                             $aAdZonePriority['priority_factor'],
                             !empty($aAdZonePriority['priority_factor_limited']) ? 1 : 0,
@@ -2080,7 +2080,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 $aValues['zone_id'],
                 $aValues['required_impressions'],
                 $aValues['requested_impressions'],
-                ($aValues['to_be_delivered'] ? 1 : 0)
+                empty($aValues['to_be_delivered']) ? 0 : 1
                 );
             }
             $this->batchInsert($tableNameUnquoted, $data, array('ad_id', 'zone_id', 'required_impressions', 'requested_impressions', 'to_be_delivered'));
@@ -2136,7 +2136,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             return false;
         }
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oServiceLocator = OA_ServiceLocator::instance();
         $oDate =& $oServiceLocator->get('now');
         if (!$oDate) {
             return false;

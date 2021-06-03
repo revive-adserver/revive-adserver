@@ -115,7 +115,9 @@ class UserMigration extends Migration
 	    if (!empty($whereAdd)) {
 	        $whereAdd = "WHERE
 	           {$whereAdd}";
-	    }
+	    } else {
+            $whereAdd = '';
+        }
 
 	    $this->_log('Starting User Migration for group: '.$group.' / '.$whereAdd.' /  username = '.$fieldMap['username']);
 

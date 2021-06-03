@@ -82,10 +82,8 @@ class Test_OA_Upgrade extends UnitTestCase
         }
         $this->assertTrue(isset($aSaved['testPlugin']));
         $this->assertEqual($aSaved['testPlugin'], 1);
-        $this->assertEqual($aConf['testPlugin'], 0);
-        $this->assertEqual($aConf['testGroup1'], 0);
-        $this->assertEqual($aConf['testGroup2'], 0);
-        $this->assertEqual($aConf['testGroup2'], 0);
+        $this->assertEqual($oUpgrade->oConfiguration->oSettings->aConf['plugins'], []);
+        $this->assertEqual($oUpgrade->oConfiguration->oSettings->aConf['pluginGroupComponents'], []);
 
         @unlink($file);
 
@@ -287,7 +285,7 @@ class Test_OA_Upgrade extends UnitTestCase
         $oUpgrade = new OA_Upgrade_for_detectPAN($this);
         $oUpgrade->setReturnValue('initDatabaseConnection', true);
         $oUpgrade->expectCallCount('initDatabaseConnection', 2);
-        $oUpgrade->__construct();
+        (new ReflectionMethod(OA_Upgrade::class, '__construct'))->invoke($oUpgrade);
 
         Mock::generatePartial(
             'OA_phpAdsNew',
@@ -318,7 +316,7 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->assertFalse($oUpgrade->detectPAN(true),'PAN not detected: found application version '.$oUpgrade->versionInitialApplication);
         $this->assertEqual($oUpgrade->versionInitialApplication,'200.311','wrong initial application version expected 200.311 got'.$oUpgrade->versionInitialApplication);
         $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_PAN_NOT_INSTALLED,'wrong upgrade status code, expected '.OA_STATUS_PAN_NOT_INSTALLED.' got '.$oUpgrade->existing_installation_status);
-        $this->assertEqual($oUpgrade->aPackageList[0], '', 'wrong package file assigned');
+        $this->assertEqual($oUpgrade->aPackageList, [], 'wrong package file assigned');
 
         $this->assertTrue($oUpgrade->detectPAN(true),'PAN not detected: found application version '.$oUpgrade->versionInitialApplication);
         $this->assertEqual($oUpgrade->versionInitialApplication,'200.313','wrong initial application version expected 200.313 got'.$oUpgrade->versionInitialApplication);
@@ -349,7 +347,7 @@ class Test_OA_Upgrade extends UnitTestCase
         $oUpgrade = new OA_Upgrade_for_detectM01($this);
         $oUpgrade->setReturnValue('initDatabaseConnection', true);
         $oUpgrade->expectCallCount('initDatabaseConnection', 3);
-        $oUpgrade->__construct();
+        (new ReflectionMethod(OA_Upgrade::class, '__construct'))->invoke($oUpgrade);
 
         Mock::generatePartial(
             'OA_phpAdsNew',
@@ -380,7 +378,7 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->assertFalse($oUpgrade->detectMAX01(true),'Max 0.1 not detected: found application version '.$oUpgrade->versionInitialApplication);
         $this->assertEqual($oUpgrade->versionInitialApplication,'0.000','wrong initial application version expected 0.000 got'.$oUpgrade->versionInitialApplication);
         $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_M01_VERSION_FAILED,'wrong upgrade status code, expected '.OA_STATUS_M01_VERSION_FAILED.' got '.$oUpgrade->existing_installation_status);
-        $this->assertEqual($oUpgrade->aPackageList[0], '', 'wrong package file assigned');
+        $this->assertEqual($oUpgrade->aPackageList, [], 'wrong package file assigned');
 
         $this->assertTrue($oUpgrade->detectMAX01(true),'Max 0.1 not detected: found application version '.$oUpgrade->versionInitialApplication);
         $this->assertEqual($oUpgrade->versionInitialApplication,'0.100','wrong initial application version expected 0.100 got'.$oUpgrade->versionInitialApplication);
@@ -420,7 +418,7 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->assertFalse($oUpgrade->detectMAX(true),'Max 0.3 not detected: found application version '.$oUpgrade->versionInitialApplication);
         $this->assertEqual($oUpgrade->versionInitialApplication,'v0.3.30-alpha','wrong initial application version expected v0.3.30-alpha got'.$oUpgrade->versionInitialApplication);
         $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_MAX_VERSION_FAILED,'wrong upgrade status code');
-        $this->assertEqual($oUpgrade->aPackageList[0], '', 'wrong package file assigned');
+        $this->assertEqual($oUpgrade->aPackageList, [], 'wrong package file assigned');
         $this->_deleteTestAppVarRecordAllNames('max_version');
 
         $this->_createTestAppVarRecord('max_version','v0.3.31-alpha');
@@ -476,7 +474,7 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->assertFalse($oUpgrade->detectOpenads(true),'openads not detected: found application version '.$oUpgrade->versionInitialApplication);
         $this->assertEqual($oUpgrade->versionInitialApplication,VERSION,'wrong initial application version expected '.VERSION.' got '.$oUpgrade->versionInitialApplication);
         $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_CURRENT_VERSION,'wrong upgrade status code, expected '.OA_STATUS_CURRENT_VERSION.' got '.$oUpgrade->existing_installation_status);
-        $this->assertEqual($oUpgrade->aPackageList[0], '', 'wrong package file assigned');
+        $this->assertEqual($oUpgrade->aPackageList, [], 'wrong package file assigned');
         $this->_deleteTestAppVarRecordAllNames('oa_version');
 
 //        $oUpgrade->oIntegrity->tally();
@@ -489,9 +487,9 @@ class Test_OA_Upgrade extends UnitTestCase
     function test_upgradeSchemas()
     {
         $this->_deleteTestAppVarRecord('tables_core', '');
-        $this->assertEqual($this->_getTestAppVarValue('tables_core', ''), '', '');
+        $this->assertEqual($this->_getTestAppVarValue('tables_core'), '', '');
         $this->_createTestAppVarRecord('tables_core', '997');
-        $this->assertEqual($this->_getTestAppVarValue('tables_core', '997'), '997', '');
+        $this->assertEqual($this->_getTestAppVarValue('tables_core'), '997', '');
 
         $this->_createTestAppVarRecord('oa_version','2.3.00');
 
@@ -508,7 +506,7 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->assertTrue($oUpgrade->upgradeSchemas(),'upgradeSchemas');
 
         $this->_checkTablesUpgraded($oUpgrade);
-        $this->assertEqual($this->_getTestAppVarValue('tables_core', '999'), '999', '');
+        $this->assertEqual($this->_getTestAppVarValue('tables_core'), '999', '');
 
         // remove the fake application variable records
         $this->_deleteTestAppVarRecordAllNames('oa_version');
@@ -683,7 +681,6 @@ class Test_OA_Upgrade extends UnitTestCase
             @unlink(MAX_PATH.'/var/test_'.$confFile);
         }
 
-
         $aAudit = $oUpgrade->oAuditor->queryAuditAllDescending();
         // we should have another 13 records in the upgrade_action audit table
         // we should have another 13 logfiles in the var folder
@@ -760,7 +757,7 @@ class Test_OA_Upgrade extends UnitTestCase
         return $id;
     }
 
-    function _getTestAppVarValue($name, $value)
+    function _getTestAppVarValue($name)
     {
         $doApplicationVariable          = OA_Dal::factoryDO('application_variable');
         $doApplicationVariable->name    = $name;

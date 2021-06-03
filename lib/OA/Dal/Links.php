@@ -37,7 +37,7 @@ class Openads_Links
      *  )
      *
      */
-    function readLinksDotIni($file_links)
+    public static function readLinksDotIni($file_links)
     {
         $links = new Config();
         $root =& $links->parseConfig($file_links, 'inifile');
@@ -94,7 +94,7 @@ class Openads_Links
      *  )
      *
      */
-    function writeLinksDotIni($file_links, $link_array)
+    public static function writeLinksDotIni($file_links, $link_array)
     {
         $links = new Config();
         $root =& $links->parseConfig($file_links, 'inifile');

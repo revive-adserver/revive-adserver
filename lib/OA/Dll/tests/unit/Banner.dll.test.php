@@ -308,7 +308,7 @@ class OA_Dll_BannerTest extends DllUnitTestCase
         }
         // Check field value from list
         $this->assertFieldEqual($oBannerInfo1, $oBannerInfo1Get, 'bannerName');
-        $this->assertFieldEqual($obannerInfo2, $obannerInfo2Get, 'bannerName');
+        $this->assertFieldEqual($oBannerInfo2, $oBannerInfo2Get, 'bannerName');
 
 
         // Delete

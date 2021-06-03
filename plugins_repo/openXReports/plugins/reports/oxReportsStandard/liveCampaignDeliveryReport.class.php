@@ -579,7 +579,7 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
         }
 
         // Calculate the number of days the campaign should run over
-        $oCampaignDaySpan =& $this->_rangeFromCampaign($aCampaignData);
+        $oCampaignDaySpan = $this->_rangeFromCampaign($aCampaignData);
         $campaignDays = $oCampaignDaySpan->getDaysInSpan();
 
         // Calulate the number of days over which the campaign has been running
@@ -633,7 +633,7 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
         }
 
         // Calculate the number of days the campaign should run over
-        $oCampaignDaySpan =& $this->_rangeFromCampaign($aCampaignData);
+        $oCampaignDaySpan = $this->_rangeFromCampaign($aCampaignData);
         $campaignDays = $oCampaignDaySpan->getDaysInSpan();
 
         // Calulate the number of days over which the campaign has been running

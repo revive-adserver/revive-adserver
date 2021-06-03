@@ -15,6 +15,8 @@ require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 require_once LIB_PATH . '/Maintenance/Statistics.php';
 require_once LIB_PATH . '/Maintenance/Statistics/Task/SummariseIntermediate.php';
 
+Language_Loader::load();
+
 /**
  * A class for testing the OX_Maintenance_Statistics_Task_MigrateBucketData class.
  *

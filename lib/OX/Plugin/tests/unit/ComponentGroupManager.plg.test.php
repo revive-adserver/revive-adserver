@@ -60,8 +60,8 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
         $this->assertTrue($oManager->_instantiateClass('stdClass'));
 
         $classname = 'testFoo';
-        eval('class testFoo { function testFoo() { $this->hello = "world"; } }');
-        $oFoo = $oManager->_instantiateClass('testFoo',array('foo','bar'));
+        eval('class testFoo { function __construct() { $this->hello = "world"; } }');
+        $oFoo = $oManager->_instantiateClass('testFoo', array('foo','bar'));
         $this->assertIsA($oFoo, 'testFoo');
         $this->assertEqual($oFoo->hello, 'world');
 
@@ -400,7 +400,7 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
     function test_runTasks_Pass()
     {
         Mock::generatePartial(
-                                'OX_Plugin_ComponentGroupManager',
+                                'Mock_OX_Plugin_ComponentGroupManager',
                                 $oMockManager = 'OX_Plugin_ComponentGroupManager'.rand(),
                                 array(
                                       'task1',
@@ -430,7 +430,7 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
     function test_runTasks_Fail()
     {
         Mock::generatePartial(
-                                'OX_Plugin_ComponentGroupManager',
+                                'Mock_OX_Plugin_ComponentGroupManager',
                                 $oMockManager = 'OX_Plugin_ComponentGroupManager'.rand(),
                                 array(
                                       'task1',
@@ -461,7 +461,7 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
     function test_runTasks_FailRollback()
     {
         Mock::generatePartial(
-                                'OX_Plugin_ComponentGroupManager',
+                                'Mock_OX_Plugin_ComponentGroupManager',
                                 $oMockManager = 'OX_Plugin_ComponentGroupManager'.rand(),
                                 array(
                                       'task1',
@@ -508,7 +508,7 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
     function test_runTasks_FailRollbackFail()
     {
         Mock::generatePartial(
-                                'OX_Plugin_ComponentGroupManager',
+                                'Mock_OX_Plugin_ComponentGroupManager',
                                 $oMockManager = 'OX_Plugin_ComponentGroupManager'.rand(),
                                 array(
                                       'task1',
@@ -555,7 +555,7 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
     function test_parseXML()
     {
         Mock::generatePartial(
-                                'stdClass',
+                                'Mock_stdClass',
                                 $oMockParser = 'stdClass'.rand(),
                                 array(
                                       'setInputFile',
@@ -620,7 +620,7 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
     function test_getComponentGroupVersion()
     {
         Mock::generatePartial(
-                                'stdClass',
+                                'Mock_stdClass',
                                 $mockVerCtrl = 'stdClass'.rand(),
                                 array(
                                       'getApplicationVersion'
@@ -746,7 +746,7 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
     function test_getSchemaInfo()
     {
         Mock::generatePartial(
-                                'stdClass',
+                                'Mock_stdClass',
                                 $mockVerCtrl = 'stdClass'.rand(),
                                 array(
                                       'getSchemaVersion'
@@ -785,7 +785,8 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
                                      )
                              );
         $oManager = new $oMockManager($this);
-        $oManager->__construct();
+
+        (new ReflectionMethod(OX_Plugin_ComponentGroupManager::class, '__construct'))->invoke($oManager);
         $oManager->pathPackages      = $this->testpathPackages;
         $oManager->pathPluginsAdmin = $this->testpathPluginsAdmin;
 
@@ -818,8 +819,8 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
         $this->assertEqual(count($aResult),7);
         $this->assertEqual($aResult[1],'foo');
         $this->assertEqual($aResult[2],'bar');
-        $this->assertNull($aResult['schema_name']);
-        $this->assertNull($aResult['schema_version']);
+        $this->assertFalse(isset($aResult['schema_name']));
+        $this->assertFalse(isset($aResult['schema_version']));
         $this->assertTrue($aResult['settings']);
         $this->assertTrue($aResult['preferences']);
 
@@ -832,7 +833,7 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
     function test_registerPluginVersion()
     {
         Mock::generatePartial(
-                                'stdClass',
+                                'Mock_stdClass',
                                 $mockVerCtrl = 'stdClass'.rand(),
                                 array(
                                       'putApplicationVersion'
@@ -865,7 +866,7 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
     function test_registerSchemaVersion()
     {
         Mock::generatePartial(
-                                'stdClass',
+                                'Mock_stdClass',
                                 $mockVerCtrl = 'stdClass'.rand(),
                                 array(
                                       'putSchemaVersion'
@@ -898,7 +899,7 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
     function test_unregisterSchemaVersion()
     {
         Mock::generatePartial(
-                                'stdClass',
+                                'Mock_stdClass',
                                 $mockVerCtrl = 'stdClass'.rand(),
                                 array(
                                       'removeVariable'
@@ -931,7 +932,7 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
     function test_unregisterPluginVersion()
     {
         Mock::generatePartial(
-                                'stdClass',
+                                'Mock_stdClass',
                                 $mockVerCtrl = 'stdClass'.rand(),
                                 array(
                                       'removeVersion'
@@ -1341,9 +1342,11 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
         $oManager->setReturnValue('_auditStart', true);*/
         $oManager->setReturnValue('_dropTables', true);
 
+        $aSchema = ['mdb2schema' => 'foo'];
+
         // Test 1 - initialise schema fails
         $oTable->setReturnValueAt(0,'init', false);
-        $this->assertFalse($oManager->_createTables('test',$aSchema));
+        $this->assertFalse($oManager->_createTables('test', $aSchema));
 
         // Test 2 - table creation fails
         $oTable->setReturnValueAt(1,'init', true);
@@ -1402,6 +1405,8 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
 
         // Test 1 - initialise schema fails
         $oTable->setReturnValueAt(0,'init', false);
+
+        $aSchema = ['mdb2schema' => 'foo'];
 
         $this->assertFalse($oManager->_dropTables('test',$aSchema));
 
@@ -1571,4 +1576,26 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
 
 }
 
+class Mock_OX_Plugin_ComponentGroupManager extends OX_Plugin_ComponentGroupManager
+{
+    function task1() {}
+    function task2() {}
+    function untask1() {}
+    function untask2() {}
+}
+
+class Mock_stdClass
+{
+    public $error;
+
+    function setInputFile() {}
+    function parse() {}
+
+    function getApplicationVersion() {}
+    function getSchemaVersion() {}
+    function putApplicationVersion() {}
+    function putSchemaVersion() {}
+    function removeVersion() {}
+    function removeVariable() {}
+}
 ?>
