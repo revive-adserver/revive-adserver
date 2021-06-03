@@ -68,6 +68,7 @@
     <exclude name="**/tests"/>
     <exclude name="**/tests/**"/>
     <exclude name="**/.git*"/>
+    <exclude name="**/.git*/**"/>
     <exclude name="**/*.log"/><!-- Log files -->
   </patternset>
 
