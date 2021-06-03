@@ -29,7 +29,7 @@ What's New in Revive Adserver 5.3.0
  New Features
  ------------
 
- * None
+ * Added PHP 8.0 compatibility.
 
 
  Bug Fixes
