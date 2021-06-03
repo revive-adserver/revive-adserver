@@ -105,7 +105,6 @@ class Test_DeliveryAdRender extends UnitTestCase
         $this->sendMessage('test_adRenderHtml');
 
         $GLOBALS['_MAX']['CONF']['logging']['adImpressions'] = '';
-        $GLOBALS['_MAX']['CONF']['delivery']['execPhp'] = TRUE;
 
         require_once MAX_PATH . '/lib/max/Delivery/tests/data/test_adRenderHtml.php';
         $ret = _adRenderHtml($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $logView, $useAlt, $loc, $referer);

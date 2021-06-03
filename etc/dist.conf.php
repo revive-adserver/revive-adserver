@@ -121,7 +121,6 @@ cachePath                           =
 acls                                = true
 aclsDirectSelection                 = true
 obfuscate                           = false
-execPhp                             = false
 ctDelimiter                         = __
 chDelimiter                         = ","
 keywords                            = false

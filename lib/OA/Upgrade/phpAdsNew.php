@@ -109,7 +109,6 @@ class OA_phpAdsNew
             $aResult['p3p']['compactPolicy'] = $phpAds_config['p3p_compact_policy'] ?? '';
             $aResult['p3p']['policyLocation'] = $phpAds_config['p3p_policy_location'] ?? '';
             $aResult['delivery']['acls'] = $phpAds_config['acl'] ?? true;
-            $aResult['delivery']['execPhp'] = $phpAds_config['type_html_php'] ?? false;
 
             if (!empty($phpAds_config['table_type'])) {
                 $aResult['database']['type'] = extension_loaded('mysqli') ? 'mysqli' : 'mysql';
