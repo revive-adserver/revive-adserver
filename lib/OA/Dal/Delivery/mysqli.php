@@ -57,9 +57,7 @@ function OA_Dal_Delivery_connect($database = 'database') {
     }
 
     if ($dbLink) {
-        if (!empty($dbConf['mysql4_compatibility'])) {
-            @mysqli_query($dbLink, "SET SESSION sql_mode='MYSQL40'");
-        }
+        @mysqli_query($dbLink, "SET SESSION sql_mode=''");
 
         if (!empty($conf['databaseCharset']['checkComplete']) && !empty($conf['databaseCharset']['clientCharset'])) {
             @mysqli_query($dbLink, "SET NAMES '{$conf['databaseCharset']['clientCharset']}'");

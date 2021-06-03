@@ -381,7 +381,7 @@ class OA_DB_Upgrade
     {
         if (!$this->oTable->oDbh instanceof MDB2_Driver_pgsql) {
             // Ensure upgrades are run in compatibility mode
-            $this->oTable->oDbh->exec("SET SESSION sql_mode='MYSQL40'");
+            $this->oTable->oDbh->exec("SET SESSION sql_mode=''");
         }
 
         $this->_logOnly('verifying '.$this->timingStr.' changes');
