@@ -1971,10 +1971,10 @@ class OX_Plugin_ComponentGroupManager
                 return false;
             }
             $oMenuSection = $oMenu->get($aMenu['replace'], false);
-            if ($aMenu['value']) $oMenuSection->setNameKey($aMenu['value']);
-            if ($aMenu['link']) $oMenuSection->setLink($aMenu['link']);
-            if ($aMenu['exclusive']) $oMenuSection->setExclusive($aMenu['exclusive']);
-            if ($aMenu['helplink']) $oMenuSection->setHelpLink($aMenu['helplink']);
+            if (!empty($aMenu['value'])) $oMenuSection->setNameKey($aMenu['value']);
+            if (!empty($aMenu['link'])) $oMenuSection->setLink($aMenu['link']);
+            if (!empty($aMenu['exclusive'])) $oMenuSection->setExclusive($aMenu['exclusive']);
+            if (!empty($aMenu['helplink'])) $oMenuSection->setHelpLink($aMenu['helplink']);
             $oMenuSection->setSectionHasBeenReplaced();
         } else {
             if (!isset($aMenu['index'], $aMenu['value'], $aMenu['link'])) {
