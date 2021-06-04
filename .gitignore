@@ -26,3 +26,4 @@ phpinfo.php
 /plugins_repo/build-ap.xml
 /plugins_repo/release/*.zip
 /lib/vendor/
+/www/devel/schema.js

@@ -88,9 +88,10 @@ class MDB2_Schema_Writer
      * @access  public
      * @see PEAR_Error
      */
-    function &raiseError($code = null, $mode = null, $options = null, $userinfo = null)
+    function raiseError($code = null, $mode = null, $options = null, $userinfo = null)
     {
-        $error =& MDB2_Schema::raiseError($code, $mode, $options, $userinfo);
+        $error = MDB2_Schema::raiseError(null, $code, $mode, $options, $userinfo);
+
         return $error;
     }
 

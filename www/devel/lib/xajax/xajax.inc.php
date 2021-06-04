@@ -892,9 +892,9 @@ class xajax
 			}
 		}
 
-		if (empty($aURL['port']) && !empty($_SERVER['SERVER_PORT'])) {
-			$aURL['port'] = $_SERVER['SERVER_PORT'];
-		}
+//		if (empty($aURL['port']) && !empty($_SERVER['SERVER_PORT'])) {
+//			$aURL['port'] = $_SERVER['SERVER_PORT'];
+//		}
 
 		if (empty($aURL['path'])) {
 			if (!empty($_SERVER['PATH_INFO'])) {
