@@ -99,7 +99,7 @@ class OA_DB_Charset
         $clientCharset   = $this->getClientCharset();
 
         if (!empty($databaseCharset) && !empty($clientCharset) && $clientCharset != $databaseCharset) {
-            return $clientCharset;
+            return $databaseCharset;
         }
 
         return false;

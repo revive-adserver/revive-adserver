@@ -35,49 +35,59 @@ class Test_OA_DB_Charset extends UnitTestCase
     function testMySQL()
     {
         $oDbh = OA_DB::singleton();
-        if ($oDbh->dbsyntax == 'mysql' || $oDbh->dbsyntax == 'mysqli') {
-            $oDbc = OA_DB_Charset::factory($oDbh);
-            $this->assertTrue($oDbc);
 
-            $aVersion = $oDbh->getServerVersion();
-            if (version_compare($aVersion['native'], '4.1.2', '>=')) {
-                $this->assertTrue($oDbc->oDbh);
-                //TODO: set the charset during database creation. 
-                //      Currently the character_set_server from my.ini
-                //      is used as default during creation and the result
-                //      of getDatabaseCharset() also depends on that value.
-                //$this->assertEqual($oDbc->getDatabaseCharset(), 'utf8');
-                $this->assertTrue($oDbc->getDatabaseCharset());
-                $this->assertTrue($oDbc->getClientCharset());
-
-                $aCharsets = array('utf8', 'latin1', 'cp1251');
-                foreach ($aCharsets as $charset) {
-                    $this->assertTrue($oDbc->setClientCharset($charset));
-                    $this->assertEqual($oDbc->getClientCharset(), $charset);
-                }
-            } else {
-                $this->assertFalse($oDbc->oDbh);
-            }
+        if ($oDbh->dbsyntax !== 'mysql' && $oDbh->dbsyntax !== 'mysqli') {
+            return;
         }
+
+        $oDbc = OA_DB_Charset::factory($oDbh);
+        $this->assertTrue($oDbc);
+
+        $aVersion = $oDbh->getServerVersion();
+        if (version_compare($aVersion['native'], '4.1.2', '<')) {
+            return;
+        }
+
+        $this->assertTrue($oDbc->oDbh);
+
+        //TODO: set the charset during database creation.
+        //      Currently the character_set_server from my.ini
+        //      is used as default during creation and the result
+        //      of getDatabaseCharset() also depends on that value.
+        //$this->assertEqual($oDbc->getDatabaseCharset(), 'utf8');
+
+        $this->assertTrue($oDbc->getDatabaseCharset());
+        $this->assertTrue($oDbc->getClientCharset());
+
+        foreach (['utf8', 'latin1', 'utf8mb4', 'cp1251'] as $charset) {
+            $this->assertTrue($oDbc->setClientCharset($charset));
+            $this->assertEqual($oDbc->getClientCharset(), $charset);
+        }
+
+        $this->assertEqual($oDbc->getDatabaseCharset(), $oDbc->getConfigurationValue());
     }
 
     function testPgSQL()
     {
         $oDbh = OA_DB::singleton();
-        if ($oDbh->dbsyntax == 'pgsql') {
-            $oDbc = OA_DB_Charset::factory($oDbh);
-            $this->assertTrue($oDbc);
 
-            $this->assertTrue($oDbc->oDbh);
-            $this->assertEqual($oDbc->getDatabaseCharset(), 'UTF8');
-            $this->assertEqual($oDbc->getClientCharset(), 'UTF8');
-
-            $aCharsets = array('LATIN1', 'UTF8', 'SJIS');
-            foreach ($aCharsets as $charset) {
-                $this->assertTrue($oDbc->setClientCharset($charset));
-                $this->assertEqual($oDbc->getClientCharset(), $charset);
-            }
+        if ($oDbh->dbsyntax !== 'pgsql') {
+            return;
         }
+
+        $oDbc = OA_DB_Charset::factory($oDbh);
+        $this->assertTrue($oDbc);
+
+        $this->assertTrue($oDbc->oDbh);
+        $this->assertEqual($oDbc->getDatabaseCharset(), 'UTF8');
+        $this->assertEqual($oDbc->getClientCharset(), 'UTF8');
+
+        foreach (['LATIN1', 'UTF8', 'SJIS'] as $charset) {
+            $this->assertTrue($oDbc->setClientCharset($charset));
+            $this->assertEqual($oDbc->getClientCharset(), $charset);
+        }
+
+        $this->assertEqual($oDbc->getDatabaseCharset(), $oDbc->getConfigurationValue());
     }
 }
 

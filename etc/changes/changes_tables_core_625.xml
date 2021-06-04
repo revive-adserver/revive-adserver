@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>625</version>
+  <comments>utf8mb4</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>625</version>
+      <change>
+        <table>
+          <name>application_variable</name>
+        <change>
+          <field>
+            <name>name</name>
+            <length>250</length>
+          </field>
+        </change>
+      </table>
+        <table>
+          <name>audit</name>
+        <change>
+          <field>
+            <name>context</name>
+            <length>200</length>
+          </field>
+        </change>
+      </table>
+    </change>
+  </changeset>
+</constructive>
+<destructive>
+  <changeset>
+    <name>openads</name>
+    <version>625</version>
+  </changeset>
+</destructive>
+</instructionset>
