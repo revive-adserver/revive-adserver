@@ -234,12 +234,6 @@ class OA_Upgrade
      */
     function initDatabaseParameters($aConfig)
     {
-        // Check if we need to ensure to enable MySQL 4 compatibility
-        if (strcasecmp($aConfig['database']['type'], 'mysql') === 0 || strcasecmp($aConfig['database']['type'], 'mysqli') === 0) {
-            $result = $this->oDbh->exec("SET SESSION sql_mode='MYSQL40'");
-            $aConfig['database']['mysql4_compatibility'] = !PEAR::isError($result);
-        }
-
         // Set charset information
         $oDbc = OA_DB_Charset::factory($this->oDbh);
         $charset = $oDbc->getConfigurationValue();

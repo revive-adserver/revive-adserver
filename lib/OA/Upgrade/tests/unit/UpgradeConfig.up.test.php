@@ -174,7 +174,6 @@ class Test_OA_Upgrade_Config extends UnitTestCase
         $aConfig['password'] = 'mypass';
         $aConfig['name'] = 'mydb';
         $aConfig['persistent'] = '0';
-        $aConfig['mysql4_compatibility'] = '0';
 
         $aConfig['type'] = 'mysql';
 
@@ -192,7 +191,6 @@ class Test_OA_Upgrade_Config extends UnitTestCase
         $this->assertEqual($oUpConfig->oSettings->aConf['database']['password'] , $aConfig['password']);
         $this->assertEqual($oUpConfig->oSettings->aConf['database']['name']     , $aConfig['name']);
         $this->assertEqual($oUpConfig->oSettings->aConf['database']['persistent'] , $aConfig['persistent']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['mysql4_compatibility'] , $aConfig['mysql4_compatibility']);
 
         $aConfig['host'] = '';
         $aConfig['socket'] = '';
@@ -208,7 +206,6 @@ class Test_OA_Upgrade_Config extends UnitTestCase
         $this->assertEqual($oUpConfig->oSettings->aConf['database']['password'] , $aConfig['password']);
         $this->assertEqual($oUpConfig->oSettings->aConf['database']['name']     , $aConfig['name']);
         $this->assertEqual($oUpConfig->oSettings->aConf['database']['persistent'] , $aConfig['persistent']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['mysql4_compatibility'] , $aConfig['mysql4_compatibility']);
 
         $aConfig['host'] = '';
         $aConfig['socket'] = '/var/lib/mysql/mysql.sock';
@@ -224,7 +221,6 @@ class Test_OA_Upgrade_Config extends UnitTestCase
         $this->assertEqual($oUpConfig->oSettings->aConf['database']['password'] , $aConfig['password']);
         $this->assertEqual($oUpConfig->oSettings->aConf['database']['name']     , $aConfig['name']);
         $this->assertEqual($oUpConfig->oSettings->aConf['database']['persistent'] , $aConfig['persistent']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['mysql4_compatibility'] , $aConfig['mysql4_compatibility']);
 
         $aConfig['type'] = 'pgsql';
 
@@ -242,7 +238,6 @@ class Test_OA_Upgrade_Config extends UnitTestCase
         $this->assertEqual($oUpConfig->oSettings->aConf['database']['password'] , $aConfig['password']);
         $this->assertEqual($oUpConfig->oSettings->aConf['database']['name']     , $aConfig['name']);
         $this->assertEqual($oUpConfig->oSettings->aConf['database']['persistent'] , $aConfig['persistent']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['mysql4_compatibility'] , $aConfig['mysql4_compatibility']);
 
         $aConfig['host'] = '';
         $aConfig['socket'] = '';
@@ -258,7 +253,6 @@ class Test_OA_Upgrade_Config extends UnitTestCase
         $this->assertEqual($oUpConfig->oSettings->aConf['database']['password'] , $aConfig['password']);
         $this->assertEqual($oUpConfig->oSettings->aConf['database']['name']     , $aConfig['name']);
         $this->assertEqual($oUpConfig->oSettings->aConf['database']['persistent'] , $aConfig['persistent']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['mysql4_compatibility'] , $aConfig['mysql4_compatibility']);
 
         $aConfig['host'] = '';
         $aConfig['socket'] = '/tmp/pgsql.sock';
@@ -274,7 +268,6 @@ class Test_OA_Upgrade_Config extends UnitTestCase
         $this->assertEqual($oUpConfig->oSettings->aConf['database']['password'] , $aConfig['password']);
         $this->assertEqual($oUpConfig->oSettings->aConf['database']['name']     , $aConfig['name']);
         $this->assertEqual($oUpConfig->oSettings->aConf['database']['persistent'] , $aConfig['persistent']);
-        $this->assertEqual($oUpConfig->oSettings->aConf['database']['mysql4_compatibility'] , $aConfig['mysql4_compatibility']);
     }
 
     function test_getInitialConfig()

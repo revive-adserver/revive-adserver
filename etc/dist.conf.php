@@ -40,7 +40,6 @@ username                            =
 password                            =
 name                                =
 persistent                          = false
-mysql4_compatibility                = false
 protocol			                = tcp
 
 compress                            = false

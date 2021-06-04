@@ -216,9 +216,9 @@ class OA_DB
             $oDbh->loadModule('Manager');
             // Store the database connection
             $GLOBALS['_OA']['CONNECTIONS'][$dsnMd5] = $oDbh;
-            // Set MySQL 4 compatibility if needed
-            if ((strcasecmp($databaseType, 'mysql') === 0 || strcasecmp($databaseType, 'mysqli') === 0) && !empty($aConf['database']['mysql4_compatibility'])) {
-                $oDbh->exec("SET SESSION sql_mode='MYSQL40'");
+            if ((strcasecmp($databaseType, 'mysql') === 0 || strcasecmp($databaseType, 'mysqli') === 0)) {
+                // Set MySQL sql_mode
+                $oDbh->exec("SET SESSION sql_mode=''");
             }
         }
         return $GLOBALS['_OA']['CONNECTIONS'][$dsnMd5];
