@@ -1,6 +1,6 @@
 +---------------------------------------------------------------------------+
 | Revive Adserver                                                           |
-| http://www.revive-adserver.com                                            |
+| https://www.revive-adserver.com                                            |
 |                                                                           |
 | Copyright: See the COPYRIGHT.txt file.                                    |
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
@@ -70,13 +70,13 @@ Downloading and Installing
 
    Installing Revive Adserver is a straightforward process. Follow the steps at:
 
-   https://www.revive-adserver.com/support/installation/
+   https://www.revive-adserver.com/how-to/install/
 
  * Upgrading Revive Adserver
 
    Upgrading Revive Adserver is a straightforward process. Follow the steps at:
 
-   https://www.revive-adserver.com/support/upgrading/
+   https://www.revive-adserver.com/how-to/update/
 
    Please note: The upgrade process will update your Revive Adserver database,
    and the database may no longer be compatible with your old installation.
