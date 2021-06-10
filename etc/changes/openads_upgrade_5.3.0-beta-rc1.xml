@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/ox_upgrade_package.xsl"?>
+
+<upgrade>
+    <name>Revive Adserver</name>
+    <creationDate>2021-06-10</creationDate>
+    <author>Matteo Beccati</author>
+    <authorEmail>revive@revive-adserver.com</authorEmail>
+    <authorUrl>http://www.revive-adserver.com</authorUrl>
+    <license>LICENSE.txt</license>
+    <description>Revive Adserver Upgrade 5.3.0-beta-rc1</description>
+    <versionFrom></versionFrom>
+    <versionTo>5.3.0-beta-rc1</versionTo>
+
+    <!-- Database Packages -->
+    <database>
+        <package>
+            <version>625</version>
+            <stamp>625</stamp>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_625.xml</file>
+            <file>changes_tables_core_625.xml</file>
+            <file>migration_tables_core_625.php</file>
+        </package>
+    </database>
+
+</upgrade>
