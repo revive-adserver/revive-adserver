@@ -86,7 +86,7 @@ class SimulationScenario
         $this->oCoreTables = &OA_DB_Table_Core::singleton();
 
         // get the database handler
-        $this->oDbh = &OA_DB::singleton();
+        $this->oDbh = OA_DB::singleton();
 
         // fake the date/time
         $this->setDateTime();

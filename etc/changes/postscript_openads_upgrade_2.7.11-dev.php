@@ -42,7 +42,7 @@ class OA_UpgradePostscript_2_7_11_dev
     function execute($aParams)
     {
         $this->oUpgrade = & $aParams[0];
-        $this->oDbh = &OA_DB::singleton();
+        $this->oDbh = OA_DB::singleton();
         $aConf = $GLOBALS['_MAX']['CONF']['table'];
         $this->prefix = $aConf['prefix'];
         $this->tblCampaigns = $aConf['prefix'].($aConf['campaigns'] ? $aConf['campaigns'] : 'campaigns');

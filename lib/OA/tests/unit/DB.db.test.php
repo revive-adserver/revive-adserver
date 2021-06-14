@@ -153,7 +153,7 @@ class Test_OA_DB extends UnitTestCase
         $conf =& $GLOBALS['_MAX']['CONF'];
         $prefix = $conf['table']['prefix'] = 'ox_';
 
-        $oDbh = &OA_DB::singleton();
+        $oDbh = OA_DB::singleton();
 
         if ($oDbh->dbsyntax == 'pgsql') {
             $this->assertEqual(OA_DB::getSequenceName($oDbh, 'x', 'a'),
@@ -187,7 +187,7 @@ class Test_OA_DB extends UnitTestCase
     function testValidateDatabaseName()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oDbh  = &OA_DB::singleton();
+        $oDbh  = OA_DB::singleton();
 
         RV::disableErrorHandling();
         if ($aConf['database']['type'] == 'mysql' || $aConf['database']['type'] == 'mysqli') {

@@ -222,7 +222,7 @@ class TestRunner
         $runType = $GLOBALS['_MAX']['TEST'][$type . '_layers'][$layer][1];
         if ($runType !== NO_DB) {
             $aConf = $GLOBALS['_MAX']['CONF'];
-            $oDbh = &OA_DB::singleton();
+            $oDbh = OA_DB::singleton();
             $query = "SELECT VERSION() AS version";
             $aRow = $oDbh->queryRow($query);
             $version = 'UNKNOWN!';

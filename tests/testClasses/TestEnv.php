@@ -319,7 +319,7 @@ class TestEnv
      */
     static function restoreEnv($dropTmpTables='false')
     {
-        $oDbh = &OA_DB::singleton();
+        $oDbh = OA_DB::singleton();
         // Rollback any transactions that have not been closed
         // (Naughty, naughty test!)
         while ($oDbh->inTransaction(true) || $oDbh->inTransaction()) {
@@ -598,7 +598,7 @@ class TestEnv
                 switch ($mode)
                 {
                     case 'insert':
-                        $oDbh = &OA_DB::singleton();
+                        $oDbh = OA_DB::singleton();
                         $query = '';
                         if (preg_match('/INSERT INTO (?P<table>[\w\W]+) (?P<query>\([\w\W\s]+\);)/U',$v, $aMatches))
                         {
@@ -624,6 +624,27 @@ class TestEnv
         return;
     }
 
+    static function recreateDatabase(string $charset)
+    {
+        TestEnv::teardownDB();
+
+        $oldCharset = OA_DB::$DEFAULT_CHARSET;
+        OA_DB::$DEFAULT_CHARSET = $charset;
+
+        TestEnv::setupDB();
+
+        OA_DB::$DEFAULT_CHARSET = $oldCharset;
+    }
+
+
+    static function recreateDatabaseAsLatin1OnMysql()
+    {
+        if ('pgsql' === $GLOBALS['_MAX']['CONF']['database']['type']) {
+            return;
+        }
+
+        self::recreateDatabase('latin1');
+    }
 }
 
 ?>

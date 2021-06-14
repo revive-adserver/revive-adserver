@@ -13,6 +13,8 @@
 require_once MAX_PATH.'/lib/OA/Upgrade/Upgrade.php';
 require_once MAX_PATH . '/etc/changes/tests/unit/MigrationTest.php';
 
+TestEnv::recreateDatabaseAsLatin1OnMysql();
+
 /**
  * A class for testing the Openads_DB_Upgrade class.
  *

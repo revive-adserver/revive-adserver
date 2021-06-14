@@ -88,7 +88,7 @@ class Test_OA_Dal_Maintenance_Priority_getZonesAllocationsByAgency extends UnitT
 
     public function _generateData($priority)
     {
-        $oDbh = &OA_DB::singleton();
+        $oDbh = OA_DB::singleton();
 
         // Create the required temporary table for the tests
         $oTable = &OA_DB_Table_Priority::singleton();

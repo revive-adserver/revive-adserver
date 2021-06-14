@@ -48,7 +48,7 @@ class OA_UpgradePostscript_2_7_26_beta_rc5
         // Recompile the delivery limitations to update the compiled limitations as well
         $this->oUpgrade->addPostUpgradeTask('Recompile_Acls');
 
-        $this->oDbh = &OA_DB::singleton();
+        $this->oDbh = OA_DB::singleton();
         $aConf = $GLOBALS['_MAX']['CONF']['table'];
         $this->prefix = $aConf['prefix'];
         $this->tblPreferences = $aConf['prefix'].($aConf['preferences'] ? $aConf['preferences'] : 'preferences');

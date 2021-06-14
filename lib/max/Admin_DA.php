@@ -491,7 +491,7 @@ class Admin_DA
     public static function getConversions($aParams)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh = OA_DB::singleton();
 
         $where = '';
         if (!empty($aParams['day'])) {

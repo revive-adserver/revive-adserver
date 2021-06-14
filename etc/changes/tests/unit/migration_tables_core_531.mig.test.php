@@ -13,6 +13,8 @@
 require_once MAX_PATH . '/etc/changes/migration_tables_core_531.php';
 require_once MAX_PATH . '/etc/changes/tests/unit/MigrationTest.php';
 
+TestEnv::recreateDatabaseAsLatin1OnMysql();
+
 /**
  * Test for migration class #531.
  *

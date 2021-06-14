@@ -39,7 +39,7 @@ switch (OA_Permission::getAccountType()) {
         // There are no restrictions on users that are applied to the autocomplete
         // list, as the admin account can see all accounts and therefore users in
         // its realm
-        $oDbh = &OA_DB::singleton();
+        $oDbh = OA_DB::singleton();
         $query = $oDbh->quote('%'.$q.'%');
         $doUsers = OA_Dal::factoryDO('users');
         $doUsers->whereAdd('username LIKE ' . $query . ' OR email_address LIKE ' . $query);
@@ -61,7 +61,7 @@ switch (OA_Permission::getAccountType()) {
         // user that is also linked to the admin account
         $aAdminUserIds = array();
         $aUserIds = array();
-        $oDbh = &OA_DB::singleton();
+        $oDbh = OA_DB::singleton();
         // Get the ID of all users linked to the admin account
         $adminAccountId = OA_Dal_ApplicationVariables::get('admin_account_id');
         $doAccount_user_assoc = OA_Dal::factoryDO('account_user_assoc');

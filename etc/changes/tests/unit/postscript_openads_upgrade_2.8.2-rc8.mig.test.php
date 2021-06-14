@@ -15,6 +15,7 @@ require_once MAX_PATH . '/lib/OA/DB/Sql.php';
 require_once MAX_PATH . '/etc/changes/tests/unit/MigrationTest.php';
 require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 
+TestEnv::recreateDatabaseAsLatin1OnMysql();
 
 /**
  * A class for testing acls with timezone

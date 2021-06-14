@@ -64,7 +64,7 @@ class OA_UpgradePostscript_3_1_0_beta_rc2
      */
     function _updateDefaultManagerToAccount()
     {
-        $this->oDbh = &OA_DB::singleton();
+        $this->oDbh = OA_DB::singleton();
         $aConf = $GLOBALS['_MAX']['CONF']['table'];
 
         $this->logOnly("Attempting to rename the 'Default Manager' account to 'Default Account' in the 'agency' table");
@@ -97,7 +97,7 @@ class OA_UpgradePostscript_3_1_0_beta_rc2
      */
     function _updateAdministratorAccountToSystemAdministrator()
     {
-        $this->oDbh = &OA_DB::singleton();
+        $this->oDbh = OA_DB::singleton();
         $aConf = $GLOBALS['_MAX']['CONF']['table'];
 
         $this->logOnly("Attempting to rename the 'Administrator Account' account to 'System Administrator' in the 'accounts' table");

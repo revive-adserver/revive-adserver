@@ -15,6 +15,8 @@ require_once MAX_PATH . '/lib/OA/DB/Sql.php';
 require_once MAX_PATH . '/etc/changes/tests/unit/MigrationTest.php';
 require_once MAX_PATH . '/lib/OA/Upgrade/Upgrade.php';
 
+TestEnv::recreateDatabaseAsLatin1OnMysql();
+
 /**
  * Test for migration class #546. Tests that the user/account preferences
  * from before the creation of the Users, Accounts, Permissions and
@@ -294,7 +296,7 @@ require_once MAX_PATH . '/lib/OA/Upgrade/Upgrade.php';
         // Ensure that the old preference table conf entry exists
         $GLOBALS['_MAX']['CONF']['table']['preference'] = 'preference';
         $aConf      = &$GLOBALS['_MAX']['CONF']['table'];
-        $this->oDbh = &OA_DB::singleton();
+        $this->oDbh = OA_DB::singleton();
         $prefix     = $this->getPrefix();
 
         // Prepare all of the required table names that are used in the tests,
@@ -357,7 +359,7 @@ require_once MAX_PATH . '/lib/OA/Upgrade/Upgrade.php';
             $this->_testMigrateUsers($set);
             // Restore the testing environment
             TestRunner::setupEnv(null);
-            $this->oDbh = &OA_DB::singleton();
+            $this->oDbh = OA_DB::singleton();
         }
     }
 

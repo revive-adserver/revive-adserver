@@ -16,7 +16,6 @@ require_once(MAX_PATH.'/lib/OA/Upgrade/DB_UpgradeAuditor.php');
 require_once MAX_PATH.'/lib/OA/Upgrade/DB_Upgrade.php';
 require_once MAX_PATH.'/lib/OA/Upgrade/Migration.php';
 
-
 /**
  * A class for testing the Openads_DB_Upgrade class.
  *
@@ -319,6 +318,8 @@ class Test_DB_Upgrade extends UnitTestCase
 
     function test_checkSchemaIntegrity()
     {
+        TestEnv::recreateDatabaseAsLatin1OnMysql();
+
         $this->path = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
 
         $oDB_Upgrade = $this->_newDBUpgradeObject();

@@ -656,7 +656,7 @@ class Admin_DaTest extends DalUnitTestCase
     function testGetZone()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $dbh  = &OA_DB::singleton();
+        $dbh  = OA_DB::singleton();
 
         $id = $this->newZone();
         $this->assertTrue(is_int($id));

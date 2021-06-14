@@ -470,7 +470,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
 
     function testConnection()
     {
-        $dbh = &OA_DB::singleton();
+        $dbh = OA_DB::singleton();
 
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->count();

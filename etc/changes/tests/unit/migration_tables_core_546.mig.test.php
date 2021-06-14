@@ -16,6 +16,8 @@ require_once MAX_PATH . '/etc/changes/tests/unit/MigrationTest.php';
 require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 require_once(MAX_PATH. '/lib/OA/Upgrade/Configuration.php');
 
+TestEnv::recreateDatabaseAsLatin1OnMysql();
+
 /**
  * Test for migration class #546 that check that the old preferences
  * stored on the table 'preference' are migrated to the table 'preferences'

@@ -44,7 +44,7 @@ class OA_UpgradePostscript_2_8_1_rc10
     {
         $this->oUpgrade = & $aParams[0];
 
-        $this->oDbh = &OA_DB::singleton();
+        $this->oDbh = OA_DB::singleton();
         $aConf = $GLOBALS['_MAX']['CONF']['table'];
         $this->prefix = $aConf['prefix'];
         $this->tblPreferences = $aConf['prefix'].($aConf['preferences'] ? $aConf['preferences'] : 'preferences');

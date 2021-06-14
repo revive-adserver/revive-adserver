@@ -27,6 +27,7 @@ define('OA_DB_MDB2_DEFAULT_OPTIONS', MDB2_PORTABILITY_ALL ^ MDB2_PORTABILITY_EMP
  */
 class OA_DB
 {
+    public static $DEFAULT_CHARSET = 'utf8';
 
     /**
      * A method to return a singleton database connection resource.
@@ -126,12 +127,10 @@ class OA_DB
             } elseif (strcasecmp($databaseType, 'pgsql') === 0) {
                 $aOptions['quote_identifier'] = true;
             }
+
             // Add default charset - custom OpenX
-            if (defined('OA_DB_MDB2_DEFAULT_CHARSET')) {
-                $aOptions['default_charset'] = OA_DB_MDB2_DEFAULT_CHARSET;
-            } else {
-                $aOptions['default_charset'] = 'utf8';
-            }
+            $aOptions['default_charset'] = static::$DEFAULT_CHARSET;
+
             // this will log select queries to a var/sql.log
             // currently used for analysis purposes
             if (isset($aConf['debug']['logSQL']) && $aConf['debug']['logSQL']) {

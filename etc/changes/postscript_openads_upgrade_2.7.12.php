@@ -47,7 +47,7 @@ class OA_UpgradePostscript_2_7_12_dev
         // previously summarised will be accounted for
 
         $this->oUpgrade = & $aParams[0];
-        $this->oDbh = &OA_DB::singleton();
+        $this->oDbh = OA_DB::singleton();
         $aConf = $GLOBALS['_MAX']['CONF']['table'];
         $this->tblApplicationVariable = $aConf['prefix'].($aConf['application_variable'] ? $aConf['application_variable'] : 'application_variable');
 

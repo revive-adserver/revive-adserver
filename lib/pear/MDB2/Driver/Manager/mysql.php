@@ -73,9 +73,16 @@ class MDB2_Driver_Manager_mysql extends MDB2_Driver_Manager_Common
 
         $name = $db->quoteIdentifier($name, true);
         $query = "CREATE DATABASE $name";
+
         // Charset handling - custom OpenX
         if ($charset = $db->getOption('default_charset')) {
             $aVersion = $db->getServerVersion();
+
+            // Use utf8mb4 instead if supported
+            if ('utf8' === $charset && version_compare($aVersion['native'], '5.5.3', '>=')) {
+                $charset = 'utf8mb4';
+            }
+
             if (version_compare($aVersion['native'], '4.1.2', '>=')) {
                 $charset = $db->quote($charset);
                 $query .= " CHARACTER SET $charset";

@@ -718,7 +718,7 @@
    <field>
     <name>name</name>
     <type>openads_varchar</type>
-    <length>255</length>
+    <length>250</length>
     <notnull>true</notnull>
     <default></default>
    </field>

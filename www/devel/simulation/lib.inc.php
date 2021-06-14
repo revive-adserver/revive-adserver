@@ -367,7 +367,7 @@ function folder_is_writable($abspath)
 function save_scenario($basename, $conf)
 {
 	$dsn = OA_DB::getDsn($conf);
-    $dbh = &OA_DB::singleton($dsn);
+    $dbh = OA_DB::singleton($dsn);
 
     $conf['simdb']['version'] = get_max_version($dbh, $conf);
 

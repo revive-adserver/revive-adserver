@@ -143,7 +143,7 @@ class Plugins_Reports_OxReportsAdmin_Breakdown extends Plugins_Reports
     function _fetchData()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh = OA_DB::singleton();
         // Save the date before convert it to UTC times to display it on the report
         $oStartDateToDisplay = new Date($this->_oDaySpan->oStartDate);
         $oEndDateToDisplay = new Date($this->_oDaySpan->oEndDate);
