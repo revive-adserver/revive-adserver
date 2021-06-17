@@ -39,7 +39,8 @@ What's New in Revive Adserver 5.3.0
  Bug Fixes
  ---------
 
- * None
+ * Fixed hourly breakdown statistics links from daily history pages not
+   working properly.
 
 
  Non-Backwards Compatible Changes
