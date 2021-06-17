@@ -177,6 +177,7 @@ class OA_Admin_Statistics_History
                 $aDayLinkParams = array();
                 $aDayLinkParams['entity']    = $oCaller->entity;
                 $aDayLinkParams['breakdown'] = $oCaller->dayLinkBreakdown;
+                $aDayLinkParams['statsBreakdown'] = 'hour';
                 $aDayLinkParams = array_merge($oCaller->aPageParams, $aDayLinkParams);
             }
 
