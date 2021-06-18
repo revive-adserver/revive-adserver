@@ -276,20 +276,7 @@ class Plugins_InvocationTagsOptions
      */
     function resize()
     {
-        $maxInvocation = &$this->maxInvocation;
-
-        $option = '';
-        if ($maxInvocation->server_same) {
-            $option .= "<tr><td width='30'>&nbsp;</td>";
-            $option .= "<td width='200'>".$GLOBALS['strIframeResizeToBanner']."</td>";
-            $option .= "<td width='370'><input type='radio' name='resize' value='1'".(isset($maxInvocation->resize) && $maxInvocation->resize == 1 ? ' checked' : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strYes']."<br />";
-            $option .= "<input type='radio' name='resize' value='0'".(!isset($maxInvocation->resize) || $maxInvocation->resize == 0 ? ' checked' : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strNo']."</td>";
-            $option .= "</tr>";
-            $option .= "<tr><td width='30'><img src='" . OX::assetPath(). "/images/spacer.gif' height='5' width='100%'></td></tr>";
-        } else {
-            $option .= "<input type='hidden' name='resize' value='0'>";
-        }
-        return $option;
+        return "<input type='hidden' name='resize' value='0'>";
     }
 
     /**

@@ -175,15 +175,6 @@ class Plugins_InvocationTags extends OX_Component
         $conf = $GLOBALS['_MAX']['CONF'];
         $mi = &$this->maxInvocation;
 
-        // Check if affiliate is on the same server
-        if (isset($mi->website) && $mi->website != '') {
-            $mi->server_max      = parse_url('http://' . $conf['webpath']['delivery'] . '/');
-            $mi->server_affilate = parse_url($mi->website);
-            $mi->server_same     = (@gethostbyname($mi->server_max['host']) == @gethostbyname($mi->server_affilate['host']));
-        } else {
-            $mi->server_same = true;
-        }
-
         $mi->macros = array(
             'cachebuster' => 'INSERT_RANDOM_NUMBER_HERE',
             'clickurl'    => 'INSERT_ENCODED_CLICKURL_HERE',

@@ -49,17 +49,10 @@ class Plugins_InvocationTags_OxInvocationTags_local extends Plugins_InvocationTa
      *
      * @return boolean  True - allowed, false - not allowed
      */
-    function isAllowed($extra = null, $server_same = true)
+    function isAllowed($extra = null)
     {
-        // Set "same_server" as a property on this object, but still permit invocation
-        $this->same_server = $server_same;
-        return parent::isAllowed($extra);
-    }
-
-    function getOrder()
-    {
-        parent::getOrder();
-        return 3;
+        // Deprecated since 5.3.0
+        return false;
     }
 
     /**
@@ -69,20 +62,7 @@ class Plugins_InvocationTags_OxInvocationTags_local extends Plugins_InvocationTa
      */
     function getOptionsList()
     {
-        $options = array (
-            'spacer'      => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-            'what'          => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-            'campaignid'    => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-            'target'        => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-            'source'        => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-            'charset'       => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-            'withtext'      => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-            'block'         => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-            'blockcampaign' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-            'raw'           => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-        );
-
-        return $options;
+        return [];
     }
 
     /**
@@ -92,52 +72,7 @@ class Plugins_InvocationTags_OxInvocationTags_local extends Plugins_InvocationTa
      */
     function generateInvocationCode()
     {
-        $aComments = array(
-            'Cache Buster Comment' => '',
-            'Third Party Comment'  => '',
-            'SSL Delivery Comment' => '',
-            'SSL Backup Comment'   => '',
-            'Comment'              => '',
-            );
-        parent::prepareCommonInvocationData($aComments);
-
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $name = PRODUCT_NAME;
-        $mi = &$this->maxInvocation;
-
-        // Strip HTML comment tags from buffer
-        $buffer = str_replace(['<!--', '-->'], '', $mi->buffer);
-
-        // Deal with windows style paths
-        $path = MAX_PATH;
-        $path = str_replace('\\', '/', $path);
-
-        if (empty($mi->clientid))   $mi->clientid = 0;
-        if (empty($mi->zoneid))     $mi->zoneid = 0;
-        if (empty($mi->campaignid)) $mi->campaignid = 0;
-        if (empty($mi->bannerid))   $mi->bannerid = 0;
-
-        $buffer = "<"."?php\n  " . $buffer;
-        $buffer .= (!empty($mi->comments)) ? "  // The MAX_PATH below should point to the base of your {$name} installation\n" : '';
-        $buffer .= "  define('MAX_PATH', '" . MAX_PATH . "');\n";
-        $buffer .= "  if (@include_once(MAX_PATH . '/www/delivery" . (preg_match('#_dev\/?$#', $conf['webpath']['delivery']) ? '_dev' : '') . "/{$conf['file']['local']}')) {\n";
-        $buffer .= "    if (!isset($"."phpAds_context)) {\n      $"."phpAds_context = array();\n    }\n";
-        if (!empty($mi->comments)) {
-            $buffer .= "    // function view_local(\$what, \$zoneid=0, \$campaignid=0, \$bannerid=0, \$target='', \$source='', \$withtext='', \$context='', \$charset='')\n";
-        }
-        $buffer .= "    $"."phpAds_raw = view_local('{$mi->what}', {$mi->zoneid}, {$mi->campaignid}, {$mi->bannerid}, '{$mi->target}', '{$mi->source}', '{$mi->withtext}', \$phpAds_context, '{$mi->charset}');\n";
-        if (isset($mi->block) && $mi->block == '1') {
-            $buffer .= "    $"."phpAds_context[] = array('!=' => 'bannerid:'.$"."phpAds_raw['bannerid']);\n";
-        }
-        if (isset($mi->blockcampaign) && $mi->blockcampaign == '1') {
-            $buffer .= "    $"."phpAds_context[] = array('!=' => 'campaignid:'.$"."phpAds_raw['campaignid']);\n";
-        }
-        $buffer .= "  }\n";
-        $buffer .= (isset($mi->raw) && $mi->raw == '1') ? "  // " . $this->translate("Assign the \$phpAds_raw['html'] variable to your template") . "\n  // " : '  ';
-        $buffer .= "echo $"."phpAds_raw['html'];\n";
-        $buffer .= "?".">\n";
-
-        return $buffer;
+        return '';
     }
 
 }

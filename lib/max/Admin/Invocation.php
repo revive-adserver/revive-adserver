@@ -85,8 +85,6 @@ class MAX_Admin_Invocation {
             'what',
             'width',
             'withtext',
-            'xmlrpcproto',
-            'xmlrpctimeout',
         );
 
         // Add any plugin-specific option values to the global array...
@@ -258,16 +256,6 @@ class MAX_Admin_Invocation {
             $this->assignVariables($extra);
         }
 
-        // Check if affiliate is on the same server as the delivery code
-        if (!empty($extra['website'])) {
-            $server_max      = parse_url('http://' . $conf['webpath']['delivery'] . '/');
-            $server_affilate = parse_url($extra['website']);
-            // this code could be extremely slow if host is unresolved
-            $this->server_same     = (@gethostbyname($server_max['host']) == @gethostbyname($server_affilate['host']));
-        } else {
-            $this->server_same = true;
-        }
-
         // Hide when integrated in zone-advanced.php
         if (!is_array($extra) || !isset($extra['zoneadvanced']) || !$extra['zoneadvanced']) {
             $buffer .= "<form id='generate' name='generate' method='POST' onSubmit='return max_formValidate(this) && disableTextarea();'>\n";
@@ -276,15 +264,15 @@ class MAX_Admin_Invocation {
         // Invocation type selection
         if (!is_array($extra) || (isset($extra['delivery']) && ($extra['delivery']!=phpAds_ZoneInterstitial) && ($extra['delivery']!=phpAds_ZonePopup)) && ($extra['delivery']!=MAX_ZoneEmail)) {
 
-            $invocationTags =& OX_Component::getComponents('invocationTags');
+            $invocationTags = OX_Component::getComponents('invocationTags');
 
             $allowed = array();
             foreach($invocationTags as $pluginKey => $invocationTag) {
-                if ($invocationTag->isAllowed($extra, $this->server_same)) {
+                if ($invocationTag->isAllowed($extra)) {
                     $aOrderedComponents[$invocationTag->getOrder()] =
                         array(
                             'pluginKey' => $pluginKey,
-                            'isAllowed' => $invocationTag->isAllowed($extra, $this->server_same),
+                            'isAllowed' => true,
                             'name' => $invocationTag->getName()
                         );
                 }
@@ -393,27 +381,6 @@ class MAX_Admin_Invocation {
         if ($invocationTag->canGenerate()) {
             $buffer .= "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
             $buffer .= "<tr><td height='25'>";
-
-            if ($this->codetype == 'invocationTags:oxInvocationTags:xmlrpc') {
-                $buffer .= "
-                    <div class='errormessage'><img class='errormessage' src='" . OX::assetPath() . "/images/warning.gif' align='absmiddle'>
-                        {$GLOBALS['strIABNoteXMLRPCInvocation']}
-                    </div>";
-            }
-
-            if ($this->codetype == 'invocationTags:oxInvocationTags:local' && !$this->server_same) {
-                $buffer .= "
-                    <div class='errormessage'><img class='errormessage' src='" . OX::assetPath() . "/images/warning.gif' align='absmiddle'>
-                        {$GLOBALS['strWarningLocalInvocation']}
-                        <br><p>{$GLOBALS['strIABNoteLocalInvocation']}</p>
-                    </div>";
-            }
-            else if ($this->codetype == 'invocationTags:oxInvocationTags:local' && $this->server_same) {
-                $buffer .= "
-                    <div class='errormessage'><img class='errormessage' src='" . OX::assetPath() . "/images/warning.gif' align='absmiddle'>
-                {$GLOBALS['strIABNoteLocalInvocation']}
-                    </div>";
-            }
 
             // Supress the textarea if required by this plugin
             if (empty($invocationTag->suppressTextarea)) {
