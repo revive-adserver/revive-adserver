@@ -32,14 +32,10 @@ $GLOBALS['strInvocationComments'] = "Include comentarii";
 
 // Iframe
 $GLOBALS['strIFrameRefreshAfter'] = "Reîmprospătează după";
-$GLOBALS['strIframeResizeToBanner'] = "Redimensionează iframe-ul după dimensiunile bannerului";
 $GLOBALS['strIframeMakeTransparent'] = "Iframe transparent";
-$GLOBALS['strIframeIncludeNetscape4'] = "Include ilayer compatibil Netscape 4";
 
 // PopUp
 $GLOBALS['strShowStatus'] = "Stare";
-
-// XML-RPC
 
 // Support for cachebusting code
 $GLOBALS['strCacheBuster'] = "Inserează cod Cache-Busting";
@@ -47,6 +43,3 @@ $GLOBALS['strCacheBuster'] = "Inserează cod Cache-Busting";
 // IMG invocation selected for tracker with appended code
 $GLOBALS['strWarning'] = "Avertisment";
 $GLOBALS['strImgWithAppendWarning'] = "Acest contor are cod lipit, codul lipit va funcţiona <strong>doar</strong> cu tag-uri JavaScript";
-
-// Local Invocation
-
