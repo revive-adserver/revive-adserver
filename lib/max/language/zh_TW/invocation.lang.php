@@ -33,14 +33,10 @@ $GLOBALS['strInvocationComments'] = "包括注釋";
 
 // Iframe
 $GLOBALS['strIFrameRefreshAfter'] = "於此之後刷新";
-$GLOBALS['strIframeResizeToBanner'] = "按照廣告尺寸重新設置iframe大小";
 $GLOBALS['strIframeMakeTransparent'] = "iframe透明";
-$GLOBALS['strIframeIncludeNetscape4'] = "兼容Netscape4或更高版本";
 
 // PopUp
 $GLOBALS['strShowStatus'] = "狀態";
-
-// XML-RPC
 
 // Support for cachebusting code
 $GLOBALS['strCacheBuster'] = "插入Cache-Busting代碼";
@@ -48,6 +44,3 @@ $GLOBALS['strCacheBuster'] = "插入Cache-Busting代碼";
 // IMG invocation selected for tracker with appended code
 $GLOBALS['strWarning'] = "警告";
 $GLOBALS['strImgWithAppendWarning'] = "跟蹤器帶有附加代碼，這些附加代碼必須在JavaScript標籤中才可運行。";
-
-// Local Invocation
-

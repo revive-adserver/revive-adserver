@@ -33,14 +33,10 @@ $GLOBALS['strInvocationComments'] = "Vključi komentarje";
 
 // Iframe
 $GLOBALS['strIFrameRefreshAfter'] = "Osveži po";
-$GLOBALS['strIframeResizeToBanner'] = "Razširi I-Frame v dimenzije pasice";
 $GLOBALS['strIframeMakeTransparent'] = "Naredi I-Frame prozoren";
-$GLOBALS['strIframeIncludeNetscape4'] = "Vključi Netscape 4 združljiv i-layer";
 
 // PopUp
 $GLOBALS['strShowStatus'] = "Stanje";
-
-// XML-RPC
 
 // Support for cachebusting code
 $GLOBALS['strCacheBuster'] = "Vstavi cache-busting kodo";
@@ -48,6 +44,3 @@ $GLOBALS['strCacheBuster'] = "Vstavi cache-busting kodo";
 // IMG invocation selected for tracker with appended code
 $GLOBALS['strWarning'] = "Opozorilo";
 $GLOBALS['strImgWithAppendWarning'] = "Ta sledilnik ima pripeto kodo, ki deluje <strong>samo</strong> z JavaScriptom";
-
-// Local Invocation
-

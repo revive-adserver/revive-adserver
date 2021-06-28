@@ -34,9 +34,7 @@ $GLOBALS['strInvocationComments'] = "Incluir comentarios";
 
 // Iframe
 $GLOBALS['strIFrameRefreshAfter'] = "Actualizar después de";
-$GLOBALS['strIframeResizeToBanner'] = "Ajustar el iframe según las dimensiones del banner";
 $GLOBALS['strIframeMakeTransparent'] = "Hacer el iframe transparente";
-$GLOBALS['strIframeIncludeNetscape4'] = "Incluir ilayer compatible con Netscape 4";
 
 // PopUp
 $GLOBALS['strPopUpStyle'] = "Tipo de Pop-up";
@@ -53,17 +51,9 @@ $GLOBALS['strShowStatus'] = "Estado";
 $GLOBALS['strWindowResizable'] = "Redimensionable";
 $GLOBALS['strShowScrollbars'] = "Barras de desplazamiento";
 
-// XML-RPC
-$GLOBALS['strXmlRpcLanguage'] = "Idioma del Host";
-$GLOBALS['strXmlRpcProtocol'] = "Utilizar HTTPS para contactar con el servidor XML-RPC";
-$GLOBALS['strXmlRpcTimeout'] = "Tiempo de espera XML-RPC (segundos)";
-
 // Support for cachebusting code
 $GLOBALS['strCacheBuster'] = "Insertar código anti-cache";
 
 // IMG invocation selected for tracker with appended code
 $GLOBALS['strWarning'] = "Advertencia";
 $GLOBALS['strImgWithAppendWarning'] = "Este tracker tiene código asociado; dicho código <strong>sólo</strong> funcionará con tags Javascript";
-
-// Local Invocation
-

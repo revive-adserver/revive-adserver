@@ -34,9 +34,7 @@ $GLOBALS['strInvocationComments'] = "Kommentek beágyazása";
 
 // Iframe
 $GLOBALS['strIFrameRefreshAfter'] = "Újratöltés ideje";
-$GLOBALS['strIframeResizeToBanner'] = "Iframe átméretezése a banner mérete után";
 $GLOBALS['strIframeMakeTransparent'] = "Átlátszó iframe";
-$GLOBALS['strIframeIncludeNetscape4'] = "Netscape 4 kompatibilis ilayer hozzáadása";
 
 // PopUp
 $GLOBALS['strPopUpStyle'] = "Ablak típusa";
@@ -57,17 +55,9 @@ $GLOBALS['strShowStatus'] = "Állapot";
 $GLOBALS['strWindowResizable'] = "Méretezhető";
 $GLOBALS['strShowScrollbars'] = "Gördítősávok";
 
-// XML-RPC
-$GLOBALS['strXmlRpcLanguage'] = "Állomás nyelve";
-$GLOBALS['strXmlRpcProtocol'] = "Használjon HTTPS kapcsolatot az XML-RPC szerver eléréséhez";
-$GLOBALS['strXmlRpcTimeout'] = "XML-RPC időtúllépés (másodperc)";
-
 // Support for cachebusting code
 $GLOBALS['strCacheBuster'] = "Gyorsítótárazás elkerülését szolgáló kód hozzáadása";
 
 // IMG invocation selected for tracker with appended code
 $GLOBALS['strWarning'] = "Figyelmeztetés";
 $GLOBALS['strImgWithAppendWarning'] = "Ehhez a követőkódhoz további kód van hozzáadva. A hozzáadott kód <strong>csak</strong> JavaScript tagekkel fog működni";
-
-// Local Invocation
-
