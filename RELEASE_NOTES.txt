@@ -46,6 +46,9 @@ What's New in Revive Adserver 5.3.0
  Non-Backwards Compatible Changes
  --------------------------------
 
+ * A PHP version greater or equal to 7.2.5 is now required to run Revive
+   Adserver.
+
  * The mysql4_compatiblity setting has been removed: Revive Adserver will now
    always make sure that the appropriate (empty) sql_mode is set when running
    on a MySQL database.

@@ -79,7 +79,7 @@ class OA_Environment_Manager
         $this->aInfo['PERMS']['actual']   = array();
         $this->aInfo['FILES']['actual']   = array();
 
-        $this->aInfo['PHP']['expected']['version']              = '7.0.8';
+        $this->aInfo['PHP']['expected']['version']              = '7.2.5';
         $this->aInfo['PHP']['expected']['file_uploads']         = '1';
         $this->aInfo['PHP']['expected']['register_argc_argv']   = '1';
         $this->aInfo['PHP']['expected']['pcre']                 = true;
