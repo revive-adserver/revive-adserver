@@ -29,12 +29,7 @@ $GLOBALS['strShowToolbars'] = "Verktøylinjer";
 $GLOBALS['strShowLocation'] = "Posisjon";
 $GLOBALS['strShowMenubar'] = "Menybar";
 
-// XML-RPC
-
 // Support for cachebusting code
 
 // IMG invocation selected for tracker with appended code
 $GLOBALS['strWarning'] = "Advarsel";
-
-// Local Invocation
-

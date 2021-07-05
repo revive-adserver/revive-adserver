@@ -18,10 +18,6 @@ msgstr ""
 msgid "iFrame Tag"
 msgstr ""
 
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adframe.class.php:188
-msgid "Placement Comment"
-msgstr ""
-
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/async.class.php:37
 msgid "Asynchronous JS Tag"
 msgstr ""
@@ -189,10 +185,6 @@ msgstr "Tag de imagem"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/local.class.php:32
 msgid "Local Mode Tag"
-msgstr ""
-
-#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/local.class.php:136
-msgid "Assign the \\$phpAds_raw['html'] variable to your template"
 msgstr ""
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/spc.class.php:80
