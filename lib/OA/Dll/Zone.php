@@ -323,6 +323,43 @@ class OA_Dll_Zone extends OA_Dll
         }
     }
 
+	/**
+     * This method returns a list of linked zones for a banner.
+     *
+     * @access public
+     *
+     * @param int $bannerId
+     * @param array &$aZoneList
+     *
+     * @return boolean
+     */
+    function getLinkedZonesByBannerId($bannerId, &$aZoneList)
+    {
+        $aZoneList = array();        
+        
+        if (!$this->checkPermissions(null, 'banners', $bannerId)) {
+            return false;
+        }
+                
+        $adZones = OA_Dal::factoryDO('ad_zone_assoc');
+        $adZones->ad_id = $bannerId;
+        $adZones->find();
+
+        while ($adZones->fetch()) {
+            $zoneData = $adZones->toArray();
+
+            $doZone = OA_Dal::factoryDO('zones');
+            $doZone->get($zoneData["zone_id"]);
+            $doZoneData = $doZone->toArray();
+            
+            $oZone = new OA_Dll_ZoneInfo();
+            $this->_setZoneDataFromArray($oZone, $doZoneData);
+
+            $aZoneList[] = $oZone;
+        }
+        return true;
+    }
+	
     /**
      * This method returns a list of zones for a publisher.
      *

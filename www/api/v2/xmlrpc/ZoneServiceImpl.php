@@ -335,6 +335,31 @@ class ZoneServiceImpl extends BaseServiceImpl
         }
     }
 
+	/**
+     * The getLinkedZonesByBannerId method returns a list of linked zones for a
+     * specified banner.
+     *
+     * @access public
+     *
+     * @param string $sessionId
+     * @param integer $bannerId
+     * @param array &$oZone  Array of OA_Dll_ZoneInfo classes
+     *
+     * @return boolean
+     */
+    function getLinkedZonesByBannerId($sessionId, $bannerId, &$aZoneList)
+    {
+        if ($this->verifySession($sessionId)) {
+
+            return $this->_validateResult(
+                $this->_dllZone->getLinkedZonesByBannerId($bannerId,
+                                                    $aZoneList));
+        } else {
+
+            return false;
+        }
+    }
+	
     function linkBanner($sessionId, $zoneId, $bannerId)
     {
         if ($this->verifySession($sessionId)) {
