@@ -33,9 +33,7 @@ $GLOBALS['strInvocationComments'] = "مشمول کامنت شدن";
 
 // Iframe
 $GLOBALS['strIFrameRefreshAfter'] = "تازه سازی بعد از";
-$GLOBALS['strIframeResizeToBanner'] = "تغییر اندازه iframe برای ابعاد بنر";
 $GLOBALS['strIframeMakeTransparent'] = "iframe را شفاف کن";
-$GLOBALS['strIframeIncludeNetscape4'] = "شامل نت اسکیپ 4 به iPlayer سازگار";
 
 // PopUp
 $GLOBALS['strPopUpStyle'] = "نوع پاپ آپ";
@@ -56,20 +54,9 @@ $GLOBALS['strShowStatus'] = "وضعیت";
 $GLOBALS['strWindowResizable'] = "قابل اندازه بندی مجدد";
 $GLOBALS['strShowScrollbars'] = "پیمایش";
 
-// XML-RPC
-$GLOBALS['strXmlRpcLanguage'] = "زبان میزبانe";
-$GLOBALS['strXmlRpcProtocol'] = "استفاده از HTTPS برای تماس با XML-RPC سرور";
-$GLOBALS['strXmlRpcTimeout'] = "XML-RPC اتمام مهلت (ثانیه)";
-
 // Support for cachebusting code
 $GLOBALS['strCacheBuster'] = "کد کش-باستیگ را وارد کنید";
 
 // IMG invocation selected for tracker with appended code
 $GLOBALS['strWarning'] = "اخطار";
 $GLOBALS['strImgWithAppendWarning'] = "این ردیاب کداضافی دارد ,این کد اضافی  <strong>فقط</strong> با برچسب جاوا اسکریپت کار می کند";
-
-// Local Invocation
-$GLOBALS['strWarningLocalInvocation'] = "<span class='tab-s'><strong>هشدار :</strong> حالت نیایش محلی تنها زمانی کار خواهد کرد اگر سایت خواستار کد در سرور تبلیغاتی دستگاه فیزیکی باشد</span><br />
-بررسی کنید که MAX_PATH در کد زیر تعریف شده به پایه دایرکتوری نصب و راه اندازی حداکثر اشاره می کند . <br />
-و که شما یک فایل پیکربندی برای دامنه از سایت با نشان دادن تبلیغات دارید(در MAX_PATH/var)";
-

@@ -33,9 +33,7 @@ $GLOBALS['strInvocationComments'] = "Включить комментарии";
 
 // Iframe
 $GLOBALS['strIFrameRefreshAfter'] = "Обновить через";
-$GLOBALS['strIframeResizeToBanner'] = "Привести размер к размеру баннера";
 $GLOBALS['strIframeMakeTransparent'] = "Сделать iframe прозрачным";
-$GLOBALS['strIframeIncludeNetscape4'] = "Включить совместимый с Netscape 4 ilayer";
 
 // PopUp
 $GLOBALS['strPopUpStyle'] = "Тип Pop-up";
@@ -49,15 +47,9 @@ $GLOBALS['strPopUpTop'] = "Начальная позиция (верх)";
 $GLOBALS['strPopUpLeft'] = "Начальная позиция (левый край)";
 $GLOBALS['strShowStatus'] = "Статус";
 
-// XML-RPC
-$GLOBALS['strXmlRpcLanguage'] = "Язык хоста";
-
 // Support for cachebusting code
 $GLOBALS['strCacheBuster'] = "Вставить код, запрещающий кэширование";
 
 // IMG invocation selected for tracker with appended code
 $GLOBALS['strWarning'] = "Попередження";
 $GLOBALS['strImgWithAppendWarning'] = "Трекер имеет встроенный код, который должен располагаться внутри контейнера JavaScript";
-
-// Local Invocation
-

@@ -31,7 +31,6 @@ $GLOBALS['strInvocationDontShowAgainCampaign'] = "禁止在同一个页面上重
 $GLOBALS['strInvocationComments'] = "包含注释";
 
 // Iframe
-$GLOBALS['strIframeResizeToBanner'] = "调整 iframe大小以适应Banner尺寸";
 
 // PopUp
 $GLOBALS['strPopUpImmediately'] = "立刻";
@@ -41,13 +40,8 @@ $GLOBALS['strPopUpLeft'] = "初始位置 (左侧)";
 $GLOBALS['strShowToolbars'] = "工具栏";
 $GLOBALS['strShowStatus'] = "状态";
 
-// XML-RPC
-
 // Support for cachebusting code
 $GLOBALS['strCacheBuster'] = "包含 Cache Buster 参数";
 
 // IMG invocation selected for tracker with appended code
 $GLOBALS['strWarning'] = "警告";
-
-// Local Invocation
-
