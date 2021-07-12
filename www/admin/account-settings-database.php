@@ -205,15 +205,6 @@ $oSettings = array (
                 'type'       => 'break'
             ),
             array (
-                'type'       => 'password',
-                'name'       => 'database_password',
-                'text'       => $strDbPassword,
-                'disabled'   => true,
-            ),
-            array (
-                'type'       => 'break'
-            ),
-            array (
                 'type'       => 'text',
                 'name'       => 'database_name',
                 'text'       => $strDbName,

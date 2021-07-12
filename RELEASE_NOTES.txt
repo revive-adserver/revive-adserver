@@ -23,7 +23,7 @@ What's New in Revive Adserver 5.3.0
  Security Updates
  ----------------
 
- * None
+ * Database password is no longer returned in the database settings form.
 
 
  New Features
