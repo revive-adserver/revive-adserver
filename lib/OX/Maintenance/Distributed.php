@@ -38,7 +38,7 @@ class OX_Maintenance_Distributed
     /**
      * A method to run distributed maintenance.
      */
-    function run()
+    public static function run()
     {
         if (empty($GLOBALS['_MAX']['CONF']['lb']['enabled'])) {
             OA::debug('Distributed stats disabled, not running Maintenance Distributed Engine', PEAR_LOG_INFO);
@@ -52,7 +52,7 @@ class OX_Maintenance_Distributed
             OA::debug('rawDatabase functionality is being used, switching settings', PEAR_LOG_INFO);
         }
 
-        $oLock =& OA_DB_AdvisoryLock::factory();
+        $oLock = OA_DB_AdvisoryLock::factory();
         if (!$oLock->get(OA_DB_ADVISORYLOCK_DISTRIBUTED))
         {
             OA::debug('Maintenance Distributed Engine Already Running', PEAR_LOG_INFO);
