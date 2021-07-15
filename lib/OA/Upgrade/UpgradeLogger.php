@@ -146,6 +146,9 @@ class OA_UpgradeLogger
         } else
         {
             $log = fopen($this->logFile, 'a');
+            if (!$log) {
+                return;
+            }
             if (count($this->logBuffer))
             {
                 $message = join("\n", $this->logBuffer);
