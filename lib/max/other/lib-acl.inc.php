@@ -50,7 +50,7 @@ if (!isset($GLOBALS['_MAX']['GEO_DATA']) && (!empty($conf['geotargeting']['type'
 
 function MAX_AclAdjust($acl, $action)
 {
-    $count = count($acl);
+    $count = count($acl ?? []);
     if (!empty($action['new']) && !empty($_REQUEST['type'])) {
         // Initialise this plugin to see if there is a default comparison
         list($package, $name) = explode(':', $_REQUEST['type']);
