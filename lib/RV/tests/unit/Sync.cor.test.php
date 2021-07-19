@@ -34,8 +34,6 @@ class Test_RV_Sync extends UnitTestCase
      */
     function testGetConfigVersion()
     {
-        $oSync = new RV_Sync();
-
         // Prepare sample ascending versions
         $aVersions = array(
             'v2.3.32-beta-rc10' => 2332.110,
@@ -61,7 +59,7 @@ class Test_RV_Sync extends UnitTestCase
         );
 
         foreach ($aVersions as $version => $config_version) {
-            $this->assertEqual($oSync->getConfigVersion($version), $config_version);
+            $this->assertEqual(RV_Sync::getConfigVersion($version), $config_version);
         }
     }
 

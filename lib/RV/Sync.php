@@ -71,17 +71,17 @@ class RV_Sync
      * -------------
      *        3293.1
      */
-    function getConfigVersion($version)
+    public static function getConfigVersion($version)
     {
-        $a = array(
+        $a = [
             'dev'     => -0.001,
             'beta-rc' => 0.1,
             'beta'    => 0.2,
             'rc'      => 0.3,
             'stable'  => 0.4
-        );
+        ];
 
-        $version = RV::stripVersion(strtolower($version), array('dev', 'stable'));
+        $version = RV::stripVersion(strtolower($version), ['dev', 'stable']);
 
         if (preg_match('/^v/', $version)) {
             $v = preg_split('/[.-]/', substr($version, 1));
@@ -174,7 +174,7 @@ class RV_Sync
         // obtain if an update is available for this installation
         $params = array(
             new XML_RPC_Value(PRODUCT_NAME, 'string'),
-            new XML_RPC_Value($this->getConfigVersion(OA_Dal_ApplicationVariables::get('oa_version')), 'string'),
+            new XML_RPC_Value(self::getConfigVersion(OA_Dal_ApplicationVariables::get('oa_version')), 'string'),
             new XML_RPC_Value($already_seen, 'string'),
             new XML_RPC_Value($platform_hash, 'string')
         );
