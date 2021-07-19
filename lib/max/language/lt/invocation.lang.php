@@ -34,20 +34,13 @@ $GLOBALS['strInvocationComments'] = "Pridėti komentarų";
 
 // Iframe
 $GLOBALS['strIFrameRefreshAfter'] = "Atnaujinti po";
-$GLOBALS['strIframeResizeToBanner'] = "Pakeisti banerio matmenis";
 $GLOBALS['strIframeMakeTransparent'] = "Padaryti rėmelį permatomą";
-$GLOBALS['strIframeIncludeNetscape4'] = "Įterpti Netscape 4 kompaktišką lygmenį";
 
 // PopUp
 $GLOBALS['strShowStatus'] = "Statusas";
-
-// XML-RPC
 
 // Support for cachebusting code
 $GLOBALS['strCacheBuster'] = "Įterpti Cache-Busting kodą";
 
 // IMG invocation selected for tracker with appended code
 $GLOBALS['strWarning'] = "Perspėjimas";
-
-// Local Invocation
-

@@ -31,9 +31,7 @@ $GLOBALS['strInvocationBannerID'] = "ID banneru";
 
 // Iframe
 $GLOBALS['strIFrameRefreshAfter'] = "Obnovit po";
-$GLOBALS['strIframeResizeToBanner'] = "Zmenit velikost iframe podle banneru";
 $GLOBALS['strIframeMakeTransparent'] = "Udělat iframe průhledný";
-$GLOBALS['strIframeIncludeNetscape4'] = "Vložit Nestcape 4 kompatibilní ilayer";
 
 // PopUp
 $GLOBALS['strPopUpStyle'] = "Typ Pop-upu";
@@ -52,13 +50,7 @@ $GLOBALS['strShowStatus'] = "Stav";
 $GLOBALS['strWindowResizable'] = "Měnitelná velikost";
 $GLOBALS['strShowScrollbars'] = "Skrolovatelný";
 
-// XML-RPC
-$GLOBALS['strXmlRpcLanguage'] = "Jazyk hostitele";
-
 // Support for cachebusting code
 
 // IMG invocation selected for tracker with appended code
 $GLOBALS['strWarning'] = "Varování";
-
-// Local Invocation
-

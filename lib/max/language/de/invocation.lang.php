@@ -34,9 +34,7 @@ $GLOBALS['strInvocationComments'] = "Kommentare einfügen";
 
 // Iframe
 $GLOBALS['strIFrameRefreshAfter'] = "Erneuern (refresh) nach ";
-$GLOBALS['strIframeResizeToBanner'] = "Iframe an die Bannergröße anpassen";
 $GLOBALS['strIframeMakeTransparent'] = "Iframe transparent darstellen";
-$GLOBALS['strIframeIncludeNetscape4'] = "Netscape 4 kompatiblen ilayer (zusätzlich)";
 
 // PopUp
 $GLOBALS['strPopUpStyle'] = "PopUp Typ";
@@ -57,19 +55,9 @@ $GLOBALS['strShowStatus'] = "Status";
 $GLOBALS['strWindowResizable'] = "Göße anpassen";
 $GLOBALS['strShowScrollbars'] = "Scroll-Leiste";
 
-// XML-RPC
-$GLOBALS['strXmlRpcLanguage'] = "Sprache auf Host";
-$GLOBALS['strXmlRpcProtocol'] = "HTTPS nutzen, um den XML-RPC Server zu kontaktieren";
-$GLOBALS['strXmlRpcTimeout'] = "XML-RPC Timeout (in Sekunden)";
-
 // Support for cachebusting code
 $GLOBALS['strCacheBuster'] = "Cache-Busting Code einfügen";
 
 // IMG invocation selected for tracker with appended code
 $GLOBALS['strWarning'] = "Warnung";
 $GLOBALS['strImgWithAppendWarning'] = "Dieser Tracker hat angehängten Code.<br />Angehängter Code kann nur über JavaScript-Tags ausgeführt werden";
-
-// Local Invocation
-$GLOBALS['strWarningLocalInvocation'] = "<span class='tab-s'><strong>Hinweis:</strong>Der Local mode Bannercode kann nur verwendet werden, wenn die Webseite die diesen Code ausführt auf der gleichen physikalischen Maschine wie der AdServer liegt.</span><br />
-Überprüfen Sie ob MAX_PATH in dem unten stehenden Code definiert ist und auf das Hauptverzeichnis der MAX Installation zeigt<br />. Außerdem benötigen Sie eine Konfigurationsdatei für die Webseite, die die Werbebanner anzeigt (in MAX_PATH/var)";
-
