@@ -28,9 +28,7 @@ $GLOBALS['strInvocationTemplate'] = "배너를 템플릿에서 사용할 수 있
 
 // Iframe
 $GLOBALS['strIFrameRefreshAfter'] = "새로고침 간격";
-$GLOBALS['strIframeResizeToBanner'] = "iframe을 배너에 맞게 크기 조정";
 $GLOBALS['strIframeMakeTransparent'] = "iframe을 투명하게 설정";
-$GLOBALS['strIframeIncludeNetscape4'] = "넷스케이프 4 ilayer 호환";
 
 // PopUp
 $GLOBALS['strPopUpStyle'] = "팝업 형식";
@@ -47,13 +45,7 @@ $GLOBALS['strWindowOptions'] = "창 옵션";
 $GLOBALS['strShowLocation'] = "위치";
 $GLOBALS['strShowStatus'] = "상태";
 
-// XML-RPC
-$GLOBALS['strXmlRpcLanguage'] = "사용 언어";
-
 // Support for cachebusting code
 
 // IMG invocation selected for tracker with appended code
 $GLOBALS['strWarning'] = "경고";
-
-// Local Invocation
-

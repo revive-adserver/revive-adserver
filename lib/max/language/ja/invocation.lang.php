@@ -34,9 +34,7 @@ $GLOBALS['strInvocationComments'] = "コメントを含める";
 
 // Iframe
 $GLOBALS['strIFrameRefreshAfter'] = "リフレッシュ時間";
-$GLOBALS['strIframeResizeToBanner'] = "バナーサイズに応じてiframeをリサイズする";
 $GLOBALS['strIframeMakeTransparent'] = "iframeを透過にする";
-$GLOBALS['strIframeIncludeNetscape4'] = "Netscape4互換のilayerを含める";
 
 // PopUp
 $GLOBALS['strPopUpStyle'] = "ポップアップスタイル";
@@ -57,17 +55,9 @@ $GLOBALS['strShowStatus'] = "ステータス";
 $GLOBALS['strWindowResizable'] = "サイズ可変";
 $GLOBALS['strShowScrollbars'] = "スクロールバー";
 
-// XML-RPC
-$GLOBALS['strXmlRpcLanguage'] = "ホスト言語";
-$GLOBALS['strXmlRpcProtocol'] = "XML-RPCサーバとHTTPSで通信する";
-$GLOBALS['strXmlRpcTimeout'] = "XML-RPCタイムアウト秒数";
-
 // Support for cachebusting code
 $GLOBALS['strCacheBuster'] = "キャッシュ破棄コードを挿入する";
 
 // IMG invocation selected for tracker with appended code
 $GLOBALS['strWarning'] = "警告";
 $GLOBALS['strImgWithAppendWarning'] = "トラッカーコードを追加しました。追加コードは、<strong>Javescriptタグ</strong>で動作します。";
-
-// Local Invocation
-

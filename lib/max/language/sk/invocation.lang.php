@@ -21,12 +21,7 @@ $GLOBALS['strInvocationCampaignID'] = "Kampaň";
 
 // PopUp
 
-// XML-RPC
-
 // Support for cachebusting code
 
 // IMG invocation selected for tracker with appended code
 $GLOBALS['strWarning'] = "Upozornenie";
-
-// Local Invocation
-

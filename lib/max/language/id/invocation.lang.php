@@ -34,9 +34,7 @@ $GLOBALS['strInvocationComments'] = "Tambahkan komentar";
 
 // Iframe
 $GLOBALS['strIFrameRefreshAfter'] = "Memperbarui setelah";
-$GLOBALS['strIframeResizeToBanner'] = "Ubah ukuran iframe sesuai dimensi dari banner";
 $GLOBALS['strIframeMakeTransparent'] = "Ubah iframe menjadi transparan";
-$GLOBALS['strIframeIncludeNetscape4'] = "Masukkan ilayer yang kompatibel dengan Netscape 4";
 
 // PopUp
 $GLOBALS['strPopUpStyle'] = "Jenis Pop-up";
@@ -57,23 +55,9 @@ $GLOBALS['strShowStatus'] = "Keadaan";
 $GLOBALS['strWindowResizable'] = "Ukuran dabat diubah";
 $GLOBALS['strShowScrollbars'] = "Scrollbars";
 
-// XML-RPC
-$GLOBALS['strXmlRpcLanguage'] = "Bahasa yang digunakan pada Host";
-$GLOBALS['strXmlRpcProtocol'] = "Gunakan HTTPS untuk menghubungi XML-RPC Server";
-$GLOBALS['strXmlRpcTimeout'] = "XML-RPC Timeout (detik)";
-
 // Support for cachebusting code
 $GLOBALS['strCacheBuster'] = "Menambahkan kode Cache-Busting";
 
 // IMG invocation selected for tracker with appended code
 $GLOBALS['strWarning'] = "Peringatan";
 $GLOBALS['strImgWithAppendWarning'] = "Pelacak ini mengandung kode tempelan. Kode tempelan <strong>hanya</strong> berfungsi dengan JavaScript tags";
-
-// Local Invocation
-$GLOBALS['strWarningLocalInvocation'] = "<span class='tab-s'><strong>Peringatan: </strong> Permintaan mode lokal HANYA akan bekerja jika situs meminta kode
-ada di mesin fisik yang sama dengan adserver </span><br />
-Periksa bahwa MAX_PATH yang didefinisikan dalam kode di bawah ini mengarah ke direktori dasar instalasi MAX Anda <br />
-dan Anda memiliki file konfigurasi untuk domain situs yang menampilkan iklan tersebut (di MAX_PATH/var)";
-
-$GLOBALS['strIABNoteLocalInvocation'] = "<b>Catatan: </b> Tag pemanggilan mode lokal berarti permintaan banner berasal dari server web, bukan klien. Akibatnya, statistik tidak sesuai dengan pedoman IAB untuk pengukuran tayangan iklan.";
-$GLOBALS['strIABNoteXMLRPCInvocation'] = "<b>Catatan: </b> Tag pemanggilan XML-RPC berarti permintaan banner berasal dari server web, bukan klien. Akibatnya, statistik tidak sesuai dengan pedoman IAB untuk pengukuran tayangan iklan.";

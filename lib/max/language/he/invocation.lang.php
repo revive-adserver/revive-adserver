@@ -30,9 +30,7 @@ $GLOBALS['strInvocationTemplate'] = "שמור את הבאנר בתוך משתנ�
 
 // Iframe
 $GLOBALS['strIFrameRefreshAfter'] = "רענן אחרי";
-$GLOBALS['strIframeResizeToBanner'] = "התאם גודל מסגרת למידות הבאנר";
 $GLOBALS['strIframeMakeTransparent'] = "רקע מסגרת שקוף";
-$GLOBALS['strIframeIncludeNetscape4'] = "בכל קוד התאמה עבור שכבת ilayer של Netscape 4 ";
 
 // PopUp
 $GLOBALS['strPopUpStyle'] = "סוג קופץ";
@@ -53,13 +51,7 @@ $GLOBALS['strShowStatus'] = "Status";
 $GLOBALS['strWindowResizable'] = "שינוי גודל";
 $GLOBALS['strShowScrollbars'] = "גוללים";
 
-// XML-RPC
-$GLOBALS['strXmlRpcLanguage'] = "שפת אירוח";
-
 // Support for cachebusting code
 
 // IMG invocation selected for tracker with appended code
 $GLOBALS['strWarning'] = "אזהרה";
-
-// Local Invocation
-
