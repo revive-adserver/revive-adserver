@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>testPlugin</name>
+  <version>2</version>
+  <comments></comments>
+  <constructive>
+    <changeset>
+      <name>testPlugin</name>
+      <version>2</version>
+      <change>
+        <table>
+          <name>testplugin_table</name>
+          <add>
+            <field>
+              <name>test_newfield</name>
+              <type>openads_tinyint</type>
+              <length>4</length>
+              <notnull>1</notnull>
+              <default>0</default>
+              <was>test_newfield</was>
+            </field>
+          </add>
+        </table>
+      </change>
+    </changeset>
+  </constructive>
+  <destructive>
+    <changeset>
+      <name>testPlugin</name>
+      <version>2</version>
+    </changeset>
+  </destructive>
+</instructionset>

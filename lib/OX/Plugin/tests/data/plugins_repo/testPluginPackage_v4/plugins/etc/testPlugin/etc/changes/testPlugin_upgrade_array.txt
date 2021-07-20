@@ -1,0 +1,1 @@
+a:1:{i:0;a:1:{i:0;a:1:{i:2;a:2:{s:8:"-beta-rc";a:2:{i:2;a:1:{s:4:"file";s:37:"testPlugin_upgrade_0.0.2-beta-rc2.xml";}i:1;a:1:{s:4:"file";s:37:"testPlugin_upgrade_0.0.2-beta-rc1.xml";}}s:4:"file";s:28:"testPlugin_upgrade_0.0.2.xml";}}}}

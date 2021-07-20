@@ -224,6 +224,39 @@ class Test_OX_Plugin_UpgradeComponentGroup extends UnitTestCase
         $doAccount_Preference_Assoc->preference_id = $aPrefsOld['testPlugin_preference2']['id'];
         $this->assertFalse($doAccount_Preference_Assoc->find());
 
+        // leave the version 3 package installed for next test
+    }
+
+    function test_upgradeDeletesFiles()
+    {
+        $oPkgMgr = new OX_PluginManager();
+        $zipFile = $this->aUpload['tmp_name'];
+
+        // version 3 package should be installed
+
+        // put the version 4 package in place
+        $this->_switchFiles(4);
+
+        $this->assertTrue($oPkgMgr->_checkPackageContents($this->packageName.'.xml', $zipFile, true));
+        $aPlugin = $oPkgMgr->aParse['plugins'][1];
+        $this->assertEqual($aPlugin['version'],'0.0.4');
+
+        // Test 2 : upgrade to version 0.0.4 ; this involves 0 upgrade or schema packages, just a version stamp
+        $oUpgrader = new OX_Plugin_UpgradeComponentGroup($aPlugin, $oPkgMgr);
+        $this->assertTrue($oUpgrader->canUpgrade());
+        $this->assertEqual($oUpgrader->existing_installation_status, OA_STATUS_CAN_UPGRADE);
+
+        // decompress the zip file, 2nd param indicates overwrite previous files
+        $oPkgMgr->_unpack($this->aUpload, true);
+        // now that the files are in place, the upgrader can do a schema integrity check
+        $this->assertTrue($oUpgrader->canUpgrade());
+        $this->assertEqual($oUpgrader->existing_installation_status, OA_STATUS_CAN_UPGRADE);
+        $this->assertEqual(count($oUpgrader->aPackageList),0);
+
+        // check that new file is in place and old file is not
+        $this->assertTrue(file_exists(MAX_PATH.'/www/admin/plugins/testPlugin/images/testPluginNew.jpg'));
+        $this->assertFalse(file_exists(MAX_PATH.'/www/admin/plugins/testPlugin/images/testPlugin.jpg'));
+
         $oPkgMgr->uninstallPackage($this->packageName);
     }
 

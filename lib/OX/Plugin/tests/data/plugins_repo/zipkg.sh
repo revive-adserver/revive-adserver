@@ -47,5 +47,17 @@
 
   cd ..
 
+  arg="testPluginPackage_v4"
+
+  echo "$arg"
+
+  rm "$arg".zip
+
+  cd "$arg"
+
+  zip -r ../"$arg" . -x \*.svn/* \*extensions/*
+
+  cd ..
+
 
   exit 0

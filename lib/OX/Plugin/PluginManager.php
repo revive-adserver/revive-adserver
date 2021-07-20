@@ -576,7 +576,9 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             $this->_logError('Failed to disable package '.$name);
             return false;
         }
-        $this->_runExtensionTasks('AfterPluginDisable');
+        if (!$force) {
+            $this->_runExtensionTasks('AfterPluginDisable');
+        }
 
         $this->_deleteCacheMenu();
         $this->_deleteCompiledTemplates();
@@ -1149,11 +1151,36 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
                 if ($checkOnly) {
                     return true;
                 }
-                if (!$this->_decompressFile($aFile['tmp_name'], $this->basePath, $overwrite))
-                {
+
+                // Get the old file list in case of an upgrade
+                if ($overwrite && isset($GLOBALS['_MAX']['CONF']['plugins'][$this->aParse['package']['name']])) {
+                    $oExport = new OX_PluginExport();
+                    $oExport->_compileContents($this->aParse['package']['name']);
+                    $aOldFileList = $oExport->aFileList;
+                } else {
+                    $aOldFileList = null;
+                }
+
+                $result = $this->_decompressFile($aFile['tmp_name'], $this->basePath, $overwrite);
+                if (!$result) {
                     $this->_logError('Failed to decompress the uploaded file');
                     return false;
                 }
+
+                if (null === $aOldFileList) {
+                    return true;
+                }
+
+                $aDecompressedFiles = array_map(function ($info) {
+                    return $info['filename'];
+                }, array_filter($result, function ($info) {
+                    return empty($info['folder']);
+                }));
+
+                foreach (array_diff($aOldFileList, $aDecompressedFiles) as $deletedFiles) {
+                    @unlink($deletedFiles);
+                }
+
                 return true;
             /*case 'xml':
                 $pkgFile = $aPath['filename'];
