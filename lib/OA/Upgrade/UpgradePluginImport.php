@@ -137,25 +137,20 @@ class OX_UpgradePluginImport extends OX_PluginExport
      */
     function verify($name)
     {
-        $sucess = true;
-        if ($this->prepare($name)) {
-            foreach ($this->aFileList as $file) {
-                $filename = $this->basePath . substr($file, strlen($this->basePath));
-                if (!file_exists($filename)) {
-                    // Check for a pre 2.7.31 path (extensions not plugins)
-                    $filename = str_replace(DIRECTORY_SEPARATOR, '/', $filename);
-                    $filename = str_replace('/plugins/', '/extensions/', $filename);
-                    if (!file_exists($filename)) {
-                        $this->_log("Plugin: {$name} - Unable to locate file: " . $filename);
-                        $sucess = false;
-                    }
-                }
-            }
-        } else {
+        if (!$this->prepare($name)) {
             $this->_log("Plugin: {$name} - Unable to locate XML files");
-            $sucess = false;
+            return false;
         }
-        return $sucess;
+
+        foreach ($this->aFileList as $file) {
+            $filename = $this->basePath . substr($file, strlen($this->basePath));
+            if (!file_exists($filename)) {
+                $this->_log("Plugin: {$name} - Unable to locate file: " . $filename);
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**

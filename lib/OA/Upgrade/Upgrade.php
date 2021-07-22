@@ -1437,7 +1437,8 @@ class OA_Upgrade
         $this->oConfiguration->setupConfigDatabase($aConfig['database']);
         $this->oConfiguration->setupConfigTable($aConfig['table']);
         $this->oConfiguration->setupConfigStore($aConfig['store']);
-        $this->oConfiguration->setupConfigPriority('');
+        $this->oConfiguration->setupConfigPriority();
+        $this->oConfiguration->setupConfigPlugins($aConfig['plugins'] ?? []);
         return $this->oConfiguration->writeConfig(true);
     }
 

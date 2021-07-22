@@ -762,7 +762,6 @@ class OX_Admin_UI_Install_InstallController
         $oUpgrader = $this->getUpgrader();
         $isUpgrade = $this->getInstallStatus()->isUpgrade();
         $configStepSuccess = true;
-        $syncEnabled = true;
 
         // 1) Import any plugins present from the previous install
         $path = $previousInstallationPath ?? '';
@@ -771,6 +770,13 @@ class OX_Admin_UI_Install_InstallController
             if (!$importOK) {
                 $errMessage = $GLOBALS['strPathToPreviousError'];
                 $configStepSuccess = false;
+            }
+
+            // Temporarily disable all plugins
+            if (!empty($aConfig['config']['plugins'])) {
+                foreach ($aConfig['config']['plugins'] as $name => $enabled) {
+                    $aConfig['config']['plugins'][$name] = 0;
+                }
             }
         }
 

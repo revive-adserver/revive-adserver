@@ -246,9 +246,16 @@ class OA_Upgrade_Config
         $this->setValue('store', 'webDir', $aConfig['webDir']);
     }
 
-    function setupConfigPriority($aConfig)
+    function setupConfigPriority()
     {
         $this->setValue('priority', 'randmax', mt_getrandmax());
+    }
+
+    function setupConfigPlugins($aConfig)
+    {
+        foreach ($aConfig as $name => $enabled) {
+            $this->setValue('plugins', $name, $enabled);
+        }
     }
 
     function setupConfigDatabase($aConfig)
