@@ -147,7 +147,6 @@ class OA_Environment_Manager
         $aResult['xml']                  = extension_loaded('xml');
         $aResult['pcre']                 = extension_loaded('pcre');
         $aResult['zlib']                 = extension_loaded('zlib');
-        $aResult['mysql']                = extension_loaded('mysql');
         $aResult['mysqli']               = extension_loaded('mysqli');
         $aResult['pgsql']                = extension_loaded('pgsql');
         $aResult['spl']                  = extension_loaded('spl');
@@ -405,8 +404,8 @@ class OA_Environment_Manager
         }
 
         // Test that at least one of the required database extensions are loaded
-        if (empty($this->aInfo['PHP']['actual']['mysql']) && empty($this->aInfo['PHP']['actual']['mysqli']) && empty($this->aInfo['PHP']['actual']['pgsql'])) {
-            $this->aInfo['PHP']['error']['mysql'] = $this->aInfo['PHP']['error']['mysqli'] = $this->aInfo['PHP']['error']['pgsql'] =
+        if (empty($this->aInfo['PHP']['actual']['mysqli']) && empty($this->aInfo['PHP']['actual']['pgsql'])) {
+            $this->aInfo['PHP']['error']['mysqli'] = $this->aInfo['PHP']['error']['pgsql'] =
                 'At least one of these database extensions must be loaded';
         }
 

@@ -28,7 +28,7 @@ class OA_DB_Charset_mysqli extends OA_DB_Charset
      * @param MDB2_Driver_Common $oDbh
      * @return OA_DB_Charset
      */
-    function __construct(&$oDbh)
+    function __construct($oDbh)
     {
         $aVersion = $oDbh->getServerVersion();
         if (version_compare($aVersion['native'], '4.1.2', '>=')) {

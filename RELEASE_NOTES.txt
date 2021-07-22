@@ -53,6 +53,9 @@ What's New in Revive Adserver 5.3.0
    always make sure that the appropriate (empty) sql_mode is set when running
    on a MySQL database.
 
+ * Support for the legacy pecl msqyl extension has been removed: mysqli will
+   always be used instead.
+
 
 System Requirements
 -------------------

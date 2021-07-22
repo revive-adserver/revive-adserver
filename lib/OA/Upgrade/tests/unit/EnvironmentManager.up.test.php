@@ -412,7 +412,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $oEnvironmentManager->aInfo['PHP']['actual']['pcre']                 = '1';
         $oEnvironmentManager->aInfo['PHP']['actual']['xml']                  = '1';
         $oEnvironmentManager->aInfo['PHP']['actual']['zlib']                 = '1';
-        $oEnvironmentManager->aInfo['PHP']['actual']['mysql']                = '1';
+        $oEnvironmentManager->aInfo['PHP']['actual']['mysqli']               = '1';
         $oEnvironmentManager->aInfo['PHP']['actual']['pgsql']                = '1';
         $oEnvironmentManager->aInfo['PHP']['actual']['spl']                  = '1';
         $oEnvironmentManager->aInfo['PHP']['actual']['json']                 = '1';
@@ -443,7 +443,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['pcre']), in_array('pcre', $aErrors));
         $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['xml']), in_array('xml', $aErrors));
         $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['zlib']), in_array('zlib', $aErrors));
-        $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['mysql']), in_array('mysql', $aErrors));
+        $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['mysqli']), in_array('mysqli', $aErrors));
         $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['spl']), in_array('spl', $aErrors));
         $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_TIMEOUT]), in_array('OA_ENV_ERROR_PHP_TIMEOUT', $aErrors));
     }

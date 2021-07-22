@@ -62,14 +62,9 @@ class OX_Admin_UI_Install_DbForm
     {
         $this->addElement('hidden', 'moreFieldsShown', 0, array('id' => 'moreFieldsShown'));
 
-        $typeOptions = array('class' => 'small', 'id' => 'dbType');
-        if (!isset($this->aDbTypes['mysql']) && PHP_VERSION_ID >= 50000) {
-            $typeOptions['suffix'] = sprintf(" {$GLOBALS['strDbPHP7AndMySQL']}", 'http:');
-        }
-
         //build form
         $this->addElement('header', 'h_db_main', $GLOBALS['strDatabaseSettings']);
-        $this->addElement('select', 'dbType', $GLOBALS['strDbType'], $this->aDbTypes, $typeOptions);
+        $this->addElement('select', 'dbType', $GLOBALS['strDbType'], $this->aDbTypes, array('class' => 'small', 'id' => 'dbType'));
         $this->addElement('text', 'dbHost', $GLOBALS['strDbHost'], array('class' => 'medium', 'id' => 'dbHost'));
         $this->addElement('text', 'dbName', $GLOBALS['strDbName'], array('class' => 'medium', 'id' => 'dbName', 'suffix' => ' '.$GLOBALS['strDbNameHint']));
         $this->addElement('text', 'dbUser', $GLOBALS['strDbUser'], array('class' => 'medium', 'id' => 'dbUser'));
@@ -109,7 +104,7 @@ class OX_Admin_UI_Install_DbForm
             $this->addRequiredRule('dbSocket', $GLOBALS['strDbSocket']);
         }
         if ($_POST['dbLocal'] == 0) {
-            if ($_POST['dbType'] ==  'mysql' || $_POST['dbType'] ==  'mysqli') {
+            if ($_POST['dbType'] ==  'mysqli') {
                 $this->addRequiredRule('dbPort', $GLOBALS['strDbPort']);
             }
         }

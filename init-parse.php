@@ -36,14 +36,11 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true, 
             return $conf;
         }
 
-        if ('mysql' === $conf['database']['type'] && !extension_loaded('mysql') && extension_loaded('mysqli')) {
+        if (0 === stripos($conf['database']['type'] ?? '', 'mysql')) {
             $conf['database']['type'] = 'mysqli';
-        } elseif ('mysqli' === $conf['database']['type']) {
+
             if (empty($conf['table']['type'])) {
                 $conf['table']['type'] = 'InnoDB';
-            }
-            if (!extension_loaded('mysqli') && extension_loaded('mysql')) {
-                $conf['database']['type'] = 'mysql';
             }
         }
 

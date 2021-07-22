@@ -336,14 +336,10 @@ class OX_Admin_UI_Install_InstallController
         $aConfig['detectedVersion'] = $oUpgrader->getProductApplicationVersion();
 
         //get default socket
-        if (empty($aConfig['database']['socket'])) {
-            if ($aConfig['database']['type'] == 'mysql') {
-                $aConfig['database']['socket'] = str_replace("'", '', ini_get('mysql.default_socket'));
-            } elseif ($aConfig['database']['type'] == 'mysqli') {
-                $aConfig['database']['socket'] = str_replace("'", '', ini_get('mysqli.default_socket'));
-            }
-
+        if (empty($aConfig['database']['socket']) && $aConfig['database']['type'] == 'mysqli') {
+            $aConfig['database']['socket'] = str_replace("'", '', ini_get('mysqli.default_socket'));
         }
+
         $oForm->populateForm($aConfig);
 
         //process the request

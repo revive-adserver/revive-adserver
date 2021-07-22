@@ -950,10 +950,10 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
         }
 
         $indexHint = '';
-        if(($aConf['database']['type'] == 'mysql' || $aConf['database']['type'] == 'mysqli')
-            && $table == 'data_summary_ad_hourly') {
+        if ($aConf['database']['type'] == 'mysqli' && $table == 'data_summary_ad_hourly') {
             $indexHint = ' FORCE INDEX('.$aConf['table']['prefix'].'data_summary_ad_hourly_date_time) ';
         }
+
         // Obtain a list of unique ad IDs from the summary table
         $query = "
             SELECT DISTINCT
