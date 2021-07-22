@@ -42,6 +42,9 @@ What's New in Revive Adserver 5.3.0
  * Fixed hourly breakdown statistics links from daily history pages not
    working properly.
 
+ * Added missing support for ssl connections to mysql databases in the
+   delivery scripts.
+
 
  Non-Backwards Compatible Changes
  --------------------------------
