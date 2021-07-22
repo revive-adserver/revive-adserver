@@ -52,7 +52,23 @@ function OA_Dal_Delivery_connect($database = 'database') {
 
     if ($dbConf['protocol'] == 'unix' && !empty($dbConf['socket'])) {
         $dbLink = @mysqli_connect($dbPersistent.'localhost', $dbUser, $dbPassword, $dbName, $dbPort, $dbConf['socket']);
-    } else {
+    }
+    elseif ($dbConf['ssl']) {
+        $init = mysqli_init();
+        mysqli_ssl_set(
+            $init,
+            null,
+            null,
+            empty($dbConf['ca']) ? null : $dbConf['ca'],
+            empty($dbConf['capath']) ? null : $dbConf['capath'],
+            null,
+        );
+        if ( $dbLink = @mysqli_real_connect($init, $dbPersistent.$dbHost, $dbUser, $dbPassword, $dbName, $dbPort) ) {
+            // Connection successful (else: $dbLink == false)
+            $dbLink = $init;
+        }
+    }
+    else {
         $dbLink = @mysqli_connect($dbPersistent.$dbHost, $dbUser, $dbPassword, $dbName, $dbPort);
     }
 
