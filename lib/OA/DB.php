@@ -157,23 +157,6 @@ class OA_DB
                 return $oDbh;
             }
 
-            // Is this a MySQL database connection?
-            if (strcasecmp($databaseType, 'mysql') === 0) {
-                $client_flags = 0;
-                // Should this connection happen over SSL?
-                if (!empty($aDriverOptions['ssl'])) {
-                    $client_flags = $client_flags | MYSQL_CLIENT_SSL;
-                }
-                // Should this connection use compression?
-                if (!empty($aDriverOptions['compress'])) {
-                    $client_flags = $client_flags | MYSQL_CLIENT_COMPRESS;
-                }
-                // Are there any MySQL connection flags to set?
-                if ($client_flags != 0) {
-                    $oDbh->dsn['client_flags'] = $client_flags;
-                }
-            }
-
             // Is this a MySQLi database connection?
             if (strcasecmp($databaseType, 'mysqli') === 0) {
                 $client_flags = 0;
