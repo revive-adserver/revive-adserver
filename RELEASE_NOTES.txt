@@ -45,6 +45,8 @@ What's New in Revive Adserver 5.3.0
  * Added missing support for ssl connections to mysql databases in the
    delivery scripts.
 
+ * Fixed multiple issues related to upgrading plugins, especially on PHP8.
+
 
  Non-Backwards Compatible Changes
  --------------------------------
