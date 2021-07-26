@@ -1,0 +1,33 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: revive-adserver\n"
+"Last-Translator: Revive Adserver Team <noreply@revive-adserver.com>\n"
+"Language-Team: Catalan\n"
+"Language: ca_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: revive-adserver\n"
+"X-Crowdin-Project-ID: 78987\n"
+"X-Crowdin-Language: ca\n"
+"X-Crowdin-File: /openXReports/plugins/etc/oxReportsAdmin/_lang/po/en.po\n"
+"X-Crowdin-File-ID: 334\n"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:40
+#: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:137
+msgid "Account Breakdown"
+msgstr "Desglossament del compte"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:41
+msgid "Lists Impression/Click/Conversion totals for a given month."
+msgstr "Llista impressions/clics/conversions totals per un mes concret"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:43
+msgid "Admin Reports"
+msgstr "Informes d'administració"
+
+#: plugins_repo/openXReports/plugins/reports/oxReportsAdmin/breakdown.class.php:128
+msgid "Manager"
+msgstr "Gestor"
+

@@ -1,0 +1,24 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: revive-adserver\n"
+"Last-Translator: Revive Adserver Team <noreply@revive-adserver.com>\n"
+"Language-Team: Catalan\n"
+"Language: ca_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: revive-adserver\n"
+"X-Crowdin-Project-ID: 78987\n"
+"X-Crowdin-Language: ca\n"
+"X-Crowdin-File: /openXDeliveryCacheStore/plugins/etc/oxCacheFile/_lang/po/en.po\n"
+"X-Crowdin-File-ID: 380\n"
+
+#: plugins_repo/openXDeliveryCacheStore/plugins/deliveryCacheStore/oxCacheFile/oxCacheFile.class.php:31
+msgid "File based cache"
+msgstr ""
+
+#: plugins_repo/openXDeliveryCacheStore/plugins/deliveryCacheStore/oxCacheFile/oxCacheFile.class.php:43
+msgid "Unable to write to"
+msgstr "No es pot escriure a"
+

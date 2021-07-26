@@ -1,0 +1,215 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: revive-adserver\n"
+"Last-Translator: Revive Adserver Team <noreply@revive-adserver.com>\n"
+"Language-Team: Catalan\n"
+"Language: ca_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: revive-adserver\n"
+"X-Crowdin-Project-ID: 78987\n"
+"X-Crowdin-Language: ca\n"
+"X-Crowdin-File: /openXInvocationTags/plugins/etc/oxInvocationTags/_lang/po/en.po\n"
+"X-Crowdin-File-ID: 250\n"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adframe.class.php:36
+msgid "iFrame Tag"
+msgstr "Etiqueta d'iFrame"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/async.class.php:37
+msgid "Asynchronous JS Tag"
+msgstr "Etiqueta JS asíncrona"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/popup.class.php:42
+msgid "Popup Tag"
+msgstr "Etiqueta de finestra emergent"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:41
+msgid "[Close]"
+msgstr "[Tanca]"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:50
+msgid "Alignment"
+msgstr "Alineació"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:52
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:63
+msgid "Left"
+msgstr "Esquerra"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:53
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:64
+msgid "Center"
+msgstr "Centre"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:54
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:65
+msgid "Right"
+msgstr "Dreta"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:60
+msgid "Close text"
+msgstr ""
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:65
+msgid "Automatically collapse after"
+msgstr ""
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/geocities/invocation.inc.php:70
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:98
+msgid "Banner padding"
+msgstr ""
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:53
+msgid "Smooth movement"
+msgstr ""
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:61
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:84
+msgid "Speed"
+msgstr "Velocitat"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:74
+msgid "Hide the banner when the cursor is not moving"
+msgstr ""
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:82
+msgid "Delay before banner is hidden"
+msgstr ""
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:87
+msgid "Transparancy of the hidden banner"
+msgstr ""
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:100
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:103
+msgid "Horizontal shift"
+msgstr ""
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/cursor/invocation.inc.php:105
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:97
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:108
+msgid "Vertical shift"
+msgstr ""
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:67
+msgid "Direction"
+msgstr "Direcció"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:69
+msgid "Left to right"
+msgstr "Esquerra a dreta"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:70
+msgid "Right to left"
+msgstr "Dreta a esquerra"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:75
+msgid "Looping"
+msgstr ""
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:77
+msgid "Always active"
+msgstr "Sempre actiu"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:92
+msgid "Pause"
+msgstr "Pausa"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:102
+msgid "Limited"
+msgstr ""
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:110
+msgid "Left margin"
+msgstr "Marge esquerra"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:115
+msgid "Right margin"
+msgstr "Marge dret"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:120
+msgid "Transparent background"
+msgstr "Fons transparent"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/floater/invocation.inc.php:130
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:115
+msgid "Background color"
+msgstr "Color de fons"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:61
+msgid "Horizontal alignment"
+msgstr "Alineació horitzontal"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:71
+msgid "Vertical alignment"
+msgstr "Alineació vertical"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:73
+msgid "Top"
+msgstr "A dalt"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:74
+msgid "Middle"
+msgstr "Al mig"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:75
+msgid "Bottom"
+msgstr "A baix"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:81
+msgid "Show close button"
+msgstr "Mostra botó de tancar"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:89
+msgid "Automatically close after"
+msgstr "Tancar automàticament després de"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:128
+msgid "Border color"
+msgstr "Color de la vora"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adviewnocookies.class.php:41
+msgid "No Cookie Image Tag"
+msgstr ""
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/xmlrpc.class.php:36
+msgid "XML-RPC Tag"
+msgstr ""
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adview.class.php:36
+msgid "Image Tag"
+msgstr "Etiqueta d'imatge"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/local.class.php:32
+msgid "Local Mode Tag"
+msgstr ""
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/spc.class.php:80
+msgid "Publisher code - Single Page Call"
+msgstr ""
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/spc.class.php:229
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/spc.class.php:401
+msgid "Option - noscript"
+msgstr ""
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/spc.class.php:233
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/spc.class.php:416
+msgid "Option - SSL"
+msgstr ""
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adjs.class.php:37
+msgid "Javascript Tag"
+msgstr "Etiqueta de Javascript"
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adlayer.class.php:45
+msgid "Interstitial or Floating DHTML Tag"
+msgstr ""
+
+#: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adlayer.class.php:235
+msgid "Style"
+msgstr "Estil"
+
