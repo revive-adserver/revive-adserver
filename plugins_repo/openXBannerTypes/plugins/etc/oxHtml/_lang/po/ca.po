@@ -1,0 +1,28 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: revive-adserver\n"
+"Last-Translator: Revive Adserver Team <noreply@revive-adserver.com>\n"
+"Language-Team: Catalan\n"
+"Language: ca_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: revive-adserver\n"
+"X-Crowdin-Project-ID: 78987\n"
+"X-Crowdin-Language: ca\n"
+"X-Crowdin-File: /openXBannerTypes/plugins/etc/oxHtml/_lang/po/en.po\n"
+"X-Crowdin-File-ID: 298\n"
+
+#: plugins_repo/openXBannerTypes/plugins/bannerTypeHtml/oxHtml/html5.class.php:40
+msgid "HTML5 Banner (ZIP package)"
+msgstr "Bàner d'HTML 5 (arxiu ZIP)"
+
+#: plugins_repo/openXBannerTypes/plugins/bannerTypeHtml/oxHtml/html5.class.php:56
+msgid "Upload an HTML5 banner"
+msgstr "Puja un bàner d'HTML 5"
+
+#: plugins_repo/openXBannerTypes/plugins/bannerTypeHtml/oxHtml/genericHtml.class.php:35
+msgid "Generic HTML Banner"
+msgstr "Bàner d'HTML genèric"
+

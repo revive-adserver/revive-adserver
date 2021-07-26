@@ -11,6 +11,7 @@
  */
 
 // Installer translation strings
+$GLOBALS['strWarning'] = "Advertència";
 
 
 
@@ -27,16 +28,28 @@
 // Configuration Settings
 
 // Administrator Settings
+$GLOBALS['strTimezone'] = "Fus horari";
 
 // Database Settings
+$GLOBALS['strDbType'] = "Tipus de base de dades";
+$GLOBALS['strDbPort'] = "Port de la base de dades";
+$GLOBALS['strDbUser'] = "Usuari de la base de dades";
+$GLOBALS['strDbPassword'] = "Contrasenya de la base de dades";
+$GLOBALS['strDbName'] = "Nom de la base de dades";
 
 // Email Settings
+$GLOBALS['strEmailSettings'] = "Configuració de correu electrònic";
 
 // Audit Trail Settings
 
 // Debug Logging Settings
+$GLOBALS['strDebugTypeFile'] = "Fitxer";
+$GLOBALS['strDebugTypeSql'] = "Base de dades SQL";
 
 // Delivery Settings
+$GLOBALS['strTypeWebModeLocal'] = "Directori local";
+$GLOBALS['strTypeWebDir'] = "Directori local";
+$GLOBALS['strTypeFTPPassword'] = "Contrasenya";
 
 // General Settings
 
@@ -44,6 +57,7 @@
 
 // Interface Settings
 $GLOBALS['strInventory'] = "Inventari";
+$GLOBALS['strStatisticsDefaults'] = "Estadístiques";
 
 // Invocation Settings
 
