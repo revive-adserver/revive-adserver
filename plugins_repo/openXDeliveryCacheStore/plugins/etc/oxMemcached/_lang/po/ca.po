@@ -1,0 +1,36 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: revive-adserver\n"
+"Last-Translator: Revive Adserver Team <noreply@revive-adserver.com>\n"
+"Language-Team: Catalan\n"
+"Language: ca_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: revive-adserver\n"
+"X-Crowdin-Project-ID: 78987\n"
+"X-Crowdin-Language: ca\n"
+"X-Crowdin-File: /openXDeliveryCacheStore/plugins/etc/oxMemcached/_lang/po/en.po\n"
+"X-Crowdin-File-ID: 382\n"
+
+#: plugins_repo/openXDeliveryCacheStore/plugins/deliveryCacheStore/oxMemcached/oxMemcached.class.php:33
+msgid "memcached"
+msgstr "memcached"
+
+#: plugins_repo/openXDeliveryCacheStore/plugins/deliveryCacheStore/oxMemcached/oxMemcached.class.php:48
+msgid "Either the Memcached or Memcache extensions are required"
+msgstr ""
+
+#: plugins_repo/openXDeliveryCacheStore/plugins/deliveryCacheStore/oxMemcached/oxMemcached.class.php:60
+msgid "Empty server list"
+msgstr "Llista de servidors buida"
+
+#: plugins_repo/openXDeliveryCacheStore/plugins/deliveryCacheStore/oxMemcached/oxMemcached.class.php:81
+msgid "Invalid expire time"
+msgstr "Data de caducitat no vàlida"
+
+#: plugins_repo/openXDeliveryCacheStore/plugins/deliveryCacheStore/oxMemcached/oxMemcached.class.php:86
+msgid "Could not connect to memcached"
+msgstr "No s'ha pogut connectar al memcached"
+

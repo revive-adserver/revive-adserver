@@ -20,46 +20,46 @@ msgstr "Desconegut"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/ConnectionType.res.inc.php:20
 msgid "Dial-up"
-msgstr ""
+msgstr "Accés telefònic"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/ConnectionType.res.inc.php:21
 msgid "Broadband"
-msgstr ""
+msgstr "Amplada de banda"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/ConnectionType.res.inc.php:22
 msgid "Corporate"
-msgstr ""
+msgstr "Corporatiu"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/ConnectionType.res.inc.php:23
 msgid "Cellular"
-msgstr ""
+msgstr "Dades mòbils"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Subdivision1.class.php:76
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/City.class.php:75
 msgid "Country"
-msgstr ""
+msgstr "País"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Subdivision1.class.php:95
 msgid "Subdivision(s)"
-msgstr ""
+msgstr "Subdivisió"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:46
 msgid "Is within"
-msgstr ""
+msgstr "Està dins"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:47
 msgid "Is not within"
-msgstr ""
+msgstr "No està dins"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:89
 msgid "Latitude"
-msgstr ""
+msgstr "Latitud"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/Latlong.class.php:95
 msgid "Longitude"
-msgstr ""
+msgstr "Longitud"
 
 #: plugins_repo/openXDeliveryLimitations/plugins/deliveryLimitations/Geo/City.class.php:90
 msgid "City(s)"
-msgstr ""
+msgstr "Ciutat(s)"
 
