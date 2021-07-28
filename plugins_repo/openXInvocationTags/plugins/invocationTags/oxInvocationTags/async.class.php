@@ -74,13 +74,13 @@ class Plugins_InvocationTags_OxInvocationTags_async extends Plugins_InvocationTa
     function getOptionsList()
     {
         if (is_array($this->defaultOptions)) {
-            if (in_array('cacheBuster', $this->defaultOptions)) {
-                unset($this->defaultOptions['cacheBuster']);
-            }
             if (in_array('comments', $this->defaultOptions)) {
                 unset($this->defaultOptions['comments']);
             }
+
+            unset($this->defaultOptions['cacheBuster']);
         }
+
         $options = array (
             'spacer'      => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'what'          => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,

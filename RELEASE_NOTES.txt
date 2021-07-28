@@ -47,6 +47,9 @@ What's New in Revive Adserver 5.3.0
 
  * Fixed multiple issues related to upgrading plugins, especially on PHP8.
 
+ * Removed useless option to add a cache buster when generating async
+   tags.
+
 
  Non-Backwards Compatible Changes
  --------------------------------
