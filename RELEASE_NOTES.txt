@@ -6,7 +6,7 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
-Release Notes: Revive Adserver 5.3.0-RC1
+Release Notes: Revive Adserver 5.3.0-RC2
 ========================================
 
 These release notes cover what's new, system requirements, download and
@@ -14,10 +14,9 @@ installation instructions, known issues and frequently asked questions for
 Revive Adserver. Please read these notes before reporting any bugs.
 
 
-What's New in Revive Adserver 5.3.0-RC1
+What's New in Revive Adserver 5.3.0-RC2
 ---------------------------------------
 
- * Release date: July 29th, 2021
 
 
  Security Updates
