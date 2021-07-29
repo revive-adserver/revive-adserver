@@ -41,6 +41,42 @@ class DataObjects_Tracker_append extends DB_DataObjectCommon
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
+
+    /**
+     * Override insert as "rank" is a keyword on MySQL 8 and identifiers need extra quoting.
+     */
+    function insert()
+    {
+        global $_DB_DATAOBJECT;
+
+        $quoteIdentifiers = !empty($_DB_DATAOBJECT['CONFIG']['quote_identifiers']);
+
+        $_DB_DATAOBJECT['CONFIG']['quote_identifiers'] = true;
+
+        $return = parent::insert();
+
+        $_DB_DATAOBJECT['CONFIG']['quote_identifiers'] = $quoteIdentifiers;
+
+        return $return;
+    }
+
+    /**
+     * Override insert as "rank" is a keyword on MySQL 8 and identifiers need extra quoting.
+     */
+    function update($dataObject = false)
+    {
+        global $_DB_DATAOBJECT;
+
+        $quoteIdentifiers = !empty($_DB_DATAOBJECT['CONFIG']['quote_identifiers']);
+
+        $_DB_DATAOBJECT['CONFIG']['quote_identifiers'] = true;
+
+        $return =  parent::update($dataObject);
+
+        $_DB_DATAOBJECT['CONFIG']['quote_identifiers'] = $quoteIdentifiers;
+
+        return $return;
+    }
 }
 
 ?>

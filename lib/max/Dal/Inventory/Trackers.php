@@ -23,11 +23,12 @@ class MAX_Dal_Inventory_Trackers extends MAX_Dal_Common
 {
     function getAppendCodes($tracker_id)
     {
+        $qRank = $this->oDbh->quoteIdentifier('rank');
         $query = "
-            SELECT tracker_append_id, tagcode, rank, paused, autotrack
+            SELECT tracker_append_id, tagcode, {$qRank}, paused, autotrack
             FROM {$this->prefix}{$this->conf['table']['tracker_append']}
             WHERE tracker_id = ". $this->oDbh->quote($tracker_id, 'integer') ."
-            ORDER BY rank";
+            ORDER BY {$qRank}";
         $res = $this->oDbh->query($query);
         while ($row = $res->fetchRow()) {
             $row['paused']    = $row['paused'] == 't';
@@ -113,7 +114,8 @@ class MAX_Dal_Inventory_Trackers extends MAX_Dal_Common
             $trackers[$row['trackerid']] = $row;
         }
 
-        $query = "SELECT tracker_id, tagcode, rank, paused FROM {$this->prefix}{$this->conf['table']['tracker_append']} WHERE paused = 'f' ORDER BY rank";
+        $qRank = $this->oDbh->quoteIdentifier('rank');
+        $query = "SELECT tracker_id, tagcode, {$qRank}, paused FROM {$this->prefix}{$this->conf['table']['tracker_append']} WHERE paused = 'f' ORDER BY {$qRank}";
         $codes = array();
         foreach ($this->oDbh->extended->getAll($query) as $row) {
             $codes[$row['tracker_id']][] = $row;

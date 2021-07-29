@@ -35,7 +35,6 @@ define('OX_DATAOBJECT_NULL', 'NULL');
  */
 class DB_DataObjectCommon extends DB_DataObject
 {
-
     /**
      * If its true the delete() method will try to delete also all
      * records which has reference to this record
