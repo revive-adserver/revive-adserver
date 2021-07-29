@@ -6,18 +6,18 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
-Release Notes: Revive Adserver 5.3.0
-====================================
+Release Notes: Revive Adserver 5.3.0-RC1
+========================================
 
 These release notes cover what's new, system requirements, download and
 installation instructions, known issues and frequently asked questions for
 Revive Adserver. Please read these notes before reporting any bugs.
 
 
-What's New in Revive Adserver 5.3.0
------------------------------------
+What's New in Revive Adserver 5.3.0-RC1
+---------------------------------------
 
- * Release date: t.b.d.
+ * Release date: July 29th, 2021
 
 
  Security Updates
@@ -42,7 +42,7 @@ What's New in Revive Adserver 5.3.0
  * Fixed hourly breakdown statistics links from daily history pages not
    working properly.
 
- * Added missing support for ssl connections to mysql databases in the
+ * Added missing support for ssl connections to MySQL databases in the
    delivery scripts.
 
  * Fixed multiple issues related to upgrading plugins, especially on PHP8.
