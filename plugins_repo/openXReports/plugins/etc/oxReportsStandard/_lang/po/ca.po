@@ -27,7 +27,7 @@ msgstr ""
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:46
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/conversionTrackingReport.class.php:121
 msgid "Standard Reports"
-msgstr ""
+msgstr "Informes estàndard"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:96
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/advertisingAnalysisReport.class.php:261
@@ -50,11 +50,11 @@ msgstr "Desglossament per zones"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:97
 msgid "Campaign Analysis Report"
-msgstr ""
+msgstr "Informe d'anàlisi de la campanya"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:98
 msgid "This report shows a breakdown of advertising for a particular campaign, by day, banner, and zone."
-msgstr ""
+msgstr "Aquest informe mostra un desglossament de la publicitat d’una campanya concreta, per dia, bàner i zona."
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:137
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/campaignAnalysisReport.class.php:342
@@ -63,7 +63,7 @@ msgstr "Desglossament per anunci"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:43
 msgid "Campaign Delivery Report"
-msgstr ""
+msgstr "Informe d'entrega de la campanya"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:44
 msgid "This report shows delivery statistics for all campaigns which were live during the specified period, highlighting campaigns which are underperforming."
