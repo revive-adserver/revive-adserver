@@ -45,6 +45,8 @@ phpAds_SessionDataStore();
 Language_Loader::load('default');
 
 $maxInvocation = new MAX_Admin_Invocation();
-echo $maxInvocation->generateInvocationCode($invocationTag = null);
+
+$invocationTag = null;
+echo $maxInvocation->generateInvocationCode($invocationTag);
 
 ?>
