@@ -103,7 +103,7 @@ function phpAds_SessionStart()
 
 function phpAds_SessionGenerateId()
 {
-    $_COOKIE['sessionID'] = md5(uniqid('phpads', 1));
+    $_COOKIE['sessionID'] = bin2hex(random_bytes(16));
 
     phpAds_SessionSetAdminCookie('sessionID', $_COOKIE['sessionID']);
 
@@ -225,7 +225,7 @@ function phpAds_SessionGetToken($tokenName = 'token')
     phpAds_SessionStart();
 
     if (empty($session[$tokenName])) {
-        $session[$tokenName] = md5(uniqid('phpads', 1));
+        $session[$tokenName] = bin2hex(random_bytes(16));
         phpAds_SessionDataStore();
     }
 
