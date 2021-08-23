@@ -193,7 +193,7 @@ if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
 $oUserlog = new OA_Dll_Audit();
 $aAuditData = $oUserlog->getAuditLog($aParams);
 
-$aParams['totalItems'] = count($aAuditData);
+$aParams['totalItems'] = is_array($aAuditData) ? count($aAuditData) : 0;
 
 if (!isset($pageID) || $pageID == 1) {
     $aParams['startRecord'] = 0;

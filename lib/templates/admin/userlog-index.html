@@ -14,7 +14,7 @@
 	        <select style="width:25%" id="advertiserId" name="advertiserId" onchange="submitForm();">
 	            {html_options options=$aAdvertiser selected=$advertiserId}
 	        </select>
-	        {if count($aCampaign) gt 0}
+	        {if $aCampaign}
 	        <select style="width:25%" id="campaignId" name="campaignId" onchange="submitForm();">
 	            {html_options options=$aCampaign selected=$campaignId}
 	        </select>
@@ -30,7 +30,7 @@
 	        <select style="width:25%" id="publisherId" name="publisherId" onchange="submitForm();">
 	            {html_options options=$aPublisher selected=$publisherId}
 	        </select>
-	        {if isset($aZone) && count($aZone) gt 0}
+	        {if $aZone}
 	        <select style="width:25%" id="zoneId" name="zoneId" onchange="submitForm();">
 	            {html_options options=$aZone selected=$zoneId}
 	        </select>
@@ -75,7 +75,7 @@
                 <th>{t str='Event'}</th>
                 <th width="10%">&nbsp;</th>
             </tr>
-            {if count($aAuditData) > 0}
+            {if $aAuditData}
             {foreach from=$aAuditData key=key item=aValue name=info}
             {cycle values='odd,even' assign=rowClass}
             <tr class="{$rowClass}">
