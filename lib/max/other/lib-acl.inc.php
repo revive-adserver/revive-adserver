@@ -351,6 +351,8 @@ function MAX_AclValidate($page, $aParams)
     // Use prepared statements to improve performance when rebuilding in bulk
     static $statements = [];
 
+    $var = 'channel-acl.php' === $page ? 'channelid' : 'bannerid';
+
     if (!isset($statements[$page])) {
         $oDbh = OA_DB::singleton();
         $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
@@ -360,13 +362,11 @@ function MAX_AclValidate($page, $aParams)
                 $qTable = $oDbh->quoteIdentifier($prefix.'banners', true);
                 $qAclsTable = $oDbh->quoteIdentifier($prefix.'acls', true);
                 $qId = $oDbh->quoteIdentifier('bannerid', true);
-                $var = "bannerid";
                 break;
             case 'channel-acl.php':
                 $qTable = $oDbh->quoteIdentifier($prefix.'channel', true);
                 $qAclsTable = $oDbh->quoteIdentifier($prefix.'acls_channel', true);
                 $qId = $oDbh->quoteIdentifier('channelid', true);
-                $var = "channelid";
                 break;
         }
 

@@ -49,6 +49,9 @@ What's New in Revive Adserver 5.3.0-RC2
  * Removed useless option to add a cache buster when generating async
    tags.
 
+ * Fixed an issue with maintenance delivery rules check screen not properly
+   working.
+
 
  Non-Backwards Compatible Changes
  --------------------------------
