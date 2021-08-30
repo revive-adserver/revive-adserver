@@ -71,7 +71,7 @@ class DataObjects_Data_intermediate_ad_connection extends DB_DataObjectCommon
     public $updated;                         // DATETIME() => openads_datetime => 142
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Data_intermediate_ad_connection',$k,$v); }
+    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Data_intermediate_ad_connection',$k,$v); }
 
     var $defaultValues = [
         'server_raw_ip' => '',

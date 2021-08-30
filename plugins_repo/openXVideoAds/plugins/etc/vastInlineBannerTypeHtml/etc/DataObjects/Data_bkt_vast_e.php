@@ -17,7 +17,7 @@ class DataObjects_Data_bkt_vast_e extends DB_DataObjectCommon
     public $count;                           // INT(11) => openads_int => 129
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Data_bkt_vast_e',$k,$v); }
+    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Data_bkt_vast_e',$k,$v); }
 
     var $defaultValues = array(
                 'interval_start' => '%NO_DATE_TIME%',

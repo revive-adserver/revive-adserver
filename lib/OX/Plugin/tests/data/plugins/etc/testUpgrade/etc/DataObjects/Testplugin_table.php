@@ -27,7 +27,7 @@ class DataObjects_Testplugin_table extends DB_DataObjectCommon
     public $test_newfield;                   // int(4)  not_null
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Testplugin_table',$k,$v); }
+    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Testplugin_table',$k,$v); }
 
     var $defaultValues = array(
                 'test_newfield' => 0,

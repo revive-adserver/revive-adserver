@@ -80,7 +80,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
     public $show_capped_no_cookie;           // TINYINT(4) => openads_tinyint => 129
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Campaigns',$k,$v); }
+    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Campaigns',$k,$v); }
 
     var $defaultValues = [
         'campaignname' => '',

@@ -76,7 +76,7 @@ class DataObjects_Banners extends DB_DataObjectCommon
     public $iframe_friendly;                 // TINYINT(1) => openads_tinyint => 145
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Banners',$k,$v); }
+    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Banners',$k,$v); }
 
     var $defaultValues = [
         'campaignid' => 0,

@@ -26,7 +26,7 @@ class DataObjects_Account_user_assoc extends DB_DataObjectCommon
     public $linked;                          // DATETIME() => openads_datetime => 142
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Account_user_assoc',$k,$v); }
+    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Account_user_assoc',$k,$v); }
 
     var $defaultValues = [
         'linked' => '%NO_DATE_TIME%',

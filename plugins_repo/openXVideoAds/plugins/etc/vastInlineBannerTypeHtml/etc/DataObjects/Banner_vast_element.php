@@ -34,7 +34,7 @@ class DataObjects_Banner_vast_element extends DB_DataObjectCommon
     public $vast_thirdparty_impression;      // TEXT() => openads_text => 162
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Banner_vast_element',$k,$v); }
+    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Banner_vast_element',$k,$v); }
 
     var $defaultValues = array(
                 'vast_element_type' => '',

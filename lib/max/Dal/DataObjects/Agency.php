@@ -41,7 +41,7 @@ class DataObjects_Agency extends DB_DataObjectCommon
     public $status;                          // SMALLINT(6) => openads_smallint => 129
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Agency',$k,$v); }
+    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Agency',$k,$v); }
 
     var $defaultValues = [
         'name' => '',

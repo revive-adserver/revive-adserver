@@ -38,7 +38,7 @@ class DataObjects_Data_summary_ad_hourly extends DB_DataObjectCommon
     public $updated;                         // DATETIME() => openads_datetime => 142
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Data_summary_ad_hourly',$k,$v); }
+    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Data_summary_ad_hourly',$k,$v); }
 
     var $defaultValues = [
         'date_time' => '%NO_DATE_TIME%',

@@ -40,7 +40,7 @@ class DataObjects_Affiliates_extra extends DB_DataObjectCommon
     public $help_file;                       // VARCHAR(255) => openads_varchar => 2
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Affiliates_extra',$k,$v); }
+    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Affiliates_extra',$k,$v); }
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

@@ -39,7 +39,7 @@ class DataObjects_Users extends DB_DataObjectCommon
     public $email_updated;                   // DATETIME() => openads_datetime => 14
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Users',$k,$v); }
+    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Users',$k,$v); }
 
     var $defaultValues = [
         'contact_name' => '',

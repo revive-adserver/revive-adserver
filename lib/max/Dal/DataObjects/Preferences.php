@@ -27,7 +27,7 @@ class DataObjects_Preferences extends DB_DataObjectCommon
     public $account_type;                    // VARCHAR(16) => openads_varchar => 130
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Preferences',$k,$v); }
+    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Preferences',$k,$v); }
 
     var $defaultValues = [
         'preference_name' => '',

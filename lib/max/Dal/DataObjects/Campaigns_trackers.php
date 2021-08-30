@@ -27,7 +27,7 @@ class DataObjects_Campaigns_trackers extends DB_DataObjectCommon
     public $status;                          // SMALLINT(1) => openads_smallint => 145
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Campaigns_trackers',$k,$v); }
+    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Campaigns_trackers',$k,$v); }
 
     var $defaultValues = [
         'campaignid' => 0,

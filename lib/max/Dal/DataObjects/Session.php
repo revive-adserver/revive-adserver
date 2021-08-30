@@ -28,7 +28,7 @@ class DataObjects_Session extends DB_DataObjectCommon
     public $user_id;                         // MEDIUMINT(9) => openads_mediumint => 1
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Session',$k,$v); }
+    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Session',$k,$v); }
 
     var $defaultValues = [
         'sessionid' => '',

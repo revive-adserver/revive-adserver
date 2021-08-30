@@ -26,7 +26,7 @@ class DataObjects_Images extends DB_DataObjectCommon
     public $t_stamp;                         // DATETIME() => openads_datetime => 14
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Images',$k,$v); }
+    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Images',$k,$v); }
 
     var $defaultValues = [
         'filename' => '',

@@ -27,7 +27,7 @@ class DataObjects_Account_user_permission_assoc extends DB_DataObjectCommon
     public $is_allowed;                      // TINYINT(1) => openads_tinyint => 145
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Account_user_permission_assoc',$k,$v); }
+    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Account_user_permission_assoc',$k,$v); }
 
     var $defaultValues = [
         'is_allowed' => 1,

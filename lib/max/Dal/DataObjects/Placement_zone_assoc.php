@@ -26,7 +26,7 @@ class DataObjects_Placement_zone_assoc extends DB_DataObjectCommon
     public $placement_id;                    // MEDIUMINT(9) => openads_mediumint => 1
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Placement_zone_assoc',$k,$v); }
+    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Placement_zone_assoc',$k,$v); }
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

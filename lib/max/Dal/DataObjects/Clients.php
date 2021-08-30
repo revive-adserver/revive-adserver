@@ -60,7 +60,7 @@ class DataObjects_Clients extends DB_DataObjectCommon
     public $type;                            // TINYINT(4) => openads_tinyint => 129
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Clients',$k,$v); }
+    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Clients',$k,$v); }
 
     var $defaultValues = [
         'agencyid' => 0,

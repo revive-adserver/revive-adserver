@@ -27,7 +27,7 @@ class DataObjects_Banners_ox_adsense extends DB_DataObjectCommon
     public $gas_ad_subtype;                  // string(32)  not_null
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Ox_banners_ox_adsense',$k,$v); }
+    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGetFromClassName('DataObjects_Ox_banners_ox_adsense',$k,$v); }
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

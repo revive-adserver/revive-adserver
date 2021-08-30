@@ -26,7 +26,7 @@ class DataObjects_Testplugin_table extends DB_DataObjectCommon
     public $updated;                         // datetime(19)  binary
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Myplugin_table',$k,$v); }
+    public static function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Myplugin_table',$k,$v); }
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
