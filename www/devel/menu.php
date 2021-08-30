@@ -99,7 +99,7 @@ class Menu
             $schema = strtolower($name);
             $aDataObjects[] =  array(
                                   'title'=>$name,
-                                  'action'=>"generate_dataobjects&schema={$plugins}{$name}/etc/tables_{$schema}.xml&dbopath={$plugins}{$name}/etc/DataObjects",
+                                  'action'=>"generate_dataobjects&schema={$plugins}{$name}/etc/tables_{$name}.xml&dbopath={$plugins}{$name}/etc/DataObjects",
                                  );
         }
         $aItems[] = array(
