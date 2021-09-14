@@ -6,7 +6,7 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
-Release Notes: Revive Adserver 5.3.0
+Release Notes: Revive Adserver 5.3.1
 ====================================
 
 These release notes cover what's new, system requirements, download and
@@ -14,60 +14,34 @@ installation instructions, known issues and frequently asked questions for
 Revive Adserver. Please read these notes before reporting any bugs.
 
 
-What's New in Revive Adserver 5.3.0
+What's New in Revive Adserver 5.3.1
 -----------------------------------
 
- * Release date: September 14th, 2021
+ * Release date: t.b.d.
 
 
  Security Updates
  ----------------
 
- * Session ID and CSRF token generation now uses CSPRNG instead of uniqid().
-
- * Database password is no longer returned in the database settings form.
+ * None
 
 
  New Features
  ------------
 
- * Added PHP 8.0 compatibility.
-
- * Added MySQL 8.0 compatibility.
-
- * Added compatibility for the MySQL 'utf8mb4' character set.
+ * None
 
 
  Bug Fixes
  ---------
 
- * Fixed hourly breakdown statistics links from daily history pages not
-   working properly.
-
- * Added missing support for ssl connections to MySQL databases in the
-   delivery scripts.
-
- * Fixed multiple issues related to upgrading plugins, especially on PHP8.
-
- * Removed useless option to add a cache buster when generating async
-   tags.
-
- * Fixed an issue with maintenance delivery rules check screen not properly
-   working.
+ * None
 
 
  Non-Backwards Compatible Changes
  --------------------------------
 
- * A PHP version greater or equal to 7.2.5 is now required to run Revive
-   Adserver.
-
- * The mysql4_compatiblity setting has been removed: Revive Adserver will now
-   always make sure that the appropriate (empty) sql_mode is set when running
-   on a MySQL database.
-
- * Support for the legacy pecl msqyl extension has been removed: mysqli will
-   always be used instead.
+ * None
 
 
 System Requirements
