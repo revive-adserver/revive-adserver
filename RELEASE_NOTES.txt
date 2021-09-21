@@ -35,7 +35,8 @@ What's New in Revive Adserver 5.4.0
  Bug Fixes
  ---------
 
- * None
+ * Fixed issue causing access denied on some statistics pages, e.g. campaign
+   banners.
 
 
  Non-Backwards Compatible Changes
